@@ -15,17 +15,17 @@ const MissingAttendanceDialog = ({
         {
             id: 'classTeacherName',
             label: 'Class Teacher Name',
-            render: (rowData) => rowData.classTeacherName
+            renderCell: (rowData) => rowData.classTeacherName
         },
         {
             id: 'class',
             label: 'Class',
-            render: (rowData) => rowData.class
+            renderCell: (rowData) => rowData.class
         },
         {
             id: 'missingDays',
             label: 'Missing Days',
-            render: (rowData) => rowData.missingDays
+            renderCell: (rowData) => rowData.missingDays
         }
     ];
     const missingAttendanceRows = [

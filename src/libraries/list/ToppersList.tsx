@@ -22,7 +22,7 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
           >
             {headers.map((header, index) => (
-              <TableCell sx={{ color: 'white', fontWeight: '20px' }} key={index}>{header}</TableCell>
+              <TableCell align={header === "Roll No" ? 'center' : "left"} sx={{ color: 'white', fontWeight: '20px' }} key={index}>{header}</TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -30,7 +30,8 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
           {data.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
               <TableCell
-                sx={{ color: row.IsHighlightStudent ? '#ff3d00' : '' }} 
+                align={'center'}
+                sx={{ color: row.IsHighlightStudent ? '#ff3d00' : '' }}
               >
                 {row.Text1}
               </TableCell>

@@ -1,10 +1,13 @@
-import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, styled } from '@mui/material';
+import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TablePagination, TableRow, styled } from '@mui/material';
 import React, { useState } from 'react';
 
 export type Column = {
   id: string;
   label: string;
-  render?: (rowData: any) => React.ReactNode;
+  renderCell?: (rowData: any) => React.ReactNode;
+  renderHeader?: () => React.ReactNode;
+  cellProps?: TableCellProps;
+  headerCellProps?: TableCellProps;
 };
 
 export type RowData = {
@@ -53,7 +56,9 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
           <TableHead>
             <StyledTableRow>
               {columns.map((column) => (
-                <StyledTableCell key={column.id}>{column.label}</StyledTableCell>
+                <StyledTableCell {...column.headerCellProps} key={column.id}>
+                  {column.renderHeader ? column.renderHeader() : column.label}
+                </StyledTableCell>
               ))}
             </StyledTableRow>
           </TableHead>
@@ -75,7 +80,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
                 data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
                     {columns.map((column) => (
-                      <TableCell key={column.id}>{column.render(row)}</TableCell>
+                      <TableCell {...column.cellProps} key={column.id}>{column.renderCell(row)}</TableCell>
                     ))}
                   </TableRow>
                 ))
@@ -83,7 +88,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
                 data.map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
                     {columns.map((column) => (
-                      <TableCell key={column.id}>{column.render(row)}</TableCell>
+                      <TableCell {...column.cellProps} key={column.id}>{column.renderCell(row)}</TableCell>
                     ))}
                   </TableRow>
                 ))

@@ -41,7 +41,7 @@ const SchoolConfiguration = (props: Props) => {
         {
             id: 'status',
             label: 'Status',
-            render: (rowData) => (
+            renderCell: (rowData) => (
                 <Box>
                     {rowData.status ? <CheckTwoTone color={"success"} /> : <CloseTwoTone color={"error"} />}
                 </Box>
@@ -50,7 +50,7 @@ const SchoolConfiguration = (props: Props) => {
         {
             id: 'configuration',
             label: 'Configuration',
-            render: (rowData) => <Link to={rowData.link}>
+            renderCell: (rowData) => <Link to={rowData.link}>
                 <Typography variant={"h4"}>
                     {rowData.title}
                 </Typography>

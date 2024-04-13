@@ -50,7 +50,7 @@ const DynamicList2 = ({
           >
             {HeaderList.map((item, i) => {
               return (
-                <TableCell sx={{ color: 'white' }} key={i}>
+                <TableCell align={item.includes('Roll No.') ? 'center' : 'left'} sx={{ color: 'white' }} key={i}>
                   <b>{item}</b>
                   {IsSelect == 2 && i == 0 && (
                     <>
@@ -97,13 +97,13 @@ const DynamicList2 = ({
                     </Link>
                   </TableCell> */}
                   {item.Text1 != undefined && (
-                    <TableCell >{item.Text1}</TableCell>
+                    <TableCell>{item.Text1}</TableCell>
                   )}
                   {item.Text6 != undefined && (
-                    <TableCell >{item.Text6}</TableCell>
+                    <TableCell  >{item.Text6}</TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell >{item.Text2}</TableCell>
+                    <TableCell align={"center"}>{item.Text2}</TableCell>
                   )}
                   {item.Text3 != undefined && (
                     <TableCell

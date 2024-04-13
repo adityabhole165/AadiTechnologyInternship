@@ -39,22 +39,22 @@ const ViewProgressRemark = () => {
                                 {
                                     id: 'rollNo',
                                     label: 'Roll No',
-                                    render: (rowData) => rowData.rollNo
+                                    renderCell: (rowData) => rowData.rollNo
                                 },
                                 {
                                     id: 'name',
                                     label: 'Name',
-                                    render: (rowData) => rowData.name
+                                    renderCell: (rowData) => rowData.name
                                 },
                                 {
                                     id: 'class',
                                     label: 'Class',
-                                    render: (rowData) => rowData.class
+                                    renderCell: (rowData) => rowData.class
                                 },
                                 {
                                     id: 'year',
                                     label: 'Year',
-                                    render: (rowData) => rowData.year
+                                    renderCell: (rowData) => rowData.year
                                 },
                             ]}
                             data={[
@@ -74,27 +74,27 @@ const ViewProgressRemark = () => {
                                 {
                                     id: 'english',
                                     label: 'English',
-                                    render: (rowData) => rowData.english
+                                    renderCell: (rowData) => rowData.english
                                 },
                                 {
                                     id: 'mathematics',
                                     label: 'Mathematics',
-                                    render: (rowData) => rowData.mathematics
+                                    renderCell: (rowData) => rowData.mathematics
                                 },
                                 {
                                     id: 'evs',
                                     label: 'E.V.S.',
-                                    render: (rowData) => rowData.evs
+                                    renderCell: (rowData) => rowData.evs
                                 },
                                 {
                                     id: 'computerStudies',
                                     label: 'Computer Studies',
-                                    render: (rowData) => rowData.computerStudies
+                                    renderCell: (rowData) => rowData.computerStudies
                                 },
                                 {
                                     id: 'hindi3',
                                     label: 'Hindi III',
-                                    render: (rowData) => rowData.hindi3
+                                    renderCell: (rowData) => rowData.hindi3
                                 },
                             ]}
                             data={[
@@ -128,22 +128,22 @@ const ViewProgressRemark = () => {
                                 {
                                     id: 'rollNo',
                                     label: 'Roll No',
-                                    render: (rowData) => rowData.rollNo
+                                    renderCell: (rowData) => rowData.rollNo
                                 },
                                 {
                                     id: 'name',
                                     label: 'Name',
-                                    render: (rowData) => rowData.name
+                                    renderCell: (rowData) => rowData.name
                                 },
                                 {
                                     id: 'class',
                                     label: 'Class',
-                                    render: (rowData) => rowData.class
+                                    renderCell: (rowData) => rowData.class
                                 },
                                 {
                                     id: 'year',
                                     label: 'Year',
-                                    render: (rowData) => rowData.year
+                                    renderCell: (rowData) => rowData.year
                                 },
                             ]}
                             data={[
@@ -163,27 +163,27 @@ const ViewProgressRemark = () => {
                                 {
                                     id: 'english',
                                     label: 'English',
-                                    render: (rowData) => rowData.english
+                                    renderCell: (rowData) => rowData.english
                                 },
                                 {
                                     id: 'mathematics',
                                     label: 'Mathematics',
-                                    render: (rowData) => rowData.mathematics
+                                    renderCell: (rowData) => rowData.mathematics
                                 },
                                 {
                                     id: 'evs',
                                     label: 'E.V.S.',
-                                    render: (rowData) => rowData.evs
+                                    renderCell: (rowData) => rowData.evs
                                 },
                                 {
                                     id: 'computerStudies',
                                     label: 'Computer Studies',
-                                    render: (rowData) => rowData.computerStudies
+                                    renderCell: (rowData) => rowData.computerStudies
                                 },
                                 {
                                     id: 'hindi3',
                                     label: 'Hindi III',
-                                    render: (rowData) => rowData.hindi3
+                                    renderCell: (rowData) => rowData.hindi3
                                 },
                             ]}
                             data={[

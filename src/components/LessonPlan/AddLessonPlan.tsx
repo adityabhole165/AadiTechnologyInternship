@@ -1,4 +1,6 @@
 import Check from '@mui/icons-material/Check';
+import EventAvailable from '@mui/icons-material/EventAvailable';
+import HowToReg from '@mui/icons-material/HowToReg';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
@@ -444,7 +446,7 @@ const AddLessonPlan = () => {
                     onClick={onClickApprover}
 
                   >
-                    <Save />
+                    <HowToReg />
                   </IconButton>
 
                 </Tooltip>
@@ -460,7 +462,7 @@ const AddLessonPlan = () => {
                       }}
                       onClick={onClickUpdateDate}
                     >
-                      <Check />
+                      <EventAvailable />
                     </IconButton>
                   </Tooltip>
                 </Box></>

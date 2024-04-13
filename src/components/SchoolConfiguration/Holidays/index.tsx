@@ -14,45 +14,63 @@ const Holidays = (props: Props) => {
         {
             id: 'startDate',
             label: 'Start Date',
-            render: (rowData) => rowData.startDate,
+            renderCell: (rowData) => rowData.startDate,
         },
         {
             id: 'endDatte',
             label: 'End Date',
-            render: (rowData) => rowData.endDate,
+            renderCell: (rowData) => rowData.endDate,
         },
         {
             id: 'name',
             label: 'Name',
-            render: (rowData) => rowData.name,
+            renderCell: (rowData) => rowData.name,
         },
         {
             id: 'associatedClasses',
             label: 'Associated Classes',
-            render: (rowData) => rowData.associatedClasses,
+            renderCell: (rowData) => rowData.associatedClasses,
         },
         {
             id: 'totalDays',
             label: 'Total Days',
-            render: (rowData) => rowData.totalDays,
+            renderCell: (rowData) => rowData.totalDays,
+            cellProps: {
+                align: 'center'
+            },
+            headerCellProps: {
+                align: 'center'
+            }
         },
         {
             id: 'edit',
             label: 'Edit',
-            render: (rowData) => <Box>
+            renderCell: (rowData) => <Box>
                 <IconButton sx={{ p: 0 }} color={"primary"}>
                     <Edit />
                 </IconButton>
-            </Box>
+            </Box>,
+            cellProps: {
+                align: 'center'
+            },
+            headerCellProps: {
+                align: 'center'
+            }
         },
         {
             id: 'delete',
             label: 'Delete',
-            render: (rowData) => <Box>
+            renderCell: (rowData) => <Box>
                 <IconButton sx={{ p: 0 }} color={"error"}>
                     <Delete />
                 </IconButton>
-            </Box>
+            </Box>,
+            cellProps: {
+                align: 'center'
+            },
+            headerCellProps: {
+                align: 'center'
+            }
         }
     ])
     const [holidays, setHolidays] = React.useState<RowData[]>([
