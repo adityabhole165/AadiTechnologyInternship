@@ -90,9 +90,6 @@ const AddLessonPlan = () => {
   const TeacherName = useSelector((state: RootState) => state.addlessonplan.TeacherName);
   const ApproverDetails: any = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
   const SubmittedApproverDate: any = useSelector((state: RootState) => state.addlessonplan.SubmittedApproverDate);
-  console.log(SubmittedApproverDate, "GetLessonPlanStatusList");
-  const GetTeacherSubjectList = useSelector((state: RootState) => state.addlessonplan.TeacherSubjectList);
-  console.log(GetTeacherSubjectList, "GetTeacherSubjectList");
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
@@ -220,10 +217,11 @@ const AddLessonPlan = () => {
     setEndDate(value);
   };
   const onClickClass = (value) => {
+
     setSelectClass(value);
-    // Filter the AddOrEditLessonPlanDetails based on the selected class
-    const filteredLessonPlanDetails = GetTeacherSubjectList.filter((detail) => detail.ClassName === value);
-    // Update the exampleLessonDetails state with the filtered list
+
+    const filteredLessonPlanDetails = AddOrEditLessonPlanDetails.filter((detail) => detail.DivisionId === value);
+
     setExampleLessonDetails(filteredLessonPlanDetails);
 
   };
@@ -612,7 +610,7 @@ const AddLessonPlan = () => {
               label='Class'
               mandatory
               sx={{ width: '100%' }}
-              onChange={(e) => onClickClass(e.target.value)}
+              onChange={onClickClass}
             />
           </Grid>
 

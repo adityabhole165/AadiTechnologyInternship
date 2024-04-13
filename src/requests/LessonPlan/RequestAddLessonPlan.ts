@@ -16,7 +16,6 @@ const AddLessonPlanSlice = createSlice({
     Loading: true,
     ApproverDetails: [],
     SubmittedApproverDate: [],
-    TeacherSubjectList: [],
     TeacherName: null
   },
 
@@ -32,10 +31,6 @@ const AddLessonPlanSlice = createSlice({
     getApproverDetails(state, action) {
       state.Loading = false;
       state.ApproverDetails = action.payload;
-    },
-    getTeacherSubjectList(state, action) {
-      state.Loading = false;
-      state.TeacherSubjectList = action.payload;
     },
     getSubmittedDate(state, action) {
       state.Loading = false;
@@ -175,7 +170,6 @@ export const GetAddOrEditLessonPlanDetails =
       dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
       dispatch(AddLessonPlanSlice.actions.getApproverDetails(response.data.GetLessonPlanReportingConfigList));
       dispatch(AddLessonPlanSlice.actions.getSubmittedDate(response.data.GetLessonPlanStatusList));
-      dispatch(AddLessonPlanSlice.actions.getTeacherSubjectList(response.data.GetTeacherSubjectList));
       dispatch(AddLessonPlanSlice.actions.getTeacherName(
         response.data.GetTeacherName.length > 0 ? response.data.GetTeacherName[0] : null
       ));
