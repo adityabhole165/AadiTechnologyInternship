@@ -6,11 +6,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import {
+  GetFirstThreeToopersBody,
   GetStudentsForSubjectMarkMouseOverBody,
   IGetTestMarkBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
 import DynamicList from 'src/libraries/list/DynamicList';
 import {
+  firstthreetopperslist,
   gettestmarklist, studentmouseoverlist
 } from 'src/requests/ExamResult/RequestSubjectMarkList';
 import { RootState, useSelector } from 'src/store';
@@ -33,25 +35,37 @@ const SubjectMarkList = () => {
   // console.log(StudentNamelistMouseOver, "jjjjj");
   const ListLegend: any = useSelector(
     (state: RootState) => state.SubjectMarkList.legend);
-  console.log(ListLegend, "jjjjj");
+  const FirstThreeToppers: any = useSelector(
+    (state: RootState) => state.SubjectMarkList.ThreeToppersList);
 
   const GetTestMarkBody: IGetTestMarkBody = {
+    asSchoolId: Number(asSchoolId),
+    asStandardDivision_Id: Number(StandardDivisionId),
+    asSubject_Id: Number(SubjectId),
+    asTestId: Number(TestId),
+    asAcademicYearID: Number(asAcademicYearId),
+    asShowTotalAsPerOutOfMarks: "Y"
+  }
+  const GetStudentsForSubjectMarkMouseOver: GetStudentsForSubjectMarkMouseOverBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivId: Number(StandardDivisionId),
+    asNoOfRecord: 15,
+    asTestId: Number(TestId),
+    asSubjectId: Number(SubjectId),
+
+  }
+  const GetFirstThreeToopers: GetFirstThreeToopersBody = {
+    "asAcademicYearID": Number(asAcademicYearId),
     "asSchoolId": Number(asSchoolId),
     "asStandardDivision_Id": Number(StandardDivisionId),
     "asSubject_Id": Number(SubjectId),
-    "asTestId": Number(TestId),
-    "asAcademicYearID": Number(asAcademicYearId),
-    "asShowTotalAsPerOutOfMarks": "Y"
+    "asTestId": Number(TestId)
   }
-  const GetStudentsForSubjectMarkMouseOver: GetStudentsForSubjectMarkMouseOverBody = {
-    "asSchoolId": 18,
-    "asAcademicYearId": 54,
-    "asStandardDivId": 1266,
-    "asNoOfRecord": 15,
-    "asTestId": 592,
-    "asSubjectId": 2344
+  useEffect(() => {
+    dispatch(firstthreetopperslist(GetFirstThreeToopers));
+  }, []);
 
-  }
   useEffect(() => {
     dispatch(studentmouseoverlist(GetStudentsForSubjectMarkMouseOver));
   }, []);

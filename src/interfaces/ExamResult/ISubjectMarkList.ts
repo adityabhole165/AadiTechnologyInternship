@@ -87,4 +87,28 @@ export interface GetStudentsForSubjectMarkMouseOverResult {
         
 
 }
+export interface GetFirstThreeToopersBody {
+    asAcademicYearID:number,
+    asSchoolId:number,
+    asStandardDivision_Id:number,
+    asSubject_Id:number,
+    asTestId:number
+}
+export interface GetFirstThreeToopersResult {
+    listGetFirstTooper: [
+        {
+            Student_id: string
+        }
+    ];
+    listGetSecondTooper:[
+        {
+            Student_id:string
+        }
+    ];
+    listGetThirdTooper:[
+        {
+            Student_id: string
+        }
+    ]
+}
 
