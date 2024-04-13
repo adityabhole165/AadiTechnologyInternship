@@ -18,6 +18,16 @@ const DynamicList = ({
   Data = undefined
 }) => {
   console.log(ItemList, "SubjectMarkList");
+  const handleMouseEnter = (text) => {
+    console.log("Mouse entered: ", text);
+
+  };
+
+
+  const handleMouseLeave = () => {
+    console.log("Mouse left");
+
+  };
 
   const clickCheckbox = (value) => {
     let arr = [];
@@ -98,23 +108,30 @@ const DynamicList = ({
                                             onChange={() => { clickCheckbox(item.Id) }}></Checkbox>
                                     </TableCell>
                                 } */}
+
+
                   {item.Text1 != undefined && (
                     <TableCell
+                      align="center"
                       onClick={() => {
                         ClickLink({ Id: Data[index].SubjectId, Index: index });
                       }}
-                      align="center">
-
-                      {item.Text1}-{item.Index}
-
+                    >
+                      <span
+                        onMouseEnter={() => handleMouseEnter(item.Text1)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {item.Text1}-{item.Index}
+                      </span>
                     </TableCell>
                   )}
+
                   {item.Text2 != undefined && (
                     <TableCell align="center">{item.Text2}</TableCell>
                   )}
                   {item.Text3 != undefined && (
                     <TableCell align="center"
-                      sx={{ color: (item.HighlightType == 1 ? "red" : "") }}>{item.Text3}</TableCell>
+                      sx={{ color: (item.Is_Absent == 1 ? "red" : "") }}>{item.Text3}</TableCell>
                   )}
                   {item.Text4 != undefined && (
                     <TableCell align="center">{item.Text4}</TableCell>

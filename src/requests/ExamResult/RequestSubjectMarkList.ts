@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiSubjectMarkList from 'src/api/ExamResult/ApiSubjectMarkList';
 import {
+  GetFirstThreeToopersBody,
   GetStudentsForSubjectMarkMouseOverBody,
   IGetTestMarkBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
@@ -13,7 +14,8 @@ const SubjectMarkListSlice = createSlice({
     listTestTypeName: [],
     legend: [],
     StudentNameMouseOver: [],
-    HeaderList: []
+    HeaderList: [],
+    ThreeToppersList: {}
 
   },
   reducers: {
@@ -32,7 +34,11 @@ const SubjectMarkListSlice = createSlice({
     StudentListMouseOver(state, action) {
       state.StudentNameMouseOver = action.payload;
     },
+    StudentTopperslist(state, action) {
+      state.ThreeToppersList = action.payload;
+    },
   }
+
 });
 export const gettestmarklist =
   (data: IGetTestMarkBody): AppThunk =>
@@ -41,13 +47,15 @@ export const gettestmarklist =
       let PrevRollNo = "0", returnObj = null, iCounter = 2
       let responseData = []
       const getMarks = (Item) => {
-        if (Item.Is_Absent == "Y") {
-          return "Ab"
+        if (Item.Is_Absent === "Y") {
+          return "Ab";
+        } else if (Item.Is_Absent === "J") {
+          return "--";
+        } else {
+          return Item.Marks_Scored;
         }
-        else {
-          return Item.Marks_Scored
-        }
-      }
+      };
+
       let iCounterIndex = 0
       response.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
         if (PrevRollNo !== item.Roll_No) {
@@ -61,7 +69,8 @@ export const gettestmarklist =
             Roll_No: item.Roll_No,
             Text1: item.Roll_No,
             Text2: getMarks(item),
-            HighlightType: 1
+            Is_Absent: 1,
+            // StudentName:GetStudentName(item.Roll_No)
           }
           iCounterIndex++
         }
@@ -110,18 +119,19 @@ export const legend =
 
     };
 
-
-
-
-
-
 export const studentmouseoverlist =
   (data: GetStudentsForSubjectMarkMouseOverBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiSubjectMarkList.StudentNameMouseoverApi(data);
       dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response.data));
     };
-
+    
+    export const firstthreetopperslist =
+    (data: GetFirstThreeToopersBody): AppThunk =>
+      async (dispatch) => {
+        const response = await ApiSubjectMarkList.StudentToppersListApi(data);
+        dispatch(SubjectMarkListSlice.actions.StudentTopperslist(response.data));
+      };
 
 
 
