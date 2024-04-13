@@ -476,58 +476,8 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
-              <Tooltip title={'Save/ Submit/ Approve lesson plan details.'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: grey[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: grey[600]
-                    }
-                  }}
-                >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
             {IsShowApprove ? (
-              <><Box>
 
-                <Tooltip title={'Approver'}>
-                  <IconButton
-                    sx={{
-                      backgroundColor: green[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: green[600]
-                      }
-                    }}
-                    onClick={onClickApprover}
-
-                  >
-                    <HowToReg />
-                  </IconButton>
-
-                </Tooltip>
-              </Box><Box>
-                  <Tooltip title={'Update Date'}>
-                    <IconButton
-                      sx={{
-                        backgroundColor: grey[500],
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                      onClick={onClickUpdateDate}
-                    >
-                      <EventAvailable />
-                    </IconButton>
-                  </Tooltip>
-                </Box></>
-
-            ) : (
               <>
                 <Box>
                   <Tooltip title={'Submit'}>
@@ -560,6 +510,42 @@ const AddLessonPlan = () => {
                       onClick={onClickSave}
                     >
                       <Save />
+                    </IconButton>
+                  </Tooltip>
+                </Box></>
+
+            ) : (
+              <><Box>
+
+                <Tooltip title={'Approver'}>
+                  <IconButton
+                    sx={{
+                      backgroundColor: green[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: green[600]
+                      }
+                    }}
+                    onClick={onClickApprover}
+
+                  >
+                    <HowToReg />
+                  </IconButton>
+
+                </Tooltip>
+              </Box><Box>
+                  <Tooltip title={'Update Date'}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: grey[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickUpdateDate}
+                    >
+                      <EventAvailable />
                     </IconButton>
                   </Tooltip>
                 </Box></>
