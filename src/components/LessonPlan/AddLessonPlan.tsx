@@ -91,12 +91,13 @@ const AddLessonPlan = () => {
   const ApproverDetails: any = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
   const SubmittedApproverDate: any = useSelector((state: RootState) => state.addlessonplan.SubmittedApproverDate);
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
+  console.log(SaveLessonPlan, "SaveLessonPlan");
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
   const GetEnableButtonList: any = useSelector((state: RootState) => state.addlessonplan.GetEnableButtonList);
   const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
-  // console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
+  //  console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
 
   // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
   // const EnableSubmitButton = GetEnableButtonList.EnableSubmitButton;
@@ -254,24 +255,25 @@ const AddLessonPlan = () => {
       returnVal = false
     } else seterrorEndDate('')
 
-    let IsPlan = false
+    let IsPlan = false;
     exampleLessonDetails.map((Item) => {
       Item.planDetails.map((planItem) => {
-        if (planItem.value != '')
-          IsPlan = true
+        if (planItem.value !== '') {
+          IsPlan = true;
+        }
         planItem.subPlanDetails.map((subPlanItem) => {
-          if (subPlanItem.value != '') {
-            IsPlan = true
+          if (subPlanItem.value !== '') {
+            IsPlan = true;
           }
-        })
-      })
-    })
-    if (IsPlan == false) {
-      seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.")
-      returnVal = false
+        });
+      });
+    });
+    if (!IsPlan) {
+      seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.");
+      returnVal = false;
+    } else {
+      seterrorexampleLessonDetails("");
     }
-    seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.")
-    returnVal = false
 
     if (getApproverComment() == "") {
 
@@ -306,6 +308,28 @@ const AddLessonPlan = () => {
         asOldEndDate: OldEndDate,
       };
       dispatch(SaveLessonPlan(SaveLessonPlanBody))
+      console.log(SaveLessonPlans, "SaveLessonPlan")
+
+      const onClickSave = () => {
+        if (IsFormValid()) {
+          const SaveLessonPlanBody: ISaveLessonPlanBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+            asReportingUserId: Number(asUserId),
+            aasStartDate: StartDate,
+            aasEndDate: EndDate,
+            asLessonPlanXml: getXML(),
+            asUpdatedById: Number(UpdatedById),
+            asOldStartDate: OldStartDate,
+            asOldEndDate: OldEndDate,
+          };
+          dispatch(SaveLessonPlan(SaveLessonPlanBody))
+          setActionMode('Edit')
+
+
+        }
+      };
       setActionMode('Edit')
 
 
