@@ -1,4 +1,5 @@
 import Close from '@mui/icons-material/Close';
+import CloudUpload from '@mui/icons-material/CloudUpload';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import {
@@ -35,6 +36,7 @@ import { GetHomeworkDetailss } from 'src/requests/AssignHomework/requestHomework
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddUnpublish1 from './AddUnpublish1';
+import UploadMultipleDialog from './UploadMultipleDialog';
 const AddHomework = () => {
   const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, subjectId, Id } =
     useParams();
@@ -59,6 +61,7 @@ const AddHomework = () => {
   const [File, setFile] = useState('');
   const [ErrorFile, ErrorsetFile] = useState('');
   const [File1, setFile1] = useState('');
+  const [MultipleFiles, setMultipleFiles] = useState([]);
   const [ErrorFile1, ErrorsetFile1] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');
   const [ErrorDetails, setErrorDetails] = useState('');
@@ -69,6 +72,7 @@ const AddHomework = () => {
   const [base64URLError1, setErrorbase64URL1] = useState('');
   const [itemPublish, setitemPublish] = useState([]);
   const [Open, setOpen] = useState(false);
+  const [openUploadMultipleDialog, setOpenUploadMultipleDialog] = useState(false);
   const [fileName, setFileName] = useState('');
   const [fileName1, setFileName1] = useState('');
 
@@ -516,7 +520,15 @@ const AddHomework = () => {
               />
             </Grid>
             <Grid item xs={3}>
-              <SingleFile
+              <Button
+                startIcon={<CloudUpload />}
+                fullWidth
+                sx={{ py: 1.6 }} variant={"outlined"}
+                onClick={() => setOpenUploadMultipleDialog(true)}
+              >
+                Upload Multiple Attachments
+              </Button>
+              {/* <SingleFile
                 ValidFileTypes={ValidFileTypes1}
                 MaxfileSize={MaxfileSize1}
                 FileName={fileName1}
@@ -525,7 +537,7 @@ const AddHomework = () => {
                 width={'100%'}
                 height={"52px"}
                 isMandatory={false}
-              />
+              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -578,6 +590,14 @@ const AddHomework = () => {
               setOpen={setOpen}
               ClickCloseDialogbox={ClickCloseDialogbox}
               clickPublishUnpublish={clickPublishUnpublish}
+            />
+          )}
+          {openUploadMultipleDialog && (
+            <UploadMultipleDialog
+              open={openUploadMultipleDialog}
+              MultipleFiles={MultipleFiles}
+              setOpen={setOpenUploadMultipleDialog}
+              setMultipleFiles={setMultipleFiles}
             />
           )}
         </Box>

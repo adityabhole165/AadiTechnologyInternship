@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,12 @@ import {
   gettestmarklist, studentmouseoverlist
 } from 'src/requests/ExamResult/RequestSubjectMarkList';
 import { RootState, useSelector } from 'src/store';
+import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
+import GoldMedal from '../../assets/img/medals/gold-medal.png';
+import SilverMedal from '../../assets/img/medals/silver-medal.png';
 import CommonPageHeader from '../CommonPageHeader';
+import DataTable from '../DataTable';
+
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
   const { SubjectId, TestId, StandardDivisionId, getExamName, getTeacherName, getSubjectName } = useParams();
@@ -80,84 +85,295 @@ const SubjectMarkList = () => {
         <CommonPageHeader
           navLinks={[
             {
+              title: 'Exam Result',
+              path: '/extended-sidebar/Teacher/ExamResultBase'
+            },
+            {
               title: 'Subject Mark List',
               path: ''
             }
           ]}
+          rightActions={
+            <>
+              <Box sx={{ width: '250px' }}>
+                <TextField
+                  fullWidth
+                  label={"Class"}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ bgcolor: '#e3f2fd' }}
+                  value={getTeacherName}
+                  size={"small"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Box>
+              <Box sx={{ width: '250px' }}>
+                <TextField
+                  fullWidth
+                  label={"Subject Name"}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ bgcolor: '#e3f2fd' }}
+                  value={getSubjectName}
+                  size={"small"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Box>
+              <Box sx={{ width: '250px' }}>
+                <TextField
+                  fullWidth
+                  label={"Exam "}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{ bgcolor: '#e3f2fd' }}
+                  value={getExamName}
+                  size={"small"}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Box>
+              <Box>
+                <Tooltip title={HoverNote}>
+                  <IconButton
+
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      '&:hover': {
+                        backgroundColor: grey[500]
+                      }
+                    }}
+                  >
+                    <PriorityHighIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={Note}>
+                  <IconButton
+
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      '&:hover': {
+                        backgroundColor: grey[500]
+                      }
+                    }}
+                  >
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+
+              </Box>
+            </>
+          }
         />
+
         <Box sx={{ p: 2, background: 'white' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                label={"Class"}
-                InputLabelProps={{ shrink: true }}
-                sx={{ bgcolor: '#e3f2fd' }}
-                value={getTeacherName}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                label={"Exam "}
-                InputLabelProps={{ shrink: true }}
-                sx={{ bgcolor: '#e3f2fd' }}
-                value={getExamName}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                label={"Subject Name"}
-                InputLabelProps={{ shrink: true }}
-                sx={{ bgcolor: '#e3f2fd' }}
-                value={getSubjectName}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Tooltip title={HoverNote}>
-                <IconButton
+          {/* New Table */}
+          <DataTable
+            columns={
+              [
+                {
+                  id: 'rollNo',
+                  label: 'Roll No.',
+                  renderCell: (rowData) => <>
+                    <Stack direction={"row"} alignItems={'center'} gap={2}>
+                      {/* Student Roll no. */}
+                      {rowData.rollNo}
 
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    '&:hover': {
-                      backgroundColor: grey[500]
-                    }
+                      {/* If student rank is 1 */}
+                      {rowData.rank === "1" &&
+                        <Tooltip title={rowData.name}>
+                          <img src={GoldMedal} alt="Gold Medal" width={20} />
+                        </Tooltip>
+                      }
+
+                      {/* If student rank is 2 */}
+                      {rowData.rank === "2" &&
+                        <Tooltip title={rowData.name}>
+                          <img src={SilverMedal} alt="Silver Medal" width={20} />
+                        </Tooltip>
+                      }
+
+                      {/* If student rank is 3 */}
+                      {rowData.rank === "3" &&
+                        <Tooltip title={rowData.name}>
+                          <img src={BronzeMedal} alt="Bronze Medal" width={20} />
+                        </Tooltip>
+                      }
+                    </Stack>
+                  </>
+                },
+                {
+                  id: 'theory',
+                  label: 'Theory',
+                  renderCell: (rowData) => <>
+                    {rowData.theoryType && (
+                      // If theory type is exempted
+                      rowData.theoryType === "Exempted" && (
+                        <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.theoryType}</span>
+                      )
+
+                      // If theory type is late joinee
+                      || rowData.theoryType === "Late Joinee" && (
+                        <span style={{ color: 'blue', fontWeight: 'bold' }}>{rowData.theoryType}</span>
+                      )
+
+                      // If theory type is absent
+                      || rowData.theoryType === "Absent" && (
+                        <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.theoryType}</span>
+                      )
+                    )}
+
+                    {/* If theory type is null */}
+                    {!rowData.theoryType && rowData.theory}
+                  </>
+                },
+                {
+                  id: 'total',
+                  label: 'Total',
+                  renderCell: (rowData) => rowData.total
+                },
+              ]
+            }
+            data={
+              [
+                {
+                  name: "Student Name",
+                  rollNo: "1",
+                  rank: "0",
+                  theoryType: "Exempted",
+                  theory: "40",
+                  total: "100"
+                },
+                {
+
+                  name: "Student Name",
+                  rollNo: "2",
+                  rank: "2",
+                  theoryType: "Late Joinee",
+                  theory: "40",
+                  total: "100"
+                },
+                {
+                  name: "Student Name",
+                  rollNo: "3",
+                  rank: "3",
+                  theoryType: "Absent",
+                  theory: "40",
+                  total: "100"
+                },
+                {
+                  name: "Student Name",
+                  rollNo: "4",
+                  rank: "0",
+                  theoryType: null,
+                  theory: "40",
+                  total: "100"
+                },
+                {
+                  name: "Student Name",
+                  rollNo: "5",
+                  rank: "0",
+                  theoryType: "Absent",
+                  theory: "40",
+                  total: "100"
+                },
+                {
+                  name: "Student Name",
+                  rollNo: "6",
+                  rank: "1",
+                  theoryType: "Absent",
+                  theory: "40",
+                  total: "100"
+                },
+                {
+                  name: "Student Name",
+                  rollNo: "7",
+                  rank: "2",
+                  theoryType: null,
+                  theory: "40",
+                  total: "100"
+                },
+                {
+                  name: "Student Name",
+                  rollNo: "8",
+                  rank: "3",
+                  theoryType: "Absent",
+                  theory: "40",
+                  total: "100"
+                },
+              ]
+            }
+          />
+          <Box mt={2}>
+            <Typography variant={"h4"}>
+              Legends:
+            </Typography>
+            <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
+              <Box>
+                <Typography variant='h5'>
+                  Theory:
+                </Typography>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'green',
+                    fontWeight: 'bold'
                   }}
                 >
-                  <PriorityHighIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            <Grid item xs={3}>
-              <Tooltip title={Note}>
-                <IconButton
-
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    '&:hover': {
-                      backgroundColor: grey[500]
-                    }
+                  Exempted
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'blue',
+                    fontWeight: 'bold'
                   }}
                 >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-
-          </Grid>
+                  Late Joinee
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'red',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  Absent
+                </span>
+              </Box>
+              <Box>
+                <Divider
+                  sx={{ height: 20 }}
+                  orientation='vertical'
+                />
+              </Box>
+              <Box>
+                <Typography variant='h5'>
+                  Toppers of the class:
+                </Typography>
+              </Box>
+              <Box>
+                <img src={GoldMedal} alt="Gold Medal" width={20} />
+              </Box>
+              <Box>
+                <img src={SilverMedal} alt="Silver Medal" width={20} />
+              </Box>
+              <Box>
+                <img src={BronzeMedal} alt="Bronze Medal" width={20} />
+              </Box>
+            </Stack>
+          </Box>
         </Box>
+        {/* New Table End */}
+
         {(HeaderList.length > 0) &&
           (<Grid container>
             <Grid xs={4}>

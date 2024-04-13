@@ -1,6 +1,7 @@
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Box, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -15,10 +16,9 @@ import {
 } from 'src/interfaces/TermwiseHeightWeight/ITermwiseHeightWeight';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import TermwiseHeightWeightList from 'src/libraries/ResuableComponents/TermwiseHeightWeightList';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 
+import Save from '@mui/icons-material/Save';
 import {
   getFinalPublishedExamStatus,
   getTeacherNameList,
@@ -29,6 +29,7 @@ import {
 } from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import DataTable from '../DataTable';
 
 const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
@@ -201,7 +202,7 @@ const TermwiseHeightWeight = () => {
       <CommonPageHeader
         navLinks={[
           { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
-          { title: 'ETermwise Height-Weight', path: '/extended-sidebar/Teacher/TermwiseHeightWeight' },
+          { title: 'Termwise Height-Weight', path: '/extended-sidebar/Teacher/TermwiseHeightWeight' },
         ]}
         rightActions={<>
           <SearchableDropdown
@@ -222,10 +223,21 @@ const TermwiseHeightWeight = () => {
             mandatory
             size={"small"}
           />
-
           <Tooltip title={Note}>
             <IconButton
-
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[500]
+                }
+              }}
+            >
+              <PriorityHighIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={"Capture termwise students' height and weight."}>
+            <IconButton
               sx={{
                 color: 'white',
                 backgroundColor: grey[500],
@@ -237,92 +249,113 @@ const TermwiseHeightWeight = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip>
-
+          {SelectTeacher > 0 && (
+            <Tooltip title={'Save'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: green[500],
+                  '&:hover': {
+                    backgroundColor: green[500]
+                  }
+                }}
+                disabled={GetFinalPublishedExamStatus?.ShowFlag == "1"}
+                onClick={onClickSave}
+              >
+                <Save />
+              </IconButton>
+            </Tooltip>
+          )}
         </>}
       />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-
-
-
-        <Grid item xs={12} >
-
-          <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "1200px" }}>
-            <Stack direction={'row'} gap={1} alignItems={'center'}>
-              <Typography variant={'h4'} mb={1}>
-                Legend:
-              </Typography>
-              <DotLegend1>
-                <DotLegendStyled1
-                  className={classes.border}
-                  style={{ background: 'red' }}
-                />
-                <CardDetail7>Left Students</CardDetail7>
-              </DotLegend1>
-            </Stack>
-            <Box mb={1} sx={{ p: 2, background: 'white' }}>
-
-              <Box mt={2}>
-                {SelectTeacher > 0 ? (
-                  <Typography>
-
-                    <TermwiseHeightWeightList
-                      ItemList={Itemlist}
-                      onTextChange={ChangeHeight}
-                      onTextChange2={ChangeWeight}
-                      HeaderArray={HeaderOfTable}
-                      IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
-                    />
-
-                  </Typography>
-
-                ) : (
-                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                    <b>No Record Found.</b>
-                  </Typography>
-
-                )}
-              </Box>
-            </Box>
-          </Box>
-        </Grid>
-
-        <div>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              {SelectTeacher > 0 && (
-                <ButtonPrimary
-                  onClick={onClickSave}
-                  variant="contained"
-                  disabled={GetFinalPublishedExamStatus?.ShowFlag == "1"}
-                >
-                  SAVE
-                </ButtonPrimary>
-              )}
-
-
-            </Grid>
-
-            <Grid item xs={6}>
-              <ButtonPrimary
-                onClick={onClickBack}
-                variant="contained"
-                style={{ backgroundColor: 'red', color: 'white' }}
-              >
-                BACK
-              </ButtonPrimary>
-            </Grid>
-          </Grid>
-
-        </div>
-      </div>
-    </Box>
+      <Box sx={{ background: 'white', p: 2 }}>
+        {/* New Table */}
+        <DataTable
+          columns={
+            [
+              {
+                id: 'rollNo',
+                label: 'Roll No',
+                renderCell: (rowData) => rowData.rollNo
+              },
+              {
+                id: 'studentName',
+                label: 'Student Name',
+                renderCell: (rowData) => rowData.studentName
+              },
+              {
+                id: 'height',
+                label: 'Height (In Centimeters)',
+                renderCell: (rowData) => (
+                  <TextField
+                    size={"small"}
+                    fullWidth
+                    value={rowData.height}
+                    onChange={(e) => {
+                      ChangeHeight(e.target.value);
+                    }}
+                    disabled={GetFinalPublishedExamStatus.IsPublishedStatus == "1"}
+                  />
+                )
+              },
+              {
+                id: 'weight',
+                label: 'Weight (In Kilograms)',
+                renderCell: (rowData) => (
+                  <TextField
+                    size={"small"}
+                    fullWidth
+                    value={rowData.weight}
+                    onChange={(e) => {
+                      ChangeWeight(e.target.value);
+                    }}
+                    disabled={GetFinalPublishedExamStatus.IsPublishedStatus == "1"}
+                  />
+                )
+              }
+            ]
+          }
+          data={
+            [
+              {
+                rollNo: 'Roll No',
+                studentName: 'Student Name',
+                height: 'Height (In Centimeters)',
+                weight: 'Weight (In Kilograms)'
+              }
+            ]
+          }
+        />
+        {/* New Table End */}
+        {SelectTeacher > 0 ? (
+          <>
+            <TermwiseHeightWeightList
+              ItemList={Itemlist}
+              onTextChange={ChangeHeight}
+              onTextChange2={ChangeWeight}
+              HeaderArray={HeaderOfTable}
+              IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
+            />
+          </>
+        ) : (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+          </Typography>
+        )}
+        <Stack direction={'row'} gap={1} alignItems={'center'} mt={1}>
+          <Typography variant={'h4'} mb={0}>
+            Legend:
+          </Typography>
+          <DotLegend1 sx={{ alignItems: 'center', display: 'flex', mb: 0 }}>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+            Left Students
+          </DotLegend1>
+        </Stack>
+      </Box>
+    </Box >
   );
 };
 
