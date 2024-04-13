@@ -1,9 +1,11 @@
+import Book from '@mui/icons-material/Book';
 import Check from '@mui/icons-material/Check';
 import EventAvailable from '@mui/icons-material/EventAvailable';
 import HowToReg from '@mui/icons-material/HowToReg';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
+import Translate from '@mui/icons-material/Translate';
+import { Box, Grid, IconButton, Stack, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -438,6 +440,57 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
+            <Box>
+              <Tooltip title={'Translation Tool'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                  onClick={() => {
+                    OpenWindow("http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe")
+                  }}
+                >
+                  <Translate />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={'Translation Guide'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                  onClick={() => {
+                    OpenWindow("http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf")
+                  }}
+                >
+                  <Book />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={'Save/ Submit/ Approve lesson plan details.'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
             {IsShowApprove ? (
               <><Box>
 
@@ -475,24 +528,25 @@ const AddLessonPlan = () => {
                 </Box></>
 
             ) : (
-              <><Box>
-
-                <Tooltip title={'Submit'}>
-                  <IconButton
-                    disabled={GetEnableButtonList.EnableSubmitButton != "False"}
-                    sx={{
-                      backgroundColor: grey[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
-                    }}
-                    onClick={onClickSubmit}
-                  >
-                    <Check />
-                  </IconButton>
-                </Tooltip>
-              </Box><Box>
+              <>
+                <Box>
+                  <Tooltip title={'Submit'}>
+                    <IconButton
+                      disabled={GetEnableButtonList.EnableSubmitButton != "False"}
+                      sx={{
+                        backgroundColor: grey[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}
+                      onClick={onClickSubmit}
+                    >
+                      <Check />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box>
                   <Tooltip title={'Save'}>
                     <IconButton
                       disabled={GetEnableButtonList?.EnableSaveButton == "True"}
@@ -516,8 +570,8 @@ const AddLessonPlan = () => {
         }
       />
 
-      <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
-      <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" />
+      {/* <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
+      <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" /> */}
       <Box sx={{ p: 2, background: 'white' }}>
         <Grid container spacing={2}>
           <Grid item xs={3}>
@@ -617,28 +671,29 @@ const AddLessonPlan = () => {
                     {Item.ReportingUserName}
                   </Typography>
                 </Grid>
-                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                  <Typography color={"primary"} fontWeight={"bold"}>
-                    {i == 0 ? "Submitted On:" : "Approved On:"}
-                  </Typography>
-                </Grid>
-                {i === 0 ? ( // Conditionally render submitted date
-                  <Typography color={"primary"}>
-                    {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
-                  </Typography>
-                ) : (
-                  SubmittedApproverDate && SubmittedApproverDate.length > i && ( // Conditionally render approval dates
-                    <Typography color={"primary"}>
-                      {SubmittedApproverDate[i].UpdateDate}
+                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={6}>
+                  <Stack direction={"row"} alignItems={"center"} gap={2}>
+                    <Typography color={"primary"} fontWeight={"bold"}>
+                      {i == 0 ? "Submitted On:" : "Approved On:"}
                     </Typography>
-                  )
-                )}
+                    {i === 0 ? ( // Conditionally render submitted date
+                      <Typography color={"primary"}>
+                        {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
+                      </Typography>
+                    ) : (
+                      SubmittedApproverDate && SubmittedApproverDate.length > i && ( // Conditionally render approval dates
+                        <Typography color={"primary"}>
+                          {SubmittedApproverDate[i].UpdateDate}
+                        </Typography>
+                      )
+                    )}
+                  </Stack>
+                </Grid>
                 {i != 0 &&
                   <Grid xs={12} md={12} item>
                     <TextField
                       disabled={Item.ReportingUserId != asUserId}
                       multiline
-                      rows={3}
                       value={ApproverComment[i]?.Comment || ''}
                       onChange={(e) => {
                         onClickApproverComment(e.target.value, i);
@@ -646,6 +701,7 @@ const AddLessonPlan = () => {
                       error={errorComment !== ''}
                       helperText={errorComment}
                       fullWidth
+                      label={"Comment"}
                       sx={{
                         resize: 'both'
                       }}
