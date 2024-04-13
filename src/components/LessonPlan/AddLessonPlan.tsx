@@ -432,41 +432,6 @@ const AddLessonPlan = () => {
             {IsShowApprove ? (
               <><Box>
 
-                <Tooltip title={'Submit'}>
-                  <IconButton
-                    disabled={GetEnableButtonList.EnableSubmitButton != "False"}
-                    sx={{
-                      backgroundColor: grey[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
-                    }}
-                    onClick={onClickSubmit}
-                  >
-                    <Check />
-                  </IconButton>
-                </Tooltip>
-              </Box><Box>
-                  <Tooltip title={'Save'}>
-                    <IconButton
-                      disabled={GetEnableButtonList?.EnableSaveButton == "True"}
-                      sx={{
-                        backgroundColor: green[500],
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                      onClick={onClickSave}
-                    >
-                      <Save />
-                    </IconButton>
-                  </Tooltip>
-                </Box></>
-            ) : (
-              <><Box>
-
                 <Tooltip title={'Approver'}>
                   <IconButton
                     sx={{
@@ -499,6 +464,43 @@ const AddLessonPlan = () => {
                     </IconButton>
                   </Tooltip>
                 </Box></>
+
+            ) : (
+              <><Box>
+
+                <Tooltip title={'Submit'}>
+                  <IconButton
+                    disabled={GetEnableButtonList.EnableSubmitButton != "False"}
+                    sx={{
+                      backgroundColor: grey[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    onClick={onClickSubmit}
+                  >
+                    <Check />
+                  </IconButton>
+                </Tooltip>
+              </Box><Box>
+                  <Tooltip title={'Save'}>
+                    <IconButton
+                      disabled={GetEnableButtonList?.EnableSaveButton == "True"}
+                      sx={{
+                        backgroundColor: green[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickSave}
+                    >
+                      <Save />
+                    </IconButton>
+                  </Tooltip>
+                </Box></>
+
             )}
           </>
 
