@@ -1,12 +1,11 @@
-import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-import { Box } from '@mui/material';
 // ... (your other imports)
 
 function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
@@ -22,7 +21,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                 <TableCell
                   key={i}
                   sx={{ textTransform: 'capitalize', color: 'white' }}
-
+                  align={item.align ? item.align : 'left'}
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -36,8 +35,8 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}  >
-                  <CancelIcon onClick={() => clickDelete(item.Id)} />
+                <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
+                  <DeleteIcon onClick={() => clickDelete(item.Id)} color='error' />
                 </TableCell>
 
               </TableRow>

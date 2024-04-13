@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -26,7 +26,7 @@ const HomeworkDocuments = () => {
 
   const HeaderList = [
     { Id: 1, Header: 'FileName' },
-    { Id: 2, Header: 'Delete' },
+    { Id: 2, Header: 'Delete', align: "center" },
 
   ];
   const AllHomeworkDocuments = useSelector(
@@ -87,18 +87,7 @@ const HomeworkDocuments = () => {
           ]}
           rightActions={
             <>
-              <IconButton
-                onClick={click}
-                sx={{
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  color: (theme) => theme.palette.primary.contrastText,
-                  ':hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark
-                  }
-                }}
-              >
-                Add Homework
-              </IconButton>
+
             </>
           }
         />
