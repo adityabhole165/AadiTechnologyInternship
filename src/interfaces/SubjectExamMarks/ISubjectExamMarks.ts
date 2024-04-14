@@ -141,8 +141,8 @@ export interface IGetSubjectExamMarkslistsResult {
 export interface IManageStudentsTestMarkBody {
     asTestWise_Subject_Marks_Id: number,
     asInserted_By_id: number,
-    Student_Test_Type_Marks: string,
-    Student_Test_Type_Marks_Details: string,
+    asStudent_Test_Type_MarksXml: string,
+    asStudent_Test_Type_Marks_DetailsXml: string,
     asRemoveProgress: string,
     RemarkXml: string,
     asHasRemark: boolean,

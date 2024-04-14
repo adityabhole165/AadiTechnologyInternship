@@ -17,11 +17,14 @@ import {
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
   getExamSchedule,
-  getManageStudentsTestMark, getSubjectExamMarkslist
+  getManageStudentsTestMark,
+  getSubjectExamMarkslist,
+  resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, isOutsideAcademicYear } from '../Common/Util';
 
+import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
 const SubjectExamMarks = () => {
@@ -201,34 +204,53 @@ const SubjectExamMarks = () => {
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/AssignExamMark');
   };
+  const getIsMarkAssigned = (StudentId) => {
+    let bIsReturn = false
+    MarksAssignment.map((Obj, i) => {
+      if (Obj.Id == StudentId) {
+        Obj.MarksForStudent.map((Item) => {
+          if (Item.Text1 != "" || Item.ExamStatus != "N") {
+            bIsReturn = true
+          }
+        })
+      }
+    })
+    return bIsReturn
+  }
   const getStudentTestType = () => {
     let returnVal = "<SchoolWiseStudentTestMarks>"
     MarksAssignment.map((Item, i) => {
-      returnVal = returnVal + "<SchoolWiseStudentTestMark " +
-        "School_Id=\"" + asSchoolId +
-        "\" Academic_Year_Id=\"" + asAcademicYearId +
-        "\" Student_Id=\"" + Item.Id +
-        "\" Subject_Id=\"" + SubjectId +
-        "\" TestWise_Subject_Marks_Id=\"" + 37699 +
-        "\" Test_Date=\"" + TestDate +
-        "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
-        "\" IsAbsent=\"Y\" IsOptional=\"N\" />"
+      if (getIsMarkAssigned(Item.Id)) {
+        returnVal = returnVal + "<SchoolWiseStudentTestMark " +
+          "School_Id=\"" + asSchoolId +
+          "\" Academic_Year_Id=\"" + asAcademicYearId +
+          "\" Student_Id=\"" + Item.Id +
+          "\" Subject_Id=\"" + SubjectId +
+          "\" TestWise_Subject_Marks_Id=\"" + TestName.TestWise_Subject_Marks_Id +
+          "\" Test_Date=\"" + TestDate +
+          "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
+          "\" IsAbsent=\"Y\" IsOptional=\"N\" />"
+      }
     })
+    console.log(returnVal + "</SchoolWiseStudentTestMarks>");
+
     return returnVal + "</SchoolWiseStudentTestMarks>"
   }
   const getStudentTestTypeDetails = () => {
     let returnVal = "<SchoolWiseStudentTestMarksDetails>"
     MarksAssignment.map((Obj, i) => {
       Obj.MarksForStudent.map((Item) => {
-        returnVal = returnVal + "<SchoolWiseStudentTestMarksDetail " +
-          "School_Id=\"" + asSchoolId +
-          "\" Academic_Year_Id=" + asAcademicYearId +
-          " Student_Id=\"" + Item.Id +
-          "\" Subject_Id=\"" + SubjectId +
-          "\" Is_Absent=\"Y\" " +
-          "TestType_Id=\"" + Item.Id +
-          "\" Marks_Scored=\"" + parseInt(Item.Text1) +
-          "\" Assigned_Grade_Id=\"\" />"
+        if (Item.Text1 != "" || Item.ExamStatus != "N") {
+          returnVal = returnVal + "<SchoolWiseStudentTestMarksDetail " +
+            "School_Id=\"" + asSchoolId +
+            "\" Academic_Year_Id=\"" + asAcademicYearId +
+            "\" Student_Id=\"" + Item.Student_Id +
+            "\" Subject_Id=\"" + SubjectId +
+            "\" Is_Absent=\"" + Item.ExamStatus + "\" " +
+            "TestType_Id=\"" + Item.Id +
+            "\" Marks_Scored=\"" + parseInt(Item.Text1) +
+            "\" Assigned_Grade_Id=\"\" />"
+        }
       })
     })
     return returnVal + "</SchoolWiseStudentTestMarksDetails>"
@@ -240,10 +262,10 @@ const SubjectExamMarks = () => {
     } else {
       if (!MarksError) {
         const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-          asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
+          asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
           asInserted_By_id: Number(userId),
-          Student_Test_Type_Marks: getStudentTestType(),
-          Student_Test_Type_Marks_Details: getStudentTestTypeDetails(),
+          asStudent_Test_Type_MarksXml: getStudentTestType(),
+          asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
           asRemoveProgress: RemoveProgress,
           RemarkXml: RemarkXml,
           asHasRemark: HasRemark,
@@ -252,6 +274,7 @@ const SubjectExamMarks = () => {
           asSchoolId: Number(asSchoolId),
           asAcademicYearId: Number(asAcademicYearId)
         };
+
         dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
       }
     }
@@ -260,8 +283,8 @@ const SubjectExamMarks = () => {
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {
-      // toast.success(ManageStudentsTestMarks)
-      // dispatch(resetManageStudentsTestMark())
+      toast.success(ManageStudentsTestMarks)
+      dispatch(resetManageStudentsTestMark())
       navigate("/extended-sidebar/Teacher/AssignExamMark")
     }
   }, [ManageStudentsTestMarks])

@@ -180,23 +180,44 @@ export const getSubjectExamMarkslist =
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
             let reponseData1 = [];
+            const getMarksForStudentBlank = (StudentIdParam) => {
+                let arr = [];
+                let StudentId = "0"
+                response2.data.listStudentTestMarkDetails.map((Item, i) => {
+                    if (Item.Student_Id == StudentId || StudentId == "0") {
+                        StudentId = Item.Student_Id
+                        arr.push({
+                            Id: Item.TestType_Id,
+                            Text1: "",
+                            Text2: Item.TestType_Total_Marks,
+                            ExamStatus: "N",
+                            ExamGrade: "0",
+                            IsActive: true,
+                            IsActiveGrade: true,
+                            ErrorMessage: "",
+                            Student_Id: StudentIdParam
+                        });
+                    }
+                });
+                return arr
+            }
             const getMarksForStudent = (StudentId) => {
                 let arr = [];
                 response2.data.listStudentTestMarkDetails.map((Item, i) => {
-                    // console.log(Item.Student_Id, " == ", StudentId)
                     if (Item.Student_Id == StudentId)
                         arr.push({
                             Id: Item.TestType_Id,
-                            Text1: parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
+                            Text1: Item.Marks_Scored.toString(),//parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
                             Text2: Item.TestType_Total_Marks,
                             ExamStatus: Item.Is_Absent,
                             ExamGrade: "0",
                             IsActive: true,
                             IsActiveGrade: true,
-                            ErrorMessage: ""
+                            ErrorMessage: "",
+                            Student_Id: Item.Student_Id
                         });
                 });
-                return arr
+                return arr.length > 0 ? arr : getMarksForStudentBlank(StudentId);
             }
 
 
