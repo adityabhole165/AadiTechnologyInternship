@@ -238,10 +238,13 @@ const AddLessonPlan = () => {
     let returnVal = true;
 
     if (isGreaterThanDate(StartDate, EndDate)) {
+      console.log(returnVal, "returnVal -- 1",);
+
       seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
       returnVal = false
     } else
       if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
+        console.log(returnVal, "returnVal -- 2",);
         seterrorStartDate('Please fix following error(s): Date(s) should not be out of academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
           ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
@@ -249,6 +252,7 @@ const AddLessonPlan = () => {
       } else seterrorStartDate('')
     if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))
     ) {
+      console.log(returnVal, "returnVal -- 3",);
       seterrorEndDate(' Please fix following error(s): Date(s) should not be out of academic year.' +
         '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
         ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
@@ -268,30 +272,44 @@ const AddLessonPlan = () => {
         });
       });
     });
+
     if (!IsPlan) {
+      console.log(returnVal, "returnVal -- 4",);
       seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.");
       returnVal = false;
     } else {
       seterrorexampleLessonDetails("");
     }
 
-    if (getApproverComment() == "") {
-
+    if (!getIsApproverComment()) {
       seterrorComment("Please fix the following error(s): Comment should not be blank.");
       returnVal = false;
     }
 
+    console.log(ApproverComment, "returnVal", IsPlan);
+
     return returnVal;
   };
 
-  const getApproverComment = () => {
-    let returnVal = ""
+  const getIsApproverComment = () => {
+    let returnVal = true
     ApproverComment.map((Item, i) => {
-      if (Item.ReportingUserId == asUserId && Item.Comment !== "") {
-        returnVal = Item.Comment
+      if (i != 0 && Item.ReportingUserId == asUserId) {
+        if (Item.Comment == "") {
+          returnVal = false
+        }
       }
     })
     return returnVal
+  }
+  const getApproverComment = () => {
+    let returnVal = ""
+    ApproverComment.map((Item, i) => {
+      if (i != 0 && Item.ReportingUserId == asUserId) {
+        returnVal = Item.Comment
+      }
+    })
+    return ""
   }
   const onClickSave = () => {
     if (IsFormValid()) {
@@ -310,28 +328,7 @@ const AddLessonPlan = () => {
       dispatch(SaveLessonPlan(SaveLessonPlanBody))
       console.log(SaveLessonPlans, "SaveLessonPlan")
 
-      const onClickSave = () => {
-        if (IsFormValid()) {
-          const SaveLessonPlanBody: ISaveLessonPlanBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-            asReportingUserId: Number(asUserId),
-            aasStartDate: StartDate,
-            aasEndDate: EndDate,
-            asLessonPlanXml: getXML(),
-            asUpdatedById: Number(UpdatedById),
-            asOldStartDate: OldStartDate,
-            asOldEndDate: OldEndDate,
-          };
-          dispatch(SaveLessonPlan(SaveLessonPlanBody))
-          setActionMode('Edit')
-
-
-        }
-      };
       setActionMode('Edit')
-
 
     }
   };
@@ -406,7 +403,7 @@ const AddLessonPlan = () => {
 
     ApproverDetails?.map((Item, Index) => {
       if (Index > 0) {
-        if (Item.UserId !== asUserId) {
+        if (Item.UserId == asUserId) {
           isShowApprove = true;
         }
       }
@@ -498,13 +495,13 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            {IsShowApprove ? (
 
+            {(Action == "Add" || Action == "Edit") &&
               <>
                 <Box>
                   <Tooltip title={'Submit'}>
                     <IconButton
-                      disabled={GetEnableButtonList.EnableSubmitButton != "False"}
+                      disabled={GetEnableButtonList.EnableSubmitButton == "False"}
                       sx={{
                         backgroundColor: grey[500],
                         color: 'white',
@@ -521,7 +518,7 @@ const AddLessonPlan = () => {
                 <Box>
                   <Tooltip title={'Save'}>
                     <IconButton
-                      disabled={GetEnableButtonList?.EnableSaveButton == "True"}
+                      disabled={GetEnableButtonList.EnableSaveButton == "False"}
                       sx={{
                         backgroundColor: green[500],
                         color: 'white',
@@ -534,45 +531,44 @@ const AddLessonPlan = () => {
                       <Save />
                     </IconButton>
                   </Tooltip>
-                </Box></>
+                </Box>
+              </>}
+            {IsShowApprove() &&
+              <Box><Tooltip title={'Approver'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: green[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    }
+                  }}
+                  onClick={onClickApprover}
 
-            ) : (
-              <><Box>
+                >
+                  <HowToReg />
+                </IconButton>
 
-                <Tooltip title={'Approver'}>
-                  <IconButton
-                    sx={{
-                      backgroundColor: green[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: green[600]
-                      }
-                    }}
-                    onClick={onClickApprover}
+              </Tooltip>
+              </Box>
+            }
+            <Box>
+              <Tooltip title={'Update Date'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    }
+                  }}
+                  onClick={onClickUpdateDate}
+                >
+                  <EventAvailable />
+                </IconButton>
+              </Tooltip>
+            </Box>
 
-                  >
-                    <HowToReg />
-                  </IconButton>
-
-                </Tooltip>
-              </Box><Box>
-                  <Tooltip title={'Update Date'}>
-                    <IconButton
-                      sx={{
-                        backgroundColor: grey[500],
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                      onClick={onClickUpdateDate}
-                    >
-                      <EventAvailable />
-                    </IconButton>
-                  </Tooltip>
-                </Box></>
-
-            )}
           </>
 
         }
