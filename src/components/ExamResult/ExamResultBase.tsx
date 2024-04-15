@@ -149,10 +149,28 @@ const ExamResultBase = () => {
   //     }
   //   ]);
   // }, [Submitted]);
+  // useEffect(() => {
+  //   console.log("Submitted:", Submitted);
+  //   if (Submitted == 'N') {
+  //     setIconList([])
+  //     setDisplayNote('Not all results for this exam have been submitted.');
+  //   } else if (Submitted == 'Y') {
+  //     setDisplayNote('Results for this exam have been published.');
+  //     setIconList([
+  //       {
+  //         Id: 1,
+  //         Icon: <EditIcon />,
+  //         Action: 'Edit'
+  //       }
+  //     ]);
+  //   }
+  // }, [Submitted]);
   useEffect(() => {
-    if (Submitted.IsSubmitted == 'N') {
+    console.log("Submitted:", Submitted);
+    if (Submitted === 'N') {
+      setIconList([]);
       setDisplayNote('Not all results for this exam have been submitted.');
-    } else if (Submitted.IsSubmitted == 'Y') {
+    } else if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Results for this exam have been published.');
       setIconList([
         {
@@ -161,8 +179,18 @@ const ExamResultBase = () => {
           Action: 'Edit'
         }
       ]);
+    } else {
+      setDisplayNote('');
+      setIconList([
+        {
+          Id: 1,
+          Icon: <EditIcon />,
+          Action: 'Edit'
+        }
+      ]);
     }
-  }, [Submitted]);
+  }, [Submitted, ClassPassFailDetailsForButton]);
+
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
@@ -453,20 +481,21 @@ const ExamResultBase = () => {
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish}>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary" disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.ToppersGenerated}>
+        <Button variant="contained" color="primary" disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.ToppersGenerated}>
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish}>
           PUBLISH ALL
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
           UNPUBLISH ALL
         </Button>
+
 
         {Open && (
           <ExamResultUnpublish
