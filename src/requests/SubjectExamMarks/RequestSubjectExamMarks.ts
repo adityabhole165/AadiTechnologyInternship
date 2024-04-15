@@ -183,21 +183,19 @@ export const getSubjectExamMarkslist =
             const getMarksForStudentBlank = (StudentIdParam) => {
                 let arr = [];
                 let StudentId = "0"
-                response2.data.listStudentTestMarkDetails.map((Item, i) => {
-                    if (Item.Student_Id == StudentId || StudentId == "0") {
-                        StudentId = Item.Student_Id
-                        arr.push({
-                            Id: Item.TestType_Id,
-                            Text1: "",
-                            Text2: Item.TestType_Total_Marks,
-                            ExamStatus: "N",
-                            ExamGrade: "0",
-                            IsActive: true,
-                            IsActiveGrade: true,
-                            ErrorMessage: "",
-                            Student_Id: StudentIdParam
-                        });
-                    }
+                response2.data.listTestDetailss.map((Item, i) => {
+
+                    arr.push({
+                        Id: Item.TestType_Id,
+                        Text1: "",
+                        Text2: Item.TestType_Total_Marks,
+                        ExamStatus: "N",
+                        ExamGrade: "0",
+                        IsActive: true,
+                        IsActiveGrade: true,
+                        ErrorMessage: "",
+                        Student_Id: StudentIdParam
+                    });
                 });
                 return arr
             }
