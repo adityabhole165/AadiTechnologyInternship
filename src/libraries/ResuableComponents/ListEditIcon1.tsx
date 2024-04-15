@@ -51,13 +51,28 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                 </TableCell> */}
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.STATUS === 'Not Started' && (
-                    <Tooltip title={item.StatusDescription}>
-                      <EditOff style={{ color: '#76ff03', cursor: 'pointer' }} />
+                    <Tooltip title={item.StatusDescription}
+                    >
+                      <EditOff style={{ color: '#76ff03', cursor: 'pointer' }}
+                        onClick={() => clickEdit({
+                          SubjectId: item.SubjectId,
+                          StandardDivisionId: item.StandardDivisionId,
+                          StandardId: item.StandardId,
+                          IsMonthConfig: item.IsMonthConfig,
+                          IsSubmitted: item.Is_Submitted
+                        })} />
                     </Tooltip>
                   )}
                   {item.STATUS === 'Partial' && (
                     <Tooltip title={item.StatusDescription}>
-                      <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }} />
+                      <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }}
+                        onClick={() => clickEdit({
+                          SubjectId: item.SubjectId,
+                          StandardDivisionId: item.StandardDivisionId,
+                          StandardId: item.StandardId,
+                          IsMonthConfig: item.IsMonthConfig,
+                          IsSubmitted: item.Is_Submitted
+                        })} />
                     </Tooltip>
                   )}
                   {(item.STATUS === 'Complete' || item.STATUS === 'Submitted'
