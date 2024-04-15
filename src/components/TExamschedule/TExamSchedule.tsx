@@ -9,7 +9,6 @@ import IGetAllStandards, {
   IGetExamsList
 } from 'src/interfaces/Teacher/TExamSchedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { ViewExamDataRess } from 'src/requests/Examschedule/Examschedule';
 import {
@@ -17,6 +16,7 @@ import {
   GetSelectStandardRes
 } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 function Texamschedule() {
   const dispatch = useDispatch();
@@ -73,7 +73,15 @@ function Texamschedule() {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Exam Schedule'} subheading={''} />
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Exam Schedule',
+            path: ''
+          }
+        ]}
+        rightActions={<></>}
+      />
       <DotLegend color="success" text="Description" />
       <FormControl
         sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}

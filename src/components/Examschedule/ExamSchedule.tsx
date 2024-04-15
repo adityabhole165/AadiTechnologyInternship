@@ -9,7 +9,6 @@ import ISelectExam, {
   GetSelectExamListResult,
   IExamList
 } from 'src/interfaces/Student/ExamSchedule';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon3 from 'src/libraries/icon/icon3';
 import Card1 from 'src/libraries/mainCard/Card1';
 import DotLegend from 'src/libraries/summary/DotLegend';
@@ -19,6 +18,7 @@ import {
 } from 'src/requests/Examschedule/Examschedule';
 import http from 'src/requests/SchoolService/schoolServices';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 function ExamSchedule() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -84,7 +84,15 @@ function ExamSchedule() {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Exam Schedule'} subheading={''} />
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Exam Schedule',
+            path: ''
+          }
+        ]}
+        rightActions={<></>}
+      />
 
       <DotLegend color="success" text="Description" />
 

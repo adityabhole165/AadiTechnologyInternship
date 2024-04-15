@@ -5,7 +5,6 @@ import IGetAllStandards, {
   IGetExamsList
 } from 'src/interfaces/Teacher/TExamSchedule';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { RootState } from 'src/store';
 // import { IGetExamsList } from 'src/interfaces/Student/ExamSchedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -18,8 +17,11 @@ import {
   ViewExamDataRess
 } from 'src/requests/TExamschedule/TExamschedule';
 
-import { Box } from '@mui/material';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import CardExamSchedule from 'src/libraries/card/CardExamSchedule';
+import CommonPageHeader from '../CommonPageHeader';
 
 const TExamScheduleNew = () => {
   const dispatch = useDispatch();
@@ -139,42 +141,72 @@ const TExamScheduleNew = () => {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Exam Schedule'} subheading={''} />
-      {RoleId !== '3' && (
-        <Dropdown
-          Array={getstandard}
-          handleChange={stdChange}
-          label={'Select Standard'}
-          defaultValue={std}
-        />
-      )}
-      <Box sx={{ mt: '10px' }}>
-        {getExamlist.length > 0 ? (
-          <Dropdown
-            Array={getExamlist}
-            handleChange={examChange}
-            label={'Select Exam'}
-            defaultValue={exam}
-          />
-        ) : (
-          ((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
-            <ErrorMessages Error={'No exam has been scheduled'} />
-          )
-        )}
-      </Box>
-      <br />
-      {loading ? (
-        <SuspenseLoader />
-      ) : (
-        <>
-          {SubList?.map((item, i) => {
-            return (
-              <div key={i}>
-                {i == 0 && item.Instructions !== '' ? (
-                  <Icon3 Note={item.Instructions} />
-                ) : null}
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Exam Schedule',
+            path: ''
+          }
+        ]}
+        rightActions={<>
+          <Box sx={{ width: '200px' }}>
+            {RoleId !== '3' && (
+              <Dropdown
+                Array={getstandard}
+                handleChange={stdChange}
+                label={'Select Standard'}
+                size={'small'}
+                variant={"outlined"}
+                defaultValue={std}
+              />
+            )}
+          </Box>
+          {getExamlist.length > 0 ? (
+            <Box sx={{ width: '200px' }} >
+              <Dropdown
+                Array={getExamlist}
+                handleChange={examChange}
+                label={'Select Exam'}
+                size={'small'}
+                variant={"outlined"}
+                defaultValue={exam}
+              />
+            </Box>
+          ) : (
+            ((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
+              <ErrorMessages Error={'No exam has been scheduled'} />
+            )
+          )}
+          <Box>
+            <Tooltip title={"Displays standardwise exam schedule."}>
+              <IconButton sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
 
-                {/* <Card1 key={i}
+              }}>
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </>}
+      />
+
+      <Box sx={{ background: 'white', p: 2 }}>
+        {loading ? (
+          <SuspenseLoader />
+        ) : (
+          <>
+            {SubList?.map((item, i) => {
+              return (
+                <div key={i}>
+                  {i == 0 && item.Instructions !== '' ? (
+                    <Icon3 Note={item.Instructions} />
+                  ) : null}
+
+                  {/* <Card1 key={i}
                 header={item.header}
                 text1={''}
                 text2={item.text2}
@@ -187,18 +219,20 @@ const TExamScheduleNew = () => {
                 FileName={''}
 
               /> */}
-                <CardExamSchedule
-                  header={item.header}
-                  text2={item.text3}
-                  text3={item.text2}
-                  text5={item.text5}
-                  text6={getTime(item.startTime, item.endTime)}
-                />
-              </div>
-            );
-          })}
-        </>
-      )}
+                  <CardExamSchedule
+                    header={item.header}
+                    text2={item.text3}
+                    text3={item.text2}
+                    text5={item.text5}
+                    text6={getTime(item.startTime, item.endTime)}
+                  />
+                </div>
+              );
+            })}
+          </>
+        )}
+      </Box>
+      <br />
     </Box>
   );
 };

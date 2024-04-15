@@ -7,7 +7,7 @@ Dropdown.propTypes = {
   handleChange: PropTypes.any,
   label: PropTypes?.string
 };
-function Dropdown({ Array, disabled = false, handleChange, label, defaultValue = '', width = 'auto', variant = "standard" }) {
+function Dropdown({ Array, disabled = false, handleChange, label, size = 'medium', defaultValue = '', width = 'auto', variant = "standard" }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
@@ -20,7 +20,7 @@ function Dropdown({ Array, disabled = false, handleChange, label, defaultValue =
           onChange={(e) => handleChange(e.target.value)}
           fullWidth
           variant={variant as any}
-          size={"small"}
+          size={size as any}
           label={label}
           select={true}
           disabled={disabled}
