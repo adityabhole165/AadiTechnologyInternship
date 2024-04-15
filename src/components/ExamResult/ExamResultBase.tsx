@@ -181,7 +181,13 @@ const ExamResultBase = () => {
       ]);
     } else {
       setDisplayNote('');
-      setIconList([]);
+      setIconList([
+        {
+          Id: 1,
+          Icon: <EditIcon />,
+          Action: 'Edit'
+        }
+      ]);
     }
   }, [Submitted, ClassPassFailDetailsForButton]);
 
