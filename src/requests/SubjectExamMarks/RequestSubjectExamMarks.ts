@@ -205,10 +205,10 @@ export const getSubjectExamMarkslist =
                     if (Item.Student_Id == StudentId)
                         arr.push({
                             Id: Item.TestType_Id,
-                            Text1: Item.Marks_Scored.toString(),//parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
+                            Text1: Item.Marks_Scored.toString(),
                             Text2: Item.TestType_Total_Marks,
                             ExamStatus: Item.Is_Absent,
-                            ExamGrade: "0",
+                            ExamGrade: Item.Assigned_Grade_Id,
                             IsActive: true,
                             IsActiveGrade: true,
                             ErrorMessage: "",
