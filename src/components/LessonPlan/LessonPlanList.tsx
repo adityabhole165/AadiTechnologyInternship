@@ -146,25 +146,17 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                        {/* <StyledCell sx={{ p: 1 }}> */}
                                         {Action == 'View' ?
-                                            // <StyledCell sx={{ p: 1 }}>{plan.value}</StyledCell>
-                                            plan.value
+                                            <><Typography ><b>{plan.label}</b></Typography>
+                                                <Typography>{plan.value}</Typography></>
                                             :
-                                            <TextField
-                                                label={plan.label}
-                                                value={plan.value}
-                                                fullWidth
-                                                multiline
+                                            <TextField label={plan.label} value={plan.value}
+                                                fullWidth multiline
                                                 disabled={Action == 'View'}
                                                 rows={Action == 'View' ? 1 : 4}
                                                 onChange={(e) => {
-                                                    onChangeValue(
-                                                        lesson.StdId,
-                                                        lesson.DivisionId,
-                                                        lesson.SubjectId,
-                                                        plan.Id,
-                                                        e.target.value
+                                                    onChangeValue(lesson.StdId, lesson.DivisionId,
+                                                        lesson.SubjectId, plan.Id, e.target.value
                                                     )
                                                 }}
                                             />}
@@ -176,8 +168,9 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
                                                             {index + 1}.{subIndex + 1}
                                                         </StyledCell>
                                                         {Action == 'View' ?
-                                                            // <StyledCell sx={{ p: 1 }}>{plan.value}</StyledCell>
-                                                            plan.value
+                                                            <><Typography ><b>{subPlan.label}</b></Typography>
+                                                                <Typography>{subPlan.value}</Typography></>
+                                                            // plan.value
                                                             : <TextField
                                                                 label={subPlan.label}
                                                                 value={subPlan.value}
