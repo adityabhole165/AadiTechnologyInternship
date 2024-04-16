@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { IDeleteHomeworkBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, SubjectListforTeacherDropdown, homeworklistforteacher, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
+import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, SubjectListforTeacherDropdown, homeworklistforteacher, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { DeleteresetMessage, PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
@@ -85,11 +85,11 @@ const AddHomeworkNew = () => {
   console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
 
   const DeleteHomework = useSelector(
-    (state: RootState) => state.HomeworkSubjectList.DeleteHomework
+    (state: RootState) => state.AddHomework.DeleteHomework
   );
 
   const USPublishUnpublishHomework = useSelector(
-    (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
+    (state: RootState) => state.AddHomework.AllPublishUnpublishHomeworkT
   );
 
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
@@ -103,8 +103,6 @@ const AddHomeworkNew = () => {
   const HomeworkSaveBody: ISaveHomeworkBody = {
     asTitle: Title,
     asSubjectId: Number(SubjectCheckID),
-
-
     asStandardDivisionId: StandardDivisionId,
     asAttachmentPath: File,
     asDetails: Details,
@@ -118,7 +116,14 @@ const AddHomeworkNew = () => {
     asBase64String: base64URL,
     additionalAttachmentFile: MultipleFiles
   };
-
+  const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: StandardDivisionId,
+    asHomeWorkStatus: HomeworkS,
+    asHomeworkTitle: Title,
+    asAssignedDate: AssignedDate
+  };
   
 
   const ResetForm = () => {
@@ -208,10 +213,8 @@ const AddHomeworkNew = () => {
   useEffect(() => {
     if (DeleteHomework != '') {
       toast.success(DeleteHomework);
-      dispatch(DeleteresetMessage());
+      dispatch(resetDeleteHomework());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
-
     }
   }, [DeleteHomework]);
 
@@ -230,14 +233,7 @@ const AddHomeworkNew = () => {
 
 
 
-  const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId,
-    asHomeWorkStatus: HomeworkS,
-    asHomeworkTitle: Title,
-    asAssignedDate: AssignedDate
-  };
+ 
 
        const clickPublishUnpublish = (Id) => {
        let IsPublish = getIsPublish(Id)

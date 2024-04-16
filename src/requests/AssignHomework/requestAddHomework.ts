@@ -78,6 +78,16 @@ const AddHomeworkSlice = createSlice({
     RresetHomework(state) {
       state.ISSaveHomework = '';
     },
+
+    RresetDeleteHomework(state) {
+      state.DeleteHomework = '';
+    },
+
+    RPublishresetMessage(state) {
+      state.PublishUnPublishHomework = '';
+    },
+
+    
     
   }
 
@@ -162,18 +172,7 @@ export const GetTeacherSubjectList =
   (data: IGetSubjectListForTeacherBody): AppThunk =>
     async (dispatch) => {
       const response = await AddHomeworkApi.GetSubjectListTeacher(data);
-      console.log(response, 'response-----');
-
       let a = response.data.map((item, i) => {
-        // return {
-        //   Id: item.Id,
-        //   SubjectId: item.SubjectId,
-        //   Text1: item.Id,
-        //   Text2: item.Subject,
-        //   Text3: item.Title,
-        //   Text4: item.IsPublished,
-        //   Text5: item.CompleteByDate
-        // };
         return {
           Id: item.Id,
           Text1: item.SubjectId,
@@ -208,6 +207,15 @@ export const GetAllHomeworkDocuments =
     export const resetHomework = (): AppThunk => async (dispatch) => {
       dispatch(AddHomeworkSlice.actions.RresetHomework());
     };
+
+    export const resetDeleteHomework = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RresetDeleteHomework());
+    };
+    
+    export const  PublishresetMessage = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RPublishresetMessage());
+    };
+
     
 
 export default AddHomeworkSlice.reducer;
