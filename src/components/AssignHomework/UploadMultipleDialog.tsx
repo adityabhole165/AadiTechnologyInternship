@@ -37,6 +37,11 @@ const UploadMultipleDialog = ({
         setMultipleFiles
     ])
 
+    const handleConfirm = () => {
+        console.log("Confirmed files:", MultipleFiles)
+        setOpen(false);
+    };
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
     return (
@@ -91,17 +96,11 @@ const UploadMultipleDialog = ({
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button color={"error"}
-                    onClick={() => setOpen(false)}
-                >
-                    Close
-                </Button>
-                <Button color={"primary"} variant={"contained"}>
-                    Confirm
-                </Button>
+                <Button color={"error"} onClick={() => setOpen(false)}>Close</Button>
+                <Button color={"primary"} variant={"contained"} onClick={handleConfirm}>Confirm</Button>
             </DialogActions>
         </Dialog>
     )
 }
 
-export default UploadMultipleDialog
+export default UploadMultipleDialog;
