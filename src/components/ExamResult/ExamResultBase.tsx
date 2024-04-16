@@ -11,7 +11,9 @@ import {
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
   IGetPrePrimaryProgressSheetStatusBody,
-  IPublishUnpublishExamResultBody
+  IPublishUnpublishExamResultBody,
+  IsMonthConfigurationForExamResultBody,
+  IsPrePrimaryExamConfigurationBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -20,6 +22,8 @@ import {
   getClassPassFailDetailsForButton,
   getClassPassFailDetailsForTest,
   getClassTeachers, getClasswiseExam,
+  getMonthConfigurationForExamResult,
+  getPrePrimaryExamConfiguration,
   getProgressSheetStatus,
   getPublishUnpublishExam, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
@@ -30,6 +34,7 @@ const ExamResultBase = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = localStorage.getItem('localSchoolId');
+  const asUserRole = localStorage.getItem('RoleName');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const [StandardDivisionId, setStandardDivisionId] = useState(
     sessionStorage.getItem('TeacherId')
@@ -93,7 +98,15 @@ const ExamResultBase = () => {
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
   );
+  const PrePrimaryExam: any = useSelector(
+    (state: RootState) => state.ExamResult.IsPrePrimaryExamConfiguration
+  );
+  console.log("PrePrimaryExam", PrePrimaryExam)
 
+  const MonthConfigurationForExam: any = useSelector(
+    (state: RootState) => state.ExamResult.IsMonthConfigurationForExamResult
+  );
+  console.log("MonthConfigurationForExam", MonthConfigurationForExam)
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
@@ -131,30 +144,49 @@ const ExamResultBase = () => {
     asAcadmicYearId: Number(asAcademicYearId),
     asTest_Id: Number(TestId)
   };
+  const PrePrimaryExamConfiguration: IsPrePrimaryExamConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(StandardDivisionId),
+    asUserRole: asUserRole
+  }
+  const MonthConfigurationForExamResult: IsMonthConfigurationForExamResultBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(StandardDivisionId),
+
+  }
 
   // useEffect(() => {
   //   console.log("Submitted:", Submitted);
-  //   if (Submitted.IsSubmitted == 'N') {
-  //     setIconList([]);
-  //     setDisplayNote(['Not all results for this exam have been submitted.']);
+  //   // if (Submitted === 'N') {
+  //   //   setIconList([]);
+  //   //   setDisplayNote('Not all results for this exam have been submitted.');
+  //   if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
+  //     setDisplayNote('Results for this exam have been published.');
+  //     setIconList([
+  //       {
+  //         Id: 1,
+  //         Icon: <EditIcon />,
+  //         Action: 'Edit'
+  //       }
+  //     ]);
+  //   } else {
+  //     setDisplayNote('');
+  //     setIconList([
+  //       {
+  //         Id: 1,
+  //         Icon: <EditIcon />,
+  //         Action: 'Edit'
+  //       }
+  //     ]);
   //   }
-
-  //   if (Submitted.IsSubmitted == 'Y')
-  //     setDisplayNote(['Results for this exam have been published.']);
-  //   setIconList([
-  //     {
-  //       Id: 1,
-  //       Icon: <EditIcon />,
-  //       Action: 'Edit'
-  //     }
-  //   ]);
-  // }, [Submitted]);
+  // }, [Submitted, ClassPassFailDetailsForButton]);
   // useEffect(() => {
   //   console.log("Submitted:", Submitted);
-  //   if (Submitted == 'N') {
-  //     setIconList([])
-  //     setDisplayNote('Not all results for this exam have been submitted.');
-  //   } else if (Submitted == 'Y') {
+
+  //   // Check if results have been published
+  //   if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
   //     setDisplayNote('Results for this exam have been published.');
   //     setIconList([
   //       {
@@ -164,10 +196,27 @@ const ExamResultBase = () => {
   //       }
   //     ]);
   //   }
-  // }, [Submitted]);
+  //   // Check if not all results for the exam have been submitted
+  //   else if (!PrePrimaryExam) {
+  //     setDisplayNote('Not all results for this exam have been submitted.');
+  //     setIconList([]);
+  //     dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+  //   } else {
+  //     // Clear note and set default icon list
+  //     setDisplayNote('');
+  //     setIconList([
+  //       {
+  //         Id: 1,
+  //         Icon: <EditIcon />,
+  //         Action: 'Edit'
+  //       }
+  //     ]);
+  //   }
+  // }, [Submitted, ClassPassFailDetailsForButton, PrePrimaryExam, StandardDivisionId]);
+
   useEffect(() => {
     console.log("Submitted:", Submitted);
-    if (Submitted === 'N') {
+    if (Submitted === 'N' || !PrePrimaryExam) {
       setIconList([]);
       setDisplayNote('Not all results for this exam have been submitted.');
     } else if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
@@ -189,11 +238,28 @@ const ExamResultBase = () => {
         }
       ]);
     }
-  }, [Submitted, ClassPassFailDetailsForButton]);
+  }, [Submitted, ClassPassFailDetailsForButton, PrePrimaryExam]);
+
+
+
+  useEffect(() => {
+    if (!PrePrimaryExam) {
+      setIconList([]);
+      setDisplayNote('Not all results for this exam have been submitted.');
+      dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+    }
+  }, [PrePrimaryExam, StandardDivisionId]);
 
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
+
+
+
+  useEffect(() => {
+    dispatch(getMonthConfigurationForExamResult(MonthConfigurationForExamResult));
+  }, []);
+
   useEffect(() => {
     dispatch(getClasswiseExam(GetClasswiseExamDropdown));
   }, []);
@@ -430,9 +496,11 @@ const ExamResultBase = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip>
+
           <Tooltip title={"Toppers"}>
             <IconButton
               onClick={Toppers}
+              disabled={!ClassPassFailDetailsForButton || ClassPassFailDetailsForButton.ToppersGenerated}
               sx={{
                 color: 'white',
                 backgroundColor: grey[500],
@@ -484,7 +552,7 @@ const ExamResultBase = () => {
         <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish}>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary" disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.ToppersGenerated}>
+        <Button variant="contained" color="primary" disabled={!ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.ToppersGenerated}>
           GENERATE TOPPERS
         </Button>
 
