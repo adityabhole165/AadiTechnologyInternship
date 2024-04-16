@@ -132,12 +132,11 @@ const AddHomeworkNew = () => {
     setAssignedDate('');
     setCompleteDate('');
     setFile('');
-
+    setFileName('');
     setDetails('');
+    setMultipleFiles(['']);
   };
-  const onClickCancel = () => {
-    ResetForm();
-  };
+ 
 
 
   const ClickSaveHomework = () => {
@@ -162,6 +161,7 @@ const AddHomeworkNew = () => {
 
     if (!isError) {
       dispatch(HomeworkSave(HomeworkSaveBody))
+
     }
 
     if (!isError) {
@@ -172,6 +172,8 @@ const AddHomeworkNew = () => {
     if (SaveHomework != '') {
       dispatch(resetHomework());
       toast.success(SaveHomework);
+      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+
     }
   }, [SaveHomework]);
 
@@ -331,7 +333,7 @@ const AddHomeworkNew = () => {
                       height: '36px !important',
                       ':hover': { backgroundColor: red[600] }
                     }}
-                    onClick={onClickCancel} 
+                    onClick={ResetForm} 
                   >
                     <Close />
                   </IconButton>
