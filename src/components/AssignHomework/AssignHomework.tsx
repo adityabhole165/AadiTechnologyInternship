@@ -181,23 +181,38 @@ const AssignHomework = () => {
     return classTeacherName;
   };
 
+  // const clickItem1 = (value) => {
+  //   navigate(
+  //     '/extended-sidebar/Teacher/AddHomework/' +
+  //     value.StandardDivisionId +
+  //     '/' +
+  //     value.StandardDivision +
+  //     '/' +
+  //     SelectTeacher +
+  //     '/' +
+  //     getClassTeacherName() +
+  //     '/' +
+  //     value.SubjectId +
+  //     '/' +
+  //     value.SubjectName
+  //   );
+  // };
+
   const clickItem1 = (value) => {
+    console.log(value,"value");
     navigate(
-      '/extended-sidebar/Teacher/AddHomework/' +
-      value.StandardDivisionId +
-      '/' +
-      value.StandardDivision +
-      '/' +
+      '/extended-sidebar/Teacher/AddHomeworkNew/'+
       SelectTeacher +
       '/' +
       getClassTeacherName() +
-      '/' +
-      value.SubjectId +
-      '/' +
-      value.SubjectName
+      '/' + 
+      value.StandardDivision  +
+      '/'+
+      value.SubjectName 
+     
     );
   };
-
+  
   const clickItem = (value) => {
     navigate('/extended-sidebar/Teacher/TExamschedule');
     value.map((item) => {

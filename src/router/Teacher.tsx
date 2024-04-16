@@ -90,6 +90,7 @@ const ExamResultUnpublish = Loader(
 const AddHomework = Loader(
   lazy(() => import('src/components/AssignHomework/AddHomework'))
 );
+
 const StandardToppers = Loader(
   lazy(() => import('src/components/FinalResult/StandardToppers'))
 );
@@ -142,6 +143,9 @@ const SubjectMarkList = Loader(
   lazy(() => import('src/components/ExamResult/SubjectMarkList'))
 )
 
+const AddHomeworkNew = Loader(
+  lazy(() => import('src/components/AddHomeworkNew/AddHomeworkNew'))
+);
 
 const teacherRoutes = [
   {
@@ -378,7 +382,14 @@ const teacherRoutes = [
   {
     path: 'SubjectMarkList/:TestId/:StandardDivisionId/:getExamName/:getTeacherName/:getSubjectName/:SubjectId',
     element: <SubjectMarkList />
-  }
+  },
+ 
+  {
+    path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/',
+    element: <AddHomeworkNew/>
+  },
+  
+
 
 ];
 
