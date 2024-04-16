@@ -3,8 +3,8 @@ import { Box, Tooltip, IconButton, Grid, TextField, Button } from '@mui/material
 import { grey, red, green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody } from 'src/interfaces/AssignHomework/IAddHomework';
-import { GetTeacherSubjectList, SubjectListforTeacherDropdown } from 'src/requests/AssignHomework/requestAddHomework';
+import { IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import { GetTeacherSubjectList, HomeworkSave, SubjectListforTeacherDropdown, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
@@ -15,9 +15,10 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import SingleFile from 'src/libraries/File/SingleFile';
 import CloudUpload from '@mui/icons-material/CloudUpload';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
+import { toast } from 'react-toastify';
 
 const AddHomeworkNew = () => {
-    const {   TeacherName,  ClassName , SubjectName} =
+    const {   TeacherName,  ClassName , SubjectName, SubjectId} =
     useParams();
     const [Subject, setSubject] = useState(SubjectName);
      const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
@@ -32,6 +33,11 @@ const AddHomeworkNew = () => {
      const [base64URL, setbase64URL] = useState('');
      const [openUploadMultipleDialog, setOpenUploadMultipleDialog] = useState(false);
      const [MultipleFiles, setMultipleFiles] = useState([]);
+     const [Details, setDetails] = useState('');
+     const [ErrorDetails, setErrorDetails] = useState('');
+     const [Errorbase64URL, setErrorbase64URL] = useState('');
+     const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
+     const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
     const dispatch = useDispatch();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -48,7 +54,7 @@ const AddHomeworkNew = () => {
     let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
 
     const SaveHomework = useSelector(
-        (state: RootState) => state.AddHomework.SaveHomework
+        (state: RootState) => state.AddHomework.ISSaveHomework
     );
     //console.log(SaveHomework, "SaveHomework....")
     const ClassSubject = useSelector(
@@ -85,6 +91,76 @@ const AddHomeworkNew = () => {
         asStandardDivisionId: StandardDivisionId
     };
 
+    const HomeworkSaveBody: ISaveHomeworkBody = {
+        asTitle: Title,
+        asSubjectId: Number(SubjectCheckID),
+        
+        
+        asStandardDivisionId: StandardDivisionId,
+        asAttachmentPath: File,
+        asDetails: Details,
+        asAssignDate: AssignedDate,
+        asCompleteByDate: CompleteDate,
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asInsertedById: Number(asTeacherId),
+        asSaveFeature: 'Homework',
+        asFolderName: 'PPSN Website',
+        asBase64String: base64URL,
+        additionalAttachmentFile: MultipleFiles
+      };
+    
+      console.log(SubjectCheckID,"SubjectCheckID");
+     
+
+      const ResetForm = () => {
+        setSubjectCheckID('');
+        setTitle('');
+        setAssignedDate('');
+        setCompleteDate('');
+        setFile('');
+
+        setDetails('');
+      };
+      const onClickCancel = () => {
+        ResetForm();
+      };
+    
+
+    const ClickSaveHomework = () => {
+        let isError = false;
+        if (AssignedDate == '') {
+          setErrorAssignedDate('Field should not be blank')
+          isError = true
+    
+        } else if (CompleteDate == '') {
+          setErrorCompleteDate('Field should not be blank')
+          isError = true
+        }
+        else if (base64URL == '') {
+          setErrorbase64URL('Field should not be blank')
+          isError = true
+        }
+       
+        else if (Details == '') {
+          setErrorDetails('Field should not be blank')
+          isError = true
+        }
+    
+        if (!isError) {
+          dispatch(HomeworkSave(HomeworkSaveBody))
+        }
+    
+        if (!isError) {
+          ResetForm()
+        }
+      }
+      useEffect(() => {
+        if (SaveHomework != '') {
+            dispatch(resetHomework());
+          toast.success(SaveHomework);
+        }
+      }, [SaveHomework]);
 
     const clickSubjectList = (value) => {
         setSubject(value);
@@ -95,6 +171,8 @@ const AddHomeworkNew = () => {
         setbase64URL(value.Value);
         setFileName(value.Name);
       };
+
+
     //dropdown
     useEffect(() => {
         dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
@@ -147,7 +225,7 @@ const AddHomeworkNew = () => {
                     height: '36px !important',
                     ':hover': { backgroundColor: red[600] }
                   }}
-                 
+                  onClick={() => onClickCancel}
                 >
                   <Close />
                 </IconButton>
@@ -164,7 +242,7 @@ const AddHomeworkNew = () => {
                   }}
 
                 >
-                  <SaveIcon  />
+                 <SaveIcon onClick={ClickSaveHomework} />
                 </IconButton>
               </Tooltip>
             </Box>
@@ -276,6 +354,25 @@ const AddHomeworkNew = () => {
                 Upload Multiple Attachments
               </Button>
              
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label={
+                  <span>
+                    Details <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                multiline
+                rows={3}
+                value={Details}
+                onChange={(e) => {
+                  setDetails(e.target.value);
+                }}
+                error={ErrorDetails !== ''}
+                helperText={ErrorDetails}
+              />
             </Grid>
 
             </Grid>

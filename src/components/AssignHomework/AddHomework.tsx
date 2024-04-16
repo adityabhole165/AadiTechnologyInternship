@@ -111,7 +111,7 @@ const AddHomework = () => {
   let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
 
   const SaveHomework = useSelector(
-    (state: RootState) => state.AddHomework.SaveHomework
+    (state: RootState) => state.AddHomework.ISSaveHomework
   );
   //console.log(SaveHomework, "SaveHomework....")
   const ClassSubject = useSelector(
@@ -188,7 +188,7 @@ const AddHomework = () => {
 
   const HomeworkSaveBody: ISaveHomeworkBody = {
     asTitle: Title,
-    asSubjectId: Number(SubjectId),
+    asSubjectId: Number(subjectId),
     asStandardDivisionId: StandardDivisionId,
     asAttachmentPath: File,
     asDetails: Details,

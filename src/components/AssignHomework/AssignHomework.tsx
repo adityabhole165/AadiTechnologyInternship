@@ -208,7 +208,9 @@ const AssignHomework = () => {
       '/' + 
       value.StandardDivision  +
       '/'+
-      value.SubjectName 
+      value.SubjectName +
+      '/' +
+      value.SubjectId
      
     );
   };

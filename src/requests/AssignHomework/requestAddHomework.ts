@@ -22,7 +22,7 @@ const AddHomeworkSlice = createSlice({
     PublishUnPublishHomework: '',
     GetHomeworkDetail: {},
     DeleteHomework: '',
-    SaveHomework: '',
+    ISSaveHomework: '',
     DeleteHomeworkDocument: '',
     Subjectlist: [],
     ISSubmitMarksRest: '',
@@ -46,7 +46,7 @@ const AddHomeworkSlice = createSlice({
       state.DeleteHomework = action.payload;
     },
     savehomework(state, action) {
-      state.SaveHomework = action.payload;
+      state.ISSaveHomework = action.payload;
     },
     DeleteHomeworkDocument(state, action) {
       state.DeleteHomeworkDocument = action.payload;
@@ -75,6 +75,10 @@ const AddHomeworkSlice = createSlice({
       state.Publishall = '';
     },
 
+    RresetHomework(state) {
+      state.ISSaveHomework = '';
+    },
+    
   }
 
 });
@@ -199,5 +203,11 @@ export const GetAllHomeworkDocuments =
       const response = await AddHomeworkApi.GetAllHomeworkDocuments(data);
       dispatch(AddHomeworkSlice.actions.getallhomeworkdocument(response.data));
     };
+
+
+    export const resetHomework = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RresetHomework());
+    };
+    
 
 export default AddHomeworkSlice.reducer;
