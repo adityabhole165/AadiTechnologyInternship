@@ -65,6 +65,7 @@ const AddLessonPlan = () => {
       friday.toISOString().split('T')[0] :
       EndDateParam
     ));
+
   const [ActionMode, setActionMode] = useState(Action)
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
@@ -94,7 +95,6 @@ const AddLessonPlan = () => {
 
   const SubmittedApproverDate: any = useSelector((state: RootState) => state.addlessonplan.SubmittedApproverDate);
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
-  console.log(SaveLessonPlan, "SaveLessonPlan");
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
@@ -197,7 +197,7 @@ const AddLessonPlan = () => {
       // setIsSubmitDisabled(false);
     }
   }, [SaveLessonPlans, GetAddOrEditLessonPlanDetails, GetEnableButtonList])
-  console.log(GetEnableButtonList, "GetEnableButtonList")
+
   useEffect(() => {
     if (SubmitLessonPlans !== '') {
       toast.success(SubmitLessonPlans)
@@ -429,7 +429,7 @@ const AddLessonPlan = () => {
     ApprovalCommentData?.map((Item, Index) => {
       if (Item.ApprovalSortOrder == "0") {
         if (Item.ReportingUserId == asUserId) {
-          returnVal = (Item.Text4 == "");
+          returnVal = (Item.IsPublished == "False");
         }
       }
     });
@@ -529,8 +529,8 @@ const AddLessonPlan = () => {
               <Box>
                 <Tooltip title={'Submit'}>
                   <IconButton
-                    // disabled={GetEnableButtonList && GetEnableButtonList.EnableSubmitButton !== "True"}
-                    disabled={(GetEnableButtonList && GetEnableButtonList.EnableSubmitButton !== "True")}
+                    disabled={(GetEnableButtonList.length > 0 &&
+                      GetEnableButtonList[0].EnableSubmitButton == "False")}
                     sx={{
                       backgroundColor: blue[500],
                       color: 'white',
@@ -547,7 +547,7 @@ const AddLessonPlan = () => {
             <Box>
               <Tooltip title={'Save'}>
                 <IconButton
-                  disabled={GetEnableButtonList && GetEnableButtonList.EnableSaveButton == "False"}
+                  disabled={GetEnableButtonList.length > 0 && GetEnableButtonList[0].EnableSaveButton == "False"}
                   sx={{
                     backgroundColor: green[500],
                     color: 'white',

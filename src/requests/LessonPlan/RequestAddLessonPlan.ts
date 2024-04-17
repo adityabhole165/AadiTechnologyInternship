@@ -29,6 +29,11 @@ const AddLessonPlanSlice = createSlice({
       state.Loading = false;
       state.AddOrEditLessonPlanDetails = action.payload;
     },
+
+    getEnableButtonList(state, action) {
+      state.Loading = false;
+      state.GetEnableButtonList = action.payload;
+    },
     getApproverDetails(state, action) {
       state.Loading = false;
       state.ApproverDetails = action.payload;
@@ -179,7 +184,8 @@ export const GetAddOrEditLessonPlanDetails =
         response.data.GetLessonPlanStatusList.map((Item, i) => {
           // console.log(Item.IsReportingUser, "== ", userId);
           if (Item.ReportingUserId == userId) {
-            returnVal = (DataType == "Date" ? Item.UpdateDate : Item.Comment)
+            returnVal = (DataType == "Date" ? Item.UpdateDate :
+              DataType == "Comment" ? Item.Comment : DataType == "IsPublished" ? Item.IsPublished : "")
           }
         })
         return returnVal
@@ -197,12 +203,14 @@ export const GetAddOrEditLessonPlanDetails =
             Text4: getApproveDate(Item.ReportingUserId, "Date"),
             Text5: getApproveDate(Item.ReportingUserId, "Comment"),
             ApprovalSortOrder: Item.ApprovalSortOrder,
-            ReportingUserId: Item.ReportingUserId
+            ReportingUserId: Item.ReportingUserId,
+            IsPublished: getApproveDate(Item.ReportingUserId, "IsPublished")
           })
 
         })
 
       dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
+      dispatch(AddLessonPlanSlice.actions.getEnableButtonList(response.data.GetEnableButtonList));
       dispatch(AddLessonPlanSlice.actions.getApproverDetails(response.data.GetLessonPlanReportingConfigList));
       dispatch(AddLessonPlanSlice.actions.getApprovalData(ApprovalData));
       dispatch(AddLessonPlanSlice.actions.getSubmittedDate(response.data.GetLessonPlanStatusList));
