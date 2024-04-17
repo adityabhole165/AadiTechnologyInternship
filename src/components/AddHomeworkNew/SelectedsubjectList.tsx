@@ -78,7 +78,7 @@ const SelectedsubjectList = ({
                   </Link>
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
-                  {item.Text6 == 0 ? null : (
+                  {item.Text9 == 0 ? null : (
                     <VisibilityIcon
                       style={{ color: 'black' }}
                       onClick={() => clickVisibilityIcon(item.Id)}
