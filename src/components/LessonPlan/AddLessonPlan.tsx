@@ -425,19 +425,15 @@ const AddLessonPlan = () => {
 
   };
   const IsEditingAllowed = () => {
-    let isEditingAllowed = false;
-
-    ApproverDetails?.map((Item, Index) => {
-      if (Index == 0) {
-        if (Item.ReportingUserId !== asUserId) {
-          isEditingAllowed = true;
-
+    let returnVal = false;
+    ApprovalCommentData?.map((Item, Index) => {
+      if (Item.ApprovalSortOrder == "0") {
+        if (Item.ReportingUserId == asUserId) {
+          returnVal = (Item.Text4 == "");
         }
       }
     });
-
-    return isEditingAllowed;
-
+    return returnVal;
   };
   // const IsShowApprove = () => {
   //   return !ApproverDetails?.some(Item => Item.UserId === asUserId);

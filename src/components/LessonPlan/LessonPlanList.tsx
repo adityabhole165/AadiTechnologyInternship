@@ -2,6 +2,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
 const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingAllowed }) => {
+
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
@@ -146,7 +147,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                        {Action == 'View' ?
+                                        {(Action == 'View' || !IsEditingAllowed) ?
                                             <><Typography ><b>{plan.label}</b></Typography>
                                                 <Typography>{plan.value}</Typography></>
                                             :
