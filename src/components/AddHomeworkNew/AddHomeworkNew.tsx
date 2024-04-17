@@ -23,7 +23,7 @@ const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
     useParams();
   const navigate = useNavigate();
-  const [Subject, setSubject] = useState(SubjectName);
+  const [Subject, setSubject] = useState(SubjectId);
   const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
@@ -311,11 +311,11 @@ const AddHomeworkNew = () => {
    
 
 
-  const classSubjectIds = ClassSubject.map((item) => item.Id);
-  console.log(classSubjectIds,"classSubjectIds");
   
-  const filteredSubjectList = Subjectlistsforteacher.filter((item) =>  item.SubjectId != classSubjectIds);
-   console.log(filteredSubjectList,"filteredSubjectList");
+  
+  const Assigned_homework_for_selected_subject = Subjectlistsforteacher.filter((item) =>  item.SubjectId == Subject);
+  const Homework_assigned_for_other_subjects  = Subjectlistsforteacher.filter((item) =>  item.SubjectId != Subject);
+   
 
 
   return (
@@ -513,7 +513,7 @@ const AddHomeworkNew = () => {
         </Grid>
 
         <SelectedsubjectList
-          ItemList={Subjectlistsforteacher}
+          ItemList={Assigned_homework_for_selected_subject}
           clickView={clickTitle}
           clickDelete={clickDelete}
           clickEdit={handleEditClick}
@@ -525,7 +525,7 @@ const AddHomeworkNew = () => {
 
           <Box my={2}>
             <SubjectList1
-              ItemList={filteredSubjectList}
+              ItemList={Homework_assigned_for_other_subjects}
               HeaderArray={HeaderPublish1}
               onChange={Changevalue}
               clickchange={''}
