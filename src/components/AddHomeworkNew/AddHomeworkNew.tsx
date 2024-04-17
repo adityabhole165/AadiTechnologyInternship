@@ -42,7 +42,8 @@ const AddHomeworkNew = () => {
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
   const [HomeworkS, setHomeworkS] = useState('0');
-
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   
 
   const [openIsPublishDialog, setOpenIsPublishDialog] = useState(false);
@@ -67,6 +68,12 @@ const AddHomeworkNew = () => {
     { Id: 4, Header: 'Title' },
     { Id: 5, Header: 'Is Published? ', align: 'center' },
     { Id: 6, Header: 'Complete By Date' }
+  ];
+
+  const HomeworkStatus = [
+    { Id: '1', Name: 'All', Value: 'All' },
+    { Id: '2', Name: 'Assigned Date', Value: 'AssignedDate' },
+    { Id: '3', Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
 
   const dispatch = useDispatch();
@@ -310,13 +317,62 @@ const AddHomeworkNew = () => {
  
    
 
+  
+  
 
+
+ 
   
   
   const Assigned_homework_for_selected_subject = Subjectlistsforteacher.filter((item) =>  item.SubjectId == Subject);
   const Homework_assigned_for_other_subjects  = Subjectlistsforteacher.filter((item) =>  item.SubjectId != Subject);
    
 
+  const clickHomeworkStatus = (value) => {
+    setHomeworkS(value);
+    setAssignedDate(value);
+    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+
+  };
+
+ 
+  const [SearchText, setSearchText] = useState('');
+  const [SearchTittle, setSearchTittle] = useState([
+    Subjectlistsforteacher
+  ]);
+  
+  // const changeSearchText = () => {
+  //   if (SearchText === '') {
+  //     setSearchTittle(Subjectlistsforteacher);
+  //   } else {
+  //     setSearchTittle(
+  //       Subjectlistsforteacher.filter((item) => {
+         
+  //         return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+  //       })
+  //     );
+  //   }
+  // };
+  
+
+  
+  const SearchNameChange = (value) => {
+    setSearchText(value);
+  };
+  
+
+  const changeSearchText = (value) => {
+    if (typeof value === 'string' && value.trim() !== '') {
+      setAssignedDate(value);
+      setSearchText(value);
+    }
+  
+    if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
+      toast.success('No Records Found');
+    }
+    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+
+  };
 
   return (
     <>
@@ -511,6 +567,58 @@ const AddHomeworkNew = () => {
           </Grid>
 
         </Grid>
+       
+
+        <br/>
+        <br/>
+
+        <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
+        <Grid item xs={3}>
+          <SearchableDropdown
+            sx={{ minWidth: '100%' }}
+            ItemList={HomeworkStatus}
+            onChange={clickHomeworkStatus}
+            defaultValue={HomeworkS}
+            label={'Select Homework Status'}
+          />
+        </Grid>
+
+
+        <Grid item xs={3}>
+          <TextField
+            fullWidth
+            InputLabelProps={{
+              shrink: true
+            }}
+            label={'Date'}
+            inputProps={{ type: 'date' }}
+            value={AssignedDate}
+            onChange={(e) => {
+              setAssignedDate(e.target.value);
+              console.log('EventEndDate :', e.target.value);
+            }}
+            variant="standard"
+         
+          />
+        </Grid>
+        <Grid item xs={2}>
+        <TextField
+            fullWidth
+            label="Title"
+            value={SearchText}
+            variant={'standard'}
+            onChange={(e) => {
+              SearchNameChange(e.target.value);
+            }}
+          />
+
+        </Grid>
+        <Grid item xs={1}>
+          <Button onClick={changeSearchText} variant="contained">
+            Search
+          </Button>
+        </Grid>
+      </Grid>
 
         <SelectedsubjectList
           ItemList={Assigned_homework_for_selected_subject}
