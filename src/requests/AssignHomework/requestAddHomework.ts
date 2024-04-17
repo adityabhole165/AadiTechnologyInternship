@@ -183,7 +183,8 @@ export const GetTeacherSubjectList =
           Text5: item.AttachmentPath,
           Text6: item.CompleteByDate,
           Text7: item.IsPublished,
-          Text9: item.flag
+          Text9: item.flag,
+          IsPublished: item.IsPublished,
 
          
          
