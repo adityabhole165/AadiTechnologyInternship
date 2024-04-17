@@ -256,10 +256,6 @@ const AddHomeworkNew = () => {
   };
 
 
-
-
- 
-
        const clickPublishUnpublish = (Id) => {
        let IsPublish = getIsPublish(Id)
       const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
@@ -272,14 +268,8 @@ const AddHomeworkNew = () => {
         asIsSMSSent: true
       };
       dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-    
-
-
-  };
-
-
   
+  };
   useEffect(() => {
     if (USPublishUnpublishHomework != '') {
       toast.success(USPublishUnpublishHomework);
@@ -287,7 +277,6 @@ const AddHomeworkNew = () => {
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
     }
   }, [USPublishUnpublishHomework]);
-  console.log(USPublishUnpublishHomework);
   
 
   const clickFileName = (value) => {
