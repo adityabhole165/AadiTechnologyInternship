@@ -292,15 +292,16 @@ const AddLessonPlan = () => {
       seterrorComment("Please fix the following error(s): Comment should not be blank.");
       returnVal = false;
     }
-
+    else
+      seterrorComment("")
     return returnVal;
   };
 
   const getIsApproverComment = () => {
     let returnVal = true
     ApprovalCommentData.map((Item, i) => {
-      if (Item.ApprovalSortOrder != 0 && Item.ReportingUserId == asUserId) {
-        if (Item.Comment == "") {
+      if (Item.ApprovalSortOrder != "0" && Item.ReportingUserId == asUserId) {
+        if (Item.Text5 == "") {
           returnVal = false
         }
       }
@@ -309,9 +310,9 @@ const AddLessonPlan = () => {
   }
 
   const getIsApproved = () => {
-    let returnVal = true
+    let returnVal = false
     ApprovalCommentData.map((Item, i) => {
-      if (Item.ApprovalSortOrder != 0 && Item.ReportingUserId == asUserId) {
+      if (Item.ApprovalSortOrder != "0" && Item.ReportingUserId == asUserId) {
         returnVal = Item.IsPublished == "True"
       }
     })
@@ -349,7 +350,13 @@ const AddLessonPlan = () => {
   }
   const onClickSave = () => {
     if (IsApprover())
-      clickSaveApproverComments()
+      if (!getIsApproverComment()) {
+        seterrorComment("Please fix the following error(s): Comment should not be blank.");
+      }
+      else {
+        seterrorComment('')
+        clickSaveApproverComments()
+      }
     else
       if (IsFormValid()) {
         const SaveLessonPlanBody: ISaveLessonPlanBody = {
@@ -418,6 +425,9 @@ const AddLessonPlan = () => {
     setApprovalCommentData(ApprovalData.map((Item, i) => {
       return i == index ? { ...Item, Text5: value } : Item
     }))
+    if (value != "") {
+      seterrorComment('')
+    }
   };
 
   const clickSaveApproverComments = () => {
@@ -592,9 +602,9 @@ const AddLessonPlan = () => {
               </Box>
             }
 
-            {IsShowApprove() &&
+            {(IsApprover() && !getIsApproved()) &&
 
-              <Box><Tooltip title={'Approver'}>
+              < Box > <Tooltip title={'Approver'}>
                 <IconButton
                   sx={{
                     backgroundColor: green[500],
@@ -604,7 +614,6 @@ const AddLessonPlan = () => {
                     }
                   }}
                   onClick={onClickApprover}
-
                 >
                   <HowToReg />
                 </IconButton>
@@ -612,19 +621,19 @@ const AddLessonPlan = () => {
               </Tooltip>
               </Box>}
 
-            {(perm == 'Y' && IsShowApprove()) && (
+            {(perm == 'Y' && IsApprover() && getIsApproved()) && (
               <Box>
                 <Tooltip title={'Update Date'}>
                   <IconButton
                     sx={{
-                      backgroundColor: grey[500],
+                      backgroundColor: green[500],
                       color: 'white',
                       '&:hover': {
                         backgroundColor: green[600]
                       }
                     }}
                     onClick={onClickUpdateDate}
-                    disabled={perm == 'Y'}
+
                   >
                     <EventAvailable />
                   </IconButton>
