@@ -492,18 +492,18 @@ const ExamResultBase = () => {
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || !MonthConfigurationForExam}>
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary" disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated || !MonthConfigurationForExam}>
+        <Button variant="contained" color="primary" disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated) || !MonthConfigurationForExam}>
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || !MonthConfigurationForExam}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
           PUBLISH ALL
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || !MonthConfigurationForExam}>
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
           UNPUBLISH ALL
         </Button>
 
