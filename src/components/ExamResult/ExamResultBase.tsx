@@ -39,15 +39,11 @@ const ExamResultBase = () => {
   const [StandardDivisionId, setStandardDivisionId] = useState(
     sessionStorage.getItem('TeacherId')
   );
-  //const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
+
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState('');
   const [Open, setOpen] = useState(false);
-
-
-  // const [isPublished, setIsPublished] = useState(true);
-  //const [unpublishReason, setUnpublishReason] = useState('');
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -436,18 +432,7 @@ const ExamResultBase = () => {
       dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody))
     }
   }, [PublishUnpublish])
-  // useEffect(() => {
-  //   setIsPublished(ClassPassFailDetailsForTestData.IsPublish);
-  // }, [ClassPassFailDetailsForTestData]);
-  // useEffect(() => {
 
-  //   if (ClassPassFailDetailsForTestData !== '') {
-  //     setIsPublished(ClassPassFailDetailsForTestData.IsPublish);
-  //   } else {
-  //     setIsPublished(true);
-
-  //   }
-  // }, [ClassPassFailDetailsForTestData]);
   const getDropdownName = (List, value) => {
     let returnVal = ""
     List.map((Item) => {
@@ -497,20 +482,22 @@ const ExamResultBase = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"Toppers"}>
-            <IconButton
-              onClick={Toppers}
-              disabled={!ClassPassFailDetailsForButton || ClassPassFailDetailsForButton.ToppersGenerated}
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }}
-            >
-              <Person />
-            </IconButton>
+          <Tooltip title={"Toppers"} >
+            <span>
+              <IconButton
+                onClick={Toppers}
+                disabled={!ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Person />
+              </IconButton>
+            </span>
           </Tooltip>
 
         </>}
@@ -524,9 +511,7 @@ const ExamResultBase = () => {
             <Typography variant={'h4'} mb={1}>
               Results
             </Typography>
-            {/* <Typography variant="body1" color="textSecondary">
-              {isPublished ? "Result for this exam has been published" : "No record found"}
-            </Typography> */}
+
             {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No Record Found.</b>
@@ -552,7 +537,7 @@ const ExamResultBase = () => {
         <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish}>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary" disabled={!ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.ToppersGenerated}>
+        <Button variant="contained" color="primary" disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated}>
           GENERATE TOPPERS
         </Button>
 
