@@ -1,8 +1,7 @@
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
-
-const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
+const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingAllowed }) => {
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
@@ -111,6 +110,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
             onTextChange(exampleLessonDetails)
         }
     }
+
     return (
         <>
             {exampleLessonDetails.map((lesson, index) => (
@@ -152,7 +152,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
                                             :
                                             <TextField label={plan.label} value={plan.value}
                                                 fullWidth multiline
-                                                disabled={Action == 'View'}
+                                                disabled={Action == "View"}
                                                 rows={Action == 'View' ? 1 : 4}
                                                 onChange={(e) => {
                                                     onChangeValue(lesson.StdId, lesson.DivisionId,
@@ -167,13 +167,14 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
                                                         <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
                                                             {index + 1}.{subIndex + 1}
                                                         </StyledCell>
-                                                        {Action == 'View' ?
+                                                        {(Action == 'View' || !IsEditingAllowed) ?
                                                             <><Typography ><b>{subPlan.label}</b></Typography>
                                                                 <Typography>{subPlan.value}</Typography></>
                                                             // plan.value
                                                             : <TextField
                                                                 label={subPlan.label}
                                                                 value={subPlan.value}
+                                                                // disabled={!IsEditingAllowed()}
                                                                 fullWidth
                                                                 multiline
                                                                 rows={4}

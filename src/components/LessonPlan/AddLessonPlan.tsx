@@ -16,7 +16,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
+import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanList from './LessonPlanList';
 
@@ -77,7 +77,7 @@ const AddLessonPlan = () => {
   const [errorComment, seterrorComment] = useState('');
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
   const [errorexampleLessonDetails, seterrorexampleLessonDetails] = useState('')
-
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -101,6 +101,7 @@ const AddLessonPlan = () => {
 
   // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
   // const EnableSubmitButton = GetEnableButtonList.EnableSubmitButton;
+  let perm = GetScreenPermission('Lesson Plan')
 
   useEffect(() => {
     setApproverComment(SubmittedApproverDate)
@@ -185,14 +186,16 @@ const AddLessonPlan = () => {
       };
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       // dispatch(CDAlessonplanlist)
+      // setIsSubmitDisabled(false);
     }
-  }, [SaveLessonPlans])
-
+  }, [SaveLessonPlans, GetAddOrEditLessonPlanDetails, GetEnableButtonList])
+  console.log(GetEnableButtonList, "GetEnableButtonList")
   useEffect(() => {
     if (SubmitLessonPlans !== '') {
       toast.success(SubmitLessonPlans)
       dispatch(resetsubmitlessonplans())
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+
     }
   }, [SubmitLessonPlans])
 
@@ -201,6 +204,7 @@ const AddLessonPlan = () => {
       toast.success(SaveApproverComment)
       dispatch(resetsaveapprovercomment())
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+
     }
   }, [SaveApproverComment])
   useEffect(() => {
@@ -403,14 +407,33 @@ const AddLessonPlan = () => {
 
     ApproverDetails?.map((Item, Index) => {
       if (Index > 0) {
-        if (Item.UserId == asUserId) {
+        if (Item.ReportingUserId == asUserId) {
           isShowApprove = true;
         }
       }
     });
 
     return isShowApprove;
+
   };
+  const IsEditingAllowed = () => {
+    let isEditingAllowed = false;
+
+    ApproverDetails?.map((Item, Index) => {
+      if (Index == 0) {
+        if (Item.ReportingUserId !== asUserId) {
+          isEditingAllowed = true;
+
+        }
+      }
+    });
+
+    return isEditingAllowed;
+
+  };
+  // const IsShowApprove = () => {
+  //   return !ApproverDetails?.some(Item => Item.UserId === asUserId);
+  // };
 
 
   console.log(IsShowApprove(), "isShowApprove", asUserId, ApproverDetails);
@@ -428,6 +451,7 @@ const AddLessonPlan = () => {
       <span onClick={handleClick} style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}>{fileName}</span>
     );
   };
+
 
   return (
     <Box sx={{ px: 2 }} maxWidth="xl">
@@ -497,43 +521,45 @@ const AddLessonPlan = () => {
             </Box>
 
             {(Action == "Add" || Action == "Edit") &&
-              <>
-                <Box>
-                  <Tooltip title={'Submit'}>
-                    <IconButton
-                      disabled={GetEnableButtonList.EnableSubmitButton == "False"}
-                      sx={{
-                        backgroundColor: grey[500],
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: blue[600]
-                        }
-                      }}
-                      onClick={onClickSubmit}
-                    >
-                      <Check />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Box>
-                  <Tooltip title={'Save'}>
-                    <IconButton
-                      disabled={GetEnableButtonList.EnableSaveButton == "False"}
-                      sx={{
-                        backgroundColor: green[500],
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: green[600]
-                        }
-                      }}
-                      onClick={onClickSave}
-                    >
-                      <Save />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </>}
+
+              <Box>
+                <Tooltip title={'Submit'}>
+                  <IconButton
+                    // disabled={GetEnableButtonList && GetEnableButtonList.EnableSubmitButton !== "True"}
+                    disabled={(GetEnableButtonList && GetEnableButtonList.EnableSubmitButton !== "True")}
+                    sx={{
+                      backgroundColor: blue[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    onClick={onClickSubmit}
+                  >
+                    <Check />
+                  </IconButton>
+                </Tooltip>
+              </Box>}
+            <Box>
+              <Tooltip title={'Save'}>
+                <IconButton
+                  disabled={GetEnableButtonList && GetEnableButtonList.EnableSaveButton == "False"}
+                  sx={{
+                    backgroundColor: green[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    }
+                  }}
+                  onClick={onClickSave}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
+            </Box>
+
             {IsShowApprove() &&
+
               <Box><Tooltip title={'Approver'}>
                 <IconButton
                   sx={{
@@ -550,8 +576,9 @@ const AddLessonPlan = () => {
                 </IconButton>
 
               </Tooltip>
-              </Box>
-            }
+              </Box>}
+
+            {/* {perm == 'Y' && ( */}
             <Box>
               <Tooltip title={'Update Date'}>
                 <IconButton
@@ -563,16 +590,19 @@ const AddLessonPlan = () => {
                     }
                   }}
                   onClick={onClickUpdateDate}
+                  disabled={perm == 'Y'}
                 >
                   <EventAvailable />
                 </IconButton>
               </Tooltip>
             </Box>
-
+            {/* } */}
           </>
+
 
         }
       />
+
 
       {/* <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
       <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" /> */}
@@ -655,7 +685,8 @@ const AddLessonPlan = () => {
             </Typography>
 
             <LessonPlanList exampleLessonDetails={exampleLessonDetails}
-              onTextChange={onTextChange} Action={Action} />
+              onTextChange={onTextChange} Action={Action}
+              IsEditingAllowed={IsEditingAllowed()} />
           </Grid>
           }
           <Grid item xs={12}>
