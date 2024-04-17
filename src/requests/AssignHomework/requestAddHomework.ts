@@ -178,12 +178,15 @@ export const GetTeacherSubjectList =
           SubjectId: item.SubjectId,
           Text1: item.Subject,
           Text2: item.Title,
-          Text3: item.AssignedDate,
-          Text4: item.CompleteByDate,
+          Text3: getDateMonthYearFormatted(item.AssignedDate),
+          Text4: getDateMonthYearFormatted(item.CompleteByDate),
           Text5: item.AttachmentPath,
           Text6: item.CompleteByDate,
           Text7: item.IsPublished,
           Text9: item.flag
+
+         
+         
         };
       });
       dispatch(AddHomeworkSlice.actions.getSubjectList(a));

@@ -87,11 +87,11 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.ISSaveHomework
   );
  
-  const ClassSubject = useSelector(
+  const ClassSubject : any = useSelector(
     (state: RootState) => state.AddHomework.Subjectlist
   );
   
-  const Subjectlistsforteacher = useSelector(
+  const Subjectlistsforteacher  : any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
   console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
@@ -309,12 +309,13 @@ const AddHomeworkNew = () => {
 
  
    
-   const remainingSubjectsList = Subjectlistsforteacher.filter(subjectItem => {
-   
-    return ClassSubject.filter(classSubjectItem => classSubjectItem.Id !== subjectItem.SubjectId);
-  });
+
+
+  const classSubjectIds = ClassSubject.map((item) => item.Id);
+  console.log(classSubjectIds,"classSubjectIds");
   
-console.log(remainingSubjectsList,"remainingSubjectsList");
+  const filteredSubjectList = Subjectlistsforteacher.filter((item) =>  item.SubjectId != classSubjectIds);
+   console.log(filteredSubjectList,"filteredSubjectList");
 
 
   return (
@@ -524,7 +525,7 @@ console.log(remainingSubjectsList,"remainingSubjectsList");
 
           <Box my={2}>
             <SubjectList1
-              ItemList={remainingSubjectsList}
+              ItemList={filteredSubjectList}
               HeaderArray={HeaderPublish1}
               onChange={Changevalue}
               clickchange={''}
