@@ -517,3 +517,15 @@ export function getSchoolConfigurations(value) {
   })
   return CanEdit
 }
+export function GetScreenPermission(ScreenName) {
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+  let perm = 'N';
+  ScreensAccessPermission?.map((item) => {
+    if (item.ScreenName === ScreenName)
+      perm = item.IsFullAccess;
+  });
+  return perm;
+};
+
