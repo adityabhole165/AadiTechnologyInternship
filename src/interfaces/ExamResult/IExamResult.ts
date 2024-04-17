@@ -114,7 +114,7 @@ export interface IsPrePrimaryExamConfigurationBody {
   asUserRole: string
 }
 export interface IsPrePrimaryExamConfigurationResult {
-  string
+  boolean
 }
 
 
@@ -124,6 +124,6 @@ export interface IsMonthConfigurationForExamResultBody {
   asStdDivId: number
 }
 export interface IsMonthConfigurationForExamResult {
-  string
+  boolean
 }
 

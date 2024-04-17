@@ -7,9 +7,10 @@ import {
   IGetClasswiseExamDropdownResult,
   IGetPrePrimaryProgressSheetStatusBody, IGetPrePrimaryProgressSheetStatusResult,
   IPublishUnpublishExamResultBody,
+  IsMonthConfigurationForExamResult,
+  IsMonthConfigurationForExamResultBody,
   IsPrePrimaryExamConfigurationBody, IsPrePrimaryExamConfigurationResult,
-  PublishUnpublishExamResult,IsMonthConfigurationForExamResultBody,
-  IsMonthConfigurationForExamResult
+  PublishUnpublishExamResult
 } from 'src/interfaces/ExamResult/IExamResult';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -51,7 +52,7 @@ const PrePrimaryExamConfigurationApi = (data: IsPrePrimaryExamConfigurationBody)
 };
 const MonthConfigurationForExamResultApi = (data: IsMonthConfigurationForExamResultBody) => {
   return http.post<IsMonthConfigurationForExamResult>(
-    'Teacher/IsPrePrimaryExamConfiguration',
+    'Teacher/IsMonthConfigurationForExamResult',
     data
   );
 };
@@ -60,7 +61,7 @@ const ApiExamResult = {
   GetClasswiseExamDropDownApi,
   GetClassPassFailDetailsForTestApi,
   PublishUnpublishExamResultApi,
-  GetPrePrimaryProgressSheetStatusApi, 
+  GetPrePrimaryProgressSheetStatusApi,
   PrePrimaryExamConfigurationApi,
   MonthConfigurationForExamResultApi
 };

@@ -153,69 +153,13 @@ const ExamResultBase = () => {
 
   }
 
-  // useEffect(() => {
-  //   console.log("Submitted:", Submitted);
-  //   // if (Submitted === 'N') {
-  //   //   setIconList([]);
-  //   //   setDisplayNote('Not all results for this exam have been submitted.');
-  //   if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
-  //     setDisplayNote('Results for this exam have been published.');
-  //     setIconList([
-  //       {
-  //         Id: 1,
-  //         Icon: <EditIcon />,
-  //         Action: 'Edit'
-  //       }
-  //     ]);
-  //   } else {
-  //     setDisplayNote('');
-  //     setIconList([
-  //       {
-  //         Id: 1,
-  //         Icon: <EditIcon />,
-  //         Action: 'Edit'
-  //       }
-  //     ]);
-  //   }
-  // }, [Submitted, ClassPassFailDetailsForButton]);
-  // useEffect(() => {
-  //   console.log("Submitted:", Submitted);
-
-  //   // Check if results have been published
-  //   if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
-  //     setDisplayNote('Results for this exam have been published.');
-  //     setIconList([
-  //       {
-  //         Id: 1,
-  //         Icon: <EditIcon />,
-  //         Action: 'Edit'
-  //       }
-  //     ]);
-  //   }
-  //   // Check if not all results for the exam have been submitted
-  //   else if (!PrePrimaryExam) {
-  //     setDisplayNote('Not all results for this exam have been submitted.');
-  //     setIconList([]);
-  //     dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
-  //   } else {
-  //     // Clear note and set default icon list
-  //     setDisplayNote('');
-  //     setIconList([
-  //       {
-  //         Id: 1,
-  //         Icon: <EditIcon />,
-  //         Action: 'Edit'
-  //       }
-  //     ]);
-  //   }
-  // }, [Submitted, ClassPassFailDetailsForButton, PrePrimaryExam, StandardDivisionId]);
+  useEffect(() => {
+    dispatch(getClassTeachers(ClassTeachersBody));
+  }, []);
 
   useEffect(() => {
     console.log("Submitted:", Submitted);
-    if (Submitted === 'N' || !PrePrimaryExam) {
-      setIconList([]);
-      setDisplayNote('Not all results for this exam have been submitted.');
-    } else if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
+    if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Results for this exam have been published.');
       setIconList([
         {
@@ -234,27 +178,40 @@ const ExamResultBase = () => {
         }
       ]);
     }
-  }, [Submitted, ClassPassFailDetailsForButton, PrePrimaryExam]);
+  }, [Submitted, ClassPassFailDetailsForButton]);
 
 
 
   useEffect(() => {
-    if (!PrePrimaryExam) {
-      setIconList([]);
+    console.log(!PrePrimaryExam, "--",
+      ClassPassFailDetailsForButton, " && ",
+      !ClassPassFailDetailsForButton?.IsPublish)
+    if (!PrePrimaryExam && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
+      console.log(PrePrimaryExam, "--",
+        ClassPassFailDetailsForButton, " sdfsdfsdf ",
+        !ClassPassFailDetailsForButton?.IsPublish)
       setDisplayNote('Not all results for this exam have been submitted.');
+      setIconList([
+        {
+          Id: 1,
+          Icon: <EditIcon />,
+          Action: 'Edit'
+        }
+      ]);
+      // dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
       dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+
     }
-  }, [PrePrimaryExam, StandardDivisionId]);
+  }, [ClassPassFailDetailsForButton, PrePrimaryExam, StandardDivisionId]);
 
-  useEffect(() => {
-    dispatch(getClassTeachers(ClassTeachersBody));
-  }, []);
 
 
 
   useEffect(() => {
+    dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
     dispatch(getMonthConfigurationForExamResult(MonthConfigurationForExamResult));
-  }, []);
+  }, [StandardDivisionId]);
+
 
   useEffect(() => {
     dispatch(getClasswiseExam(GetClasswiseExamDropdown));
@@ -299,6 +256,7 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
   }, [StandardDivisionId, TestId]);
+
   useEffect(() => {
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   }, [StandardDivisionId, TestId]);
@@ -534,18 +492,18 @@ const ExamResultBase = () => {
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish}>
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || !MonthConfigurationForExam}>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary" disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated}>
+        <Button variant="contained" color="primary" disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated || !MonthConfigurationForExam}>
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || !MonthConfigurationForExam}>
           PUBLISH ALL
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || !MonthConfigurationForExam}>
           UNPUBLISH ALL
         </Button>
 

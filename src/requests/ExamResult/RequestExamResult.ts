@@ -88,7 +88,7 @@ export const getClassPassFailDetailsForButton =
       dispatch(SliceExamResult.actions.getLoading(true));
       const response = await ApiExamResult.GetClassPassFailDetailsForTestApi(data);
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForButton(response.data));
-      console.log(response, "abc")
+      console.log(response.data, "abc")
     };
 
 export const getClassTeachers =
@@ -134,7 +134,7 @@ export const getPublishUnpublishExam =
       dispatch(SliceExamResult.actions.GetPublishUnpublish(response.data));
 
     };
-    export const getPrePrimaryExamConfiguration =
+export const getPrePrimaryExamConfiguration =
   (data: IsPrePrimaryExamConfigurationBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceExamResult.actions.getLoading(true));
@@ -142,14 +142,14 @@ export const getPublishUnpublishExam =
       dispatch(SliceExamResult.actions.GetPrePrimaryExamConfiguration(response.data));
 
     };
-    export const getMonthConfigurationForExamResult =
-    (data: IsMonthConfigurationForExamResultBody): AppThunk =>
-      async (dispatch) => {
-        dispatch(SliceExamResult.actions.getLoading(true));
-        const response = await ApiExamResult.MonthConfigurationForExamResultApi(data);
-        dispatch(SliceExamResult.actions.GetMonthConfigurationForExamResult(response.data));
-  
-      };
+export const getMonthConfigurationForExamResult =
+  (data: IsMonthConfigurationForExamResultBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.MonthConfigurationForExamResultApi(data);
+      dispatch(SliceExamResult.actions.GetMonthConfigurationForExamResult(response.data));
+
+    };
 export const resetPublishUnpublishExams =
   (): AppThunk =>
     async (dispatch) => {
