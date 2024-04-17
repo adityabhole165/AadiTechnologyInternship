@@ -5,7 +5,9 @@ import {
   IGetClassTeachersBody,
   IGetClasswiseExamDropdownBody,
   IGetPrePrimaryProgressSheetStatusBody,
-  IPublishUnpublishExamResultBody
+  IPublishUnpublishExamResultBody,
+  IsMonthConfigurationForExamResultBody,
+  IsPrePrimaryExamConfigurationBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import { AppThunk } from 'src/store';
 
@@ -21,6 +23,8 @@ const SliceExamResult = createSlice({
     ProgressSheetStatus: '',
     HeaderList: [],
     IsSubmitted: 'N',
+    IsPrePrimaryExamConfiguration: false,
+    IsMonthConfigurationForExamResult: false,
     Loading: true
   },
   reducers: {
@@ -63,6 +67,14 @@ const SliceExamResult = createSlice({
     GetProgressSheetStatus(state, action) {
       state.Loading = false;
       state.ProgressSheetStatus = action.payload;
+    },
+    GetPrePrimaryExamConfiguration(state, action) {
+      state.Loading = false;
+      state.IsPrePrimaryExamConfiguration = action.payload;
+    },
+    GetMonthConfigurationForExamResult(state, action) {
+      state.Loading = false;
+      state.IsMonthConfigurationForExamResult = action.payload;
     },
 
     getLoading(state, action) {
@@ -122,6 +134,22 @@ export const getPublishUnpublishExam =
       dispatch(SliceExamResult.actions.GetPublishUnpublish(response.data));
 
     };
+    export const getPrePrimaryExamConfiguration =
+  (data: IsPrePrimaryExamConfigurationBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.PrePrimaryExamConfigurationApi(data);
+      dispatch(SliceExamResult.actions.GetPrePrimaryExamConfiguration(response.data));
+
+    };
+    export const getMonthConfigurationForExamResult =
+    (data: IsMonthConfigurationForExamResultBody): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceExamResult.actions.getLoading(true));
+        const response = await ApiExamResult.MonthConfigurationForExamResultApi(data);
+        dispatch(SliceExamResult.actions.GetMonthConfigurationForExamResult(response.data));
+  
+      };
 export const resetPublishUnpublishExams =
   (): AppThunk =>
     async (dispatch) => {

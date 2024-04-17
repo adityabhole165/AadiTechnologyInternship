@@ -82,7 +82,7 @@ const HomeworkDocuments = () => {
         <CommonPageHeader
           navLinks={[
             { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
-            { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomework' },
+            { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomeworkNew' },
             { title: 'Documents', path: '/extended-sidebar/Teacher/HomeworkDocuments' }
           ]}
           rightActions={

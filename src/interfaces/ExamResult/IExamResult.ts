@@ -107,5 +107,23 @@ export interface IGetPrePrimaryProgressSheetStatusBody {
 export interface IGetPrePrimaryProgressSheetStatusResult {
   string
 }
+export interface IsPrePrimaryExamConfigurationBody {
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asStdDivId: number,
+  asUserRole: string
+}
+export interface IsPrePrimaryExamConfigurationResult {
+  string
+}
 
+
+export interface IsMonthConfigurationForExamResultBody {
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asStdDivId: number
+}
+export interface IsMonthConfigurationForExamResult {
+  string
+}
 

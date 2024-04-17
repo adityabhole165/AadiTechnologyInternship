@@ -8,6 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 function SubjectList1({
   ItemList,
@@ -16,6 +17,8 @@ function SubjectList1({
   clickchange,
   clickTitle
 }) {
+  let serialNumber = 0; // Counter for serial number
+
   const IsCheckAll = () => {
     let returnValue = true;
     ItemList.map((item) => {
@@ -83,6 +86,10 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
+                  {++serialNumber} {/* Increment serial number for each row */}
+                </TableCell>
+
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text1}
                 </TableCell>
 
@@ -90,16 +97,12 @@ function SubjectList1({
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                  <Link href={''} onClick={() => clickTitle(item.Id)}>
-                    {item.Text3}
-                  </Link>
-                </TableCell>
+               
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
-                  {item.Text5 === 'True' ? <CheckCircle color={"success"} /> : <Cancel color={"error"} />}
+                  {item.IsPublished === 'True' ? <CheckCircle color={"success"} /> : <Cancel color={"error"} />}
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text6}
+                  {getDateMonthYearFormatted(item.Text6)}
                 </TableCell>
               </TableRow>
             ))}

@@ -22,7 +22,7 @@ const AddHomeworkSlice = createSlice({
     PublishUnPublishHomework: '',
     GetHomeworkDetail: {},
     DeleteHomework: '',
-    SaveHomework: '',
+    ISSaveHomework: '',
     DeleteHomeworkDocument: '',
     Subjectlist: [],
     ISSubmitMarksRest: '',
@@ -46,7 +46,7 @@ const AddHomeworkSlice = createSlice({
       state.DeleteHomework = action.payload;
     },
     savehomework(state, action) {
-      state.SaveHomework = action.payload;
+      state.ISSaveHomework = action.payload;
     },
     DeleteHomeworkDocument(state, action) {
       state.DeleteHomeworkDocument = action.payload;
@@ -75,6 +75,20 @@ const AddHomeworkSlice = createSlice({
       state.Publishall = '';
     },
 
+    RresetHomework(state) {
+      state.ISSaveHomework = '';
+    },
+
+    RresetDeleteHomework(state) {
+      state.DeleteHomework = '';
+    },
+
+    RPublishresetMessage(state) {
+      state.PublishUnPublishHomework = '';
+    },
+
+    
+    
   }
 
 });
@@ -158,28 +172,22 @@ export const GetTeacherSubjectList =
   (data: IGetSubjectListForTeacherBody): AppThunk =>
     async (dispatch) => {
       const response = await AddHomeworkApi.GetSubjectListTeacher(data);
-      console.log(response, 'response-----');
-
       let a = response.data.map((item, i) => {
-        // return {
-        //   Id: item.Id,
-        //   SubjectId: item.SubjectId,
-        //   Text1: item.Id,
-        //   Text2: item.Subject,
-        //   Text3: item.Title,
-        //   Text4: item.IsPublished,
-        //   Text5: item.CompleteByDate
-        // };
         return {
           Id: item.Id,
-          Text1: item.SubjectId,
-          Text2: item.Subject,
-          Text3: item.Title,
-          Text4: item.AssignedDate,
-          Text5: item.IsPublished,
+          SubjectId: item.SubjectId,
+          Text1: item.Subject,
+          Text2: item.Title,
+          Text3: getDateMonthYearFormatted(item.AssignedDate),
+          Text4: getDateMonthYearFormatted(item.CompleteByDate),
+          Text5: item.AttachmentPath,
           Text6: item.CompleteByDate,
-          Text7: item.AttachmentPath,
-          Text9: item.flag
+          Text7: item.IsPublished,
+          Text9: item.flag,
+          IsPublished: item.IsPublished,
+
+         
+         
         };
       });
       dispatch(AddHomeworkSlice.actions.getSubjectList(a));
@@ -199,5 +207,20 @@ export const GetAllHomeworkDocuments =
       const response = await AddHomeworkApi.GetAllHomeworkDocuments(data);
       dispatch(AddHomeworkSlice.actions.getallhomeworkdocument(response.data));
     };
+
+
+    export const resetHomework = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RresetHomework());
+    };
+
+    export const resetDeleteHomework = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RresetDeleteHomework());
+    };
+    
+    export const  PublishresetMessage = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RPublishresetMessage());
+    };
+
+    
 
 export default AddHomeworkSlice.reducer;
