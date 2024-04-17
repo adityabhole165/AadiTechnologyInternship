@@ -90,7 +90,7 @@ const SelectedsubjectList = ({
                   <ButtonPrimary onClick={() => {
                     clickpublish(item.Id)
                   }}>
-                    {item.Text7 == 'False' ? 'PUBLISH' : '  UNPUBLISH'}
+                    {item.IsPublished == 'False' ? 'PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>
 

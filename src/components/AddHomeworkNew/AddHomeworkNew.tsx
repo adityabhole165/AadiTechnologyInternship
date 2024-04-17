@@ -17,6 +17,7 @@ import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
 
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
@@ -42,6 +43,8 @@ const AddHomeworkNew = () => {
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
   const [HomeworkS, setHomeworkS] = useState('0');
 
+  
+
   const [openIsPublishDialog, setOpenIsPublishDialog] = useState(false);
   const [publishId, setPublishId] = useState();
 
@@ -55,6 +58,15 @@ const AddHomeworkNew = () => {
     { Id: 7, Header: 'Publish/Unpublish' },
     { Id: 8, Header: 'Edit' },
     { Id: 9, Header: 'Delete' }
+  ];
+
+  const HeaderPublish1 = [
+    { Id: 1, Header: ' 	' },
+    { Id: 2, Header: 'SR.No 	' },
+    { Id: 3, Header: 'Subject' },
+    { Id: 4, Header: 'Title' },
+    { Id: 5, Header: 'Is Published? ', align: 'center' },
+    { Id: 6, Header: 'Complete By Date' }
   ];
 
   const dispatch = useDispatch();
@@ -120,10 +132,9 @@ const AddHomeworkNew = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: StandardDivisionId,
-    asHomeWorkStatus: HomeworkS,
-    asHomeworkTitle: Title,
-    asAssignedDate: AssignedDate
-  };
+    asHomeWorkStatus:HomeworkS,
+    asHomeworkTitle:'',
+    asAssignedDate:AssignedDate}
   
 
   const ResetForm = () => {
@@ -179,6 +190,11 @@ const AddHomeworkNew = () => {
 
   const clickSubjectList = (value) => {
     setSubject(value);
+  };
+
+  const Changevalue = (value) => {
+    // setitemPublish(value);
+    setSubjectList(value);
   };
 
   const ChangeFile = (value) => {
@@ -276,6 +292,9 @@ const AddHomeworkNew = () => {
       );
     }
   };
+  const clickTitle1 = (Id) => {
+    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
+  };
 
 
   //dropdown
@@ -288,9 +307,14 @@ const AddHomeworkNew = () => {
 
   }, []);
 
-  const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === SubjectId);
-   console.log(filteredSubjects,"filteredSubjects");
+ 
    
+   const remainingSubjectsList = Subjectlistsforteacher.filter(subjectItem => {
+   
+    return ClassSubject.filter(classSubjectItem => classSubjectItem.Id !== subjectItem.SubjectId);
+  });
+  
+console.log(remainingSubjectsList,"remainingSubjectsList");
 
 
   return (
@@ -497,6 +521,17 @@ const AddHomeworkNew = () => {
           HeaderArray={HeaderPublish}
           clickAttachment={clickFileName}
         />
+
+          <Box my={2}>
+            <SubjectList1
+              ItemList={remainingSubjectsList}
+              HeaderArray={HeaderPublish1}
+              onChange={Changevalue}
+              clickchange={''}
+              clickTitle={clickTitle1}
+            />
+          </Box>
+
 
         {openUploadMultipleDialog && (
           <UploadMultipleDialog

@@ -175,13 +175,14 @@ export const GetTeacherSubjectList =
       let a = response.data.map((item, i) => {
         return {
           Id: item.Id,
-          Text1: item.SubjectId,
-          Text2: item.Subject,
-          Text3: item.Title,
-          Text4: item.AssignedDate,
-          Text5: item.IsPublished,
+          SubjectId: item.SubjectId,
+          Text1: item.Subject,
+          Text2: item.Title,
+          Text3: item.AssignedDate,
+          Text4: item.CompleteByDate,
+          Text5: item.AttachmentPath,
           Text6: item.CompleteByDate,
-          Text7: item.AttachmentPath,
+          Text7: item.IsPublished,
           Text9: item.flag
         };
       });
