@@ -1,7 +1,7 @@
 import EditIcon from '@mui/icons-material/Edit';
 import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, IconButton, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -44,7 +44,7 @@ const ExamResultBase = () => {
   const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState('');
   const [Open, setOpen] = useState(false);
-
+  const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -293,7 +293,9 @@ const ExamResultBase = () => {
       value.Id.SubjectName + '/' + value.Id.SubjectId
     );
   }
-
+  const handleCheckboxChange = (value) => {
+    setsendmeassagestudent(value);
+  };
 
   const TermwiseHighwight = (value) => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
@@ -489,7 +491,21 @@ const ExamResultBase = () => {
         </Box>
 
       )}
-
+      {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
+        <Typography margin={'1px'}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={sendmeassagestudent}
+                onChange={(e) => {
+                  handleCheckboxChange(e.target.checked);
+                }}
+              />
+            }
+            label="Send Message and Mobile Notification"
+          />
+        </Typography>
+      )}
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
         <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
