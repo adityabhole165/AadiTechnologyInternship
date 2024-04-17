@@ -413,8 +413,8 @@ const AddLessonPlan = () => {
   const IsShowApprove = () => {
     let isShowApprove = false;
 
-    ApproverDetails?.map((Item, Index) => {
-      if (Index > 0) {
+    ApprovalCommentData?.map((Item, Index) => {
+      if (Item.ApprovalSortOrder != "0") {
         if (Item.ReportingUserId == asUserId) {
           isShowApprove = true;
         }
@@ -435,12 +435,7 @@ const AddLessonPlan = () => {
     });
     return returnVal;
   };
-  // const IsShowApprove = () => {
-  //   return !ApproverDetails?.some(Item => Item.UserId === asUserId);
-  // };
 
-
-  console.log(IsShowApprove(), "isShowApprove", asUserId, ApproverDetails);
   const OpenWindow = (sfilepath) => {
     window.open(sfilepath, '_new', 'scrollbars=yes,resizable=yes,top=0,left=0,width=800,height=600');
     return false;
@@ -582,25 +577,25 @@ const AddLessonPlan = () => {
               </Tooltip>
               </Box>}
 
-            {/* {perm == 'Y' && ( */}
-            <Box>
-              <Tooltip title={'Update Date'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: grey[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: green[600]
-                    }
-                  }}
-                  onClick={onClickUpdateDate}
-                  disabled={perm == 'Y'}
-                >
-                  <EventAvailable />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {/* } */}
+            {(perm == 'Y' && IsShowApprove()) && (
+              <Box>
+                <Tooltip title={'Update Date'}>
+                  <IconButton
+                    sx={{
+                      backgroundColor: grey[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: green[600]
+                      }
+                    }}
+                    onClick={onClickUpdateDate}
+                    disabled={perm == 'Y'}
+                  >
+                    <EventAvailable />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
           </>
 
 
