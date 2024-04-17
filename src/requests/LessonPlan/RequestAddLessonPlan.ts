@@ -15,6 +15,7 @@ const AddLessonPlanSlice = createSlice({
     GetEnableButtonList: [],
     Loading: true,
     ApproverDetails: [],
+    ApprovalData: [],
     SubmittedApproverDate: [],
     TeacherName: null
   },
@@ -32,6 +33,11 @@ const AddLessonPlanSlice = createSlice({
       state.Loading = false;
       state.ApproverDetails = action.payload;
     },
+    getApprovalData(state, action) {
+      state.Loading = false;
+      state.ApprovalData = action.payload;
+    },
+
     getSubmittedDate(state, action) {
       state.Loading = false;
       state.SubmittedApproverDate = action.payload;
@@ -166,13 +172,44 @@ export const GetAddOrEditLessonPlanDetails =
           CopyToArray: arrStdIdSubjectId
         })
       })
+      // })).sort((a, b) => Number(a.Text8) - Number(b.Text8));
+
+      const getApproveDate = (userId, DataType) => {
+        let returnVal = ""
+        response.data.GetLessonPlanStatusList.map((Item, i) => {
+          // console.log(Item.IsReportingUser, "== ", userId);
+          if (Item.ReportingUserId == userId) {
+            returnVal = (DataType == "Date" ? Item.UpdateDate : Item.Comment)
+          }
+        })
+        return returnVal
+      }
+      let ApprovalData = []
+
+      response.data.GetLessonPlanReportingConfigList
+        .sort((a, b) => Number(a.ApprovalSortOrder) - Number(b.ApprovalSortOrder))
+        .map((Item, i) => {
+          ApprovalData.push({
+            Id: Item.Id,
+            Text1: "Name:",
+            Text2: Item.ReportingUserName,
+            Text3: Item.ApprovalSortOrder == "0" ? "Submitted On:" : "Approved On:",
+            Text4: getApproveDate(Item.ReportingUserId, "Date"),
+            Text5: getApproveDate(Item.ReportingUserId, "Comment"),
+            ApprovalSortOrder: Item.ApprovalSortOrder,
+            ReportingUserId: Item.ReportingUserId
+          })
+
+        })
 
       dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
       dispatch(AddLessonPlanSlice.actions.getApproverDetails(response.data.GetLessonPlanReportingConfigList));
+      dispatch(AddLessonPlanSlice.actions.getApprovalData(ApprovalData));
       dispatch(AddLessonPlanSlice.actions.getSubmittedDate(response.data.GetLessonPlanStatusList));
       dispatch(AddLessonPlanSlice.actions.getTeacherName(
         response.data.GetTeacherName.length > 0 ? response.data.GetTeacherName[0] : null
       ));
+
     };
 export const SaveLessonPlan =
   (data: ISaveLessonPlanBody): AppThunk =>

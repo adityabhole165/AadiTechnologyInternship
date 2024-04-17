@@ -5,7 +5,7 @@ import HowToReg from '@mui/icons-material/HowToReg';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import Translate from '@mui/icons-material/Translate';
-import { Box, Grid, IconButton, Stack, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
+import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveAp
 import { RootState } from 'src/store';
 import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
 
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
@@ -83,12 +84,14 @@ const AddLessonPlan = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asReportingUserId = Number(sessionStorage.getItem('asReportingUserId'));
-
+  const [ApprovalCommentData, setApprovalCommentData] = useState([])
 
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
   const TeacherName = useSelector((state: RootState) => state.addlessonplan.TeacherName);
   const ApproverDetails: any = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
+  const ApprovalData: any = useSelector((state: RootState) => state.addlessonplan.ApprovalData);
+
   const SubmittedApproverDate: any = useSelector((state: RootState) => state.addlessonplan.SubmittedApproverDate);
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   console.log(SaveLessonPlan, "SaveLessonPlan");
@@ -106,6 +109,11 @@ const AddLessonPlan = () => {
   useEffect(() => {
     setApproverComment(SubmittedApproverDate)
   }, [SubmittedApproverDate])
+
+  useEffect(() => {
+    setApprovalCommentData(ApprovalData)
+  }, [ApprovalData])
+
   function getXML() {
     let a = [];
     let asLessonPlanXML = "<ArrayOfLessonPlanDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
@@ -380,12 +388,12 @@ const AddLessonPlan = () => {
 
     dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
   };
-  const onClickApproverComment = (value, index) => {
-    setApproverComment(SubmittedApproverDate.map((Item, i) => {
-      return i == index ? { ...Item, Comment: value } : Item
+  const onChangeApproverComment = (value, index) => {
+    setApprovalCommentData(ApprovalData.map((Item, i) => {
+      return i == index ? { ...Item, Text5: value } : Item
     }))
-
   };
+
   const cliclApprove = () => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
@@ -690,62 +698,9 @@ const AddLessonPlan = () => {
           </Grid>
           }
           <Grid item xs={12}>
-            <Typography variant={"h5"} mb={1}>
-              Activity
-            </Typography>
-            {ApproverDetails?.map((Item, i) => {
+            <LessonPlanActivity ApprovalData={ApprovalCommentData}
+              errorComment={errorComment} onChangeApproverComment={onChangeApproverComment} />
 
-              return (<Grid container key={i}>
-                < Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                  <Typography color={"primary"} fontWeight={"bold"}>
-                    Name:
-                  </Typography>
-                </Grid>
-                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                  <Typography color={"primary"}>
-                    {Item.ReportingUserName}
-                  </Typography>
-                </Grid>
-                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={6}>
-                  <Stack direction={"row"} alignItems={"center"} gap={2}>
-                    <Typography color={"primary"} fontWeight={"bold"}>
-                      {i == 0 ? "Submitted On:" : "Approved On:"}
-                    </Typography>
-                    {i === 0 ? ( // Conditionally render submitted date
-                      <Typography color={"primary"}>
-                        {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
-                      </Typography>
-                    ) : (
-                      SubmittedApproverDate && SubmittedApproverDate.length > i && ( // Conditionally render approval dates
-                        <Typography color={"primary"}>
-                          {SubmittedApproverDate[i].UpdateDate}
-                        </Typography>
-                      )
-                    )}
-                  </Stack>
-                </Grid>
-                {i != 0 &&
-                  <Grid xs={12} md={12} item>
-                    <TextField
-                      disabled={Item.ReportingUserId != asUserId}
-                      multiline
-                      value={ApproverComment[i]?.Comment || ''}
-                      onChange={(e) => {
-                        onClickApproverComment(e.target.value, i);
-                      }}
-                      error={errorComment !== ''}
-                      helperText={errorComment}
-                      fullWidth
-                      label={"Comment"}
-                      sx={{
-                        resize: 'both'
-                      }}
-                    />
-                  </Grid>
-                }
-              </Grid>)
-            })
-            }
           </Grid>
         </Grid>
       </Box>
