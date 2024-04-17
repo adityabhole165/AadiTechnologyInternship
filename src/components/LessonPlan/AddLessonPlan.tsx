@@ -100,7 +100,6 @@ const AddLessonPlan = () => {
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
   const GetEnableButtonList: any = useSelector((state: RootState) => state.addlessonplan.GetEnableButtonList);
   const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
-  //  console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
 
   // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
   // const EnableSubmitButton = GetEnableButtonList.EnableSubmitButton;
@@ -250,13 +249,11 @@ const AddLessonPlan = () => {
     let returnVal = true;
 
     if (isGreaterThanDate(StartDate, EndDate)) {
-      console.log(returnVal, "returnVal -- 1",);
 
       seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
       returnVal = false
     } else
       if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
-        console.log(returnVal, "returnVal -- 2",);
         seterrorStartDate('Please fix following error(s): Date(s) should not be out of academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
           ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
@@ -264,7 +261,6 @@ const AddLessonPlan = () => {
       } else seterrorStartDate('')
     if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))
     ) {
-      console.log(returnVal, "returnVal -- 3",);
       seterrorEndDate(' Please fix following error(s): Date(s) should not be out of academic year.' +
         '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
         ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
@@ -286,7 +282,6 @@ const AddLessonPlan = () => {
     });
 
     if (!IsPlan) {
-      console.log(returnVal, "returnVal -- 4",);
       seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.");
       returnVal = false;
     } else {
@@ -298,15 +293,13 @@ const AddLessonPlan = () => {
       returnVal = false;
     }
 
-    console.log(ApproverComment, "returnVal", IsPlan);
-
     return returnVal;
   };
 
   const getIsApproverComment = () => {
     let returnVal = true
-    ApproverComment.map((Item, i) => {
-      if (i != 0 && Item.ReportingUserId == asUserId) {
+    ApprovalCommentData.map((Item, i) => {
+      if (Item.ApprovalSortOrder != 0 && Item.ReportingUserId == asUserId) {
         if (Item.Comment == "") {
           returnVal = false
         }
@@ -314,35 +307,68 @@ const AddLessonPlan = () => {
     })
     return returnVal
   }
-  const getApproverComment = () => {
-    let returnVal = ""
-    ApproverComment.map((Item, i) => {
-      if (i != 0 && Item.ReportingUserId == asUserId) {
-        returnVal = Item.Comment
+
+  const getIsApproved = () => {
+    let returnVal = true
+    ApprovalCommentData.map((Item, i) => {
+      if (Item.ApprovalSortOrder != 0 && Item.ReportingUserId == asUserId) {
+        returnVal = Item.IsPublished == "True"
       }
     })
-    return ""
+    return returnVal
+  }
+
+  const getApproverComment = () => {
+    let returnVal = ""
+    ApprovalCommentData.map((Item, i) => {
+      if (Item.ApprovalSortOrder != 0 && Item.ReportingUserId == asUserId) {
+        returnVal = Item.Text5
+      }
+    })
+
+    return returnVal
+  }
+
+  const IsApprover = () => {
+    let returnVal = false
+    ApprovalCommentData.map((Item, i) => {
+      if (Item.ApprovalSortOrder != 0 && Item.ReportingUserId == asUserId) {
+        returnVal = true
+      }
+    })
+    return returnVal
+  }
+  const IsSubmitter = () => {
+    let returnVal = false
+    ApprovalCommentData.map((Item, i) => {
+      if (Item.ApprovalSortOrder == 0 && Item.ReportingUserId == asUserId) {
+        returnVal = true
+      }
+    })
+    return returnVal
   }
   const onClickSave = () => {
-    if (IsFormValid()) {
-      const SaveLessonPlanBody: ISaveLessonPlanBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-        asReportingUserId: Number(asUserId),
-        aasStartDate: StartDate,
-        aasEndDate: EndDate,
-        asLessonPlanXml: getXML(),
-        asUpdatedById: Number(UpdatedById),
-        asOldStartDate: OldStartDate,
-        asOldEndDate: OldEndDate,
-      };
-      dispatch(SaveLessonPlan(SaveLessonPlanBody))
-      console.log(SaveLessonPlans, "SaveLessonPlan")
+    if (IsApprover())
+      clickSaveApproverComments()
+    else
+      if (IsFormValid()) {
+        const SaveLessonPlanBody: ISaveLessonPlanBody = {
+          asSchoolId: asSchoolId,
+          asAcademicYearId: asAcademicYearId,
+          asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+          asReportingUserId: Number(asUserId),
+          aasStartDate: StartDate,
+          aasEndDate: EndDate,
+          asLessonPlanXml: getXML(),
+          asUpdatedById: Number(UpdatedById),
+          asOldStartDate: OldStartDate,
+          asOldEndDate: OldEndDate,
+        };
+        dispatch(SaveLessonPlan(SaveLessonPlanBody))
 
-      setActionMode('Edit')
+        setActionMode('Edit')
 
-    }
+      }
   };
   const onClickSubmit = () => {
     if (confirm('After this action you will not be able to change any details. Do you want to continue?')) {
@@ -394,7 +420,7 @@ const AddLessonPlan = () => {
     }))
   };
 
-  const cliclApprove = () => {
+  const clickSaveApproverComments = () => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
@@ -440,7 +466,14 @@ const AddLessonPlan = () => {
     window.open(sfilepath, '_new', 'scrollbars=yes,resizable=yes,top=0,left=0,width=800,height=600');
     return false;
   }
-
+  const GetEnableStatus = () => {
+    let returnVal = false
+    if (IsSubmitter()) {
+      returnVal = GetEnableButtonList.length > 0 &&
+        GetEnableButtonList[0].EnableSaveButton == "False"
+    }
+    return returnVal
+  }
   const FileLink = ({ filePath, fileName }) => {
     const handleClick = () => {
       OpenWindow(filePath);
@@ -539,23 +572,25 @@ const AddLessonPlan = () => {
                   </IconButton>
                 </Tooltip>
               </Box>}
-            <Box>
-              <Tooltip title={'Save'}>
-                <IconButton
-                  disabled={GetEnableButtonList.length > 0 && GetEnableButtonList[0].EnableSaveButton == "False"}
-                  sx={{
-                    backgroundColor: green[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: green[600]
-                    }
-                  }}
-                  onClick={onClickSave}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            </Box>
+            {!getIsApproved() &&
+              <Box>
+                <Tooltip title={'Save'}>
+                  <IconButton
+                    disabled={GetEnableStatus()}
+                    sx={{
+                      backgroundColor: green[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: green[600]
+                      }
+                    }}
+                    onClick={onClickSave}
+                  >
+                    <Save />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            }
 
             {IsShowApprove() &&
 

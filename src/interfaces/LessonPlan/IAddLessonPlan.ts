@@ -50,7 +50,8 @@ export interface IAddOrEditLessonPlanDetailsResult {
     ReportingUserId: string,
     ReportingUserName: string,
     IsFinalApprover: string,
-    ApprovalSortOrder: string
+    ApprovalSortOrder: string,
+    IsPublished: string
   }],
   GetLessonPlanCommentList: [{
     Id: string,
