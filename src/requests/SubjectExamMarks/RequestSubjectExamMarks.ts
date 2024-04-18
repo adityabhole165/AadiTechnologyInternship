@@ -197,6 +197,19 @@ export const getSubjectExamMarkslist =
                         Student_Id: StudentIdParam
                     });
                 });
+                if (arr.length == 0) {
+                    arr.push({
+                        Id: "0",
+                        Text1: "",
+                        Text2: "",
+                        ExamStatus: "N",
+                        ExamGrade: "0",
+                        IsActive: true,
+                        IsActiveGrade: true,
+                        ErrorMessage: "",
+                        Student_Id: StudentIdParam
+                    });
+                }
                 return arr
             }
             const getMarksForStudent = (StudentId) => {
@@ -244,18 +257,28 @@ export const getSubjectExamMarkslist =
             const ExamMarkHeader = {
                 Text1: "Roll No.",
                 Text2: "Student Name",
-                Text4: response2.data.listTestDetailss.map((Item, i) => {
-                    return {
-                        Id: Item.TestType_Id,
-                        Text1: Item.TestType_Name + "/" + Item.TestType_Total_Marks,
+                Text4: response2.data.listTestDetailss.length > 0 ?
+                    response2.data.listTestDetailss.map((Item, i) => {
+                        return {
+                            Id: Item.TestType_Id,
+                            Text1: Item.TestType_Name + "/" + Item.TestType_Total_Marks,
+                            Text2: "",
+                            Text3: "0",
+                            Text4: "Exam Status",
+
+                            setErrorMessage: "",
+                        };
+                    }) :
+                    [{
+                        Id: "0",
+                        Text1: "",
                         Text2: "",
                         Text3: "0",
                         Text4: "Exam Status",
-
                         setErrorMessage: "",
-                    };
-                }),
-                Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
+                    }],
+                Text5: "Total/" + (response2.data.listTestDetailss.length > 0 ?
+                    response2.data.listTestDetailss[0].TotalMarks : "")
             }
             dispatch(SubjectExamMarksslice.actions.GetExamMarkHeader(ExamMarkHeader));
 
