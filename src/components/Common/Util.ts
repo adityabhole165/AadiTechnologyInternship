@@ -5,6 +5,7 @@ export function isFutureDate(date) {
   );
 }
 export function isGreaterThanDate(date1, date2) {
+
   return (
     new Date(date1) >
     new Date(date2)
@@ -96,22 +97,11 @@ export const getDateMonthYearFormattedDash = (date) => {
 
 export const getDateMonthYearFormatted = (date) => {
   let arrDate = date.split(' ')[0].split('-');
-  const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-
   return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
+};
+export const getYearFirstDateFormatted = (date) => {
+  let arrDate = date.split(' ')[0].split('-');
+  return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
 };
 export const getDateMonthSpace = (date) => {
   let arrDate = date.split(' ')[0].split('-');

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SubjectExamMarksApi from 'src/api/SubjectExamMarks/ApiSubjectExamMarks';
+import { isGreaterThanDate } from 'src/components/Common/Util';
 import {
     IGetAllGradesForSubjectMarkListBody,
     IGetAllStudentsForMarksAssignmentsBody,
@@ -212,21 +213,23 @@ export const getSubjectExamMarkslist =
                 }
                 return arr
             }
-            const getMarksForStudent = (StudentId) => {
+            const getMarksForStudent = (StudentId, JoiningDate) => {
                 let arr = [];
                 response2.data.listStudentTestMarkDetails.map((Item, i) => {
-                    if (Item.Student_Id == StudentId)
+                    if (Item.Student_Id == StudentId) {
                         arr.push({
                             Id: Item.TestType_Id,
                             Text1: Item.Marks_Scored.toString(),
                             Text2: Item.TestType_Total_Marks,
-                            ExamStatus: Item.Is_Absent,
+                            ExamStatus: isGreaterThanDate(JoiningDate, Item.Test_Date) ? "J" : Item.Is_Absent,
                             ExamGrade: Item.Assigned_Grade_Id,
                             IsActive: true,
                             IsActiveGrade: true,
                             ErrorMessage: "",
-                            Student_Id: Item.Student_Id
+                            Student_Id: Item.Student_Id,
+                            JoiningDate: Item.Joining_Date
                         });
+                    }
                 });
                 return arr.length > 0 ? arr : getMarksForStudentBlank(StudentId);
             }
@@ -245,8 +248,9 @@ export const getSubjectExamMarkslist =
                     Id: Item.Student_Id,
                     Text1: Item.Roll_No,
                     Text2: Item.Name,
-                    MarksForStudent: getMarksForStudent(Item.Student_Id),
+                    MarksForStudent: getMarksForStudent(Item.Student_Id, Item.Joining_Date),
                     TotalMarks: getTotalMarksForStudent(Item.Student_Id),
+                    JoiningDate: Item.Joining_Date
                 });
             });
 

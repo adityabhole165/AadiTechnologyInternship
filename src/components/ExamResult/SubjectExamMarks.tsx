@@ -22,7 +22,7 @@ import {
   resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
@@ -175,6 +175,19 @@ const SubjectExamMarks = () => {
   useEffect(() => {
     setMarksAssignment(StudentsForMarksAssignment)
   }, [StudentsForMarksAssignment])
+  useEffect(() => {
+    setMarksAssignment(StudentsForMarksAssignment.map((Item) => {
+      return {
+        ...Item,
+        MarksForStudent: Item.MarksForStudent.map((Obj) => {
+          return {
+            ...Obj,
+            ExamStatus: isGreaterThanDate(getDateMonthYearFormatted(Item.JoiningDate), getYearFirstDateFormatted(TestDate)) ? "J" : Obj.ExamStatus,
+          }
+        })
+      }
+    }))
+  }, [TestDate])
   useEffect(() => {
     setHeaderDetails(ExamMarkHeader)
   }, [ExamMarkHeader])

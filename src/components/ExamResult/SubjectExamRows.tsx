@@ -58,8 +58,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
                                             }}
-                                            // disabled={IsReadOnly || !Item.IsActive}
-                                            disabled={!Item.IsActive}
+                                            disabled={!(Item.ExamStatus == "N")}
                                             value={Item.Text1}
                                             onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
 
