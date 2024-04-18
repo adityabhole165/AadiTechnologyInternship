@@ -368,8 +368,8 @@ const AddLessonPlan = () => {
           aasEndDate: EndDate,
           asLessonPlanXml: getXML(),
           asUpdatedById: Number(UpdatedById),
-          asOldStartDate: OldStartDate,
-          asOldEndDate: OldEndDate,
+          asOldStartDate: StartDateParam,
+          asOldEndDate: EndDateParam,
         };
         dispatch(SaveLessonPlan(SaveLessonPlanBody))
 
