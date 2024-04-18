@@ -10,7 +10,8 @@ import {
 import Homeworkview from 'src/libraries/ResuableComponents/Homeworkview';
 import {
   DeleteDocument,
-  GetAllHomeworkDocuments
+  GetAllHomeworkDocuments,
+  deleteresetMessage
 } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -58,11 +59,20 @@ const HomeworkDocuments = () => {
       };
 
       dispatch(DeleteDocument(DeleteHomeworkDocumentBody))
-      toast.success('HomeworkDocument delete successfully....!', { toastId: 'success1' });
-      dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
+      
 
     }
   };
+
+
+  useEffect(() => {
+    if (DeleteHomeworkDocument !== '') {
+      toast.success(DeleteHomeworkDocument, );
+      dispatch(deleteresetMessage());
+      dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
+
+    }
+  }, [DeleteHomeworkDocument]);
 
   const click = () => {
     navigate('/extended-sidebar/Teacher/AddHomework');

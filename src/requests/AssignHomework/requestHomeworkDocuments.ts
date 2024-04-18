@@ -10,7 +10,7 @@ const HomeworkdocumentSlice = createSlice({
   name: 'HomeworkDocuments',
   initialState: {
     GetAllHomeworkDocuments: [],
-    DeleteHomeworkDocument: null
+    DeleteHomeworkDocument: ''
   },
 
   reducers: {
@@ -19,7 +19,12 @@ const HomeworkdocumentSlice = createSlice({
     },
     DeleteHomeworkDocument(state, action) {
       state.DeleteHomeworkDocument = action.payload;
-    }
+    },
+
+    rdeleteresetMessage(state) {
+      state.DeleteHomeworkDocument = '';
+    },
+    
   }
 });
 
@@ -62,5 +67,11 @@ export const DeleteDocument =
       HomeworkdocumentSlice.actions.DeleteHomeworkDocument(response.data)
     );
   };
+
+  export const  deleteresetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(HomeworkdocumentSlice.actions.rdeleteresetMessage());
+  };
+
+  
 
 export default HomeworkdocumentSlice.reducer;

@@ -41,7 +41,7 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
-  const [HomeworkS, setHomeworkS] = useState('0');
+  const [HomeworkS, setHomeworkS] = useState('1');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
@@ -331,12 +331,12 @@ const AddHomeworkNew = () => {
 
   };
 
-  useEffect(() => {
-    if (HomeworkStatus.length > 0) {
-      setHomeworkS(HomeworkStatus[0].Value);
-    }
-  }, [HomeworkStatus]);
-  
+  // useEffect(() => {
+  //   if (HomeworkStatus.length > 0) {
+  //     setHomeworkS(HomeworkStatus[0].Id);
+  //   }
+  // }, []);
+
   //dropdown
   useEffect(() => {
     dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
@@ -348,13 +348,18 @@ const AddHomeworkNew = () => {
   }, [HomeworkS , AssignedDate]);
 
   const [SearchTittle, setSearchTittle] = useState([]);
+  const [SearchTittle1, setSearchTittle1] = useState([]);
+
+
   useEffect(() => {
-    setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId == Subject))
+    setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject))
   }, [Subjectlistsforteacher ])
 
-  const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
+  // const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
 
-
+  useEffect(() => {
+    setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject))
+  }, [Subjectlistsforteacher ])
  
 
 
@@ -367,7 +372,7 @@ const AddHomeworkNew = () => {
     } else {
       setSearchTittle(
         Subjectlistsforteacher.
-          filter((item) => item.SubjectId == Subject).
+          filter((item) => item.SubjectId == Subject ).
           filter((item) => {
             return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
           })
@@ -623,7 +628,7 @@ const AddHomeworkNew = () => {
 
           </Grid>
           <Grid item xs={1}>
-            <Button onClick={changeSearchText} variant="contained">
+            <Button onClick={changeSearchText} variant="contained" disabled={!SearchText}>
               Search
             </Button>
           </Grid>
@@ -667,7 +672,7 @@ const AddHomeworkNew = () => {
         <Typography variant={"h4"} my={1}>
         Assigned homework for selected subject :
       </Typography>
-        {Subjectlistsforteacher.length > 0? (
+        {Subjectlistsforteacher.length >  0? (
         <SelectedsubjectList
           ItemList={SearchTittle}
           clickView={clickTitle}
@@ -689,9 +694,9 @@ const AddHomeworkNew = () => {
         <Typography variant={"h4"} my={1}>
         Homework assigned for other subjects :
       </Typography>
-          {Subjectlistsforteacher.length > 0? (
+          {Subjectlistsforteacher.length >  0 ? (
              <SubjectList1
-             ItemList={Homework_assigned_for_other_subjects}
+             ItemList={SearchTittle1}
              HeaderArray={HeaderPublish1}
              onChange={Changevalue}
              clickchange={''}
