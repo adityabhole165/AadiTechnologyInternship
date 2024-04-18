@@ -372,7 +372,7 @@ const AddHomeworkNew = () => {
     } else {
       setSearchTittle(
         Subjectlistsforteacher.
-          filter((item) => item.SubjectId == Subject ).
+          filter((item) => item.SubjectId === Subject ).
           filter((item) => {
             return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
           })
@@ -628,7 +628,7 @@ const AddHomeworkNew = () => {
 
           </Grid>
           <Grid item xs={1}>
-            <Button onClick={changeSearchText} variant="contained" disabled={!SearchText}>
+            <Button onClick={changeSearchText} variant="contained"  style={ {backgroundColor: '#5ac8fa',color: 'white'}}  disabled={!SearchText}>
               Search
             </Button>
           </Grid>
@@ -662,7 +662,7 @@ const AddHomeworkNew = () => {
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOk} variant={'contained'}>
+            <Button onClick={ClickOk} variant={'contained'} >
               Confirm
             </Button>
           </DialogActions>
