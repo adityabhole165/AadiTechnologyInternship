@@ -242,12 +242,15 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       ExamStatus={ExamStatus}
                       changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
-                      IsReadOnly={true}
+                      IsReadOnly={IsReadOnly}
                       IsMark={IsMark} />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
                       <TableCell>
-                        <TextField sx={{ width: '80px' }} size={"small"}
+                        <TextField sx={{
+                          width: '80px',
+                          background: "#f5f5f5"
+                        }} size={"small"}
                           disabled
                           value={getTotalMarks(Item.MarksForStudent)}
 

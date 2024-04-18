@@ -5,7 +5,9 @@ const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
 };
-const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMarkList, ExamStatus, changeExamStatus, changeExamGrade, IsReadOnly, IsMark }) => {
+const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
+    GradesForSubjectMarkList, ExamStatus, changeExamStatus,
+    changeExamGrade, IsReadOnly, IsMark }) => {
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
@@ -44,7 +46,9 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                                         ExamStatus.filter((Item) => { return Item.Value != "J" })
                                 }
                                 handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
-                            // disabled={IsReadOnly}
+                                disabled={IsReadOnly == "true" ||
+                                    (Item.IsLateJoinee &&
+                                        Item.AllowMarksEntryForLateJoin == "false")}
 
                             />
                             {IsMark ? (
@@ -60,7 +64,10 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                                             sx={{
                                                 width: '50px',
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
-                                                borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
+                                                borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
+                                                background: (!(Item.ExamStatus == "N") ?
+                                                    "#f5f5f5" : "")
+
                                             }}
                                             disabled={!(Item.ExamStatus == "N")}
                                             value={Item.Text1}

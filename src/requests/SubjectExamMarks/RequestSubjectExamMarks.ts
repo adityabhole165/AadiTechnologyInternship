@@ -197,7 +197,8 @@ export const getSubjectExamMarkslist =
                         ErrorMessage: "",
                         Student_Id: StudentIdParam,
                         JoiningDate: JoiningDate,
-                        IsLateJoinee: false
+                        IsLateJoinee: false,
+                        AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin
                     });
                 });
                 if (arr.length == 0) {
@@ -212,7 +213,8 @@ export const getSubjectExamMarkslist =
                         ErrorMessage: "",
                         Student_Id: StudentIdParam,
                         JoiningDate: JoiningDate,
-                        IsLateJoinee: false
+                        IsLateJoinee: false,
+                        AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin
                     });
                 }
                 return arr
@@ -233,7 +235,8 @@ export const getSubjectExamMarkslist =
                             ErrorMessage: "",
                             Student_Id: Item.Student_Id,
                             JoiningDate: Item.Joining_Date,
-                            IsLateJoinee: IsLateJoinee
+                            IsLateJoinee: IsLateJoinee,
+                            AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin
                         });
                     }
                 });

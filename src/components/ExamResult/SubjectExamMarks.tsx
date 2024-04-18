@@ -264,7 +264,7 @@ const SubjectExamMarks = () => {
             "\" Subject_Id=\"" + SubjectId +
             "\" Is_Absent=\"" + Item.ExamStatus + "\" " +
             "TestType_Id=\"" + Item.Id +
-            "\" Marks_Scored=\"" + parseInt(Item.Text1) +
+            "\" Marks_Scored=\"" + parseInt(Item.Text1 == "" ? "0" : Item.Text1) +
             "\" Assigned_Grade_Id=\"\" />"
         }
       })
@@ -551,7 +551,7 @@ const SubjectExamMarks = () => {
             onChangeExamStatus={onChangeExamStatus}
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
-            IsReadOnly={true}
+            IsReadOnly={IsReadOnly}
             IsMark={TestName.Grade_Or_Marks == "M"}
 
           />

@@ -136,7 +136,8 @@ export interface IGetSubjectExamMarkslistsResult {
             IsCoCurricullar: string
         }
     ],
-    listYearwiseStudentId: []
+    listYearwiseStudentId: [],
+    AllowMarksEntryForLateJoin: string
 }
 export interface IManageStudentsTestMarkBody {
     asTestWise_Subject_Marks_Id: number,
