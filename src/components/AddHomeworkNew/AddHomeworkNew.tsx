@@ -266,7 +266,7 @@ const AddHomeworkNew = () => {
       asIsPublish: IsPublish,
       asIsSMSSent: true
     };
-  
+
     dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
   }
@@ -278,7 +278,7 @@ const AddHomeworkNew = () => {
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
     }
   }, [USPublishUnpublishHomework]);
-  
+
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == true) {
@@ -289,8 +289,18 @@ const AddHomeworkNew = () => {
       setPublishId(Id);
     }
   };
-  
-  
+
+  const ClickOk = () => {
+    if (Details !== '') {
+      clickPublishUnpublish(publishId);
+      setOpenPublishDialog(false);
+      setDetails1('');
+    } else {
+      toast.error('Please provide a reason for unpublishing.');
+    }
+  };
+
+
 
 
 
@@ -624,30 +634,41 @@ const AddHomeworkNew = () => {
           </Grid>
         </Grid>
 
-        
-        <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)}>
-  <DialogTitle>Confirmation</DialogTitle>
-  <DialogContent>
-    <Typography>
-      <TextField
-        multiline
-        rows={3}
-        value={Details}
-        onChange={(e) => {
-          setDetails(e.target.value);
-        }}
-        sx={{ width: '100%' }}
-      />
-    </Typography>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={() => setOpenPublishDialog(false)}>Cancel</Button>
-    <Button onClick={() => {
-      setOpenPublishDialog(false);
-      PublishUnpublish(publishId); // Call PublishUnpublish function with the publishId
-    }}>Unpublish</Button>
-  </DialogActions>
-</Dialog>
+
+        <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)} fullWidth
+          maxWidth={'sm'}>
+          <DialogTitle
+            sx={{
+              backgroundColor: (theme) => theme.palette.primary.main,
+              py: 1
+            }}
+          ></DialogTitle>
+          <DialogContent dividers sx={{ px: 4 }}>
+            <Typography variant={"h4"} sx={{ mb: 1 }}>
+              Unpublish Reason
+            </Typography>
+            <TextField
+              multiline
+              rows={3}
+              value={Details1}
+              onChange={(e) => {
+                setDetails1(e.target.value);
+              }}
+              sx={{ width: '100%' }}
+            />
+
+          </DialogContent>
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button onClick={() => {
+              setOpenPublishDialog(false)
+            }} color={'error'}>
+              Cancel
+            </Button>
+            <Button onClick={ClickOk} variant={'contained'}>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
 
 
 
@@ -663,7 +684,7 @@ const AddHomeworkNew = () => {
           clickAttachment={clickFileName}
         />
 
-      
+
 
         <Box my={2}>
           <SubjectList1
