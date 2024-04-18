@@ -88,17 +88,21 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   }
   const changeText = (value, StudentId, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
+      let total = 0
       return {
         ...Item,
         MarksForStudent: (Item.Id == StudentId) ?
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
+              total += value == "" ? 0 : Number(value)
               return { ...obj, Text1: value }
             }
-            else
+            else {
+              total += obj.Text1 == "" ? 0 : Number(obj.Text1)
               return obj
-
-          }) : Item.MarksForStudent
+            }
+          }) : Item.MarksForStudent,
+        TotalMarks: total
       }
     })
     onChangeExamStatus(StudentsForMarksAssignment)
@@ -131,10 +135,14 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   const getTotalMarks = (arrTotal) => {
 
     let total = 0
+    let bDirty = false
     arrTotal.map((Item) => {
-      total = total + Number(Item.Text1)
+      if (Item.Text1 != "") {
+        bDirty = true
+        total = total + Number(Item.Text1)
+      }
     })
-    return total
+    return bDirty ? total : ""
 
   }
   // const getDropdownName = (arrDropdown) => {
@@ -252,7 +260,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                           background: "#f5f5f5"
                         }} size={"small"}
                           disabled
-                          value={getTotalMarks(Item.MarksForStudent)}
+                          value={Item.TotalMarks}
+                        // value={getTotalMarks(Item.MarksForStudent)}
 
                         // value={Item.TotalMarks} 
                         />

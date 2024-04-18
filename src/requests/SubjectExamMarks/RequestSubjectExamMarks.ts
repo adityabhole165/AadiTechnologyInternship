@@ -246,11 +246,13 @@ export const getSubjectExamMarkslist =
 
 
             const getTotalMarksForStudent = (StudentId) => {
-                let TotalMarks = "0"
+                let TotalMarks = ""
                 response2.data.listStudentTestMarkDetails.map((Item, i) => {
-                    if (Item.Student_Id == StudentId)
+                    if (Item.Student_Id == StudentId) {
                         TotalMarks = Item.Total_Marks_Scored
+                    }
                 });
+
                 return TotalMarks
             }
             response1.data.map((Item, i) => {
