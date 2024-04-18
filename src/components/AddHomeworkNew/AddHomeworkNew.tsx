@@ -102,7 +102,6 @@ const AddHomeworkNew = () => {
   const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
-  console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
 
   const DeleteHomework = useSelector(
     (state: RootState) => state.AddHomework.DeleteHomework
@@ -270,7 +269,7 @@ const AddHomeworkNew = () => {
     };
 
     dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+
   }
 
 
@@ -286,21 +285,21 @@ const AddHomeworkNew = () => {
   };
 
 
-  const Detailschnage = (event) =>{
+  const Detailschnage = (event) => {
     setText(event.target.value)
   }
 
 
   useEffect(() => {
     if (USPublishUnpublishHomework !== '') {
-      toast.success(USPublishUnpublishHomework);
+      toast.success(USPublishUnpublishHomework, { toastId: 'success1' });
       dispatch(PublishresetMessage());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
     }
   }, [USPublishUnpublishHomework]);
 
- 
- 
+
+
 
   const ClickOk = () => {
     if (text !== '') {
@@ -337,8 +336,10 @@ const AddHomeworkNew = () => {
 
   }, []);
 
-
-  const Assigned_homework_for_selected_subject = Subjectlistsforteacher.filter((item) => item.SubjectId == Subject);
+  const [SearchTittle, setSearchTittle] = useState([]);
+  useEffect(() => {
+    setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId == Subject))
+  }, [Subjectlistsforteacher])
   const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
 
 
@@ -351,22 +352,21 @@ const AddHomeworkNew = () => {
 
 
   const [SearchText, setSearchText] = useState('');
-  const [SearchTittle, setSearchTittle] = useState([
-    Subjectlistsforteacher
-  ]);
 
-  // const changeSearchText = () => {
-  //   if (SearchText === '') {
-  //     setSearchTittle(Subjectlistsforteacher);
-  //   } else {
-  //     setSearchTittle(
-  //       Subjectlistsforteacher.filter((item) => {
 
-  //         return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-  //       })
-  //     );
-  //   }
-  // };
+  const changeSearchText = () => {
+    if (SearchText === '') {
+      setSearchTittle(Subjectlistsforteacher);
+    } else {
+      setSearchTittle(
+        Subjectlistsforteacher.
+          filter((item) => item.SubjectId == Subject).
+          filter((item) => {
+            return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+          })
+      );
+    }
+  };
 
 
 
@@ -375,18 +375,18 @@ const AddHomeworkNew = () => {
   };
 
 
-  const changeSearchText = (value) => {
-    if (typeof value === 'string' && value.trim() !== '') {
-      setAssignedDate(value);
-      setSearchText(value);
-    }
+  // const changeSearchText = (value) => {
+  //   if (typeof value === 'string' && value.trim() !== '') {
+  //     setAssignedDate(value);
+  //     setSearchText(value);
+  //   }
 
-    if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
-      toast.success('No Records Found');
-    }
-    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+  //   if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
+  //     toast.success('No Records Found');
+  //   }
+  //   dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
-  };
+  // };
 
   return (
     <>
@@ -445,9 +445,9 @@ const AddHomeworkNew = () => {
                       height: '36px !important',
                       ':hover': { backgroundColor: green[600] }
                     }}
-
+                    onClick={ClickSaveHomework}
                   >
-                    <SaveIcon onClick={ClickSaveHomework} />
+                    <SaveIcon />
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -672,7 +672,7 @@ const AddHomeworkNew = () => {
 
 
         <SelectedsubjectList
-          ItemList={Assigned_homework_for_selected_subject}
+          ItemList={SearchTittle}
           clickView={clickTitle}
           clickDelete={clickDelete}
           clickEdit={handleEditClick}
