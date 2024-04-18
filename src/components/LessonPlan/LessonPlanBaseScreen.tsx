@@ -111,13 +111,6 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISGetAllTeachersOfLessonPlan
   );
 
-  const GetScreenPermission = () => {
-    let perm = 'N';
-    ScreensAccessPermission?.map((item) => {
-      if (item.ScreenName === 'LessonPlan') perm = item.IsFullAccess;
-    });
-    return perm;
-  };
 
 
 
@@ -146,19 +139,8 @@ const LessonPlanBaseScreen = () => {
   };
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
-  }, [StartDate, EndDate]);
+  }, [StartDate, EndDate, selectClasstecahernew]);
 
-
-
-
-
-  useEffect(() => {
-
-    if (CanEdit == 'Y') {
-      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
-
-    }
-  }, [selectClasstecahernew]);
 
 
   const GetAllLessonPlanReportingConfigsBody: IGetAllLessonPlanReportingConfigsBody = {
@@ -212,7 +194,7 @@ const LessonPlanBaseScreen = () => {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asReportingUserId: asUserId,
-      asIsFullAccess: `${GetScreenPermission() == 'Y' ? 0 : selectClasstecahernew}`
+      asIsFullAccess: `${CanEdit == 'Y' ? 0 : selectClasstecahernew}`
     }
 
     dispatch(CDAGetAllTeachersOfLessonPlan(GetAllTeachersOfLessonBody));
@@ -292,7 +274,7 @@ const LessonPlanBaseScreen = () => {
   }, [DeleteLessonPlan, dispatch, GetLessonPlanListBody, isDeleteEffectTriggered]);
 
   useEffect(() => {
-    if (USUpdateReadSuggestion !=='') {
+    if (USUpdateReadSuggestion !== '') {
       dispatch(CDAlessonplanlist(GetLessonPlanListBody));
     }
   }, [USUpdateReadSuggestion]);
@@ -333,7 +315,7 @@ const LessonPlanBaseScreen = () => {
 
   const clickView = (Id, Remarks, Remarks1, sStartDate, sEndDate, sUserId) => {
     setOpenViewRemarkDialog(true);
-    
+
     setViewRemarks(Remarks);
     setViewRemarks1(Remarks1);
     if (sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
@@ -451,19 +433,17 @@ const LessonPlanBaseScreen = () => {
           rightActions={
             <>
               <Box sx={{ background: 'white' }}>
-                {CanEdit == 'Y' && (
-                  <Box sx={{ background: 'white' }}>
-                    <SearchableDropdown
-                      sx={{ minWidth: '300px' }}
-                      ItemList={USGetAllTeachersOfLessonPlan}
-                      onChange={ClickSelctTecher}
-                      label={'Select Teacher:'}
-                      defaultValue={selectClasstecahernew}
-                      mandatory
-                      size={"small"}
-                    />
-                  </Box>
-                )}
+                <Box sx={{ background: 'white' }}>
+                  <SearchableDropdown
+                    sx={{ minWidth: '300px' }}
+                    ItemList={USGetAllTeachersOfLessonPlan}
+                    onChange={ClickSelctTecher}
+                    label={'Select Teacher:'}
+                    defaultValue={selectClasstecahernew}
+                    mandatory
+                    size={"small"}
+                  />
+                </Box>
               </Box>
 
               {errorMessage && (
@@ -662,10 +642,10 @@ const LessonPlanBaseScreen = () => {
                   {stripHtmlTags(ViewRemarks)}
                 </Typography>
                 <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
-                  {stripHtmlTags( ViewRemarks1)}
+                  {stripHtmlTags(ViewRemarks1)}
                 </Typography>
 
-               
+
               </div>
             </Stack>
           </Stack>
