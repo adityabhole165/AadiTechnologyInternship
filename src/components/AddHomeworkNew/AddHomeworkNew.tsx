@@ -672,7 +672,7 @@ const AddHomeworkNew = () => {
         <Typography variant={"h4"} my={1}>
         Assigned homework for selected subject :
       </Typography>
-        {Subjectlistsforteacher.length >  0? (
+        {Subjectlistsforteacher.length >  0 && SearchTittle.length> 0? (
         <SelectedsubjectList
           ItemList={SearchTittle}
           clickView={clickTitle}
@@ -684,7 +684,7 @@ const AddHomeworkNew = () => {
           clickAttachment={clickFileName}
         />
         ) :(
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
           <b>No Record Found.</b>
         </Typography>
         )}
@@ -694,7 +694,7 @@ const AddHomeworkNew = () => {
         <Typography variant={"h4"} my={1}>
         Homework assigned for other subjects :
       </Typography>
-          {Subjectlistsforteacher.length >  0 ? (
+          {Subjectlistsforteacher.length >  0 && SearchTittle1.length> 0 ? (
              <SubjectList1
              ItemList={SearchTittle1}
              HeaderArray={HeaderPublish1}
@@ -703,7 +703,7 @@ const AddHomeworkNew = () => {
              clickTitle={clickTitle1}
            />
           ) :(
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No Record Found.</b>
           </Typography>
           )
