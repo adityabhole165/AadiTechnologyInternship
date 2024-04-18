@@ -32,8 +32,8 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
     return (
         <>
             {ExamMarks?.map((Item, Index) => {
-                return (<>
-                    <TableCell>
+                return (
+                    <TableCell key={Index}>
                         <Stack direction="row" alignItems="center" gap={2}>
                             <Dropdown
                                 defaultValue={Item.ExamStatus}
@@ -84,8 +84,6 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                             }
                         </Stack>
                     </TableCell>
-
-                </>
                 )
             })}
         </>
