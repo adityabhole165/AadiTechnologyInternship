@@ -255,7 +255,7 @@ const AddHomeworkNew = () => {
     return IsPublish;
   };
 
-  const clickPublishUnpublish = (Id) => {
+  const PublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
       asSchoolId: asSchoolId,
@@ -267,22 +267,31 @@ const AddHomeworkNew = () => {
       asIsSMSSent: true
     };
   
-   
-    if (IsPublish == true ) {
-      dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
+    dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
+    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+  }
+
+  useEffect(() => {
+    if (USPublishUnpublishHomework !== '') {
+      toast.success(USPublishUnpublishHomework);
+      dispatch(PublishresetMessage());
+      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+    }
+  }, [USPublishUnpublishHomework]);
+  
+  const clickPublishUnpublish = (Id) => {
+    let IsPublish = getIsPublish(Id);
+    if (IsPublish == true) {
+      PublishUnpublish(Id);
+
     } else {
       setOpenPublishDialog(true);
       setPublishId(Id);
     }
   };
   
-  useEffect(() => {
-    if (USPublishUnpublishHomework != '') {
-      toast.success(USPublishUnpublishHomework);
-      dispatch(PublishresetMessage());
-      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-    }
-  }, [USPublishUnpublishHomework]);
+  
+
 
 
   const clickFileName = (value) => {
@@ -634,11 +643,13 @@ const AddHomeworkNew = () => {
   <DialogActions>
     <Button onClick={() => setOpenPublishDialog(false)}>Cancel</Button>
     <Button onClick={() => {
-     
       setOpenPublishDialog(false);
+      PublishUnpublish(publishId); // Call PublishUnpublish function with the publishId
     }}>Unpublish</Button>
   </DialogActions>
 </Dialog>
+
+
 
 
         <SelectedsubjectList
