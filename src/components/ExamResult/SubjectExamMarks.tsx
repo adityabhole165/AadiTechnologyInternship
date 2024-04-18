@@ -176,13 +176,16 @@ const SubjectExamMarks = () => {
     setMarksAssignment(StudentsForMarksAssignment)
   }, [StudentsForMarksAssignment])
   useEffect(() => {
+    let IsLateJoinee = false
     setMarksAssignment(StudentsForMarksAssignment.map((Item) => {
+      IsLateJoinee = isGreaterThanDate(getDateMonthYearFormatted(Item.JoiningDate), getYearFirstDateFormatted(TestDate))
       return {
         ...Item,
         MarksForStudent: Item.MarksForStudent.map((Obj) => {
           return {
             ...Obj,
-            ExamStatus: isGreaterThanDate(getDateMonthYearFormatted(Item.JoiningDate), getYearFirstDateFormatted(TestDate)) ? "J" : Obj.ExamStatus,
+            ExamStatus: IsLateJoinee ? "J" : Obj.ExamStatus,
+            IsLateJoinee: IsLateJoinee,
           }
         })
       }

@@ -181,7 +181,7 @@ export const getSubjectExamMarkslist =
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
             let reponseData1 = [];
-            const getMarksForStudentBlank = (StudentIdParam) => {
+            const getMarksForStudentBlank = (StudentIdParam, JoiningDate) => {
                 let arr = [];
                 let StudentId = "0"
                 response2.data.listTestDetailss.map((Item, i) => {
@@ -195,7 +195,9 @@ export const getSubjectExamMarkslist =
                         IsActive: true,
                         IsActiveGrade: true,
                         ErrorMessage: "",
-                        Student_Id: StudentIdParam
+                        Student_Id: StudentIdParam,
+                        JoiningDate: JoiningDate,
+                        IsLateJoinee: false
                     });
                 });
                 if (arr.length == 0) {
@@ -208,7 +210,9 @@ export const getSubjectExamMarkslist =
                         IsActive: true,
                         IsActiveGrade: true,
                         ErrorMessage: "",
-                        Student_Id: StudentIdParam
+                        Student_Id: StudentIdParam,
+                        JoiningDate: JoiningDate,
+                        IsLateJoinee: false
                     });
                 }
                 return arr
@@ -216,22 +220,24 @@ export const getSubjectExamMarkslist =
             const getMarksForStudent = (StudentId, JoiningDate) => {
                 let arr = [];
                 response2.data.listStudentTestMarkDetails.map((Item, i) => {
+                    let IsLateJoinee = isGreaterThanDate(JoiningDate, Item.Test_Date)
                     if (Item.Student_Id == StudentId) {
                         arr.push({
                             Id: Item.TestType_Id,
                             Text1: Item.Marks_Scored.toString(),
                             Text2: Item.TestType_Total_Marks,
-                            ExamStatus: isGreaterThanDate(JoiningDate, Item.Test_Date) ? "J" : Item.Is_Absent,
+                            ExamStatus: IsLateJoinee ? "J" : Item.Is_Absent,
                             ExamGrade: Item.Assigned_Grade_Id,
                             IsActive: true,
                             IsActiveGrade: true,
                             ErrorMessage: "",
                             Student_Id: Item.Student_Id,
-                            JoiningDate: Item.Joining_Date
+                            JoiningDate: Item.Joining_Date,
+                            IsLateJoinee: IsLateJoinee
                         });
                     }
                 });
-                return arr.length > 0 ? arr : getMarksForStudentBlank(StudentId);
+                return arr.length > 0 ? arr : getMarksForStudentBlank(StudentId, JoiningDate);
             }
 
 

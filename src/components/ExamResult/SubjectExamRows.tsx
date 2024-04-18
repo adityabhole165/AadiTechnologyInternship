@@ -38,7 +38,11 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                             <Dropdown
                                 defaultValue={Item.ExamStatus}
                                 variant='outlined'
-                                Array={ExamStatus}
+                                Array={
+                                    Item.IsLateJoinee ?
+                                        ExamStatus :
+                                        ExamStatus.filter((Item) => { return Item.Value != "J" })
+                                }
                                 handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
                             // disabled={IsReadOnly}
 
