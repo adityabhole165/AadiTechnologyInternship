@@ -47,6 +47,8 @@ const AddHomeworkNew = () => {
   const [publishId, setPublishId] = useState();
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [Details1, setDetails1] = useState('');
+  const [text, setText] = useState('');
+
 
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -261,7 +263,7 @@ const AddHomeworkNew = () => {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asHomeworkId: Id,
-      asReason: Details1,
+      asReason: text,
       asUpdatedById: asTeacherId,
       asIsPublish: IsPublish,
       asIsSMSSent: true
@@ -271,13 +273,6 @@ const AddHomeworkNew = () => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
   }
 
-  useEffect(() => {
-    if (USPublishUnpublishHomework !== '') {
-      toast.success(USPublishUnpublishHomework);
-      dispatch(PublishresetMessage());
-      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-    }
-  }, [USPublishUnpublishHomework]);
 
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
@@ -290,18 +285,32 @@ const AddHomeworkNew = () => {
     }
   };
 
+
+  const Detailschnage = (event) =>{
+    setText(event.target.value)
+  }
+
+
+  useEffect(() => {
+    if (USPublishUnpublishHomework !== '') {
+      toast.success(USPublishUnpublishHomework);
+      dispatch(PublishresetMessage());
+      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+    }
+  }, [USPublishUnpublishHomework]);
+
+ 
+ 
+
   const ClickOk = () => {
-    if (Details !== '') {
-      clickPublishUnpublish(publishId);
+    if (text !== '') {
       setOpenPublishDialog(false);
-      setDetails1('');
+      setText('');
+      PublishUnpublish(publishId);
     } else {
       toast.error('Please provide a reason for unpublishing.');
     }
   };
-
-
-
 
 
   const clickFileName = (value) => {
@@ -327,15 +336,6 @@ const AddHomeworkNew = () => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
   }, []);
-
-
-
-
-
-
-
-
-
 
 
   const Assigned_homework_for_selected_subject = Subjectlistsforteacher.filter((item) => item.SubjectId == Subject);
@@ -650,13 +650,11 @@ const AddHomeworkNew = () => {
             <TextField
               multiline
               rows={3}
-              value={Details1}
-              onChange={(e) => {
-                setDetails1(e.target.value);
-              }}
+              type="text"
+              value={text}
+              onChange={Detailschnage}
               sx={{ width: '100%' }}
             />
-
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button onClick={() => {
