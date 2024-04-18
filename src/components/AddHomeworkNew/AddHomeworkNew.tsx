@@ -2,7 +2,7 @@ import Close from '@mui/icons-material/Close';
 import CloudUpload from '@mui/icons-material/CloudUpload';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, Grid, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,8 +44,9 @@ const AddHomeworkNew = () => {
   const [HomeworkS, setHomeworkS] = useState('0');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
-  const [openIsPublishDialog, setOpenIsPublishDialog] = useState(false);
   const [publishId, setPublishId] = useState();
+  const [openPublishDialog, setOpenPublishDialog] = useState(false);
+  const [Details1, setDetails1] = useState('');
 
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -253,22 +254,28 @@ const AddHomeworkNew = () => {
     });
     return IsPublish;
   };
+
   const clickPublishUnpublish = (Id) => {
-    let IsPublish = getIsPublish(Id)
+    let IsPublish = getIsPublish(Id);
     const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asHomeworkId: Id,
-      asReason: '',
+      asReason: Details1,
       asUpdatedById: asTeacherId,
       asIsPublish: IsPublish,
       asIsSMSSent: true
     };
-    dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
-
+  
+   
+    if (IsPublish == true ) {
+      dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
+    } else {
+      setOpenPublishDialog(true);
+      setPublishId(Id);
+    }
   };
+  
   useEffect(() => {
     if (USPublishUnpublishHomework != '') {
       toast.success(USPublishUnpublishHomework);
@@ -545,9 +552,9 @@ const AddHomeworkNew = () => {
               }
               multiline
               rows={3}
-              value={Details}
+              value={Details1}
               onChange={(e) => {
-                setDetails(e.target.value);
+                setDetails1(e.target.value);
               }}
               error={ErrorDetails !== ''}
               helperText={ErrorDetails}
@@ -608,6 +615,32 @@ const AddHomeworkNew = () => {
           </Grid>
         </Grid>
 
+        
+        <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)}>
+  <DialogTitle>Confirmation</DialogTitle>
+  <DialogContent>
+    <Typography>
+      <TextField
+        multiline
+        rows={3}
+        value={Details}
+        onChange={(e) => {
+          setDetails(e.target.value);
+        }}
+        sx={{ width: '100%' }}
+      />
+    </Typography>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setOpenPublishDialog(false)}>Cancel</Button>
+    <Button onClick={() => {
+     
+      setOpenPublishDialog(false);
+    }}>Unpublish</Button>
+  </DialogActions>
+</Dialog>
+
+
         <SelectedsubjectList
           ItemList={Assigned_homework_for_selected_subject}
           clickView={clickTitle}
@@ -618,6 +651,8 @@ const AddHomeworkNew = () => {
           HeaderArray={HeaderPublish}
           clickAttachment={clickFileName}
         />
+
+      
 
         <Box my={2}>
           <SubjectList1
