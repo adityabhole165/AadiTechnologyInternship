@@ -72,9 +72,9 @@ const AddHomeworkNew = () => {
   ];
 
   const HomeworkStatus = [
-    { Id: '1', Name: 'All', Value: 'All' },
-    { Id: '2', Name: 'Assigned Date', Value: 'AssignedDate' },
-    { Id: '3', Name: 'Complete By Date', Value: 'CompleteByDate' }
+    { Id: '1', Name: 'All', Value: '1' },
+    { Id: '2', Name: 'Assigned Date', Value: '2' },
+    { Id: '3', Name: 'Complete By Date', Value: '3' }
   ];
 
   const dispatch = useDispatch();
@@ -275,14 +275,14 @@ const AddHomeworkNew = () => {
 
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
-    if (IsPublish == true) {
-      PublishUnpublish(Id);
-
-    } else {
-      setOpenPublishDialog(true);
-      setPublishId(Id);
+    if (IsPublish == true && (confirm('Are you sure you want to publish the homework?'))) {
+        PublishUnpublish(Id);
+    } else if (IsPublish != true) {
+        setOpenPublishDialog(true);
+        setPublishId(Id);
     }
-  };
+};
+
 
 
   const Detailschnage = (event) => {
@@ -325,7 +325,18 @@ const AddHomeworkNew = () => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
 
+  const clickHomeworkStatus = (value) => {
+    setHomeworkS(value);
+    setAssignedDate(value);
 
+  };
+
+  useEffect(() => {
+    if (HomeworkStatus.length > 0) {
+      setHomeworkS(HomeworkStatus[0].Value);
+    }
+  }, [HomeworkStatus]);
+  
   //dropdown
   useEffect(() => {
     dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
@@ -334,21 +345,17 @@ const AddHomeworkNew = () => {
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
-  }, []);
+  }, [HomeworkS , AssignedDate]);
 
   const [SearchTittle, setSearchTittle] = useState([]);
   useEffect(() => {
     setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId == Subject))
-  }, [Subjectlistsforteacher])
+  }, [Subjectlistsforteacher ])
+
   const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
 
 
-  const clickHomeworkStatus = (value) => {
-    setHomeworkS(value);
-    setAssignedDate(value);
-    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
-  };
+ 
 
 
   const [SearchText, setSearchText] = useState('');
@@ -375,18 +382,6 @@ const AddHomeworkNew = () => {
   };
 
 
-  // const changeSearchText = (value) => {
-  //   if (typeof value === 'string' && value.trim() !== '') {
-  //     setAssignedDate(value);
-  //     setSearchText(value);
-  //   }
-
-  //   if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
-  //     toast.success('No Records Found');
-  //   }
-  //   dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
-  // };
 
   return (
     <>
@@ -669,8 +664,10 @@ const AddHomeworkNew = () => {
         </Dialog>
 
 
-
-
+        <Typography variant={"h4"} my={1}>
+        Assigned homework for selected subject :
+      </Typography>
+        {Subjectlistsforteacher.length > 0? (
         <SelectedsubjectList
           ItemList={SearchTittle}
           clickView={clickTitle}
@@ -681,18 +678,35 @@ const AddHomeworkNew = () => {
           HeaderArray={HeaderPublish}
           clickAttachment={clickFileName}
         />
-
+        ) :(
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+          <b>No Record Found.</b>
+        </Typography>
+        )}
 
 
         <Box my={2}>
-          <SubjectList1
-            ItemList={Homework_assigned_for_other_subjects}
-            HeaderArray={HeaderPublish1}
-            onChange={Changevalue}
-            clickchange={''}
-            clickTitle={clickTitle1}
-          />
+        <Typography variant={"h4"} my={1}>
+        Homework assigned for other subjects :
+      </Typography>
+          {Subjectlistsforteacher.length > 0? (
+             <SubjectList1
+             ItemList={Homework_assigned_for_other_subjects}
+             HeaderArray={HeaderPublish1}
+             onChange={Changevalue}
+             clickchange={''}
+             clickTitle={clickTitle1}
+           />
+          ) :(
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+          </Typography>
+          )
+          }
         </Box>
+
+
+       
 
 
         {openUploadMultipleDialog && (

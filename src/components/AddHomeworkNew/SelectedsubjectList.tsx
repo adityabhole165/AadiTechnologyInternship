@@ -27,9 +27,7 @@ const SelectedsubjectList = ({
 }) => {
   return (
     <div>
-      <Typography variant={"h4"} my={1}>
-        Assigned homework for selected subject :
-      </Typography>
+     
       <TableContainer component={Box} sx={{
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
       }}>

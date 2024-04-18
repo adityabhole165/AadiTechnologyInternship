@@ -43,9 +43,7 @@ function SubjectList1({
 
   return (
     <>
-      <Typography variant={"h4"} my={1}>
-        Homework assigned for other subjects :
-      </Typography>
+     
       <TableContainer component={Box} sx={{
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
       }}>
