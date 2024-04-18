@@ -465,7 +465,7 @@ const AddLessonPlan = () => {
     ApprovalCommentData?.map((Item, Index) => {
       if (Item.ApprovalSortOrder == "0") {
         if (Item.ReportingUserId == asUserId) {
-          returnVal = (Item.IsPublished == "False");
+          returnVal = !(Item.IsPublished == "True");
         }
       }
     });
