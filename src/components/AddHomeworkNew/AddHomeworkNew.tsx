@@ -11,13 +11,13 @@ import { toast } from 'react-toastify';
 import { IDeleteHomeworkBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, SubjectListforTeacherDropdown, homeworklistforteacher, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
-import { DeleteresetMessage, PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
+import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
+import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
+import { PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
 
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
@@ -44,8 +44,6 @@ const AddHomeworkNew = () => {
   const [HomeworkS, setHomeworkS] = useState('0');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
-  
-
   const [openIsPublishDialog, setOpenIsPublishDialog] = useState(false);
   const [publishId, setPublishId] = useState();
 
@@ -84,21 +82,21 @@ const AddHomeworkNew = () => {
   );
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
- 
+
   const [SubjectList, setSubjectList] = useState([]);
- 
+
   const SiteURL = localStorage.getItem('SiteURL');
   let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
 
   const SaveHomework = useSelector(
     (state: RootState) => state.AddHomework.ISSaveHomework
   );
- 
-  const ClassSubject : any = useSelector(
+
+  const ClassSubject: any = useSelector(
     (state: RootState) => state.AddHomework.Subjectlist
   );
-  
-  const Subjectlistsforteacher  : any = useSelector(
+
+  const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
   console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
@@ -108,7 +106,7 @@ const AddHomeworkNew = () => {
   );
 
   const USPublishUnpublishHomework = useSelector(
-    (state: RootState) => state.AddHomework.AllPublishUnpublishHomeworkT
+    (state: RootState) => state.AddHomework.PublishUnPublishHomework
   );
 
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
@@ -139,10 +137,11 @@ const AddHomeworkNew = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: StandardDivisionId,
-    asHomeWorkStatus:HomeworkS,
-    asHomeworkTitle:'',
-    asAssignedDate:AssignedDate}
-  
+    asHomeWorkStatus: HomeworkS,
+    asHomeworkTitle: '',
+    asAssignedDate: AssignedDate
+  }
+
 
   const ResetForm = () => {
     setSubjectCheckID('');
@@ -154,7 +153,7 @@ const AddHomeworkNew = () => {
     setDetails('');
     setMultipleFiles(['']);
   };
- 
+
 
 
   const ClickSaveHomework = () => {
@@ -248,27 +247,27 @@ const AddHomeworkNew = () => {
     let IsPublish = true;
     Subjectlistsforteacher.map((item) => {
       if (item.Id.toString() == Id.toString()) {
-        IsPublish = item.Text7 == 'false' ? true : false;
+        IsPublish = item.IsPublished == 'False' ? true : false;
         return IsPublish;
       }
     });
     return IsPublish;
   };
+  const clickPublishUnpublish = (Id) => {
+    let IsPublish = getIsPublish(Id)
+    const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asHomeworkId: Id,
+      asReason: '',
+      asUpdatedById: asTeacherId,
+      asIsPublish: IsPublish,
+      asIsSMSSent: true
+    };
+    dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
+    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
 
-       const clickPublishUnpublish = (Id) => {
-       let IsPublish = getIsPublish(Id)
-      const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asHomeworkId: Id,
-        asReason: '',
-        asUpdatedById: asTeacherId,
-        asIsPublish: IsPublish,
-        asIsSMSSent: true
-      };
-      dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-  
   };
   useEffect(() => {
     if (USPublishUnpublishHomework != '') {
@@ -277,7 +276,7 @@ const AddHomeworkNew = () => {
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
     }
   }, [USPublishUnpublishHomework]);
-  
+
 
   const clickFileName = (value) => {
     if (value !== '') {
@@ -303,19 +302,19 @@ const AddHomeworkNew = () => {
 
   }, []);
 
- 
-   
-
-  
-  
 
 
- 
-  
-  
-  const Assigned_homework_for_selected_subject = Subjectlistsforteacher.filter((item) =>  item.SubjectId == Subject);
-  const Homework_assigned_for_other_subjects  = Subjectlistsforteacher.filter((item) =>  item.SubjectId != Subject);
-   
+
+
+
+
+
+
+
+
+  const Assigned_homework_for_selected_subject = Subjectlistsforteacher.filter((item) => item.SubjectId == Subject);
+  const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
+
 
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);
@@ -324,38 +323,38 @@ const AddHomeworkNew = () => {
 
   };
 
- 
+
   const [SearchText, setSearchText] = useState('');
   const [SearchTittle, setSearchTittle] = useState([
     Subjectlistsforteacher
   ]);
-  
+
   // const changeSearchText = () => {
   //   if (SearchText === '') {
   //     setSearchTittle(Subjectlistsforteacher);
   //   } else {
   //     setSearchTittle(
   //       Subjectlistsforteacher.filter((item) => {
-         
+
   //         return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
   //       })
   //     );
   //   }
   // };
-  
 
-  
+
+
   const SearchNameChange = (value) => {
     setSearchText(value);
   };
-  
+
 
   const changeSearchText = (value) => {
     if (typeof value === 'string' && value.trim() !== '') {
       setAssignedDate(value);
       setSearchText(value);
     }
-  
+
     if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
       toast.success('No Records Found');
     }
@@ -403,7 +402,7 @@ const AddHomeworkNew = () => {
                       height: '36px !important',
                       ':hover': { backgroundColor: red[600] }
                     }}
-                    onClick={ResetForm} 
+                    onClick={ResetForm}
                   >
                     <Close />
                   </IconButton>
@@ -556,58 +555,58 @@ const AddHomeworkNew = () => {
           </Grid>
 
         </Grid>
-       
 
-        <br/>
-        <br/>
+
+        <br />
+        <br />
 
         <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
-        <Grid item xs={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '100%' }}
-            ItemList={HomeworkStatus}
-            onChange={clickHomeworkStatus}
-            defaultValue={HomeworkS}
-            label={'Select Homework Status'}
-          />
-        </Grid>
+          <Grid item xs={3}>
+            <SearchableDropdown
+              sx={{ minWidth: '100%' }}
+              ItemList={HomeworkStatus}
+              onChange={clickHomeworkStatus}
+              defaultValue={HomeworkS}
+              label={'Select Homework Status'}
+            />
+          </Grid>
 
 
-        <Grid item xs={3}>
-          <TextField
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
-            label={'Date'}
-            inputProps={{ type: 'date' }}
-            value={AssignedDate}
-            onChange={(e) => {
-              setAssignedDate(e.target.value);
-              console.log('EventEndDate :', e.target.value);
-            }}
-            variant="standard"
-         
-          />
-        </Grid>
-        <Grid item xs={2}>
-        <TextField
-            fullWidth
-            label="Title"
-            value={SearchText}
-            variant={'standard'}
-            onChange={(e) => {
-              SearchNameChange(e.target.value);
-            }}
-          />
+          <Grid item xs={3}>
+            <TextField
+              fullWidth
+              InputLabelProps={{
+                shrink: true
+              }}
+              label={'Date'}
+              inputProps={{ type: 'date' }}
+              value={AssignedDate}
+              onChange={(e) => {
+                setAssignedDate(e.target.value);
+                console.log('EventEndDate :', e.target.value);
+              }}
+              variant="standard"
 
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              fullWidth
+              label="Title"
+              value={SearchText}
+              variant={'standard'}
+              onChange={(e) => {
+                SearchNameChange(e.target.value);
+              }}
+            />
+
+          </Grid>
+          <Grid item xs={1}>
+            <Button onClick={changeSearchText} variant="contained">
+              Search
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          <Button onClick={changeSearchText} variant="contained">
-            Search
-          </Button>
-        </Grid>
-      </Grid>
 
         <SelectedsubjectList
           ItemList={Assigned_homework_for_selected_subject}
@@ -620,15 +619,15 @@ const AddHomeworkNew = () => {
           clickAttachment={clickFileName}
         />
 
-          <Box my={2}>
-            <SubjectList1
-              ItemList={Homework_assigned_for_other_subjects}
-              HeaderArray={HeaderPublish1}
-              onChange={Changevalue}
-              clickchange={''}
-              clickTitle={clickTitle1}
-            />
-          </Box>
+        <Box my={2}>
+          <SubjectList1
+            ItemList={Homework_assigned_for_other_subjects}
+            HeaderArray={HeaderPublish1}
+            onChange={Changevalue}
+            clickchange={''}
+            clickTitle={clickTitle1}
+          />
+        </Box>
 
 
         {openUploadMultipleDialog && (
