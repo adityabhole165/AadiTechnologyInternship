@@ -184,7 +184,7 @@ const SubjectExamMarks = () => {
         MarksForStudent: Item.MarksForStudent.map((Obj) => {
           return {
             ...Obj,
-            ExamStatus: IsLateJoinee ? "J" : Obj.ExamStatus,
+            ExamStatus: (Item.IsAbsent == "N" && IsLateJoinee) ? "J" : Obj.ExamStatus,
             IsLateJoinee: IsLateJoinee,
           }
         })

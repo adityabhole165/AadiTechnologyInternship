@@ -228,7 +228,7 @@ export const getSubjectExamMarkslist =
                             Id: Item.TestType_Id,
                             Text1: Item.Marks_Scored.toString(),
                             Text2: Item.TestType_Total_Marks,
-                            ExamStatus: IsLateJoinee ? "J" : Item.Is_Absent,
+                            ExamStatus: (Item.Is_Absent == "N" && IsLateJoinee) ? "J" : Item.Is_Absent,
                             ExamGrade: Item.Assigned_Grade_Id,
                             IsActive: true,
                             IsActiveGrade: true,
@@ -236,7 +236,8 @@ export const getSubjectExamMarkslist =
                             Student_Id: Item.Student_Id,
                             JoiningDate: Item.Joining_Date,
                             IsLateJoinee: IsLateJoinee,
-                            AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin
+                            AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
+                            IsAbsent: Item.Is_Absent
                         });
                     }
                 });
