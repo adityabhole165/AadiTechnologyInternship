@@ -184,7 +184,7 @@ export const GetAddOrEditLessonPlanDetails =
         response.data.GetLessonPlanStatusList.map((Item, i) => {
           // console.log(Item.IsReportingUser, "== ", userId);
           if (Item.ReportingUserId == userId) {
-            returnVal = (DataType == "Date" ? Item.UpdateDate :
+            returnVal = (DataType == "Date" ? (Item.IsPublished == "True" ? Item.UpdateDate : "") :
               DataType == "Comment" ? Item.Comment : DataType == "IsPublished" ? Item.IsPublished : "")
           }
         })
