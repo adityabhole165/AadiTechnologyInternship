@@ -5,13 +5,21 @@ const validateInput = (inputValue) => {
     return regex.test(inputValue);
 };
 
+// const handleChange = (e, validationFunction, callback) => {
+//     const { value } = e.target;
+//     if (validationFunction(value)) {
+//         callback(value);
+//     }
+// };
 const handleChange = (e, validationFunction, callback) => {
     const { value } = e.target;
-    if (validationFunction(value)) {
+    if (value == "")
         callback(value);
-    }
+    else
+        if (validationFunction(value)) {
+            callback(value);
+        }
 };
-
 
 const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
     const handleBlur = (value, Index) => {
