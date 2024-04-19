@@ -1,4 +1,4 @@
-import { Grid, Paper, TextField, Typography } from '@mui/material';
+import { Box, Grid, Paper, Table, TableBody, TableContainer, TextField, Typography } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -60,47 +60,52 @@ const TermwiseHeightWeightList = ({
 
   return (
     <>
-      <div>
-        <TableHead>
-          <TableRow sx={{
-            background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white,
-          }}>
-            {HeaderArray.map((item, i) => {
-              return (
+     
+      <TableContainer component={Box} sx={{
+        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+      }}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
+            >
+              
+
+              {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ color: 'white' }} // Align headers to the left
-                  align="center"
+                  sx={{
+                    textTransform: 'capitalize',
+                    color: (theme) => theme.palette.common.white
+                  }}
+                  align={item.align ? item.align : 'left'}
                 >
                   <b>{item.Header}</b>
                 </TableCell>
-              );
-            })}
-          </TableRow>
-        </TableHead>
-      </div>
-      <div>
-        {ItemList.map((item) => (
-          <Paper
-            elevation={1}
-            style={{ margin: 5, padding: 3, marginBottom: 5 }}
-            key={item.Text1}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {ItemList.map((item, i) => (
+              <TableRow key={i}>
+               
+
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                 <Typography variant="subtitle1"
                   style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
                 >{item.Text1}</Typography>
-              </Grid>
-              <Grid item xs={3}>
+                </TableCell>
+
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                 <Typography
                   variant="subtitle1"
                   style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
                 >
                   {item.Text2}
                 </Typography>
-              </Grid>
-              <Grid item xs={3}>
+                </TableCell>
+
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                 <TextField
                   id="outlined-basic"
                   value={item.Text3}
@@ -110,8 +115,10 @@ const TermwiseHeightWeightList = ({
                   }}
                   disabled={IsPublishedStatus == "1"}
                 />
-              </Grid>
-              <Grid item xs={3}>
+                </TableCell>
+
+
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                 <TextField
                   id="outlined-basic"
                   value={item.Text4}
@@ -121,13 +128,14 @@ const TermwiseHeightWeightList = ({
                   }}
                   disabled={IsPublishedStatus == "1"}
                 />
-              </Grid>
-            </Grid>
-          </Paper>
-        ))}
-      </div>
+
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
-
 export default TermwiseHeightWeightList;
