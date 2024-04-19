@@ -669,6 +669,10 @@ const AddLessonPlan = () => {
               label={<>
                 Teacher <span style={{ color: 'red' }}>*</span>
               </>}
+              sx={{ bgcolor: '#e3f2fd' }}
+              InputProps={{
+                readOnly: true,
+              }}
               value={TeacherName?.TeacherName}
             />
           </Grid>
