@@ -251,12 +251,12 @@ const AddHomeworkNew = () => {
 
   useEffect(() => {
     if (HomeworkDetail && HomeworkDetail.length > 0) {
-      setHomeworkId(HomeworkDetail[0].HomeworkId);
-      setFile(HomeworkDetail[0].File);
-      setAssignedDate(HomeworkDetail[0].AssignedDate);
-      setCompleteDate(HomeworkDetail[0].CompleteByDate);
-      setTitle(HomeworkDetail[0].Title);
-      setDetails(HomeworkDetail[0].Details); 
+      setHomeworkId(HomeworkDetail.HomeworkId);
+      setFile(HomeworkDetail.File);
+      setAssignedDate(HomeworkDetail.AssignedDate);
+      setCompleteDate(HomeworkDetail.CompleteByDate);
+      setTitle(HomeworkDetail.Title);
+      setDetails(HomeworkDetail.Details); 
     }
   }, [HomeworkDetail]);
   
