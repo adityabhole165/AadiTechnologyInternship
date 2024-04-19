@@ -120,21 +120,21 @@ const LessonPlanBaseScreen = () => {
     { Id: 3, Header: 'View Remark', align: 'center' },
     { Id: 4, Header: 'Edit', align: 'center' },
     { Id: 5, Header: 'Delete', align: 'center' },
-    ...(CanEdit === 'Y' && LessonPlanList.map((item) => item.Text2) != 'False' ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
+    ...( LessonPlanList.map((item) => item.Text2) != 'False' && LessonPlanList.map((item) => item.UserId) !==  selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
     { Id: 7, Header: 'Export', align: 'center' },
     { Id: 8, Header: 'Submit Status', align: 'center' }
   ];
   
 
-  console.log(
-    ...(CanEdit === 'Y' && LessonPlanList.map((item) => item.Text2) != 'False' &&  LessonPlanList.map((item) => item.UserId) !=  selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : [])
-  );
+ 
+
+  
   
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
     asUserId: Number(selectClasstecahernew),
-    asReportingUserId: asUserId,
+    asReportingUserId: asUserId ,
     asStartIndex: 0,
     asEndIndex: 20,
     asRecordCount: false,
