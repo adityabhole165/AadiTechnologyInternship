@@ -8,17 +8,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { IDeleteHomeworkBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import { IDeleteHomeworkBody, IGetHomeworkDetailBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
-import { PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
+import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete,  GetHomeworkDetails,HomeworkSave, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
+import { GetHomeworkDetailss, PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
     useParams();
@@ -48,6 +47,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [Details1, setDetails1] = useState('');
   const [text, setText] = useState('');
+  const [HomeworkId, setHomeworkId] = useState('');
 
 
   const HeaderPublish = [
@@ -109,6 +109,10 @@ const AddHomeworkNew = () => {
 
   const USPublishUnpublishHomework = useSelector(
     (state: RootState) => state.AddHomework.PublishUnPublishHomework
+  );
+
+  const HomeworkDetail: any = useSelector(
+    (state: RootState) => state.AddHomework.GetHomeworkDetail
   );
 
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
@@ -232,9 +236,31 @@ const AddHomeworkNew = () => {
     }
   };
 
-  const handleEditClick = (Id) => {
+ 
 
+  const handleEditClick = (Id) => {
+    setHomeworkId(Id);
+    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+      asSchoolId: asSchoolId,
+      asAcademicyearId: asAcademicYearId,
+      asHomeworkId: Number(Id),
+    };
+    dispatch(GetHomeworkDetails(GetHomeworkDetailBody));
   };
+
+
+  useEffect(() => {
+    if (HomeworkDetail && HomeworkDetail.length > 0) {
+      setHomeworkId(HomeworkDetail[0].HomeworkId);
+      setFile(HomeworkDetail[0].File);
+      setAssignedDate(HomeworkDetail[0].AssignedDate);
+      setCompleteDate(HomeworkDetail[0].CompleteByDate);
+      setTitle(HomeworkDetail[0].Title);
+      setDetails(HomeworkDetail[0].Details); 
+    }
+  }, [HomeworkDetail]);
+  
+
 
   useEffect(() => {
     if (DeleteHomework != '') {

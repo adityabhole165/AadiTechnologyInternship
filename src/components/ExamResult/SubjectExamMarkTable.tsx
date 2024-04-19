@@ -51,20 +51,28 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
 
   const changeExamStatus = (value, StudentId, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
+      let total = "", bIsDirty = false
       return {
         ...Item,
         MarksForStudent: (Item.Id == StudentId) ?
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
+              bIsDirty = true
               return {
-                ...obj, ExamStatus: value, ExamGrade: "0",
-                IsActiveGrade: value == "0", IsActive: value == "0"
+                ...obj,
+                ExamStatus: value,
+                ExamGrade: "0",
+                IsActiveGrade: value == "0",
+                IsActive: value == "0",
+                Text1: "",
+                total: "0"
               }
             }
             else
               return obj
 
-          }) : Item.MarksForStudent
+          }) : Item.MarksForStudent,
+        TotalMarks: bIsDirty ? "0" : Item.TotalMarks
       }
     })
     onChangeExamStatus(StudentsForMarksAssignment)
@@ -88,21 +96,25 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   }
   const changeText = (value, StudentId, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
-      let total = 0
+      let total = 0, bIsDirty = false
       return {
         ...Item,
         MarksForStudent: (Item.Id == StudentId) ?
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
+              bIsDirty = true
               total += value == "" ? 0 : Number(value)
               return { ...obj, Text1: value }
             }
             else {
-              total += obj.Text1 == "" ? 0 : Number(obj.Text1)
+              if (obj.Text1 !== "") {
+                bIsDirty = true
+                total += Number(obj.Text1)
+              }
               return obj
             }
           }) : Item.MarksForStudent,
-        TotalMarks: total
+        TotalMarks: (Item.Id == StudentId) ? (bIsDirty ? total : "") : Item.TotalMarks
       }
     })
     onChangeExamStatus(StudentsForMarksAssignment)
