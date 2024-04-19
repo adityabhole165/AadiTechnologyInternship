@@ -18,7 +18,6 @@ import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
     useParams();
@@ -48,6 +47,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [Details1, setDetails1] = useState('');
   const [text, setText] = useState('');
+  const [HomeworkId, setHomeworkId] = useState('');
 
 
   const HeaderPublish = [
@@ -239,6 +239,7 @@ const AddHomeworkNew = () => {
  
 
   const handleEditClick = (Id) => {
+    setHomeworkId(Id);
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
@@ -250,14 +251,15 @@ const AddHomeworkNew = () => {
 
   useEffect(() => {
     if (HomeworkDetail && HomeworkDetail.length > 0) {
-      // setHomeworkId(HomeworkDetail.Id.toString);
+      setHomeworkId(HomeworkDetail[0].HomeworkId);
       setFile(HomeworkDetail[0].File);
       setAssignedDate(HomeworkDetail[0].AssignedDate);
       setCompleteDate(HomeworkDetail[0].CompleteByDate);
       setTitle(HomeworkDetail[0].Title);
-      setDetails(HomeworkDetail[0].Details);
+      setDetails(HomeworkDetail[0].Details); 
     }
   }, [HomeworkDetail]);
+  
 
 
   useEffect(() => {
