@@ -116,7 +116,7 @@ function ListIcon({
                                 </TableCell>
 
 
-                                {(CanEdit === 'Y' && !ShowEdit) && (
+                                {( !ShowEdit) && (
                                     <TableCell align="center">
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => {
