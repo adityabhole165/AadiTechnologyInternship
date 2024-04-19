@@ -15,6 +15,7 @@ import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBo
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { CDAlessonplanlist } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
 import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -409,17 +410,19 @@ const AddLessonPlan = () => {
     const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asUserId: Number(asUserId),
-      asReportingUserId: Number(ReportingUserId),
+      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+      asReportingUserId: Number(asUserId),
       aasStartDate: StartDate,
       aasEndDate: EndDate,
       asApproverComment: getApproverComment(),
       asUpdatedById: Number(UpdatedById),
-      asOldStartDate: StartDate,
-      asOldEndDate: EndDate,
+      asOldStartDate: StartDateParam,
+      asOldEndDate: EndDateParam,
     };
 
     dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
+    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+    dispatch(CDAlessonplanlist)
   };
   const onChangeApproverComment = (value, index) => {
     setApprovalCommentData(ApprovalData.map((Item, i) => {
