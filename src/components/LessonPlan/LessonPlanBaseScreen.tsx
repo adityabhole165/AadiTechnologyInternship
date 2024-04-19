@@ -124,7 +124,12 @@ const LessonPlanBaseScreen = () => {
     { Id: 7, Header: 'Export', align: 'center' },
     { Id: 8, Header: 'Submit Status', align: 'center' }
   ];
+  
 
+  console.log(
+    ...(CanEdit === 'Y' && LessonPlanList.map((item) => item.Text2) != 'False' &&  LessonPlanList.map((item) => item.UserId) !=  selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : [])
+  );
+  
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
