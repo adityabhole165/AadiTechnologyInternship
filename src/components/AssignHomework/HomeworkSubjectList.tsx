@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -139,7 +140,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == false) {
-      setOpenIsPublishDialog(true); 
+      setOpenIsPublishDialog(true);
       setPublishId(Id);
     } else {
       setOpenIsPublishDialog(false);
@@ -155,7 +156,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
       dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
     }
   };
-  
+
   useEffect(() => {
     if (PublishUnpublishHomework != '') {
       toast.success(PublishUnpublishHomework);
@@ -197,20 +198,20 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const handleTitle = (value) => {
     setTitle(value);
   };
-  
+
   const clickSearch = (value) => {
     if (typeof value === 'string' && value.trim() !== '') {
       setAssignedDate(value);
       setTitle(value);
     }
-  
+
     if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
       toast.success('No Records Found');
     }
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   };
-  
-  
+
+
 
 
   const clickView = (Id) => {
@@ -229,58 +230,51 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
- 
+
   const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);
 
   return (
     <>
- 
-      <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
-        <Grid item xs={3}>
-          <SearchableDropdown
-            sx={{ minWidth: '100%' }}
-            ItemList={HomeworkStatus}
-            onChange={clickHomeworkStatus}
-            defaultValue={HomeworkS}
-            label={'Select Homework Status'}
-          />
-        </Grid>
+      <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={2} pb={1}>
+        <SearchableDropdown
+          sx={{ minWidth: '250px' }}
+          ItemList={HomeworkStatus}
+          onChange={clickHomeworkStatus}
+          defaultValue={HomeworkS}
+          label={'Select Homework Status'}
+          size={"small"}
+        />
+        <TextField
+          size={"small"}
+          sx={{ with: '250px' }}
+          InputLabelProps={{
+            shrink: true
+          }}
+          label={'Date'}
+          inputProps={{ type: 'date' }}
+          value={AssignedDate}
+          onChange={(e) => {
+            setAssignedDate(e.target.value);
+            console.log('EventEndDate :', e.target.value);
+          }}
 
-
-        <Grid item xs={3}>
-          <TextField
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
-            label={'Date'}
-            inputProps={{ type: 'date' }}
-            value={AssignedDate}
-            onChange={(e) => {
-              setAssignedDate(e.target.value);
-              console.log('EventEndDate :', e.target.value);
-            }}
-            variant="standard"
-         
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            fullWidth
-            label="Title"
-            value={Title}
-            variant={'standard'}
-            onChange={(e) => {
-              handleTitle(e.target.value);
-            }}
-          />
-        </Grid>
-        <Grid item xs={1}>
-          <Button onClick={clickSearch} variant="contained">
-            Search
-          </Button>
-        </Grid>
-      </Grid>
+        />
+        <TextField
+          size={"small"}
+          sx={{ with: '250px' }}
+          label="Title"
+          value={Title}
+          onChange={(e) => {
+            handleTitle(e.target.value);
+          }}
+        />
+        <IconButton onClick={clickSearch} sx={{
+          background: (theme) => theme.palette.primary.main,
+          color: 'white'
+        }}>
+          <SearchTwoTone />
+        </IconButton>
+      </Stack>
 
 
       <Assignedhomeworklist
@@ -321,16 +315,16 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
 
   const ClickOk = () => {
     if (Details !== '') {
-      
+
       clickPublishUnpublish(Id, Details);
       setOpen(false);
-      setDetails(''); 
+      setDetails('');
     } else {
       toast.error('Please provide a reason for unpublishing.');
     }
   };
-  
-  
+
+
   return (
     <Dialog
       open={open}
@@ -351,6 +345,7 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
           Unpublish Reason
         </Typography>
         <TextField
+          size={"small"}
           multiline
           rows={3}
           value={Details}

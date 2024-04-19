@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Table, TableBody, TableContainer, TextField, Typography } from '@mui/material';
+import { Box, Table, TableBody, TableContainer, TextField, Typography } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -60,7 +60,7 @@ const TermwiseHeightWeightList = ({
 
   return (
     <>
-     
+
       <TableContainer component={Box} sx={{
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
       }}>
@@ -69,10 +69,11 @@ const TermwiseHeightWeightList = ({
             <TableRow
               sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
-              
+
 
               {HeaderArray.map((item, i) => (
                 <TableCell
+                  size={"small"}
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
@@ -88,46 +89,52 @@ const TermwiseHeightWeightList = ({
           <TableBody>
             {ItemList.map((item, i) => (
               <TableRow key={i}>
-               
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                <Typography variant="subtitle1"
-                  style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
-                >{item.Text1}</Typography>
+
+                <TableCell
+                  size={"small"} sx={{ textTransform: 'capitalize' }} >
+                  <Typography variant="subtitle1"
+                    style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
+                  >{item.Text1}</Typography>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                <Typography
-                  variant="subtitle1"
-                  style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
-                >
-                  {item.Text2}
-                </Typography>
+                <TableCell
+                  size={"small"} sx={{ textTransform: 'capitalize' }} >
+                  <Typography
+                    variant="subtitle1"
+                    style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
+                  >
+                    {item.Text2}
+                  </Typography>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                <TextField
-                  id="outlined-basic"
-                  value={item.Text3}
-                  variant="outlined"
-                  onChange={(e) => {
-                    handleText3Change(e, item);
-                  }}
-                  disabled={IsPublishedStatus == "1"}
-                />
+                <TableCell
+                  size={"small"} sx={{ textTransform: 'capitalize' }} >
+                  <TextField
+                    size={"small"}
+                    id="outlined-basic"
+                    value={item.Text3}
+                    variant="outlined"
+                    onChange={(e) => {
+                      handleText3Change(e, item);
+                    }}
+                    disabled={IsPublishedStatus == "1"}
+                  />
                 </TableCell>
 
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                <TextField
-                  id="outlined-basic"
-                  value={item.Text4}
-                  variant="outlined"
-                  onChange={(e) => {
-                    handleText4Change(e, item);
-                  }}
-                  disabled={IsPublishedStatus == "1"}
-                />
+                <TableCell
+                  size={"small"} sx={{ textTransform: 'capitalize' }} >
+                  <TextField
+                    size={"small"}
+                    id="outlined-basic"
+                    value={item.Text4}
+                    variant="outlined"
+                    onChange={(e) => {
+                      handleText4Change(e, item);
+                    }}
+                    disabled={IsPublishedStatus == "1"}
+                  />
 
                 </TableCell>
               </TableRow>

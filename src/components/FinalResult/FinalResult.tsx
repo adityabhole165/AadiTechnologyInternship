@@ -1,8 +1,14 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import Person from '@mui/icons-material/Person';
+import Autorenew from '@mui/icons-material/Autorenew';
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import MilitaryTech from '@mui/icons-material/MilitaryTech';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import TextSnippet from '@mui/icons-material/TextSnippet';
+import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Button, IconButton, Stack, Tooltip } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Alert, Box, IconButton, Tooltip } from '@mui/material';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -135,7 +141,23 @@ const FinalResult = () => {
               label={'Select Class Teacher'}
               width={"250px"}
               variant={"outlined"}
+              size={"small"}
             />
+          </Box>
+          <Box>
+            <Tooltip title={"Display student list for their result generation. Click on &quot;Generate All&quot; to generate final result for all the students in selected class.  Click on &quot;Publish&quot; to publish final result of selected class. Click on “Publish All” to publish final results of all the classes in your school."}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box>
             <Tooltip title={"Toppers"}>
@@ -149,13 +171,78 @@ const FinalResult = () => {
                   }
                 }}
               >
-                <Person />
+                <MilitaryTech />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={"Generate All"}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Autorenew />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={"View All Results"}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <TextSnippet />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={"Unpublish"}>
+              <IconButton
+                onClick={onClickUnpublish}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: red[600]
+                  }
+                }}
+              >
+                <Unpublished />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={"Publish"}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: green[600]
+                  }
+                }}
+              >
+                <CheckCircle />
               </IconButton>
             </Tooltip>
           </Box>
         </>}
       />
       <Box sx={{ background: 'white', p: 2 }}>
+        <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+          All configured exams are not published - Internal II, Subject Enrichment Analysis - I, Subject Enrichment Analysis II
+        </Alert>
+
         {GetStudentLists != undefined && (
           <DynamicList2
             HeaderList={HeaderList}
@@ -164,29 +251,6 @@ const FinalResult = () => {
             ClickItem={ClickItem}
           />
         )}
-        <Stack direction={"row"} gap={2} mt={2} justifyContent={"center"}>
-          <Button
-            variant="contained"
-          >
-            GENERATE ALL
-          </Button>
-          <Button
-            variant="contained"
-          >
-            VIEW RESULT ALL
-          </Button>
-          <Button
-            variant="contained"
-          >
-            PUBLISH
-          </Button>
-          <Button
-            onClick={onClickUnpublish}
-            variant="contained"
-          >
-            UNPUBLISH
-          </Button>
-        </Stack>
       </Box>
     </Box>
   );
