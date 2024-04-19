@@ -160,6 +160,12 @@ const AddLessonPlan = () => {
     dispatch(classnamelist(ClassListBody));
   }, [TeacherId]);
 
+  useEffect(() => {
+    if (ClassListDropdown.length > 0) {
+      setSelectClass(ClassListDropdown[0].Value);
+    }
+  }, [ClassListDropdown]);
+
   const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -172,8 +178,10 @@ const AddLessonPlan = () => {
   };
 
   useEffect(() => {
-    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
-  }, [])
+    if (SelectClass == '0')
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+  }, [SelectClass])
+
   useEffect(() => {
     if (AddOrEditLessonPlanDetails.length > 0)
       setExampleLessonDetails(AddOrEditLessonPlanDetails)
