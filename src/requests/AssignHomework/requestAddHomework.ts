@@ -190,9 +190,9 @@ export const GetTeacherSubjectList =
           Text7: item.IsPublished,
           Text9: item.flag,
           IsPublished: item.IsPublished,
+          IsActive: false
 
-         
-         
+        
         };
       });
       dispatch(AddHomeworkSlice.actions.getSubjectList(a));

@@ -215,7 +215,7 @@ const AddHomeworkNew = () => {
 
   const Changevalue = (value) => {
     // setitemPublish(value);
-    setSubjectList(value);
+    setSearchTittle1(value)
   };
 
   const ChangeFile = (value) => {
@@ -350,12 +350,21 @@ const AddHomeworkNew = () => {
     }
   };
 
+  const getSelectHomeworkId =() =>{
+    let arr=[]
+  SearchTittle1.map(item  =>{
+    if(item.IsActive)
+    arr.push(item.Id)
   
+  })
+return arr.toString()
+ }
+
   const  publishAll = (Id) => {
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
       asSchoolId: String(asSchoolId),
       asAcademicYearId: String(asAcademicYearId),
-      asHomeWorkLogId: String(HomeworkId),
+      asHomeWorkLogId: getSelectHomeworkId(),
       asUnpublishReason: textall,
       asUpdatedById: asTeacherId,
       IsPublished:  1,
@@ -370,7 +379,7 @@ const AddHomeworkNew = () => {
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
       asSchoolId: String(asSchoolId),
       asAcademicYearId: String(asAcademicYearId),
-      asHomeWorkLogId: String(HomeworkId),
+      asHomeWorkLogId: getSelectHomeworkId(),
       asUnpublishReason: textall,
       asUpdatedById: asTeacherId,
       IsPublished:  0,
@@ -380,6 +389,7 @@ const AddHomeworkNew = () => {
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
 
+   
   const ClickOkall = () => {
     if (textall !== '') {
       setOpenPublishDialogall(false);
