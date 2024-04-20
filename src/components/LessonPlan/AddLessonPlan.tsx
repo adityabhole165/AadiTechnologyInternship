@@ -729,6 +729,7 @@ const AddLessonPlan = () => {
             <Typography variant={"h5"} sx={{ color: 'red' }}>
               {errorexampleLessonDetails}<br></br>
               {errorMessage}
+              {errorComment}
             </Typography>
           </Grid>
           {/* )} */}

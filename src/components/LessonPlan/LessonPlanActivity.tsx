@@ -39,7 +39,7 @@ const LessonPlanActivity = ({ ApprovalData, errorComment, onChangeApproverCommen
                                 }}
                                 error={errorComment !== '' &&
                                     Item.ReportingUserId == localStorage.getItem('UserId')}
-                                helperText={errorComment}
+                                // helperText={errorComment}
                                 fullWidth
                                 label={"Comment"}
                                 sx={{
