@@ -157,63 +157,32 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     return bDirty ? total : ""
 
   }
-  // const getDropdownName = (arrDropdown) => {
-  //   if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
-  //     return ""; // Return empty string if arrDropdown is not an array or is empty
-  //   }
-  //   let returnVal = "";
-  //   arrDropdown.forEach((Item) => {
-  //     returnVal += Item.Value; // Concatenate the Value property of each item
-  //   });
-  //   return returnVal;
 
-  // }
-
-  // const getDropdownName = (arrDropdown) => {
-  //   if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
-  //     return ""; // Return empty string if arrDropdown is not an array or is empty
-  //   }
-  //   let returnVal = "";
-  //   arrDropdown.map((Item) => {
-  //     returnVal = Item.Value;
-  //   });
-  //   return returnVal;
-  // }
-  // const getDropdownName = (arrDropdown) => {
-  //   if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
-  //     return ""; // Return empty string if arrDropdown is not an array or is empty
-  //   }
-  //   let returnVal = "";
-  //   arrDropdown.forEach((Item) => {
-  //     returnVal = Item.Value;
-  //   });
-  //   return returnVal;
-  // }
-
-  // const getDropdownName = (arrDropdown) => {
-  //   let returnVal = "";
-  //   arrDropdown.map((Item) => {
-  //     returnVal = Item.Name;
-  //   });
-  //   return returnVal;
-  // }
 
   const getGrade = (arrTotal) => {
     let totalScored = 0, Grade = "", subjectTotal = 0
+    let bIsDirty = false
     arrTotal.map((Item) => {
-      totalScored = totalScored + Number(Item.Text1)
+      if (Item.Text1 != "") {
+        bIsDirty = true
+        totalScored = totalScored + Number(Item.Text1)
+      }
     })
     arrTotal.map((Item) => {
-      subjectTotal = subjectTotal + Number(Item.Text2)
+      if (Item.Text2 != "") {
+        subjectTotal = subjectTotal + Number(Item.Text2)
+      }
     })
+    let Percent = 0
+    if (bIsDirty) {
+      Percent = (totalScored / subjectTotal) * 100
 
-    let Percent = (totalScored / subjectTotal) * 100
-
-    GradesForSubjectMarkList.map((Item, i) => {
-      if (Item.Starting_Marks_Range <= Percent &&
-        Item.Actual_Ending_Marks_Range >= Percent)
-        Grade = Item.Grade_Name
-    })
+      GradesForSubjectMarkList.map((Item, i) => {
+        if (Item.Starting_Marks_Range <= Percent &&
+          Item.Actual_Ending_Marks_Range >= Percent)
+          Grade = Item.Grade_Name
+      })
+    }
     return Grade
   }
   return (
@@ -239,7 +208,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   ChangeExamHeader={ChangeExamHeader}
                   GradesForSubjectMarkList={GradesForSubjectMarkList}
                   ChangeGrade={ChangeExamGradeHeader}
-                  IsReadOnly={true}
+                  IsReadOnly={IsReadOnly == 'true'}
                   IsMark={IsMark}
                 />
                 {IsMark &&
@@ -262,7 +231,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       ExamStatus={ExamStatus}
                       changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
-                      IsReadOnly={IsReadOnly}
+                      IsReadOnly={IsReadOnly == 'true'}
                       IsMark={IsMark} />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&

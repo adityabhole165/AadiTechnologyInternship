@@ -275,25 +275,25 @@ const SubjectExamMarks = () => {
     if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
       setMarksError('Exam date should be within the current academic year (i.e. between ' +
         formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-    } else {
-      if (!MarksError) {
-        const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-          asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
-          asInserted_By_id: Number(userId),
-          asStudent_Test_Type_MarksXml: getStudentTestType(),
-          asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
-          asRemoveProgress: RemoveProgress,
-          RemarkXml: RemarkXml,
-          asHasRemark: HasRemark,
-          asTestId: Number(TestId),
-          asSubjectId: Number(SubjectId),
-          asSchoolId: Number(asSchoolId),
-          asAcademicYearId: Number(asAcademicYearId)
-        };
+    } else setMarksError('')
+    if (!MarksError) {
+      const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+        asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
+        asInserted_By_id: Number(userId),
+        asStudent_Test_Type_MarksXml: getStudentTestType(),
+        asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
+        asRemoveProgress: RemoveProgress,
+        RemarkXml: RemarkXml,
+        asHasRemark: HasRemark,
+        asTestId: Number(TestId),
+        asSubjectId: Number(SubjectId),
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId)
+      };
 
-        dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
-      }
+      dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
     }
+
   };
 
   useEffect(() => {
@@ -328,22 +328,23 @@ const SubjectExamMarks = () => {
 
 
     if (TestDate !== "" && ExamSchedules.length > 0) {
-
-      if (isOutsideAcademicYear(TestDate)) {
-        setMarksError('Please fix following error(s): ' +
-          'Exam date should be within the current academic year (i.e., between ' +
-          formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-      } else {
-        const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
-        const endDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
-        const selectedDate = new Date(TestDate);
-
-
-        if (selectedDate < startDate || selectedDate > endDate) {
-          setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
-            ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
+      if (IsReadOnly != 'true') {
+        if (isOutsideAcademicYear(TestDate)) {
+          setMarksError('Please fix following error(s): ' +
+            'Exam date should be within the current academic year (i.e., between ' +
+            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
         } else {
-          setMarksError('');
+          const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
+          const endDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
+          const selectedDate = new Date(TestDate);
+
+
+          if (selectedDate < startDate || selectedDate > endDate) {
+            setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
+              ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
+          } else {
+            setMarksError('');
+          }
         }
       }
     }

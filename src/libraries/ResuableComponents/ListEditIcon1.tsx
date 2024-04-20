@@ -1,4 +1,5 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOff from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
@@ -51,7 +52,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                 </TableCell> */}
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.STATUS === 'Not Started' && (
-                    <Tooltip title={item.StatusDescription}
+                    <Tooltip title={'Marks entry not started'}
                     >
                       <EditOff style={{ color: '#76ff03', cursor: 'pointer' }}
                         onClick={() => clickEdit({
@@ -64,7 +65,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                     </Tooltip>
                   )}
                   {item.STATUS === 'Partial' && (
-                    <Tooltip title={item.StatusDescription}>
+                    <Tooltip title={'Marks entry partially done.'}>
                       <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }}
                         onClick={() => clickEdit({
                           SubjectId: item.SubjectId,
@@ -77,7 +78,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   )}
                   {(item.STATUS === 'Complete' || item.STATUS === 'Submitted'
                     || item.STATUS === 'Published') && (
-                      <Tooltip title={item.StatusDescription}>
+                      <Tooltip title={'Marks entry completed'}>
 
                         <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }}
                           onClick={() => clickEdit({
@@ -93,16 +94,10 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.STATUS === 'Not Started' ? (
-                    item.Is_Submitted === 'Y' ? (
-                      <Tooltip title={item.StatusDescription}>
+                    <Tooltip title={'Marks cannot be submitted.'}>
+                      <span>Marks cannot be submitted.</span>
+                    </Tooltip>
 
-                        <CheckIcon style={{ color: '#607d8b' }} />
-                      </Tooltip>
-                    ) : (
-                      <Tooltip title={item.StatusDescription}>
-                        <span>Marks cannot be submitted.</span>
-                      </Tooltip>
-                    )
                   ) : item.STATUS === 'Partial' ? (
                     item.Is_Submitted === 'Y' ? (
                       <Tooltip title={item.StatusDescription}>
@@ -118,13 +113,13 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                     item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
                       item.Subject_Id !== -1 ? (
                         item.Is_Submitted === 'Y' ? (
-                          <Tooltip title={item.StatusDescription}>
+                          <Tooltip title={'Submit Marks To Class Teacher'}>
                             <AssignmentIcon style={{ color: '#ff5722' }} />
                           </Tooltip>
                         ) : (
-                          <Tooltip title={item.StatusDescription}>
+                          <Tooltip title={'unsubmit marks'}>
 
-                            <CheckIcon style={{ color: '#607d8b' }} />
+                            <BadgeIcon style={{ color: '#607d8b' }} />
                           </Tooltip>
                         )
                       ) : (

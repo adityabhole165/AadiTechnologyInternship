@@ -61,6 +61,9 @@ const AssignExamMark = () => {
   const SubjectListmarkClass1 = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass1
   );
+  const ExamMarksStatusForClass = useSelector(
+    (state: RootState) => state.AssignExamMarkSlice.ExamMarksStatusForClass
+  );
 
 
 
@@ -253,7 +256,6 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
           </Box>
         </>}
       />
-
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ? (

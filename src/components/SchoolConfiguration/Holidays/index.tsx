@@ -41,38 +41,46 @@ const Holidays = (props: Props) => {
             headerCellProps: {
                 align: 'center'
             }
-        },
-        {
-            id: 'edit',
-            label: 'Edit',
-            renderCell: (rowData) => <Box>
-                <IconButton sx={{ p: 0 }} color={"primary"}>
-                    <Edit />
-                </IconButton>
-            </Box>,
-            cellProps: {
-                align: 'center'
+        }])
+    if (true) {
+        holidayColumns.push(
+            {
+                id: 'edit',
+                label: 'Edit',
+                renderCell: (rowData) => <Box>
+                    <IconButton sx={{ p: 0 }} color={"primary"}
+                        onClick={() => {
+                            handleDelete(rowData);
+                        }}>
+                        <Edit />
+                    </IconButton>
+                </Box>,
+                cellProps: {
+                    align: 'center'
+                },
+                headerCellProps: {
+                    align: 'center'
+                }
             },
-            headerCellProps: {
-                align: 'center'
-            }
-        },
-        {
-            id: 'delete',
-            label: 'Delete',
-            renderCell: (rowData) => <Box>
-                <IconButton sx={{ p: 0 }} color={"error"}>
-                    <Delete />
-                </IconButton>
-            </Box>,
-            cellProps: {
-                align: 'center'
-            },
-            headerCellProps: {
-                align: 'center'
-            }
-        }
-    ])
+            {
+                id: 'delete',
+                label: 'Delete',
+                renderCell: (rowData) => <Box>
+                    <IconButton sx={{ p: 0 }} color={"error"}
+                        onClick={() => {
+                            handleEdit(rowData);
+                        }}>
+                        <Delete />
+                    </IconButton>
+                </Box>,
+                cellProps: {
+                    align: 'center'
+                },
+                headerCellProps: {
+                    align: 'center'
+                }
+            })
+    }
     const [holidays, setHolidays] = React.useState<RowData[]>([
         {
             startDate: '2021-01-01',
@@ -97,6 +105,12 @@ const Holidays = (props: Props) => {
         }
     ]);
 
+    const handleDelete = (holidays) => {
+
+    }
+    const handleEdit = (holidays) => {
+
+    }
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader

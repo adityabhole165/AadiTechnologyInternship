@@ -21,7 +21,8 @@ const handleChange = (e, validationFunction, callback) => {
         }
 };
 
-const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
+const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExamHeader,
+    GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
     const handleBlur = (value, Index) => {
         if (value != "") {
             if (confirm('This action will set a new value for all students. Do you want to continue?')) {
@@ -52,12 +53,16 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                                 {Item.Text1}
 
 
-                                <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
+                                <TextField sx={{
+                                    width: '50px',
+                                    background: (IsReadOnly) ?
+                                        "#f5f5f5" : "white"
+                                }} size={"small"}
                                     value={Item.Text2}
                                     onBlur={() => handleBlur(Item.Text2, Index)}
                                     onChange={(e) => handleChange(e, validateInput, (value) =>
                                         ChangeExamHeader(value, Item.Id))}
-                                //  disabled={IsReadOnly} 
+                                    disabled={IsReadOnly}
                                 />
                                 {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text3} /> */}
@@ -68,7 +73,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                                 variant='outlined'
                                 Array={GradesForSubjectMarkList}
                                 handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
-                            // disabled={IsReadOnly}
+                                disabled={IsReadOnly}
                             />
                         )}
                     </TableCell>
