@@ -723,15 +723,15 @@ const AddLessonPlan = () => {
             />
           </Grid>
 
-          {errorexampleLessonDetails || errorMessage && (
+          {/* {errorexampleLessonDetails || errorMessage && ( */}
 
-            <Grid item xs={12}>
-              <Typography variant={"h5"} sx={{ color: 'red' }}>
-                {errorexampleLessonDetails}
-                {errorMessage}
-              </Typography>
-            </Grid>
-          )}
+          <Grid item xs={12}>
+            <Typography variant={"h5"} sx={{ color: 'red' }}>
+              {errorexampleLessonDetails}<br></br>
+              {errorMessage}
+            </Typography>
+          </Grid>
+          {/* )} */}
           {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
               Plan Details

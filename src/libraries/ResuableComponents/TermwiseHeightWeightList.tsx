@@ -73,7 +73,7 @@ const TermwiseHeightWeightList = ({
 
               {HeaderArray.map((item, i) => (
                 <TableCell
-                  size={"small"}
+                  // size={"small"}
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
