@@ -4,12 +4,11 @@ import {
   Box,
   Grid,
   IconButton,
-  TextField,
   Tooltip,
-  Typography,
-  styled
+  Typography
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,16 +19,6 @@ import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
-const DatePicker = styled(TextField)`
-  & input[type='date']::-webkit-inner-spin-button,
-  & input[type='date']::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-  }
-  & input[type='date']::-moz-calendar-picker-indicator {
-    display: none;
-  }
-`;
 
 const SchoolAttendanceOverview = () => {
   const { AssignedDate } = useParams()
@@ -107,7 +96,7 @@ const SchoolAttendanceOverview = () => {
         rightActions={
           <>
             <Box sx={{ background: 'white' }}>
-              <TextField
+              {/* <TextField
                 value={SelectDate}
                 type='date'
                 onChange={(e) => { onSelectDate(e.target.value) }}
@@ -116,6 +105,21 @@ const SchoolAttendanceOverview = () => {
                 inputProps={{
                   max: new Date().toISOString().split('T')[0]
                 }}
+              /> */}
+              <DatePicker
+                views={['year', 'month', 'day']}
+                value={new Date(SelectDate)}
+                onChange={(date) => {
+                  onSelectDate(date);
+                }}
+                format='dd-MM-yyyy'
+                slotProps={{
+                  textField: {
+                    variant: "outlined",
+                    size: "small",
+                  }
+                }}
+
               />
             </Box>
             <Box>

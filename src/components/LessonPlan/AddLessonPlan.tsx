@@ -723,22 +723,15 @@ const AddLessonPlan = () => {
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-              {/* <Button variant={"contained"} color={"success"}>
-                Save
-              </Button>
-              <Button variant={"outlined"} color={"primary"} disabled>
-                Submit
-              </Button> */}
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant={"h5"} mb={1} sx={{ color: 'red' }}>
-              {errorexampleLessonDetails}<br></br>
-              {errorMessage}
-            </Typography>
-          </Grid>
+          {errorexampleLessonDetails || errorMessage && (
+
+            <Grid item xs={12}>
+              <Typography variant={"h5"} sx={{ color: 'red' }}>
+                {errorexampleLessonDetails}
+                {errorMessage}
+              </Typography>
+            </Grid>
+          )}
           {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
               Plan Details

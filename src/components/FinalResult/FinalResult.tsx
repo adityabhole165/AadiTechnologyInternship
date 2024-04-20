@@ -193,6 +193,9 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"View All Results"}>
               <IconButton
+                onClick={() => {
+                  navigate('/extended-sidebar/Teacher/ViewResultAll')
+                }}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],

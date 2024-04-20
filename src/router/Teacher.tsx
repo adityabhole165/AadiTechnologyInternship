@@ -146,6 +146,9 @@ const SubjectMarkList = Loader(
 const AddHomeworkNew = Loader(
   lazy(() => import('src/components/AddHomeworkNew/AddHomeworkNew'))
 );
+const ViewResultAll = Loader(
+  lazy(() => import('src/components/ViewResultAll/ViewResultAll'))
+)
 
 const teacherRoutes = [
   {
@@ -383,17 +386,19 @@ const teacherRoutes = [
     path: 'SubjectMarkList/:TestId/:StandardDivisionId/:getExamName/:getTeacherName/:getSubjectName/:SubjectId',
     element: <SubjectMarkList />
   },
- 
+
   {
     path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId',
-    element: <AddHomeworkNew/>
+    element: <AddHomeworkNew />
   },
   {
     path: 'AddHomeworkNew',
-    element: <AddHomeworkNew/>
+    element: <AddHomeworkNew />
   },
-  
-
+  {
+    path: 'ViewResultAll',
+    element: <ViewResultAll />
+  }
 
 ];
 

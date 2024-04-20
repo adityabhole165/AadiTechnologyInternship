@@ -156,6 +156,7 @@ const EventOverview = (props: Props) => {
           <>
             <Box>
               <Dropdown
+                size={"small"}
                 variant={"outlined"}
                 Array={AssociatedStandardsEV}
                 handleChange={clickStandardDropdown}
@@ -166,6 +167,7 @@ const EventOverview = (props: Props) => {
             </Box>
             <Box>
               <Dropdown
+                size={"small"}
                 variant={"outlined"}
                 Array={UsGetAllMonthsDropDown}
                 handleChange={clicMonthDropdown}
@@ -176,6 +178,7 @@ const EventOverview = (props: Props) => {
             </Box>
             <Box>
               <Dropdown
+                size={"small"}
                 variant={"outlined"}
                 Array={AllAcademicYearsForSchool}
                 handleChange={clicYearDropdown}
