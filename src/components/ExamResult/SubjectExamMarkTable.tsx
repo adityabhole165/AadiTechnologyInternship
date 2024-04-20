@@ -236,18 +236,21 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
                       <TableCell>
-                        <TextField sx={{
-                          width: '80px',
-                          background: "#f5f5f5"
-                        }} size={"small"}
-                          disabled
-                          value={Item.TotalMarks}
-                        // value={getTotalMarks(Item.MarksForStudent)}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 
-                        // value={Item.TotalMarks} 
-                        />
+                          <TextField sx={{
+                            width: '80px',
+                            background: "#f5f5f5"
+                          }} size={"small"}
+                            disabled
+                            value={Item.TotalMarks}
+                          // value={getTotalMarks(Item.MarksForStudent)}
 
-                        {getGrade(Item.MarksForStudent)}
+                          // value={Item.TotalMarks} 
+                          />
+
+                          {getGrade(Item.MarksForStudent)}
+                        </Box>
                       </TableCell>
                     }
 

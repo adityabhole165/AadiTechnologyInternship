@@ -1,13 +1,14 @@
 import { useRoutes } from 'react-router-dom';
 import router from 'src/router';
 
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { SnackbarProvider } from 'notistack';
 
 import { CssBaseline } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import AppInit from './libraries/AppInit';
 import ThemeProvider from './theme/ThemeProvider';
+
 
 import '@fontsource-variable/nunito-sans';
 import '@fontsource/roboto/300.css';

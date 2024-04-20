@@ -20,7 +20,7 @@ const AddHomeworkSlice = createSlice({
   initialState: {
     HomeworkListForTeacher: [],
     PublishUnPublishHomework: '',
-    GetHomeworkDetail: {},
+    GetHomeworkDetail: null,
     DeleteHomework: '',
     ISSaveHomework: '',
     DeleteHomeworkDocument: '',

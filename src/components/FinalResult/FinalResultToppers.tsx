@@ -255,6 +255,7 @@ const FinalResultToppers = () => {
 
             <Box>
               <Dropdown
+                size={"small"}
                 Array={GetClassdropdownCT}
                 handleChange={clickClassDropdownCT}
                 defaultValue={SelectClassCT}
@@ -266,6 +267,7 @@ const FinalResultToppers = () => {
           ) : (
             <Box>
               <Dropdown
+                size={"small"}
                 Array={GetStandarddropdownST}
                 handleChange={clickStandardDropdownST}
                 defaultValue={SelectStandardST}
@@ -277,6 +279,7 @@ const FinalResultToppers = () => {
           )}
           <Box>
             <Dropdown
+              size={"small"}
               Array={GetExamdropdownCT}
               handleChange={clickExamDropdownCT}
               defaultValue={SelectExamCT}
@@ -287,6 +290,7 @@ const FinalResultToppers = () => {
           </Box>
           <Box>
             <Dropdown
+              size={"small"}
               Array={GetSubjectdropdownCT}
               handleChange={clickSubjectDropdownCT}
               defaultValue={SelectSubjectCT}

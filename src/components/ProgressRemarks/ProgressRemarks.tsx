@@ -1,6 +1,9 @@
+import Download from '@mui/icons-material/Download';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -342,31 +345,53 @@ const ProgressRemarks = () => {
             label={'StudentList'}
             size={"small"}
           />
+          <Box>
+            <Tooltip title={'Add/Edit/Delete student progress remarks.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={'Export'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Download />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={'Save'}>
+              <IconButton
+                onClick={UpdateRemark}
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'green'
+                }}
+              >
+                <SaveIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </>}
       />
 
       <Grid >
-        <Paper sx={{ padding: 1, marginBottom: '10px' }}>
-          <Accordion defaultExpanded>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1-content"
-              id="panel1-header"
-            >
-              <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
-              <Alert variant="filled" severity="info">{Note1}</Alert>
-              <Alert variant="filled" severity="info">{Note2}</Alert>
-              <Alert variant="filled" severity="info">{Note3}</Alert>
-              <Alert variant="filled" severity="info">{Note4}</Alert>
-              <Alert variant="filled" severity="info">{Note5}</Alert>
-
-            </AccordionDetails>
-          </Accordion>
-
-        </Paper>
-
         <Grid item xs={6}>
           <Paper sx={{ padding: 2 }}>
             <Stack>
@@ -407,24 +432,31 @@ const ProgressRemarks = () => {
                     ExportExcel={ExportButton}
                   />
                 </Box> */}
-              <Box>
-                <Tooltip title={'Save'}>
-                  <IconButton
-                    onClick={UpdateRemark}
-                    sx={{
-                      color: 'white',
-                      backgroundColor: 'green'
-                    }}
-                  >
-                    <SaveIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
+
 
             </Box>
           </Paper>
         </Grid>
       </Grid>
+      <Paper sx={{ my: '10px' }}>
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
+            <Alert variant="filled" severity="info">{Note1}</Alert>
+            <Alert variant="filled" severity="info">{Note2}</Alert>
+            <Alert variant="filled" severity="info">{Note3}</Alert>
+            <Alert variant="filled" severity="info">{Note4}</Alert>
+            <Alert variant="filled" severity="info">{Note5}</Alert>
+          </AccordionDetails>
+        </Accordion>
+
+      </Paper>
       <Modal
         open={open}
         onClose={ExamResult}
@@ -433,7 +465,7 @@ const ProgressRemarks = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box>
               <Box>
-                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
+                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Add Remark Template</Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
                 <SearchableDropdown

@@ -77,6 +77,7 @@ const AddLessonPlan = () => {
   const [ApproverComment, setApproverComment] = useState([]);
   const [errorStartDate, seterrorStartDate] = useState('');
   const [errorEndDate, seterrorEndDate] = useState('')
+  const [errorMessage, seterrorMessage] = useState('')
   const [errorComment, seterrorComment] = useState('');
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
   const [errorexampleLessonDetails, seterrorexampleLessonDetails] = useState('')
@@ -259,22 +260,22 @@ const AddLessonPlan = () => {
 
     if (isGreaterThanDate(StartDate, EndDate)) {
 
-      seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
+      seterrorMessage('	Please fix following error(s):End Date should not be less than Start Date.')
       returnVal = false
     } else
       if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
-        seterrorStartDate('Please fix following error(s): Date(s) should not be out of academic year' +
+        seterrorMessage('Please fix following error(s): Date(s) should not be out of academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
           ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
         returnVal = false
-      } else seterrorStartDate('')
+      } else seterrorMessage('')
     if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))
     ) {
-      seterrorEndDate(' Please fix following error(s): Date(s) should not be out of academic year.' +
+      seterrorMessage(' Please fix following error(s): Date(s) should not be out of academic year.' +
         '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
         ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
       returnVal = false
-    } else seterrorEndDate('')
+    } else seterrorMessage('')
 
     let IsPlan = false;
     exampleLessonDetails.map((Item) => {
@@ -706,8 +707,8 @@ const AddLessonPlan = () => {
               }}
               value={EndDate}
               onChange={(e) => onSelectEndDate(e.target.value)}
-              error={errorEndDate !== ''}
-              helperText={errorEndDate}
+            // error={errorEndDate !== ''}
+            // helperText={errorEndDate}
 
             />
           </Grid>
@@ -722,21 +723,16 @@ const AddLessonPlan = () => {
             />
           </Grid>
 
+          {/* {errorexampleLessonDetails || errorMessage && ( */}
+
           <Grid item xs={12}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-              {/* <Button variant={"contained"} color={"success"}>
-                Save
-              </Button>
-              <Button variant={"outlined"} color={"primary"} disabled>
-                Submit
-              </Button> */}
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant={"h5"} mb={1} sx={{ color: 'red' }}>
-              {errorexampleLessonDetails}
+            <Typography variant={"h5"} sx={{ color: 'red' }}>
+              {errorexampleLessonDetails}<br></br>
+              {errorMessage}
+              {errorComment}
             </Typography>
           </Grid>
+          {/* )} */}
           {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
               Plan Details

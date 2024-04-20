@@ -18,6 +18,7 @@ import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import { getCalendarDateFormatDate } from '../Common/Util';
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
     useParams();
@@ -31,7 +32,6 @@ const AddHomeworkNew = () => {
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
   const [fileName, setFileName] = useState('');
-  const [File, setFile] = useState('');
   const [base64URL, setbase64URL] = useState('');
   const [openUploadMultipleDialog, setOpenUploadMultipleDialog] = useState(false);
   const [MultipleFiles, setMultipleFiles] = useState([]);
@@ -127,7 +127,7 @@ const AddHomeworkNew = () => {
     asTitle: Title,
     asSubjectId: Number(SubjectCheckID),
     asStandardDivisionId: StandardDivisionId,
-    asAttachmentPath: File,
+    asAttachmentPath: fileName,
     asDetails: Details,
     asAssignDate: AssignedDate,
     asCompleteByDate: CompleteDate,
@@ -154,7 +154,7 @@ const AddHomeworkNew = () => {
     setTitle('');
     setAssignedDate('');
     setCompleteDate('');
-    setFile('');
+    
     setFileName('');
     setDetails('');
     setMultipleFiles(['']);
@@ -210,7 +210,6 @@ const AddHomeworkNew = () => {
   };
 
   const ChangeFile = (value) => {
-    setFile(value.Name);
     setbase64URL(value.Value);
     setFileName(value.Name);
   };
@@ -250,13 +249,15 @@ const AddHomeworkNew = () => {
 
 
   useEffect(() => {
-    if (HomeworkDetail && HomeworkDetail.length > 0) {
-      setHomeworkId(HomeworkDetail[0].HomeworkId);
-      setFile(HomeworkDetail[0].File);
-      setAssignedDate(HomeworkDetail[0].AssignedDate);
-      setCompleteDate(HomeworkDetail[0].CompleteByDate);
-      setTitle(HomeworkDetail[0].Title);
-      setDetails(HomeworkDetail[0].Details); 
+    if (HomeworkDetail  != null) {
+      setHomeworkId(HomeworkDetail.HomeworkId);
+      setFileName(HomeworkDetail.AttachmentPath);
+      setAssignedDate( getCalendarDateFormatDate(HomeworkDetail.AssignedDate));
+      setCompleteDate( getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
+      setTitle(HomeworkDetail.Title);
+      setDetails(HomeworkDetail.Details);
+      console.log(HomeworkDetail,"checkedit ");
+      
     }
   }, [HomeworkDetail]);
   
@@ -597,9 +598,9 @@ const AddHomeworkNew = () => {
               }
               multiline
               rows={3}
-              value={Details1}
+              value={Details}
               onChange={(e) => {
-                setDetails1(e.target.value);
+                setDetails(e.target.value);
               }}
               error={ErrorDetails !== ''}
               helperText={ErrorDetails}

@@ -270,7 +270,7 @@ const TermwiseHeightWeight = () => {
       />
       <Box sx={{ background: 'white', p: 2 }}>
         {/* New Table */}
-        <DataTable
+        {/* <DataTable
           columns={
             [
               {
@@ -325,7 +325,7 @@ const TermwiseHeightWeight = () => {
               }
             ]
           }
-        />
+        /> */}
         {/* New Table End */}
         {SelectTeacher > 0 ? (
           <>

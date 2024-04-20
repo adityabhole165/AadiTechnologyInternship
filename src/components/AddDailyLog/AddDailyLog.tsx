@@ -11,10 +11,10 @@ import {
   TextField,
   Tooltip,
   Typography,
-  alpha,
-  styled
+  alpha
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -42,7 +42,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
 
-const DatePicker = styled(TextField)``;
 const AddDailyLog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -505,13 +504,10 @@ const AddDailyLog = () => {
 
                 <Box>
                   <DatePicker
-                    fullWidth
-                    value={dateSearch}
-                    type="date"
-                    onChange={(e) => {
-                      onSelectDate(e.target.value);
+                    value={new Date(dateSearch)}
+                    onChange={(date) => {
+                      onSelectDate(date);
                     }}
-                    size="small"
                     sx={{
                       width: '180px',
                       backgroundColor: 'white',
@@ -519,8 +515,11 @@ const AddDailyLog = () => {
                         fontWeight: 'bold'
                       }
                     }}
-                    InputLabelProps={{ shrink: true }}
-                    inputProps={{ max: new Date().toISOString().split('T')[0] }}
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                      }
+                    }}
                   />
                 </Box>
                 <Box>

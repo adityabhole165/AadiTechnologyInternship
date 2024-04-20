@@ -24,6 +24,8 @@ import {
 import { RootState, useSelector } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
+import { DatePicker } from '@mui/x-date-pickers';
+import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
@@ -38,7 +40,7 @@ const SubjectExamMarks = () => {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const userId = sessionStorage.getItem('Id');
-  const [TestDate, setTestDate] = useState('');
+  const [TestDate, setTestDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [DisplayName, setDisplayName] = useState('');
   const [SubjectTotalMarks, setSubjectTotalMarks] = useState('')
   const [PassingTotalMarks, setPassingTotalMarks] = useState('')
@@ -104,7 +106,9 @@ const SubjectExamMarks = () => {
 
   const [ExamGrade, setExamGrade] = useState([])
   const clickTestDate = (value) => {
-    setTestDate(value)
+    setTestDate(
+      format(value, 'yyyy-MM-dd')
+    )
   }
   //for testdate
   useEffect(() => {
@@ -382,9 +386,9 @@ const SubjectExamMarks = () => {
           <>
             <Box>
               <TextField
+                size={"small"}
                 fullWidth
                 label={"Class"}
-                size={"small"}
                 value={
                   (StandardName && Object.keys(StandardName).length > 0) ?
                     (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
@@ -396,9 +400,9 @@ const SubjectExamMarks = () => {
             </Box>
             <Box>
               <TextField
+                size={"small"}
                 fullWidth
                 label={"Exam"}
-                size={"small"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.SchoolWise_Test_Name
@@ -410,8 +414,8 @@ const SubjectExamMarks = () => {
             </Box>
             <Box>
               <TextField
-                fullWidth
                 size={"small"}
+                fullWidth
                 label={"Subject Name"}
                 value={SubjectName || ''}
                 disabled={IsReadOnly === 'true'}
@@ -420,8 +424,9 @@ const SubjectExamMarks = () => {
             </Box>
 
             <Box>
-
+              {/* 
               <TextField
+                size={"small"}
                 fullWidth
                 value={TestDate}
                 type="date"
@@ -429,15 +434,26 @@ const SubjectExamMarks = () => {
                 InputLabelProps={{ shrink: true }}
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
                 variant={"outlined"}
-                size={"small"}
                 onChange={(e) => { setTestDate(e.target.value) }}
               // disabled={IsReadOnly === 'true'}
+              /> */}
+              <DatePicker
+                value={new Date(TestDate)}
+                onChange={clickTestDate}
+                format="dd-MM-yyyy"
+                label={"Exam Date"}
+                views={['year', 'month', 'day']}
+                slotProps={{
+                  textField: {
+                    size: 'small',
+                    variant: 'outlined',
+                  }
+                }}
+                sx={{
+                  width: '150px'
+                }}
               />
-
             </Box>
-            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-              *
-            </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
@@ -479,9 +495,9 @@ const SubjectExamMarks = () => {
             {/* Total Marks: 20 */}
             {TestName && TestName.Grade_Or_Marks == "M" &&
               <TextField
+                size={"small"}
                 fullWidth
                 label={"Total Marks"}
-                size={"small"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.Subject_Total_Marks
@@ -490,7 +506,8 @@ const SubjectExamMarks = () => {
                 }
                 disabled={IsReadOnly === 'true'}
               />
-              // <TextField fullWidth value={TestMarkDetails?.length > 0 ?
+              // <TextField
+              // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
               //  (TestMarkDetails[0].Subject_Total_Marks) : ''}
               //   disabled={IsReadOnly === 'true'} />
             }
@@ -501,7 +518,8 @@ const SubjectExamMarks = () => {
           <Typography variant={"h4"}>
             {/* Passing Marks: 20 */}
             {TestName && TestName.Grade_Or_Marks == "M" &&
-              // <TextField fullWidth value={TestMarkDetails?.length > 0 ?
+              // <TextField
+              // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
               //   (TestMarkDetails[0].Passing_Total_Marks) : ''}
               //   disabled={IsReadOnly === 'true'}
 
@@ -521,6 +539,7 @@ const SubjectExamMarks = () => {
             }
             {TestName && TestName.Grade_Or_Marks == "G" &&
               <TextField
+                size={"small"}
                 fullWidth
                 label={"Passing Grade"}
                 value={

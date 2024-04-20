@@ -50,7 +50,7 @@ function ResizableCommentsBox({
         maxHeight: '800px',
         overflowY: 'auto',
         scrollBehavior: 'smooth',
-        border:'2px'
+        border: '2px'
       }}
     >
       <TableContainer component={Card}>
@@ -62,9 +62,8 @@ function ResizableCommentsBox({
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
-                    borderRight: '1px solid black',
-                    backgroundColor: '#81d4fa',
-                    color:'white'
+                    backgroundColor: (theme) => theme.palette.secondary.main,
+                    color: 'white'
                   }}
                   align="center"
                 >
@@ -80,7 +79,7 @@ function ResizableCommentsBox({
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell align="center">{item.Text1}</TableCell>
-                <TableCell align="center">{item.Text2}</TableCell>
+                <TableCell>{item.Text2}</TableCell>
                 <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize

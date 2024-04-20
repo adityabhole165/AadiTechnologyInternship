@@ -38,6 +38,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                     <TableCell key={Index}>
                         <Stack direction="row" alignItems="center" gap={2}>
                             <Dropdown
+                                size={"small"}
                                 defaultValue={Item.ExamStatus}
                                 variant='outlined'
                                 Array={
@@ -82,6 +83,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
 
 
                                     <Dropdown
+                                        size={"small"}
                                         defaultValue={Item.ExamGrade}
                                         variant='outlined'
                                         Array={GradesForSubjectMarkList}
