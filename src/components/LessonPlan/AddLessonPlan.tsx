@@ -260,7 +260,7 @@ const AddLessonPlan = () => {
 
     if (isGreaterThanDate(StartDate, EndDate)) {
 
-      seterrorMessage('	Please fix following error(s):End Date should not be less than Start Date.')
+      seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
       returnVal = false
     } else
       if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
@@ -690,8 +690,8 @@ const AddLessonPlan = () => {
               }}
               value={StartDate}
               onChange={(e) => onSelectStartDate(e.target.value)}
-              error={errorStartDate !== ''}
-              helperText={errorStartDate}
+            // error={errorStartDate !== ''}
+            // helperText={errorStartDate}
             />
           </Grid>
           <Grid item xs={3}>
@@ -728,8 +728,9 @@ const AddLessonPlan = () => {
           <Grid item xs={12}>
             <Typography variant={"h5"} sx={{ color: 'red' }}>
               {errorexampleLessonDetails}<br></br>
-              {errorMessage}
+              {errorMessage}<br></br>
               {errorComment}
+              {errorStartDate}
             </Typography>
           </Grid>
           {/* )} */}
