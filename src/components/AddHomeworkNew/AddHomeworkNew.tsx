@@ -49,7 +49,7 @@ const AddHomeworkNew = () => {
   const [textall, setTextall] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
-
+  const SchoolName = localStorage.getItem('SchoolName');
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
     { Id: 2, Header: ' 	Title' },
@@ -360,22 +360,36 @@ const AddHomeworkNew = () => {
 return arr.toString()
  }
 
-  const  publishAll = (Id) => {
-    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
-      asSchoolId: String(asSchoolId),
-      asAcademicYearId: String(asAcademicYearId),
-      asHomeWorkLogId: getSelectHomeworkId(),
-      asUnpublishReason: textall,
-      asUpdatedById: asTeacherId,
-      IsPublished:  1,
-      IsSMSSent: 0,
-    };
+ const publishAll = (Id) => {
+  const selectedHomeworkIds = getSelectHomeworkId();
+  if (selectedHomeworkIds === "") {
+    toast.error("At least one subject should be selected to publish.");
+    return;
+  }
+  const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
+  if (!confirmPublish) return;
 
-    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+ const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
+
+SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
+  const isSMSSent = confirmSendSMS ? 1 : 0;
+
+  const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+    asSchoolId: String(asSchoolId),
+    asAcademicYearId: String(asAcademicYearId),
+    asHomeWorkLogId: selectedHomeworkIds,
+    asUnpublishReason: textall,
+    asUpdatedById: asTeacherId,
+    IsPublished: 1,
+    IsSMSSent: isSMSSent,
   };
 
-  const  unpublishAll = () => {
-   
+  dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+};
+
+  const unpublishAll = () => {
+  
+  
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
       asSchoolId: String(asSchoolId),
       asAcademicYearId: String(asAcademicYearId),
@@ -385,17 +399,18 @@ return arr.toString()
       IsPublished:  0,
       IsSMSSent: 0,
     };
-
+  
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
+  
 
    
-  const ClickOkall = () => {
+  const ClickOkall = () => {    
     if (textall !== '') {
       setOpenPublishDialogall(false);
       setTextall('');
       unpublishAll();
-    } else {
+    }else {
       toast.error('Please provide a reason for unpublishing.');
     }
   };
@@ -475,7 +490,15 @@ return arr.toString()
   };
 
   const ClickOpenDialogbox = () => {
-    setOpenPublishDialogall(true);
+    const selectedHomeworkIds = getSelectHomeworkId();
+     if (selectedHomeworkIds === "") {
+      toast.error("At least one subject should be selected to unpublish.");
+      
+    }
+    else {
+      setOpenPublishDialogall(true);
+
+    }
   };
  
 
