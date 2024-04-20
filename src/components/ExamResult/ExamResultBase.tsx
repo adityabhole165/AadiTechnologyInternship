@@ -1,7 +1,7 @@
 import EditIcon from '@mui/icons-material/Edit';
 import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Checkbox, FormControlLabel, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -60,7 +60,7 @@ const ExamResultBase = () => {
   const Submitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
-  console.log(Submitted, "Submit")
+
 
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
@@ -97,12 +97,12 @@ const ExamResultBase = () => {
   const PrePrimaryExam: any = useSelector(
     (state: RootState) => state.ExamResult.IsPrePrimaryExamConfiguration
   );
-  console.log("PrePrimaryExam", PrePrimaryExam)
+
 
   const MonthConfigurationForExam: any = useSelector(
     (state: RootState) => state.ExamResult.IsMonthConfigurationForExamResult
   );
-  console.log("MonthConfigurationForExam", MonthConfigurationForExam)
+
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
@@ -158,50 +158,26 @@ const ExamResultBase = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Submitted:", Submitted);
-    if (Submitted === 'Y' && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
-      setDisplayNote('Results for this exam have been published.');
-      setIconList([
-        {
-          Id: 1,
-          Icon: <EditIcon />,
-          Action: 'Edit'
-        }
-      ]);
-    } else {
-      setDisplayNote('');
-      setIconList([
-        {
-          Id: 1,
-          Icon: <EditIcon />,
-          Action: 'Edit'
-        }
-      ]);
+    //console.log("Submitted:", Submitted);
+    setDisplayNote('')
+    if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
+      if (Submitted === 'Y') {
+        setDisplayNote('Results for this exam have been published.');
+
+      }
+      setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
+    }
+    else {
+      if (!PrePrimaryExam && MonthConfigurationForExam) {
+        setDisplayNote('Not all results for this exam have been submitted.');
+      }
     }
   }, [Submitted, ClassPassFailDetailsForButton]);
 
 
-
   useEffect(() => {
-    console.log(!PrePrimaryExam, "--",
-      ClassPassFailDetailsForButton, " && ",
-      !ClassPassFailDetailsForButton?.IsPublish)
-    if (!PrePrimaryExam && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
-      console.log(PrePrimaryExam, "--",
-        ClassPassFailDetailsForButton, " sdfsdfsdf ",
-        !ClassPassFailDetailsForButton?.IsPublish)
-      setDisplayNote('Not all results for this exam have been submitted.');
-      setIconList([
-        {
-          Id: 1,
-          Icon: <EditIcon />,
-          Action: 'Edit'
-        }
-      ]);
-      // dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-      dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+    dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
 
-    }
   }, [ClassPassFailDetailsForButton, PrePrimaryExam, StandardDivisionId]);
 
 
@@ -468,10 +444,11 @@ const ExamResultBase = () => {
       ) : (
         <Box mb={1} sx={{ p: 2, background: 'white' }}>
           <Box>
-            <Typography variant={'h4'} mb={1}>
-              Results
-            </Typography>
-
+            <Stack direction={'row'} gap={2}>
+              <Typography variant={'h4'} mb={1}>
+                Results
+              </Typography>
+              <Typography>{DisplayNote}</Typography></Stack>
             {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No Record Found.</b>
@@ -508,18 +485,26 @@ const ExamResultBase = () => {
       )}
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+          // || !MonthConfigurationForExam
+        }>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary" disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated) || !MonthConfigurationForExam}>
+        <Button variant="contained" color="primary" disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated)
+          // || !MonthConfigurationForExam
+        }>
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+          // || !MonthConfigurationForExam
+        }>
           PUBLISH ALL
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) || !MonthConfigurationForExam}>
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish)
+          // || !MonthConfigurationForExam
+        }>
           UNPUBLISH ALL
         </Button>
 
