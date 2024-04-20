@@ -87,6 +87,11 @@ const AddHomeworkSlice = createSlice({
       state.PublishUnPublishHomework = '';
     },
 
+    RPublishresetMessageAll(state) {
+      state.AllPublishUnpublishHomeworkT = '';
+    },
+
+    
     
     
   }
@@ -219,6 +224,9 @@ export const GetAllHomeworkDocuments =
     
     export const  PublishresetMessage = (): AppThunk => async (dispatch) => {
       dispatch(AddHomeworkSlice.actions.RPublishresetMessage());
+    };
+    export const  PublishresetMessageAll = (): AppThunk => async (dispatch) => {
+      dispatch(AddHomeworkSlice.actions.RPublishresetMessageAll());
     };
 
     

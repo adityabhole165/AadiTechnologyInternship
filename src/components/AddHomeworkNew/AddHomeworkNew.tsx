@@ -8,17 +8,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { IDeleteHomeworkBody, IGetHomeworkDetailBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkDetailBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete,  GetHomeworkDetails,HomeworkSave, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
-import { GetHomeworkDetailss, PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
+import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework , PublishresetMessageAll} from 'src/requests/AssignHomework/requestAddHomework';
+import { PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
+import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import { getCalendarDateFormatDate } from '../Common/Util';
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
     useParams();
@@ -40,15 +40,15 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
-  const [HomeworkS, setHomeworkS] = useState('1');
+  const [HomeworkS, setHomeworkS] = useState();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
-  const [Details1, setDetails1] = useState('');
   const [text, setText] = useState('');
+  const [textall, setTextall] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');
-
+  const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
 
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -115,6 +115,15 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.GetHomeworkDetail
   );
 
+  const AllPublishUnPublishHomework = useSelector(
+    (state: RootState) => state.AddHomework.PublishUnPublishHomework
+  );
+
+  console.log(AllPublishUnPublishHomework, "AllPublishUnPublishHomework");
+
+
+
+
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
   {
     asSchoolId: asSchoolId,
@@ -154,7 +163,7 @@ const AddHomeworkNew = () => {
     setTitle('');
     setAssignedDate('');
     setCompleteDate('');
-    
+
     setFileName('');
     setDetails('');
     setMultipleFiles(['']);
@@ -235,7 +244,7 @@ const AddHomeworkNew = () => {
     }
   };
 
- 
+
 
   const handleEditClick = (Id) => {
     setHomeworkId(Id);
@@ -249,18 +258,18 @@ const AddHomeworkNew = () => {
 
 
   useEffect(() => {
-    if (HomeworkDetail  != null) {
+    if (HomeworkDetail != null) {
       setHomeworkId(HomeworkDetail.HomeworkId);
       setFileName(HomeworkDetail.AttachmentPath);
-      setAssignedDate( getCalendarDateFormatDate(HomeworkDetail.AssignedDate));
-      setCompleteDate( getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
+      setAssignedDate(getCalendarDateFormatDate(HomeworkDetail.AssignedDate));
+      setCompleteDate(getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
       setTitle(HomeworkDetail.Title);
       setDetails(HomeworkDetail.Details);
-      console.log(HomeworkDetail,"checkedit ");
-      
+      console.log(HomeworkDetail, "checkedit ");
+
     }
   }, [HomeworkDetail]);
-  
+
 
 
   useEffect(() => {
@@ -303,12 +312,12 @@ const AddHomeworkNew = () => {
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == true && (confirm('Are you sure you want to publish the homework?'))) {
-        PublishUnpublish(Id);
+      PublishUnpublish(Id);
     } else if (IsPublish != true) {
-        setOpenPublishDialog(true);
-        setPublishId(Id);
+      setOpenPublishDialog(true);
+      setPublishId(Id);
     }
-};
+  };
 
 
 
@@ -316,6 +325,9 @@ const AddHomeworkNew = () => {
     setText(event.target.value)
   }
 
+  const Detailschnageall = (event) => {
+    setTextall(event.target.value)
+  }
 
   useEffect(() => {
     if (USPublishUnpublishHomework !== '') {
@@ -338,6 +350,53 @@ const AddHomeworkNew = () => {
     }
   };
 
+  
+  const  publishAll = (Id) => {
+    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+      asSchoolId: String(asSchoolId),
+      asAcademicYearId: String(asAcademicYearId),
+      asHomeWorkLogId: String(HomeworkId),
+      asUnpublishReason: textall,
+      asUpdatedById: asTeacherId,
+      IsPublished:  1,
+      IsSMSSent: 0,
+    };
+
+    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+  };
+
+  const  unpublishAll = () => {
+   
+    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+      asSchoolId: String(asSchoolId),
+      asAcademicYearId: String(asAcademicYearId),
+      asHomeWorkLogId: String(HomeworkId),
+      asUnpublishReason: textall,
+      asUpdatedById: asTeacherId,
+      IsPublished:  0,
+      IsSMSSent: 0,
+    };
+
+    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+  };
+
+  const ClickOkall = () => {
+    if (textall !== '') {
+      setOpenPublishDialogall(false);
+      setTextall('');
+      unpublishAll();
+    } else {
+      toast.error('Please provide a reason for unpublishing.');
+    }
+  };
+
+  useEffect(() => {
+    if (AllPublishUnPublishHomework !== '') {
+      toast.success(AllPublishUnPublishHomework);
+      dispatch(PublishresetMessageAll());
+      dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+    }
+  }, [AllPublishUnPublishHomework]);
 
   const clickFileName = (value) => {
     if (value !== '') {
@@ -358,13 +417,6 @@ const AddHomeworkNew = () => {
 
   };
 
-  // useEffect(() => {
-  //   if (HomeworkStatus.length > 0) {
-  //     setHomeworkS(HomeworkStatus[0].Id);
-  //   }
-  // }, []);
-
-  //dropdown
   useEffect(() => {
     dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
   }, []);
@@ -372,7 +424,7 @@ const AddHomeworkNew = () => {
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
-  }, [HomeworkS , AssignedDate]);
+  }, [HomeworkS, AssignedDate]);
 
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
@@ -380,14 +432,14 @@ const AddHomeworkNew = () => {
 
   useEffect(() => {
     setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject))
-  }, [Subjectlistsforteacher ])
+  }, [Subjectlistsforteacher])
 
   // const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
 
   useEffect(() => {
     setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject))
-  }, [Subjectlistsforteacher ])
- 
+  }, [Subjectlistsforteacher])
+
 
 
   const [SearchText, setSearchText] = useState('');
@@ -399,7 +451,7 @@ const AddHomeworkNew = () => {
     } else {
       setSearchTittle(
         Subjectlistsforteacher.
-          filter((item) => item.SubjectId === Subject ).
+          filter((item) => item.SubjectId === Subject).
           filter((item) => {
             return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
           })
@@ -408,12 +460,14 @@ const AddHomeworkNew = () => {
   };
 
 
-
   const SearchNameChange = (value) => {
     setSearchText(value);
   };
 
-
+  const ClickOpenDialogbox = () => {
+    setOpenPublishDialogall(true);
+  };
+ 
 
   return (
     <>
@@ -655,7 +709,7 @@ const AddHomeworkNew = () => {
 
           </Grid>
           <Grid item xs={1}>
-            <Button onClick={changeSearchText} variant="contained"  style={ {backgroundColor: '#5ac8fa',color: 'white'}}  disabled={!SearchText}>
+            <Button onClick={changeSearchText} variant="contained" style={{ backgroundColor: '#5ac8fa', color: 'white' }} disabled={!SearchText}>
               Search
             </Button>
           </Grid>
@@ -697,48 +751,90 @@ const AddHomeworkNew = () => {
 
 
         <Typography variant={"h4"} my={1}>
-        Assigned homework for selected subject :
-      </Typography>
-        {Subjectlistsforteacher.length >  0 && SearchTittle.length> 0? (
-        <SelectedsubjectList
-          ItemList={SearchTittle}
-          clickView={clickTitle}
-          clickDelete={clickDelete}
-          clickEdit={handleEditClick}
-          clickVisibilityIcon={clickView}
-          clickpublish={clickPublishUnpublish}
-          HeaderArray={HeaderPublish}
-          clickAttachment={clickFileName}
-        />
-        ) :(
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
-          <b>No Record Found.</b>
+          Assigned homework for selected subject :
         </Typography>
+        {Subjectlistsforteacher.length > 0 && SearchTittle.length > 0 ? (
+          <SelectedsubjectList
+            ItemList={SearchTittle}
+            clickView={clickTitle}
+            clickDelete={clickDelete}
+            clickEdit={handleEditClick}
+            clickVisibilityIcon={clickView}
+            clickpublish={clickPublishUnpublish}
+            HeaderArray={HeaderPublish}
+            clickAttachment={clickFileName}
+          />
+        ) : (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+          </Typography>
         )}
 
 
         <Box my={2}>
-        <Typography variant={"h4"} my={1}>
-        Homework assigned for other subjects :
-      </Typography>
-          {Subjectlistsforteacher.length >  0 && SearchTittle1.length> 0 ? (
-             <SubjectList1
-             ItemList={SearchTittle1}
-             HeaderArray={HeaderPublish1}
-             onChange={Changevalue}
-             clickchange={''}
-             clickTitle={clickTitle1}
-           />
-          ) :(
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
+          <Typography variant={"h4"} my={1}>
+            Homework assigned for other subjects :
           </Typography>
+          {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 ? (
+            <SubjectList1
+              ItemList={SearchTittle1}
+              HeaderArray={HeaderPublish1}
+              onChange={Changevalue}
+              clickchange={''}
+              clickTitle={clickTitle1}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No Record Found.</b>
+            </Typography>
           )
           }
         </Box>
 
 
-       
+        <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
+          maxWidth={'sm'}>
+          <DialogTitle
+            sx={{
+              backgroundColor: (theme) => theme.palette.primary.main,
+              py: 1
+            }}
+          ></DialogTitle>
+          <DialogContent dividers sx={{ px: 4 }}>
+            <Typography variant={"h4"} sx={{ mb: 1 }}>
+              Unpublish Reason
+            </Typography>
+            <TextField
+              multiline
+              rows={3}
+              type="text"
+              value={textall}
+              onChange={Detailschnageall}
+              sx={{ width: '100%' }}
+            />
+          </DialogContent>
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button onClick={() => {
+              setOpenPublishDialogall(false)
+            }} color={'error'}>
+              Cancel
+            </Button>
+            <Button onClick={ClickOkall} variant={'contained'} >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+          <Button color={"primary"} variant={"contained"} onClick={publishAll}>
+            PUBLISH ALL
+          </Button>
+          <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
+            UNPUBLISH ALL
+          </Button>
+        </Box>
+
+
 
 
         {openUploadMultipleDialog && (
@@ -758,3 +854,5 @@ const AddHomeworkNew = () => {
 }
 
 export default AddHomeworkNew
+
+
