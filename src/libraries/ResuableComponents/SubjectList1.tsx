@@ -84,7 +84,7 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {++serialNumber} {/* Increment serial number for each row */}
+                  {++serialNumber} 
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
