@@ -86,7 +86,7 @@ const SelectedsubjectList = ({
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
                   <ButtonPrimary onClick={() => {
-                    clickpublish(item.Id)
+                    clickpublish(item.Id ,item.Text3)
                   }}>
                     {item.IsPublished == 'False' ? 'PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
