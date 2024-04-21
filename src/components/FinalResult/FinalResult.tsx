@@ -9,7 +9,7 @@ import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Alert, Box, IconButton, Tooltip } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import {
@@ -17,13 +17,13 @@ import {
   IGetPagedStudentBody
 } from 'src/interfaces/FinalResult/IFinalResult';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import DynamicList2 from 'src/libraries/list/DynamicList2';
 import {
   ClassTechersList,
   GetStudentResultList
 } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import DataTable, { Column } from '../DataTable';
 const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,6 +48,69 @@ const FinalResult = () => {
     'View',
     'Grace'
   ];
+  const columns = useMemo<Column[]>(() => [
+    {
+      id: 'rollNo',
+      label: 'Roll No.',
+      renderCell: (row) => row.Text1
+    },
+    {
+      id: 'studentName',
+      label: 'Student Name',
+      renderCell: (row) => row.Text2
+    },
+    {
+      id: 'total',
+      label: 'Total',
+      renderCell: (row) => row.Text3
+    },
+    {
+      id: 'percentage',
+      label: '%',
+      renderCell: (row) => row.Text4
+    },
+    {
+      id: 'grade',
+      label: 'Grade',
+      renderCell: (row) => row.Text5
+    },
+    {
+      id: 'result',
+      label: 'Result',
+      renderCell: (row) => row.Text6
+    },
+    {
+      id: 'generate',
+      label: 'Generate',
+      cellProps: {
+        align: 'center'
+      },
+      headerCellProps: {
+        align: 'center'
+      },
+      renderCell: (row) => <>
+        <AssignmentIcon />
+      </>
+    },
+    {
+      id: 'view',
+      label: 'View',
+      cellProps: {
+        align: 'center'
+      },
+      headerCellProps: {
+        align: 'center'
+      },
+      renderCell: (row) => <>
+        <VisibilityIcon />
+      </>
+    },
+    {
+      id: 'grace',
+      label: 'Grace',
+      renderCell: (row) => row.grace
+    }
+  ], [])
   const IconList = [
     {
       Id: 1,
@@ -70,6 +133,8 @@ const FinalResult = () => {
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
+  console.log(GetStudentLists);
+
 
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
@@ -247,13 +312,20 @@ const FinalResult = () => {
         </Alert>
 
         {GetStudentLists != undefined && (
+          <DataTable
+            columns={columns}
+            data={GetStudentLists}
+          />
+        )}
+
+        {/* {GetStudentLists != undefined && (
           <DynamicList2
             HeaderList={HeaderList}
             ItemList={GetStudentLists}
             IconList={IconList}
             ClickItem={ClickItem}
           />
-        )}
+        )} */}
       </Box>
     </Box>
   );

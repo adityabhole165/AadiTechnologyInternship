@@ -1,16 +1,12 @@
-import Print from '@mui/icons-material/Print'
-import QuestionMark from '@mui/icons-material/QuestionMark'
-import Search from '@mui/icons-material/Search'
-import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown'
-import Dropdown from 'src/libraries/dropdown/Dropdown'
-import CommonPageHeader from '../CommonPageHeader'
-import DataTable from '../DataTable'
+import QuestionMark from "@mui/icons-material/QuestionMark"
+import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from "@mui/material"
+import { grey } from "@mui/material/colors"
+import CommonPageHeader from "../CommonPageHeader"
+import DataTable from "../DataTable"
 
 type Props = {}
 
-const ViewResultAll = (props: Props) => {
+const ViewFinalResult = (props: Props) => {
     return (
         <Box px={2}>
             <CommonPageHeader
@@ -20,32 +16,11 @@ const ViewResultAll = (props: Props) => {
                         path: '/extended-sidebar/Teacher/FinalResult'
                     },
                     {
-                        title: 'View Result All',
+                        title: 'Generate/ View Final Result',
                         path: ''
                     }
                 ]}
                 rightActions={<>
-                    <Box>
-                        <SearchableDropdown
-                            onChange={(value) => {
-
-                            }}
-                            ItemList={[]}
-                            size='small'
-                            sx={{ width: '250px' }}
-                            label='Class Teacher'
-                        />
-                    </Box>
-                    <Box>
-                        <Dropdown
-                            Array={[]}
-                            handleChange={(value) => { }}
-                            size='small'
-                            variant='outlined'
-                            width={'250px'}
-                            label={"Student"}
-                        />
-                    </Box>
                     <Box>
                         <Tooltip title={"View result of all/selected student."}>
                             <IconButton
@@ -58,36 +33,6 @@ const ViewResultAll = (props: Props) => {
                                 }}
                             >
                                 <QuestionMark />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
-                    <Box>
-                        <Tooltip title={"Search"}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
-                            >
-                                <Search />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
-                    <Box>
-                        <Tooltip title={"Print Preview"}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
-                            >
-                                <Print />
                             </IconButton>
                         </Tooltip>
                     </Box>
@@ -159,4 +104,4 @@ const ViewResultAll = (props: Props) => {
     )
 }
 
-export default ViewResultAll
+export default ViewFinalResult

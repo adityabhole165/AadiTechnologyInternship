@@ -149,6 +149,9 @@ const AddHomeworkNew = Loader(
 const ViewResultAll = Loader(
   lazy(() => import('src/components/ViewResultAll/ViewResultAll'))
 )
+const ViewFinalResult = Loader(
+  lazy(() => import('src/components/ViewFinalResult/ViewFinalResult'))
+)
 
 const teacherRoutes = [
   {
@@ -398,6 +401,10 @@ const teacherRoutes = [
   {
     path: 'ViewResultAll',
     element: <ViewResultAll />
+  },
+  {
+    path: 'ViewFinalResult',
+    element: <ViewFinalResult />
   }
 
 ];

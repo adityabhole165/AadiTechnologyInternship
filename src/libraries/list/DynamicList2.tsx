@@ -127,6 +127,7 @@ const DynamicList2 = ({
                         onClick={() => {
                           ClickItem({ Id: i, Action: obj.Action });
                         }}
+                        align={"center"}
                       >
                         {obj.Icon}
                       </TableCell>

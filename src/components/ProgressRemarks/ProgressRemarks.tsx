@@ -2,8 +2,8 @@ import Download from '@mui/icons-material/Download';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, Stack, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, Tooltip, Typography } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -323,7 +323,7 @@ const ProgressRemarks = () => {
         rightActions={<>
           <SearchableDropdown
             ItemList={USClassTeachers}
-            sx={{ minWidth: '200px' }}
+            sx={{ minWidth: '300px' }}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
             label={'Subject Teacher'}
@@ -339,7 +339,7 @@ const ProgressRemarks = () => {
           />
           <SearchableDropdown
             ItemList={USStudentListDropDown}
-            sx={{ minWidth: '200px' }}
+            sx={{ minWidth: '300px' }}
             onChange={clickStudentList}
             defaultValue={StudentList}
             label={'StudentList'}
@@ -390,73 +390,60 @@ const ProgressRemarks = () => {
           </Box>
         </>}
       />
-
-      <Grid >
-        <Grid item xs={6}>
-          <Paper sx={{ padding: 2 }}>
-            <Stack>
-              <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>
-                Left Students
-              </Typography>
-            </Stack>
-            {/* <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} setCharCounts={CharCounts1} charCounts={charCounts}/> */}
-            <ResizableCommentsBox
-              HeaderArray={HeaderArray}
-              ItemList={Itemlist}
-              NoteClick={ExamResult}
-              setTextValues={TextValues}
-              setTextValues1={TextValues1}
-              setTextValues2={TextValues2}
-            />
-
-            <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
-
-
-              <Pagination
-                count={5}
-                variant={"outlined"}
-                shape='rounded' showFirstButton
-                showLastButton
-                onChange={(event, value) => {
-                  handlePageChange(value);
-                }}
-              />
-            </Box>
-            <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'center' }}>
-              {/* Show some error in this component. Please check */}
-              {/* <Box sx={{ marginInline: '10px' }}>
-                  <ExportToExcel
-                    File1={StudentswiseRemarkDetails}
-                    File2={StudentswiseRemarkDetails1}
-                    File3={StudentswiseRemarkDetails2}
-                    ExportExcel={ExportButton}
-                  />
-                </Box> */}
-
-
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-      <Paper sx={{ my: '10px' }}>
+      <Paper sx={{ mb: '10px' }}>
         <Accordion defaultExpanded>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
             id="panel1-header"
           >
-            <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
+            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
-            <Alert variant="filled" severity="info">{Note1}</Alert>
-            <Alert variant="filled" severity="info">{Note2}</Alert>
+            <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note1}</Alert>
+            <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note2}</Alert>
             <Alert variant="filled" severity="info">{Note3}</Alert>
-            <Alert variant="filled" severity="info">{Note4}</Alert>
-            <Alert variant="filled" severity="info">{Note5}</Alert>
+            <Alert variant="filled" severity="info"><b>Note:</b> {Note4}</Alert>
+            <Alert variant="filled" severity="info"><b>Note:</b> {Note5}</Alert>
           </AccordionDetails>
         </Accordion>
-
       </Paper>
+      <Box sx={{ background: 'white', p: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Paper>
+              <ResizableCommentsBox
+                HeaderArray={HeaderArray}
+                ItemList={Itemlist}
+                NoteClick={ExamResult}
+                setTextValues={TextValues}
+                setTextValues1={TextValues1}
+                setTextValues2={TextValues2}
+              />
+              <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
+                <Pagination
+                  count={5}
+                  variant={"outlined"}
+                  shape='rounded' showFirstButton
+                  showLastButton
+                  onChange={(event, value) => {
+                    handlePageChange(value);
+                  }}
+                />
+              </Box>
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography fontWeight={"bold"} variant='h4' mb={1}>
+              Legends
+            </Typography>
+            <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
+              <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
+              <Box>Left Students</Box>
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
       <Modal
         open={open}
         onClose={ExamResult}

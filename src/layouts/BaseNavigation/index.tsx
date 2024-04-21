@@ -68,9 +68,8 @@ function Basenav() {
                 {RoleId == '3' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/MessageCenter/msgCenter`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/MessageCenter/msgCenter`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -80,9 +79,8 @@ function Basenav() {
                 ) : RoleId == '2' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Teacher/Texamschedule`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Teacher/Texamschedule`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -95,9 +93,8 @@ function Basenav() {
                 ) : RoleId == '6' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/MessageCenter/msgCenter`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/MessageCenter/msgCenter`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -111,9 +108,8 @@ function Basenav() {
                 {RoleId == '3' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Student/Homework`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Student/Homework`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -123,9 +119,8 @@ function Basenav() {
                 ) : RoleId == '2' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Teacher/TeacherTimeTable`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Teacher/TeacherTimeTable`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -135,9 +130,8 @@ function Basenav() {
                 ) : RoleId == '6' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Common/schoolnotice`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Common/schoolnotice`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -175,9 +169,8 @@ function Basenav() {
                 {RoleId == '3' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Common/schoolnotice`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Common/schoolnotice`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -187,9 +180,8 @@ function Basenav() {
                 ) : RoleId == '2' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/MessageCenter/msgCenter`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/MessageCenter/msgCenter`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -199,9 +191,8 @@ function Basenav() {
                 ) : RoleId == '6' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Common/AnnualPlanner`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Common/AnnualPlanner`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -215,9 +206,8 @@ function Basenav() {
                 {RoleId == '3' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Student/attendance`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Student/attendance`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -229,9 +219,8 @@ function Basenav() {
                 ) : RoleId == '2' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/Common/schoolnotice`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/Common/schoolnotice`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -241,9 +230,8 @@ function Basenav() {
                 ) : RoleId == '6' ? (
                   <IconButton>
                     <NavLink
-                      to={`/${
-                        location.pathname.split('/')[1]
-                      }/SMSCenter/smsCenter`}
+                      to={`/${location.pathname.split('/')[1]
+                        }/SMSCenter/smsCenter`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
@@ -268,7 +256,7 @@ function Basenav() {
                 src={'/imges/RITLOGO.png'}
                 height={80}
                 width={100}
-                style={{ marginTop: '-25px' }}
+                style={{ marginTop: '-25px', userSelect: 'none' }}
               />
             </a>
           </Grid>
