@@ -122,6 +122,9 @@ const PrePrimaryResult = Loader(
 const Requisition = Loader(
   lazy(() => import('src/components/Requisition/Requisition'))
 );
+const AddRequisition = Loader(
+  lazy(() => import('src/components/Requisition/AddRequisition'))
+);
 const UnpublishPrePrimaryResult = Loader(
   lazy(
     () => import('src/components/PrePrimaryResult/UnpublishPrePrimaryResult')
@@ -362,6 +365,10 @@ const teacherRoutes = [
   {
     path: 'Requisition',
     element: <Requisition />
+  },
+  {
+    path: 'AddRequisition',
+    element: <AddRequisition />
   },
 
   {
