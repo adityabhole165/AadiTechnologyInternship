@@ -147,51 +147,54 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                        {(Action == 'View' || !IsEditingAllowed) ?
-                                            <><Typography ><b>{plan.label}</b></Typography>
-                                                <Typography>{plan.value}</Typography></>
-                                            :
-                                            <TextField label={plan.label} value={plan.value}
-                                                fullWidth multiline
-                                                disabled={Action == "View"}
-                                                rows={Action == 'View' ? 1 : 4}
-                                                onChange={(e) => {
-                                                    onChangeValue(lesson.StdId, lesson.DivisionId,
-                                                        lesson.SubjectId, plan.Id, e.target.value
-                                                    )
-                                                }}
-                                            />}
-                                        {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
-                                            plan.subPlanDetails.map((subPlan, subIndex) => (
-                                                <Table key={subIndex}>
-                                                    <TableRow >
-                                                        <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
-                                                            {index + 1}.{subIndex + 1}
-                                                        </StyledCell>
-                                                        {(Action == 'View' || !IsEditingAllowed) ?
-                                                            <><Typography ><b>{subPlan.label}</b></Typography>
-                                                                <Typography>{subPlan.value}</Typography></>
-                                                            // plan.value
-                                                            : <TextField
-                                                                label={subPlan.label}
-                                                                value={subPlan.value}
-                                                                // disabled={!IsEditingAllowed()}
-                                                                fullWidth
-                                                                multiline
-                                                                rows={4}
-                                                                onChange={(e) => {
-                                                                    onSubChangeValue(
-                                                                        lesson.StdId,
-                                                                        lesson.DivisionId,
-                                                                        subPlan.Id,
-                                                                        e.target.value
-                                                                    )
-                                                                }}
-                                                            />}
-                                                    </TableRow>
-                                                </Table>
-                                            ))}
-                                        {/* </StyledCell> */}
+                                        <StyledCell sx={{ p: 1 }}>
+                                            {(Action == 'View' || !IsEditingAllowed) ?
+                                                <><Typography ><b>{plan.label}</b></Typography>
+                                                    <Typography>{plan.value}</Typography></>
+                                                :
+                                                <TextField label={plan.label} value={plan.value}
+                                                    fullWidth multiline
+                                                    disabled={Action == "View"}
+                                                    rows={Action == 'View' ? 1 : 4}
+                                                    onChange={(e) => {
+                                                        onChangeValue(lesson.StdId, lesson.DivisionId,
+                                                            lesson.SubjectId, plan.Id, e.target.value
+                                                        )
+                                                    }}
+                                                />}
+                                            {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
+                                                plan.subPlanDetails.map((subPlan, subIndex) => (
+                                                    <Table key={subIndex}>
+                                                        <TableRow >
+                                                            <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
+                                                                {index + 1}.{subIndex + 1}
+                                                            </StyledCell>
+                                                            <StyledCell sx={{ p: 1 }}>
+                                                                {(Action == 'View' || !IsEditingAllowed) ?
+                                                                    <><Typography ><b>{subPlan.label}</b></Typography>
+                                                                        <Typography>{subPlan.value}</Typography></>
+                                                                    // plan.value
+                                                                    : <TextField
+                                                                        label={subPlan.label}
+                                                                        value={subPlan.value}
+                                                                        // disabled={!IsEditingAllowed()}
+                                                                        fullWidth
+                                                                        multiline
+                                                                        rows={4}
+                                                                        onChange={(e) => {
+                                                                            onSubChangeValue(
+                                                                                lesson.StdId,
+                                                                                lesson.DivisionId,
+                                                                                subPlan.Id,
+                                                                                e.target.value
+                                                                            )
+                                                                        }}
+                                                                    />}
+                                                            </StyledCell>
+                                                        </TableRow>
+                                                    </Table>
+                                                ))}
+                                        </StyledCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
