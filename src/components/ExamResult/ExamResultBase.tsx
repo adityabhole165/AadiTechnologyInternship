@@ -1,8 +1,12 @@
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
+import FactCheck from '@mui/icons-material/FactCheck';
+import ManageAccounts from '@mui/icons-material/ManageAccounts';
 import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
+import Unpublished from '@mui/icons-material/Unpublished';
 import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -419,22 +423,84 @@ const ExamResultBase = () => {
           </Tooltip>
 
           <Tooltip title={"Toppers"} >
-            <span>
-              <IconButton
-                onClick={Toppers}
-                disabled={!ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <Person />
-              </IconButton>
-            </span>
+            <IconButton
+              onClick={Toppers}
+              disabled={!ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated}
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
+              }}
+            >
+              <Person />
+            </IconButton>
+
           </Tooltip>
+
+          <Tooltip title={"View Progress Report"}>
+            <IconButton sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: grey[600]
+              }
+            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+              // || !MonthConfigurationForExam
+            }>
+              {/* VIEW PROGRESS REPORT  */}
+              <FactCheck />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={"Generate Toppers"}>
+
+            <IconButton sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: grey[600]
+              }
+            }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated)
+              // || !MonthConfigurationForExam
+            }>
+              {/* GENERATE TOPPERS */}
+              <ManageAccounts />
+            </IconButton>
+          </Tooltip>
+
+
+          <Tooltip title={"Unpublish All"}>
+            <IconButton sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: red[500]
+              }
+            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish)
+              // || !MonthConfigurationForExam
+            }>
+              {/* UNPUBLISH ALL */}
+              <Unpublished />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={"Publish All"}>
+            <IconButton sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: green[500]
+              }
+            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+              // || !MonthConfigurationForExam
+            }>
+              {/* PUBLISH ALL */}
+              <CheckCircle />
+            </IconButton>
+          </Tooltip>
+
 
         </>}
       />
@@ -448,7 +514,36 @@ const ExamResultBase = () => {
               <Typography variant={'h4'} mb={1}>
                 Results
               </Typography>
-              <Typography>{DisplayNote}</Typography></Stack>
+              <Typography>{DisplayNote}</Typography>
+            </Stack>
+            <Stack direction={'row'} mb={1} justifyContent='space-between'>
+              {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
+                <Typography margin={'1px'}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sendmeassagestudent}
+                        onChange={(e) => {
+                          handleCheckboxChange(e.target.checked);
+                        }}
+                      />
+                    }
+                    label="Send Message and Mobile Notification"
+                  />
+                </Typography>
+              )}
+              <Stack direction={'row'} gap={1}>
+                <Button variant="contained" color="primary" onClick={ProgressRemark}>
+                  Progress Remarks
+                </Button>
+                <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
+                  Transfer Optional Subject Marks
+                </Button>
+                <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
+                  Termwise Height-Weight
+                </Button>
+              </Stack>
+            </Stack>
             {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No Record Found.</b>
@@ -468,45 +563,10 @@ const ExamResultBase = () => {
         </Box>
 
       )}
-      {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
-        <Typography margin={'1px'}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={sendmeassagestudent}
-                onChange={(e) => {
-                  handleCheckboxChange(e.target.checked);
-                }}
-              />
-            }
-            label="Send Message and Mobile Notification"
-          />
-        </Typography>
-      )}
+
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
-          // || !MonthConfigurationForExam
-        }>
-          VIEW PROGRESS REPORT
-        </Button>
-        <Button variant="contained" color="primary" disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated)
-          // || !MonthConfigurationForExam
-        }>
-          GENERATE TOPPERS
-        </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
-          // || !MonthConfigurationForExam
-        }>
-          PUBLISH ALL
-        </Button>
-
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish)
-          // || !MonthConfigurationForExam
-        }>
-          UNPUBLISH ALL
-        </Button>
 
 
         {Open && (
@@ -521,15 +581,7 @@ const ExamResultBase = () => {
           />
         )}
 
-        <Button variant="contained" color="primary" onClick={ProgressRemark}>
-          Progress Remarks
-        </Button>
-        <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
-          Transfer Optional Subject Marks
-        </Button>
-        <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
-          Termwise Height-Weight
-        </Button>
+
       </Box>
     </Box >
   );

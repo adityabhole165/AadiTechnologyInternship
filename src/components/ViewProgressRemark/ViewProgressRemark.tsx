@@ -22,7 +22,9 @@ const ViewProgressRemark = () => {
             <Box sx={{ backgroundColor: 'white', p: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Box>
                     <hr />
-                    <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>Pawar Public Charitable Trust's PAWAR PUBLIC SCHOOL Progress Report</Typography>
+                    <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
+                        Pawar Public Charitable Trust's PAWAR PUBLIC SCHOOL Progress Report
+                    </Typography>
                     <hr />
                     <Typography variant={"h4"} mb={1}>Student Details</Typography>
                     <Table>
@@ -36,7 +38,8 @@ const ViewProgressRemark = () => {
                         </TableBody>
                     </Table>
 
-                    <Typography variant={"h4"} my={1}>Subject Progress Details</Typography>
+                    <Typography variant={"h4"} my={1} >Subject Progress Details For <Typography color='primary'>Subject Enrichment Analysis - I</Typography>
+                    </Typography>
                     <DataTable
                         columns={[
                             {
