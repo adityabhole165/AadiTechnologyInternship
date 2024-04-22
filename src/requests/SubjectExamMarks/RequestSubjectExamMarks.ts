@@ -226,7 +226,7 @@ export const getSubjectExamMarkslist =
                     if (Item.Student_Id == StudentId) {
                         arr.push({
                             Id: Item.TestType_Id,
-                            Text1: Item.Marks_Scored.toString(),
+                            Text1: Item.Is_Absent != "N" ? "" : Item.Marks_Scored.toString(),
                             Text2: Item.TestType_Total_Marks,
                             ExamStatus: (Item.Is_Absent == "N" && IsLateJoinee) ? "J" : Item.Is_Absent,
                             ExamGrade: Item.Assigned_Grade_Id,
