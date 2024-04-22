@@ -503,6 +503,14 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
           })
       );
+
+      setSearchTittle1(
+        Subjectlistsforteacher.
+          filter((item) => item.SubjectId !== Subject).
+          filter((item) => {
+            return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+          })
+      );
     }
   };
 
