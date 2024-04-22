@@ -173,30 +173,27 @@ export const resetMessage = (): AppThunk => async (dispatch) => {
 export const ResetFilePath = (): AppThunk => async (dispatch) => {
   dispatch(AddHomeworkSlice.actions.resetFilepath());
 };
-export const GetTeacherSubjectList =
-  (data: IGetSubjectListForTeacherBody): AppThunk =>
-    async (dispatch) => {
-      const response = await AddHomeworkApi.GetSubjectListTeacher(data);
-      let a = response.data.map((item, i) => {
-        return {
-          Id: item.Id,
-          SubjectId: item.SubjectId,
-          Text1: item.Subject,
-          Text2: item.Title,
-          Text3: getDateMonthYearFormatted(item.AssignedDate),
-          Text4: getDateMonthYearFormatted(item.CompleteByDate),
-          Text5: item.AttachmentPath,
-          Text6: item.CompleteByDate,
-          Text7: item.IsPublished,
-          Text9: item.flag,
-          IsPublished: item.IsPublished,
-          IsActive: false
+export const GetTeacherSubjectList = (data: IGetSubjectListForTeacherBody): AppThunk => async (dispatch) => {
+  const response = await AddHomeworkApi.GetSubjectListTeacher(data);
+  let serialNumber = 0;
+  const transformedData = response.data.map(item => ({
+    Id: item.Id,
+    SubjectId: item.SubjectId,
+    Text10: ++serialNumber,
+    Text1: item.Subject,
+    Text2: item.Title,
+    Text3: getDateMonthYearFormatted(item.AssignedDate),
+    Text4: getDateMonthYearFormatted(item.CompleteByDate),
+    Text5: item.AttachmentPath,
+    Text6: item.CompleteByDate,
+    Text7: item.IsPublished,
+    Text9: item.flag,
+    IsPublished: item.IsPublished,
+    IsActive: false
+  }));
+  dispatch(AddHomeworkSlice.actions.getSubjectList(transformedData));
+};
 
-        
-        };
-      });
-      dispatch(AddHomeworkSlice.actions.getSubjectList(a));
-    };
 export const PublishUnpublishAllHomework =
   (data: IAllPublishUnpublishAddHomeworkBody): AppThunk =>
     async (dispatch) => {

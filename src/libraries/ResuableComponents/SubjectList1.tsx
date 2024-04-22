@@ -17,7 +17,7 @@ function SubjectList1({
   clickchange,
   clickTitle
 }) {
-  let serialNumber = 0; // Counter for serial number
+  
 
   const IsCheckAll = () => {
     let returnValue = true;
@@ -84,7 +84,7 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {++serialNumber} 
+                  {item.Text10} 
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
