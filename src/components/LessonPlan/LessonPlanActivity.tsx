@@ -31,7 +31,7 @@ const LessonPlanActivity = ({ ApprovalData, errorComment, onChangeApproverCommen
                     {Item.ApprovalSortOrder != "0" &&
                         <Grid xs={12} md={12} item>
                             <TextField
-                                disabled={Item.ReportingUserId != localStorage.getItem('UserId')}
+                                disabled={Item.IsPublished == 'True' || Item.ReportingUserId != localStorage.getItem('UserId')}
                                 multiline
                                 value={Item.Text5}
                                 onChange={(e) => {
