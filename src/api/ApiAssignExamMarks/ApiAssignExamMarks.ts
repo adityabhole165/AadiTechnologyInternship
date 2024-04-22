@@ -34,7 +34,7 @@ const SubjectsExamMarks = (data: ISubjectsExamMarksStatusForClassBody) => {
 };
 
 const SubmitMarksTeacher = (data: ISubmitTestMarksToClassTeacherBody) => {
-  return http.post<''>('Homework/SubmitTestMarksToClassTeacher', data);
+  return http.post<string>('Homework/SubmitUnSubmitTestMarksToClassTeacher', data);
 };
 
 const AssignExamMarkApi = {

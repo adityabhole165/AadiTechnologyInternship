@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // ... (your other imports)
 
-function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
+function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
   return (
     <div>
       <TableContainer component={Box}>
@@ -113,13 +113,23 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                     item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
                       item.Subject_Id !== -1 ? (
                         item.Is_Submitted === 'Y' ? (
-                          <Tooltip title={'Submit Marks To Class Teacher'}>
-                            <AssignmentIcon style={{ color: '#ff5722' }} />
+                          <Tooltip title={'unsubmit marks'}>
+                            <BadgeIcon style={{ color: '#ff5722' }}
+                              onClick={() => clickSubmit({
+                                asSubjectId: item.SubjectId,
+                                asStandardDivisionId: item.StandardDivisionId,
+                                asIsSubmitted: "N"
+                              })} />
                           </Tooltip>
                         ) : (
-                          <Tooltip title={'unsubmit marks'}>
+                          <Tooltip title={'Submit Marks To Class Teacher'}>
 
-                            <BadgeIcon style={{ color: '#607d8b' }} />
+                            <AssignmentIcon style={{ color: '#607d8b' }}
+                              onClick={() => clickSubmit({
+                                asSubjectId: item.SubjectId,
+                                asStandardDivisionId: item.StandardDivisionId,
+                                asIsSubmitted: "Y"
+                              })} />
                           </Tooltip>
                         )
                       ) : (
@@ -142,7 +152,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </div >
   );
 }
 

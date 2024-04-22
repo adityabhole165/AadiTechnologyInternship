@@ -30,7 +30,7 @@ export interface ISubjectsExamMarksStatusForClassBody {
   asAcademicYearId: number;
   aTeacherId: number;
   asExamId: number;
-  IsClassTeacher:boolean;
+  IsClassTeacher: boolean;
   asStandardDivisionId: number;
 }
 
@@ -79,4 +79,5 @@ export interface ISubmitTestMarksToClassTeacherBody {
   asSchoolId: string;
   asAcademicYearId: string;
   asIsSubmitted: string;
+  asReportingUserId: string
 }

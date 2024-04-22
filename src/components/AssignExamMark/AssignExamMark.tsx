@@ -39,6 +39,7 @@ const AssignExamMark = () => {
   const { showAlert, closeAlert } = useContext(AlertContext);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asStandardDivisionId = Number(
@@ -133,29 +134,22 @@ const AssignExamMark = () => {
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
-      asStandardDivisionId: String(selectClass),
-      asSubjectId: value,
+      ...value,
       asTestId: ClassWiseExam,
       asSchoolId: String(asSchoolId),
       asAcademicYearId: String(asAcademicYearId),
-      asIsSubmitted: 'Y'
+      asReportingUserId: asUserId
     };
     showAlert({
       title: 'Submit',
-      message: 'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?',
+      message: value.asIsSubmitted = 'Y' ?
+        'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        'you can unsubmit. Are you sure you want to continue?',
       variant: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
-        const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
-          asStandardDivisionId: String(selectClass),
-          asSubjectId: value,
-          asTestId: ClassWiseExam,
-          asSchoolId: String(asSchoolId),
-          asAcademicYearId: String(asAcademicYearId),
-          asIsSubmitted: 'Y'
-        };
         dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
       },
       onCancel: closeAlert
@@ -256,6 +250,8 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
           </Box>
         </>}
       />
+      {/* <AssignExamMarkNew ItemList={ExamMarksStatusForClass} /> */}
+
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ? (
@@ -263,7 +259,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
             ItemList={SubjectListmarkClass}
             clickEdit={clickEdit}
             HeaderArray={HeaderPublish}
-            clicksubmit={ClickSubmit}
+            clickSubmit={ClickSubmit}
           />
         ) : (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -281,7 +277,6 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
                   ItemList={SubjectListmarkClass1}
                   clickEdit={clickEdit}
                   HeaderArray={HeaderPublish}
-                  clicksubmit={ClickSubmit}
                 />
               </div>
             ) : (
