@@ -78,13 +78,20 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
         if (confirm('This action will copy details of this subject section and paste / overwrite it on subject section of other classes of same standard present on this screen. Do you want to continue?')) {
             let returnVal = null;
             let tempPlanDetails = []
-            exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
-                returnVal = Item
-                if (Item.StdId == value.StdId) {
-                    if (Item.SubjectId == value.SubjectId && Item.DivisionId == value.DivisionId) {
-                        tempPlanDetails = Item.planDetails
-                    }
-                    if (Item.DivisionId != value.DivisionId) {
+            let arr = exampleLessonDetails.filter((Item, i) => {
+                return Item.StdId == value.StdId &&
+                    Item.SubjectId == value.SubjectId &&
+                    Item.DivisionId == value.DivisionId
+            })
+
+            if (arr.length > 0) {
+                tempPlanDetails = arr[0].planDetails
+
+                exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
+                    returnVal = Item
+                    if (Item.StdId == value.StdId &&
+                        Item.SubjectId == value.SubjectId &&
+                        Item.DivisionId !== value.DivisionId) {
                         return {
                             ...Item,
                             planDetails: Item.planDetails.map((obj, i) => {
@@ -103,11 +110,8 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                     }
                     else
                         return Item
-                }
-                else
-                    return Item
-
-            })
+                })
+            }
             onTextChange(exampleLessonDetails)
         }
     }
