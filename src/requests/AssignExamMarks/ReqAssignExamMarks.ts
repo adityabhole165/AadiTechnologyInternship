@@ -16,7 +16,8 @@ const AssignExamMarkSlice = createSlice({
     ISSubjectListClass: [],
     ISSubjectListClass1: [],
     ISSubmitMarksTeacher: '',
-    ISSubmitMarksRest: ''
+    ISSubmitMarksRest: '',
+    ExamMarksStatusForClass: []
   },
   reducers: {
     //AssignClass
@@ -31,6 +32,9 @@ const AssignExamMarkSlice = createSlice({
 
     getsubjectList(state, action) {
       state.ISSubjectListClass = action.payload;
+    },
+    getExamMarksStatusForClass(state, action) {
+      state.ExamMarksStatusForClass = action.payload;
     },
 
     getsubjectList1(state, action) {
@@ -126,6 +130,7 @@ export const GetSubjectList =
       }))
 
 
+      dispatch(AssignExamMarkSlice.actions.getExamMarksStatusForClass(response.data.ExamMarksStatusForClass));
       dispatch(AssignExamMarkSlice.actions.getsubjectList(ClassList));
       dispatch(AssignExamMarkSlice.actions.getsubjectList1(MyClassList));
 

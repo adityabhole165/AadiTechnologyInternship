@@ -3,7 +3,7 @@ import Delete from "@mui/icons-material/Delete"
 import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, IconButton, Tooltip } from "@mui/material"
-import React from "react"
+import React, { useEffect } from "react"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import DataTable, { Column, RowData } from "src/components/DataTable"
 
@@ -42,45 +42,49 @@ const Holidays = (props: Props) => {
                 align: 'center'
             }
         }])
-    if (true) {
-        holidayColumns.push(
-            {
-                id: 'edit',
-                label: 'Edit',
-                renderCell: (rowData) => <Box>
-                    <IconButton sx={{ p: 0 }} color={"primary"}
-                        onClick={() => {
-                            handleDelete(rowData);
-                        }}>
-                        <Edit />
-                    </IconButton>
-                </Box>,
-                cellProps: {
-                    align: 'center'
+    useEffect(() => {
+        let holidayColumncpy = [...holidayColumns]
+        if (true) {
+            holidayColumncpy.push(
+                {
+                    id: 'edit',
+                    label: 'Edit',
+                    renderCell: (rowData) => <Box>
+                        <IconButton sx={{ p: 0 }} color={"primary"}
+                            onClick={() => {
+                                handleDelete(rowData);
+                            }}>
+                            <Edit />
+                        </IconButton>
+                    </Box>,
+                    cellProps: {
+                        align: 'center'
+                    },
+                    headerCellProps: {
+                        align: 'center'
+                    }
                 },
-                headerCellProps: {
-                    align: 'center'
-                }
-            },
-            {
-                id: 'delete',
-                label: 'Delete',
-                renderCell: (rowData) => <Box>
-                    <IconButton sx={{ p: 0 }} color={"error"}
-                        onClick={() => {
-                            handleEdit(rowData);
-                        }}>
-                        <Delete />
-                    </IconButton>
-                </Box>,
-                cellProps: {
-                    align: 'center'
-                },
-                headerCellProps: {
-                    align: 'center'
-                }
-            })
-    }
+                {
+                    id: 'delete',
+                    label: 'Delete',
+                    renderCell: (rowData) => <Box>
+                        <IconButton sx={{ p: 0 }} color={"error"}
+                            onClick={() => {
+                                handleEdit(rowData);
+                            }}>
+                            <Delete />
+                        </IconButton>
+                    </Box>,
+                    cellProps: {
+                        align: 'center'
+                    },
+                    headerCellProps: {
+                        align: 'center'
+                    }
+                })
+        }
+        setHolidayColumns(holidayColumncpy)
+    }, [])
     const [holidays, setHolidays] = React.useState<RowData[]>([
         {
             startDate: '2021-01-01',

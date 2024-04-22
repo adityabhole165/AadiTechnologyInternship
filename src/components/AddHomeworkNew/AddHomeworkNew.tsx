@@ -12,7 +12,7 @@ import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkD
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework , PublishresetMessageAll} from 'src/requests/AssignHomework/requestAddHomework';
+import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
@@ -49,6 +49,9 @@ const AddHomeworkNew = () => {
   const [textall, setTextall] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
+  const [SearchTittle, setSearchTittle] = useState([]);
+  const [SearchTittle1, setSearchTittle1] = useState([]);
+
   const SchoolName = localStorage.getItem('SchoolName');
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -311,9 +314,9 @@ const AddHomeworkNew = () => {
   const clickPublishUnpublish = (Id, Text3) => {
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
-    if  (IsPublish == true&& Text3 < currentDate) {
-        alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
-        return; 
+    if (IsPublish == true && Text3 < currentDate) {
+      alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
+      return;
     }
     if (IsPublish == true && (confirm('Are you sure you want to publish the homework?'))) {
       PublishUnpublish(Id);
@@ -354,67 +357,84 @@ const AddHomeworkNew = () => {
     }
   };
 
-  const getSelectHomeworkId =() =>{
-    let arr=[]
-  SearchTittle1.map(item  =>{
-    if(item.IsActive)
-    arr.push(item.Id)
-  
-  })
-return arr.toString()
- }
+  const getSelectHomeworkId = () => {
+    let arr = []
+    SearchTittle1.map(item => {
+      if (item.IsActive)
+        arr.push(item.Id)
 
- const publishAll = (Id) => {
-  const selectedHomeworkIds = getSelectHomeworkId();
-  if (selectedHomeworkIds === "") {
-    toast.error("At least one subject should be selected to publish.");
-    return;
+    })
+    return arr.toString()
   }
-  const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
-  if (!confirmPublish) return;
+  console.log(SearchTittle1, "SearchTittle1");
 
- const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
+  const getPublishErrorList = (IsPublish) => {
+
+    let arr = []
+    SearchTittle1.map(item => {
+      if (item.IsActive)
+        if (item.IsPublished === IsPublish ? 'True' : 'False')
+          arr.push(item.Id)
+
+    })
+    return arr.toString()
+  }
+  const publishAll = (Id) => {
+    const selectedHomeworkIds = getSelectHomeworkId();
+    if (selectedHomeworkIds === "") {
+      toast.error("At least one subject should be selected to publish.");
+      return;
+    }
+    let publishList = getPublishErrorList(true)
+    if (publishList.length > 0) {
+      toast.error("Following homework cannot be published - " + publishList);
+      return;
+    }
+    const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
+    if (!confirmPublish) return;
+
+    const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
 
 SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
-  const isSMSSent = confirmSendSMS ? 1 : 0;
+    const isSMSSent = confirmSendSMS ? 1 : 0;
 
-  const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
-    asSchoolId: String(asSchoolId),
-    asAcademicYearId: String(asAcademicYearId),
-    asHomeWorkLogId: selectedHomeworkIds,
-    asUnpublishReason: textall,
-    asUpdatedById: asTeacherId,
-    IsPublished: 1,
-    IsSMSSent: isSMSSent,
+    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+      asSchoolId: String(asSchoolId),
+      asAcademicYearId: String(asAcademicYearId),
+      asHomeWorkLogId: selectedHomeworkIds,
+      asUnpublishReason: textall,
+      asUpdatedById: asTeacherId,
+      IsPublished: 1,
+      IsSMSSent: isSMSSent,
+    };
+
+    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
 
-  dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-};
-
   const unpublishAll = () => {
-  
-  
+
+
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
       asSchoolId: String(asSchoolId),
       asAcademicYearId: String(asAcademicYearId),
       asHomeWorkLogId: getSelectHomeworkId(),
       asUnpublishReason: textall,
       asUpdatedById: asTeacherId,
-      IsPublished:  0,
+      IsPublished: 0,
       IsSMSSent: 0,
     };
-  
+
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
-  
 
-   
-  const ClickOkall = () => {    
+
+
+  const ClickOkall = () => {
     if (textall !== '') {
       setOpenPublishDialogall(false);
       setTextall('');
       unpublishAll();
-    }else {
+    } else {
       toast.error('Please provide a reason for unpublishing.');
     }
   };
@@ -455,8 +475,6 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   }, [HomeworkS, AssignedDate]);
 
-  const [SearchTittle, setSearchTittle] = useState([]);
-  const [SearchTittle1, setSearchTittle1] = useState([]);
 
 
   useEffect(() => {
@@ -495,16 +513,16 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   const ClickOpenDialogbox = () => {
     const selectedHomeworkIds = getSelectHomeworkId();
-     if (selectedHomeworkIds === "") {
+    if (selectedHomeworkIds === "") {
       toast.error("At least one subject should be selected to unpublish.");
-      
+
     }
     else {
       setOpenPublishDialogall(true);
 
     }
   };
- 
+
 
   return (
     <>
