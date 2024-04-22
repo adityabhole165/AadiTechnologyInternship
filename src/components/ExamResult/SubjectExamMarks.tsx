@@ -279,25 +279,26 @@ const SubjectExamMarks = () => {
     if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
       setMarksError('Exam date should be within the current academic year (i.e. between ' +
         formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-    } else setMarksError('')
-    if (!MarksError) {
-      const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-        asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
-        asInserted_By_id: Number(userId),
-        asStudent_Test_Type_MarksXml: getStudentTestType(),
-        asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
-        asRemoveProgress: RemoveProgress,
-        RemarkXml: RemarkXml,
-        asHasRemark: HasRemark,
-        asTestId: Number(TestId),
-        asSubjectId: Number(SubjectId),
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId)
-      };
+    } else {
+      setMarksError('')
+      if (!MarksError) {
+        const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+          asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
+          asInserted_By_id: Number(userId),
+          asStudent_Test_Type_MarksXml: getStudentTestType(),
+          asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
+          asRemoveProgress: RemoveProgress,
+          RemarkXml: RemarkXml,
+          asHasRemark: HasRemark,
+          asTestId: Number(TestId),
+          asSubjectId: Number(SubjectId),
+          asSchoolId: Number(asSchoolId),
+          asAcademicYearId: Number(asAcademicYearId)
+        };
 
-      dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+        dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+      }
     }
-
   };
 
   useEffect(() => {
@@ -478,7 +479,7 @@ const SubjectExamMarks = () => {
                     ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
-                // disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true'}
 
                 >
                   <Save />
