@@ -510,7 +510,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   const changeSearchText = () => {
     if (SearchText === '') {
-      setSearchTittle(Subjectlistsforteacher);
+      setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject));
+      setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject));
     } else {
       setSearchTittle(
         Subjectlistsforteacher.
@@ -519,7 +520,6 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
           })
       );
-
       setSearchTittle1(
         Subjectlistsforteacher.
           filter((item) => item.SubjectId !== Subject).
@@ -529,6 +529,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
       );
     }
   };
+  
 
 
   const SearchNameChange = (value) => {
