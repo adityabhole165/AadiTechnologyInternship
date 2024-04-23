@@ -40,7 +40,7 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
-  const [HomeworkS, setHomeworkS] = useState();
+  const [HomeworkS, setHomeworkS] = useState('0');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
@@ -75,9 +75,9 @@ const AddHomeworkNew = () => {
   ];
 
   const HomeworkStatus = [
-    { Id: '1', Name: 'All', Value: '1' },
-    { Id: '2', Name: 'Assigned Date', Value: '2' },
-    { Id: '3', Name: 'Complete By Date', Value: '3' }
+    { Id: '1', Name: 'All', Value: 'All' },
+    { Id: '2', Name: 'Assigned Date', Value: 'Assigned Date' },
+    { Id: '3', Name: 'Complete By Date', Value: 'Complete By Date' }
   ];
 
   const dispatch = useDispatch();
@@ -368,27 +368,39 @@ const AddHomeworkNew = () => {
   }
   console.log(SearchTittle1, "SearchTittle1");
 
-  const getPublishErrorList = (IsPublish) => {
-
+  const getPublishErrorList = () => {
     let arr = []
     SearchTittle1.map(item => {
       if (item.IsActive)
-        if (item.IsPublished === IsPublish ? 'True' : 'False')
-          arr.push(item.Id)
+        if (item.IsPublished =='True')
+          arr.push(item.Text10)
 
     })
     return arr.toString()
   }
+
+  const getUnpublishErrorList = () => {
+    let arr = []
+    SearchTittle1.map(item => {
+      if (item.IsActive)
+        if (item.IsPublished =='False')
+          arr.push(item.Text10)
+
+    })
+    return arr.toString()
+  }
+
   const publishAll = (Id) => {
     const selectedHomeworkIds = getSelectHomeworkId();
     if (selectedHomeworkIds === "") {
-      toast.error("At least one subject should be selected to publish.");
-      return;
+        toast.error("At least one subject should be selected to publish.");
+        return;
     }
-    let publishList = getPublishErrorList(true)
+    let publishList = getPublishErrorList();
     if (publishList.length > 0) {
-      toast.error("Following homework cannot be published - " + publishList);
-      return;
+        const publishListString = publishList;
+        toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+        return;
     }
     const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
     if (!confirmPublish) return;
@@ -398,18 +410,19 @@ const AddHomeworkNew = () => {
 SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
     const isSMSSent = confirmSendSMS ? 1 : 0;
 
-    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
-      asSchoolId: String(asSchoolId),
-      asAcademicYearId: String(asAcademicYearId),
-      asHomeWorkLogId: selectedHomeworkIds,
-      asUnpublishReason: textall,
-      asUpdatedById: asTeacherId,
-      IsPublished: 1,
-      IsSMSSent: isSMSSent,
+    const AllPublishUnpublishAddHomeworkBody = {
+        asSchoolId: String(asSchoolId),
+        asAcademicYearId: String(asAcademicYearId),
+        asHomeWorkLogId: selectedHomeworkIds,
+        asUnpublishReason: textall,
+        asUpdatedById: asTeacherId,
+        IsPublished: 1,
+        IsSMSSent: isSMSSent,
     };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-  };
+};
+
 
   const unpublishAll = () => {
 
@@ -519,8 +532,16 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     setSearchText(value);
   };
 
+ 
   const ClickOpenDialogbox = () => {
+    let UnpublishList = getUnpublishErrorList()
+    if (UnpublishList.length > 0) {
+      const UnpublishListString = UnpublishList;
+      toast.error(`Homework is not in published state for Sr. No. : ${UnpublishListString}. Please remove selection.`);
+      return;
+    }
     const selectedHomeworkIds = getSelectHomeworkId();
+
     if (selectedHomeworkIds === "") {
       toast.error("At least one subject should be selected to unpublish.");
 
