@@ -55,6 +55,7 @@ export interface IDeleteHomeworkBody {
   asUpdatedById: number;
 }
 export interface ISaveHomeworkBody {
+  AsId:number
   asTitle: string;
   asSubjectId: number;
   asStandardDivisionId: number;

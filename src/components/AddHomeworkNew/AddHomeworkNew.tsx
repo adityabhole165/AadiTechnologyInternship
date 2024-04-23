@@ -137,7 +137,18 @@ const AddHomeworkNew = () => {
     asStandardDivisionId: StandardDivisionId
   };
 
+  
+  const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: StandardDivisionId,
+    asHomeWorkStatus: HomeworkS.toString(),
+    asHomeworkTitle: '',
+    asAssignedDate: AssignedDate1
+  }
+
   const HomeworkSaveBody: ISaveHomeworkBody = {
+    AsId:Number(HomeworkId),
     asTitle: Title,
     asSubjectId: Number(SubjectCheckID),
     asStandardDivisionId: StandardDivisionId,
@@ -153,15 +164,6 @@ const AddHomeworkNew = () => {
     asBase64String: base64URL,
     additionalAttachmentFile: MultipleFiles
   };
-  const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId,
-    asHomeWorkStatus: HomeworkS.toString(),
-    asHomeworkTitle: '',
-    asAssignedDate: AssignedDate1
-  }
-
 
   const ResetForm = () => {
     setSubjectCheckID('');
@@ -173,6 +175,31 @@ const AddHomeworkNew = () => {
     setDetails('');
     setMultipleFiles(['']);
   };
+
+  const handleEditClick = (Id) => {
+    setHomeworkId(Id);
+    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+      asSchoolId: asSchoolId,
+      asAcademicyearId: asAcademicYearId,
+      asHomeworkId: Number(Id),
+    };
+    dispatch(GetHomeworkDetails(GetHomeworkDetailBody));
+  };
+
+
+  useEffect(() => {
+    if (HomeworkDetail != null) {
+      setHomeworkId(HomeworkDetail.HomeworkId);
+      setFileName(HomeworkDetail.AttachmentPath);
+      setAssignedDate(getCalendarDateFormatDate(HomeworkDetail.AssignedDate));
+      setCompleteDate(getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
+      setTitle(HomeworkDetail.Title);
+      setDetails(HomeworkDetail.Details);
+      console.log(HomeworkDetail, "checkedit ");
+
+    }
+  }, [HomeworkDetail]);
+
 
 
 
@@ -251,31 +278,7 @@ const AddHomeworkNew = () => {
 
 
 
-  const handleEditClick = (Id) => {
-    setHomeworkId(Id);
-    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
-      asSchoolId: asSchoolId,
-      asAcademicyearId: asAcademicYearId,
-      asHomeworkId: Number(Id),
-    };
-    dispatch(GetHomeworkDetails(GetHomeworkDetailBody));
-  };
-
-
-  useEffect(() => {
-    if (HomeworkDetail != null) {
-      setHomeworkId(HomeworkDetail.HomeworkId);
-      setFileName(HomeworkDetail.AttachmentPath);
-      setAssignedDate(getCalendarDateFormatDate(HomeworkDetail.AssignedDate));
-      setCompleteDate(getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
-      setTitle(HomeworkDetail.Title);
-      setDetails(HomeworkDetail.Details);
-      console.log(HomeworkDetail, "checkedit ");
-
-    }
-  }, [HomeworkDetail]);
-
-
+ 
 
   useEffect(() => {
     if (DeleteHomework != '') {
