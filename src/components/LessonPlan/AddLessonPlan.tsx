@@ -79,6 +79,7 @@ const AddLessonPlan = () => {
   const [errorEndDate, seterrorEndDate] = useState('')
   const [errorMessage, seterrorMessage] = useState('')
   const [errorComment, seterrorComment] = useState('');
+  const [errorOverlapDate, seterrorOverlapDate] = useState('')
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
   const [errorexampleLessonDetails, seterrorexampleLessonDetails] = useState('')
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -189,8 +190,14 @@ const AddLessonPlan = () => {
   }, [AddOrEditLessonPlanDetails])
   useEffect(() => {
     if (SaveLessonPlans !== '') {
-      toast.success(SaveLessonPlans)
-      dispatch(resetsaveLessonPlan())
+      toast.success(SaveLessonPlans);
+      if (SaveLessonPlans === "Lesson Plan not saved...!") {
+        seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
+      } else {
+        seterrorOverlapDate("");
+      }
+      dispatch(resetsaveLessonPlan());
+
       const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -260,7 +267,7 @@ const AddLessonPlan = () => {
 
     if (isGreaterThanDate(StartDate, EndDate)) {
 
-      seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
+      seterrorMessage('	Please fix following error(s):End Date should not be less than Start Date.')
       returnVal = false
     } else
       if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
@@ -304,6 +311,13 @@ const AddLessonPlan = () => {
     }
     else
       seterrorComment("")
+    // if (EndDate) {
+    //   seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
+    //   returnVal = false;
+    // } else {
+    //   seterrorOverlapDate("");
+    // }
+
     return returnVal;
   };
 
@@ -730,7 +744,7 @@ const AddLessonPlan = () => {
               {errorexampleLessonDetails}<br></br>
               {errorMessage}<br></br>
               {errorComment}
-              {errorStartDate}
+              {errorStartDate} {errorOverlapDate}
             </Typography>
           </Grid>
           {/* )} */}
