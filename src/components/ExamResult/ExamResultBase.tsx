@@ -337,6 +337,10 @@ const ExamResultBase = () => {
 
   const clickPublishUnpublish = (publish, Reason = '') => {
     if (publish) {
+      if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
+        return;
+      }
+
       const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
         asSchoolId: Number(asSchoolId),
         asStdDivId: Number(StandardDivisionId),
@@ -536,9 +540,15 @@ const ExamResultBase = () => {
                 <Button variant="contained" color="primary" onClick={ProgressRemark}>
                   Progress Remarks
                 </Button>
-                <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
+                {/* <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
                   Transfer Optional Subject Marks
-                </Button>
+                </Button> */}
+                {GetScreenPermission() === 'Y' ? (
+                  <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
+                    Transfer Optional Subject Marks
+                  </Button>
+                ) : null}
+
                 <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
                   Termwise Height-Weight
                 </Button>
