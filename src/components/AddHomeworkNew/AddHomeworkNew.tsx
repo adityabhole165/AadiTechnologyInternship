@@ -2,7 +2,7 @@ import Close from '@mui/icons-material/Close';
 import CloudUpload from '@mui/icons-material/CloudUpload';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId } =
     useParams();
@@ -752,55 +753,47 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <br />
         <br />
-
-        <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
-          <Grid item xs={3}>
-            <SearchableDropdown
-              sx={{ minWidth: '100%' }}
-              ItemList={HomeworkStatus}
-              onChange={clickHomeworkStatus}
-              defaultValue={HomeworkS.toString()}
-              label={'All'}
-            />
-          </Grid>
-
-
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              InputLabelProps={{
-                shrink: true
-              }}
-              label={'Date'}
-              inputProps={{ type: 'date' }}
-              value={AssignedDate1}
-              onChange={(e) => {
-                setAssignedDate1(e.target.value);
-                console.log('EventEndDate :', e.target.value);
-              }}
-              variant="standard"
-
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <TextField
-              fullWidth
-              label="Title"
-              value={SearchText}
-              variant={'standard'}
-              onChange={(e) => {
-                SearchNameChange(e.target.value);
-              }}
-            />
-
-          </Grid>
-          <Grid item xs={1}>
-            <Button onClick={changeSearchText} variant="contained" style={{ backgroundColor: '#5ac8fa', color: 'white' }} disabled={!SearchText}>
-              Search
-            </Button>
-          </Grid>
-        </Grid>
-
+        <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={2} pb={1}>   
+          <SearchableDropdown
+          sx={{ minWidth: '250px' }}
+          ItemList={HomeworkStatus}
+          onChange={clickHomeworkStatus}
+          defaultValue={HomeworkS.toString()}
+          label={'All'}
+          size={"small"}
+        />
+          <TextField
+          size={"small"}
+          sx={{ with: '250px' }}
+          InputLabelProps={{
+            shrink: true
+          }}
+          label={'Date'}
+          inputProps={{ type: 'date' }}
+          value={AssignedDate1}
+          onChange={(e) => {
+            setAssignedDate1(e.target.value);
+            console.log('EventEndDate :', e.target.value);
+          }}
+          />
+         
+         <TextField
+          size={"small"}
+          sx={{ with: '250px' }}
+          label="Title"
+          value={SearchText}
+          variant={'standard'}
+          onChange={(e) => {
+            SearchNameChange(e.target.value);
+          }}
+        />
+            <IconButton onClick={changeSearchText} sx={{
+          background: (theme) => theme.palette.primary.main,
+          color: 'white'
+        }}>
+          <SearchTwoTone />
+        </IconButton>
+        </Stack>
 
         <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)} fullWidth
           maxWidth={'sm'}>
