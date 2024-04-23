@@ -26,6 +26,8 @@ const AddHomeworkNew = () => {
   const [Subject, setSubject] = useState(SubjectId);
   const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
+  const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
+  
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
   const [ErrorTitle, setErrorTitle] = useState('');
   const [CompleteDate, setCompleteDate] = useState('');
@@ -40,7 +42,7 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
-  const [HomeworkS, setHomeworkS] = useState('0');
+  const [HomeworkS, setHomeworkS] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
@@ -75,9 +77,9 @@ const AddHomeworkNew = () => {
   ];
 
   const HomeworkStatus = [
-    { Id: '1', Name: 'All', Value: 'All' },
-    { Id: '2', Name: 'Assigned Date', Value: 'Assigned Date' },
-    { Id: '3', Name: 'Complete By Date', Value: 'Complete By Date' }
+    { Id: 1, Name: 'All', Value: 'All' },
+    { Id: 2, Name: 'Assigned Date', Value: 'AssignedDate' },
+    { Id: 3, Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
 
   const dispatch = useDispatch();
@@ -154,9 +156,9 @@ const AddHomeworkNew = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: StandardDivisionId,
-    asHomeWorkStatus: HomeworkS,
+    asHomeWorkStatus: HomeworkS.toString(),
     asHomeworkTitle: '',
-    asAssignedDate: AssignedDate
+    asAssignedDate: AssignedDate1
   }
 
 
@@ -475,7 +477,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);
-    setAssignedDate(value);
+    setAssignedDate1(value);
 
   };
 
@@ -486,7 +488,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
-  }, [HomeworkS, AssignedDate]);
+  }, [HomeworkS, AssignedDate1]);
 
 
 
@@ -757,8 +759,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               sx={{ minWidth: '100%' }}
               ItemList={HomeworkStatus}
               onChange={clickHomeworkStatus}
-              defaultValue={HomeworkS}
-              label={'Select Homework Status'}
+              defaultValue={HomeworkS.toString()}
+              label={'All'}
             />
           </Grid>
 
@@ -771,9 +773,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }}
               label={'Date'}
               inputProps={{ type: 'date' }}
-              value={AssignedDate}
+              value={AssignedDate1}
               onChange={(e) => {
-                setAssignedDate(e.target.value);
+                setAssignedDate1(e.target.value);
                 console.log('EventEndDate :', e.target.value);
               }}
               variant="standard"
