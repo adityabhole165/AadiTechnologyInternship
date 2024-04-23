@@ -5,12 +5,8 @@ export interface IClassListBody {
 }
 export interface IClassListResult {
   StdDivId: string
-  SubjectId: string
-  Subject_Name: string
   ClassName: string
-  LessonPlanCategoryId: string
-  Standard_Id: string
-  SubjectCategoryId: string
+  Original_standard_Id: string
 }
 
 
