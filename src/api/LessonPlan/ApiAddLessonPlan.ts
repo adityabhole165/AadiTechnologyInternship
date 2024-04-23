@@ -9,7 +9,7 @@ import {
 import http from '../../requests/SchoolService/schoolServices';
 
 const ClassList = (data: IClassListBody) => {
-  return http.post<IClassListResult[]>('Teacher/GetAssignedClassDropDown', data);
+  return http.post<IClassListResult[]>('Teacher/GetClassesForLessonPlan', data);
 };
 
 const AddOrEditLessonPlanDetails = (data: IAddOrEditLessonPlanDetailsBody) => {

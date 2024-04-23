@@ -94,12 +94,15 @@ export const classnamelist =
     async (dispatch) => {
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.ClassList(data);
-      let abc = response.data.map((item, i) => {
-        return {
-          Id: item.Standard_Division_Id,
-          Name: item.StandardDivision,
-          Value: item.Standard_Division_Id
-        };
+      let abc = [{ Id: '0', Name: 'All', Value: '0' }];
+      response.data.map((item, i) => {
+        abc.push({
+
+          Id: item.StdDivId,
+          Name: item.ClassName,
+          Value: item.StdDivId
+
+        });
       });
       dispatch(AddLessonPlanSlice.actions.getclassnamelist(abc));
 

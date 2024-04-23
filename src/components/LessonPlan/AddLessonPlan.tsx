@@ -157,7 +157,7 @@ const AddLessonPlan = () => {
     const ClassListBody: IClassListBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      aTeacherId: TeacherId
+      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
     };
     dispatch(classnamelist(ClassListBody));
   }, [TeacherId]);
@@ -630,7 +630,7 @@ const AddLessonPlan = () => {
 
             {(IsApprover() && !getIsApproved()) &&
 
-              < Box > <Tooltip title={'Approver'}>
+              < Box > <Tooltip title={'Approve'}>
                 <IconButton
                   sx={{
                     backgroundColor: green[500],

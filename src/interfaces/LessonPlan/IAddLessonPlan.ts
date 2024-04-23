@@ -1,13 +1,18 @@
 export interface IClassListBody {
   asSchoolId: number;
   asAcademicYearId: number;
-  aTeacherId: number;
+  asUserId: number;
+}
+export interface IClassListResult {
+  StdDivId: string
+  SubjectId: string
+  Subject_Name: string
+  ClassName: string
+  LessonPlanCategoryId: string
+  Standard_Id: string
+  SubjectCategoryId: string
 }
 
-export interface IClassListResult {
-  Standard_Division_Id: string;
-  StandardDivision: string;
-}
 
 export interface IAddOrEditLessonPlanDetailsBody {
   asSchoolId: number,
