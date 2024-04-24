@@ -342,6 +342,16 @@ const AddLessonPlan = () => {
     })
     return returnVal
   }
+  const getIsApproveAll = () => {
+    let returnVal = false
+    ApprovalCommentData.map((Item, i) => {
+      if (Item.ApprovalSortOrder != "0") {
+        returnVal = Item.IsPublished == "True"
+      }
+    })
+    return returnVal
+  }
+
 
   const getApproverComment = () => {
     let returnVal = ""
@@ -608,8 +618,8 @@ const AddLessonPlan = () => {
                   </IconButton>
                 </Tooltip>
               </Box>}
-            {!getIsApproved() &&
-              <Box>
+            {(!getIsApproved() && getIsApproveAll()) &&
+              < Box >
                 <Tooltip title={'Save'}>
                   <IconButton
                     disabled={GetEnableStatus()}
@@ -647,7 +657,7 @@ const AddLessonPlan = () => {
               </Tooltip>
               </Box>}
 
-            {(perm == 'Y' && IsApprover() && getIsApproved()) && (
+            {(perm == 'Y' && getIsApproveAll()) && (
               <Box>
                 <Tooltip title={'Update Date'}>
                   <IconButton
