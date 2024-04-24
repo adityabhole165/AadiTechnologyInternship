@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +29,6 @@ import {
 } from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import DataTable from '../DataTable';
 
 const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
@@ -327,7 +326,7 @@ const TermwiseHeightWeight = () => {
           }
         /> */}
         {/* New Table End */}
-        {SelectTeacher > 0 ? (
+        {StudentList.length > 0 ? (
           <>
             <TermwiseHeightWeightList
               ItemList={Itemlist}
