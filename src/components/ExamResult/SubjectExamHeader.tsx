@@ -24,7 +24,7 @@ const handleChange = (e, validationFunction, callback) => {
 const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExamHeader,
     GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
     const handleBlur = (value, Index) => {
-        if (value != "") {
+        if (value == "" || value != "") {
             if (confirm('This action will set a new value for all students. Do you want to continue?')) {
                 console.log('Confirmed. Setting new value...');
                 BlurrExamHeader(value, Index);
