@@ -456,7 +456,7 @@ const SubjectExamMarks = () => {
               />
             </Box>
             <Box>
-              <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
+              <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -557,7 +557,7 @@ const SubjectExamMarks = () => {
           <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
 
         </Box>
-        {IsReadOnly && (
+        {!IsReadOnly && (
           <Typography variant="body2" color="textSecondary">
             Student marks are already submitted.
           </Typography>
