@@ -396,7 +396,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#e3f2fd' }}
+                sx={{ bgcolor: '#d3d3d3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -414,7 +414,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#e3f2fd' }}
+                sx={{ bgcolor: '#d3d3d3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -427,7 +427,7 @@ const SubjectExamMarks = () => {
                 fullWidth
                 label={"Subject Name"}
                 value={SubjectName || ''}
-                sx={{ bgcolor: '#e3f2fd' }}
+                sx={{ bgcolor: '#d3d3d3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -521,7 +521,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#e3f2fd' }}
+                sx={{ bgcolor: '#d3d3d3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -555,7 +555,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#e3f2fd' }}
+                sx={{ bgcolor: '#d3d3d3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -573,7 +573,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#e3f2fd' }}
+                sx={{ bgcolor: '#d3d3d3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -588,8 +588,11 @@ const SubjectExamMarks = () => {
         <br>
         </br>
         {IsReadOnly === 'true' && (
-          <Typography variant="body2" color="textSecondary">
-            Student marks are already submitted.
+          // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
+          //   <span style={{ fontWeight: 'bold' }}> Student marks are already submitted.</span>
+          // </Typography>
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>Student marks are already submitted.</b>
           </Typography>
         )}
         {/* Table */}
