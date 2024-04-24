@@ -120,15 +120,20 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     onChangeExamStatus(StudentsForMarksAssignment)
   }
   const setAllValues = (value, Index) => {
-    StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
-      return {
-        ...Item,
-        MarksForStudent: Item.MarksForStudent.map((obj, i) => {
-          return Index == i ? { ...obj, Text1: value } : obj
-        })
-      }
+    StudentsForMarksAssignment.map((Item) => {
+      Item.MarksForStudent.map((obj, i) => {
+        changeText(Index == i ? value : obj.Text1, Item.Id, obj.Id)
+      })
     })
-    onChangeExamStatus(StudentsForMarksAssignment)
+    // StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
+    //   return {
+    //     ...Item,
+    //     MarksForStudent: Item.MarksForStudent.map((obj, i) => {
+    //       return Index == i ? { ...obj, Text1: value } : obj
+    //     })
+    //   }
+    // })
+    // onChangeExamStatus(StudentsForMarksAssignment)
   }
   const setAllValuesforGrade = (value, Index) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
