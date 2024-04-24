@@ -178,6 +178,8 @@ const AddHomeworkNew = () => {
 
   const handleEditClick = (Id) => {
     setHomeworkId(Id);
+   
+    
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
@@ -189,7 +191,6 @@ const AddHomeworkNew = () => {
 
   useEffect(() => {
     if (HomeworkDetail != null) {
-      setHomeworkId(HomeworkDetail.HomeworkId);
       setFileName(HomeworkDetail.AttachmentPath);
       setAssignedDate(getCalendarDateFormatDate(HomeworkDetail.AssignedDate));
       setCompleteDate(getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
@@ -201,6 +202,7 @@ const AddHomeworkNew = () => {
   }, [HomeworkDetail]);
 
 
+console.log(HomeworkId,"HomeworkId");
 
 
   const ClickSaveHomework = () => {
@@ -503,7 +505,16 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   // const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
 
   useEffect(() => {
-    setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject))
+    setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject)
+    .map ((item , index) =>{
+      return{
+       ...item,
+       Text10: index+1
+      }
+    })
+
+     )
+
   }, [Subjectlistsforteacher])
 
 

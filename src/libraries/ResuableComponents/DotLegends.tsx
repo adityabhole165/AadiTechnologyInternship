@@ -2,6 +2,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import EditOff from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
 import { Box, Typography } from '@mui/material';
@@ -10,12 +11,12 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
   return (
     <>
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <CheckBoxOutlineBlankIcon style={{ color: '#0091ea' }} />
+        <FaceRetouchingOffIcon style={{ color: '#ff5050' }} />
         <Typography> {text}</Typography>
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <EditOff style={{ color: '#76ff03' }} />
+        <EditOff style={{ color: '#f44336' }} />
         <Typography> {text1}</Typography>
       </Box>
 
@@ -35,7 +36,7 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <CheckIcon style={{ color: '#607d8b' }} />
+        <CheckIcon style={{ color: '#07bc0c' }} />
         <Typography> {text5}</Typography>
       </Box>
     </>
