@@ -492,7 +492,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
-  }, [HomeworkS, AssignedDate1]);
+  }, [HomeworkS, AssignedDate1,Subject]);
 
 
 
