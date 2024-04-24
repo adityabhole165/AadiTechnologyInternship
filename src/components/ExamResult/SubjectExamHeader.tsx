@@ -37,7 +37,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
         <>
             {ExamMarksHeader?.map((Item, Index) => {
                 return (<TableCell
-                    sx={{ color: 'white', fontWeight: "bold", py: 1 }}
+                    sx={{ color: 'white', fontWeight: "bold", py: 0 }}
                     key={Index}>
                     {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}> */}
 
