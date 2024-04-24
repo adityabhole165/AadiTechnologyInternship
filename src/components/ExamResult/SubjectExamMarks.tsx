@@ -587,7 +587,7 @@ const SubjectExamMarks = () => {
         </Box>
         <br>
         </br>
-        {IsReadOnly && (
+        {IsReadOnly === 'true' && (
           <Typography variant="body2" color="textSecondary">
             Student marks are already submitted.
           </Typography>
