@@ -396,6 +396,10 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                sx={{ bgcolor: '#e3f2fd' }}
+                InputProps={{
+                  readOnly: true,
+                }}
                 disabled={IsReadOnly === 'true'}
               />
             </Box>
@@ -410,6 +414,10 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                sx={{ bgcolor: '#e3f2fd' }}
+                InputProps={{
+                  readOnly: true,
+                }}
                 disabled={IsReadOnly === 'true'}
               />
             </Box>
@@ -419,6 +427,10 @@ const SubjectExamMarks = () => {
                 fullWidth
                 label={"Subject Name"}
                 value={SubjectName || ''}
+                sx={{ bgcolor: '#e3f2fd' }}
+                InputProps={{
+                  readOnly: true,
+                }}
                 disabled={IsReadOnly === 'true'}
               />
 
@@ -453,8 +465,12 @@ const SubjectExamMarks = () => {
                 sx={{
                   width: '150px'
                 }}
+
               />
             </Box>
+            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+              *
+            </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
@@ -505,6 +521,10 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                sx={{ bgcolor: '#e3f2fd' }}
+                InputProps={{
+                  readOnly: true,
+                }}
                 disabled={IsReadOnly === 'true'}
               />
               // <TextField
@@ -535,6 +555,10 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                sx={{ bgcolor: '#e3f2fd' }}
+                InputProps={{
+                  readOnly: true,
+                }}
                 disabled={IsReadOnly === 'true'}
               />
             }
@@ -549,6 +573,10 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                sx={{ bgcolor: '#e3f2fd' }}
+                InputProps={{
+                  readOnly: true,
+                }}
                 disabled={IsReadOnly === 'true'}
               />
             }
@@ -557,6 +585,8 @@ const SubjectExamMarks = () => {
           <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
 
         </Box>
+        <br>
+        </br>
         {!IsReadOnly && (
           <Typography variant="body2" color="textSecondary">
             Student marks are already submitted.
