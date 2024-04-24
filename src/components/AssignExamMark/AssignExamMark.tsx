@@ -254,19 +254,23 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
-        {SubjectListmarkClass.length > 0 ? (
-          <ListEditIcon1
-            ItemList={SubjectListmarkClass}
-            clickEdit={clickEdit}
-            HeaderArray={HeaderPublish}
-            clickSubmit={ClickSubmit}
-          />
-        ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
-          </Typography>
+        {SubjectListmarkClass.length > 0 ?
+          (
+            // <>{SubjectListmarkClass[2].Text1}
+            //   {SubjectListmarkClass.map((Item, i) => (<Typography key={i}>{Item.Text1}</Typography>))}
+            // </>
+            <ListEditIcon1
+              ItemList={SubjectListmarkClass}
+              clickEdit={clickEdit}
+              HeaderArray={HeaderPublish}
+              clickSubmit={ClickSubmit}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No Record Found.</b>
+            </Typography>
 
-        )}
+          )}
         <Divider sx={{ my: 2 }} />
         {asStandardDivisionId == selectClass && (
           <Box mt={2}>
