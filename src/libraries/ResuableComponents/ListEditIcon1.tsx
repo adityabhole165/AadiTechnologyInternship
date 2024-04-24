@@ -54,7 +54,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                   {item.STATUS === 'Not Started' && (
                     <Tooltip title={'Marks entry not started'}
                     >
-                      <EditOff style={{ color: '#76ff03', cursor: 'pointer' }}
+                      <EditOff style={{ color: '#f44336', cursor: 'pointer' }}
                         onClick={() => clickEdit({
                           SubjectId: item.SubjectId,
                           StandardDivisionId: item.StandardDivisionId,
@@ -80,7 +80,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                     || item.STATUS === 'Published') && (
                       <Tooltip title={'Marks entry completed'}>
 
-                        <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }}
+                        <CheckIcon style={{ color: '#07bc0c', cursor: 'pointer' }}
                           onClick={() => clickEdit({
                             SubjectId: item.SubjectId,
                             StandardDivisionId: item.StandardDivisionId,
@@ -102,7 +102,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                     item.Is_Submitted === 'Y' ? (
                       <Tooltip title={item.StatusDescription}>
 
-                        <CheckIcon style={{ color: '#607d8b' }} />
+                        <CheckIcon style={{ color: '#07bc0c' }} />
                       </Tooltip>
                     ) : (
                       <Tooltip title={item.StatusDescription}>
@@ -140,7 +140,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                         ) : (
                           <Tooltip title={item.StatusDescription}>
 
-                            <CheckIcon style={{ color: '#607d8b' }} />
+                            <CheckIcon style={{ color: '#07bc0c' }} />
                           </Tooltip>
                         )
                       )
