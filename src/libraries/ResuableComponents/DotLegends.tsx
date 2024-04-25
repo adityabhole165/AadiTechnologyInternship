@@ -1,10 +1,14 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import EditOff from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+
 import { Box, Typography } from '@mui/material';
 
 const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
@@ -21,17 +25,17 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <TaskIcon style={{ color: '#ff9800' }} />
+        <DesignServicesIcon style={{ color: '#ff9800' }} />
         <Typography> {text2}</Typography>
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <AssignmentIcon style={{ color: '#ff5722' }} />
+        <EventAvailableIcon style={{ color: '#25e67b' }} />
         <Typography> {text3}</Typography>
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <BadgeIcon style={{ color: '#3e2723' }} />
+        <EventBusyIcon style={{ color: '#0f0f0f' }} />
         <Typography> {text4}</Typography>
       </Box>
 

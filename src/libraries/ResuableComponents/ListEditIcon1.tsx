@@ -1,5 +1,6 @@
 import React from 'react';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOff from '@mui/icons-material/EditOff';
@@ -12,6 +13,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
   return (
@@ -59,7 +62,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                   )}
                   {item.STATUS === 'Partial' && (
                     <Tooltip title={'Marks entry partially done.'}>
-                      <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }}
+                      <DesignServicesIcon style={{ color: '#ff9800', cursor: 'pointer' }}
                         onClick={() => clickEdit({
                           SubjectId: item.SubjectId,
                           StandardDivisionId: item.StandardDivisionId,
@@ -109,7 +112,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                       item.Subject_Id !== -1 ? (
                         item.Is_Submitted === 'Y' ? (
                           <Tooltip title={'unsubmit marks'}>
-                            <BadgeIcon style={{ color: '#ff5722' }}
+                            <EventBusyIcon style={{ color: '#0f0f0f' }}
                               onClick={() => clickSubmit({
                                 asSubjectId: item.SubjectId,
                                 asStandardDivisionId: item.StandardDivisionId,
@@ -118,7 +121,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                           </Tooltip>
                         ) : (
                           <Tooltip title={'Submit Marks To Class Teacher'}>
-                            <AssignmentIcon style={{ color: '#607d8b' }}
+                            <EventAvailableIcon style={{ color: '#25e67b' }}
                               onClick={() => clickSubmit({
                                 asSubjectId: item.SubjectId,
                                 asStandardDivisionId: item.StandardDivisionId,
@@ -129,7 +132,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                       ) : (
                         item.Is_Submitted === 'Y' ? (
                           <Tooltip title={item.StatusDescription}>
-                            <AssignmentIcon style={{ color: '#ff5722' }} />
+                            <EventAvailableIcon style={{ color: '#25e67b' }} />
                           </Tooltip>
                         ) : (
                           <Tooltip title={item.StatusDescription}>
