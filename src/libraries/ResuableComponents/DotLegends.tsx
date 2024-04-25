@@ -11,7 +11,7 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
   return (
     <>
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <FaceRetouchingOffIcon style={{ color: '#ff5050' }} />
+        <FaceRetouchingOffIcon style={{ color: '#34a4eb' }} />
         <Typography> {text}</Typography>
       </Box>
 

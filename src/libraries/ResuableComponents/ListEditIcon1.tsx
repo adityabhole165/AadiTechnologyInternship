@@ -1,8 +1,10 @@
+import React from 'react';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOff from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
+import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import { Box, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +12,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-// ... (your other imports)
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
   return (
@@ -43,17 +44,9 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                   {item.Text2}
                 </TableCell>
 
-                {/* <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text3 === 'Y' ? (
-                    <CheckIcon style={{ color: '#607d8b' }} />
-                  ) : (
-                    <EditOff onClick={() => clickEdit({ SubjectId: item.SubjectId, StandardDivisionId: item.StandardDivisionId })} style={{ color: '#76ff03' }} />
-                  )}
-                </TableCell> */}
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.STATUS === 'Not Started' && (
-                    <Tooltip title={'Marks entry not started'}
-                    >
+                    <Tooltip title={'Marks entry not started'}>
                       <EditOff style={{ color: '#f44336', cursor: 'pointer' }}
                         onClick={() => clickEdit({
                           SubjectId: item.SubjectId,
@@ -79,7 +72,6 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                   {(item.STATUS === 'Complete' || item.STATUS === 'Submitted'
                     || item.STATUS === 'Published') && (
                       <Tooltip title={'Marks entry completed'}>
-
                         <CheckIcon style={{ color: '#07bc0c', cursor: 'pointer' }}
                           onClick={() => clickEdit({
                             SubjectId: item.SubjectId,
@@ -90,6 +82,11 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                           })} />
                       </Tooltip>
                     )}
+                  {item.STATUS === 'No Student' && (
+                    <Tooltip title={item.StatusDescription}>
+                      <FaceRetouchingOffIcon style={{ color: '#34a4eb' }} />
+                    </Tooltip>
+                  )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
@@ -97,11 +94,9 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                     <Tooltip title={'Marks cannot be submitted.'}>
                       <span>Marks cannot be submitted.</span>
                     </Tooltip>
-
                   ) : item.STATUS === 'Partial' ? (
                     item.Is_Submitted === 'Y' ? (
                       <Tooltip title={item.StatusDescription}>
-
                         <CheckIcon style={{ color: '#07bc0c' }} />
                       </Tooltip>
                     ) : (
@@ -123,7 +118,6 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                           </Tooltip>
                         ) : (
                           <Tooltip title={'Submit Marks To Class Teacher'}>
-
                             <AssignmentIcon style={{ color: '#607d8b' }}
                               onClick={() => clickSubmit({
                                 asSubjectId: item.SubjectId,
@@ -139,7 +133,6 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                           </Tooltip>
                         ) : (
                           <Tooltip title={item.StatusDescription}>
-
                             <CheckIcon style={{ color: '#07bc0c' }} />
                           </Tooltip>
                         )
