@@ -282,6 +282,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
                   ItemList={SubjectListmarkClass1}
                   clickEdit={clickEdit}
                   HeaderArray={HeaderPublish}
+                  clickSubmit={ClickSubmit}
                 />
               </div>
             ) : (
