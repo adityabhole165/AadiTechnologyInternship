@@ -275,9 +275,10 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Divider sx={{ my: 2 }} />
         {asStandardDivisionId == selectClass && (
           <Box mt={2}>
+             <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
             {SubjectListmarkClass1.length > 0 ? (
               <div>
-                <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
+                
                 <ListEditIcon1
                   ItemList={SubjectListmarkClass1}
                   clickEdit={clickEdit}
