@@ -140,22 +140,27 @@ const AssignExamMark = () => {
       asAcademicYearId: String(asAcademicYearId),
       asReportingUserId: asUserId
     };
-    showAlert({
-      title: 'Submit',
-      message: value.asIsSubmitted = 'Y' ?
-        'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-        'you can unsubmit. Are you sure you want to continue?',
-      variant: 'warning',
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      onConfirm: () => {
-        closeAlert();
-        dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
-      },
-      onCancel: closeAlert
-    });
-
+  
+    // Check if asIsSubmitted is not equal to 'N'
+    if (value.asIsSubmitted !== 'N') {
+      showAlert({
+        title: 'Submit',
+        message: 'Once you submit the result to the Class-teacher, you cannot modify the marks/grades. Are you sure you want to continue?', 
+        variant: 'warning',
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        onConfirm: () => {
+          closeAlert();
+          dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
+        },
+        onCancel: closeAlert
+      });
+    } else {
+      // If asIsSubmitted is 'N', directly dispatch without showing alert
+      dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
+    }
   };
+  
 
   useEffect(() => {
     if (UsSubmitMarksTeacher != '') {
