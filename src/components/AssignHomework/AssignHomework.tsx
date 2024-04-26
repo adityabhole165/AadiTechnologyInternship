@@ -52,7 +52,7 @@ const AssignHomework = () => {
 
   const GetScreenPermission = () => {
     let perm = 'N';
-    ScreensAccessPermission.map((item) => {
+    ScreensAccessPermission?.map((item) => {
       if (item.ScreenName === 'Assign Homework') perm = item.IsFullAccess;
     });
     return perm;
