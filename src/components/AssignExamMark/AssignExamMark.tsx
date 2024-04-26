@@ -30,13 +30,12 @@ import CommonPageHeader from '../CommonPageHeader';
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const { StandardDivisionId,TestId } =
-  useParams();
-  
+
+  const { StandardDivisionId, TestId } =
+    useParams();
+
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId);
-  const [MyclassList, SetMyclassList] = useState(true);
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -45,8 +44,6 @@ const AssignExamMark = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const asStandardDivisionId =  sessionStorage.getItem('StandardDivisionId');
-  const asExamId = Number(sessionStorage.getItem('ExamID'));
 
   const ClassDropdown = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISAssignExam
@@ -94,8 +91,8 @@ const AssignExamMark = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     aTeacherId: aTeacherId,
-    asExamId: Number(ClassWiseExam) ,
-    asStandardDivisionId:  Number(selectClass),
+    asExamId: Number(ClassWiseExam),
+    asStandardDivisionId: Number(selectClass),
     IsClassTeacher: true
 
   };
@@ -118,7 +115,7 @@ const AssignExamMark = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassDropdown.length > 0 && selectClass != "") {
+    if (ClassDropdown.length > 0 && selectClass == "") {
       SetSelectClass(ClassDropdown[0].Value);
     }
   }, [ClassDropdown]);
@@ -157,7 +154,7 @@ const AssignExamMark = () => {
     });
 
   };
-  
+
 
   useEffect(() => {
     if (UsSubmitMarksTeacher != '') {
@@ -276,10 +273,10 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Divider sx={{ my: 2 }} />
         {asStandardDivisionId == selectClass && (
           <Box mt={2}>
-             <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
+            <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
             {SubjectListmarkClass1.length > 0 ? (
               <div>
-                
+
                 <ListEditIcon1
                   ItemList={SubjectListmarkClass1}
                   clickEdit={clickEdit}

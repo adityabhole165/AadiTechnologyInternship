@@ -313,7 +313,9 @@ const SubjectExamMarks = () => {
     if (ManageStudentsTestMarks !== '') {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
-      navigate("/extended-sidebar/Teacher/AssignExamMark")
+      navigate("/extended-sidebar/Teacher/AssignExamMark/" +
+        StandardDivisionId + "/" + TestId
+      )
     }
   }, [ManageStudentsTestMarks])
   const ExamMarks = [
