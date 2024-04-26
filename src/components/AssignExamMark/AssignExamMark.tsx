@@ -44,6 +44,8 @@ const AssignExamMark = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
+  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+  const asExamId = Number(sessionStorage.getItem('ExamID'));
 
   const ClassDropdown = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISAssignExam
