@@ -227,6 +227,10 @@ const teacherRoutes = [
     path: 'AssignExamMark',
     element: <AssignExamMark />
   },
+  {
+    path: 'AssignExamMark/:StandardDivisionId/:TestId',
+    element: <AssignExamMark />
+  },
 
   {
     path: 'AnnualPlanerBaseScreen',
@@ -398,7 +402,7 @@ const teacherRoutes = [
   },
 
   {
-    path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId',
+    path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject',
     element: <AddHomeworkNew />
   },
   {

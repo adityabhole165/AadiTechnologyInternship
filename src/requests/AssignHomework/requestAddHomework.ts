@@ -91,9 +91,9 @@ const AddHomeworkSlice = createSlice({
       state.AllPublishUnpublishHomeworkT = '';
     },
 
-    
-    
-    
+
+
+
   }
 
 });
@@ -154,13 +154,14 @@ export const SubjectListforTeacherDropdown =
   (data: IGetTeacherSubjectAndClassSubjectBody): AppThunk =>
     async (dispatch) => {
       const response = await AddHomeworkApi.ApiTeacheSubjectlist(data);
-      let abc = [{ Id: '0', Name: 'All', Value: '0' }];
+      let abc = [{ Id: '0', Name: 'All', Value: '0', TeacherId: data.aTeacherId.toString() }];
 
       response.data.map((item, i) => {
         abc.push({
           Id: item.Subject_Id,
           Name: item.Subject_Name,
-          Value: item.Subject_Id
+          Value: item.Subject_Id,
+          TeacherId: item.Teacher_Id
         });
       });
       dispatch(AddHomeworkSlice.actions.RTeacherSubjectList(abc));
@@ -211,21 +212,21 @@ export const GetAllHomeworkDocuments =
     };
 
 
-    export const resetHomework = (): AppThunk => async (dispatch) => {
-      dispatch(AddHomeworkSlice.actions.RresetHomework());
-    };
+export const resetHomework = (): AppThunk => async (dispatch) => {
+  dispatch(AddHomeworkSlice.actions.RresetHomework());
+};
 
-    export const resetDeleteHomework = (): AppThunk => async (dispatch) => {
-      dispatch(AddHomeworkSlice.actions.RresetDeleteHomework());
-    };
-    
-    export const  PublishresetMessage = (): AppThunk => async (dispatch) => {
-      dispatch(AddHomeworkSlice.actions.RPublishresetMessage());
-    };
-    export const  PublishresetMessageAll = (): AppThunk => async (dispatch) => {
-      dispatch(AddHomeworkSlice.actions.RPublishresetMessageAll());
-    };
+export const resetDeleteHomework = (): AppThunk => async (dispatch) => {
+  dispatch(AddHomeworkSlice.actions.RresetDeleteHomework());
+};
 
-    
+export const PublishresetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(AddHomeworkSlice.actions.RPublishresetMessage());
+};
+export const PublishresetMessageAll = (): AppThunk => async (dispatch) => {
+  dispatch(AddHomeworkSlice.actions.RPublishresetMessageAll());
+};
+
+
 
 export default AddHomeworkSlice.reducer;

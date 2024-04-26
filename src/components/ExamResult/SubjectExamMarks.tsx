@@ -22,7 +22,7 @@ import {
   resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
@@ -36,7 +36,7 @@ const SubjectExamMarks = () => {
   const { ClassId, TeacherId,
     StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
-
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const userId = sessionStorage.getItem('Id');
@@ -209,6 +209,13 @@ const SubjectExamMarks = () => {
       setMarksScored(TestMarkDetails.Marks_Scored)
       setGradeOrMarks(TestMarkDetails.Grade_Or_Marks)
     }
+    else {
+      if (ExamSchedules.length > 0)
+        setTestDate(getCalendarDateFormatDate(ExamSchedules[0].Exam_Start_Date))
+      else
+        setTestDate(getCalendarDateFormatDateNew(new Date()))
+
+    }
   }, [TestMarkDetails])
 
   useEffect(() => {
@@ -306,7 +313,9 @@ const SubjectExamMarks = () => {
     if (ManageStudentsTestMarks !== '') {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
-      navigate("/extended-sidebar/Teacher/AssignExamMark")
+      navigate("/extended-sidebar/Teacher/AssignExamMark/" +
+        StandardDivisionId + "/" + TestId
+      )
     }
   }, [ManageStudentsTestMarks])
   const ExamMarks = [
@@ -343,20 +352,26 @@ const SubjectExamMarks = () => {
           const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
           const endDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
           const selectedDate = new Date(TestDate);
-          const excludedDate = new Date(TestDate);
-          if (selectedDate.getTime() !== excludedDate.getTime()) {
-            if (selectedDate >= startDate || selectedDate <= endDate) {
-              setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
-                ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
-            } else {
-              setMarksError('');
-            }
+          if (isGreaterDate(startDate, selectedDate) || isGreaterDate(selectedDate, endDate)) {
+
+            setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
+              ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
           } else {
+            setMarksError('');
           }
         }
       }
     }
-  }, [TestDate, ExamSchedules]);
+  },
+    [TestDate, ExamSchedules]);
+  useEffect(() => {
+    const currentDate = new Date();
+    if (TestDate && new Date(TestDate) > currentDate) {
+      setIsSaveDisabled(true);
+    } else {
+      setIsSaveDisabled(false);
+    }
+  }, [TestDate]);
 
 
   const onChangeExamStatus = (value) => {
@@ -399,7 +414,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -417,7 +432,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -430,7 +445,7 @@ const SubjectExamMarks = () => {
                 fullWidth
                 label={"Subject Name"}
                 value={SubjectName || ''}
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -498,7 +513,7 @@ const SubjectExamMarks = () => {
                     ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
-                  disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true' || isSaveDisabled}
 
                 >
                   <Save />
@@ -524,7 +539,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -558,7 +573,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -576,7 +591,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -609,7 +624,7 @@ const SubjectExamMarks = () => {
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={IsReadOnly}
-            IsMark={TestName.Grade_Or_Marks == "M"}
+            IsMark={TestName?.Grade_Or_Marks == "M"}
 
           />
         }

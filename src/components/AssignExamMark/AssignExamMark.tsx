@@ -19,7 +19,7 @@ import { RootState } from 'src/store';
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { grey } from '@mui/material/colors';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
@@ -31,9 +31,11 @@ const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [selectClass, SetSelectClass] = useState();
-  const [ClassWiseExam, SetClassWiseExam] = useState();
-  const [MyclassList, SetMyclassList] = useState(true);
+  const { StandardDivisionId, TestId } =
+    useParams();
+
+  const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
+  const [ClassWiseExam, SetClassWiseExam] = useState(TestId);
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -42,9 +44,7 @@ const AssignExamMark = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const asStandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
+  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
 
   const ClassDropdown = useSelector(
@@ -93,8 +93,8 @@ const AssignExamMark = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     aTeacherId: aTeacherId,
-    asExamId: ClassWiseExam,
-    asStandardDivisionId: selectClass,
+    asExamId: Number(ClassWiseExam),
+    asStandardDivisionId: Number(selectClass),
     IsClassTeacher: true
 
   };
@@ -109,7 +109,7 @@ const AssignExamMark = () => {
   const GetAssignClassWiseExam: IClasswiseExamDropdownBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: selectClass
+    asStandardDivisionId: Number(selectClass)
   };
 
   useEffect(() => {
@@ -117,7 +117,7 @@ const AssignExamMark = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassDropdown.length > 0) {
+    if (ClassDropdown.length > 0 && selectClass == "") {
       SetSelectClass(ClassDropdown[0].Value);
     }
   }, [ClassDropdown]);
@@ -156,7 +156,7 @@ const AssignExamMark = () => {
     });
 
   };
-  
+
 
   useEffect(() => {
     if (UsSubmitMarksTeacher != '') {
@@ -275,10 +275,10 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Divider sx={{ my: 2 }} />
         {asStandardDivisionId == selectClass && (
           <Box mt={2}>
-             <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
+            <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
             {SubjectListmarkClass1.length > 0 ? (
               <div>
-                
+
                 <ListEditIcon1
                   ItemList={SubjectListmarkClass1}
                   clickEdit={clickEdit}
