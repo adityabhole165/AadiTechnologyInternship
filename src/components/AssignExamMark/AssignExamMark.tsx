@@ -35,7 +35,7 @@ const AssignExamMark = () => {
     useParams();
 
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
-  const [ClassWiseExam, SetClassWiseExam] = useState(TestId);
+  const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -127,7 +127,7 @@ const AssignExamMark = () => {
   }, [selectClass]);
 
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0) {
+    if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
     }
   }, [ClassWiseExamDropdown]);
