@@ -82,8 +82,8 @@ function ListIcon({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {ItemList.map((item) => (
-                            <TableRow key={item.Id}>
+                        {ItemList.map((item, i) => (
+                            <TableRow key={i}>
                                 <TableCell sx={{ color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.StartDate}</TableCell>
                                 <TableCell sx={{ color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.EndDate}</TableCell>
 
@@ -92,7 +92,7 @@ function ListIcon({
                                         (
                                             <Tooltip title={"View Remark"}>
                                                 <Visibility onClick={() =>
-                                                    clickView(item.Id, item.Text3 , item.Text4, item.StartDate, item.EndDate, item.UserId)} />
+                                                    clickView(item.Id, item.Text3, item.Text4, item.StartDate, item.EndDate, item.UserId)} />
                                             </Tooltip>
                                         ) :
                                         "-"
@@ -116,7 +116,7 @@ function ListIcon({
                                 </TableCell>
 
 
-                                {( !ShowEdit) && (
+                                {(!ShowEdit) && (
                                     <TableCell align="center">
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => {
@@ -135,9 +135,9 @@ function ListIcon({
                                 </TableCell>
 
                                 <TableCell align="center">
-                                    {ReportingConfigs.map((config) => {
+                                    {ReportingConfigs.map((config, i) => {
                                         if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
-                                            return (<Tooltip title={config.ReportingUserName}>
+                                            return (<Tooltip title={config.ReportingUserName} key={i}>
                                                 {getStatusIcon(config.IsSubmitted)}
                                             </Tooltip>)
                                         }
