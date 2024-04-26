@@ -398,7 +398,7 @@ const teacherRoutes = [
   },
 
   {
-    path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId',
+    path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject',
     element: <AddHomeworkNew />
   },
   {
