@@ -22,7 +22,7 @@ import {
   resetManageStudentsTestMark
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
@@ -209,6 +209,13 @@ const SubjectExamMarks = () => {
       setMarksScored(TestMarkDetails.Marks_Scored)
       setGradeOrMarks(TestMarkDetails.Grade_Or_Marks)
     }
+    else {
+      if (ExamSchedules.length > 0)
+        setTestDate(getCalendarDateFormatDate(ExamSchedules[0].Exam_Start_Date))
+      else
+        setTestDate(getCalendarDateFormatDateNew(new Date()))
+
+    }
   }, [TestMarkDetails])
 
   useEffect(() => {
@@ -343,20 +350,18 @@ const SubjectExamMarks = () => {
           const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
           const endDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
           const selectedDate = new Date(TestDate);
-          const excludedDate = new Date(TestDate);
-          if (selectedDate.getTime() !== excludedDate.getTime()) {
-            if (selectedDate >= startDate || selectedDate <= endDate) {
-              setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
-                ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
-            } else {
-              setMarksError('');
-            }
+          if (isGreaterDate(startDate, selectedDate) || isGreaterDate(selectedDate, endDate)) {
+
+            setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
+              ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
           } else {
+            setMarksError('');
           }
         }
       }
     }
-  }, [TestDate, ExamSchedules]);
+  },
+    [TestDate, ExamSchedules]);
 
 
   const onChangeExamStatus = (value) => {
@@ -399,7 +404,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -417,7 +422,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -430,7 +435,7 @@ const SubjectExamMarks = () => {
                 fullWidth
                 label={"Subject Name"}
                 value={SubjectName || ''}
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -524,7 +529,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -558,7 +563,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -576,7 +581,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#d3d3d3' }}
+                sx={{ bgcolor: '#f0e68c' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -609,7 +614,7 @@ const SubjectExamMarks = () => {
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={IsReadOnly}
-            IsMark={TestName.Grade_Or_Marks == "M"}
+            IsMark={TestName?.Grade_Or_Marks == "M"}
 
           />
         }
