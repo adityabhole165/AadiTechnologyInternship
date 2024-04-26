@@ -36,7 +36,7 @@ const SubjectExamMarks = () => {
   const { ClassId, TeacherId,
     StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
-
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const userId = sessionStorage.getItem('Id');
@@ -362,6 +362,14 @@ const SubjectExamMarks = () => {
     }
   },
     [TestDate, ExamSchedules]);
+  useEffect(() => {
+    const currentDate = new Date();
+    if (TestDate && new Date(TestDate) > currentDate) {
+      setIsSaveDisabled(true);
+    } else {
+      setIsSaveDisabled(false);
+    }
+  }, [TestDate]);
 
 
   const onChangeExamStatus = (value) => {
@@ -503,7 +511,7 @@ const SubjectExamMarks = () => {
                     ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
-                  disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true' || isSaveDisabled}
 
                 >
                   <Save />
