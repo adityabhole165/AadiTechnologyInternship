@@ -227,6 +227,10 @@ const teacherRoutes = [
     path: 'AssignExamMark',
     element: <AssignExamMark />
   },
+  {
+    path: 'AssignExamMark/:StandardDivisionId/:TestId',
+    element: <AssignExamMark />
+  },
 
   {
     path: 'AnnualPlanerBaseScreen',
