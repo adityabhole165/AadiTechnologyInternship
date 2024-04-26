@@ -1,4 +1,4 @@
-import { Checkbox, Grow } from '@mui/material';
+import { Checkbox, Grow, Tooltip } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,6 +6,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useContext } from 'react';
+import Authcontext from 'src/components/ExamResult/Authcontext';
 const DynamicList = ({
   HeaderList,
   ItemList,
@@ -17,6 +19,9 @@ const DynamicList = ({
   ClickLink = undefined,
   Data = undefined
 }) => {
+
+  let StudentNameList = useContext(Authcontext)
+  console.log(StudentNameList, "StudentNameList");
 
   const handleMouseEnter = (text) => {
     console.log("Mouse entered: ", text);
@@ -113,19 +118,22 @@ const DynamicList = ({
                   {item.Text1 != undefined && (
                     <TableCell
                       align="center"
-                      onClick={() => {
-                        ClickLink({ Id: Data[index].SubjectId, Index: index });
-                      }}
+                      onMouseEnter={() => handleMouseEnter(item.Text1)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      <span
-                        onMouseEnter={() => handleMouseEnter(item.Text1)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {item.Text1}-{item.Index}
-                      </span>
-                    </TableCell>
-                  )}
+                      {/* {item.Text1} */}
+{/* 
+                      {StudentNameList.map((item, index) => (
+                        <Tooltip title={"student name "} key={index}>
+                          <span>{item.Text1}</span>
+                        </Tooltip> 
+                      ))} */}
+                      <Tooltip title={"student name "} key={index}>
+                        <span>{item.Text1}</span>
+                      </Tooltip>
 
+                  </TableCell>
+                  )}
                   {item.Text2 != undefined && (
                     <TableCell align="center">{item.Text2}</TableCell>
                   )}

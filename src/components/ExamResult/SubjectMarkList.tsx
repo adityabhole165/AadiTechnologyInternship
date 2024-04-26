@@ -5,6 +5,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import Authcontext from 'src/components/ExamResult/Authcontext';
 import {
   GetFirstThreeToopersBody,
   GetStudentsForSubjectMarkMouseOverBody,
@@ -34,10 +35,10 @@ const SubjectMarkList = () => {
     (state: RootState) => state.SubjectMarkList.listTestMark);
   const HeaderList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.HeaderList);
-
+  console.log(HeaderList, "HeaderList");
   const StudentNamelistMouseOver: any = useSelector(
     (state: RootState) => state.SubjectMarkList.StudentNameMouseOver);
-  // console.log(StudentNamelistMouseOver, "jjjjj");
+  console.log(StudentNamelistMouseOver, "jjjjj");
   const ListLegend: any = useSelector(
     (state: RootState) => state.SubjectMarkList.legend);
   const FirstThreeToppers: any = useSelector(
@@ -373,6 +374,7 @@ const SubjectMarkList = () => {
           </Box>
         </Box>
         {/* New Table End */}
+        <Authcontext.Provider value={StudentNamelistMouseOver} />
 
         {(HeaderList.length > 0) &&
           (<Grid container>
@@ -386,7 +388,8 @@ const SubjectMarkList = () => {
                 ClickItem={""}
                 // LinkList={true}
                 ClickLink={true}
-              /></Grid><Grid xs={4}>
+              /></Grid>
+              <Grid xs={4}>
               <DynamicList
                 HeaderList={HeaderList}
                 ItemList={TestMarkList.
