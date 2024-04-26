@@ -500,7 +500,7 @@ const LessonPlanBaseScreen = () => {
               </Box>
               <Box>
 
-                {LessonPlanList.length > 0 ? (
+                {(LessonPlanList1.length > 0 ? LessonPlanList1[0].IsSubmitted == "1" : true) && (
                   <Tooltip title="Export All">
                     <IconButton
                       sx={{
@@ -514,27 +514,13 @@ const LessonPlanBaseScreen = () => {
                       <Download />
                     </IconButton>
                   </Tooltip>
-                ) : (
-                  <Tooltip title="Export All">
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] },
-                        pointerEvents: 'none', // Disables pointer events when LessonPlanList is empty
-                        opacity: 0.5 // Makes the button visually disabled
-                      }}
-                    >
-                      <Download />
-                    </IconButton>
-                  </Tooltip>
-                )}
+                )
+                }
 
 
               </Box>
               <Box>
-                {String(asUserId) == String(selectClasstecahernew) && (LessonPlanList1.length > 0 ? LessonPlanList1[0].IsSubmitted == "1" : true) ? (
+                {String(asUserId) == String(selectClasstecahernew) ? (
                   <Tooltip title={"Add new Lesson Plan"}>
                     <IconButton
                       sx={{
