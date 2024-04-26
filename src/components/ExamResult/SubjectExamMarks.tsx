@@ -333,22 +333,25 @@ const SubjectExamMarks = () => {
 
 
     if (TestDate !== "" && ExamSchedules.length > 0) {
-      if (IsReadOnly != 'true') {
+      if (IsReadOnly !== 'true') {
         if (isOutsideAcademicYear(TestDate)) {
           setMarksError('Please fix following error(s): ' +
             'Exam date should be within the current academic year (i.e., between ' +
             formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
         } else {
+
           const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
           const endDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
           const selectedDate = new Date(TestDate);
-
-
-          if (selectedDate < startDate || selectedDate > endDate) {
-            setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
-              ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
+          const excludedDate = new Date(TestDate);
+          if (selectedDate.getTime() !== excludedDate.getTime()) {
+            if (selectedDate >= startDate || selectedDate <= endDate) {
+              setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
+                ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
+            } else {
+              setMarksError('');
+            }
           } else {
-            setMarksError('');
           }
         }
       }
