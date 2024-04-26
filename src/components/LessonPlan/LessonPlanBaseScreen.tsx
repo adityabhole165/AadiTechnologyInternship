@@ -120,21 +120,21 @@ const LessonPlanBaseScreen = () => {
     { Id: 3, Header: 'View Remark', align: 'center' },
     { Id: 4, Header: 'Edit', align: 'center' },
     { Id: 5, Header: 'Delete', align: 'center' },
-    ...( LessonPlanList.map((item) => item.Text2) != 'False' && LessonPlanList.map((item) => item.UserId) !==  selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
+    ...(LessonPlanList.map((item) => item.Text2) != 'False' && LessonPlanList.map((item) => item.UserId) !== selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
     { Id: 7, Header: 'Export', align: 'center' },
     { Id: 8, Header: 'Submit Status', align: 'center' }
   ];
-  
 
- 
 
-  
-  
+
+
+
+
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
     asUserId: Number(selectClasstecahernew),
-    asReportingUserId: asUserId ,
+    asReportingUserId: asUserId,
     asStartIndex: 0,
     asEndIndex: 20,
     asRecordCount: false,
@@ -199,7 +199,7 @@ const LessonPlanBaseScreen = () => {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asReportingUserId: asUserId,
-      asIsFullAccess: `${CanEdit == 'Y' ? 0 : selectClasstecahernew}`
+      asIsFullAccess: CanEdit// `${CanEdit == 'Y' ? 0 : selectClasstecahernew}`
     }
 
     dispatch(CDAGetAllTeachersOfLessonPlan(GetAllTeachersOfLessonBody));
@@ -424,7 +424,6 @@ const LessonPlanBaseScreen = () => {
   }, [page]);
 
 
-
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -436,7 +435,7 @@ const LessonPlanBaseScreen = () => {
             }
           ]}
           rightActions={
-            <>
+            <>{USGetAllTeachersOfLessonPlan.length > 1 &&
               <Box sx={{ background: 'white' }}>
                 <Box sx={{ background: 'white' }}>
                   <SearchableDropdown
@@ -450,6 +449,7 @@ const LessonPlanBaseScreen = () => {
                   />
                 </Box>
               </Box>
+            }
 
               {errorMessage && (
                 <Typography variant="body2" color="error">
