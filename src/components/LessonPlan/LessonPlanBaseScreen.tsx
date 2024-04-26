@@ -534,7 +534,7 @@ const LessonPlanBaseScreen = () => {
 
               </Box>
               <Box>
-                {String(asUserId) == String(selectClasstecahernew) && LessonPlanList.length > 0 ? (
+                {String(asUserId) == String(selectClasstecahernew) && (LessonPlanList1.length > 0 ? LessonPlanList1[0].IsSubmitted == "1" : true) ? (
                   <Tooltip title={"Add new Lesson Plan"}>
                     <IconButton
                       sx={{
