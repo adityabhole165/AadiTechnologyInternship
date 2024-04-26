@@ -62,9 +62,11 @@ const SubjectExamMarksslice = createSlice({
 
         },
         GetExamMarkHeader(state, action) {
+            state.Loading = false;
             state.ExamMarkHeader = action.payload;
         },
         GetListDisplayNameDetail(state, action) {
+            state.Loading = false;
             state.ListDisplayNameDetail = action.payload;
         },
         GetManageStudentsTestMark(state, action) {
