@@ -198,23 +198,24 @@ const AssignHomework = () => {
   //   );
   // };
 
-  const clickItem1 = (value) => {
-    console.log(value,"value");
+  const clickItem1 = (value, MySubject) => {
     navigate(
-      '/extended-sidebar/Teacher/AddHomeworkNew/'+
+      '/extended-sidebar/Teacher/AddHomeworkNew/' +
       SelectTeacher +
       '/' +
       getClassTeacherName() +
-      '/' + 
-      value.StandardDivision  +
-      '/'+
+      '/' +
+      value.StandardDivision +
+      '/' +
       value.SubjectName +
       '/' +
-      value.SubjectId
-     
+      value.SubjectId +
+      '/' +
+      MySubject
+
     );
   };
-  
+
   const clickItem = (value) => {
     navigate('/extended-sidebar/Teacher/TExamschedule');
     value.map((item) => {
@@ -304,6 +305,7 @@ const AssignHomework = () => {
               ItemList={SubjectDetailLists}
               clickAssign={clickItem1}
               HeaderArray={HeaderOfTable}
+              MySubject={true}
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -322,6 +324,8 @@ const AssignHomework = () => {
               ItemList={SubjectDetailLists1}
               clickAssign={clickItem1}
               HeaderArray={HeaderOfTable}
+              MySubject={false}
+
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>

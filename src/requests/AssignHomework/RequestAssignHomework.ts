@@ -100,7 +100,10 @@ export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk =>
     Id: item.Subject_Id,
     Text1: item.StandardDivision,
     Text2: item.Subject_Name,
-    Text3: item.MySubject
+    Text3: item.MySubject,
+    SubjectId: item.Subject_Id,
+    StandardDivisionId: item.Standard_Division_Id
+
   }));
 
 

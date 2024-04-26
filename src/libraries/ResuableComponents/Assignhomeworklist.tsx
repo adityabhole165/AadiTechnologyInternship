@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // ... (your other imports)
 
-function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
+function Assignhomeworklist({ ItemList, clickAssign, HeaderArray, MySubject }) {
   return (
     <div>
       <TableContainer component={Box} sx={{ border: '1px solid lightgrey' }}>
@@ -68,7 +68,8 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
                             StandardDivisionId: item.StandardDivisionId,
                             SubjectName: item.Text2,
                             StandardDivision: item.Text1
-                          });
+                          },
+                          MySubject);
                       }}
                     />
                   </Tooltip>

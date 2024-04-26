@@ -2,6 +2,7 @@ import Close from '@mui/icons-material/Close';
 import CloudUpload from '@mui/icons-material/CloudUpload';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -19,16 +20,15 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId } =
+  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject } =
     useParams();
   const navigate = useNavigate();
   const [Subject, setSubject] = useState(SubjectId);
   const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
   const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
-  
+
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
   const [ErrorTitle, setErrorTitle] = useState('');
   const [CompleteDate, setCompleteDate] = useState('');
@@ -137,7 +137,7 @@ const AddHomeworkNew = () => {
     asStandardDivisionId: StandardDivisionId
   };
 
-  
+
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -148,7 +148,7 @@ const AddHomeworkNew = () => {
   }
 
   const HomeworkSaveBody: ISaveHomeworkBody = {
-    AsId:Number(HomeworkId),
+    AsId: Number(HomeworkId),
     asTitle: Title,
     asSubjectId: Number(SubjectCheckID),
     asStandardDivisionId: StandardDivisionId,
@@ -178,8 +178,8 @@ const AddHomeworkNew = () => {
 
   const handleEditClick = (Id) => {
     setHomeworkId(Id);
-   
-    
+
+
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
@@ -202,7 +202,6 @@ const AddHomeworkNew = () => {
   }, [HomeworkDetail]);
 
 
-console.log(HomeworkId,"HomeworkId");
 
 
   const ClickSaveHomework = () => {
@@ -280,7 +279,7 @@ console.log(HomeworkId,"HomeworkId");
 
 
 
- 
+
 
   useEffect(() => {
     if (DeleteHomework != '') {
@@ -380,7 +379,7 @@ console.log(HomeworkId,"HomeworkId");
     let arr = []
     SearchTittle1.map(item => {
       if (item.IsActive)
-        if (item.IsPublished =='True')
+        if (item.IsPublished == 'True')
           arr.push(item.Text10)
 
     })
@@ -391,7 +390,7 @@ console.log(HomeworkId,"HomeworkId");
     let arr = []
     SearchTittle1.map(item => {
       if (item.IsActive)
-        if (item.IsPublished =='False')
+        if (item.IsPublished == 'False')
           arr.push(item.Text10)
 
     })
@@ -401,14 +400,14 @@ console.log(HomeworkId,"HomeworkId");
   const publishAll = (Id) => {
     const selectedHomeworkIds = getSelectHomeworkId();
     if (selectedHomeworkIds === "") {
-        toast.error("At least one subject should be selected to publish.");
-        return;
+      toast.error("At least one subject should be selected to publish.");
+      return;
     }
     let publishList = getPublishErrorList();
     if (publishList.length > 0) {
-        const publishListString = publishList;
-        toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
-        return;
+      const publishListString = publishList;
+      toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+      return;
     }
     const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
     if (!confirmPublish) return;
@@ -419,17 +418,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     const isSMSSent = confirmSendSMS ? 1 : 0;
 
     const AllPublishUnpublishAddHomeworkBody = {
-        asSchoolId: String(asSchoolId),
-        asAcademicYearId: String(asAcademicYearId),
-        asHomeWorkLogId: selectedHomeworkIds,
-        asUnpublishReason: textall,
-        asUpdatedById: asTeacherId,
-        IsPublished: 1,
-        IsSMSSent: isSMSSent,
+      asSchoolId: String(asSchoolId),
+      asAcademicYearId: String(asAcademicYearId),
+      asHomeWorkLogId: selectedHomeworkIds,
+      asUnpublishReason: textall,
+      asUpdatedById: asTeacherId,
+      IsPublished: 1,
+      IsSMSSent: isSMSSent,
     };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-};
+  };
 
 
   const unpublishAll = () => {
@@ -494,7 +493,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
-  }, [HomeworkS, AssignedDate1,Subject]);
+  }, [HomeworkS, AssignedDate1, Subject]);
 
 
 
@@ -506,14 +505,14 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   useEffect(() => {
     setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject)
-    .map ((item , index) =>{
-      return{
-       ...item,
-       Text10: index+1
-      }
-    })
+      .map((item, index) => {
+        return {
+          ...item,
+          Text10: index + 1
+        }
+      })
 
-     )
+    )
 
   }, [Subjectlistsforteacher])
 
@@ -543,14 +542,14 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
       );
     }
   };
-  
+
 
 
   const SearchNameChange = (value) => {
     setSearchText(value);
   };
 
- 
+
   const ClickOpenDialogbox = () => {
     let UnpublishList = getUnpublishErrorList()
     if (UnpublishList.length > 0) {
@@ -653,7 +652,11 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           <Grid item xs={3}>
 
             <SearchableDropdown
-              ItemList={ClassSubject}
+              ItemList={ClassSubject.filter((Item) => {
+                return MySubject == 'true' ?
+                  Item.TeacherId == asTeacherId :
+                  Item.TeacherId != asTeacherId
+              })}
               onChange={clickSubjectList}
               defaultValue={Subject}
               sx={{ minWidth: '100%' }}
@@ -768,46 +771,46 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <br />
         <br />
-        <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={2} pb={1}>   
+        <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={2} pb={1}>
           <SearchableDropdown
-          sx={{ minWidth: '250px' }}
-          ItemList={HomeworkStatus}
-          onChange={clickHomeworkStatus}
-          defaultValue={HomeworkS.toString()}
-          label={'All'}
-          size={"small"}
-        />
-          <TextField
-          size={"small"}
-          sx={{ with: '250px' }}
-          InputLabelProps={{
-            shrink: true
-          }}
-          label={'Date'}
-          inputProps={{ type: 'date' }}
-          value={AssignedDate1}
-          onChange={(e) => {
-            setAssignedDate1(e.target.value);
-            console.log('EventEndDate :', e.target.value);
-          }}
+            sx={{ minWidth: '250px' }}
+            ItemList={HomeworkStatus}
+            onChange={clickHomeworkStatus}
+            defaultValue={HomeworkS.toString()}
+            label={'All'}
+            size={"small"}
           />
-         
-         <TextField
-          size={"small"}
-          sx={{ with: '250px' }}
-          label="Title"
-          value={SearchText}
-          variant={'standard'}
-          onChange={(e) => {
-            SearchNameChange(e.target.value);
-          }}
-        />
-            <IconButton onClick={changeSearchText} sx={{
-          background: (theme) => theme.palette.primary.main,
-          color: 'white'
-        }}>
-          <SearchTwoTone />
-        </IconButton>
+          <TextField
+            size={"small"}
+            sx={{ with: '250px' }}
+            InputLabelProps={{
+              shrink: true
+            }}
+            label={'Date'}
+            inputProps={{ type: 'date' }}
+            value={AssignedDate1}
+            onChange={(e) => {
+              setAssignedDate1(e.target.value);
+              console.log('EventEndDate :', e.target.value);
+            }}
+          />
+
+          <TextField
+            size={"small"}
+            sx={{ with: '250px' }}
+            label="Title"
+            value={SearchText}
+            variant={'standard'}
+            onChange={(e) => {
+              SearchNameChange(e.target.value);
+            }}
+          />
+          <IconButton onClick={changeSearchText} sx={{
+            background: (theme) => theme.palette.primary.main,
+            color: 'white'
+          }}>
+            <SearchTwoTone />
+          </IconButton>
         </Stack>
 
         <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)} fullWidth
