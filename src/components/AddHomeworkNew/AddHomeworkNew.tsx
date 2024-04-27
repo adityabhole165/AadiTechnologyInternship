@@ -205,12 +205,12 @@ const AddHomeworkNew = () => {
 
   const ClickSaveHomework = () => {
     let isError = false;
-    if (AssignedDate == '') {
-      setErrorAssignedDate('Field should not be blank')
+    if ( CompleteDate == '') {
+       setErrorCompleteDate('Complete by Date should not be blank.')
       isError = true
 
-    } else if (CompleteDate == '') {
-      setErrorCompleteDate('Field should not be blank')
+    } else if (AssignedDate == '') {
+      setErrorAssignedDate('Field should not be blank ')
       isError = true
     }
     else if (base64URL == '') {
@@ -750,6 +750,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               inputProps={{ type: 'date' }}
               value={CompleteDate}
               onChange={handleCompleteByDateChange}
+              error={ErrorCompleteDate !== ''}
+              helperText={ErrorCompleteDate}
               
 
             />
