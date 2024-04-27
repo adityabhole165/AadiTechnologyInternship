@@ -36,7 +36,6 @@ const AddHomeworkNew = () => {
   // const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
   const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
-
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
   const [ErrorTitle, setErrorTitle] = useState('');
   const [CompleteDate, setCompleteDate] = useState('');
