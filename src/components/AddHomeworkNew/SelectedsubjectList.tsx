@@ -10,6 +10,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 const SelectedsubjectList = ({
   ItemList,
   HeaderArray,
@@ -93,7 +95,7 @@ const SelectedsubjectList = ({
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
                   {item.Text7 == 'False' ? (
-                    <Edit
+                    <EditTwoTone
                       style={{ color: 'black ' }}
                       onClick={() => clickEdit(item.Id)}
                     />
@@ -102,8 +104,8 @@ const SelectedsubjectList = ({
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
                   {item.Text7 == 'False' ? (
-                    <Delete
-                      style={{ color: 'black ' }}
+                    <DeleteForeverIcon
+                     sx={{ color: 'red' }}
                       onClick={() => clickDelete(item.Id)}
                     />
                   ) : null}
