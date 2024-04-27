@@ -255,6 +255,31 @@ const AddHomeworkNew = () => {
     setFileName(value.Name);
   };
 
+
+  const handleAssignedDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (selectedDate < currentDate) {
+      setErrorAssignedDate('Assigned date cannot be a past date.');
+    } else {
+      setErrorAssignedDate('');
+      setAssignedDate(selectedDate);
+    }
+  };
+
+  // Function to handle change in complete by date
+  const handleCompleteByDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (selectedDate < currentDate) {
+      setErrorCompleteDate('Complete by date cannot be a past date.');
+    } else {
+      setErrorCompleteDate('');
+      setCompleteDate(selectedDate);
+    }
+  };
+
+
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
@@ -705,11 +730,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }}
               inputProps={{ type: 'date' }}
               value={AssignedDate}
-              onChange={(e) => {
-                setAssignedDate(e.target.value);
-              }}
+               onChange={handleAssignedDateChange}
               error={ErrorAssignedDate !== ''}
               helperText={ErrorAssignedDate}
+             
             />
           </Grid>
           <Grid item xs={3}>
@@ -725,9 +749,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }
               inputProps={{ type: 'date' }}
               value={CompleteDate}
-              onChange={(e) => {
-                setCompleteDate(e.target.value);
-              }}
+              onChange={handleCompleteByDateChange}
+              
 
             />
           </Grid>
