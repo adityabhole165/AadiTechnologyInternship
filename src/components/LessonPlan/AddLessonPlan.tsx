@@ -721,7 +721,7 @@ const AddLessonPlan = () => {
               label={<>
                 Teacher <span style={{ color: 'red' }}>*</span>
               </>}
-              sx={{ bgcolor: '#e3f2fd' }}
+              sx={{ bgcolor: '#f0e68c' }}
               InputProps={{
                 readOnly: true,
               }}
