@@ -13,8 +13,7 @@ import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkD
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
-import { PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
+import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework ,PublishresetMessageNew} from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { getCalendarDateFormatDate } from '../Common/Util';
@@ -54,7 +53,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
-
+  const [toastShown, setToastShown] = useState(false);
   const SchoolName = localStorage.getItem('SchoolName');
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -121,8 +120,8 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.GetHomeworkDetail
   );
 
-  const AllPublishUnPublishHomework = useSelector(
-    (state: RootState) => state.AddHomework.PublishUnPublishHomework
+  const AllPublishUnPublishHomeworkNew = useSelector(
+    (state: RootState) => state.AddHomework.AllPublishUnpublishHomework
   );
 
 
@@ -343,13 +342,15 @@ const AddHomeworkNew = () => {
     setTextall(event.target.value)
   }
 
+  
   useEffect(() => {
-    if (USPublishUnpublishHomework !== '') {
-      toast.success(USPublishUnpublishHomework, { toastId: 'success1' });
-      dispatch(PublishresetMessage());
+    if (USPublishUnpublishHomework != '' && !toastShown) {
+      toast.success(USPublishUnpublishHomework);
+      dispatch(PublishresetMessageNew());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+      setToastShown(true);
     }
-  }, [USPublishUnpublishHomework]);
+  }, [USPublishUnpublishHomework, toastShown]);
 
 
 
@@ -459,13 +460,22 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     }
   };
 
+  
+
+
+  
+
   useEffect(() => {
-    if (AllPublishUnPublishHomework !== '') {
-      toast.success(AllPublishUnPublishHomework);
-      dispatch(PublishresetMessageAll());
+    console.log("AllPublishUnPublishHomework changed:", AllPublishUnPublishHomeworkNew);
+    if (AllPublishUnPublishHomeworkNew !='') {
+      toast.success(AllPublishUnPublishHomeworkNew);
+      dispatch(PublishresetMessageNewAll());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+      
     }
-  }, [AllPublishUnPublishHomework]);
+  }, [AllPublishUnPublishHomeworkNew]);
+  
+  
 
   const clickFileName = (value) => {
     if (value !== '') {

@@ -28,9 +28,9 @@ const AddHomeworkSlice = createSlice({
     ISSubmitMarksRest: '',
     FilePath: '',
     SubjectListTeacher: [],
-    AllPublishUnpublishHomeworkT: '',
+    AllPublishUnpublishHomework:'',
     GetAllHomeworkDocuments: [],
-    Publishall: '',
+   
   },
   reducers: {
     RHomeworklist(state, action) {
@@ -65,16 +65,11 @@ const AddHomeworkSlice = createSlice({
       state.SubjectListTeacher = action.payload;
     },
     allpublishunpublishhomework(state, action) {
-      state.AllPublishUnpublishHomeworkT = action.payload;
+      state.AllPublishUnpublishHomework = action.payload;
     },
     getallhomeworkdocument(state, action) {
       state.GetAllHomeworkDocuments = action.payload;
     },
-
-    resetPublishall(state) {
-      state.Publishall = '';
-    },
-
     RresetHomework(state) {
       state.ISSaveHomework = '';
     },
@@ -88,7 +83,7 @@ const AddHomeworkSlice = createSlice({
     },
 
     RPublishresetMessageAll(state) {
-      state.AllPublishUnpublishHomeworkT = '';
+      state.AllPublishUnpublishHomework = '';
     },
 
 
@@ -97,9 +92,7 @@ const AddHomeworkSlice = createSlice({
   }
 
 });
-export const Publishallreset = (): AppThunk => async (dispatch) => {
-  dispatch(AddHomeworkSlice.actions.resetPublishall());
-};
+
 export const homeworklistforteacher =
   (data: IGetHomeworkListForTeacherBody): AppThunk =>
     async (dispatch) => {
@@ -220,10 +213,10 @@ export const resetDeleteHomework = (): AppThunk => async (dispatch) => {
   dispatch(AddHomeworkSlice.actions.RresetDeleteHomework());
 };
 
-export const PublishresetMessage = (): AppThunk => async (dispatch) => {
+export const PublishresetMessageNew = (): AppThunk => async (dispatch) => {
   dispatch(AddHomeworkSlice.actions.RPublishresetMessage());
 };
-export const PublishresetMessageAll = (): AppThunk => async (dispatch) => {
+export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
   dispatch(AddHomeworkSlice.actions.RPublishresetMessageAll());
 };
 
