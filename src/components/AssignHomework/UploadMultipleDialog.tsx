@@ -75,6 +75,7 @@ const UploadMultipleDialog = ({
                 </Box>
                 <Stack gap={1} mt={2}>
                     <Box>
+                        <p >( Attachment supports files of types - .BMP, .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF, .XLS, .XLSX upto 5 MB )</p>
                         <Typography variant={"h5"}>Selected Files:</Typography>
                     </Box>
                     {MultipleFiles.map((file, index) => (
