@@ -200,7 +200,8 @@ export const getSubjectExamMarkslist =
                         Student_Id: StudentIdParam,
                         JoiningDate: JoiningDate,
                         IsLateJoinee: false,
-                        AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin
+                        AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
+                        IsAbsent: "N"
                     });
                 });
                 if (arr.length == 0) {
@@ -216,34 +217,43 @@ export const getSubjectExamMarkslist =
                         Student_Id: StudentIdParam,
                         JoiningDate: JoiningDate,
                         IsLateJoinee: false,
-                        AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin
+                        AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
+                        IsAbsent: "N"
                     });
                 }
                 return arr
             }
             const getMarksForStudent = (StudentId, JoiningDate) => {
-                let arr = [];
-                response2.data.listStudentTestMarkDetails.map((Item, i) => {
-                    let IsLateJoinee = isGreaterThanDate(JoiningDate, Item.Test_Date)
-                    if (Item.Student_Id == StudentId) {
-                        arr.push({
-                            Id: Item.TestType_Id,
-                            Text1: Item.Is_Absent != "N" ? "" : Item.Marks_Scored.toString(),
-                            Text2: Item.TestType_Total_Marks,
-                            ExamStatus: (Item.Is_Absent == "N" && IsLateJoinee) ? "J" : Item.Is_Absent,
-                            ExamGrade: Item.Assigned_Grade_Id,
+                let arr = getMarksForStudentBlank(StudentId, JoiningDate);
+
+                let tempArr = []
+                arr = arr.map((Obj) => {
+                    tempArr = response2.data.listStudentTestMarkDetails
+                        .filter((item) => {
+                            return item.Student_Id == StudentId &&
+                                item.TestType_Id == Obj.Id
+                        })
+                    return tempArr.length > 0 ?
+                        {
+                            Id: tempArr[0].TestType_Id,
+                            Text1: tempArr[0].Is_Absent != "N" ? "" : tempArr[0].Marks_Scored.toString(),
+                            Text2: tempArr[0].TestType_Total_Marks,
+                            ExamStatus: (tempArr[0].Is_Absent == "N" &&
+                                isGreaterThanDate(JoiningDate, tempArr[0].Test_Date)) ? "J" : tempArr[0].Is_Absent,
+                            ExamGrade: tempArr[0].Assigned_Grade_Id,
                             IsActive: true,
                             IsActiveGrade: true,
                             ErrorMessage: "",
-                            Student_Id: Item.Student_Id,
-                            JoiningDate: Item.Joining_Date,
-                            IsLateJoinee: IsLateJoinee,
+                            Student_Id: tempArr[0].Student_Id,
+                            JoiningDate: tempArr[0].Joining_Date,
+                            IsLateJoinee: isGreaterThanDate(JoiningDate, tempArr[0].Test_Date),
                             AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
-                            IsAbsent: Item.Is_Absent
-                        });
-                    }
-                });
-                return arr.length > 0 ? arr : getMarksForStudentBlank(StudentId, JoiningDate);
+                            IsAbsent: tempArr[0].Is_Absent
+                        }
+                        : Obj
+
+                })
+                return arr
             }
 
 
