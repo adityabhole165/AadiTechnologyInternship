@@ -906,7 +906,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             clickAttachment={clickFileName}
           />
         ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No Record Found.</b>
           </Typography>
         )}
@@ -925,7 +925,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               clickTitle={clickTitle1}
             />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#5ac8fa', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No Record Found.</b>
             </Typography>
           )
