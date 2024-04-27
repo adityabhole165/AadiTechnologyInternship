@@ -645,7 +645,8 @@ const AddLessonPlan = () => {
                   </IconButton>
                 </Tooltip>
               </Box>}
-            {(UserIdParam == sessionStorage.getItem("Id") || Action == "Add") &&
+            {(UserIdParam == sessionStorage.getItem("Id") || (GetEnableButtonList.length > 0 &&
+              GetEnableButtonList[0].EnableSubmitButton == "True")) &&
               < Box >
                 <Tooltip title={'Save'}>
                   <IconButton
