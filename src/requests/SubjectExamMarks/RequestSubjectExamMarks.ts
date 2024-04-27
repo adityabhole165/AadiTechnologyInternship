@@ -157,13 +157,6 @@ export const getSubjectExamMarkslist =
     (data): AppThunk =>
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.getLoading(true));
-            const body1: IGetAllStudentsForMarksAssignmentsBody = {
-                asAcademicYearID: data.asAcademicYrId,
-                asSchoolId: data.asSchoolId,
-                asSubject_Id: data.asSubjectId,
-                asStandardDivision_Id: data.asStandardDivision_Id,
-                asTestDate: data.asTestDate
-            }
             const body2: IGetSubjectExamMarkslistsBody = {
                 asSchoolId: data.asSchoolId,
                 asStandardDivision_Id: data.asStandardDivision_Id,
@@ -179,8 +172,20 @@ export const getSubjectExamMarkslist =
                 asSubjectId: data.asSubjectId,
                 asTestId: data.asTestId
             }
-            const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
+
+            let body1: IGetAllStudentsForMarksAssignmentsBody = {
+                asAcademicYearID: data.asAcademicYrId,
+                asSchoolId: data.asSchoolId,
+                asSubject_Id: data.asSubjectId,
+                asStandardDivision_Id: data.asStandardDivision_Id,
+                asTestDate: data.asTestDate
+            }
+            body1 = {
+                ...body1,
+                asTestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
+            }
+            const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
             const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
             let reponseData1 = [];
             const getMarksForStudentBlank = (StudentIdParam, JoiningDate) => {
