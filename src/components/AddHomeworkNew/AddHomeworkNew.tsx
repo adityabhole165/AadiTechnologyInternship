@@ -662,7 +662,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
               </Box>
               <Box>
-                <Tooltip title={`Save HomeWork`}>
+                <Tooltip title={`Save`}>
                   <IconButton
                     sx={{
                       color: 'white',
