@@ -24,7 +24,15 @@ const AddHomeworkNew = () => {
     useParams();
   const navigate = useNavigate();
   const [Subject, setSubject] = useState(SubjectId);
-  const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
+
+  const currentDate = new Date();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const formattedDate = currentDate.getDate().toString().padStart(2, '0') + '-' +
+                        months[currentDate.getMonth()] + '-' +
+                        currentDate.getFullYear().toString();
+  
+  const [Title, setTitle] = useState(SubjectName + ' : ' + formattedDate);
+  // const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
   const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
 
@@ -675,13 +683,14 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <TextField fullWidth label={'Class'} value={ClassName} />
+            <TextField fullWidth label={'Class'} value={ClassName}  sx={{ bgcolor: '#f0e68c' }} />
           </Grid>
           <Grid item xs={3}>
             <TextField
               fullWidth
               label={'Class Teacher'}
               value={TeacherName}
+              sx={{ bgcolor: '#f0e68c' }}
             />
           </Grid>
           <Grid item xs={3}>
@@ -957,6 +966,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           </DialogActions>
         </Dialog>
 
+
+        {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
         <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
           <Button color={"primary"} variant={"contained"} onClick={publishAll}>
             PUBLISH ALL
@@ -965,8 +976,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             UNPUBLISH ALL
           </Button>
         </Box>
-
-
+        )}
 
 
         {openUploadMultipleDialog && (
