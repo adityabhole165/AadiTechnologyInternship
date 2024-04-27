@@ -13,8 +13,7 @@ import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkD
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
-import { PublishresetMessage } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
+import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework ,PublishresetMessageNew} from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { getCalendarDateFormatDate } from '../Common/Util';
@@ -54,7 +53,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
-
+  const [toastShown, setToastShown] = useState(false);
   const SchoolName = localStorage.getItem('SchoolName');
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -121,8 +120,8 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.GetHomeworkDetail
   );
 
-  const AllPublishUnPublishHomework = useSelector(
-    (state: RootState) => state.AddHomework.PublishUnPublishHomework
+  const AllPublishUnPublishHomeworkNew = useSelector(
+    (state: RootState) => state.AddHomework.AllPublishUnpublishHomework
   );
 
 
@@ -206,12 +205,12 @@ const AddHomeworkNew = () => {
 
   const ClickSaveHomework = () => {
     let isError = false;
-    if (AssignedDate == '') {
-      setErrorAssignedDate('Field should not be blank')
+    if ( CompleteDate == '') {
+       setErrorCompleteDate('Complete by Date should not be blank.')
       isError = true
 
-    } else if (CompleteDate == '') {
-      setErrorCompleteDate('Field should not be blank')
+    } else if (AssignedDate == '') {
+      setErrorAssignedDate('Field should not be blank ')
       isError = true
     }
     else if (base64URL == '') {
@@ -256,6 +255,31 @@ const AddHomeworkNew = () => {
     setFileName(value.Name);
   };
 
+
+  const handleAssignedDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (selectedDate < currentDate) {
+      setErrorAssignedDate('Assigned date cannot be a past date.');
+    } else {
+      setErrorAssignedDate('');
+      setAssignedDate(selectedDate);
+    }
+  };
+
+  // Function to handle change in complete by date
+  const handleCompleteByDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (selectedDate < currentDate) {
+      setErrorCompleteDate('Complete by date cannot be a past date.');
+    } else {
+      setErrorCompleteDate('');
+      setCompleteDate(selectedDate);
+    }
+  };
+
+
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
@@ -266,7 +290,7 @@ const AddHomeworkNew = () => {
 
   const clickDelete = (Id) => {
     // alert(Id)
-    if (confirm('Are You Sure you want to delete The List')) {
+    if (confirm('Are you sure you want to delete the homework')) {
       const DeleteHomeworkBody: IDeleteHomeworkBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -343,13 +367,15 @@ const AddHomeworkNew = () => {
     setTextall(event.target.value)
   }
 
+  
   useEffect(() => {
-    if (USPublishUnpublishHomework !== '') {
-      toast.success(USPublishUnpublishHomework, { toastId: 'success1' });
-      dispatch(PublishresetMessage());
+    if (USPublishUnpublishHomework != '' && !toastShown) {
+      toast.success(USPublishUnpublishHomework);
+      dispatch(PublishresetMessageNew());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+      setToastShown(true);
     }
-  }, [USPublishUnpublishHomework]);
+  }, [USPublishUnpublishHomework, toastShown]);
 
 
 
@@ -459,13 +485,22 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     }
   };
 
+  
+
+
+  
+
   useEffect(() => {
-    if (AllPublishUnPublishHomework !== '') {
-      toast.success(AllPublishUnPublishHomework);
-      dispatch(PublishresetMessageAll());
+    console.log("AllPublishUnPublishHomework changed:", AllPublishUnPublishHomeworkNew);
+    if (AllPublishUnPublishHomeworkNew !='') {
+      toast.success(AllPublishUnPublishHomeworkNew);
+      dispatch(PublishresetMessageNewAll());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+      
     }
-  }, [AllPublishUnPublishHomework]);
+  }, [AllPublishUnPublishHomeworkNew]);
+  
+  
 
   const clickFileName = (value) => {
     if (value !== '') {
@@ -695,11 +730,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }}
               inputProps={{ type: 'date' }}
               value={AssignedDate}
-              onChange={(e) => {
-                setAssignedDate(e.target.value);
-              }}
+               onChange={handleAssignedDateChange}
               error={ErrorAssignedDate !== ''}
               helperText={ErrorAssignedDate}
+             
             />
           </Grid>
           <Grid item xs={3}>
@@ -715,9 +749,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }
               inputProps={{ type: 'date' }}
               value={CompleteDate}
-              onChange={(e) => {
-                setCompleteDate(e.target.value);
-              }}
+              onChange={handleCompleteByDateChange}
+              error={ErrorCompleteDate !== ''}
+              helperText={ErrorCompleteDate}
+              
 
             />
           </Grid>
