@@ -62,7 +62,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
-  const [toastShown, setToastShown] = useState(false);
+
   const SchoolName = localStorage.getItem('SchoolName');
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -378,13 +378,13 @@ const AddHomeworkNew = () => {
 
   
   useEffect(() => {
-    if (USPublishUnpublishHomework != '' && !toastShown) {
+    if (USPublishUnpublishHomework !='') {
       toast.success(USPublishUnpublishHomework);
       dispatch(PublishresetMessageNew());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-      setToastShown(true);
+     
     }
-  }, [USPublishUnpublishHomework, toastShown]);
+  }, [USPublishUnpublishHomework]);
 
 
 
@@ -500,7 +500,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   
 
   useEffect(() => {
-    console.log("AllPublishUnPublishHomework changed:", AllPublishUnPublishHomeworkNew);
+    
     if (AllPublishUnPublishHomeworkNew !='') {
       toast.success(AllPublishUnPublishHomeworkNew);
       dispatch(PublishresetMessageNewAll());

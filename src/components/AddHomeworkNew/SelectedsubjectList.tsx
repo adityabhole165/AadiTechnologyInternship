@@ -2,19 +2,14 @@
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Link, TextField, Typography } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { RootState } from 'src/store';
 const SelectedsubjectList = ({
   ItemList,
   HeaderArray,
@@ -27,7 +22,7 @@ const SelectedsubjectList = ({
 }) => {
   return (
     <div>
-     
+
       <TableContainer component={Box} sx={{
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
       }}>
@@ -85,11 +80,15 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <ButtonPrimary   style={{ backgroundColor: '#45b08d' }}  onClick={() => {
-                    clickpublish(item.Id ,item.Text3)
-                  }}>
-                    {item.IsPublished == 'False' ? 'PUBLISH' : '  UNPUBLISH'}
+                  <ButtonPrimary
+                    style={{ backgroundColor: item.IsPublished === 'False' ? '#45b08d' : '#3ec275' }}
+                    onClick={() => {
+                      clickpublish(item.Id, item.Text3);
+                    }}
+                  >
+                    {item.IsPublished === 'False' ? 'PUBLISH' : 'UNPUBLISH'}
                   </ButtonPrimary>
+
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
