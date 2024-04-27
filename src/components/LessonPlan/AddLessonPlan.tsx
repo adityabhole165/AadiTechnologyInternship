@@ -17,7 +17,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { CDAlessonplanlist } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
-import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
+import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
@@ -264,26 +264,31 @@ const AddLessonPlan = () => {
   }
   const IsFormValid = () => {
     let returnVal = true;
+    console.log(new Date(StartDate), "====", new Date(EndDate));
+    console.log(isGreaterThanDate(StartDate, EndDate));
 
     if (isGreaterThanDate(StartDate, EndDate)) {
 
       seterrorMessage('	Please fix following error(s):End Date should not be less than Start Date.')
       returnVal = false
-    } else
-      if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
+    } else {
+      if (isOutsideAcademicYear(StartDate)) {
+
         seterrorMessage('Please fix following error(s): Date(s) should not be out of academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
           ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
         returnVal = false
-      } else seterrorMessage('')
-    if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))
-    ) {
-      seterrorMessage(' Please fix following error(s): Date(s) should not be out of academic year.' +
-        '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-        ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
-      returnVal = false
-    } else seterrorMessage('')
 
+      } else
+        if (isOutsideAcademicYear(EndDate)) {
+
+          seterrorMessage(' Please fix following error(s): Date(s) should not be out of academic year.' +
+            '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+            ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+          returnVal = false
+
+        } else seterrorMessage('')
+    }
     let IsPlan = false;
     exampleLessonDetails.map((Item) => {
       Item.planDetails.map((planItem) => {
@@ -645,7 +650,9 @@ const AddLessonPlan = () => {
                   </IconButton>
                 </Tooltip>
               </Box>}
-            {(UserIdParam == sessionStorage.getItem("Id") || Action == "Add") &&
+            {(UserIdParam == sessionStorage.getItem("Id") || (GetEnableButtonList.length > 0 &&
+              GetEnableButtonList[0].EnableSubmitButton == "True") ||
+              Action == "Add") &&
               < Box >
                 <Tooltip title={'Save'}>
                   <IconButton
