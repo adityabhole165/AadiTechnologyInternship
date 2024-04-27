@@ -351,6 +351,33 @@ const AddLessonPlan = () => {
     })
     return returnVal
   }
+  const getIsUpdateVisible = () => {
+    let returnVal, enableSubmitButton, enableSaveButton, IsReportingUser = false
+    let iIsPublished = "0"
+    if (GetEnableButtonList.length > 0) {
+      enableSubmitButton = GetEnableButtonList[0].EnableSubmitButton == "True"
+      enableSaveButton = GetEnableButtonList[0].EnableSaveButton == "True"
+    }
+
+    if (SubmittedApproverDate.length > 0) {
+      IsReportingUser = SubmittedApproverDate[0].IsReportingUser == "True"
+      iIsPublished = SubmittedApproverDate[0].LessonPlanXML
+    }
+    if (UserIdParam != sessionStorage.getItem("Id") && iIsPublished == "0") {
+      if (IsReportingUser) {
+        if (!enableSubmitButton) {
+          returnVal = true
+        }
+      } else
+        if ((!enableSubmitButton && !enableSaveButton) ||
+          (enableSubmitButton && !enableSaveButton)) {
+          returnVal = true
+        }
+
+    }
+    return returnVal;
+  }
+
 
 
   const getApproverComment = () => {
@@ -657,7 +684,7 @@ const AddLessonPlan = () => {
               </Tooltip>
               </Box>}
 
-            {(perm == 'Y' && getIsApproveAll()) && (
+            {Action == "View" && getIsUpdateVisible() && (
               <Box>
                 <Tooltip title={'Update Date'}>
                   <IconButton
