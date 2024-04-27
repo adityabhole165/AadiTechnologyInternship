@@ -85,7 +85,7 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <ButtonPrimary onClick={() => {
+                  <ButtonPrimary   style={{ backgroundColor: '#45b08d' }}  onClick={() => {
                     clickpublish(item.Id ,item.Text3)
                   }}>
                     {item.IsPublished == 'False' ? 'PUBLISH' : '  UNPUBLISH'}

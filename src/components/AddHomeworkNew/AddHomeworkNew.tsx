@@ -19,6 +19,7 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject } =
     useParams();
@@ -969,12 +970,12 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
         <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-          <Button color={"primary"} variant={"contained"} onClick={publishAll}>
+          <ButtonPrimary  style={{ backgroundColor: '#45b08d' }}  onClick={publishAll}>
             PUBLISH ALL
-          </Button>
-          <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
+          </ButtonPrimary>
+          <ButtonPrimary   style={{ backgroundColor: '#3ec275' }}   onClick={ClickOpenDialogbox}>
             UNPUBLISH ALL
-          </Button>
+          </ButtonPrimary>
         </Box>
         )}
 
