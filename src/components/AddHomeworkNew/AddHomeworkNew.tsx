@@ -290,7 +290,7 @@ const AddHomeworkNew = () => {
 
   const clickDelete = (Id) => {
     // alert(Id)
-    if (confirm('Are You Sure you want to delete The List')) {
+    if (confirm('Are you sure you want to delete the homework')) {
       const DeleteHomeworkBody: IDeleteHomeworkBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
