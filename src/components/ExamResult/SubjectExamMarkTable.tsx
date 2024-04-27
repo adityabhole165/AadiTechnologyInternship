@@ -164,22 +164,20 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   }
 
 
-  const getGrade = (arrTotal) => {
-    let totalScored = 0, Grade = "", subjectTotal = 0
-    let bIsDirty = false
-    arrTotal.map((Item) => {
-      if (Item.Text1 != "") {
-        bIsDirty = true
-        totalScored = totalScored + Number(Item.Text1)
-      }
-    })
-    arrTotal.map((Item) => {
-      if (Item.Text2 != "") {
-        subjectTotal = subjectTotal + Number(Item.Text2)
-      }
-    })
-    let Percent = 0
-    if (bIsDirty) {
+  const getGrade = (arrTotal, TotalMarks) => {
+    if (TotalMarks != "") {
+      let totalScored = 0, Grade = "", subjectTotal = 0
+      arrTotal.map((Item) => {
+        if (Item.Text1 != "") {
+          totalScored = totalScored + Number(Item.Text1)
+        }
+      })
+      arrTotal.map((Item) => {
+        if (Item.Text2 != "") {
+          subjectTotal = subjectTotal + Number(Item.Text2)
+        }
+      })
+      let Percent = 0
       Percent = (totalScored / subjectTotal) * 100
 
       GradesForSubjectMarkList.map((Item, i) => {
@@ -187,8 +185,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           Item.Actual_Ending_Marks_Range >= Percent)
           Grade = Item.Grade_Name
       })
+      return Grade
     }
-    return Grade
   }
   return (
     <div>
@@ -254,7 +252,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                           // value={Item.TotalMarks} 
                           />
 
-                          {getGrade(Item.MarksForStudent)}
+                          {getGrade(Item.MarksForStudent, Item.TotalMarks)}
                         </Box>
                       </TableCell>
                     }
