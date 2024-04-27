@@ -144,7 +144,7 @@ const AssignExamMark = () => {
       title: 'Submit',
       message: value.asIsSubmitted !== 'N' ?
         'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-        ' Are you sure, Do you you want to unsubmit the result ?',
+        ' Are you sure, Do you want to unsubmit the result ?',
       variant: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
