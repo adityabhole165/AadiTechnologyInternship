@@ -181,9 +181,13 @@ export const getSubjectExamMarkslist =
                 asStandardDivision_Id: data.asStandardDivision_Id,
                 asTestDate: data.asTestDate
             }
-            body1 = {
-                ...body1,
-                asTestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
+            // console.log(body1, "body1", response2.data);
+
+            if (response2.data.listStudentTestMarkDetails.length > 0) {
+                body1 = {
+                    ...body1,
+                    asTestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
+                }
             }
             const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
             const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
