@@ -449,7 +449,7 @@ const TransferOptionalSubjectMarks = () => {
                     </>
                 )}
 
-                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
+                {/* <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
                     <Box>
                         <FormControl size={"small"} sx={{ width: 300 }}>
                             <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
@@ -494,9 +494,20 @@ const TransferOptionalSubjectMarks = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                </Box>
+                </Box> */}
 
-                {/* {StudentsList.length > 0 && (
+               
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    {/* First Box */}
+                    {StudentsList.length > 0 && (
+                        <SubjectMarkList
+                            ItemList={StudentsList}
+                            HeaderArray={HeaderPublish}
+                            clickchange={Changevalue}
+                            clickTitle={""}
+                        />
+                    )}
+                      {StudentsList.length > 0 && (
                     <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
                         <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
                             <h3>Optional Subjects</h3>
@@ -530,18 +541,10 @@ const TransferOptionalSubjectMarks = () => {
                     </Box>
 
                 )
-                } */}
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    {/* First Box */}
-                    {StudentsList.length > 0 && (
-                        <SubjectMarkList
-                            ItemList={StudentsList}
-                            HeaderArray={HeaderPublish}
-                            clickchange={Changevalue}
-                            clickTitle={""}
-                        />
-                    )}
+                }
                 </Box>
+
+
                 {selectClasstecaher !== '0' ? (
                     StudentsList.length > 0 ? (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
