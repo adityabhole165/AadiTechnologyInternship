@@ -206,7 +206,7 @@ const AddLessonPlan = () => {
         asReportingUserId: asUserId,
         asStartDate: StartDate,
         asEndDate: EndDate,
-        IsNewMode: false
+        IsNewMode: true
       };
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       // dispatch(CDAlessonplanlist)
