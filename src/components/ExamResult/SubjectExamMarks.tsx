@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import 'react-datetime/css/react-datetime.css';
+
 import {
   IGetAllGradesForSubjectMarkListBody,
   IGetAllStudentsForMarksAssignmentsBody,
@@ -32,7 +34,10 @@ import SubjectExamMarkTable from './SubjectExamMarkTable';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  // const today = moment();
+  // const disableFutureDt = current => {
+  //   return current.isBefore(today)
+  // }
   const { ClassId, TeacherId,
     StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
@@ -483,7 +488,9 @@ const SubjectExamMarks = () => {
                 sx={{
                   width: '150px'
                 }}
-
+                maxDate={new Date()}
+              //  timeFormat={false}
+              //  isValidDate={disableFutureDt}
               />
             </Box>
             <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
