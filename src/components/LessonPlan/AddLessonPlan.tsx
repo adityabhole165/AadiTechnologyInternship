@@ -7,6 +7,7 @@ import Save from '@mui/icons-material/Save';
 import Translate from '@mui/icons-material/Translate';
 import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -21,7 +22,6 @@ import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
-
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
@@ -472,22 +472,24 @@ const AddLessonPlan = () => {
     }
   };
   const onClickUpdateDate = () => {
-    const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-      asReportingUserId: Number(asUserId),
-      aasStartDate: StartDate,
-      aasEndDate: EndDate,
-      asApproverComment: getApproverComment(),
-      asUpdatedById: Number(UpdatedById),
-      asOldStartDate: StartDateParam,
-      asOldEndDate: EndDateParam,
-    };
+    if (IsFormValid()) {
+      const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+        asReportingUserId: Number(asUserId),
+        aasStartDate: StartDate,
+        aasEndDate: EndDate,
+        asApproverComment: getApproverComment(),
+        asUpdatedById: Number(UpdatedById),
+        asOldStartDate: StartDateParam,
+        asOldEndDate: EndDateParam,
+      };
 
-    dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
-    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
-    dispatch(CDAlessonplanlist)
+      dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+      dispatch(CDAlessonplanlist)
+    }
   };
   const onChangeApproverComment = (value, index) => {
     setApprovalCommentData(ApprovalData.map((Item, i) => {
@@ -736,7 +738,7 @@ const AddLessonPlan = () => {
             />
           </Grid>
           <Grid item xs={3}>
-            <TextField
+            {/* <TextField
               type='date'
               label={'Start Date'}
               fullWidth
@@ -750,10 +752,27 @@ const AddLessonPlan = () => {
               onChange={(e) => onSelectStartDate(e.target.value)}
             // error={errorStartDate !== ''}
             // helperText={errorStartDate}
+            /> */}
+
+            <DatePicker
+              value={new Date(StartDate)}
+              onChange={onSelectStartDate}
+              format="dd MMM yyyy"
+              label={<>
+                Start Date <span style={{ color: 'red' }}>*</span>
+              </>}
+              views={['year', 'month', 'day']}
+              slotProps={{
+                textField: {
+                  variant: 'outlined',
+                  fullWidth: true
+                }
+              }}
             />
+
           </Grid>
           <Grid item xs={3}>
-            <TextField
+            {/* <TextField
               type='date'
               label={'End Date'}
               fullWidth
@@ -767,6 +786,25 @@ const AddLessonPlan = () => {
               onChange={(e) => onSelectEndDate(e.target.value)}
             // error={errorEndDate !== ''}
             // helperText={errorEndDate}
+
+            /> */}
+            <DatePicker
+              value={new Date(EndDate)}
+              onChange={onSelectEndDate}
+              format="dd MMM yyyy"
+              label={<>
+                End Date <span style={{ color: 'red' }}>*</span>
+              </>}
+              views={['year', 'month', 'day']}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  variant: 'outlined'
+                }
+              }}
+            // sx={{
+            //   width: '150px'
+            // }}
 
             />
           </Grid>
