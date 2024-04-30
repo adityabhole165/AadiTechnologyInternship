@@ -473,7 +473,7 @@ const SubjectExamMarks = () => {
                 onChange={(e) => { setTestDate(e.target.value) }}
               // disabled={IsReadOnly === 'true'}
               /> */}
-              {(TestMarkDetails?.length == 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
+              {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
                 <TextField
                   size={"small"}
                   fullWidth
