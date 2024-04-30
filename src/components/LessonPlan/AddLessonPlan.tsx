@@ -206,7 +206,7 @@ const AddLessonPlan = () => {
         asReportingUserId: asUserId,
         asStartDate: StartDate,
         asEndDate: EndDate,
-        IsNewMode: true
+        IsNewMode: false
       };
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       // dispatch(CDAlessonplanlist)
@@ -310,12 +310,12 @@ const AddLessonPlan = () => {
       seterrorexampleLessonDetails("");
     }
 
-    if (!getIsApproverComment()) {
-      seterrorComment("Please fix the following error(s): Comment should not be blank.");
-      returnVal = false;
-    }
-    else
-      seterrorComment("")
+    // if (!getIsApproverComment()) {
+    //   seterrorComment("Please fix the following error(s): Comment should not be blank.");
+    //   returnVal = false;
+    // }
+    // else
+    //   seterrorComment("")
     // if (EndDate) {
     //   seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
     //   returnVal = false;
