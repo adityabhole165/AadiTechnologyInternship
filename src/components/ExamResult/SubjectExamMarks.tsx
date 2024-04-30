@@ -638,6 +638,10 @@ const SubjectExamMarks = () => {
             <b>Student marks are already submitted.</b>
           </Typography>
         )}
+        {TestName?.AllowDecimal == "True" && (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>Note:	Marks assignment can be done in decimal numbers.</b>
+          </Typography>)}
         {/* Table */}
         {(MarksAssignment.length > 0 && HeaderDetails != null) &&
           <SubjectExamMarkTable
