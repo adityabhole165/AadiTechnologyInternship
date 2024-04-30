@@ -195,20 +195,20 @@ const AddLessonPlan = () => {
         seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
       } else {
         seterrorOverlapDate("");
+        const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+          asSchoolId: asSchoolId,
+          asAcademicYearId: asAcademicYearId,
+          asStandardDivId: 0,
+          asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+          asReportingUserId: asUserId,
+          asStartDate: StartDate,
+          asEndDate: EndDate,
+          IsNewMode: false
+        };
+        dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       }
       dispatch(resetsaveLessonPlan());
 
-      const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: 0,
-        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-        asReportingUserId: asUserId,
-        asStartDate: StartDate,
-        asEndDate: EndDate,
-        IsNewMode: false
-      };
-      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       // dispatch(CDAlessonplanlist)
       // setIsSubmitDisabled(false);
     }
