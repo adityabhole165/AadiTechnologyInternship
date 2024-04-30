@@ -473,29 +473,47 @@ const SubjectExamMarks = () => {
                 onChange={(e) => { setTestDate(e.target.value) }}
               // disabled={IsReadOnly === 'true'}
               /> */}
-              <DatePicker
-                value={new Date(TestDate)}
-                onChange={clickTestDate}
-                format="dd-MM-yyyy"
-                label={"Exam Date"}
-                views={['year', 'month', 'day']}
-                slotProps={{
-                  textField: {
-                    size: 'small',
-                    variant: 'outlined',
-                  }
-                }}
-                sx={{
-                  width: '150px'
-                }}
-                maxDate={new Date()}
-              //  timeFormat={false}
-              //  isValidDate={disableFutureDt}
-              />
+              {(TestMarkDetails?.length == 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
+                <TextField
+                  size={"small"}
+                  fullWidth
+                  value={getCalendarDateFormatDate(TestDate)}
+                  label={"Exam Date"}
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ max: new Date().toISOString().split('T')[0] }}
+                  variant={"outlined"}
+                  disabled={true}
+                />
+                :
+                <>
+                  <DatePicker
+                    value={new Date(TestDate)}
+                    onChange={clickTestDate}
+                    format="dd-MM-yyyy"
+                    label={"Exam Date"}
+                    views={['year', 'month', 'day']}
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        variant: 'outlined',
+                      }
+                    }}
+                    sx={{
+                      width: '150px'
+                    }}
+                    maxDate={new Date()}
+
+                  />
+                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+                    *
+                  </div>
+                </>
+              }
+
             </Box>
-            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-              *
-            </div>
+
+
+
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
