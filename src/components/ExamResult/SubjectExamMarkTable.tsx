@@ -243,7 +243,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={IsReadOnly == 'true'}
-                      IsMark={IsMark} />
+                      IsMark={IsMark}
+                      AllowDecimal={AllowDecimal}
+                    />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
                       <TableCell>

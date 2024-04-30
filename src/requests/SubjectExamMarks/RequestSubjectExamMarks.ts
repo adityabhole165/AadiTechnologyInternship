@@ -210,7 +210,10 @@ export const getSubjectExamMarkslist =
                         JoiningDate: JoiningDate,
                         IsLateJoinee: false,
                         AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
-                        IsAbsent: "N"
+                        IsAbsent: "N",
+                        TestTypeTotalMarks: Number(Item.TestType_Total_Marks),
+                        TestTypeOutOfMarks: Number(Item.TestTypeOutOfMarks),
+                        TestOutOfMarks: Item.TestOutOfMarks,
                     });
                 });
                 if (arr.length == 0) {
@@ -227,7 +230,10 @@ export const getSubjectExamMarkslist =
                         JoiningDate: JoiningDate,
                         IsLateJoinee: false,
                         AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
-                        IsAbsent: "N"
+                        IsAbsent: "N",
+                        TestTypeTotalMarks: "",
+                        TestTypeOutOfMarks: "",
+                        TestOutOfMarks: "",
                     });
                 }
                 return arr
@@ -244,15 +250,13 @@ export const getSubjectExamMarkslist =
                         })
                     return tempArr.length > 0 ?
                         {
+                            ...Obj,
                             Id: tempArr[0].TestType_Id,
                             Text1: tempArr[0].Is_Absent != "N" ? "" : tempArr[0].Marks_Scored.toString(),
                             Text2: tempArr[0].TestType_Total_Marks,
                             ExamStatus: (tempArr[0].Is_Absent == "N" &&
                                 isGreaterThanDate(JoiningDate, tempArr[0].Test_Date)) ? "J" : tempArr[0].Is_Absent,
                             ExamGrade: tempArr[0].Assigned_Grade_Id,
-                            IsActive: true,
-                            IsActiveGrade: true,
-                            ErrorMessage: "",
                             Student_Id: tempArr[0].Student_Id,
                             JoiningDate: tempArr[0].Joining_Date,
                             IsLateJoinee: isGreaterThanDate(JoiningDate, tempArr[0].Test_Date),
