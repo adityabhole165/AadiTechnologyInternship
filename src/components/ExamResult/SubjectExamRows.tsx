@@ -1,8 +1,7 @@
 import { Box, Stack, TableCell, TextField, Tooltip } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 const validateInput = (inputValue) => {
-
-    const regex = /^\d{1,3}*$/;
+    const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
 };
 const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
