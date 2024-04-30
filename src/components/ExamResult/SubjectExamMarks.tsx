@@ -650,7 +650,7 @@ const SubjectExamMarks = () => {
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={IsReadOnly}
             IsMark={TestName?.Grade_Or_Marks == "M"}
-
+            AllowDecimal={TestName?.AllowDecimal == "True"}
           />
         }
       </Box>

@@ -3,7 +3,7 @@ import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
   ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
-  onChangeExamGrade, IsMark }) => {
+  onChangeExamGrade, IsMark, AllowDecimal = true }) => {
 
 
   const ChangeExamHeader = (value, Id, Index) => {
@@ -19,7 +19,6 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         }
       })
     }
-    // console.log("ExamMarksHeader", ExamMarksHeader)
     setAllValues(value, Index)
     onChangeExamHeader(ExamMarksHeader);
 
@@ -103,13 +102,22 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
               bIsDirty = true
-              total += value == "" ? 0 : (Number(value) * (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks))
+              total += value == "" ? 0 :
+                AllowDecimal ?
+                  (Number(value) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
+                  Math.round((Number(value) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
               return { ...obj, Text1: value }
             }
             else {
               if (obj.Text1 !== "") {
                 bIsDirty = true
-                total += (Number(obj.Text1) * (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks))
+                total += AllowDecimal ?
+                  (Number(obj.Text1) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
+                  Math.round((Number(obj.Text1) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
               }
               return obj
             }
