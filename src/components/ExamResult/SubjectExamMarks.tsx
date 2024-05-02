@@ -459,7 +459,7 @@ const SubjectExamMarks = () => {
 
             </Box>
 
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {/* 
               <TextField
                 size={"small"}
@@ -504,7 +504,7 @@ const SubjectExamMarks = () => {
                     maxDate={new Date()}
 
                   />
-                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px', marginLeft: '10px' }}>
                     *
                   </div>
                 </>
@@ -529,6 +529,26 @@ const SubjectExamMarks = () => {
               </Tooltip>
             </Box>
             <Box>
+              {IsReadOnly === 'true' ? (
+                null // If IsReadOnly is true, don't render anything
+              ) : (
+                <Tooltip title={`Save`}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: MarksError !== '' ? grey[500] : green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: MarksError !== '' ? grey[500] : green[600] }
+                    }}
+                    onClick={onClickSave}
+                    disabled={isSaveDisabled}
+                  >
+                    <Save />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Box>
+            {/* <Box>
               <Tooltip title={`Save`}>
                 <IconButton
                   sx={{
@@ -538,13 +558,14 @@ const SubjectExamMarks = () => {
                     ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
-                  disabled={IsReadOnly === 'true' || isSaveDisabled}
+                  disabled={isSaveDisabled}
 
                 >
                   <Save />
                 </IconButton>
               </Tooltip>
-            </Box>
+            </Box> */}
+
           </>
         }
       />
