@@ -5,6 +5,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import TableRow from '@mui/material/TableRow';
 // ... (your other imports)
 
@@ -36,7 +37,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
-                  <DeleteIcon onClick={() => clickDelete(item.Id)} color='error' />
+                  <DeleteForeverIcon onClick={() => clickDelete(item.Id)} color='error' />
                 </TableCell>
 
               </TableRow>
