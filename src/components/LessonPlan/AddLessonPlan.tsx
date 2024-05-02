@@ -4,7 +4,6 @@ import EventAvailable from '@mui/icons-material/EventAvailable';
 import HowToReg from '@mui/icons-material/HowToReg';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import Translate from '@mui/icons-material/Translate';
 import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -595,7 +594,7 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip title={'Translation Tool'}>
                 <IconButton
                   sx={{
@@ -612,7 +611,7 @@ const AddLessonPlan = () => {
                   <Translate />
                 </IconButton>
               </Tooltip>
-            </Box>
+            </Box> */}
             <Box>
               <Tooltip title={'Translation Guide'}>
                 <IconButton
