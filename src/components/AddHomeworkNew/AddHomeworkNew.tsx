@@ -222,24 +222,20 @@ const AddHomeworkNew = () => {
       setErrorAssignedDate('Field should not be blank ')
       isError = true
     }
-    else if (base64URL == '') {
-      setErrorbase64URL('Field should not be blank')
-      isError = true
-    }
-
+    
     else if (Details == '') {
       setErrorDetails('Field should not be blank')
       isError = true
     }
 
-    if (!isError) {
+    else if (!isError) {
       dispatch(HomeworkSave(HomeworkSaveBody))
 
     }
 
-    if (!isError) {
+    else (!isError) 
       ResetForm()
-    }
+    
   }
   useEffect(() => {
     if (SaveHomework != '') {
@@ -250,9 +246,7 @@ const AddHomeworkNew = () => {
     }
   }, [SaveHomework]);
 
-  const clickSubjectList = (value) => {
-    setSubject(value);
-  };
+
 
   const Changevalue = (value) => {
     // setitemPublish(value);
@@ -299,7 +293,7 @@ const AddHomeworkNew = () => {
 
   const clickDelete = (Id) => {
     // alert(Id)
-    if (confirm('Are you sure you want to delete this record?')) {
+    if (confirm('Are you sure you want to delete the homework?')) {
       const DeleteHomeworkBody: IDeleteHomeworkBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -413,6 +407,11 @@ const AddHomeworkNew = () => {
     return arr.toString()
   }
   console.log(SearchTittle1, "SearchTittle1");
+
+  const clickSubjectList = (value) => {
+    setSubject(value);
+    setTitle( value+ ' : ' + formattedDate);
+  };
 
   const getPublishErrorList = () => {
     let arr = []

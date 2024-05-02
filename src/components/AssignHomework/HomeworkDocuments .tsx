@@ -67,7 +67,7 @@ const HomeworkDocuments = () => {
 
   useEffect(() => {
     if (DeleteHomeworkDocument !== '') {
-      toast.success(DeleteHomeworkDocument, );
+      toast.success("Document deleted successfully !!!");
       dispatch(deleteresetMessage());
       dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
 
