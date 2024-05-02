@@ -459,7 +459,7 @@ const SubjectExamMarks = () => {
 
             </Box>
 
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {/* 
               <TextField
                 size={"small"}
@@ -504,7 +504,7 @@ const SubjectExamMarks = () => {
                     maxDate={new Date()}
 
                   />
-                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px', marginLeft: '10px' }}>
                     *
                   </div>
                 </>
