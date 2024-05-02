@@ -50,7 +50,7 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
-  const [HomeworkS, setHomeworkS] = useState(0);
+ 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
@@ -89,6 +89,9 @@ const AddHomeworkNew = () => {
     { Id: 2, Name: 'Assigned Date', Value: 'AssignedDate' },
     { Id: 3, Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
+  
+  const defaultHomeworkStatus = HomeworkStatus.find(item => item.Name === 'All')?.Value || '';
+  const [HomeworkS, setHomeworkS] = useState(defaultHomeworkStatus);
 
   const dispatch = useDispatch();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -825,7 +828,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             ItemList={HomeworkStatus}
             onChange={clickHomeworkStatus}
             defaultValue={HomeworkS.toString()}
-            label={'All'}
+            label={'Select Homework Status:'}
             size={"small"}
           />
           <TextField
