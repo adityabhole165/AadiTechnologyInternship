@@ -848,16 +848,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             sx={{ with: '250px' }}
             label="Title"
             value={SearchText}
-            variant={'standard'}
+          
             onChange={(e) => {
               SearchNameChange(e.target.value);
             }}
           />
           <IconButton onClick={changeSearchText} sx={{
             background: (theme) => theme.palette.primary.main,
-            color: 'white'
+            color: 'white',
+            mr: 2
           }}>
-            <SearchTwoTone />
+            <SearchTwoTone  />
           </IconButton>
         </Stack>
 
