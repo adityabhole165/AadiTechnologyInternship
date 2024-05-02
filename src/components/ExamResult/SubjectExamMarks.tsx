@@ -504,7 +504,7 @@ const SubjectExamMarks = () => {
                     maxDate={new Date()}
 
                   />
-                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px', marginLeft: '10px' }}>
+                  <div style={{ color: 'red', paddingLeft: '5px' }}>
                     *
                   </div>
                 </>

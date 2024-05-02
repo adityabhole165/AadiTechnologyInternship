@@ -652,7 +652,7 @@ const AddLessonPlan = () => {
                 </Tooltip>
               </Box>}
             {(UserIdParam == sessionStorage.getItem("Id") || (GetEnableButtonList.length > 0 &&
-              GetEnableButtonList[0].EnableSaveButton == "True") ||
+              GetEnableButtonList[0].EnableSaveButton == "True") || (IsApprover()) ||
               Action == "Add") &&
               < Box >
                 <Tooltip title={'Save'}>
