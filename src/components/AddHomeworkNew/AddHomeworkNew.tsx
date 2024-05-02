@@ -175,12 +175,13 @@ const AddHomeworkNew = () => {
   const ResetForm = () => {
     setSubjectCheckID('');
     setTitle('');
-    setAssignedDate('');
+   
     setCompleteDate('');
 
     setFileName('');
     setDetails('');
-    setMultipleFiles(['']);
+    setMultipleFiles([]);
+   
   };
 
   const handleEditClick = (Id) => {
@@ -298,7 +299,7 @@ const AddHomeworkNew = () => {
 
   const clickDelete = (Id) => {
     // alert(Id)
-    if (confirm('Are you sure you want to delete the homework')) {
+    if (confirm('Are you sure you want to delete this record?')) {
       const DeleteHomeworkBody: IDeleteHomeworkBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -351,8 +352,11 @@ const AddHomeworkNew = () => {
 
 
   const clickPublishUnpublish = (Id, Text3) => {
+    
+    
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
+   
     if (IsPublish == true && Text3 < currentDate) {
       alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
       return;
@@ -364,6 +368,7 @@ const AddHomeworkNew = () => {
       setPublishId(Id);
     }
   };
+  
 
 
 
