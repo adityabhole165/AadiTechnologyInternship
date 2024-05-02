@@ -173,28 +173,28 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                         <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
                                                             {index + 1}.{subIndex + 1}
                                                         </StyledCell>
-                                                        <StyledCell sx={{ p: 1 }}>
-                                                            {(Action == 'View' || !IsEditingAllowed) ?
-                                                                <><Typography ><b>{subPlan.label}</b></Typography>
-                                                                    <Typography>{subPlan.value}</Typography></>
-                                                                // plan.value
-                                                                : <TextField
-                                                                    label={subPlan.label}
-                                                                    value={subPlan.value}
-                                                                    // disabled={!IsEditingAllowed()}
-                                                                    fullWidth
-                                                                    multiline
-                                                                    rows={4}
-                                                                    onChange={(e) => {
-                                                                        onSubChangeValue(
-                                                                            lesson.StdId,
-                                                                            lesson.DivisionId,
-                                                                            subPlan.Id,
-                                                                            e.target.value
-                                                                        )
-                                                                    }}
-                                                                />}
-                                                        </StyledCell>
+                                                        {/* <StyledCell sx={{ p: 1 }}> */}
+                                                        {(Action == 'View' || !IsEditingAllowed) ?
+                                                            <><Typography ><b>{subPlan.label}</b></Typography>
+                                                                <Typography>{subPlan.value}</Typography></>
+                                                            // plan.value
+                                                            : <TextField
+                                                                label={subPlan.label}
+                                                                value={subPlan.value}
+                                                                // disabled={!IsEditingAllowed()}
+                                                                fullWidth
+                                                                multiline
+                                                                rows={4}
+                                                                onChange={(e) => {
+                                                                    onSubChangeValue(
+                                                                        lesson.StdId,
+                                                                        lesson.DivisionId,
+                                                                        subPlan.Id,
+                                                                        e.target.value
+                                                                    )
+                                                                }}
+                                                            />}
+                                                        {/* </StyledCell> */}
                                                     </TableRow>
                                                 </Table>
                                             ))}

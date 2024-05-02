@@ -160,20 +160,35 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
+  // useEffect(() => {
+  //   //console.log("Submitted:", Submitted);
+  //   setDisplayNote('')
+  //   if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
+  //     if (Submitted === 'Y') {
+  //       setDisplayNote('Results for this exam have been published.');
 
+  //     }
+  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
+  //   }
+  //   else {
+  //     if (!PrePrimaryExam && MonthConfigurationForExam) {
+  //       setDisplayNote('Not all results for this exam have been submitted.');
+  //     }
+  //   }
+  // }, [Submitted, ClassPassFailDetailsForButton]);
   useEffect(() => {
-    //console.log("Submitted:", Submitted);
-    setDisplayNote('')
+    setDisplayNote('');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
-      if (Submitted === 'Y') {
-        setDisplayNote('Results for this exam have been published.');
-
-      }
+      setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-    }
-    else {
-      if (!PrePrimaryExam && MonthConfigurationForExam) {
+    } else {
+      if (Submitted === 'N' && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
         setDisplayNote('Not all results for this exam have been submitted.');
+        setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
+      } else if (Submitted === 'Y' && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
+
+        setDisplayNote('');
+        setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
       }
     }
   }, [Submitted, ClassPassFailDetailsForButton]);
@@ -450,13 +465,14 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: grey[600]
               }
-            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
               // || !MonthConfigurationForExam
             }>
               {/* VIEW PROGRESS REPORT  */}
               <FactCheck />
             </IconButton>
           </Tooltip>
+
 
           <Tooltip title={"Generate Toppers"}>
 
@@ -466,13 +482,14 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: grey[600]
               }
-            }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated)
+            }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
               // || !MonthConfigurationForExam
             }>
               {/* GENERATE TOPPERS */}
               <ManageAccounts />
             </IconButton>
           </Tooltip>
+
 
 
           <Tooltip title={"Unpublish All"}>
@@ -482,7 +499,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: red[500]
               }
-            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish)
+            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
               // || !MonthConfigurationForExam
             }>
               {/* UNPUBLISH ALL */}
@@ -490,14 +507,15 @@ const ExamResultBase = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"Publish All"}>
+
+          <Tooltip title={"Publish All"} >
             <IconButton sx={{
               color: 'white',
               backgroundColor: grey[500],
               '&:hover': {
                 backgroundColor: green[500]
               }
-            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
               // || !MonthConfigurationForExam
             }>
               {/* PUBLISH ALL */}

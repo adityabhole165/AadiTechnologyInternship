@@ -1,13 +1,12 @@
 import { Box, Stack, TableCell, TextField, Tooltip } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 const validateInput = (inputValue) => {
-
     const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
 };
 const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
     GradesForSubjectMarkList, ExamStatus, changeExamStatus,
-    changeExamGrade, IsReadOnly, IsMark }) => {
+    changeExamGrade, IsReadOnly, IsMark, AllowDecimal = true }) => {
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
@@ -71,7 +70,9 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
 
                                             }}
                                             disabled={IsReadOnly || !(Item.ExamStatus == "N")}
-                                            value={Item.Text1}
+                                            value={AllowDecimal ? Item.Text1 :
+                                                Math.round(Number(Item.Text1))
+                                            }
                                             onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
 
                                         />

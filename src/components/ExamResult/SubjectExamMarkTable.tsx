@@ -3,7 +3,7 @@ import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
   ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
-  onChangeExamGrade, IsMark }) => {
+  onChangeExamGrade, IsMark, AllowDecimal = true }) => {
 
 
   const ChangeExamHeader = (value, Id, Index) => {
@@ -19,7 +19,6 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         }
       })
     }
-    // console.log("ExamMarksHeader", ExamMarksHeader)
     setAllValues(value, Index)
     onChangeExamHeader(ExamMarksHeader);
 
@@ -103,13 +102,22 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
               bIsDirty = true
-              total += value == "" ? 0 : Number(value)
+              total += value == "" ? 0 :
+                AllowDecimal ?
+                  (Number(value) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
+                  Math.round((Number(value) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
               return { ...obj, Text1: value }
             }
             else {
               if (obj.Text1 !== "") {
                 bIsDirty = true
-                total += Number(obj.Text1)
+                total += AllowDecimal ?
+                  (Number(obj.Text1) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
+                  Math.round((Number(obj.Text1) *
+                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
               }
               return obj
             }
@@ -149,19 +157,19 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     onChangeExamGrade(StudentsForMarksAssignment)
   }
 
-  const getTotalMarks = (arrTotal) => {
+  // const getTotalMarks = (arrTotal) => {
 
-    let total = 0
-    let bDirty = false
-    arrTotal.map((Item) => {
-      if (Item.Text1 != "") {
-        bDirty = true
-        total = total + Number(Item.Text1)
-      }
-    })
-    return bDirty ? total : ""
+  //   let total = 0
+  //   let bDirty = false
+  //   arrTotal.map((Item) => {
+  //     if (Item.Text1 != "") {
+  //       bDirty = true
+  //       total = total + Number(Item.Text1)
+  //     }
+  //   })
+  //   return bDirty ? total : ""
 
-  }
+  // }
 
 
   const getGrade = (arrTotal, TotalMarks) => {
@@ -235,7 +243,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={IsReadOnly == 'true'}
-                      IsMark={IsMark} />
+                      IsMark={IsMark}
+                      AllowDecimal={AllowDecimal}
+                    />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
                       <TableCell>

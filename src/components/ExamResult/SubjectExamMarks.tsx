@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import 'react-datetime/css/react-datetime.css';
+
 import {
   IGetAllGradesForSubjectMarkListBody,
   IGetAllStudentsForMarksAssignmentsBody,
@@ -32,7 +34,10 @@ import SubjectExamMarkTable from './SubjectExamMarkTable';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  // const today = moment();
+  // const disableFutureDt = current => {
+  //   return current.isBefore(today)
+  // }
   const { ClassId, TeacherId,
     StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
@@ -468,27 +473,47 @@ const SubjectExamMarks = () => {
                 onChange={(e) => { setTestDate(e.target.value) }}
               // disabled={IsReadOnly === 'true'}
               /> */}
-              <DatePicker
-                value={new Date(TestDate)}
-                onChange={clickTestDate}
-                format="dd-MM-yyyy"
-                label={"Exam Date"}
-                views={['year', 'month', 'day']}
-                slotProps={{
-                  textField: {
-                    size: 'small',
-                    variant: 'outlined',
-                  }
-                }}
-                sx={{
-                  width: '150px'
-                }}
+              {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
+                <TextField
+                  size={"small"}
+                  fullWidth
+                  value={getCalendarDateFormatDate(TestDate)}
+                  label={"Exam Date"}
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ max: new Date().toISOString().split('T')[0] }}
+                  variant={"outlined"}
+                  disabled={true}
+                />
+                :
+                <>
+                  <DatePicker
+                    value={new Date(TestDate)}
+                    onChange={clickTestDate}
+                    format="dd-MM-yyyy"
+                    label={"Exam Date"}
+                    views={['year', 'month', 'day']}
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        variant: 'outlined',
+                      }
+                    }}
+                    sx={{
+                      width: '150px'
+                    }}
+                    maxDate={new Date()}
 
-              />
+                  />
+                  <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+                    *
+                  </div>
+                </>
+              }
+
             </Box>
-            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-              *
-            </div>
+
+
+
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
@@ -613,6 +638,10 @@ const SubjectExamMarks = () => {
             <b>Student marks are already submitted.</b>
           </Typography>
         )}
+        {TestName?.AllowDecimal == "True" && (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>Note:	Marks assignment can be done in decimal numbers.</b>
+          </Typography>)}
         {/* Table */}
         {(MarksAssignment.length > 0 && HeaderDetails != null) &&
           <SubjectExamMarkTable
@@ -625,7 +654,7 @@ const SubjectExamMarks = () => {
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={IsReadOnly}
             IsMark={TestName?.Grade_Or_Marks == "M"}
-
+            AllowDecimal={TestName?.AllowDecimal == "True"}
           />
         }
       </Box>

@@ -4,9 +4,9 @@ import EventAvailable from '@mui/icons-material/EventAvailable';
 import HowToReg from '@mui/icons-material/HowToReg';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import Translate from '@mui/icons-material/Translate';
 import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -21,7 +21,6 @@ import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
 import LessonPlanList from './LessonPlanList';
-
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
@@ -195,20 +194,20 @@ const AddLessonPlan = () => {
         seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
       } else {
         seterrorOverlapDate("");
+        const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+          asSchoolId: asSchoolId,
+          asAcademicYearId: asAcademicYearId,
+          asStandardDivId: 0,
+          asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+          asReportingUserId: asUserId,
+          asStartDate: StartDate,
+          asEndDate: EndDate,
+          IsNewMode: false
+        };
+        dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       }
       dispatch(resetsaveLessonPlan());
 
-      const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: 0,
-        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-        asReportingUserId: asUserId,
-        asStartDate: StartDate,
-        asEndDate: EndDate,
-        IsNewMode: false
-      };
-      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       // dispatch(CDAlessonplanlist)
       // setIsSubmitDisabled(false);
     }
@@ -310,12 +309,12 @@ const AddLessonPlan = () => {
       seterrorexampleLessonDetails("");
     }
 
-    if (!getIsApproverComment()) {
-      seterrorComment("Please fix the following error(s): Comment should not be blank.");
-      returnVal = false;
-    }
-    else
-      seterrorComment("")
+    // if (!getIsApproverComment()) {
+    //   seterrorComment("Please fix the following error(s): Comment should not be blank.");
+    //   returnVal = false;
+    // }
+    // else
+    //   seterrorComment("")
     // if (EndDate) {
     //   seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
     //   returnVal = false;
@@ -472,22 +471,24 @@ const AddLessonPlan = () => {
     }
   };
   const onClickUpdateDate = () => {
-    const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-      asReportingUserId: Number(asUserId),
-      aasStartDate: StartDate,
-      aasEndDate: EndDate,
-      asApproverComment: getApproverComment(),
-      asUpdatedById: Number(UpdatedById),
-      asOldStartDate: StartDateParam,
-      asOldEndDate: EndDateParam,
-    };
+    if (IsFormValid()) {
+      const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+        asReportingUserId: Number(asUserId),
+        aasStartDate: StartDate,
+        aasEndDate: EndDate,
+        asApproverComment: getApproverComment(),
+        asUpdatedById: Number(UpdatedById),
+        asOldStartDate: StartDateParam,
+        asOldEndDate: EndDateParam,
+      };
 
-    dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
-    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
-    dispatch(CDAlessonplanlist)
+      dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+      dispatch(CDAlessonplanlist)
+    }
   };
   const onChangeApproverComment = (value, index) => {
     setApprovalCommentData(ApprovalData.map((Item, i) => {
@@ -593,7 +594,7 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip title={'Translation Tool'}>
                 <IconButton
                   sx={{
@@ -610,7 +611,7 @@ const AddLessonPlan = () => {
                   <Translate />
                 </IconButton>
               </Tooltip>
-            </Box>
+            </Box> */}
             <Box>
               <Tooltip title={'Translation Guide'}>
                 <IconButton
@@ -651,7 +652,7 @@ const AddLessonPlan = () => {
                 </Tooltip>
               </Box>}
             {(UserIdParam == sessionStorage.getItem("Id") || (GetEnableButtonList.length > 0 &&
-              GetEnableButtonList[0].EnableSubmitButton == "True") ||
+              GetEnableButtonList[0].EnableSaveButton == "True") ||
               Action == "Add") &&
               < Box >
                 <Tooltip title={'Save'}>
@@ -736,7 +737,7 @@ const AddLessonPlan = () => {
             />
           </Grid>
           <Grid item xs={3}>
-            <TextField
+            {/* <TextField
               type='date'
               label={'Start Date'}
               fullWidth
@@ -750,10 +751,27 @@ const AddLessonPlan = () => {
               onChange={(e) => onSelectStartDate(e.target.value)}
             // error={errorStartDate !== ''}
             // helperText={errorStartDate}
+            /> */}
+
+            <DatePicker
+              value={new Date(StartDate)}
+              onChange={onSelectStartDate}
+              format="dd MMM yyyy"
+              label={<>
+                Start Date <span style={{ color: 'red' }}>*</span>
+              </>}
+              views={['year', 'month', 'day']}
+              slotProps={{
+                textField: {
+                  variant: 'outlined',
+                  fullWidth: true
+                }
+              }}
             />
+
           </Grid>
           <Grid item xs={3}>
-            <TextField
+            {/* <TextField
               type='date'
               label={'End Date'}
               fullWidth
@@ -767,6 +785,25 @@ const AddLessonPlan = () => {
               onChange={(e) => onSelectEndDate(e.target.value)}
             // error={errorEndDate !== ''}
             // helperText={errorEndDate}
+
+            /> */}
+            <DatePicker
+              value={new Date(EndDate)}
+              onChange={onSelectEndDate}
+              format="dd MMM yyyy"
+              label={<>
+                End Date <span style={{ color: 'red' }}>*</span>
+              </>}
+              views={['year', 'month', 'day']}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  variant: 'outlined'
+                }
+              }}
+            // sx={{
+            //   width: '150px'
+            // }}
 
             />
           </Grid>
