@@ -26,7 +26,7 @@ const HomeworkDocuments = () => {
   const asTeacherId = sessionStorage.getItem('TeacherId');
 
   const HeaderList = [
-    { Id: 1, Header: 'FileName' },
+    { Id: 1, Header: 'File Name' },
     { Id: 2, Header: 'Delete', align: "center" },
 
   ];
