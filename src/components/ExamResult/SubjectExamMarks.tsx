@@ -16,6 +16,7 @@ import {
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
   getExamSchedule,
@@ -26,7 +27,7 @@ import {
 import { RootState, useSelector } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, getYearFirstDateFormatted, isGreaterDate, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
-import { DatePicker } from '@mui/x-date-pickers';
+// import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import CommonPageHeader from '../CommonPageHeader';
@@ -486,7 +487,13 @@ const SubjectExamMarks = () => {
                 />
                 :
                 <>
-                  <DatePicker
+                  <Datepicker
+                    DateValue={new Date(TestDate)}
+                    onDateChange={clickTestDate}
+                    label={"Exam Date"}
+                  />
+
+                  {/* <DatePicker
                     value={new Date(TestDate)}
                     onChange={clickTestDate}
                     format="dd-MM-yyyy"
@@ -503,7 +510,7 @@ const SubjectExamMarks = () => {
                     }}
                     maxDate={new Date()}
 
-                  />
+                  /> */}
                   <div style={{ color: 'red', paddingLeft: '5px' }}>
                     *
                   </div>
