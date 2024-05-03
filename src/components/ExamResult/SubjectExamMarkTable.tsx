@@ -105,9 +105,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
               total += value == "" ? 0 :
                 AllowDecimal ?
                   (Number(value) *
-                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
+                    (obj.TestTypeOutOfMarks == "0" ? 1 : obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
                   Math.round((Number(value) *
-                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
+                    (obj.TestTypeOutOfMarks == "0" ? 1 : obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
               return { ...obj, Text1: value }
             }
             else {
@@ -115,9 +115,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                 bIsDirty = true
                 total += AllowDecimal ?
                   (Number(obj.Text1) *
-                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
+                    (obj.TestTypeOutOfMarks == "0" ? 1 : obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)) :
                   Math.round((Number(obj.Text1) *
-                    (obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
+                    (obj.TestTypeOutOfMarks == "0" ? 1 : obj.TestTypeOutOfMarks / obj.TestTypeTotalMarks)))
               }
               return obj
             }
