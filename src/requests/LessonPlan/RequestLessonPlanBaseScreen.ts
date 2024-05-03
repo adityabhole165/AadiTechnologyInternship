@@ -93,6 +93,7 @@ export const CDAlessonplanlist =
           StartDate: getDateMonthYearFormatted(item.StartDate),
           EndDate: getDateMonthYearFormatted(item.EndDate),
           Text3: item.Remarks,
+          IsSubmitted:item.IsSubmitted,
           SubmitedByReportingUser: item.SubmitedByReportingUser,
           Text2: item.IsSubmitted,
           UserId: item.UserId,

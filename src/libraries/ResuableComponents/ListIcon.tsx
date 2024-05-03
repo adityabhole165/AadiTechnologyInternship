@@ -129,9 +129,17 @@ function ListIcon({
 
                                 <TableCell align="center">
                                     {item.Text5}
-                                    <Link component="button" onClick={() => clickExport(item.Id)} sx={{ color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>
-                                        Export
-                                    </Link>
+                                    {item.IsSubmitted === "True" && (
+                                        <Link
+                                            component="button"
+                                            onClick={() => clickExport(item.Id)}
+                                            sx={{
+                                                color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit'
+                                            }}
+                                        >
+                                            Export
+                                        </Link>
+                                    )}
                                 </TableCell>
 
                                 <TableCell align="center">
