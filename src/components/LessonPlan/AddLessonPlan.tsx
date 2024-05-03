@@ -6,13 +6,13 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
-import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { CDAlessonplanlist } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
@@ -752,21 +752,9 @@ const AddLessonPlan = () => {
             // error={errorStartDate !== ''}
             // helperText={errorStartDate}
             /> */}
-
-            <DatePicker
-              value={new Date(StartDate)}
-              onChange={onSelectStartDate}
-              format="dd MMM yyyy"
-              label={<>
-                Start Date <span style={{ color: 'red' }}>*</span>
-              </>}
-              views={['year', 'month', 'day']}
-              slotProps={{
-                textField: {
-                  variant: 'outlined',
-                  fullWidth: true
-                }
-              }}
+            <Datepicker
+              DateValue={StartDate}
+              onDateChange={onSelectStartDate}
             />
 
           </Grid>
@@ -787,25 +775,7 @@ const AddLessonPlan = () => {
             // helperText={errorEndDate}
 
             /> */}
-            <DatePicker
-              value={new Date(EndDate)}
-              onChange={onSelectEndDate}
-              format="dd MMM yyyy"
-              label={<>
-                End Date <span style={{ color: 'red' }}>*</span>
-              </>}
-              views={['year', 'month', 'day']}
-              slotProps={{
-                textField: {
-                  fullWidth: true,
-                  variant: 'outlined'
-                }
-              }}
-            // sx={{
-            //   width: '150px'
-            // }}
-
-            />
+            <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} />
           </Grid>
           <Grid item xs={3}>
             <SearchableDropdown
