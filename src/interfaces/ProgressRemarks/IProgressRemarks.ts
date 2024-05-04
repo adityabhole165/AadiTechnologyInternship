@@ -126,3 +126,28 @@ export interface IGetAllGradesForStandardResult {
   Marks_Grades_Configuration_Detail_ID: string,
   Grade_Name: string
 }
+export interface IGetRemarksCategoryBody {
+  asSchoolId: Number,
+  asAcadmicYearId: Number
+}
+export interface IGetRemarksCategoryResult {
+  Id: string,
+  Name: string,
+  SortOrder: Number
+
+}
+export interface IGetRemarkTemplateDetailsBody {
+  asSchoolId: Number,
+  asRemarkId: Number,
+  asSortExpression: string,
+  asSortDirection: string,
+  asFilter: Number,
+  asAcadmicYearId: Number,
+  asMarksGradesConfigurationDetailsId: Number,
+  asStandardId: Number
+}
+export interface IGetRemarkTemplateDetailsResult {
+  Template: string
+  TemplateId: string,
+  CategoryId: string
+}

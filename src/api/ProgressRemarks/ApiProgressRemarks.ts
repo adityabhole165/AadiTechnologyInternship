@@ -1,15 +1,19 @@
 import {
   IAllPrimaryClassTeachersBody,
   IAllPrimaryClassTeachersResult,
+  IGetAllGradesForStandardBody, IGetAllGradesForStandardResult,
   IGetAllStudentswiseRemarkDetailsBody,
   IGetAllStudentswiseRemarkDetailsResult,
+  IGetRemarkTemplateDetailsBody,
+  IGetRemarkTemplateDetailsResult,
+  IGetRemarksCategoryBody, IGetRemarksCategoryResult,
   IGetTestwiseTermBody,
   IGetTestwiseTermResult,
   IStudentListDropDownResult,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
   IStudentswiseRemarkDetailsToExportResult,
-  IUpdateAllStudentsRemarkDetailsBody,IGetAllGradesForStandardBody,IGetAllGradesForStandardResult
+  IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -60,7 +64,18 @@ const GetAllGradeForStandard = (data: IGetAllGradesForStandardBody) => {
     data
   );
 };
-
+const GetRemarksCategory = (data: IGetRemarksCategoryBody) => {
+  return http.post<IGetRemarksCategoryResult[]>(
+    'Teacher/GetRemarksCategory',
+    data
+  );
+};
+const GetRemarksTemplateDetail = (data: IGetRemarkTemplateDetailsBody) => {
+  return http.post<IGetRemarkTemplateDetailsResult[]>(
+    'Teacher/GetRemarkTemplateDetails',
+    data
+  );
+};
 const ApiProgressRemark = {
   ClassTeachers,
   GetTestwiseTerm,
@@ -68,6 +83,8 @@ const ApiProgressRemark = {
   UpdateAllStudentsRemarkDetails,
   StudentListDropDown,
   GetAllStudentswiseRemarkDetails,
-  GetAllGradeForStandard
+  GetAllGradeForStandard,
+  GetRemarksCategory,
+  GetRemarksTemplateDetail
 };
 export default ApiProgressRemark;

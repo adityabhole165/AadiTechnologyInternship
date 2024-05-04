@@ -4,6 +4,8 @@ import {
   IAllPrimaryClassTeachersBody,
   IGetAllGradesForStandardBody,
   IGetAllStudentswiseRemarkDetailsBody,
+  IGetRemarkTemplateDetailsBody,
+  IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
@@ -23,7 +25,10 @@ const ProgressRemarkSlice = createSlice({
     ISStudentListDropDown: [],
     ISGetAllStudentswiseRemarkDetails: [],
     ISresetSaveMassage: '',
-    IGradesForStandard: []
+    ISGradesForStandard: [],
+    ISGetRemarksCategory: [],
+    ISGetRemarkTemplateDetail: []
+
   },
   reducers: {
     RGetTestwiseTerm(state, action) {
@@ -57,7 +62,13 @@ const ProgressRemarkSlice = createSlice({
       state.ISGetAllStudentswiseRemarkDetails = action.payload;
     },
     RSGradesForStandard(state, action) {
-      state.IGradesForStandard = action.payload;
+      state.ISGradesForStandard = action.payload;
+    },
+    RSGetRemarksCategory(state, action) {
+      state.ISGetRemarksCategory = action.payload;
+    },
+    RSGetRemarksTemplateDetail(state, action) {
+      state.ISGetRemarkTemplateDetail = action.payload;
     },
 
     RresetSaveMassage(state) {
@@ -163,7 +174,8 @@ export const CDAGradeDropDown =
   (data: IGetAllGradesForStandardBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetAllGradeForStandard(data);
-      let GradeList = response.data.map((item, i) => {
+      let GradeList = [{ Id: '0', Name: 'All', Value: '0' }];
+      response.data.map((item, i) => {
         return {
           Id: item.Marks_Grades_Configuration_Detail_ID,
           Name: item.Grade_Name,
@@ -172,6 +184,21 @@ export const CDAGradeDropDown =
       });
 
       dispatch(ProgressRemarkSlice.actions.RSGradesForStandard(GradeList));
+    };
+export const CDAGetRemarksCategory =
+  (data: IGetRemarksCategoryBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressRemark.GetRemarksCategory(data);
+      let RemarkCategory = [{ Id: '0', Name: 'All', Value: '0' }];
+      response.data.map((item, i) => {
+        return {
+          Id: item.Id,
+          Name: item.Name,
+          Value: item.SortOrder
+        };
+      });
+
+      dispatch(ProgressRemarkSlice.actions.RSGetRemarksCategory(RemarkCategory));
     };
 export const CDAStudentListDropDown =
   (data: IStudentListDropDowntBody): AppThunk =>
@@ -215,6 +242,24 @@ export const CDAGetAllStudentswiseRemarkDetails =
 
       dispatch(
         ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(RemarkList)
+      );
+    };
+export const CDAGetRemarkTemplateDetails =
+  (data: IGetRemarkTemplateDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressRemark.GetRemarksTemplateDetail(
+        data
+      );
+      let RemarkTemplateDetailList = response.data.map((item, i) => {
+        return {
+          Id: item.TemplateId,
+          Text1: item.Template,
+
+        };
+      });
+
+      dispatch(
+        ProgressRemarkSlice.actions.RSGetRemarksTemplateDetail(RemarkTemplateDetailList)
       );
     };
 

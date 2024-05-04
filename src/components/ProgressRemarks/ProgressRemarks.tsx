@@ -2,7 +2,7 @@ import Download from '@mui/icons-material/Download';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import {
   IAllPrimaryClassTeachersBody,
   IGetAllStudentswiseRemarkDetailsBody,
+  IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
@@ -22,8 +23,8 @@ import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import {
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
+  CDAGetRemarksCategory,
   CDAGetTestwiseTerm,
-  CDAGradeDropDown,
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
@@ -49,7 +50,7 @@ const ProgressRemarks = () => {
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [open, setOpen] = useState(false);
   const [StudentsList, setStudentsList] = useState([]);
-
+  const [Remark, setRemark] = useState('')
   const toggleScreens = () => {
     setShowScreenOne(!showScreenOne);
   };
@@ -89,6 +90,18 @@ const ProgressRemarks = () => {
   const USStudentListDropDown: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISStudentListDropDown
   );
+  const GradeDropDown: any = useSelector(
+    (state: RootState) => state.ProgressRemarkSlice.ISGradesForStandard
+  );
+  console.log("GradeDropdown", GradeDropDown)
+  const RemarkDropDown: any = useSelector(
+    (state: RootState) => state.ProgressRemarkSlice.ISGetRemarksCategory
+  );
+  console.log("RemarkDropDown", RemarkDropDown)
+  const RemarkTemplateDetails: any = useSelector(
+    (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
+  );
+  console.log("RemarkTemplateDetails", RemarkTemplateDetails)
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
     (state: RootState) =>
@@ -230,6 +243,36 @@ const ProgressRemarks = () => {
     asTermId: Number(SelectTerm)
   };
 
+
+
+
+  useEffect(() => {
+    const RemarkCategoryBody: IGetRemarksCategoryBody =
+    {
+
+      asSchoolId: Number(asSchoolId),
+      asAcadmicYearId: asAcademicYearId,
+
+    };
+    dispatch(CDAGetRemarksCategory(RemarkCategoryBody));
+  }, []);
+  // useEffect(() => {
+  //   const RemarkTemplateBody: IGetRemarkTemplateDetailsBody =
+  //   {
+
+  //     asSchoolId: Number(asSchoolId),
+  //   //  asRemarkId: Number,
+  //   //  asSortExpression: string,
+  //   //  asSortDirection: string,
+  //    // asFilter: Number,
+  //     asAcadmicYearId: asAcademicYearId,
+  //   //  asMarksGradesConfigurationDetailsId: Number,
+  //   //  asStandardId: Number
+
+  //   };
+  //   dispatch(CDAGetRemarksCategory(RemarkTemplateBody));
+  // }, []);
+
   const UpdateRemark = () => {
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
@@ -278,9 +321,32 @@ const ProgressRemarks = () => {
   const clickSelectClass = (value) => {
     SetselectTeacher(value);
   };
+  const clickRemark = (value) => {
+    setRemark(value);
+  };
 
   const clickStudentList = (value) => {
     SetStudentList(value);
+  };
+  // const getStudentName = () => {
+  //   let StudentName = '';
+  //   USStudentListDropDown.map((item) => {
+  //     if (item.Value == StudentList) StudentName = item.Name;
+  //   });
+  //   return StudentName;
+  // };
+
+  const getStudentName = () => {
+    let studentName = '';
+    if (Array.isArray(USStudentListDropDown)) {
+      // Assuming StudentList holds the selected value
+      const selectedValue = StudentList;
+      const matchingStudent = USStudentListDropDown.find(item => item.Value === selectedValue);
+      if (matchingStudent) {
+        studentName = matchingStudent.Name;
+      }
+    }
+    return studentName;
   };
 
   useEffect(() => {
@@ -288,6 +354,11 @@ const ProgressRemarks = () => {
       SetSelectTerm(USGetTestwiseTerm[0].Value);
     }
   }, [USGetTestwiseTerm]);
+  useEffect(() => {
+    if (RemarkDropDown.length > 0) {
+      setRemark(RemarkDropDown[0].Value);
+    }
+  }, [RemarkDropDown]);
 
   // useEffect(() => {
   //   dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
@@ -348,6 +419,7 @@ const ProgressRemarks = () => {
             label={'Term'}
             size={"small"}
           />
+
           <SearchableDropdown
             ItemList={USStudentListDropDown}
             sx={{ minWidth: '300px' }}
@@ -356,6 +428,7 @@ const ProgressRemarks = () => {
             label={'StudentList'}
             size={"small"}
           />
+
           <Box>
             <Tooltip title={'Add/Edit/Delete student progress remarks.'}>
               <IconButton
@@ -466,19 +539,42 @@ const ProgressRemarks = () => {
                 <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Add Remark Template</Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
-                <SearchableDropdown
+                {/* <SearchableDropdown
                   ItemList={USStudentListDropDown}
                   sx={{ minWidth: '230px' }}
                   onChange={clickStudentList}
                   defaultValue={StudentList}
                   label={'Student Name'}
                   size={"small"}
+                /> */}
+                {/* <TextField
+                  size={"small"}
+                  fullWidth
+                  label={"StudentList"}
+                  value={
+                    StudentName
+                  }
+                  sx={{ bgcolor: '#f0e68c' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+
+                /> */}
+                <TextField
+                  size={"small"}
+                  fullWidth
+                  label={"StudentList"}
+                  value={getStudentName()}
+                  sx={{ bgcolor: '#f0e68c' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
                 <SearchableDropdown
-                  ItemList={USClassTeachers}
+                  ItemList={RemarkDropDown}
                   sx={{ minWidth: '230px' }}
-                  onChange={clickSelectClass}
-                  defaultValue={selectTeacher}
+                  onChange={clickRemark}
+                  defaultValue={Remark}
                   label={'Remark Category'}
                   size={"small"}
                 />
