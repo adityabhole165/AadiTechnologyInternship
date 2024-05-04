@@ -217,7 +217,7 @@ const SubjectExamMarks = () => {
     }
     else {
       if (ExamSchedules.length > 0)
-        setTestDate(getCalendarDateFormatDate(ExamSchedules[0].Exam_Start_Date))
+        setTestDate(getCalendarDateFormatDate(ExamSchedules[0].SubjectExamStartDate))
       else
         setTestDate(getCalendarDateFormatDateNew(new Date()))
 
