@@ -103,6 +103,10 @@ export const getYearFirstDateFormatted = (date) => {
   let arrDate = date.split(' ')[0].split('-');
   return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
 };
+export const getYearFirstDateDashFormatted = (date) => {
+  let arrDate = date.split('-')
+  return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
+};
 export const getDateMonthSpace = (date) => {
   let arrDate = date.split(' ')[0].split('-');
 
