@@ -19,7 +19,7 @@ import {
   IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
-import ListIcon from 'src/libraries/ResuableComponents/ListIcon';
+import ListIcon from 'src/components/LessonPlan/ListIcon';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
@@ -35,6 +35,7 @@ import {
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import IsHighliteStaus from './LessonPlanContext';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -548,7 +549,8 @@ const LessonPlanBaseScreen = () => {
             My Subjects
           </Typography> */}
           {LessonPlanList.length > 0 ? (
-            <ListIcon
+            <IsHighliteStaus.Provider  value={USAddOrEditLessonPlanDetails}>
+              <ListIcon
               HeaderArray={HeaderList1}
               ItemList={LessonPlanList}
               clickView={clickView}
@@ -563,6 +565,8 @@ const LessonPlanBaseScreen = () => {
               ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
 
             />
+            </IsHighliteStaus.Provider>
+            
 
 
 

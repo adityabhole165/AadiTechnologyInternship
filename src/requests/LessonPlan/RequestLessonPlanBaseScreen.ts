@@ -98,7 +98,8 @@ export const CDAlessonplanlist =
           Text2: item.IsSubmitted,
           UserId: item.UserId,
           IsSuggisionAdded: item.IsSuggisionAdded,
-          IsSuggisitionRead: item.IsSuggisitionRead
+          IsSuggisitionRead: item.IsSuggisitionRead,
+         
         };
       });
       
@@ -140,8 +141,16 @@ export const CDAAddOrEditLessonPlanDetails =
   (data: IAddOrEditLessonPlanDetailsBody): AppThunk =>
     async (dispatch) => {
       const response = await LessonPlanApi.AddOrEditLessonPlanDetails(data);
+
+      // let SubmitStatus = response.data.GetLessonPlanReportingConfigList.map((item, i) => {
+      //   return {
+         
+      //     ReportingUserId:item.ReportingUserId
+      //     UserId
+      //   };
+      // });
       dispatch(
-        LessonPlanBaseScreenSlice.actions.RAddOrEditLessonPlanDetails(response.data)
+        LessonPlanBaseScreenSlice.actions.RAddOrEditLessonPlanDetails(response.data.GetLessonPlanReportingConfigList)
       );
     };
 
