@@ -9,7 +9,7 @@ import {
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
   IStudentswiseRemarkDetailsToExportResult,
-  IUpdateAllStudentsRemarkDetailsBody
+  IUpdateAllStudentsRemarkDetailsBody,IGetAllGradesForStandardBody,IGetAllGradesForStandardResult
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -54,6 +54,12 @@ const GetAllStudentswiseRemarkDetails = (
     data
   );
 };
+const GetAllGradeForStandard = (data: IGetAllGradesForStandardBody) => {
+  return http.post<IGetAllGradesForStandardResult[]>(
+    'Teacher/GetAllGradesForStandard',
+    data
+  );
+};
 
 const ApiProgressRemark = {
   ClassTeachers,
@@ -61,6 +67,7 @@ const ApiProgressRemark = {
   StudentswiseRemarkDetailsToExport,
   UpdateAllStudentsRemarkDetails,
   StudentListDropDown,
-  GetAllStudentswiseRemarkDetails
+  GetAllStudentswiseRemarkDetails,
+  GetAllGradeForStandard
 };
 export default ApiProgressRemark;

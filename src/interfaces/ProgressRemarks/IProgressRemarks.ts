@@ -115,3 +115,14 @@ export interface IStudentswiseRemarkDetailsToExportResult {
     }
   ];
 }
+export interface IGetAllGradesForStandardBody {
+  asSchool_Id: Number,
+  asAcademic_Year_Id: Number,
+  asStandard_Id: Number,
+  asSubjectId: Number,
+  asTest_Id: Number
+}
+export interface IGetAllGradesForStandardResult {
+  Marks_Grades_Configuration_Detail_ID: string,
+  Grade_Name: string
+}

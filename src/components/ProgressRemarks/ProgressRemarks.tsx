@@ -23,6 +23,7 @@ import {
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
   CDAGetTestwiseTerm,
+  CDAGradeDropDown,
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
@@ -236,6 +237,13 @@ const ProgressRemarks = () => {
 
     // dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)) ;
   };
+  // export GetAllGradesForStandardBody: IGetAllGradesForStandardBody {
+  //   asSchool_Id: asSchoolId,
+  // asAcademic_Year_Id: asAcademicYearId,
+  // asStandard_Id: Number,
+  // asSubjectId: Number,
+  // asTest_Id:Number
+  // }
 
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
@@ -281,6 +289,9 @@ const ProgressRemarks = () => {
     }
   }, [USGetTestwiseTerm]);
 
+  // useEffect(() => {
+  //   dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
+  // }, []);
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
   }, []);
