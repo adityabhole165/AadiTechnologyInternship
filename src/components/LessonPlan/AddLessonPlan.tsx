@@ -70,8 +70,8 @@ const AddLessonPlan = () => {
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
   const [UpdatedById, setUpdatedById] = useState('');
-  const [OldStartDate, setOldStartDate] = useState('');
-  const [OldEndDate, setOldEndDate] = useState('');
+  const [OldStartDate, setOldStartDate] = useState(StartDateParam);
+  const [OldEndDate, setOldEndDate] = useState(EndDateParam);
   const [ItemList, setItemList] = useState('');
   const [ApproverComment, setApproverComment] = useState([]);
   const [errorStartDate, seterrorStartDate] = useState('');
@@ -232,6 +232,8 @@ const AddLessonPlan = () => {
   }, [SaveApproverComment])
   useEffect(() => {
     if (UpdateLessonPlanDate !== '') {
+      setOldStartDate(StartDate)
+      setOldEndDate(EndDate)
       toast.success(UpdateLessonPlanDate)
       if (UpdateLessonPlanDate === "Lesson plan date not updated...!") {
         seterrorOverlapDate("Date range of this Lesson plan should not overlap on another lesson plan.");
@@ -498,8 +500,8 @@ const AddLessonPlan = () => {
         aasEndDate: EndDate,
         asApproverComment: getApproverComment(),
         asUpdatedById: Number(UpdatedById),
-        asOldStartDate: StartDateParam,
-        asOldEndDate: EndDateParam,
+        asOldStartDate: OldStartDate,
+        asOldEndDate: OldEndDate,
       };
 
       dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
