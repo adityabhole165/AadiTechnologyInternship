@@ -339,7 +339,6 @@ const ProgressRemarks = () => {
   const getStudentName = () => {
     let studentName = '';
     if (Array.isArray(USStudentListDropDown)) {
-      // Assuming StudentList holds the selected value
       const selectedValue = StudentList;
       const matchingStudent = USStudentListDropDown.find(item => item.Value === selectedValue);
       if (matchingStudent) {
@@ -547,19 +546,7 @@ const ProgressRemarks = () => {
                   label={'Student Name'}
                   size={"small"}
                 /> */}
-                {/* <TextField
-                  size={"small"}
-                  fullWidth
-                  label={"StudentList"}
-                  value={
-                    StudentName
-                  }
-                  sx={{ bgcolor: '#f0e68c' }}
-                  InputProps={{
-                    readOnly: true,
-                  }}
 
-                /> */}
                 <TextField
                   size={"small"}
                   fullWidth
