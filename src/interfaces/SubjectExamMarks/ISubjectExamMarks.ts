@@ -73,7 +73,8 @@ export interface IGetSubjectExamMarkslistsBody {
     asSubjectId: number,
     asTestId: number,
     asAcademicYrId: number,
-    asShowTotalAsPerOutOfMarks: string
+    asShowTotalAsPerOutOfMarks: string,
+    asTestDate?: string
 }
 export interface IGetSubjectExamMarkslistsResult {
     listTestDetailss: [

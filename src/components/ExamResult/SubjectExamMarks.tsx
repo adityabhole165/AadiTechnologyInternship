@@ -108,7 +108,6 @@ const SubjectExamMarks = () => {
   const ExamSchedules: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ExamSchedule
   );
-  console.log("ExamSchedules", ExamSchedules)
 
   const [ExamGrade, setExamGrade] = useState([])
   const clickTestDate = (value) => {
@@ -125,7 +124,8 @@ const SubjectExamMarks = () => {
       asSubjectId: Number(SubjectId),
       asTestId: Number(TestId),
       asAcademicYrId: Number(asAcademicYearId),
-      asShowTotalAsPerOutOfMarks: "Y"
+      asShowTotalAsPerOutOfMarks: "Y",
+      asTestDate: TestDate
     }
 
 
@@ -265,7 +265,6 @@ const SubjectExamMarks = () => {
           "\" IsAbsent=\"Y\" IsOptional=\"N\" />"
       }
     })
-    console.log(returnVal + "</SchoolWiseStudentTestMarks>");
 
     return returnVal + "</SchoolWiseStudentTestMarks>"
   }

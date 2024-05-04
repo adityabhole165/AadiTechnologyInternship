@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SubjectExamMarksApi from 'src/api/SubjectExamMarks/ApiSubjectExamMarks';
-import { isGreaterThanDate } from 'src/components/Common/Util';
+import { getDateMonthYearFormattedDash, getYearFirstDateDashFormatted, isGreaterThanDate } from 'src/components/Common/Util';
 import {
     IGetAllGradesForSubjectMarkListBody,
     IGetAllStudentsForMarksAssignmentsBody,
@@ -182,18 +182,23 @@ export const getSubjectExamMarkslist =
                 asTestDate: data.asTestDate
             }
             // console.log(body1, "body1", response2.data);
-
+            let TestDate = data.asTestDate
             if (response2.data.listStudentTestMarkDetails.length > 0) {
+                TestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
                 body1 = {
                     ...body1,
                     asTestDate: response2.data.listStudentTestMarkDetails[0].Test_Date
                 }
             }
+            TestDate = TestDate == undefined ? getYearFirstDateDashFormatted(data.asTestDate) : getYearFirstDateDashFormatted(TestDate)
+
+
             const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
             const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
             let reponseData1 = [];
             const getMarksForStudentBlank = (StudentIdParam, JoiningDate) => {
                 let arr = [];
+                let IsLateJoinee = isGreaterThanDate(getDateMonthYearFormattedDash(JoiningDate), TestDate)
                 let StudentId = "0"
                 response2.data.listTestDetailss.map((Item, i) => {
 
@@ -201,14 +206,14 @@ export const getSubjectExamMarkslist =
                         Id: Item.TestType_Id,
                         Text1: "",
                         Text2: Item.TestType_Total_Marks,
-                        ExamStatus: "N",
+                        ExamStatus: IsLateJoinee ? "J" : "N",
                         ExamGrade: "0",
                         IsActive: true,
                         IsActiveGrade: true,
                         ErrorMessage: "",
                         Student_Id: StudentIdParam,
                         JoiningDate: JoiningDate,
-                        IsLateJoinee: false,
+                        IsLateJoinee: IsLateJoinee,
                         AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
                         IsAbsent: "N",
                         TestTypeTotalMarks: Number(Item.TestType_Total_Marks),
@@ -221,14 +226,14 @@ export const getSubjectExamMarkslist =
                         Id: "0",
                         Text1: "",
                         Text2: "",
-                        ExamStatus: "N",
+                        ExamStatus: IsLateJoinee ? "J" : "N",
                         ExamGrade: "0",
                         IsActive: true,
                         IsActiveGrade: true,
                         ErrorMessage: "",
                         Student_Id: StudentIdParam,
                         JoiningDate: JoiningDate,
-                        IsLateJoinee: false,
+                        IsLateJoinee: IsLateJoinee,
                         AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
                         IsAbsent: "N",
                         TestTypeTotalMarks: "",
@@ -259,7 +264,7 @@ export const getSubjectExamMarkslist =
                             ExamGrade: tempArr[0].Assigned_Grade_Id,
                             Student_Id: tempArr[0].Student_Id,
                             JoiningDate: tempArr[0].Joining_Date,
-                            IsLateJoinee: isGreaterThanDate(JoiningDate, tempArr[0].Test_Date),
+                            IsLateJoinee: isGreaterThanDate(JoiningDate, TestDate),
                             AllowMarksEntryForLateJoin: response2.data.AllowMarksEntryForLateJoin,
                             IsAbsent: tempArr[0].Is_Absent
                         }
