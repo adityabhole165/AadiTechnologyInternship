@@ -233,8 +233,25 @@ const AddLessonPlan = () => {
   useEffect(() => {
     if (UpdateLessonPlanDate !== '') {
       toast.success(UpdateLessonPlanDate)
+      if (UpdateLessonPlanDate === "Lesson plan date not updated...!") {
+        seterrorOverlapDate("Date range of this Lesson plan should not overlap on another lesson plan.");
+      } else {
+        seterrorOverlapDate("");
+        const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+          asSchoolId: asSchoolId,
+          asAcademicYearId: asAcademicYearId,
+          asStandardDivId: 0,
+          asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+          asReportingUserId: asUserId,
+          asStartDate: StartDate,
+          asEndDate: EndDate,
+          IsNewMode: false
+        };
+        dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+      }
+
+
       dispatch(resetupdatelessonplandate())
-      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
     }
   }, [UpdateLessonPlanDate])
 
