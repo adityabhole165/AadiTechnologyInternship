@@ -10,7 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useContext } from 'react'
+import { useContext } from 'react';
 import IsHighliteStaus from './LessonPlanContext';
 
 function ListIcon({
@@ -54,10 +54,8 @@ function ListIcon({
 
     };
 
-    let USAddOrEditLessonPlanDetails = useContext(IsHighliteStaus) 
+    let USAddOrEditLessonPlanDetails = useContext(IsHighliteStaus)
     const asUserId = Number(localStorage.getItem('UserId'));
-    console.log(USAddOrEditLessonPlanDetails,"USAddOrEditLessonPlanDetails---------");
-    
 
     const getIsRemarkView = (UserId, StartDate, EndDate) => {
         let returnVal = false
@@ -72,18 +70,18 @@ function ListIcon({
         return returnVal
     }
 
-    const  IsHighlight = () =>{
-        let returnVal= false;
-        USAddOrEditLessonPlanDetails.map ((item ) =>{
-             if(item.UserID == item.ReportingUserId )
-              returnVal = item.UserID== asUserId;
-    
-        })
-         return returnVal;
-      }
+    const IsHighlight = () => {
+        let returnVal = false;
+        USAddOrEditLessonPlanDetails.map((item) => {
+            if (item.UserId == item.ReportingUserId)
+                returnVal = item.UserId == asUserId.toString();
 
-     
-      
+        })
+        return returnVal;
+    }
+
+
+
 
     return (
         <div>
@@ -104,9 +102,9 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                              <TableCell sx={{ color:  IsHighlight() != false &&  item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.StartDate}</TableCell>
+                                <TableCell sx={{ color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.StartDate}</TableCell>
 
-                                <TableCell sx={{ color:  IsHighlight() != false &&   item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ?'#3498db' : 'inherit' }}>{item.EndDate}</TableCell>
+                                <TableCell sx={{ color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.EndDate}</TableCell>
 
                                 <TableCell align="center">
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
@@ -155,7 +153,7 @@ function ListIcon({
                                             component="button"
                                             onClick={() => clickExport(item.Id)}
                                             sx={{
-                                                color: IsHighlight() != false &&   item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit'
+                                                color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit'
                                             }}
                                         >
                                             Export

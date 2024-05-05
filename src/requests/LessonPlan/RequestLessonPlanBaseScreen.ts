@@ -8,8 +8,8 @@ import {
   IGetAllTeachersOfLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
   IGetLessonPlanListBody,
-  IUpdateReadSuggestionBody,
-  IGetLessonPlanRecordCountBody
+  IGetLessonPlanRecordCountBody,
+  IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import { AppThunk } from 'src/store';
 
@@ -19,10 +19,10 @@ const LessonPlanBaseScreenSlice = createSlice({
     ISLessonList: [],
     ISLessonList1: [],
     DeletePlan: '',
-    ISUpdateReadSuggestion:'',
+    ISUpdateReadSuggestion: '',
     LessonReport: [],
-    ISAddOrEditLessonPlanDetails: {},
-    ISGetLessonPlanRecordCount:{},
+    ISAddOrEditLessonPlanDetails: [],
+    ISGetLessonPlanRecordCount: {},
     ISGetAllTeachersOfLessonPlan: [],
     ISGetAllLessonPlanReportingConfigs: []
   },
@@ -62,9 +62,9 @@ const LessonPlanBaseScreenSlice = createSlice({
       state.ISGetLessonPlanRecordCount = action.payload;
     }
 
-    
 
-    
+
+
 
   }
 });
@@ -84,25 +84,25 @@ export const CDAlessonplanlist =
       //   UserId: item.UserId,
       //   IsSuggisionAdded:item.IsSuggisionAdded,
       //   IsSuggisitionRead: item.IsSuggisitionRead
-        
+
       // }));
 
       let listResult1st = response.data.listResult1st.map((item, i) => {
-      
+
         return {
           StartDate: getDateMonthYearFormatted(item.StartDate),
           EndDate: getDateMonthYearFormatted(item.EndDate),
           Text3: item.Remarks,
-          IsSubmitted:item.IsSubmitted,
+          IsSubmitted: item.IsSubmitted,
           SubmitedByReportingUser: item.SubmitedByReportingUser,
           Text2: item.IsSubmitted,
           UserId: item.UserId,
           IsSuggisionAdded: item.IsSuggisionAdded,
           IsSuggisitionRead: item.IsSuggisitionRead,
-         
+
         };
       });
-      
+
 
       let listResult2nd = response.data.listResult2nd.map(item => ({
         StartDate: getDateMonthYearFormatted(item.StartDate),
@@ -144,7 +144,7 @@ export const CDAAddOrEditLessonPlanDetails =
 
       // let SubmitStatus = response.data.GetLessonPlanReportingConfigList.map((item, i) => {
       //   return {
-         
+
       //     ReportingUserId:item.ReportingUserId
       //     UserId
       //   };
@@ -194,23 +194,23 @@ export const CDAGetAllLessonPlanReportingConfigs =
     };
 
 
-    export const CDAUpdateReadSuggestion =
+export const CDAUpdateReadSuggestion =
   (data: IUpdateReadSuggestionBody): AppThunk =>
     async (dispatch) => {
       const response = await LessonPlanApi.UpdateReadSuggestion(data);
       dispatch(LessonPlanBaseScreenSlice.actions.RUpdateReadSuggestion(response.data));
-      
+
     };
 
 
-    
-    export const CDAGetLessonPlanRecordCount =
+
+export const CDAGetLessonPlanRecordCount =
   (data: IGetLessonPlanRecordCountBody): AppThunk =>
     async (dispatch) => {
       const response = await LessonPlanApi.GetLessonPlanRecordCount(data);
       dispatch(LessonPlanBaseScreenSlice.actions.RGetLessonPlanRecordCount(response.data));
-      
-      
+
+
     };
 
 
