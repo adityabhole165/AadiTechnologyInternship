@@ -10,16 +10,13 @@ import 'react-datetime/css/react-datetime.css';
 
 import {
   IGetAllGradesForSubjectMarkListBody,
-  IGetAllStudentsForMarksAssignmentsBody,
   IGetClassExamSubjectNameDetailesBody,
-  IGetExamScheduleBody,
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
-  getExamSchedule,
   getManageStudentsTestMark,
   getSubjectExamMarkslist,
   resetManageStudentsTestMark
@@ -146,19 +143,6 @@ const SubjectExamMarks = () => {
 
   }, []);
   //for RollNo,student name
-  useEffect(() => {
-    if (TestDate !== '') {
-      const GetAllStudentsForMarksAssignmentsBody: IGetAllStudentsForMarksAssignmentsBody = {
-        asAcademicYearID: Number(asAcademicYearId),
-        asSchoolId: Number(asSchoolId),
-        asSubject_Id: Number(SubjectId),
-        asStandardDivision_Id: Number(StandardDivisionId),
-        asTestDate: TestDate
-      };
-
-      dispatch(getSubjectExamMarkslist(GetAllStudentsForMarksAssignmentsBody));
-    }
-  }, [TestId]);
   //for Grade
   useEffect(() => {
     const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
@@ -171,17 +155,6 @@ const SubjectExamMarks = () => {
 
     dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
   }, []);
-  useEffect(() => {
-    const GetExamScheduleBody: IGetExamScheduleBody = {
-      asSchoolId: Number(asSchoolId),
-      asStandardId: Number(StandardId),
-      asTestId: Number(TestId),
-      asSubjectId: Number(SubjectId),
-    };
-
-    dispatch(getExamSchedule(GetExamScheduleBody));
-  }, [TestDate]);
-
   useEffect(() => {
     setMarksAssignment(StudentsForMarksAssignment)
   }, [StudentsForMarksAssignment])

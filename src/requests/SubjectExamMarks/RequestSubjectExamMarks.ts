@@ -194,7 +194,6 @@ export const getSubjectExamMarkslist =
 
 
             const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
-            const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
             let reponseData1 = [];
             const getMarksForStudentBlank = (StudentIdParam, JoiningDate) => {
                 let arr = [];
