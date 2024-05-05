@@ -105,6 +105,7 @@ export const CDAOptionalSubjectsForMarksTransfer =
             OptionalSubjectsId: item.OptionalSubjectsId,
             OptionalSubjectName: item.OptionalSubjectName,
             ParentOptionalSubjectId: item.ParentOptionalSubjectId,
+            IsDefault: item.IsDefault,
             isActive: false,
 
           };

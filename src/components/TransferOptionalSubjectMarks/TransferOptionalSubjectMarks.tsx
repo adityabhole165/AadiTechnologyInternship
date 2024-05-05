@@ -2,7 +2,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Checkbox, FormControl, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Pagination, Paper, Select, SelectChangeEvent, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Pagination, Paper, SelectChangeEvent, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -496,7 +496,7 @@ const TransferOptionalSubjectMarks = () => {
                     </Box>
                 </Box> */}
 
-               
+
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     {/* First Box */}
                     {StudentsList.length > 0 && (
@@ -507,41 +507,57 @@ const TransferOptionalSubjectMarks = () => {
                             clickTitle={""}
                         />
                     )}
-                      {StudentsList.length > 0 && (
-                    <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
-                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-                            <h3>Optional Subjects</h3>
-                            {ParentOptionalSubjects
-                                .map((subject, index) => (
-                                    <Accordion key={index}>
-                                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                            {subject.OptionalSubjectName} (Select any 1)
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <ul>
-                                                {OptionalSubjects
-                                                    .filter((objParent) => { return objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId })
-                                                    .map((subItem, subIndex) => (
-                                                        <li key={subIndex}>
-                                                            <label>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={subItem.isActive}
-                                                                    onChange={() => SubjectSelection(subItem.SubjectId)}
-                                                                />
-                                                                {subItem.SubjectName}
-                                                            </label>
-                                                        </li>
-                                                    ))}
-                                            </ul>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                ))}
+                    {StudentsList.length > 0 && (
+                        <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
+                            <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+                                <h3>Optional Subjects</h3>
+                                {ParentOptionalSubjects
+                                    .map((subject, index) => (
+                                        <Accordion key={index}>
+                                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                                {subject.OptionalSubjectName} (Select any 1)
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <ul>
+                                                    {OptionalSubjects
+                                                        .filter((objParent) => {
+                                                            return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                                && objParent.IsDefault == "True"
+                                                            )
+                                                        })
+                                                        .map((subItem, subIndex) => (
+                                                            <li key={subIndex}>
+                                                                <label>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={subItem.isActive}
+                                                                        onChange={() => SubjectSelection(subItem.SubjectId)}
+                                                                    />
+                                                                    {subItem.SubjectName}
+                                                                    {OptionalSubjects
+                                                                        .filter((objChildItem) => {
+                                                                            return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId &&
+                                                                                objChildItem.IsDefault == "False" &&
+                                                                                objChildItem.SubjectGroupId == subItem.SubjectGroupId
+                                                                            )
+                                                                        })
+                                                                        .map((objChild, objChildIndex) => (
+                                                                            <ul key={objChildIndex}>
+                                                                                <label>{objChild.SubjectName}</label>
+                                                                            </ul>))
+                                                                    }
+                                                                </label>
+                                                            </li>
+                                                        ))}
+                                                </ul>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    ))}
+                            </Box>
                         </Box>
-                    </Box>
 
-                )
-                }
+                    )
+                    }
                 </Box>
 
 
