@@ -21,8 +21,10 @@ import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject } =
+  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject,TeacherId,SelectClass } =
     useParams();
+
+
   const navigate = useNavigate();
   const [Subject, setSubject] = useState(SubjectId);
 
@@ -115,6 +117,8 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.Subjectlist
   );
 
+ 
+  
   const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
@@ -142,16 +146,16 @@ const AddHomeworkNew = () => {
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
   {
     asSchoolId: asSchoolId,
-    aTeacherId: Number(asTeacherId),
+    aTeacherId: Number(TeacherId),
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
+    asStandardDivisionId: Number(SelectClass)
   };
 
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId,
+    asStandardDivisionId:Number(SelectClass),
     asHomeWorkStatus: HomeworkS.toString(),
     asHomeworkTitle: '',
     asAssignedDate: AssignedDate1
@@ -178,6 +182,18 @@ const AddHomeworkNew = () => {
   const ResetForm = () => {
     setSubjectCheckID('');
     setTitle('');
+   
+    setCompleteDate('');
+
+    setFileName('');
+    setDetails('');
+    setMultipleFiles([]);
+   
+  };
+
+  const ResetForm1 = () => {
+    setSubjectCheckID('');
+    
    
     setCompleteDate('');
 
@@ -237,7 +253,7 @@ const AddHomeworkNew = () => {
     }
 
     else (!isError) 
-      ResetForm()
+    ResetForm1()
     
   }
   useEffect(() => {
@@ -296,7 +312,7 @@ const AddHomeworkNew = () => {
 
   const clickDelete = (Id) => {
     // alert(Id)
-    if (confirm('Are you sure you want to delete the homework?')) {
+    if (confirm(' Are you sure you want to delete this record?')) {
       const DeleteHomeworkBody: IDeleteHomeworkBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -705,8 +721,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             <SearchableDropdown
               ItemList={ClassSubject.filter((Item) => {
                 return MySubject == 'true' ?
-                  Item.TeacherId == asTeacherId :
-                  Item.TeacherId != asTeacherId
+                  Item.TeacherId == TeacherId :
+                  Item.TeacherId != TeacherId
               })}
               onChange={clickSubjectList}
               defaultValue={Subject}

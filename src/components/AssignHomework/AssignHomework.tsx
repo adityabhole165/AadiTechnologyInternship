@@ -50,6 +50,8 @@ const AssignHomework = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
+  console.log(SelectClass);
+  
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
@@ -211,7 +213,9 @@ const AssignHomework = () => {
       '/' +
       value.SubjectId +
       '/' +
-      MySubject
+      MySubject+
+      '/' +
+      SelectClass
 
     );
   };
