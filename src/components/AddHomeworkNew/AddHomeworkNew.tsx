@@ -191,6 +191,18 @@ const AddHomeworkNew = () => {
    
   };
 
+  const ResetForm1 = () => {
+    setSubjectCheckID('');
+    
+   
+    setCompleteDate('');
+
+    setFileName('');
+    setDetails('');
+    setMultipleFiles([]);
+   
+  };
+
   const handleEditClick = (Id) => {
     setHomeworkId(Id);
 
@@ -241,7 +253,7 @@ const AddHomeworkNew = () => {
     }
 
     else (!isError) 
-      ResetForm()
+    ResetForm1()
     
   }
   useEffect(() => {
