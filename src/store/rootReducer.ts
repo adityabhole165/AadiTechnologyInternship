@@ -89,13 +89,13 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
+import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
+import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
 import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
+import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
-import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
-import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
-
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
@@ -191,10 +191,11 @@ const rootReducer = combineReducers({
   Finalunpublish: FinalUnPublishTestSlice,
   UnpublishSlice: UnpublishSlice,
   AadharcardTecaherSlice: AadharcardTecaherSlice,
-  SubjectExamMark:SubjectExamMarksslice,
-  ExamResultToppers:ExamResultToppersSlice,
-  TransferOptionalSubjectMarks:TransferOptionalSubjectMarksSlice,
-  SubjectMarkList:SubjectMarkListSlice
+  SubjectExamMark: SubjectExamMarksslice,
+  ExamResultToppers: ExamResultToppersSlice,
+  TransferOptionalSubjectMarks: TransferOptionalSubjectMarksSlice,
+  SubjectMarkList: SubjectMarkListSlice,
+  RemarkTemplate: RemarkTemplateSlice
 });
 
 export default rootReducer;

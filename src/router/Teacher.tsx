@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
+import Remark from 'src/components/ProgressRemarks/Remark';
 import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubjectMarks/TransferOptionalSubjectMarks';
 
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -156,6 +157,7 @@ const ViewFinalResult = Loader(
   lazy(() => import('src/components/ViewFinalResult/ViewFinalResult'))
 )
 
+
 const teacherRoutes = [
   {
     path: 'TAttendance',
@@ -277,6 +279,11 @@ const teacherRoutes = [
   {
     path: 'ProgressRemarks',
     element: <ProgressRemarks />
+  },
+
+  {
+    path: 'Remark',
+    element: <Remark />
   },
 
   {
