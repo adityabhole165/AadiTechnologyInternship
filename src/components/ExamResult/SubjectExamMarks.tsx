@@ -11,12 +11,14 @@ import 'react-datetime/css/react-datetime.css';
 import {
   IGetAllGradesForSubjectMarkListBody,
   IGetClassExamSubjectNameDetailesBody,
+  IGetExamScheduleBody,
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
+  getExamSchedule,
   getManageStudentsTestMark,
   getSubjectExamMarkslist,
   resetManageStudentsTestMark
@@ -205,7 +207,18 @@ const SubjectExamMarks = () => {
     }
   }, [StudentsForMarksAssignment])
 
+  useEffect(() => {
+    const GetExamSchedule: IGetExamScheduleBody =
+    {
 
+      asSchoolId: Number(asSchoolId),
+      asStandardId: Number(StandardId),
+      asTestId: Number(TestId),
+      asSubjectId: Number(SubjectId),
+    }
+    dispatch(getExamSchedule(GetExamSchedule));
+
+  }, []);
 
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/AssignExamMark');
@@ -447,16 +460,21 @@ const SubjectExamMarks = () => {
               // disabled={IsReadOnly === 'true'}
               /> */}
               {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
-                <TextField
-                  size={"small"}
-                  fullWidth
-                  value={getCalendarDateFormatDate(TestDate)}
+                <Datepicker
+                  DateValue={new Date(TestDate)}
+                  onDateChange={clickTestDate}
                   label={"Exam Date"}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{ max: new Date().toISOString().split('T')[0] }}
-                  variant={"outlined"}
-                  disabled={true}
                 />
+                // <TextField
+                //   size={"small"}
+                //   fullWidth
+                //   value={getCalendarDateFormatDate(TestDate)}
+                //   label={"Exam Date"}
+                //   InputLabelProps={{ shrink: true }}
+                //   inputProps={{ max: new Date().toISOString().split('T')[0] }}
+                //   variant={"outlined"}
+                //   disabled={true}
+                // />
                 :
                 <>
                   <Datepicker
