@@ -16,6 +16,7 @@ function SubjectList1({
   onChange,
   clickchange,
   clickTitle
+  
 }) {
   
 
@@ -92,8 +93,11 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text2}
+                <Link href={''} onClick={() => clickTitle(item.Id)}>
+                    {item.Text2}
+                  </Link>
                 </TableCell>
+               
 
                
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
