@@ -50,7 +50,7 @@ const HomeworkDocuments = () => {
   }, []);
 
   const ClickDelete = (Id) => {
-    if (confirm('Are You Sure you want to delete The List')) {
+    if (confirm('Are you sure you want to delete this record?')) {
       const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
         asSchoolId: asSchoolId,
         asUpdatedById: Number(asTeacherId),
