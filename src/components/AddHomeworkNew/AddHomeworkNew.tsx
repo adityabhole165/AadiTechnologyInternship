@@ -21,8 +21,10 @@ import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject } =
+  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject,TeacherId,SelectClass } =
     useParams();
+
+
   const navigate = useNavigate();
   const [Subject, setSubject] = useState(SubjectId);
 
@@ -142,16 +144,16 @@ const AddHomeworkNew = () => {
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
   {
     asSchoolId: asSchoolId,
-    aTeacherId: Number(asTeacherId),
+    aTeacherId: Number(TeacherId),
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
+    asStandardDivisionId: Number(SelectClass)
   };
 
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId,
+    asStandardDivisionId:Number(SelectClass),
     asHomeWorkStatus: HomeworkS.toString(),
     asHomeworkTitle: '',
     asAssignedDate: AssignedDate1
