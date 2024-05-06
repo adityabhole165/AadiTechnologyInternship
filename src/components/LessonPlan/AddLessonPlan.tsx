@@ -15,7 +15,6 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
-import { CDAlessonplanlist } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
 import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -194,6 +193,8 @@ const AddLessonPlan = () => {
         seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
       } else {
         seterrorOverlapDate("");
+        setOldStartDate(StartDate)
+        setOldEndDate(EndDate)
         const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
           asSchoolId: asSchoolId,
           asAcademicYearId: asAcademicYearId,
@@ -232,13 +233,13 @@ const AddLessonPlan = () => {
   }, [SaveApproverComment])
   useEffect(() => {
     if (UpdateLessonPlanDate !== '') {
-      setOldStartDate(StartDate)
-      setOldEndDate(EndDate)
       toast.success(UpdateLessonPlanDate)
       if (UpdateLessonPlanDate === "Lesson plan date not updated...!") {
         seterrorOverlapDate("Date range of this Lesson plan should not overlap on another lesson plan.");
       } else {
         seterrorOverlapDate("");
+        setOldStartDate(StartDate)
+        setOldEndDate(EndDate)
         const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
           asSchoolId: asSchoolId,
           asAcademicYearId: asAcademicYearId,
@@ -505,8 +506,8 @@ const AddLessonPlan = () => {
       };
 
       dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
-      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
-      dispatch(CDAlessonplanlist)
+      // dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+      // dispatch(CDAlessonplanlist)
     }
   };
   const onChangeApproverComment = (value, index) => {
