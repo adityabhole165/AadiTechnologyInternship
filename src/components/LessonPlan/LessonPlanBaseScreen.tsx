@@ -633,8 +633,8 @@ const LessonPlanBaseScreen = () => {
             <Divider />
             <Stack gap={1}>
               <div>
-                <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
-                  {stripHtmlTags(ViewRemarks)}
+                <Typography variant={"h4"} style={{ marginBottom: '10px' }}
+                  dangerouslySetInnerHTML={{ __html: ViewRemarks }}>
                 </Typography>
 
 
