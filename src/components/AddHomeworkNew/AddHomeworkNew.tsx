@@ -427,9 +427,24 @@ const AddHomeworkNew = () => {
   }
   console.log(SearchTittle1, "SearchTittle1");
 
+
+
+  const getSubjectName = (SubjetId) => {
+    let SubjectName = '';
+    ClassSubject.map((item) => {
+      if (item.Value == SubjetId) SubjectName = item.Name;
+    });
+
+    return SubjectName;
+  };
+  
+const subjectName = getSubjectName(Subject);
+console.log(subjectName);
+
+
   const clickSubjectList = (value) => {
     setSubject(value);
-    setTitle( value+ ' : ' + formattedDate);
+    setTitle( getSubjectName(value) + ' : ' + formattedDate);
   };
 
   const getPublishErrorList = () => {
