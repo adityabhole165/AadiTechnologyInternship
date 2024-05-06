@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import ListIcon from 'src/components/LessonPlan/ListIcon';
 import {
   IAddOrEditLessonPlanDetailsBody,
   IDeleteLessonPlanBody,
@@ -19,7 +20,6 @@ import {
   IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
-import ListIcon from 'src/components/LessonPlan/ListIcon';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
@@ -171,7 +171,7 @@ const LessonPlanBaseScreen = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivId: asStandardDivisionId,
-    asUserId: asUserId,
+    asUserId: Number(selectClasstecahernew),
     asReportingUserId: asUserId,
     asStartDate: StartDate,
     asEndDate: EndDate,
@@ -213,7 +213,7 @@ const LessonPlanBaseScreen = () => {
 
   useEffect(() => {
     dispatch(CDAAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailsBody));
-  }, []);
+  }, [selectClasstecahernew]);
   // useEffect(() => {
   //   dispatch(CDAGetAllTeachersOfLessonPlan(GetAllTeachersOfLessonBody));
   // }, []);
@@ -316,14 +316,14 @@ const LessonPlanBaseScreen = () => {
   };
 
   const [ViewRemarks, setViewRemarks] = useState('')
-  
+
 
 
   const clickView = (Id, Remarks, sStartDate, sEndDate, sUserId) => {
     setOpenViewRemarkDialog(true);
 
     setViewRemarks(Remarks);
-   
+
     if (sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
       const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
         asSchoolId: asSchoolId,
@@ -549,24 +549,24 @@ const LessonPlanBaseScreen = () => {
             My Subjects
           </Typography> */}
           {LessonPlanList.length > 0 ? (
-            <IsHighliteStaus.Provider  value={USAddOrEditLessonPlanDetails}>
+            <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
               <ListIcon
-              HeaderArray={HeaderList1}
-              ItemList={LessonPlanList}
-              clickView={clickView}
-              clickEdit={ClickEdit}
-              clickDelete={clickDelete}
-              clickExport={downloadJsonToPdf}
-              CanEdit={CanEdit}
-              clicknav={Clicknav}
-              SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
-              ReportingConfigs={LessonPlanList1}
-              Text2={LessonPlanList.map((item) => item.Text2)}
-              ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
+                HeaderArray={HeaderList1}
+                ItemList={LessonPlanList}
+                clickView={clickView}
+                clickEdit={ClickEdit}
+                clickDelete={clickDelete}
+                clickExport={downloadJsonToPdf}
+                CanEdit={CanEdit}
+                clicknav={Clicknav}
+                SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
+                ReportingConfigs={LessonPlanList1}
+                Text2={LessonPlanList.map((item) => item.Text2)}
+                ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
 
-            />
+              />
             </IsHighliteStaus.Provider>
-            
+
 
 
 
@@ -636,7 +636,7 @@ const LessonPlanBaseScreen = () => {
                 <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
                   {stripHtmlTags(ViewRemarks)}
                 </Typography>
-                
+
 
 
               </div>
