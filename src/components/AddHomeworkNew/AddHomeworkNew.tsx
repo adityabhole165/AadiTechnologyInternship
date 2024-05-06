@@ -117,6 +117,8 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.Subjectlist
   );
 
+ 
+  
   const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
@@ -707,8 +709,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             <SearchableDropdown
               ItemList={ClassSubject.filter((Item) => {
                 return MySubject == 'true' ?
-                  Item.TeacherId == asTeacherId :
-                  Item.TeacherId != asTeacherId
+                  Item.TeacherId == TeacherId :
+                  Item.TeacherId != TeacherId
               })}
               onChange={clickSubjectList}
               defaultValue={Subject}
