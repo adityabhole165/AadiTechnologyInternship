@@ -446,67 +446,26 @@ const SubjectExamMarks = () => {
             </Box>
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {/* 
-              <TextField
-                size={"small"}
-                fullWidth
-                value={TestDate}
-                type="date"
-                label={"Exam Date"}
-                InputLabelProps={{ shrink: true }}
-                inputProps={{ max: new Date().toISOString().split('T')[0] }}
-                variant={"outlined"}
-                onChange={(e) => { setTestDate(e.target.value) }}
-              // disabled={IsReadOnly === 'true'}
-              /> */}
               {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
                 <Datepicker
                   DateValue={new Date(TestDate)}
                   onDateChange={clickTestDate}
                   label={"Exam Date"}
+                  size={"small"}
                 />
-                // <TextField
-                //   size={"small"}
-                //   fullWidth
-                //   value={getCalendarDateFormatDate(TestDate)}
-                //   label={"Exam Date"}
-                //   InputLabelProps={{ shrink: true }}
-                //   inputProps={{ max: new Date().toISOString().split('T')[0] }}
-                //   variant={"outlined"}
-                //   disabled={true}
-                // />
                 :
                 <>
                   <Datepicker
                     DateValue={new Date(TestDate)}
                     onDateChange={clickTestDate}
                     label={"Exam Date"}
+                    size={"small"}
                   />
-
-                  {/* <DatePicker
-                    value={new Date(TestDate)}
-                    onChange={clickTestDate}
-                    format="dd-MM-yyyy"
-                    label={"Exam Date"}
-                    views={['year', 'month', 'day']}
-                    slotProps={{
-                      textField: {
-                        size: 'small',
-                        variant: 'outlined',
-                      }
-                    }}
-                    sx={{
-                      width: '150px'
-                    }}
-                    maxDate={new Date()}
-
-                  /> */}
                   <div style={{ color: 'red', paddingLeft: '5px' }}>
                     *
                   </div>
                 </>
               }
-
             </Box>
 
 

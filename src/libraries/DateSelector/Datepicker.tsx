@@ -25,7 +25,7 @@
 // export default Datepicker
 import { DatePicker } from '@mui/x-date-pickers';
 
-const Datepicker = ({ DateValue, onDateChange, label }) => {
+const Datepicker = ({ DateValue, onDateChange, label, size }) => {
     return (
         <>
             <DatePicker
@@ -39,7 +39,8 @@ const Datepicker = ({ DateValue, onDateChange, label }) => {
                 slotProps={{
                     textField: {
                         variant: 'outlined',
-                        fullWidth: true
+                        fullWidth: true,
+                        size: size || 'medium'
                     }
                 }}
             />
