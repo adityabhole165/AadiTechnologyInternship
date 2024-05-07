@@ -394,115 +394,121 @@ const SubjectExamMarks = () => {
         ]}
         rightActions={
           <>
-            <Box>
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Class"}
-                value={
-                  (StandardName && Object.keys(StandardName).length > 0) ?
-                    (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
-                    :
-                    ''
-                }
-                sx={{ bgcolor: '#f0e68c' }}
-                InputProps={{
-                  readOnly: true,
-                }}
-                disabled={IsReadOnly === 'true'}
-              />
-            </Box>
-            <Box>
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Exam"}
-                value={
-                  (TestName && Object.keys(TestName).length > 0) ?
-                    TestName.SchoolWise_Test_Name
-                    :
-                    ''
-                }
-                sx={{ bgcolor: '#f0e68c' }}
-                InputProps={{
-                  readOnly: true,
-                }}
-                disabled={IsReadOnly === 'true'}
-              />
-            </Box>
-            <Box>
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Subject Name"}
-                value={SubjectName || ''}
-                sx={{ bgcolor: '#f0e68c' }}
-                InputProps={{
-                  readOnly: true,
-                }}
-                disabled={IsReadOnly === 'true'}
-              />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
 
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
-                <Datepicker
-                  DateValue={new Date(TestDate)}
-                  onDateChange={clickTestDate}
-                  label={"Exam Date"}
+              <Box sx={{ width: '10%' }}>
+                <TextField
                   size={"small"}
-                />
-                :
-                <>
-                  <Datepicker
-                    DateValue={new Date(TestDate)}
-                    onDateChange={clickTestDate}
-                    label={"Exam Date"}
-                    size={"small"}
-                  />
-                  <div style={{ color: 'red', paddingLeft: '5px' }}>
-                    *
-                  </div>
-                </>
-              }
-            </Box>
-
-
-
-            <Box>
-              <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                  fullWidth
+                  label={"Class"}
+                  value={
+                    (StandardName && Object.keys(StandardName).length > 0) ?
+                      (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
+                      :
+                      ''
+                  }
+                  sx={{ bgcolor: '#f0e68c' }}
+                  InputProps={{
+                    readOnly: true,
                   }}
-                >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              {IsReadOnly === 'true' ? (
-                null // If IsReadOnly is true, don't render anything
-              ) : (
-                <Tooltip title={`Save`}>
+                  disabled={IsReadOnly === 'true'}
+                />
+              </Box>
+
+              <Box sx={{ ml: 1 }}>
+                <TextField
+                  size={"small"}
+                  fullWidth
+                  label={"Exam"}
+                  value={
+                    (TestName && Object.keys(TestName).length > 0) ?
+                      TestName.SchoolWise_Test_Name
+                      :
+                      ''
+                  }
+                  sx={{ bgcolor: '#f0e68c' }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  disabled={IsReadOnly === 'true'}
+                />
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ ml: 1 }}>
+                  <TextField
+                    size={"small"}
+                    fullWidth
+                    label={"Subject Name"}
+                    value={SubjectName || ''}
+                    sx={{ bgcolor: '#f0e68c' }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    disabled={IsReadOnly === 'true'}
+                  />
+
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ ml: 'auto', width: '80%', display: 'flex', alignItems: 'center' }}>
+                  {(ExamSchedules.length > 0 && ExamSchedules.Schoolwise_Standard_Exam_Schedule_Id != "0") ?
+                    <Datepicker
+                      DateValue={new Date(TestDate)}
+                      onDateChange={clickTestDate}
+                      label={"Exam Date"}
+                      size={"small"}
+                    />
+                    :
+                    <>
+                      <Datepicker
+                        DateValue={new Date(TestDate)}
+                        onDateChange={clickTestDate}
+                        label={"Exam Date"}
+                        size={"small"}
+                      />
+                      <div style={{ color: 'red', marginLeft: '5px' }}>
+                        *
+                      </div>
+                    </>
+                  }
+                </Box>
+              </Box>
+
+
+              <Box sx={{ ml: 1 }}>
+                <Tooltip title={`Assign marks to each student in the class for the selected subject and click on "Save". Once marks are submitted to class-teacher you can modify it from exam results.`}>
                   <IconButton
                     sx={{
                       color: 'white',
-                      backgroundColor: MarksError !== '' ? grey[500] : green[500],
+                      backgroundColor: grey[500],
                       height: '36px !important',
-                      ':hover': { backgroundColor: MarksError !== '' ? grey[500] : green[600] }
+                      ':hover': { backgroundColor: grey[600] }
                     }}
-                    onClick={onClickSave}
-                    disabled={isSaveDisabled}
                   >
-                    <Save />
+                    <QuestionMark />
                   </IconButton>
                 </Tooltip>
-              )}
+              </Box>
+              <Box sx={{ ml: 1 }}>
+                {IsReadOnly === 'true' ? (
+                  null // If IsReadOnly is true, don't render anything
+                ) : (
+                  <Tooltip title={`Save`}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: MarksError !== '' ? grey[500] : green[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: MarksError !== '' ? grey[500] : green[600] }
+                      }}
+                      onClick={onClickSave}
+                      disabled={isSaveDisabled}
+                    >
+                      <Save />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Box>
             </Box>
             {/* <Box>
               <Tooltip title={`Save`}>
