@@ -427,7 +427,7 @@ const SubjectExamMarks = () => {
                         :
                         ''
                     }
-                    sx={{ bgcolor: '#f0e68c' }}
+                    sx={{ bgcolor: '#f0e68c', width: '120%' }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -441,7 +441,7 @@ const SubjectExamMarks = () => {
                     fullWidth
                     label={"Subject Name"}
                     value={SubjectName || ''}
-                    sx={{ bgcolor: '#f0e68c' }}
+                    sx={{ bgcolor: '#f0e68c', width: '80%' }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -491,7 +491,7 @@ const SubjectExamMarks = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box sx={{ ml: 1 }}>
+            <Box sx={{ ml: "auto" }}>
               {IsReadOnly === 'true' ? (
                 null // If IsReadOnly is true, don't render anything
               ) : (
