@@ -1,8 +1,28 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+const asSchoolId = localStorage.getItem('localSchoolId');
+const GetAllStudentProgress: any = useSelector(
+    (state: RootState) => state.ViewProgressReport.listMarksDetiles
+);
+console.log("GetAllStudentProgress", GetAllStudentProgress)
+useEffect(() => {
+    // const GetAllStudentsTest: IGetAllStudentsTestProgressSheetBody =
+    // {
 
+    //     asSchoolId:Number(asSchoolId),
+    //     asAcademicYrId: Number(asAcademicYearId),
+    //     asStdDivId: Number(StandardDivisionId),,
+    //     asStartIndex: asStartIndex,
+    //     PageCount: PageCount,
+    //     asTestId: asTestId
+    // }
+    // dispatch(GetMarkDetailss(GetAllStudentsTest));
 
+}, []);
 const ViewProgressRemark = () => {
     return (
         <Box sx={{ px: 2 }}>

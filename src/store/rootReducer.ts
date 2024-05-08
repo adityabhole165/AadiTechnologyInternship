@@ -96,6 +96,7 @@ import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
+import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
@@ -195,7 +196,8 @@ const rootReducer = combineReducers({
   ExamResultToppers: ExamResultToppersSlice,
   TransferOptionalSubjectMarks: TransferOptionalSubjectMarksSlice,
   SubjectMarkList: SubjectMarkListSlice,
-  RemarkTemplate: RemarkTemplateSlice
+  RemarkTemplate: RemarkTemplateSlice,
+  ViewProgressReport: ViewProgressReportslice
 });
 
 export default rootReducer;
