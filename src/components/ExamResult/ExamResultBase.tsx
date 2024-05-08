@@ -300,8 +300,9 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/ProgressRemarks');
   };
   const ViewProgressRemark = (value) => {
-    navigate('/extended-sidebar/Teacher/ViewProgressRemarks');
+    navigate('/extended-sidebar/Teacher/ViewProgressRemarks/' + TestId);
   };
+
 
   const ClickOpenDialogbox = () => {
     setOpen(true);

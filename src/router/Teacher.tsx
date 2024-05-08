@@ -286,8 +286,9 @@ const teacherRoutes = [
     element: <Remark />
   },
 
+
   {
-    path: 'ViewProgressRemarks',
+    path: 'ViewProgressRemarks/:TestId',
     element: <ViewProgressRemarks />
   },
 

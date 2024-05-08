@@ -1,29 +1,38 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { RootState, useSelector } from 'src/store';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { IGetAllStudentsTestProgressSheetBody } from 'src/interfaces/ExamResult/IViewProgressReport';
+import { GetMarkDetailss } from 'src/requests/ExamResult/RequestViewProgressReport';
+import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-const asSchoolId = localStorage.getItem('localSchoolId');
-const GetAllStudentProgress: any = useSelector(
-    (state: RootState) => state.ViewProgressReport.listMarksDetiles
-);
-console.log("GetAllStudentProgress", GetAllStudentProgress)
-useEffect(() => {
-    // const GetAllStudentsTest: IGetAllStudentsTestProgressSheetBody =
-    // {
-
-    //     asSchoolId:Number(asSchoolId),
-    //     asAcademicYrId: Number(asAcademicYearId),
-    //     asStdDivId: Number(StandardDivisionId),,
-    //     asStartIndex: asStartIndex,
-    //     PageCount: PageCount,
-    //     asTestId: asTestId
-    // }
-    // dispatch(GetMarkDetailss(GetAllStudentsTest));
-
-}, []);
+import { useDispatch } from 'react-redux';
 const ViewProgressRemark = () => {
+    const dispatch = useDispatch();
+    const { TestId } = useParams();
+    console.log("testid", TestId)
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const StandardDivisionId = sessionStorage.getItem('StandardDivisionId')
+    const GetAllStudentProgress: any = useSelector(
+        (state: RootState) => state.ViewProgressReport.listMarksDetiles
+    );
+    console.log("GetAllStudentProgress", GetAllStudentProgress)
+    useEffect(() => {
+        const GetAllStudentsTest: IGetAllStudentsTestProgressSheetBody =
+        {
+
+            asSchoolId: Number(asSchoolId),
+            asAcademicYrId: Number(asAcademicYearId),
+            asStdDivId: Number(StandardDivisionId),
+            asStartIndex: 1,
+            PageCount: 1000,
+            asTestId: Number(TestId)
+        }
+        dispatch(GetMarkDetailss(GetAllStudentsTest));
+
+    }, []);
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -106,3 +115,5 @@ const ViewProgressRemark = () => {
 };
 
 export default ViewProgressRemark;
+
+
