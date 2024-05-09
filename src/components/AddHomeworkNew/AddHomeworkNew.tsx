@@ -729,7 +729,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c' }} />
+            <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c' }}  disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -737,7 +737,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               label={'Class Teacher'}
               value={TeacherName}
               sx={{ bgcolor: '#f0e68c' }}
-            />
+              disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
           </Grid>
           <Grid item xs={3}>
 
@@ -808,7 +808,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               onChange={handleCompleteByDateChange}
               error={ErrorCompleteDate !== ''}
               helperText={ErrorCompleteDate}
-
+             
 
             />
           </Grid>
