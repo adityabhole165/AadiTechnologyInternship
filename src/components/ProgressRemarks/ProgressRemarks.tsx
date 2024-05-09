@@ -39,7 +39,12 @@ import CommonPageHeader from '../CommonPageHeader';
 
 
 const HeaderPublish = [
-  { Id: 1, Header: ' Remark Template.	' },
+  { Id: 1, Header: ' 	' },
+  { Id: 1, Header: ' Remark Template' },
+  { Id: 1, Header: ' 	' },
+  
+  
+  
 ];
 
 const ProgressRemarks = () => {
@@ -108,9 +113,13 @@ const ProgressRemarks = () => {
   const USRemarkTemplateDetails: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
   );
-  const [RemarkTemplateList, setRemarkTemplateList] = useState([USRemarkTemplateDetails]);
-
-  console.log(RemarkTemplateList, "RemarkTemplateList");
+  const [remarkTemplates, setRemarkTemplates] = useState([]);
+  useEffect(() => {
+    if (USRemarkTemplateDetails) {
+      setRemarkTemplates(USRemarkTemplateDetails);
+    }
+  }, [USRemarkTemplateDetails]);
+  console.log(remarkTemplates, "remarkTemplates");
 
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
@@ -173,8 +182,8 @@ const ProgressRemarks = () => {
   ];
 
 
- 
-  
+
+
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
   };
@@ -245,27 +254,27 @@ const ProgressRemarks = () => {
     asStandardDivId: asStandardDivisionId,
     asTermId: Number(SelectTerm)
   };
-  const RemarkCategoryBody: IGetRemarksCategoryBody ={
+  const RemarkCategoryBody: IGetRemarksCategoryBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId
   };
 
-  const GetAllGradesForStandardBody: IGetAllGradesForStandardBody ={
+  const GetAllGradesForStandardBody: IGetAllGradesForStandardBody = {
     asSchool_Id: asSchoolId,
-    asAcademic_Year_Id:asAcademicYearId,
+    asAcademic_Year_Id: asAcademicYearId,
     asStandard_Id: 0,
     asSubjectId: 0,
     asTest_Id: 0
   }
 
-  const RemarkTemplateDetailsBody: IGetRemarkTemplateDetailsBody ={
+  const RemarkTemplateDetailsBody: IGetRemarkTemplateDetailsBody = {
     asSchoolId: asSchoolId,
-    asRemarkId:  Number(Remark),
+    asRemarkId: Number(Remark),
     asSortExpression: "Template",
     asSortDirection: "desc",
     asFilter: 0,
     asAcadmicYearId: asAcademicYearId,
-    asMarksGradesConfigurationDetailsId:SelectGrade,
+    asMarksGradesConfigurationDetailsId: SelectGrade,
     asStandardId: 0
   }
 
@@ -277,7 +286,7 @@ const ProgressRemarks = () => {
   }, []);
   useEffect(() => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
-  }, [SelectGrade,Remark]);
+  }, [SelectGrade, Remark]);
 
   const UpdateRemark = () => {
     dispatch(
@@ -353,13 +362,13 @@ const ProgressRemarks = () => {
     if (GradeDropDown.length > 0) {
       SetSelectGrade(GradeDropDown[0].Value);
     }
-  }, [GradeDropDown]); 
+  }, [GradeDropDown]);
 
   useEffect(() => {
     if (USRemarksCategory.length > 0) {
       setRemark(USRemarksCategory[0].Value);
     }
-  }, [USRemarksCategory]); 
+  }, [USRemarksCategory]);
 
 
   useEffect(() => {
@@ -388,7 +397,7 @@ const ProgressRemarks = () => {
   };
 
   const Changevalue = (value) => {
-    setRemarkTemplateList(value);
+    setRemarkTemplates(value);
   };
 
   return (
@@ -535,8 +544,7 @@ const ProgressRemarks = () => {
                 <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
-
-
+               
                 <TextField
                   size={"small"}
                   fullWidth
@@ -564,13 +572,12 @@ const ProgressRemarks = () => {
                   size={"small"}
                 />
 
-
               </Box>
-              <Paper sx={{ padding: 1, marginBottom: '10px' }}>
-                <Box sx={{ p: 2, display: 'flex', flexDirection: 'row' }}>
-                  {RemarkTemplateList.length > 0 ? (
+             
+                <Box  sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
+                  {remarkTemplates.length > 0 ? (
                     <RemarkList
-                      ItemList={RemarkTemplateList}
+                      ItemList={remarkTemplates}
                       HeaderArray={HeaderPublish}
                       onChange={Changevalue}
                     />
@@ -578,16 +585,15 @@ const ProgressRemarks = () => {
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
                       <b>No Record Found.</b>
                     </Typography>
-                  )
-                  }
+                  )}
                 </Box>
-              </Paper>
+             
             </Box>
             <Box>
               <Button
                 variant="contained"
                 style={{
-                  backgroundColor: '#324b84',
+                  backgroundColor: '#5ec479',
                   color: 'White',
                   marginRight: '10px'
                 }}
@@ -597,7 +603,7 @@ const ProgressRemarks = () => {
               <Button
                 variant="contained"
                 style={{
-                  backgroundColor: 'Red',
+                  backgroundColor: '#de554b',
                   color: 'White',
                   marginRight: '10px'
                 }}
@@ -609,6 +615,7 @@ const ProgressRemarks = () => {
           </Box>
         </Box>
       </Modal>
+
     </Box>
   );
 };

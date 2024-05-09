@@ -11,10 +11,7 @@ function RemarkList({
     ItemList,
     HeaderArray,
     onChange,
-
-
 }) {
-
     const onClick = (value) => {
         ItemList = ItemList.map((item) => {
             return item.Id === value ? { ...item, IsActive: !item.IsActive } : item;
@@ -24,7 +21,6 @@ function RemarkList({
 
     return (
         <>
-
             <TableContainer component={Box} sx={{
                 border: (theme) => `1px solid ${theme.palette.grey[300]}`,
             }}>
@@ -35,15 +31,16 @@ function RemarkList({
                         >
                             {HeaderArray.map((item, i) => (
                                 <TableCell
-                                    key={i}
-                                    sx={{
-                                        textTransform: 'capitalize',
-                                        color: (theme) => theme.palette.common.white
-                                    }}
-                                    align={item.align ? item.align : 'left'}
-                                >
-                                    <b>{item.Header}</b>
-                                </TableCell>
+                                key={i}
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    color: (theme) => theme.palette.common.white,
+                                    textAlign: 'center', // Align header cell content to center
+                                    fontWeight: 'bold', // Make the header text bold
+                                }}
+                            >
+                                {item.Header}
+                            </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
@@ -71,3 +68,4 @@ function RemarkList({
 }
 
 export default RemarkList;
+
