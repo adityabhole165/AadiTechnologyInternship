@@ -11,10 +11,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { GetAllHomeworkDocuments} from 'src/requests/AssignHomework/requestHomeworkDocuments';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -124,37 +124,37 @@ const ViewHomework = () => {
         <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject}  disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}/>
+              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title}  disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.AssignedDate}  disabled   inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.AssignedDate} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
 
 
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.CompleteByDate}  disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.CompleteByDate} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
 
             </Grid>
 
             <Grid item xs={6}>
               <Typography>
-                Attachment:
-                <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer' ,  }}>
+                Attachment: &nbsp; 
+                <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer', }}>
                   {HomeworkDetail.AttachmentPath}
                 </a>
               </Typography>
 
             </Grid>
             <Grid item xs={6}>
-              <Typography   > More Attachment(s):
-              {
-                AllHomeworkDocuments.length> 0 ?  <a href='#' onClick={() => ClickAttachments()}  style={{textDecoration:'none'}} > More Attachments </a> :
-                <span></span>
-              }
-             </Typography>
+              <Typography   > More Attachment(s):&nbsp;
+                {
+                  AllHomeworkDocuments.length > 0 ? <a href='#' onClick={() => ClickAttachments()} style={{ textDecoration: 'none' }} > More Attachments </a> :
+                    <span></span>
+                }
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
