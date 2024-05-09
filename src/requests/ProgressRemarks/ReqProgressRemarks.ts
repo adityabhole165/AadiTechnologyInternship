@@ -182,7 +182,8 @@ export const CDAGradeDropDown =
           Value: item.Marks_Grades_Configuration_Detail_ID
         };
       });
-
+       console.log(GradeList,"GradeList");
+       
       dispatch(ProgressRemarkSlice.actions.RSGradesForStandard(GradeList));
     };
 export const CDAGetRemarksCategory =

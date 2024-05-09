@@ -32,6 +32,7 @@ import {
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 
 
 const HeaderPublish = [
@@ -49,7 +50,7 @@ const ProgressRemarks = () => {
   const [StudentList, SetStudentList] = useState('');
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [open, setOpen] = useState(false);
-  const [StudentsList, setStudentsList] = useState([]);
+ 
   const [Remark, setRemark] = useState('')
   const toggleScreens = () => {
     setShowScreenOne(!showScreenOne);
@@ -63,7 +64,6 @@ const ProgressRemarks = () => {
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
   );
-  console.log(USGetTestwiseTerm, 'USGetTestwiseTerm==1');
 
   const USClassTeachers: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetClassTeachers
@@ -93,15 +93,15 @@ const ProgressRemarks = () => {
   const GradeDropDown: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGradesForStandard
   );
-  console.log("GradeDropdown", GradeDropDown)
+
   const RemarkDropDown: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetRemarksCategory
   );
-  console.log("RemarkDropDown", RemarkDropDown)
+
+
   const RemarkTemplateDetails: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
   );
-  console.log("RemarkTemplateDetails", RemarkTemplateDetails)
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
     (state: RootState) =>
@@ -114,20 +114,11 @@ const ProgressRemarks = () => {
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
 
-  //    const [charCounts, setCharCounts] = useState([]);
-  //  useEffect(() => {
-  //     setCharCounts(Itemlist.map((item) => 300 - item.Text3.length));
-  //   }, [Itemlist]);
 
-  //   const CharCounts1 =(value)=>{
-  //     setCharCounts(value)
-
-  //   }
 
   const TextValues = (value) => {
     setItemlist(value);
 
-    console.log(value, 'value-----');
   };
   const TextValues1 = (value) => {
     setItemlist(value);
@@ -170,6 +161,14 @@ const ProgressRemarks = () => {
     ,
     { Id: 5, Header: 'Attitude' }
   ];
+
+
+   const remark =[
+    {Text1 :"'User can not change or update any data once summative exam is published", IsActive: true},
+    {Text1 :"'User can not change or update any data once summative exam is published",  IsActive: true},
+
+   ]
+   const [StudentsList, setStudentsList] = useState([remark]);
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
@@ -228,7 +227,6 @@ const ProgressRemarks = () => {
     });
     sXML = sXML + '</ArrayOfStudentwiseRemarkConfigDetails>';
 
-    console.log('XMLLLLLLLL', sXML);
 
     return sXML;
   };
@@ -243,9 +241,6 @@ const ProgressRemarks = () => {
     asTermId: Number(SelectTerm)
   };
 
-
-
-
   useEffect(() => {
     const RemarkCategoryBody: IGetRemarksCategoryBody =
     {
@@ -256,37 +251,13 @@ const ProgressRemarks = () => {
     };
     dispatch(CDAGetRemarksCategory(RemarkCategoryBody));
   }, []);
-  // useEffect(() => {
-  //   const RemarkTemplateBody: IGetRemarkTemplateDetailsBody =
-  //   {
-
-  //     asSchoolId: Number(asSchoolId),
-  //   //  asRemarkId: Number,
-  //   //  asSortExpression: string,
-  //   //  asSortDirection: string,
-  //    // asFilter: Number,
-  //     asAcadmicYearId: asAcademicYearId,
-  //   //  asMarksGradesConfigurationDetailsId: Number,
-  //   //  asStandardId: Number
-
-  //   };
-  //   dispatch(CDAGetRemarksCategory(RemarkTemplateBody));
-  // }, []);
-
+  
   const UpdateRemark = () => {
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
     );
-
-    // dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)) ;
   };
-  // export GetAllGradesForStandardBody: IGetAllGradesForStandardBody {
-  //   asSchool_Id: asSchoolId,
-  // asAcademic_Year_Id: asAcademicYearId,
-  // asStandard_Id: Number,
-  // asSubjectId: Number,
-  // asTest_Id:Number
-  // }
+  
 
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
@@ -328,25 +299,19 @@ const ProgressRemarks = () => {
   const clickStudentList = (value) => {
     SetStudentList(value);
   };
-  // const getStudentName = () => {
-  //   let StudentName = '';
-  //   USStudentListDropDown.map((item) => {
-  //     if (item.Value == StudentList) StudentName = item.Name;
-  //   });
-  //   return StudentName;
-  // };
 
   const getStudentName = () => {
-    let studentName = '';
-    if (Array.isArray(USStudentListDropDown)) {
-      const selectedValue = StudentList;
-      const matchingStudent = USStudentListDropDown.find(item => item.Value === selectedValue);
-      if (matchingStudent) {
-        studentName = matchingStudent.Name;
-      }
-    }
-    return studentName;
+    let classStudentName = '';
+    USStudentListDropDown.map((item) => {
+      if (item.Value == StudentList) classStudentName = item.Name;
+    });
+
+    return classStudentName;
   };
+  const ExamResult = (value) => {
+    setOpen(!open)
+  };
+  const studentName = getStudentName();
 
   useEffect(() => {
     if (USGetTestwiseTerm.length > 0) {
@@ -359,9 +324,7 @@ const ProgressRemarks = () => {
     }
   }, [RemarkDropDown]);
 
-  // useEffect(() => {
-  //   dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
-  // }, []);
+
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
   }, []);
@@ -380,10 +343,7 @@ const ProgressRemarks = () => {
     );
   }, [selectTeacher, SelectTerm, StudentList]);
 
-  const ExamResult = (value) => {
-    console.log(open, 'open modal')
-    setOpen(!open)
-  };
+ 
   const [page, setPage] = useState(1);
 
   const handlePageChange = (pageNumber) => {
@@ -535,23 +495,16 @@ const ProgressRemarks = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box>
               <Box>
-                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Add Remark Template</Typography>
+                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
-                {/* <SearchableDropdown
-                  ItemList={USStudentListDropDown}
-                  sx={{ minWidth: '230px' }}
-                  onChange={clickStudentList}
-                  defaultValue={StudentList}
-                  label={'Student Name'}
-                  size={"small"}
-                /> */}
+              
 
                 <TextField
                   size={"small"}
                   fullWidth
                   label={"StudentList"}
-                  value={getStudentName()}
+                  value={studentName}
                   sx={{ bgcolor: '#f0e68c' }}
                   InputProps={{
                     readOnly: true,
@@ -578,12 +531,10 @@ const ProgressRemarks = () => {
               <Paper sx={{ padding: 1, marginBottom: '10px' }}>
                 <Box sx={{ p: 2, display: 'flex', flexDirection: 'row' }}>
                   {StudentsList.length > 0 ? (
-                    <SubjectMarkList
-                      ItemList={StudentsList}
-                      HeaderArray={HeaderPublish}
-                      onChange={Changevalue}
-                      clickchange={""}
-                      clickTitle={""}
+                    <RemarkList
+                    ItemList={remark}
+                    HeaderArray={HeaderPublish}
+                    onChange={Changevalue}
                     />
                   ) : (
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
