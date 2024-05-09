@@ -831,7 +831,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               MaxfileSize={MaxfileSize}
               // FileName={fileName}
               ChangeFile={setMultipleFiles}
-              FileLabel={'Attachment'}
+              FileLabel={'Attachments'}
               width={'100%'}
               height={"52px"}
               isMandatory={false}
