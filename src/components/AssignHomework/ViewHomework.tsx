@@ -9,14 +9,15 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { IGetHomeworkDetailBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import { useNavigate, useParams } from 'react-router';
+import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-
+import { GetAllHomeworkDocuments} from 'src/requests/AssignHomework/requestHomeworkDocuments';
 const ViewHomework = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { Id } = useParams();
   const [AssignedDate, setAssignedDate] = useState('');
   const [Title, setTitle] = useState('');
@@ -30,6 +31,19 @@ const ViewHomework = () => {
   const HomeworkDetail: any = useSelector(
     (state: RootState) => state.ViewHomework.GetHomeworkDetail
   );
+
+  const AllHomeworkDocuments = useSelector(
+    (state: RootState) => state.Homeworkdocument.GetAllHomeworkDocuments
+  );
+  const IGetAllHomeworkDocuments: IGetAllHomeworkDocumentsBody = {
+    asSchoolId: asSchoolId,
+    asHomeworkId: Number(Id),
+    asAcademicyearId: asAcademicYearId
+  };
+
+  useEffect(() => {
+    dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
+  }, []);
 
   const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
     asSchoolId: asSchoolId,
@@ -60,6 +74,11 @@ const ViewHomework = () => {
       );
     }
   };
+
+  const ClickAttachments = () => {
+    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id)
+  };
+
   // const ClickAttachment = () => {
   //   event.preventDefault();
   //   // Handle click event here
@@ -123,14 +142,19 @@ const ViewHomework = () => {
             <Grid item xs={6}>
               <Typography>
                 Attachment:
-                <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}>
+                <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer' ,  }}>
                   {HomeworkDetail.AttachmentPath}
                 </a>
               </Typography>
 
             </Grid>
             <Grid item xs={6}>
-              <Typography> More Attachment(s):</Typography>
+              <Typography   > More Attachment(s):</Typography>
+              {
+                AllHomeworkDocuments.length> 0 ?  <a href='#' onClick={() => ClickAttachments()}  style={{textDecoration:'none'}} > More Attachments </a> :
+                <span></span>
+              }
+             
             </Grid>
             <Grid item xs={12}>
               <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
