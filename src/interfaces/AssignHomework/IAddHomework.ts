@@ -55,11 +55,11 @@ export interface IDeleteHomeworkBody {
   asUpdatedById: number;
 }
 export interface ISaveHomeworkBody {
-  AsId:number
+  AsId: number
   asTitle: string;
   asSubjectId: number;
   asStandardDivisionId: number;
-  asAttachmentPath: string;
+  asAttachmentPath?: string;
   asDetails: string;
   asAssignDate: string;
   asCompleteByDate: string;
