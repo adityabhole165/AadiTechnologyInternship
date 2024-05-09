@@ -149,12 +149,12 @@ const ViewHomework = () => {
 
             </Grid>
             <Grid item xs={6}>
-              <Typography   > More Attachment(s):</Typography>
+              <Typography   > More Attachment(s):
               {
                 AllHomeworkDocuments.length> 0 ?  <a href='#' onClick={() => ClickAttachments()}  style={{textDecoration:'none'}} > More Attachments </a> :
                 <span></span>
               }
-             
+             </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
