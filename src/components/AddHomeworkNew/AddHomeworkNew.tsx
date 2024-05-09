@@ -1,5 +1,4 @@
 import Close from '@mui/icons-material/Close';
-import CloudUpload from '@mui/icons-material/CloudUpload';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
@@ -10,18 +9,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkDetailBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import MultipleFile from 'src/libraries/File/MultipleFile';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework ,PublishresetMessageNew} from 'src/requests/AssignHomework/requestAddHomework';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject,TeacherId,SelectClass } =
+  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass } =
     useParams();
 
 
@@ -31,9 +31,9 @@ const AddHomeworkNew = () => {
   const currentDate = new Date();
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const formattedDate = currentDate.getDate().toString().padStart(2, '0') + '-' +
-                        months[currentDate.getMonth()] + '-' +
-                        currentDate.getFullYear().toString();
-  
+    months[currentDate.getMonth()] + '-' +
+    currentDate.getFullYear().toString();
+
   const [Title, setTitle] = useState(SubjectName + ' : ' + formattedDate);
   // const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
@@ -52,7 +52,7 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
- 
+
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
@@ -91,7 +91,7 @@ const AddHomeworkNew = () => {
     { Id: 2, Name: 'Assigned Date', Value: 'AssignedDate' },
     { Id: 3, Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
-  
+
   const defaultHomeworkStatus = HomeworkStatus.find(item => item.Name === 'All')?.Value || '';
   const [HomeworkS, setHomeworkS] = useState(defaultHomeworkStatus);
 
@@ -117,8 +117,8 @@ const AddHomeworkNew = () => {
     (state: RootState) => state.AddHomework.Subjectlist
   );
 
- 
-  
+
+
   const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
@@ -155,7 +155,7 @@ const AddHomeworkNew = () => {
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId:Number(SelectClass),
+    asStandardDivisionId: Number(SelectClass),
     asHomeWorkStatus: HomeworkS.toString(),
     asHomeworkTitle: '',
     asAssignedDate: AssignedDate1
@@ -182,25 +182,25 @@ const AddHomeworkNew = () => {
   const ResetForm = () => {
     setSubjectCheckID('');
     setTitle('');
-   
+
     setCompleteDate('');
 
     setFileName('');
     setDetails('');
     setMultipleFiles([]);
-   
+
   };
 
   const ResetForm1 = () => {
     setSubjectCheckID('');
-    
-   
+
+
     setCompleteDate('');
 
     setFileName('');
     setDetails('');
     setMultipleFiles([]);
-   
+
   };
 
   const handleEditClick = (Id) => {
@@ -233,15 +233,15 @@ const AddHomeworkNew = () => {
 
   const ClickSaveHomework = () => {
     let isError = false;
-    if ( CompleteDate == '') {
-       setErrorCompleteDate('Complete by Date should not be blank.')
+    if (CompleteDate == '') {
+      setErrorCompleteDate('Complete by Date should not be blank.')
       isError = true
 
     } else if (AssignedDate == '') {
       setErrorAssignedDate('Field should not be blank ')
       isError = true
     }
-    
+
     else if (Details == '') {
       setErrorDetails('Field should not be blank')
       isError = true
@@ -252,9 +252,9 @@ const AddHomeworkNew = () => {
 
     }
 
-    else (!isError) 
+    else (!isError)
     ResetForm1()
-    
+
   }
   useEffect(() => {
     if (SaveHomework != '') {
@@ -276,7 +276,10 @@ const AddHomeworkNew = () => {
     setbase64URL(value.Value);
     setFileName(value.Name);
   };
+  const ChangeMultipleFile = (value) => {
+    console.log(value, "MultipleFile");
 
+  }
 
   const handleAssignedDateChange = (e) => {
     const selectedDate = e.target.value;
@@ -365,11 +368,11 @@ const AddHomeworkNew = () => {
 
 
   const clickPublishUnpublish = (Id, Text3) => {
-    
-    
+
+
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
-   
+
     if (IsPublish == true && Text3 < currentDate) {
       alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
       return;
@@ -381,7 +384,7 @@ const AddHomeworkNew = () => {
       setPublishId(Id);
     }
   };
-  
+
 
 
 
@@ -393,13 +396,13 @@ const AddHomeworkNew = () => {
     setTextall(event.target.value)
   }
 
-  
+
   useEffect(() => {
-    if (USPublishUnpublishHomework !='') {
+    if (USPublishUnpublishHomework != '') {
       toast.success(USPublishUnpublishHomework);
       dispatch(PublishresetMessageNew());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-     
+
     }
   }, [USPublishUnpublishHomework]);
 
@@ -437,14 +440,14 @@ const AddHomeworkNew = () => {
 
     return SubjectName;
   };
-  
-const subjectName = getSubjectName(Subject);
-console.log(subjectName);
+
+  const subjectName = getSubjectName(Subject);
+  console.log(subjectName);
 
 
   const clickSubjectList = (value) => {
     setSubject(value);
-    setTitle( getSubjectName(value) + ' : ' + formattedDate);
+    setTitle(getSubjectName(value) + ' : ' + formattedDate);
   };
 
   const getPublishErrorList = () => {
@@ -531,22 +534,22 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     }
   };
 
-  
 
 
-  
+
+
 
   useEffect(() => {
-    
-    if (AllPublishUnPublishHomeworkNew !='') {
+
+    if (AllPublishUnPublishHomeworkNew != '') {
       toast.success(AllPublishUnPublishHomeworkNew);
       dispatch(PublishresetMessageNewAll());
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-      
+
     }
   }, [AllPublishUnPublishHomeworkNew]);
-  
-  
+
+
 
   const clickFileName = (value) => {
     if (value !== '') {
@@ -721,7 +724,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <TextField fullWidth label={'Class'} value={ClassName}  sx={{ bgcolor: '#f0e68c' }} />
+            <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c' }} />
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -777,10 +780,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }}
               inputProps={{ type: 'date' }}
               value={AssignedDate}
-               onChange={handleAssignedDateChange}
+              onChange={handleAssignedDateChange}
               error={ErrorAssignedDate !== ''}
               helperText={ErrorAssignedDate}
-             
+
             />
           </Grid>
           <Grid item xs={3}>
@@ -799,7 +802,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               onChange={handleCompleteByDateChange}
               error={ErrorCompleteDate !== ''}
               helperText={ErrorCompleteDate}
-              
+
 
             />
           </Grid>
@@ -816,7 +819,19 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               isMandatory={false}
             />
           </Grid>
-
+          <Grid item xs={3}>
+            <MultipleFile
+              ValidFileTypes={ValidFileTypes}
+              MaxfileSize={MaxfileSize}
+              // FileName={fileName}
+              ChangeFile={setMultipleFiles}
+              FileLabel={'Attachment'}
+              width={'100%'}
+              height={"52px"}
+              isMandatory={false}
+            />
+          </Grid>
+          {/* 
           <Grid item xs={3}>
             <Button
               startIcon={<CloudUpload />}
@@ -827,7 +842,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               Upload Multiple Attachments
             </Button>
 
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <TextField
@@ -882,7 +897,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             sx={{ with: '250px' }}
             label="Title"
             value={SearchText}
-          
+
             onChange={(e) => {
               SearchNameChange(e.target.value);
             }}
@@ -892,7 +907,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             color: 'white',
             mr: 2
           }}>
-            <SearchTwoTone  />
+            <SearchTwoTone />
           </IconButton>
         </Stack>
 
@@ -1007,14 +1022,14 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
-        <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-          <ButtonPrimary  style={{ backgroundColor: '#45b08d' }}  onClick={publishAll}>
-            PUBLISH ALL
-          </ButtonPrimary>
-          <ButtonPrimary   style={{ backgroundColor: '#3ec275' }}   onClick={ClickOpenDialogbox}>
-            UNPUBLISH ALL
-          </ButtonPrimary>
-        </Box>
+          <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            <ButtonPrimary style={{ backgroundColor: '#45b08d' }} onClick={publishAll}>
+              PUBLISH ALL
+            </ButtonPrimary>
+            <ButtonPrimary style={{ backgroundColor: '#3ec275' }} onClick={ClickOpenDialogbox}>
+              UNPUBLISH ALL
+            </ButtonPrimary>
+          </Box>
         )}
 
 
