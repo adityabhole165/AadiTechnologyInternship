@@ -133,7 +133,7 @@ export interface IGetRemarksCategoryBody {
 export interface IGetRemarksCategoryResult {
   Id: string,
   Name: string,
-  SortOrder: Number
+  SortOrder: string
 
 }
 export interface IGetRemarkTemplateDetailsBody {

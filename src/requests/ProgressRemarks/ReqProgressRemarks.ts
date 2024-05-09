@@ -26,7 +26,7 @@ const ProgressRemarkSlice = createSlice({
     ISGetAllStudentswiseRemarkDetails: [],
     ISresetSaveMassage: '',
     ISGradesForStandard: [],
-    ISGetRemarksCategory: [],
+    ISGetRemarksCategoryList: [],
     ISGetRemarkTemplateDetail: []
 
   },
@@ -65,7 +65,7 @@ const ProgressRemarkSlice = createSlice({
       state.ISGradesForStandard = action.payload;
     },
     RSGetRemarksCategory(state, action) {
-      state.ISGetRemarksCategory = action.payload;
+      state.ISGetRemarksCategoryList = action.payload;
     },
     RSGetRemarksTemplateDetail(state, action) {
       state.ISGetRemarkTemplateDetail = action.payload;
@@ -74,8 +74,6 @@ const ProgressRemarkSlice = createSlice({
     RresetSaveMassage(state) {
       state.ISresetSaveMassage = '';
     }
-
-
   }
 
 });
@@ -176,30 +174,30 @@ export const CDAGradeDropDown =
       const response = await ApiProgressRemark.GetAllGradeForStandard(data);
       let GradeList = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
-        return {
+        GradeList.push({
           Id: item.Marks_Grades_Configuration_Detail_ID,
           Name: item.Grade_Name,
           Value: item.Marks_Grades_Configuration_Detail_ID
-        };
+        });
       });
-       console.log(GradeList,"GradeList");
-       
+
       dispatch(ProgressRemarkSlice.actions.RSGradesForStandard(GradeList));
     };
 export const CDAGetRemarksCategory =
   (data: IGetRemarksCategoryBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetRemarksCategory(data);
-      let RemarkCategory = [{ Id: '0', Name: 'All', Value: '0' }];
+      let RemarksCategoryList = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
-        return {
-          Id: item.Id,
+        RemarksCategoryList.push({
+          Id: item.SortOrder,
           Name: item.Name,
           Value: item.SortOrder
-        };
+        });
       });
 
-      dispatch(ProgressRemarkSlice.actions.RSGetRemarksCategory(RemarkCategory));
+      dispatch(ProgressRemarkSlice.actions.RSGetRemarksCategory(RemarksCategoryList));
+
     };
 export const CDAStudentListDropDown =
   (data: IStudentListDropDowntBody): AppThunk =>
@@ -255,6 +253,8 @@ export const CDAGetRemarkTemplateDetails =
         return {
           Id: item.TemplateId,
           Text1: item.Template,
+          CategoryId: item.CategoryId,
+          IsActive : false
 
         };
       });
@@ -262,6 +262,7 @@ export const CDAGetRemarkTemplateDetails =
       dispatch(
         ProgressRemarkSlice.actions.RSGetRemarksTemplateDetail(RemarkTemplateDetailList)
       );
+
     };
 
 export const CDAresetSaveMassage = (): AppThunk => async (dispatch) => {

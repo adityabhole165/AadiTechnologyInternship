@@ -10,21 +10,25 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   IAllPrimaryClassTeachersBody,
+  IGetAllGradesForStandardBody,
   IGetAllStudentswiseRemarkDetailsBody,
+  IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
   IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
+import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import {
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
+  CDAGetRemarkTemplateDetails,
   CDAGetRemarksCategory,
   CDAGetTestwiseTerm,
+  CDAGradeDropDown,
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
@@ -32,7 +36,6 @@ import {
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 
 
 const HeaderPublish = [
@@ -47,10 +50,13 @@ const ProgressRemarks = () => {
     sessionStorage.getItem('TeacherId')
   );
   const [SelectTerm, SetSelectTerm] = useState();
+  const [SelectGrade, SetSelectGrade] = useState();
+
+
   const [StudentList, SetStudentList] = useState('');
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [open, setOpen] = useState(false);
- 
+
   const [Remark, setRemark] = useState('')
   const toggleScreens = () => {
     setShowScreenOne(!showScreenOne);
@@ -94,14 +100,16 @@ const ProgressRemarks = () => {
     (state: RootState) => state.ProgressRemarkSlice.ISGradesForStandard
   );
 
-  const RemarkDropDown: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGetRemarksCategory
+  const USRemarksCategory: any = useSelector(
+    (state: RootState) => state.ProgressRemarkSlice.ISGetRemarksCategoryList
   );
 
 
-  const RemarkTemplateDetails: any = useSelector(
+  const USRemarkTemplateDetails: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
   );
+  console.log(USRemarkTemplateDetails, "USRemarkTemplateDetails");
+
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
     (state: RootState) =>
@@ -163,12 +171,12 @@ const ProgressRemarks = () => {
   ];
 
 
-   const remark =[
-    {Text1 :"'User can not change or update any data once summative exam is published", IsActive: true},
-    {Text1 :"'User can not change or update any data once summative exam is published",  IsActive: true},
+  const remark = [
+    { Text1: "'User can not change or update any data once summative exam is published", IsActive: true },
+    { Text1: "'User can not change or update any data once summative exam is published", IsActive: true },
 
-   ]
-   const [StudentsList, setStudentsList] = useState([remark]);
+  ]
+  const [StudentsList, setStudentsList] = useState([remark]);
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
@@ -240,24 +248,46 @@ const ProgressRemarks = () => {
     asStandardDivId: asStandardDivisionId,
     asTermId: Number(SelectTerm)
   };
+  const RemarkCategoryBody: IGetRemarksCategoryBody ={
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId
+  };
+
+  const GetAllGradesForStandardBody: IGetAllGradesForStandardBody ={
+    asSchool_Id: asSchoolId,
+    asAcademic_Year_Id:asAcademicYearId,
+    asStandard_Id: 0,
+    asSubjectId: 0,
+    asTest_Id: 0
+  }
+
+  const RemarkTemplateDetailsBody: IGetRemarkTemplateDetailsBody ={
+    asSchoolId: asSchoolId,
+    asRemarkId:  Number(Remark),
+    asSortExpression: "Template",
+    asSortDirection: "desc",
+    asFilter: 0,
+    asAcadmicYearId: asAcademicYearId,
+    asMarksGradesConfigurationDetailsId:SelectGrade,
+    asStandardId: 0
+  }
 
   useEffect(() => {
-    const RemarkCategoryBody: IGetRemarksCategoryBody =
-    {
-
-      asSchoolId: Number(asSchoolId),
-      asAcadmicYearId: asAcademicYearId,
-
-    };
+    dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
+  }, []);
+  useEffect(() => {
     dispatch(CDAGetRemarksCategory(RemarkCategoryBody));
   }, []);
-  
+  useEffect(() => {
+    dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
+  }, [SelectGrade,Remark]);
+
   const UpdateRemark = () => {
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
     );
   };
-  
+
 
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
@@ -288,6 +318,10 @@ const ProgressRemarks = () => {
   const clickSelectTerm = (value) => {
     SetSelectTerm(value);
   };
+  const clickGrade = (value) => {
+    SetSelectGrade(value);
+  };
+
 
   const clickSelectClass = (value) => {
     SetselectTeacher(value);
@@ -319,10 +353,16 @@ const ProgressRemarks = () => {
     }
   }, [USGetTestwiseTerm]);
   useEffect(() => {
-    if (RemarkDropDown.length > 0) {
-      setRemark(RemarkDropDown[0].Value);
+    if (GradeDropDown.length > 0) {
+      SetSelectGrade(GradeDropDown[0].Value);
     }
-  }, [RemarkDropDown]);
+  }, [GradeDropDown]); 
+
+  useEffect(() => {
+    if (USRemarksCategory.length > 0) {
+      setRemark(USRemarksCategory[0].Value);
+    }
+  }, [USRemarksCategory]); 
 
 
   useEffect(() => {
@@ -343,7 +383,7 @@ const ProgressRemarks = () => {
     );
   }, [selectTeacher, SelectTerm, StudentList]);
 
- 
+
   const [page, setPage] = useState(1);
 
   const handlePageChange = (pageNumber) => {
@@ -498,7 +538,7 @@ const ProgressRemarks = () => {
                 <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
-              
+
 
                 <TextField
                   size={"small"}
@@ -511,7 +551,7 @@ const ProgressRemarks = () => {
                   }}
                 />
                 <SearchableDropdown
-                  ItemList={RemarkDropDown}
+                  ItemList={USRemarksCategory}
                   sx={{ minWidth: '230px' }}
                   onChange={clickRemark}
                   defaultValue={Remark}
@@ -519,22 +559,23 @@ const ProgressRemarks = () => {
                   size={"small"}
                 />
                 <SearchableDropdown
-                  ItemList={USGetTestwiseTerm}
+                  ItemList={GradeDropDown}
                   sx={{ minWidth: '230px' }}
-                  onChange={clickSelectTerm}
-                  defaultValue={SelectTerm}
+                  onChange={clickGrade}
+                  defaultValue={SelectGrade}
                   label={'Grades'}
                   size={"small"}
                 />
 
+
               </Box>
               <Paper sx={{ padding: 1, marginBottom: '10px' }}>
                 <Box sx={{ p: 2, display: 'flex', flexDirection: 'row' }}>
-                  {StudentsList.length > 0 ? (
+                  {USRemarkTemplateDetails.length > 0 ? (
                     <RemarkList
-                    ItemList={remark}
-                    HeaderArray={HeaderPublish}
-                    onChange={Changevalue}
+                      ItemList={USRemarkTemplateDetails}
+                      HeaderArray={HeaderPublish}
+                      onChange={Changevalue}
                     />
                   ) : (
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
