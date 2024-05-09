@@ -39,6 +39,7 @@ const AddHomeworkNew = () => {
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
   const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
+
   const [ErrorTitle, setErrorTitle] = useState('');
   const [CompleteDate, setCompleteDate] = useState('');
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
@@ -233,15 +234,19 @@ const AddHomeworkNew = () => {
 
   const ClickSaveHomework = () => {
     let isError = false;
-    if (CompleteDate == '') {
-      setErrorCompleteDate('Complete by Date should not be blank.')
+    if (Title == '') {
+      setErrorTitle(' Field should not be blank.')
       isError = true
 
     } else if (AssignedDate == '') {
       setErrorAssignedDate('Field should not be blank ')
       isError = true
     }
-
+    else if (  CompleteDate  == '') {
+       setErrorCompleteDate('Complete by Date should not be blank ')
+      isError = true
+    }
+    
     else if (Details == '') {
       setErrorDetails('Field should not be blank')
       isError = true
@@ -759,6 +764,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               }}
               error={ErrorTitle !== ''}
               helperText={ErrorTitle}
+
               label={
                 <span>
                   Title <span style={{ color: 'red' }}>*</span>
