@@ -251,10 +251,10 @@ export const CDAGetRemarkTemplateDetails =
       );
       let RemarkTemplateDetailList = response.data.map((item, i) => {
         return {
-          Id: item.TemplateId,
           Text1: item.Template,
-          CategoryId: item.CategoryId,
-          IsActive : false
+          IsActive : false,
+          Id: item.TemplateId,
+          CategoryId: item.CategoryId
 
         };
       });

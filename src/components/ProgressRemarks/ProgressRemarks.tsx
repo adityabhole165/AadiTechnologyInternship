@@ -108,7 +108,9 @@ const ProgressRemarks = () => {
   const USRemarkTemplateDetails: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
   );
-  console.log(USRemarkTemplateDetails, "USRemarkTemplateDetails");
+  const [RemarkTemplateList, setRemarkTemplateList] = useState([USRemarkTemplateDetails]);
+
+  console.log(RemarkTemplateList, "RemarkTemplateList");
 
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
@@ -171,13 +173,8 @@ const ProgressRemarks = () => {
   ];
 
 
-  const remark = [
-    { Text1: "'User can not change or update any data once summative exam is published", IsActive: true },
-    { Text1: "'User can not change or update any data once summative exam is published", IsActive: true },
-
-  ]
-  const [StudentsList, setStudentsList] = useState([remark]);
-
+ 
+  
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
   };
@@ -391,7 +388,7 @@ const ProgressRemarks = () => {
   };
 
   const Changevalue = (value) => {
-    setStudentsList(value);
+    setRemarkTemplateList(value);
   };
 
   return (
@@ -571,9 +568,9 @@ const ProgressRemarks = () => {
               </Box>
               <Paper sx={{ padding: 1, marginBottom: '10px' }}>
                 <Box sx={{ p: 2, display: 'flex', flexDirection: 'row' }}>
-                  {USRemarkTemplateDetails.length > 0 ? (
+                  {RemarkTemplateList.length > 0 ? (
                     <RemarkList
-                      ItemList={USRemarkTemplateDetails}
+                      ItemList={RemarkTemplateList}
                       HeaderArray={HeaderPublish}
                       onChange={Changevalue}
                     />
