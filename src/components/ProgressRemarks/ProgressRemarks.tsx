@@ -272,10 +272,10 @@ const ProgressRemarks = () => {
     asRemarkId: Number(Remark),
     asSortExpression: "Template",
     asSortDirection: "desc",
-    asFilter: 0,
+    asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
-    asStandardId: 0
+    asStandardId: asStandardDivisionId
   }
 
   useEffect(() => {

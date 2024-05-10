@@ -141,7 +141,7 @@ export interface IGetRemarkTemplateDetailsBody {
   asRemarkId: Number,
   asSortExpression: string,
   asSortDirection: string,
-  asFilter: Number,
+  asFilter: string,
   asAcadmicYearId: Number,
   asMarksGradesConfigurationDetailsId: Number,
   asStandardId: Number
