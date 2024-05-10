@@ -28,6 +28,7 @@ import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
+import { getSchoolConfigurations } from '../Common/Util';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,9 @@ const AssignExamMark = () => {
 
   const { StandardDivisionId, TestId } =
     useParams();
-
+    let CanEdit = getSchoolConfigurations(74)
+    
+     
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
@@ -81,7 +84,6 @@ const AssignExamMark = () => {
   const UsSubmitMarksTeacher = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubmitMarksTeacher
   );
-  console.log(UsSubmitMarksTeacher, 'UsSubmitMarksTeacher');
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -95,15 +97,14 @@ const AssignExamMark = () => {
     return perm;
   };
    
-  console.log(GetScreenPermission());
-  
+
 
   //ClassDrpdown
 
   const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: GetScreenPermission () == 'Y' ? ClassTecher : aTeacherId ,
+    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId ,
     asExamId: Number(ClassWiseExam),
     asStandardDivisionId: Number(selectClass),
     IsClassTeacher: true
@@ -112,7 +113,7 @@ const AssignExamMark = () => {
   const GetAssignExam: IAssignClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: GetScreenPermission () == 'Y' ? ClassTecher : aTeacherId 
+    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId 
     
   };
 
@@ -234,7 +235,7 @@ const AssignExamMark = () => {
         ]}
         rightActions={<> 
         {
-          GetScreenPermission() == 'Y' ?  <Box>
+          CanEdit == 'Y' ?  <Box>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={USSubjectTeachersForAssignExamMarks}
