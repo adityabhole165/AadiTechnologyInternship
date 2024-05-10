@@ -8,11 +8,11 @@ import { AppThunk } from 'src/store';
 const ViewProgressReportslice = createSlice({
     name: 'SubjectMark',
     initialState: {
-        listMarksDetiles: [],
+        ListMarksDetiles: [],
     },
     reducers: {
         GetMarkDetails(state, action) {
-            state.listMarksDetiles = action.payload;
+            state.ListMarksDetiles = action.payload.listMarksDetiles;
         },
     }
 });

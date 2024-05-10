@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiExamResult from 'src/api/ExamResult/ApiExamResult';
 import {
+  IGetAllStudentsByGivenStdDivsBody,
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody,
   IGetClasswiseExamDropdownBody,
@@ -25,6 +26,7 @@ const SliceExamResult = createSlice({
     IsSubmitted: 'N',
     IsPrePrimaryExamConfiguration: false,
     IsMonthConfigurationForExamResult: false,
+    GetAllStudentsByGivenStdDivs: [],
     Loading: true
   },
   reducers: {
@@ -76,6 +78,11 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.IsMonthConfigurationForExamResult = action.payload;
     },
+    GetAllStudentsByGivenStdDivsResult(state, action) {
+      state.Loading = false;
+      state.GetAllStudentsByGivenStdDivs = action.payload;
+    },
+
 
     getLoading(state, action) {
       state.Loading = true;
@@ -88,6 +95,14 @@ export const getClassPassFailDetailsForButton =
       dispatch(SliceExamResult.actions.getLoading(true));
       const response = await ApiExamResult.GetClassPassFailDetailsForTestApi(data);
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForButton(response.data));
+    };
+
+export const getAllStudentsByGivenStdDivsResult =
+  (data: IGetAllStudentsByGivenStdDivsBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.GetAllStudentsByGivenStdDivsApi(data);
+      dispatch(SliceExamResult.actions.GetAllStudentsByGivenStdDivsResult(response.data));
       console.log(response.data, "abc")
     };
 

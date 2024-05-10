@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
+  IGetAllStudentsByGivenStdDivsBody,
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
   IGetPrePrimaryProgressSheetStatusBody,
@@ -23,6 +24,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList from 'src/libraries/list/DynamicList';
 import {
+  getAllStudentsByGivenStdDivsResult,
   getClassPassFailDetailsForButton,
   getClassPassFailDetailsForTest,
   getClassTeachers, getClasswiseExam,
@@ -69,6 +71,10 @@ const ExamResultBase = () => {
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
   );
+  const GetAllStudentsStdDivs: any = useSelector(
+    (state: RootState) => state.ExamResult.GetAllStudentsByGivenStdDivs
+  );
+  console.log("GetAllStudentsStdDivs", GetAllStudentsStdDivs)
 
   const ClassPassFailDetailsForTest: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
@@ -156,7 +162,15 @@ const ExamResultBase = () => {
     asStdDivId: Number(StandardDivisionId),
 
   }
-
+const GetAllStudentsByGivenStdDivs: IGetAllStudentsByGivenStdDivsBody ={
+  asSchoolId: Number(asSchoolId),
+  asAcademicYearId: Number(asAcademicYearId),
+  asStdDivIds: Number(StandardDivisionId),
+  IsLeftStudents: false
+}
+useEffect(() => {
+  dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
+}, []);
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);

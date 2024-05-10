@@ -1,13 +1,12 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IGetAllStudentsTestProgressSheetBody } from 'src/interfaces/ExamResult/IViewProgressReport';
 import { GetMarkDetailss } from 'src/requests/ExamResult/RequestViewProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-import { useDispatch } from 'react-redux';
 const ViewProgressRemark = () => {
     const dispatch = useDispatch();
     const { TestId } = useParams();
@@ -16,7 +15,7 @@ const ViewProgressRemark = () => {
     const asSchoolId = localStorage.getItem('localSchoolId');
     const StandardDivisionId = sessionStorage.getItem('StandardDivisionId')
     const GetAllStudentProgress: any = useSelector(
-        (state: RootState) => state.ViewProgressReport.listMarksDetiles
+        (state: RootState) => state.ViewProgressReport.ListMarksDetiles
     );
     console.log("GetAllStudentProgress", GetAllStudentProgress)
     useEffect(() => {
@@ -33,6 +32,11 @@ const ViewProgressRemark = () => {
         dispatch(GetMarkDetailss(GetAllStudentsTest));
 
     }, []);
+    console.log(GetAllStudentProgress[0])
+    if (GetAllStudentProgress.length > 0) {
+        console.log(GetAllStudentProgress[0]);
+    }
+    console.log("Length of GetAllStudentProgress:", GetAllStudentProgress.length);
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -60,7 +64,9 @@ const ViewProgressRemark = () => {
                         <TableBody>
                             <TableRow sx={{ bgcolor: 'grey.200' }}>
                                 <TableCell><b>Roll No:</b> 1</TableCell>
-                                <TableCell><b>Name:</b> Miss Jagvi Nilesh Badgujar	</TableCell>
+
+                                <TableCell><b>Name:{GetAllStudentProgress.length > 0 ?
+                                    GetAllStudentProgress[0].Header : ""}</b></TableCell>
                                 <TableCell><b>Class:</b> 1 - A	</TableCell>
                                 <TableCell><b>Year:</b> 2023-2024	</TableCell>
                             </TableRow>

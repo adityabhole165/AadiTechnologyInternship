@@ -1,4 +1,5 @@
 import {
+  IGetAllStudentsByGivenStdDivsBody, IGetAllStudentsByGivenStdDivsResult,
   IGetClassPassFailDetailsForTestBody,
   IGetClassPassFailDetailsForTestResult,
   IGetClassTeachersBody,
@@ -56,6 +57,12 @@ const MonthConfigurationForExamResultApi = (data: IsMonthConfigurationForExamRes
     data
   );
 };
+const GetAllStudentsByGivenStdDivsApi = (data: IGetAllStudentsByGivenStdDivsBody) => {
+  return http.post<IGetAllStudentsByGivenStdDivsResult>(
+    'Teacher/GetAllStudentsByGivenStdDivs',
+    data
+  );
+};
 const ApiExamResult = {
   ClassTeachersApi,
   GetClasswiseExamDropDownApi,
@@ -63,7 +70,8 @@ const ApiExamResult = {
   PublishUnpublishExamResultApi,
   GetPrePrimaryProgressSheetStatusApi,
   PrePrimaryExamConfigurationApi,
-  MonthConfigurationForExamResultApi
+  MonthConfigurationForExamResultApi,
+  GetAllStudentsByGivenStdDivsApi
 };
 export default ApiExamResult;
 

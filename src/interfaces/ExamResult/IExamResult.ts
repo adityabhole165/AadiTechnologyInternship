@@ -127,3 +127,24 @@ export interface IsMonthConfigurationForExamResult {
   boolean
 }
 
+export interface IGetAllStudentsByGivenStdDivsBody {
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asStdDivIds: number,
+  IsLeftStudents: boolean
+}
+
+
+export interface IGetAllStudentsByGivenStdDivsResult {
+  ID: string,
+  FullName: string,
+  Mobile_Number: string,
+  Mobile_Number2: string,
+  StudentCount: number,
+  Name: string,
+  Roll_No: number
+}
+export interface IGetSMSTemplateBody {
+  asSchoolId: number,
+  asSmsTemplateId: number
+}
