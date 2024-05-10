@@ -54,7 +54,7 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <Link href={''} onClick={() => clickView(item.Id)}>
+                  <Link href={''} onClick={() => clickView(item.Id)}  style={{textDecoration:'underline'}}>
                     {item.Text2}
                   </Link>
                 </TableCell>
@@ -68,7 +68,7 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <Link href={''} onClick={() => clickAttachment(item.Text5)}>
+                  <Link href={''} onClick={() => clickAttachment(item.Text5)} >
                     {item.Text5}
                   </Link>
                 </TableCell>
