@@ -81,3 +81,16 @@ export interface ISubmitTestMarksToClassTeacherBody {
   asIsSubmitted: string;
   asReportingUserId: string
 }
+
+
+
+export interface ISubjectTeachersForAssignExamMarksBody {
+  asSchoolId: number
+  asAcademicYrId: number
+}
+
+export interface ISubjectTeachersForAssignExamMarksResult {
+  Name: string
+  TeacherId: string
+  StandardDivisionId: any
+}

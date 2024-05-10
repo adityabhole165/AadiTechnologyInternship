@@ -3,6 +3,7 @@ import AssignExamMarkApi from 'src/api/ApiAssignExamMarks/ApiAssignExamMarks';
 import {
   IAssignClassBody,
   IClasswiseExamDropdownBody,
+  ISubjectTeachersForAssignExamMarksBody,
   ISubjectsExamMarksStatusForClassBody,
   ISubmitTestMarksToClassTeacherBody
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
@@ -17,7 +18,8 @@ const AssignExamMarkSlice = createSlice({
     ISSubjectListClass1: [],
     ISSubmitMarksTeacher: '',
     ISSubmitMarksRest: '',
-    ExamMarksStatusForClass: []
+    ExamMarksStatusForClass: [],
+    ISSubjectTeachersForAssignExamMarks:[]
   },
   reducers: {
     //AssignClass
@@ -44,6 +46,10 @@ const AssignExamMarkSlice = createSlice({
     RSubmitMarksTeacher(state, action) {
       state.ISSubmitMarksTeacher = action.payload;
     },
+    RSubjectTeachersForAssignExamMarks(state, action) {
+      state.ISSubjectTeachersForAssignExamMarks = action.payload;
+    },
+    
 
     resetMessage(state) {
       state.ISSubmitMarksRest = '';
@@ -102,7 +108,7 @@ export const GetSubjectList =
   (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>
     async (dispatch) => {
       const response = await AssignExamMarkApi.SubjectsExamMarks(data);
-      let serialNumber = 0;
+      let serialNumber = 2;
       let ClassList = response.data.ExamMarksStatusForClass.map(item => ({
         Id: ++serialNumber,
         Text1: item.StandardDivision,
@@ -116,7 +122,7 @@ export const GetSubjectList =
         StandardDivisionId: item.Standard_Division_Id
       }));
 
-      serialNumber = 0; 
+      serialNumber = 2; 
       let MyClassList = response.data.ExamMarksStatusForClassTeacher.map(item => ({
         Id: ++serialNumber,
         Text1: item.StandardDivision,
@@ -144,6 +150,23 @@ export const ReqSubmitMarksTeacher =
       const response = await AssignExamMarkApi.SubmitMarksTeacher(data);
       dispatch(AssignExamMarkSlice.actions.RSubmitMarksTeacher(response.data));
     };
+
+
+    export const CDASubjectTeachersForAssignExamMarks =
+  (data: ISubjectTeachersForAssignExamMarksBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AssignExamMarkApi.SubjectTeachersForAssignExamMarks(data);
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.TeacherId,
+          Name: item.Name,
+          Value: item.TeacherId
+        };
+      });
+      dispatch(AssignExamMarkSlice.actions.RSubjectTeachersForAssignExamMarks(a));
+    };
+
+
 
 export const resetMessage = (): AppThunk => async (dispatch) => {
   dispatch(AssignExamMarkSlice.actions.resetMessage());

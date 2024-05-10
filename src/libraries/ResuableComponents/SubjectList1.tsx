@@ -93,7 +93,7 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                <Link href={''} onClick={() => clickTitle(item.Id)}>
+                <Link href={''} onClick={() => clickTitle(item.Id)}  style={{textDecoration:'underline'}}>
                     {item.Text2}
                   </Link>
                 </TableCell>

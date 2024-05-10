@@ -3,6 +3,8 @@ import {
   IAssignClassResult,
   IClasswiseExamDropdownBody,
   IClasswiseExamDropdownResult,
+  ISubjectTeachersForAssignExamMarksBody,
+  ISubjectTeachersForAssignExamMarksResult,
   ISubjectsExamMarksStatusForClassBody,
   ISubjectsExamMarksStatusForClassBodyResult,
   ISubmitTestMarksToClassTeacherBody
@@ -37,11 +39,17 @@ const SubmitMarksTeacher = (data: ISubmitTestMarksToClassTeacherBody) => {
   return http.post<string>('Homework/SubmitUnSubmitTestMarksToClassTeacher', data);
 };
 
+const SubjectTeachersForAssignExamMarks = (data: ISubjectTeachersForAssignExamMarksBody) => {
+  return http.post<ISubjectTeachersForAssignExamMarksResult[]>('Teacher/SubjectTeachersForAssignExamMarks', data);
+};
+
+
 const AssignExamMarkApi = {
   AssignClass,
   ClasswiseExamDropdown,
   SubjectsExamMarks,
-  SubmitMarksTeacher
+  SubmitMarksTeacher,
+  SubjectTeachersForAssignExamMarks
 };
 
 export default AssignExamMarkApi;

@@ -41,9 +41,44 @@ const SubjectMarkListSlice = createSlice({
 
 });
 export const gettestmarklist =
-  (data: IGetTestMarkBody): AppThunk =>
+  (data): AppThunk =>
     async (dispatch) => {
-      const response = await ApiSubjectMarkList.TestMarkApi(data);
+      const body1: IGetTestMarkBody = {
+        asSchoolId: data.asSchoolId,
+        asStandardDivision_Id: data.asStandardDivision_Id,
+        asSubject_Id: data.asSubject_Id,
+        asTestId: data.asTestId,
+        asAcademicYearID: data.asAcademicYearID,
+        asShowTotalAsPerOutOfMarks: data.asShowTotalAsPerOutOfMarks
+      }
+      const body2: GetStudentsForSubjectMarkMouseOverBody = {
+        asSchoolId: data.asSchoolId,
+        asAcademicYearId: data.asAcademicYearID,
+        asStandardDivId: data.asStandardDivision_Id,
+        asNoOfRecord: 15,
+        asTestId: data.asTestId,
+        asSubjectId: data.asSubject_Id
+      }
+      const response3 = await ApiSubjectMarkList.StudentNameMouseoverApi(body2);
+
+
+      const getMouseOver = (RollNo) => {
+        let studentName = ""
+        if (response3.data.length > 0) {
+          response3.data.map((Item) => {
+            if (Item.length > 0) {
+              Item.map((Obj) => {
+                if (Obj.Roll_No == RollNo) {
+                  studentName = Obj.Name
+                }
+              })
+            }
+          })
+        }
+
+        return studentName;
+      }
+      const response1 = await ApiSubjectMarkList.TestMarkApi(body1);
       let PrevRollNo = "0", returnObj = null, iCounter = 2
       let responseData = []
       const getMarks = (Item) => {
@@ -57,7 +92,9 @@ export const gettestmarklist =
       };
 
       let iCounterIndex = 0
-      response.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
+      response1.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
+        console.log(response3.data, "--iuns");
+
         if (PrevRollNo !== item.Roll_No) {
 
           PrevRollNo = item.Roll_No
@@ -68,6 +105,7 @@ export const gettestmarklist =
             Index: iCounterIndex,
             Roll_No: item.Roll_No,
             Text1: item.Roll_No,
+            MoueOverText1: getMouseOver(item.Roll_No),
             Text2: getMarks(item),
             Is_Absent: 1,
             // StudentName:GetStudentName(item.Roll_No)
@@ -99,11 +137,14 @@ export const gettestmarklist =
         }
 
       });
+      console.log(responseData, "responseData");
 
       dispatch(SubjectMarkListSlice.actions.GetTestMark(responseData));
+      dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response3.data));
+      // console.log(response3, "abc")
       let responseData2 = ["R.No."]
 
-      response.data.listTestTypeName.map((item, i) => {
+      response1.data.listTestTypeName.map((item, i) => {
         responseData2.push(item.TestType_Name)
       })
       responseData2.push("Total")
@@ -119,19 +160,19 @@ export const legend =
 
     };
 
-export const studentmouseoverlist =
-  (data: GetStudentsForSubjectMarkMouseOverBody): AppThunk =>
+// export const studentmouseoverlist =
+//   (data: GetStudentsForSubjectMarkMouseOverBody): AppThunk =>
+//     async (dispatch) => {
+//       const response = await ApiSubjectMarkList.StudentNameMouseoverApi(data);
+//       dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response.data));
+//     };
+
+export const firstthreetopperslist =
+  (data: GetFirstThreeToopersBody): AppThunk =>
     async (dispatch) => {
-      const response = await ApiSubjectMarkList.StudentNameMouseoverApi(data);
-      dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response.data));
+      const response = await ApiSubjectMarkList.StudentToppersListApi(data);
+      dispatch(SubjectMarkListSlice.actions.StudentTopperslist(response.data));
     };
-    
-    export const firstthreetopperslist =
-    (data: GetFirstThreeToopersBody): AppThunk =>
-      async (dispatch) => {
-        const response = await ApiSubjectMarkList.StudentToppersListApi(data);
-        dispatch(SubjectMarkListSlice.actions.StudentTopperslist(response.data));
-      };
 
 
 

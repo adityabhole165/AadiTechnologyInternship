@@ -6,8 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useContext } from 'react';
-import Authcontext from 'src/components/ExamResult/Authcontext';
 const DynamicList = ({
   HeaderList,
   ItemList,
@@ -17,22 +15,10 @@ const DynamicList = ({
   IsSelect = 0,
   LinkList = [],
   ClickLink = undefined,
-  Data = undefined
+  Data = undefined,
 }) => {
 
-  let StudentNameList = useContext(Authcontext)
-  console.log(StudentNameList, "StudentNameList");
 
-  const handleMouseEnter = (text) => {
-    console.log("Mouse entered: ", text);
-
-  };
-
-
-  const handleMouseLeave = () => {
-    console.log("Mouse left");
-
-  };
 
   const clickCheckbox = (value) => {
     let arr = [];
@@ -102,6 +88,7 @@ const DynamicList = ({
                           ClickLink({ Id: Data[index], Index: i });
                         }}
                       >
+
                         {obj}
                       </TableCell>
                     );
@@ -118,21 +105,12 @@ const DynamicList = ({
                   {item.Text1 != undefined && (
                     <TableCell
                       align="center"
-                      onMouseEnter={() => handleMouseEnter(item.Text1)}
-                      onMouseLeave={handleMouseLeave}
                     >
-                      {/* {item.Text1} */}
-{/* 
-                      {StudentNameList.map((item, index) => (
-                        <Tooltip title={"student name "} key={index}>
-                          <span>{item.Text1}</span>
-                        </Tooltip> 
-                      ))} */}
-                      <Tooltip title={"student name "} key={index}>
+                      <Tooltip title={item.MoueOverText1 != undefined ? item.MoueOverText1 : ""} key={index}>
                         <span>{item.Text1}</span>
                       </Tooltip>
 
-                  </TableCell>
+                    </TableCell>
                   )}
                   {item.Text2 != undefined && (
                     <TableCell align="center">{item.Text2}</TableCell>
