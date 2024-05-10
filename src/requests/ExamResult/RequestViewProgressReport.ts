@@ -9,10 +9,12 @@ const ViewProgressReportslice = createSlice({
     name: 'SubjectMark',
     initialState: {
         ListMarksDetiles: [],
+        ListStatusDetiles: [],
     },
     reducers: {
         GetMarkDetails(state, action) {
             state.ListMarksDetiles = action.payload.listMarksDetiles;
+            state.ListStatusDetiles = action.payload.listStatusDetiles;
         },
     }
 });

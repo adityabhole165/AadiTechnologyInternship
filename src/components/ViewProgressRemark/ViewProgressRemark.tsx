@@ -14,10 +14,14 @@ const ViewProgressRemark = () => {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const StandardDivisionId = sessionStorage.getItem('StandardDivisionId')
-    const GetAllStudentProgress: any = useSelector(
+    const ListMarksDetails: any = useSelector(
         (state: RootState) => state.ViewProgressReport.ListMarksDetiles
     );
-    console.log("GetAllStudentProgress", GetAllStudentProgress)
+    console.log("ListMarksDetails", ListMarksDetails)
+    const DisplayStatusDetails: any = useSelector(
+        (state: RootState) => state.ViewProgressReport.ListStatusDetiles
+    );
+    console.log("DisplayStatusDetails", DisplayStatusDetails)
     useEffect(() => {
         const GetAllStudentsTest: IGetAllStudentsTestProgressSheetBody =
         {
@@ -32,11 +36,11 @@ const ViewProgressRemark = () => {
         dispatch(GetMarkDetailss(GetAllStudentsTest));
 
     }, []);
-    console.log(GetAllStudentProgress[0])
-    if (GetAllStudentProgress.length > 0) {
-        console.log(GetAllStudentProgress[0]);
+    console.log(ListMarksDetails[0])
+    if (ListMarksDetails.length > 0) {
+        console.log(ListMarksDetails[0]);
     }
-    console.log("Length of GetAllStudentProgress:", GetAllStudentProgress.length);
+    console.log("Length of ListMarksDetails:", ListMarksDetails.length);
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -65,8 +69,8 @@ const ViewProgressRemark = () => {
                             <TableRow sx={{ bgcolor: 'grey.200' }}>
                                 <TableCell><b>Roll No:</b> 1</TableCell>
 
-                                <TableCell><b>Name:{GetAllStudentProgress.length > 0 ?
-                                    GetAllStudentProgress[0].Header : ""}</b></TableCell>
+                                <TableCell><b>Name:{ListMarksDetails.length > 0 ?
+                                    ListMarksDetails[0].Header : ""}</b></TableCell>
                                 <TableCell><b>Class:</b> 1 - A	</TableCell>
                                 <TableCell><b>Year:</b> 2023-2024	</TableCell>
                             </TableRow>
