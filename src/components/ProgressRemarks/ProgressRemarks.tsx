@@ -17,12 +17,14 @@ import {
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
-  IUpdateAllStudentsRemarkDetailsBody
+  IUpdateAllStudentsRemarkDetailsBody,
+  IGetAllStudentsForProgressRemarkBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  CDAGetAllStudentsForProgressRemark,
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
   CDAGetRemarkTemplateDetails,
@@ -46,6 +48,14 @@ const HeaderPublish = [
   
   
 ];
+
+
+// const [HeaderPublish, setHeaderPublish] = useState([
+//   { Id: 1, Header: '', SortOrder: " desc" },
+//   { Id: 2, Header: ' Remark Template' },
+ 
+ 
+// ]);
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -113,13 +123,19 @@ const ProgressRemarks = () => {
   const USRemarkTemplateDetails: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
   );
+
+  const USGetAllStudentsForProgressRemark: any = useSelector(
+    (state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentsForProgressRemark
+  );
+  console.log(USGetAllStudentsForProgressRemark,"USGetAllStudentsForProgressRemark");
+  
+
   const [remarkTemplates, setRemarkTemplates] = useState([]);
   useEffect(() => {
     if (USRemarkTemplateDetails) {
       setRemarkTemplates(USRemarkTemplateDetails);
     }
   }, [USRemarkTemplateDetails]);
-  console.log(remarkTemplates, "remarkTemplates");
 
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
@@ -128,10 +144,10 @@ const ProgressRemarks = () => {
   );
 
   const [Itemlist, setItemlist] = useState([]);
-
+  
   useEffect(() => {
-    setItemlist(USGetAllStudentswiseRemarkDetails);
-  }, [USGetAllStudentswiseRemarkDetails]);
+    setItemlist(USGetAllStudentsForProgressRemark);
+  }, [USGetAllStudentsForProgressRemark]);
 
 
 
@@ -175,10 +191,10 @@ const ProgressRemarks = () => {
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Name' },
     { Id: 3, Header: 'Remark' },
-    ,
-    { Id: 4, Header: 'Behaviour' },
-    ,
-    { Id: 5, Header: 'Attitude' }
+    // ,
+    // { Id: 4, Header: 'Behaviour' },
+    // ,
+    // { Id: 5, Header: 'Attitude' }
   ];
 
 
@@ -277,7 +293,19 @@ const ProgressRemarks = () => {
     asMarksGradesConfigurationDetailsId: SelectGrade,
     asStandardId: asStandardDivisionId
   }
+  const AllStudentsForProgressRemarkBody: IGetAllStudentsForProgressRemarkBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    aTeacherId: Number(selectTeacher),
+    asStudentId:Number(StudentList) ,
+    asTermId: Number(SelectTerm),
+    asStartIndex: 0,
+    asEndIndex: 20,
+    asSortExp: "Roll_No"
+    }
 
+
+  
   useEffect(() => {
     dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
   }, []);
@@ -383,22 +411,43 @@ const ProgressRemarks = () => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
   }, [selectTeacher]);
 
-  useEffect(() => {
-    dispatch(
-      CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
-    );
-  }, [selectTeacher, SelectTerm, StudentList]);
+  // useEffect(() => {
+  //   dispatch(
+  //     CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
+  //   );
+  // }, [selectTeacher, SelectTerm, StudentList]);
 
 
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState(1)
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
+  const itemsPerPage = 20;
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  useEffect(() => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    const AllStudentsForProgressBody: IGetAllStudentsForProgressRemarkBody = {
+      ...AllStudentsForProgressRemarkBody,
+      asStartIndex: startIndex,
+      asEndIndex: endIndex
+
+    };
+
+    dispatch(CDAGetAllStudentsForProgressRemark(AllStudentsForProgressBody));
+  }, [page, selectTeacher, SelectTerm, StudentList]);
+
 
   const Changevalue = (value) => {
     setRemarkTemplates(value);
   };
+
+  const ClickHeader = (value) => {
+     //setHeaderPublish(value)
+  }
 
   return (
     <Box sx={{ px: 2 }}>
@@ -580,6 +629,7 @@ const ProgressRemarks = () => {
                       ItemList={remarkTemplates}
                       HeaderArray={HeaderPublish}
                       onChange={Changevalue}
+                      ClickHeader={ClickHeader}
                     />
                   ) : (
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
@@ -634,3 +684,5 @@ const style = {
   boxShadow: 24,
   p: 2,
 };
+
+

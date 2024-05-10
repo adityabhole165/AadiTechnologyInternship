@@ -151,3 +151,28 @@ export interface IGetRemarkTemplateDetailsResult {
   TemplateId: string,
   CategoryId: string
 }
+
+export interface IGetAllStudentsForProgressRemarkBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  aTeacherId: number
+  asStudentId: number
+  asTermId: number
+  asStartIndex: number
+  asEndIndex: number
+  asSortExp: string
+}
+
+
+export interface IGetAllStudentsForProgressRemarkResult{
+  GetAllStudentsList: [{
+    RowID: string
+    TotalRows: string
+    Student_Id: string
+    StudentName: string
+    Remark: string
+    Studentwise_Remark_Id: string
+    SchoolWise_Standard_Division_Id: string
+    Roll_No: string
+  }]
+}

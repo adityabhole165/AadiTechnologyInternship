@@ -2,6 +2,8 @@ import {
   IAllPrimaryClassTeachersBody,
   IAllPrimaryClassTeachersResult,
   IGetAllGradesForStandardBody, IGetAllGradesForStandardResult,
+  IGetAllStudentsForProgressRemarkBody,
+  IGetAllStudentsForProgressRemarkResult,
   IGetAllStudentswiseRemarkDetailsBody,
   IGetAllStudentswiseRemarkDetailsResult,
   IGetRemarkTemplateDetailsBody,
@@ -76,6 +78,14 @@ const GetRemarksTemplateDetail = (data: IGetRemarkTemplateDetailsBody) => {
     data
   );
 };
+
+const GetAllStudentsForProgressRemark = (data: IGetAllStudentsForProgressRemarkBody) => {
+  return http.post<IGetAllStudentsForProgressRemarkResult>(
+    'Teacher/GetAllStudentsForProgressRemark',
+    data
+  );
+};
+
 const ApiProgressRemark = {
   ClassTeachers,
   GetTestwiseTerm,
@@ -85,6 +95,7 @@ const ApiProgressRemark = {
   GetAllStudentswiseRemarkDetails,
   GetAllGradeForStandard,
   GetRemarksCategory,
-  GetRemarksTemplateDetail
+  GetRemarksTemplateDetail,
+  GetAllStudentsForProgressRemark
 };
 export default ApiProgressRemark;

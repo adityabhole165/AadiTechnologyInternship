@@ -3,6 +3,7 @@ import ApiProgressRemark from 'src/api/ProgressRemarks/ApiProgressRemarks';
 import {
   IAllPrimaryClassTeachersBody,
   IGetAllGradesForStandardBody,
+  IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentswiseRemarkDetailsBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
@@ -27,7 +28,8 @@ const ProgressRemarkSlice = createSlice({
     ISresetSaveMassage: '',
     ISGradesForStandard: [],
     ISGetRemarksCategoryList: [],
-    ISGetRemarkTemplateDetail: []
+    ISGetRemarkTemplateDetail: [],
+    ISGetAllStudentsForProgressRemark:[]
 
   },
   reducers: {
@@ -70,6 +72,10 @@ const ProgressRemarkSlice = createSlice({
     RSGetRemarksTemplateDetail(state, action) {
       state.ISGetRemarkTemplateDetail = action.payload;
     },
+    RGetAllStudentsForProgressRemark(state, action) {
+      state.ISGetAllStudentsForProgressRemark = action.payload;
+    },
+    
 
     RresetSaveMassage(state) {
       state.ISresetSaveMassage = '';
@@ -264,6 +270,27 @@ export const CDAGetRemarkTemplateDetails =
       );
 
     };
+
+
+    export const CDAGetAllStudentsForProgressRemark =
+  (data: IGetAllStudentsForProgressRemarkBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressRemark.GetAllStudentsForProgressRemark(data);
+
+      let AllStudentsList = response.data.GetAllStudentsList.map((item, i)=> ({
+        Id: item.RowID,
+        Text1: item.Roll_No,
+        Text2: item.StudentName,
+        Text3: item.Remark,
+        Text5: item.SchoolWise_Standard_Division_Id,
+        Text6: item.Studentwise_Remark_Id,
+        Text8: item.Student_Id,
+      
+      
+      }));
+      dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
+    };
+
 
 export const CDAresetSaveMassage = (): AppThunk => async (dispatch) => {
   dispatch(ProgressRemarkSlice.actions.RresetSaveMassage());

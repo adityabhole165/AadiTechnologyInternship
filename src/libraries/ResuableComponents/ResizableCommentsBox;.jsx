@@ -102,7 +102,7 @@ function ResizableCommentsBox({
                   </div>
                 </TableCell>
 
-                <TableCell align="center">
+                {/* <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize
                       id={`outlined-basic-${i}`}
@@ -122,9 +122,9 @@ function ResizableCommentsBox({
                       ({300 - item.Text4.length})
                     </Typography>
                   </div>
-                </TableCell>
+                </TableCell> */}
 
-                <TableCell align="center">
+                {/* <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize
                       id={`outlined-basic-${i}`}
@@ -144,7 +144,7 @@ function ResizableCommentsBox({
                       ({300 - item.Text5.length})
                     </Typography>
                   </div>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

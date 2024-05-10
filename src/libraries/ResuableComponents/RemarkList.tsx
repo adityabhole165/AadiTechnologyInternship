@@ -6,11 +6,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 function RemarkList({
     ItemList,
     HeaderArray,
     onChange,
+    ClickHeader
 }) {
     const onClick = (value) => {
         ItemList = ItemList.map((item) => {
@@ -18,6 +20,16 @@ function RemarkList({
         });
         onChange(ItemList);
     };
+
+    const clickHeader = (value) => {
+        if (value != undefined) {
+          HeaderArray = HeaderArray.map((Item) => {
+            return Item.SortOrder == undefined ? Item :
+              { ...Item, SortOrder: Item.SortOrder == " asc" ? " desc" : " asc" }
+          })
+          ClickHeader(HeaderArray)
+        }
+      }
 
     return (
         <>
@@ -31,16 +43,25 @@ function RemarkList({
                         >
                             {HeaderArray.map((item, i) => (
                                 <TableCell
-                                key={i}
-                                sx={{
-                                    textTransform: 'capitalize',
-                                    color: (theme) => theme.palette.common.white,
-                                    textAlign: 'center', // Align header cell content to center
-                                    fontWeight: 'bold', // Make the header text bold
-                                }}
-                            >
-                                {item.Header}
-                            </TableCell>
+                                    key={i}
+                                    sx={{
+                                        textTransform: 'capitalize',
+                                        color: (theme) => theme.palette.common.white,
+                                        textAlign: 'center', // Align header cell content to center
+                                        fontWeight: 'bold', // Make the header text bold
+                                       
+                                    }}
+
+                                    onClick={() => { clickHeader(item.Id) }}
+                                >
+                                    {item.Header}
+                                    {item.SortOrder != undefined ?
+                                        item.SortOrder == " Desc" ?
+                                            < ArrowDropDownCircleIcon /> :
+                                            <ArrowCircleUpIcon /> :
+                                        null
+                                    }
+                                </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
@@ -67,5 +88,4 @@ function RemarkList({
     );
 }
 
-export default RemarkList;
-
+export default RemarkList;  
