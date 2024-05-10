@@ -21,7 +21,7 @@ import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass } =
+  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass,StandardDivision } =
     useParams();
 
 
@@ -166,7 +166,7 @@ const AddHomeworkNew = () => {
     AsId: Number(HomeworkId),
     asTitle: Title,
     asSubjectId: Number(SubjectCheckID),
-    asStandardDivisionId: StandardDivisionId,
+    asStandardDivisionId:Number(SelectClass) ,
     asAttachmentPath: fileName,
     asDetails: Details,
     asAssignDate: AssignedDate,
