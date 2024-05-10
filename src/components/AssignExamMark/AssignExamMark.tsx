@@ -29,6 +29,7 @@ import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
 import { getSchoolConfigurations } from '../Common/Util';
+import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -314,13 +315,13 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
           )}
         <Divider sx={{ my: 2 }} />
-        {asStandardDivisionId == selectClass && (
+        {SubjectListmarkClass1.length > 0 && (
           <Box mt={2}>
             <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
             {SubjectListmarkClass1.length > 0 ? (
               <div>
 
-                <ListEditIcon1
+                <ListEditIcon2
                   ItemList={SubjectListmarkClass1}
                   clickEdit={clickEdit}
                   HeaderArray={HeaderPublish}

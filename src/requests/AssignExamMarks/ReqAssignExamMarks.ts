@@ -66,7 +66,8 @@ export const GetAssignExamMarkList =
         return {
           Id: item.Standard_Division_Id,
           Name: item.StandardDivision,
-          Value: item.Standard_Division_Id
+          Value: item.Standard_Division_Id,
+          Text5: item.IsClassTeacher
         };
       });
       dispatch(AssignExamMarkSlice.actions.getAssignExamMark(a));

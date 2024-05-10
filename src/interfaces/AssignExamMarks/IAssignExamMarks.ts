@@ -7,6 +7,7 @@ export interface IAssignClassBody {
 export interface IAssignClassResult {
   Standard_Division_Id: string;
   StandardDivision: string;
+  IsClassTeacher: string
 }
 
 //ClasswiseExamDropdown
