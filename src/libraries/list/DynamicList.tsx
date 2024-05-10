@@ -113,20 +113,21 @@ const DynamicList = ({
                     </TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell align="center">{item.Text2}</TableCell>
+                    <TableCell align="center">{parseInt(item.Text2)}</TableCell>
+
                   )}
                   {item.Text3 != undefined && (
                     <TableCell align="center"
-                      sx={{ color: (item.Is_Absent == 1 ? "red" : "") }}>{item.Text3}</TableCell>
+                      sx={{ color: (item.Is_Absent == 1 ? "red" : "") }}>{parseInt(item.Text3)}</TableCell>
                   )}
                   {item.Text4 != undefined && (
-                    <TableCell align="center">{item.Text4}</TableCell>
+                    <TableCell align="center">{parseInt(item.Text4)}</TableCell>
                   )}
                   {item.Text5 != undefined && (
-                    <TableCell align="center">{item.Text5}</TableCell>
+                    <TableCell align="center">{parseInt(item.Text5)}</TableCell>
                   )}
                   {item.Text6 != undefined && (
-                    <TableCell align="center">{item.Text6}</TableCell>
+                    <TableCell align="center">{parseInt(item.Text6)}</TableCell>
                   )}
                   {IconList?.map((obj, i) => {
                     return (
