@@ -16,6 +16,7 @@ import {
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
   IGetPrePrimaryProgressSheetStatusBody,
+  IGetSMSTemplateBody,
   IPublishUnpublishExamResultBody,
   IsMonthConfigurationForExamResultBody,
   IsPrePrimaryExamConfigurationBody
@@ -31,7 +32,7 @@ import {
   getMonthConfigurationForExamResult,
   getPrePrimaryExamConfiguration,
   getProgressSheetStatus,
-  getPublishUnpublishExam, resetPublishUnpublishExams
+  getPublishUnpublishExam, getSMSTemplate, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -75,6 +76,11 @@ const ExamResultBase = () => {
     (state: RootState) => state.ExamResult.GetAllStudentsByGivenStdDivs
   );
   console.log("GetAllStudentsStdDivs", GetAllStudentsStdDivs)
+
+  const GetSMSTemplatess: any = useSelector(
+    (state: RootState) => state.ExamResult.GetSMSTemplate
+  );
+  console.log("GetSMSTemplatess", GetSMSTemplatess)
 
   const ClassPassFailDetailsForTest: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
@@ -162,15 +168,22 @@ const ExamResultBase = () => {
     asStdDivId: Number(StandardDivisionId),
 
   }
-const GetAllStudentsByGivenStdDivs: IGetAllStudentsByGivenStdDivsBody ={
-  asSchoolId: Number(asSchoolId),
-  asAcademicYearId: Number(asAcademicYearId),
-  asStdDivIds: Number(StandardDivisionId),
-  IsLeftStudents: false
-}
-useEffect(() => {
-  dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
-}, []);
+  const GetAllStudentsByGivenStdDivs: IGetAllStudentsByGivenStdDivsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivIds: Number(StandardDivisionId),
+    IsLeftStudents: false
+  }
+  useEffect(() => {
+    dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
+  }, [StandardDivisionId]);
+  const GetSMSTemplate: IGetSMSTemplateBody = {
+    asSchoolId: Number(asSchoolId),
+    asSmsTemplateId: Number(sendmeassagestudent)
+  }
+  useEffect(() => {
+    dispatch(getSMSTemplate(GetSMSTemplate));
+  }, [sendmeassagestudent]);
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);

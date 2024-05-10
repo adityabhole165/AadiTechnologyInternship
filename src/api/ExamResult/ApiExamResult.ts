@@ -7,6 +7,7 @@ import {
   IGetClasswiseExamDropdownBody,
   IGetClasswiseExamDropdownResult,
   IGetPrePrimaryProgressSheetStatusBody, IGetPrePrimaryProgressSheetStatusResult,
+  IGetSMSTemplateBody, IGetSMSTemplateResult,
   IPublishUnpublishExamResultBody,
   IsMonthConfigurationForExamResult,
   IsMonthConfigurationForExamResultBody,
@@ -63,6 +64,12 @@ const GetAllStudentsByGivenStdDivsApi = (data: IGetAllStudentsByGivenStdDivsBody
     data
   );
 };
+const GetSMSTemplateApi = (data: IGetSMSTemplateBody) => {
+  return http.post<IGetSMSTemplateResult>(
+    'Teacher/GetSMSTemplate',
+    data
+  );
+};
 const ApiExamResult = {
   ClassTeachersApi,
   GetClasswiseExamDropDownApi,
@@ -71,7 +78,8 @@ const ApiExamResult = {
   GetPrePrimaryProgressSheetStatusApi,
   PrePrimaryExamConfigurationApi,
   MonthConfigurationForExamResultApi,
-  GetAllStudentsByGivenStdDivsApi
+  GetAllStudentsByGivenStdDivsApi,
+  GetSMSTemplateApi
 };
 export default ApiExamResult;
 

@@ -144,7 +144,15 @@ export interface IGetAllStudentsByGivenStdDivsResult {
   Name: string,
   Roll_No: number
 }
+
 export interface IGetSMSTemplateBody {
-  asSchoolId: number,
-  asSmsTemplateId: number
+  asSchoolId: Number,
+  asSmsTemplateId: Number
+}
+export interface IGetSMSTemplateResult {
+  SmsTemplateId: number,
+  SmsTemplateName: string,
+  SmsTemplateText: string,
+  SmsType: string,
+  TemplateRegistrationId: string
 }

@@ -6,6 +6,7 @@ import {
   IGetClassTeachersBody,
   IGetClasswiseExamDropdownBody,
   IGetPrePrimaryProgressSheetStatusBody,
+  IGetSMSTemplateBody,
   IPublishUnpublishExamResultBody,
   IsMonthConfigurationForExamResultBody,
   IsPrePrimaryExamConfigurationBody
@@ -27,6 +28,7 @@ const SliceExamResult = createSlice({
     IsPrePrimaryExamConfiguration: false,
     IsMonthConfigurationForExamResult: false,
     GetAllStudentsByGivenStdDivs: [],
+    GetSMSTemplate: null,
     Loading: true
   },
   reducers: {
@@ -82,6 +84,10 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.GetAllStudentsByGivenStdDivs = action.payload;
     },
+    GetSMSTemplates(state, action) {
+      state.Loading = false;
+      state.GetSMSTemplate = action.payload;
+    },
 
 
     getLoading(state, action) {
@@ -95,6 +101,13 @@ export const getClassPassFailDetailsForButton =
       dispatch(SliceExamResult.actions.getLoading(true));
       const response = await ApiExamResult.GetClassPassFailDetailsForTestApi(data);
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForButton(response.data));
+    };
+export const getSMSTemplate =
+  (data: IGetSMSTemplateBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.GetSMSTemplateApi(data);
+      dispatch(SliceExamResult.actions.GetSMSTemplates(response.data));
     };
 
 export const getAllStudentsByGivenStdDivsResult =
