@@ -504,7 +504,7 @@ export function stripHtml(html: string) {
 
 export function getSchoolConfigurations(value) {
   const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
-  let CanEdit = ""
+  let CanEdit = "N"
   SchoolConfiguration.map((Item) => {
     if (Item.Configure_Id == value)
       CanEdit = Item.Can_Edit
