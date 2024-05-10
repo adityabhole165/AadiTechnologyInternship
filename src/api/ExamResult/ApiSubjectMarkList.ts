@@ -12,7 +12,7 @@ const TestMarkApi = (data: IGetTestMarkBody) => {
   return http.post<IGetTestMarkResult>('Teacher/GetTestMark', data);
 };
 const StudentNameMouseoverApi = (data: GetStudentsForSubjectMarkMouseOverBody) => {
-  return http.post<GetStudentsForSubjectMarkMouseOverResult[]>('Teacher/GetStudentsForSubjectMarkSheet', data);
+  return http.post<GetStudentsForSubjectMarkMouseOverResult[][]>('Teacher/GetStudentsForSubjectMarkSheet', data);
 };
 const StudentToppersListApi = (data: GetFirstThreeToopersBody) => {
   return http.post<GetFirstThreeToopersResult>('Teacher/GetFirstThreeToopers', data);

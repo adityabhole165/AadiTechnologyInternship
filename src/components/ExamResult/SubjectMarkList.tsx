@@ -14,7 +14,7 @@ import {
 import DynamicList from 'src/libraries/list/DynamicList';
 import {
   firstthreetopperslist,
-  gettestmarklist, studentmouseoverlist
+  gettestmarklist
 } from 'src/requests/ExamResult/RequestSubjectMarkList';
 import { RootState, useSelector } from 'src/store';
 import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
@@ -33,12 +33,12 @@ const SubjectMarkList = () => {
 
   const TestMarkList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMark);
+  console.log(TestMarkList, "abcd");
   const HeaderList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.HeaderList);
-  console.log(HeaderList, "HeaderList");
+  // console.log(HeaderList, "HeaderList");
   const StudentNamelistMouseOver: any = useSelector(
     (state: RootState) => state.SubjectMarkList.StudentNameMouseOver);
-  console.log(StudentNamelistMouseOver, "jjjjj");
   const ListLegend: any = useSelector(
     (state: RootState) => state.SubjectMarkList.legend);
   const FirstThreeToppers: any = useSelector(
@@ -72,10 +72,12 @@ const SubjectMarkList = () => {
     dispatch(firstthreetopperslist(GetFirstThreeToopers));
   }, []);
 
+  // useEffect(() => {
+  //   dispatch(gettestmarklist(GetStudentsForSubjectMarkMouseOver));
+  // }, []);
   useEffect(() => {
-    dispatch(studentmouseoverlist(GetStudentsForSubjectMarkMouseOver));
-  }, []);
-  useEffect(() => {
+    console.log(GetTestMarkBody, "GetTestMarkBody");
+
     dispatch(gettestmarklist(GetTestMarkBody));
   }, []);
 
@@ -374,45 +376,45 @@ const SubjectMarkList = () => {
           </Box>
         </Box>
         {/* New Table End */}
-        <Authcontext.Provider value={StudentNamelistMouseOver} />
+        
 
-        {(HeaderList.length > 0) &&
-          (<Grid container>
-            <Grid xs={4}>
-              <DynamicList
-                HeaderList={HeaderList}
-                ItemList={TestMarkList.
-                  filter((item) => { return item.Index < 15 })
-                }
-                IconList={[]}
-                ClickItem={""}
-                // LinkList={true}
-                ClickLink={true}
-              /></Grid>
+          {(HeaderList.length > 0) &&
+            (<Grid container>
               <Grid xs={4}>
-              <DynamicList
-                HeaderList={HeaderList}
-                ItemList={TestMarkList.
-                  filter((item) => { return (item.Index > 14 && item.Index < 30) })
-                }
-                IconList={[]}
-                ClickItem={""}
-                // LinkList={true}
-                ClickLink={true}
-              /></Grid><Grid xs={4}>
-              <DynamicList
-                HeaderList={HeaderList}
-                ItemList={TestMarkList.
-                  filter((item) => { return (item.Index > 29 && item.Index < 45) })
-                }
-                IconList={[]}
-                ClickItem={""}
-                // LinkList={true}
-                ClickLink={true}
-              /></Grid>
+                <DynamicList
+                  HeaderList={HeaderList}
+                  ItemList={TestMarkList.
+                    filter((item) => { return item.Index < 15 })
+                  }
+                  IconList={[]}
+                  ClickItem={""}
+                  // LinkList={true}
+                  ClickLink={true}
+                /></Grid>
+              <Grid xs={4}>
+                <DynamicList
+                  HeaderList={HeaderList}
+                  ItemList={TestMarkList.
+                    filter((item) => { return (item.Index > 14 && item.Index < 30) })
+                  }
+                  IconList={[]}
+                  ClickItem={""}
+                  // LinkList={true}
+                  ClickLink={true}
+                /></Grid><Grid xs={4}>
+                <DynamicList
+                  HeaderList={HeaderList}
+                  ItemList={TestMarkList.
+                    filter((item) => { return (item.Index > 29 && item.Index < 45) })
+                  }
+                  IconList={[]}
+                  ClickItem={""}
+                  // LinkList={true}
+                  ClickLink={true}
+                /></Grid>
 
-          </Grid>)
-        }
+            </Grid>)
+          }
       </Box>
     </>
   )
