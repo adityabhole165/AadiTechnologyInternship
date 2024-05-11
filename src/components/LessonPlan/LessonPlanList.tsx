@@ -132,12 +132,12 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                     <AccordionDetails sx={{ p: 0 }}>
                         <Table>
                             <TableHead>
-                                <TableRow>
+                                {/* <TableRow>
                                     <HeaderStyledCell width={10}></HeaderStyledCell>
                                     <HeaderStyledCell>
                                         {lesson?.lessonName}
                                     </HeaderStyledCell>
-                                </TableRow>
+                                </TableRow> */}
                                 <TableRow>
                                     <StyledCell width={10} sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>Sr.No.</StyledCell>
                                     <StyledCell sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>
