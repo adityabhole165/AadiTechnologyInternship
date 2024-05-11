@@ -343,7 +343,10 @@ const teacherRoutes = [
     path: 'ViewHomework/:Id',
     element: <ViewHomework />
   },
-
+  {
+    path: 'ViewHomework/:Id/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
+    element: <ViewHomework />
+  },
   {
     path: 'AddUnpublish/:Id',
     element: <AddUnpublish />

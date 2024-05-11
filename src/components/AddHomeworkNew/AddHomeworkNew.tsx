@@ -21,7 +21,7 @@ import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 const AddHomeworkNew = () => {
-  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass,StandardDivision } =
+  const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
     useParams();
 
 
@@ -166,7 +166,7 @@ const AddHomeworkNew = () => {
     AsId: Number(HomeworkId),
     asTitle: Title,
     asSubjectId: Number(SubjectCheckID),
-    asStandardDivisionId:Number(SelectClass) ,
+    asStandardDivisionId: Number(SelectClass),
     asAttachmentPath: fileName,
     asDetails: Details,
     asAssignDate: AssignedDate,
@@ -242,11 +242,11 @@ const AddHomeworkNew = () => {
       setErrorAssignedDate('Field should not be blank ')
       isError = true
     }
-    else if (  CompleteDate  == '') {
-       setErrorCompleteDate('Complete by Date should not be blank ')
+    else if (CompleteDate == '') {
+      setErrorCompleteDate('Complete by Date should not be blank ')
       isError = true
     }
-    
+
     else if (Details == '') {
       setErrorDetails('Field should not be blank')
       isError = true
@@ -311,9 +311,22 @@ const AddHomeworkNew = () => {
 
 
   const clickTitle = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
+    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id +
+      '/' +
+      TeacherId +
+      '/' +
+      TeacherName +
+      '/' +
+      ClassName +
+      '/' +
+      SubjectName +
+      '/' +
+      SubjectId +
+      '/' +
+      MySubject +
+      '/' +
+      SelectClass)
   };
-
   const clickView = (Id) => {
     navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id);
   };
@@ -729,7 +742,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c' }}  disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+            <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c' }} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
           </Grid>
           <Grid item xs={3}>
             <TextField
@@ -737,7 +750,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               label={'Class Teacher'}
               value={TeacherName}
               sx={{ bgcolor: '#f0e68c' }}
-              disabled  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
           </Grid>
           <Grid item xs={3}>
 
@@ -808,7 +821,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               onChange={handleCompleteByDateChange}
               error={ErrorCompleteDate !== ''}
               helperText={ErrorCompleteDate}
-             
+
 
             />
           </Grid>

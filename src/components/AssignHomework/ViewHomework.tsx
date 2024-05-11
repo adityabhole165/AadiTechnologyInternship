@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
@@ -18,7 +18,7 @@ import CommonPageHeader from '../CommonPageHeader';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id } = useParams();
+  const { Id, TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass } = useParams();
   const [AssignedDate, setAssignedDate] = useState('');
   const [Title, setTitle] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');
@@ -91,11 +91,24 @@ const ViewHomework = () => {
           navLinks={[
             {
               title: 'Assign Homework',
-              path: '/extended-sidebar/Teacher/AddHomework'
+              path: '/extended-sidebar/Teacher/AssignHomework'
             },
             {
               title: 'Add Homework',
-              path: '/extended-sidebar/Teacher/AddHomework'
+              path: '/extended-sidebar/Teacher/AddHomeworkNew/' +
+                TeacherId +
+                '/' +
+                TeacherName +
+                '/' +
+                ClassName +
+                '/' +
+                SubjectName +
+                '/' +
+                SubjectId +
+                '/' +
+                MySubject +
+                '/' +
+                SelectClass
             },
             {
               title: 'View Homework',
@@ -141,7 +154,7 @@ const ViewHomework = () => {
 
             <Grid item xs={6}>
               <Typography>
-                Attachment: &nbsp; 
+                Attachment: &nbsp;
                 <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer', }}>
                   {HomeworkDetail.AttachmentPath}
                 </a>
