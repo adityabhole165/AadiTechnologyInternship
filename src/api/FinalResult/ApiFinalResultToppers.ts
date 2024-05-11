@@ -5,8 +5,8 @@ import {
   IGetClassSubjectDropdownResultCT,
   IGetClassToppersListBOdyCT,
   IGetClassToppersListResultCT,
-  IGetExamDropdownResultCT,
-  IGetexamDropdownBodyCT
+  IGetClassExamDropdownResultCT,
+  IGetClassexamDropdownBodyCT
 } from 'src/interfaces/FinalResult/IFinalResultToppers';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -16,8 +16,8 @@ const ClassDropdownCT = (data: IGetClassDropdownBodyCT) => {
     data
   );
 };
-const ClassExamDropdownCT = (data: IGetexamDropdownBodyCT) => {
-  return http.post<IGetExamDropdownResultCT[]>(
+const ClassExamDropdownCT = (data: IGetClassexamDropdownBodyCT) => {
+  return http.post<IGetClassExamDropdownResultCT[]>(
     'Teacher/GetClassExamDropDown',
     data
   );
@@ -34,10 +34,13 @@ const ClassToppersListCT = (data: IGetClassToppersListBOdyCT) => {
     data
   );
 };
+
+
 const FinalResultToppersApiCT = {
   ClassDropdownCT,
   ClassExamDropdownCT,
   ClassSubjectDropdownCT,
-  ClassToppersListCT
+  ClassToppersListCT,
+
 };
 export default FinalResultToppersApiCT;

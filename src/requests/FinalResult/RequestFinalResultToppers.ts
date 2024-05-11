@@ -4,7 +4,7 @@ import {
   IGetClassDropdownBodyCT,
   IGetClassSubjectDropdownBodyCT,
   IGetClassToppersListBOdyCT,
-  IGetexamDropdownBodyCT
+  IGetClassexamDropdownBodyCT,
 } from 'src/interfaces/FinalResult/IFinalResultToppers';
 import { AppThunk } from 'src/store';
 
@@ -16,7 +16,8 @@ const FinalResultToppersSlice = createSlice({
     ExamDropdownListCT: [],
     SubjectDropdownListCT: [],
     ClassToppersCT: [],
-    SubjectToppersCT: []
+    SubjectToppersCT: [],
+
   },
   reducers: {
     classListCT(state, action) {
@@ -33,7 +34,8 @@ const FinalResultToppersSlice = createSlice({
     },
     SubjectToppersListCT(state, action) {
       state.SubjectToppersCT = action.payload;
-    }
+    },
+
   }
 });
 export const ClassdropdownListCT =
@@ -50,8 +52,9 @@ export const ClassdropdownListCT =
       dispatch(FinalResultToppersSlice.actions.classListCT(abc));
       console.log(abc, 'abc');
     };
+
 export const ClassExamListCT =
-  (data: IGetexamDropdownBodyCT): AppThunk =>
+  (data: IGetClassexamDropdownBodyCT): AppThunk =>
     async (dispatch) => {
       const response = await FinalResultToppersApiCT.ClassExamDropdownCT(data);
       let abc = response.data.map((item, i) => {
@@ -63,6 +66,7 @@ export const ClassExamListCT =
       });
       dispatch(FinalResultToppersSlice.actions.ExamListCT(abc));
     };
+
 export const ClassSubjectListCT =
   (data: IGetClassSubjectDropdownBodyCT): AppThunk =>
     async (dispatch) => {
@@ -78,6 +82,7 @@ export const ClassSubjectListCT =
       });
       dispatch(FinalResultToppersSlice.actions.SubjectListCT(abc));
     };
+
 export const ClassTopperListCT =
   (data: IGetClassToppersListBOdyCT): AppThunk =>
     async (dispatch) => {

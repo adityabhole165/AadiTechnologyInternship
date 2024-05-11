@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 import StandardToppersApiST from 'src/api/FinalResult/ApiStandardToppers';
 import {
@@ -12,7 +13,7 @@ const StandardToppersSlice = createSlice({
   name: 'FinalResultToppers',
 
   initialState: {
-    StandardDropdownST: [],
+    StandardDropdownListST: [],
     ExamDropdownListST: [],
     SubjectDropdownListST: [],
     StandardTopperST: [],
@@ -20,7 +21,7 @@ const StandardToppersSlice = createSlice({
   },
   reducers: {
     StandardListST(state, action) {
-      state.StandardDropdownST = action.payload;
+      state.StandardDropdownListST = action.payload;
     },
     ExamListST(state, action) {
       state.ExamDropdownListST = action.payload;
@@ -39,31 +40,34 @@ const StandardToppersSlice = createSlice({
 export const StandardDropdownListST =
   (data: IGetStandardDropdownBodyST): AppThunk =>
     async (dispatch) => {
-      const response = await StandardToppersApiST.StandardDropdownListST(data);
+      const response = await StandardToppersApiST.StandardDropdownST(data);
 
-      let abc = response.data.map((item, i) => {
+      let getStandard = response.data.map((item, i) => {
         return {
           Id: item.Standard_Id,
           Name: item.Standard_Name,
           Value: item.Standard_Id
         };
       });
-      dispatch(StandardToppersSlice.actions.StandardListST(abc));
+      dispatch(StandardToppersSlice.actions.StandardListST(getStandard));
+      console.log(getStandard, 'Standards');
     };
 
 export const StandardExamListST =
   (data: IGetStandardExamDropdownBodyST): AppThunk =>
     async (dispatch) => {
       const response = await StandardToppersApiST.StandardExamDropdownST(data);
-      let abc = response.data.map((item, i) => {
+      let getStandardExam = response.data.map((item, i) => {
         return {
           Id: item.SchoolWise_Test_Id,
           Name: item.SchoolWise_Test_Name,
           Value: item.SchoolWise_Test_Id
         };
       });
-      dispatch(StandardToppersSlice.actions.ExamListST(abc));
+      dispatch(StandardToppersSlice.actions.ExamListST(getStandardExam));
+      console.log(getStandardExam, 'Standards');
     };
+
 export const StandardSubjectListST =
   (data: IGetSubjectDropdownBodyST): AppThunk =>
     async (dispatch) => {

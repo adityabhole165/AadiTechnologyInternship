@@ -1,3 +1,4 @@
+
 import {
   IGetStandardDropdownBodyST,
   IGetStandardDropdownResultST,
@@ -10,13 +11,13 @@ import {
 } from 'src/interfaces/FinalResult/IStandardToppers';
 import http from '../../requests/SchoolService/schoolServices';
 
-const StandardDropdownListST = (data: IGetStandardDropdownBodyST) => {
+
+const StandardDropdownST = (data: IGetStandardDropdownBodyST) => {
   return http.post<IGetStandardDropdownResultST[]>(
     'Teacher/GetStandardsDropDown',
     data
   );
 };
-
 const StandardExamDropdownST = (data: IGetStandardExamDropdownBodyST) => {
   return http.post<IGetStandardExamDropdownResultST[]>(
     'Teacher/GetStandardExamDropDown',
@@ -40,7 +41,7 @@ const StandardToppersApiST = {
   StandardExamDropdownST,
   ClassSubjectDropdownST,
   StandardToppersListST,
-  StandardDropdownListST
+  StandardDropdownST
 };
 
 export default StandardToppersApiST;

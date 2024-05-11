@@ -12,35 +12,29 @@ import {
   IGetClassDropdownBodyCT,
   IGetClassSubjectDropdownBodyCT,
   IGetClassToppersListBOdyCT,
-  IGetexamDropdownBodyCT
+  IGetClassexamDropdownBodyCT
 } from 'src/interfaces/FinalResult/IFinalResultToppers';
-import {
-  IGetStandardDropdownBodyST,
-  IGetStandardExamDropdownBodyST,
-  IGetStandardToppersListBOdyST,
-  IGetSubjectDropdownBodyST
-} from 'src/interfaces/FinalResult/IStandardToppers';
 import {
   ClassExamListCT,
   ClassSubjectListCT,
   ClassTopperListCT,
   ClassdropdownListCT
 } from 'src/requests/FinalResult/RequestFinalResultToppers';
-import {
-  StandardDropdownListST,
-  StandardExamListST,
-  StandardSubjectListST,
-  StandardTopperListST
-} from 'src/requests/FinalResult/RqstandardToppers';
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { grey } from '@mui/material/colors';
 import { useNavigate, useParams } from 'react-router';
+import { IGetStandardDropdownBodyST, IGetStandardExamDropdownBodyST, IGetStandardToppersListBOdyST, IGetSubjectDropdownBodyST } from 'src/interfaces/FinalResult/IStandardToppers';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import ToppersList from 'src/libraries/list/ToppersList';
+import { StandardDropdownListST, StandardExamListST, StandardSubjectListST, StandardTopperListST } from 'src/requests/FinalResult/RqstandardToppers';
 import { RootState, useDispatch } from 'src/store';
+// import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
+// import GoldMedal from '../../assets/img/medals/gold-medal.png';
+// import SilverMedal from '/../assets/img/medals/silver-medal.png';
+
 import CommonPageHeader from '../CommonPageHeader';
 
 const FinalResultToppers = () => {
@@ -48,11 +42,11 @@ const FinalResultToppers = () => {
   const navigate = useNavigate();
   const { TeacherId } = useParams();
 
-  const [SelectClassCT, setClassCT] = useState(TeacherId);
-  const [SelectExamCT, setExamCT] = useState('0');
+  const [SelectClassCT, setClassCT] = useState(sessionStorage.getItem('StandardDivisionId'));
+  const [SelectExamCT, setExamCT] = useState();
   const [SelectSubjectCT, setSubjectCT] = useState('0');
   const [StandardRadioCT, setStandardRadioCT] = useState();
-  const [SelectStandardST, setStandardST] = useState(TeacherId);
+  const [SelectStandardST, setStandardST] = useState(sessionStorage.getItem('StandardId'));
   const [SelectExamST, setExamST] = useState('0');
   const [SelectSubjectST, setSubjectST] = useState('0');
   const [showScreenOne, setShowScreenOne] = useState(true);
@@ -71,6 +65,7 @@ const FinalResultToppers = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
+
   const Note: string =
     'Display the first three class/ standard toppers as well as subject toppers of your class/ standard for the selected exam';
   const GetClassdropdownCT = useSelector(
@@ -91,7 +86,7 @@ const FinalResultToppers = () => {
   //
 
   const GetStandarddropdownST = useSelector(
-    (state: RootState) => state.StandardToppers.StandardDropdownST
+    (state: RootState) => state.StandardToppers.StandardDropdownListST
   );
   const GetExamdropdownST = useSelector(
     (state: RootState) => state.StandardToppers.ExamDropdownListST
@@ -107,23 +102,34 @@ const FinalResultToppers = () => {
     (state: RootState) => state.StandardToppers.StandardSubjectToppersST
   );
   //
+  // const getMedal = (rank) => {
+  //   if (rank === 1) return GoldMedal;
+  //   else if (rank === 2) return SilverMedal;
+  //   else if (rank === 3) return BronzeMedal;
+  //   else return null; // No medal for ranks beyond 3
+  // };
 
   useEffect(() => {
     dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
-  }, [TeacherId]);
+  }, []);
+
+
+
   useEffect(() => {
     dispatch(ClassExamListCT(ExamDropdownBodyCT));
   }, [SelectClassCT]);
+
   useEffect(() => {
     dispatch(ClassSubjectListCT(SujectDropdownBodyCT));
   }, [SelectClassCT, SelectExamCT]);
+
   useEffect(() => {
     dispatch(ClassTopperListCT(ToppersListBodyCT));
   }, [SelectClassCT, SelectExamCT, SelectSubjectCT]);
 
-  useEffect(() => {
-    if (GetClassdropdownCT.length > 0) setClassCT(GetClassdropdownCT[0].Id);
-  }, [GetClassdropdownCT]);
+  // useEffect(() => {
+  //   if (GetClassdropdownCT.length > 0) setClassCT(GetClassdropdownCT[0].Id);
+  // }, [GetClassdropdownCT]);
 
   useEffect(() => {
     if (GetExamdropdownCT.length > 0) setExamCT(GetExamdropdownCT[0].Id);
@@ -137,12 +143,15 @@ const FinalResultToppers = () => {
   useEffect(() => {
     dispatch(StandardDropdownListST(StandardDropdownBodyST));
   }, [TeacherId]);
+
   useEffect(() => {
     dispatch(StandardExamListST(ExamDropdownBodyST));
   }, [SelectStandardST]);
+
   useEffect(() => {
     dispatch(StandardSubjectListST(SujectDropdownBodyST));
   }, [SelectStandardST, SelectExamST]);
+
   useEffect(() => {
     dispatch(StandardTopperListST(StandardToppersBodyST));
   }, [SelectStandardST, SelectExamST, SelectSubjectST]);
@@ -163,10 +172,10 @@ const FinalResultToppers = () => {
 
   const ClassDropdownBodyCT: IGetClassDropdownBodyCT = {
     asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asTeacherId: Number(TeacherId)
+    asAcademicYearId: asAcademicYearId
+
   };
-  const ExamDropdownBodyCT: IGetexamDropdownBodyCT = {
+  const ExamDropdownBodyCT: IGetClassexamDropdownBodyCT = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: Number(SelectClassCT)
@@ -187,20 +196,25 @@ const FinalResultToppers = () => {
 
   const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
     asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asTeacherId: Number(TeacherId)
+    asAcademicYearId: asAcademicYearId
   };
+
   const ExamDropdownBodyST: IGetStandardExamDropdownBodyST = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardId: Number(SelectStandardST)
+    // asSchoolId: 18,
+    // asAcademicYearId: 54,
+    // asStandardId: 1066
   };
+
   const SujectDropdownBodyST: IGetSubjectDropdownBodyST = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardId: Number(SelectStandardST),
     asExamId: Number(SelectExamST)
   };
+
   const StandardToppersBodyST: IGetStandardToppersListBOdyST = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -208,6 +222,7 @@ const FinalResultToppers = () => {
     asExamId: Number(SelectExamST),
     asSubjectId: Number(SelectSubjectST)
   };
+
   const clickClassDropdownCT = (value) => {
     setClassCT(value);
   };
@@ -217,7 +232,7 @@ const FinalResultToppers = () => {
   const clickSubjectDropdownCT = (value) => {
     setSubjectCT(value);
   };
-  //
+
 
   const clickStandardDropdownST = (value) => {
     setStandardST(value);
@@ -277,28 +292,62 @@ const FinalResultToppers = () => {
               />
             </Box>
           )}
-          <Box>
-            <Dropdown
-              size={"small"}
-              Array={GetExamdropdownCT}
-              handleChange={clickExamDropdownCT}
-              defaultValue={SelectExamCT}
-              label={'Select Exam'}
-              width={'200px'}
-              variant={"outlined"}
-            />
-          </Box>
-          <Box>
-            <Dropdown
-              size={"small"}
-              Array={GetSubjectdropdownCT}
-              handleChange={clickSubjectDropdownCT}
-              defaultValue={SelectSubjectCT}
-              label={'Select Subject'}
-              width={'150px'}
-              variant={"outlined"}
-            />
-          </Box>
+
+          {radioBtn === '1' ? (
+
+            <Box>
+              <Dropdown
+                size={"small"}
+                Array={GetExamdropdownCT}
+                handleChange={clickExamDropdownCT}
+                defaultValue={SelectExamCT}
+                label={'Select Exam'}
+                width={'200px'}
+                variant={"outlined"}
+              />
+            </Box>
+          ) : (
+            <Box>
+              <Dropdown
+                size={"small"}
+                Array={GetExamdropdownST}
+                handleChange={clickExamDropdownST}
+                defaultValue={SelectExamST}
+                label={'Select Exam'}
+                width={'200px'}
+                variant={"outlined"}
+              />
+            </Box>
+          )}
+
+          {radioBtn === '1' ? (
+
+            <Box>
+              <Dropdown
+                size={"small"}
+                Array={GetSubjectdropdownCT}
+                handleChange={clickSubjectDropdownCT}
+                defaultValue={SelectSubjectCT}
+                label={'Select Subject'}
+                width={'200px'}
+                variant={"outlined"}
+              />
+            </Box>
+          ) : (
+            <Box>
+              <Dropdown
+                size={"small"}
+                Array={GetSubjectdropdownST}
+                handleChange={clickSubjectDropdownST}
+                defaultValue={SelectSubjectST}
+                label={'Select Subject'}
+                width={'200px'}
+                variant={"outlined"}
+              />
+            </Box>
+          )}
+
+
           <Box>
             <Tooltip title={Note}>
               <IconButton
@@ -327,6 +376,19 @@ const FinalResultToppers = () => {
         {radioBtn === '1' ? (
           <>
             <Box>
+              {SelectExamCT && (
+                <Typography variant="h3" sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white
+                }}>
+
+                  {GetExamdropdownCT.map((item) => {
+                    return item.Value === SelectExamCT ? item.Name : null;
+                  })}
+                </Typography>
+              )}
 
               <DynamicList2
                 HeaderList={HeaderListCT}
@@ -355,6 +417,8 @@ const FinalResultToppers = () => {
                       <Grid item xs={4} justifyContent="center">
                         <Box sx={{ px: 2 }}>
                           <img src={item.Rank_Image} /> MarKs:{item.Marks}
+                          {/* <img src={getMedal(i + 1)} /> */}
+                          Marks: {item.Marks}
                         </Box>
                         <ToppersList
                           headers={HeaderList1CT}
@@ -369,6 +433,21 @@ const FinalResultToppers = () => {
           </>
         ) : (
           <Box>
+
+            {SelectExamST && (
+              <Typography variant="h3" sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white
+              }}>
+
+                {GetExamdropdownST.map((item) => {
+                  return item.Value === SelectExamST ? item.Name : null;
+                })}
+              </Typography>
+            )}
+
             <DynamicList2
               HeaderList={HeaderListST}
               ItemList={GetStandardToppersListST}
@@ -400,6 +479,7 @@ const FinalResultToppers = () => {
                         headers={HeaderList1ST}
                         data={item.Students}
                       />
+
                     </Grid>
                   </>
                 );
@@ -421,4 +501,4 @@ const FinalResultToppers = () => {
   );
 };
 
-export default FinalResultToppers;
+export default FinalResultToppers;       //  FinalResultToppers

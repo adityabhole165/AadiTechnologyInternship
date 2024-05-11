@@ -1,18 +1,17 @@
 export interface IGetClassDropdownBodyCT {
   asSchoolId: number;
   asAcademicYearId: number;
-  asTeacherId: number;
 }
 export interface IGetClassDropdownResultCT {
   SchoolWise_Standard_Division_Id: string;
   StandardDivision: string;
 }
-export interface IGetexamDropdownBodyCT {
+export interface IGetClassexamDropdownBodyCT {
   asSchoolId: number;
   asAcademicYearId: number;
   asStandardDivisionId: number;
 }
-export interface IGetExamDropdownResultCT {
+export interface IGetClassExamDropdownResultCT {
   SchoolWise_Test_Id: string;
   SchoolWise_Test_Name: string;
   Original_SchoolWise_Test_Id: string;
