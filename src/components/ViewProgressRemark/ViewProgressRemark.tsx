@@ -2,6 +2,7 @@ import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/mat
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import XMLParser from "react-xml-parser";
 import { IGetAllStudentsTestProgressSheetBody } from 'src/interfaces/ExamResult/IViewProgressReport';
 import { GetMarkDetailss } from 'src/requests/ExamResult/RequestViewProgressReport';
 import { RootState } from 'src/store';
@@ -41,6 +42,18 @@ const ViewProgressRemark = () => {
         console.log(ListMarksDetails[0]);
     }
     console.log("Length of ListMarksDetails:", ListMarksDetails.length);
+
+
+    let newData = "<NewDataSet><Table><YearWise_Student_Id>36731</YearWise_Student_Id><Student_Name>Miss Prisha Prashant Balbudhe</Student_Name><Standard_Name>2</Standard_Name><Division_Name>C</Division_Name><Academic_Year>2023-2024</Academic_Year><Standard_Division_Id>1253</Standard_Division_Id><Roll_No>1</Roll_No><Enrolment_Number>3901</Enrolment_Number><Standard_Id>1063</Standard_Id><School_Name>PAWAR PUBLIC SCHOOL</School_Name><School_Orgn_Name>Pawar Public Charitable Trust's</School_Orgn_Name><ShowOnlyGrades>true </ShowOnlyGrades><IsFailCriteriaNotApplicable>Y</IsFailCriteriaNotApplicable><IsPreprimaryStandard>0</IsPreprimaryStandard></Table></NewDataSet>";
+
+    var newDataXml = new XMLParser().parseFromString(newData);
+    //console.log("Student Name:", newDataXml.children[0].children[0].children[1].value); // Output: Miss Prisha Prashant Balbudhe
+
+    console.log("Student Name:", newDataXml?.children?.[0]?.children?.[1]?.value ?? "Student Name not found.");
+
+
+
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
