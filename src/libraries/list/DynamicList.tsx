@@ -47,6 +47,10 @@ const DynamicList = ({
     });
     return IsChecked;
   };
+  const IsIntegerOrDecimal = (value) => {
+    const re = /\d+\.\d+/;
+    return re.test(value);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -116,9 +120,11 @@ const DynamicList = ({
                     <TableCell align="center">{parseInt(item.Text2)}</TableCell>
 
                   )}
-                  {item.Text3 != undefined && (
+                  {item.Text3 !== undefined && (
                     <TableCell align="center"
-                      sx={{ color: (item.Is_Absent == 1 ? "red" : "") }}>{parseInt(item.Text3)}</TableCell>
+                      sx={{ color: (item.Is_Absent === 1 ? "red" : "") }}>{parseInt(item.Text3)}
+                      {IsIntegerOrDecimal(item.Text3)}
+                    </TableCell>
                   )}
                   {item.Text4 != undefined && (
                     <TableCell align="center">{parseInt(item.Text4)}</TableCell>
