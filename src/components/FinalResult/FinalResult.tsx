@@ -227,7 +227,9 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Toppers"}>
               <IconButton
-                onClick={Toppers}
+                onClick={() => {
+                  navigate('/extended-sidebar/Teacher/FinalResultToppers')
+                }}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
