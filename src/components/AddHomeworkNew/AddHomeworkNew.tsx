@@ -328,7 +328,23 @@ const AddHomeworkNew = () => {
       SelectClass)
   };
   const clickView = (Id) => {
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id);
+    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id +
+      '/' +
+      TeacherId +
+      '/' +
+      TeacherName +
+      '/' +
+      ClassName +
+      '/' +
+      SubjectName +
+      '/' +
+      SubjectId +
+      '/' +
+      MySubject +
+      '/' +
+      SelectClass
+
+    );
   };
 
   const clickDelete = (Id) => {
@@ -584,7 +600,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);
-    setAssignedDate1(value);
+   
 
   };
 

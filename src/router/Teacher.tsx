@@ -332,7 +332,7 @@ const teacherRoutes = [
     element: <HomeworkSubjectList />
   },
   {
-    path: 'HomeworkDocuments/:Id',
+    path: 'HomeworkDocuments/:Id/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
     element: <HomeworkDocuments />
   },
   // {

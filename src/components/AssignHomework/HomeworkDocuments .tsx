@@ -19,7 +19,7 @@ import CommonPageHeader from '../CommonPageHeader';
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id } = useParams();
+  const { Id, TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass } = useParams();
   // alert(Id)
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -92,7 +92,23 @@ const HomeworkDocuments = () => {
         <CommonPageHeader
           navLinks={[
             { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
-            { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomeworkNew' },
+            {
+              title: 'Add Homework',
+              path: '/extended-sidebar/Teacher/AddHomeworkNew/' +
+                TeacherId +
+                '/' +
+                TeacherName +
+                '/' +
+                ClassName +
+                '/' +
+                SubjectName +
+                '/' +
+                SubjectId +
+                '/' +
+                MySubject +
+                '/' +
+                SelectClass
+            },
             { title: 'Documents', path: '/extended-sidebar/Teacher/HomeworkDocuments' }
           ]}
           rightActions={
