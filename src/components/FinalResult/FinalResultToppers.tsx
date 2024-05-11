@@ -418,7 +418,7 @@ const FinalResultToppers = () => {
                         <Box sx={{ px: 2 }}>
                           <img src={item.Rank_Image} /> MarKs:{item.Marks}
                           {/* <img src={getMedal(i + 1)} /> */}
-                          Marks: {item.Marks}
+                          {/* Marks: {item.Marks} */}
                         </Box>
                         <ToppersList
                           headers={HeaderList1CT}
