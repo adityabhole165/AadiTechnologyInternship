@@ -328,24 +328,32 @@ const TransferOptionalSubjectMarks = () => {
         asStudentTransferMarksXml: getXML()
     };
     const clickTransfer = () => {
-        let arrParent = [];
-        ParentOptionalSubjects.forEach((Item) => {
-            if (!OptionalSubjects
-                .filter((childItem) => childItem.ParentOptionalSubjectId === Item.ParentOptionalSubjectId)
-                .some((subject) => subject.isActive)
-            ) {
-                arrParent.push(Item.OptionalSubjectName);
-            }
-        });
-
+        let errorMessages = [];
         if (!StudentsList.some((Item) => Item.IsActive)) {
             alert("At least one student subject should be selected.");
-        } else if (arrParent.length > 0) {
-            setErrorMessage("At least one subject should be selected for optional subject " + arrParent.join(", "));
         } else {
-            dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+            ParentOptionalSubjects.forEach((item) => {
+                let selectedSubjectsCount = OptionalSubjects.filter((subItem) => {
+                    return (
+                        subItem.ParentOptionalSubjectId === item.ParentOptionalSubjectId &&
+                        subItem.isActive
+                    );
+                }).length;
+    
+                if (selectedSubjectsCount < item.NoOfSubjects) {
+                    errorMessages.push(`At least ${item.NoOfSubjects} subject(s) should be selected for optional subject ${item.OptionalSubjectName}.`);
+                }
+            });
+    
+            if (errorMessages.length > 0) {
+                setErrorMessage(errorMessages.join("\n"));
+            } else {
+                dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+            }
         }
-    }
+    };
+    
+    
 
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
