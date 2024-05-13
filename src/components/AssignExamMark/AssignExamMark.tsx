@@ -10,11 +10,11 @@ import {
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
 
 import {
+  CDASubjectTeachersForAssignExamMarks,
   GetAssignExamMarkList,
   GetClassWiseExam,
   GetSubjectList,
   ReqSubmitMarksTeacher,
-  CDASubjectTeachersForAssignExamMarks,
   resetMessage
 } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
 import { RootState } from 'src/store';
@@ -26,10 +26,10 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import CommonPageHeader from '../CommonPageHeader';
-import { getSchoolConfigurations } from '../Common/Util';
 import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { getSchoolConfigurations } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -37,9 +37,9 @@ const AssignExamMark = () => {
 
   const { StandardDivisionId, TestId } =
     useParams();
-    let CanEdit = getSchoolConfigurations(74)
-    
-     
+  let CanEdit = getSchoolConfigurations(74)
+
+
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
@@ -98,19 +98,21 @@ const AssignExamMark = () => {
     });
     return perm;
   };
-   
+
 
   const GetClassTeacher = () => {
-    ClassDropdown.map((item)=>{
-      if(item.Value == selectClass){
-       return item.IsClassTeacher
+    let returnVal = false
+
+    ClassDropdown.map((item) => {
+      if (item.Value == selectClass) {
+        returnVal = item.IsClassTeacher
       }
 
     })
+    return returnVal
 
   };
-  console.log(GetClassTeacher(),"GetClassTeacher");
-  
+
 
 
   //ClassDrpdown
@@ -118,7 +120,7 @@ const AssignExamMark = () => {
   const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId ,
+    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId,
     asExamId: Number(ClassWiseExam),
     asStandardDivisionId: Number(selectClass),
     IsClassTeacher: true
@@ -127,13 +129,13 @@ const AssignExamMark = () => {
   const GetAssignExam: IAssignClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId 
-    
+    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId
+
   };
 
   const SubjectTeachersForAssignExamMarksBody: ISubjectTeachersForAssignExamMarksBody = {
-    asSchoolId:asSchoolId,
-    asAcademicYrId:asAcademicYearId
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId
   };
 
   //ClassWiseDropdwon
@@ -203,8 +205,6 @@ const AssignExamMark = () => {
   }, [UsSubmitMarksTeacher]);
 
   useEffect(() => {
-    console.log(selectClass, 'selectClass');
-
     dispatch(GetSubjectList(GetSubjectListtClass));
   }, [selectClass, ClassWiseExam, ClassTecher]);
 
@@ -219,7 +219,7 @@ const AssignExamMark = () => {
     SetClassTecher(value);
   };
 
-  
+
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },
     { Id: 2, Header: 'Subject' },
@@ -247,33 +247,33 @@ const AssignExamMark = () => {
         navLinks={[
           { title: 'Assign Exam Marks', path: '/extended-sidebar/Teacher/AssignExamMark' }
         ]}
-        rightActions={<> 
-        {
-          CanEdit == 'Y' ?  <Box>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={USSubjectTeachersForAssignExamMarks}
-            onChange={clickClassTeacher}
-            label={'Select Subject Teacher'}
-            defaultValue={ClassTecher ?.toString()}  
-            mandatory
-            size={"small"}
-          />
-           </Box>:
-          <span> </span>
-        } 
-         
-        <Box>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={ClassDropdown}
-            onChange={onClickClass}
-            label={'Select Class:'}
-            defaultValue={selectClass}
-            mandatory
-            size={"small"}
-          />
-        </Box>
+        rightActions={<>
+          {
+            CanEdit == 'Y' ? <Box>
+              <SearchableDropdown
+                sx={{ minWidth: '300px' }}
+                ItemList={USSubjectTeachersForAssignExamMarks}
+                onChange={clickClassTeacher}
+                label={'Select Subject Teacher'}
+                defaultValue={ClassTecher?.toString()}
+                mandatory
+                size={"small"}
+              />
+            </Box> :
+              <span> </span>
+          }
+
+          <Box>
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={ClassDropdown}
+              onChange={onClickClass}
+              label={'Select Class:'}
+              defaultValue={selectClass}
+              mandatory
+              size={"small"}
+            />
+          </Box>
           <Box>
 
             <SearchableDropdown
@@ -287,7 +287,7 @@ const AssignExamMark = () => {
             />
 
           </Box>
-         
+
           <Box>
             <Tooltip title={`View all subjects assigned with the current status of marks given to students. 
 Once marks for all the students are allotted you have to submit these marks to the class-teacher by clicking on &quot;Submit&quot; button.
