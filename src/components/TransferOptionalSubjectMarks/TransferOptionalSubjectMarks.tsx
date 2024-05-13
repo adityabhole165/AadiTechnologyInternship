@@ -522,7 +522,7 @@ const TransferOptionalSubjectMarks = () => {
                                                     {OptionalSubjects
                                                         .filter((objParent) => {
                                                             return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
-                                                                && objParent.IsDefault == "True"
+                                                                && objParent.OptionalSubjectsId !== "0"
                                                             )
                                                         })
                                                         .map((subItem, subIndex) => (
@@ -536,9 +536,9 @@ const TransferOptionalSubjectMarks = () => {
                                                                     {subItem.SubjectName}
                                                                     {OptionalSubjects
                                                                         .filter((objChildItem) => {
-                                                                            return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId &&
-                                                                                objChildItem.IsDefault == "False" &&
-                                                                                objChildItem.SubjectGroupId == subItem.SubjectGroupId
+                                                                            return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                                                && objChildItem.OptionalSubjectsId == "0"
+                                                                                && objChildItem.SubjectGroupId == subItem.SubjectGroupId
                                                                             )
                                                                         })
                                                                         .map((objChild, objChildIndex) => (
