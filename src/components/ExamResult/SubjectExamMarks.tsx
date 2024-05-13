@@ -39,7 +39,10 @@ const SubjectExamMarks = () => {
   //   return current.isBefore(today)
   // }
   const { ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId , ClassTecherID} = useParams();
+
+      console.log(ClassTecherID,"----ClassTecherId");
+      
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -305,7 +308,7 @@ const SubjectExamMarks = () => {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
       navigate("/extended-sidebar/Teacher/AssignExamMark/" +
-        StandardDivisionId + "/" + TestId
+        StandardDivisionId + "/" + TestId +"/" + ClassTecherID
       )
     }
   }, [ManageStudentsTestMarks])
@@ -389,7 +392,9 @@ const SubjectExamMarks = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark' },
+          { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
+          StandardDivisionId + "/" +  ClassTecherID +"/" + TestId
+           },
           { title: 'Subject Exam Marks', path: '' }
         ]}
         rightActions={
