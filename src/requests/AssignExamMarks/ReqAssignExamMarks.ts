@@ -111,36 +111,39 @@ export const GetSubjectList =
     async (dispatch) => {
       const response = await AssignExamMarkApi.SubjectsExamMarks(data);
       let serialNumber = 2;
-      let ClassList = response.data.ExamMarksStatusForClass.map(item => ({
-        Id: ++serialNumber,
-        Text1: item.StandardDivision,
-        Text2: item.Subject_Name,
-        Is_Submitted: item.Is_Submitted,
-        STATUS: item.STATUS,
-        StatusDescription: item.StatusDescription,
-        SubjectId: item.Subject_Id,
-        StandardId: item.Standard_Id,
-        IsMonthConfig: item.Is_MonthConfig,
-        StandardDivisionId: item.Standard_Division_Id
-      }));
+      let ClassList = response.data.ExamMarksStatusForClass ? 
+        response.data.ExamMarksStatusForClass.map(item => ({
+          Id: ++serialNumber,
+          Text1: item.StandardDivision,
+          Text2: item.Subject_Name,
+          Is_Submitted: item.Is_Submitted,
+          STATUS: item.STATUS,
+          StatusDescription: item.StatusDescription,
+          SubjectId: item.Subject_Id,
+          StandardId: item.Standard_Id,
+          IsMonthConfig: item.Is_MonthConfig,
+          StandardDivisionId: item.Standard_Division_Id
+        })) : [];
 
       serialNumber = 2;
-      let MyClassList = response.data.ExamMarksStatusForClassTeacher.map(item => ({
-        Id: ++serialNumber,
-        Text1: item.StandardDivision,
-        Text2: item.Subject_Name,
-        Is_Submitted: item.Is_Submitted,
-        STATUS: item.STATUS,
-        StatusDescription: item.StatusDescription,
-        SubjectId: item.Subject_Id,
-        StandardId: item.Standard_Id,
-        IsMonthConfig: item.Is_MonthConfig,
-        StandardDivisionId: item.Standard_Division_Id
-      }));
+      let MyClassList = response.data.ExamMarksStatusForClassTeacher ? 
+        response.data.ExamMarksStatusForClassTeacher.map(item => ({
+          Id: ++serialNumber,
+          Text1: item.StandardDivision,
+          Text2: item.Subject_Name,
+          Is_Submitted: item.Is_Submitted,
+          STATUS: item.STATUS,
+          StatusDescription: item.StatusDescription,
+          SubjectId: item.Subject_Id,
+          StandardId: item.Standard_Id,
+          IsMonthConfig: item.Is_MonthConfig,
+          StandardDivisionId: item.Standard_Division_Id
+        })) : [];
 
       dispatch(AssignExamMarkSlice.actions.getsubjectList(ClassList));
       dispatch(AssignExamMarkSlice.actions.getsubjectList1(MyClassList));
     };
+
 
 
 

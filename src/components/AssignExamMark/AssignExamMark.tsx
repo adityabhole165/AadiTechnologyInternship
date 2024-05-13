@@ -69,6 +69,7 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass
   );
 
+  
   const SubjectListmarkClass1 = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass1
   );
@@ -312,9 +313,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
           (
-            // <>{SubjectListmarkClass[2].Text1}
-            //   {SubjectListmarkClass.map((Item, i) => (<Typography key={i}>{Item.Text1}</Typography>))}
-            // </>
+            
             <ListEditIcon1
               ItemList={SubjectListmarkClass}
               clickEdit={clickEdit}
