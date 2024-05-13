@@ -59,7 +59,7 @@ const ExamResultToppers = () => {
     const { TeacherId, StandardDivisionId } = useParams();
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
-    const [SelectExamCT, setExamCT] = useState('0');
+    const [SelectExamCT, setExamCT] = useState();
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
     const [SelectStandardST, setStandardST] = useState(StandardDivisionId);
@@ -186,7 +186,8 @@ const ExamResultToppers = () => {
     );
 
     const GetStandarddropdownST = useSelector(
-        (state: RootState) => state.StandardToppers.StandardDropdownST
+        (state: RootState) => state.StandardToppers.StandardDropdownListST
+
     );
     const GetExamdropdownST = useSelector(
         (state: RootState) => state.StandardToppers.ExamDropdownListST
