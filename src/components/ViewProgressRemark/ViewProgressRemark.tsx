@@ -1,5 +1,5 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import XMLParser from "react-xml-parser";
@@ -9,9 +9,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 const ViewProgressRemark = () => {
-    const [studentName, setStudentName] = useState("");
-    const [studentNames, setStudentNames] = useState([]);
-
     const dispatch = useDispatch();
     const { TestId } = useParams();
     console.log("testid", TestId)
@@ -46,35 +43,28 @@ const ViewProgressRemark = () => {
     }
     console.log("Length of ListMarksDetails:", ListMarksDetails.length);
 
-    // useEffect(() => {
-
-    //     let newData = "<NewDataSet><Table><YearWise_Student_Id>40113</YearWise_Student_Id><Student_Name>Miss Aaradhya Amol Bhadale</Student_Name><Standard_Name>7</Standard_Name><Division_Name>B</Division_Name><Academic_Year>2024-2025</Academic_Year><Standard_Division_Id>1331</Standard_Division_Id><Roll_No>3</Roll_No><Enrolment_Number>2797</Enrolment_Number><Standard_Id>1081</Standard_Id><School_Name>PAWAR PUBLIC SCHOOL</School_Name><School_Orgn_Name>Pawar Public Charitable Trust's</School_Orgn_Name><ShowOnlyGrades>false</ShowOnlyGrades><IsFailCriteriaNotApplicable>Y</IsFailCriteriaNotApplicable><IsPreprimaryStandard>0</IsPreprimaryStandard></Table></NewDataSet>"
-    //     var newDataXml = new XMLParser().parseFromString(newData);
-    //     const name = newDataXml?.children?.[0]?.children?.[1]?.value ?? "Student Name not found.";
-
-    //     console.log("Student Name:", newDataXml?.children?.[0]?.children?.[1]?.value ?? "Student Name not found.");
-    // }, [TestId, StandardDivisionId]);
-
-
-    useEffect(() => {
-        // Check if ListMarksDetails.Header exists and is not null or undefined
-        if (ListMarksDetails && ListMarksDetails.Header) {
-            // Parse the XML data string
-            const newDataXml = new XMLParser().parseFromString(ListMarksDetails.Header);
-
-            // Extract the student name from the parsed XML
-            const name = newDataXml?.children?.[0]?.children?.[1]?.value ?? "Student Name not found.";
-            console.log("Student Name:", newDataXml?.children?.[0]?.children?.[1]?.value ?? "Student Name not found.");
-            // Set the student name in state
-            setStudentName(name);
-        }
-    }, [ListMarksDetails]);
-
-
     const getStudentName = (data) => {
-        var xml = new XMLParser().parseFromString(data);
-        return xml.children[0].children[1].value
+        var StudentName = new XMLParser().parseFromString(data);
+        return StudentName.children[0].children[1].value
     }
+    const getRollNo = (data) => {
+        var RollNo = new XMLParser().parseFromString(data);
+        return RollNo.children[0].children[6].value
+
+    }
+    const getStdDiv = (data) => {
+        var parsedData = new XMLParser().parseFromString(data);
+        var standardName = parsedData.children[0].children[2].value;
+        var divisionName = parsedData.children[0].children[3].value;
+        return { standardName, divisionName };
+    }
+    const getAcademicYear = (data) => {
+        var AcademicYear = new XMLParser().parseFromString(data);
+        return AcademicYear.children[0].children[4].value
+
+    }
+
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -101,18 +91,16 @@ const ViewProgressRemark = () => {
                         <Typography variant={"h4"} mb={1}>Student Details</Typography>
                         <Table>
                             <TableBody>
-
                                 <TableRow sx={{ bgcolor: 'grey.200' }}>
-                                    <TableCell><b>Roll No:</b> 1</TableCell>
-                                    {/* <TableCell> Name: {studentName}</TableCell> */}
+                                    <TableCell><b>Roll No:{getRollNo(ListMarksDetails.Header)}</b></TableCell>
                                     {ListMarksDetails && ListMarksDetails.Header && (
                                         <TableCell><b>Name: {getStudentName(ListMarksDetails.Header)}</b></TableCell>
                                     )}
-
-                                    <TableCell><b>Class:</b> 1 - A	</TableCell>
-                                    <TableCell><b>Year:</b> 2023-2024	</TableCell>
+                                    {ListMarksDetails && ListMarksDetails.Header && (
+                                        <TableCell><b>Class: {getStdDiv(ListMarksDetails.Header).standardName} - {getStdDiv(ListMarksDetails.Header).divisionName}</b></TableCell>
+                                    )}
+                                    <TableCell><b>Year:{getAcademicYear(ListMarksDetails.Header)}</b> </TableCell>
                                 </TableRow>
-
                             </TableBody>
                         </Table>
 
