@@ -69,7 +69,7 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass
   );
 
-  
+
   const SubjectListmarkClass1 = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass1
   );
@@ -103,15 +103,12 @@ const AssignExamMark = () => {
 
   const GetClassTeacher = () => {
     let returnVal = false
-
     ClassDropdown.map((item) => {
       if (item.Value == selectClass) {
         returnVal = item.IsClassTeacher
       }
-
     })
     return returnVal
-
   };
 
 
@@ -161,6 +158,8 @@ const AssignExamMark = () => {
     }
   }, [ClassDropdown]);
 
+
+
   useEffect(() => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, [selectClass]);
@@ -170,6 +169,7 @@ const AssignExamMark = () => {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
     }
   }, [ClassWiseExamDropdown]);
+ 
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
@@ -205,9 +205,6 @@ const AssignExamMark = () => {
     }
   }, [UsSubmitMarksTeacher]);
 
-  useEffect(() => {
-    dispatch(GetSubjectList(GetSubjectListtClass));
-  }, [selectClass, ClassWiseExam, ClassTecher]);
 
   const onClickClass = (value) => {
     SetSelectClass(value);
@@ -219,6 +216,9 @@ const AssignExamMark = () => {
   const clickClassTeacher = (value) => {
     SetClassTecher(value);
   };
+  useEffect(() => {
+    dispatch(GetSubjectList(GetSubjectListtClass));
+  }, [selectClass, ClassWiseExam, ClassTecher]);
 
 
   const HeaderPublish = [
@@ -313,7 +313,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
           (
-            
+
             <ListEditIcon1
               ItemList={SubjectListmarkClass}
               clickEdit={clickEdit}

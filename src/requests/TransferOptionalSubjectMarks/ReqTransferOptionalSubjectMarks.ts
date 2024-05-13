@@ -107,6 +107,7 @@ export const CDAOptionalSubjectsForMarksTransfer =
             ParentOptionalSubjectId: item.ParentOptionalSubjectId,
             IsDefault: item.IsDefault,
             isActive: false,
+            NoOfSubjects: item.NoOfSubjects
 
           };
         });

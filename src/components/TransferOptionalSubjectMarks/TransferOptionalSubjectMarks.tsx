@@ -196,6 +196,7 @@ const TransferOptionalSubjectMarks = () => {
                 arr.push({
                     ParentOptionalSubjectId: Item.ParentOptionalSubjectId,
                     OptionalSubjectName: Item.OptionalSubjectName,
+                    NoOfSubjects: Item.NoOfSubjects
                 })
 
         })
@@ -515,14 +516,14 @@ const TransferOptionalSubjectMarks = () => {
                                     .map((subject, index) => (
                                         <Accordion key={index}>
                                             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                                {subject.OptionalSubjectName} (Select any 1)
+                                                {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
                                             </AccordionSummary>
                                             <AccordionDetails>
                                                 <ul>
                                                     {OptionalSubjects
                                                         .filter((objParent) => {
                                                             return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
-                                                                && objParent.IsDefault == "True"
+                                                                && objParent.OptionalSubjectsId !== "0"
                                                             )
                                                         })
                                                         .map((subItem, subIndex) => (
@@ -536,9 +537,9 @@ const TransferOptionalSubjectMarks = () => {
                                                                     {subItem.SubjectName}
                                                                     {OptionalSubjects
                                                                         .filter((objChildItem) => {
-                                                                            return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId &&
-                                                                                objChildItem.IsDefault == "False" &&
-                                                                                objChildItem.SubjectGroupId == subItem.SubjectGroupId
+                                                                            return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                                                && objChildItem.OptionalSubjectsId == "0"
+                                                                                && objChildItem.SubjectGroupId == subItem.SubjectGroupId
                                                                             )
                                                                         })
                                                                         .map((objChild, objChildIndex) => (
