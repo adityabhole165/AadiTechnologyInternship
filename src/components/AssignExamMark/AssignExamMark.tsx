@@ -69,7 +69,7 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass
   );
 
-  
+
   const SubjectListmarkClass1 = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass1
   );
@@ -103,15 +103,12 @@ const AssignExamMark = () => {
 
   const GetClassTeacher = () => {
     let returnVal = false
-
     ClassDropdown.map((item) => {
       if (item.Value == selectClass) {
         returnVal = item.IsClassTeacher
       }
-
     })
     return returnVal
-
   };
 
 
@@ -155,8 +152,14 @@ const AssignExamMark = () => {
     dispatch(CDASubjectTeachersForAssignExamMarks(SubjectTeachersForAssignExamMarksBody));
   }, []);
 
+  // useEffect(() => {
+  //   if (ClassDropdown.length > 0 && selectClass == "") {
+  //     SetSelectClass(ClassDropdown[0].Value);
+  //   }
+  // }, [ClassDropdown]);
+
   useEffect(() => {
-    if (ClassDropdown.length > 0 && selectClass == "") {
+    if (ClassDropdown.length > 0) {
       SetSelectClass(ClassDropdown[0].Value);
     }
   }, [ClassDropdown]);
@@ -165,8 +168,13 @@ const AssignExamMark = () => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, [selectClass]);
 
+  // useEffect(() => {
+  //   if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
+  //     SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+  //   }
+  // }, [ClassWiseExamDropdown]);
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
+    if (ClassWiseExamDropdown.length > 0) {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
     }
   }, [ClassWiseExamDropdown]);
@@ -205,9 +213,6 @@ const AssignExamMark = () => {
     }
   }, [UsSubmitMarksTeacher]);
 
-  useEffect(() => {
-    dispatch(GetSubjectList(GetSubjectListtClass));
-  }, [selectClass, ClassWiseExam, ClassTecher]);
 
   const onClickClass = (value) => {
     SetSelectClass(value);
@@ -219,6 +224,9 @@ const AssignExamMark = () => {
   const clickClassTeacher = (value) => {
     SetClassTecher(value);
   };
+  useEffect(() => {
+    dispatch(GetSubjectList(GetSubjectListtClass));
+  }, [selectClass, ClassWiseExam, ClassTecher]);
 
 
   const HeaderPublish = [
@@ -313,7 +321,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
           (
-            
+
             <ListEditIcon1
               ItemList={SubjectListmarkClass}
               clickEdit={clickEdit}
