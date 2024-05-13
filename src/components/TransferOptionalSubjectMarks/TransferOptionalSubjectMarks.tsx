@@ -196,6 +196,7 @@ const TransferOptionalSubjectMarks = () => {
                 arr.push({
                     ParentOptionalSubjectId: Item.ParentOptionalSubjectId,
                     OptionalSubjectName: Item.OptionalSubjectName,
+                    NoOfSubjects: Item.NoOfSubjects
                 })
 
         })
@@ -515,7 +516,7 @@ const TransferOptionalSubjectMarks = () => {
                                     .map((subject, index) => (
                                         <Accordion key={index}>
                                             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                                {subject.OptionalSubjectName} (Select any 1)
+                                                {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
                                             </AccordionSummary>
                                             <AccordionDetails>
                                                 <ul>
