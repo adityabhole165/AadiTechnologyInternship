@@ -71,6 +71,10 @@ const ViewProgressRemark = () => {
     }, [ListMarksDetails]);
 
 
+    const getStudentName = (data) => {
+        var xml = new XMLParser().parseFromString(data);
+        return xml.children[0].children[1].value
+    }
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -102,7 +106,7 @@ const ViewProgressRemark = () => {
                                     <TableCell><b>Roll No:</b> 1</TableCell>
                                     {/* <TableCell> Name: {studentName}</TableCell> */}
                                     {ListMarksDetails && ListMarksDetails.Header && (
-                                        <TableCell><b>Name: {ListMarksDetails.Header}</b></TableCell>
+                                        <TableCell><b>Name: {getStudentName(ListMarksDetails.Header)}</b></TableCell>
                                     )}
 
                                     <TableCell><b>Class:</b> 1 - A	</TableCell>
