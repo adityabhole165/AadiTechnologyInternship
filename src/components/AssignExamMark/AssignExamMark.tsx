@@ -64,6 +64,7 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISAssignClassExam
   );
 
+
   const SubjectListmarkClass = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass
   );
@@ -98,6 +99,18 @@ const AssignExamMark = () => {
     return perm;
   };
    
+
+  const GetClassTeacher = () => {
+    ClassDropdown.map((item)=>{
+      if(item.Value == selectClass){
+       return item.IsClassTeacher
+      }
+
+    })
+
+  };
+  console.log(GetClassTeacher(),"GetClassTeacher");
+  
 
 
   //ClassDrpdown

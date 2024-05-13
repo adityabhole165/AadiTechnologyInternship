@@ -62,12 +62,14 @@ export const GetAssignExamMarkList =
   (data: IAssignClassBody): AppThunk =>
     async (dispatch) => {
       const response = await AssignExamMarkApi.AssignClass(data);
+      console.log(response.data,"response");
+      
       let a = response.data.map((item, i) => {
         return {
           Id: item.Standard_Division_Id,
           Name: item.StandardDivision,
           Value: item.Standard_Division_Id,
-          Text5: item.IsClassTeacher
+          IsClassTeacher: item.IsClassTeacher =="true"
         };
       });
       dispatch(AssignExamMarkSlice.actions.getAssignExamMark(a));
