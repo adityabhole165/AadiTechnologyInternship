@@ -123,7 +123,7 @@ const AssignExamMark = () => {
     aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId,
     asExamId: Number(ClassWiseExam),
     asStandardDivisionId: Number(selectClass),
-    IsClassTeacher: true
+    IsClassTeacher: GetClassTeacher()
 
   };
   const GetAssignExam: IAssignClassBody = {
