@@ -86,6 +86,8 @@ export const gettestmarklist =
           return "Ab";
         } else if (Item.Is_Absent === "J") {
           return "--";
+        } else if (Item.Is_Absent === "E") {
+          return "Ex"
         } else {
           return Item.Marks_Scored;
         }
