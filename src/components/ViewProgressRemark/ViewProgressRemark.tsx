@@ -36,7 +36,7 @@ const ViewProgressRemark = () => {
         }
         dispatch(GetMarkDetailss(GetAllStudentsTest));
 
-    }, []);
+    }, [TestId, StandardDivisionId]);
     console.log(ListMarksDetails[0])
     if (ListMarksDetails.length > 0) {
         console.log(ListMarksDetails[0]);
@@ -79,8 +79,18 @@ const ViewProgressRemark = () => {
         return GradeName.children[0].children[1].value
         console.log(GradeName.children[0].children[1].value);
     }
-
-
+    //Science
+    const getSubjectgroupTotal = (data) => {
+        var SubjectgroupTotal = new XMLParser().parseFromString(data);
+        return SubjectgroupTotal.children[0].children[3].value
+        console.log(SubjectgroupTotal.children[0].children[1].value);
+    }
+    //Practical,Theory 
+    const getSubjectTestType = (data) => {
+        var SubjectTestType = new XMLParser().parseFromString(data);
+        return SubjectTestType.children[0].children[7].value
+        console.log(SubjectTestType.children[0].children[1].value);
+    }
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
