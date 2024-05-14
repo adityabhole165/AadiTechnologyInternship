@@ -153,16 +153,28 @@ const AssignExamMark = () => {
     dispatch(CDASubjectTeachersForAssignExamMarks(SubjectTeachersForAssignExamMarksBody));
   }, []);
 
+  // useEffect(() => {
+  //   if (ClassDropdown.length > 0 && selectClass == "") {
+  //     SetSelectClass(ClassDropdown[0].Value);
+  //   }
+  // }, [ClassDropdown]);
+
   useEffect(() => {
-    if (ClassDropdown.length > 0 && selectClass == "") {
+    if (ClassDropdown.length > 0 ) {
       SetSelectClass(ClassDropdown[0].Value);
     }
   }, [ClassDropdown]);
 
 
 
+  // useEffect(() => {
+  //   if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
+  //     SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+  //   }
+  // }, [ClassWiseExamDropdown]);
+
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
+    if (ClassWiseExamDropdown.length > 0 ) {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
     }
   }, [ClassWiseExamDropdown]);
