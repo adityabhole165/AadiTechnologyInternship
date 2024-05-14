@@ -43,7 +43,7 @@ const AssignExamMark = () => {
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = sessionStorage.getItem('TeacherId');
-  const [ClassTecher, SetClassTecher] = useState(TeacherId == undefined ? ClassTecherid : TeacherId);
+  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ?  TeacherId: ClassTecherid);
      console.log(TeacherId, "----",ClassTecherid, "----" , ClassTecher);
      
 
@@ -153,29 +153,29 @@ const AssignExamMark = () => {
     dispatch(CDASubjectTeachersForAssignExamMarks(SubjectTeachersForAssignExamMarksBody));
   }, []);
 
-  useEffect(() => {
-    if (ClassDropdown.length > 0 && selectClass == "") {
-      SetSelectClass(ClassDropdown[0].Value);
-    }
-  }, [ClassDropdown]);
   // useEffect(() => {
-  //   if (ClassDropdown.length > 0 ) {
+  //   if (ClassDropdown.length > 0 && selectClass == "") {
   //     SetSelectClass(ClassDropdown[0].Value);
   //   }
   // }, [ClassDropdown]);
-
-
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
-      SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+    if (ClassDropdown.length > 0 ) {
+      SetSelectClass(ClassDropdown[0].Value);
     }
-  }, [ClassWiseExamDropdown]);
+  }, [ClassDropdown]);
+
 
   // useEffect(() => {
-  //   if (ClassWiseExamDropdown.length > 0 ) {
+  //   if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
   //     SetClassWiseExam(ClassWiseExamDropdown[0].Value);
   //   }
   // }, [ClassWiseExamDropdown]);
+
+  useEffect(() => {
+    if (ClassWiseExamDropdown.length > 0 ) {
+      SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+    }
+  }, [ClassWiseExamDropdown]);
 
 
   useEffect(() => {
