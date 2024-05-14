@@ -35,7 +35,7 @@ const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {  ClassTecherid ,StandardDivisionId, TestId } =
+  const { ClassTecherid, StandardDivisionId, TestId } =
     useParams();
   let CanEdit = getSchoolConfigurations(74)
 
@@ -43,9 +43,9 @@ const AssignExamMark = () => {
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = sessionStorage.getItem('TeacherId');
-  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ?  TeacherId: ClassTecherid);
-     console.log(TeacherId, "----",ClassTecherid, "----" , ClassTecher);
-     
+  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
+  console.log(TeacherId, "----", ClassTecherid, "----", ClassTecher);
+
 
   const { showAlert, closeAlert } = useContext(AlertContext);
 
@@ -119,7 +119,7 @@ const AssignExamMark = () => {
   const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: Number( CanEdit == 'Y' ? ClassTecher : aTeacherId),
+    aTeacherId: Number(CanEdit == 'Y' ? ClassTecher : aTeacherId),
     asExamId: Number(ClassWiseExam),
     asStandardDivisionId: Number(selectClass),
     IsClassTeacher: GetClassTeacher()
@@ -153,37 +153,28 @@ const AssignExamMark = () => {
     dispatch(CDASubjectTeachersForAssignExamMarks(SubjectTeachersForAssignExamMarksBody));
   }, []);
 
-  // useEffect(() => {
-  //   if (ClassDropdown.length > 0 && selectClass == "") {
-  //     SetSelectClass(ClassDropdown[0].Value);
-  //   }
-  // }, [ClassDropdown]);
   useEffect(() => {
-    if (ClassDropdown.length > 0 ) {
+    if (ClassDropdown.length > 0 && selectClass == "") {
       SetSelectClass(ClassDropdown[0].Value);
     }
   }, [ClassDropdown]);
 
 
-  // useEffect(() => {
-  //   if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
-  //     SetClassWiseExam(ClassWiseExamDropdown[0].Value);
-  //   }
-  // }, [ClassWiseExamDropdown]);
 
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0 ) {
+    if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
     }
   }, [ClassWiseExamDropdown]);
+
 
 
   useEffect(() => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, [selectClass]);
 
-  
- 
+
+
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
@@ -252,8 +243,8 @@ const AssignExamMark = () => {
       aTeacherId.toString() + '/' +
       value.StandardId + '/' +
       value.IsMonthConfig + '/' +
-      !(value.IsSubmitted == "N")) 
-     
+      !(value.IsSubmitted == "N"))
+
       ;
   };
 
