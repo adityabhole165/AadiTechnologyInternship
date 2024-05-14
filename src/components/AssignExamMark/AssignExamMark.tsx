@@ -43,7 +43,7 @@ const AssignExamMark = () => {
   const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = sessionStorage.getItem('TeacherId');
-  const [ClassTecher, SetClassTecher] = useState(TeacherId == undefined ? ClassTecherid : TeacherId);
+  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ?  TeacherId: ClassTecherid);
      console.log(TeacherId, "----",ClassTecherid, "----" , ClassTecher);
      
 

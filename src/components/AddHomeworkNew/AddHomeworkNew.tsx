@@ -17,7 +17,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
-import { getCalendarDateFormatDate } from '../Common/Util';
+import { getCalendarDateFormatDate, isFutureDate, isFutureDate1, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 const AddHomeworkNew = () => {
@@ -403,11 +403,13 @@ const AddHomeworkNew = () => {
 
   const clickPublishUnpublish = (Id, Text3) => {
 
+    console.log(Text3 ,"Text3----");
 
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
 
-    if (IsPublish == true && Text3 < currentDate) {
+    if (IsPublish == true &&  isFutureDate1(new Date(Text3)) ) {
+       
       alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
       return;
     }
