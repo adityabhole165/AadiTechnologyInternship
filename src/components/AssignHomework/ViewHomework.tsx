@@ -75,8 +75,26 @@ const ViewHomework = () => {
     }
   };
 
+ 
+
   const ClickAttachments = () => {
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id)
+    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id +
+      '/' +
+      TeacherId +
+      '/' +
+      TeacherName +
+      '/' +
+      ClassName +
+      '/' +
+      SubjectName +
+      '/' +
+      SubjectId +
+      '/' +
+      MySubject +
+      '/' +
+      SelectClass
+
+    );
   };
 
   // const ClickAttachment = () => {
@@ -155,7 +173,7 @@ const ViewHomework = () => {
             <Grid item xs={6}>
               <Typography>
                 Attachment: &nbsp;
-                <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer', }}>
+                <a  onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer', }}>
                   {HomeworkDetail.AttachmentPath}
                 </a>
               </Typography>
