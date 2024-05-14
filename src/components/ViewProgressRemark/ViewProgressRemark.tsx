@@ -7,10 +7,10 @@ import { IGetAllStudentsTestProgressSheetBody } from 'src/interfaces/ExamResult/
 import { GetMarkDetailss } from 'src/requests/ExamResult/RequestViewProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import DataTable from '../DataTable';
 const ViewProgressRemark = () => {
     const dispatch = useDispatch();
     const { TestId } = useParams();
+
     console.log("testid", TestId)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -63,6 +63,22 @@ const ViewProgressRemark = () => {
         return AcademicYear.children[0].children[4].value
 
     }
+    const getTestName = (data) => {
+        var TestName = new XMLParser().parseFromString(data);
+        return TestName.children[0].children[0].value
+        // console.log(TestName.children[0].children[0].value);
+    }
+
+    const getSubjectName = (data) => {
+        var SubjectName = new XMLParser().parseFromString(data);
+        return SubjectName.children[0].children[1].value
+        console.log(SubjectName.children[0].children[1].value);
+    }
+    const getGradeName = (data) => {
+        var GradeName = new XMLParser().parseFromString(data);
+        return GradeName.children[0].children[1].value
+        console.log(GradeName.children[0].children[1].value);
+    }
 
 
     return (
@@ -104,47 +120,22 @@ const ViewProgressRemark = () => {
                             </TableBody>
                         </Table>
 
-                        <Typography variant={"h4"} my={1} >Subject Progress Details For <Typography color='primary'>Subject Enrichment Analysis - I</Typography>
-                        </Typography>
-                        <DataTable
-                            columns={[
-                                {
-                                    id: 'english',
-                                    label: 'English',
-                                    renderCell: (rowData) => rowData.english
-                                },
-                                {
-                                    id: 'mathematics',
-                                    label: 'Mathematics',
-                                    renderCell: (rowData) => rowData.mathematics
-                                },
-                                {
-                                    id: 'evs',
-                                    label: 'E.V.S.',
-                                    renderCell: (rowData) => rowData.evs
-                                },
-                                {
-                                    id: 'computerStudies',
-                                    label: 'Computer Studies',
-                                    renderCell: (rowData) => rowData.computerStudies
-                                },
-                                {
-                                    id: 'hindi3',
-                                    label: 'Hindi III',
-                                    renderCell: (rowData) => rowData.hindi3
-                                },
-                            ]}
-                            data={[
-                                {
-                                    english: 'B2',
-                                    mathematics: 'A1',
-                                    evs: 'B2',
-                                    computerStudies: 'A1',
-                                    hindi3: 'A1',
-                                },
-                            ]}
+                        {ListMarksDetails && ListMarksDetails.Tests && (
+                            <Typography variant={"h4"} my={1}>
+                                Subject Progress Details For <Typography color='primary'>{getTestName(ListMarksDetails.Tests)}</Typography>
+                            </Typography>
+                        )}
+                        {/* <DataTable
+                            columns={ListMarksDetails.Subjects.map(subject => ({
+                                id: subject,
+                                label: getSubjectName(subject),
+                                renderCell: (rowData) => rowData[subject]
+                            }))}
+                            data={ListMarksDetails.grades.map(grade => ({
+                                grade: getGradeName(grade)
+                            }))}
                             isPagination={false}
-                        />
+                        /> */}
                     </Box>
                 </Box>
             ))}
