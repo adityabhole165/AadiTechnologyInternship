@@ -40,8 +40,8 @@ const SubjectExamMarks = () => {
   // }
   const { ClassTecher,ClassId, TeacherId,
     StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId  } = useParams();
-
-      console.log(ClassTecher,"----ClassTecherId");
+    
+      
       
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
@@ -308,7 +308,7 @@ const SubjectExamMarks = () => {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
       navigate("/extended-sidebar/Teacher/AssignExamMark/" +
-         ClassTecher  + "/" + TestId +"/" + StandardDivisionId
+         ClassTecher  + "/" + TestId +"/" + ClassId
       )
     }
   }, [ManageStudentsTestMarks])
@@ -393,7 +393,7 @@ const SubjectExamMarks = () => {
       <CommonPageHeader
         navLinks={[
           { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
-          ClassTecher+ "/" + StandardDivisionId +"/" + TestId
+          ClassTecher+ "/" + ClassId +"/" + TestId
            },
           { title: 'Subject Exam Marks', path: '' }
         ]}

@@ -230,7 +230,7 @@ const teacherRoutes = [
     element: <AssignExamMark />
   },
   {
-    path: 'AssignExamMark/:ClassTecherid/:StandardDivisionId/:TestId',
+    path: 'AssignExamMark/:ClassTecherid/:ClassId/:TestId',
     element: <AssignExamMark />
   },
 

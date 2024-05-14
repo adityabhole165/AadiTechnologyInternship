@@ -35,16 +35,16 @@ const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { ClassTecherid, StandardDivisionId, TestId } =
+  const { ClassTecherid, ClassId, TestId } =
     useParams();
   let CanEdit = getSchoolConfigurations(74)
 
 
-  const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
+  const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = sessionStorage.getItem('TeacherId');
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
-  console.log(TeacherId, "----", ClassTecherid, "----", ClassTecher);
+  
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -53,7 +53,7 @@ const AssignExamMark = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+  // const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
 
 
