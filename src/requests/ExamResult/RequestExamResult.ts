@@ -211,12 +211,23 @@ export const getClassPassFailDetailsForTest =
           : 'N';
       dispatch(SliceExamResult.actions.GetIsSubmitted(IsSubmitted));
 
+      const GetIsSubmitted = (SubjectId) => {
+        let returnVal = "N"
+        if (response.data?.LstGetFileDetails.length > 0) {
+          response.data?.LstGetFileDetails.map((Item) => {
+            if (Item.Subject_Id == SubjectId)
+              returnVal = Item.Is_Submitted
+          })
+        }
+        return returnVal
+      }
       const GetItem = (Column, Row) => {
         let returnVal = '0';
         response.data?.LstClassPassFailDetailsForTest.map((item) => {
           if (item.ExamStatusSortOrder == Column && item.Subject_Id == Row) {
-            returnVal = IsSubmitted == 'Y' ? item.Count.toString() : '-';
+            returnVal = GetIsSubmitted(item.Subject_Id) == 'Y' ? item.Count.toString() : ' - ';
           }
+          // else returnVal = '-'
         });
         return returnVal;
       };
@@ -243,7 +254,8 @@ export const getClassPassFailDetailsForTest =
 
         ColumnData.push({
           SubjectId: columnItem.Subject_Id.toString(),
-          SubjectName: columnItem.Subject_Name.toString()
+          SubjectName: columnItem.Subject_Name.toString(),
+          IsGrey: GetIsSubmitted(columnItem.Subject_Id) == "N"
         }
         );
         Column.push(row);

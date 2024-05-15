@@ -84,10 +84,12 @@ const DynamicList = ({
           <TableBody>
             {ItemList.map((item, index) => {
               return (
-                <TableRow key={index}>
+                <TableRow key={index} style={{
+                  backgroundColor: Data[index]?.IsGrey ? '#A9A9A9' : ''
+                }}>
                   {item.length > 0 && item.map((obj, i) => {
                     return (
-                      <TableCell align="center" key={i}>
+                      <TableCell align="center" key={i} >
                         {i === 0 ? (
                           <a
                             href="#"
