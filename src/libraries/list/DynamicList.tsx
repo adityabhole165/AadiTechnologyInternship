@@ -87,6 +87,25 @@ const DynamicList = ({
                 <TableRow key={index}>
                   {item.length > 0 && item.map((obj, i) => {
                     return (
+                      <TableCell align="center" key={i}>
+                        {i === 0 ? (
+                          <a
+                            href="#"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              ClickLink({ Id: Data[index], Index: i });
+                            }}
+                          >
+                            {obj}
+                          </a>
+                        ) : (
+                          obj
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                  {/* {item.length > 0 && item.map((obj, i) => {
+                    return (
                       <TableCell align="center" key={i}
                         onClick={() => {
                           ClickLink({ Id: Data[index], Index: i });
@@ -96,7 +115,7 @@ const DynamicList = ({
                         {obj}
                       </TableCell>
                     );
-                  })}
+                  })} */}
                   {/* {
                                     (IsSelect > 0) &&
                                     <TableCell align="center">
