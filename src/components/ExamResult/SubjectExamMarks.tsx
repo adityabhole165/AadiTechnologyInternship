@@ -38,11 +38,11 @@ const SubjectExamMarks = () => {
   // const disableFutureDt = current => {
   //   return current.isBefore(today)
   // }
-  const { ClassTecher,ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId  } = useParams();
-    
-      
-      
+  const { ClassTecher, ClassId, TeacherId,
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
+
+  const [examResultProp, setexamResultProp] = useState(false);
+
   // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -308,7 +308,7 @@ const SubjectExamMarks = () => {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
       navigate("/extended-sidebar/Teacher/AssignExamMark/" +
-         ClassTecher  + "/" + TestId +"/" + ClassId
+        ClassTecher + "/" + TestId + "/" + ClassId
       )
     }
   }, [ManageStudentsTestMarks])
@@ -388,15 +388,32 @@ const SubjectExamMarks = () => {
   const onClickExamGradeHeader = (value) => {
     setGradeRowDetails(value);
   };
+  const ExamResultLink = {
+    title: 'Exam Results',
+    path: '/extended-sidebar/Teacher/ExamResultBase'
+  };
+
+  const AssignExamMarkLink = {
+    title: 'Assign Exam Mark',
+    path: '/extended-sidebar/Teacher/AssignExamMark/' + ClassTecher + "/" + ClassId + "/" + TestId
+  };
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
-        navLinks={[
-          { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
-          ClassTecher+ "/" + ClassId +"/" + TestId
-           },
-          { title: 'Subject Exam Marks', path: '' }
-        ]}
+        // navLinks={[
+        //   { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
+        //   ClassTecher+ "/" + ClassId +"/" + TestId
+        //    },
+        //   { title: 'Subject Exam Marks', path: '' }
+        // ]}
+
+        navLinks={
+          examResultProp
+            ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
+            : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
+        }
+
+
         rightActions={
           <>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
