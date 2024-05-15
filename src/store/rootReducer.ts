@@ -91,12 +91,13 @@ import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLogi
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
+import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
+import FinalResultGenerateAllSlice from '../requests/FinalResult/RequestFinalResultGenerateAll';
 import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
-import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
@@ -197,7 +198,8 @@ const rootReducer = combineReducers({
   TransferOptionalSubjectMarks: TransferOptionalSubjectMarksSlice,
   SubjectMarkList: SubjectMarkListSlice,
   RemarkTemplate: RemarkTemplateSlice,
-  ViewProgressReport: ViewProgressReportslice
+  ViewProgressReport: ViewProgressReportslice,
+  FinalResultGenerateAll: FinalResultGenerateAllSlice
 });
 
 export default rootReducer;

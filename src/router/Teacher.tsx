@@ -1,3 +1,4 @@
+
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 
@@ -156,9 +157,21 @@ const ViewResultAll = Loader(
 const ViewFinalResult = Loader(
   lazy(() => import('src/components/ViewFinalResult/ViewFinalResult'))
 )
+const GenerateAll = Loader(
+  lazy(() => import('src/components/FinalResult/FinalResultGenerateAll'))
+)
 
 
 const teacherRoutes = [
+  {
+    path: 'GenerateAll',
+    element: <GenerateAll />
+  },
+  {
+    path: 'GenerateAll/:asStudentId',
+    element: <GenerateAll />
+  },
+
   {
     path: 'TAttendance',
     element: <TAttendance />
@@ -221,7 +234,7 @@ const teacherRoutes = [
     element: <SubjectExamMarks />
   },
   {
-    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
+    path: 'SubjectExamMarks/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
     element: <SubjectExamMarks />
   },
 
@@ -230,7 +243,7 @@ const teacherRoutes = [
     element: <AssignExamMark />
   },
   {
-    path: 'AssignExamMark/:ClassTecherid/:ClassId/:TestId',
+    path: 'AssignExamMark/:StandardDivisionId/:TestId',
     element: <AssignExamMark />
   },
 
@@ -282,7 +295,7 @@ const teacherRoutes = [
   },
 
   {
-    path: 'ViewProgressRemarks/:TestId/:StandardDivisionId',
+    path: 'ViewProgressRemarks/:TestId',
     element: <ViewProgressRemarks />
   },
 
