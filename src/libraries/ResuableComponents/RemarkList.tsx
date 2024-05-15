@@ -26,7 +26,7 @@ function RemarkList({
         if (value != undefined) {
           HeaderArray = HeaderArray.map((Item) => {
             return Item.SortOrder == undefined ? Item :
-              { ...Item, SortOrder: Item.SortOrder == "asc" ? "desc" : "asc" }
+              { ...Item, SortOrder: Item.SortOrder == "desc" ? " asc" : "desc" }
           })
           ClickHeader(HeaderArray)
         }

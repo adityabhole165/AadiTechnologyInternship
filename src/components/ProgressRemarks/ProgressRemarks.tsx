@@ -39,24 +39,6 @@ import {
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
-
-const HeaderPublish = [
-  { Id: 1, Header: ' 	' },
-  { Id: 1, Header: ' Remark Template' },
-  { Id: 1, Header: ' 	' },
-  
-  
-  
-];
-
-
-// const [HeaderPublish, setHeaderPublish] = useState([
-//   { Id: 1, Header: '', SortOrder: " desc" },
-//   { Id: 2, Header: ' Remark Template' },
- 
- 
-// ]);
-
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -189,7 +171,7 @@ const ProgressRemarks = () => {
 
 
   const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: '', SortOrder: "asc" },
+    { Id: 1, Header: '', SortOrder: "desc" },
     { Id: 2, Header: 'Remark Template' },
    
    
