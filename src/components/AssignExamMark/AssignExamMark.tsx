@@ -147,6 +147,7 @@ const AssignExamMark = () => {
 
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam));
+   
   }, [ClassTecher]);
 
   useEffect(() => {
@@ -174,6 +175,7 @@ const AssignExamMark = () => {
 
   useEffect(() => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
+    
   }, [selectClass]);
 
 
@@ -223,6 +225,7 @@ const AssignExamMark = () => {
   };
   const clickClassTeacher = (value) => {
     SetClassTecher(value);
+    SetSelectClass("")
   };
   useEffect(() => {
     dispatch(GetSubjectList(GetSubjectListtClass));
