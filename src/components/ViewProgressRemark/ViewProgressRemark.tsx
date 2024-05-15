@@ -9,12 +9,15 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const ViewProgressRemark = () => {
     const dispatch = useDispatch();
-    const { TestId } = useParams();
-
+    const { TestId, StandardDivisionId } = useParams();
+    console.log(StandardDivisionId, "StandardDivisionId")
     console.log("testid", TestId)
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
-    const StandardDivisionId = sessionStorage.getItem('StandardDivisionId')
+    // const [StandardDivisionId, setStandardDivisionId] = useState(
+    //     sessionStorage.getItem('TeacherId')
+    //   );
+    // const StandardDivisionId = sessionStorage.getItem('StandardDivisionId')
     const ListMarksDetails: any = useSelector(
         (state: RootState) => state.ViewProgressReport.ListMarksDetiles
     );
