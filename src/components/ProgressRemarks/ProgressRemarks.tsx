@@ -190,7 +190,8 @@ const ProgressRemarks = () => {
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "asc" },
-    { Id: 2, Header: '	Remark Template' },
+    { Id: 2, Header: 'Remark Template' },
+   
    
   ]);
   const HeaderArray = [
@@ -287,7 +288,7 @@ const ProgressRemarks = () => {
     asSchoolId: asSchoolId,
     asRemarkId: Number(Remark),
     asSortExpression: "Template",
-    asSortDirection: '' + HeaderPublish[0].SortOrder,
+    asSortDirection: ' ' + HeaderPublish[0].SortOrder,
     asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
@@ -314,7 +315,7 @@ const ProgressRemarks = () => {
   }, []);
   useEffect(() => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
-  }, [SelectGrade, Remark]);
+  }, [SelectGrade, Remark,HeaderPublish]);
 
   const UpdateRemark = () => {
     dispatch(
