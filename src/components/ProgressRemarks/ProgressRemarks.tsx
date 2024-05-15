@@ -187,17 +187,17 @@ const ProgressRemarks = () => {
   ];
   const Hedaer5 = ['Note:'];
 
+
+  const [HeaderPublish, setHeaderPublish] = useState([
+    { Id: 1, Header: '', SortOrder: "asc" },
+    { Id: 2, Header: '	Remark Template' },
+   
+  ]);
   const HeaderArray = [
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Name' },
     { Id: 3, Header: 'Remark' },
-    // ,
-    // { Id: 4, Header: 'Behaviour' },
-    // ,
-    // { Id: 5, Header: 'Attitude' }
   ];
-
-
 
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
@@ -287,7 +287,7 @@ const ProgressRemarks = () => {
     asSchoolId: asSchoolId,
     asRemarkId: Number(Remark),
     asSortExpression: "Template",
-    asSortDirection: "desc",
+    asSortDirection: '' + HeaderPublish[0].SortOrder,
     asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
@@ -445,8 +445,12 @@ const ProgressRemarks = () => {
     setRemarkTemplates(value);
   };
 
+
+ 
+
+
   const ClickHeader = (value) => {
-     //setHeaderPublish(value)
+     setHeaderPublish(value)
   }
 
   return (
