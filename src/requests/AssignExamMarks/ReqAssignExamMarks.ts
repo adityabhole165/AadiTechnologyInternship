@@ -19,7 +19,7 @@ const AssignExamMarkSlice = createSlice({
     ISSubmitMarksTeacher: '',
     ISSubmitMarksRest: '',
     ExamMarksStatusForClass: [],
-    ISSubjectTeachersForAssignExamMarks:[]
+    ISSubjectTeachersForAssignExamMarks: []
   },
   reducers: {
     //AssignClass
@@ -49,7 +49,7 @@ const AssignExamMarkSlice = createSlice({
     RSubjectTeachersForAssignExamMarks(state, action) {
       state.ISSubjectTeachersForAssignExamMarks = action.payload;
     },
-    
+
 
     resetMessage(state) {
       state.ISSubmitMarksRest = '';
@@ -62,12 +62,13 @@ export const GetAssignExamMarkList =
   (data: IAssignClassBody): AppThunk =>
     async (dispatch) => {
       const response = await AssignExamMarkApi.AssignClass(data);
+
       let a = response.data.map((item, i) => {
         return {
           Id: item.Standard_Division_Id,
           Name: item.StandardDivision,
           Value: item.Standard_Division_Id,
-          Text5: item.IsClassTeacher
+          IsClassTeacher: item.IsClassTeacher == "true"
         };
       });
       dispatch(AssignExamMarkSlice.actions.getAssignExamMark(a));
@@ -110,36 +111,39 @@ export const GetSubjectList =
     async (dispatch) => {
       const response = await AssignExamMarkApi.SubjectsExamMarks(data);
       let serialNumber = 2;
-      let ClassList = response.data.ExamMarksStatusForClass.map(item => ({
-        Id: ++serialNumber,
-        Text1: item.StandardDivision,
-        Text2: item.Subject_Name,
-        Is_Submitted: item.Is_Submitted,
-        STATUS: item.STATUS,
-        StatusDescription: item.StatusDescription,
-        SubjectId: item.Subject_Id,
-        StandardId: item.Standard_Id,
-        IsMonthConfig: item.Is_MonthConfig,
-        StandardDivisionId: item.Standard_Division_Id
-      }));
+      let ClassList = response.data.ExamMarksStatusForClass ? 
+        response.data.ExamMarksStatusForClass.map(item => ({
+          Id: ++serialNumber,
+          Text1: item.StandardDivision,
+          Text2: item.Subject_Name,
+          Is_Submitted: item.Is_Submitted,
+          STATUS: item.STATUS,
+          StatusDescription: item.StatusDescription,
+          SubjectId: item.Subject_Id,
+          StandardId: item.Standard_Id,
+          IsMonthConfig: item.Is_MonthConfig,
+          StandardDivisionId: item.Standard_Division_Id
+        })) : [];
 
-      serialNumber = 2; 
-      let MyClassList = response.data.ExamMarksStatusForClassTeacher.map(item => ({
-        Id: ++serialNumber,
-        Text1: item.StandardDivision,
-        Text2: item.Subject_Name,
-        Is_Submitted: item.Is_Submitted,
-        STATUS: item.STATUS,
-        StatusDescription: item.StatusDescription,
-        SubjectId: item.Subject_Id,
-        StandardId: item.Standard_Id,
-        IsMonthConfig: item.Is_MonthConfig,
-        StandardDivisionId: item.Standard_Division_Id
-      }));
+      serialNumber = 2;
+      let MyClassList = response.data.ExamMarksStatusForClassTeacher ? 
+        response.data.ExamMarksStatusForClassTeacher.map(item => ({
+          Id: ++serialNumber,
+          Text1: item.StandardDivision,
+          Text2: item.Subject_Name,
+          Is_Submitted: item.Is_Submitted,
+          STATUS: item.STATUS,
+          StatusDescription: item.StatusDescription,
+          SubjectId: item.Subject_Id,
+          StandardId: item.Standard_Id,
+          IsMonthConfig: item.Is_MonthConfig,
+          StandardDivisionId: item.Standard_Division_Id
+        })) : [];
 
       dispatch(AssignExamMarkSlice.actions.getsubjectList(ClassList));
       dispatch(AssignExamMarkSlice.actions.getsubjectList1(MyClassList));
     };
+
 
 
 
@@ -153,7 +157,7 @@ export const ReqSubmitMarksTeacher =
     };
 
 
-    export const CDASubjectTeachersForAssignExamMarks =
+export const CDASubjectTeachersForAssignExamMarks =
   (data: ISubjectTeachersForAssignExamMarksBody): AppThunk =>
     async (dispatch) => {
       const response = await AssignExamMarkApi.SubjectTeachersForAssignExamMarks(data);

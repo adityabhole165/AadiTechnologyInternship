@@ -13,6 +13,7 @@ function RemarkList({
     HeaderArray,
     onChange,
     ClickHeader
+
 }) {
     const onClick = (value) => {
         ItemList = ItemList.map((item) => {
@@ -25,7 +26,7 @@ function RemarkList({
         if (value != undefined) {
           HeaderArray = HeaderArray.map((Item) => {
             return Item.SortOrder == undefined ? Item :
-              { ...Item, SortOrder: Item.SortOrder == " asc" ? " desc" : " asc" }
+              { ...Item, SortOrder: Item.SortOrder == "desc" ? " asc" : "desc" }
           })
           ClickHeader(HeaderArray)
         }
@@ -43,25 +44,29 @@ function RemarkList({
                         >
                             {HeaderArray.map((item, i) => (
                                 <TableCell
-                                    key={i}
-                                    sx={{
-                                        textTransform: 'capitalize',
-                                        color: (theme) => theme.palette.common.white,
-                                        textAlign: 'center', // Align header cell content to center
-                                        fontWeight: 'bold', // Make the header text bold
-                                       
-                                    }}
-
-                                    onClick={() => { clickHeader(item.Id) }}
-                                >
-                                    {item.Header}
-                                    {item.SortOrder != undefined ?
-                                        item.SortOrder == " Desc" ?
-                                            < ArrowDropDownCircleIcon /> :
-                                            <ArrowCircleUpIcon /> :
-                                        null
-                                    }
-                                </TableCell>
+                                key={i}
+                                sx={{
+                                  textTransform: 'capitalize',
+                                  color: (theme) => theme.palette.common.white,
+                                  py: 1,
+                                }}
+                                onClick={() => { clickHeader(item.Id) }}
+                              >
+                                <div style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 1,
+                                  justifyContent: item?.align ? 'center' : 'flex-start'
+                                }}>
+                                  <b>{item.Header}</b>
+                                  {item.SortOrder != undefined ?
+                                    item.SortOrder == "desc" ?
+                                      < ArrowDropDownCircleIcon /> :
+                                      <ArrowCircleUpIcon /> :
+                                    null
+                                  }
+                                </div>
+                              </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>

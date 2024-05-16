@@ -1,3 +1,4 @@
+
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Autorenew from '@mui/icons-material/Autorenew';
 import CheckCircle from '@mui/icons-material/CheckCircle';
@@ -89,7 +90,9 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <AssignmentIcon />
+        <AssignmentIcon onClick={() => {
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
+        }} />
       </>
     },
     {
@@ -102,7 +105,10 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <VisibilityIcon />
+        <VisibilityIcon onClick={() => {
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
+
+        }} />
       </>
     },
     {
@@ -260,7 +266,7 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"View All Results"}>
               <IconButton
-                onClick={() => {
+                onClick={(value) => {
                   navigate('/extended-sidebar/Teacher/ViewResultAll')
                 }}
                 sx={{

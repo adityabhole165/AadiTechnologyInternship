@@ -10,6 +10,7 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IGetAllStudentsByGivenStdDivsBody,
@@ -46,7 +47,7 @@ const ExamResultBase = () => {
   const [StandardDivisionId, setStandardDivisionId] = useState(
     sessionStorage.getItem('TeacherId')
   );
-
+  const { examResultProp = "true" } = useParams();
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState('');
@@ -290,12 +291,19 @@ const ExamResultBase = () => {
     setTestId(value);
 
   };
+  // const ClickItem = (value) => {
+  //   navigate('/extended-sidebar/Teacher/SubjectExamMarks/' + examResultProp
+  //   ) 
+
+  //     ;
+  // };
 
   const ClickItem = (value) => {
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks');
+    if (examResultProp === "true") {
+      navigate('/extended-sidebar/Teacher/SubjectExamMarks/' + examResultProp
+      );
+    }
   };
-
-
 
   const TransferOptionalSubjectMarks = (value) => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
@@ -327,7 +335,7 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/ProgressRemarks');
   };
   const ViewProgressRemark = (value) => {
-    navigate('/extended-sidebar/Teacher/ViewProgressRemarks/' + TestId);
+    navigate('/extended-sidebar/Teacher/ViewProgressReport/' + TestId + '/' + StandardDivisionId);
   };
 
 

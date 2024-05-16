@@ -84,8 +84,30 @@ const DynamicList = ({
           <TableBody>
             {ItemList.map((item, index) => {
               return (
-                <TableRow key={index}>
+                <TableRow key={index} style={{
+                  // backgroundColor: Data[index]?.IsGrey ? '#A9A9A9' : ''
+                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#A9A9A9' : ''
+                }}>
                   {item.length > 0 && item.map((obj, i) => {
+                    return (
+                      <TableCell align="center" key={i} >
+                        {i === 0 ? (
+                          <a
+                            href="#"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              ClickLink({ Id: Data[index], Index: i });
+                            }}
+                          >
+                            {obj}
+                          </a>
+                        ) : (
+                          obj
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                  {/* {item.length > 0 && item.map((obj, i) => {
                     return (
                       <TableCell align="center" key={i}
                         onClick={() => {
@@ -96,7 +118,7 @@ const DynamicList = ({
                         {obj}
                       </TableCell>
                     );
-                  })}
+                  })} */}
                   {/* {
                                     (IsSelect > 0) &&
                                     <TableCell align="center">

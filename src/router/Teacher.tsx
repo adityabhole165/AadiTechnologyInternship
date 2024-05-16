@@ -1,3 +1,4 @@
+
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 
@@ -73,8 +74,8 @@ const AssignPrePrimaryGrades = Loader(
 const ProgressRemarks = Loader(
   lazy(() => import('src/components/ProgressRemarks/ProgressRemarks'))
 );
-const ViewProgressRemarks = Loader(
-  lazy(() => import('src/components/ViewProgressRemark/ViewProgressRemark'))
+const ViewProgressReport = Loader(
+  lazy(() => import('src/components/ViewProgressReport/ViewProgressReport'))
 );
 const FinalResult = Loader(
   lazy(() => import('src/components/FinalResult/FinalResult'))
@@ -156,9 +157,21 @@ const ViewResultAll = Loader(
 const ViewFinalResult = Loader(
   lazy(() => import('src/components/ViewFinalResult/ViewFinalResult'))
 )
+const GenerateAll = Loader(
+  lazy(() => import('src/components/FinalResult/FinalResultGenerateAll'))
+)
 
 
 const teacherRoutes = [
+  {
+    path: 'GenerateAll',
+    element: <GenerateAll />
+  },
+  {
+    path: 'GenerateAll/:asStudentId',
+    element: <GenerateAll />
+  },
+
   {
     path: 'TAttendance',
     element: <TAttendance />
@@ -221,7 +234,11 @@ const teacherRoutes = [
     element: <SubjectExamMarks />
   },
   {
-    path: 'SubjectExamMarks/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
+    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly/:examResultProp',
+    element: <SubjectExamMarks />
+  },
+  {
+    path: 'SubjectExamMarks/:examResultProp',
     element: <SubjectExamMarks />
   },
 
@@ -230,7 +247,7 @@ const teacherRoutes = [
     element: <AssignExamMark />
   },
   {
-    path: 'AssignExamMark/:StandardDivisionId/:TestId',
+    path: 'AssignExamMark/:ClassTecher/:ClassId/:TestId',
     element: <AssignExamMark />
   },
 
@@ -282,8 +299,8 @@ const teacherRoutes = [
   },
 
   {
-    path: 'ViewProgressRemarks/:TestId',
-    element: <ViewProgressRemarks />
+    path: 'ViewProgressReport/:TestId/:StandardDivisionId',
+    element: <ViewProgressReport />
   },
 
   {

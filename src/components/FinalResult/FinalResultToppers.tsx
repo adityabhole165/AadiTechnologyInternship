@@ -51,6 +51,13 @@ const FinalResultToppers = () => {
   const [SelectSubjectST, setSubjectST] = useState('0');
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [radioBtn, setRadioBtn] = useState('1');
+  const [HighlightStudentId, setHighlightStudentId] = useState('0')
+
+  const [SubjectToppersListCT, setSubjectToppersListCT] = useState([])
+  const [StandardToppersListST, setStandardToppersListST] = useState([])
+  const [ClassToppersListCT, setClassToppersListCT] = useState([])
+  const [SubjectToppersListST, setSubjectToppersListST] = useState([])
+  console.log("ClassToppersListCT", ClassToppersListCT);
 
   const RadioListCT = [
     { Value: '1', Name: 'Class Toppers' },
@@ -170,6 +177,55 @@ const FinalResultToppers = () => {
       setSubjectST(GetSubjectdropdownST[0].Id);
   }, [GetSubjectdropdownST]);
 
+  useEffect(() => {
+
+    setClassToppersListCT(
+      GetToppersListCT.map((Item) => {
+        return {
+
+          ...Item,
+          IsHighlightStudent:
+            Item.Id == HighlightStudentId ? true : false
+        }
+      })
+    )
+    setStandardToppersListST(
+      GetStandardToppersListST.map((Item) => {
+        return {
+          ...Item,
+          IsHighlightStudent:
+            Item.Id == HighlightStudentId ? true : false
+        }
+      })
+    )
+    setSubjectToppersListCT(GetSubjectToppersListCT.map((Item) => {
+      return {
+        ...Item,
+        Students: Item.Students.map((obj) => {
+          return {
+            ...obj,
+            IsHighlightStudent:
+              obj.Id == HighlightStudentId ? true : false
+          }
+        })
+      }
+    }))
+    setSubjectToppersListST(GetSubjectToppersListST.map((Item) => {
+      return {
+        ...Item,
+        Students: Item.Students.map((obj) => {
+          return {
+            ...obj,
+            IsHighlightStudent:
+              obj.Id == HighlightStudentId ? true : false
+          }
+        })
+      }
+    }))
+
+  }, [HighlightStudentId])
+
+
   const ClassDropdownBodyCT: IGetClassDropdownBodyCT = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
@@ -247,10 +303,20 @@ const FinalResultToppers = () => {
 
   const ClickRadio = (value) => {
     setRadioBtn(value);
+    setHighlightStudentId('0')
   };
   const onClickClose = () => {
     navigate('/extended-sidebar/Teacher/FinalResult');
   };
+  const clickHighlightStudent = (value) => {
+    if (
+      (radioBtn === '1' && SelectSubjectCT == "0") ||
+      (radioBtn === '2' && SelectSubjectST == "0")
+    )
+      setHighlightStudentId(value)
+    else
+      setHighlightStudentId('0')
+  }
 
   const ClickItem = () => { };
   return (
@@ -392,15 +458,15 @@ const FinalResultToppers = () => {
 
               <DynamicList2
                 HeaderList={HeaderListCT}
-                ItemList={GetToppersListCT}
+                ItemList={ClassToppersListCT}
                 IconList={[]}
-                ClickItem={ClickItem}
+                ClickItem={clickHighlightStudent}
               />
               <Typography variant={"h4"} mt={4}>
                 Subject Toppers
               </Typography>
               <Grid container>
-                {GetSubjectToppersListCT.map((item, i) => {
+                {SubjectToppersListST.map((item, i) => {
                   return (
                     <>
                       {!(i % 3) && (
@@ -450,9 +516,9 @@ const FinalResultToppers = () => {
 
             <DynamicList2
               HeaderList={HeaderListST}
-              ItemList={GetStandardToppersListST}
+              ItemList={StandardToppersListST}
               IconList={[]}
-              ClickItem={ClickItemST}
+              ClickItem={clickHighlightStudent}
             />
             <Typography variant={"h4"} mt={4}>
               Subject Toppers

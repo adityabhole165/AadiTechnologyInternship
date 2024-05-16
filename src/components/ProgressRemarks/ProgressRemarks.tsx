@@ -39,24 +39,6 @@ import {
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
-
-const HeaderPublish = [
-  { Id: 1, Header: ' 	' },
-  { Id: 1, Header: ' Remark Template' },
-  { Id: 1, Header: ' 	' },
-  
-  
-  
-];
-
-
-// const [HeaderPublish, setHeaderPublish] = useState([
-//   { Id: 1, Header: '', SortOrder: " desc" },
-//   { Id: 2, Header: ' Remark Template' },
- 
- 
-// ]);
-
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -187,17 +169,18 @@ const ProgressRemarks = () => {
   ];
   const Hedaer5 = ['Note:'];
 
+
+  const [HeaderPublish, setHeaderPublish] = useState([
+    { Id: 1, Header: '', SortOrder: "desc" },
+    { Id: 2, Header: 'Remark Template' },
+   
+   
+  ]);
   const HeaderArray = [
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Name' },
     { Id: 3, Header: 'Remark' },
-    // ,
-    // { Id: 4, Header: 'Behaviour' },
-    // ,
-    // { Id: 5, Header: 'Attitude' }
   ];
-
-
 
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
@@ -287,7 +270,7 @@ const ProgressRemarks = () => {
     asSchoolId: asSchoolId,
     asRemarkId: Number(Remark),
     asSortExpression: "Template",
-    asSortDirection: "desc",
+    asSortDirection: ' ' + HeaderPublish[0].SortOrder,
     asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
@@ -314,7 +297,7 @@ const ProgressRemarks = () => {
   }, []);
   useEffect(() => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
-  }, [SelectGrade, Remark]);
+  }, [SelectGrade, Remark,HeaderPublish]);
 
   const UpdateRemark = () => {
     dispatch(
@@ -445,8 +428,12 @@ const ProgressRemarks = () => {
     setRemarkTemplates(value);
   };
 
+
+ 
+
+
   const ClickHeader = (value) => {
-     //setHeaderPublish(value)
+     setHeaderPublish(value)
   }
 
   return (

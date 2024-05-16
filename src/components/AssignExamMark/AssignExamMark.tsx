@@ -10,11 +10,11 @@ import {
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
 
 import {
+  CDASubjectTeachersForAssignExamMarks,
   GetAssignExamMarkList,
   GetClassWiseExam,
   GetSubjectList,
   ReqSubmitMarksTeacher,
-  CDASubjectTeachersForAssignExamMarks,
   resetMessage
 } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
 import { RootState } from 'src/store';
@@ -26,24 +26,25 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import CommonPageHeader from '../CommonPageHeader';
-import { getSchoolConfigurations } from '../Common/Util';
 import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { getSchoolConfigurations } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { StandardDivisionId, TestId } =
+  const { ClassTecherid, ClassId, examResultProp = "false", TestId } =
     useParams();
-    let CanEdit = getSchoolConfigurations(74)
-    
-     
-  const [selectClass, SetSelectClass] = useState(StandardDivisionId == undefined ? "" : StandardDivisionId);
+  let CanEdit = getSchoolConfigurations(74)
+
+
+  const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
-  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const [ClassTecher, SetClassTecher] = useState(TeacherId);
+  const TeacherId = sessionStorage.getItem('TeacherId');
+  const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
+
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -52,7 +53,7 @@ const AssignExamMark = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+  // const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
 
 
@@ -64,9 +65,11 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISAssignClassExam
   );
 
+
   const SubjectListmarkClass = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass
   );
+
 
   const SubjectListmarkClass1 = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass1
@@ -97,7 +100,18 @@ const AssignExamMark = () => {
     });
     return perm;
   };
-   
+
+
+  const GetClassTeacher = () => {
+    let returnVal = false
+    ClassDropdown.map((item) => {
+      if (item.Value == selectClass) {
+        returnVal = item.IsClassTeacher
+      }
+    })
+    return returnVal
+  };
+
 
 
   //ClassDrpdown
@@ -105,22 +119,22 @@ const AssignExamMark = () => {
   const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId ,
+    aTeacherId: Number(CanEdit == 'Y' ? ClassTecher : aTeacherId),
     asExamId: Number(ClassWiseExam),
     asStandardDivisionId: Number(selectClass),
-    IsClassTeacher: true
+    IsClassTeacher: GetClassTeacher()
 
   };
   const GetAssignExam: IAssignClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    aTeacherId: CanEdit == 'Y' ? ClassTecher : aTeacherId 
-    
+    aTeacherId: Number(CanEdit == 'Y' ? ClassTecher : aTeacherId)
+
   };
 
   const SubjectTeachersForAssignExamMarksBody: ISubjectTeachersForAssignExamMarksBody = {
-    asSchoolId:asSchoolId,
-    asAcademicYrId:asAcademicYearId
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId
   };
 
   //ClassWiseDropdwon
@@ -133,6 +147,7 @@ const AssignExamMark = () => {
 
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam));
+
   }, [ClassTecher]);
 
   useEffect(() => {
@@ -145,15 +160,26 @@ const AssignExamMark = () => {
     }
   }, [ClassDropdown]);
 
-  useEffect(() => {
-    dispatch(GetClassWiseExam(GetAssignClassWiseExam));
-  }, [selectClass]);
+
+
+
 
   useEffect(() => {
     if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
     }
   }, [ClassWiseExamDropdown]);
+
+
+
+
+  useEffect(() => {
+    dispatch(GetClassWiseExam(GetAssignClassWiseExam));
+
+  }, [selectClass]);
+
+
+
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
@@ -189,11 +215,6 @@ const AssignExamMark = () => {
     }
   }, [UsSubmitMarksTeacher]);
 
-  useEffect(() => {
-    console.log(selectClass, 'selectClass');
-
-    dispatch(GetSubjectList(GetSubjectListtClass));
-  }, [selectClass, ClassWiseExam, ClassTecher]);
 
   const onClickClass = (value) => {
     SetSelectClass(value);
@@ -204,9 +225,13 @@ const AssignExamMark = () => {
   };
   const clickClassTeacher = (value) => {
     SetClassTecher(value);
+    SetSelectClass("")
   };
+  useEffect(() => {
+    dispatch(GetSubjectList(GetSubjectListtClass));
+  }, [selectClass, ClassWiseExam, ClassTecher]);
 
-  
+
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },
     { Id: 2, Header: 'Subject' },
@@ -215,16 +240,21 @@ const AssignExamMark = () => {
   ];
 
   const clickEdit = (value) => {
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
-      value.StandardDivisionId + '/' +
-      value.SubjectId + '/' +
-      selectClass + '/' +
-      ClassWiseExam + '/' +
-      aTeacherId.toString() + '/' +
-      value.StandardId + '/' +
-      value.IsMonthConfig + '/' +
-      !(value.IsSubmitted == "N"));
+    if (examResultProp === "false") {
+      navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
+        ClassTecher + '/' +
+        value.StandardDivisionId + '/' +
+        value.SubjectId + '/' +
+        selectClass + '/' +
+        ClassWiseExam + '/' +
+        aTeacherId.toString() + '/' +
+        value.StandardId + '/' +
+        examResultProp + '/' +
+        value.IsMonthConfig + '/' +
+        !(value.IsSubmitted == "N"))
 
+        ;
+    }
 
   };
 
@@ -234,33 +264,33 @@ const AssignExamMark = () => {
         navLinks={[
           { title: 'Assign Exam Marks', path: '/extended-sidebar/Teacher/AssignExamMark' }
         ]}
-        rightActions={<> 
-        {
-          CanEdit == 'Y' ?  <Box>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={USSubjectTeachersForAssignExamMarks}
-            onChange={clickClassTeacher}
-            label={'Select Subject Teacher'}
-            defaultValue={ClassTecher ?.toString()}  
-            mandatory
-            size={"small"}
-          />
-           </Box>:
-          <span> </span>
-        } 
-         
-        <Box>
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={ClassDropdown}
-            onChange={onClickClass}
-            label={'Select Class:'}
-            defaultValue={selectClass}
-            mandatory
-            size={"small"}
-          />
-        </Box>
+        rightActions={<>
+          {
+            CanEdit == 'Y' ? <Box>
+              <SearchableDropdown
+                sx={{ minWidth: '300px' }}
+                ItemList={USSubjectTeachersForAssignExamMarks}
+                onChange={clickClassTeacher}
+                label={'Select Subject Teacher'}
+                defaultValue={ClassTecher?.toString()}
+                mandatory
+                size={"small"}
+              />
+            </Box> :
+              <span> </span>
+          }
+
+          <Box>
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={ClassDropdown}
+              onChange={onClickClass}
+              label={'Select Class:'}
+              defaultValue={selectClass}
+              mandatory
+              size={"small"}
+            />
+          </Box>
           <Box>
 
             <SearchableDropdown
@@ -274,7 +304,7 @@ const AssignExamMark = () => {
             />
 
           </Box>
-         
+
           <Box>
             <Tooltip title={`View all subjects assigned with the current status of marks given to students. 
 Once marks for all the students are allotted you have to submit these marks to the class-teacher by clicking on &quot;Submit&quot; button.
@@ -299,9 +329,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
           (
-            // <>{SubjectListmarkClass[2].Text1}
-            //   {SubjectListmarkClass.map((Item, i) => (<Typography key={i}>{Item.Text1}</Typography>))}
-            // </>
+
             <ListEditIcon1
               ItemList={SubjectListmarkClass}
               clickEdit={clickEdit}

@@ -15,49 +15,10 @@ import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsTo
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
-
-
 const TransferOptionalSubjectMarks = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const [personName, setPersonName] = useState<string[]>([]);
-
-    const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-        const {
-            target: { value },
-        } = event;
-        setPersonName(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
-
-
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -68,15 +29,11 @@ const TransferOptionalSubjectMarks = () => {
     const [SearchText, setSearchText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [IsDirty, setIsDirty] = useState(false);
-
-
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
     const USStudentsToTransferMarks1: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks1);
-
     const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
-
     const [StudentsList, setStudentsList] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
@@ -115,8 +72,6 @@ const TransferOptionalSubjectMarks = () => {
     ];
     const Header4 = ['Note4 :'];
 
-
-
     const GetClassTeachersBody: IGetClassTeachersBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -137,7 +92,6 @@ const TransferOptionalSubjectMarks = () => {
         asAcademicYearId: asAcademicYearId,
         asStandardDivisionId: Number(selectClasstecaher)
     };
-
 
     const getSubjectId = () => {
         let returnVal = []
@@ -176,10 +130,6 @@ const TransferOptionalSubjectMarks = () => {
         return sXML;
     };
 
-
-
-
-
     useEffect(() => {
         let IsExists = false
 
@@ -196,6 +146,7 @@ const TransferOptionalSubjectMarks = () => {
                 arr.push({
                     ParentOptionalSubjectId: Item.ParentOptionalSubjectId,
                     OptionalSubjectName: Item.OptionalSubjectName,
+                    NoOfSubjects: Item.NoOfSubjects
                 })
 
         })
@@ -210,13 +161,6 @@ const TransferOptionalSubjectMarks = () => {
                 Item
         }))
     };
-
-
-
-
-
-
-
 
     const ClickSelctTecher = (value) => {
         if (selectClasstecaher != '') {
@@ -276,11 +220,9 @@ const TransferOptionalSubjectMarks = () => {
         }
     };
 
-
     const SearchNameChange = (value) => {
         setSearchText(value);
     };
-
 
     useEffect(() => {
         setIsDirty(false)
@@ -288,8 +230,6 @@ const TransferOptionalSubjectMarks = () => {
         setStudentsList(USStudentsToTransferMarks);
         setErrorMessage('')
     }, [USStudentsToTransferMarks]);
-
-
 
     useEffect(() => {
         if (USClassTeacherList.length > 0) {
@@ -308,9 +248,6 @@ const TransferOptionalSubjectMarks = () => {
     const ExamResultBase = (value) => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
-
-
-
     useEffect(() => {
         dispatch(CDAGetClassTeachers(GetClassTeachersBody));
     }, []);
@@ -327,24 +264,30 @@ const TransferOptionalSubjectMarks = () => {
         asStudentTransferMarksXml: getXML()
     };
     const clickTransfer = () => {
-        let arrParent = [];
-        ParentOptionalSubjects.forEach((Item) => {
-            if (!OptionalSubjects
-                .filter((childItem) => childItem.ParentOptionalSubjectId === Item.ParentOptionalSubjectId)
-                .some((subject) => subject.isActive)
-            ) {
-                arrParent.push(Item.OptionalSubjectName);
-            }
-        });
-
+        let errorMessages = [];
         if (!StudentsList.some((Item) => Item.IsActive)) {
             alert("At least one student subject should be selected.");
-        } else if (arrParent.length > 0) {
-            setErrorMessage("At least one subject should be selected for optional subject " + arrParent.join(", "));
         } else {
-            dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+            ParentOptionalSubjects.forEach((item) => {
+                let selectedSubjectsCount = OptionalSubjects.filter((subItem) => {
+                    return (
+                        subItem.ParentOptionalSubjectId === item.ParentOptionalSubjectId &&
+                        subItem.isActive
+                    );
+                }).length;
+
+                if (selectedSubjectsCount < item.NoOfSubjects) {
+                    errorMessages.push(`At least ${item.NoOfSubjects} subject(s) should be selected for optional subject ${item.OptionalSubjectName}.`);
+                }
+            });
+
+            if (errorMessages.length > 0) {
+                setErrorMessage(errorMessages.join("\n"));
+            } else {
+                dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+            }
         }
-    }
+    };
 
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
@@ -355,10 +298,9 @@ const TransferOptionalSubjectMarks = () => {
             setErrorMessage('');
         }
 
-
     }, [ISTransferOptionalSubjectMarks]);
     return (
-        <Box sx={{ px: 2 }}>
+        <>
             <CommonPageHeader
                 navLinks={[
                     { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
@@ -435,156 +377,77 @@ const TransferOptionalSubjectMarks = () => {
                     </>
                 }
             />
+            {errorMessage && (
+                <>
+                    <Typography sx={{ color: 'red' }}>
+                        Please fix following error(s):</Typography>
+                    <Typography sx={{ color: 'red' }}>
+                        {errorMessage}
+                    </Typography>
+                </>
+            )}
 
+            <Box sx={{ display: 'flex', flexDirection: 'row', height: "800" }}>
 
-            <Box sx={{ background: 'white', p: 2 }}>
-
-                {errorMessage && (
-                    <>
-                        <Typography sx={{ color: 'red' }}>
-                            Please fix following error(s):</Typography>
-                        <Typography sx={{ color: 'red' }}>
-                            {errorMessage}
-                        </Typography>
-                    </>
+                {StudentsList.length > 0 && (
+                    <SubjectMarkList
+                        ItemList={StudentsList}
+                        HeaderArray={HeaderPublish}
+                        clickchange={Changevalue}
+                        clickTitle={""}
+                    />
                 )}
-
-                {/* <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
-                    <Box>
-                        <FormControl size={"small"} sx={{ width: 300 }}>
-                            <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                            <Select
-                                labelId="demo-multiple-checkbox-label"
-                                id="demo-multiple-checkbox"
-                                multiple
-                                value={personName}
-                                onChange={handleChange}
-                                input={<OutlinedInput label="Tag" />}
-                                renderValue={(selected) => selected.join(', ')}
-                                MenuProps={MenuProps}
-                            >
-                                {names.map((name) => (
-                                    <MenuItem key={name} value={name}>
-                                        <Checkbox checked={personName.indexOf(name) > -1} />
-                                        <ListItemText primary={name} />
-                                    </MenuItem>
+                {StudentsList.length > 0 && (
+                    <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
+                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+                            <h3>Optional Subjects</h3>
+                            {ParentOptionalSubjects
+                                .map((subject, index) => (
+                                    <Accordion key={index}>
+                                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                            {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <ul>
+                                                {OptionalSubjects
+                                                    .filter((objParent) => {
+                                                        return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                            && objParent.OptionalSubjectsId !== "0"
+                                                        )
+                                                    })
+                                                    .map((subItem, subIndex) => (
+                                                        <li key={subIndex}>
+                                                            <label>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={subItem.isActive}
+                                                                    onChange={() => SubjectSelection(subItem.SubjectId)}
+                                                                />
+                                                                {subItem.SubjectName}
+                                                                {OptionalSubjects
+                                                                    .filter((objChildItem) => {
+                                                                        return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                                            && objChildItem.OptionalSubjectsId == "0"
+                                                                            && objChildItem.SubjectGroupId == subItem.SubjectGroupId
+                                                                        )
+                                                                    })
+                                                                    .map((objChild, objChildIndex) => (
+                                                                        <ul key={objChildIndex}>
+                                                                            <label>{objChild.SubjectName}</label>
+                                                                        </ul>))
+                                                                }
+                                                            </label>
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </AccordionDetails>
+                                    </Accordion>
                                 ))}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    <Box>
-                        <FormControl size={"small"} sx={{ width: 300 }}>
-                            <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                            <Select
-                                labelId="demo-multiple-checkbox-label"
-                                id="demo-multiple-checkbox"
-                                multiple
-                                value={personName}
-                                onChange={handleChange}
-                                input={<OutlinedInput label="Tag" />}
-                                renderValue={(selected) => selected.join(', ')}
-                                MenuProps={MenuProps}
-                            >
-                                {names.map((name) => (
-                                    <MenuItem key={name} value={name}>
-                                        <Checkbox checked={personName.indexOf(name) > -1} />
-                                        <ListItemText primary={name} />
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </Box> */}
-
-
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    {/* First Box */}
-                    {StudentsList.length > 0 && (
-                        <SubjectMarkList
-                            ItemList={StudentsList}
-                            HeaderArray={HeaderPublish}
-                            clickchange={Changevalue}
-                            clickTitle={""}
-                        />
-                    )}
-                    {StudentsList.length > 0 && (
-                        <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
-                            <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-                                <h3>Optional Subjects</h3>
-                                {ParentOptionalSubjects
-                                    .map((subject, index) => (
-                                        <Accordion key={index}>
-                                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                                {subject.OptionalSubjectName} (Select any 1)
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <ul>
-                                                    {OptionalSubjects
-                                                        .filter((objParent) => {
-                                                            return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
-                                                                && objParent.IsDefault == "True"
-                                                            )
-                                                        })
-                                                        .map((subItem, subIndex) => (
-                                                            <li key={subIndex}>
-                                                                <label>
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        checked={subItem.isActive}
-                                                                        onChange={() => SubjectSelection(subItem.SubjectId)}
-                                                                    />
-                                                                    {subItem.SubjectName}
-                                                                    {OptionalSubjects
-                                                                        .filter((objChildItem) => {
-                                                                            return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId &&
-                                                                                objChildItem.IsDefault == "False" &&
-                                                                                objChildItem.SubjectGroupId == subItem.SubjectGroupId
-                                                                            )
-                                                                        })
-                                                                        .map((objChild, objChildIndex) => (
-                                                                            <ul key={objChildIndex}>
-                                                                                <label>{objChild.SubjectName}</label>
-                                                                            </ul>))
-                                                                    }
-                                                                </label>
-                                                            </li>
-                                                        ))}
-                                                </ul>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    ))}
-                            </Box>
                         </Box>
+                    </Box>
 
-                    )
-                    }
-                </Box>
-
-
-                {selectClasstecaher !== '0' ? (
-                    StudentsList.length > 0 ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
-                            <Box sx={{ textAlign: 'center' }}>
-                                {`${startIndex} To ${endIndex} Out Of 39 Records`}
-                            </Box>
-                            Select a page:
-                            <Pagination
-                                count={5}
-                                variant={"outlined"}
-                                shape='rounded' showFirstButton
-                                showLastButton
-                                onChange={(event, value) => {
-                                    handlePageChange(value);
-                                }}
-                            />
-                        </Box>
-                    ) : (
-                        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                            <b>No Record Found.</b>
-                        </Typography>
-                    )
-                ) : null}
-
+                )
+                }
             </Box>
             {StudentsList.length > 0 && (
                 <Paper sx={{ marginTop: '10px' }}>
@@ -605,7 +468,30 @@ const TransferOptionalSubjectMarks = () => {
                     </Accordion>
                 </Paper>
             )}
-        </Box>
+            {selectClasstecaher !== '0' ? (
+                StudentsList.length > 0 ? (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
+                        <Box sx={{ textAlign: 'center' }}>
+                            {`${startIndex} To ${endIndex} Out Of 39 Records`}
+                        </Box>
+                        Select a page:
+                        <Pagination
+                            count={5}
+                            variant={"outlined"}
+                            shape='rounded' showFirstButton
+                            showLastButton
+                            onChange={(event, value) => {
+                                handlePageChange(value);
+                            }}
+                        />
+                    </Box>
+                ) : (
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                        <b>No Record Found.</b>
+                    </Typography>
+                )
+            ) : null}
+        </>
     );
 };
 
