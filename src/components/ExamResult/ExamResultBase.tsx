@@ -51,6 +51,7 @@ const ExamResultBase = () => {
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState('');
+  const [HelpNote, setHelpNote] = useState('');
   const [Open, setOpen] = useState(false);
   const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
   const ScreensAccessPermission = JSON.parse(
@@ -205,7 +206,7 @@ const ExamResultBase = () => {
   //   }
   // }, [Submitted, ClassPassFailDetailsForButton]);
   useEffect(() => {
-    setDisplayNote('');
+    setHelpNote('View the summarised results of your class for the selected exam.Click the subject name link to view the marks/grades scored by each student in the subject.Exam result can be publish on be clicking Publish button and unpublish by clicking Unpublish button.');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
@@ -487,21 +488,21 @@ const ExamResultBase = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip> */}
-          {ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.length === 0 && (
-            <Tooltip title={DisplayNote}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[500]
-                  }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          )}
+
+          <Tooltip title={HelpNote}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[500]
+                }
+              }}
+            >
+              <QuestionMark />
+            </IconButton>
+          </Tooltip>
+
 
           {/* <Tooltip title={"Toppers"} >
             <IconButton
@@ -536,7 +537,7 @@ const ExamResultBase = () => {
               </IconButton>
             </Tooltip>
           )} */}
-          {ClassPassFailDetailsForButton?.ToppersGenerated && ( // Check if ToppersGenerated is true
+          {ClassPassFailDetailsForButton?.ToppersGenerated && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish && (
             <Tooltip title={"Toppers"} >
               <IconButton
                 onClick={Toppers}
@@ -552,6 +553,7 @@ const ExamResultBase = () => {
               </IconButton>
             </Tooltip>
           )}
+
           <Tooltip title={"View Progress Report"}>
             <IconButton sx={{
               color: 'white',
@@ -630,7 +632,10 @@ const ExamResultBase = () => {
               <Typography variant={'h4'} mb={1}>
 
               </Typography>
-              <Typography>{DisplayNote}</Typography>
+              {ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.length === 0 && (
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  {DisplayNote}
+                </Typography>)}
             </Stack>
             <Stack direction={'row'} mb={1} justifyContent='space-between'>
               {/* {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
