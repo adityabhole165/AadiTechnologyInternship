@@ -578,7 +578,7 @@ const ExamResultBase = () => {
                 '&:hover': {
                   backgroundColor: grey[600]
                 }
-              }} disabled={(Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
+              }} disabled={(ClassPassFailDetailsForButton?.ToppersGenerated && ClassPassFailDetailsForButton?.IsPublish)
                 // || !MonthConfigurationForExam
               }>
                 {/* GENERATE TOPPERS */}
@@ -632,10 +632,9 @@ const ExamResultBase = () => {
               <Typography variant={'h4'} mb={1}>
 
               </Typography>
-              {ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.length === 0 && (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                  {DisplayNote}
-                </Typography>)}
+              {/* <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
+                {DisplayNote}
+              </Typography> */}
             </Stack>
             <Stack direction={'row'} mb={1} justifyContent='space-between'>
               {/* {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
@@ -686,25 +685,32 @@ const ExamResultBase = () => {
                 </Button>
               </Stack>
             </Stack>
-            {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
+            {ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No Record Found.</b>
               </Typography>
             ) : (
-              <DynamicList
-                HeaderList={HeaderList}
-                ItemList={ClassPassFailDetailsForTest}
-                IconList={IconList}
-                ClickItem={ClickItem}
-                LinkList={LinkList}
-                ClickLink={ClickLink}
-                Data={ClassPassFailDetailsForTestData}
-              />
+              <>
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
+                  {DisplayNote}
+                </Typography>
+                <br></br>
+                <DynamicList
+                  HeaderList={HeaderList}
+                  ItemList={ClassPassFailDetailsForTest}
+                  IconList={IconList}
+                  ClickItem={ClickItem}
+                  LinkList={LinkList}
+                  ClickLink={ClickLink}
+                  Data={ClassPassFailDetailsForTestData}
+                />
+              </>
             )}
           </Box>
         </Box>
 
-      )}
+      )
+      }
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
