@@ -234,7 +234,7 @@ const teacherRoutes = [
     element: <SubjectExamMarks />
   },
   {
-    path: 'SubjectExamMarks/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
+    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
     element: <SubjectExamMarks />
   },
 
@@ -243,7 +243,7 @@ const teacherRoutes = [
     element: <AssignExamMark />
   },
   {
-    path: 'AssignExamMark/:StandardDivisionId/:TestId',
+    path: 'AssignExamMark/:ClassTecher/:ClassId/:TestId',
     element: <AssignExamMark />
   },
 

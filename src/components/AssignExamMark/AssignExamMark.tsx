@@ -44,7 +44,7 @@ const AssignExamMark = () => {
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const TeacherId = sessionStorage.getItem('TeacherId');
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
-  
+
 
 
   const { showAlert, closeAlert } = useContext(AlertContext);
@@ -147,7 +147,7 @@ const AssignExamMark = () => {
 
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam));
-   
+
   }, [ClassTecher]);
 
   useEffect(() => {
@@ -170,12 +170,12 @@ const AssignExamMark = () => {
     }
   }, [ClassWiseExamDropdown]);
 
-  
+
 
 
   useEffect(() => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
-    
+
   }, [selectClass]);
 
 

@@ -388,30 +388,31 @@ const SubjectExamMarks = () => {
   const onClickExamGradeHeader = (value) => {
     setGradeRowDetails(value);
   };
-  const ExamResultLink = {
-    title: 'Exam Results',
-    path: '/extended-sidebar/Teacher/ExamResultBase'
-  };
+  // const ExamResultLink = {
+  //   title: 'Exam Results',
+  //   path: '/extended-sidebar/Teacher/ExamResultBase'
+  // };
 
-  const AssignExamMarkLink = {
-    title: 'Assign Exam Mark',
-    path: '/extended-sidebar/Teacher/AssignExamMark/' + ClassTecher + "/" + ClassId + "/" + TestId
-  };
+  // const AssignExamMarkLink = {
+  //   title: 'Assign Exam Mark',
+  //   path: '/extended-sidebar/Teacher/AssignExamMark/' + ClassTecher + "/" + ClassId + "/" + TestId
+  // };
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
-        // navLinks={[
-        //   { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
-        //   ClassTecher+ "/" + ClassId +"/" + TestId
-        //    },
-        //   { title: 'Subject Exam Marks', path: '' }
-        // ]}
+        navLinks={[
+          {
+            title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
+              ClassTecher + "/" + ClassId + "/" + TestId
+          },
+          { title: 'Subject Exam Marks', path: '' }
+        ]}
 
-        navLinks={
-          examResultProp
-            ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
-            : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
-        }
+        // navLinks={
+        //   examResultProp
+        //     ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
+        //     : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
+        // }
 
 
         rightActions={
