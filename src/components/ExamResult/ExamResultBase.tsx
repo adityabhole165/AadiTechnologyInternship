@@ -537,7 +537,7 @@ const ExamResultBase = () => {
               </IconButton>
             </Tooltip>
           )} */}
-          {ClassPassFailDetailsForButton?.ToppersGenerated && ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish && (
+          {ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish && (
             <Tooltip title={"Toppers"} >
               <IconButton
                 onClick={Toppers}
@@ -578,7 +578,7 @@ const ExamResultBase = () => {
                 '&:hover': {
                   backgroundColor: grey[600]
                 }
-              }} disabled={(ClassPassFailDetailsForButton?.ToppersGenerated && ClassPassFailDetailsForButton?.IsPublish)
+              }} disabled={(ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish)
                 // || !MonthConfigurationForExam
               }>
                 {/* GENERATE TOPPERS */}
