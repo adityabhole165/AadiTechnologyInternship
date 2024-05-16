@@ -234,7 +234,11 @@ const teacherRoutes = [
     element: <SubjectExamMarks />
   },
   {
-    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
+    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly/:examResultProp',
+    element: <SubjectExamMarks />
+  },
+  {
+    path: 'SubjectExamMarks/:examResultProp',
     element: <SubjectExamMarks />
   },
 
