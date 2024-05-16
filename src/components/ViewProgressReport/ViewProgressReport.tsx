@@ -7,7 +7,7 @@ import { IGetAllStudentsTestProgressSheetBody } from 'src/interfaces/ExamResult/
 import { GetMarkDetailss } from 'src/requests/ExamResult/RequestViewProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-const ViewProgressRemark = () => {
+const ViewProgressReport = () => {
     const dispatch = useDispatch();
     const { TestId, StandardDivisionId } = useParams();
     console.log(StandardDivisionId, "StandardDivisionId")
@@ -156,6 +156,6 @@ const ViewProgressRemark = () => {
     );
 };
 
-export default ViewProgressRemark;
+export default ViewProgressReport;
 
 

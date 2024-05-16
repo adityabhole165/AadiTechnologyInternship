@@ -74,8 +74,8 @@ const AssignPrePrimaryGrades = Loader(
 const ProgressRemarks = Loader(
   lazy(() => import('src/components/ProgressRemarks/ProgressRemarks'))
 );
-const ViewProgressRemarks = Loader(
-  lazy(() => import('src/components/ViewProgressRemark/ViewProgressRemark'))
+const ViewProgressReport = Loader(
+  lazy(() => import('src/components/ViewProgressReport/ViewProgressReport'))
 );
 const FinalResult = Loader(
   lazy(() => import('src/components/FinalResult/FinalResult'))
@@ -295,8 +295,8 @@ const teacherRoutes = [
   },
 
   {
-    path: 'ViewProgressRemarks/:TestId',
-    element: <ViewProgressRemarks />
+    path: 'ViewProgressReport/:TestId/:StandardDivisionId',
+    element: <ViewProgressReport />
   },
 
   {

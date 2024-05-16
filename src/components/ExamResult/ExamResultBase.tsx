@@ -327,7 +327,7 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/ProgressRemarks');
   };
   const ViewProgressRemark = (value) => {
-    navigate('/extended-sidebar/Teacher/ViewProgressRemarks/' + TestId + '/' + StandardDivisionId);
+    navigate('/extended-sidebar/Teacher/ViewProgressReport/' + TestId + '/' + StandardDivisionId);
   };
 
 
