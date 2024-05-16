@@ -143,10 +143,7 @@ const DynamicList = ({
 
                   )}
                   {item.Text3 !== undefined && (
-                    <TableCell align="center"
-                      sx={{ color: (item.Is_Absent === 1 ? "red" : "") }}>{parseInt(item.Text3)}
-                      {IsIntegerOrDecimal(item.Text3)}
-                    </TableCell>
+                    <TableCell align="center">{parseInt(item.Text3)}</TableCell>
                   )}
                   {item.Text4 != undefined && (
                     <TableCell align="center">{parseInt(item.Text4)}</TableCell>

@@ -300,7 +300,7 @@ const ExamResultBase = () => {
 
   const ClickItem = (value) => {
     if (examResultProp === "true") {
-      navigate('/extended-sidebar/Teacher/SubjectExamMarks/' + examResultProp
+      navigate('/extended-sidebar/Teacher/SubjectExamMarks/' + examResultProp + '/' + StandardDivisionId + '/' + TestId
       );
     }
   };
@@ -385,40 +385,51 @@ const ExamResultBase = () => {
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
   };
-
   const clickPublishUnpublish = (publish, Reason = '') => {
-    if (publish) {
-      if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
-        return;
-      }
+    const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+      asSchoolId: Number(asSchoolId),
+      asStdDivId: Number(StandardDivisionId),
+      asAcadmicYearId: Number(asAcademicYearId),
+      asTest_Id: Number(TestId),
+      asUnpublishReason: publish ? null : Reason,
+      asPublishById: publish ? 1 : 0
+    };
 
-      const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-        asSchoolId: Number(asSchoolId),
-        asStdDivId: Number(StandardDivisionId),
-        asAcadmicYearId: Number(asAcademicYearId),
-        asTest_Id: Number(TestId),
-        asUnpublishReason: null, // publish action
-        asPublishById: 1 //  publish
-      };
-
-      dispatch(getPublishUnpublishExam(GetPublishUnpublish));
-    } else {
-      if (Reason !== '') {
-        const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-          asSchoolId: Number(asSchoolId),
-          asStdDivId: Number(StandardDivisionId),
-          asAcadmicYearId: Number(asAcademicYearId),
-          asTest_Id: Number(TestId),
-          asUnpublishReason: Reason,
-          asPublishById: 0 //  unpublish
-        };
-
-        dispatch(getPublishUnpublishExam(GetPublishUnpublish));
-
-        // toast.success(PublishUnpublish)
-      }
-    }
+    dispatch(getPublishUnpublishExam(GetPublishUnpublish));
   };
+  // const clickPublishUnpublish = (publish, Reason = '') => {
+  //   if (publish) {
+  //     if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
+  //       return;
+  //     }
+
+  //     const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+  //       asSchoolId: Number(asSchoolId),
+  //       asStdDivId: Number(StandardDivisionId),
+  //       asAcadmicYearId: Number(asAcademicYearId),
+  //       asTest_Id: Number(TestId),
+  //       asUnpublishReason: null, // publish action
+  //       asPublishById: 1 //  publish
+  //     };
+
+  //     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+  //   } else {
+  //     if (Reason !== '') {
+  //       const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+  //         asSchoolId: Number(asSchoolId),
+  //         asStdDivId: Number(StandardDivisionId),
+  //         asAcadmicYearId: Number(asAcademicYearId),
+  //         asTest_Id: Number(TestId),
+  //         asUnpublishReason: Reason,
+  //         asPublishById: 0 //  unpublish
+  //       };
+
+  //       dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+
+  //       // toast.success(PublishUnpublish)
+  //     }
+  //   }
+  // };
   useEffect(() => {
 
     if (PublishUnpublish !== '') {
@@ -462,7 +473,7 @@ const ExamResultBase = () => {
             size={"small"}
           />
 
-          <Tooltip title={DisplayNote}>
+          {/* <Tooltip title={DisplayNote}>
             <IconButton
 
               sx={{
@@ -475,12 +486,27 @@ const ExamResultBase = () => {
             >
               <QuestionMark />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
+          {ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.length === 0 && (
+            <Tooltip title={DisplayNote}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[500]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          )}
 
-          <Tooltip title={"Toppers"} >
+          {/* <Tooltip title={"Toppers"} >
             <IconButton
               onClick={Toppers}
-              disabled={!ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated}
+              disabled={!ClassPassFailDetailsForButton || !ClassPassFailDetailsForButton?.ToppersGenerated}
               sx={{
                 color: 'white',
                 backgroundColor: grey[500],
@@ -492,8 +518,40 @@ const ExamResultBase = () => {
               <Person />
             </IconButton>
 
-          </Tooltip>
-
+          </Tooltip> */}
+          {/* {ClassPassFailDetailsForButton && (
+            <Tooltip title={"Toppers"} >
+              <IconButton
+                onClick={Toppers}
+                disabled={!ClassPassFailDetailsForButton?.ToppersGenerated}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Person />
+              </IconButton>
+            </Tooltip>
+          )} */}
+          {ClassPassFailDetailsForButton?.ToppersGenerated && ( // Check if ToppersGenerated is true
+            <Tooltip title={"Toppers"} >
+              <IconButton
+                onClick={Toppers}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Person />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title={"View Progress Report"}>
             <IconButton sx={{
               color: 'white',
@@ -509,24 +567,24 @@ const ExamResultBase = () => {
             </IconButton>
           </Tooltip>
 
+          {ClassPassFailDetailsForButton?.ToppersGenerated &&
+            <Tooltip title={"Generate Toppers"}>
 
-          <Tooltip title={"Generate Toppers"}>
+              <IconButton sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
+              }} disabled={(Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
+                // || !MonthConfigurationForExam
+              }>
+                {/* GENERATE TOPPERS */}
+                <ManageAccounts />
+              </IconButton>
+            </Tooltip>
 
-            <IconButton sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: grey[600]
-              }
-            }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
-              // || !MonthConfigurationForExam
-            }>
-              {/* GENERATE TOPPERS */}
-              <ManageAccounts />
-            </IconButton>
-          </Tooltip>
-
-
+          }
 
           <Tooltip title={"Unpublish All"}>
             <IconButton sx={{
@@ -570,12 +628,27 @@ const ExamResultBase = () => {
           <Box>
             <Stack direction={'row'} gap={2}>
               <Typography variant={'h4'} mb={1}>
-                Results
+
               </Typography>
               <Typography>{DisplayNote}</Typography>
             </Stack>
             <Stack direction={'row'} mb={1} justifyContent='space-between'>
-              {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
+              {/* {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
+                <Typography margin={'1px'}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sendmeassagestudent}
+                        onChange={(e) => {
+                          handleCheckboxChange(e.target.checked);
+                        }}
+                      />
+                    }
+                    label="Send Message and Mobile Notification"
+                  />
+                </Typography>
+              )} */}
+              {ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.length === 0 && !(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
                 <Typography margin={'1px'}>
                   <FormControlLabel
                     control={

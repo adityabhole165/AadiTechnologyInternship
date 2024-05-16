@@ -390,7 +390,7 @@ const SubjectExamMarks = () => {
   };
   const ExamResultLink = {
     title: 'Exam Results',
-    path: '/extended-sidebar/Teacher/ExamResultBase/'
+    path: '/extended-sidebar/Teacher/ExamResultBase'
   };
 
   const AssignExamMarkLink = {
