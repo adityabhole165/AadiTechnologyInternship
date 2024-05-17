@@ -156,15 +156,16 @@ const DynamicList = ({
                   )}
                   {IconList?.map((obj, i) => {
                     return (
-                      <TableCell
-                        align="center"
-                        key={i}
-                        onClick={() => {
-                          ClickItem({ Id: i, Action: obj.Action });
-                        }}
-                      >
-                        {obj.Icon}
-                      </TableCell>
+                      (Data[index] != undefined && !Data[index].IsGrey) ?
+                        < TableCell align="center" key={i}
+                          onClick={() => {
+                            ClickItem({ Id: i, Action: obj.Action });
+                          }}
+                        >
+                          {obj.Icon}
+                        </TableCell> :
+                        < TableCell>-</TableCell>
+
                     );
                   })}
                 </TableRow>
