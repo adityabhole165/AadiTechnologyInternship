@@ -71,7 +71,7 @@ const ViewProgressReport = () => {
         return TestName.children[0].children[0].value
         // console.log(TestName.children[0].children[0].value);
     }
-
+    //Physics
     const getSubjectName = (data) => {
         var SubjectName = new XMLParser().parseFromString(data);
         return SubjectName.children[0].children[1].value
@@ -85,14 +85,20 @@ const ViewProgressReport = () => {
     //Science
     const getSubjectgroupTotal = (data) => {
         var SubjectgroupTotal = new XMLParser().parseFromString(data);
-        return SubjectgroupTotal.children[0].children[3].value
+        return SubjectgroupTotal.children[0].children[2].value
         console.log(SubjectgroupTotal.children[0].children[1].value);
     }
     //Practical,Theory 
     const getSubjectTestType = (data) => {
         var SubjectTestType = new XMLParser().parseFromString(data);
-        return SubjectTestType.children[0].children[7].value
+        return SubjectTestType.children[0].children[9].value
         console.log(SubjectTestType.children[0].children[1].value);
+    }
+    //Marks
+    const getMarks = (data) => {
+        var Mark = new XMLParser().parseFromString(data);
+        return Mark.children[0].children[7].value
+        console.log(Mark.children[0].children[1].value);
     }
     return (
         <Box sx={{ px: 2 }}>
