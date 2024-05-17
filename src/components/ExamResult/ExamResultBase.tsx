@@ -10,7 +10,6 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IGetAllStudentsByGivenStdDivsBody,
@@ -47,7 +46,6 @@ const ExamResultBase = () => {
   const [StandardDivisionId, setStandardDivisionId] = useState(
     sessionStorage.getItem('TeacherId')
   );
-  const { examResultProp = "true" } = useParams();
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState('');
@@ -77,12 +75,10 @@ const ExamResultBase = () => {
   const GetAllStudentsStdDivs: any = useSelector(
     (state: RootState) => state.ExamResult.GetAllStudentsByGivenStdDivs
   );
-  console.log("GetAllStudentsStdDivs", GetAllStudentsStdDivs)
 
   const GetSMSTemplatess: any = useSelector(
     (state: RootState) => state.ExamResult.GetSMSTemplate
   );
-  console.log("GetSMSTemplatess", GetSMSTemplatess)
 
   const ClassPassFailDetailsForTest: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
@@ -301,10 +297,9 @@ const ExamResultBase = () => {
   // };
 
   const ClickItem = (value) => {
-    if (examResultProp === "true") {
-      navigate('/extended-sidebar/Teacher/SubjectExamMarks/' + examResultProp + '/' + StandardDivisionId + '/' + TestId
-      );
-    }
+    navigate('/extended-sidebar/Teacher/SubjectExamMarks/true/' +
+      StandardDivisionId + '/' + TestId
+    );
   };
 
   const TransferOptionalSubjectMarks = (value) => {
