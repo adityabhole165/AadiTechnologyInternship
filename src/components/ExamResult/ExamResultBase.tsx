@@ -678,7 +678,8 @@ const ExamResultBase = () => {
               {ClassPassFailDetailsForButton &&
                 ClassPassFailDetailsForButton.length === 0 || Submitted === 'Y' && !ClassPassFailDetailsForButton?.IsPublish &&
                 (
-                  <Typography margin={'1px'}>
+                  // <Typography margin={'1px'}>
+                  <Stack direction={'row'} gap={1}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -689,8 +690,8 @@ const ExamResultBase = () => {
                         />
                       }
                       label="Send Message and Mobile Notification"
-                    />
-                  </Typography>
+                    /></Stack>
+                  // </Typography>
                 )}
               <Stack direction={'row'} gap={1}>
                 <Button variant="contained" color="primary" onClick={ProgressRemark}>
