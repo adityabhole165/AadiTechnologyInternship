@@ -113,6 +113,8 @@ const ProgressRemarks = () => {
   
 
   const [remarkTemplates, setRemarkTemplates] = useState([]);
+ 
+  
   useEffect(() => {
     if (USRemarkTemplateDetails) {
       setRemarkTemplates(USRemarkTemplateDetails);
@@ -134,15 +136,15 @@ const ProgressRemarks = () => {
 
 
   const TextValues = (value) => {
-    setItemlist(value);
+    setRemarkTemplates(value);
 
   };
-  const TextValues1 = (value) => {
-    setItemlist(value);
-  };
-  const TextValues2 = (value) => {
-    setItemlist(value);
-  };
+  // const TextValues1 = (value) => {
+  //   setItemlist(value);
+  // };
+  // const TextValues2 = (value) => {
+  //   setItemlist(value);
+  // };
 
   const Note1 = [
     'Attentive, Capable, Careful, Cheerful, Confident, Cooperative, Courteous, Creative, Dynamic, Eager, Energetic, Generous, Hardworking, Helpful, Honest, Imaginative, Independent, Industrious, Motivated, Organized Outgoing, Pleasant, Polite, Resourceful, Sincere, Unique.'
@@ -542,8 +544,6 @@ const ProgressRemarks = () => {
                 ItemList={Itemlist}
                 NoteClick={ExamResult}
                 setTextValues={TextValues}
-                setTextValues1={TextValues1}
-                setTextValues2={TextValues2}
               />
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                 <Pagination

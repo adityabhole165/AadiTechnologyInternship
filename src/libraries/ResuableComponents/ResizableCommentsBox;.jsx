@@ -14,8 +14,8 @@ function ResizableCommentsBox({
   HeaderArray,
   NoteClick,
   setTextValues,
-  setTextValues1,
-  setTextValues2
+  // setTextValues1,
+  // setTextValues2
 }) {
   const TextChange = (value) => {
     if (value.Value.length <= 300) {
@@ -26,23 +26,23 @@ function ResizableCommentsBox({
     }
   };
 
-  const TextChange1 = (value) => {
-    if (value.Value.length <= 300) {
-      ItemList = ItemList.map((item) =>
-        item.Id === value.Id ? { ...item, Text4: value.Value } : item
-      );
-      setTextValues1(ItemList);
-    }
-  };
+  // const TextChange1 = (value) => {
+  //   if (value.Value.length <= 300) {
+  //     ItemList = ItemList.map((item) =>
+  //       item.Id === value.Id ? { ...item, Text4: value.Value } : item
+  //     );
+  //     setTextValues1(ItemList);
+  //   }
+  // };
 
-  const TextChange2 = (value) => {
-    if (value.Value.length <= 300) {
-      ItemList = ItemList.map((item) =>
-        item.Id === value.Id ? { ...item, Text5: value.Value } : item
-      );
-      setTextValues2(ItemList);
-    }
-  };
+  // const TextChange2 = (value) => {
+  //   if (value.Value.length <= 300) {
+  //     ItemList = ItemList.map((item) =>
+  //       item.Id === value.Id ? { ...item, Text5: value.Value } : item
+  //     );
+  //     setTextValues2(ItemList);
+  //   }
+  // };
 
   return (
     <div
