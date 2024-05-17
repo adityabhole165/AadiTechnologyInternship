@@ -17,7 +17,7 @@ const SelectedsubjectList = ({
   HeaderArray,
   clickDelete,
   clickEdit,
-  clickAttachment,
+  // clickAttachment,
   clickVisibilityIcon,
   clickpublish,
   clickView
@@ -68,11 +68,12 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <Link href={''} onClick={() => clickAttachment(item.Text5)} >
-                    {item.Text5}
-                  </Link>
+                {item.Text5}
+                  {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
+                  
+                  </Link> */}
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text9 == 0 ? null : (
                     <VisibilityIcon
                       style={{ color: 'black' }}
@@ -81,7 +82,7 @@ const SelectedsubjectList = ({
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
+                <TableCell sx={{ textTransform: 'capitalize' }}  >
                   <ButtonPrimary
                     style={{ backgroundColor: item.IsPublished === 'False' ? '#45b08d' : '#3ec275' }}
                     onClick={() => {
@@ -93,16 +94,16 @@ const SelectedsubjectList = ({
 
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text7 == 'False' ? (
                     <EditTwoTone
                       style={{ color: 'black ' }}
                       onClick={() => clickEdit(item.Id)}
-                    />
+                     />
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text7 == 'False' ? (
                     <DeleteForeverIcon
                      sx={{ color: 'red' }}

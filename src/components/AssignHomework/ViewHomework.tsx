@@ -15,6 +15,7 @@ import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHome
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { green, grey, red } from '@mui/material/colors';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -137,12 +138,12 @@ const ViewHomework = () => {
             <>
               <Box>
                 <Tooltip title={`User can view homework details.`}>
-                  <IconButton
+                <IconButton
                     sx={{
                       color: 'white',
-                      // backgroundColor: grey[500],
+                      backgroundColor: grey[500],
                       height: '36px !important',
-                      // ':hover': { backgroundColor: grey[600] }
+                      ':hover': { backgroundColor: grey[600] }
                     }}
                   >
                     <QuestionMarkIcon />
@@ -170,7 +171,7 @@ const ViewHomework = () => {
 
             </Grid>
 
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Typography>
                 Attachment: &nbsp;
                 <a  onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer', }}>
@@ -178,11 +179,11 @@ const ViewHomework = () => {
                 </a>
               </Typography>
 
-            </Grid>
+            </Grid> */}
             <Grid item xs={6}>
-              <Typography   > More Attachment(s):&nbsp;
+              <Typography   > Attachments:&nbsp;
                 {
-                  AllHomeworkDocuments.length > 0 ? <a href='#' onClick={() => ClickAttachments()} style={{ textDecoration: 'none' }} > More Attachments </a> :
+                  AllHomeworkDocuments.length > 0 ? <a href='#' onClick={() => ClickAttachments()} style={{ textDecoration: 'none' }} > Attachments </a> :
                     <span></span>
                 }
               </Typography>

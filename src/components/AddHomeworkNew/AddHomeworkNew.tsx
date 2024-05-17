@@ -71,7 +71,7 @@ const AddHomeworkNew = () => {
     { Id: 2, Header: ' 	Title' },
     { Id: 3, Header: 'Assigned Date' },
     { Id: 4, Header: ' 	Complete By Date' },
-    { Id: 5, Header: ' Attachment' },
+    { Id: 5, Header: ' ' },
     { Id: 6, Header: 'View' },
     { Id: 7, Header: 'Publish/Unpublish' },
     { Id: 8, Header: 'Edit' },
@@ -119,7 +119,6 @@ const AddHomeworkNew = () => {
   );
 
 
-
   const Subjectlistsforteacher: any = useSelector(
     (state: RootState) => state.AddHomework.SubjectListTeacher
   );
@@ -139,10 +138,6 @@ const AddHomeworkNew = () => {
   const AllPublishUnPublishHomeworkNew = useSelector(
     (state: RootState) => state.AddHomework.AllPublishUnpublishHomework
   );
-
-
-
-
 
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
   {
@@ -224,7 +219,6 @@ const AddHomeworkNew = () => {
       setCompleteDate(getCalendarDateFormatDate(HomeworkDetail.CompleteByDate));
       setTitle(HomeworkDetail.Title);
       setDetails(HomeworkDetail.Details);
-      console.log(HomeworkDetail, "checkedit ");
 
     }
   }, [HomeworkDetail]);
@@ -235,11 +229,11 @@ const AddHomeworkNew = () => {
   const ClickSaveHomework = () => {
     let isError = false;
     if (Title == '') {
-      setErrorTitle(' Field should not be blank.')
+      setErrorTitle(' Title should not be blank.')
       isError = true
 
     } else if (AssignedDate == '') {
-      setErrorAssignedDate('Field should not be blank ')
+      setErrorAssignedDate('AssignedDate should not be blank ')
       isError = true
     }
     else if (CompleteDate == '') {
@@ -248,7 +242,7 @@ const AddHomeworkNew = () => {
     }
 
     else if (Details == '') {
-      setErrorDetails('Field should not be blank')
+      setErrorDetails('Details should not be blank')
       isError = true
     }
 
@@ -402,9 +396,6 @@ const AddHomeworkNew = () => {
 
 
   const clickPublishUnpublish = (Id, Text3) => {
-
-    console.log(Text3 ,"Text3----");
-
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
 
@@ -464,7 +455,6 @@ const AddHomeworkNew = () => {
     })
     return arr.toString()
   }
-  console.log(SearchTittle1, "SearchTittle1");
 
 
 
@@ -587,15 +577,15 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
 
 
-  const clickFileName = (value) => {
-    if (value !== '') {
-      window.open(
-        localStorage.getItem('SiteURL') +
-        '/RITeSchool/DOWNLOADS/Homework/' +
-        value
-      );
-    }
-  };
+  // const clickFileName = (value) => {
+  //   if (value !== '') {
+  //     window.open(
+  //       localStorage.getItem('SiteURL') +
+  //       '/RITeSchool/DOWNLOADS/Homework/' +
+  //       value
+  //     );
+  //   }
+  // };
   const clickTitle1 = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
@@ -844,7 +834,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             />
           </Grid>
 
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <SingleFile
               ValidFileTypes={ValidFileTypes}
               MaxfileSize={MaxfileSize}
@@ -855,7 +845,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               height={"52px"}
               isMandatory={false}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={3}>
             <MultipleFile
               ValidFileTypes={ValidFileTypes}
@@ -994,7 +984,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             clickVisibilityIcon={clickView}
             clickpublish={clickPublishUnpublish}
             HeaderArray={HeaderPublish}
-            clickAttachment={clickFileName}
+            // clickAttachment={clickFileName}
           />
         ) : (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>

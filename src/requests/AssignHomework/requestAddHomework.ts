@@ -178,7 +178,7 @@ export const GetTeacherSubjectList = (data: IGetSubjectListForTeacherBody): AppT
     Text2: item.Title,
     Text3: getDateMonthYearFormatted(item.AssignedDate),
     Text4: getDateMonthYearFormatted(item.CompleteByDate),
-    Text5: item.AttachmentPath,
+    // Text5: item.AttachmentPath,
     Text6: item.CompleteByDate,
     Text7: item.IsPublished,
     Text9: item.flag,
