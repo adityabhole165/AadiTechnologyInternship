@@ -675,24 +675,7 @@ const ExamResultBase = () => {
                   />
                 </Typography>
               )} */}
-              {ClassPassFailDetailsForButton &&
-                ClassPassFailDetailsForButton.length === 0 || Submitted === 'Y' && !ClassPassFailDetailsForButton?.IsPublish &&
-                (
-                  // <Typography margin={'1px'}>
-                  <Stack direction={'row'} gap={1}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={sendmeassagestudent}
-                          onChange={(e) => {
-                            handleCheckboxChange(e.target.checked);
-                          }}
-                        />
-                      }
-                      label="Send Message and Mobile Notification"
-                    /></Stack>
-                  // </Typography>
-                )}
+
               <Stack direction={'row'} gap={1}>
                 <Button variant="contained" color="primary" onClick={ProgressRemark}>
                   Progress Remarks
@@ -709,8 +692,28 @@ const ExamResultBase = () => {
                 <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
                   Termwise Height-Weight
                 </Button>
+                {ClassPassFailDetailsForButton &&
+                  ClassPassFailDetailsForButton.length === 0 || Submitted === 'Y' && !ClassPassFailDetailsForButton?.IsPublish &&
+                  (
+
+                    <Box display="flex" justifyContent="flex-end">
+                      <Stack direction={'row'} gap={1} >
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={sendmeassagestudent}
+                              onChange={(e) => {
+                                handleCheckboxChange(e.target.checked);
+                              }}
+                            />
+                          }
+                          label="Send Message and Mobile Notification"
+                        /></Stack>
+                    </Box>
+                  )}
               </Stack>
             </Stack>
+
             {ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No Record Found.</b>
