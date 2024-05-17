@@ -537,7 +537,7 @@ const ExamResultBase = () => {
               </IconButton>
             </Tooltip>
           )} */}
-          {ClassPassFailDetailsForButton?.ToppersGenerated && ClassPassFailDetailsForButton?.IsPublish || Submitted === 'Y' && ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish &&
+          {/* {ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'Y' && ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish &&
             // || !MonthConfigurationForExam(
             <Tooltip title={"Toppers"} >
               <IconButton
@@ -554,7 +554,26 @@ const ExamResultBase = () => {
                 <Person />
               </IconButton>
             </Tooltip>
-          }
+          } */}
+
+
+          <Tooltip title={"Toppers"} >
+            <IconButton
+              onClick={Toppers}
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
+              }} disabled={(Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
+
+            >
+              <Person />
+            </IconButton>
+          </Tooltip>
+
+
 
           <Tooltip title={"View Progress Report"}>
             <IconButton sx={{
@@ -571,25 +590,25 @@ const ExamResultBase = () => {
             </IconButton>
           </Tooltip>
 
-          {!ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish &&
+          {/* {!ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish && */}
 
-            <Tooltip title={"Generate Toppers"}>
+          <Tooltip title={"Generate Toppers"}>
 
-              <IconButton sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }} disabled={(ClassPassFailDetailsForButton?.ToppersGenerated && ClassPassFailDetailsForButton?.IsPublish || Submitted === 'Y' && ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish)
+            <IconButton sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: grey[600]
+              }
+            }} disabled={(Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated || ClassPassFailDetailsForButton?.ToppersGenerated)
 
-              }>
-                {/* GENERATE TOPPERS */}
-                <ManageAccounts />
-              </IconButton>
-            </Tooltip>
+            }>
+              {/* GENERATE TOPPERS */}
+              <ManageAccounts />
+            </IconButton>
+          </Tooltip>
 
-          }
+          {/* } */}
 
           <Tooltip title={"Unpublish All"}>
             <IconButton sx={{
