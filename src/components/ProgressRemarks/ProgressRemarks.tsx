@@ -543,7 +543,7 @@ const ProgressRemarks = () => {
                 HeaderArray={HeaderArray}
                 ItemList={Itemlist}
                 NoteClick={ExamResult}
-                setTextValues={TextValues}
+                setTextValues={(()=> {setRemarkTemplates})}
               />
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                 <Pagination

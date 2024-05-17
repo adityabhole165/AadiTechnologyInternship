@@ -278,14 +278,12 @@ export const CDAGetRemarkTemplateDetails =
       const response = await ApiProgressRemark.GetAllStudentsForProgressRemark(data);
 
       let AllStudentsList = response.data.GetAllStudentsList.map((item, i)=> ({
-        Id: item.RowID,
+        Id: item.Student_Id,
         Text1: item.Roll_No,
         Text2: item.StudentName,
         Text3: item.Remark,
         Text5: item.SchoolWise_Standard_Division_Id,
         Text6: item.Studentwise_Remark_Id,
-        Text8: item.Student_Id,
-      
       
       }));
       dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
