@@ -279,11 +279,12 @@ const ExamResultBase = () => {
 
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
-  }, [StandardDivisionId, TestId]);
-
-  useEffect(() => {
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   }, [StandardDivisionId, TestId]);
+
+  // useEffect(() => {
+  //   dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
+  // }, [StandardDivisionId, TestId]);
 
   const clickTeacher = (value) => {
     setStandardDivisionId(value);
