@@ -102,7 +102,7 @@ const DynamicList = ({
                             {obj}
                           </a>
                         ) : (
-                          obj
+                          (Data[index] != undefined && Data[index].IsGrey) ? "-" : obj
                         )}
                       </TableCell>
                     );
