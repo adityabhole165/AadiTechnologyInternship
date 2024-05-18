@@ -17,6 +17,9 @@ const Loader = (Component) => (props) =>
 const TAttendance = Loader(
   lazy(() => import('src/components/MyAttendance/TAttendance'))
 );
+const StudentProgressReport = Loader(
+  lazy(() => import('src/components/FinalResult/StudentProgressReport'))
+);
 const TExamschedule = Loader(
   lazy(() => import('src/components/TExamschedule/TExamScheduleNew'))
 );
@@ -310,6 +313,10 @@ const teacherRoutes = [
   {
     path: 'FinalResult',
     element: <FinalResult />
+  },
+  {
+    path: 'StudentProgressReport/:asUserId/:asStudentId',
+    element: <StudentProgressReport />
   },
   {
     path: 'StudentRecords',
