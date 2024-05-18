@@ -11,14 +11,14 @@ import { toast } from 'react-toastify';
 import {
   IAllPrimaryClassTeachersBody,
   IGetAllGradesForStandardBody,
+  IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentswiseRemarkDetailsBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
-  IUpdateAllStudentsRemarkDetailsBody,
-  IGetAllStudentsForProgressRemarkBody
+  IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
@@ -109,9 +109,9 @@ const ProgressRemarks = () => {
   const USGetAllStudentsForProgressRemark: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentsForProgressRemark
   );
-  
+
   const [remarkTemplates, setRemarkTemplates] = useState([]);
- 
+
   useEffect(() => {
     if (USRemarkTemplateDetails) {
       setRemarkTemplates(USRemarkTemplateDetails);
@@ -125,8 +125,8 @@ const ProgressRemarks = () => {
   );
 
   const [Itemlist, setItemlist] = useState([]);
-  const [ StudentName, setStudentName] = useState([]);
-  
+  const [StudentId, setStudentId] = useState([]);
+
   useEffect(() => {
     setItemlist(USGetAllStudentsForProgressRemark);
   }, [USGetAllStudentsForProgressRemark]);
@@ -135,13 +135,28 @@ const ProgressRemarks = () => {
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
-  const activeTextsResult = getActiveTexts();
-  console.log(activeTextsResult,"-----");
+ 
+
+ 
+
+
+  const TextChange1 = () => {
+    let ItemlistTemp = Itemlist.map((item) => {
+      if (item.Id === StudentId) {
+        const newText3 = item.Text3 + getActiveTexts();
+        return { ...item, Text3: newText3.slice(0, 300) };
+      }
+      return item;
+    });
+    setItemlist(ItemlistTemp);
+  };
   
+
   const SelectClick = () => {
+    TextChange1()
     setOpen(false)
   };
- 
+
   const TextValues = (value) => {
     setItemlist(value);
 
@@ -182,8 +197,8 @@ const ProgressRemarks = () => {
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "desc" },
     { Id: 2, Header: 'Remark Template' },
-   
-   
+
+
   ]);
   const HeaderArray = [
     { Id: 1, Header: 'Roll No.' },
@@ -289,15 +304,15 @@ const ProgressRemarks = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     aTeacherId: Number(selectTeacher),
-    asStudentId:Number(StudentList) ,
+    asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
     asStartIndex: 0,
     asEndIndex: 20,
     asSortExp: "Roll_No"
-    }
+  }
 
 
-  
+
   useEffect(() => {
     dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
   }, []);
@@ -306,7 +321,7 @@ const ProgressRemarks = () => {
   }, []);
   useEffect(() => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
-  }, [SelectGrade, Remark,HeaderPublish]);
+  }, [SelectGrade, Remark, HeaderPublish]);
 
   const UpdateRemark = () => {
     dispatch(
@@ -363,17 +378,17 @@ const ProgressRemarks = () => {
   const getStudentName = () => {
     let classStudentName = '';
     USGetAllStudentsForProgressRemark.map((item) => {
-      if (item.Value == StudentName) classStudentName = item.Name;
+      if (item.Value == StudentId) classStudentName = item.Name;
     });
     return classStudentName;
   };
 
   const studentName = getStudentName();
 
-  const  ClickAppropriate  = (Id) => {
-    setStudentName(Id)
+  const ClickAppropriate = (Id) => {
+    setStudentId(Id)
     setOpen(!open)
-   
+
   };
 
   useEffect(() => {
@@ -441,7 +456,7 @@ const ProgressRemarks = () => {
   };
 
   const ClickHeader = (value) => {
-     setHeaderPublish(value)
+    setHeaderPublish(value)
   }
 
   return (
@@ -586,12 +601,12 @@ const ProgressRemarks = () => {
                 <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
-               
+
                 <TextField
                   size={"small"}
                   fullWidth
                   label={"StudentList"}
-                  value={studentName}
+                  value={StudentId}
                   sx={{ bgcolor: '#f0e68c' }}
                   InputProps={{
                     readOnly: true,
@@ -615,22 +630,22 @@ const ProgressRemarks = () => {
                 />
 
               </Box>
-             
-                <Box  sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
-                  {remarkTemplates.length > 0 ? (
-                    <RemarkList
-                      ItemList={remarkTemplates}
-                      HeaderArray={HeaderPublish}
-                      onChange={Changevalue}
-                      ClickHeader={ClickHeader}
-                    />
-                  ) : (
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
-                      <b>No Record Found.</b>
-                    </Typography>
-                  )}
-                </Box>
-             
+
+              <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
+                {remarkTemplates.length > 0 ? (
+                  <RemarkList
+                    ItemList={remarkTemplates}
+                    HeaderArray={HeaderPublish}
+                    onChange={Changevalue}
+                    ClickHeader={ClickHeader}
+                  />
+                ) : (
+                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
+                    <b>No Record Found.</b>
+                  </Typography>
+                )}
+              </Box>
+
             </Box>
             <Box>
               <Button
