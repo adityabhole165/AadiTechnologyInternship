@@ -142,6 +142,7 @@ export const gettestmarklist =
       console.log(responseData, "responseData");
 
       dispatch(SubjectMarkListSlice.actions.GetTestMark(responseData));
+      dispatch(SubjectMarkListSlice.actions.TestName(response1.data.listSchoolWise_Student_Test_Marks_Detail));
       dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response3.data));
       // console.log(response3, "abc")
       let responseData2 = ["R.No."]

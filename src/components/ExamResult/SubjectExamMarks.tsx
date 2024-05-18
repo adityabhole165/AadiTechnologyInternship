@@ -38,7 +38,7 @@ const SubjectExamMarks = () => {
   // const disableFutureDt = current => {
   //   return current.isBefore(today)
   // }
-  const { ClassTecher, ClassId, TeacherId,
+  let { ClassTecher, ClassId, TeacherId,
     StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp } = useParams();
 
   // const [examResultProp, setexamResultProp] = useState(false);
@@ -117,6 +117,11 @@ const SubjectExamMarks = () => {
       format(value, 'yyyy-MM-dd')
     )
   }
+  useEffect(() => {
+    if (StandardName != undefined || StandardName) {
+      StandardId = StandardName.Standard_Id
+    }
+  }, [StandardName])
   //for testdate
   useEffect(() => {
     const GetSubjectExamMarkslists: IGetSubjectExamMarkslistsBody =

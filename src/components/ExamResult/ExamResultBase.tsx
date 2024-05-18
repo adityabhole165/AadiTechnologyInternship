@@ -296,9 +296,31 @@ const ExamResultBase = () => {
   //     ;
   // };
 
+
+  const getSubjectId = (index) => {
+    console.log(index, "index");
+
+    let returnVal = "0"
+    ClassPassFailDetailsForTestData.map((Item, i) => {
+      if (i == index)
+        returnVal = Item.SubjectId
+    })
+    return returnVal
+  }
   const ClickItem = (value) => {
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks/true/' +
-      StandardDivisionId + '/' + TestId
+    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
+      '0' + '/' +
+      StandardDivisionId + '/' +
+      getSubjectId(value.Index) + '/' +
+      '0' + '/' +
+      TestId + '/' +
+      getTeacherId() + '/' +
+      '0/' +
+      // value.StandardId + '/' +
+      'true' + '/' +
+      'false' + '/' +
+      'true'
+
     );
   };
 

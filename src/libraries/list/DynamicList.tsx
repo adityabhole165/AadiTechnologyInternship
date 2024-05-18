@@ -159,7 +159,7 @@ const DynamicList = ({
                       (Data[index] != undefined && !Data[index].IsGrey) ?
                         < TableCell align="center" key={i}
                           onClick={() => {
-                            ClickItem({ Id: i, Action: obj.Action });
+                            ClickItem({ Id: i, Action: obj.Action, Index: index });
                           }}
                         >
                           {obj.Icon}
