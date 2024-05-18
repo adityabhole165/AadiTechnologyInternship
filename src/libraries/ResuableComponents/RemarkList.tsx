@@ -21,7 +21,6 @@ function RemarkList({
         });
         onChange(ItemList);
     };
- console.log(ItemList,"ItemList");
  
     const clickHeader = (value) => {
         if (value != undefined) {

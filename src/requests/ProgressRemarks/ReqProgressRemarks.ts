@@ -284,6 +284,8 @@ export const CDAGetRemarkTemplateDetails =
         Text3: item.Remark,
         Text5: item.SchoolWise_Standard_Division_Id,
         Text6: item.Studentwise_Remark_Id,
+        Value: item.Student_Id,
+        Name : item.StudentName
       
       }));
       dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));

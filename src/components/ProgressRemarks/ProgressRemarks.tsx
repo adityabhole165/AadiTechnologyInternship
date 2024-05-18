@@ -109,12 +109,9 @@ const ProgressRemarks = () => {
   const USGetAllStudentsForProgressRemark: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentsForProgressRemark
   );
-  console.log(USGetAllStudentsForProgressRemark,"USGetAllStudentsForProgressRemark");
   
-
   const [remarkTemplates, setRemarkTemplates] = useState([]);
  
-  
   useEffect(() => {
     if (USRemarkTemplateDetails) {
       setRemarkTemplates(USRemarkTemplateDetails);
@@ -128,6 +125,7 @@ const ProgressRemarks = () => {
   );
 
   const [Itemlist, setItemlist] = useState([]);
+  const [ StudentName, setStudentName] = useState([]);
   
   useEffect(() => {
     setItemlist(USGetAllStudentsForProgressRemark);
@@ -355,16 +353,19 @@ const ProgressRemarks = () => {
 
   const getStudentName = () => {
     let classStudentName = '';
-    USStudentListDropDown.map((item) => {
-      if (item.Value == StudentList) classStudentName = item.Name;
+    USGetAllStudentsForProgressRemark.map((item) => {
+      if (item.Value == StudentName) classStudentName = item.Name;
     });
-
     return classStudentName;
   };
-  const ExamResult = (value) => {
-    setOpen(!open)
-  };
+
   const studentName = getStudentName();
+
+  const  ClickAppropriate  = (Id) => {
+    setStudentName(Id)
+    setOpen(!open)
+   
+  };
 
   useEffect(() => {
     if (USGetTestwiseTerm.length > 0) {
@@ -429,10 +430,6 @@ const ProgressRemarks = () => {
   const Changevalue = (value) => {
     setRemarkTemplates(value);
   };
-
-
- 
-
 
   const ClickHeader = (value) => {
      setHeaderPublish(value)
@@ -542,7 +539,7 @@ const ProgressRemarks = () => {
               <ResizableCommentsBox
                 HeaderArray={HeaderArray}
                 ItemList={Itemlist}
-                NoteClick={ExamResult}
+                NoteClick={ClickAppropriate}
                 setTextValues={(()=> {setRemarkTemplates})}
               />
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
@@ -571,7 +568,7 @@ const ProgressRemarks = () => {
       </Box>
       <Modal
         open={open}
-        onClose={ExamResult}
+        onClose={ClickAppropriate}
       >
         <Box sx={style}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
