@@ -132,9 +132,18 @@ const ProgressRemarks = () => {
   }, [USGetAllStudentsForProgressRemark]);
 
 
-
+  const getActiveTexts = () => {
+    return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
+  }
+  const activeTextsResult = getActiveTexts();
+  console.log(activeTextsResult,"-----");
+  
+  const SelectClick = () => {
+    setOpen(false)
+  };
+ 
   const TextValues = (value) => {
-    setRemarkTemplates(value);
+    setItemlist(value);
 
   };
   // const TextValues1 = (value) => {
@@ -540,7 +549,7 @@ const ProgressRemarks = () => {
                 HeaderArray={HeaderArray}
                 ItemList={Itemlist}
                 NoteClick={ClickAppropriate}
-                setTextValues={(()=> {setRemarkTemplates})}
+                setTextValues={TextValues}
               />
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                 <Pagination
@@ -631,7 +640,7 @@ const ProgressRemarks = () => {
                   color: 'White',
                   marginRight: '10px'
                 }}
-              >
+                onClick={SelectClick} >
                 SELECT
               </Button>
               <Button
