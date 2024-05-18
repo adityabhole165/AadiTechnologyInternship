@@ -9,7 +9,7 @@ import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Ty
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   IGetAllStudentsByGivenStdDivsBody,
@@ -38,16 +38,20 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
+  const { ParamsStandardDivisionId, ParamsTestId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserRole = localStorage.getItem('RoleName');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const [StandardDivisionId, setStandardDivisionId] = useState(
-    sessionStorage.getItem('TeacherId')
+    ParamsStandardDivisionId == undefined ? sessionStorage.getItem('TeacherId') : ParamsStandardDivisionId
   );
   const [Reason, setReason] = useState('');
-  const [TestId, setTestId] = useState("0");
+  const [TestId, setTestId] = useState(
+    ParamsTestId == undefined ? "0" : ParamsTestId
+
+  );
   const [DisplayNote, setDisplayNote] = useState('');
   const [HelpNote, setHelpNote] = useState('');
   const [Open, setOpen] = useState(false);
@@ -240,11 +244,6 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getProgressSheetStatus(GetPrePrimaryProgressSheetStatusBody));
   }, []);
-
-  useEffect(() => {
-    if (ClassTeachers.length > 0)
-      setStandardDivisionId(ClassTeachers[0].Id);
-  }, [ClassTeachers]);
 
   const getIsTestExists = (value) => {
     let IsTestExists = false

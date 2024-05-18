@@ -1,6 +1,6 @@
+
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
-import StudentProgressReport from 'src/components/FinalResult/StudentProgressReport';
 
 import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubjectMarks/TransferOptionalSubjectMarks';
 
@@ -74,9 +74,9 @@ const AssignPrePrimaryGrades = Loader(
 const ProgressRemarks = Loader(
   lazy(() => import('src/components/ProgressRemarks/ProgressRemarks'))
 );
-// const ViewProgressRemarks = Loader(
-//   lazy(() => import('src/components/ViewProgressRemark/ViewProgressRemark'))
-// );
+const ViewProgressReport = Loader(
+  lazy(() => import('src/components/ViewProgressReport/ViewProgressReport'))
+);
 const FinalResult = Loader(
   lazy(() => import('src/components/FinalResult/FinalResult'))
 );
@@ -157,9 +157,21 @@ const ViewResultAll = Loader(
 const ViewFinalResult = Loader(
   lazy(() => import('src/components/ViewFinalResult/ViewFinalResult'))
 )
+const GenerateAll = Loader(
+  lazy(() => import('src/components/FinalResult/FinalResultGenerateAll'))
+)
 
 
 const teacherRoutes = [
+  {
+    path: 'GenerateAll',
+    element: <GenerateAll />
+  },
+  {
+    path: 'GenerateAll/:asStudentId',
+    element: <GenerateAll />
+  },
+
   {
     path: 'TAttendance',
     element: <TAttendance />
@@ -218,11 +230,19 @@ const teacherRoutes = [
     element: <ExamResultBase />
   },
   {
+    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId',
+    element: <ExamResultBase />
+  },
+  {
     path: 'SubjectExamMarks',
     element: <SubjectExamMarks />
   },
   {
-    path: 'SubjectExamMarks/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly',
+    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly/:examResultProp',
+    element: <SubjectExamMarks />
+  },
+  {
+    path: 'SubjectExamMarks/:examResultProp/:StandardDivisionId/:TestId',
     element: <SubjectExamMarks />
   },
 
@@ -231,7 +251,7 @@ const teacherRoutes = [
     element: <AssignExamMark />
   },
   {
-    path: 'AssignExamMark/:StandardDivisionId/:TestId',
+    path: 'AssignExamMark/:ClassTecher/:ClassId/:TestId',
     element: <AssignExamMark />
   },
 
@@ -282,20 +302,15 @@ const teacherRoutes = [
     element: <ProgressRemarks />
   },
 
-  // {
-  //   path: 'ViewProgressRemarks/:TestId',
-  //   element: <ViewProgressRemarks />
-  // },
+  {
+    path: 'ViewProgressReport/:TestId/:StandardDivisionId',
+    element: <ViewProgressReport />
+  },
 
   {
     path: 'FinalResult',
     element: <FinalResult />
   },
-  {
-    path: 'StudentProgressReport/:asUserId/:asStudentId',
-    element: <StudentProgressReport />
-  },
-
   {
     path: 'StudentRecords',
     element: <StudentRecords />
@@ -338,7 +353,7 @@ const teacherRoutes = [
     element: <HomeworkSubjectList />
   },
   {
-    path: 'HomeworkDocuments/:Id',
+    path: 'HomeworkDocuments/:Id/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
     element: <HomeworkDocuments />
   },
   // {
