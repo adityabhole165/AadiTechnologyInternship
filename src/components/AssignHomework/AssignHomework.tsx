@@ -278,7 +278,7 @@ const AssignHomework = () => {
             </IconButton>
           </Tooltip>
           {SelectClass &&
-            ((asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y') ||
+            ((asStandardDivisionId === SelectClass && GetScreenPermission() === 'Y') ||
               SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
               <div>
                 <Tooltip title={'Add Daily Log'}>
@@ -313,7 +313,7 @@ const AssignHomework = () => {
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Record Found.</b>
+              <b>No record found.</b>
             </Typography>
           )}
         </Box>
@@ -333,7 +333,7 @@ const AssignHomework = () => {
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Record Found.</b>
+              <b>No record found.</b>
             </Typography>
           )}
         </Box>

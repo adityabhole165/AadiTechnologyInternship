@@ -307,7 +307,7 @@ const AssignExamMark = () => {
 
           <Box>
             <Tooltip title={`View all subjects assigned with the current status of marks given to students. 
-Once marks for all the students are allotted you have to submit these marks to the class-teacher by clicking on &quot;Submit&quot; button.
+Once marks for all the students are allotted you have to submit these marks to the class-teacher by clicking on Submit button.
 Pre-primary teachers to add and submit progress report entries of his class.`}>
               <IconButton
                 sx={{
