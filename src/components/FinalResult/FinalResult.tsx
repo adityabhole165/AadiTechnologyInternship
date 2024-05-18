@@ -13,14 +13,28 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import FinalResultUnpublish from 'src/components/FinalResultUnpublish/FinalResultUnpublish';
 import {
   IClassTeacherListBody,
-  IGetPagedStudentBody
+  IGenerateAllBody,
+  IGenerateBody,
+  IGetPagedStudentBody,
+  IPublishBody,
+  IUnpublishBody,
+  IViewBody
 } from 'src/interfaces/FinalResult/IFinalResult';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   ClassTechersList,
-  GetStudentResultList
+  GetGenerate,
+  GetGenerateAll,
+  GetPublishResult,
+  GetStudentResultList,
+  GetUnpublishResult,
+  GetViewResult,
+  resetPublishResult,
+  resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -29,7 +43,7 @@ const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [SelectTeacher, setSelectTeacher] = useState();
-
+  const [Open, setOpen] = useState(false);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUpdatedById = localStorage.getItem('Id');
@@ -37,6 +51,33 @@ const FinalResult = () => {
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
+
+  const [asStdDivId, setasStdDivId] = useState();
+  const [asUnPublishReason, setasUnPublishReason] = useState();
+  const asUserId = Number(localStorage.getItem('UserId'));
+  const [asUseAvarageFinalResult, asasUseAvarageFinalResult] = useState();
+  const [asStudentId, setasStudentId] = useState();
+  const [asInsertedById, setasInsertedById] = useState();
+  const [asWithGrace, setasWithGrace] = useState();
+  const Exam = ['Final Result'];
+
+
+  const getDropdownName = (List, value) => {
+    let returnVal = ""
+    List.map((Item) => {
+      if (Item.Value == value)
+        returnVal = Item.Name
+    })
+    return returnVal
+  };
+
+  const AssignmentClickIcon = (value) => {
+    navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
+  }
+
+  const VisibilityClickIcon = (value) => {
+    navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asStudentId)
+  }
 
   const HeaderList = [
     'Roll No.',
@@ -90,9 +131,7 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <AssignmentIcon onClick={() => {
-          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
-        }} />
+        <AssignmentIcon onClick={AssignmentClickIcon} />
       </>
     },
     {
@@ -105,10 +144,7 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <VisibilityIcon onClick={() => {
-          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
-
-        }} />
+        <VisibilityIcon onClick={VisibilityClickIcon} />
       </>
     },
     {
@@ -141,14 +177,83 @@ const FinalResult = () => {
   );
   console.log(GetStudentLists);
 
+  const PublishResult = useSelector(
+    (state: RootState) => state.FinalResult.PublishResult
+  );
+  console.log(PublishResult);
+
+  const UnpublishResult = useSelector(
+    (state: RootState) => state.FinalResult.UnpublishResult
+  );
+  console.log(UnpublishResult);
+
+  const GenerateAll = useSelector(
+    (state: RootState) => state.FinalResult.GenerateAll
+  );
+  console.log(GenerateAll);
+
+  const ViewResult = useSelector(
+    (state: RootState) => state.FinalResult.ViewResult
+  );
+
+  console.log("viewresult", ViewResult);
+
+  const GenerateResult = useSelector(
+    (state: RootState) => state.FinalResult.Generate
+  );
+
+  console.log("GenerateResult", GenerateResult)
+
 
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
 
   useEffect(() => {
+    dispatch(GetPublishResult(PublishResultBody));
+  }, []);
+
+  // useEffect(() => {
+  //   dispatch(GetUnpublishResult(UnpublishResultBody));
+  // }, [])
+
+  useEffect(() => {
+    dispatch(GetGenerateAll(GenerateAllBody));
+  }, []);
+
+  useEffect(() => {
+    dispatch(GetViewResult(ViewResultBody));
+  }, [asStudentId])
+
+  useEffect(() => {
+    dispatch(GetGenerate(GenerateResultBody));
+  }, [])
+
+  useEffect(() => {
     if (SelectTeacher != '0') dispatch(GetStudentResultList(PagedStudentBody));
   }, [SelectTeacher]);
+
+
+
+  const UnpublishResultBody: IUnpublishBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivId: StandardDivisionId,
+    asUnPublishReason: asUnPublishReason
+  }
+  const PublishResultBody: IPublishBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asStdDivId: StandardDivisionId
+  }
+
+  const GenerateAllBody: IGenerateAllBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asStdDivId: asStdDivId,
+    asUserId: asUserId,
+    asUseAvarageFinalResult: asUseAvarageFinalResult
+  }
 
   const ClassTeachersBody: IClassTeacherListBody = {
     asSchoolId: asSchoolId,
@@ -162,6 +267,23 @@ const FinalResult = () => {
     prm_StartIndex: 0,
     PageSize: 20
   };
+
+  const ViewResultBody: IViewBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStudentId: asStudentId,
+    asInsertedById: 1,
+    asWithGrace: 0
+
+  };
+
+  const GenerateResultBody: IGenerateBody = {
+    asSchoolId: asSchoolId,
+    asAcadmeicYearId: asAcademicYearId,
+    asStudentId: asStudentId,
+    asUserId: asUserId
+  }
+
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
   };
@@ -185,14 +307,60 @@ const FinalResult = () => {
     });
     return TeacherName;
   };
-  const onClickUnpublish = () => {
-    navigate(
-      '/extended-sidebar/Teacher/FinalResultUnpublish/' +
-      SelectTeacher +
-      '/' +
-      getTeacherName()
-    );
+  const ClickOpenDialogbox = () => {
+    setOpen(true);
+
   };
+  const ClickCloseDialogbox = () => {
+    setOpen(false);
+  };
+  const onClickUnpublish = (asUnPublishReason) => {
+
+    if (asUnPublishReason !== '') {
+      const UnpublishResultBody: IUnpublishBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivId: StandardDivisionId,
+        asUnPublishReason: asUnPublishReason
+      }
+      dispatch(GetUnpublishResult(UnpublishResultBody))
+
+
+    }  // dispatch(GetPublishResult(PublishResultBody));
+  };
+
+  const onClickPublish = (publish) => {
+    if (publish) {
+      if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
+
+        const PublishBody: IPublishBody = {
+          asSchoolId: asSchoolId,
+          asAcadmicYearId: asAcademicYearId,
+          asStdDivId: asStdDivId
+        }
+        dispatch(GetPublishResult(PublishBody))
+
+        // dispatch(GetUnpublishResult(UnpublishResultBody))
+
+      };
+    }
+    useEffect(() => {
+      if (UnpublishResult !== '') {
+        toast.success(UnpublishResult)
+        dispatch(resetUnpublishResult())
+        dispatch(GetStudentResultList(PagedStudentBody))
+      }
+    }, [UnpublishResult])
+
+    useEffect(() => {
+      if (PublishResult !== '')
+        toast.success(PublishResult)
+      dispatch(resetPublishResult())
+      dispatch(GetStudentResultList(PagedStudentBody))
+    }, [PublishResult])
+
+  }
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader navLinks={
@@ -233,9 +401,7 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Toppers"}>
               <IconButton
-                onClick={() => {
-                  navigate('/extended-sidebar/Teacher/FinalResultToppers')
-                }}
+                onClick={Toppers}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -251,6 +417,7 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Generate All"}>
               <IconButton
+                onClick={onClickPublish}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -266,7 +433,7 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"View All Results"}>
               <IconButton
-                onClick={(value) => {
+                onClick={() => {
                   navigate('/extended-sidebar/Teacher/ViewResultAll')
                 }}
                 sx={{
@@ -284,7 +451,8 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Unpublish"}>
               <IconButton
-                onClick={onClickUnpublish}
+                disabled={GetStudentLists && GetStudentLists[0]?.Is_Deleted === "Y"}
+                onClick={ClickOpenDialogbox}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -300,6 +468,9 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Publish"}>
               <IconButton
+                disabled={GetStudentLists && GetStudentLists[0]?.Is_Deleted === "N"}
+
+                onClick={() => onClickPublish(true)}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -334,6 +505,17 @@ const FinalResult = () => {
             ClickItem={ClickItem}
           />
         )} */}
+
+        {Open && (
+          <FinalResultUnpublish
+            open={Open}
+            setOpen={setOpen}
+            ClickCloseDialogBox={ClickCloseDialogbox}
+            onClickUnpublish={onClickUnpublish}
+            ExamName={Exam}
+            TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
+          />
+        )}
       </Box>
     </Box>
   );

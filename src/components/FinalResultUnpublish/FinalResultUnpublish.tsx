@@ -1,154 +1,112 @@
-import { Grid, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
-import { IUnPublishFinalResultBody } from 'src/interfaces/FinalResultUnpublish/IFinalResultUnpublish';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { UnPublishclick } from 'src/requests/FinalResultUnpublish/RequestFinalResultUnpublish';
-import { RootState } from 'src/store';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
+import { useState } from 'react';
 
-const FinalResultUnpublish = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { SelectTeacher, TeacherName } = useParams();
-
+const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogBox, onClickUnpublish }) => {
   const [Reason, setReason] = useState('');
-  const [ReasonError, setReasonError] = useState('');
 
-  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-
-  const UnPublishFinalResult = useSelector(
-    (state: RootState) => state.Finalunpublish.UnPublishfinal
-  );
-  console.log('UnPublishFinalResult', UnPublishFinalResult);
-
-  const UnPublishBody: IUnPublishFinalResultBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivId: Number(SelectTeacher),
-    asUnPublishReason: Reason
-  };
-
-  useEffect(() => {
-    dispatch(UnPublishclick(UnPublishBody));
-  }, []);
-
-  const Exam = ['Final Result'];
-
-  const onClickUnpublish = () => {
-    let isError = false;
-    if (Reason == '') {
-      setReasonError('Field should not be blank');
-      isError = true;
-    }
-    if (!isError) {
-      dispatch(UnPublishclick(UnPublishBody));
-    }
-    if (!isError) {
-      ResetForm();
-    }
-    if (Reason != '') {
-      navigate('/extended-sidebar/Teacher/FinalResult');
-    }
-  };
-
-  const ResetForm = () => {
-    setReason('');
-  };
-
-  const onClickCancel = () => {
-    navigate('/extended-sidebar/Teacher/FinalResult');
+  const ClickOk = () => {
+    if (Reason !== '') onClickUnpublish(false, Reason);
+    setOpen(false);
   };
 
   return (
-    <div>
-      <PageHeader heading="Enter Reason For Unpublish" />
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false);
+      }}
+      fullWidth
+      maxWidth={'sm'}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          p: 1
+        }}
+      >
+        <Tooltip title={"Enter the reason for exam unpublish"}>
+          <IconButton
+            sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: grey[600]
+              }
+            }}
+          >
+            <QuestionMark />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <DialogTitle
+        sx={{
+          backgroundColor: (theme) => theme.palette.error.main,
+          py: 1
+        }}
+      >
+        <Typography variant="h6">
+          Enter reason for Unpublish
+        </Typography>
 
-      <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-        Mandatory Fields *
-      </div>
+      </DialogTitle>
 
-      <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-          <Typography>
-            <b>Exam :</b>
-          </Typography>
+
+      <DialogContent dividers sx={{ px: 4 }}>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Exam :
+        </Typography>
+        <Grid container spacing={1} alignItems="center">
+
+          <Grid item xs={2}>
+            <TextField
+              sx={{ minWidth: '400px' }}
+              label={'Exam'}
+              size={"small"}
+              value={ExamName} />
+          </Grid>
         </Grid>
-
-        <Grid item xs={2}>
-          <TextField value={Exam} />
+        <br></br>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Class Teacher Name :
+        </Typography>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item >
+            <TextField
+              sx={{ minWidth: '400px' }}
+              label={'Class Teacher Name'}
+              size={"small"}
+              value={TeacherName} />
+          </Grid>
         </Grid>
-      </Grid>
-      <br></br>
-
-      <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-          <Typography>
-            <b>Class Teacher :</b>
-          </Typography>
-        </Grid>
-
-        <Grid item xs={2}>
-          <TextField value={TeacherName} />
-        </Grid>
-      </Grid>
-      <br></br>
-
-      <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-          <Typography>
-            <b>Reason for Unpublish :</b>
-          </Typography>
-        </Grid>
-
-        <Grid item xs={2}>
-          <TextField
-            value={Reason}
-            onChange={(e) => setReason(e.target.value)}
-            error={ReasonError !== ''}
-            helperText={ReasonError}
-            multiline
-            style={{ resize: 'both', overflow: 'auto' }}
-          />
-
-          <div style={{ color: 'red' }}>*</div>
-        </Grid>
-      </Grid>
-
-      <br></br>
-      <br></br>
-
-      <div>
-        <Grid
-          container
-          spacing={2}
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center'
+        <br></br>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Unpublish Reason
+        </Typography>
+        <TextField
+          multiline
+          rows={3}
+          value={Reason}
+          onChange={(e) => {
+            setReason(e.target.value);
           }}
-        >
-          <Grid item xs={1}>
-            <ButtonPrimary onClick={onClickUnpublish} variant="contained">
-              <b>UNPUBLISH</b>
-            </ButtonPrimary>
-          </Grid>
-
-          <Grid item xs={1}>
-            <ButtonPrimary
-              onClick={onClickCancel}
-              variant="contained"
-              style={{ backgroundColor: 'red', color: 'white' }}
-            >
-              CLOSE
-            </ButtonPrimary>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
-  );
-};
+          sx={{ width: '100%' }}
+        />
+      </DialogContent>
+      <DialogActions sx={{ py: 2, px: 3 }}>
+        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+          Unpublish
+        </Button>
+        <Button onClick={() => {
+          setOpen(false)
+        }} color={'error'}>
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
 
 export default FinalResultUnpublish;
