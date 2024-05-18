@@ -60,3 +60,89 @@ export interface IGetPagedStudentResult {
   Grade_Name: string;
   Status: string;
 }
+
+export interface IPublishBody {
+  asSchoolId: number,
+  asAcadmicYearId: number,
+  asStdDivId: number
+}
+
+export interface IPublishResult {
+  string
+}
+
+export interface IUnpublishBody {
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asStandardDivId: number,
+  asUnPublishReason: string
+}
+
+export interface IUnpublishResult {
+  string
+}
+
+export interface IGenerateAllBody {
+  asSchoolId: number,
+  asAcadmicYearId: number,
+  asStdDivId: number,
+  asUserId: number,
+  asUseAvarageFinalResult: string
+}
+
+export interface IGenerateAllResult {
+  string
+}
+
+export interface IGenerateBody {
+  asSchoolId: number,
+  asAcadmeicYearId: number,
+  asStudentId: number,
+  asUserId: number
+}
+
+export interface IGenerateResult {
+  listStudentsDetails: [],
+  listSubjectsDetails: [],
+  listTestDetails: [],
+  listSubjectIdDetails: [],
+  ListSchoolWiseTestNameDetail: [],
+  listTestidDetails: [],
+  Listtestid2Details: [],
+  ListSubjectidDetails: [],
+  ListTestTypeIdDetails: [],
+  ListMarkssDetails: [],
+  ListDisplayNameDetails: []
+}
+
+
+
+export interface IViewBody {
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asStudentId: number,
+  asInsertedById: number,
+  asWithGrace: number
+}
+
+export interface IViewResult {
+  listStudentDetail: [
+    YearWise_Student_Id: string,
+    Standard_Name: string,
+    Division_Name: string,
+    Academic_Year: string,
+    Standard_Division_Id: string,
+    Roll_No: string,
+    Standard_Id: string,
+    School_Name: string,
+    School_Orgn_Name: string,
+    ShowOnlyGrades: string,
+    IsFailCriteriaNotApplicable: string,
+    IsPreprimaryStandard: string
+  ],
+  listSubjectDetails: [],
+  listMarksDetails: [],
+  listParentsubjectDetails: [],
+  listParcentageDetails: [],
+  listGreaceDetails: []
+}

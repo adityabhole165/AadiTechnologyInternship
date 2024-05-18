@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+import PageHeader from 'src/components/CommonPageHead/PageHeader';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
@@ -19,6 +20,10 @@ const adminRoutes = [
     {
         path: 'SchoolConfiguration/Holidays',
         element: <Holidays />
+    },
+    {
+        path: 'SchoolConfiguration/PageHeader',
+        element: <PageHeader heading={''} />
     },
 ];
 
