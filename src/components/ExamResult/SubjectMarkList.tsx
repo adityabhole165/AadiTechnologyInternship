@@ -5,7 +5,6 @@ import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import Authcontext from 'src/components/ExamResult/Authcontext';
 import {
   GetFirstThreeToopersBody,
   GetStudentsForSubjectMarkMouseOverBody,
@@ -33,6 +32,8 @@ const SubjectMarkList = () => {
 
   const TestMarkList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMark);
+  const TestMarkListNew: any = useSelector(
+    (state: RootState) => state.SubjectMarkList.listTestMarkNew);
   console.log(TestMarkList, "abcd");
   const HeaderList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.HeaderList);
@@ -187,7 +188,6 @@ const SubjectMarkList = () => {
                       {/* Student Roll no. */}
                       {rowData.rollNo}
 
-                      {/* If student rank is 1 */}
                       {rowData.rank === "1" &&
                         <Tooltip title={rowData.name}>
                           <img src={GoldMedal} alt="Gold Medal" width={20} />
@@ -242,75 +242,76 @@ const SubjectMarkList = () => {
                 },
               ]
             }
-            data={
-              [
-                {
-                  name: "Student Name",
-                  rollNo: "1",
-                  rank: "0",
-                  theoryType: "Exempted",
-                  theory: "40",
-                  total: "100"
-                },
-                {
+            data={TestMarkListNew}
+          // data={
+          //   [
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "1",
+          //       rank: "0",
+          //       theoryType: "Exempted",
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
 
-                  name: "Student Name",
-                  rollNo: "2",
-                  rank: "2",
-                  theoryType: "Late Joinee",
-                  theory: "40",
-                  total: "100"
-                },
-                {
-                  name: "Student Name",
-                  rollNo: "3",
-                  rank: "3",
-                  theoryType: "Absent",
-                  theory: "40",
-                  total: "100"
-                },
-                {
-                  name: "Student Name",
-                  rollNo: "4",
-                  rank: "0",
-                  theoryType: null,
-                  theory: "40",
-                  total: "100"
-                },
-                {
-                  name: "Student Name",
-                  rollNo: "5",
-                  rank: "0",
-                  theoryType: "Absent",
-                  theory: "40",
-                  total: "100"
-                },
-                {
-                  name: "Student Name",
-                  rollNo: "6",
-                  rank: "1",
-                  theoryType: "Absent",
-                  theory: "40",
-                  total: "100"
-                },
-                {
-                  name: "Student Name",
-                  rollNo: "7",
-                  rank: "2",
-                  theoryType: null,
-                  theory: "40",
-                  total: "100"
-                },
-                {
-                  name: "Student Name",
-                  rollNo: "8",
-                  rank: "3",
-                  theoryType: "Absent",
-                  theory: "40",
-                  total: "100"
-                },
-              ]
-            }
+          //       name: "Student Name",
+          //       rollNo: "2",
+          //       rank: "2",
+          //       theoryType: "Late Joinee",
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "3",
+          //       rank: "3",
+          //       theoryType: "Absent",
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "4",
+          //       rank: "0",
+          //       theoryType: null,
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "5",
+          //       rank: "0",
+          //       theoryType: "Absent",
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "6",
+          //       rank: "1",
+          //       theoryType: "Absent",
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "7",
+          //       rank: "2",
+          //       theoryType: null,
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //     {
+          //       name: "Student Name",
+          //       rollNo: "8",
+          //       rank: "3",
+          //       theoryType: "Absent",
+          //       theory: "40",
+          //       total: "100"
+          //     },
+          //   ]
+          // }
           />
           <Box mt={2}>
             <Typography variant={"h4"}>
@@ -376,45 +377,45 @@ const SubjectMarkList = () => {
           </Box>
         </Box>
         {/* New Table End */}
-        
 
-          {(HeaderList.length > 0) &&
-            (<Grid container>
-              <Grid xs={4}>
-                <DynamicList
-                  HeaderList={HeaderList}
-                  ItemList={TestMarkList.
-                    filter((item) => { return item.Index < 15 })
-                  }
-                  IconList={[]}
-                  ClickItem={""}
-                  // LinkList={true}
-                  ClickLink={true}
-                /></Grid>
-              <Grid xs={4}>
-                <DynamicList
-                  HeaderList={HeaderList}
-                  ItemList={TestMarkList.
-                    filter((item) => { return (item.Index > 14 && item.Index < 30) })
-                  }
-                  IconList={[]}
-                  ClickItem={""}
-                  // LinkList={true}
-                  ClickLink={true}
-                /></Grid><Grid xs={4}>
-                <DynamicList
-                  HeaderList={HeaderList}
-                  ItemList={TestMarkList.
-                    filter((item) => { return (item.Index > 29 && item.Index < 45) })
-                  }
-                  IconList={[]}
-                  ClickItem={""}
-                  // LinkList={true}
-                  ClickLink={true}
-                /></Grid>
 
-            </Grid>)
-          }
+        {(HeaderList.length > 0) &&
+          (<Grid container>
+            <Grid xs={4}>
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={TestMarkList.
+                  filter((item) => { return item.Index < 15 })
+                }
+                IconList={[]}
+                ClickItem={""}
+                // LinkList={true}
+                ClickLink={true}
+              /></Grid>
+            <Grid xs={4}>
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={TestMarkList.
+                  filter((item) => { return (item.Index > 14 && item.Index < 30) })
+                }
+                IconList={[]}
+                ClickItem={""}
+                // LinkList={true}
+                ClickLink={true}
+              /></Grid><Grid xs={4}>
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={TestMarkList.
+                  filter((item) => { return (item.Index > 29 && item.Index < 45) })
+                }
+                IconList={[]}
+                ClickItem={""}
+                // LinkList={true}
+                ClickLink={true}
+              /></Grid>
+
+          </Grid>)
+        }
       </Box>
     </>
   )

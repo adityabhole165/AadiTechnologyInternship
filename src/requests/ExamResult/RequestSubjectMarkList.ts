@@ -11,6 +11,7 @@ const SubjectMarkListSlice = createSlice({
   name: 'SubjectMark',
   initialState: {
     listTestMark: [],
+    listTestMarkNew: [],
     listTestTypeName: [],
     legend: [],
     StudentNameMouseOver: [],
@@ -21,6 +22,9 @@ const SubjectMarkListSlice = createSlice({
   reducers: {
     GetTestMark(state, action) {
       state.listTestMark = action.payload;
+    },
+    GetTestMarkNew(state, action) {
+      state.listTestMarkNew = action.payload;
     },
     GetHeaderList(state, action) {
       state.HeaderList = action.payload;
@@ -95,7 +99,6 @@ export const gettestmarklist =
 
       let iCounterIndex = 0
       response1.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
-        console.log(response3.data, "--iuns");
 
         if (PrevRollNo !== item.Roll_No) {
 
@@ -139,12 +142,90 @@ export const gettestmarklist =
         }
 
       });
-      console.log(responseData, "responseData");
 
       dispatch(SubjectMarkListSlice.actions.GetTestMark(responseData));
+
+      //---- Previous list done
+      let body4 = {
+        asAcademicYearID: data.asAcademicYearID,
+        asSchoolId: data.asSchoolId,
+        asStandardDivision_Id: data.asStandardDivision_Id,
+        asSubject_Id: data.asSubject_Id,
+        asTestId: data.asTestId
+
+      }
+      const response4 = await ApiSubjectMarkList.StudentToppersListApi(body4);
+      console.log(data, "response4.data");
+
+      // dispatch(SubjectMarkListSlice.actions.StudentTopperslist(response.data));
+      const getRank = (StudentId) => {
+        let returnVal = "0"
+        response4.data.listGetFirstTooper.map((Item) => {
+          if (Item.Student_id == StudentId) {
+            returnVal = "1"
+          }
+        })
+
+        response4.data.listGetSecondTooper.map((Item) => {
+          if (Item.Student_id == StudentId) {
+            returnVal = "2"
+          }
+        })
+
+        response4.data.listGetThirdTooper.map((Item) => {
+          if (Item.Student_id == StudentId) {
+            returnVal = "3"
+          }
+        })
+        return returnVal
+      }
+      const getTheoryType = (Item) => {
+        if (Item.Is_Absent === "Y") {
+          return "Absent";
+        } else if (Item.Is_Absent === "J") {
+          return "--";
+        } else if (Item.Is_Absent === "E") {
+          return "Exempted"
+        } else {
+          return null;
+        }
+      };
+      responseData = []
+      returnObj = null
+      iCounterIndex = 0
+      response1.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
+
+        if (item.TestType_Name == "Project") {
+
+          PrevRollNo = item.Roll_No
+
+          iCounter = 2
+          returnObj = {
+            Index: iCounterIndex,
+            Roll_No: item.Roll_No,
+            MoueOverText1: getMouseOver(item.Roll_No),
+            rollNo: item.Roll_No,
+            name: item.Roll_No,
+            rank: getRank(item.Student_Id),
+            StudentId: item.Student_Id,
+            theoryType: getTheoryType(item),
+            theory: getMarks(item),
+            total: item.Total_Marks_Scored,
+            Is_Absent: 1,
+            // StudentName:GetStudentName(item.Roll_No)
+          }
+          responseData.push(returnObj)
+
+          iCounterIndex++
+        }
+
+      });
+
+      console.log(responseData, "responseData");
+
+      dispatch(SubjectMarkListSlice.actions.GetTestMarkNew(responseData));
       dispatch(SubjectMarkListSlice.actions.TestName(response1.data.listSchoolWise_Student_Test_Marks_Detail));
       dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response3.data));
-      // console.log(response3, "abc")
       let responseData2 = ["R.No."]
 
       response1.data.listTestTypeName.map((item, i) => {
