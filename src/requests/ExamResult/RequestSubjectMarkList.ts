@@ -183,7 +183,7 @@ export const gettestmarklist =
         if (Item.Is_Absent === "Y") {
           return "Absent";
         } else if (Item.Is_Absent === "J") {
-          return "--";
+          return "Late Joinee";
         } else if (Item.Is_Absent === "E") {
           return "Exempted"
         } else {
