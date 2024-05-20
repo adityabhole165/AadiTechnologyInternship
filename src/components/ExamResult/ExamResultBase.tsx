@@ -189,22 +189,13 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
-  // useEffect(() => {
-  //   //console.log("Submitted:", Submitted);
-  //   setDisplayNote('')
-  //   if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
-  //     if (Submitted === 'Y') {
-  //       setDisplayNote('Results for this exam have been published.');
 
-  //     }
-  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-  //   }
-  //   else {
-  //     if (!PrePrimaryExam && MonthConfigurationForExam) {
-  //       setDisplayNote('Not all results for this exam have been submitted.');
-  //     }
-  //   }
-  // }, [Submitted, ClassPassFailDetailsForButton]);
+  useEffect(() => {
+    if (ClassTeachers.length > 0 && StandardDivisionId == "") {
+      setStandardDivisionId(ClassTeachers[0].Value);
+    }
+  }, [ClassTeachers]);
+
   useEffect(() => {
     setHelpNote('View the summarised results of your class for the selected exam.Click the subject name link to view the marks/grades scored by each student in the subject.Exam result can be publish on be clicking Publish button and unpublish by clicking Unpublish button.');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
@@ -271,15 +262,11 @@ const ExamResultBase = () => {
   }, [StandardDivisionId]);
 
 
-
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   }, [StandardDivisionId, TestId]);
 
-  // useEffect(() => {
-  //   dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-  // }, [StandardDivisionId, TestId]);
 
   const clickTeacher = (value) => {
     setStandardDivisionId(value);
