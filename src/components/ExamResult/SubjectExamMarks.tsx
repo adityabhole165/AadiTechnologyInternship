@@ -404,20 +404,28 @@ const SubjectExamMarks = () => {
   };
   return (
     <Box sx={{ px: 2 }}>
-      <CommonPageHeader
-        // navLinks={[
-        //   {
-        //     title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark/' +
-        //       ClassTecher + "/" + ClassId + "/" + TestId
-        //   },
-        //   { title: 'Subject Exam Marks', path: '' }
-        // ]}
-
+      {/* <CommonPageHeader
         navLinks={
-          examResultProp === "true"
-            ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
-            : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
+          IsReadOnly
+            ? [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
+            
+            : examResultProp === "true"
+              ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
+              : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
         }
+ */}
+      <CommonPageHeader
+        navLinks={
+          IsReadOnly
+            ? (examResultProp === "true"
+              ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
+              : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
+            : (examResultProp === "true"
+              ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
+              : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
+        }
+
+
 
 
         rightActions={
@@ -559,7 +567,7 @@ const SubjectExamMarks = () => {
           </>
         }
       />
-      <Box sx={{ p: 2, background: 'white' }}>
+      < Box sx={{ p: 2, background: 'white' }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
 
           <Typography variant={"h4"}>
@@ -641,20 +649,25 @@ const SubjectExamMarks = () => {
         </Box>
         <br>
         </br>
-        {IsReadOnly === 'true' && (
-          // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
-          //   <span style={{ fontWeight: 'bold' }}> Student marks are already submitted.</span>
-          // </Typography>
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>Student marks are already submitted.</b>
-          </Typography>
-        )}
-        {TestName?.AllowDecimal == "True" && (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>Note:	Marks assignment can be done in decimal numbers.</b>
-          </Typography>)}
+        {
+          IsReadOnly === 'true' && (
+            // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
+            //   <span style={{ fontWeight: 'bold' }}> Student marks are already submitted.</span>
+            // </Typography>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>Student marks are already submitted.</b>
+            </Typography>
+          )
+        }
+        {
+          TestName?.AllowDecimal == "True" && (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>Note:	Marks assignment can be done in decimal numbers.</b>
+            </Typography>)
+        }
         {/* Table */}
-        {(MarksAssignment.length > 0 && HeaderDetails != null) &&
+        {
+          (MarksAssignment.length > 0 && HeaderDetails != null) &&
           <SubjectExamMarkTable
             ExamMarksHeader={HeaderDetails}
             onChangeExamHeader={onClickExamHeader}
@@ -668,9 +681,9 @@ const SubjectExamMarks = () => {
             AllowDecimal={TestName?.AllowDecimal == "True"}
           />
         }
-      </Box>
+      </Box >
 
-    </Box>
+    </Box >
   );
 };
 

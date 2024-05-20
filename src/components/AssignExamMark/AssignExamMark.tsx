@@ -35,7 +35,7 @@ const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { ClassTecherid, ClassId, examResultProp = "false", TestId } =
+  const { ClassTecherid, ClassId, TestId } =
     useParams();
   let CanEdit = getSchoolConfigurations(74)
 
@@ -240,21 +240,20 @@ const AssignExamMark = () => {
   ];
 
   const clickEdit = (value) => {
-    if (examResultProp === "false") {
-      navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
-        ClassTecher + '/' +
-        value.StandardDivisionId + '/' +
-        value.SubjectId + '/' +
-        selectClass + '/' +
-        ClassWiseExam + '/' +
-        aTeacherId.toString() + '/' +
-        value.StandardId + '/' +
-        examResultProp + '/' +
-        value.IsMonthConfig + '/' +
-        !(value.IsSubmitted == "N"))
 
-        ;
-    }
+    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
+      ClassTecher + '/' +
+      value.StandardDivisionId + '/' +
+      value.SubjectId + '/' +
+      selectClass + '/' +
+      ClassWiseExam + '/' +
+      aTeacherId.toString() + '/' +
+      value.StandardId + '/' +
+      value.IsMonthConfig + '/' +
+      !(value.IsSubmitted == "N") + '/' + false)
+
+      ;
+
 
   };
 
