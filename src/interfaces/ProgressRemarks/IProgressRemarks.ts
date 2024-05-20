@@ -46,31 +46,75 @@ export interface IStudentListDropDownResult {
   Teacher_Id: string;
 }
 
-export interface IGetAllStudentswiseRemarkDetailsBody {
-  asSchoolId: Number;
-  asAcademicYearId: Number;
-  asStandardDivId: Number;
-  asStudentId: Number;
-  asTermId: Number;
+export interface IGetAllStudentswiseRemarkDetailsNewBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardDivId: number
+  asStudentId: number
+  asTermId: number
 }
 
-export interface IGetAllStudentswiseRemarkDetailsResult {
-  RollNo: string;
-  YearwiseStudentId: string;
-  StudentName: string;
-  Remark: string;
-  StudentwiseRemarkId: string;
-  StandardDivisionId: string;
-  RemarkName: string;
-  RemarkConfigId: string;
-  TermId: string;
-  SalutationId: string;
-  FName: string;
-  MName: string;
-  LName: string;
-  IsPassedAndPromoted: Number;
-  IsLeftStudent: string;
-  OldRemark: string;
+
+// export interface IGetAllStudentswiseRemarkDetailsNewResult {
+//   GetAllStudentswiseRemarkDetailsList: [
+//     {
+//       YearwiseStudentId: number
+//       StudentwiseRemarkId: number
+//       StudentName: string
+//       TermId: number
+//       Remark: string
+//       RemarkConfigId: number
+//       RollNo: number
+//       StandardDivisionId: number
+//       RemarkMaster: {
+//         RemarkName: string
+//         RemarkConfigId: number
+//       },
+//       SalutationId: number
+//       FName: string
+//       MName: string
+//       LName: string
+//       IsPassedAndPromoted: boolean
+//       IsLeftStudent: number
+//       OldRemark: string
+      
+//     }
+
+// ];
+//   RemarkMasterList: [
+//     {
+//       RemarkName: string,
+//       RemarkConfigId: number
+//     }
+//   ]
+// }
+
+export interface IGetAllStudentswiseRemarkDetailsNewResult {
+  GetAllStudentswiseRemarkDetailsList: {
+    YearwiseStudentId: number;
+    StudentwiseRemarkId: number;
+    StudentName: string;
+    TermId: number;
+    Remark: string;
+    RemarkConfigId: number;
+    RollNo: number;
+    StandardDivisionId: number;
+    RemarkMaster: {
+      RemarkName: string;
+      RemarkConfigId: number;
+    };
+    SalutationId: number;
+    FName: string;
+    MName: string;
+    LName: string;
+    IsPassedAndPromoted: boolean;
+    IsLeftStudent: number;
+    OldRemark: string;
+  }[];
+  RemarkMasterList: {
+    RemarkName: string;
+    RemarkConfigId: number;
+  }[];
 }
 
 export interface IUpdateAllStudentsRemarkDetailsBody {
@@ -176,3 +220,8 @@ export interface IGetAllStudentsForProgressRemarkResult{
     Roll_No: string
   }]
 }
+
+
+
+
+

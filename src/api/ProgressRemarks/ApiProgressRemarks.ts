@@ -4,8 +4,8 @@ import {
   IGetAllGradesForStandardBody, IGetAllGradesForStandardResult,
   IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentsForProgressRemarkResult,
-  IGetAllStudentswiseRemarkDetailsBody,
-  IGetAllStudentswiseRemarkDetailsResult,
+  IGetAllStudentswiseRemarkDetailsNewBody,
+  IGetAllStudentswiseRemarkDetailsNewResult,
   IGetRemarkTemplateDetailsBody,
   IGetRemarkTemplateDetailsResult,
   IGetRemarksCategoryBody, IGetRemarksCategoryResult,
@@ -52,10 +52,8 @@ const StudentListDropDown = (data: IStudentListDropDowntBody) => {
   );
 };
 
-const GetAllStudentswiseRemarkDetails = (
-  data: IGetAllStudentswiseRemarkDetailsBody
-) => {
-  return http.post<IGetAllStudentswiseRemarkDetailsResult[]>(
+const GetAllStudentswiseRemarkDetails = (data: IGetAllStudentswiseRemarkDetailsNewBody) => {
+  return http.post<IGetAllStudentswiseRemarkDetailsNewResult[]>(
     'Teacher/GetAllStudentswiseRemarkDetails',
     data
   );

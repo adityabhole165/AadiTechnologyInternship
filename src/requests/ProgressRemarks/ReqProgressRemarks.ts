@@ -4,7 +4,7 @@ import {
   IAllPrimaryClassTeachersBody,
   IGetAllGradesForStandardBody,
   IGetAllStudentsForProgressRemarkBody,
-  IGetAllStudentswiseRemarkDetailsBody,
+  IGetAllStudentswiseRemarkDetailsNewBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
@@ -29,7 +29,7 @@ const ProgressRemarkSlice = createSlice({
     ISGradesForStandard: [],
     ISGetRemarksCategoryList: [],
     ISGetRemarkTemplateDetail: [],
-    ISGetAllStudentsForProgressRemark:[]
+    ISGetAllStudentsForProgressRemark: []
 
   },
   reducers: {
@@ -75,7 +75,7 @@ const ProgressRemarkSlice = createSlice({
     RGetAllStudentsForProgressRemark(state, action) {
       state.ISGetAllStudentsForProgressRemark = action.payload;
     },
-    
+
 
     RresetSaveMassage(state) {
       state.ISresetSaveMassage = '';
@@ -220,35 +220,72 @@ export const CDAStudentListDropDown =
       dispatch(ProgressRemarkSlice.actions.RStudentListDropDown(StudentList));
     };
 
-export const CDAGetAllStudentswiseRemarkDetails =
-  (data: IGetAllStudentswiseRemarkDetailsBody): AppThunk =>
-    async (dispatch) => {
-      const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(
-        data
-      );
-      let RemarkList = response.data.map((item, i) => {
-        return {
-          Id: i,
-          Text1: item.RollNo,
-          Text2: item.StudentName,
-          Text3: item.Remark,
-          Text4: item.OldRemark,
-          Text5: item.RemarkName,
-          Text6: item.RemarkConfigId,
-          Text7: '0',
-          Text8: item.SalutationId,
-          Text9: item.IsPassedAndPromoted,
-          Text10: item.IsLeftStudent,
-          Text11: item.YearwiseStudentId,
-          Text12: item.StudentwiseRemarkId,
-          Text13: item.Remark
-        };
-      });
+// export const CDAGetAllStudentswiseRemarkDetails =
+//   (data: IGetAllStudentswiseRemarkDetailsNewBody): AppThunk =>
+//     async (dispatch) => {
+//       const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(
+//         data
+//       );
 
-      dispatch(
-        ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(RemarkList)
-      );
-    };
+//       let listResult1st = response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+
+//         return {
+          
+
+//         };
+//       });
+
+
+//       dispatch(
+//         ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(response.data)
+//       );
+//     };
+
+export const CDAGetAllStudentswiseRemarkDetails = (
+  data: IGetAllStudentswiseRemarkDetailsNewBody
+): AppThunk => async (dispatch) => {
+  const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(data);
+
+  // Safely handle the response
+  if (response.data && response.data.GetAllStudentswiseRemarkDetailsList) {
+    let listResult1st = response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+      return {
+        Id: item.YearwiseStudentId,
+        Text1: item.RollNo,
+        Text2: item.StudentName,
+        Text3: item.Remark,
+        Text4: item.OldRemark,
+        Text5:item.RemarkMaster.RemarkName,
+        Text6:item.RemarkMaster.RemarkConfigId,
+        Text7: '0',
+        Text8: item.SalutationId,
+        Text9: item.IsPassedAndPromoted,
+        Text10: item.IsLeftStudent,
+        Text11: item.YearwiseStudentId,
+        Text12: item.StudentwiseRemarkId,
+        Text13: item.Remark,
+        Value: item.YearwiseStudentId,
+        Name: item.StudentName,
+       
+
+        // Text4: item.OldRemark,
+        // Text5: item.RemarkMaster.RemarkName, 
+        // Text6: item.RemarkConfigId,
+        // Text7: '0',
+        // Text8: item.SalutationId,
+        // Text9: item.IsPassedAndPromoted,
+        // Text10: item.IsLeftStudent,
+        // Text11: item.YearwiseStudentId,
+        // Text12: item.StudentwiseRemarkId,
+        // Text13: item.Remark,
+      };
+    });
+
+    
+    dispatch(ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(listResult1st));
+  } 
+};
+
 export const CDAGetRemarkTemplateDetails =
   (data: IGetRemarkTemplateDetailsBody): AppThunk =>
     async (dispatch) => {
@@ -258,7 +295,7 @@ export const CDAGetRemarkTemplateDetails =
       let RemarkTemplateDetailList = response.data.map((item, i) => {
         return {
           Text1: item.Template,
-          IsActive : false,
+          IsActive: false,
           Id: item.TemplateId,
           CategoryId: item.CategoryId
 
@@ -272,12 +309,12 @@ export const CDAGetRemarkTemplateDetails =
     };
 
 
-    export const CDAGetAllStudentsForProgressRemark =
+export const CDAGetAllStudentsForProgressRemark =
   (data: IGetAllStudentsForProgressRemarkBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetAllStudentsForProgressRemark(data);
 
-      let AllStudentsList = response.data.GetAllStudentsList.map((item, i)=> ({
+      let AllStudentsList = response.data.GetAllStudentsList.map((item, i) => ({
         Id: item.Student_Id,
         Text1: item.Roll_No,
         Text2: item.StudentName,
@@ -285,8 +322,8 @@ export const CDAGetRemarkTemplateDetails =
         Text5: item.SchoolWise_Standard_Division_Id,
         Text6: item.Studentwise_Remark_Id,
         Value: item.Student_Id,
-        Name : item.StudentName
-      
+        Name: item.StudentName
+
       }));
       dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
     };
