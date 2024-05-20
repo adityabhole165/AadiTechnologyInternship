@@ -160,7 +160,7 @@ const AddHomeworkNew = () => {
   const HomeworkSaveBody: ISaveHomeworkBody = {
     AsId: Number(HomeworkId),
     asTitle: Title,
-    asSubjectId: Number(SubjectCheckID),
+    asSubjectId: Number(Subject),
     asStandardDivisionId: Number(SelectClass),
     asAttachmentPath: fileName,
     asDetails: Details,
