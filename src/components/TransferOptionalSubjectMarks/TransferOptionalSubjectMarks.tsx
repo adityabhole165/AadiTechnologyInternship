@@ -38,6 +38,9 @@ const TransferOptionalSubjectMarks = () => {
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [OptionalSubjects, setOptionalSubjects] = useState([])
+    const [defaultSubjects, setdefaultSubjects] = useState([])
+
+    
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
     useEffect(() => {
@@ -105,13 +108,62 @@ const TransferOptionalSubjectMarks = () => {
         })
         return returnVal;
     }
-    const getXML = () => {
-        let sXML =
-            '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-        StudentsList.map((Item, i) => {
-            if (Item.IsActive) {
-                OptionalSubjects.map((Obj, Index) => {
-                    if (Obj.isActive) {
+   const getXML = () => {
+    let sXML = '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+    const defaultSubjects = [
+        {
+            "OptionalSubjectsId": "0",
+            "ParentOptionalSubjectId": "240",
+            "OptionalSubjectName": "Grp4",
+            "NoOfSubjects": "2",
+            "SchoolWiseStandardDivisionId": "1347",
+            "SubjectId": "2367",
+            "SubjectGroupId": "11",
+            "ChildOptionalSubjectId": "0",
+            "IsDefault": "False",
+            "SubjectName": "Physics"
+        },
+        {
+            "OptionalSubjectsId": "0",
+            "ParentOptionalSubjectId": "240",
+            "OptionalSubjectName": "Grp4",
+            "NoOfSubjects": "2",
+            "SchoolWiseStandardDivisionId": "1347",
+            "SubjectId": "2368",
+            "SubjectGroupId": "11",
+            "ChildOptionalSubjectId": "0",
+            "IsDefault": "False",
+            "SubjectName": "Chemistry"
+        },
+        {
+            "OptionalSubjectsId": "0",
+            "ParentOptionalSubjectId": "240",
+            "OptionalSubjectName": "Grp4",
+            "NoOfSubjects": "2",
+            "SchoolWiseStandardDivisionId": "1347",
+            "SubjectId": "2369",
+            "SubjectGroupId": "11",
+            "ChildOptionalSubjectId": "0",
+            "IsDefault": "False",
+            "SubjectName": "Biology"
+        }
+    ];
+
+    StudentsList.map((Item, i) => {
+        if (Item.IsActive) {
+            OptionalSubjects.map((Obj, Index) => {
+                if (Obj.isActive) {
+                    if (Obj.SubjectId === "0") {
+                        defaultSubjects.map((defaultObj) => {
+                            sXML +=
+                                '<TransferSubjectMarksInfo>' +
+                                '<StudentId>' + Item.StudentId + '</StudentId>' +
+                                '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
+                                '<SubjectId>' + defaultObj.SubjectId + '</SubjectId>' +
+                                '<SubjectGroupId>' + defaultObj.SubjectGroupId + '</SubjectGroupId>' +
+                                '</TransferSubjectMarksInfo>';
+                        });
+                    } else {
                         sXML +=
                             '<TransferSubjectMarksInfo>' +
                             '<StudentId>' + Item.StudentId + '</StudentId>' +
@@ -120,19 +172,19 @@ const TransferOptionalSubjectMarks = () => {
                             '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
                             '</TransferSubjectMarksInfo>';
                     }
-                });
-            }
-        });
+                }
+            });
+        }
+    });
 
-        sXML += '</ArrayOfTransferSubjectMarksInfo>';
+    sXML += '</ArrayOfTransferSubjectMarksInfo>';
 
+    return sXML;
+};
 
-        return sXML;
-    };
 
     useEffect(() => {
         let IsExists = false
-
         let arr = []
         setOptionalSubjects(USOptionalSubjectsForMarksTransfer)
         USOptionalSubjectsForMarksTransfer.map((Item) => {
@@ -152,6 +204,28 @@ const TransferOptionalSubjectMarks = () => {
         })
         setParentOptionalSubjects(arr)
     }, [USOptionalSubjectsForMarksTransfer])
+
+    useEffect(() => {
+        setdefaultSubjects(USOptionalSubjectsForMarksTransfer)
+        USOptionalSubjectsForMarksTransfer.map((Item) => {
+            if (Item.SubjectId === "0") {
+                setdefaultSubjects(defaultSubjects.map((Obj) => {
+                    if (Obj.SubjectId === Item.ParentOptionalSubjectId) {
+                        return {
+                           ...Obj,
+                            isActive:!Obj.isActive
+                        }
+                    } else {
+                        return Obj
+                    }
+                }))
+            }
+        })
+       
+    }, [USOptionalSubjectsForMarksTransfer])
+
+
+   
 
     const SubjectSelection = (subjectId) => {
         setIsDirty(true)
