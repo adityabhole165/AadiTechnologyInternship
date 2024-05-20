@@ -186,7 +186,10 @@ const SubjectMarkList = () => {
                   renderCell: (rowData) => <>
                     <Stack direction={"row"} alignItems={'center'} gap={2}>
                       {/* Student Roll no. */}
-                      {rowData.rollNo}
+                      {rowData.rollNo && (
+                        <Tooltip title={rowData.MoueOverText1 != undefined ? rowData.MoueOverText1 : ""} >
+                          <span>{rowData.rollNo}</span>
+                        </Tooltip>)}
 
                       {rowData.rank === "1" &&
                         <Tooltip title={rowData.name}>
