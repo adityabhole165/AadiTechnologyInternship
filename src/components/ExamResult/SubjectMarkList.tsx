@@ -241,7 +241,7 @@ const SubjectMarkList = () => {
                 {
                   id: 'total',
                   label: 'Total',
-                  renderCell: (rowData) => rowData.total
+                  renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
                 },
               ]
             }
