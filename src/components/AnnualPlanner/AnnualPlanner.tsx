@@ -405,7 +405,7 @@ function AnnualPlanner() {
                   <Box>
                     <Tooltip
                       title={
-                        'Annual Planner with detailed event description of your school'
+                        'Annual planner with detailed event description of your school'
                       }
                     >
                       <IconButton

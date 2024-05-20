@@ -233,7 +233,7 @@ function CardCalender1({
         <DotLegendAttandaceCalender color="Warning" text="Weekend" />
         <DotLegendAttandaceCalender
           color="Suceess"
-          text="OutSideAcadamicYear"
+          text="OutSide Academic Year"
         />
       </Grid>
     </Box>

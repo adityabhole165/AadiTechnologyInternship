@@ -198,23 +198,23 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
     const ClickSave = () => {
         let isError = false;
         if (EventTitle == '') {
-            SetErrorEventTitle('Event Ttile should not be blank.');
+            SetErrorEventTitle('Title should not be blank.');
             isError = true;
         } else SetErrorEventTitle('')
         if (EventDescription == '') {
-            setErrorEventDescription('Event Discription should not be blank.');
+            setErrorEventDescription('Description should not be blank.');
             isError = true;
         } else setErrorEventDescription('')
         if (EventStartDate == '') {
-            setErrorEventStartDate('Event start date should not be blank.');
+            setErrorEventStartDate('Start date should not be blank.');
             isError = true;
         } else if (ErrorEventStartDate != '') {
             isError = true;
         } else setErrorEventStartDate('')
         if (EventEndDate == '') {
-            setErrorEventEndDate('Event End date should not be blank.');
+            setErrorEventEndDate('End date should not be blank.');
             isError = true;
-        } if (ErrorEventEndDate != '') {
+        } else if (ErrorEventEndDate != '') {
             isError = true;
         } else setErrorEventEndDate('')
         if (!isClassSelected()) {
@@ -270,7 +270,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                     <TextField
                         label={
                             <span>
-                                Event Title <span style={{ color: 'red' }}>*</span>
+                                Title <span style={{ color: 'red' }}>*</span>
                             </span>
                         }
                         multiline
@@ -312,7 +312,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                     <TextField
                         label={
                             <span>
-                                Event Start Date <span style={{ color: 'red' }}>*</span>
+                                Start Date <span style={{ color: 'red' }}>*</span>
                             </span>
                         }
                         inputProps={{ type: 'date' }}
@@ -331,16 +331,16 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                 </Grid>
                 <Grid item xs={6} md={6}>
                     <TextField
+                        label={
+                            <span>
+                                End Date <span style={{ color: 'red' }}>*</span>
+                            </span>
+                        }
                         inputProps={{ type: 'date' }}
                         InputLabelProps={{
                             shrink: true
                         }}
                         value={EventEndDate}
-                        label={
-                            <span>
-                                Event End Date <span style={{ color: 'red' }}>*</span>
-                            </span>
-                        }
                         onChange={(e) => {
                             setEventEndDate(e.target.value);
                             // console.log('EventEndDate :', e.target.value);

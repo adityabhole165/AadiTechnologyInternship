@@ -87,7 +87,7 @@ const AnnualPlannerBase = () => {
     { Id: 2, Name: "Holiday", Value: "2", IsActive: true },
     { Id: 3, Name: "Exam", Value: "3", IsActive: true },
     { Id: 4, Name: "Event", Value: "4", IsActive: true },
-    { Id: 5, Name: "OutsideAcademicYear", Value: "5", IsActive: true }
+    { Id: 5, Name: "Outside Academic Year", Value: "5", IsActive: true }
   ]);
   useEffect(() => {
     const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =

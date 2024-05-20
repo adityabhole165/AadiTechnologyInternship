@@ -355,7 +355,7 @@ const TAttendance = () => {
 
   useEffect(() => {
     if (DeleteAttendance != '') {
-      toast.success('Attendance deleted successfully!');
+      toast.success(DeleteAttendance);
       dispatch(CDAresetDeleteAttendance());
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));

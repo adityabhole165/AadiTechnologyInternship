@@ -31,7 +31,7 @@ const AnnualPlannerHeader = () => {
     const Note: string =
         'These events may change due to unavoidable reasons without prior notice.';
     const Note1: string =
-        'Annual Planner With detailed event description of your school.';
+        'Annual planner with detailed event description of your school.';
     // const IconList = [
     //     { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
     //     { Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1' },
