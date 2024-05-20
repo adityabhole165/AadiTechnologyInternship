@@ -303,7 +303,7 @@ const ExamResultBase = () => {
       getTeacherId() + '/' +
       '0/' +
       // value.StandardId + '/' +
-      'false' + '/' +
+      'true' + '/' +
       'false' + '/' +
       'true'
 

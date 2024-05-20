@@ -414,7 +414,7 @@ const SubjectExamMarks = () => {
               : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
         }
  */}
-      {/* <CommonPageHeader
+      <CommonPageHeader
         navLinks={
           IsReadOnly === 'true'
             ? (examResultProp === "true"
@@ -423,16 +423,9 @@ const SubjectExamMarks = () => {
             : (examResultProp === "true"
               ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
               : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
-        } */}
-
-      <CommonPageHeader
-        navLinks={
-          IsReadOnly === 'true'
-            ? (examResultProp === 'true'
-              ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
-              : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
-            : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }]
         }
+
+
 
 
         rightActions={
