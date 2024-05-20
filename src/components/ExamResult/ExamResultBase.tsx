@@ -304,7 +304,7 @@ const ExamResultBase = () => {
       '0/' +
       // value.StandardId + '/' +
       'false' + '/' +
-      'true' + '/' +
+      'false' + '/' +
       'true'
 
     );
