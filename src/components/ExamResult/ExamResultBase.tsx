@@ -191,7 +191,7 @@ const ExamResultBase = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassTeachers.length > 0 && StandardDivisionId == "") {
+    if (ClassTeachers.length > 0) {
       setStandardDivisionId(ClassTeachers[0].Value);
     }
   }, [ClassTeachers]);
