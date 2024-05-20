@@ -110,44 +110,6 @@ const TransferOptionalSubjectMarks = () => {
     }
    const getXML = () => {
     let sXML = '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-    const defaultSubjects = [
-        {
-            "OptionalSubjectsId": "0",
-            "ParentOptionalSubjectId": "240",
-            "OptionalSubjectName": "Grp4",
-            "NoOfSubjects": "2",
-            "SchoolWiseStandardDivisionId": "1347",
-            "SubjectId": "2367",
-            "SubjectGroupId": "11",
-            "ChildOptionalSubjectId": "0",
-            "IsDefault": "False",
-            "SubjectName": "Physics"
-        },
-        {
-            "OptionalSubjectsId": "0",
-            "ParentOptionalSubjectId": "240",
-            "OptionalSubjectName": "Grp4",
-            "NoOfSubjects": "2",
-            "SchoolWiseStandardDivisionId": "1347",
-            "SubjectId": "2368",
-            "SubjectGroupId": "11",
-            "ChildOptionalSubjectId": "0",
-            "IsDefault": "False",
-            "SubjectName": "Chemistry"
-        },
-        {
-            "OptionalSubjectsId": "0",
-            "ParentOptionalSubjectId": "240",
-            "OptionalSubjectName": "Grp4",
-            "NoOfSubjects": "2",
-            "SchoolWiseStandardDivisionId": "1347",
-            "SubjectId": "2369",
-            "SubjectGroupId": "11",
-            "ChildOptionalSubjectId": "0",
-            "IsDefault": "False",
-            "SubjectName": "Biology"
-        }
-    ];
 
     StudentsList.map((Item, i) => {
         if (Item.IsActive) {
@@ -206,26 +168,11 @@ const TransferOptionalSubjectMarks = () => {
     }, [USOptionalSubjectsForMarksTransfer])
 
     useEffect(() => {
-        setdefaultSubjects(USOptionalSubjectsForMarksTransfer)
-        USOptionalSubjectsForMarksTransfer.map((Item) => {
-            if (Item.SubjectId === "0") {
-                setdefaultSubjects(defaultSubjects.map((Obj) => {
-                    if (Obj.SubjectId === Item.ParentOptionalSubjectId) {
-                        return {
-                           ...Obj,
-                            isActive:!Obj.isActive
-                        }
-                    } else {
-                        return Obj
-                    }
-                }))
-            }
-        })
-       
-    }, [USOptionalSubjectsForMarksTransfer])
-
-
-   
+        const activeSubjects = USOptionalSubjectsForMarksTransfer.filter(item => item.OptionalSubjectsId === "0");
+        setdefaultSubjects(activeSubjects);
+    }, [USOptionalSubjectsForMarksTransfer]);
+    
+  console.log(defaultSubjects,"defaultSubjects---");
 
     const SubjectSelection = (subjectId) => {
         setIsDirty(true)
