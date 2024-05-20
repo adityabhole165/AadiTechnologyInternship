@@ -192,12 +192,15 @@ const TransferOptionalSubjectMarks = () => {
 
                 if (confirmed) {
                     setselectClasstecaher(value);
+                    setPage(1)
                 }
             }
             else
                 setselectClasstecaher(value);
+                setPage(1)
         } else {
             setselectClasstecaher(value);
+            setPage(1)
         }
     };
     const [page, setPage] = useState(1);
