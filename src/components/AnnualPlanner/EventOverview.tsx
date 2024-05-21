@@ -188,7 +188,7 @@ const EventOverview = (props: Props) => {
               />
             </Box>
             <Box>
-              <Tooltip title={'Display All the events of the school'}>
+              <Tooltip title={' Displays all the events of the school.'}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -256,7 +256,7 @@ const EventOverview = (props: Props) => {
         ) : (
 
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Event Found.</b>
+            <b>No events found.</b>
           </Typography>
 
         )}

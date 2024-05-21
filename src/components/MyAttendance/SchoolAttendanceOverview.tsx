@@ -41,7 +41,7 @@ const SchoolAttendanceOverview = () => {
   );
 
   const Note: string =
-    'Displays the attendance status for all divisions and standards for  chosen date..';
+    'Displays attendance status for all classes for selected date.';
 
   useEffect(() => {
     setHeaderArray(['Standard | Division']);

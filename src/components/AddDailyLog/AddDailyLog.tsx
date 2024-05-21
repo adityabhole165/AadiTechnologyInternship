@@ -56,6 +56,7 @@ const AddDailyLog = () => {
   const [LogId, setLogId] = useState(0);
   const [page, setPage] = useState(1);
 
+
   const MaxfileSize = 5000000;
   const startIndex = (page - 1) * 20;
   const endIndex = startIndex + 20;
@@ -308,6 +309,9 @@ const AddDailyLog = () => {
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
+    if (fileName === '' && base64URL === '') {
+      setFileNameError('Please select file to upload');
+    }
   };
 
   const ResetForm = () => {
@@ -333,7 +337,12 @@ const AddDailyLog = () => {
         setDateError('');
       }
     }
-
+    if (fileName === '') {
+      setFileNameError('Please select file to upload');
+      isError = true; // Set isError to true for this condition
+    } else {
+      setFileNameError('');
+    }
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
       ResetForm();
@@ -478,6 +487,7 @@ const AddDailyLog = () => {
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
+                errorMessage={fileNameError}
                 FileName={fileName}
                 height='53.5px'
               />
