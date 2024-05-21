@@ -13,6 +13,7 @@ import {
   IGetAllGradesForStandardBody,
   IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentswiseRemarkDetailsNewBody,
+  IGetFinalPublishedExamStatusBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
@@ -34,10 +35,12 @@ import {
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
-  CDAresetSaveMassage
+  CDAresetSaveMassage,
+  CDAGetFinalPublishedExamStatus
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ProgressRemarkTerm from './ProgressRemarkTerm';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -95,8 +98,10 @@ const ProgressRemarks = () => {
   const HeaderArray = [
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Name' },
-    { Id: 3, Header: 'Remark' },
+    ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+    { Id: 4, Header: 'Remark' },
   ];
+  
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
   );
@@ -142,6 +147,11 @@ const ProgressRemarks = () => {
     (state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentsForProgressRemark
   );
 
+  const USGetFinalPublishedExamStatus: any = useSelector(
+    (state: RootState) => state.ProgressRemarkSlice.ISRGetFinalPublishedExamStatus
+  );
+ console.log(USGetFinalPublishedExamStatus,"USGetFinalPublishedExamStatus");
+ 
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
     (state: RootState) =>
       state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
@@ -267,6 +277,15 @@ const ProgressRemarks = () => {
     asTermId: Number(SelectTerm)
   };
 
+  const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
+  {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivId: asStandardDivisionId,
+    asTerm_Id: Number(SelectTerm)
+  };
+
+
   
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
@@ -361,6 +380,8 @@ const ProgressRemarks = () => {
   const ClickHeader = (value) => {
     setHeaderPublish(value)
   }
+
+
   useEffect(() => {
     if (USRemarkTemplateDetails) {
       setRemarkTemplates(USRemarkTemplateDetails);
@@ -405,6 +426,12 @@ const ProgressRemarks = () => {
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
     );[page, selectTeacher, SelectTerm, StudentList]
   };
+
+  
+  useEffect(() => {
+    dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
+  }, []);
+
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
   }, []);
@@ -487,18 +514,20 @@ const ProgressRemarks = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>
-            <Tooltip title={'Save'}>
-              <IconButton
-                onClick={UpdateRemark}
-                sx={{
-                  color: 'white',
-                  backgroundColor: 'green'
-                }}
-              >
-                <SaveIcon />
-              </IconButton>
-            </Tooltip>
+          <Box> { USGetFinalPublishedExamStatus.IsPublishedStatus == 1 &&
+           <Tooltip title={'Save'}>
+           <IconButton
+             onClick={UpdateRemark}
+             sx={{
+               color: 'white',
+               backgroundColor: 'green'
+             }}
+           >
+             <SaveIcon />
+           </IconButton>
+         </Tooltip>
+            }
+           
           </Box>
         </>}
       />
@@ -524,12 +553,14 @@ const ProgressRemarks = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper>
+            <ProgressRemarkTerm.Provider value={SelectTerm}>
               <ResizableCommentsBox
                 HeaderArray={HeaderArray}
                 ItemList={Itemlist}
                 NoteClick={ClickAppropriate}
                 setTextValues={TextValues}
               />
+              </ProgressRemarkTerm.Provider>
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                 <Pagination
                   count={5}

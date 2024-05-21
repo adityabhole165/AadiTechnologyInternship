@@ -5,6 +5,7 @@ import {
   IGetAllGradesForStandardBody,
   IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentswiseRemarkDetailsNewBody,
+  IGetFinalPublishedExamStatusBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
@@ -29,7 +30,8 @@ const ProgressRemarkSlice = createSlice({
     ISGradesForStandard: [],
     ISGetRemarksCategoryList: [],
     ISGetRemarkTemplateDetail: [],
-    ISGetAllStudentsForProgressRemark: []
+    ISGetAllStudentsForProgressRemark: [],
+    ISRGetFinalPublishedExamStatus:{}
 
   },
   reducers: {
@@ -75,6 +77,10 @@ const ProgressRemarkSlice = createSlice({
     RGetAllStudentsForProgressRemark(state, action) {
       state.ISGetAllStudentsForProgressRemark = action.payload;
     },
+    RGetFinalPublishedExamStatus(state, action) {
+      state.ISRGetFinalPublishedExamStatus = action.payload;
+    },
+
 
 
     RresetSaveMassage(state) {
@@ -268,16 +274,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
         Name: item.StudentName,
        
 
-        // Text4: item.OldRemark,
-        // Text5: item.RemarkMaster.RemarkName, 
-        // Text6: item.RemarkConfigId,
-        // Text7: '0',
-        // Text8: item.SalutationId,
-        // Text9: item.IsPassedAndPromoted,
-        // Text10: item.IsLeftStudent,
-        // Text11: item.YearwiseStudentId,
-        // Text12: item.StudentwiseRemarkId,
-        // Text13: item.Remark,
+       
       };
     });
 
@@ -327,6 +324,17 @@ export const CDAGetAllStudentsForProgressRemark =
       }));
       dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
     };
+
+
+    export const CDAGetFinalPublishedExamStatus =
+  (data: IGetFinalPublishedExamStatusBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressRemark.GetFinalPublishedExamStatus(data);
+     
+
+      dispatch(ProgressRemarkSlice.actions.RGetFinalPublishedExamStatus(response.data));
+    };
+
 
 
 export const CDAresetSaveMassage = (): AppThunk => async (dispatch) => {
