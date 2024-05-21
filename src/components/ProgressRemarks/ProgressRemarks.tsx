@@ -38,6 +38,7 @@ import {
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ProgressRemarkTerm from './ProgressRemarkTerm';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -95,8 +96,10 @@ const ProgressRemarks = () => {
   const HeaderArray = [
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Name' },
-    { Id: 3, Header: 'Remark' },
+    ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+    { Id: 4, Header: 'Remark' },
   ];
+  
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
   );
@@ -524,12 +527,14 @@ const ProgressRemarks = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper>
+            <ProgressRemarkTerm.Provider value={SelectTerm}>
               <ResizableCommentsBox
                 HeaderArray={HeaderArray}
                 ItemList={Itemlist}
                 NoteClick={ClickAppropriate}
                 setTextValues={TextValues}
               />
+              </ProgressRemarkTerm.Provider>
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                 <Pagination
                   count={5}

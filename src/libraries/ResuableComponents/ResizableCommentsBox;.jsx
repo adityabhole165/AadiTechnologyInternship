@@ -8,12 +8,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-
+import { useContext } from 'react';
+import ProgressRemarkTerm from 'src/components/ProgressRemarks/ProgressRemarkTerm';
 function ResizableCommentsBox({
   ItemList,
   HeaderArray,
   NoteClick,
-  setTextValues,
+  setTextValues
+  
   // setTextValues1,
   // setTextValues2
 }) {
@@ -25,6 +27,8 @@ function ResizableCommentsBox({
       setTextValues(ItemList);
     }
   };
+  let TermId = useContext(ProgressRemarkTerm)
+    
 
   // const TextChange1 = (value) => {
   //   if (value.Value.length <= 300) {
@@ -80,6 +84,12 @@ function ResizableCommentsBox({
               >
                 <TableCell align="center">{item.Text1}</TableCell>
                 <TableCell>{item.Text2}</TableCell>
+
+                {TermId == 2 && (
+                  <TableCell>
+                    <TextareaAutosize value={item.Text4} />
+                  </TableCell>
+                )}
                 <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize
