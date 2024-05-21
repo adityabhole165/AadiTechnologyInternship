@@ -5,6 +5,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
+import GoldMedal from '../../assets/img/medals/gold-medal.png';
+import SilverMedal from '../../assets/img/medals/silver-medal.png';
+
 const DynamicList2 = ({
   HeaderList,
   ItemList,
@@ -41,6 +45,29 @@ const DynamicList2 = ({
     });
     return IsChecked;
   };
+  const getMedalImage = (Text77) => {
+    let img;
+    switch (Text77) {
+      case "1":
+        img = <img src={GoldMedal} alt="Gold Medal" width={20} />;
+        break;
+      case "2":
+        img = <img src={SilverMedal} alt="Silver Medal" width={20} />;
+        break;
+      case "3":
+        img = <img src={BronzeMedal} alt="Bronze Medal" width={20} />;
+        break;
+
+      default:
+        img = null;
+        break;
+    }
+    return img
+
+
+
+  };
+
   return (
     <TableContainer component={Box}>
       <Table sx={{ minWidth: 650, border: (theme) => `1px solid ${theme.palette.divider}` }} aria-label="simple table">
@@ -83,9 +110,9 @@ const DynamicList2 = ({
                                     </TableCell>
                                 } */}
 
-                  {item.Text77 != undefined && (
-                    <TableCell >
-                      <img src={item.Text77} />
+                  {item.Text77 !== undefined && (
+                    <TableCell>
+                      {getMedalImage(item.Text77)}
                     </TableCell>
                   )}
                   {/* <TableCell

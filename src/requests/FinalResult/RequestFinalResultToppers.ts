@@ -90,8 +90,8 @@ export const ClassTopperListCT =
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
           Id: item.Student_Id,
-          Text77:
-            localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
+          Text77:item.TopperRank,
+            // localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
           Text2: item.Roll_No,
           Text3: item.Student_Name,
           Text4: item.Marks,
@@ -99,7 +99,7 @@ export const ClassTopperListCT =
         };
       });
       dispatch(FinalResultToppersSlice.actions.ToppersListCT(abc));
-
+      
       let Subjects = [];
       response.data.GetSelectedSubjectTopperList.map((item, i) => {
         if (
