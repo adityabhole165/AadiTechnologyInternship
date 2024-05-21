@@ -272,7 +272,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
         Text13: item.Remark,
         Value: item.YearwiseStudentId,
         Name: item.StudentName,
-       
+        IsLeftStudent: item.IsLeftStudent
 
        
       };

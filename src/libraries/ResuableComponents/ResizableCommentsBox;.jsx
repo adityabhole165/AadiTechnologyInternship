@@ -29,7 +29,7 @@ function ResizableCommentsBox({
   };
   let TermId = useContext(ProgressRemarkTerm)
     
-
+   
   // const TextChange1 = (value) => {
   //   if (value.Value.length <= 300) {
   //     ItemList = ItemList.map((item) =>
@@ -82,17 +82,17 @@ function ResizableCommentsBox({
                 key={i}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="center">{item.Text1}</TableCell>
-                <TableCell>{item.Text2}</TableCell>
+                <TableCell align="center" sx={{ color:  item.IsLeftStudent == 1  ? 'red' : 'inherit' }}>{item.Text1}</TableCell>
+                <TableCell   align="center"  sx={{ color:  item.IsLeftStudent == 1  ? 'red' : 'inherit' }} >{item.Text2}</TableCell>
 
                 {TermId == 2 && (
-                  <TableCell>
+                  <TableCell align="center" >
                     <TextareaAutosize value={item.Text4} />
                   </TableCell>
                 )}
                 <TableCell align="center">
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextareaAutosize
+                  
+                    <TextareaAutosize 
                       id={`outlined-basic-${i}`}
                       value={item.Text3}
                       variant="outlined"
@@ -109,7 +109,7 @@ function ResizableCommentsBox({
                     <Typography variant="caption" color="textSecondary">
                       ({300 - item.Text3.length})
                     </Typography>
-                  </div>
+                  
                 </TableCell>
 
                 {/* <TableCell align="center">
