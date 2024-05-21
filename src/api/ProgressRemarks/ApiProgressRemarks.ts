@@ -6,6 +6,8 @@ import {
   IGetAllStudentsForProgressRemarkResult,
   IGetAllStudentswiseRemarkDetailsNewBody,
   IGetAllStudentswiseRemarkDetailsNewResult,
+  IGetFinalPublishedExamStatusBody,
+  IGetFinalPublishedExamStatusResult,
   IGetRemarkTemplateDetailsBody,
   IGetRemarkTemplateDetailsResult,
   IGetRemarksCategoryBody, IGetRemarksCategoryResult,
@@ -84,6 +86,14 @@ const GetAllStudentsForProgressRemark = (data: IGetAllStudentsForProgressRemarkB
   );
 };
 
+const GetFinalPublishedExamStatus = (data: IGetFinalPublishedExamStatusBody) => {
+  return http.post<IGetFinalPublishedExamStatusResult>(
+    'Teacher/GetFinalPublishedExamStatus',
+    data
+  );
+};
+
+
 const ApiProgressRemark = {
   ClassTeachers,
   GetTestwiseTerm,
@@ -94,6 +104,7 @@ const ApiProgressRemark = {
   GetAllGradeForStandard,
   GetRemarksCategory,
   GetRemarksTemplateDetail,
-  GetAllStudentsForProgressRemark
+  GetAllStudentsForProgressRemark,
+  GetFinalPublishedExamStatus
 };
 export default ApiProgressRemark;

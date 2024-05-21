@@ -222,6 +222,16 @@ export interface IGetAllStudentsForProgressRemarkResult{
 }
 
 
+export interface IGetFinalPublishedExamStatusBody {
+  asStandardDivId: number
+  asTerm_Id: number
+  asSchoolId: number
+  asAcademicYearId: number
+}
 
-
+export interface IGetFinalPublishedExamStatusResult {
+  SchoolwiseTestId: string
+  IsPublishedStatus: string
+  ShowFlag: string
+}
 
