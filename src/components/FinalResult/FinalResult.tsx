@@ -216,9 +216,9 @@ const FinalResult = () => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
 
-  useEffect(() => {
-    dispatch(GetPublishResult(PublishResultBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(GetPublishResult(PublishResultBody));
+  // }, []);
 
   // useEffect(() => {
   //   dispatch(GetUnpublishResult(UnpublishResultBody));
@@ -342,8 +342,8 @@ const FinalResult = () => {
     }  // dispatch(GetPublishResult(PublishResultBody));
   };
 
-  const onClickPublish = (publish) => {
-    if (publish) {
+  const onClickPublish = (asStdDivId) => {
+    if (asStdDivId) {
       if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
 
         const PublishBody: IPublishBody = {
