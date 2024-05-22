@@ -146,3 +146,14 @@ export interface IViewResult {
   listParcentageDetails: [],
   listGreaceDetails: []
 }
+
+export interface IConfiguredTestPublishedBody {
+  asSchoolId: number,
+  asAcademicYrId: number,
+  asStdDivId: number
+
+}
+
+export interface IConfiguredTestPublishedResult {
+  IsConfiged: string
+}

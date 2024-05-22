@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import FinalResultApi from 'src/api/FinalResult/ApiFinalResult';
 import {
   IClassTeacherListBody,
+  IConfiguredTestPublishedBody,
   IGenerateAllBody,
   IGenerateBody,
   IGetPagedStudentBody,
@@ -23,6 +24,7 @@ const FinalResultSlice = createSlice({
     Generate: [],
     ViewResult: [],
     HeaderList: [],
+    GetConfiguredTestPublished: [],
     Loading: true
   },
   reducers: {
@@ -52,11 +54,24 @@ const FinalResultSlice = createSlice({
       state.Loading = false;
       state.PublishResult = "";
     },
+    GetConfiguredTestPublishedd(state, action) {
+
+      state.GetConfiguredTestPublished = action.payload;
+    },
+
     viewResult(state, action) {
       state.ViewResult = action.payload;
     }
   }
 });
+export const getConfiguredTestPublished =
+  (data: IConfiguredTestPublishedBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FinalResultApi.GetConfiguredTestPublished(data);
+      dispatch(FinalResultSlice.actions.GetConfiguredTestPublishedd(response.data))
+      console.log("response", response)
+    };
+
 export const ClassTechersList =
   (data: IClassTeacherListBody): AppThunk =>
     async (dispatch) => {

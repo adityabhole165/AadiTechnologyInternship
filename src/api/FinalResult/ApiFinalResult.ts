@@ -2,6 +2,8 @@
 import {
   IClassTeacherListBody,
   IClassTeacherListRsult,
+  IConfiguredTestPublishedBody,
+  IConfiguredTestPublishedResult,
   IGenerateAllBody,
   IGenerateAllResult,
   IGenerateBody,
@@ -51,6 +53,10 @@ const GetViewResult = (data: IViewBody) => {
   return http.post<IViewResult>('Teacher/GetStudentResult', data);
 }
 
+const GetConfiguredTestPublished = (data: IConfiguredTestPublishedBody) => {
+  return http.post<IConfiguredTestPublishedResult[]>('Teacher/AllConffguredTestPublished', data);
+};
+
 const FinalResultApi = {
   ClassTeacherList,
   GetStudentResult,
@@ -58,6 +64,7 @@ const FinalResultApi = {
   GetUnpublishResult,
   GetGenarateAll,
   GetGenerateResult,
-  GetViewResult
+  GetViewResult,
+  GetConfiguredTestPublished
 };
 export default FinalResultApi;

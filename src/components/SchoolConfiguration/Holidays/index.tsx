@@ -3,59 +3,90 @@ import Delete from "@mui/icons-material/Delete"
 import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, IconButton, Tooltip } from "@mui/material"
-import React, { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify"
+import { GetScreenPermission } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
-import DataTable, { Column, RowData } from "src/components/DataTable"
+import DataTable, { Column } from "src/components/DataTable"
+import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
+import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
+import { RootState } from "src/store"
 
 type Props = {}
 
 const Holidays = (props: Props) => {
-    const [holidayColumns, setHolidayColumns] = React.useState<Column[]>([
-        {
-            id: 'startDate',
-            label: 'Start Date',
-            renderCell: (rowData) => rowData.startDate,
-        },
-        {
-            id: 'endDatte',
-            label: 'End Date',
-            renderCell: (rowData) => rowData.endDate,
-        },
-        {
-            id: 'name',
-            label: 'Name',
-            renderCell: (rowData) => rowData.name,
-        },
-        {
-            id: 'associatedClasses',
-            label: 'Associated Classes',
-            renderCell: (rowData) => rowData.associatedClasses,
-        },
-        {
-            id: 'totalDays',
-            label: 'Total Days',
-            renderCell: (rowData) => rowData.totalDays,
-            cellProps: {
-                align: 'center'
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const asStandardId = sessionStorage.getItem('StandardId');
+    const asDivisionId = sessionStorage.getItem('DivisionId');
+    const [asHoliday_Id, setAsHoliday_Id] = useState();
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const HolidayFullAccess = GetScreenPermission('HolidaysManagement')
+    console.log(HolidayFullAccess, 'ScreenPermission');
+
+    const holidaysList = useSelector(
+        (state: RootState) => state.Holidays.HolidaysDataF
+    );
+    const deleteHolidaydetailsMsg = useSelector(
+        (state: RootState) => state.Holidays.DeleteHolidayMsg
+    );
+
+    const getHolidayColumns = () => {
+        let HolidayColumns: Column[] = [
+            {
+                id: 'startDate',
+                label: 'Start Date',
+                renderCell: (rowData: any) => rowData.Text1,
             },
-            headerCellProps: {
-                align: 'center'
+            {
+                id: 'endDate',
+                label: 'End Date',
+                renderCell: (rowData: any) => rowData.Text2,
+            },
+            {
+                id: 'name',
+                label: 'Name',
+                renderCell: (rowData: any) => rowData.Text3,
+            },
+            {
+                id: 'associatedClasses',
+                label: 'Associated Classes',
+                renderCell: (rowData: any) => rowData.Text4,
+                cellProps: {
+                    align: 'left'
+                },
+                headerCellProps: {
+                    align: 'left'
+                }
+            },
+            {
+                id: 'totalDays',
+                label: 'Total Days',
+                renderCell: (rowData: any) => rowData.Text5,
+                cellProps: {
+                    align: 'center'
+                },
+                headerCellProps: {
+                    align: 'center'
+                }
             }
-        }])
-    useEffect(() => {
-        let holidayColumncpy = [...holidayColumns]
-        if (true) {
-            holidayColumncpy.push(
+        ];
+
+        if (HolidayFullAccess === 'Y') {
+            HolidayColumns.push(
                 {
                     id: 'edit',
                     label: 'Edit',
-                    renderCell: (rowData) => <Box>
-                        <IconButton sx={{ p: 0 }} color={"primary"}
-                            onClick={() => {
-                                handleDelete(rowData);
-                            }}>
-                            <Edit />
-                        </IconButton>
+                    renderCell: (rowData: any) => <Box>
+                        <Tooltip title="Edit">
+                            <IconButton sx={{ p: 0 }} color="primary" onClick={() => editRow(rowData.Id)}>
+                                <Edit />
+                            </IconButton>
+                        </Tooltip>
                     </Box>,
                     cellProps: {
                         align: 'center'
@@ -67,13 +98,12 @@ const Holidays = (props: Props) => {
                 {
                     id: 'delete',
                     label: 'Delete',
-                    renderCell: (rowData) => <Box>
-                        <IconButton sx={{ p: 0 }} color={"error"}
-                            onClick={() => {
-                                handleEdit(rowData);
-                            }}>
-                            <Delete />
-                        </IconButton>
+                    renderCell: (rowData: any) => <Box>
+                        <Tooltip title="Delete">
+                            <IconButton sx={{ p: 0 }} color="error" onClick={() => deleteRow(rowData.Id)}>
+                                <Delete />
+                            </IconButton>
+                        </Tooltip>
                     </Box>,
                     cellProps: {
                         align: 'center'
@@ -81,40 +111,82 @@ const Holidays = (props: Props) => {
                     headerCellProps: {
                         align: 'center'
                     }
-                })
+                }
+            );
         }
-        setHolidayColumns(holidayColumncpy)
-    }, [])
-    const [holidays, setHolidays] = React.useState<RowData[]>([
-        {
-            startDate: '2021-01-01',
-            endDate: '2021-01-01',
-            name: 'Navratri',
-            associatedClasses: 'Nursery(A)',
-            totalDays: 1,
-        },
-        {
-            startDate: '2021-01-01',
-            endDate: '2021-01-01',
-            name: 'Navratri',
-            associatedClasses: 'Nursery(B)',
-            totalDays: 4,
-        },
-        {
-            startDate: '2021-01-01',
-            endDate: '2021-01-01',
-            name: 'Navratri',
-            associatedClasses: 'Nursery(C)',
-            totalDays: 3,
+        return HolidayColumns;
+    };
+    const [holidayColumns, setHolidayColumns] = useState<Column[]>(getHolidayColumns());
+
+    const body: IHolidaysFA = {
+        asAcademicYrId: Number(asAcademicYearId),
+        asSchoolId: Number(asSchoolId),
+        asStandardId: Number(0),
+        asDivisionId: Number(0),
+        asSortExp: "ORDER BY Holiday_Start_Date ASC",
+        asStartIndex: Number(0),
+        asPageSize: Number(20),
+    };
+
+    useEffect(() => {
+        dispatch(getHolidaysF(body));
+    }, []);
+
+
+    // const [holidays, setHolidays] = React.useState<RowData[]>([
+    //     {
+    //         startDate: '2021-01-01',
+    //         endDate: '2021-01-01',
+    //         name: 'Navratri',
+    //         associatedClasses: 'Nursery(A)',
+    //         totalDays: 1,
+    //     },
+    //     {
+    //         startDate: '2021-01-01',
+    //         endDate: '2021-01-01',
+    //         name: 'Navratri',
+    //         associatedClasses: 'Nursery(B)',
+    //         totalDays: 4,
+    //     },
+    //     {
+    //         startDate: '2021-01-01',
+    //         endDate: '2021-01-01',
+    //         name: 'Navratri',
+    //         associatedClasses: 'Nursery(C)',
+    //         totalDays: 3,
+    //     }
+    // ]);
+
+    const deleteRow = (Holiday_Id) => {
+        if (
+            confirm('Are you sure you want to delete this holiday?')
+        ) {
+            console.log(Holiday_Id, "1234567890");
+            const DeleteHolidayBody: IGetHolidayBody = {
+                asSchoolId: Number(asSchoolId),
+                asAcademicYearID: Number(asAcademicYearId),
+                asHoliday_Id: Number(Holiday_Id),
+            };
+            dispatch(DeleteHolidayDetails(DeleteHolidayBody));
         }
-    ]);
+    };
 
-    const handleDelete = (holidays) => {
+    useEffect(() => {
+        if (deleteHolidaydetailsMsg != '') {
+            toast.success(deleteHolidaydetailsMsg)
+            dispatch(resetDeleteHolidayDetails());
+            dispatch(getHolidaysF(body));
+        }
+    }, [deleteHolidaydetailsMsg])
 
-    }
-    const handleEdit = (holidays) => {
+    const editRow = (Holiday_Id) => {
+        navigate("../AddHoliday/" + Holiday_Id);
+    };
 
-    }
+    const AddHoliday = () => {
+        navigate("../AddHoliday");
+    };
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -150,7 +222,7 @@ const Holidays = (props: Props) => {
                                 '&:hover': {
                                     bgcolor: 'grey.600'
                                 }
-                            }}>
+                            }} onClick={() => AddHoliday()}>
                                 <Add />
                             </IconButton>
                         </Tooltip>
@@ -161,7 +233,7 @@ const Holidays = (props: Props) => {
             <Box sx={{ background: 'white', p: 2 }}>
                 <DataTable
                     columns={holidayColumns}
-                    data={holidays}
+                    data={holidaysList}
                     isLoading={false}
                 />
             </Box>
@@ -169,4 +241,4 @@ const Holidays = (props: Props) => {
     )
 }
 
-export default Holidays
+export default Holidays;

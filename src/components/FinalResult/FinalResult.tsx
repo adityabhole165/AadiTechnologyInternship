@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import FinalResultUnpublish from 'src/components/FinalResultUnpublish/FinalResultUnpublish';
 import {
   IClassTeacherListBody,
+  IConfiguredTestPublishedBody,
   IGenerateAllBody,
   IGenerateBody,
   IGetPagedStudentBody,
@@ -33,6 +34,7 @@ import {
   GetStudentResultList,
   GetUnpublishResult,
   GetViewResult,
+  getConfiguredTestPublished,
   resetPublishResult,
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
@@ -204,6 +206,11 @@ const FinalResult = () => {
 
   console.log("GenerateResult", GenerateResult)
 
+  const GetConfiguredTestPublished = useSelector(
+    (state: RootState) => state.FinalResult.GetConfiguredTestPublished
+  );
+
+  console.log("GetConfiguredTestPublished", GetConfiguredTestPublished);
 
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
@@ -283,6 +290,12 @@ const FinalResult = () => {
     asStudentId: asStudentId,
     asUserId: asUserId
   }
+  const ConfiguredTestPublishedBody: IConfiguredTestPublishedBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId,
+    asStdDivId: StandardDivisionId
+
+  }
 
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
@@ -358,6 +371,10 @@ const FinalResult = () => {
       dispatch(resetPublishResult())
       dispatch(GetStudentResultList(PagedStudentBody))
     }, [PublishResult])
+
+    useEffect(() => {
+      dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
+    }, [SelectTeacher])
 
   }
 

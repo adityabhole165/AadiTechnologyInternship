@@ -3,6 +3,7 @@ export default interface IHolidays {
   asSchoolId: string;
   asStandardId: string;
   asDivisionId: string;
+
 }
 
 export interface GetHolidayListResult {
@@ -13,6 +14,54 @@ export interface GetHolidayListResult {
       Standards: string;
       StartDate: string;
       ToatalDays: string;
+    }
+  ];
+}
+
+export interface IHolidaysFA {
+  asSchoolId: number,
+  asAcademicYrId: number,
+  asSortExp: string,
+  asStartIndex: number,
+  asPageSize: number,
+  asStandardId: number,
+  asDivisionId: number
+}
+
+export interface GetHolidayListResult1 {
+  // GetHolidayListResult1: [
+  // {
+  RowID: string;
+  Holiday_Id: string;
+  TotalRows: string;
+  Holiday_Start_Date: string;
+  Holiday_End_Date: string;
+  Holiday_Name: string;
+  AssociatedStandard: string;
+  Remarks: string;
+  TotalDays: string;
+  Standards: string;
+
+  // }
+  // ];
+}
+
+export interface IGetHolidayBody {
+  asHoliday_Id: number;
+  asSchoolId: number;
+  asAcademicYearID: number;
+}
+
+export interface EditHolidayDetailsResult {
+  EditHolidayListResult: [
+    {
+      Holiday_Id: string,
+      Holiday_Name: string,
+      Holiday_Start_Date: string,
+      Holiday_End_Date: string,
+      AssociatedStandard: string,
+      Remarks: string,
+      Is_Deleted: string
     }
   ];
 }

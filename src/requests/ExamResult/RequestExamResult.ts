@@ -123,6 +123,7 @@ export const getClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiExamResult.ClassTeachersApi(data);
+
       let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
       dispatch(SliceExamResult.actions.getLoading(true));
 
