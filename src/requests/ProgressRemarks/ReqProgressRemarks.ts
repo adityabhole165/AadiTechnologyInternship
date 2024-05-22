@@ -31,7 +31,8 @@ const ProgressRemarkSlice = createSlice({
     ISGetRemarksCategoryList: [],
     ISGetRemarkTemplateDetail: [],
     ISGetAllStudentsForProgressRemark: [],
-    ISRGetFinalPublishedExamStatus:{}
+    ISRGetFinalPublishedExamStatus: {},
+    ISRemarkDetailsHeaderList: []
 
   },
   reducers: {
@@ -61,10 +62,13 @@ const ProgressRemarkSlice = createSlice({
     RStudentListDropDown(state, action) {
       state.ISStudentListDropDown = action.payload;
     },
-
     RSGetAllStudentswiseRemarkDetails(state, action) {
       state.ISGetAllStudentswiseRemarkDetails = action.payload;
     },
+    RSGetRemarkDetailsHeaderList(state, action) {
+      state.ISRemarkDetailsHeaderList = action.payload;
+    },
+
     RSGradesForStandard(state, action) {
       state.ISGradesForStandard = action.payload;
     },
@@ -236,7 +240,7 @@ export const CDAStudentListDropDown =
 //       let listResult1st = response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
 
 //         return {
-          
+
 
 //         };
 //       });
@@ -252,35 +256,72 @@ export const CDAGetAllStudentswiseRemarkDetails = (
 ): AppThunk => async (dispatch) => {
   const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(data);
 
+  const getRemarks = (value) => {
+
+    const returnVal = []
+    response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+      response.data.RemarkMasterList.map((MasterItem) => {
+        if (value.RollNo == item.RollNo) {
+          if (item.RemarkConfigId == 0) {
+            returnVal.push({
+              Text3: item.Remark,
+              Text4: item.OldRemark,
+              Text5: MasterItem.RemarkName,
+              Text6: MasterItem.RemarkConfigId
+            })
+          } else {
+            if (item.RemarkConfigId == MasterItem.RemarkConfigId) {
+              returnVal.push({
+                Text3: item.Remark,
+                Text4: item.OldRemark,
+                Text5: item.RemarkMaster.RemarkName,
+                Text6: item.RemarkMaster.RemarkConfigId
+              })
+            }
+          }
+        }
+      })
+    })
+    return returnVal
+  }
   // Safely handle the response
   if (response.data && response.data.GetAllStudentswiseRemarkDetailsList) {
-    let listResult1st = response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
-      return {
-        Id: item.YearwiseStudentId,
-        Text1: item.RollNo,
-        Text2: item.StudentName,
-        Text3: item.Remark,
-        Text4: item.OldRemark,
-        Text5:item.RemarkMaster.RemarkName,
-        Text6:item.RemarkMaster.RemarkConfigId,
-        Text7: '0',
-        Text8: item.SalutationId,
-        Text9: item.IsPassedAndPromoted,
-        Text10: item.IsLeftStudent,
-        Text11: item.YearwiseStudentId,
-        Text12: item.StudentwiseRemarkId,
-        Text13: item.Remark,
-        Value: item.YearwiseStudentId,
-        Name: item.StudentName,
-        IsLeftStudent: item.IsLeftStudent
+    // response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+    //   if (!arrRemarkMaster.includes(item.RemarkMaster.RemarkName))
+    //     arrRemarkMaster.push(item.RemarkMaster.RemarkName)
+    // })
 
-       
-      };
+    let listResult1st = []
+    let PrevRollNo = 0
+    response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+      if (PrevRollNo !== item.RollNo) {
+        PrevRollNo = item.RollNo
+        listResult1st.push({
+          Id: item.YearwiseStudentId,
+          Text1: item.RollNo,
+          Text2: item.StudentName,
+          Text3: item.Remark,
+          Text4: item.OldRemark,
+          Text5: item.RemarkMaster.RemarkName,
+          Text6: item.RemarkMaster.RemarkConfigId,
+          Remarks: getRemarks(item),
+          Text7: '0',
+          Text8: item.SalutationId,
+          Text9: item.IsPassedAndPromoted,
+          Text10: item.IsLeftStudent,
+          Text11: item.YearwiseStudentId,
+          Text12: item.StudentwiseRemarkId,
+          Text13: item.Remark,
+          Value: item.YearwiseStudentId,
+          Name: item.StudentName,
+          IsLeftStudent: item.IsLeftStudent
+        });
+      }
     });
 
-    
     dispatch(ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(listResult1st));
-  } 
+    dispatch(ProgressRemarkSlice.actions.RSGetRemarkDetailsHeaderList(response.data.RemarkMasterList));
+  }
 };
 
 export const CDAGetRemarkTemplateDetails =
@@ -326,11 +367,11 @@ export const CDAGetAllStudentsForProgressRemark =
     };
 
 
-    export const CDAGetFinalPublishedExamStatus =
+export const CDAGetFinalPublishedExamStatus =
   (data: IGetFinalPublishedExamStatusBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetFinalPublishedExamStatus(data);
-     
+
 
       dispatch(ProgressRemarkSlice.actions.RGetFinalPublishedExamStatus(response.data));
     };

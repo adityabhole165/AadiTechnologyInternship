@@ -197,7 +197,7 @@ const ExamResultBase = () => {
   }, [ClassTeachers]);
 
   useEffect(() => {
-    setHelpNote('View the summarised results of your class for the selected exam.Click the subject name link to view the marks/grades scored by each student in the subject.Exam result can be publish on be clicking Publish button and unpublish by clicking Unpublish button.');
+    setHelpNote('View the summarised results of your class for the selected exam.Click the subject name link to view the marks/grades scored by each student in the subject.Exam result can be publish on be clicking publish button and unpublish by clicking unpublish button.');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
@@ -719,7 +719,7 @@ const ExamResultBase = () => {
 
             {ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                <b>No Record Found.</b>
+                <b>No record found.</b>
               </Typography>
             ) : (
               <>

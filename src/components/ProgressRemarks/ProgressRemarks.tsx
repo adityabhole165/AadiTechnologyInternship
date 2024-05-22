@@ -1,8 +1,7 @@
 import Download from '@mui/icons-material/Download';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Modal, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +27,7 @@ import {
   CDAGetAllStudentsForProgressRemark,
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
+  CDAGetFinalPublishedExamStatus,
   CDAGetRemarkTemplateDetails,
   CDAGetRemarksCategory,
   CDAGetTestwiseTerm,
@@ -35,12 +35,12 @@ import {
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
-  CDAresetSaveMassage,
-  CDAGetFinalPublishedExamStatus
+  CDAresetSaveMassage
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
+import ProgressRemarksNotes from './ProgressRemarksNotes';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const ProgressRemarks = () => {
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
-  const toggleScreens = () => { setShowScreenOne(!showScreenOne);};
+  const toggleScreens = () => { setShowScreenOne(!showScreenOne); };
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asStandardDivisionId = Number(
@@ -65,43 +65,19 @@ const ProgressRemarks = () => {
   const asUserId = Number(sessionStorage.getItem('Id'));
 
 
-  const Note1 = [
-    'Attentive, Capable, Careful, Cheerful, Confident, Cooperative, Courteous, Creative, Dynamic, Eager, Energetic, Generous, Hardworking, Helpful, Honest, Imaginative, Independent, Industrious, Motivated, Organized Outgoing, Pleasant, Polite, Resourceful, Sincere, Unique.'
-  ];
-  const Hedaer1 = ['Suggested Adjectives:'];
-
-  const Note2 = [
-    'Always, Commonly, Consistently, Daily, Frequently, Monthly, Never, Occasionally, Often, Rarely, Regularly Typically, Usually, Weekly..'
-  ];
-  const Hedaer2 = ['Suggested Adverbs ::'];
-
-  const Note3 = [
-    'Click on the button available for each student and remark type to add configured Remark Templates.'
-  ];
-  const Hedaer3 = ['...'];
-
-  const Note4 = [
-    'After specific interval of time entered data will be saved automatically.'
-  ];
-  const Hedaer4 = ['Note:'];
-
-  const Note5 = [
-    'User can not change or update any data once summative exam is published.'
-  ];
-  const Hedaer5 = ['Note:'];
 
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "desc" },
     { Id: 2, Header: 'Remark Template' },
   ]);
-  const HeaderArray = [
+  const [HeaderArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Name' },
     ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
-    { Id: 4, Header: 'Remark' },
-  ];
-  
+    // { Id: 4, Header: 'Remark' },
+  ]);
+
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
   );
@@ -150,13 +126,28 @@ const ProgressRemarks = () => {
   const USGetFinalPublishedExamStatus: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISRGetFinalPublishedExamStatus
   );
- console.log(USGetFinalPublishedExamStatus,"USGetFinalPublishedExamStatus");
- 
+
   const USGetAllStudentswiseRemarkDetails: any = useSelector(
     (state: RootState) =>
       state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
   );
-  
+  const USRemarkDetailsHeaderList: any = useSelector(
+    (state: RootState) =>
+      state.ProgressRemarkSlice.ISRemarkDetailsHeaderList
+  );
+
+  useEffect(() => {
+    let headerArray = [
+      { Id: 1, Header: 'Roll No.' },
+      { Id: 2, Header: 'Name' },
+      ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+    ]
+    USRemarkDetailsHeaderList.map((Item, i) => {
+      headerArray.push({ Id: i + 3, Header: Item.RemarkName })
+    })
+    setHeaderArray(headerArray)
+  }, [USRemarkDetailsHeaderList])
+
 
   const getXML = () => {
     let sXML =
@@ -164,30 +155,16 @@ const ProgressRemarks = () => {
     Itemlist.map((Item) => {
       sXML =
         sXML +
-        '<StudentwiseRemarkConfigDetails>   <YearwiseStudentId>' +
-        Item.Text11 +
-        '</YearwiseStudentId>' +
-        '<StudentwiseRemarkId>' +
-        Item.Text12 +
-        '</StudentwiseRemarkId>' +
-        '<Remark>' +
-        Item.Text3 +
-        '</Remark>' +
-        '<RemarkConfigId>' +
-        Item.Text7 +
-        '</RemarkConfigId>' +
-        '<RemarkMaster><RemarkConfigId>' +
-        Item.Text6 +
-        '</RemarkConfigId></RemarkMaster>' +
-        '<SalutationId>' +
-        Item.Text8 +
-        '</SalutationId>' +
-        '<IsPassedAndPromoted>' +
-        Item.Text9 +
-        '</IsPassedAndPromoted>' +
-        '<IsLeftStudent>' +
-        Item.Text10 +
-        '</IsLeftStudent>   </StudentwiseRemarkConfigDetails>';
+        '<StudentwiseRemarkConfigDetails>' +
+        '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
+        '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
+        '<Remark>' + Item.Text3 + '</Remark>' +
+        '<RemarkConfigId>' + Item.Text7 + '</RemarkConfigId>' +
+        '<RemarkMaster><RemarkConfigId>' + Item.Text6 + '</RemarkConfigId></RemarkMaster>' +
+        '<SalutationId>' + Item.Text8 + '</SalutationId>' +
+        '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
+        '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent> ' +
+        '</StudentwiseRemarkConfigDetails>';
     });
     sXML = sXML + '</ArrayOfStudentwiseRemarkConfigDetails>';
 
@@ -286,24 +263,33 @@ const ProgressRemarks = () => {
   };
 
 
-  
+
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
-  const TextChange1 = () => {
-    let ItemlistTemp = Itemlist.map((item) => {
-      if (item.Id === StudentId) {
-        const newText3 = item.Text3 + getActiveTexts();
-        return { ...item, Text3: newText3.slice(0, 300) };
-      }
-      return item;
-    });
-    setItemlist(ItemlistTemp);
-  };
-  
+    
+    const TextChange1 = (StudentId) => {
+      setItemlist(prevItemlist => 
+        prevItemlist.map(item => {
+          if (item.Id === StudentId) {
+            const activeTexts = getActiveTexts().join(' ');
+            return {
+              ...item,
+              Remarks: item.Remarks.map(remark => {
+                const newText3 = remark.Text3 + activeTexts; 
+                return { ...remark, Text3: newText3.slice(0, 300) }; 
+              })
+            };
+          }
+          return item;
+        })
+      );
+    };
+    
+
 
   const SelectClick = () => {
-    TextChange1()
+    TextChange1(StudentId)
     setOpen(false)
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
 
@@ -369,7 +355,7 @@ const ProgressRemarks = () => {
 
     };
 
-    dispatch( CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+    dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
   }, [page, selectTeacher, SelectTerm, StudentList]);
 
 
@@ -416,7 +402,7 @@ const ProgressRemarks = () => {
       setRemark(USRemarksCategory[0].Value);
     }
   }, [USRemarksCategory]);
- 
+
   useEffect(() => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
   }, [SelectGrade, Remark, HeaderPublish]);
@@ -427,7 +413,11 @@ const ProgressRemarks = () => {
     );[page, selectTeacher, SelectTerm, StudentList]
   };
 
-  
+  useEffect(() => {
+    dispatch(CDAGetAllStudentsForProgressRemark(AllStudentsForProgressRemarkBody));
+  }, []);
+
+
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
   }, []);
@@ -514,52 +504,37 @@ const ProgressRemarks = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box> { USGetFinalPublishedExamStatus.IsPublishedStatus == 1 &&
-           <Tooltip title={'Save'}>
-           <IconButton
-             onClick={UpdateRemark}
-             sx={{
-               color: 'white',
-               backgroundColor: 'green'
-             }}
-           >
-             <SaveIcon />
-           </IconButton>
-         </Tooltip>
-            }
-           
+          <Box> {USGetFinalPublishedExamStatus.IsPublishedStatus == 1 &&
+            <Tooltip title={'Save'}>
+              <IconButton
+                onClick={UpdateRemark}
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'green'
+                }}
+              >
+                <SaveIcon />
+              </IconButton>
+            </Tooltip>
+          }
+
           </Box>
         </>}
       />
       <Paper sx={{ mb: '10px' }}>
-        <Accordion defaultExpanded>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
-            <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note1}</Alert>
-            <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note2}</Alert>
-            <Alert variant="filled" severity="info">{Note3}</Alert>
-            <Alert variant="filled" severity="info"><b>Note:</b> {Note4}</Alert>
-            <Alert variant="filled" severity="info"><b>Note:</b> {Note5}</Alert>
-          </AccordionDetails>
-        </Accordion>
+        <ProgressRemarksNotes />
       </Paper>
       <Box sx={{ background: 'white', p: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper>
-            <ProgressRemarkTerm.Provider value={SelectTerm}>
-              <ResizableCommentsBox
-                HeaderArray={HeaderArray}
-                ItemList={Itemlist}
-                NoteClick={ClickAppropriate}
-                setTextValues={TextValues}
-              />
+              <ProgressRemarkTerm.Provider value={SelectTerm}>
+                <ResizableCommentsBox
+                  HeaderArray={HeaderArray}
+                  ItemList={Itemlist}
+                  NoteClick={ClickAppropriate}
+                  setTextValues={TextValues}
+                />
               </ProgressRemarkTerm.Provider>
               <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                 <Pagination
