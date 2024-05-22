@@ -5,6 +5,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import DataTable from "src/components/DataTable";
 import {
   GetFirstThreeToopersBody,
   GetStudentsForSubjectMarkMouseOverBody,
@@ -20,7 +21,6 @@ import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
 import GoldMedal from '../../assets/img/medals/gold-medal.png';
 import SilverMedal from '../../assets/img/medals/silver-medal.png';
 import CommonPageHeader from '../CommonPageHeader';
-import DataTable from '../DataTable';
 
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
@@ -32,6 +32,9 @@ const SubjectMarkList = () => {
 
   const TestMarkList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMark);
+  const HeaderListTestMark: any = useSelector(
+    (state: RootState) => state.SubjectMarkList.HeaderListTestMark);
+
   const TestMarkListNew: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMarkNew);
   console.log(TestMarkList, "abcd");
@@ -82,6 +85,77 @@ const SubjectMarkList = () => {
     dispatch(gettestmarklist(GetTestMarkBody));
   }, []);
 
+  // const [Columns, setColumns] = React.useState<Column[]>([
+  let Columns = [
+    {
+      id: 'rollNo',
+      label: 'Roll No.',
+      renderCell: (rowData) => <>
+        <Stack direction={"row"} alignItems={'center'} gap={2}>
+          {/* Student Roll no. */}
+          {rowData.rollNo && (
+            <Tooltip title={rowData.MoueOverText1 != undefined ? rowData.MoueOverText1 : ""} >
+              <span>{rowData.rollNo}</span>
+            </Tooltip>)}
+
+          {rowData.rank === "1" &&
+            <Tooltip title={rowData.name}>
+              <img src={GoldMedal} alt="Gold Medal" width={20} />
+            </Tooltip>
+          }
+
+          {/* If student rank is 2 */}
+          {rowData.rank === "2" &&
+            <Tooltip title={rowData.name}>
+              <img src={SilverMedal} alt="Silver Medal" width={20} />
+            </Tooltip>
+          }
+
+          {/* If student rank is 3 */}
+          {rowData.rank === "3" &&
+            <Tooltip title={rowData.name}>
+              <img src={BronzeMedal} alt="Bronze Medal" width={20} />
+            </Tooltip>
+          }
+        </Stack>
+      </>
+    }]
+  HeaderListTestMark.map((Item, i) => {
+    Columns.push(
+      {
+        id: 'theory',
+        label: Item,
+        renderCell: (rowData) => <>
+          {rowData.theoryType && (
+            // If theory type is exempted
+            rowData.theoryType === "Exempted" && (
+              <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.theoryType}</span>
+            )
+
+            // If theory type is late joinee
+            || rowData.theoryType === "Late Joinee" && (
+              <span style={{ color: 'blue', fontWeight: 'bold' }}>{rowData.theoryType}</span>
+            )
+
+            // If theory type is absent
+            || rowData.theoryType === "Absent" && (
+              <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.theoryType}</span>
+            )
+          )}
+
+          {/* If theory type is null */}
+          {!rowData.theoryType && rowData.theory}
+        </>
+      })
+  })
+  Columns.push(
+    {
+      id: 'total',
+      label: 'Total',
+      renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
+    },
+  )
+
 
   return (
     <>
@@ -90,7 +164,7 @@ const SubjectMarkList = () => {
           navLinks={[
             {
               title: 'Exam Result',
-              path: '/extended-sidebar/Teacher/ExamResultBase/'+ StandardDivisionId + "/" + TestId
+              path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
             },
             {
               title: 'Subject Mark List',
@@ -178,73 +252,7 @@ const SubjectMarkList = () => {
         <Box sx={{ p: 2, background: 'white' }}>
           {/* New Table */}
           <DataTable
-            columns={
-              [
-                {
-                  id: 'rollNo',
-                  label: 'Roll No.',
-                  renderCell: (rowData) => <>
-                    <Stack direction={"row"} alignItems={'center'} gap={2}>
-                      {/* Student Roll no. */}
-                      {rowData.rollNo && (
-                        <Tooltip title={rowData.MoueOverText1 != undefined ? rowData.MoueOverText1 : ""} >
-                          <span>{rowData.rollNo}</span>
-                        </Tooltip>)}
-
-                      {rowData.rank === "1" &&
-                        <Tooltip title={rowData.name}>
-                          <img src={GoldMedal} alt="Gold Medal" width={20} />
-                        </Tooltip>
-                      }
-
-                      {/* If student rank is 2 */}
-                      {rowData.rank === "2" &&
-                        <Tooltip title={rowData.name}>
-                          <img src={SilverMedal} alt="Silver Medal" width={20} />
-                        </Tooltip>
-                      }
-
-                      {/* If student rank is 3 */}
-                      {rowData.rank === "3" &&
-                        <Tooltip title={rowData.name}>
-                          <img src={BronzeMedal} alt="Bronze Medal" width={20} />
-                        </Tooltip>
-                      }
-                    </Stack>
-                  </>
-                },
-                {
-                  id: 'theory',
-                  label: 'Theory',
-                  renderCell: (rowData) => <>
-                    {rowData.theoryType && (
-                      // If theory type is exempted
-                      rowData.theoryType === "Exempted" && (
-                        <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.theoryType}</span>
-                      )
-
-                      // If theory type is late joinee
-                      || rowData.theoryType === "Late Joinee" && (
-                        <span style={{ color: 'blue', fontWeight: 'bold' }}>{rowData.theoryType}</span>
-                      )
-
-                      // If theory type is absent
-                      || rowData.theoryType === "Absent" && (
-                        <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.theoryType}</span>
-                      )
-                    )}
-
-                    {/* If theory type is null */}
-                    {!rowData.theoryType && rowData.theory}
-                  </>
-                },
-                {
-                  id: 'total',
-                  label: 'Total',
-                  renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
-                },
-              ]
-            }
+            columns={Columns}
             data={TestMarkListNew}
           // data={
           //   [
