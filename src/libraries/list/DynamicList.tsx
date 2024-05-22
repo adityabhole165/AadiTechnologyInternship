@@ -95,10 +95,14 @@ const DynamicList = ({
                           <a
                             href="#"
                             onClick={(event) => {
-                              event.preventDefault();
-                              ClickLink({ Id: Data[index], Index: i });
+                              if (Data[index] && Data[index].IsGrey) {
+                                event.preventDefault(); // Prevents the default action of the link
+                              } else {
+                                ClickLink({ Id: Data[index], Index: i });
+                              }
                             }}
                           >
+
                             {obj}
                           </a>
                         ) : (
