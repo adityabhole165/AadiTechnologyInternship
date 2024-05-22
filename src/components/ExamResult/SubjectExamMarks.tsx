@@ -396,6 +396,7 @@ const SubjectExamMarks = () => {
   const ExamResultLink = {
     title: 'Exam Results',
     path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+    //path: '/extended-sidebar/Teacher/ExamResultBase'
   };
 
   const AssignExamMarkLink = {

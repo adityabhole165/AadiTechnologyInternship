@@ -21,27 +21,29 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
         <Box sx={{ backgroundColor: 'white' }} p={2}>
 
             <Box display="flex" justifyContent="space-between">
+                <IconButton color={'primary'} onClick={() => handlePrevNextMonth(1)}
+                    sx={{
+                        backgroundColor: (theme) =>
+                            alpha(theme.palette.primary.main, 0.2)
+                    }}
+                >
+                    <ArrowBackIosNewIcon />
+                </IconButton>
                 <Typography m={0} variant={'h3'}>
                     <b>{getMonthYearSpaceFormatted(SelectedDate)}</b>
                 </Typography>
+                <IconButton color={'primary'} onClick={() => handlePrevNextMonth(-1)}
+                    sx={{
+                        backgroundColor: (theme) =>
+                            alpha(theme.palette.primary.main, 0.2)
+                    }}
+                >
+                    <ArrowForwardIosIcon />
+                </IconButton>
                 <Stack direction={'row'} gap={1}>
                     <SearchAnnualPlanner ItemList={FilterList} ClickItem={ClickFilterItem} DefaultValue={SelectedFilter} />
-                    <IconButton color={'primary'} onClick={() => handlePrevNextMonth(1)}
-                        sx={{
-                            backgroundColor: (theme) =>
-                                alpha(theme.palette.primary.main, 0.2)
-                        }}
-                    >
-                        <ArrowBackIosNewIcon />
-                    </IconButton>
-                    <IconButton color={'primary'} onClick={() => handlePrevNextMonth(-1)}
-                        sx={{
-                            backgroundColor: (theme) =>
-                                alpha(theme.palette.primary.main, 0.2)
-                        }}
-                    >
-                        <ArrowForwardIosIcon />
-                    </IconButton>
+
+
                 </Stack>
 
             </Box>
