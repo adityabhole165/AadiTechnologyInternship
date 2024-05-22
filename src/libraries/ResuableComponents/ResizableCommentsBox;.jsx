@@ -21,15 +21,21 @@ function ResizableCommentsBox({
 }) {
   const TextChange = (value) => {
     if (value.Value.length <= 300) {
-      ItemList = ItemList.map((item) =>
-        item.Id === value.Id ? { ...item, Text3: value.Value } : item
-      );
+      ItemList = ItemList.map((item) =>{
+        return { ...item,
+          Remarks: item.Remarks.map((RemarksItem, i)=>{
+          return { ...RemarksItem,
+            Text3: ( value.Id === item.Id && value.Index == i) ? value.Value  : RemarksItem.Text3
+        }
+      })
+      }
+      });
       setTextValues(ItemList);
     }
   };
   let TermId = useContext(ProgressRemarkTerm)
     
-   
+   console.log(ItemList,"ItemList.Remarks");
   // const TextChange1 = (value) => {
   //   if (value.Value.length <= 300) {
   //     ItemList = ItemList.map((item) =>
@@ -90,14 +96,16 @@ function ResizableCommentsBox({
                     <TextareaAutosize value={item.Text4} />
                   </TableCell>
                 )}
-                <TableCell align="center">
+                
+                {item.Remarks.map((RemarksItem,i)=>{
+                  return (<TableCell align="center">
                   
                     <TextareaAutosize 
                       id={`outlined-basic-${i}`}
-                      value={item.Text3}
+                      value={RemarksItem.Text3}
                       variant="outlined"
                       onChange={(e) => {
-                        TextChange({ Id: item.Id, Value: e.target.value });
+                        TextChange({ Id: item.Id,Index:i, Value: e.target.value });
                       }}
                       maxLength={300}
                       style={{ width: '200px' }}
@@ -110,8 +118,8 @@ function ResizableCommentsBox({
                       ({300 - item.Text3.length})
                     </Typography>
                   
-                </TableCell>
-
+                </TableCell>)
+                })}
                 {/* <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize

@@ -55,7 +55,7 @@ const StudentListDropDown = (data: IStudentListDropDowntBody) => {
 };
 
 const GetAllStudentswiseRemarkDetails = (data: IGetAllStudentswiseRemarkDetailsNewBody) => {
-  return http.post<IGetAllStudentswiseRemarkDetailsNewResult[]>(
+  return http.post<IGetAllStudentswiseRemarkDetailsNewResult>(
     'Teacher/GetAllStudentswiseRemarkDetails',
     data
   );
