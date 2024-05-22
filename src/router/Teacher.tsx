@@ -165,6 +165,7 @@ const GenerateAll = Loader(
 )
 
 
+
 const teacherRoutes = [
   {
     path: 'GenerateAll',

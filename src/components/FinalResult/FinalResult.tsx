@@ -133,7 +133,9 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <AssignmentIcon onClick={AssignmentClickIcon} />
+        <AssignmentIcon onClick={() => {
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
+        }} />
       </>
     },
     {
@@ -146,7 +148,10 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <VisibilityIcon onClick={VisibilityClickIcon} />
+        <VisibilityIcon onClick={() => {
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
+
+        }} />
       </>
     },
     {
