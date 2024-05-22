@@ -121,48 +121,45 @@ const SubjectMarkList = () => {
     }])
   useEffect(() => {
     if (HeaderListTestMark.length > 0) {
-      let Columncpy = [...Columns]
-
+      let Columncpy = [...Columns];
 
       HeaderListTestMark.map((Item, i) => {
-        Columncpy.push(
-          {
-            id: 'theory',
-            label: Item,
-            renderCell: (rowData) => <>
+        Columncpy.push({
+          id: 'theory',
+          label: Item,
+          renderCell: (rowData) => (
+            <>
               {rowData.Marks[i].theoryType && (
-                // If theory type is exempted
+
                 rowData.Marks[i].theoryType === "Exempted" && (
                   <span style={{ color: 'brown', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
-                // If theory type is late joinee
                 || rowData.Marks[i].theoryType === "Late Joinee" && (
                   <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
-                // If theory type is absent
                 || rowData.Marks[i].theoryType === "Absent" && (
                   <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
               )}
 
-              {/* If theory type is null */}
-              {!rowData.Marks[i].theoryType && rowData.Marks[i].theory}
+
+              {!rowData.Marks[i].theoryType && parseFloat(rowData.Marks[i].theory)}
             </>
-          })
-      })
-      Columncpy.push(
-        {
-          id: 'total',
-          label: 'Total',
-          renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
-        })
-      setColumns(Columncpy)
+          )
+        });
+      });
+
+      Columncpy.push({
+        id: 'total',
+        label: 'Total',
+        renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
+      });
+
+      setColumns(Columncpy);
     }
-  }, [HeaderListTestMark])
-
-
+  }, [HeaderListTestMark]);
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -343,7 +340,7 @@ const SubjectMarkList = () => {
               <Box>
                 <span
                   style={{
-                    color: 'brown',
+                    color: 'b',
                     fontWeight: 'bold'
                   }}
                 >
