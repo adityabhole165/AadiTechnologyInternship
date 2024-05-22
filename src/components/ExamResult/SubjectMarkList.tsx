@@ -2,10 +2,10 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
-import DataTable from "src/components/DataTable";
+import DataTable, { Column } from "src/components/DataTable";
 import {
   GetFirstThreeToopersBody,
   GetStudentsForSubjectMarkMouseOverBody,
@@ -85,8 +85,8 @@ const SubjectMarkList = () => {
     dispatch(gettestmarklist(GetTestMarkBody));
   }, []);
 
-  // const [Columns, setColumns] = React.useState<Column[]>([
-  let Columns = [
+  const [Columns, setColumns] = React.useState<Column[]>([
+    // let Columns = [
     {
       id: 'rollNo',
       label: 'Roll No.',
@@ -119,42 +119,49 @@ const SubjectMarkList = () => {
           }
         </Stack>
       </>
-    }]
-  HeaderListTestMark.map((Item, i) => {
-    Columns.push(
-      {
-        id: 'theory',
-        label: Item,
-        renderCell: (rowData) => <>
-          {rowData.theoryType && (
-            // If theory type is exempted
-            rowData.theoryType === "Exempted" && (
-              <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.theoryType}</span>
-            )
+    }])
+  useEffect(() => {
+    if (HeaderListTestMark.length > 0) {
+      let Columncpy = [...Columns]
 
-            // If theory type is late joinee
-            || rowData.theoryType === "Late Joinee" && (
-              <span style={{ color: 'blue', fontWeight: 'bold' }}>{rowData.theoryType}</span>
-            )
 
-            // If theory type is absent
-            || rowData.theoryType === "Absent" && (
-              <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.theoryType}</span>
-            )
-          )}
+      HeaderListTestMark.map((Item, i) => {
+        Columncpy.push(
+          {
+            id: 'theory',
+            label: Item,
+            renderCell: (rowData) => <>
+              {rowData.Marks[i].theoryType && (
+                // If theory type is exempted
+                rowData.Marks[i].theoryType === "Exempted" && (
+                  <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                )
 
-          {/* If theory type is null */}
-          {!rowData.theoryType && rowData.theory}
-        </>
+                // If theory type is late joinee
+                || rowData.Marks[i].theoryType === "Late Joinee" && (
+                  <span style={{ color: 'blue', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                )
+
+                // If theory type is absent
+                || rowData.Marks[i].theoryType === "Absent" && (
+                  <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                )
+              )}
+
+              {/* If theory type is null */}
+              {!rowData.Marks[i].theoryType && rowData.Marks[i].theory}
+            </>
+          })
       })
-  })
-  Columns.push(
-    {
-      id: 'total',
-      label: 'Total',
-      renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
-    },
-  )
+      Columncpy.push(
+        {
+          id: 'total',
+          label: 'Total',
+          renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
+        })
+      setColumns(Columncpy)
+    }
+  }, [HeaderListTestMark])
 
 
   return (

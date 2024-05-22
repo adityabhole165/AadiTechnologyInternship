@@ -16,6 +16,7 @@ const SubjectMarkListSlice = createSlice({
     legend: [],
     StudentNameMouseOver: [],
     HeaderList: [],
+    HeaderListTestMark: [],
     ThreeToppersList: {}
 
   },
@@ -25,6 +26,9 @@ const SubjectMarkListSlice = createSlice({
     },
     GetTestMarkNew(state, action) {
       state.listTestMarkNew = action.payload;
+    },
+    GetHeaderListTestMark(state, action) {
+      state.HeaderListTestMark = action.payload;
     },
     GetHeaderList(state, action) {
       state.HeaderList = action.payload;
@@ -155,7 +159,6 @@ export const gettestmarklist =
 
       }
       const response4 = await ApiSubjectMarkList.StudentToppersListApi(body4);
-      console.log(data, "response4.data");
 
       // dispatch(SubjectMarkListSlice.actions.StudentTopperslist(response.data));
       const getRank = (StudentId) => {
@@ -193,9 +196,28 @@ export const gettestmarklist =
       responseData = []
       returnObj = null
       iCounterIndex = 0
+      let HeaderListTestMark = []
+      const getColumnArra = (value) => {
+        let returnVal = []
+        response1.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
+          if (item.Roll_No == value.Roll_No) {
+            returnVal.push({
+              theoryType: getTheoryType(item),
+              theory: getMarks(item),
+            })
+          }
+
+        })
+        return returnVal
+      }
+      response1.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
+        if (!HeaderListTestMark.includes(item.TestType_Name))
+          HeaderListTestMark.push(item.TestType_Name)
+      })
+
       response1.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
 
-        if (item.TestType_Name == "Project") {
+        if (item.TestType_Name == HeaderListTestMark[0]) {
 
           PrevRollNo = item.Roll_No
 
@@ -208,8 +230,13 @@ export const gettestmarklist =
             name: item.Roll_No,
             rank: getRank(item.Student_Id),
             StudentId: item.Student_Id,
-            theoryType: getTheoryType(item),
-            theory: getMarks(item),
+            // Marks: [{
+            //   theoryType: getTheoryType(item),
+            //   theory: getMarks(item),
+            // }],
+            Marks: getColumnArra(item),
+            // theoryType: getTheoryType(item),
+            // theory: getMarks(item),
             total: item.Total_Marks_Scored,
             Is_Absent: 1,
             // StudentName:GetStudentName(item.Roll_No)
@@ -221,8 +248,8 @@ export const gettestmarklist =
 
       });
 
-      console.log(responseData, "responseData");
 
+      dispatch(SubjectMarkListSlice.actions.GetHeaderListTestMark(HeaderListTestMark));
       dispatch(SubjectMarkListSlice.actions.GetTestMarkNew(responseData));
       dispatch(SubjectMarkListSlice.actions.TestName(response1.data.listSchoolWise_Student_Test_Marks_Detail));
       dispatch(SubjectMarkListSlice.actions.StudentListMouseOver(response3.data));
