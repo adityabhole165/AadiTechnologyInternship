@@ -1,8 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography, } from '@mui/material';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { RootState } from 'src/store';
 const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -14,10 +13,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-  const PublishUnpublish: any = useSelector(
-    (state: RootState) => state.ExamResult.PublishUnpublishExam
-  );
-  console.log("PublishUnpublish", PublishUnpublish)
+
 
 
   const ResetForm = () => {
