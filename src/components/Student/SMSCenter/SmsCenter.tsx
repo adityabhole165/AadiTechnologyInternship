@@ -150,7 +150,9 @@ function SmsCenter() {
                 </Box>
               ))
             ) : (
-              <Typography variant="h6">No record found</Typography>
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>No record found.</b>
+              </Typography>
             )
           )}
         </Box>
