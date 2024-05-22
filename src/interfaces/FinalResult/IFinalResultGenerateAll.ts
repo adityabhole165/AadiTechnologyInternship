@@ -30,6 +30,7 @@ export interface IGetStudentPrrogressReportResult {
             ID_Num: string;
             Subject_Name: string;
             Student_Id: string;
+            Subject_Id:string;
             Parent_Subject_Id: string;
             Total_Consideration: string;
             Is_CoCurricularActivity: string;
@@ -157,6 +158,7 @@ export interface IViewResult {
     listStudentDetail: [
         {
             YearWise_Student_Id: string,
+            Student_Name: string,
             Standard_Name: string,
             Division_Name: string,
             Academic_Year: string,

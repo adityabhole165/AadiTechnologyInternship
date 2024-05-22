@@ -133,7 +133,9 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <AssignmentIcon onClick={AssignmentClickIcon} />
+        <AssignmentIcon onClick={() => {
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
+        }} />
       </>
     },
     {
@@ -146,7 +148,10 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <VisibilityIcon onClick={VisibilityClickIcon} />
+        <VisibilityIcon onClick={() => {
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
+
+        }} />
       </>
     },
     {
@@ -248,11 +253,7 @@ const FinalResult = () => {
     asStandardDivId: StandardDivisionId,
     asUnPublishReason: asUnPublishReason
   }
-  const PublishResultBody: IPublishBody = {
-    asSchoolId: asSchoolId,
-    asAcadmicYearId: asAcademicYearId,
-    asStdDivId: StandardDivisionId
-  }
+
 
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
@@ -342,21 +343,23 @@ const FinalResult = () => {
     }  // dispatch(GetPublishResult(PublishResultBody));
   };
 
-  const onClickPublish = (asStdDivId) => {
-    if (asStdDivId) {
+  const onClickPublish = (publish) => {
+    if (publish) {
       if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
+        return;
+      }
+      const PublishBody: IPublishBody = {
+        asSchoolId: asSchoolId,
+        asAcadmicYearId: asAcademicYearId,
+        asStdDivId: asStdDivId,
+        // asPublishById: 1
+      }
+      dispatch(GetPublishResult(PublishBody))
 
-        const PublishBody: IPublishBody = {
-          asSchoolId: asSchoolId,
-          asAcadmicYearId: asAcademicYearId,
-          asStdDivId: asStdDivId
-        }
-        dispatch(GetPublishResult(PublishBody))
+      // dispatch(GetUnpublishResult(UnpublishResultBody))
 
-        // dispatch(GetUnpublishResult(UnpublishResultBody))
+    };
 
-      };
-    }
     useEffect(() => {
       if (UnpublishResult !== '') {
         toast.success(UnpublishResult)

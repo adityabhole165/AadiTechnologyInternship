@@ -118,7 +118,7 @@ const LessonPlanBaseScreen = () => {
   const HeaderList1 = [
     { Id: 1, Header: 'Start Date' },
     { Id: 2, Header: 'End Date' },
-    { Id: 3, Header: 'View Remark', align: 'center' },
+    { Id: 3, Header: 'View Remarks', align: 'center' },
     { Id: 4, Header: 'Edit', align: 'center' },
     { Id: 5, Header: 'Delete', align: 'center' },
     ...(LessonPlanList.map((item) => item.Text2) != 'False' && LessonPlanList.map((item) => item.UserId) !== selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
@@ -522,7 +522,7 @@ const LessonPlanBaseScreen = () => {
               </Box>
               <Box>
                 {String(asUserId) == String(selectClasstecahernew) ? (
-                  <Tooltip title={"Add new Lesson Plan"}>
+                  <Tooltip title={"Add Lesson Plan"}>
                     <IconButton
                       sx={{
                         color: 'white',
@@ -572,7 +572,7 @@ const LessonPlanBaseScreen = () => {
 
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Record Found.</b>
+              <b>No record found.</b>
             </Typography>
           )}
 
@@ -629,7 +629,7 @@ const LessonPlanBaseScreen = () => {
         />
         <DialogContent dividers>
           <Stack gap={1}>
-            <Typography variant={"h3"} color={"primary"}>View Remark: </Typography>
+            <Typography variant={"h3"} color={"primary"}>View Remarks: </Typography>
             <Divider />
             <Stack gap={1}>
               <div>

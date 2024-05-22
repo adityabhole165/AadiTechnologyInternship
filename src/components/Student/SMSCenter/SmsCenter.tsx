@@ -1,3 +1,4 @@
+
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
@@ -91,7 +92,7 @@ function SmsCenter() {
         rightActions={
           <>
             <Box>
-              <Tooltip title={'School SMS will be sent to these number(s). To add/update the number, please send the information to Admin Staff via Message Center.'}>
+              <Tooltip title={'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -105,7 +106,7 @@ function SmsCenter() {
               </Tooltip>
             </Box>
             <Box>
-              <Tooltip title={`Displays Received SMS List.`}>
+              <Tooltip title={`Displays received SMS list.`}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -127,27 +128,31 @@ function SmsCenter() {
           Mobile Number(s) : {MobileNumber.replace(';', ', ')}
         </Typography>
         <Box sx={{ mt: 2 }}>
-          {/* {loading ? <SuspenseLoader /> : <List1 items={Data} />} */}
-          {/* sms center new UI */}
-          {
-            SmsList.length > 0 &&
-            (SmsList.map((item, index) => (
-              <Box key={index} sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.grey[500]}`, borderRadius: (theme) => theme.general.borderRadius }}>
-                <Typography variant={"h4"} sx={{ display: 'flex', gap: 1 }}>
-                  <span style={{ color: grey[500] }}>From: </span> {item.UserName}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1 }}>
-                    <Link to={'/extended-sidebar/Student/viewsms/' + item.ID} style={{ textDecoration: 'none' }}>
-                      <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
-                    </Link>
+          {loading ? (
+            <Typography variant="h6">Loading...</Typography>
+          ) : (
+            SmsList.length > 0 ? (
+              SmsList.map((item, index) => (
+                <Box key={index} sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.grey[500]}`, borderRadius: (theme) => theme.general.borderRadius }}>
+                  <Typography variant={"h4"} sx={{ display: 'flex', gap: 1 }}>
+                    <span style={{ color: grey[500] }}>From: </span> {item.UserName}
                   </Typography>
-                  <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }} >
-                    <span style={{ color: grey[500] }}>Received Date: </span> {item.Date}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1 }}>
+                      <Link to={'/extended-sidebar/Student/viewsms/' + item.ID} style={{ textDecoration: 'none' }}>
+                        <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
+                      </Link>
+                    </Typography>
+                    <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }} >
+                      <span style={{ color: grey[500] }}>Received Date: </span> {item.Date}
+                    </Typography>
+                  </Box>
                 </Box>
-              </Box>
-            )))}
+              ))
+            ) : (
+              <Typography variant="h6">No record found</Typography>
+            )
+          )}
         </Box>
       </Box>
     </Box>

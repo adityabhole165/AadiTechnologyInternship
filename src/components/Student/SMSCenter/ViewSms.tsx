@@ -1,3 +1,4 @@
+
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import CallReceived from '@mui/icons-material/CallReceived';
 import History from '@mui/icons-material/History';
@@ -68,7 +69,7 @@ function ViewSms() {
           rightActions={
             <>
               <Box>
-                <Tooltip title={`View Sent/ Received Messages.`}>
+                <Tooltip title={`View sent/received messages.`}>
                   <IconButton
                     sx={{
                       color: 'white',

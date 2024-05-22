@@ -305,9 +305,9 @@ const AssignExamMark = () => {
           </Box>
 
           <Box>
-            <Tooltip title={`View all subjects assigned with the current status of marks given to students. 
-Once marks for all the students are allotted you have to submit these marks to the class-teacher by clicking on Submit button.
-Pre-primary teachers to add and submit progress report entries of his class.`}>
+            <Tooltip title={`View all subjects assigned with the current status of marks given to students.
+            Once marks for all the students are allotted you have to submit these marks to the class teacher by clicking on "submit" button.
+            Pre-primary teachers to add and submit progress report entries of his/her class.`}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -337,7 +337,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Record Found.</b>
+              <b>No record found.</b>
             </Typography>
 
           )}
@@ -357,7 +357,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
               </div>
             ) : (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                <b>No Record Found.</b>
+                <b>No record found.</b>
               </Typography>
             )}
           </Box>
