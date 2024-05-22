@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,6 @@ import {
   GetStudentsForSubjectMarkMouseOverBody,
   IGetTestMarkBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
-import DynamicList from 'src/libraries/list/DynamicList';
 import {
   firstthreetopperslist,
   gettestmarklist
@@ -134,12 +133,12 @@ const SubjectMarkList = () => {
               {rowData.Marks[i].theoryType && (
                 // If theory type is exempted
                 rowData.Marks[i].theoryType === "Exempted" && (
-                  <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                  <span style={{ color: 'brown', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
                 // If theory type is late joinee
                 || rowData.Marks[i].theoryType === "Late Joinee" && (
-                  <span style={{ color: 'blue', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                  <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
                 // If theory type is absent
@@ -344,7 +343,7 @@ const SubjectMarkList = () => {
               <Box>
                 <span
                   style={{
-                    color: 'green',
+                    color: 'brown',
                     fontWeight: 'bold'
                   }}
                 >
@@ -354,7 +353,7 @@ const SubjectMarkList = () => {
               <Box>
                 <span
                   style={{
-                    color: 'blue',
+                    color: 'green',
                     fontWeight: 'bold'
                   }}
                 >
@@ -397,7 +396,7 @@ const SubjectMarkList = () => {
         {/* New Table End */}
 
 
-        {(HeaderList.length > 0) &&
+        {/* {(HeaderList.length > 0) &&
           (<Grid container>
             <Grid xs={4}>
               <DynamicList
@@ -433,7 +432,7 @@ const SubjectMarkList = () => {
               /></Grid>
 
           </Grid>)
-        }
+        } */}
       </Box>
     </>
   )
