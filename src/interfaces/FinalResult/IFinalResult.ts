@@ -64,7 +64,8 @@ export interface IGetPagedStudentResult {
 export interface IPublishBody {
   asSchoolId: number,
   asAcadmicYearId: number,
-  asStdDivId: number
+  asStdDivId: number,
+  // asPublishById: number
 }
 
 export interface IPublishResult {
