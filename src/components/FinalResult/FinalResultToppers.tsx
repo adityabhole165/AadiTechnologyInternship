@@ -69,6 +69,42 @@ const FinalResultToppers = () => {
   const HeaderListST = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
   const HeaderList1ST = ['Roll No.', 'Class', 'Student Name'];
 
+  
+  const data = [
+    {
+        rank: "1",
+        students: [
+            {
+                rank: "1",
+                rollNo: 3,
+                studentName: "Student Name",
+            },
+        ]
+    },
+    {
+        rank: "2",
+        students: [
+            {
+                rank: "2",
+                rollNo: 3,
+                studentName: "Student Name",
+            },
+     
+        ]
+    },
+    {
+        rank: "3",
+        students: [
+            {
+                rank: "3",
+                rollNo: 3,
+                studentName: "Student Name",
+            },
+           
+        ]
+    },
+];
+
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asTeacherId = Number(sessionStorage.getItem('TeacherId'));

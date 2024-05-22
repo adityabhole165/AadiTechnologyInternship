@@ -381,10 +381,10 @@ const TAttendance = () => {
     ) {
       if (lowerCaseAttendanceStatus === 'selected date is holiday.') {
         confirmationMessage =
-          'Are you sure to mark Attendance on selected holiday?';
+          'Are you sure to mark attendance on selected holiday?';
       } else if (lowerCaseAttendanceStatus === 'selected date is weekend.') {
         confirmationMessage =
-          'Are you sure to mark Attendance on selected Weekend?';
+          'Are you sure to mark attendance on selected weekend?';
       }
       showAlert({
         title: 'Please Confirm',
