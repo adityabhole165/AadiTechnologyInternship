@@ -35,7 +35,6 @@ function ResizableCommentsBox({
   };
   let TermId = useContext(ProgressRemarkTerm)
     
-   console.log(ItemList,"ItemList.Remarks");
   // const TextChange1 = (value) => {
   //   if (value.Value.length <= 300) {
   //     ItemList = ItemList.map((item) =>

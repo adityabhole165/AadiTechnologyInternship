@@ -24,6 +24,7 @@ import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  CDAGetAllStudentsForProgressRemark,
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
   CDAGetFinalPublishedExamStatus,
@@ -266,20 +267,29 @@ const ProgressRemarks = () => {
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
-  const TextChange1 = () => {
-    let ItemlistTemp = Itemlist.map((item) => {
-      if (item.Id === StudentId) {
-        const newText3 = item.Text3 + getActiveTexts();
-        return { ...item, Text3: newText3.slice(0, 300) };
-      }
-      return item;
-    });
-    setItemlist(ItemlistTemp);
-  };
+    
+    const TextChange1 = (StudentId) => {
+      setItemlist(prevItemlist => 
+        prevItemlist.map(item => {
+          if (item.Id === StudentId) {
+            const activeTexts = getActiveTexts().join(' ');
+            return {
+              ...item,
+              Remarks: item.Remarks.map(remark => {
+                const newText3 = remark.Text3 + activeTexts; 
+                return { ...remark, Text3: newText3.slice(0, 300) }; 
+              })
+            };
+          }
+          return item;
+        })
+      );
+    };
+    
 
 
   const SelectClick = () => {
-    TextChange1()
+    TextChange1(StudentId)
     setOpen(false)
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
 
@@ -402,6 +412,10 @@ const ProgressRemarks = () => {
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
     );[page, selectTeacher, SelectTerm, StudentList]
   };
+
+  useEffect(() => {
+    dispatch(CDAGetAllStudentsForProgressRemark(AllStudentsForProgressRemarkBody));
+  }, []);
 
 
   useEffect(() => {
