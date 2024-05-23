@@ -147,26 +147,54 @@ const ProgressRemarks = () => {
   const getXML = () => {
     let sXML =
       '<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-    Itemlist.map((Item) => {
-      sXML =
-        sXML +
-        '<StudentwiseRemarkConfigDetails>' +
-        '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
-        '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
-        '<Remark>' + Item.Text3 + '</Remark>' +
-        '<RemarkConfigId>' + Item.Text7 + '</RemarkConfigId>' +
-        '<RemarkMaster><RemarkConfigId>' + Item.Text6 + '</RemarkConfigId></RemarkMaster>' +
-        '<SalutationId>' + Item.Text8 + '</SalutationId>' +
-        '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
-        '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent> ' +
-        '</StudentwiseRemarkConfigDetails>';
+  
+    Itemlist.forEach((Item) => {
+      Item.Remarks.forEach((remark) => {
+        sXML +=
+          '<StudentwiseRemarkConfigDetails>' +
+          '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
+          '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
+          '<Remark>' + remark.Text3 + '</Remark>' +
+          '<RemarkConfigId>' + remark.Text6 + '</RemarkConfigId>' + 
+          '<RemarkMaster><RemarkConfigId>' + remark.Text6 + '</RemarkConfigId></RemarkMaster>' + 
+          '<SalutationId>' + Item.Text8 + '</SalutationId>' +
+          '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
+          '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent>' +
+          '</StudentwiseRemarkConfigDetails>';
+      });
     });
-    sXML = sXML + '</ArrayOfStudentwiseRemarkConfigDetails>';
-
-
+  
+    sXML += '</ArrayOfStudentwiseRemarkConfigDetails>';
     return sXML;
   };
+  
 
+  console.log(getXML());
+  
+
+
+  // const getXML = () => {
+  //   let sXML =
+  //     '<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+  //   Itemlist.map((Item) => {
+  //     sXML =
+  //       sXML +
+  //       '<StudentwiseRemarkConfigDetails>' +
+  //       '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
+  //       '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
+  //       '<Remark>' + Item.Text3 + '</Remark>' +
+  //       '<RemarkConfigId>' + Item.Text7 + '</RemarkConfigId>' +
+  //       '<RemarkMaster><RemarkConfigId>' + Item.Text6 + '</RemarkConfigId></RemarkMaster>' +
+  //       '<SalutationId>' + Item.Text8 + '</SalutationId>' +
+  //       '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
+  //       '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent> ' +
+  //       '</StudentwiseRemarkConfigDetails>';
+  //   });
+  //   sXML = sXML + '</ArrayOfStudentwiseRemarkConfigDetails>';
+
+
+  //   return sXML;
+  // };
   const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
   {
     StudentwiseRemarkXML: getXML(),
@@ -501,7 +529,7 @@ const ProgressRemarks = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box> {USGetFinalPublishedExamStatus.IsPublishedStatus == 1 &&
+          <Box> {USGetFinalPublishedExamStatus.IsPublishedStatus == 0 &&
             <Tooltip title={'Save'}>
               <IconButton
                 onClick={UpdateRemark}
