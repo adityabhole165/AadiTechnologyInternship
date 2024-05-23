@@ -86,7 +86,8 @@ const DynamicList = ({
               return (
                 <TableRow key={index} style={{
                   // backgroundColor: Data[index]?.IsGrey ? '#A9A9A9' : ''
-                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#A9A9A9' : ''
+                  //  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#A9A9A9' : ''
+                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : ''
                 }}>
                   {item.length > 0 && item.map((obj, i) => {
                     return (
