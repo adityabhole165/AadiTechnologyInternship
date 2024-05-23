@@ -29,7 +29,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
     a: 'Absent',
     h: 'Holiday',
     w: 'Weekend',
-    o: 'OutSide Academic Year',
+    o: 'Outside Academic Year',
     l: 'Late',
     n: 'Not Available'
   };

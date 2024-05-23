@@ -134,7 +134,7 @@ function CardCalenderList({
             <DotLegendAttandaceCalender color="Warning" text="Weekend" />
             <DotLegendAttandaceCalender
               color="Suceess"
-              text="OutSide Academic Year"
+              text="Outside Academic Year"
             />
             {/* <DotLegendTeacher color={legendColors.p} text="Present" />
             <DotLegendTeacher color={legendColors.a} text="Absent" />
