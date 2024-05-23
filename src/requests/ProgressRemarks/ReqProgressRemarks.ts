@@ -231,7 +231,7 @@ export const CDAStudentListDropDown =
     };
 
 
-   
+
 export const CDAGetAllStudentswiseRemarkDetails = (
   data: IGetAllStudentswiseRemarkDetailsNewBody
 ): AppThunk => async (dispatch) => {
@@ -240,16 +240,16 @@ export const CDAGetAllStudentswiseRemarkDetails = (
   {
     asSchoolId: data.asSchoolId,
     asAcademicYearId: data.asAcademicYearId,
-    aTeacherId: 2569,
+    aTeacherId: data.TeacherId,
     asStudentId: data.asStudentId,
     asTermId: data.asTermId,
     asStartIndex: 0,
     asEndIndex: 20,
-    asSortExp:  "Roll_No"
+    asSortExp: "Roll_No"
   }
- 
+
   const response2 = await ApiProgressRemark.GetAllStudentsForProgressRemark(NewBody);
-  
+
   let AllStudentsList = response2.data.GetAllStudentsList.map((item, i) => ({
     Id: item.Student_Id,
     Text1: item.Roll_No,
@@ -261,7 +261,6 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     Name: item.StudentName
 
   }));
-  console.log(response2.data.GetAllStudentsList, "response2");
 
   dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
 

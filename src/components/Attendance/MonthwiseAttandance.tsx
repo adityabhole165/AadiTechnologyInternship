@@ -31,8 +31,8 @@ const MonthwiseAttandance = () => {
   const StudentId = Number(sessionStorage.getItem('StudentId'));
   const Note = (
     <span>
-      Displays list of student along with their month wise attendance.Attendance is given in following format.<br />
-      Number of days present / Total attendance days
+     Displays list of students along with their month wise attendance. Attendance is given in following format.<br />
+Number of days present / Total attendance days.
     </span>
   );
 
