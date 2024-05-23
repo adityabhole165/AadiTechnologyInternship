@@ -328,13 +328,13 @@ const SubjectMarkList = () => {
           // }
           />
           <Box mt={2}>
-            <Typography variant={"h4"}>
+            {/* <Typography variant={"h4"}>
               Legends:
-            </Typography>
+            </Typography> */}
             <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
               <Box>
                 <Typography variant='h5'>
-                  Theory:
+                  Legend:
                 </Typography>
               </Box>
               <Box>
