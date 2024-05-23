@@ -51,6 +51,7 @@ export interface IGetAllStudentswiseRemarkDetailsNewBody {
   asAcademicYearId: number
   asStandardDivId: number
   asStudentId: number
+  TeacherId: number
   asTermId: number
 }
 
@@ -77,7 +78,7 @@ export interface IGetAllStudentswiseRemarkDetailsNewBody {
 //       IsPassedAndPromoted: boolean
 //       IsLeftStudent: number
 //       OldRemark: string
-      
+
 //     }
 
 // ];
@@ -208,7 +209,7 @@ export interface IGetAllStudentsForProgressRemarkBody {
 }
 
 
-export interface IGetAllStudentsForProgressRemarkResult{
+export interface IGetAllStudentsForProgressRemarkResult {
   GetAllStudentsList: [{
     RowID: string
     TotalRows: string
