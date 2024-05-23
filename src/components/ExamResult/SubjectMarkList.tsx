@@ -131,15 +131,15 @@ const SubjectMarkList = () => {
             <>
               {rowData.Marks[i].theoryType && (
 
-                rowData.Marks[i].theoryType === "Exempted" && (
+                rowData.Marks[i].theoryType === "Ex" && (
                   <span style={{ color: 'brown', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
-                || rowData.Marks[i].theoryType === "Late Joinee" && (
+                || rowData.Marks[i].theoryType === "-" && (
                   <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
-                || rowData.Marks[i].theoryType === "Absent" && (
+                || rowData.Marks[i].theoryType === "Ab" && (
                   <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
               )}
@@ -344,7 +344,7 @@ const SubjectMarkList = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  Exempted
+                  Ex : Exempted
                 </span>
               </Box>
               <Box>
@@ -354,7 +354,7 @@ const SubjectMarkList = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  Late Joinee
+                  - : Late Joinee
                 </span>
               </Box>
               <Box>
@@ -364,7 +364,7 @@ const SubjectMarkList = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  Absent
+                  Ab : Absent
                 </span>
               </Box>
               <Box>
