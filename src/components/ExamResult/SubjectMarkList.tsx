@@ -340,6 +340,36 @@ const SubjectMarkList = () => {
               <Box>
                 <span
                   style={{
+                    color: 'blue',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  M : M1
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'blue',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  M : M2
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'blue',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  M : M3
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
                     color: 'brown',
                     fontWeight: 'bold'
                   }}
