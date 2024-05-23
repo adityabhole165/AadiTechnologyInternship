@@ -20,32 +20,35 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
     return (
         <Box sx={{ backgroundColor: 'white' }} p={2}>
 
-            <Box display="flex" justifyContent="space-between">
-                <IconButton color={'primary'} onClick={() => handlePrevNextMonth(1)}
-                    sx={{
-                        backgroundColor: (theme) =>
-                            alpha(theme.palette.primary.main, 0.2)
-                    }}
-                >
-                    <ArrowBackIosNewIcon />
-                </IconButton>
-                <Typography m={0} variant={'h3'}>
-                    <b>{getMonthYearSpaceFormatted(SelectedDate)}</b>
-                </Typography>
-                <IconButton color={'primary'} onClick={() => handlePrevNextMonth(-1)}
-                    sx={{
-                        backgroundColor: (theme) =>
-                            alpha(theme.palette.primary.main, 0.2)
-                    }}
-                >
-                    <ArrowForwardIosIcon />
-                </IconButton>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <IconButton color={'primary'} onClick={() => handlePrevNextMonth(1)}
+                        sx={{
+                            backgroundColor: (theme) =>
+                                alpha(theme.palette.primary.main, 0.2),
+                            marginRight: '100px', // Adjusted margin to separate the icons
+                            paddingRight: '12px' // Adjusted padding for spacing
+                        }}
+                    >
+                        <ArrowBackIosNewIcon />
+                    </IconButton>
+                    <Typography m={0} variant={'h3'} sx={{ marginX: '-8px' }}>
+                        <b>{getMonthYearSpaceFormatted(SelectedDate)}</b>
+                    </Typography>
+                    <IconButton color={'primary'} onClick={() => handlePrevNextMonth(-1)}
+                        sx={{
+                            backgroundColor: (theme) =>
+                                alpha(theme.palette.primary.main, 0.2),
+                            marginLeft: '100px', // Adjusted margin to separate the icons
+                            paddingLeft: '12px' // Adjusted padding for spacing
+                        }}
+                    >
+                        <ArrowForwardIosIcon />
+                    </IconButton>
+                </Box>
                 <Stack direction={'row'} gap={1}>
                     <SearchAnnualPlanner ItemList={FilterList} ClickItem={ClickFilterItem} DefaultValue={SelectedFilter} />
-
-
                 </Stack>
-
             </Box>
             <CalendarList ItemList={DaysList} ClickItem={ClickDate}
                 DefaultValue={SelectedDate} EventType={EventType}
