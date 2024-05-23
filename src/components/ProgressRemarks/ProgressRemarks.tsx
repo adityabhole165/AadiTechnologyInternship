@@ -60,10 +60,6 @@ const ProgressRemarks = () => {
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
 
-  const asStandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
-
 
 
 
@@ -208,13 +204,21 @@ const ProgressRemarks = () => {
     return perm;
   };
 
+  const getStdDivisionId = () => {
+    let returnVal = 0
+    USClassTeachers.map((Item) => {
+      if (Item.Value == selectTeacher)
+        returnVal = Number(Item.Id)
+    })
+    return returnVal
+  }
   const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
   {
     StudentwiseRemarkXML: getXML(),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asInsertedById: Number(selectTeacher),
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: getStdDivisionId(),
     asTermId: Number(SelectTerm)
   };
   const RemarkCategoryBody: IGetRemarksCategoryBody = {
@@ -237,7 +241,7 @@ const ProgressRemarks = () => {
     {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asStandardDivId: asStandardDivisionId,
+      asStandardDivId: getStdDivisionId(),
       asStudentId: Number(StudentList),
       asTermId: SelectTerm
     };
@@ -262,7 +266,7 @@ const ProgressRemarks = () => {
     asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
-    asStandardId: asStandardDivisionId
+    asStandardId: getStdDivisionId()
   }
   const AllStudentsForProgressRemarkBody: IGetAllStudentsForProgressRemarkBody = {
     asSchoolId: asSchoolId,
@@ -275,7 +279,7 @@ const ProgressRemarks = () => {
     asSortExp: "Roll_No"
   }
   const StudentListDropDowntBody: IStudentListDropDowntBody = {
-    asStandard_Division_Id: asStandardDivisionId,
+    asStandard_Division_Id: getStdDivisionId(),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asTerm_Id: SelectTerm
@@ -285,7 +289,7 @@ const ProgressRemarks = () => {
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: getStdDivisionId(),
     asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
     TeacherId: Number(selectTeacher)
@@ -295,7 +299,7 @@ const ProgressRemarks = () => {
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: getStdDivisionId(),
     asTerm_Id: Number(SelectTerm)
   };
 
@@ -455,7 +459,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
-  }, []);
+  }, [SelectTerm]);
 
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
@@ -467,7 +471,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [selectTeacher]);
+  }, [SelectTerm]);
 
   useEffect(() => {
     dispatch(

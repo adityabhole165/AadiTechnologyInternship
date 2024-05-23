@@ -115,7 +115,7 @@ export const CDAGetClassTeachers =
       const response = await ApiProgressRemark.ClassTeachers(data);
       let ClassTeachers = response.data.map((item, i) => {
         return {
-          Id: item.Teacher_Id,
+          Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
           Value: item.Teacher_Id
         };
@@ -303,7 +303,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     let PrevRollNo = 0
     response2.data.GetAllStudentsList.map((StudentItem, index) => {
       response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
-        if (StudentItem.Roll_No == item.RollNo.toString()) {
+        if (StudentItem.Student_Id == item.YearwiseStudentId.toString()) {
           if (PrevRollNo !== item.RollNo) {
             PrevRollNo = item.RollNo
             listResult1st.push({
