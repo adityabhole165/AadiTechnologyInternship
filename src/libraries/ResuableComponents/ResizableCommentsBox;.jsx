@@ -15,9 +15,6 @@ function ResizableCommentsBox({
   HeaderArray,
   NoteClick,
   setTextValues
-  
-  // setTextValues1,
-  // setTextValues2
 }) {
   const TextChange = (value) => {
     if (value.Value.length <= 300) {
@@ -35,24 +32,7 @@ function ResizableCommentsBox({
   };
   let TermId = useContext(ProgressRemarkTerm)
     
-  // const TextChange1 = (value) => {
-  //   if (value.Value.length <= 300) {
-  //     ItemList = ItemList.map((item) =>
-  //       item.Id === value.Id ? { ...item, Text4: value.Value } : item
-  //     );
-  //     setTextValues1(ItemList);
-  //   }
-  // };
-
-  // const TextChange2 = (value) => {
-  //   if (value.Value.length <= 300) {
-  //     ItemList = ItemList.map((item) =>
-  //       item.Id === value.Id ? { ...item, Text5: value.Value } : item
-  //     );
-  //     setTextValues2(ItemList);
-  //   }
-  // };
-
+  
   return (
     <div
       style={{
@@ -119,50 +99,7 @@ function ResizableCommentsBox({
                   
                 </TableCell>)
                 })}
-                {/* <TableCell align="center">
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextareaAutosize
-                      id={`outlined-basic-${i}`}
-                      value={item.Text4}
-                      variant="outlined"
-                      onChange={(e) => {
-                        TextChange1({ Id: item.Id, Value: e.target.value });
-                      }}
-                      maxLength={300}
-                      style={{ width: '200px' }}
-                    />
-
-                    <IconButton onClick={() => NoteClick(i)}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Typography variant="caption" color="textSecondary">
-                      ({300 - item.Text4.length})
-                    </Typography>
-                  </div>
-                </TableCell> */}
-
-                {/* <TableCell align="center">
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextareaAutosize
-                      id={`outlined-basic-${i}`}
-                      value={item.Text5}
-                      variant="outlined"
-                      onChange={(e) => {
-                        TextChange2({ Id: item.Id, Value: e.target.value });
-                      }}
-                      maxLength={300}
-                      style={{ width: '200px' }}
-                    />
-
-                    <IconButton onClick={() => NoteClick(i)}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Typography variant="caption" color="textSecondary">
-                      ({300 - item.Text5.length})
-                    </Typography>
-                  </div>
-                </TableCell> */}
-              </TableRow>
+             </TableRow>
             ))}
           </TableBody>
         </Table>

@@ -71,12 +71,7 @@ const ProgressRemarks = () => {
     { Id: 1, Header: '', SortOrder: "desc" },
     { Id: 2, Header: 'Remark Template' },
   ]);
-  const [HeaderArray, setHeaderArray] = useState([
-    { Id: 1, Header: 'Roll No.' },
-    { Id: 2, Header: 'Name' },
-    ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
-    // { Id: 4, Header: 'Remark' },
-  ]);
+  const [HeaderArray, setHeaderArray] = useState([]);
 
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
