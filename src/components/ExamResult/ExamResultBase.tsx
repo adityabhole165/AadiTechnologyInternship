@@ -197,7 +197,7 @@ const ExamResultBase = () => {
   }, [ClassTeachers]);
 
   useEffect(() => {
-    setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be publish on be clicking publish button and unpublish by clicking unpublish button.');
+    setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublish by clicking on unpublish button.');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
