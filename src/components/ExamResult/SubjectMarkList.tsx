@@ -27,7 +27,7 @@ const SubjectMarkList = () => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const Note: string = "Displays brief mark list with toppers for selected class-subject."
-  const HoverNote: string = "To view the student name take your mouse on the roll number."
+  const HoverNote: string = "To view the student name take your cursor on the roll number."
 
   const TestMarkList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMark);
@@ -340,7 +340,7 @@ const SubjectMarkList = () => {
               <Box>
                 <span
                   style={{
-                    color: 'b',
+                    color: 'brown',
                     fontWeight: 'bold'
                   }}
                 >
