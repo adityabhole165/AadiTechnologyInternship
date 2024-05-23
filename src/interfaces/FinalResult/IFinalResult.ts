@@ -158,3 +158,38 @@ export interface IConfiguredTestPublishedBody {
 export interface IConfiguredTestPublishedResult {
   IsConfiged: string
 }
+
+export interface isResultPublishedBody {
+  asSchoolId: number,
+  asAcadmicYearId: number,
+  asStdDivId: number
+}                                                       // generate all
+
+export interface isResultPublishedResult {
+  boolean
+}
+
+export interface isAtleastOneResultGeneratedBody {
+  asSchoolId: number,
+  asAcadmicYearId: number,
+  asStdDivId: number                                    // View result all 
+}
+
+export interface isAtleastOneResultGeneratedResult {
+
+  AllowPublish: boolean,
+  TotalAbsentStudents: number
+
+}
+
+export interface isTestPublishedBody {
+  asSchoolId: number,
+  asAcadmicYearId: number,
+  asStdDivId: number
+}
+
+export interface isTestPublishedResult {
+  boolean
+}
+
+

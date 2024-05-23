@@ -15,7 +15,13 @@ import {
   IUnpublishBody,
   IUnpublishResult,
   IViewBody,
-  IViewResult
+  IViewResult,
+  isAtleastOneResultGeneratedBody,
+  isAtleastOneResultGeneratedResult,
+  isResultPublishedBody,
+  isResultPublishedResult,
+  isTestPublishedBody,
+  isTestPublishedResult
 } from 'src/interfaces/FinalResult/IFinalResult';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -57,6 +63,20 @@ const GetConfiguredTestPublished = (data: IConfiguredTestPublishedBody) => {
   return http.post<IConfiguredTestPublishedResult[]>('Teacher/AllConffguredTestPublished', data);
 };
 
+const GetResultPublished = (data: isResultPublishedBody) => {
+  return http.post<isResultPublishedResult>('Teacher/IsResultPublishedForStdDiv', data);
+}
+
+const GetAtleastOneResultGenerated = (data: isAtleastOneResultGeneratedBody) => {
+  return http.post<isAtleastOneResultGeneratedResult>('Teacher/isAtleastOneResultGeneratedForStdDiv', data);
+}
+
+const GetTestPublished = (data: isTestPublishedBody) => {
+  return http.post<isTestPublishedResult>('Teacher/IsTestPublishedForStdDiv', data);
+}
+
+
+
 const FinalResultApi = {
   ClassTeacherList,
   GetStudentResult,
@@ -65,6 +85,9 @@ const FinalResultApi = {
   GetGenarateAll,
   GetGenerateResult,
   GetViewResult,
-  GetConfiguredTestPublished
+  GetConfiguredTestPublished,
+  GetResultPublished,
+  GetAtleastOneResultGenerated,
+  GetTestPublished
 };
 export default FinalResultApi;

@@ -23,15 +23,21 @@ import {
   IGetPagedStudentBody,
   IPublishBody,
   IUnpublishBody,
-  IViewBody
+  IViewBody,
+  isAtleastOneResultGeneratedBody,
+  isResultPublishedBody,
+  isTestPublishedBody
 } from 'src/interfaces/FinalResult/IFinalResult';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   ClassTechersList,
+  GetAtleastOneResultGeneratedss,
   GetGenerate,
   GetGenerateAll,
   GetPublishResult,
+  GetResultPublishd,
   GetStudentResultList,
+  GetTestPublishedd,
   GetUnpublishResult,
   GetViewResult,
   getConfiguredTestPublished,
@@ -217,6 +223,24 @@ const FinalResult = () => {
 
   console.log("GetConfiguredTestPublished", GetConfiguredTestPublished);
 
+  const GetResultGenerated = useSelector(
+    (state: RootState) => state.FinalResult.GetResultPublishd
+  );
+
+  console.log("GetResultGenerated", GetResultGenerated)
+
+  const GetTestPublished = useSelector(
+    (state: RootState) => state.FinalResult.GetTestPublished
+  );
+
+  console.log("GetTestPublished", GetTestPublished)
+
+  const GetAtleastOneResultGenerated = useSelector(
+    (state: RootState) => state.FinalResult.GetAtleastOneResultGenerated
+  );
+
+  console.log("GetAtleastOneResultGenerated", GetAtleastOneResultGenerated)
+
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
@@ -298,6 +322,24 @@ const FinalResult = () => {
 
   }
 
+  const ResultPublishedBody: isResultPublishedBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asStdDivId: StandardDivisionId
+  }
+
+  const TestPublishedBody: isTestPublishedBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asStdDivId: StandardDivisionId
+  }
+
+  const AtleastOneResultGeneratedBody: isAtleastOneResultGeneratedBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asStdDivId: StandardDivisionId
+  }
+
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
   };
@@ -338,7 +380,12 @@ const FinalResult = () => {
         asUnPublishReason: asUnPublishReason
       }
       dispatch(GetUnpublishResult(UnpublishResultBody))
-
+      // const PublishBody: IPublishBody = {
+      //   asSchoolId: asSchoolId,
+      //   asAcadmicYearId: asAcademicYearId,
+      //   asStdDivId: asStdDivId
+      // }
+      // dispatch(GetPublishResult(PublishBody))
 
     }  // dispatch(GetPublishResult(PublishResultBody));
   };
@@ -364,7 +411,9 @@ const FinalResult = () => {
       if (UnpublishResult !== '') {
         toast.success(UnpublishResult)
         dispatch(resetUnpublishResult())
-        dispatch(GetStudentResultList(PagedStudentBody))
+        // dispatch(GetStudentResultList(PagedStudentBody))
+        dispatch(GetResultPublishd(ResultPublishedBody))
+        dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
       }
     }, [UnpublishResult])
 
@@ -379,7 +428,18 @@ const FinalResult = () => {
       dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
     }, [SelectTeacher])
 
+    useEffect(() => {
+      dispatch(GetResultPublishd(ResultPublishedBody))
+    }, [StandardDivisionId])
   }
+
+  useEffect(() => {
+    dispatch(GetTestPublishedd(TestPublishedBody))
+  }, [StandardDivisionId])
+
+  useEffect(() => {
+    dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+  }, [StandardDivisionId])
 
   return (
     <Box sx={{ px: 2 }}>
@@ -438,6 +498,7 @@ const FinalResult = () => {
             <Tooltip title={"Generate All"}>
               <IconButton
                 onClick={onClickPublish}
+                disabled={!GetResultGenerated}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -471,8 +532,8 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Unpublish"}>
               <IconButton
-                disabled={GetStudentLists && GetStudentLists[0]?.Is_Deleted === "Y"}
                 onClick={ClickOpenDialogbox}
+                disabled={GetResultGenerated}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -488,9 +549,8 @@ const FinalResult = () => {
           <Box>
             <Tooltip title={"Publish"}>
               <IconButton
-                disabled={GetStudentLists && GetStudentLists[0]?.Is_Deleted === "N"}
-
                 onClick={() => onClickPublish(true)}
+                disabled={!GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish}
                 sx={{
                   color: 'white',
                   backgroundColor: grey[500],

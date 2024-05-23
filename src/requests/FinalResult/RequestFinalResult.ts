@@ -8,7 +8,10 @@ import {
   IGetPagedStudentBody,
   IPublishBody,
   IUnpublishBody,
-  IViewBody
+  IViewBody,
+  isAtleastOneResultGeneratedBody,
+  isResultPublishedBody,
+  isTestPublishedBody
 } from 'src/interfaces/FinalResult/IFinalResult';
 import { AppThunk } from 'src/store';
 
@@ -25,6 +28,9 @@ const FinalResultSlice = createSlice({
     ViewResult: [],
     HeaderList: [],
     GetConfiguredTestPublished: [],
+    GetResultPublishd: false,
+    GetAtleastOneResultGenerated: null,
+    GetTestPublished: true,
     Loading: true
   },
   reducers: {
@@ -58,7 +64,15 @@ const FinalResultSlice = createSlice({
 
       state.GetConfiguredTestPublished = action.payload;
     },
-
+    getResultPublished(state, action) {
+      state.GetResultPublishd = action.payload
+    },
+    getAtleastOneResultGenerated(state, action) {
+      state.GetAtleastOneResultGenerated = action.payload
+    },
+    getTestPublished(state, action) {
+      state.GetTestPublished = action.payload
+    },
     viewResult(state, action) {
       state.ViewResult = action.payload;
     }
@@ -147,6 +161,24 @@ export const GetViewResult = (data: IViewBody): AppThunk =>
   async (dispatch) => {
     const response = await FinalResultApi.GetViewResult(data);
     dispatch(FinalResultSlice.actions.viewResult(response.data));
+  };
+
+export const GetResultPublishd = (data: isResultPublishedBody): AppThunk =>
+  async (dispatch) => {
+    const response = await FinalResultApi.GetResultPublished(data);
+    dispatch(FinalResultSlice.actions.getResultPublished(response.data));
+  };
+
+export const GetAtleastOneResultGeneratedss = (data: isAtleastOneResultGeneratedBody): AppThunk =>
+  async (dispatch) => {
+    const response = await FinalResultApi.GetAtleastOneResultGenerated(data);
+    dispatch(FinalResultSlice.actions.getAtleastOneResultGenerated(response.data));
+  };
+
+export const GetTestPublishedd = (data: isTestPublishedBody): AppThunk =>
+  async (dispatch) => {
+    const response = await FinalResultApi.GetTestPublished(data);
+    dispatch(FinalResultSlice.actions.getTestPublished(response.data));
   }
 
 export default FinalResultSlice.reducer;
