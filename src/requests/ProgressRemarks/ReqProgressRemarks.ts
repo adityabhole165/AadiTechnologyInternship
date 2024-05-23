@@ -255,6 +255,44 @@ export const CDAGetAllStudentswiseRemarkDetails = (
   data: IGetAllStudentswiseRemarkDetailsNewBody
 ): AppThunk => async (dispatch) => {
   const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(data);
+  const NewBody: IGetAllStudentsForProgressRemarkBody =
+  {
+    "asSchoolId": 18,
+    "asAcademicYearId": 55,
+    "aTeacherId": 2569,
+    "asStudentId": 0,
+    "asTermId": null,
+    "asStartIndex": 0,
+    "asEndIndex": 20,
+    "asSortExp": "Roll_No"
+  }
+  // {
+  //   asSchoolId: data.asSchoolId,
+  //   asAcademicYearId: data.asAcademicYearId,
+  //   aTeacherId: data.asStandardDivId,
+  //   asStudentId: data.asStudentId,
+  //   asTermId: data.asTermId,
+  //   asStartIndex: 0,
+  //   asEndIndex: 20,
+  //   asSortExp: ""
+  // }
+
+  const response2 = await ApiProgressRemark.GetAllStudentsForProgressRemark(NewBody);
+
+  let AllStudentsList = response2.data.GetAllStudentsList.map((item, i) => ({
+    Id: item.Student_Id,
+    Text1: item.Roll_No,
+    Text2: item.StudentName,
+    Text3: item.Remark,
+    Text5: item.SchoolWise_Standard_Division_Id,
+    Text6: item.Studentwise_Remark_Id,
+    Value: item.Student_Id,
+    Name: item.StudentName
+
+  }));
+  console.log(response2.data.GetAllStudentsList, "response2");
+
+  dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
 
   const getRemarks = (value) => {
 
@@ -293,31 +331,35 @@ export const CDAGetAllStudentswiseRemarkDetails = (
 
     let listResult1st = []
     let PrevRollNo = 0
-    response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
-      if (PrevRollNo !== item.RollNo) {
-        PrevRollNo = item.RollNo
-        listResult1st.push({
-          Id: item.YearwiseStudentId,
-          Text1: item.RollNo,
-          Text2: item.StudentName,
-          Text3: item.Remark,
-          Text4: item.OldRemark,
-          Text5: item.RemarkMaster.RemarkName,
-          Text6: item.RemarkMaster.RemarkConfigId,
-          Remarks: getRemarks(item),
-          Text7: '0',
-          Text8: item.SalutationId,
-          Text9: item.IsPassedAndPromoted,
-          Text10: item.IsLeftStudent,
-          Text11: item.YearwiseStudentId,
-          Text12: item.StudentwiseRemarkId,
-          Text13: item.Remark,
-          Value: item.YearwiseStudentId,
-          Name: item.StudentName,
-          IsLeftStudent: item.IsLeftStudent
-        });
-      }
-    });
+    response2.data.GetAllStudentsList.map((StudentItem, index) => {
+      response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+        if (StudentItem.Roll_No == item.RollNo.toString()) {
+          if (PrevRollNo !== item.RollNo) {
+            PrevRollNo = item.RollNo
+            listResult1st.push({
+              Id: item.YearwiseStudentId,
+              Text1: item.RollNo,
+              Text2: item.StudentName,
+              Text3: item.Remark,
+              Text4: item.OldRemark,
+              Text5: item.RemarkMaster.RemarkName,
+              Text6: item.RemarkMaster.RemarkConfigId,
+              Remarks: getRemarks(item),
+              Text7: '0',
+              Text8: item.SalutationId,
+              Text9: item.IsPassedAndPromoted,
+              Text10: item.IsLeftStudent,
+              Text11: item.YearwiseStudentId,
+              Text12: item.StudentwiseRemarkId,
+              Text13: item.Remark,
+              Value: item.YearwiseStudentId,
+              Name: item.StudentName,
+              IsLeftStudent: item.IsLeftStudent
+            });
+          }
+        }
+      });
+    })
 
     dispatch(ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(listResult1st));
     dispatch(ProgressRemarkSlice.actions.RSGetRemarkDetailsHeaderList(response.data.RemarkMasterList));
