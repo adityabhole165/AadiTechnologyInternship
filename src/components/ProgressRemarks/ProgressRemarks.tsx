@@ -60,10 +60,11 @@ const ProgressRemarks = () => {
   const toggleScreens = () => { setShowScreenOne(!showScreenOne); };
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
+
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  const asUserId = Number(sessionStorage.getItem('Id'));
 
 
 
@@ -226,12 +227,10 @@ const ProgressRemarks = () => {
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
   };
-
   const ClassTeachersBody: IAllPrimaryClassTeachersBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: Number(
-      GetScreenPermission() == 'Y' ? 0 : selectTeacher
+    asUserId: Number(GetScreenPermission() == 'Y' ? 0 : asUserId
     )
   };
 

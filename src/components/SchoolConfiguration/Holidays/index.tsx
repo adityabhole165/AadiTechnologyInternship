@@ -7,13 +7,12 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission } from "src/components/Common/Util"
+import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import DataTable, { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
-
 type Props = {}
 
 const Holidays = (props: Props) => {
@@ -35,17 +34,23 @@ const Holidays = (props: Props) => {
         (state: RootState) => state.Holidays.DeleteHolidayMsg
     );
 
+    // let d = getDateMonthYearDayDash("22-05-2024 00:00:00")
+
     const getHolidayColumns = () => {
         let HolidayColumns: Column[] = [
             {
                 id: 'startDate',
                 label: 'Start Date',
-                renderCell: (rowData: any) => rowData.Text1,
+                renderCell: (rowData: any) => {
+                    return getDateMonthYearDayDash(rowData.Text1)
+                }
             },
             {
                 id: 'endDate',
                 label: 'End Date',
-                renderCell: (rowData: any) => rowData.Text2,
+                renderCell: (rowData: any) => {
+                    return getDateMonthYearDayDash(rowData.Text2)
+                }
             },
             {
                 id: 'name',
