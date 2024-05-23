@@ -267,17 +267,18 @@ const ProgressRemarks = () => {
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
-    
-    const TextChange1 = (StudentId) => {
+    const [ColIndex, SetColIndex] = useState([-1]) 
+
+    const TextChange1 = () => {
       setItemlist(prevItemlist => 
         prevItemlist.map(item => {
-          if (item.Id === StudentId) {
+          if (item.Id === StudentId  ) {
             const activeTexts = getActiveTexts().join(' ');
             return {
               ...item,
-              Remarks: item.Remarks.map(remark => {
+              Remarks: item.Remarks.map((remark , i )=> {
                 const newText3 = remark.Text3 + activeTexts; 
-                return { ...remark, Text3: newText3.slice(0, 300) }; 
+                return { ...remark, Text3:  (i ==  ColIndex) ? newText3.slice(0, 300)  : remark.Text3}; 
               })
             };
           }
@@ -289,7 +290,7 @@ const ProgressRemarks = () => {
 
 
   const SelectClick = () => {
-    TextChange1(StudentId)
+    TextChange1()
     setOpen(false)
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
 
@@ -328,8 +329,9 @@ const ProgressRemarks = () => {
   };
 
   const studentName = getStudentName();
-  const ClickAppropriate = (Id) => {
+  const ClickAppropriate = (Id,Index) => {
     setStudentId(Id)
+    SetColIndex(Index)
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
     dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
     dispatch(CDAGetRemarksCategory(RemarkCategoryBody));

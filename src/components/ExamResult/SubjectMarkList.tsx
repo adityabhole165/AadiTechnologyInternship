@@ -181,7 +181,7 @@ const SubjectMarkList = () => {
                   fullWidth
                   label={"Class"}
                   InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#e3f2fd' }}
+                  sx={{ bgcolor: '#f0e68c' }}
                   value={getTeacherName}
                   size={"small"}
                   InputProps={{
@@ -194,7 +194,7 @@ const SubjectMarkList = () => {
                   fullWidth
                   label={"Subject Name"}
                   InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#e3f2fd' }}
+                  sx={{ bgcolor: '#f0e68c' }}
                   value={getSubjectName}
                   size={"small"}
                   InputProps={{
@@ -207,7 +207,7 @@ const SubjectMarkList = () => {
                   fullWidth
                   label={"Exam "}
                   InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#e3f2fd' }}
+                  sx={{ bgcolor: '#f0e68c' }}
                   value={getExamName}
                   size={"small"}
                   InputProps={{

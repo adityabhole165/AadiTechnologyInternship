@@ -1,3 +1,5 @@
+export const WeekdaysFull = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+// export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 export function isFutureDate(date) {
   return (
     new Date(date.toLocaleDateString()) >
@@ -93,6 +95,14 @@ export const getDateMonthYearFormattedDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
 
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
+};
+
+export const getDateMonthYearDayDash = (date) => {
+  let arrDate = date.split(' ')[0].split('-');
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
+  let Weekday = new Date(dateFormatted).getDay()
+
+  return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} (${WeekdaysFull[Weekday]})`;
 };
 
 export const getDateMonthYearFormatted = (date) => {

@@ -98,6 +98,7 @@ import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
+import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
@@ -142,6 +143,7 @@ const rootReducer = combineReducers({
   Sent: AdminSentSlice,
   getuser: GetuserSlice,
   getuser1: GetuserSlice1,
+  VeiwResult: VeiwResultSlice,
   getGetAdminAndprincipalUsers: GetuserSlice,
   getAComposeSMS: AComposeSMSSlice,
   getSchoolSettings: schoolSettingSlice,
