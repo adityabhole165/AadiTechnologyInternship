@@ -41,6 +41,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
+import { getSchoolConfigurations } from '../Common/Util';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -169,7 +170,6 @@ const ProgressRemarks = () => {
   };
   
 
-  console.log(getXML());
   
 
 
@@ -195,6 +195,20 @@ const ProgressRemarks = () => {
 
   //   return sXML;
   // };
+
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+
+  
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission?.map((item) => {
+      if (item.ScreenName === 'Progress Remarks') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+
   const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
   {
     StudentwiseRemarkXML: getXML(),
@@ -216,7 +230,9 @@ const ProgressRemarks = () => {
   const ClassTeachersBody: IAllPrimaryClassTeachersBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: asUserId
+    asUserId: Number(
+      GetScreenPermission() == 'Y' ? 0 : selectTeacher
+    )
   };
 
   const ExportButton = () => {
@@ -310,7 +326,8 @@ const ProgressRemarks = () => {
       );
     };
     
-
+   
+     
 
   const SelectClick = () => {
     TextChange1()
@@ -473,14 +490,26 @@ const ProgressRemarks = () => {
           { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>
-          <SearchableDropdown
+          {/* <SearchableDropdown
             ItemList={USClassTeachers}
             sx={{ minWidth: '300px' }}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
             label={'Subject Teacher'}
             size={"small"}
-          />
+            DisableClearable={GetScreenPermission() == 'N'} */}
+          
+
+            <SearchableDropdown
+                label={"Subject Teacher"}
+                sx={{ pl: 0, minWidth: '350px' }}
+                ItemList={USClassTeachers}
+                onChange={clickSelectClass}
+                defaultValue={selectTeacher}
+                size={"small"}
+                DisableClearable={GetScreenPermission() == 'N'}
+              />
+
           <SearchableDropdown
             ItemList={USGetTestwiseTerm}
             sx={{ minWidth: '200px' }}

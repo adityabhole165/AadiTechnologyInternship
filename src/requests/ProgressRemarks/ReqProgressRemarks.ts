@@ -230,55 +230,26 @@ export const CDAStudentListDropDown =
       dispatch(ProgressRemarkSlice.actions.RStudentListDropDown(StudentList));
     };
 
-// export const CDAGetAllStudentswiseRemarkDetails =
-//   (data: IGetAllStudentswiseRemarkDetailsNewBody): AppThunk =>
-//     async (dispatch) => {
-//       const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(
-//         data
-//       );
 
-//       let listResult1st = response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
-
-//         return {
-
-
-//         };
-//       });
-
-
-//       dispatch(
-//         ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(response.data)
-//       );
-//     };
-
+   
 export const CDAGetAllStudentswiseRemarkDetails = (
   data: IGetAllStudentswiseRemarkDetailsNewBody
 ): AppThunk => async (dispatch) => {
   const response = await ApiProgressRemark.GetAllStudentswiseRemarkDetails(data);
   const NewBody: IGetAllStudentsForProgressRemarkBody =
   {
-    "asSchoolId": 18,
-    "asAcademicYearId": 55,
-    "aTeacherId": 2569,
-    "asStudentId": 0,
-    "asTermId": null,
-    "asStartIndex": 0,
-    "asEndIndex": 20,
-    "asSortExp": "Roll_No"
+    asSchoolId: data.asSchoolId,
+    asAcademicYearId: data.asAcademicYearId,
+    aTeacherId: 2569,
+    asStudentId: data.asStudentId,
+    asTermId: data.asTermId,
+    asStartIndex: 0,
+    asEndIndex: 20,
+    asSortExp:  "Roll_No"
   }
-  // {
-  //   asSchoolId: data.asSchoolId,
-  //   asAcademicYearId: data.asAcademicYearId,
-  //   aTeacherId: data.asStandardDivId,
-  //   asStudentId: data.asStudentId,
-  //   asTermId: data.asTermId,
-  //   asStartIndex: 0,
-  //   asEndIndex: 20,
-  //   asSortExp: ""
-  // }
-
+ 
   const response2 = await ApiProgressRemark.GetAllStudentsForProgressRemark(NewBody);
-
+  
   let AllStudentsList = response2.data.GetAllStudentsList.map((item, i) => ({
     Id: item.Student_Id,
     Text1: item.Roll_No,
