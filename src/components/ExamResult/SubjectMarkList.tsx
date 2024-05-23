@@ -98,23 +98,17 @@ const SubjectMarkList = () => {
             </Tooltip>)}
 
           {rowData.rank === "1" &&
-            <Tooltip title={rowData.name}>
-              <img src={GoldMedal} alt="Gold Medal" width={20} />
-            </Tooltip>
+            <img src={GoldMedal} alt="Gold Medal" width={20} />
           }
 
           {/* If student rank is 2 */}
           {rowData.rank === "2" &&
-            <Tooltip title={rowData.name}>
-              <img src={SilverMedal} alt="Silver Medal" width={20} />
-            </Tooltip>
+            <img src={SilverMedal} alt="Silver Medal" width={20} />
           }
 
           {/* If student rank is 3 */}
           {rowData.rank === "3" &&
-            <Tooltip title={rowData.name}>
-              <img src={BronzeMedal} alt="Bronze Medal" width={20} />
-            </Tooltip>
+            <img src={BronzeMedal} alt="Bronze Medal" width={20} />
           }
         </Stack>
       </>
