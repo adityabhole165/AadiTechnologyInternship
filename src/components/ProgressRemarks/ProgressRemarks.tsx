@@ -24,7 +24,6 @@ import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
-  CDAGetAllStudentsForProgressRemark,
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
   CDAGetFinalPublishedExamStatus,
@@ -41,7 +40,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
-import { getSchoolConfigurations } from '../Common/Util';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -61,13 +59,9 @@ const ProgressRemarks = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
-
-  const asStandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
-
-
-
+  const itemsPerPage = 20;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "desc" },
@@ -149,7 +143,7 @@ const ProgressRemarks = () => {
   const getXML = () => {
     let sXML =
       '<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-  
+
     Itemlist.forEach((Item) => {
       Item.Remarks.forEach((remark) => {
         sXML +=
@@ -157,21 +151,21 @@ const ProgressRemarks = () => {
           '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
           '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
           '<Remark>' + remark.Text3 + '</Remark>' +
-          '<RemarkConfigId>' + remark.Text6 + '</RemarkConfigId>' + 
-          '<RemarkMaster><RemarkConfigId>' + remark.Text6 + '</RemarkConfigId></RemarkMaster>' + 
+          '<RemarkConfigId>' + remark.Text6 + '</RemarkConfigId>' +
+          '<RemarkMaster><RemarkConfigId>' + remark.Text6 + '</RemarkConfigId></RemarkMaster>' +
           '<SalutationId>' + Item.Text8 + '</SalutationId>' +
           '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
           '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent>' +
           '</StudentwiseRemarkConfigDetails>';
       });
     });
-  
+
     sXML += '</ArrayOfStudentwiseRemarkConfigDetails>';
     return sXML;
   };
-  
 
-  
+
+
 
 
   // const getXML = () => {
@@ -201,7 +195,7 @@ const ProgressRemarks = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  
+
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
@@ -210,13 +204,21 @@ const ProgressRemarks = () => {
     return perm;
   };
 
+  const getStdDivisionId = () => {
+    let returnVal = 0
+    USClassTeachers.map((Item) => {
+      if (Item.Value == selectTeacher)
+        returnVal = Number(Item.Id)
+    })
+    return returnVal
+  }
   const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
   {
     StudentwiseRemarkXML: getXML(),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asInsertedById: Number(selectTeacher),
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: getStdDivisionId(),
     asTermId: Number(SelectTerm)
   };
   const RemarkCategoryBody: IGetRemarksCategoryBody = {
@@ -239,7 +241,7 @@ const ProgressRemarks = () => {
     {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asStandardDivId: asStandardDivisionId,
+      asStandardDivId: getStdDivisionId(),
       asStudentId: Number(StudentList),
       asTermId: SelectTerm
     };
@@ -264,7 +266,7 @@ const ProgressRemarks = () => {
     asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
-    asStandardId: asStandardDivisionId
+    asStandardId: getStdDivisionId()
   }
   const AllStudentsForProgressRemarkBody: IGetAllStudentsForProgressRemarkBody = {
     asSchoolId: asSchoolId,
@@ -277,7 +279,7 @@ const ProgressRemarks = () => {
     asSortExp: "Roll_No"
   }
   const StudentListDropDowntBody: IStudentListDropDowntBody = {
-    asStandard_Division_Id: asStandardDivisionId,
+    asStandard_Division_Id: getStdDivisionId(),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asTerm_Id: SelectTerm
@@ -287,16 +289,19 @@ const ProgressRemarks = () => {
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: getStdDivisionId(),
     asStudentId: Number(StudentList),
-    asTermId: Number(SelectTerm)
+    asTermId: Number(SelectTerm),
+    TeacherId: Number(selectTeacher),
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
   };
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: getStdDivisionId(),
     asTerm_Id: Number(SelectTerm)
   };
 
@@ -305,28 +310,28 @@ const ProgressRemarks = () => {
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
-    const [ColIndex, SetColIndex] = useState([-1]) 
+  const [ColIndex, SetColIndex] = useState([-1])
 
-    const TextChange1 = () => {
-      setItemlist(prevItemlist => 
-        prevItemlist.map(item => {
-          if (item.Id === StudentId  ) {
-            const activeTexts = getActiveTexts().join(' ');
-            return {
-              ...item,
-              Remarks: item.Remarks.map((remark , i )=> {
-                const newText3 = remark.Text3 + activeTexts; 
-                return { ...remark, Text3:  (i ==  ColIndex) ? newText3.slice(0, 300)  : remark.Text3}; 
-              })
-            };
-          }
-          return item;
-        })
-      );
-    };
-    
-   
-     
+  const TextChange1 = () => {
+    setItemlist(prevItemlist =>
+      prevItemlist.map(item => {
+        if (item.Id === StudentId) {
+          const activeTexts = getActiveTexts().join(' ');
+          return {
+            ...item,
+            Remarks: item.Remarks.map((remark, i) => {
+              const newText3 = remark.Text3 + activeTexts;
+              return { ...remark, Text3: (i == ColIndex) ? newText3.slice(0, 300) : remark.Text3 };
+            })
+          };
+        }
+        return item;
+      })
+    );
+  };
+
+
+
 
   const SelectClick = () => {
     TextChange1()
@@ -368,7 +373,7 @@ const ProgressRemarks = () => {
   };
 
   const studentName = getStudentName();
-  const ClickAppropriate = (Id,Index) => {
+  const ClickAppropriate = (Id, Index) => {
     setStudentId(Id)
     SetColIndex(Index)
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
@@ -381,22 +386,17 @@ const ProgressRemarks = () => {
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-  const itemsPerPage = 20;
-
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  
   useEffect(() => {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    const AllStudentsForProgressBody: IGetAllStudentsForProgressRemarkBody = {
-      ...AllStudentsForProgressRemarkBody,
+   
+    const AllStudentsForProgressBody: IGetAllStudentswiseRemarkDetailsNewBody = {
+      ...GetAllStudentswiseRemarkDetailsBody,
       asStartIndex: startIndex,
       asEndIndex: endIndex
 
     };
 
-    dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+    dispatch(CDAGetAllStudentswiseRemarkDetails(AllStudentsForProgressBody));
   }, [page, selectTeacher, SelectTerm, StudentList]);
 
 
@@ -455,13 +455,8 @@ const ProgressRemarks = () => {
   };
 
   useEffect(() => {
-    dispatch(CDAGetAllStudentsForProgressRemark(AllStudentsForProgressRemarkBody));
-  }, []);
-
-
-  useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
-  }, []);
+  }, [SelectTerm]);
 
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
@@ -473,7 +468,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [selectTeacher]);
+  }, [SelectTerm]);
 
   useEffect(() => {
     dispatch(
@@ -497,17 +492,17 @@ const ProgressRemarks = () => {
             label={'Subject Teacher'}
             size={"small"}
             DisableClearable={GetScreenPermission() == 'N'} */}
-          
 
-            <SearchableDropdown
-                label={"Subject Teacher"}
-                sx={{ pl: 0, minWidth: '350px' }}
-                ItemList={USClassTeachers}
-                onChange={clickSelectClass}
-                defaultValue={selectTeacher}
-                size={"small"}
-                DisableClearable={GetScreenPermission() == 'N'}
-              />
+
+          <SearchableDropdown
+            label={"Subject Teacher"}
+            sx={{ pl: 0, minWidth: '350px' }}
+            ItemList={USClassTeachers}
+            onChange={clickSelectClass}
+            defaultValue={selectTeacher}
+            size={"small"}
+            DisableClearable={GetScreenPermission() == 'N'}
+          />
 
           <SearchableDropdown
             ItemList={USGetTestwiseTerm}

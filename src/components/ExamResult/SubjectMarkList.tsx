@@ -27,7 +27,7 @@ const SubjectMarkList = () => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const Note: string = "Displays brief mark list with toppers for selected class-subject."
-  const HoverNote: string = "To view the student name take your mouse on the roll number."
+  const HoverNote: string = "To view the student name take your cursor on the roll number."
 
   const TestMarkList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMark);
@@ -98,23 +98,17 @@ const SubjectMarkList = () => {
             </Tooltip>)}
 
           {rowData.rank === "1" &&
-            <Tooltip title={rowData.name}>
-              <img src={GoldMedal} alt="Gold Medal" width={20} />
-            </Tooltip>
+            <img src={GoldMedal} alt="Gold Medal" width={20} />
           }
 
           {/* If student rank is 2 */}
           {rowData.rank === "2" &&
-            <Tooltip title={rowData.name}>
-              <img src={SilverMedal} alt="Silver Medal" width={20} />
-            </Tooltip>
+            <img src={SilverMedal} alt="Silver Medal" width={20} />
           }
 
           {/* If student rank is 3 */}
           {rowData.rank === "3" &&
-            <Tooltip title={rowData.name}>
-              <img src={BronzeMedal} alt="Bronze Medal" width={20} />
-            </Tooltip>
+            <img src={BronzeMedal} alt="Bronze Medal" width={20} />
           }
         </Stack>
       </>
@@ -131,15 +125,15 @@ const SubjectMarkList = () => {
             <>
               {rowData.Marks[i].theoryType && (
 
-                rowData.Marks[i].theoryType === "Exempted" && (
+                rowData.Marks[i].theoryType === "Ex" && (
                   <span style={{ color: 'brown', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
-                || rowData.Marks[i].theoryType === "Late Joinee" && (
+                || rowData.Marks[i].theoryType === "-" && (
                   <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
 
-                || rowData.Marks[i].theoryType === "Absent" && (
+                || rowData.Marks[i].theoryType === "Ab" && (
                   <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
                 )
               )}
@@ -328,23 +322,53 @@ const SubjectMarkList = () => {
           // }
           />
           <Box mt={2}>
-            <Typography variant={"h4"}>
+            {/* <Typography variant={"h4"}>
               Legends:
-            </Typography>
+            </Typography> */}
             <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
               <Box>
                 <Typography variant='h5'>
-                  Theory:
+                  Legend:
                 </Typography>
               </Box>
               <Box>
                 <span
                   style={{
-                    color: 'b',
+                    color: 'blue',
                     fontWeight: 'bold'
                   }}
                 >
-                  Exempted
+                  M : M1
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'blue',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  M : M2
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'blue',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  M : M3
+                </span>
+              </Box>
+              <Box>
+                <span
+                  style={{
+                    color: 'brown',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  Ex : Exempted
                 </span>
               </Box>
               <Box>
@@ -354,7 +378,7 @@ const SubjectMarkList = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  Late Joinee
+                  - : Late Joinee
                 </span>
               </Box>
               <Box>
@@ -364,7 +388,7 @@ const SubjectMarkList = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  Absent
+                  Ab : Absent
                 </span>
               </Box>
               <Box>

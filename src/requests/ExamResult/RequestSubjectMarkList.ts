@@ -184,11 +184,11 @@ export const gettestmarklist =
       }
       const getTheoryType = (Item) => {
         if (Item.Is_Absent === "Y") {
-          return "Absent";
+          return "Ab";
         } else if (Item.Is_Absent === "J") {
-          return "Late Joinee";
+          return "-";
         } else if (Item.Is_Absent === "E") {
-          return "Exempted"
+          return "Ex"
         } else {
           return null;
         }
