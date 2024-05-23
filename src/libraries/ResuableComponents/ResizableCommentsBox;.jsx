@@ -77,7 +77,7 @@ function ResizableCommentsBox({
                 )}
                 
                 {item.Remarks.map((RemarksItem,i)=>{
-                  return (<TableCell align="center">
+                  return (<TableCell align="center" key={i}>
                   
                     <TextareaAutosize 
                       id={`outlined-basic-${i}`}
