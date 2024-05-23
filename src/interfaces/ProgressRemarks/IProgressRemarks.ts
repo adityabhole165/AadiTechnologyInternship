@@ -53,6 +53,8 @@ export interface IGetAllStudentswiseRemarkDetailsNewBody {
   asStudentId: number
   TeacherId: number
   asTermId: number
+  asStartIndex: number
+  asEndIndex: number
 }
 
 

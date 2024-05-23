@@ -243,8 +243,8 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     aTeacherId: data.TeacherId,
     asStudentId: data.asStudentId,
     asTermId: data.asTermId,
-    asStartIndex: 0,
-    asEndIndex: 20,
+    asStartIndex: data.asStartIndex,
+    asEndIndex: data.asEndIndex,
     asSortExp: "Roll_No"
   }
 

@@ -59,9 +59,9 @@ const ProgressRemarks = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
-
-
-
+  const itemsPerPage = 20;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "desc" },
@@ -292,7 +292,9 @@ const ProgressRemarks = () => {
     asStandardDivId: getStdDivisionId(),
     asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
-    TeacherId: Number(selectTeacher)
+    TeacherId: Number(selectTeacher),
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
   };
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
@@ -384,22 +386,17 @@ const ProgressRemarks = () => {
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-  const itemsPerPage = 20;
-
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  
   useEffect(() => {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    const AllStudentsForProgressBody: IGetAllStudentsForProgressRemarkBody = {
-      ...AllStudentsForProgressRemarkBody,
+   
+    const AllStudentsForProgressBody: IGetAllStudentswiseRemarkDetailsNewBody = {
+      ...GetAllStudentswiseRemarkDetailsBody,
       asStartIndex: startIndex,
       asEndIndex: endIndex
 
     };
 
-    dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+    dispatch(CDAGetAllStudentswiseRemarkDetails(AllStudentsForProgressBody));
   }, [page, selectTeacher, SelectTerm, StudentList]);
 
 
