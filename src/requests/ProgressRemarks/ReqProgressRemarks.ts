@@ -267,29 +267,43 @@ export const CDAGetAllStudentswiseRemarkDetails = (
   const getRemarks = (value) => {
 
     const returnVal = []
-    response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
+    if (value.RemarkConfigId == 0) {
       response.data.RemarkMasterList.map((MasterItem) => {
-        if (value.RollNo == item.RollNo) {
-          if (item.RemarkConfigId == 0) {
-            returnVal.push({
-              Text3: item.Remark,
-              Text4: item.OldRemark,
-              Text5: MasterItem.RemarkName,
-              Text6: MasterItem.RemarkConfigId
-            })
-          } else {
-            if (item.RemarkConfigId == MasterItem.RemarkConfigId) {
-              returnVal.push({
-                Text3: item.Remark,
-                Text4: item.OldRemark,
-                Text5: item.RemarkMaster.RemarkName,
-                Text6: item.RemarkMaster.RemarkConfigId
-              })
-            }
-          }
-        }
+        returnVal.push({
+          Text3: "",
+          Text4: "",
+          Text5: MasterItem.RemarkName,
+          Text6: MasterItem.RemarkConfigId
+        })
       })
-    })
+    }
+    else {
+      response.data.RemarkMasterList.map((MasterItem) => {
+        let lst = response.data.GetAllStudentswiseRemarkDetailsList
+          .filter((studentItem) => {
+            return (value.YearwiseStudentId == studentItem.YearwiseStudentId
+              && studentItem.RemarkConfigId == MasterItem.RemarkConfigId
+            )
+          })
+        if (lst.length == 0) {
+          returnVal.push({
+            Text3: "",
+            Text4: "",
+            Text5: MasterItem.RemarkName,
+            Text6: MasterItem.RemarkConfigId
+          })
+        }
+        else {
+          returnVal.push({
+            Text3: lst[0].Remark,
+            Text4: lst[0].OldRemark,
+            Text5: MasterItem.RemarkName,
+            Text6: MasterItem.RemarkConfigId
+          })
+        }
+
+      })
+    }
     return returnVal
   }
   // Safely handle the response
@@ -323,7 +337,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
               Text12: item.StudentwiseRemarkId,
               Text13: item.Remark,
               FName: item.FName,
-              SalutationId:item.SalutationId,
+              SalutationId: item.SalutationId,
               Value: item.YearwiseStudentId,
               Name: item.StudentName,
               IsLeftStudent: item.IsLeftStudent

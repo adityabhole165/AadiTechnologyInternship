@@ -53,7 +53,7 @@ const ProgressRemarks = () => {
   const [open, setOpen] = useState(false);
   const [Itemlist, setItemlist] = useState([]);
 
-  
+
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
@@ -214,15 +214,6 @@ const ProgressRemarks = () => {
     })
     return returnVal
   }
-  const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
-  {
-    StudentwiseRemarkXML: getXML(),
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asInsertedById: Number(selectTeacher),
-    asStandardDivId: getStdDivisionId(),
-    asTermId: Number(SelectTerm)
-  };
   const RemarkCategoryBody: IGetRemarksCategoryBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId
@@ -382,19 +373,19 @@ const ProgressRemarks = () => {
     return classStudentName;
   };
 
-  const GEtSalutation= () => {
+  const GEtSalutation = () => {
     let classStudentName = '';
     Itemlist.map((item) => {
       if (item.Value == StudentId) classStudentName = item.SalutationId;
     });
     return classStudentName;
   };
-    
-  const StudentFName =FStudentName()
-  const PassSalutationId =GEtSalutation()
-  
-  
-  
+
+  const StudentFName = FStudentName()
+  const PassSalutationId = GEtSalutation()
+
+
+
 
   const studentName = getStudentName();
   const ClickAppropriate = (Id, Index) => {
@@ -410,9 +401,9 @@ const ProgressRemarks = () => {
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-  
+
   useEffect(() => {
-   
+
     const AllStudentsForProgressBody: IGetAllStudentswiseRemarkDetailsNewBody = {
       ...GetAllStudentswiseRemarkDetailsBody,
       asStartIndex: startIndex,
@@ -441,8 +432,8 @@ const ProgressRemarks = () => {
   useEffect(() => {
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
-    console.log(USGetAllStudentswiseRemarkDetails,"USGetAllStudentswiseRemarkDetails");
-    
+  console.log(USGetAllStudentswiseRemarkDetails, "USGetAllStudentswiseRemarkDetails");
+
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
       toast.success(UpdateAllStudentsRemarkDetail);
@@ -474,6 +465,16 @@ const ProgressRemarks = () => {
   }, [SelectGrade, Remark, HeaderPublish]);
 
   const UpdateRemark = () => {
+    const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
+    {
+      StudentwiseRemarkXML: getXML(),
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asInsertedById: Number(selectTeacher),
+      asStandardDivId: getStdDivisionId(),
+      asTermId: Number(SelectTerm)
+    };
+
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
     );[page, selectTeacher, SelectTerm, StudentList]
@@ -676,13 +677,13 @@ const ProgressRemarks = () => {
 
               <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
                 {remarkTemplates.length > 0 ? (
-                    <ProgressRemarkTerm.Provider value={{StudentFName,StudentId,PassSalutationId}}>
-                  <RemarkList
-                    ItemList={remarkTemplates}
-                    HeaderArray={HeaderPublish}
-                    onChange={Changevalue}
-                    ClickHeader={ClickHeader}
-                  />
+                  <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
+                    <RemarkList
+                      ItemList={remarkTemplates}
+                      HeaderArray={HeaderPublish}
+                      onChange={Changevalue}
+                      ClickHeader={ClickHeader}
+                    />
                   </ProgressRemarkTerm.Provider>
                 ) : (
                   <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
