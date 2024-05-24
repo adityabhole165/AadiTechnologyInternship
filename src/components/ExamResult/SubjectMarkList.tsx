@@ -84,6 +84,13 @@ const SubjectMarkList = () => {
     dispatch(gettestmarklist(GetTestMarkBody));
   }, []);
 
+  const formatRollNo = (RollNo) => {
+
+    let returnVal = RollNo.toString()
+    if (returnVal.length < 2)
+      returnVal = "0" + returnVal + " "
+    return returnVal
+  }
   const [Columns, setColumns] = React.useState<Column[]>([
     // let Columns = [
     {
@@ -94,7 +101,7 @@ const SubjectMarkList = () => {
           {/* Student Roll no. */}
           {rowData.rollNo && (
             <Tooltip title={rowData.MoueOverText1 != undefined ? rowData.MoueOverText1 : ""} >
-              <span>{rowData.rollNo}</span>
+              <span>{formatRollNo(rowData.rollNo)}</span>
             </Tooltip>)}
 
           {rowData.rank === "1" &&
@@ -123,23 +130,25 @@ const SubjectMarkList = () => {
           label: Item,
           renderCell: (rowData) => (
             <>
-              {rowData.Marks[i].theoryType && (
+              <Stack direction={"row"} alignItems={'center'} gap={2}>
+                {rowData.Marks[i].theoryType && (
 
-                rowData.Marks[i].theoryType === "Ex" && (
-                  <span style={{ color: 'brown', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
-                )
+                  rowData.Marks[i].theoryType === "Ex" && (
+                    <span style={{ color: 'brown', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                  )
 
-                || rowData.Marks[i].theoryType === "-" && (
-                  <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
-                )
+                  || rowData.Marks[i].theoryType === "-" && (
+                    <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                  )
 
-                || rowData.Marks[i].theoryType === "Ab" && (
-                  <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
-                )
-              )}
+                  || rowData.Marks[i].theoryType === "Ab" && (
+                    <span style={{ color: 'red', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                  )
+                )}
 
 
-              {!rowData.Marks[i].theoryType && parseFloat(rowData.Marks[i].theory)}
+                {!rowData.Marks[i].theoryType && parseFloat(rowData.Marks[i].theory)}
+              </Stack>
             </>
           )
         });
