@@ -322,6 +322,8 @@ export const CDAGetAllStudentswiseRemarkDetails = (
               Text11: item.YearwiseStudentId,
               Text12: item.StudentwiseRemarkId,
               Text13: item.Remark,
+              FName: item.FName,
+              SalutationId:item.SalutationId,
               Value: item.YearwiseStudentId,
               Name: item.StudentName,
               IsLeftStudent: item.IsLeftStudent

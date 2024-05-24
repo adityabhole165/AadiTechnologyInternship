@@ -52,6 +52,8 @@ const ProgressRemarks = () => {
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [open, setOpen] = useState(false);
   const [Itemlist, setItemlist] = useState([]);
+
+  
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
@@ -417,7 +419,8 @@ const ProgressRemarks = () => {
   useEffect(() => {
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
-
+    console.log(USGetAllStudentswiseRemarkDetails,"USGetAllStudentswiseRemarkDetails");
+    
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
       toast.success(UpdateAllStudentsRemarkDetail);
@@ -651,12 +654,14 @@ const ProgressRemarks = () => {
 
               <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
                 {remarkTemplates.length > 0 ? (
+                    <ProgressRemarkTerm.Provider value={Itemlist}>
                   <RemarkList
                     ItemList={remarkTemplates}
                     HeaderArray={HeaderPublish}
                     onChange={Changevalue}
                     ClickHeader={ClickHeader}
                   />
+                  </ProgressRemarkTerm.Provider>
                 ) : (
                   <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
                     <b>No Record Found.</b>

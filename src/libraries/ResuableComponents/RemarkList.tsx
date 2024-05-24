@@ -8,89 +8,106 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import ProgressRemarkTerm from 'src/components/ProgressRemarks/ProgressRemarkTerm';
+import React, { useContext } from 'react';
+
 function RemarkList({
-    ItemList,
-    HeaderArray,
-    onChange,
-    ClickHeader
-
+  ItemList,
+  HeaderArray,
+  onChange,
+  ClickHeader
 }) {
-    const onClick = (value) => {
-        ItemList = ItemList.map((item) => {
-            return item.Id === value ? { ...item, IsActive: !item.IsActive } : item;
-        });
-        onChange(ItemList);
-    };
- 
-    const clickHeader = (value) => {
-        if (value != undefined) {
-          HeaderArray = HeaderArray.map((Item) => {
-            return Item.SortOrder == undefined ? Item :
-              { ...Item, SortOrder: Item.SortOrder == "desc" ? " asc" : "desc" }
-          })
-          ClickHeader(HeaderArray)
-        }
-      }
+  const onClick = (value) => {
+    const updatedItemList = ItemList.map((item) => {
+      return item.Id === value ? { ...item, IsActive: !item.IsActive } : item;
+    });
+    onChange(updatedItemList);
+  };
 
-    return (
-        <>
-            <TableContainer component={Box} sx={{
-                border: (theme) => `1px solid ${theme.palette.grey[300]}`,
-            }}>
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow
-                            sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
-                        >
-                            {HeaderArray.map((item, i) => (
-                                <TableCell
-                                key={i}
-                                sx={{
-                                  textTransform: 'capitalize',
-                                  color: (theme) => theme.palette.common.white,
-                                  py: 1,
-                                }}
-                                onClick={() => { clickHeader(item.Id) }}
-                              >
-                                <div style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: 1,
-                                  justifyContent: item?.align ? 'center' : 'flex-start'
-                                }}>
-                                  <b>{item.Header}</b>
-                                  {item.SortOrder != undefined ?
-                                    item.SortOrder == "desc" ?
-                                      < ArrowDropDownCircleIcon /> :
-                                      <ArrowCircleUpIcon /> :
-                                    null
-                                  }
-                                </div>
-                              </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {ItemList.map((item, i) => (
-                            <TableRow key={i}>
-                                <TableCell>
-                                    <Checkbox
-                                        checked={item.IsActive}
-                                        onChange={() => {
-                                            onClick(item.Id);
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
-                                    {item.Text1}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
-    );
+  const clickHeader = (value) => {
+    if (value !== undefined) {
+      const updatedHeaderArray = HeaderArray.map((item) => {
+        return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "desc" ? "asc" : "desc" }
+      });
+      ClickHeader(updatedHeaderArray);
+    }
+  }
+
+  let List = useContext(ProgressRemarkTerm);
+  const getReplacedText = (text, item) => {
+    const matchedItem = List.find((listItem) => item.Id === listItem.Id);
+    if (matchedItem) {
+      let replacedText = text.replace('%FNAME%', matchedItem.FName);
+      if (matchedItem.SalutationId === 6) {
+        replacedText = replacedText.replace('%HE/SHE%', 'SHE');
+      } else if (matchedItem.SalutationId === 5) {
+        replacedText = replacedText.replace('%HE/SHE%', 'HE');
+      }
+      return replacedText;
+    }
+    return text; 
+  };
+  
+
+  return (
+    <>
+      <TableContainer component={Box} sx={{
+        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+      }}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
+            >
+              {HeaderArray.map((item, i) => (
+                <TableCell
+                  key={i}
+                  sx={{
+                    textTransform: 'capitalize',
+                    color: (theme) => theme.palette.common.white,
+                    py: 1,
+                  }}
+                  onClick={() => { clickHeader(item.Id) }}
+                >
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    justifyContent: item?.align ? 'center' : 'flex-start'
+                  }}>
+                    <b>{item.Header}</b>
+                    {item.SortOrder !== undefined ?
+                      item.SortOrder === "desc" ?
+                        <ArrowDropDownCircleIcon /> :
+                        <ArrowCircleUpIcon /> :
+                      null
+                    }
+                  </div>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {ItemList.map((item, i) => (
+              <TableRow key={i}>
+                <TableCell>
+                  <Checkbox
+                    checked={item.IsActive}
+                    onChange={() => {
+                      onClick(item.Id);
+                    }}
+                  />
+                </TableCell>
+                <TableCell sx={{ textTransform: 'capitalize' }} >
+                  {item.Text1.replace('%FNAME%', List[i]?.FName || '')}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
+  );
 }
 
-export default RemarkList;  
+export default RemarkList;
