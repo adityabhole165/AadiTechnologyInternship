@@ -309,9 +309,7 @@ const AddDailyLog = () => {
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
-    if (fileName === '' && base64URL === '') {
-      setFileNameError('Please select file to upload');
-    }
+    
   };
 
   const ResetForm = () => {
@@ -533,13 +531,15 @@ const AddDailyLog = () => {
                   />
                 </Box>
                 <Box>
-                  <Button
-                    variant={'contained'}
-                    startIcon={<SearchTwoTone />}
-                    onClick={onClickSearch}
-                  >
-                    SEARCH
-                  </Button>
+                 
+
+                  <IconButton onClick={onClickSearch} sx={{
+            background: (theme) => theme.palette.primary.main,
+            color: 'white',
+            mr: 2
+          }}>
+            <SearchTwoTone />
+          </IconButton>
                 </Box>
               </Box>
             </Grid>
