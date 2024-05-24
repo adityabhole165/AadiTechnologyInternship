@@ -1,5 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import TaskIcon from '@mui/icons-material/Task';
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,8 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { isEqualtonDate, isFutureDate } from 'src/components/Common/Util';
+import { isFutureDate, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 
 
@@ -19,17 +18,17 @@ function HolidaysList({
   clickDelete,
 }) {
 
-    function findRecentUpcomingDate() {
-        const upcomingDates = ItemList.filter(item => isFutureDate(new Date(item.Text1)));
-        upcomingDates.sort((a, b) => new Date(a.Text1).getTime() - new Date(b.Text1).getTime());
-        if (upcomingDates.length === 0) {
-          return null;
-        }
-        return upcomingDates[upcomingDates.length - 1].Text1;
-      }
-      
-      let recentUpcomingDate = findRecentUpcomingDate();
-      
+  function findRecentUpcomingDate() {
+    const upcomingDates = ItemList.filter(item => isFutureDate(new Date(item.Text1)));
+    upcomingDates.sort((a, b) => new Date(a.Text1).getTime() - new Date(b.Text1).getTime());
+    if (upcomingDates.length === 0) {
+      return null;
+    }
+    return upcomingDates[upcomingDates.length - 1].Text1;
+  }
+
+  let recentUpcomingDate = findRecentUpcomingDate();
+
 
   return (
     <div>
@@ -51,12 +50,15 @@ function HolidaysList({
             </TableRow>
           </TableHead>
           <TableBody>
-            {ItemList.map((item) => {
+            {ItemList.map((item, index) => {
               const isFuture = isFutureDate(new Date(item.Text1));
               const isEqual = item.Text1 == item.Text2;
-              const isNextUpcoming = recentUpcomingDate == item.Text1 ;
-              const backgroundColor = isFuture  ? "#ffcdd2": 'inherit' ||  isEqual ? '#f3e5f5' : 'inherit' || isNextUpcoming  ? 'purple' : 'inherit';
-              
+              const isNextUpcoming = recentUpcomingDate == item.Text1;
+              // const backgroundColor = isFuture ? "#ffcdd2" : 'inherit' ||
+              //   isEqual ? '#f3e5f5' : 'inherit' || 
+              const backgroundColor = (isFutureDateTime(item.Text1) && index == 0) ? 'purple' :
+                isPastDateTime(item.Text1) ? "#ffcdd2" : '#f3e5f5';
+
               return (
                 <TableRow key={item.Id}>
                   <TableCell

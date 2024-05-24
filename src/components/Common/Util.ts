@@ -53,6 +53,9 @@ export const formatDateAsDDMMMYYYY = (date) => {
 export function isFutureDateTime(date) {
   return new Date(date) > new Date();
 }
+export function isPastDateTime(date) {
+  return new Date(date) < new Date();
+}
 export function getMonthYear() {
   const date = new Date();
   const Month = new Date(date).toLocaleString('default', { month: 'short' });
