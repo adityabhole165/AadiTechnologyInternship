@@ -26,7 +26,7 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
                         sx={{
                             backgroundColor: (theme) =>
                                 alpha(theme.palette.primary.main, 0.2),
-                            marginRight: '100px', // Adjusted margin to separate the icons
+                            marginRight: '20px', // Adjusted margin to separate the icons
                             paddingRight: '12px' // Adjusted padding for spacing
                         }}
                     >
@@ -39,7 +39,7 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
                         sx={{
                             backgroundColor: (theme) =>
                                 alpha(theme.palette.primary.main, 0.2),
-                            marginLeft: '100px', // Adjusted margin to separate the icons
+                            marginLeft: '20px', // Adjusted margin to separate the icons
                             paddingLeft: '12px' // Adjusted padding for spacing
                         }}
                     >
