@@ -17,12 +17,24 @@ function RemarkList({
   onChange,
   ClickHeader
 }) {
-  const onClick = (value) => {
-    const updatedItemList = ItemList.map((item) => {
-      return item.Id === value ? { ...item, IsActive: !item.IsActive } : item;
-    });
-    onChange(updatedItemList);
-  };
+
+    
+    const onClick = (value) => {
+        const updatedItemList = ItemList.map((item) => {
+          if (item.Id === value) {
+            const updatedItem = { ...item, IsActive: !item.IsActive };
+            updatedItem.Text1 = replaceText(updatedItem.Text1); 
+            return updatedItem;
+          } else {
+            return item;
+          }
+        });
+        onChange(updatedItemList);
+      };
+
+
+     
+      
 
   const clickHeader = (value) => {
     if (value !== undefined) {
