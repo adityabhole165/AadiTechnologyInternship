@@ -374,6 +374,18 @@ const ProgressRemarks = () => {
     return classStudentName;
   };
 
+  const FStudentName = () => {
+    let classStudentName = '';
+    Itemlist.map((item) => {
+      if (item.Value == StudentId) classStudentName = item.FName;
+    });
+    return classStudentName;
+  };
+    
+  const StudentFName =FStudentName()
+  
+  
+
   const studentName = getStudentName();
   const ClickAppropriate = (Id, Index) => {
     setStudentId(Id)
@@ -654,7 +666,7 @@ const ProgressRemarks = () => {
 
               <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
                 {remarkTemplates.length > 0 ? (
-                    <ProgressRemarkTerm.Provider value={Itemlist}>
+                    <ProgressRemarkTerm.Provider value={{StudentFName,StudentId}}>
                   <RemarkList
                     ItemList={remarkTemplates}
                     HeaderArray={HeaderPublish}
