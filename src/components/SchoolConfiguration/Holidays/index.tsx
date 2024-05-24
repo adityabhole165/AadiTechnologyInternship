@@ -11,6 +11,7 @@ import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Com
 import CommonPageHeader from "src/components/CommonPageHeader"
 import DataTable, { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
+import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
 type Props = {}
@@ -30,11 +31,15 @@ const Holidays = (props: Props) => {
     const holidaysList = useSelector(
         (state: RootState) => state.Holidays.HolidaysDataF
     );
+
+      
+       
+
     const deleteHolidaydetailsMsg = useSelector(
         (state: RootState) => state.Holidays.DeleteHolidayMsg
     );
 
-    // let d = getDateMonthYearDayDash("22-05-2024 00:00:00")
+    
 
     const getHolidayColumns = () => {
         let HolidayColumns: Column[] = [
@@ -121,6 +126,17 @@ const Holidays = (props: Props) => {
         }
         return HolidayColumns;
     };
+
+    const HeaderPublish = [
+        { Id: 1, Header: 'Start Date 	' },
+        { Id: 2, Header: ' 	End Date' },
+        { Id: 3, Header: 'Name' },
+        { Id: 4, Header: ' Associated Classes' },
+        { Id: 5, Header: ' totalDays' },
+        { Id: 6, Header: 'Edit' },
+        { Id: 7, Header: 'Delete' }
+      ];
+    
     const [holidayColumns, setHolidayColumns] = useState<Column[]>(getHolidayColumns());
 
     const body: IHolidaysFA = {
@@ -137,30 +153,6 @@ const Holidays = (props: Props) => {
         dispatch(getHolidaysF(body));
     }, []);
 
-
-    // const [holidays, setHolidays] = React.useState<RowData[]>([
-    //     {
-    //         startDate: '2021-01-01',
-    //         endDate: '2021-01-01',
-    //         name: 'Navratri',
-    //         associatedClasses: 'Nursery(A)',
-    //         totalDays: 1,
-    //     },
-    //     {
-    //         startDate: '2021-01-01',
-    //         endDate: '2021-01-01',
-    //         name: 'Navratri',
-    //         associatedClasses: 'Nursery(B)',
-    //         totalDays: 4,
-    //     },
-    //     {
-    //         startDate: '2021-01-01',
-    //         endDate: '2021-01-01',
-    //         name: 'Navratri',
-    //         associatedClasses: 'Nursery(C)',
-    //         totalDays: 3,
-    //     }
-    // ]);
 
     const deleteRow = (Holiday_Id) => {
         if (
@@ -236,11 +228,18 @@ const Holidays = (props: Props) => {
             />
             {/* Content */}
             <Box sx={{ background: 'white', p: 2 }}>
-                <DataTable
+                {/* <DataTable
                     columns={holidayColumns}
                     data={holidaysList}
                     isLoading={false}
-                />
+                /> */}
+
+                <HolidaysList
+                 ItemList={holidaysList}
+                 clickEdit={editRow}
+                 HeaderArray={HeaderPublish}
+                 clickDelete={deleteRow}
+                 />
             </Box>
         </Box>
     )
