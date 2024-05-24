@@ -510,25 +510,17 @@ const ProgressRemarks = () => {
           { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>
-          {/* <SearchableDropdown
-            ItemList={USClassTeachers}
-            sx={{ minWidth: '300px' }}
-            onChange={clickSelectClass}
-            defaultValue={selectTeacher}
-            label={'Subject Teacher'}
-            size={"small"}
-            DisableClearable={GetScreenPermission() == 'N'} */}
-
-
+        
           <SearchableDropdown
             label={"Subject Teacher"}
             sx={{ pl: 0, minWidth: '350px' }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
-            defaultValue={selectTeacher}
+            defaultValue={GetScreenPermission() == "Y" ? USClassTeachers[0] : selectTeacher}
             size={"small"}
-            DisableClearable={GetScreenPermission() == 'N'}
+            DisableClearable={GetScreenPermission() === 'N'}
           />
+
 
           <SearchableDropdown
             ItemList={USGetTestwiseTerm}
@@ -578,7 +570,7 @@ const ProgressRemarks = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box> {USGetFinalPublishedExamStatus.IsPublishedStatus == 0 &&
+          <Box> {USGetFinalPublishedExamStatus.IsPublishedStatus == 1 &&
             <Tooltip title={'Save'}>
               <IconButton
                 onClick={UpdateRemark}
