@@ -75,6 +75,9 @@ const FinalResultSlice = createSlice({
     },
     viewResult(state, action) {
       state.ViewResult = action.payload;
+    },
+    getLoading(state, action) {
+      state.Loading = true;
     }
   }
 });
@@ -90,13 +93,14 @@ export const ClassTechersList =
   (data: IClassTeacherListBody): AppThunk =>
     async (dispatch) => {
       const response = await FinalResultApi.ClassTeacherList(data);
-
-      let abc = response.data.map((item, i) => {
-        return {
+      let abc = [{ Id: '0', Name: 'Select', Value: '0' }]
+      dispatch(FinalResultSlice.actions.getLoading(true));
+      response.data.map((item, i) => {
+        abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
           Value: item.StdDivId
-        };
+        });
       });
       dispatch(FinalResultSlice.actions.classTeacherList(abc));
     };

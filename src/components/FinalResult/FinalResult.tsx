@@ -28,7 +28,7 @@ import {
   isResultPublishedBody,
   isTestPublishedBody
 } from 'src/interfaces/FinalResult/IFinalResult';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ClassTechersList,
   GetAtleastOneResultGeneratedss,
@@ -59,6 +59,8 @@ const FinalResult = () => {
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
+
+  const [standardDivisionId, setstandardDivisionId] = useState('');
 
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
@@ -244,6 +246,12 @@ const FinalResult = () => {
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
+
+  useEffect(() => {
+    if (GetClassTeachers.length > 0) {
+      setSelectTeacher(GetClassTeachers[0].Value);
+    }
+  }, [GetClassTeachers])
 
   // useEffect(() => {
   //   dispatch(GetPublishResult(PublishResultBody));
@@ -441,6 +449,10 @@ const FinalResult = () => {
     dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
   }, [StandardDivisionId])
 
+  const clickTeacher = (value) => {
+    setstandardDivisionId(value);
+  }
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader navLinks={
@@ -453,13 +465,23 @@ const FinalResult = () => {
       }
         rightActions={<>
           <Box>
-            <Dropdown
+            {/* <Dropdown
               Array={GetClassTeachers}
               handleChange={clickTeacherDropdown}
               defaultValue={SelectTeacher}
               label={'Select Class Teacher'}
               width={"250px"}
               variant={"outlined"}
+              size={"small"}
+            /> */}
+
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={GetClassTeachers}
+              onChange={clickTeacherDropdown}
+              label={'Teacher'}
+              defaultValue={SelectTeacher}
+              mandatory
               size={"small"}
             />
           </Box>
@@ -570,7 +592,7 @@ const FinalResult = () => {
           All configured exams are not published - Internal II, Subject Enrichment Analysis - I, Subject Enrichment Analysis II
         </Alert>
 
-        {GetStudentLists != undefined && (
+        {GetStudentLists && GetStudentLists.length > 0 && (
           <DataTable
             columns={columns}
             data={GetStudentLists}
