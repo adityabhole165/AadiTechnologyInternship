@@ -46,7 +46,15 @@ function RemarkList({
       replacedText = replacedText.replace('%HIS/HER%', 'her');
     } else if (List.PassSalutationId == 5) {
       replacedText = replacedText.replace('%HIS/HER%', 'his');
-    }
+    }  
+
+    if (List.PassSalutationId == 6) {
+        replacedText = replacedText.replace('%MASTER/MISS%', 'Miss');
+      } else if (List.PassSalutationId == 5) {
+        replacedText = replacedText.replace('%MASTER/MISS%', 'Master');
+      }  
+
+  
   
     return replacedText;
   };
