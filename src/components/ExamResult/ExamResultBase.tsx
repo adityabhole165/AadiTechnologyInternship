@@ -71,6 +71,8 @@ const ExamResultBase = () => {
   const Submitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
+  console.log(Submitted, "abcderg");
+
 
 
   const HeaderList: any = useSelector(

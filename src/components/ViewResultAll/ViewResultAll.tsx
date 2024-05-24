@@ -1,182 +1,4 @@
-// import Print from '@mui/icons-material/Print'
-// import QuestionMark from '@mui/icons-material/QuestionMark'
-// import Search from '@mui/icons-material/Search'
-// import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material'
-// import { grey } from '@mui/material/colors'
-// import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown'
-// import Dropdown from 'src/libraries/dropdown/Dropdown'
-// import CommonPageHeader from '../CommonPageHeader'
-// import DataTable from '../DataTable'
-
-// type Props = {}
-
-// const ViewResultAll = (props: Props) => {
-//     return (
-//         <Box px={2}>
-//             <CommonPageHeader
-//                 navLinks={[
-//                     {
-//                         title: 'Final Result',
-//                         path: '/extended-sidebar/Teacher/FinalResult'
-//                     },
-//                     {
-//                         title: 'View Result All',
-//                         path: ''
-//                     }
-//                 ]}
-//                 rightActions={<>
-//                     <Box>
-//                         <SearchableDropdown
-//                             onChange={(value) => {
-
-//                             }}
-//                             ItemList={[]}
-//                             size='small'
-//                             sx={{ width: '250px' }}
-//                             label='Class Teacher'
-//                         />
-//                     </Box>
-//                     <Box>
-//                         <Dropdown
-//                             Array={[]}
-//                             handleChange={(value) => { }}
-//                             size='small'
-//                             variant='outlined'
-//                             width={'250px'}
-//                             label={"Student"}
-//                         />
-//                     </Box>
-//                     <Box>
-//                         <Tooltip title={"View result of all/selected student."}>
-//                             <IconButton
-//                                 sx={{
-//                                     color: 'white',
-//                                     backgroundColor: grey[500],
-//                                     '&:hover': {
-//                                         backgroundColor: grey[600]
-//                                     }
-//                                 }}
-//                             >
-//                                 <QuestionMark />
-//                             </IconButton>
-//                         </Tooltip>
-//                     </Box>
-//                     <Box>
-//                         <Tooltip title={"Search"}>
-//                             <IconButton
-//                                 sx={{
-//                                     color: 'white',
-//                                     backgroundColor: grey[500],
-//                                     '&:hover': {
-//                                         backgroundColor: grey[600]
-//                                     }
-//                                 }}
-//                             >
-//                                 <Search />
-//                             </IconButton>
-//                         </Tooltip>
-//                     </Box>
-//                     <Box>
-//                         <Tooltip title={"Print Preview"}>
-//                             <IconButton
-//                                 sx={{
-//                                     color: 'white',
-//                                     backgroundColor: grey[500],
-//                                     '&:hover': {
-//                                         backgroundColor: grey[600]
-//                                     }
-//                                 }}
-//                             >
-//                                 <Print />
-//                             </IconButton>
-//                         </Tooltip>
-//                     </Box>
-//                 </>}
-//             />
-//             <Box sx={{ p: 2, background: 'white' }}>
-//                 <Box>
-//                     <hr />
-//                     <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
-//                         Pawar Public Charitable Trust's PAWAR PUBLIC SCHOOL Progress Report
-//                     </Typography>
-//                     <hr />
-//                     <Typography variant={"h4"} mb={1}>Student Details</Typography>
-//                     <Table>
-//                         <TableBody>
-//                             <TableRow sx={{ bgcolor: 'grey.200' }}>
-//                                 <TableCell><b>Roll No:</b> 1</TableCell>
-//                                 <TableCell><b>Name:</b> Miss Jagvi Nilesh Badgujar	</TableCell>
-//                                 <TableCell><b>Class:</b> 1 - A	</TableCell>
-//                                 <TableCell><b>Year:</b> 2023-2024	</TableCell>
-//                             </TableRow>
-//                         </TableBody>
-//                     </Table>
-
-//                     <Typography variant={"h4"} my={1} >Subject Progress Details For <Typography color='primary'>Subject Enrichment Analysis - I</Typography>
-//                     </Typography>
-//                     <DataTable
-//                         columns={[
-//                             {
-//                                 id: 'english',
-//                                 label: 'English',
-//                                 renderCell: (rowData) => rowData.english
-//                             },
-//                             {
-//                                 id: 'mathematics',
-//                                 label: 'Mathematics',
-//                                 renderCell: (rowData) => rowData.mathematics
-//                             },
-//                             {
-//                                 id: 'evs',
-//                                 label: 'E.V.S.',
-//                                 renderCell: (rowData) => rowData.evs
-//                             },
-//                             {
-//                                 id: 'computerStudies',
-//                                 label: 'Computer Studies',
-//                                 renderCell: (rowData) => rowData.computerStudies
-//                             },
-//                             {
-//                                 id: 'hindi3',
-//                                 label: 'Hindi III',
-//                                 renderCell: (rowData) => rowData.hindi3
-//                             },
-//                         ]}
-//                         data={[
-//                             {
-//                                 english: 'B2',
-//                                 mathematics: 'A1',
-//                                 evs: 'B2',
-//                                 computerStudies: 'A1',
-//                                 hindi3: 'A1',
-//                             },
-//                         ]}
-//                         isPagination={false}
-//                     />
-//                 </Box>
-//             </Box>
-//         </Box>
-//     )
-// }
-
-// export default ViewResultAll
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import InfoOutlined from '@mui/icons-material/InfoOutlined';
-import { Alert, Box, Button, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { Box, Button, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -190,17 +12,16 @@ import {
   IClassTeacherBody,
   IGetAllStudentTestprogressBody,
   IGetStudentNameListBody,
-  IGetsingleStudentBody
+  IGetsingleStudentBody,
+  IUnpublishedTestexamBody,
+  IconfiguredExamBody
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
 import {
   ClassTechersListt,
   GetStudentResultList,
-  GetsingleStudentResult,
-  GradesDetailsVA,
-  MarksDetailsVA,
-  StudentNameList,
-  SubjectDetailsVA
+  GetsingleStudentResultVA,
+  StudentNameList
 } from 'src/requests/VeiwAllResult/ReqveiwresultAll';
 
 type Props = {};
@@ -208,10 +29,12 @@ type Props = {};
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [DisplayNote, setDisplayNote] = useState('');
+
 
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '');
   const [studentList, setStudentList] = useState();
-  console.log(studentList, "sjddjdd");
+  // console.log(studentList, "sjddjdd");
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -220,12 +43,29 @@ const ViewResultAll = (props: Props) => {
 
   const USClassTeachers = useSelector((state: RootState) => state.VeiwResult.ClassTeachers);
   const USStudentListDropDown = useSelector((state: RootState) => state.VeiwResult.StudentName);
+  //console.log(USStudentListDropDown, "nnannsnss");
+
   const USStudentResultList = useSelector((state: RootState) => state.VeiwResult.StudentResultList);
+
   const USSStudentsingleResult = useSelector((state: RootState) => state.VeiwResult.StudentsingleResult);
+  // console.log(USSStudentsingleResult, "oooss");
+
   const MarkDetailsView = useSelector((state: RootState) => state.VeiwResult.getMarkDetailsView);
+  //console.log(MarkDetailsView, "hhhhhss");
+
+
   const SubjectDetailsView = useSelector((state: RootState) => state.VeiwResult.getSubjectDetailsView)
-  const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView
-  );
+  const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView);
+  const Usisconfigred = useSelector((state: RootState) => state.VeiwResult.iscofigred);
+  //console.log(Usisconfigred, "issssssconfiiiig");
+
+  const Usunpublishedexam = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
+ // console.log(Usunpublishedexam, "unpublished name exam");
+
+  const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
+
+
+
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
     asAcademicYearId,
@@ -238,7 +78,7 @@ const ViewResultAll = (props: Props) => {
   };
 
   const StudentResultBody: IGetAllStudentTestprogressBody = {
-    asSchoolId,
+    asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
     asStdDivId: asStandardDivisionId,
     asStartIndex: 0,
@@ -246,28 +86,43 @@ const ViewResultAll = (props: Props) => {
     asTestId: 1,
   };
 
-  // const StudentsingleresultBody: IGetsingleStudentBody = {
-  //   asSchoolId,
-  //   asAcademicyearId: asAcademicYearId,
-  //   asStudentId: 1,
-  //   asInsertedById: asUserId,
-  //   asWithGrace: 0,
-  // };
+
+  const iscofigred: IconfiguredExamBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId,
+    asStdDivId: asStandardDivisionId,
+  };
+
+  const unpublishexam: IUnpublishedTestexamBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId,
+    asStdDivId: asStandardDivisionId,
+  };
+
+  const StudentsingleresultBody: IGetsingleStudentBody = {
+    // asSchoolId: Number(asSchoolId),
+    // asAcademicYearId: asAcademicYearId,
+    // asStudentId: studentList,
+    // // asStudentId: Number(studentList),
+    // asInsertedById: Number(asUserId),
+    // asWithGrace: 0,
+
+
+    asSchoolId: 18,
+    asAcademicYearId: 53,
+    asStudentId: 32682,
+    asInsertedById: 1,
+    asWithGrace: 0
+
+
+
+  }
   useEffect(() => {
-    const StudentsingleresultBody: IGetsingleStudentBody = {
-      asSchoolId: Number(asSchoolId),
-      asAcademicyearId: asAcademicYearId,
-      // asStudentId: Number(asStudentId),
-      // asAcademicyearId: 53,
-      // asStudentId: 32682,
-      asStudentId: Number(studentList),
-      asInsertedById: Number(asUserId),
-      asWithGrace: 0,
-    }
-    dispatch(GetsingleStudentResult(StudentsingleresultBody))
-    dispatch(SubjectDetailsVA(StudentsingleresultBody))
-    dispatch(MarksDetailsVA(StudentsingleresultBody))
-    dispatch(GradesDetailsVA(StudentsingleresultBody))
+
+    dispatch(GetsingleStudentResultVA(StudentsingleresultBody))
+    // dispatch(SubjectDetailsVA(StudentsingleresultBody))
+    // dispatch(MarksDetailsVA(StudentsingleresultBody))
+    // dispatch(GradesDetailsVA(StudentsingleresultBody))
   }, [selectTeacher, studentList])
 
   const clickSelectClass = (value) => {
@@ -286,14 +141,59 @@ const ViewResultAll = (props: Props) => {
     dispatch(StudentNameList(StudentListDropDowntBody));
   }, [selectTeacher]);
 
+
   useEffect(() => {
     dispatch(GetStudentResultList(StudentResultBody));
   }, [selectTeacher, studentList]);
 
 
-  // const Changevalue = (value: string) => {
-  //   setStudentList(value);
-  // };
+  // useEffect(() => {
+  //   if (Usunpublishedexam && Usunpublishedexam.iscofigred) {
+  //     setDisplayNote('Results for this exam have been published.');
+  //   } else {
+  //     if (Usisconfigred === "0" && Usunpublishedexam && Usunpublishedexam.SchoolWise_Test_Name) {
+  //       setDisplayNote(`All Configured Exams Are Not Published - ${Usunpublishedexam.SchoolWise_Test_Name}`);
+  //     } else {
+  //       setDisplayNote('');
+  //     }
+  //   }
+
+  //   dispatch(getiscofigred(iscofigred));
+  //   dispatch(getunpublishedexam(unpublishexam));
+  // }, [Usisconfigred, Usunpublishedexam]);
+
+
+  //   useEffect(() => {
+
+  //     if (GetnotgenrateLists && !GetnotgenrateLists.Is_ResultGenrated) {
+  //       setDisplayNote(`Result not generated for this student: - ${GetnotgenrateLists.Roll_No} ${GetnotgenrateLists.Name}`);
+  //     } else {
+  //     if (GetnotgenrateLists && GetnotgenrateLists.Is_ResultGenrated) {
+  //       setDisplayNote('');
+  //     }     
+  //     }
+  // }, [])
+
+
+  const getStudentName = () => {
+    let classStudentName = '';
+    USStudentListDropDown.map((item) => {
+      if (item.Value == studentList) classStudentName = item.Name;
+    });
+    return classStudentName;
+  };
+  const isgenrate = getStudentName()
+  console.log(isgenrate, "genrate");
+
+
+
+
+
+
+
+  const Changevalue = (value) => {
+    setStudentList(value);
+  };
 
   const columns: Column[] = [
     {
@@ -343,7 +243,7 @@ const ViewResultAll = (props: Props) => {
               onChange={clickSelectClass}
               defaultValue={selectTeacher}
               size="small"
-              sx={{ width: '250px' }}
+              sx={{ width: '350px' }}
               label="Class Teacher"
             />
           </Box>
@@ -354,7 +254,7 @@ const ViewResultAll = (props: Props) => {
               defaultValue={studentList}
               label="All"
               size="small"
-              sx={{ width: '250px' }}
+              sx={{ width: '350px' }}
             />
           </Box>
           <Box>
@@ -370,9 +270,25 @@ const ViewResultAll = (props: Props) => {
             > Show
             </Button>
           </Box>
+
+          <Box>
+
+            <Button
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: grey[600],
+                },
+              }}
+            > Print Preview
+            </Button>
+          </Box>
         </>}
 
       />
+
+
 
       <Box sx={{ mt: 1, background: 'white' }}>
         <Box>
@@ -390,6 +306,9 @@ const ViewResultAll = (props: Props) => {
           </Typography>
           <hr />
           <Typography variant={"h4"} mb={1}>Student Details</Typography>
+
+
+
           <Table>
             <TableBody>
               {USSStudentsingleResult.map((item) => {
@@ -407,7 +326,11 @@ const ViewResultAll = (props: Props) => {
 
           <Box sx={{ overflowX: 'auto' }}>
             <Table>
+
+
               <TableBody>
+
+
                 <TableRow>
                   <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
                     Subjects
@@ -416,15 +339,25 @@ const ViewResultAll = (props: Props) => {
                     <TableCell><b>{subject.Name}</b></TableCell>
                   ))}
                 </TableRow>
+
                 <TableRow>
-                  {MarkDetailsView.map((subject) => (
-                    <TableCell>{subject.Name}</TableCell>
+                  <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                    Marks
+                  </Typography>
+                  {MarkDetailsView.map((marks) => (
+                    <TableCell>{marks.Name}</TableCell>
                   ))}
                 </TableRow>
+
                 <TableRow>
+                  <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                    Grade
+                  </Typography>
                   {GradesDetailsView.map((Grade) => (
-                    <TableCell>{Grade.Name}</TableCell>
-                  ))}
+                    <TableCell>{Grade.Name}
+                    </TableCell>
+                  )
+                  )}
                 </TableRow>
               </TableBody>
             </Table>
@@ -441,15 +374,23 @@ const ViewResultAll = (props: Props) => {
           BACK
         </Button>
       </Box>
-      <Box sx={{ background: 'white', p: 2 }}>
+      {/* <Box sx={{ background: 'white', p: 2 }}>
         <Alert variant="filled" color="info" sx={{ mb: 2 }} icon={<InfoOutlined />}>
-          All configured exams are not published
-        </Alert>
+             
+         {DisplayNote &&
+        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
+          {DisplayNote}
+            </Alert>
+        </Typography>
+      }
 
-      </Box>
+      </Box> */}
     </Box>
   );
 };
 
 export default ViewResultAll;
+
+
+
 

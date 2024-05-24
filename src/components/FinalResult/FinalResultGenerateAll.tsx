@@ -13,6 +13,7 @@ import CommonPageHeader from '../CommonPageHeader'
 
 type Props = {}
 
+
 const GenerateAll = ({ }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();

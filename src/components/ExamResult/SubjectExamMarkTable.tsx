@@ -249,33 +249,33 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
                       <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box sx={{ : 'flex', alignItems: 'center', gap: 1 }}>
 
-                          <TextField sx={{
-                            width: '80px',
-                            background: "#f5f5f5"
-                          }} size={"small"}
-                            disabled
-                            value={Item.TotalMarks}
-                          // value={getTotalMarks(Item.MarksForStudent)}
+                        <TextField sx={{
+                          width: '80px',
+                          background: "#f5f5f5"
+                        }} size={"small"}
+                          disabled
+                          value={Item.TotalMarks}
+                        // value={getTotalMarks(Item.MarksForStudent)}
 
-                          // value={Item.TotalMarks} 
-                          />
+                        // value={Item.TotalMarks} 
+                        />
 
-                          {getGrade(Item.MarksForStudent, Item.TotalMarks)}
-                        </Box>
+                        {getGrade(Item.MarksForStudent, Item.TotalMarks)}
+                      </Box>
                       </TableCell>
                     }
 
                   </TableRow>)
                 })
               }
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
 
-    </div>
+    </div >
   )
 }
 
