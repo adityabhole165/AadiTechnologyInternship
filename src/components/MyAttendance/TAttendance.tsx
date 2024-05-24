@@ -404,7 +404,7 @@ const TAttendance = () => {
             showAlert({
               title: 'Please Confirm',
               message:
-                'All the student are marked as present. Are you sure you want to save the attendance?',
+                'All the students are marked as present. Are you sure you want to save the attendance?',
               variant: 'warning',
               confirmButtonText: 'Confirm',
               cancelButtonText: 'Cancel',
@@ -420,7 +420,7 @@ const TAttendance = () => {
             showAlert({
               title: 'Please Confirm',
               message:
-                'All the student are marked as absent. Are you sure you want to save the attendance?',
+                'All the students are marked as absent. Are you sure you want to save the attendance?',
               variant: 'warning',
               confirmButtonText: 'Confirm',
               cancelButtonText: 'Cancel',
@@ -442,7 +442,7 @@ const TAttendance = () => {
         showAlert({
           title: 'Please Confirm',
           message:
-            'All the student are marked as ' +
+            'All the students are marked as ' +
             (asAllPresentOrAllAbsent === 'P' ? 'present' : 'absent') +
             '. Are you sure you want to save the attendance?',
           variant: 'warning',
