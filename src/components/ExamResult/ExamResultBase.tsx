@@ -44,9 +44,11 @@ const ExamResultBase = () => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserRole = localStorage.getItem('RoleName');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const [StandardDivisionId, setStandardDivisionId] = useState(
-    ParamsStandardDivisionId == undefined ? sessionStorage.getItem('TeacherId') : ParamsStandardDivisionId
-  );
+
+  // const [StandardDivisionId, setStandardDivisionId] = useState(
+  //   ParamsStandardDivisionId == undefined ? sessionStorage.getItem('TeacherId') : ParamsStandardDivisionId
+  // );
+
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState(
     ParamsTestId == undefined ? "0" : ParamsTestId
@@ -60,7 +62,11 @@ const ExamResultBase = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-
+  const [StandardDivisionId, setStandardDivisionId] = useState(
+    ParamsStandardDivisionId === undefined && ScreensAccessPermission !== 'Y'
+      ? sessionStorage.getItem('TeacherId')
+      : ParamsStandardDivisionId?.toString() || ''
+  );
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
   const ClassTeachers: any = useSelector(
@@ -192,12 +198,19 @@ const ExamResultBase = () => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
 
+  // useEffect(() => {
+  //   if (ClassTeachers.length > 0) {
+  //     setStandardDivisionId(ClassTeachers[0].Value);
+  //   }
+  // }, [ClassTeachers]);
   useEffect(() => {
-    if (ClassTeachers.length > 0) {
+    if (ClassTeachers && ClassTeachers.length > 0) {
       setStandardDivisionId(ClassTeachers[0].Value);
+      if (ScreensAccessPermission !== 'N' && ClassTeachers.length > 0) {
+        setStandardDivisionId(ClassTeachers[1].Value);
+      }
     }
-  }, [ClassTeachers]);
-
+  }, [ClassTeachers, ScreensAccessPermission]);
   useEffect(() => {
     setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
@@ -422,6 +435,11 @@ const ExamResultBase = () => {
     })
     return returnVal
   }
+  const getstdTeacherName = (list, value) => {
+    const teacher = list.find(teacher => teacher.Value === value);
+    return teacher ? teacher.Name : '';
+  };
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -429,6 +447,7 @@ const ExamResultBase = () => {
           { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' }
         ]}
         rightActions={<>
+
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ClassTeachers}
@@ -437,7 +456,11 @@ const ExamResultBase = () => {
             defaultValue={StandardDivisionId.toString()} // Convert number to string
             mandatory
             size={"small"}
+            DisableClearable={GetScreenPermission() === 'N'}
+            disabled={GetScreenPermission() === 'N'}
           />
+
+
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ClasswiseExams}

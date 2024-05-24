@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import HolidaysApi from 'src/api/Holiday/Holiday';
-import { getDateFormatted, isFutureDateTime } from 'src/components/Common/Util';
+import { getDateFormatted, getDateMonthYearFormatted, isFutureDateTime } from 'src/components/Common/Util';
 import IHolidays, { IGetHolidayBody, IHolidaysFA } from 'src/interfaces/Common/Holidays';
 import { AppThunk } from 'src/store';
 
@@ -87,12 +87,13 @@ export const getHolidays =
 export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetHolidayList1(data);
-
+   console.log(response,"response---");
+   
   const responseData = response.data.map((Item, i) => {
     return {
       Id: Item.Holiday_Id,
-      Text1: Item.Holiday_Start_Date,
-      Text2: Item.Holiday_End_Date,
+      Text1:  getDateMonthYearFormatted(Item.Holiday_Start_Date),
+      Text2:  getDateMonthYearFormatted(Item.Holiday_End_Date),
       Text3: Item.Holiday_Name,
       Text4: Item.AssociatedStandard,
       Text5: Item.TotalDays
@@ -105,9 +106,7 @@ export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) =>
 export const DeleteHolidayDetails = (data: IGetHolidayBody): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetDeleteHoliday(data);
-  console.log(response, 'dddf');
   dispatch(Holidaysslice.actions.getDeleteHolidayMsg(response.data));
-  console.log(response.data, 'assdf');
 };
 
 
