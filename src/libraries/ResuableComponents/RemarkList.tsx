@@ -35,6 +35,23 @@ function RemarkList({
 
   let List = useContext(ProgressRemarkTerm);
   
+  const replaceText = (text) => {
+    let replacedText = text.replace('%FNAME%', List.StudentId ? List.StudentFName : '');
+    if (List.PassSalutationId == 6) {
+      replacedText = replacedText.replace('%HE/SHE%', 'she');
+    } else if (List.PassSalutationId == 5) {
+      replacedText = replacedText.replace('%HE/SHE%', 'he');
+    }
+    if (List.PassSalutationId == 6) {
+      replacedText = replacedText.replace('%HIS/HER%', 'her');
+    } else if (List.PassSalutationId == 5) {
+      replacedText = replacedText.replace('%HIS/HER%', 'his');
+    }
+  
+    return replacedText;
+  };
+  
+
   return (
     <>
       <TableContainer component={Box} sx={{
@@ -85,7 +102,7 @@ function RemarkList({
                   />
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text1.replace('%FNAME%', List.StudentId ? List.StudentFName : '')}
+                  {replaceText(item.Text1)}
                 </TableCell>
               </TableRow>
             ))}
