@@ -225,7 +225,7 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
     dispatch(getMonthConfigurationForExamResult(MonthConfigurationForExamResult));
-  }, [StandardDivisionId]);
+  }, [StandardDivisionId, TestId]);
 
 
   useEffect(() => {
@@ -402,39 +402,7 @@ const ExamResultBase = () => {
 
     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
   };
-  // const clickPublishUnpublish = (publish, Reason = '') => {
-  //   if (publish) {
-  //     if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
-  //       return;
-  //     }
 
-  //     const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-  //       asSchoolId: Number(asSchoolId),
-  //       asStdDivId: Number(StandardDivisionId),
-  //       asAcadmicYearId: Number(asAcademicYearId),
-  //       asTest_Id: Number(TestId),
-  //       asUnpublishReason: null, // publish action
-  //       asPublishById: 1 //  publish
-  //     };
-
-  //     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
-  //   } else {
-  //     if (Reason !== '') {
-  //       const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-  //         asSchoolId: Number(asSchoolId),
-  //         asStdDivId: Number(StandardDivisionId),
-  //         asAcadmicYearId: Number(asAcademicYearId),
-  //         asTest_Id: Number(TestId),
-  //         asUnpublishReason: Reason,
-  //         asPublishById: 0 //  unpublish
-  //       };
-
-  //       dispatch(getPublishUnpublishExam(GetPublishUnpublish));
-
-  //       // toast.success(PublishUnpublish)
-  //     }
-  //   }
-  // };
   useEffect(() => {
 
     if (PublishUnpublish !== '') {
@@ -477,22 +445,6 @@ const ExamResultBase = () => {
             mandatory
             size={"small"}
           />
-
-          {/* <Tooltip title={DisplayNote}>
-            <IconButton
-
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[500]
-                }
-              }}
-            >
-              <QuestionMark />
-            </IconButton>
-          </Tooltip> */}
-
           <Tooltip title={HelpNote}>
             <IconButton
               sx={{
@@ -507,63 +459,6 @@ const ExamResultBase = () => {
             </IconButton>
           </Tooltip>
 
-
-          {/* <Tooltip title={"Toppers"} >
-            <IconButton
-              onClick={Toppers}
-              disabled={!ClassPassFailDetailsForButton || !ClassPassFailDetailsForButton?.ToppersGenerated}
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }}
-            >
-              <Person />
-            </IconButton>
-
-          </Tooltip> */}
-          {/* {ClassPassFailDetailsForButton && (
-            <Tooltip title={"Toppers"} >
-              <IconButton
-                onClick={Toppers}
-                disabled={!ClassPassFailDetailsForButton?.ToppersGenerated}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <Person />
-              </IconButton>
-            </Tooltip>
-          )} */}
-          {/* {ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'Y' && ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish &&
-            // || !MonthConfigurationForExam(
-            <Tooltip title={"Toppers"} >
-              <IconButton
-                onClick={Toppers}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }} disabled={(Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish)}
-
-              >
-                <Person />
-              </IconButton>
-            </Tooltip>
-          } */}
-
-
-
-
-
           <Tooltip title={"View Progress Report"}>
             <IconButton sx={{
               color: 'white',
@@ -572,7 +467,7 @@ const ExamResultBase = () => {
                 backgroundColor: grey[600]
               }
             }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || Submitted === 'N' && !ClassPassFailDetailsForButton?.IsPublish)
-              // || !MonthConfigurationForExam
+
             }>
               {/* VIEW PROGRESS REPORT  */}
               <FactCheck />
@@ -643,12 +538,7 @@ const ExamResultBase = () => {
               <Person />
             </IconButton>
           </Tooltip>
-
-
-
-
         </>}
-
       />
 
       {loading ? (
@@ -660,34 +550,14 @@ const ExamResultBase = () => {
               <Typography variant={'h4'} mb={1}>
 
               </Typography>
-              {/* <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
-                {DisplayNote}
-              </Typography> */}
             </Stack>
             <Stack direction={'row'} mb={1} justifyContent='space-between'>
-              {/* {!(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) && (
-                <Typography margin={'1px'}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={sendmeassagestudent}
-                        onChange={(e) => {
-                          handleCheckboxChange(e.target.checked);
-                        }}
-                      />
-                    }
-                    label="Send Message and Mobile Notification"
-                  />
-                </Typography>
-              )} */}
 
               <Stack direction={'row'} gap={1}>
                 <Button variant="contained" color="primary" onClick={ProgressRemark}>
                   Progress Remarks
                 </Button>
-                {/* <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
-                  Transfer Optional Subject Marks
-                </Button> */}
+
                 {GetScreenPermission() === 'Y' ? (
                   <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
                     Transfer Optional Subject Marks
@@ -749,10 +619,6 @@ const ExamResultBase = () => {
       }
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
-
-
-
-
         {Open && (
           <ExamResultUnpublish
             open={Open}
@@ -764,8 +630,6 @@ const ExamResultBase = () => {
 
           />
         )}
-
-
       </Box>
     </Box >
   );
