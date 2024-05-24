@@ -60,7 +60,7 @@ const ViewResultAll = (props: Props) => {
   //console.log(Usisconfigred, "issssssconfiiiig");
 
   const Usunpublishedexam = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
- // console.log(Usunpublishedexam, "unpublished name exam");
+  // console.log(Usunpublishedexam, "unpublished name exam");
 
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
 
@@ -325,42 +325,51 @@ const ViewResultAll = (props: Props) => {
           </Table>
 
           <Box sx={{ overflowX: 'auto' }}>
-            <Table>
+
+            {GetnotgenrateLists.length > 0 ? (
+              <Table>
 
 
-              <TableBody>
+                <TableBody>
 
 
-                <TableRow>
-                  <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                    Subjects
-                  </Typography>
-                  {SubjectDetailsView.map((subject) => (
-                    <TableCell><b>{subject.Name}</b></TableCell>
-                  ))}
-                </TableRow>
+                  <TableRow>
+                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                      Subjects
+                    </Typography>
+                    {SubjectDetailsView.map((subject) => (
+                      <TableCell><b>{subject.Name}</b></TableCell>
+                    ))}
+                  </TableRow>
 
-                <TableRow>
-                  <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                    Marks
-                  </Typography>
-                  {MarkDetailsView.map((marks) => (
-                    <TableCell>{marks.Name}</TableCell>
-                  ))}
-                </TableRow>
+                  <TableRow>
+                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                      Marks
+                    </Typography>
+                    {MarkDetailsView.map((marks) => (
+                      <TableCell>{marks.Name}</TableCell>
+                    ))}
+                  </TableRow>
 
-                <TableRow>
-                  <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                    Grade
-                  </Typography>
-                  {GradesDetailsView.map((Grade) => (
-                    <TableCell>{Grade.Name}
-                    </TableCell>
-                  )
-                  )}
-                </TableRow>
-              </TableBody>
-            </Table>
+                  <TableRow>
+                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                      Grade
+                    </Typography>
+                    {GradesDetailsView.map((Grade) => (
+                      <TableCell>{Grade.Name}
+                      </TableCell>
+                    )
+                    )}
+                  </TableRow>
+                </TableBody>
+              </Table>
+            ) : (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>Result not generated for this student: {isgenrate}</b>
+              </Typography>
+
+            )}
+
           </Box>
         </Box>
       </Box>
