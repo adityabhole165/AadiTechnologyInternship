@@ -39,7 +39,7 @@ import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
   const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -71,8 +71,8 @@ const ExamResultBase = () => {
   // const [StandardDivisionId, setStandardDivisionId] = useState(
   //   ParamsStandardDivisionId === undefined ? (ParamsStandardDivisionId?.toString() || '') : ''
   // );
-  const [StandardDivisionId, setStandardDivisionId] = useState(selectTeacher);
-  
+  const [StandardDivisionId, setStandardDivisionId] = useState(selectTeacher == undefined ? "0" : selectTeacher);
+
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
   const ClassTeachers: any = useSelector(
@@ -370,10 +370,10 @@ const ExamResultBase = () => {
     return classTeacherName;
   };
 
-  console.log(getClassTeacherName(),"----");
+  console.log(getClassTeacherName(), "----");
   console.log(StandardDivisionId);
-  
-  
+
+
 
   const ProgressRemark = (value) => {
     navigate('/extended-sidebar/Teacher/ProgressRemarks/' + TestId + '/' + StandardDivisionId);
