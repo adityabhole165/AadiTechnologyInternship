@@ -432,7 +432,7 @@ const ProgressRemarks = () => {
     };
 
     dispatch(CDAGetAllStudentswiseRemarkDetails(AllStudentsForProgressBody));
-  }, [page, selectTeacher, SelectTerm, StudentList]);
+  }, [page, selectTeacher, SelectTerm]);
 
 
   const Changevalue = (value) => {
@@ -468,6 +468,15 @@ const ProgressRemarks = () => {
       SetSelectTerm(USGetTestwiseTerm[0].Value);
     }
   }, [USGetTestwiseTerm]);
+
+  useEffect(() => {
+    if (USStudentListDropDown.length > 0) {
+      SetStudentList(USStudentListDropDown[0].Value);
+    }
+  }, [USStudentListDropDown]);
+
+
+
   useEffect(() => {
     if (GradeDropDown.length > 0) {
       SetSelectGrade(GradeDropDown[0].Value);
@@ -497,7 +506,7 @@ const ProgressRemarks = () => {
 
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
-    );[page, selectTeacher, SelectTerm, StudentList]
+    );[page, selectTeacher, SelectTerm]
   };
 
   useEffect(() => {
@@ -514,13 +523,13 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [SelectTerm]);
+  }, [SelectTerm,selectTeacher]);
 
   useEffect(() => {
     dispatch(
       CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
     );
-  }, [selectTeacher, SelectTerm, StudentList]);
+  }, [selectTeacher, SelectTerm,StudentList]);
 
   return (
     <Box sx={{ px: 2 }}>
@@ -615,25 +624,38 @@ const ProgressRemarks = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper>
-              <ProgressRemarkTerm.Provider value={SelectTerm}>
-                <ResizableCommentsBox
-                  HeaderArray={HeaderArray}
-                  ItemList={Itemlist}
-                  NoteClick={ClickAppropriate}
-                  setTextValues={TextValues}
-                />
-              </ProgressRemarkTerm.Provider>
-              <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
-                <Pagination
-                  count={5}
-                  variant={"outlined"}
-                  shape='rounded' showFirstButton
-                  showLastButton
-                  onChange={(event, value) => {
-                    handlePageChange(value);
-                  }}
-                />
-              </Box>
+
+            {USGetAllStudentswiseRemarkDetails.length > 0 ? (
+                 <ProgressRemarkTerm.Provider value={SelectTerm}>
+                 <ResizableCommentsBox
+                   HeaderArray={HeaderArray}
+                   ItemList={Itemlist}
+                   NoteClick={ClickAppropriate}
+                   setTextValues={TextValues}
+                 />
+               </ProgressRemarkTerm.Provider>
+              ) : (
+                <span> </span>
+
+              )}
+             
+              
+              {USGetAllStudentswiseRemarkDetails.length > 0 ? (
+                 <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
+                 <Pagination
+                   count={5}
+                   variant={"outlined"}
+                   shape='rounded' showFirstButton
+                   showLastButton
+                   onChange={(event, value) => {
+                     handlePageChange(value);
+                   }}
+                 />
+               </Box>
+              ) : (
+                <span> </span>
+
+              )}
             </Paper>
           </Grid>
           <Grid item xs={12}>
