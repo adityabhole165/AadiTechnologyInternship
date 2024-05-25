@@ -5,7 +5,7 @@ import { Box, Button, Grid, IconButton, Modal, Pagination, Paper, TextField, Too
 import { grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   IAllPrimaryClassTeachersBody,
@@ -66,6 +66,11 @@ const ProgressRemarks = () => {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
+
+  const { StandardDivisionId } =useParams();
+
+  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
+
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -79,11 +84,10 @@ const ProgressRemarks = () => {
     return perm;
   };
 
-  const determineInitialState = () => {
-    return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('TeacherId') || '';
-  };
+  // const determineInitialState = () => {
+  //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
+  // };
   
-  const [selectTeacher, SetselectTeacher] = useState(determineInitialState);
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "desc" },
@@ -535,7 +539,7 @@ const ProgressRemarks = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/'  + selectTeacher},
           { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>

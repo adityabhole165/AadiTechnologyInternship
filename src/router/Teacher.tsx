@@ -230,11 +230,15 @@ const teacherRoutes = [
     element: <MonthwiseAttandance />
   },
   {
+    path: 'ExamResultBase/:selectTeacher',
+    element: <ExamResultBase />
+  },
+  {
     path: 'ExamResultBase',
     element: <ExamResultBase />
   },
   {
-    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId',
+    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId/:selectTeacher',
     element: <ExamResultBase />
   },
   {
@@ -302,7 +306,7 @@ const teacherRoutes = [
   },
 
   {
-    path: 'ProgressRemarks',
+    path: 'ProgressRemarks/:TestId/:StandardDivisionId',
     element: <ProgressRemarks />
   },
 

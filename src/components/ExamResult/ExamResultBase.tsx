@@ -38,7 +38,8 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
-  const { ParamsStandardDivisionId, ParamsTestId } = useParams();
+  const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -70,7 +71,7 @@ const ExamResultBase = () => {
   // const [StandardDivisionId, setStandardDivisionId] = useState(
   //   ParamsStandardDivisionId === undefined ? (ParamsStandardDivisionId?.toString() || '') : ''
   // );
-  const [StandardDivisionId, setStandardDivisionId] = useState("0");
+  const [StandardDivisionId, setStandardDivisionId] = useState(selectTeacher);
   
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
@@ -360,9 +361,23 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
   };
 
-  const ProgressRemark = (value) => {
-    navigate('/extended-sidebar/Teacher/ProgressRemarks');
+  const getClassTeacherName = () => {
+    let classTeacherName = '';
+    ClassTeachers.map((item) => {
+      if (item.Value == StandardDivisionId) classTeacherName = item.Name;
+    });
+
+    return classTeacherName;
   };
+
+  console.log(getClassTeacherName(),"----");
+  console.log(StandardDivisionId);
+  
+  
+
+  const ProgressRemark = (value) => {
+    navigate('/extended-sidebar/Teacher/ProgressRemarks/' + TestId + '/' + StandardDivisionId);
+  }
   const ViewProgressRemark = (value) => {
     navigate('/extended-sidebar/Teacher/ViewProgressReport/' + TestId + '/' + StandardDivisionId);
   };
@@ -462,7 +477,7 @@ const ExamResultBase = () => {
             ItemList={ClassTeachers}
             onChange={clickTeacher}
             label={'Teacher'}
-            defaultValue={StandardDivisionId.toString()} // Convert number to string
+            defaultValue={StandardDivisionId} // Convert number to string
             mandatory
             size={"small"}
             DisableClearable={GetScreenPermission() === 'N'}
