@@ -88,7 +88,7 @@ const ProgressRemarkSlice = createSlice({
 
 
     RresetSaveMassage(state) {
-      state.ISresetSaveMassage = '';
+      state.ISUpdateAllStudentsRemarkDetailsBody = '';
     }
   }
 

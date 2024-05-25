@@ -452,17 +452,8 @@ const ProgressRemarks = () => {
   useEffect(() => {
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
-  console.log(USGetAllStudentswiseRemarkDetails, "USGetAllStudentswiseRemarkDetails");
 
-  useEffect(() => {
-    if (UpdateAllStudentsRemarkDetail != '') {
-      toast.success(UpdateAllStudentsRemarkDetail);
-      dispatch(CDAresetSaveMassage());
-      dispatch(
-        CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
-      );
-    }
-  }, [UpdateAllStudentsRemarkDetail]);
+ 
   useEffect(() => {
     if (USGetTestwiseTerm.length > 0) {
       SetSelectTerm(USGetTestwiseTerm[0].Value);
@@ -509,6 +500,7 @@ const ProgressRemarks = () => {
     );[page, selectTeacher, SelectTerm]
   };
 
+
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
   }, []);
@@ -530,6 +522,14 @@ const ProgressRemarks = () => {
       CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
     );
   }, [selectTeacher, SelectTerm,StudentList]);
+  useEffect(() => {
+    if (UpdateAllStudentsRemarkDetail != '') {
+      toast.success(UpdateAllStudentsRemarkDetail);
+      dispatch(CDAresetSaveMassage());
+      CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
+
+    }
+  }, [UpdateAllStudentsRemarkDetail]);
 
   return (
     <Box sx={{ px: 2 }}>
@@ -586,7 +586,8 @@ const ProgressRemarks = () => {
             </Tooltip>
           </Box>
           <Box>
-            <Tooltip title={'Export'}>
+          {USGetAllStudentswiseRemarkDetails.length > 0 ?
+           <Tooltip title={'Export'}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -598,9 +599,11 @@ const ProgressRemarks = () => {
               >
                 <Download />
               </IconButton>
-            </Tooltip>
+            </Tooltip> : null
+        }
+           
           </Box>
-          <Box> {USGetFinalPublishedExamStatus.IsPublishedStatus == 1 &&
+          <Box> 
             <Tooltip title={'Save'}>
               <IconButton
                 onClick={UpdateRemark}
@@ -608,11 +611,12 @@ const ProgressRemarks = () => {
                   color: 'white',
                   backgroundColor: 'green'
                 }}
-              >
+                disabled={USGetFinalPublishedExamStatus.IsPublishedStatus == 1}
+                >
                 <SaveIcon />
               </IconButton>
             </Tooltip>
-          }
+        
 
           </Box>
         </>}
