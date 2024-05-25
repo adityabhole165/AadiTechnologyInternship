@@ -44,7 +44,6 @@ import ProgressRemarksNotes from './ProgressRemarksNotes';
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectTeacher, SetselectTeacher] = useState(sessionStorage.getItem('TeacherId'));
   const [SelectTerm, SetSelectTerm] = useState();
   const [SelectGrade, SetSelectGrade] = useState();
   const [page, setPage] = useState(1)
@@ -52,7 +51,9 @@ const ProgressRemarks = () => {
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [open, setOpen] = useState(false);
   const [Itemlist, setItemlist] = useState([]);
-
+  
+   
+  
 
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
@@ -64,6 +65,25 @@ const ProgressRemarks = () => {
   const itemsPerPage = 20;
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+
+
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission?.map((item) => {
+      if (item.ScreenName === 'Progress Remarks') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+
+  const determineInitialState = () => {
+    return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('TeacherId') || '';
+  };
+  
+  const [selectTeacher, SetselectTeacher] = useState(determineInitialState);
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "desc" },
@@ -124,6 +144,9 @@ const ProgressRemarks = () => {
     (state: RootState) =>
       state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
   );
+
+  console.log(USGetAllStudentswiseRemarkDetails,"USGetAllStudentswiseRemarkDetails");
+  
   const USRemarkDetailsHeaderList: any = useSelector(
     (state: RootState) =>
       state.ProgressRemarkSlice.ISRemarkDetailsHeaderList
@@ -193,18 +216,7 @@ const ProgressRemarks = () => {
   //   return sXML;
   // };
 
-  const ScreensAccessPermission = JSON.parse(
-    sessionStorage.getItem('ScreensAccessPermission')
-  );
-
-
-  const GetScreenPermission = () => {
-    let perm = 'N';
-    ScreensAccessPermission?.map((item) => {
-      if (item.ScreenName === 'Progress Remarks') perm = item.IsFullAccess;
-    });
-    return perm;
-  };
+ 
 
   const getStdDivisionId = () => {
     let returnVal = 0
@@ -349,6 +361,7 @@ const ProgressRemarks = () => {
   const clickSelectClass = (value) => {
     SetselectTeacher(value);
   };
+
   const clickRemark = (value) => {
     setRemark(value);
   };
@@ -364,6 +377,8 @@ const ProgressRemarks = () => {
     });
     return classStudentName;
   };
+
+     
 
   const FStudentName = () => {
     let classStudentName = '';
@@ -381,10 +396,15 @@ const ProgressRemarks = () => {
     return classStudentName;
   };
 
+
+  
+  
+
   const StudentFName = FStudentName()
   const PassSalutationId = GEtSalutation()
 
-
+  
+  
 
 
   const studentName = getStudentName();
@@ -482,7 +502,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
-  }, [SelectTerm]);
+  }, []);
 
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
@@ -516,9 +536,9 @@ const ProgressRemarks = () => {
             sx={{ pl: 0, minWidth: '350px' }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
-            defaultValue={GetScreenPermission() == "Y" ? USClassTeachers[0] : selectTeacher}
+            defaultValue={selectTeacher}
             size={"small"}
-            DisableClearable={GetScreenPermission() === 'N'}
+            DisableClearable={GetScreenPermission() == 'N'}
           />
 
 
