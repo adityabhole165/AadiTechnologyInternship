@@ -62,11 +62,16 @@ const ExamResultBase = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(
-    ParamsStandardDivisionId === undefined && ScreensAccessPermission !== 'Y'
-      ? sessionStorage.getItem('TeacherId')
-      : ParamsStandardDivisionId?.toString() || ''
-  );
+  // const [StandardDivisionId, setStandardDivisionId] = useState(
+  //   ParamsStandardDivisionId === undefined && ScreensAccessPermission !== 'Y'
+  //     ? sessionStorage.getItem('TeacherId')
+  //     : ParamsStandardDivisionId?.toString() || ''
+  // );
+  // const [StandardDivisionId, setStandardDivisionId] = useState(
+  //   ParamsStandardDivisionId === undefined ? (ParamsStandardDivisionId?.toString() || '') : ''
+  // );
+  const [StandardDivisionId, setStandardDivisionId] = useState("0");
+  
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
   const ClassTeachers: any = useSelector(
@@ -143,7 +148,8 @@ const ExamResultBase = () => {
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : StandardDivisionId)
+    asTeacherId: Number(GetScreenPermission() === 'Y' ? 0 : StandardDivisionId)
+    // asTeacherId: 0
   };
 
   const GetClasswiseExamDropdown: IGetClasswiseExamDropdownBody = {
@@ -205,9 +211,12 @@ const ExamResultBase = () => {
   // }, [ClassTeachers]);
   useEffect(() => {
     if (ClassTeachers && ClassTeachers.length > 0) {
-      setStandardDivisionId(ClassTeachers[0].Value);
-      if (ScreensAccessPermission !== 'N' && ClassTeachers.length > 0) {
-        setStandardDivisionId(ClassTeachers[1].Value);
+      if (ScreensAccessPermission === 'Y') {
+        setStandardDivisionId(ClassTeachers[0].Value);
+
+      } else {
+        // setStandardDivisionId(sessionStorage.getItem('StandardDivisionId') || '');
+        setStandardDivisionId(StandardDivisionId);
       }
     }
   }, [ClassTeachers, ScreensAccessPermission]);
