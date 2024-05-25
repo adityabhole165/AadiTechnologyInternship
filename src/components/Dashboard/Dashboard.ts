@@ -394,17 +394,6 @@ const DashboardData = {
         Link: 'Teacher/AssignPrePrimaryGrades',
         index: 8
       },
-
-      {
-        Text1: 'Progress',
-        Text2: 'Remarks',
-        Color: '#ef5350',
-        iconColor: '#f0483e ',
-        Icon: CakeIcon,
-        Link: 'Teacher/ProgressRemarks',
-        index: 7
-      },
-
       {
         Text1: 'AddHomework',
         Text2: '',
