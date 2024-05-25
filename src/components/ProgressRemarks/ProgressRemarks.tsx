@@ -534,11 +534,12 @@ const ProgressRemarks = () => {
           <SearchableDropdown
             label={"Subject Teacher"}
             sx={{ pl: 0, minWidth: '350px' }}
-            ItemList={USClassTeachers}
-            onChange={clickSelectClass}
+            ItemList={ USClassTeachers}
+            onChange={clickSelectClass }
             defaultValue={selectTeacher}
             size={"small"}
             DisableClearable={GetScreenPermission() == 'N'}
+            disabled={GetScreenPermission() == 'N'}
           />
 
 
