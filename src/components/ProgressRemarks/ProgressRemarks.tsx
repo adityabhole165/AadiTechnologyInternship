@@ -608,6 +608,9 @@ const ProgressRemarks = () => {
            
           </Box>
           <Box> 
+          {USGetAllStudentswiseRemarkDetails.length > 0 ?(
+
+          
             <Tooltip title={'Save'}>
               <IconButton
                 onClick={UpdateRemark}
@@ -620,7 +623,11 @@ const ProgressRemarks = () => {
                 <SaveIcon />
               </IconButton>
             </Tooltip>
-        
+          ) :(
+            <span></span>
+          )
+
+        }
 
           </Box>
         </>}
