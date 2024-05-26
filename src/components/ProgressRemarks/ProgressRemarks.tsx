@@ -90,7 +90,7 @@ const ProgressRemarks = () => {
   
 
   const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: '', SortOrder: "desc" },
+    { Id: 1, Header: '', SortOrder: "asc" },
     { Id: 2, Header: 'Remark Template' },
   ]);
   const [HeaderArray, setHeaderArray] = useState([]);
@@ -321,23 +321,58 @@ const ProgressRemarks = () => {
   }
   const [ColIndex, SetColIndex] = useState([-1])
 
+  // const TextChange1 = () => {
+  //   setItemlist(prevItemlist =>
+  //     prevItemlist.map(item => {
+  //       if (item.Id === StudentId) {
+  //         const activeTexts = getActiveTexts().join(' ');
+  //         return {
+  //           ...item,
+  //           Remarks: item.Remarks.map((remark, i) => {
+  //             const newText3 = remark.Text3 + activeTexts;
+  //             return { ...remark, Text3: (i == ColIndex) ? newText3.slice(0, 300) : remark.Text3  };
+  //           })
+  //         };
+  //       }
+  //       return item;
+  //     })
+  //   );
+  // };
+
   const TextChange1 = () => {
     setItemlist(prevItemlist =>
       prevItemlist.map(item => {
         if (item.Id === StudentId) {
           const activeTexts = getActiveTexts().join(' ');
+          let showAlert = false;
+  
+          const updatedRemarks = item.Remarks.map((remark, i) => {
+            if (i === ColIndex) {
+              const newText3 = remark.Text3 + activeTexts;
+              if (newText3.length > 300) {
+                showAlert = true;
+                return remark; // Return the original remark without changes
+              } else {
+                return { ...remark, Text3: newText3 };
+              }
+            }
+            return remark;
+          });
+  
+          if (showAlert) {
+            alert("Remarks length should not be more than 300");
+          }
+  
           return {
             ...item,
-            Remarks: item.Remarks.map((remark, i) => {
-              const newText3 = remark.Text3 + activeTexts;
-              return { ...remark, Text3: (i == ColIndex) ? newText3.slice(0, 300) : remark.Text3 };
-            })
+            Remarks: updatedRemarks
           };
         }
         return item;
       })
     );
   };
+  
 
 
 
@@ -728,6 +763,7 @@ const ProgressRemarks = () => {
               <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
                 {remarkTemplates.length > 0 ? (
                   <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
+                  
                     <RemarkList
                       ItemList={remarkTemplates}
                       HeaderArray={HeaderPublish}
@@ -744,16 +780,22 @@ const ProgressRemarks = () => {
 
             </Box>
             <Box>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: '#5ec479',
-                  color: 'White',
-                  marginRight: '10px'
-                }}
-                onClick={SelectClick} >
-                SELECT
-              </Button>
+            <Button
+        variant="contained"
+        sx={{
+          backgroundColor: remarkTemplates.length === 0 ? '#c8e6c9' : '#5ec479',
+          color: 'white',
+          marginRight: '10px',
+          '&:disabled': {
+            backgroundColor: '#c8e6c9', 
+            color: 'white',
+          },
+        }}
+        onClick={SelectClick}
+        disabled={remarkTemplates.length === 0}
+      >
+        SELECT
+      </Button>
               <Button
                 variant="contained"
                 style={{
