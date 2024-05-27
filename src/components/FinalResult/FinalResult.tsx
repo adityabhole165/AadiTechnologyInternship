@@ -45,6 +45,7 @@ import {
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
+import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable, { Column } from '../DataTable';
 const FinalResult = () => {
@@ -80,6 +81,8 @@ const FinalResult = () => {
     })
     return returnVal
   };
+
+  const FinalResultFullAccess = GetScreenPermission('Final Result')
 
   const AssignmentClickIcon = (value) => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
@@ -187,6 +190,7 @@ const FinalResult = () => {
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
   );
+
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
@@ -237,7 +241,7 @@ const FinalResult = () => {
 
   console.log("GetTestPublished", GetTestPublished)
 
-  const GetAtleastOneResultGenerated = useSelector(
+  const GetAtleastOneResultGenerated: any = useSelector(
     (state: RootState) => state.FinalResult.GetAtleastOneResultGenerated
   );
 
@@ -411,7 +415,7 @@ const FinalResult = () => {
       }
       dispatch(GetPublishResult(PublishBody))
 
-      // dispatch(GetUnpublishResult(UnpublishResultBody))
+      dispatch(GetUnpublishResult(UnpublishResultBody))
 
     };
 
@@ -520,10 +524,10 @@ const FinalResult = () => {
             <Tooltip title={"Generate All"}>
               <IconButton
                 onClick={onClickPublish}
-                disabled={!GetResultGenerated}
+                disabled={GetResultGenerated == true}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: GetResultGenerated == true ? grey[500] : grey[200],
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
@@ -555,10 +559,10 @@ const FinalResult = () => {
             <Tooltip title={"Unpublish"}>
               <IconButton
                 onClick={ClickOpenDialogbox}
-                disabled={GetResultGenerated}
+                disabled={GetResultGenerated == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: GetResultGenerated == false ? grey[500] : grey[200],
                   '&:hover': {
                     backgroundColor: red[600]
                   }
@@ -572,10 +576,10 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={!GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish}
+                disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false ? grey[500] : grey[200],
                   '&:hover': {
                     backgroundColor: green[600]
                   }
