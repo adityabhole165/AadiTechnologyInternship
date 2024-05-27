@@ -100,19 +100,19 @@ const ViewResultAll = (props: Props) => {
   };
 
   const StudentsingleresultBody: IGetsingleStudentBody = {
-    // asSchoolId: Number(asSchoolId),
-    // asAcademicYearId: asAcademicYearId,
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: asAcademicYearId,
     // asStudentId: studentList,
-    // // asStudentId: Number(studentList),
-    // asInsertedById: Number(asUserId),
-    // asWithGrace: 0,
+    asStudentId: Number(studentList),
+    asInsertedById: Number(asUserId),
+    asWithGrace: 0,
 
 
-    asSchoolId: 18,
-    asAcademicYearId: 53,
-    asStudentId: 32682,
-    asInsertedById: 1,
-    asWithGrace: 0
+    // asSchoolId: 18,
+    // asAcademicYearId: 53,
+    // asStudentId: 32682,
+    // asInsertedById: 1,
+    // asWithGrace: 0
 
 
 
@@ -309,24 +309,32 @@ const ViewResultAll = (props: Props) => {
 
 
 
-          <Table>
-            <TableBody>
-              {USSStudentsingleResult.map((item) => {
-                return (
-                  <TableRow sx={{ bgcolor: 'grey.200' }}>
-                    <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
-                    <TableCell><b>Name:</b> {item.Text1}	</TableCell>
-                    <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
-                    <TableCell><b>Year:</b> {item.Text5}	</TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
+        
+
+
+          {MarkDetailsView.length > 0 ? (
+                 <Table>
+                 <TableBody>
+                   {USSStudentsingleResult.map((item) => {
+                     return (
+                       <TableRow sx={{ bgcolor: 'grey.200' }}>
+                         <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
+                         <TableCell><b>Name:</b> {item.Text1}	</TableCell>
+                         <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
+                         <TableCell><b>Year:</b> {item.Text5}	</TableCell>
+                       </TableRow>
+                     )
+                   })}
+                 </TableBody>
+               </Table>
+              ) : (
+                <span></span>
+              )}
+
 
           <Box sx={{ overflowX: 'auto' }}>
 
-            {GetnotgenrateLists.length > 0 ? (
+            {MarkDetailsView.length > 0 ? (
               <Table>
 
 
