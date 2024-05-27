@@ -138,7 +138,7 @@ const SubjectMarkList = () => {
                   )
 
                   || rowData.Marks[i].theoryType === "-" && (
-                    <span style={{ color: 'green', fontWeight: 'bold' }}>{rowData.Marks[i].theoryType}</span>
+                    <span style={{ color: 'green', fontWeight: 'bold', backgroundColor: '#FFB6C1', padding: '10px' }}>{rowData.Marks[i].theoryType}</span>
                   )
 
                   || rowData.Marks[i].theoryType === "Ab" && (
