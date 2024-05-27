@@ -17,12 +17,13 @@ function ResizableCommentsBox({
   setTextValues
 }) {
   const TextChange = (value) => {
-    if (value.Value.length <= 300) {
+    const filteredValue = value.Value.replace(/[^a-zA-Z\s]/g, '');
+    if (filteredValue.length <= 300) {
       ItemList = ItemList.map((item) =>{
         return { ...item,
           Remarks: item.Remarks.map((RemarksItem, i)=>{
           return { ...RemarksItem,
-            Text3: ( value.Id === item.Id && value.Index == i) ? value.Value  : RemarksItem.Text3
+            Text3: ( value.Id === item.Id && value.Index == i) ? filteredValue   : RemarksItem.Text3
         }
       })
       }
