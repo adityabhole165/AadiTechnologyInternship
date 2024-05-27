@@ -18,16 +18,19 @@ function HolidaysList({
   clickDelete,
 }) {
 
-  function findRecentUpcomingDate() {
-    const upcomingDates = ItemList.filter(item => isFutureDate(new Date(item.Text1)));
-    upcomingDates.sort((a, b) => new Date(a.Text1).getTime() - new Date(b.Text1).getTime());
-    if (upcomingDates.length === 0) {
-      return null;
-    }
-    return upcomingDates[upcomingDates.length - 1].Text1;
-  }
+  console.log(ItemList,"ItemList----------");
+  
 
-  let recentUpcomingDate = findRecentUpcomingDate();
+  // function findRecentUpcomingDate() {
+  //   const upcomingDates = ItemList.filter(item => isFutureDate(new Date(item.Text1)));
+  //   upcomingDates.sort((a, b) => new Date(a.Text1).getTime() - new Date(b.Text1).getTime());
+  //   if (upcomingDates.length === 0) {
+  //     return null;
+  //   }
+  //   return upcomingDates[upcomingDates.length - 1].Text1;
+  // }
+
+  // let recentUpcomingDate = findRecentUpcomingDate();
 
 
   return (
@@ -51,11 +54,7 @@ function HolidaysList({
           </TableHead>
           <TableBody>
             {ItemList.map((item, index) => {
-              const isFuture = isFutureDate(new Date(item.Text1));
-              const isEqual = item.Text1 == item.Text2;
-              const isNextUpcoming = recentUpcomingDate == item.Text1;
-              // const backgroundColor = isFuture ? "#ffcdd2" : 'inherit' ||
-              //   isEqual ? '#f3e5f5' : 'inherit' || 
+              
               const backgroundColor = (isFutureDateTime(item.Text1) && index == 0) ? '#EFDCC9 ! important' :
                 isPastDateTime(item.Text1) ? "white" : 'white';
 
