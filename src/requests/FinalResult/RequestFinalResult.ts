@@ -29,7 +29,7 @@ const FinalResultSlice = createSlice({
     HeaderList: [],
     GetConfiguredTestPublished: [],
     GetResultPublishd: false,
-    GetAtleastOneResultGenerated: null,
+    GetAtleastOneResultGenerated: {},
     GetTestPublished: true,
     Loading: true
   },
