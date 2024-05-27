@@ -56,14 +56,19 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         <Typography variant="h6">
           Enter reason for unpublish
         </Typography>
-        <Typography variant="body2" color="error">
-          * Mandatory Fields
-        </Typography>
+
+
       </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
-        <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Exam :
-        </Typography>
+        <Grid container justifyContent="space-between" alignItems="center">
+
+          <Typography variant={"h4"} sx={{ mb: 1 }}>
+            Exam :
+          </Typography>
+          <Typography variant="body2" color="error">
+            * Mandatory Fields
+          </Typography>
+        </Grid>
         <Grid container spacing={1} alignItems="center">
 
           <Grid item xs={2}>
@@ -99,6 +104,8 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
             setReason(e.target.value);
           }}
           sx={{ width: '100%' }}
+          error={ReasonError !== ''}
+          helperText={ReasonError}
         />
       </DialogContent>
       <DialogActions sx={{ py: 2, px: 3 }}>
