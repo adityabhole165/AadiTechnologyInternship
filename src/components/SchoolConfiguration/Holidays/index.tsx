@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
 import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
-import DataTable, { Column } from "src/components/DataTable"
+import { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
 import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
@@ -32,14 +32,12 @@ const Holidays = (props: Props) => {
         (state: RootState) => state.Holidays.HolidaysDataF
     );
 
-      
-       
 
     const deleteHolidaydetailsMsg = useSelector(
         (state: RootState) => state.Holidays.DeleteHolidayMsg
     );
 
-    
+
 
     const getHolidayColumns = () => {
         let HolidayColumns: Column[] = [
@@ -135,8 +133,8 @@ const Holidays = (props: Props) => {
         { Id: 5, Header: ' totalDays' },
         { Id: 6, Header: 'Edit' },
         { Id: 7, Header: 'Delete' }
-      ];
-    
+    ];
+
     const [holidayColumns, setHolidayColumns] = useState<Column[]>(getHolidayColumns());
 
     const body: IHolidaysFA = {
@@ -235,11 +233,11 @@ const Holidays = (props: Props) => {
                 /> */}
 
                 <HolidaysList
-                 ItemList={holidaysList}
-                 clickEdit={editRow}
-                 HeaderArray={HeaderPublish}
-                 clickDelete={deleteRow}
-                 />
+                    ItemList={holidaysList}
+                    clickEdit={editRow}
+                    HeaderArray={HeaderPublish}
+                    clickDelete={deleteRow}
+                />
             </Box>
         </Box>
     )

@@ -56,11 +56,18 @@ function HolidaysList({
               const isNextUpcoming = recentUpcomingDate == item.Text1;
               // const backgroundColor = isFuture ? "#ffcdd2" : 'inherit' ||
               //   isEqual ? '#f3e5f5' : 'inherit' || 
-              const backgroundColor = (isFutureDateTime(item.Text1) && index == 0) ? 'purple' :
-                isPastDateTime(item.Text1) ? "#ffcdd2" : '#f3e5f5';
+              const backgroundColor = (isFutureDateTime(item.Text1) && index == 0) ? '#EFDCC9 ! important' :
+                isPastDateTime(item.Text1) ? "white" : 'white';
+
+              const rowStyle = isPastDateTime(new Date(item.Text1)) ? {
+                backgroundColor: 'lightgrey',
+                opacity: 0.5,
+                pointerEvents: 'none'
+              } : { backgroundColor };
+
 
               return (
-                <TableRow key={item.Id}>
+                <TableRow key={item.Id} sx={rowStyle}>
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
