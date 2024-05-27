@@ -39,7 +39,7 @@ const SubjectExamMarks = () => {
   //   return current.isBefore(today)
   // }
   let { ClassTecher, ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp } = useParams();
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publishStatus } = useParams();
 
   // const [examResultProp, setexamResultProp] = useState(false);
 
@@ -421,12 +421,18 @@ const SubjectExamMarks = () => {
             ? (examResultProp === "true"
               ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
               : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
+
             : (examResultProp === "true"
               ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
               : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
         }
+        // publishStatus={publishStatus}
 
-
+        // {publishStatus && (
+        //   <div className="note">
+        //     <p>The exam results have been published.</p>
+        //   </div>
+        // )}
 
 
         rightActions={

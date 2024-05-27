@@ -131,7 +131,7 @@ export const getClassTeachers =
         abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
-          Value: item.Teacher_Id
+          Value: item.SchoolWise_Standard_Division_Id
         });
       });
 

@@ -21,11 +21,19 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
   };
 
 
+  // const ClickOk = () => {
+  //   if (Reason !== '') clickPublishUnpublish(false, Reason);
+  //   setOpen(false);
+  // };
   const ClickOk = () => {
-    if (Reason !== '') clickPublishUnpublish(false, Reason);
-    setOpen(false);
+    if (Reason === '') {
+      setReasonError('Please fix the following error(s): Reason for Unpublish should not be blank.');
+    } else {
+      setReasonError('');
+      clickPublishUnpublish(false, Reason);
+      setOpen(false);
+    }
   };
-
 
   return (
     <Dialog
@@ -39,9 +47,19 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
       <DialogTitle
         sx={{
           backgroundColor: (theme) => theme.palette.error.main,
-          py: 1
+          py: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}
-      ></DialogTitle>
+      >
+        <Typography variant="h6">
+          Enter reason for unpublish
+        </Typography>
+        <Typography variant="body2" color="error">
+          * Mandatory Fields
+        </Typography>
+      </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Typography variant={"h4"} sx={{ mb: 1 }}>
           Exam :
@@ -71,7 +89,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         </Grid>
         <br></br>
         <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Unpublish Reason
+          Unpublish Reason<span style={{ color: 'red' }}>*</span>
         </Typography>
         <TextField
           multiline

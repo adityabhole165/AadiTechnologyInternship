@@ -63,16 +63,17 @@ const ExamResultBase = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  // const [StandardDivisionId, setStandardDivisionId] = useState(
-  //   ParamsStandardDivisionId === undefined && ScreensAccessPermission !== 'Y'
-  //     ? sessionStorage.getItem('TeacherId')
-  //     : ParamsStandardDivisionId?.toString() || ''
-  // );
-  // const [StandardDivisionId, setStandardDivisionId] = useState(
-  //   ParamsStandardDivisionId === undefined ? (ParamsStandardDivisionId?.toString() || '') : ''
-  // );
-  const [StandardDivisionId, setStandardDivisionId] = useState(selectTeacher == undefined ? "0" : selectTeacher);
+  const [StandardDivisionId, setStandardDivisionId] = useState(
+    ParamsStandardDivisionId !== undefined
+      ? ParamsStandardDivisionId.toString()
+      : (selectTeacher !== undefined ? selectTeacher : "0")
+  );
 
+  // const [StandardDivisionId, setStandardDivisionId] = useState(
+  //   ParamsStandardDivisionId !== undefined && ScreensAccessPermission !== 'Y'
+  //     ? sessionStorage.getItem('TeacherId') || ParamsStandardDivisionId.toString()
+  //     : (selectTeacher !== undefined ? selectTeacher : '0')
+  // );
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
   const ClassTeachers: any = useSelector(
@@ -145,11 +146,13 @@ const ExamResultBase = () => {
     });
     return perm;
   };
+  console.log("GetScreenPermission", GetScreenPermission())
 
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: Number(GetScreenPermission() === 'Y' ? 0 : StandardDivisionId)
+    asTeacherId: GetScreenPermission() === 'Y' ? 0 : Number(sessionStorage.getItem('TeacherId'))
+    //asTeacherId: Number(GetScreenPermission() === 'Y' ? 0 : StandardDivisionId)
     // asTeacherId: 0
   };
 
@@ -210,17 +213,29 @@ const ExamResultBase = () => {
   //     setStandardDivisionId(ClassTeachers[0].Value);
   //   }
   // }, [ClassTeachers]);
+  // useEffect(() => {
+  //   if (ClassTeachers && ClassTeachers.length > 0) {
+  //     if (ScreensAccessPermission === 'Y') {
+  //       setStandardDivisionId(ClassTeachers[0].Value);
+
+  //     } else {
+  //       // setStandardDivisionId(sessionStorage.getItem('TeacherId'));
+  //       setStandardDivisionId(StandardDivisionId);
+  //     }
+  //   }
+  // }, [ClassTeachers, ScreensAccessPermission]);
   useEffect(() => {
     if (ClassTeachers && ClassTeachers.length > 0) {
-      if (ScreensAccessPermission === 'Y') {
+      if (GetScreenPermission() === 'Y') {
         setStandardDivisionId(ClassTeachers[0].Value);
-
       } else {
-        // setStandardDivisionId(sessionStorage.getItem('StandardDivisionId') || '');
-        setStandardDivisionId(StandardDivisionId);
+        const teacherIdFromSession = sessionStorage.getItem('TeacherId');
+        if (teacherIdFromSession !== null) {
+          setStandardDivisionId(teacherIdFromSession);
+        }
       }
     }
-  }, [ClassTeachers, ScreensAccessPermission]);
+  }, [ClassTeachers, GetScreenPermission()]);
   useEffect(() => {
     setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
