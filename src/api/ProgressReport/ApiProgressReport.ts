@@ -1,6 +1,6 @@
 import { IGetClassTeachersBody, IGetClassTeachersResult } from "src/interfaces/ProgressReport/IprogressReport";
 import http from '../../requests/SchoolService/schoolServices';
-import { IGetStudentNameDropdownBody, IGetStudentNameDropdownResult } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetStudentNameDropdownBody, IGetStudentNameDropdownResult,IStudentProgressReportBody ,IStudentProgressReportResult} from "src/interfaces/ProgressReport/IprogressReport";
 
 const GetClassTeachers = (data: IGetClassTeachersBody ) => {
     return http.post<IGetClassTeachersResult[]>(
@@ -17,9 +17,17 @@ const GetClassTeachers = (data: IGetClassTeachersBody ) => {
     );
   };
 
+  const StudentProgressReport = (data: IStudentProgressReportBody) => {
+    return http.post<IStudentProgressReportResult[]>(
+      'Teacher/StudentProgressReport',
+      data
+    );
+  };
+
 const ApiProgressReport = {
     GetClassTeachers,
-    GetStudentNameDropdown
+    GetStudentNameDropdown,
+    StudentProgressReport
    
   };
   export default ApiProgressReport;

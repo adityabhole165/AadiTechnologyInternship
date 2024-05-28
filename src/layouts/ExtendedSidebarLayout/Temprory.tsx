@@ -119,6 +119,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Progress Remarks',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ProgressRemarks'
+    },
+    {
+      title: 'Progress Report',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/ProgressReportNew'
     }
   ];
   const activeStyle = {

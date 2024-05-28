@@ -2,9 +2,9 @@
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetClassTeachersBody,IGetStudentNameDropdownBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetClassTeachersBody,IGetStudentNameDropdownBody,IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetClassTeachers,CDAGetStudentName } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetClassTeachers,CDAGetStudentName,CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -13,16 +13,24 @@ const ProgressReportNew = () => {
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const TeacherId = sessionStorage.getItem('TeacherId');
+    const asUserId = Number(sessionStorage.getItem('Id'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const [selectTeacher, SetselectTeacher] = useState('');
-    const [StudentList, SetStudentList] = useState('');
-
+    const [StudentId, SetStudentId] = useState('');
+     console.log(StudentId,"StudentId");
+     
     const USGetClassTeachers: any = useSelector(
         (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
     );
     const USGetStudentNameDropdown: any = useSelector(
         (state: RootState) => state.ProgressReportNew.ISGetStudentNameDropdown
     );
+
+    const USStudentProgressReport: any = useSelector(
+        (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
+    );
+    console.log(USStudentProgressReport,"USStudentProgressReport");
+    
 
     const GetClassTeachersBody: IGetClassTeachersBody ={
         asSchoolId: Number(asSchoolId),
@@ -33,7 +41,16 @@ const ProgressReportNew = () => {
     const GetStudentNameDropdownBody: IGetStudentNameDropdownBody ={
         asSchoolId:Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asStandardDivisionId:asStandardDivisionId
+        asStandardDivisionId: Number(asStandardDivisionId)
+       
+    };
+
+    const StudentProgressReportBody: IStudentProgressReportBody ={
+        asSchoolId:Number(asSchoolId),
+        asAcadmeicYearId:Number(asAcademicYearId),
+        asStudentId:Number(StudentId),
+        asUserId:asUserId
+    
        
     };
 
@@ -42,7 +59,7 @@ const ProgressReportNew = () => {
     };
 
     const clickStudentList = (value) => {
-        SetStudentList(value);
+        SetStudentId(value);
       };
     
 
@@ -55,7 +72,12 @@ const ProgressReportNew = () => {
     useEffect(() => {
         dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
 
-    }, []);
+    }, [selectTeacher]);
+
+    useEffect(() => {
+        dispatch(CDAStudentProgressReport(StudentProgressReportBody));
+
+    }, [StudentId]);
 
     return (
         <Box sx={{ px: 2 }}>
@@ -77,7 +99,7 @@ const ProgressReportNew = () => {
             ItemList={USGetStudentNameDropdown}
             sx={{ minWidth: '300px' }}
             onChange={clickStudentList}
-            defaultValue={StudentList}
+            defaultValue={StudentId}
             label={'Student Name'}
             size={"small"}/>
         </>}

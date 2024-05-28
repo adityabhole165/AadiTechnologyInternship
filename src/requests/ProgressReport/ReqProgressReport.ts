@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetClassTeachersBody,IGetStudentNameDropdownBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetClassTeachersBody,IGetStudentNameDropdownBody,IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -8,7 +8,8 @@ const ProgressReportSlice = createSlice({
     name: 'ProgressReport',
     initialState: {
         ISGetClassTeachers:[],
-        ISGetStudentNameDropdown:[]
+        ISGetStudentNameDropdown:[],
+        ISStudentProgressReport:[]
   
     },
     reducers: {
@@ -18,6 +19,11 @@ const ProgressReportSlice = createSlice({
           RGetStudentNameDropdown(state, action) {
             state.ISGetStudentNameDropdown = action.payload;
           },
+          RStudentProgressReport(state, action) {
+            state.ISStudentProgressReport = action.payload;
+          }
+
+          
           
     }
   });
@@ -53,6 +59,17 @@ const ProgressReportSlice = createSlice({
 
         
       };
+
+
+      export const CDAStudentProgressReport =
+    (data: IStudentProgressReportBody): AppThunk =>
+      async (dispatch) => {
+        const response = await ApiProgressReport.StudentProgressReport(data)
+        dispatch(ProgressReportSlice.actions.RStudentProgressReport(response.data));
+
+        
+      };
+
 
 
 export default ProgressReportSlice.reducer;
