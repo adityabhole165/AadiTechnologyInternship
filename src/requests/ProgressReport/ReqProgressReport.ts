@@ -1,19 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetClassTeachersBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetClassTeachersBody,IGetStudentNameDropdownBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
 const ProgressReportSlice = createSlice({
     name: 'ProgressReport',
     initialState: {
-        ISGetClassTeachers:[]
+        ISGetClassTeachers:[],
+        ISGetStudentNameDropdown:[]
   
     },
     reducers: {
         RGetClassTeachers(state, action) {
             state.ISGetClassTeachers = action.payload;
           },
+          RGetStudentNameDropdown(state, action) {
+            state.ISGetStudentNameDropdown = action.payload;
+          },
+          
     }
   });
 
@@ -21,16 +26,33 @@ const ProgressReportSlice = createSlice({
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let StudentList = [{ Id: '0', Name: '--All--', Value: '0' }];
-      response.data.map((item, i) => {
-        StudentList.push({
-          Id: item.Teacher_Id,
-          Name: item.TeacherName,
-          Value: item.Teacher_Id
-        });
+      let ClassTeachersList = response.data.map((item) => {
+          return {
+            Id: item.Teacher_Id,
+            Name: item.TeacherName,
+            Value: item.Teacher_Id
+          };
+        
       });
-
-      dispatch(ProgressReportSlice.actions.RGetClassTeachers(StudentList));
+      dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
     };
+
+    export const CDAGetStudentName =
+    (data: IGetStudentNameDropdownBody): AppThunk =>
+      async (dispatch) => {
+        const response = await ApiProgressReport.GetStudentNameDropdown(data)
+        let StudentList = response.data.map((item) => {
+            return {
+              Id: item.Student_Id,
+              Name: item.StudentName,
+              Value: item.Student_Id
+            };
+          
+        });
+        dispatch(ProgressReportSlice.actions.RGetStudentNameDropdown(StudentList));
+
+        
+      };
+
 
 export default ProgressReportSlice.reducer;
