@@ -8,7 +8,7 @@ const Loader = (Component) => (props) =>
   </Suspense>
 );
 
-const Holidays1 = Loader(lazy(() => import('src/components/Holidays/Holidays')));
+// const Holidays1 = Loader(lazy(() => import('src/components/Holidays/Holidays')));
 
 // const Holidays = Loader(lazy(() => import('src/components/SchoolConfiguration/Holidays/index')));
 
@@ -107,10 +107,10 @@ const commonRoutes = [
     path: 'ViewSchoolNotice/:ID',
     element: <ViewSchoolNotice />
   },
-  {
-    path: 'Holidays1',
-    element: <Holidays1 />
-  },
+  // {
+  //   path: 'Holidays1',
+  //   element: <Holidays1 />
+  // },
   // {
   //   path: 'Holidays',
   //   element: <Holidays />

@@ -39,16 +39,27 @@ const DashboardData = {
         index: 2,
         ModulesPermission: 'EnableAnnualPlanner'
       },
+      // {
+      //   Text1: 'Holidays',
+      //   Text2: '',
+      //   Color: '#90a4ae',
+      //   iconColor: '#424242',
+      //   Icon: DateRangeIcon,
+      //   Link: 'Common/Holidays',
+      //   index: 3,
+      //   ModulesPermission: 'EnableHoliday'
+      // },
       {
         Text1: 'Holidays',
         Text2: '',
         Color: '#90a4ae',
         iconColor: '#424242',
         Icon: DateRangeIcon,
-        Link: 'Common/Holidays',
+        Link: 'Admin/SchoolConfiguration/Holidays',
         index: 3,
         ModulesPermission: 'EnableHoliday'
       },
+
       {
         Text1: 'Transport',
         Text2: 'Details',
@@ -302,7 +313,7 @@ const DashboardData = {
         Color: '#90a4ae',
         iconColor: '#424242',
         Icon: DateRangeIcon,
-        Link: 'Common/Holidays',
+        Link: 'Admin/SchoolConfiguration/Holidays',
         index: 3,
         ScreenPermission: 'HolidaysManagement'
       },
@@ -645,7 +656,7 @@ const DashboardData = {
         Color: '#90a4ae',
         iconColor: '#424242',
         Icon: DateRangeIcon,
-        Link: 'Common/Holidays',
+        Link: 'Admin/SchoolConfiguration/Holidays',
         index: 3,
         ScreenPermission: 'HolidaysManagement'
       },
