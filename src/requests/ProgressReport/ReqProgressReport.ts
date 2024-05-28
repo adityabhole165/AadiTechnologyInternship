@@ -37,13 +37,13 @@ const ProgressReportSlice = createSlice({
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let ClassTeachersList = response.data.map((item) => {
-          return {
-            Id: item.Teacher_Id,
+      let ClassTeachersList = [{ Id: '0', Name: '--Select--', Value: '0' }];
+      response.data.map((item, i) => {
+        ClassTeachersList.push({
+          Id: item.Teacher_Id,
             Name: item.TeacherName,
             Value: item.Teacher_Id
-          };
-        
+        });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
     };
@@ -52,14 +52,15 @@ const ProgressReportSlice = createSlice({
     (data: IGetStudentNameDropdownBody): AppThunk =>
       async (dispatch) => {
         const response = await ApiProgressReport.GetStudentNameDropdown(data)
-        let StudentList = response.data.map((item) => {
-            return {
-              Id: item.Student_Id,
+        let StudentList = [{ Id: '0', Name: 'All', Value: '0' }];
+        response.data.map((item, i) => {
+          StudentList.push({
+            Id: item.Student_Id,
               Name: item.StudentName,
               Value: item.Student_Id
-            };
-          
+          });
         });
+  
         dispatch(ProgressReportSlice.actions.RGetStudentNameDropdown(StudentList));
 
         

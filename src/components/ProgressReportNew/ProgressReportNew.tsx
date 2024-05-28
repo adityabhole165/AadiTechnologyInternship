@@ -1,5 +1,5 @@
 
-import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetClassTeachersBody, IGetStudentNameDropdownBody, IStudentProgressReportBody,IGetPassedAcademicYearsBody } from "src/interfaces/ProgressReport/IprogressReport";
@@ -7,6 +7,10 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetClassTeachers, CDAGetStudentName, CDAStudentProgressReport,CDAGetPassedAcademicYears } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+
+import { grey } from '@mui/material/colors';
 
 const ProgressReportNew = () => {
     const dispatch = useDispatch();
@@ -17,6 +21,20 @@ const ProgressReportNew = () => {
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const [selectTeacher, SetselectTeacher] = useState('');
     const [StudentId, SetStudentId] = useState('');
+
+    const ScreensAccessPermission = JSON.parse(
+        sessionStorage.getItem('ScreensAccessPermission')
+      );
+    
+    
+      const GetScreenPermission = () => {
+        let perm = 'N';
+        ScreensAccessPermission?.map((item) => {
+          if (item.ScreenName === 'Progress Report') perm = item.IsFullAccess;
+        });
+        return perm;
+      };
+
     console.log(StudentId, "StudentId");
 
     const USGetClassTeachers: any = useSelector(
@@ -39,7 +57,7 @@ const ProgressReportNew = () => {
     const GetClassTeachersBody: IGetClassTeachersBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asTeacherId: Number(TeacherId)
+        asTeacherId:  Number(GetScreenPermission() == 'Y' ? 0 : TeacherId)
     };
 
     const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
@@ -75,7 +93,11 @@ const ProgressReportNew = () => {
         SetStudentId(value);
     };
 
-
+    useEffect(() => {
+        if (USGetStudentNameDropdown.length > 0) {
+        SetStudentId(USGetStudentNameDropdown[0].Value);
+        }
+      }, [USGetStudentNameDropdown]);
 
     useEffect(() => {
         dispatch(CDAGetClassTeachers(GetClassTeachersBody));
@@ -107,11 +129,15 @@ const ProgressReportNew = () => {
 
                     <SearchableDropdown
                         label={"Subject Teacher"}
-                        sx={{ pl: 0, minWidth: '350px' }}
+                        sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
                         ItemList={USGetClassTeachers}
                         onChange={clickSelectClass}
                         defaultValue={selectTeacher}
-                        size={"small"} />
+                        size={"small"} 
+                        DisableClearable={GetScreenPermission() == 'N'}
+                        disabled={GetScreenPermission() == 'N'}
+                        
+                        />
 
                     <SearchableDropdown
                         ItemList={USGetStudentNameDropdown}
@@ -120,6 +146,41 @@ const ProgressReportNew = () => {
                         defaultValue={StudentId}
                         label={'Student Name'}
                         size={"small"} />
+
+            <Box>
+            <Tooltip title={'Displays  progress report of published exam of selected / all student.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+         <Box>
+           <Tooltip title={'Show'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <VisibilityTwoToneIcon/>
+              </IconButton>
+            </Tooltip> 
+        
+           
+          </Box>
+
                 </>}
             />
 
