@@ -406,13 +406,13 @@ const DashboardData = {
         index: 8
       },
       {
-        Text1: 'AddHomework',
+        Text1: 'ProgressRemarks',
         Text2: '',
         Color: '#90a4ae',
         iconColor: '#f0483e ',
-        Icon: CakeIcon,
-        Link: 'Teacher/AddHomework',
-        index: 27
+        Icon: EventIcon,
+        Link: 'Teacher/ProgressRemarks',
+        index: 9
       },
 
       {

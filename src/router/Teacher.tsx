@@ -309,6 +309,10 @@ const teacherRoutes = [
     path: 'ProgressRemarks/:TestId/:StandardDivisionId',
     element: <ProgressRemarks />
   },
+  {
+    path: 'ProgressRemarks',
+    element: <ProgressRemarks />
+  },
 
   {
     path: 'ViewProgressReport/:TestId/:StandardDivisionId',

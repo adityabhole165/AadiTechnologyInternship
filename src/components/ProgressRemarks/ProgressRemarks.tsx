@@ -393,9 +393,9 @@ const ProgressRemarks = () => {
     const autoSave = setInterval(() => {
       if (IsDirty) {
         UpdateRemark();
-        setMessage("Changes saved successfully.");
+        setMessage("We are saving current progress remarks details.Please wait.");
       }
-    }, 20000);
+    }, 60000);
   
     return () => clearInterval(autoSave);
   }, [IsDirty, UpdateRemark]);
@@ -403,9 +403,10 @@ const ProgressRemarks = () => {
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {
-        setMessage("");
-      }, 2000);
-  
+        if (IsDirty) {
+          setMessage("");
+        }
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -627,7 +628,7 @@ const TextValues = (value) => {
         
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px' , bgcolor: '#f0e68c' }}
+            sx={{ pl: 0, minWidth: '350px' ,    backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '',}}
             ItemList={ USClassTeachers}
             onChange={clickSelectClass }
             defaultValue={selectTeacher}
@@ -722,9 +723,10 @@ const TextValues = (value) => {
             <Paper>
 
             {message && (
-  <div style={{ position: "fixed", top: "50%", left: "50%",  padding: "10px", backgroundColor: "#fff", border: "1px solid #ccc", zIndex: 9999 }}>
-    {message}
-  </div>
+  <Typography style={{ position: "fixed", top: "50%", left: "50%",  padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999 ,width: '500px',font:"20px"}}>
+     {message}
+  </Typography>
+
 )}
 
             {USGetAllStudentswiseRemarkDetails.length > 0 ? (
@@ -786,16 +788,16 @@ const TextValues = (value) => {
                 <TextField
                   size={"small"}
                   fullWidth
-                  label={"StudentList"}
+                  label={"Student Name"}
                   value={studentName}
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#f0e68c' ,minWidth: '250px'}}
                   InputProps={{
                     readOnly: true,
                   }}
                 />
                 <SearchableDropdown
                   ItemList={USRemarksCategory}
-                  sx={{ minWidth: '230px' }}
+                  sx={{ minWidth: '200px' }}
                   onChange={clickRemark}
                   defaultValue={Remark}
                   label={'Remark Category'}
