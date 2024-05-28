@@ -2,9 +2,9 @@
 import { Box, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetClassTeachersBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetClassTeachersBody, IGetStudentNameDropdownBody, IStudentProgressReportBody,IGetPassedAcademicYearsBody } from "src/interfaces/ProgressReport/IprogressReport";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetClassTeachers, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetClassTeachers, CDAGetStudentName, CDAStudentProgressReport,CDAGetPassedAcademicYears } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -29,7 +29,11 @@ const ProgressReportNew = () => {
     const USStudentProgressReport: any = useSelector(
         (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
     );
-    console.log(USStudentProgressReport, "USStudentProgressReport");
+
+    const USGetPassedAcademicYears: any = useSelector(
+        (state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears
+    );
+    console.log(USGetPassedAcademicYears, "USGetPassedAcademicYears");
 
 
     const GetClassTeachersBody: IGetClassTeachersBody = {
@@ -54,6 +58,15 @@ const ProgressReportNew = () => {
 
     };
 
+    const GetPassedAcademicYearsBody: IGetPassedAcademicYearsBody = {
+        asSchoolId: Number(asSchoolId),
+        asStudent_Id: Number(StudentId),
+        asIncludeCurrentYear:false
+
+
+    };
+
+
     const clickSelectClass = (value) => {
         SetselectTeacher(value)
     };
@@ -76,6 +89,11 @@ const ProgressReportNew = () => {
 
     useEffect(() => {
         dispatch(CDAStudentProgressReport(StudentProgressReportBody));
+
+    }, [StudentId]);
+
+    useEffect(() => {
+        dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
 
     }, [StudentId]);
 

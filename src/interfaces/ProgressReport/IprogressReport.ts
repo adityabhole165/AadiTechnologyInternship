@@ -156,7 +156,19 @@ export interface IStudentProgressReportResult {
     ]
 }
 
+export interface IGetPassedAcademicYearsBody {
+    asSchoolId: number
+    asStudent_Id: number
+    asIncludeCurrentYear: boolean
+  }
 
+  export interface IGetPassedAcademicYearsResult{
+    Display_Member: string
+    
+  }
 
+  
 
+  
+ 
 
