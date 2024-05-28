@@ -114,6 +114,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Final Result',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult'
+    },
+    {
+      title: 'Progress Remarks',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/ProgressRemarks'
     }
   ];
   const activeStyle = {

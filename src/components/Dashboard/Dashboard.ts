@@ -405,16 +405,7 @@ const DashboardData = {
         Link: 'Teacher/AssignPrePrimaryGrades',
         index: 8
       },
-      {
-        Text1: 'ProgressRemarks',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: '#f0483e ',
-        Icon: EventIcon,
-        Link: 'Teacher/ProgressRemarks',
-        index: 9
-      },
-
+     
       {
         Text1: 'AadharCard',
         Text2: '',
