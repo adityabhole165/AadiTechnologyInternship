@@ -576,7 +576,7 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == true}
                 sx={{
                   color: 'white',
                   backgroundColor: GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false ? grey[500] : grey[200],
