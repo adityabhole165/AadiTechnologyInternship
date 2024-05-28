@@ -99,7 +99,7 @@ function HolidaysList({
                       textTransform: 'capitalize',
                       backgroundColor
                     }}
-                    align="center"
+                    align="left"
                   >
                     {item.Text4}
                   </TableCell>
