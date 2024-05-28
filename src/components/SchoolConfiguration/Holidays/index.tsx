@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Common/Util"
+import { GetScreenPermission } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
@@ -45,14 +45,23 @@ const Holidays = (props: Props) => {
                 id: 'startDate',
                 label: 'Start Date',
                 renderCell: (rowData: any) => {
-                    return getDateMonthYearDayDash(rowData.Text1)
+
+                    return (
+                        <div style={{ textAlign: 'center' }}>
+                            getDateMonthYearDayDash(rowData.Text1)
+                        </div>
+                    );
                 }
             },
             {
                 id: 'endDate',
                 label: 'End Date',
                 renderCell: (rowData: any) => {
-                    return getDateMonthYearDayDash(rowData.Text2)
+                    return (
+                        <div style={{ textAlign: 'center' }}>
+                            getDateMonthYearDayDash(rowData.Text2)
+                        </div>
+                    );
                 }
             },
             {
@@ -90,7 +99,7 @@ const Holidays = (props: Props) => {
                     id: 'edit',
                     label: 'Edit',
                     renderCell: (rowData: any) => <Box>
-                        <Tooltip title="Edit">
+                        <Tooltip title={"Edit"}>
                             <IconButton sx={{ p: 0 }} color="primary" onClick={() => editRow(rowData.Id)}>
                                 <Edit />
                             </IconButton>
