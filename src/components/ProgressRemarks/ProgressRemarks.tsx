@@ -627,7 +627,7 @@ const TextValues = (value) => {
         
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px' }}
+            sx={{ pl: 0, minWidth: '350px' , bgcolor: '#f0e68c' }}
             ItemList={ USClassTeachers}
             onChange={clickSelectClass }
             defaultValue={selectTeacher}
