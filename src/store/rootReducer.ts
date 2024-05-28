@@ -99,6 +99,8 @@ import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
+import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
+
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
@@ -201,7 +203,8 @@ const rootReducer = combineReducers({
   SubjectMarkList: SubjectMarkListSlice,
   RemarkTemplate: RemarkTemplateSlice,
   ViewProgressReport: ViewProgressReportslice,
-  FinalResultGenerateAll: FinalResultGenerateAllSlice
+  FinalResultGenerateAll: FinalResultGenerateAllSlice,
+  ProgressReportNew:ProgressReportSlice
 });
 
 export default rootReducer;

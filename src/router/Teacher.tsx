@@ -164,6 +164,10 @@ const GenerateAll = Loader(
   lazy(() => import('src/components/FinalResult/FinalResultGenerateAll'))
 )
 
+const ProgressReportNew = Loader(
+  lazy(() => import('src/components/ProgressReportNew/ProgressReportNew'))
+)
+
 
 
 const teacherRoutes = [
@@ -458,6 +462,10 @@ const teacherRoutes = [
   {
     path: 'ViewFinalResult',
     element: <ViewFinalResult />
+  },
+  {
+    path: 'ProgressReportNew',
+    element: <ProgressReportNew />
   }
 
 ];
