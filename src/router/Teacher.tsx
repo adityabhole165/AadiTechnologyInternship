@@ -238,7 +238,7 @@ const teacherRoutes = [
     element: <ExamResultBase />
   },
   {
-    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId/:selectTeacher',
+    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId',
     element: <ExamResultBase />
   },
   {
@@ -246,13 +246,13 @@ const teacherRoutes = [
     element: <SubjectExamMarks />
   },
   {
-    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly/:examResultProp',
+    path: 'SubjectExamMarks/:ClassTecher/:StandardDivisionId/:SubjectId/:ClassId/:TestId/:TeacherId/:StandardId/:IsMonthConfig/:IsReadOnly/:examResultProp/:publish',
     element: <SubjectExamMarks />
   },
-  {
-    path: 'SubjectExamMarks/:examResultProp/:StandardDivisionId/:TestId',
-    element: <SubjectExamMarks />
-  },
+  // {
+  //   path: 'SubjectExamMarks/:examResultProp/:StandardDivisionId/:TestId',
+  //   element: <SubjectExamMarks />
+  // },
 
   {
     path: 'AssignExamMark',
