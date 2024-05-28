@@ -51,7 +51,7 @@ const ProgressRemarks = () => {
   const [showScreenOne, setShowScreenOne] = useState(true);
   const [open, setOpen] = useState(false);
   const [Itemlist, setItemlist] = useState([]);
-  
+  const [IsDirty, setIsDirty] = useState(false);
    
   
 
@@ -338,6 +338,22 @@ const ProgressRemarks = () => {
   //     })
   //   );
   // };
+  const UpdateRemark = () => {
+    const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
+    {
+      StudentwiseRemarkXML: getXML(),
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asInsertedById: Number(selectTeacher),
+      asStandardDivId: getStdDivisionId(),
+      asTermId: Number(SelectTerm)
+    };
+
+    dispatch(
+      CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody),
+     
+    );[page, selectTeacher, SelectTerm]
+  };
 
   const TextChange1 = () => {
     setItemlist(prevItemlist =>
@@ -353,6 +369,7 @@ const ProgressRemarks = () => {
                 showAlert = true;
                 return remark; // Return the original remark without changes
               } else {
+                setIsDirty(true)
                 return { ...remark, Text3: newText3 };
               }
             }
@@ -373,7 +390,27 @@ const ProgressRemarks = () => {
     );
   };
   
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const autoSave = setInterval(() => {
+      if (IsDirty) {
+        UpdateRemark();
+        setMessage("Changes saved successfully.");
+      }
+    }, 20000);
+  
+    return () => clearInterval(autoSave);
+  }, [IsDirty, UpdateRemark]);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 2000);
+  
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
 
 
@@ -384,10 +421,7 @@ const ProgressRemarks = () => {
 
   };
 
-  const TextValues = (value) => {
-    setItemlist(value);
-
-  };
+ 
 
   const clickSelectTerm = (value) => {
     SetSelectTerm(value);
@@ -397,9 +431,33 @@ const ProgressRemarks = () => {
   };
 
 
+  // const clickSelectClass = (value) => {
+  //   SetselectTeacher(value);
+  // };
+
   const clickSelectClass = (value) => {
-    SetselectTeacher(value);
-  };
+    if (selectTeacher != '') {
+        const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?" ;
+        let confirmed = false
+        if (IsDirty) {
+            confirmed = window.confirm(confirmMessage);
+
+            if (confirmed) {
+              SetselectTeacher(value);
+               
+            }
+        }
+        else
+        SetselectTeacher(value);
+           
+    }
+};
+
+const TextValues = (value) => {
+  setIsDirty(true)
+  setItemlist(value);
+
+};
 
   const clickRemark = (value) => {
     setRemark(value);
@@ -417,6 +475,7 @@ const ProgressRemarks = () => {
     return classStudentName;
   };
 
+  
      
 
   const FStudentName = () => {
@@ -489,6 +548,7 @@ const ProgressRemarks = () => {
     }
   }, [USRemarkTemplateDetails]);
   useEffect(() => {
+    setIsDirty(false)
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
 
@@ -523,22 +583,7 @@ const ProgressRemarks = () => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
   }, [SelectGrade, Remark, HeaderPublish]);
 
-  const UpdateRemark = () => {
-    const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
-    {
-      StudentwiseRemarkXML: getXML(),
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asInsertedById: Number(selectTeacher),
-      asStandardDivId: getStdDivisionId(),
-      asTermId: Number(SelectTerm)
-    };
-
-    dispatch(
-      CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody)
-    );[page, selectTeacher, SelectTerm]
-  };
-
+  
 
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
@@ -564,11 +609,13 @@ const ProgressRemarks = () => {
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
       toast.success(UpdateAllStudentsRemarkDetail);
+      setIsDirty(false)
       dispatch(CDAresetSaveMassage());
       CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
 
     }
   }, [UpdateAllStudentsRemarkDetail]);
+  
 
   return (
     <Box sx={{ px: 2 }}>
@@ -675,6 +722,12 @@ const ProgressRemarks = () => {
           <Grid item xs={12}>
             <Paper>
 
+            {message && (
+  <div style={{ position: "fixed", top: "50%", left: "50%",  padding: "10px", backgroundColor: "#fff", border: "1px solid #ccc", zIndex: 9999 }}>
+    {message}
+  </div>
+)}
+
             {USGetAllStudentswiseRemarkDetails.length > 0 ? (
                  <ProgressRemarkTerm.Provider value={SelectTerm}>
                  <ResizableCommentsBox
@@ -688,7 +741,7 @@ const ProgressRemarks = () => {
                 <span> </span>
 
               )}
-             
+            
               
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
                  <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
