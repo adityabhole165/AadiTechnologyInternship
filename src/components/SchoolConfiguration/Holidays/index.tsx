@@ -99,7 +99,7 @@ const Holidays = (props: Props) => {
                     id: 'edit',
                     label: 'Edit',
                     renderCell: (rowData: any) => <Box>
-                        <Tooltip title="Edit">
+                        <Tooltip title={"Edit"}>
                             <IconButton sx={{ p: 0 }} color="primary" onClick={() => editRow(rowData.Id)}>
                                 <Edit />
                             </IconButton>

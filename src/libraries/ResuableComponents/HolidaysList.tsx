@@ -1,13 +1,13 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { isFutureDate, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
+import { isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 
 
@@ -18,8 +18,8 @@ function HolidaysList({
   clickDelete,
 }) {
 
-  console.log(ItemList,"ItemList----------");
-  
+  console.log(ItemList, "ItemList----------");
+
 
   // function findRecentUpcomingDate() {
   //   const upcomingDates = ItemList.filter(item => isFutureDate(new Date(item.Text1)));
@@ -54,7 +54,7 @@ function HolidaysList({
           </TableHead>
           <TableBody>
             {ItemList.map((item, index) => {
-              
+
               const backgroundColor = (isFutureDateTime(item.Text1) && index == 0) ? '#EFDCC9 ! important' :
                 isPastDateTime(item.Text1) ? "white" : 'white';
 
@@ -120,10 +120,12 @@ function HolidaysList({
                     align="center"
                   >
                     {item.Text6}
-                    <EditTwoTone
-                      sx={{ color: 'black', cursor: 'pointer' }}
-                      onClick={() => clickEdit(item.Id)}
-                    />
+                    <Tooltip title="Edit">
+                      <EditTwoTone
+                        sx={{ color: 'black', cursor: 'pointer' }}
+                        onClick={() => clickEdit(item.Id)}
+                      />
+                    </Tooltip>
                   </TableCell>
                   <TableCell
                     sx={{
@@ -133,10 +135,12 @@ function HolidaysList({
                     align="center"
                   >
                     {item.Text7}
-                    <DeleteForeverIcon
-                      sx={{ color: 'red', cursor: 'pointer' }}
-                      onClick={() => clickDelete(item.Id)}
-                    />
+                    <Tooltip title="Delete">
+                      <DeleteForeverIcon
+                        sx={{ color: 'red', cursor: 'pointer' }}
+                        onClick={() => clickDelete(item.Id)}
+                      />
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               );
