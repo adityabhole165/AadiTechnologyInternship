@@ -356,12 +356,11 @@ const ProgressRemarks = () => {
   };
 
   const TextChange1 = () => {
+    let showAlert = false;
     setItemlist(prevItemlist =>
       prevItemlist.map(item => {
         if (item.Id === StudentId) {
           const activeTexts = getActiveTexts().join(' ');
-          let showAlert = false;
-  
           const updatedRemarks = item.Remarks.map((remark, i) => {
             if (i === ColIndex) {
               const newText3 = remark.Text3 + activeTexts;
@@ -375,11 +374,9 @@ const ProgressRemarks = () => {
             }
             return remark;
           });
-  
           if (showAlert) {
             alert("Remarks length should not be more than 300");
           }
-  
           return {
             ...item,
             Remarks: updatedRemarks
@@ -388,6 +385,7 @@ const ProgressRemarks = () => {
         return item;
       })
     );
+    return showAlert;
   };
   
   const [message, setMessage] = useState("");
@@ -415,10 +413,11 @@ const ProgressRemarks = () => {
 
 
   const SelectClick = () => {
-    TextChange1()
-    setOpen(false)
-    dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
-
+    const showAlert = TextChange1();
+    if (!showAlert) {
+      setOpen(false);
+      dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
+    }
   };
 
  
