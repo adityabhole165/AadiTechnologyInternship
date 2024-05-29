@@ -217,16 +217,16 @@ const ProgressReportNew = () => {
 
                 <Table>
                  <TableBody>
-                   
-                     
+                   {USlistStudentsDetails.map((item) => {
+                     return (
                        <TableRow sx={{ bgcolor: 'grey.200' }}>
-                         <TableCell><b>Roll No:</b>{"6"} </TableCell>
-                         <TableCell><b>Name:</b> {"Miss Jahnavi Bhaveshkumar Barot"}	</TableCell>
-                         <TableCell><b>Class:</b> {"10 - C"} 	</TableCell>
-                         <TableCell><b>Year:</b> {"2024-2025"}	</TableCell>
+                         <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
+                         <TableCell><b>Name:</b> {item.Text1}	</TableCell>
+                         <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
+                         <TableCell><b>Year:</b> {item.Text5}	</TableCell>
                        </TableRow>
-                    
-                
+                     )
+                   })}
                  </TableBody>
                </Table>
             </Box>

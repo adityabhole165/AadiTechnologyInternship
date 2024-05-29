@@ -14,12 +14,12 @@ const ProgressReportSlice = createSlice({
     ISlistSubjectsDetails: [],
     ISlistTestDetails: [],
     ISlistSubjectIdDetails: [],
-    ISlistTestidDetails:[],
+    ISlistTestidDetails: [],
     ISListSchoolWiseTestNameDetail: [],
-    ISListSubjectidDetails:[],
-    ISListTestTypeIdDetails:[],
-    ISListMarkssDetails:[],
-    ISListDisplayNameDetails:[],
+    ISListSubjectidDetails: [],
+    ISListTestTypeIdDetails: [],
+    ISListMarkssDetails: [],
+    ISListDisplayNameDetails: [],
     ISGetPassedAcademicYears: []
 
   },
@@ -37,7 +37,7 @@ const ProgressReportSlice = createSlice({
       state.ISlistStudentsDetails = action.payload;
     },
     RlistSubjectsDetails(state, action) {
-      state.ISlistStudentsDetails = action.payload;
+      state.ISlistSubjectsDetails = action.payload;
     },
     RlistTestDetails(state, action) {
       state.ISlistTestDetails = action.payload;
@@ -61,7 +61,7 @@ const ProgressReportSlice = createSlice({
     RListDisplayNameDetails(state, action) {
       state.ISListDisplayNameDetails = action.payload;
     },
-  
+
     RListTestTypeIdDetails(state, action) {
       state.ISListTestTypeIdDetails = action.payload;
     },
@@ -195,7 +195,7 @@ export const CDAStudentProgressReport =
 
         };
       });
-      
+
       dispatch(ProgressReportSlice.actions.RlistStudentsDetails(listStudentsDetails));
       dispatch(ProgressReportSlice.actions.RlistSubjectsDetails(listSubjectsDetails));
       dispatch(ProgressReportSlice.actions.RlistTestDetails(listTestDetails));
