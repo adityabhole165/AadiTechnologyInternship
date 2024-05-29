@@ -139,7 +139,7 @@ const Holidays = (props: Props) => {
         { Id: 2, Header: ' 	End Date' },
         { Id: 3, Header: 'Name' },
         { Id: 4, Header: ' Associated Classes' },
-        { Id: 5, Header: ' totalDays' },
+        { Id: 5, Header: ' Total Days' },
         { Id: 6, Header: 'Edit' },
         { Id: 7, Header: 'Delete' }
     ];
@@ -218,19 +218,22 @@ const Holidays = (props: Props) => {
                             </IconButton>
                         </Tooltip>
                     </Box>
-                    <Box>
-                        <Tooltip title={"Add new"}>
-                            <IconButton sx={{
-                                bgcolor: 'grey.500',
-                                color: 'white',
-                                '&:hover': {
-                                    bgcolor: 'grey.600'
-                                }
-                            }} onClick={() => AddHoliday()}>
-                                <Add />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
+                    {HolidayFullAccess === 'Y' ? (
+                        <Box>
+                            <Tooltip title={"Add New Holiday"}>
+                                <IconButton sx={{
+                                    bgcolor: 'grey.500',
+                                    color: 'white',
+                                    '&:hover': {
+                                        bgcolor: 'grey.600'
+                                    }
+                                }} onClick={() => AddHoliday()}>
+                                    <Add />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+
+                    ) : null}
                 </>}
             />
             {/* Content */}
