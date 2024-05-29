@@ -10,15 +10,12 @@ import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import { isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
-
-
 function HolidaysList({
   ItemList,
   clickEdit,
   HeaderArray,
   clickDelete,
 }) {
-
   console.log(ItemList, "ItemList----------");
 
   const [page, setPage] = useState(0);
@@ -35,22 +32,21 @@ function HolidaysList({
 
   const paginatedItems = ItemList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+  function formatDate(date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
 
-  // function findRecentUpcomingDate() {
-  //   const upcomingDates = ItemList.filter(item => isFutureDate(new Date(item.Text1)));
-  //   upcomingDates.sort((a, b) => new Date(a.Text1).getTime() - new Date(b.Text1).getTime());
-  //   if (upcomingDates.length === 0) {
-  //     return null;
-  //   }
-  //   return upcomingDates[upcomingDates.length - 1].Text1;
-  // }
+  const currentDate = new Date();
+  const formattedDate = formatDate(currentDate);
 
-  // let recentUpcomingDate = findRecentUpcomingDate();
-
+  console.log(formattedDate);  // Output: 29-May-2024
 
   return (
     <div>
-
       <Typography variant="subtitle1"
         sx={{ margin: '16px 0', textAlign: 'center' }}>
         <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, ItemList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{ItemList.length}</Box> records
@@ -68,7 +64,6 @@ function HolidaysList({
                   sx={{
                     textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                     textAlign: i === 2 || i === 3 ? 'left' : 'center'
-
                   }}
                   align="center"
                 >
@@ -78,21 +73,21 @@ function HolidaysList({
             </TableRow>
           </TableHead>
           <TableBody>
-
             {paginatedItems.map((item, index) => {
+              console.log(item.Text1, "item.Text1", formattedDate);
+              const formattedItemDate = formatDate(new Date(item.Text1));
+              const isCurrentDate = formattedItemDate === formattedDate;
+              const isFuture = isFutureDateTime(new Date(item.Text1));
+              const isPast = isPastDateTime(new Date(item.Text1));
 
-              const backgroundColor = (isFutureDateTime(item.Text1) && index == 0) ? '#EFDCC9 ! important' :
-                isPastDateTime(item.Text1) ? "white" : 'white';
+              const backgroundColor = (isFuture && index === 0) || isCurrentDate ? '#EFDCC9 ' : isPast ? "white" : 'white';
 
-              const rowStyle = isPastDateTime(new Date(item.Text1)) ? {
+              const rowStyle = isPast ? {
                 backgroundColor: 'lightgrey',
-                opacity: 0.5,
-                pointerEvents: 'none'
               } : { backgroundColor };
 
-
               return (
-                <><TableRow key={item.Id} sx={rowStyle}>
+                <TableRow key={item.Id} sx={rowStyle}>
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
@@ -173,7 +168,6 @@ function HolidaysList({
                     </IconButton>
                   </TableCell>
                 </TableRow>
-                </>
               );
             })}
           </TableBody>
