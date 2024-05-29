@@ -129,9 +129,9 @@ export const getClassTeachers =
 
       response.data.map((item, i) => {
         abc.push({
-          Id: item. SchoolWise_Standard_Division_Id,
+          Id: item.Teacher_Id,
           Name: item.TeacherName,
-          Value: item.Teacher_Id
+          Value: item.SchoolWise_Standard_Division_Id
         });
       });
 

@@ -147,11 +147,18 @@ const ExamResultBase = () => {
     return perm;
   };
   console.log("GetScreenPermission", GetScreenPermission())
-
+  const getTeacherId = () => {
+    let TeacherId = '';
+    ClassTeachers.map((item) => {
+      if (item.Value == StandardDivisionId) TeacherId = item.Id;
+    });
+    return TeacherId;
+  };
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: GetScreenPermission() === 'Y' ? 0 : Number(sessionStorage.getItem('TeacherId'))
+    //asTeacherId: GetScreenPermission() === 'Y' ? 0 : Number(getTeacherId())
+    asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
     //asTeacherId: Number(GetScreenPermission() === 'Y' ? 0 : StandardDivisionId)
     // asTeacherId: 0
   };
@@ -229,7 +236,7 @@ const ExamResultBase = () => {
       if (GetScreenPermission() === 'Y') {
         setStandardDivisionId(ClassTeachers[0].Value);
       } else {
-        const teacherIdFromSession = sessionStorage.getItem('TeacherId');
+        const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
         if (teacherIdFromSession !== null) {
           setStandardDivisionId(teacherIdFromSession);
         }
@@ -334,6 +341,7 @@ const ExamResultBase = () => {
     return returnVal
   }
   const ClickItem = (value) => {
+    // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
       '0' + '/' +
       StandardDivisionId + '/' +
@@ -345,7 +353,8 @@ const ExamResultBase = () => {
       // value.StandardId + '/' +
       'true' + '/' +
       'false' + '/' +
-      'true'
+      'true' + '/' +
+      ClassPassFailDetailsForButton.IsPublish ? "true" : "false"
 
     );
   };
@@ -376,17 +385,17 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
   };
 
-  const getClassTeacherName = () => {
-    let classTeacherName = '';
-    ClassTeachers.map((item) => {
-      if (item.Value == StandardDivisionId) classTeacherName = item.Name;
-    });
+  // const getClassTeacherName = () => {
+  //   let classTeacherName = '';
+  //   ClassTeachers.map((item) => {
+  //     if (item.Value == StandardDivisionId) classTeacherName = item.Name;
+  //   });
 
-    return classTeacherName;
-  };
+  //   return classTeacherName;
+  // };
 
-  console.log(getClassTeacherName(), "----");
-  console.log(StandardDivisionId);
+  // console.log(getClassTeacherName(), "----");
+  // console.log(StandardDivisionId);
 
 
 
@@ -419,6 +428,12 @@ const ExamResultBase = () => {
     });
     return TeacherName;
   };
+
+
+
+
+
+
   const onClickUnpublish = (value) => {
     navigate(
       '/extended-sidebar/Teacher/ExamResultUnpublish/' +
@@ -431,13 +446,7 @@ const ExamResultBase = () => {
       getTeacherName()
     );
   };
-  const getTeacherId = () => {
-    let TeacherId = '';
-    ClassTeachers.map((item) => {
-      if (item.Value == StandardDivisionId) TeacherId = item.Id;
-    });
-    return TeacherId;
-  };
+
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId);
   };
