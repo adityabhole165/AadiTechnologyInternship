@@ -154,6 +154,38 @@ export interface IStudentProgressReportResult {
 
 
     ]
+    ListSchoolWiseTestNameDetail: [
+        {
+            SchoolWise_Test_Id: string,
+            Total_Marks_Scored: string,
+            Subjects_Total_Marks: string,
+            Percentage: string,
+            Grade_Name: string,
+            Grade_id: string,
+            FailCount: string,
+            Result: string ,
+            rank: string
+        }
+
+
+    ]
+    listTestidDetails: [
+        {
+            Test_Id: string
+            Parent_Subject_Id: string
+            Parent_Subject_Name: string
+            Total_Marks_Scored: string
+            ChildSubject_Marks_Total: string
+            Grade: string
+            AverageMarks: string
+            OutOfMarks: string
+        }
+
+
+    ]
+    
+
+    
 }
 
 export interface IGetPassedAcademicYearsBody {

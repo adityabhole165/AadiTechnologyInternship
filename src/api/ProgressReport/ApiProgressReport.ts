@@ -18,7 +18,7 @@ const GetClassTeachers = (data: IGetClassTeachersBody ) => {
   };
 
   const StudentProgressReport = (data: IStudentProgressReportBody) => {
-    return http.post<IStudentProgressReportResult[]>(
+    return http.post<IStudentProgressReportResult>(
       'Teacher/StudentProgressReport',
       data
     );
