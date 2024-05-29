@@ -73,7 +73,7 @@ function HolidaysList({
                   >
                     <b>{item.Header}</b>
                   </TableCell>
-                ) : null
+                ) : <TableCell key={i} style={{ width: 0, height: 0, padding: 0, border: 0 }} />
               ))}
 
             </TableRow>
