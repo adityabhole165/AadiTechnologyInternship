@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
-import { isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
+import { GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function HolidaysList({
   ItemList,
@@ -17,6 +17,8 @@ function HolidaysList({
   clickDelete,
 }) {
   console.log(ItemList, "ItemList----------");
+
+  const HolidayFullAccess = GetScreenPermission('Holidays');
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -59,17 +61,21 @@ function HolidaysList({
               sx={{ background: (theme) => theme.palette.secondary.main, }}
             >
               {HeaderArray.map((item, i) => (
-                <TableCell
-                  key={i}
-                  sx={{
-                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                    textAlign: i === 2 || i === 3 ? 'left' : 'center'
-                  }}
-                  align="center"
-                >
-                  <b>{item.Header}</b>
-                </TableCell>
+                (item.Header !== 'Edit' && item.Header !== 'Delete') || (HolidayFullAccess !== 'N') ? (
+                  <TableCell
+                    key={i}
+                    sx={{
+                      textTransform: 'capitalize',
+                      color: (theme) => theme.palette.common.white,
+                      textAlign: i === 2 || i === 3 ? 'left' : 'center'
+                    }}
+                    align="center"
+                  >
+                    <b>{item.Header}</b>
+                  </TableCell>
+                ) : null
               ))}
+
             </TableRow>
           </TableHead>
           <TableBody>
@@ -84,6 +90,7 @@ function HolidaysList({
 
               const rowStyle = isPast ? {
                 backgroundColor: 'lightgrey',
+                opacity: 0.5,
               } : { backgroundColor };
 
               return (
@@ -143,11 +150,13 @@ function HolidaysList({
                     align="center"
                   >
                     {item.Text6}
-                    <Tooltip title="Edit">
-                      <EditTwoTone
-                        sx={{ color: 'black', cursor: 'pointer' }}
-                        onClick={() => clickEdit(item.Id)} />
-                    </Tooltip>
+                    {HolidayFullAccess == 'Y' ? (
+                      <Tooltip title="Edit">
+                        <EditTwoTone
+                          sx={{ color: 'black', cursor: 'pointer' }}
+                          onClick={() => clickEdit(item.Id)} />
+                      </Tooltip>
+                    ) : null}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -157,15 +166,16 @@ function HolidaysList({
                     align="center"
                   >
                     {item.Text7}
-
-                    <IconButton
-                      sx={{ color: 'red', cursor: 'pointer' }}
-                      onClick={() => clickDelete(item.Id)}
-                    >
-                      <Tooltip title="Delete">
-                        <DeleteForeverIcon />
-                      </Tooltip>
-                    </IconButton>
+                    {HolidayFullAccess == 'Y' ? (
+                      <IconButton
+                        sx={{ color: 'red', cursor: 'pointer' }}
+                        onClick={() => clickDelete(item.Id)}
+                      >
+                        <Tooltip title="Delete">
+                          <DeleteForeverIcon />
+                        </Tooltip>
+                      </IconButton>
+                    ) : null}
                   </TableCell>
                 </TableRow>
               );
