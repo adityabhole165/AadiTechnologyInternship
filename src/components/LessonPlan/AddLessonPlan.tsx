@@ -79,6 +79,7 @@ const AddLessonPlan = () => {
   const [errorComment, seterrorComment] = useState('');
   const [errorOverlapDate, seterrorOverlapDate] = useState('')
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
+  const [IsDarty, setIsDarty] = useState(false)
   const [errorexampleLessonDetails, seterrorexampleLessonDetails] = useState('')
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -189,6 +190,7 @@ const AddLessonPlan = () => {
   useEffect(() => {
     if (SaveLessonPlans !== '') {
       toast.success(SaveLessonPlans);
+      setIsDarty(false);
       if (SaveLessonPlans === "Lesson Plan not saved...!") {
         seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
       } else {
@@ -279,7 +281,9 @@ const AddLessonPlan = () => {
   };
 
   const onTextChange = (value) => {
+    setIsDarty(true)
     setExampleLessonDetails(value)
+
   }
   const IsFormValid = () => {
     let returnVal = true;
@@ -401,8 +405,57 @@ const AddLessonPlan = () => {
     }
     return returnVal;
   }
+  const onClickSave = () => {
+    if (IsApprover())
+      if (!getIsApproverComment()) {
+        seterrorComment("Please fix the following error(s): Comment should not be blank.");
+      }
+      else {
+        seterrorComment('')
+        clickSaveApproverComments()
+      }
+    else
+      if (IsFormValid()) {
+        const SaveLessonPlanBody: ISaveLessonPlanBody = {
+          asSchoolId: asSchoolId,
+          asAcademicYearId: asAcademicYearId,
+          asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+          asReportingUserId: Number(asUserId),
+          aasStartDate: StartDate,
+          aasEndDate: EndDate,
+          asLessonPlanXml: getXML(),
+          asUpdatedById: Number(UpdatedById),
+          asOldStartDate: StartDateParam,
+          asOldEndDate: EndDateParam,
+        };
+        dispatch(SaveLessonPlan(SaveLessonPlanBody))
 
+        setActionMode('Edit')
 
+      }
+  };
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const autoSave = setInterval(() => {
+      if (IsDarty) {
+        onClickSave();
+        setMessage("We are saving lesson plan details, please wait.");
+      }
+    }, 60000);
+
+    return () => clearInterval(autoSave);
+  }, [IsDarty, onClickSave]);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        if (IsDarty) {
+          setMessage("");
+        }
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const getApproverComment = () => {
     let returnVal = ""
@@ -433,35 +486,7 @@ const AddLessonPlan = () => {
     })
     return returnVal
   }
-  const onClickSave = () => {
-    if (IsApprover())
-      if (!getIsApproverComment()) {
-        seterrorComment("Please fix the following error(s): Comment should not be blank.");
-      }
-      else {
-        seterrorComment('')
-        clickSaveApproverComments()
-      }
-    else
-      if (IsFormValid()) {
-        const SaveLessonPlanBody: ISaveLessonPlanBody = {
-          asSchoolId: asSchoolId,
-          asAcademicYearId: asAcademicYearId,
-          asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-          asReportingUserId: Number(asUserId),
-          aasStartDate: StartDate,
-          aasEndDate: EndDate,
-          asLessonPlanXml: getXML(),
-          asUpdatedById: Number(UpdatedById),
-          asOldStartDate: StartDateParam,
-          asOldEndDate: EndDateParam,
-        };
-        dispatch(SaveLessonPlan(SaveLessonPlanBody))
 
-        setActionMode('Edit')
-
-      }
-  };
   const onClickSubmit = () => {
     if (confirm('After this action you will not be able to change any details. Do you want to continue?')) {
       const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
@@ -812,7 +837,12 @@ const AddLessonPlan = () => {
           </Grid>
 
           {/* {errorexampleLessonDetails || errorMessage && ( */}
+          {message && (
+            <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
+              {message}
+            </Typography>
 
+          )}
           <Grid item xs={12}>
             <Typography variant={"h5"} sx={{ color: 'red' }}>
               {errorexampleLessonDetails}<br></br>
