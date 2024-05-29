@@ -47,12 +47,18 @@ const ProgressReportNew = () => {
     const USStudentProgressReport: any = useSelector(
         (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
     );
-
-    const USGetPassedAcademicYears: any = useSelector(
-        (state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears
-    );
-    console.log(USGetPassedAcademicYears, "USGetPassedAcademicYears");
-
+   console.log(USStudentProgressReport,"USStudentProgressReport");
+   
+    const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
+    const USlistStudentsDetails : any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails );
+    const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
+    const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
+    const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
+    const USListSchoolWiseTestNameDetail: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSchoolWiseTestNameDetail);
+    const USListSubjectidDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSubjectidDetails);
+    const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
+    const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
+    const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
 
     const GetClassTeachersBody: IGetClassTeachersBody = {
         asSchoolId: Number(asSchoolId),
@@ -70,8 +76,8 @@ const ProgressReportNew = () => {
     const StudentProgressReportBody: IStudentProgressReportBody = {
         asSchoolId: Number(asSchoolId),
         asAcadmeicYearId: Number(asAcademicYearId),
-        asStudentId: Number(StudentId),
-        asUserId: asUserId
+        asStudentId: 37608,
+        asUserId: 4463
 
 
     };
@@ -122,7 +128,7 @@ const ProgressReportNew = () => {
     useEffect(() => {
         dispatch(CDAStudentProgressReport(StudentProgressReportBody));
 
-    }, [StudentId]);
+    }, []);
 
     useEffect(() => {
         dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
@@ -224,6 +230,45 @@ const ProgressReportNew = () => {
                  </TableBody>
                </Table>
             </Box>
+
+            <Box sx={{ overflowX: 'auto' }}>
+
+          
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                      Subjects
+                    </Typography>
+                    {USlistStudentsDetails.map((subject) => (
+                      <TableCell><b>{subject.Name}</b></TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow>
+                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                      Marks
+                    </Typography>
+                    {USlistSubjectsDetails.map((marks) => (
+                      <TableCell>{marks.Name}</TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow>
+                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                      Grade
+                    </Typography>
+                    {USlistTestDetails.map((Grade) => (
+                      <TableCell>{Grade.Name}
+                      </TableCell>
+                    )
+                    )}
+                  </TableRow>
+                </TableBody>
+              </Table>
+          
+
+          </Box>
             
         </Box>
     )

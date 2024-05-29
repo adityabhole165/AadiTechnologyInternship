@@ -14,7 +14,7 @@ const ProgressReportSlice = createSlice({
     ISlistSubjectsDetails: [],
     ISlistTestDetails: [],
     ISlistSubjectIdDetails: [],
-      ISlistTestidDetails:[],
+    ISlistTestidDetails:[],
     ISListSchoolWiseTestNameDetail: [],
     ISListSubjectidDetails:[],
     ISListTestTypeIdDetails:[],
