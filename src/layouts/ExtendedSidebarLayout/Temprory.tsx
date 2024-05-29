@@ -142,9 +142,15 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
     },
     {
-      title: 'Sms Center',
+      title: 'SMS Center',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/SmsCenter'
+
+    },
+    {
+      title: 'Message Center',
+      icon: <FactCheck />,
+      link: '/extended-sidebar/MessageCenter/msgCenter'
 
     }
     
@@ -189,48 +195,52 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     >
       <Stack
         direction="row"
-        // divider={<Divider orientation="vertical" flexItem />}
         alignItems="center"
         spacing={2}
       >
         <img src={imgsrc} className={classes.smalllogo} />
       </Stack>
-      {/* <img src={imgsrc} alt='photo' /> */}
       <Divider />
-      <List>
-        {sideList.map((text, index) => (
-          <ListItem
-            key={index}
-            sx={{
-              px: 0,
-              py: 0.5
-            }}
-          >
-            <ListItemButton
-              sx={text.title === activeItem ? activeStyle : buttonStyle}
-              onClick={() => {
-                navigate(text.link);
-                IconClick(text.title);
+      <Box
+        sx={{
+          height: 'calc(100vh - 150px)', // Adjust height based on the fixed content height
+          overflow: 'auto'
+        }}
+      >
+        <List>
+          {sideList.map((text, index) => (
+            <ListItem
+              key={index}
+              sx={{
+                px: 0,
+                py: 0.5
               }}
             >
-              <ListItemIcon
-                sx={{
-                  color: text.title === activeItem ? 'white' : 'black',
-                  minWidth: '35px'
+              <ListItemButton
+                sx={text.title === activeItem ? activeStyle : buttonStyle}
+                onClick={() => {
+                  navigate(text.link);
+                  IconClick(text.title);
                 }}
               >
-                {text.icon}
-              </ListItemIcon>
-              <Typography
-                sx={{ color: text.title === activeItem ? 'white' : 'black' }}
-              >
-                {text.title}
-              </Typography>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-
+                <ListItemIcon
+                  sx={{
+                    color: text.title === activeItem ? 'white' : 'black',
+                    minWidth: '35px'
+                  }}
+                >
+                  {text.icon}
+                </ListItemIcon>
+                <Typography
+                  sx={{ color: text.title === activeItem ? 'white' : 'black' }}
+                >
+                  {text.title}
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
       <Box
         sx={{
           position: 'absolute',
