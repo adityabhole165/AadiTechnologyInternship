@@ -39,7 +39,7 @@ const SubjectExamMarks = () => {
   //   return current.isBefore(today)
   // }
   let { ClassTecher, ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publishStatus } = useParams();
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish } = useParams();
 
   // const [examResultProp, setexamResultProp] = useState(false);
 
@@ -426,14 +426,6 @@ const SubjectExamMarks = () => {
               ? [ExamResultLink, { title: 'Subject Exam Marks', path: '' }]
               : [AssignExamMarkLink, { title: 'Subject Exam Marks', path: '' }])
         }
-        // publishStatus={publishStatus}
-
-        // {publishStatus && (
-        //   <div className="note">
-        //     <p>The exam results have been published.</p>
-        //   </div>
-        // )}
-
 
         rightActions={
           <>
@@ -663,6 +655,13 @@ const SubjectExamMarks = () => {
             // </Typography>
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>Student marks are already submitted.</b>
+            </Typography>
+          )
+        }
+        {
+          examResultProp === 'true' && publish === 'true' && (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>Results for this exam have been published. You need to unpublish the exam to update the marks.</b>
             </Typography>
           )
         }
