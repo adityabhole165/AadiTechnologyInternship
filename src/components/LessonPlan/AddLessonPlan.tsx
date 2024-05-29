@@ -441,7 +441,7 @@ const AddLessonPlan = () => {
         onClickSave();
         setMessage("We are saving lesson plan details, please wait.");
       }
-    }, 20000);
+    }, 60000);
 
     return () => clearInterval(autoSave);
   }, [IsDarty, onClickSave]);
