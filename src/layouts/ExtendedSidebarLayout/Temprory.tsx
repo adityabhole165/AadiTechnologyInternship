@@ -15,6 +15,7 @@ import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
 import TableChart from '@mui/icons-material/TableChart';
 import { Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -71,9 +72,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/landing/landing'
     },
     {
-      title: 'MonthwiseAttendance',
+      title: 'AnnualPlanner',
       icon: <CalendarToday />,
-      link: '/extended-sidebar/Teacher/MonthwiseAttendance'
+      link: '/extended-sidebar/Common/AnnualPlanner'
     },
     {
       title: 'Weekly Timetable',
@@ -124,7 +125,29 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Progress Report',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ProgressReportNew'
+    },
+    {
+      title: 'Lesson Plan',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
+    },
+    {
+      title: 'Aadhar Card Details',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/AadharCard'
+    },
+    {
+      title: 'Holidays',
+      icon: <DateRangeIcon />,
+      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
+    },
+    {
+      title: 'Sms Center',
+      icon: <FactCheck />,
+      link: '/extended-sidebar/Teacher/SmsCenter'
+
     }
+    
   ];
   const activeStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,

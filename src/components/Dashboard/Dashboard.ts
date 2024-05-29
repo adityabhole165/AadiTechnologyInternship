@@ -336,48 +336,48 @@ const DashboardData = {
         Link: 'Common/VideoGallery/VideoAlbum',
         index: 5
       },
-      {
-        Text1: 'Monthwise Attendance',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: '#f0483e ',
-        Icon: CakeIcon,
-        Link: 'Teacher/MonthwiseAttendance',
-        index: 26
-      },
+      // {
+      //   Text1: 'Monthwise Attendance',
+      //   Text2: '',
+      //   Color: '#90a4ae',
+      //   iconColor: '#f0483e ',
+      //   Icon: CakeIcon,
+      //   Link: 'Teacher/MonthwiseAttendance',
+      //   index: 26
+      // },
+
+      // {
+      //   Text1: 'Individual Attendance',
+      //   Text2: '',
+      //   Color: '#90a4ae',
+      //   iconColor: '#f0483e ',
+      //   Icon: CakeIcon,
+      //   Link: 'Teacher/IndidualAttendance',
+      //   index: 26
+      // },
+
+      // {
+      //   Text1: 'Annual Planer',
+      //   Text2: 'BaseScreen',
+      //   Color: '#ef5350',
+      //   iconColor: '#f0483e ',
+      //   Icon: EventIcon,
+      //   Link: 'Common/AnnualPlanner',
+      //   index: 2
+      // },
+
+      // {
+      //   Text1: 'SchoolAttendance',
+      //   Text2: 'Overview',
+      //   Color: '#ef5350',
+      //   iconColor: '#f0483e ',
+      //   Icon: EventIcon,
+      //   Link: 'Teacher/SchoolAttendanceOverview',
+      //   index: 2
+      // },
 
       {
-        Text1: 'Individual Attendance',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: '#f0483e ',
-        Icon: CakeIcon,
-        Link: 'Teacher/IndidualAttendance',
-        index: 26
-      },
-
-      {
-        Text1: 'AnnualPlaner',
-        Text2: 'BaseScreen',
-        Color: '#ef5350',
-        iconColor: '#f0483e ',
-        Icon: EventIcon,
-        Link: 'Common/AnnualPlanner',
-        index: 2
-      },
-
-      {
-        Text1: 'SchoolAttendance',
-        Text2: 'Overview',
-        Color: '#ef5350',
-        iconColor: '#f0483e ',
-        Icon: EventIcon,
-        Link: 'Teacher/SchoolAttendanceOverview',
-        index: 2
-      },
-
-      {
-        Text1: 'ExamResult',
+        Text1: 'Exam Result',
         Text2: '',
         Color: '#ef5350',
         iconColor: '#f0483e ',
@@ -387,7 +387,7 @@ const DashboardData = {
       },
 
       {
-        Text1: 'AssignExamMark',
+        Text1: 'Assign Exam Mark',
         Text2: '',
         Color: '#ef5350',
         iconColor: '#f0483e ',
@@ -397,7 +397,7 @@ const DashboardData = {
       },
 
       {
-        Text1: 'AssignPrePrimary',
+        Text1: 'Assign Pre Primary',
         Text2: 'Grades',
         Color: '#ef5350',
         iconColor: '#f0483e ',
@@ -407,8 +407,8 @@ const DashboardData = {
       },
      
       {
-        Text1: 'AadharCard',
-        Text2: '',
+        Text1: 'Aadhar Card',
+        Text2: 'Details',
         Color: '#90a4ae',
         iconColor: '#f0483e ',
         Icon: AssignmentIndIcon,
@@ -429,7 +429,7 @@ const DashboardData = {
     ],
     items2: [
       {
-        Text1: 'FinalResult ',
+        Text1: 'Final Result ',
         Text2: 'Unpublish ',
         Color: '#81c784',
         iconColor: '#424242',
@@ -437,17 +437,17 @@ const DashboardData = {
         Link: 'Teacher/FinalResultUnpublish',
         index: 40
       },
+      // {
+      //   Text1: 'AddLessonPlan ',
+      //   Text2: ' ',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/AddLessonPlan',
+      //   index: 33
+      // },
       {
-        Text1: 'AddLessonPlan ',
-        Text2: ' ',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/AddLessonPlan',
-        index: 33
-      },
-      {
-        Text1: 'LessonPlan ',
+        Text1: 'Lesson Plan ',
         Text2: 'BaseScreen ',
         Color: '#81c784',
         iconColor: '#424242',
@@ -455,34 +455,34 @@ const DashboardData = {
         Link: 'Teacher/LessonPlanBaseScreen',
         index: 15
       },
-      {
-        Text1: 'ExamResult  ',
-        Text2: 'Unpublish',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/ExamResultUnpublish',
-        index: 15
-      },
+      // {
+      //   Text1: 'Exam Result  ',
+      //   Text2: 'Unpublish',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/ExamResultUnpublish',
+      //   index: 15
+      // },
 
-      {
-        Text1: 'Event ',
-        Text2: 'Manegement ',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/EventManegement',
-        index: 14
-      },
-      {
-        Text1: 'AddDaily ',
-        Text2: 'Log ',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/AddDailyLog',
-        index: 13
-      },
+      // {
+      //   Text1: 'Event ',
+      //   Text2: 'Manegement ',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/EventManegement',
+      //   index: 14
+      // },
+      // {
+      //   Text1: 'AddDaily ',
+      //   Text2: 'Log ',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/AddDailyLog',
+      //   index: 13
+      // },
       {
         Text1: 'Final ',
         Text2: 'Result ',
@@ -492,24 +492,24 @@ const DashboardData = {
         Link: 'Teacher/FinalResult',
         index: 36
       },
-      {
-        Text1: 'FinalResult ',
-        Text2: 'Toppers',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/FinalResultToppers',
-        index: 38
-      },
-      {
-        Text1: 'Standard ',
-        Text2: 'Toppers',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/StandardToppers',
-        index: 39
-      },
+      // {
+      //   Text1: 'FinalResult ',
+      //   Text2: 'Toppers',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/FinalResultToppers',
+      //   index: 38
+      // },
+      // {
+      //   Text1: 'Standard ',
+      //   Text2: 'Toppers',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/StandardToppers',
+      //   index: 39
+      // },
       {
         Text1: 'Student ',
         Text2: 'Records ',
@@ -519,15 +519,15 @@ const DashboardData = {
         Link: 'Teacher/StudentRecords',
         index: 37
       },
-      {
-        Text1: 'Termwise ',
-        Text2: 'HeightWeight ',
-        Color: '#81c784',
-        iconColor: '#424242',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/TermwiseHeightWeight',
-        index: 11
-      },
+      // {
+      //   Text1: 'Termwise ',
+      //   Text2: 'HeightWeight ',
+      //   Color: '#81c784',
+      //   iconColor: '#424242',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/TermwiseHeightWeight',
+      //   index: 11
+      // },
       {
         Text1: 'Assign  ',
         Text2: 'Homework',
@@ -600,7 +600,7 @@ const DashboardData = {
         ScreenPermission: 'SMSCenter'
       },
       {
-        Text1: 'PrePrimary ',
+        Text1: 'Pre Primary ',
         Text2: 'Result',
         Color: '#81c784',
         iconColor: '#35abd9',
