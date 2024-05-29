@@ -19,7 +19,7 @@ const ProgressReportNew = () => {
     const TeacherId = sessionStorage.getItem('TeacherId');
     const asUserId = Number(sessionStorage.getItem('Id'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-    const [selectTeacher, SetselectTeacher] = useState('');
+    const [selectTeacher, SetselectTeacher] = useState(TeacherId);
     const [StudentId, SetStudentId] = useState('');
 
     const ScreensAccessPermission = JSON.parse(
@@ -35,7 +35,7 @@ const ProgressReportNew = () => {
         return perm;
       };
 
-    console.log(StudentId, "StudentId");
+    console.log(GetScreenPermission(), "GetScreenPermission");
 
     const USGetClassTeachers: any = useSelector(
         (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
@@ -98,6 +98,16 @@ const ProgressReportNew = () => {
         SetStudentId(USGetStudentNameDropdown[0].Value);
         }
       }, [USGetStudentNameDropdown]);
+
+      useEffect(() => {
+        if(GetScreenPermission() == 'Y'){
+          if (USGetClassTeachers.length > 0) {
+            SetselectTeacher(USGetClassTeachers[0].Value);
+          }
+        }
+       
+      }, [USGetClassTeachers]);
+
 
     useEffect(() => {
         dispatch(CDAGetClassTeachers(GetClassTeachersBody));

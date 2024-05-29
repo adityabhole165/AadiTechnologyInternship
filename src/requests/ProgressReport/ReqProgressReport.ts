@@ -1,39 +1,81 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetClassTeachersBody,IGetStudentNameDropdownBody,IStudentProgressReportBody,IGetPassedAcademicYearsBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
 const ProgressReportSlice = createSlice({
-    name: 'ProgressReport',
-    initialState: {
-        ISGetClassTeachers:[],
-        ISGetStudentNameDropdown:[],
-        ISStudentProgressReport:[],
-        ISGetPassedAcademicYears:[]
-  
+  name: 'ProgressReport',
+  initialState: {
+    ISGetClassTeachers: [],
+    ISGetStudentNameDropdown: [],
+    ISStudentProgressReport: [],
+    ISlistStudentsDetails: [],
+    ISlistSubjectsDetails: [],
+    ISlistTestDetails: [],
+    ISlistSubjectIdDetails: [],
+      ISlistTestidDetails:[],
+    ISListSchoolWiseTestNameDetail: [],
+    ISListSubjectidDetails:[],
+    ISListTestTypeIdDetails:[],
+    ISListMarkssDetails:[],
+    ISListDisplayNameDetails:[],
+    ISGetPassedAcademicYears: []
+
+  },
+  reducers: {
+    RGetClassTeachers(state, action) {
+      state.ISGetClassTeachers = action.payload;
     },
-    reducers: {
-        RGetClassTeachers(state, action) {
-            state.ISGetClassTeachers = action.payload;
-          },
-          RGetStudentNameDropdown(state, action) {
-            state.ISGetStudentNameDropdown = action.payload;
-          },
-          RStudentProgressReport(state, action) {
-            state.ISStudentProgressReport = action.payload;
-          },
-          RGetPassedAcademicYears(state, action) {
-            state.ISGetPassedAcademicYears = action.payload;
-          },
-          
+    RGetStudentNameDropdown(state, action) {
+      state.ISGetStudentNameDropdown = action.payload;
+    },
+    RStudentProgressReport(state, action) {
+      state.ISStudentProgressReport = action.payload;
+    },
+    RlistStudentsDetails(state, action) {
+      state.ISlistStudentsDetails = action.payload;
+    },
+    RlistSubjectsDetails(state, action) {
+      state.ISlistStudentsDetails = action.payload;
+    },
+    RlistTestDetails(state, action) {
+      state.ISlistTestDetails = action.payload;
+    },
+    RListSchoolWiseTestNameDetail(state, action) {
+      state.ISListSchoolWiseTestNameDetail = action.payload;
+    },
+    RlistSubjectIdDetails(state, action) {
+      state.ISlistSubjectIdDetails = action.payload;
+    },
+    RListSubjectidDetails(state, action) {
+      state.ISListSubjectidDetails = action.payload;
+    },
+    RlistTestidDetails(state, action) {
+      state.ISlistTestidDetails = action.payload;
+    },
 
-          
-          
-    }
-  });
+    RListMarkssDetails(state, action) {
+      state.ISListMarkssDetails = action.payload;
+    },
+    RListDisplayNameDetails(state, action) {
+      state.ISListDisplayNameDetails = action.payload;
+    },
+  
+    RListTestTypeIdDetails(state, action) {
+      state.ISListTestTypeIdDetails = action.payload;
+    },
+    RGetPassedAcademicYears(state, action) {
+      state.ISGetPassedAcademicYears = action.payload;
+    },
 
-  export const CDAGetClassTeachers =
+
+
+
+  }
+});
+
+export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
@@ -41,52 +83,142 @@ const ProgressReportSlice = createSlice({
       response.data.map((item, i) => {
         ClassTeachersList.push({
           Id: item.Teacher_Id,
-            Name: item.TeacherName,
-            Value: item.Teacher_Id
+          Name: item.TeacherName,
+          Value: item.Teacher_Id
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
     };
 
-    export const CDAGetStudentName =
-    (data: IGetStudentNameDropdownBody): AppThunk =>
-      async (dispatch) => {
-        const response = await ApiProgressReport.GetStudentNameDropdown(data)
-        let StudentList = [{ Id: '0', Name: 'All', Value: '0' }];
-        response.data.map((item, i) => {
-          StudentList.push({
-            Id: item.Student_Id,
-              Name: item.StudentName,
-              Value: item.Student_Id
-          });
+export const CDAGetStudentName =
+  (data: IGetStudentNameDropdownBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetStudentNameDropdown(data)
+      let StudentList = [{ Id: '0', Name: 'All', Value: '0' }];
+      response.data.map((item, i) => {
+        StudentList.push({
+          Id: item.Student_Id,
+          Name: item.StudentName,
+          Value: item.Student_Id
         });
-  
-        dispatch(ProgressReportSlice.actions.RGetStudentNameDropdown(StudentList));
+      });
 
-        
-      };
+      dispatch(ProgressReportSlice.actions.RGetStudentNameDropdown(StudentList));
 
 
-      export const CDAStudentProgressReport =
-    (data: IStudentProgressReportBody): AppThunk =>
-      async (dispatch) => {
-        const response = await ApiProgressReport.StudentProgressReport(data)
-        dispatch(ProgressReportSlice.actions.RStudentProgressReport(response.data));
-
-        
-      };
+    };
 
 
-      export const CDAGetPassedAcademicYears =
-      (data: IGetPassedAcademicYearsBody): AppThunk =>
-        async (dispatch) => {
-          const response = await ApiProgressReport.GetPassedAcademicYears(data)
-          console.log(response.data,"response.data  ");
-          
-          dispatch(ProgressReportSlice.actions.RGetPassedAcademicYears(response.data));
-  
-          
+export const CDAStudentProgressReport =
+  (data: IStudentProgressReportBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.StudentProgressReport(data)
+
+      let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
+        return {
+          Id: item.YearWise_Student_Id,
+          Text1: item.Student_Name,
+          Text2: item.Roll_No,
+          Text3: item.Standard_Name,
+          Text4: item.Division_Name,
+          Text5: item.Academic_Year
         };
+      });
+      let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
+        return {
+          Id: item.Subject_Id,
+          Text1: item.Subject_Name,
+
+        };
+      });
+      let listTestDetails = response.data.listTestDetails.map((item, i) => {
+        return {
+          Id: item.Test_Id,
+          Text1: item.Test_Name,
+
+        };
+      });
+
+      let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
+        return {
+          Id: item.Original_SchoolWise_Test_Id,
+          Text1: item.Marks,
+
+        };
+      });
+
+      let ListSchoolWiseTestNameDetail = response.data.ListSchoolWiseTestNameDetail.map((item, i) => {
+        return {
+          Id: item.Percentage,
+          Text1: item.Total_Marks_Scored,
+
+        };
+      });
+      let listTestidDetails = response.data.listTestidDetails.map((item, i) => {
+        return {
+          Id: item.OutOfMarks,
+          Text1: item.Parent_Subject_Name,
+
+        };
+      });
+
+
+      let ListSubjectidDetails = response.data.ListSubjectidDetails.map((item, i) => {
+        return {
+          Id: item.Subject_Id,
+          Text1: item.TestTypeSort_Order,
+
+        };
+      });
+
+
+      let ListTestTypeIdDetails = response.data.ListTestTypeIdDetails.map((item, i) => {
+        return {
+          Id: item.TestType_Name,
+          Text1: item.TestTypeSort_Order,
+
+        };
+      });
+
+      let ListMarkssDetails = response.data.ListMarkssDetails.map((item, i) => {
+        return {
+          Id: item.Marks_Grades_Configuration_Detail_ID,
+          Text1: item.Remarks,
+
+        };
+      });
+
+      let ListDisplayNameDetails = response.data.ListDisplayNameDetails.map((item, i) => {
+        return {
+          Id: item.DisplayValue,
+          Text1: item.DisplayName
+
+        };
+      });
+      
+      dispatch(ProgressReportSlice.actions.RlistStudentsDetails(listStudentsDetails));
+      dispatch(ProgressReportSlice.actions.RlistSubjectsDetails(listSubjectsDetails));
+      dispatch(ProgressReportSlice.actions.RlistTestDetails(listTestDetails));
+      dispatch(ProgressReportSlice.actions.RlistSubjectIdDetails(listSubjectIdDetails));
+      dispatch(ProgressReportSlice.actions.RListSchoolWiseTestNameDetail(ListSchoolWiseTestNameDetail));
+      dispatch(ProgressReportSlice.actions.RlistTestidDetails(listTestidDetails));
+      dispatch(ProgressReportSlice.actions.RListSubjectidDetails(ListSubjectidDetails));
+      dispatch(ProgressReportSlice.actions.RListTestTypeIdDetails(ListTestTypeIdDetails));
+      dispatch(ProgressReportSlice.actions.RListMarkssDetails(ListMarkssDetails));
+      dispatch(ProgressReportSlice.actions.RListDisplayNameDetails(ListDisplayNameDetails));
+    };
+
+
+export const CDAGetPassedAcademicYears =
+  (data: IGetPassedAcademicYearsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetPassedAcademicYears(data)
+      console.log(response.data, "response.data  ");
+
+      dispatch(ProgressReportSlice.actions.RGetPassedAcademicYears(response.data));
+
+
+    };
 
 
 
