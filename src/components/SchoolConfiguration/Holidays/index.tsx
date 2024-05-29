@@ -25,7 +25,7 @@ const Holidays = (props: Props) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const HolidayFullAccess = GetScreenPermission('HolidaysManagement')
+    const HolidayFullAccess = GetScreenPermission('Holidays')
     console.log(HolidayFullAccess, 'ScreenPermission');
 
     const holidaysList = useSelector(
