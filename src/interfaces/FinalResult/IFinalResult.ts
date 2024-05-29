@@ -192,4 +192,29 @@ export interface isTestPublishedResult {
   boolean
 }
 
+export interface IconfiguredExamBody {
+  asSchoolId: number,
+  asAcademicYrId: number,
+  asStdDivId: number
+}
+
+
+export interface IconfiguredExamResult {
+  IsConfiged: number,
+
+}
+
+export interface IUnpublishedTestexamBody {
+  asSchoolId: number,
+  asAcademicYrId: number,
+  asStdDivId: number,
+}
+
+
+export interface IUnpublishedTestexamResult {
+
+  SchoolWise_Test_Name: string;
+
+}
+
 

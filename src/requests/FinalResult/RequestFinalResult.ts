@@ -8,7 +8,9 @@ import {
   IGetPagedStudentBody,
   IPublishBody,
   IUnpublishBody,
+  IUnpublishedTestexamBody,
   IViewBody,
+  IconfiguredExamBody,
   isAtleastOneResultGeneratedBody,
   isResultPublishedBody,
   isTestPublishedBody
@@ -28,6 +30,8 @@ const FinalResultSlice = createSlice({
     ViewResult: [],
     HeaderList: [],
     GetConfiguredTestPublished: [],
+    iscofigred: " ",
+    unpublishexam: [],
     GetResultPublishd: false,
     GetAtleastOneResultGenerated: {},
     GetTestPublished: true,
@@ -75,6 +79,14 @@ const FinalResultSlice = createSlice({
     },
     viewResult(state, action) {
       state.ViewResult = action.payload;
+    },
+    isconfiexam(state, action) {
+      state.Loading = false;
+      state.iscofigred = action.payload;
+    },
+    UnpublishexamName(state, action) {
+      state.Loading = false;
+      state.unpublishexam = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -184,5 +196,25 @@ export const GetTestPublishedd = (data: isTestPublishedBody): AppThunk =>
     const response = await FinalResultApi.GetTestPublished(data);
     dispatch(FinalResultSlice.actions.getTestPublished(response.data));
   }
+
+export const getiscofigred =
+  (data: IconfiguredExamBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(FinalResultSlice.actions.getLoading(true));
+      let res = await FinalResultApi.Getisconfigred(data);
+      dispatch(FinalResultSlice.actions.isconfiexam(res.data));
+      // console.log(res, "configgg");
+
+    };
+export const getunpublishedexam =
+  (data: IUnpublishedTestexamBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(FinalResultSlice.actions.getLoading(true));
+      let resp = await FinalResultApi.Getunplishedexam(data);
+      dispatch(FinalResultSlice.actions.UnpublishexamName(resp.data));
+      //  console.log(resp, "unpublished");
+
+    };
+
 
 export default FinalResultSlice.reducer;

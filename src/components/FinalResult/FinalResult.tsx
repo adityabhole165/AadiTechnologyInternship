@@ -520,23 +520,30 @@ const FinalResult = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>
-            <Tooltip title={"Generate All"}>
-              <IconButton
-                onClick={onClickPublish}
-                disabled={GetResultGenerated == true}
-                sx={{
-                  color: 'white',
-                  backgroundColor: GetResultGenerated == true ? grey[500] : grey[200],
-                  '&:hover': {
-                    backgroundColor: grey[600]
+          {!GetResultGenerated && (
+            <Box>
+
+              <Tooltip title={"Generate All"}>
+                <IconButton
+                  onClick={onClickPublish}
+                  disabled={GetResultGenerated}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: GetResultGenerated ? grey[200] : grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+
                   }
-                }}
-              >
-                <Autorenew />
-              </IconButton>
-            </Tooltip>
-          </Box>
+                  }
+                >
+                  <Autorenew />
+                </IconButton>
+              </Tooltip>
+
+            </Box>
+          )
+          }
           <Box>
             <Tooltip title={"View All Results"}>
               <IconButton

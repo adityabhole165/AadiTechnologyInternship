@@ -14,8 +14,12 @@ import {
   IPublishResult,
   IUnpublishBody,
   IUnpublishResult,
+  IUnpublishedTestexamBody,
+  IUnpublishedTestexamResult,
   IViewBody,
   IViewResult,
+  IconfiguredExamBody,
+  IconfiguredExamResult,
   isAtleastOneResultGeneratedBody,
   isAtleastOneResultGeneratedResult,
   isResultPublishedBody,
@@ -75,6 +79,13 @@ const GetTestPublished = (data: isTestPublishedBody) => {
   return http.post<isTestPublishedResult>('Teacher/IsTestPublishedForStdDiv', data);
 }
 
+const Getisconfigred = (data: IconfiguredExamBody) => {
+  return http.post<IconfiguredExamResult>('Teacher/AllConffguredTestPublished', data);
+};
+const Getunplishedexam = (data: IUnpublishedTestexamBody) => {
+  return http.post<IUnpublishedTestexamResult>('Teacher//AllUnpublishedTestForStdDiv', data);
+};
+
 
 
 const FinalResultApi = {
@@ -88,6 +99,8 @@ const FinalResultApi = {
   GetConfiguredTestPublished,
   GetResultPublished,
   GetAtleastOneResultGenerated,
-  GetTestPublished
+  GetTestPublished,
+  Getisconfigred,
+  Getunplishedexam
 };
 export default FinalResultApi;
