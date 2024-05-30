@@ -11,6 +11,7 @@ import StandardAttendance, {
 } from 'src/interfaces/Teacher/TAttendance';
 import AttendanceData, {
   IDeleteAttendanceBody,
+  IGetAcademicDatesForStandardDivisionBody,
   IGetAttendanceStatus,
   IGetClassTeachersBodynew,
   IGetStudentDetails,
@@ -37,7 +38,8 @@ const TAttendanceSlice = createSlice({
     ISGetSummaryCountforAttendance: null,
     listAttendanceCalender: [],
     DeleteAttendance: '',
-    ISClassTeacherList: []
+    ISClassTeacherList: [],
+    GetAcademicDates: null
   },
   reducers: {
     getStandardList(state, action) {
@@ -54,6 +56,9 @@ const TAttendanceSlice = createSlice({
     },
     GetStudentDetailsList(state, action) {
       state.GetStudentDetailsList = action.payload;
+    },
+    getAcademicDates(state, action) {
+      state.GetAcademicDates = action.payload;
     },
     GetStudentList(state, action) {
       if (action.payload === null) {
@@ -141,6 +146,12 @@ export const GetStudentDetailsList =
     async (dispatch) => {
       const response = await GetTAttendanceListApi.GetStudentDetails(data);
       dispatch(TAttendanceSlice.actions.GetStudentDetailsList(response.data));
+    };
+export const GetAcademicDatesForStandardDivision =
+  (data: IGetAcademicDatesForStandardDivisionBody): AppThunk =>
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetAcademicDatesForStandardDivision(data);
+      dispatch(TAttendanceSlice.actions.getAcademicDates(response.data));
     };
 
 export const GetStudentList =

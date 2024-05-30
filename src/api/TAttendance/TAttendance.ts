@@ -4,6 +4,8 @@ import StandardAttendance, {
 import GetClassAttendance, {
   GetStudentDetailsResult,
   IDeleteAttendanceBody,
+  IGetAcademicDatesForStandardDivisionBody,
+  IGetAcademicDatesForStandardDivisionResult,
   IGetAttendanceStatus,
   IGetAttendanceStatusResult,
   IGetClassAttendanceResult,
@@ -79,6 +81,13 @@ const ClassTeacherDropdownnew = (data: IGetClassTeachersBodynew) => {
   );
 };
 
+const GetAcademicDatesForStandardDivision = (data: IGetAcademicDatesForStandardDivisionBody) => {
+  return http.post<IGetAcademicDatesForStandardDivisionResult>(
+    'Teacher/GetAcademicDatesForStandardDivision',
+    data
+  );
+};
+
 const GetTAttendanceListApi = {
   GetStandardList,
   GetAttendanceData,
@@ -88,7 +97,8 @@ const GetTAttendanceListApi = {
   GetAttendanceStatus,
   GetSummaryCountforAttendance,
   DeleteAttendance,
-  ClassTeacherDropdownnew
+  ClassTeacherDropdownnew,
+  GetAcademicDatesForStandardDivision
 };
 
 export default GetTAttendanceListApi;

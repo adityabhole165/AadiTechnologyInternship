@@ -1,7 +1,7 @@
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Modal, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Modal, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
@@ -9,7 +9,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-
+import ClearIcon from '@mui/icons-material/Clear';
 import { grey } from '@mui/material/colors';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 
@@ -66,6 +66,9 @@ const ProgressReportNew = () => {
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
 
+  const ListMarksSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "True");
+const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "False");
+
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -104,10 +107,16 @@ const ProgressReportNew = () => {
 
 
   const clickSelectClass = (value) => {
+    setOpen(false);
     SetselectTeacher(value)
   };
 
+  const AcademicRecords = (value) => {
+    alert("Old Academic Records Page Not Devloped ")
+  };
+ 
   const clickStudentList = (value) => {
+    setOpen(false);
     SetStudentId(value);
   };
 
@@ -150,9 +159,6 @@ const ProgressReportNew = () => {
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
 
   }, [StudentId]);
-
- 
-
 
   const handleClick = (event) => {
     event.preventDefault(); // Prevent the default link behavior
@@ -224,37 +230,59 @@ const ProgressReportNew = () => {
 
 
           </Box>
-
+          
         </>}
+       
       />
+
+      {StudentId == "0"  ? (
+                <span></span>
+              ) : (
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>  
+                 <Button variant="outlined" onClick={AcademicRecords}>
+                  Old Academic Records
+                  </Button>
+                  </Box>
+              )}
   {open && (
   <div>
     {USlistSubjectsDetails.length > 0? (
       <>
-     
+      
 
      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+     
       <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="h4">Grade Configuration Details</Typography>
       </Link>
       
-      <Dialog open={open1} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle variant={"h5"}> Grade Configuration Details</DialogTitle>
-        <DialogContent>
-        <Typography variant={"h4"} my={1}>
-            Subjects :
-          </Typography>
-          <GradeConfigurationList
-            ItemList={USListMarkssDetails}
-            HeaderArray={headerArray}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
+  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    Grade Configuration Details
+    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+  </DialogTitle>
+  <DialogContent>
+    <Typography variant="h4" my={1}>
+      Subjects:
+    </Typography>
+    <GradeConfigurationList
+      ItemList={ListMarksSubjects}
+      HeaderArray={headerArray}
+    />
+  </DialogContent>
+  <DialogContent>
+    <Typography variant="h4" my={1}>
+      Co-Curricular Subjects:
+    </Typography>
+    <GradeConfigurationList
+      ItemList={CoCurricularSubjects}
+      HeaderArray={headerArray}
+    />
+  </DialogContent>
+</Dialog>
+
+
+
     </Box>
       
      

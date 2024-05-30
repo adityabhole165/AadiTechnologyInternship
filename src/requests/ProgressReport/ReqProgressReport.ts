@@ -192,10 +192,11 @@ export const CDAStudentProgressReport =
           Text1: '',
           Text2: item.Grade_Name,
           Text3: item.Remarks,
-
+          IsForCoCurricularSubjects:item.IsForCoCurricularSubjects
 
         };
       });
+      
 
 
 

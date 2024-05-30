@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
-import { GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
+import { Equal, GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function HolidaysList({
   ItemList,
@@ -49,157 +49,168 @@ function HolidaysList({
 
   return (
     <div>
-      <Typography variant="subtitle1"
-        sx={{ margin: '16px 0', textAlign: 'center' }}>
-        <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, ItemList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{ItemList.length}</Box> records
-      </Typography>
+      {ItemList.length === 0 ? (
+        <Typography variant="h6" align="center" color="textSecondary">
+          No record found.
+        </Typography>
+      ) : (
+        <>
+          <Typography variant="subtitle1"
+            sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, ItemList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{ItemList.length}</Box> records
+          </Typography>
 
-      <TableContainer component={Box}>
-        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-          <TableHead>
-            <TableRow
-              sx={{ background: (theme) => theme.palette.secondary.main, }}
-            >
-              {HeaderArray.map((item, i) => (
-                (item.Header !== 'Edit' && item.Header !== 'Delete') || (HolidayFullAccess !== 'N') ? (
-                  <TableCell
-                    key={i}
-                    sx={{
-                      // textTransform: 'capitalize',
-                      color: (theme) => theme.palette.common.white,
-                      textAlign: i === 2 || i === 3 ? 'left' : 'center'
-                    }}
-                    align="center"
-                  >
-                    <b>{item.Header}</b>
-                  </TableCell>
-                ) : <TableCell key={i} style={{ width: 0, height: 0, padding: 0, border: 0 }} />
-              ))}
-
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedItems.map((item, index) => {
-              console.log(item.Text1, "item.Text1", formattedDate);
-              const formattedItemDate = formatDate(new Date(item.Text1));
-              const isCurrentDate = formattedItemDate === formattedDate;
-              const isFuture = isFutureDateTime(new Date(item.Text1));
-              const isPast = isPastDateTime(new Date(item.Text1));
-
-              const backgroundColor = (isFuture && index === 0) || isCurrentDate ? '#EFDCC9 ' : isPast ? "white" : 'white';
-
-              const rowStyle = isPast && index !== 0 ? {
-                backgroundColor: 'white',
-                // opacity: 0.5,
-              } : { backgroundColor };
-
-              return (
-                <TableRow key={item.Id} >
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
-                    }}
-                    align="center"
-                  >
-                    {item.Text1}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
-                    }}
-                    align="center"
-                  >
-                    {item.Text2}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      backgroundColor: rowStyle.backgroundColor,
-                      textAlign: 'left',
-                      opacity: isPast && index !== 0 ? 0.5 : 1
-                    }}
-                    align="left"
-                  >
-                    {item.Text3}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      backgroundColor: rowStyle.backgroundColor,
-                      textAlign: 'left',
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
-                    }}
-                    align="left"
-                  >
-                    {item.Text4}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
-                    }}
-                    align="center"
-                  >
-                    {item.Text5}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      backgroundColor: rowStyle.backgroundColor,
-                      opacity: 1,
-                    }}
-                    align="center"
-                  >
-                    {item.Text6}
-                    {HolidayFullAccess == 'Y' ? (
-                      <Tooltip title="Edit">
-                        <EditTwoTone
-                          sx={{ color: 'black', cursor: 'pointer' }}
-                          onClick={() => clickEdit(item.Id)} />
-                      </Tooltip>
-                    ) : null}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textTransform: 'capitalize',
-                      opacity: 1,
-                      backgroundColor: rowStyle.backgroundColor,
-
-                    }}
-                    align="center"
-                  >
-                    {item.Text7}
-                    {HolidayFullAccess == 'Y' ? (
-                      <IconButton
-                        sx={{ color: 'red', cursor: 'pointer' }}
-                        onClick={() => clickDelete(item.Id)}
+          <TableContainer component={Box}>
+            <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+              <TableHead>
+                <TableRow
+                  sx={{ background: (theme) => theme.palette.secondary.main, }}
+                >
+                  {HeaderArray.map((item, i) => (
+                    (item.Header !== 'Edit' && item.Header !== 'Delete') || (HolidayFullAccess !== 'N') ? (
+                      <TableCell
+                        key={i}
+                        sx={{
+                          // textTransform: 'capitalize',
+                          color: (theme) => theme.palette.common.white,
+                          textAlign: i === 2 || i === 3 ? 'left' : 'center'
+                        }}
+                        align="center"
                       >
-                        <Tooltip title="Delete" >
-                          <DeleteForeverIcon />
-                        </Tooltip>
-                      </IconButton>
-                    ) : null}
-                  </TableCell>
+                        <b>{item.Header}</b>
+                      </TableCell>
+                    ) : <TableCell key={i} style={{ width: 0, height: 0, padding: 0, border: 0 }} />
+                  ))}
+
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 20, 30]}
-          component="div"
-          count={ItemList.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+              </TableHead>
+              <TableBody>
+                {paginatedItems.map((item, index) => {
+                  console.log(item.Text1, "item.Text1", formattedDate);
+                  const formattedItemDate = formatDate(new Date(item.Text1));
+                  const isCurrentDate = formattedItemDate === formattedDate;
+                  const isFuture = isFutureDateTime(new Date(item.Text1));
+                  const isPast = isPastDateTime(new Date(item.Text1));
+                  const isEqual = Equal(new Date(item.Text1))
+
+                  const backgroundColor = isCurrentDate || (page === 0 && index === 0 && isFuture) ? '#EFDCC9 ' : isPast ? "white" : 'white';
+
+                  const rowStyle = !isCurrentDate && isPast ? {
+                    backgroundColor: 'white',
+                    // opacity: 0.5,
+                  } : { backgroundColor };
+
+                  return (
+                    <TableRow key={item.Id} >
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          backgroundColor: rowStyle.backgroundColor,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                        }}
+                        align="center"
+                      >
+                        {item.Text1}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          backgroundColor: rowStyle.backgroundColor,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                        }}
+                        align="center"
+                      >
+                        {item.Text2}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          backgroundColor: rowStyle.backgroundColor,
+                          textAlign: 'left',
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1
+                        }}
+                        align="left"
+                      >
+                        {item.Text3}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          backgroundColor: rowStyle.backgroundColor,
+                          textAlign: 'left',
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                        }}
+                        align="left"
+                      >
+                        {item.Text4}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          backgroundColor: rowStyle.backgroundColor,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                        }}
+                        align="center"
+                      >
+                        {item.Text5}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          backgroundColor: rowStyle.backgroundColor,
+                          opacity: 1,
+                        }}
+                        align="center"
+                      >
+                        {item.Text6}
+                        {HolidayFullAccess == 'Y' ? (
+                          <Tooltip title="Edit">
+                            <EditTwoTone
+                              sx={{ color: 'black', cursor: 'pointer' }}
+                              onClick={() => clickEdit(item.Id)} />
+                          </Tooltip>
+                        ) : null}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textTransform: 'capitalize',
+                          opacity: 1,
+                          backgroundColor: rowStyle.backgroundColor,
+
+                        }}
+                        align="center"
+                      >
+                        {item.Text7}
+                        {HolidayFullAccess == 'Y' ? (
+                          <IconButton
+                            sx={{ color: 'red', cursor: 'pointer' }}
+                            onClick={() => clickDelete(item.Id)}
+                          >
+                            <Tooltip title="Delete" >
+                              <DeleteForeverIcon />
+                            </Tooltip>
+                          </IconButton>
+                        ) : null}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+            {ItemList.length >= 5 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 15, 20]}
+                component="div"
+                count={ItemList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
+          </TableContainer>
+        </>
+      )}
     </div>
   );
 }

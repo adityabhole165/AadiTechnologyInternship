@@ -525,8 +525,9 @@ const SubjectExamMarks = () => {
                 </Tooltip>
               </Box>
               <Box sx={{ ml: 1 }}>
-                {IsReadOnly === 'true' ? (
-                  null // If IsReadOnly is true, don't render anything
+
+                {(IsReadOnly === 'true' || examResultProp === 'true' && publish === 'true') ? (
+                  null // Don't render anything
                 ) : (
                   <Tooltip title={`Save`}>
                     <IconButton
@@ -543,6 +544,27 @@ const SubjectExamMarks = () => {
                     </IconButton>
                   </Tooltip>
                 )}
+
+
+
+                {/* {IsReadOnly === 'true' ? (
+                  null // If IsReadOnly is true, don't render anything
+                ) : (
+                  <Tooltip title={`Save`}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: MarksError !== '' ? grey[500] : green[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: MarksError !== '' ? grey[500] : green[600] }
+                      }}
+                      onClick={onClickSave}
+                      disabled={isSaveDisabled}
+                    >
+                      <Save />
+                    </IconButton>
+                  </Tooltip>
+                )} */}
               </Box>
             </Box>
             {/* <Box>
