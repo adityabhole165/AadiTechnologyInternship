@@ -89,8 +89,8 @@ function HolidaysList({
               const backgroundColor = (isFuture && index === 0) || isCurrentDate ? '#EFDCC9 ' : isPast ? "white" : 'white';
 
               const rowStyle = isPast && index !== 0 ? {
-                backgroundColor: 'lightgrey',
-                opacity: 0.5,
+                backgroundColor: 'white',
+                // opacity: 0.5,
               } : { backgroundColor };
 
               return (
@@ -151,7 +151,7 @@ function HolidaysList({
                     sx={{
                       textTransform: 'capitalize',
                       backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
+                      opacity: 1,
                     }}
                     align="center"
                   >
@@ -159,7 +159,7 @@ function HolidaysList({
                     {HolidayFullAccess == 'Y' ? (
                       <Tooltip title="Edit">
                         <EditTwoTone
-                          sx={{ color: 'black', cursor: 'pointer', opacity: 1 }}
+                          sx={{ color: 'black', cursor: 'pointer' }}
                           onClick={() => clickEdit(item.Id)} />
                       </Tooltip>
                     ) : null}
@@ -167,18 +167,19 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
+                      opacity: 1,
                       backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
+
                     }}
                     align="center"
                   >
                     {item.Text7}
                     {HolidayFullAccess == 'Y' ? (
                       <IconButton
-                        sx={{ color: 'red', cursor: 'pointer', opacity: 1 }}
+                        sx={{ color: 'red', cursor: 'pointer' }}
                         onClick={() => clickDelete(item.Id)}
                       >
-                        <Tooltip title="Delete">
+                        <Tooltip title="Delete" >
                           <DeleteForeverIcon />
                         </Tooltip>
                       </IconButton>
