@@ -40,7 +40,8 @@ const ProgressRemarksNotes = () => {
                 <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
                     <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note1}</Alert>
                     <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note2}</Alert>
-                    <Alert variant="filled" severity="info">{Note3}</Alert>
+                    <Alert variant="filled" severity="info"><b>...  </b> {Note3}</Alert>
+
                     <Alert variant="filled" severity="info"><b>Note:</b> {Note4}</Alert>
                     <Alert variant="filled" severity="info"><b>Note:</b> {Note5}</Alert>
                 </AccordionDetails>
