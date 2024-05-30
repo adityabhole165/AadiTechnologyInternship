@@ -6,7 +6,7 @@ const validateInput = (inputValue) => {
 };
 const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
     GradesForSubjectMarkList, ExamStatus, changeExamStatus,
-    changeExamGrade, IsReadOnly, IsMark, AllowDecimal = true }) => {
+    changeExamGrade, IsReadOnly,examResultProp,publish, IsMark, AllowDecimal = true }) => {
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
@@ -46,7 +46,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         ExamStatus.filter((Item) => { return Item.Value != "J" })
                                 }
                                 handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
-                                disabled={IsReadOnly ||
+                                disabled={IsReadOnly || examResultProp && publish ||
                                     (Item.IsLateJoinee &&
                                         Item.AllowMarksEntryForLateJoin == "false")}
 
@@ -65,11 +65,11 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                                 width: '50px',
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
-                                                background: (IsReadOnly || !(Item.ExamStatus == "N") ?
+                                                background: (IsReadOnly || examResultProp && publish ||!(Item.ExamStatus == "N") ?
                                                     "#f5f5f5" : "")
 
                                             }}
-                                            disabled={IsReadOnly || !(Item.ExamStatus == "N")}
+                                            disabled={IsReadOnly ||examResultProp && publish || !(Item.ExamStatus == "N")}
                                             value={AllowDecimal ? Item.Text1 :
                                                 Math.round(Number(Item.Text1))
                                             }
@@ -88,7 +88,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         defaultValue={Item.ExamGrade}
                                         variant='outlined'
                                         Array={GradesForSubjectMarkList}
-                                        disabled={IsReadOnly || !Item.IsActive}
+                                        disabled={IsReadOnly|| examResultProp && publish  || !Item.IsActive}
                                         handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
                                     />
 

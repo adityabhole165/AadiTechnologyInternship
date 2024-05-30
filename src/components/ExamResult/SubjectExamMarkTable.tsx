@@ -2,7 +2,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
-  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
+  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly, examResultProp, publish,
   onChangeExamGrade, IsMark, AllowDecimal = true }) => {
 
 
@@ -243,6 +243,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={IsReadOnly == 'true'}
+                      examResultProp={examResultProp == 'true'}
+                      publish={publish == 'true'}
                       IsMark={IsMark}
                       AllowDecimal={AllowDecimal}
                     />

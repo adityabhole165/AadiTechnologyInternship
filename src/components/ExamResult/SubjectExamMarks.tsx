@@ -705,6 +705,8 @@ const SubjectExamMarks = () => {
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={IsReadOnly}
+            examResultProp={examResultProp}
+            publish={publish}
             IsMark={TestName?.Grade_Or_Marks == "M"}
             AllowDecimal={TestName?.AllowDecimal == "True"}
           />
