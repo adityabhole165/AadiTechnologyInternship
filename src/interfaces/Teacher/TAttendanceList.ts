@@ -140,7 +140,7 @@ export interface IDeleteAttendanceBody {
   asAttendanceDate: string;
   asAcademicYearId: number;
   asStdDivId: number;
-  asUserId:number
+  asUserId: number
 }
 
 export interface IGetClassTeachersBodynew {
@@ -160,4 +160,13 @@ export interface IGetClassTeachersResultnew {
   Original_Division_Id: string;
   SchoolWise_Standard_Division_Id: string;
   Is_PrePrimary: string;
+}
+export interface IGetAcademicDatesForStandardDivisionBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asStandardDivId: Number
+}
+export interface IGetAcademicDatesForStandardDivisionResult {
+  StartDate: string,
+  EndDate: string
 }

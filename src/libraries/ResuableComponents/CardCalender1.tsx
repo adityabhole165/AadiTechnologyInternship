@@ -27,7 +27,8 @@ function CardCalender1({
   ClickDeleteAttendance,
   clickNav,
   Standardid,
-  AttendanceStatus
+  // AttendanceStatus,
+
 }) {
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -115,7 +116,8 @@ function CardCalender1({
               fontSize: '16px',
               color: teal[500]
             }}>
-              {AttendanceStatus}
+              {/* {AttendanceStatus} */}
+             
             </div>
           </Typography>
         </Box>
