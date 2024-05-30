@@ -184,14 +184,10 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
-
-  }, []);
-
-  useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
-
   }, []);
 
+ 
 
 
   const handleClick = (event) => {
