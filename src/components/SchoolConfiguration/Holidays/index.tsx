@@ -138,7 +138,7 @@ const Holidays = (props: Props) => {
         { Id: 1, Header: 'Start Date 	' },
         { Id: 2, Header: ' 	End Date' },
         { Id: 3, Header: 'Name' },
-        { Id: 4, Header: ' Associated Classes' },
+        { Id: 4, Header: ' Associated Class(es)' },
         { Id: 5, Header: ' Total Days' },
         { Id: 6, Header: 'Edit' },
         { Id: 7, Header: 'Delete' }
@@ -195,10 +195,10 @@ const Holidays = (props: Props) => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    {
-                        title: 'School Configuration',
-                        path: '/extended-sidebar/Admin/SchoolConfiguration'
-                    },
+                    // {
+                    //     title: 'School Configuration',
+                    //     path: '/extended-sidebar/Admin/SchoolConfiguration'
+                    // },
                     {
                         title: 'Holidays',
                         path: ''

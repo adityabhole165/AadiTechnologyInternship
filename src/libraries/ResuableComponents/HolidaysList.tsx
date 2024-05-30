@@ -65,7 +65,7 @@ function HolidaysList({
                   <TableCell
                     key={i}
                     sx={{
-                      textTransform: 'capitalize',
+                      // textTransform: 'capitalize',
                       color: (theme) => theme.palette.common.white,
                       textAlign: i === 2 || i === 3 ? 'left' : 'center'
                     }}
