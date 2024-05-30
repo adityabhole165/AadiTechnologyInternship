@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 import {
     IGetClassDropdownBodyCT,
     IGetClassSubjectDropdownBodyCT,
-    IGetClassToppersListBOdyCT, IGetStandardDropdownBodyST,
+    IGetClassToppersListBOdyCT,
     IGetStandardExamDropdownBodyST,
     IGetStandardToppersListBOdyST,
     IGetSubjectDropdownBodyST,
@@ -184,6 +184,7 @@ const ExamResultToppers = () => {
     const GetSubjectToppersListCT = useSelector(
         (state: RootState) => state.FinalResultToppers.SubjectToppersCT
     );
+    console.log(GetSubjectToppersListCT, 'aaaaaaaaaaaaaa')
 
     const GetStandarddropdownST = useSelector(
         (state: RootState) => state.StandardToppers.StandardDropdownListST
@@ -280,7 +281,7 @@ const ExamResultToppers = () => {
     }, [GetSubjectdropdownCT]);
 
     useEffect(() => {
-        dispatch(StandardDropdownListST(StandardDropdownBodyST));
+        dispatch(StandardDropdownListST(StandardToppersBodyST));
     }, [TeacherId]);
     useEffect(() => {
         dispatch(StandardExamListST(ExamDropdownBodyST));
@@ -375,11 +376,11 @@ const ExamResultToppers = () => {
         asSubjectId: Number(SelectSubjectCT)
     };
 
-    const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asTeacherId: 0
-    };
+    // const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
+    //     asSchoolId: asSchoolId,
+    //     asAcademicYearId: asAcademicYearId,
+    //     asTeacherId: 0
+    // };
     const ExamDropdownBodyST: IGetStandardExamDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
