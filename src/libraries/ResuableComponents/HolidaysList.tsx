@@ -65,7 +65,7 @@ function HolidaysList({
                   <TableCell
                     key={i}
                     sx={{
-                      textTransform: 'capitalize',
+                      // textTransform: 'capitalize',
                       color: (theme) => theme.palette.common.white,
                       textAlign: i === 2 || i === 3 ? 'left' : 'center'
                     }}
@@ -88,17 +88,18 @@ function HolidaysList({
 
               const backgroundColor = (isFuture && index === 0) || isCurrentDate ? '#EFDCC9 ' : isPast ? "white" : 'white';
 
-              const rowStyle = isPast ? {
-                backgroundColor: 'lightgrey',
-                opacity: 0.5,
+              const rowStyle = isPast && index !== 0 ? {
+                backgroundColor: 'white',
+                // opacity: 0.5,
               } : { backgroundColor };
 
               return (
-                <TableRow key={item.Id} sx={rowStyle}>
+                <TableRow key={item.Id} >
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -107,7 +108,8 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -116,8 +118,9 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor,
-                      textAlign: 'left'
+                      backgroundColor: rowStyle.backgroundColor,
+                      textAlign: 'left',
+                      opacity: isPast && index !== 0 ? 0.5 : 1
                     }}
                     align="left"
                   >
@@ -126,8 +129,9 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor,
-                      textAlign: 'left'
+                      backgroundColor: rowStyle.backgroundColor,
+                      textAlign: 'left',
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="left"
                   >
@@ -136,7 +140,8 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -145,7 +150,8 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: 1,
                     }}
                     align="center"
                   >
@@ -161,7 +167,9 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      opacity: 1,
+                      backgroundColor: rowStyle.backgroundColor,
+
                     }}
                     align="center"
                   >
@@ -171,7 +179,7 @@ function HolidaysList({
                         sx={{ color: 'red', cursor: 'pointer' }}
                         onClick={() => clickDelete(item.Id)}
                       >
-                        <Tooltip title="Delete">
+                        <Tooltip title="Delete" >
                           <DeleteForeverIcon />
                         </Tooltip>
                       </IconButton>
