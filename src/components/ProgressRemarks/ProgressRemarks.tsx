@@ -764,7 +764,7 @@ const TextValues = (value) => {
           </Grid>
           <Grid item xs={12}>
             <Typography fontWeight={"bold"} variant='h4' mb={1}>
-              Legends
+            Legend
             </Typography>
             <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
               <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
