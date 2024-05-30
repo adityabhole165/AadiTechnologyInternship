@@ -1,7 +1,7 @@
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Modal, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Modal, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
@@ -109,6 +109,10 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
   const clickSelectClass = (value) => {
     setOpen(false);
     SetselectTeacher(value)
+  };
+
+  const AcademicRecords = (value) => {
+    alert("Old Academic Records Page Not Devloped ")
   };
  
   const clickStudentList = (value) => {
@@ -226,16 +230,28 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
 
 
           </Box>
-
+          
         </>}
+       
       />
+
+      {StudentId == "0"  ? (
+                <span></span>
+              ) : (
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>  
+                 <Button variant="outlined" onClick={AcademicRecords}>
+                  Old Academic Records
+                  </Button>
+                  </Box>
+              )}
   {open && (
   <div>
     {USlistSubjectsDetails.length > 0? (
       <>
-       
+      
 
      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+     
       <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="h4">Grade Configuration Details</Typography>
       </Link>
