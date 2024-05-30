@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission } from "src/components/Common/Util"
+import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
@@ -191,6 +191,7 @@ const Holidays = (props: Props) => {
         navigate("../AddHoliday");
     };
 
+    console.log(getDateMonthYearDayDash("19-05-2024 00:00:00"))
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
