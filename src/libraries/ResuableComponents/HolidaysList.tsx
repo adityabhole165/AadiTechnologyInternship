@@ -88,17 +88,18 @@ function HolidaysList({
 
               const backgroundColor = (isFuture && index === 0) || isCurrentDate ? '#EFDCC9 ' : isPast ? "white" : 'white';
 
-              const rowStyle = isPast ? {
+              const rowStyle = isPast && index !== 0 ? {
                 backgroundColor: 'lightgrey',
                 opacity: 0.5,
               } : { backgroundColor };
 
               return (
-                <TableRow key={item.Id} sx={rowStyle}>
+                <TableRow key={item.Id} >
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -107,7 +108,8 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -116,8 +118,9 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor,
-                      textAlign: 'left'
+                      backgroundColor: rowStyle.backgroundColor,
+                      textAlign: 'left',
+                      opacity: isPast && index !== 0 ? 0.5 : 1
                     }}
                     align="left"
                   >
@@ -126,8 +129,9 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor,
-                      textAlign: 'left'
+                      backgroundColor: rowStyle.backgroundColor,
+                      textAlign: 'left',
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="left"
                   >
@@ -136,7 +140,8 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -145,7 +150,8 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -153,7 +159,7 @@ function HolidaysList({
                     {HolidayFullAccess == 'Y' ? (
                       <Tooltip title="Edit">
                         <EditTwoTone
-                          sx={{ color: 'black', cursor: 'pointer' }}
+                          sx={{ color: 'black', cursor: 'pointer', opacity: 1 }}
                           onClick={() => clickEdit(item.Id)} />
                       </Tooltip>
                     ) : null}
@@ -161,14 +167,15 @@ function HolidaysList({
                   <TableCell
                     sx={{
                       textTransform: 'capitalize',
-                      backgroundColor
+                      backgroundColor: rowStyle.backgroundColor,
+                      opacity: isPast && index !== 0 ? 0.5 : 1,
                     }}
                     align="center"
                   >
                     {item.Text7}
                     {HolidayFullAccess == 'Y' ? (
                       <IconButton
-                        sx={{ color: 'red', cursor: 'pointer' }}
+                        sx={{ color: 'red', cursor: 'pointer', opacity: 1 }}
                         onClick={() => clickDelete(item.Id)}
                       >
                         <Tooltip title="Delete">
