@@ -1,17 +1,17 @@
 
+import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Modal, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport,CDAGetAllMarksGradeConfiguration1 } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import ClearIcon from '@mui/icons-material/Clear';
-import { grey } from '@mui/material/colors';
-import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const ProgressReportNew = () => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
 
-  
+
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -67,7 +67,15 @@ const ProgressReportNew = () => {
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
 
   const ListMarksSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "True");
-const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "False");
+  const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "False");
+
+
+  const USGetAllMarksGradeConfiguration: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
+  const USGetAllMarksGradeConfiguration1: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
+
+  console.log(USGetAllMarksGradeConfiguration,"USGetAllMarksGradeConfiguration");
+  console.log(USGetAllMarksGradeConfiguration1,"USGetAllMarksGradeConfiguration1");
+  
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -105,6 +113,20 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
 
   };
 
+  const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYrId: Number(asAcademicYearId),
+    asStandardId: 1054,
+    asIsCoCurricular: true
+  };
+
+  const GetAllMarksGradeConfigurationBody1: IGetAllMarksGradeConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYrId: Number(asAcademicYearId),
+    asStandardId: 1054,
+    asIsCoCurricular: false
+  };
+
 
   const clickSelectClass = (value) => {
     setOpen(false);
@@ -114,7 +136,7 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
   const AcademicRecords = (value) => {
     alert("Old Academic Records Page Not Devloped ")
   };
- 
+
   const clickStudentList = (value) => {
     setOpen(false);
     SetStudentId(value);
@@ -159,6 +181,18 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
 
   }, [StudentId]);
+
+  useEffect(() => {
+    dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
+
+  }, []);
+
+  useEffect(() => {
+    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
+
+  }, []);
+
+
 
   const handleClick = (event) => {
     event.preventDefault(); // Prevent the default link behavior
@@ -230,136 +264,136 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
 
 
           </Box>
-          
+
         </>}
-       
+
       />
 
-      {StudentId == "0"  ? (
-                <span></span>
-              ) : (
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>  
-                 <Button variant="outlined" onClick={AcademicRecords}>
-                  Old Academic Records
-                  </Button>
-                  </Box>
-              )}
-  {open && (
-  <div>
-    {USlistSubjectsDetails.length > 0? (
-      <>
-      
-
-     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-     
-      <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h4">Grade Configuration Details</Typography>
-      </Link>
-      
-      <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
-  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    Grade Configuration Details
-    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
-  </DialogTitle>
-  <DialogContent>
-    <Typography variant="h4" my={1}>
-      Subjects:
-    </Typography>
-    <GradeConfigurationList
-      ItemList={ListMarksSubjects}
-      HeaderArray={headerArray}
-    />
-  </DialogContent>
-  <DialogContent>
-    <Typography variant="h4" my={1}>
-      Co-Curricular Subjects:
-    </Typography>
-    <GradeConfigurationList
-      ItemList={CoCurricularSubjects}
-      HeaderArray={headerArray}
-    />
-  </DialogContent>
-</Dialog>
-
-
-
-    </Box>
-      
-     
-        <Box sx={{ mt: 1, background: 'white' }}>
-          <hr />
-          {USlistStudentsDetails.map((subject, index) => (
-            <div key={index}>
-              <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-                {subject.School_Orgn_Name}
-              </Typography>
-              <hr />
-              <Typography variant="h3" textAlign="center" color="primary" mb={1}>
-                {subject.School_Name}
-              </Typography>
-              <hr />
-              <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-                Progress Report
-              </Typography>
-            </div>
-          ))}
-          <Table>
-            <TableBody>
-              {USlistStudentsDetails.map((item) => {
-                return (
-                  <TableRow sx={{ bgcolor: 'grey.200' }}>
-                    <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
-                    <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
-                    <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                    <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
+      {StudentId == "0" ? (
+        <span></span>
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+          <Button variant="outlined" onClick={AcademicRecords}>
+            Old Academic Records
+          </Button>
         </Box>
-        <Box sx={{ overflowX: 'auto' }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
-                  Subjects
-                </Typography>
-                <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
-                  Exam
-                </Typography>
-                {USlistSubjectsDetails.map((item) => (
-                  <TableCell><b>{item.Subject_Name}</b></TableCell>
+      )}
+      {open && (
+        <div>
+          {USlistSubjectsDetails.length > 0 ? (
+            <>
+
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+
+                <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="h4">Grade Configuration Details</Typography>
+                </Link>
+
+                <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
+                  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    Grade Configuration Details
+                    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                  </DialogTitle>
+                  <DialogContent>
+                    <Typography variant="h4" my={1}>
+                      Subjects:
+                    </Typography>
+                    <GradeConfigurationList
+                      ItemList={USGetAllMarksGradeConfiguration}
+                      HeaderArray={headerArray}
+                    />
+                  </DialogContent>
+                  <DialogContent>
+                    <Typography variant="h4" my={1}>
+                      Co-Curricular Subjects:
+                    </Typography>
+                    <GradeConfigurationList
+                      ItemList={USGetAllMarksGradeConfiguration1}
+                      HeaderArray={headerArray}
+                    />
+                  </DialogContent>
+                </Dialog>
+
+
+
+              </Box>
+
+
+              <Box sx={{ mt: 1, background: 'white' }}>
+                <hr />
+                {USlistStudentsDetails.map((subject, index) => (
+                  <div key={index}>
+                    <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                      {subject.School_Orgn_Name}
+                    </Typography>
+                    <hr />
+                    <Typography variant="h3" textAlign="center" color="primary" mb={1}>
+                      {subject.School_Name}
+                    </Typography>
+                    <hr />
+                    <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                      Progress Report
+                    </Typography>
+                  </div>
                 ))}
-              </TableRow>
-              <TableRow>
-                {USlistSubjectIdDetails.map((item) => (
-                  <TableCell><b>{item.ShortenTestType_Name}</b></TableCell>
-                ))}
-              </TableRow>
-              <TableRow>
-                {USlistTestDetails.map((item) => (
-                  <TableCell>{item.Test_Name}</TableCell>
-                ))}
-              </TableRow>
-              <TableRow>
-                {USlistSubjectIdDetails.map((item) => (
-                  <TableCell>{item.Marks}</TableCell>
-                ))}
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Box>
-      </>
-    ) : (
-      <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-        <b>No exam of this class has been published for the current academic year.</b>
-      </Typography>
-    )}
-  </div>
-)}
-     
-    
+                <Table>
+                  <TableBody>
+                    {USlistStudentsDetails.map((item) => {
+                      return (
+                        <TableRow sx={{ bgcolor: 'grey.200' }}>
+                          <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
+                          <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
+                          <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                          <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </Box>
+              <Box sx={{ overflowX: 'auto' }}>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
+                        Subjects
+                      </Typography>
+                      <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                        Exam
+                      </Typography>
+                      {USlistSubjectsDetails.map((item) => (
+                        <TableCell><b>{item.Subject_Name}</b></TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      {USlistSubjectIdDetails.map((item) => (
+                        <TableCell><b>{item.ShortenTestType_Name}</b></TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      {USlistTestDetails.map((item) => (
+                        <TableCell>{item.Test_Name}</TableCell>
+                      ))}
+                    </TableRow>
+                    <TableRow>
+                      {USlistSubjectIdDetails.map((item) => (
+                        <TableCell>{item.Marks}</TableCell>
+                      ))}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </>
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No exam of this class has been published for the current academic year.</b>
+            </Typography>
+          )}
+        </div>
+      )}
+
+
 
     </Box>
   )

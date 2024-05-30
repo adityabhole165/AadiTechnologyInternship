@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody , IGetAllMarksGradeConfigurationBody} from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -20,7 +20,10 @@ const ProgressReportSlice = createSlice({
     ISListTestTypeIdDetails: [],
     ISListMarkssDetails: [],
     ISListDisplayNameDetails: [],
-    ISGetPassedAcademicYears: []
+    ISGetPassedAcademicYears: [],
+    ISGetAllMarksGradeConfiguration:[],
+    ISGetAllMarksGradeConfiguration1:[]
+
 
   },
   reducers: {
@@ -68,6 +71,16 @@ const ProgressReportSlice = createSlice({
     RGetPassedAcademicYears(state, action) {
       state.ISGetPassedAcademicYears = action.payload;
     },
+    RGetAllMarksGradeConfiguration(state, action) {
+      state.ISGetAllMarksGradeConfiguration = action.payload;
+    },
+
+    RGetAllMarksGradeConfiguration1(state, action) {
+      state.ISGetAllMarksGradeConfiguration1 = action.payload;
+    },
+
+
+    
 
 
 
@@ -231,6 +244,43 @@ export const CDAGetPassedAcademicYears =
 
 
     };
+
+
+    export const CDAGetAllMarksGradeConfiguration =
+  (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data)
+      let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
+        return {
+          Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
+          Text2: item.Grade_Name,
+          Text3: item.Remarks,
+
+        };
+      });
+
+      dispatch(ProgressReportSlice.actions.RGetAllMarksGradeConfiguration(listGradeDetailss));
+
+
+    };
+
+    export const CDAGetAllMarksGradeConfiguration1 =
+    (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
+      async (dispatch) => {
+        const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data)
+        let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
+          return {
+            Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
+            Text2: item.Grade_Name,
+            Text3: item.Remarks,
+  
+          };
+        });
+        dispatch(ProgressReportSlice.actions.RGetAllMarksGradeConfiguration1(listGradeDetailss));
+  
+  
+      };
+
 
 
 

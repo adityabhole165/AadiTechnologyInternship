@@ -201,6 +201,37 @@ export interface IGetPassedAcademicYearsBody {
 
   
 
+  export interface IGetAllMarksGradeConfigurationBody {
+    asSchoolId: number;
+    asAcademicYrId: number;
+    asStandardId: number;
+    asIsCoCurricular: boolean;
+  }
   
  
+
+
+  export interface IGetAllMarksGradeConfigurationResult {
+    listConfigurationIdDetails: [
+        {
+            Marks_Grades_Configuration_Id: string
+        }
+    ],
+    listGradeDetailss: [
+        {
+            Starting_Marks_Range: string;
+            Ending_Marks_Range: string;
+            Actual_Ending_Marks_Range: string;
+            Grade_Name: string;
+            Remarks: string;
+            Marks_Grades_Configuration_Detail_ID: string;
+            Original_Config_Id: string;
+            Standard_Id: string;
+            Academic_Year_Id: string;
+        }
+    ],
+        
+
+    
+}
 
