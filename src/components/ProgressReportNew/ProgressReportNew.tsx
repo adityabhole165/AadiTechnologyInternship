@@ -107,10 +107,12 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
 
 
   const clickSelectClass = (value) => {
+    setOpen(false);
     SetselectTeacher(value)
   };
-
+ 
   const clickStudentList = (value) => {
+    setOpen(false);
     SetStudentId(value);
   };
 
@@ -153,9 +155,6 @@ const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsFo
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
 
   }, [StudentId]);
-
- 
-
 
   const handleClick = (event) => {
     event.preventDefault(); // Prevent the default link behavior
