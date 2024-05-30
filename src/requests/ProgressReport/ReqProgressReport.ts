@@ -122,30 +122,34 @@ export const CDAStudentProgressReport =
           Standard_Name: item.Standard_Name,
           Division_Name: item.Division_Name,
           Academic_Year: item.Academic_Year,
-          School_Name:item.School_Name,
-          School_Orgn_Name:item.School_Orgn_Name
+          School_Name: item.School_Name,
+          School_Orgn_Name: item.School_Orgn_Name
 
         };
       });
       let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
         return {
-          Id: item.Subject_Id,
-          Text1: item.Subject_Name,
+          Subject_Id: item.Subject_Id,
+          Subject_Name: item.Subject_Name,
 
         };
       });
-      let listTestDetails = response.data.listTestDetails.map((item, i) => {
-        return {
-          Id: item.Test_Id,
-          Text1: item.Test_Name,
+      let listTestDetails = response.data.listTestDetails
+        .filter(item => Number(item.Test_Id) !== -1)
+        .map(item => {
+          return {
+            Test_Id: item.Test_Id,
+            Test_Name: item.Test_Name,
+          };
+        });
 
-        };
-      });
+
 
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
           Id: item.Original_SchoolWise_Test_Id,
-          Text1: item.Marks,
+          ShortenTestType_Name: item.ShortenTestType_Name,
+          Marks:item.Marks
 
         };
       });
@@ -185,11 +189,16 @@ export const CDAStudentProgressReport =
 
       let ListMarkssDetails = response.data.ListMarkssDetails.map((item, i) => {
         return {
-          Id: item.Marks_Grades_Configuration_Detail_ID,
-          Text1: item.Remarks,
+          Text1: '',
+          Text2: item.Grade_Name,
+          Text3: item.Remarks,
+          IsForCoCurricularSubjects:item.IsForCoCurricularSubjects
 
         };
       });
+      
+
+
 
       let ListDisplayNameDetails = response.data.ListDisplayNameDetails.map((item, i) => {
         return {

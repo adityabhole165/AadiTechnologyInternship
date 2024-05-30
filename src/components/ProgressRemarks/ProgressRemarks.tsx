@@ -424,7 +424,23 @@ const ProgressRemarks = () => {
  
 
   const clickSelectTerm = (value) => {
-    SetSelectTerm(value);
+    if (SelectTerm != '') {
+      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?" ;
+      let confirmed = false
+      if (IsDirty) {
+          confirmed = window.confirm(confirmMessage);
+
+          if (confirmed) {
+            SetSelectTerm(value);
+             
+          }
+      }
+      else
+      SetSelectTerm(value);
+         
+  }
+    
+   
   };
   const clickGrade = (value) => {
     SetSelectGrade(value);
@@ -764,7 +780,7 @@ const TextValues = (value) => {
           </Grid>
           <Grid item xs={12}>
             <Typography fontWeight={"bold"} variant='h4' mb={1}>
-              Legends
+            Legend
             </Typography>
             <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
               <Box sx={{ height: '20px', width: '20px', background: red[500] }} />

@@ -133,7 +133,9 @@ function ResizableCommentsBox({
   setTextValues
 }) {
   const TextChange = (value) => {
-    const filteredValue = value.Value.replace(/[^a-zA-Z\s]/g, '');
+    // Remove character filtering
+    // const filteredValue = value.Value.replace(/[^a-zA-Z\s]/g, '');
+    const filteredValue = value.Value;
     if (filteredValue.length <= 300) {
       const updatedItemList = ItemList.map((item) => {
         return {
@@ -149,7 +151,7 @@ function ResizableCommentsBox({
       setTextValues(updatedItemList);
     }
   };
-
+  
   let TermId = useContext(ProgressRemarkTerm);
 
   return (

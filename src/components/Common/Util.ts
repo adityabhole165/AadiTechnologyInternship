@@ -33,6 +33,10 @@ export function isFutureDate1(date) {
   );
 }
 
+export function Equal(date) {
+  return new Date(date) == new Date();
+}
+
 export function isGreaterDate(date1, date2) {
 
   return (
@@ -102,11 +106,13 @@ export const getDateMonthYearFormattedDash = (date) => {
 
 export const getDateMonthYearDayDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
-  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[1]}`
   let Weekday = new Date(dateFormatted).getDay()
 
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} (${WeekdaysFull[Weekday]})`;
 };
+
+
 
 export const getDateMonthYearFormatted = (date) => {
   let arrDate = date.split(' ')[0].split('-');

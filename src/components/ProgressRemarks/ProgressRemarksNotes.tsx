@@ -9,12 +9,12 @@ const ProgressRemarksNotes = () => {
     const Hedaer1 = ['Suggested Adjectives:'];
 
     const Note2 = [
-        'Always, Commonly, Consistently, Daily, Frequently, Monthly, Never, Occasionally, Often, Rarely, Regularly Typically, Usually, Weekly..'
+        'Always, Commonly, Consistently, Daily, Frequently, Monthly, Never, Occasionally, Often, Rarely, Regularly Typically, Usually, Weekly.'
     ];
     const Hedaer2 = ['Suggested Adverbs ::'];
 
     const Note3 = [
-        'Click on the button available for each student and remark type to add configured Remark Templates.'
+        'Click on the button available for each student and remark type to add configuredremark templates.'
     ];
     const Hedaer3 = ['...'];
 
@@ -38,11 +38,12 @@ const ProgressRemarksNotes = () => {
                     <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
-                    <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note1}</Alert>
-                    <Alert variant="filled" severity="info"><b>Suggested Adjectives:</b> {Note2}</Alert>
-                    <Alert variant="filled" severity="info">{Note3}</Alert>
-                    <Alert variant="filled" severity="info"><b>Note:</b> {Note4}</Alert>
-                    <Alert variant="filled" severity="info"><b>Note:</b> {Note5}</Alert>
+                    <Alert variant="filled" severity="info"><b>Suggested Adjectives : </b> {Note1}</Alert>
+                    <Alert variant="filled" severity="info"><b>Suggested Adverbs : </b> {Note2}</Alert>
+                    <Alert variant="filled" severity="info"><b>...  </b> {Note3}</Alert>
+
+                    <Alert variant="filled" severity="info"><b>Note : </b> {Note4}</Alert>
+                    <Alert variant="filled" severity="info"><b>Note : </b> {Note5}</Alert>
                 </AccordionDetails>
             </Accordion>
         </>
