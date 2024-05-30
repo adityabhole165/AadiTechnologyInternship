@@ -9,7 +9,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-
+import ClearIcon from '@mui/icons-material/Clear';
 import { grey } from '@mui/material/colors';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 
@@ -65,6 +65,9 @@ const ProgressReportNew = () => {
   const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
+
+  const ListMarksSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "True");
+const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "False");
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -231,30 +234,40 @@ const ProgressReportNew = () => {
   <div>
     {USlistSubjectsDetails.length > 0? (
       <>
-     
+       
 
      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
       <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="h4">Grade Configuration Details</Typography>
       </Link>
       
-      <Dialog open={open1} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle variant={"h5"}> Grade Configuration Details</DialogTitle>
-        <DialogContent>
-        <Typography variant={"h4"} my={1}>
-            Subjects :
-          </Typography>
-          <GradeConfigurationList
-            ItemList={USListMarkssDetails}
-            HeaderArray={headerArray}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
+  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    Grade Configuration Details
+    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+  </DialogTitle>
+  <DialogContent>
+    <Typography variant="h4" my={1}>
+      Subjects:
+    </Typography>
+    <GradeConfigurationList
+      ItemList={ListMarksSubjects}
+      HeaderArray={headerArray}
+    />
+  </DialogContent>
+  <DialogContent>
+    <Typography variant="h4" my={1}>
+      Co-Curricular Subjects:
+    </Typography>
+    <GradeConfigurationList
+      ItemList={CoCurricularSubjects}
+      HeaderArray={headerArray}
+    />
+  </DialogContent>
+</Dialog>
+
+
+
     </Box>
       
      
