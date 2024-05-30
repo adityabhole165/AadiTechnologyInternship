@@ -68,7 +68,7 @@ const ExamResultBase = () => {
       ? ParamsStandardDivisionId.toString()
       : (selectTeacher !== undefined ? selectTeacher : "0")
   );
-
+  // const [StandardDivisionId, setStandardDivisionId] = useState()
   // const [StandardDivisionId, setStandardDivisionId] = useState(
   //   ParamsStandardDivisionId !== undefined && ScreensAccessPermission !== 'Y'
   //     ? sessionStorage.getItem('TeacherId') || ParamsStandardDivisionId.toString()

@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 import {
     IGetClassDropdownBodyCT,
     IGetClassSubjectDropdownBodyCT,
-    IGetClassToppersListBOdyCT, IGetStandardDropdownBodyST,
+    IGetClassToppersListBOdyCT,
     IGetStandardExamDropdownBodyST,
     IGetStandardToppersListBOdyST,
     IGetSubjectDropdownBodyST,
@@ -47,7 +47,6 @@ import { useNavigate, useParams } from 'react-router';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
-import ToppersList from 'src/libraries/list/ToppersList';
 import { RootState, useDispatch } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -62,7 +61,7 @@ const ExamResultToppers = () => {
     const [SelectExamCT, setExamCT] = useState();
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
-    const [SelectStandardST, setStandardST] = useState(StandardDivisionId);
+    const [SelectStandardST, setStandardST] = useState(sessionStorage.getItem('StandardId'));
     const [SelectExamST, setExamST] = useState('0');
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
@@ -184,11 +183,13 @@ const ExamResultToppers = () => {
     const GetSubjectToppersListCT = useSelector(
         (state: RootState) => state.FinalResultToppers.SubjectToppersCT
     );
+    console.log(GetSubjectToppersListCT, 'aaaaaaaaaaaaaa')
 
     const GetStandarddropdownST = useSelector(
         (state: RootState) => state.StandardToppers.StandardDropdownListST
-
     );
+    console.log(GetStandarddropdownST, "GetStandarddropdownST");
+
     const GetExamdropdownST = useSelector(
         (state: RootState) => state.StandardToppers.ExamDropdownListST
     );
@@ -280,7 +281,7 @@ const ExamResultToppers = () => {
     }, [GetSubjectdropdownCT]);
 
     useEffect(() => {
-        dispatch(StandardDropdownListST(StandardDropdownBodyST));
+        dispatch(StandardDropdownListST(StandardToppersBodyST));
     }, [TeacherId]);
     useEffect(() => {
         dispatch(StandardExamListST(ExamDropdownBodyST));
@@ -292,10 +293,10 @@ const ExamResultToppers = () => {
         dispatch(StandardTopperListST(StandardToppersBodyST));
     }, [SelectStandardST, SelectExamST, SelectSubjectST]);
 
-    useEffect(() => {
-        if (GetStandarddropdownST.length > 0)
-            setStandardST(GetStandarddropdownST[0].Id);
-    }, [GetStandarddropdownST]);
+    // useEffect(() => {
+    //     if (GetStandarddropdownST.length > 0)
+    //         setStandardST(GetStandarddropdownST[0].Id);
+    // }, [GetStandarddropdownST]);
 
     useEffect(() => {
         if (GetExamdropdownST.length > 0) setExamST(GetExamdropdownST[0].Id);
@@ -375,11 +376,11 @@ const ExamResultToppers = () => {
         asSubjectId: Number(SelectSubjectCT)
     };
 
-    const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asTeacherId: 0
-    };
+    // const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
+    //     asSchoolId: asSchoolId,
+    //     asAcademicYearId: asAcademicYearId,
+    //     asTeacherId: 0
+    // };
     const ExamDropdownBodyST: IGetStandardExamDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -592,143 +593,58 @@ const ExamResultToppers = () => {
                             <Grid item xs={6}>
 
                                 <TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell colSpan={3}>
-                                                    <Typography variant={"h4"}>
-                                                        English
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                            <StyledTableRow>
-                                                <StyledTableCell>Rank</StyledTableCell>
-                                                <StyledTableCell align={"center"}>Roll. No.</StyledTableCell>
-                                                <StyledTableCell>Student Name</StyledTableCell>
-                                            </StyledTableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {data.map((row, index) => (
-                                                row.students.map((student, studentIndex) => (
+                                    {GetSubjectToppersListCT.map((row, index) => (
+                                        <Table key={index}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell colSpan={3}>
+                                                        <Typography variant={"h4"}>
+                                                            {row.Subject}
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                                <StyledTableRow>
+                                                    <StyledTableCell>Rank</StyledTableCell>
+                                                    <StyledTableCell align={"center"}>Roll. No.</StyledTableCell>
+                                                    <StyledTableCell>Student Name</StyledTableCell>
+                                                </StyledTableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {row.Students.map((student, studentIndex) => (
                                                     <TableRow key={`${index}-${studentIndex}`}>
                                                         {studentIndex === 0 && (
-                                                            <TableCell rowSpan={row.students.length}>
-                                                                {row.rank === "1" && (
+                                                            <TableCell rowSpan={row.Students.length}>
+                                                                {row.Rank_Image === "~/RITeSchool/images/Number1.gif" && (
                                                                     <Stack direction={"row"} alignItems={"center"} gap={2}>
-                                                                        <img src={GoldMedal} width={"40"} />
-                                                                        <Typography variant={"h3"}>19 / 20</Typography>
+                                                                        <img src={GoldMedal} width={"40"} alt="Gold Medal" />
+                                                                        <Typography variant={"h3"}>{row.Marks}</Typography>
                                                                     </Stack>
                                                                 )}
-                                                                {row.rank === "2" && (
+                                                                {row.Rank_Image === "~/RITeSchool/images/Number2.gif" && (
                                                                     <Stack direction={"row"} alignItems={"center"} gap={2}>
-                                                                        <img src={SilverMedal} width={"40"} />
-                                                                        <Typography variant={"h3"}>19 / 20</Typography>
+                                                                        <img src={SilverMedal} width={"40"} alt="Silver Medal" />
+                                                                        <Typography variant={"h3"}>{row.Marks}</Typography>
                                                                     </Stack>
                                                                 )}
-                                                                {row.rank === "3" && (
+                                                                {row.Rank_Image === "~/RITeSchool/images/Number3.gif" && (
                                                                     <Stack direction={"row"} alignItems={"center"} gap={2}>
-                                                                        <img src={BronzeMedal} width={"40"} />
-                                                                        <Typography variant={"h3"}>19 / 20</Typography>
+                                                                        <img src={BronzeMedal} width={"40"} alt="Bronze Medal" />
+                                                                        <Typography variant={"h3"}>{row.Marks}</Typography>
                                                                     </Stack>
                                                                 )}
                                                             </TableCell>
                                                         )}
-                                                        <TableCell align={"center"}>{student.rollNo}</TableCell>
-                                                        <TableCell>{student.studentName}</TableCell>
+                                                        <TableCell align={"center"}>{student.Text1}</TableCell>
+                                                        <TableCell>{student.Text2}</TableCell>
                                                     </TableRow>
-                                                ))
-                                            ))}
-                                        </TableBody>
-                                    </Table>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    ))}
                                 </TableContainer>
                             </Grid>
-                            <Grid item xs={6}>
-                                <TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell colSpan={3}>
-                                                    <Typography variant={"h4"}>
-                                                        Marathi
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                            <StyledTableRow>
-                                                <StyledTableCell>Rank</StyledTableCell>
-                                                <StyledTableCell align={"center"}>Roll. No.</StyledTableCell>
-                                                <StyledTableCell>Student Name</StyledTableCell>
-                                            </StyledTableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {data.map((row, index) => (
-                                                row.students.map((student, studentIndex) => (
-                                                    <TableRow key={`${index}-${studentIndex}`}>
-                                                        {studentIndex === 0 && (
-                                                            <TableCell rowSpan={row.students.length}>
-                                                                {row.rank === "1" && (
-                                                                    <Stack direction={"row"} alignItems={"center"} gap={2}>
-                                                                        <img src={GoldMedal} width={"40"} />
-                                                                        <Typography variant={"h3"}>19 / 20</Typography>
-                                                                    </Stack>
-                                                                )}
-                                                                {row.rank === "2" && (
-                                                                    <Stack direction={"row"} alignItems={"center"} gap={2}>
-                                                                        <img src={SilverMedal} width={"40"} />
-                                                                        <Typography variant={"h3"}>19 / 20</Typography>
-                                                                    </Stack>
-                                                                )}
-                                                                {row.rank === "3" && (
-                                                                    <Stack direction={"row"} alignItems={"center"} gap={2}>
-                                                                        <img src={BronzeMedal} width={"40"} />
-                                                                        <Typography variant={"h3"}>19 / 20</Typography>
-                                                                    </Stack>
-                                                                )}
-                                                            </TableCell>
-                                                        )}
-                                                        <TableCell align="center">{student.rollNo}</TableCell>
-                                                        <TableCell>{student.studentName}</TableCell>
-                                                    </TableRow>
-                                                ))
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-
-                            </Grid>
-
                         </Grid>
 
-                        <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Grid container>
-                                {SubjectToppersListCT.map((item, i) => {
-                                    return (
-                                        <>
-                                            {!(i % 3) && (
-                                                <Grid container item xs={12} justifyContent="center">
-                                                    {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                                                    {/* <Box sx={{ px: 2 }}> */}
-                                                    <Typography variant={'h3'} fontWeight={'normal'} mb={1}>
-                                                        {item.Subject}
-                                                    </Typography>
-                                                    {/* </Box> */}
-                                                </Grid>
-                                            )}
-
-                                            <Grid item xs={4} xl={4} justifyContent="center">
-                                                <Box sx={{ px: 2 }}>
-                                                    <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                                                </Box>
-                                                <br></br>
-                                                <ToppersList
-                                                    headers={HeaderList1CT}
-                                                    data={item.Students}
-                                                />
-                                            </Grid>
-                                        </>
-                                    );
-                                })}
-                            </Grid>
-                        </Box>
                     </Box>
                 ) : (
                     <Box>
@@ -745,40 +661,63 @@ const ExamResultToppers = () => {
                             Subject Toppers
                         </Typography>
 
-                        <Grid container alignItems="center">
-                            <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
 
-                                <Grid container>
-                                    {SubjectToppersListST.map((item, i) => {
-                                        return (
-                                            <>
-                                                {!(i % 3) && (
-                                                    <Grid container item xs={12} justifyContent="center">
-                                                        {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                                                        {/* <Box sx={{ px: 2 }}> */}
-                                                        <Typography variant={'h3'} fontWeight={'normal'} marginTop={2} mb={1}>
-                                                            {item.Subject}
+                                <TableContainer component={Paper}>
+                                    {GetSubjectToppersListST.map((row, index) => (
+                                        <Table key={index}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell colSpan={3}>
+                                                        <Typography variant={"h4"}>
+                                                            {row.Subject}
                                                         </Typography>
-                                                        {/* </Box> */}
-                                                    </Grid>
-                                                )}
+                                                    </TableCell>
+                                                </TableRow>
+                                                <StyledTableRow>
+                                                    <StyledTableCell>Rank</StyledTableCell>
+                                                    <StyledTableCell align={"center"}>Roll. No.</StyledTableCell>
+                                                    <StyledTableCell>Student Name</StyledTableCell>
+                                                </StyledTableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {row.Students.map((student, studentIndex) => (
+                                                    <TableRow key={`${index}-${studentIndex}`}>
+                                                        {studentIndex === 0 && (
+                                                            <TableCell rowSpan={row.Students.length}>
+                                                                {row.Rank_Image === "~/RITeSchool/images/Number1.gif" && (
+                                                                    <Stack direction={"row"} alignItems={"center"} gap={2}>
+                                                                        <img src={GoldMedal} width={"40"} alt="Gold Medal" />
+                                                                        <Typography variant={"h3"}>{row.Marks}</Typography>
+                                                                    </Stack>
+                                                                )}
+                                                                {row.Rank_Image === "~/RITeSchool/images/Number2.gif" && (
+                                                                    <Stack direction={"row"} alignItems={"center"} gap={2}>
+                                                                        <img src={SilverMedal} width={"40"} alt="Silver Medal" />
+                                                                        <Typography variant={"h3"}>{row.Marks}</Typography>
+                                                                    </Stack>
+                                                                )}
+                                                                {row.Rank_Image === "~/RITeSchool/images/Number3.gif" && (
+                                                                    <Stack direction={"row"} alignItems={"center"} gap={2}>
+                                                                        <img src={BronzeMedal} width={"40"} alt="Bronze Medal" />
+                                                                        <Typography variant={"h3"}>{row.Marks}</Typography>
+                                                                    </Stack>
+                                                                )}
+                                                            </TableCell>
+                                                        )}
+                                                        <TableCell align={"center"}>{student.Text1}</TableCell>
+                                                        <TableCell>{student.Text2}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    ))}
+                                </TableContainer>
+                            </Grid>
 
-                                                <Grid item xs={4} xl={4} justifyContent="center">
-                                                    <Box sx={{ px: 2 }}>
-                                                        <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                                                    </Box>
-                                                    <br></br>
-                                                    <ToppersList
-                                                        headers={HeaderList1ST}
-                                                        data={item.Students}
-                                                    />
-                                                </Grid>
-                                            </>
-                                        );
-                                    })}
-                                </Grid>
-                            </Box>
                         </Grid>
+
                     </Box>
                 )}
             </Box>

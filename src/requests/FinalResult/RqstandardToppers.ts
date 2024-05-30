@@ -17,7 +17,8 @@ const StandardToppersSlice = createSlice({
     ExamDropdownListST: [],
     SubjectDropdownListST: [],
     StandardTopperST: [],
-    StandardSubjectToppersST: []
+    StandardSubjectToppersST: [],
+    StandardSubjectToppersST1: []
   },
   reducers: {
     StandardListST(state, action) {
@@ -87,6 +88,8 @@ export const StandardTopperListST =
   (data: IGetStandardToppersListBOdyST): AppThunk =>
     async (dispatch) => {
       const response = await StandardToppersApiST.StandardToppersListST(data);
+      console.log(response, 'responseeeeee');
+
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
           Id: item.Student_Id,
@@ -101,14 +104,6 @@ export const StandardTopperListST =
       });
       dispatch(StandardToppersSlice.actions.ToppersListST(abc));
 
-      // let xyz = response.data.GetSelectedSubjectTopperList.map((item,i) => {
-      //   return{
-      //     Text1:item.Roll_No,
-      //     Text2:item.Student_Name
-      //   }
-      // })
-      //   dispatch(StandardToppersSlice.actions.SubjectToppersList(xyz))
-      // console.log(xyz,"xyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 
       let Subjects = [];
       response.data.GetSelectedSubjectTopperList.map((item, i) => {
@@ -150,6 +145,9 @@ export const StandardTopperListST =
       console.log(responseData, 'Subjects');
 
       dispatch(StandardToppersSlice.actions.SubjectToppersListST(responseData));
+      console.log(responseData, 'responseData');
     };
+
+
 
 export default StandardToppersSlice.reducer;
