@@ -1,7 +1,7 @@
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
@@ -21,7 +21,7 @@ const ProgressReportNew = () => {
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const [selectTeacher, SetselectTeacher] = useState(TeacherId);
   const [StudentId, SetStudentId] = useState('');
-
+  const [open, setOpen] = useState(false);
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -52,6 +52,8 @@ const ProgressReportNew = () => {
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
   const USlistStudentsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails);
   const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
+  console.log(USlistSubjectsDetails, "USlistSubjectsDetails");
+
   const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
   const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
   const USListSchoolWiseTestNameDetail: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSchoolWiseTestNameDetail);
@@ -76,8 +78,8 @@ const ProgressReportNew = () => {
   const StudentProgressReportBody: IStudentProgressReportBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(asAcademicYearId),
-    asStudentId: 37608,
-    asUserId: 4463
+    asStudentId: Number(StudentId),
+    asUserId: asUserId
 
 
   };
@@ -98,6 +100,10 @@ const ProgressReportNew = () => {
   const clickStudentList = (value) => {
     SetStudentId(value);
   };
+
+  const ClickShow = (value) => {
+    setOpen(true)
+  }
 
   useEffect(() => {
     if (USGetStudentNameDropdown.length > 0) {
@@ -128,14 +134,17 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAStudentProgressReport(StudentProgressReportBody));
 
-  }, []);
+  }, [StudentId]);
 
   useEffect(() => {
     dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
 
   }, [StudentId]);
 
-
+  const handleClick = (event) => {
+    event.preventDefault(); // Prevent the default link behavior
+    console.log('Link clicked'); // Add your custom click logic here
+  };
 
   return (
     <Box sx={{ px: 2 }}>
@@ -191,7 +200,7 @@ const ProgressReportNew = () => {
                     backgroundColor: grey[600]
                   }
                 }}
-              >
+                onClick={ClickShow}>
                 <VisibilityTwoToneIcon />
               </IconButton>
             </Tooltip>
@@ -201,77 +210,88 @@ const ProgressReportNew = () => {
 
         </>}
       />
-
-      <Box sx={{ mt: 1, background: 'white' }}>
-        <hr />
-        {USlistStudentsDetails.map((subject, index) => (
-          <div key={index}>
-            <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-              {subject.School_Orgn_Name}
-            </Typography>
-            <hr />
-            <Typography variant="h3" textAlign="center" color="primary" mb={1}>
-              {subject.School_Name}
-            </Typography>
-            <hr />
-            <Typography variant="h4" textAlign="center" color="primary" mb={1}>
-              Progress Report
-            </Typography>
-          </div>
-        ))}
-        <Table>
-          <TableBody>
-            {USlistStudentsDetails.map((item) => {
-              return (
-                <TableRow sx={{ bgcolor: 'grey.200' }}>
-                  <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
-                  <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
-                  <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                  <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </Box>
-      <Box sx={{ overflowX: 'auto' }}>
-        <Table>
-          <TableBody>
-
-            <TableRow>
-              <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
-                Subjects
+  {open && (
+  <div>
+    {USlistSubjectsDetails.length > 0? (
+      <>
+     
+     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+        <Typography variant="h4">Grade Configuration Details</Typography>
+      </Link>
+        <Box sx={{ mt: 1, background: 'white' }}>
+          <hr />
+          {USlistStudentsDetails.map((subject, index) => (
+            <div key={index}>
+              <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                {subject.School_Orgn_Name}
               </Typography>
-              <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
-                Exam
+              <hr />
+              <Typography variant="h3" textAlign="center" color="primary" mb={1}>
+                {subject.School_Name}
               </Typography>
-              {/* {SubjectDetails.map((subject) => (
-                                        <TableCell><b>{subject.Name}</b></TableCell>
-                                        {ExamDetails.filter((ExamDetailsRow)=>{ExamDetailsRow.SchoolWise_Test_Id})
-                                            .map((subject) => (
-                                            <TableRow>{subject.Name}</TableRow>
-                                        ))}
-                                    ))} */}
-              {USlistSubjectsDetails.map((subject) => (
-                <TableCell><b>{subject.Name}</b></TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              {USListMarkssDetails.map((subject) => (
-                <TableRow>{subject.Name}</TableRow>
-              ))}
-            </TableRow>
-            <TableRow>
-              {USlistTestDetails.map((subject) => (
-                <TableCell>{subject.Name}</TableCell>
-              ))}
-            </TableRow>
-
-          </TableBody>
-        </Table>
-      </Box>
-
-
+              <hr />
+              <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                Progress Report
+              </Typography>
+            </div>
+          ))}
+          <Table>
+            <TableBody>
+              {USlistStudentsDetails.map((item) => {
+                return (
+                  <TableRow sx={{ bgcolor: 'grey.200' }}>
+                    <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
+                    <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
+                    <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                    <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </Box>
+        <Box sx={{ overflowX: 'auto' }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
+                  Subjects
+                </Typography>
+                <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                  Exam
+                </Typography>
+                {USlistSubjectsDetails.map((item) => (
+                  <TableCell><b>{item.Subject_Name}</b></TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                {USlistSubjectIdDetails.map((item) => (
+                  <TableCell><b>{item.ShortenTestType_Name}</b></TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                {USlistTestDetails.map((item) => (
+                  <TableCell>{item.Test_Name}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                {USlistSubjectIdDetails.map((item) => (
+                  <TableCell>{item.Marks}</TableCell>
+                ))}
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Box>
+      </>
+    ) : (
+      <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+        <b>No exam of this class has been published for the current academic year.</b>
+      </Typography>
+    )}
+  </div>
+)}
+     
+    
 
     </Box>
   )
