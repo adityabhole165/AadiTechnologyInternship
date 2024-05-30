@@ -549,10 +549,13 @@ const FinalResult = () => {
               <IconButton
                 onClick={() => {
                   navigate('/extended-sidebar/Teacher/ViewResultAll')
-                }}
+
+                }
+                }
+                disabled={GetAtleastOneResultGenerated.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: GetAtleastOneResultGenerated.AllowPublish == false ? grey[200] : grey[500],
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
@@ -566,10 +569,10 @@ const FinalResult = () => {
             <Tooltip title={"Unpublish"}>
               <IconButton
                 onClick={ClickOpenDialogbox}
-                disabled={GetResultGenerated == false}
+                disabled={GetResultGenerated}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetResultGenerated == false ? grey[500] : grey[200],
+                  backgroundColor: GetResultGenerated ? grey[200] : grey[500],
                   '&:hover': {
                     backgroundColor: red[600]
                   }
@@ -583,10 +586,10 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == true}
+                disabled={GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false ? grey[500] : grey[200],
+                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false) ? grey[200] : grey[500],
                   '&:hover': {
                     backgroundColor: green[600]
                   }

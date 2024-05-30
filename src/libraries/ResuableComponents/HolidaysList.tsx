@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
-import { GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
+import { Equal, GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function HolidaysList({
   ItemList,
@@ -21,7 +21,7 @@ function HolidaysList({
   const HolidayFullAccess = GetScreenPermission('Holidays');
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -85,10 +85,11 @@ function HolidaysList({
               const isCurrentDate = formattedItemDate === formattedDate;
               const isFuture = isFutureDateTime(new Date(item.Text1));
               const isPast = isPastDateTime(new Date(item.Text1));
+              const isEqual = Equal(new Date(item.Text1))
 
               const backgroundColor = (isFuture && index === 0) || isCurrentDate ? '#EFDCC9 ' : isPast ? "white" : 'white';
 
-              const rowStyle = isPast && index !== 0 ? {
+              const rowStyle = !isCurrentDate && isPast ? {
                 backgroundColor: 'white',
                 // opacity: 0.5,
               } : { backgroundColor };
@@ -99,7 +100,7 @@ function HolidaysList({
                     sx={{
                       textTransform: 'capitalize',
                       backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
+                      opacity: !isCurrentDate && isPast ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -109,7 +110,7 @@ function HolidaysList({
                     sx={{
                       textTransform: 'capitalize',
                       backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
+                      opacity: !isCurrentDate && isPast ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -120,7 +121,7 @@ function HolidaysList({
                       textTransform: 'capitalize',
                       backgroundColor: rowStyle.backgroundColor,
                       textAlign: 'left',
-                      opacity: isPast && index !== 0 ? 0.5 : 1
+                      opacity: !isCurrentDate && isPast ? 0.5 : 1
                     }}
                     align="left"
                   >
@@ -131,7 +132,7 @@ function HolidaysList({
                       textTransform: 'capitalize',
                       backgroundColor: rowStyle.backgroundColor,
                       textAlign: 'left',
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
+                      opacity: !isCurrentDate && isPast ? 0.5 : 1,
                     }}
                     align="left"
                   >
@@ -141,7 +142,7 @@ function HolidaysList({
                     sx={{
                       textTransform: 'capitalize',
                       backgroundColor: rowStyle.backgroundColor,
-                      opacity: isPast && index !== 0 ? 0.5 : 1,
+                      opacity: !isCurrentDate && isPast ? 0.5 : 1,
                     }}
                     align="center"
                   >
@@ -191,7 +192,7 @@ function HolidaysList({
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 20, 30]}
+          rowsPerPageOptions={[10, 20, 30]}
           component="div"
           count={ItemList.length}
           rowsPerPage={rowsPerPage}
