@@ -117,11 +117,14 @@ export const CDAStudentProgressReport =
       let listStudentsDetails = response.data.listStudentsDetails.map((item, i) => {
         return {
           Id: item.YearWise_Student_Id,
-          Text1: item.Student_Name,
-          Text2: item.Roll_No,
-          Text3: item.Standard_Name,
-          Text4: item.Division_Name,
-          Text5: item.Academic_Year
+          Student_Name: item.Student_Name,
+          Roll_No: item.Roll_No,
+          Standard_Name: item.Standard_Name,
+          Division_Name: item.Division_Name,
+          Academic_Year: item.Academic_Year,
+          School_Name:item.School_Name,
+          School_Orgn_Name:item.School_Orgn_Name
+
         };
       });
       let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
