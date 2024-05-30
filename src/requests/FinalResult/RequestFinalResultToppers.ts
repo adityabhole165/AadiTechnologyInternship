@@ -17,7 +17,7 @@ const FinalResultToppersSlice = createSlice({
     SubjectDropdownListCT: [],
     ClassToppersCT: [],
     SubjectToppersCT: [],
-    SubjectToppersCT1: [],
+
 
   },
   reducers: {
@@ -35,9 +35,6 @@ const FinalResultToppersSlice = createSlice({
     },
     SubjectToppersListCT(state, action) {
       state.SubjectToppersCT = action.payload;
-    },
-    SubjectToppersListCT1(state, action) {
-      state.SubjectToppersCT1 = action.payload;
     },
 
   }
@@ -145,24 +142,8 @@ export const ClassTopperListCT =
       dispatch(
         FinalResultToppersSlice.actions.SubjectToppersListCT(responseData)
       );
+      console.log(responseData, 'ResponseClassToppers');
+
     };
 
-
-export const ClassTopperListST1 =
-  (data: IGetClassToppersListBOdyCT): AppThunk =>
-    async (dispatch) => {
-      const response = await FinalResultToppersApiCT.ClassToppersListCT(data);
-      let abc = response.data.GetSelectedSubjectTopperList.map((item, i) => {
-        return {
-          Id: item.Student_Id,
-          Text1: item.TopperRank,
-          Text2: item.Roll_No,
-          Text3: item.Student_Name,
-          Text4: item.Marks,
-          IsHighlightStudent: false
-        };
-      });
-      dispatch(FinalResultToppersSlice.actions.SubjectToppersListCT(abc));
-      console.log(abc, 'subject toppers')
-    }
 export default FinalResultToppersSlice.reducer;
