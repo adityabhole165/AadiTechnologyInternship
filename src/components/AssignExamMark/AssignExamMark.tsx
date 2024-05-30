@@ -250,8 +250,10 @@ const AssignExamMark = () => {
       aTeacherId.toString() + '/' +
       value.StandardId + '/' +
       value.IsMonthConfig + '/' +
-      !(value.IsSubmitted == "N") + '/' + false)
-
+      !(value.IsSubmitted == "N") + '/' +
+      false + '/' +
+      'true'
+    )
       ;
 
 
