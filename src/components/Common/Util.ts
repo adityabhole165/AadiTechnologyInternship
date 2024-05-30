@@ -1,4 +1,4 @@
-export const WeekdaysFull = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+export const WeekdaysFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 // export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 export function isFutureDate(date) {
   return (
@@ -106,7 +106,7 @@ export const getDateMonthYearFormattedDash = (date) => {
 
 export const getDateMonthYearDayDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
-  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[1]}`
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
 
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} (${WeekdaysFull[Weekday]})`;
