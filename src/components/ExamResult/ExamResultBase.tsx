@@ -354,7 +354,7 @@ const ExamResultBase = () => {
       'true' + '/' +
       'false' + '/' +
       'true' + '/' +
-      ClassPassFailDetailsForButton.IsPublish ? "true" : "false"
+      ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")
 
     );
   };
