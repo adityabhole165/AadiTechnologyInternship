@@ -10,15 +10,19 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import { grey, red, teal } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Styles } from 'src/assets/style/student-style';
+import { AlertContext } from 'src/contexts/AlertContext';
 import ITAttendance, {
   IStudentsDetails
 } from 'src/interfaces/Teacher/TAttendance';
 import {
   IDeleteAttendanceBody,
+  IGetAcademicDatesForStandardDivisionBody,
   IGetAttendanceStatus,
   IGetClassTeachersBodynew,
   IGetSummaryCountforAttendanceBody,
@@ -26,11 +30,13 @@ import {
   ISaveStudentAttendenceBody
 } from 'src/interfaces/Teacher/TAttendanceList';
 import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDADeleteAttendance,
   CDAGetTeacherNameList,
   CDASummaryCountforAttendanceBody,
   CDAresetDeleteAttendance,
+  GetAcademicDatesForStandardDivision,
   GetSaveAttendanceStatus,
   GetSaveStudentAttendence,
   GetStudentList,
@@ -40,11 +46,6 @@ import {
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
-
-import { grey } from '@mui/material/colors';
-import { Styles } from 'src/assets/style/student-style';
-import { AlertContext } from 'src/contexts/AlertContext';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
@@ -81,7 +82,7 @@ const TAttendance = () => {
   const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
 
   const [Standardid, setStandardid] = useState<string>();
-
+  const [MarksError, setMarksError] = useState('')
   const [assignedDate, setAssignedDate] = useState<string>('');
 
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
@@ -138,7 +139,10 @@ const TAttendance = () => {
   const ClassTeacherDropdownnew = useSelector(
     (state: RootState) => state.AttendanceList.ISClassTeacherList
   );
-
+  const AcademicDates = useSelector(
+    (state: RootState) => state.AttendanceList.GetAcademicDates
+  );
+  console.log("AcademicDates", AcademicDates)
   const getAssignedDateStatus = () => {
     let a = listAttendanceCalender.filter((item) => item.Value == assignedDate);
     return a.length > 0 ? a[0].Text3 : '';
@@ -170,6 +174,12 @@ const TAttendance = () => {
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
+  const getAcademicDates: IGetAcademicDatesForStandardDivisionBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivId: Number(selectClasstecahernew)
+
+  };
 
   const SummaryCountforAttendanceBody: IGetSummaryCountforAttendanceBody = {
     asSchoolId: Number(asSchoolId),
@@ -197,7 +207,10 @@ const TAttendance = () => {
     };
     dispatch(CDAGetTeacherNameList(ClassTeachernewBody));
   }, []);
+  useEffect(() => {
 
+    dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
+  }, [selectClasstecahernew]);
   useEffect(() => {
     if (ClassTeacherDropdownnew.length > 0) {
       setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
@@ -369,6 +382,14 @@ const TAttendance = () => {
       setOnlySelectedClass('');
     }
   }, [stdlist]);
+  useEffect(() => {
+    if (!AcademicDates || !AcademicDates.StartDate || !AcademicDates.EndDate) {
+      setMarksError('Term Start & End dates have not been configured for this Standard. Please configure it.');
+    } else {
+      setMarksError(''); // Clear any existing error message
+    }
+  }, [AcademicDates]);
+
   const SaveMsg = () => {
     if (!SaveIsActive) return;
 
@@ -986,8 +1007,28 @@ const TAttendance = () => {
       </Grid>
       <Grid container spacing={2} mt={1}>
         <Grid item xs={12} md={6}>
-          <Grid container>
+          <Grid container justifyContent="center">
             <Box sx={{ backgroundColor: 'white' }}>
+              {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
+              <div style={{
+                fontWeight: 'bold',
+                fontSize: '16px',
+                color: red[500],
+                marginTop: '20px',
+                marginLeft: '10px'
+              }}>
+                {MarksError}
+
+              </div>
+              <div style={{
+                fontWeight: 'bold',
+                fontSize: '16px',
+                color: teal[500],
+                marginTop: '5px',
+                marginLeft: '10px'
+              }}>
+                {AttendanceStatus}
+              </div>
               <CardCalender1
                 ItemList={listAttendanceCalender}
                 ClickItem={ClickItem}
@@ -997,7 +1038,8 @@ const TAttendance = () => {
                 ArrayList={HeaderPublish}
                 ClickDeleteAttendance={ClickDeleteAttendance}
                 Standardid={Standardid}
-                AttendanceStatus={AttendanceStatus}
+                // AttendanceStatus={AttendanceStatus}
+
                 clickNav={clickNav}
                 getAssignedDateStatus={getAssignedDateStatus}
               />
