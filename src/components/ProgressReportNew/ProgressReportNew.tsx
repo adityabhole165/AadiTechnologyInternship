@@ -1,7 +1,7 @@
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, Modal, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
@@ -11,6 +11,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
 import { grey } from '@mui/material/colors';
+import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const ProgressReportNew = () => {
   const [selectTeacher, SetselectTeacher] = useState(TeacherId);
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+
+  
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -62,6 +66,12 @@ const ProgressReportNew = () => {
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
 
+  let headerArray = [
+    { Id: 1, Header: 'Percentage' },
+    { Id: 2, Header: 'Grade Name' },
+    { Id: 3, Header: 'Remarks' }
+
+  ]
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -141,9 +151,16 @@ const ProgressReportNew = () => {
 
   }, [StudentId]);
 
+ 
+
+
   const handleClick = (event) => {
     event.preventDefault(); // Prevent the default link behavior
-    console.log('Link clicked'); // Add your custom click logic here
+    setOpen1(true); // Open the dialog
+  };
+
+  const handleClose = () => {
+    setOpen1(false); // Close the dialog
   };
 
   return (
@@ -215,9 +232,32 @@ const ProgressReportNew = () => {
     {USlistSubjectsDetails.length > 0? (
       <>
      
-     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
+
+     <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+      <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="h4">Grade Configuration Details</Typography>
       </Link>
+      
+      <Dialog open={open1} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle variant={"h5"}> Grade Configuration Details</DialogTitle>
+        <DialogContent>
+        <Typography variant={"h4"} my={1}>
+            Subjects :
+          </Typography>
+          <GradeConfigurationList
+            ItemList={USListMarkssDetails}
+            HeaderArray={headerArray}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
+      
+     
         <Box sx={{ mt: 1, background: 'white' }}>
           <hr />
           {USlistStudentsDetails.map((subject, index) => (

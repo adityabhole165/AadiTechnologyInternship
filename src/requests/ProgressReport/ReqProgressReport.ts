@@ -189,11 +189,15 @@ export const CDAStudentProgressReport =
 
       let ListMarkssDetails = response.data.ListMarkssDetails.map((item, i) => {
         return {
-          Id: item.Marks_Grades_Configuration_Detail_ID,
-          Text1: item.Remarks,
+          Text1: '',
+          Text2: item.Grade_Name,
+          Text3: item.Remarks,
+
 
         };
       });
+
+
 
       let ListDisplayNameDetails = response.data.ListDisplayNameDetails.map((item, i) => {
         return {
