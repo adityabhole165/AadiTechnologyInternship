@@ -69,7 +69,6 @@ export interface IGetClassToppersListResultCT {
 export interface IGetStandardDropdownBodyST {
   asSchoolId: Number;
   asAcademicYearId: Number;
-  asTeacherId: Number;
 }
 export interface IGetStandardDropdownResultST {
   Standard_Name: String;
