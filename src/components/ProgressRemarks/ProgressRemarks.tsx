@@ -34,7 +34,8 @@ import {
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
-  CDAresetSaveMassage
+  CDAresetSaveMassage,
+  CDAResetStudentDropdown
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -639,10 +640,13 @@ const ProgressRemarks = () => {
   }, [SelectTerm, selectTeacher]);
 
   useEffect(() => {
-    dispatch(
-      CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
-    );
-  }, [selectTeacher, SelectTerm, StudentList,page1,rowsPerPage]);
+    if (StudentList === '') {
+        dispatch(CDAResetStudentDropdown());
+    } else {
+        dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+    }
+}, [selectTeacher, SelectTerm, StudentList, page1, rowsPerPage]);
+
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
       toast.success(UpdateAllStudentsRemarkDetail);
