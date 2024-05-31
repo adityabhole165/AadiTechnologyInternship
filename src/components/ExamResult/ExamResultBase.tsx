@@ -258,7 +258,7 @@ const ExamResultBase = () => {
     if (ProgressSheet === "Published") {
       setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-    } else if (ProgressSheet !== "Submitted" && !ClassPassFailDetailsForButton.IsPublish) {
+    } else if (ProgressSheet !== "Submitted" && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Not all results for this exam have been submitted.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     } else {
