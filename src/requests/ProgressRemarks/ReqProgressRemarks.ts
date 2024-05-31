@@ -89,7 +89,12 @@ const ProgressRemarkSlice = createSlice({
 
     RresetSaveMassage(state) {
       state.ISUpdateAllStudentsRemarkDetailsBody = '';
-    }
+    },
+    ResetStudentDropdown(state) {
+      state.ISGetAllStudentswiseRemarkDetails = [];
+  }
+  
+
   }
 
 });
@@ -410,6 +415,10 @@ export const CDAGetFinalPublishedExamStatus =
 
 export const CDAresetSaveMassage = (): AppThunk => async (dispatch) => {
   dispatch(ProgressRemarkSlice.actions.RresetSaveMassage());
+};
+
+export const CDAResetStudentDropdown = (): AppThunk => async (dispatch) => {
+  dispatch(ProgressRemarkSlice.actions.ResetStudentDropdown());
 };
 
 export default ProgressRemarkSlice.reducer;
