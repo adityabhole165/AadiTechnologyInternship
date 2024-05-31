@@ -50,7 +50,7 @@ function HolidaysList({
   return (
     <div>
       {ItemList.length === 0 ? (
-        <Typography variant="h6" align="center" color="textSecondary">
+        <Typography variant="h6" align="center" color="blue" sx={{ backgroundColor: '#D2FDFC' }}>
           Holidays not yet declared.
         </Typography>
       ) : (
