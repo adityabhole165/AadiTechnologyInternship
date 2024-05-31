@@ -48,17 +48,24 @@ function HolidaysList({
   console.log(formattedDate);  // Output: 29-May-2024
 
   return (
-    <div>
+    <div >
       {ItemList.length === 0 ? (
-        <Typography variant="h6" align="center" color="blue" sx={{ backgroundColor: '#D2FDFC' }}>
-          Holidays not yet declared.
-        </Typography>
-      ) : (
-        <>
-          <Typography variant="subtitle1"
-            sx={{ margin: '16px 0', textAlign: 'center' }}>
-            <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, ItemList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{ItemList.length}</Box> records
+        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+
+          <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+            Holidays not yet declared.
           </Typography>
+        </Box>
+      ) : (
+
+        <>
+          {ItemList.length >= 5 && (
+            <Typography variant="subtitle1"
+              sx={{ margin: '16px 0', textAlign: 'center' }}>
+              <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, ItemList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{ItemList.length}</Box> records
+            </Typography>
+          )}
+
 
           <TableContainer component={Box}>
             <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
