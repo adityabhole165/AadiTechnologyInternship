@@ -95,9 +95,9 @@ export const CDAGetClassTeachers =
       let ClassTeachersList = [{ Id: '0', Name: '--Select--', Value: '0' }];
       response.data.map((item, i) => {
         ClassTeachersList.push({
-          Id: item.Teacher_Id,
+          Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
-          Value: item.Teacher_Id
+          Value: item.SchoolWise_Standard_Division_Id
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
@@ -112,7 +112,8 @@ export const CDAGetStudentName =
         StudentList.push({
           Id: item.Student_Id,
           Name: item.StudentName,
-          Value: item.Student_Id
+          Value: item.Student_Id,
+         
         });
       });
 
@@ -136,7 +137,9 @@ export const CDAStudentProgressReport =
           Division_Name: item.Division_Name,
           Academic_Year: item.Academic_Year,
           School_Name: item.School_Name,
-          School_Orgn_Name: item.School_Orgn_Name
+          School_Orgn_Name: item.School_Orgn_Name,
+          Standard_Id:item.Standard_Id,
+          Standard_Division_Id:item.Standard_Division_Id
 
         };
       });
@@ -185,8 +188,9 @@ export const CDAStudentProgressReport =
 
       let ListSubjectidDetails = response.data.ListSubjectidDetails.map((item, i) => {
         return {
-          Id: item.Subject_Id,
-          Text1: item.TestTypeSort_Order,
+          
+          Subject_Id: item.Subject_Id,
+          ShortenTestType_Name: item.ShortenTestType_Name,
 
         };
       });

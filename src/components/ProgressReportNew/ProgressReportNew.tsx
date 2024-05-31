@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllMarksGradeConfiguration, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport,CDAGetAllMarksGradeConfiguration1 } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -20,7 +20,9 @@ const ProgressReportNew = () => {
   const TeacherId = sessionStorage.getItem('TeacherId');
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  const [selectTeacher, SetselectTeacher] = useState(TeacherId);
+  const [selectTeacher, SetselectTeacher] = useState('');
+  console.log(selectTeacher,"selectTeacher");
+  
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -73,9 +75,9 @@ const ProgressReportNew = () => {
   const USGetAllMarksGradeConfiguration: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
 
-  console.log(USGetAllMarksGradeConfiguration,"USGetAllMarksGradeConfiguration");
-  console.log(USGetAllMarksGradeConfiguration1,"USGetAllMarksGradeConfiguration1");
-  
+  console.log(USGetAllMarksGradeConfiguration, "USGetAllMarksGradeConfiguration");
+  console.log(USGetAllMarksGradeConfiguration1, "USGetAllMarksGradeConfiguration1");
+
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -83,6 +85,19 @@ const ProgressReportNew = () => {
     { Id: 3, Header: 'Remarks' }
 
   ]
+
+  const GetClassTeacher = () => {
+    let returnVal = false
+    USlistStudentsDetails.map((item) => {
+      if (item.Standard_Division_Id == selectTeacher) {
+        returnVal = item.Standard_Id
+      }
+    })
+    return returnVal
+  };
+
+  console.log(GetClassTeacher(),"GetClassTeacher");
+
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -92,7 +107,7 @@ const ProgressReportNew = () => {
   const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivisionId: Number(asStandardDivisionId)
+    asStandardDivisionId: Number(selectTeacher)
 
   };
 
@@ -116,15 +131,15 @@ const ProgressReportNew = () => {
   const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(asAcademicYearId),
-    asStandardId: 1054,
-    asIsCoCurricular: true
+    asStandardId:Number(GetClassTeacher()) ,
+    asIsCoCurricular: false
   };
 
   const GetAllMarksGradeConfigurationBody1: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(asAcademicYearId),
-    asStandardId: 1054,
-    asIsCoCurricular: false
+    asStandardId: Number(GetClassTeacher()),
+    asIsCoCurricular: true
   };
 
 
@@ -141,6 +156,11 @@ const ProgressReportNew = () => {
     setOpen(false);
     SetStudentId(value);
   };
+
+
+  
+  
+
 
   const ClickShow = (value) => {
     setOpen(true)
@@ -184,10 +204,13 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
-    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
-  }, []);
+  }, [selectTeacher]);
 
- 
+  useEffect(() => {
+    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
+  }, [selectTeacher]);
+
+
 
 
   const handleClick = (event) => {
@@ -351,7 +374,7 @@ const ProgressReportNew = () => {
               <Box sx={{ overflowX: 'auto' }}>
                 <Table>
                   <TableBody>
-                    <TableRow  sx={{ bgcolor: '#b3e5fc' }}>
+                    <TableRow sx={{ bgcolor: '#b3e5fc' }}>
                       <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
                         Subjects
                       </Typography>
@@ -363,29 +386,30 @@ const ProgressReportNew = () => {
                       ))}
                     </TableRow>
                     <TableRow>
-                      {USlistSubjectIdDetails.map((item) => (
-                        <TableCell>
-                          <Typography  color="#42a5f5" >
-                          
-                          <b>{item.ShortenTestType_Name}</b>
-
-                    </Typography>
-                          
-                          </TableCell>
-                      ))}
-                    </TableRow>
-
-                    <TableRow>
                       {USlistTestDetails.map((item) => (
                         <TableCell >
-                           <Typography  color="black" >
-                           {item.Test_Name}
-                    </Typography>
-                          
-                          
-                          </TableCell>
+                          <Typography color="black" >
+                            {item.Test_Name}
+                          </Typography>
+
+
+                        </TableCell>
                       ))}
                     </TableRow>
+                    <TableRow>
+                      {USListSubjectidDetails.map((item) => (
+                        <TableCell>
+                          <Typography color="#42a5f5" >
+
+                            <b>{item.ShortenTestType_Name}</b>
+
+                          </Typography>
+
+                        </TableCell>
+                      ))}
+                    </TableRow>
+
+                   
                     <TableRow>
                       {USlistSubjectIdDetails.map((item) => (
                         <TableCell>{item.Grade}</TableCell>
