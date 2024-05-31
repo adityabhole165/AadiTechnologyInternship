@@ -93,8 +93,8 @@ export const StandardTopperListST =
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
           Id: item.Student_Id,
-          Text77:
-            localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
+          Text77: item.TopperRank,
+          // localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
           Text6: item.Standard,
           Text2: item.Roll_No,
           Text3: item.Student_Name,
