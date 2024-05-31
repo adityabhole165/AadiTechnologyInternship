@@ -19,6 +19,7 @@ import {
     IGetClassDropdownBodyCT,
     IGetClassSubjectDropdownBodyCT,
     IGetClassToppersListBOdyCT,
+    IGetStandardDropdownBodyST,
     IGetStandardExamDropdownBodyST,
     IGetStandardToppersListBOdyST,
     IGetSubjectDropdownBodyST,
@@ -33,13 +34,12 @@ import {
     ClassSubjectListCT,
     ClassTopperListCT,
     ClassdropdownListCT,
-} from 'src/requests/FinalResult/RequestFinalResultToppers';
-import {
     StandardDropdownListST,
     StandardExamListST,
     StandardSubjectListST,
     StandardTopperListST
-} from 'src/requests/FinalResult/RqstandardToppers';
+} from 'src/requests/ExamResult/RequestExamResultToppers';
+
 
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { grey } from '@mui/material/colors';
@@ -55,10 +55,10 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { TeacherId, StandardDivisionId } = useParams();
+    const { TeacherId, StandardDivisionId, TestId } = useParams();
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
-    const [SelectExamCT, setExamCT] = useState();
+    const [SelectExamCT, setExamCT] = useState(TestId);
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
     const [SelectStandardST, setStandardST] = useState(sessionStorage.getItem('StandardId'));
@@ -169,38 +169,38 @@ const ExamResultToppers = () => {
     const Note: string =
         'Display the first three class / standard toppers as well as subject toppers of your class/ standard for the selected exam';
     const GetClassdropdownCT = useSelector(
-        (state: RootState) => state.FinalResultToppers.ClassDropdownListCT
+        (state: RootState) => state.ExamResultToppers.ClassDropdownListCT
     );
     const GetExamdropdownCT = useSelector(
-        (state: RootState) => state.FinalResultToppers.ExamDropdownListCT
+        (state: RootState) => state.ExamResultToppers.ExamDropdownListCT
     );
     const GetSubjectdropdownCT: any = useSelector(
-        (state: RootState) => state.FinalResultToppers.SubjectDropdownListCT
+        (state: RootState) => state.ExamResultToppers.SubjectDropdownListCT
     );
     const GetClassToppersListCT = useSelector(
-        (state: RootState) => state.FinalResultToppers.ClassToppersCT
+        (state: RootState) => state.ExamResultToppers.ClassToppersCT
     );
     const GetSubjectToppersListCT = useSelector(
-        (state: RootState) => state.FinalResultToppers.SubjectToppersCT
+        (state: RootState) => state.ExamResultToppers.SubjectToppersCT
     );
     console.log(GetSubjectToppersListCT, 'aaaaaaaaaaaaaa')
 
     const GetStandarddropdownST = useSelector(
-        (state: RootState) => state.StandardToppers.StandardDropdownListST
+        (state: RootState) => state.ExamResultToppers.StandardDropdownST
     );
     console.log(GetStandarddropdownST, "GetStandarddropdownST");
 
     const GetExamdropdownST = useSelector(
-        (state: RootState) => state.StandardToppers.ExamDropdownListST
+        (state: RootState) => state.ExamResultToppers.ExamDropdownListST
     );
     const GetSubjectdropdownST = useSelector(
-        (state: RootState) => state.StandardToppers.SubjectDropdownListST
+        (state: RootState) => state.ExamResultToppers.SubjectDropdownListST
     );
     const GetStandardToppersListST = useSelector(
-        (state: RootState) => state.StandardToppers.StandardTopperST
+        (state: RootState) => state.ExamResultToppers.StandardTopperST
     );
     const GetSubjectToppersListST = useSelector(
-        (state: RootState) => state.StandardToppers.StandardSubjectToppersST
+        (state: RootState) => state.ExamResultToppers.StandardSubjectToppersST
     );
     const [SubjectToppersListCT, setSubjectToppersListCT] = useState([])
     const [StandardToppersListST, setStandardToppersListST] = useState([])
@@ -228,12 +228,12 @@ const ExamResultToppers = () => {
         });
         return perm;
     };
-    useEffect(() => {
-        if (GetExamdropdownCT.length > 0) {
-            setExamCT(GetExamdropdownCT[0].Id);
-            setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
-        }
-    }, [GetExamdropdownCT]);
+    // useEffect(() => {
+    //     if (GetExamdropdownCT.length > 0) {
+    //         setExamCT(GetExamdropdownCT[0].Id);
+    //         setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
+    //     }
+    // }, [GetExamdropdownCT]);
     useEffect(() => {
         if (GetExamdropdownST.length > 0) {
             setExamST(GetExamdropdownST[0].Id);
@@ -271,9 +271,9 @@ const ExamResultToppers = () => {
     }, [SelectClassCT, SelectExamCT, SelectSubjectCT]);
 
 
-    useEffect(() => {
-        if (GetExamdropdownCT.length > 0) setExamCT(GetExamdropdownCT[0].Id);
-    }, [GetExamdropdownCT]);
+    // useEffect(() => {
+    //     if (GetExamdropdownCT.length > 0) setExamCT(GetExamdropdownCT[0].Id);
+    // }, [GetExamdropdownCT]);
 
     useEffect(() => {
         if (GetSubjectdropdownCT.length > 0)
@@ -281,7 +281,7 @@ const ExamResultToppers = () => {
     }, [GetSubjectdropdownCT]);
 
     useEffect(() => {
-        dispatch(StandardDropdownListST(StandardToppersBodyST));
+        dispatch(StandardDropdownListST(StandardDropdownBodyST));
     }, [TeacherId]);
     useEffect(() => {
         dispatch(StandardExamListST(ExamDropdownBodyST));
@@ -376,11 +376,10 @@ const ExamResultToppers = () => {
         asSubjectId: Number(SelectSubjectCT)
     };
 
-    // const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
-    //     asSchoolId: asSchoolId,
-    //     asAcademicYearId: asAcademicYearId,
-    //     asTeacherId: 0
-    // };
+    const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+    };
     const ExamDropdownBodyST: IGetStandardExamDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -413,13 +412,15 @@ const ExamResultToppers = () => {
         if (selectedExam) {
             setSelectedExamName(selectedExam.Name);
         }
+        console.log(SelectExamCT, 'SelectExamCT');
+
     };
-    useEffect(() => {
-        if (GetExamdropdownCT.length > 0) {
-            setExamCT(GetExamdropdownCT[0].Id);
-            setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
-        }
-    }, [GetExamdropdownCT]);
+    // useEffect(() => {
+    //     if (GetExamdropdownCT.length > 0) {
+    //         setExamCT(GetExamdropdownCT[0].Id);
+    //         setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
+    //     }
+    // }, [GetExamdropdownCT]);
 
 
     const clickSubjectDropdownCT = (value) => {
@@ -486,8 +487,8 @@ const ExamResultToppers = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
-                    { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers' }
+                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
+                    { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
                 ]}
                 rightActions={<>
                     {radioBtn === '1' ? (
