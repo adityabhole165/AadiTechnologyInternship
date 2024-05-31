@@ -448,7 +448,7 @@ const ExamResultBase = () => {
   };
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId);
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId);
   };
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
