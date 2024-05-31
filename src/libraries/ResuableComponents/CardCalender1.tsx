@@ -47,22 +47,33 @@ function CardCalender1({
 
     ClickItem(returnVal);
   };
-
+  
   const clickPrevNextMonth = (value) => {
     let newDate;
-    if (formattedDate.split(' ').length == 2)
+
+    if (formattedDate.split(' ').length === 2) {
       newDate = new Date('1 ' + formattedDate);
-    else;
-    newDate = new Date(formattedDate);
-    newDate.setMonth(newDate.getMonth() + value);
-    if (newDate.getMonth() == (new Date()).getMonth() && newDate.getFullYear() == (new Date()).getFullYear())
-      newDate = new Date()
-    else
-      newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+    } else {
+      newDate = new Date(formattedDate);
+    } 
+    const newMonth = newDate.getMonth() + value; 
+    if (value < 0) {
+      newDate = new Date(newDate.getFullYear(), newMonth, 1);
+    } else {
+      newDate.setDate(1);
+      newDate.setMonth(newMonth);
+    }
+    const today = new Date();
+    if (newDate.getMonth() === today.getMonth() && newDate.getFullYear() === today.getFullYear()) {
+      newDate = today;
+    }
     ClickItem(getDateFormatted(newDate));
   };
-  let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay()
+
+ 
+  let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay();
   const datePicker = useRef(null);
+
   return (
     <Box p={2}>
       {/* <Box
@@ -117,7 +128,7 @@ function CardCalender1({
               color: teal[500]
             }}>
               {/* {AttendanceStatus} */}
-             
+
             </div>
           </Typography>
         </Box>
