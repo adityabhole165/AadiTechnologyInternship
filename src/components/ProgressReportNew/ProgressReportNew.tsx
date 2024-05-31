@@ -21,7 +21,6 @@ const ProgressReportNew = () => {
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const [selectTeacher, SetselectTeacher] = useState('');
-  console.log(selectTeacher,"selectTeacher");
   
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
@@ -41,7 +40,6 @@ const ProgressReportNew = () => {
     return perm;
   };
 
-  console.log(GetScreenPermission(), "GetScreenPermission");
 
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
@@ -53,12 +51,10 @@ const ProgressReportNew = () => {
   const USStudentProgressReport: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
   );
-  console.log(USStudentProgressReport, "USStudentProgressReport");
 
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
   const USlistStudentsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails);
   const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
-  console.log(USlistSubjectsDetails, "USlistSubjectsDetails");
 
   const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
   const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
@@ -68,15 +64,15 @@ const ProgressReportNew = () => {
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
 
-  const ListMarksSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "True");
-  const CoCurricularSubjects = USListMarkssDetails.filter((item: any) => item.IsForCoCurricularSubjects == "False");
+ 
 
+  const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
+  const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
+  
+    console.log(USGetAllMarksGradeConfiguration,"---");
+    console.log(USGetAllMarksGradeConfiguration1,"---1");
 
-  const USGetAllMarksGradeConfiguration: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
-  const USGetAllMarksGradeConfiguration1: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
-
-  console.log(USGetAllMarksGradeConfiguration, "USGetAllMarksGradeConfiguration");
-  console.log(USGetAllMarksGradeConfiguration1, "USGetAllMarksGradeConfiguration1");
+    
 
 
   let headerArray = [
@@ -96,7 +92,6 @@ const ProgressReportNew = () => {
     return returnVal
   };
 
-  console.log(GetClassTeacher(),"GetClassTeacher");
 
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
@@ -204,11 +199,11 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
+    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
+
   }, [selectTeacher]);
 
-  useEffect(() => {
-    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
-  }, [selectTeacher]);
+
 
 
 
