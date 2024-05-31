@@ -162,7 +162,7 @@ export const CDAStudentProgressReport =
         return {
           Id: item.Original_SchoolWise_Test_Id,
           ShortenTestType_Name: item.ShortenTestType_Name,
-          Marks:item.Marks
+          Grade:item.Grade
 
         };
       });

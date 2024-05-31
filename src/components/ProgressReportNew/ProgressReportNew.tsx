@@ -316,19 +316,19 @@ const ProgressReportNew = () => {
               </Box>
 
 
-              <Box sx={{ mt: 1, background: 'white' }}>
+              <Box sx={{ mt: 1, background: '#b2ebf2' }}>
                 <hr />
                 {USlistStudentsDetails.map((subject, index) => (
                   <div key={index}>
-                    <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                    <Typography variant="h4" textAlign="center" color="black" mb={1}>
                       {subject.School_Orgn_Name}
                     </Typography>
                     <hr />
-                    <Typography variant="h3" textAlign="center" color="primary" mb={1}>
+                    <Typography variant="h3" textAlign="center" color="black" mb={1}>
                       {subject.School_Name}
                     </Typography>
                     <hr />
-                    <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                    <Typography variant="h4" textAlign="center" color="black" mb={1}>
                       Progress Report
                     </Typography>
                   </div>
@@ -337,7 +337,7 @@ const ProgressReportNew = () => {
                   <TableBody>
                     {USlistStudentsDetails.map((item) => {
                       return (
-                        <TableRow sx={{ bgcolor: 'grey.200' }}>
+                        <TableRow sx={{ bgcolor: 'white' }}>
                           <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
                           <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
                           <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
@@ -351,7 +351,7 @@ const ProgressReportNew = () => {
               <Box sx={{ overflowX: 'auto' }}>
                 <Table>
                   <TableBody>
-                    <TableRow>
+                    <TableRow  sx={{ bgcolor: '#b3e5fc' }}>
                       <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
                         Subjects
                       </Typography>
@@ -364,17 +364,31 @@ const ProgressReportNew = () => {
                     </TableRow>
                     <TableRow>
                       {USlistSubjectIdDetails.map((item) => (
-                        <TableCell><b>{item.ShortenTestType_Name}</b></TableCell>
+                        <TableCell>
+                          <Typography  color="#42a5f5" >
+                          
+                          <b>{item.ShortenTestType_Name}</b>
+
+                    </Typography>
+                          
+                          </TableCell>
                       ))}
                     </TableRow>
+
                     <TableRow>
                       {USlistTestDetails.map((item) => (
-                        <TableCell>{item.Test_Name}</TableCell>
+                        <TableCell >
+                           <Typography  color="black" >
+                           {item.Test_Name}
+                    </Typography>
+                          
+                          
+                          </TableCell>
                       ))}
                     </TableRow>
                     <TableRow>
                       {USlistSubjectIdDetails.map((item) => (
-                        <TableCell>{item.Marks}</TableCell>
+                        <TableCell>{item.Grade}</TableCell>
                       ))}
                     </TableRow>
                   </TableBody>
