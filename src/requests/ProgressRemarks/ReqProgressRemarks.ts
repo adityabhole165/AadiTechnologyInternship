@@ -225,7 +225,7 @@ export const CDAStudentListDropDown =
   (data: IStudentListDropDowntBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.StudentListDropDown(data);
-      let StudentList = [{ Id: '0', Name: '--All--', Value: '0' }];
+      let StudentList = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         StudentList.push({
           Id: item.Student_Id,
