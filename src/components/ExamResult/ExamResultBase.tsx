@@ -163,7 +163,10 @@ const ExamResultBase = () => {
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
+    // asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
+    asTeacherId: GetScreenPermission() === 'Y'
+      ? 0
+      : (getTeacherId() ? Number(getTeacherId()) : (ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)))
     // asTeacherId: asTeacherId
     // asTeacherId: 0
   };
@@ -171,16 +174,16 @@ const ExamResultBase = () => {
   const GetClasswiseExamDropdown: IGetClasswiseExamDropdownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivisionId: Number(StandardDivisionId)
-    // asStandardDivisionId: ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)
+    //asStandardDivisionId: Number(StandardDivisionId)
+    asStandardDivisionId: ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)
   };
 
 
   const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStdDivId: StandardDivisionId,
-    //asStdDivId: ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId.toString(),
+    //asStdDivId: StandardDivisionId,
+    asStdDivId: ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId.toString(),
     aiTestId: TestId.toString()
   };
 
