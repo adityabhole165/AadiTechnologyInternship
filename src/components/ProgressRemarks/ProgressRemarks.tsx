@@ -483,6 +483,16 @@ const TextValues = (value) => {
     SetStudentList(value);
   };
 
+
+  const Exportremark = () => {
+    const confirmMessage = "This Action will show only saved details. Do you want to continue?" ;
+    let confirmed = true
+    confirmed = window.confirm(confirmMessage);
+
+  };
+
+  
+
   const getStudentName = () => {
     let classStudentName = '';
     USGetAllStudentswiseRemarkDetails.map((item) => {
@@ -648,6 +658,7 @@ const TextValues = (value) => {
             ItemList={ USClassTeachers}
             onChange={clickSelectClass }
             defaultValue={selectTeacher}
+            mandatory
             size={"small"}
             DisableClearable={GetScreenPermission() == 'N'}
             disabled={GetScreenPermission() == 'N'}
@@ -682,7 +693,7 @@ const TextValues = (value) => {
                     backgroundColor: grey[600]
                   }
                 }}
-              >
+                  >
                 <QuestionMark />
               </IconButton>
             </Tooltip>
@@ -698,8 +709,8 @@ const TextValues = (value) => {
                     backgroundColor: grey[600]
                   }
                 }}
-              >
-                <Download />
+                onClick={Exportremark}  >
+                <Download   />
               </IconButton>
             </Tooltip> : null
         }
