@@ -14,7 +14,7 @@ const ProgressRemarksNotes = () => {
     const Hedaer2 = ['Suggested Adverbs ::'];
 
     const Note3 = [
-        'Click on the button available for each student and remark type to add configuredremark templates.'
+        'Click on the button available for each student and remark type to add configured remark templates.'
     ];
     const Hedaer3 = ['...'];
 

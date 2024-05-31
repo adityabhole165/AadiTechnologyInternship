@@ -51,7 +51,7 @@ function HolidaysList({
     <div>
       {ItemList.length === 0 ? (
         <Typography variant="h6" align="center" color="textSecondary">
-          No record found.
+          Holidays not yet declared.
         </Typography>
       ) : (
         <>

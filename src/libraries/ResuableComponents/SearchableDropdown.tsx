@@ -67,7 +67,7 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '',
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
 
   const handleKeyDown = (event) => {
-    if (/[&@*%#!]/.test(event.key)) {
+    if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
       event.preventDefault();
     }
   };
