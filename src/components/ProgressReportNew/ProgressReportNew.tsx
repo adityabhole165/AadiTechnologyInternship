@@ -69,11 +69,11 @@ const ProgressReportNew = () => {
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
   
-    console.log(USGetAllMarksGradeConfiguration,"---");
-    console.log(USGetAllMarksGradeConfiguration1,"---1");
+   
 
-    
-
+    const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
+    const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
+   
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -314,7 +314,7 @@ const ProgressReportNew = () => {
                       Subjects:
                     </Typography>
                     <GradeConfigurationList
-                      ItemList={USGetAllMarksGradeConfiguration}
+                      ItemList={Data}
                       HeaderArray={headerArray}
                     />
                   </DialogContent>
@@ -323,7 +323,7 @@ const ProgressReportNew = () => {
                       Co-Curricular Subjects:
                     </Typography>
                     <GradeConfigurationList
-                      ItemList={USGetAllMarksGradeConfiguration1}
+                      ItemList={Data1}
                       HeaderArray={headerArray}
                     />
                   </DialogContent>

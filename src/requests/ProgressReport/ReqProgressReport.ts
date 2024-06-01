@@ -254,13 +254,12 @@ export const CDAGetPassedAcademicYears =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
-      let listGradeDetailss = response.data.listGradeDetailss
-        .filter((item) => item.Standard_Id != "")
-        .map((item, i) => {
+      let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
           return {
             Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
             Text2: item.Grade_Name,
             Text3: item.Remarks,
+            Standard_Id: item.Standard_Id
           };
         });
 
@@ -272,13 +271,12 @@ export const CDAGetAllMarksGradeConfiguration1 =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
-      let listGradeDetailss = response.data.listGradeDetailss
-        .filter((item) => item.Standard_Id != "")
-        .map((item, i) => {
+      let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
           return {
             Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
             Text2: item.Grade_Name,
             Text3: item.Remarks,
+            Standard_Id: item.Standard_Id
           };
         });
 
