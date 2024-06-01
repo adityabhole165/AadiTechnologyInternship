@@ -163,8 +163,8 @@ export const CDAStudentProgressReport =
 
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
-          Id: item.Original_SchoolWise_Test_Id,
-          ShortenTestType_Name: item.ShortenTestType_Name,
+        
+          SchoolWise_Test_Name: item.SchoolWise_Test_Name,
           Grade:item.Grade
 
         };

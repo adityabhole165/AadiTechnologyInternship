@@ -73,7 +73,7 @@ const ProgressReportNew = () => {
 
     const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
     const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
-   
+    const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -407,7 +407,7 @@ const ProgressReportNew = () => {
                    
                     <TableRow>
                       {USlistSubjectIdDetails.map((item) => (
-                        <TableCell>{item.Grade}</TableCell>
+                        <TableCell>{Data3.Grade}</TableCell>
                       ))}
                     </TableRow>
                   </TableBody>
