@@ -305,10 +305,14 @@ const ProgressReportNew = () => {
                 </Link>
 
                 <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
+                <Box sx={{backgroundColor:"#ede7f6"}}>  
                   <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                   
                     Grade Configuration Details
+                      
                     <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
                   </DialogTitle>
+                  </Box>
                   <DialogContent>
                     <Typography variant="h4" my={1}>
                       Subjects :-
