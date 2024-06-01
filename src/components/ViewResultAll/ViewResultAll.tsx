@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { Column } from '../DataTable';
 
 import {
   IClassTeacherBody,
@@ -21,7 +20,9 @@ import {
   ClassTechersListt,
   GetStudentResultList,
   GetsingleStudentResultVA,
-  StudentNameList
+  StudentNameList,
+  getiscofigred,
+  getunpublishedexam
 } from 'src/requests/VeiwAllResult/ReqveiwresultAll';
 
 type Props = {};
@@ -29,11 +30,12 @@ type Props = {};
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [DisplayNote, setDisplayNote] = useState('');
+  const [displayNote, setDisplayNote] = useState('');
 
 
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '');
   const [studentList, setStudentList] = useState();
+  const [SchoolWise_Test_Name, setSchoolWise_Test_Name] = useState();
   // console.log(studentList, "sjddjdd");
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -56,8 +58,10 @@ const ViewResultAll = (props: Props) => {
 
   const SubjectDetailsView = useSelector((state: RootState) => state.VeiwResult.getSubjectDetailsView)
   const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView);
+
+
   const Usisconfigred = useSelector((state: RootState) => state.VeiwResult.iscofigred);
-  //console.log(Usisconfigred, "issssssconfiiiig");
+  // console.log(Usisconfigred, "issssssconfiiiig");
 
   const Usunpublishedexam = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   // console.log(Usunpublishedexam, "unpublished name exam");
@@ -102,7 +106,6 @@ const ViewResultAll = (props: Props) => {
   const StudentsingleresultBody: IGetsingleStudentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: asAcademicYearId,
-    // asStudentId: studentList,
     asStudentId: Number(studentList),
     asInsertedById: Number(asUserId),
     asWithGrace: 0,
@@ -147,32 +150,82 @@ const ViewResultAll = (props: Props) => {
   }, [selectTeacher, studentList]);
 
 
-  // useEffect(() => {
-  //   if (Usunpublishedexam && Usunpublishedexam.iscofigred) {
-  //     setDisplayNote('Results for this exam have been published.');
+  //  useEffect(() => {
+
+
+  // Usisconfigred === "0" 
+  // ?    setDisplayNote(`All Configured Exams Are Not Published - ${Usunpublishedexam.SchoolWise_Test_Name}`)
+  // : '';
+
+
+
+  // {
+  //   const DisplayNote = Usisconfigred === '0' ? (
+  //     Usunpublishedexam && Usunpublishedexam.length > 0 ? (
+  //       `All Configured Exams Are Not Published - ${(Usunpublishedexam)}`
+  //     ) : (
+  //       'No unpublished exams found.'
+  //     )
+  //   ) : (
+  //     ''
+  //   )
+  // }
+  //   console.log('Usunpublishedexam:', Usunpublishedexam);
+  //   console.log('Usisconfigred:', Usisconfigred);
+
+  //   if (Usisconfigred === "0" && Usunpublishedexam) {
+  //     const errorMessage = Usunpublishedexam;
+  //     const message = `All Configured Exams Are Not Published${errorMessage ? " - " + errorMessage : ''}`;
+  //     setDisplayNote(message);
   //   } else {
-  //     if (Usisconfigred === "0" && Usunpublishedexam && Usunpublishedexam.SchoolWise_Test_Name) {
-  //       setDisplayNote(`All Configured Exams Are Not Published - ${Usunpublishedexam.SchoolWise_Test_Name}`);
-  //     } else {
-  //       setDisplayNote('');
-  //     }
+  //     setDisplayNote('');
   //   }
+  // }, [Usunpublishedexam, Usisconfigred]);
 
-  //   dispatch(getiscofigred(iscofigred));
-  //   dispatch(getunpublishedexam(unpublishexam));
-  // }, [Usisconfigred, Usunpublishedexam]);
+  // useEffect(() => {
+  // if (Usisconfigred === "0" && Usunpublishedexam && Array.isArray(Usunpublishedexam) && Usunpublishedexam.length > 0) {
+  //   const errorMessageArray = Usunpublishedexam.map(exam => exam.SchoolWise_Test_Name);
+  //   const errorMessage = errorMessageArray.join(', ');
+  //   const message = `All Configured Exams Are Not Published${errorMessage ? " - " + errorMessage : ''}`;
+  //   console.log("Displaying error message:", message);
+  //   setDisplayNote(message);
+  // } else {
+  //   setDisplayNote('');
+  // }
 
 
-  //   useEffect(() => {
+  if (Usisconfigred === "0" && Usunpublishedexam && Array.isArray(Usunpublishedexam) && Usunpublishedexam.length > 0) {
+    const errorMessageArray = Usunpublishedexam.map(exam => exam.SchoolWise_Test_Name);
+    const errorMessage = errorMessageArray.join(', ');
+    const message = `All Configured Exams Are Not Published${errorMessage ? " - " + errorMessage : ''}`;
+    console.log("Displaying error message:", message);
+    setDisplayNote(message);
+  } else {
+    setDisplayNote('');
+  }
 
-  //     if (GetnotgenrateLists && !GetnotgenrateLists.Is_ResultGenrated) {
-  //       setDisplayNote(`Result not generated for this student: - ${GetnotgenrateLists.Roll_No} ${GetnotgenrateLists.Name}`);
-  //     } else {
-  //     if (GetnotgenrateLists && GetnotgenrateLists.Is_ResultGenrated) {
-  //       setDisplayNote('');
-  //     }     
-  //     }
-  // }, [])
+  useEffect(() => {
+    console.log("xxxyyyyssss", Usunpublishedexam);
+    console.log("uuuudddididi", Usisconfigred);
+
+
+    dispatch(getiscofigred(iscofigred));
+    dispatch(getunpublishedexam(unpublishexam));
+  }, []);
+
+  //  }, []);
+
+
+  // const getexamname = () => {
+  //   let subjectname = '';
+  //   Usunpublishedexam.map((item) => {
+  //     if (item.Value == Usunpublishedexam) subjectname = item.Name;
+  //   });
+  //   return subjectname;
+  // };
+  // const subjectnamee = getexamname()
+  // console.log(subjectnamee, "subjectnamee");
+
 
 
   const getStudentName = () => {
@@ -185,43 +238,79 @@ const ViewResultAll = (props: Props) => {
   const isgenrate = getStudentName()
   console.log(isgenrate, "genrate");
 
+  // const Changevalue = (value) => {
+  //   setStudentList(value);
+  // };
+  // const clickPrint = (value) => {
+  //   const userLoginId = sessionStorage.getItem('Userlogin');
+  //   let returnString =
+  //      'ID_Num='+
+  //  'Grade='+
+  //  'ID_Num='+
+  //  'Subject_Id='+
+  //  'Subject_Name='+
+  //  'Subject_Id='+ 
+  // 'Subject_Id='+
+  //  'Marks_Scored='+
+  //  'Subject_Total_Marks='+
+  //  'Subject_Id='+
+  //  'YearWise_Student_Id='+
+  //  'Student_Name='+
+  //  'Roll_No='+
+  //  'Standard_Name='+
+  //  'Division_Name='+
+  //  'Academic_Year='+
 
 
+  //   const body: IGetsingleStudentBody = {
+  //     // asSchoolId: localStorage.getItem('localSchoolId'),
+  //     // asUserLogin: userLoginId,
+  //     // asQueryString: returnString,
+  //     asSchoolId: 18,
+  //     asAcademicYearId: 53,
+  //     asStudentId: 32682,
+  //     asInsertedById: 1,
+  //     asWithGrace: 0,
+  //     asSchoolSiteUrl:
+  //       localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx? http://aaditechnology.com:8090/PPSN Website',
+  //     asRedirectPageUrl:
+  //       localStorage.getItem('SiteURL') +
+  //       '/RITeSchool/Student/StudentAnnualResultPrint.aspx?'
+  //   };
+  //   dispatch(GetStudentResultList(body));
+  // };
 
-
-
-
-  const Changevalue = (value) => {
-    setStudentList(value);
+  const clickPrint = () => {
+    window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
   };
 
-  const columns: Column[] = [
-    {
-      id: 'english',
-      label: 'English',
-      renderCell: (rowData) => rowData.Text1,
-    },
-    {
-      id: 'mathematics',
-      label: 'Mathematics',
-      renderCell: (rowData) => rowData.Text2,
-    },
-    {
-      id: 'evs',
-      label: 'E.V.S.',
-      renderCell: (rowData) => rowData.Text3,
-    },
-    {
-      id: 'computerStudies',
-      label: 'Computer Studies',
-      renderCell: (rowData) => rowData.Text4,
-    },
-    {
-      id: 'hindi3',
-      label: 'Hindi III',
-      renderCell: (rowData) => rowData.Text5,
-    },
-  ];
+  // const columns: Column[] = [
+  //   {
+  //     id: 'english',
+  //     label: 'English',
+  //     renderCell: (rowData) => rowData.Text1,
+  //   },
+  //   {
+  //     id: 'mathematics',
+  //     label: 'Mathematics',
+  //     renderCell: (rowData) => rowData.Text2,
+  //   },
+  //   {
+  //     id: 'evs',
+  //     label: 'E.V.S.',
+  //     renderCell: (rowData) => rowData.Text3,
+  //   },
+  //   {
+  //     id: 'computerStudies',
+  //     label: 'Computer Studies',
+  //     renderCell: (rowData) => rowData.Text4,
+  //   },
+  //   {
+  //     id: 'hindi3',
+  //     label: 'Hindi III',
+  //     renderCell: (rowData) => rowData.Text5,
+  //   },
+  // ];
 
   return (
     <Box px={2}>
@@ -260,6 +349,7 @@ const ViewResultAll = (props: Props) => {
           <Box>
 
             <Button
+              onClick={clickStudentList}
               sx={{
                 color: 'white',
                 backgroundColor: blue[500],
@@ -274,6 +364,7 @@ const ViewResultAll = (props: Props) => {
           <Box>
 
             <Button
+              onClick={clickPrint}
               sx={{
                 color: 'white',
                 backgroundColor: blue[500],
@@ -287,8 +378,14 @@ const ViewResultAll = (props: Props) => {
         </>}
 
       />
-
-
+      {/* <Box>
+        {Usisconfigred > [0] ? (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+          >
+            <b>All Configured Exams Are Not Published:{subjectnamee}</b>
+          </Typography>
+        ) : null}
+      </Box> */}
 
       <Box sx={{ mt: 1, background: 'white' }}>
         <Box>
@@ -309,27 +406,27 @@ const ViewResultAll = (props: Props) => {
 
 
 
-        
+
 
 
           {MarkDetailsView.length > 0 ? (
-                 <Table>
-                 <TableBody>
-                   {USSStudentsingleResult.map((item) => {
-                     return (
-                       <TableRow sx={{ bgcolor: 'grey.200' }}>
-                         <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
-                         <TableCell><b>Name:</b> {item.Text1}	</TableCell>
-                         <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
-                         <TableCell><b>Year:</b> {item.Text5}	</TableCell>
-                       </TableRow>
-                     )
-                   })}
-                 </TableBody>
-               </Table>
-              ) : (
-                <span></span>
-              )}
+            <Table>
+              <TableBody>
+                {USSStudentsingleResult.map((item) => {
+                  return (
+                    <TableRow sx={{ bgcolor: 'grey.200' }}>
+                      <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
+                      <TableCell><b>Name:</b> {item.Text1}	</TableCell>
+                      <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
+                      <TableCell><b>Year:</b> {item.Text5}	</TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          ) : (
+            <span></span>
+          )}
 
 
           <Box sx={{ overflowX: 'auto' }}>
@@ -391,17 +488,19 @@ const ViewResultAll = (props: Props) => {
           BACK
         </Button>
       </Box>
-      {/* <Box sx={{ background: 'white', p: 2 }}>
-        <Alert variant="filled" color="info" sx={{ mb: 2 }} icon={<InfoOutlined />}>
-             
-         {DisplayNote &&
+      <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
-          {DisplayNote}
-            </Alert>
+          {displayNote}
         </Typography>
-      }
 
-      </Box> */}
+
+      </Box>
+
+
+
+
+
+
     </Box>
   );
 };
@@ -411,3 +510,4 @@ export default ViewResultAll;
 
 
 
+//<p>{displayNote}</p>
