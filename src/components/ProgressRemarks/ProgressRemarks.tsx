@@ -1,7 +1,7 @@
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, Grid, IconButton, Modal, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Modal, Paper, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,8 @@ import {
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
-  CDAresetSaveMassage
+  CDAresetSaveMassage,
+  CDAResetStudentDropdown
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -52,9 +53,20 @@ const ProgressRemarks = () => {
   const [open, setOpen] = useState(false);
   const [Itemlist, setItemlist] = useState([]);
   const [IsDirty, setIsDirty] = useState(false);
-   
-  
 
+  const [page1, setPage1] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Show 20 records by default
+
+  const handleChangePage = (event, newPage) => {
+    setPage1(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage1(0); // Reset to the first page
+  };
+
+  const paginatedItems = Itemlist.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
@@ -67,7 +79,7 @@ const ProgressRemarks = () => {
   const endIndex = startIndex + itemsPerPage;
 
 
-  const { StandardDivisionId } =useParams();
+  const { StandardDivisionId } = useParams();
 
   const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
 
@@ -87,7 +99,7 @@ const ProgressRemarks = () => {
   // const determineInitialState = () => {
   //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
   // };
-  
+
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: '', SortOrder: "asc" },
@@ -149,8 +161,8 @@ const ProgressRemarks = () => {
       state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
   );
 
-  console.log(USGetAllStudentswiseRemarkDetails,"USGetAllStudentswiseRemarkDetails");
-  
+  console.log(USGetAllStudentswiseRemarkDetails, "USGetAllStudentswiseRemarkDetails");
+
   const USRemarkDetailsHeaderList: any = useSelector(
     (state: RootState) =>
       state.ProgressRemarkSlice.ISRemarkDetailsHeaderList
@@ -220,7 +232,7 @@ const ProgressRemarks = () => {
   //   return sXML;
   // };
 
- 
+
 
   const getStdDivisionId = () => {
     let returnVal = 0
@@ -302,8 +314,8 @@ const ProgressRemarks = () => {
     asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
     TeacherId: Number(selectTeacher),
-    asStartIndex: startIndex,
-    asEndIndex: endIndex,
+    asStartIndex: page1 * rowsPerPage,
+    asEndIndex: (page1 + 1) * rowsPerPage
   };
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
@@ -351,7 +363,7 @@ const ProgressRemarks = () => {
 
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody),
-     
+
     );[page, selectTeacher, SelectTerm]
   };
 
@@ -387,7 +399,7 @@ const ProgressRemarks = () => {
     );
     return showAlert;
   };
-  
+
   const [message, setMessage] = useState("");
   useEffect(() => {
     const autoSave = setInterval(() => {
@@ -396,7 +408,7 @@ const ProgressRemarks = () => {
         setMessage("We are saving current progress remarks details.Please wait.");
       }
     }, 60000);
-  
+
     return () => clearInterval(autoSave);
   }, [IsDirty, UpdateRemark]);
 
@@ -421,26 +433,26 @@ const ProgressRemarks = () => {
     }
   };
 
- 
+
 
   const clickSelectTerm = (value) => {
     if (SelectTerm != '') {
-      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?" ;
+      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?";
       let confirmed = false
       if (IsDirty) {
-          confirmed = window.confirm(confirmMessage);
+        confirmed = window.confirm(confirmMessage);
 
-          if (confirmed) {
-            SetSelectTerm(value);
-             
-          }
+        if (confirmed) {
+          SetSelectTerm(value);
+
+        }
       }
       else
-      SetSelectTerm(value);
-         
-  }
-    
-   
+        SetSelectTerm(value);
+
+    }
+
+
   };
   const clickGrade = (value) => {
     SetSelectGrade(value);
@@ -453,27 +465,27 @@ const ProgressRemarks = () => {
 
   const clickSelectClass = (value) => {
     if (selectTeacher != '') {
-        const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?" ;
-        let confirmed = false
-        if (IsDirty) {
-            confirmed = window.confirm(confirmMessage);
+      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?";
+      let confirmed = false
+      if (IsDirty) {
+        confirmed = window.confirm(confirmMessage);
 
-            if (confirmed) {
-              SetselectTeacher(value);
-               
-            }
+        if (confirmed) {
+          SetselectTeacher(value);
+
         }
-        else
+      }
+      else
         SetselectTeacher(value);
-           
+
     }
-};
+  };
 
-const TextValues = (value) => {
-  setIsDirty(true)
-  setItemlist(value);
+  const TextValues = (value) => {
+    setIsDirty(true)
+    setItemlist(value);
 
-};
+  };
 
   const clickRemark = (value) => {
     setRemark(value);
@@ -485,13 +497,13 @@ const TextValues = (value) => {
 
 
   const Exportremark = () => {
-    const confirmMessage = "This Action will show only saved details. Do you want to continue?" ;
+    const confirmMessage = "This Action will show only saved details. Do you want to continue?";
     let confirmed = true
     confirmed = window.confirm(confirmMessage);
 
   };
 
-  
+
 
   const getStudentName = () => {
     let classStudentName = '';
@@ -501,8 +513,8 @@ const TextValues = (value) => {
     return classStudentName;
   };
 
-  
-     
+
+
 
   const FStudentName = () => {
     let classStudentName = '';
@@ -521,14 +533,14 @@ const TextValues = (value) => {
   };
 
 
-  
-  
+
+
 
   const StudentFName = FStudentName()
   const PassSalutationId = GEtSalutation()
 
-  
-  
+
+
 
 
   const studentName = getStudentName();
@@ -578,7 +590,7 @@ const TextValues = (value) => {
     setItemlist(USGetAllStudentswiseRemarkDetails);
   }, [USGetAllStudentswiseRemarkDetails]);
 
- 
+
   useEffect(() => {
     if (USGetTestwiseTerm.length > 0) {
       SetSelectTerm(USGetTestwiseTerm[0].Value);
@@ -609,7 +621,7 @@ const TextValues = (value) => {
     dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
   }, [SelectGrade, Remark, HeaderPublish]);
 
-  
+
 
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
@@ -625,13 +637,16 @@ const TextValues = (value) => {
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [SelectTerm,selectTeacher]);
+  }, [SelectTerm, selectTeacher]);
 
   useEffect(() => {
-    dispatch(
-      CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
-    );
-  }, [selectTeacher, SelectTerm,StudentList]);
+    if (StudentList === '') {
+        dispatch(CDAResetStudentDropdown());
+    } else {
+        dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+    }
+}, [selectTeacher, SelectTerm, StudentList, page1, rowsPerPage]);
+
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
       toast.success(UpdateAllStudentsRemarkDetail);
@@ -641,22 +656,22 @@ const TextValues = (value) => {
 
     }
   }, [UpdateAllStudentsRemarkDetail]);
-  
+
 
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/'  + selectTeacher},
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + selectTeacher },
           { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>
-        
+
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px' ,    backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '',}}
-            ItemList={ USClassTeachers}
-            onChange={clickSelectClass }
+            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            ItemList={USClassTeachers}
+            onChange={clickSelectClass}
             defaultValue={selectTeacher}
             mandatory
             size={"small"}
@@ -693,50 +708,50 @@ const TextValues = (value) => {
                     backgroundColor: grey[600]
                   }
                 }}
-                  >
+              >
                 <QuestionMark />
               </IconButton>
             </Tooltip>
           </Box>
           <Box>
-          {USGetAllStudentswiseRemarkDetails.length > 0 ?
-           <Tooltip title={'Export'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-                onClick={Exportremark}  >
-                <Download   />
-              </IconButton>
-            </Tooltip> : null
-        }
-           
+            {USGetAllStudentswiseRemarkDetails.length > 0 ?
+              <Tooltip title={'Export'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                  onClick={Exportremark}  >
+                  <Download />
+                </IconButton>
+              </Tooltip> : null
+            }
+
           </Box>
-          <Box> 
-          {USGetAllStudentswiseRemarkDetails.length > 0 ?(
+          <Box>
+            {USGetAllStudentswiseRemarkDetails.length > 0 ? (
 
-          
-            <Tooltip title={'Save'}>
-              <IconButton
-                onClick={UpdateRemark}
-                sx={{
-                  color: 'white',
-                  backgroundColor: 'green'
-                }}
-                disabled={USGetFinalPublishedExamStatus.IsPublishedStatus == 1}
+
+              <Tooltip title={'Save'}>
+                <IconButton
+                  onClick={UpdateRemark}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'green'
+                  }}
+                  disabled={USGetFinalPublishedExamStatus.IsPublishedStatus == 1}
                 >
-                <SaveIcon />
-              </IconButton>
-            </Tooltip>
-          ) :(
-            <span></span>
-          )
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <span></span>
+            )
 
-        }
+            }
 
           </Box>
         </>}
@@ -749,40 +764,40 @@ const TextValues = (value) => {
           <Grid item xs={12}>
             <Paper>
 
-            {message && (
-  <Typography style={{ position: "fixed", top: "50%", left: "50%",  padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999 ,width: '500px',font:"20px"}}>
-     {message}
-  </Typography>
+              {message && (
+                <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
+                  {message}
+                </Typography>
 
-)}
+              )}
 
-            {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                 <ProgressRemarkTerm.Provider value={SelectTerm}>
-                 <ResizableCommentsBox
-                   HeaderArray={HeaderArray}
-                   ItemList={Itemlist}
-                   NoteClick={ClickAppropriate}
-                   setTextValues={TextValues}
-                 />
-               </ProgressRemarkTerm.Provider>
+              {USGetAllStudentswiseRemarkDetails.length > 0 ? (
+                <ProgressRemarkTerm.Provider value={SelectTerm}>
+                  <ResizableCommentsBox
+                    HeaderArray={HeaderArray}
+                    ItemList={Itemlist}
+                    NoteClick={ClickAppropriate}
+                    setTextValues={TextValues}
+                  />
+                </ProgressRemarkTerm.Provider>
               ) : (
                 <span> </span>
 
               )}
-            
-              
+
+
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                 <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
-                 <Pagination
-                   count={5}
-                   variant={"outlined"}
-                   shape='rounded' showFirstButton
-                   showLastButton
-                   onChange={(event, value) => {
-                     handlePageChange(value);
-                   }}
-                 />
-               </Box>
+                <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
+                  <TablePagination
+                    rowsPerPageOptions={[10, 20, 30, 40]}
+                    component="div"
+                    count={Itemlist.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page1}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Box>
               ) : (
                 <span> </span>
 
@@ -791,7 +806,7 @@ const TextValues = (value) => {
           </Grid>
           <Grid item xs={12}>
             <Typography fontWeight={"bold"} variant='h4' mb={1}>
-            Legend
+              Legend
             </Typography>
             <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
               <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
@@ -817,7 +832,7 @@ const TextValues = (value) => {
                   fullWidth
                   label={"Student Name"}
                   value={studentName}
-                  sx={{ bgcolor: '#f0e68c' ,minWidth: '250px'}}
+                  sx={{ bgcolor: '#f0e68c', minWidth: '250px' }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -844,7 +859,7 @@ const TextValues = (value) => {
               <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
                 {remarkTemplates.length > 0 ? (
                   <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
-                  
+
                     <RemarkList
                       ItemList={remarkTemplates}
                       HeaderArray={HeaderPublish}
@@ -861,22 +876,22 @@ const TextValues = (value) => {
 
             </Box>
             <Box>
-            <Button
-        variant="contained"
-        sx={{
-          backgroundColor: remarkTemplates.length === 0 ? '#c8e6c9' : '#5ec479',
-          color: 'white',
-          marginRight: '10px',
-          '&:disabled': {
-            backgroundColor: '#c8e6c9', 
-            color: 'white',
-          },
-        }}
-        onClick={SelectClick}
-        disabled={remarkTemplates.length === 0}
-      >
-        SELECT
-      </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: remarkTemplates.length === 0 ? '#c8e6c9' : '#5ec479',
+                  color: 'white',
+                  marginRight: '10px',
+                  '&:disabled': {
+                    backgroundColor: '#c8e6c9',
+                    color: 'white',
+                  },
+                }}
+                onClick={SelectClick}
+                disabled={remarkTemplates.length === 0}
+              >
+                SELECT
+              </Button>
               <Button
                 variant="contained"
                 style={{

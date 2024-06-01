@@ -89,7 +89,12 @@ const ProgressRemarkSlice = createSlice({
 
     RresetSaveMassage(state) {
       state.ISUpdateAllStudentsRemarkDetailsBody = '';
-    }
+    },
+    ResetStudentDropdown(state) {
+      state.ISGetAllStudentswiseRemarkDetails = [];
+  }
+  
+
   }
 
 });
@@ -220,7 +225,7 @@ export const CDAStudentListDropDown =
   (data: IStudentListDropDowntBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.StudentListDropDown(data);
-      let StudentList = [{ Id: '0', Name: '--All--', Value: '0' }];
+      let StudentList = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         StudentList.push({
           Id: item.Student_Id,
@@ -410,6 +415,10 @@ export const CDAGetFinalPublishedExamStatus =
 
 export const CDAresetSaveMassage = (): AppThunk => async (dispatch) => {
   dispatch(ProgressRemarkSlice.actions.RresetSaveMassage());
+};
+
+export const CDAResetStudentDropdown = (): AppThunk => async (dispatch) => {
+  dispatch(ProgressRemarkSlice.actions.ResetStudentDropdown());
 };
 
 export default ProgressRemarkSlice.reducer;
