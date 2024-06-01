@@ -125,14 +125,15 @@ export const getClassTeachers =
       const response = await ApiExamResult.ClassTeachersApi(data);
       console.log(response, 'TeachersResponse')
 
-      let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
+      let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0' }];
       dispatch(SliceExamResult.actions.getLoading(true));
 
       response.data.map((item, i) => {
         abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
-          Value: item.SchoolWise_Standard_Division_Id
+          Value: item.SchoolWise_Standard_Division_Id,
+          StanderdId: item.Standard_Id
         });
       });
 

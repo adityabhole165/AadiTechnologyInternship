@@ -55,13 +55,15 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { TeacherId, StandardDivisionId, TestId } = useParams();
+    const { TeacherId, StandardDivisionId, TestId, standardId } = useParams();
+    console.log(standardId, 'sssssssstandardId');
+
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId);
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
-    const [SelectStandardST, setStandardST] = useState(sessionStorage.getItem('StandardId'));
+    const [SelectStandardST, setStandardST] = useState(standardId);
     const [SelectExamST, setExamST] = useState('0');
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
@@ -487,7 +489,7 @@ const ExamResultToppers = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
+                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' + StandardDivisionId + "/" + TestId },
                     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
                 ]}
                 rightActions={<>

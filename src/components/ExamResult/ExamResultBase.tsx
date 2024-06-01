@@ -448,7 +448,7 @@ const ExamResultBase = () => {
   };
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId);
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId);
   };
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
@@ -487,6 +487,18 @@ const ExamResultBase = () => {
     const teacher = list.find(teacher => teacher.Value === value);
     return teacher ? teacher.Name : '';
   };
+
+  const getstandardId = () => {
+    let returnVal = false
+    ClassTeachers.map((item) => {
+      if (item.Value == StandardDivisionId) {
+        returnVal = item.StanderdId
+      }
+    })
+    return returnVal
+  }
+
+  const standardId = getstandardId();
 
   return (
     <Box sx={{ px: 2 }}>
