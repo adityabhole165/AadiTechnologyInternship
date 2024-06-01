@@ -57,7 +57,7 @@ function GradeConfigurationList({
                 {item.Text1}
               </TableCell>
 
-              <TableCell sx={{ textTransform: 'capitalize' }} >
+              <TableCell sx={{ textTransform: 'capitalize',  textAlign: 'center',  }} >
                 {item.Text2}
               </TableCell>
 

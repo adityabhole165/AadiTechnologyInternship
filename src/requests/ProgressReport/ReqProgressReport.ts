@@ -92,7 +92,7 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let ClassTeachersList = [{ Id: '0', Name: '--Select--', Value: '0' }];
+      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0' }];
       response.data.map((item, i) => {
         ClassTeachersList.push({
           Id: item.SchoolWise_Standard_Division_Id,
