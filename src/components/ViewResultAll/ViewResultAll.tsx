@@ -30,7 +30,6 @@ type Props = {};
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [displayNote, setDisplayNote] = useState('');
 
 
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '');
@@ -56,18 +55,18 @@ const ViewResultAll = (props: Props) => {
   const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView);
 
 
-  const Usisconfigred :any = useSelector((state: RootState) => state.VeiwResult.iscofigred);
+  const Usisconfigred: any = useSelector((state: RootState) => state.VeiwResult.iscofigred);
   // console.log(Usisconfigred, "issssssconfiiiig");
- 
 
-  const Usunpublishedexam :any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
+
+  const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   // console.log(Usunpublishedexam, "unpublished name exam");
 
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
   console.log("xxxyyyyssss", Usunpublishedexam);
   console.log("Usisconfigred", Usisconfigred.IsConfiged);
 
- 
+
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
     asAcademicYearId,
@@ -116,7 +115,7 @@ const ViewResultAll = (props: Props) => {
   }
   useEffect(() => {
     dispatch(GetsingleStudentResultVA(StudentsingleresultBody))
-      }, [selectTeacher, studentList])
+  }, [selectTeacher, studentList])
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
@@ -140,7 +139,7 @@ const ViewResultAll = (props: Props) => {
   }, [selectTeacher, studentList]);
 
   useEffect(() => {
-       dispatch(getiscofigred(iscofigred));
+    dispatch(getiscofigred(iscofigred));
     dispatch(getunpublishedexam(unpublishexam));
   }, []);
 
@@ -155,12 +154,12 @@ const ViewResultAll = (props: Props) => {
   const isgenrate = getStudentName()
   console.log(isgenrate, "genrate");
 
- 
+
   const clickPrint = () => {
     window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
   };
 
-  
+
   return (
     <Box px={2}>
       <CommonPageHeader
@@ -225,7 +224,7 @@ const ViewResultAll = (props: Props) => {
           </Box>
         </>}
       />
-  
+
       <Box sx={{ mt: 1, background: 'white' }}>
         <Box>
           <hr />
@@ -303,19 +302,19 @@ const ViewResultAll = (props: Props) => {
               </Typography>
 
             )}
-        {Usisconfigred.IsConfiged == 0 ? (
-        <div>
-          {Usunpublishedexam.map((item) => {
-           return (
-               <b>{item.SchoolWise_Test_Name}</b>
-           )
-         })}
-        </div>
-                         ) : (
-               <span> </span>
-              )}      
-     
-         </Box>
+            {Usisconfigred.IsConfiged == 0 ? (
+              <div>
+                {Usunpublishedexam.map((item) => {
+                  return (
+                    <b>{item.SchoolWise_Test_Name}</b>
+                  )
+                })}
+              </div>
+            ) : (
+              <span> </span>
+            )}
+
+          </Box>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
@@ -328,7 +327,7 @@ const ViewResultAll = (props: Props) => {
           BACK
         </Button>
       </Box>
-         </Box>
+    </Box>
   );
 };
 
