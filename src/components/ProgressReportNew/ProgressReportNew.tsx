@@ -69,11 +69,11 @@ const ProgressReportNew = () => {
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
   
-    console.log(USGetAllMarksGradeConfiguration,"---");
-    console.log(USGetAllMarksGradeConfiguration1,"---1");
+   
 
-    
-
+    const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
+    const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
+    const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -305,25 +305,29 @@ const ProgressReportNew = () => {
                 </Link>
 
                 <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
+                <Box sx={{backgroundColor:"#ede7f6"}}>  
                   <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                   
                     Grade Configuration Details
+                      
                     <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
                   </DialogTitle>
+                  </Box>
                   <DialogContent>
                     <Typography variant="h4" my={1}>
-                      Subjects:
+                      Subjects :-
                     </Typography>
                     <GradeConfigurationList
-                      ItemList={USGetAllMarksGradeConfiguration}
+                      ItemList={Data}
                       HeaderArray={headerArray}
                     />
                   </DialogContent>
                   <DialogContent>
                     <Typography variant="h4" my={1}>
-                      Co-Curricular Subjects:
+                      Co-Curricular Subjects :-
                     </Typography>
                     <GradeConfigurationList
-                      ItemList={USGetAllMarksGradeConfiguration1}
+                      ItemList={Data1}
                       HeaderArray={headerArray}
                     />
                   </DialogContent>
@@ -407,7 +411,7 @@ const ProgressReportNew = () => {
                    
                     <TableRow>
                       {USlistSubjectIdDetails.map((item) => (
-                        <TableCell>{item.Grade}</TableCell>
+                        <TableCell>{Data3.Grade}</TableCell>
                       ))}
                     </TableRow>
                   </TableBody>

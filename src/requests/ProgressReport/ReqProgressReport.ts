@@ -92,7 +92,7 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let ClassTeachersList = [{ Id: '0', Name: '--Select--', Value: '0' }];
+      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0' }];
       response.data.map((item, i) => {
         ClassTeachersList.push({
           Id: item.SchoolWise_Standard_Division_Id,
@@ -163,8 +163,8 @@ export const CDAStudentProgressReport =
 
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
-          Id: item.Original_SchoolWise_Test_Id,
-          ShortenTestType_Name: item.ShortenTestType_Name,
+        
+          SchoolWise_Test_Name: item.SchoolWise_Test_Name,
           Grade:item.Grade
 
         };
@@ -254,13 +254,12 @@ export const CDAGetPassedAcademicYears =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
-      let listGradeDetailss = response.data.listGradeDetailss
-        .filter((item) => item.Standard_Id != "")
-        .map((item, i) => {
+      let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
           return {
             Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
             Text2: item.Grade_Name,
             Text3: item.Remarks,
+            Standard_Id: item.Standard_Id
           };
         });
 
@@ -272,13 +271,12 @@ export const CDAGetAllMarksGradeConfiguration1 =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
-      let listGradeDetailss = response.data.listGradeDetailss
-        .filter((item) => item.Standard_Id != "")
-        .map((item, i) => {
+      let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
           return {
             Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
             Text2: item.Grade_Name,
             Text3: item.Remarks,
+            Standard_Id: item.Standard_Id
           };
         });
 

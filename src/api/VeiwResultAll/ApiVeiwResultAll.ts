@@ -1,11 +1,12 @@
 import {
     IClassTeacherBody, IClassTeacherResult,
     IGetAllStudentTestprogressBody, IGetAllStudentTestprogressResult,
+    IGetPagedStudentBody,
+    IGetPagedStudentResult,
     IGetStudentNameListBody, IGetStudentNameListResult, IGetsingleStudentBody,
     IGetsingleStudentresult,
     IUnpublishedTestexamBody, IUnpublishedTestexamResult,
-    IconfiguredExamBody, IconfiguredExamResult, IGetPagedStudentBody,
-    IGetPagedStudentResult
+    IconfiguredExamBody, IconfiguredExamResult
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 import http from '../../requests/SchoolService/schoolServices';
 const ClassTeacherList = (data: IClassTeacherBody) => {
@@ -28,11 +29,11 @@ const Getisconfigred = (data: IconfiguredExamBody) => {
     return http.post<IconfiguredExamResult>('Teacher/AllConffguredTestPublished', data);
 };
 const Getunplishedexam = (data: IUnpublishedTestexamBody) => {
-    return http.post<IUnpublishedTestexamResult>('Teacher//AllUnpublishedTestForStdDiv', data);
+    return http.post<IUnpublishedTestexamResult[]>('Teacher//AllUnpublishedTestForStdDiv', data);
 };
 const GetResultnotgenrate = (data: IGetPagedStudentBody) => {
-    return http.post<IGetPagedStudentResult[]>('Homework/GetPagedStudentResult',data);
-  };
+    return http.post<IGetPagedStudentResult[]>('Homework/GetPagedStudentResult', data);
+};
 
 const VeiwResultAll = {
     ClassTeacherList,

@@ -93,13 +93,14 @@ import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultTopp
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
 import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 import FinalResultGenerateAllSlice from '../requests/FinalResult/RequestFinalResultGenerateAll';
+import MissingattendanceAleartSlice from '../requests/MissingAttendanceAleart/ReqMissAttendAleart';
 import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
+import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
-import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -204,7 +205,9 @@ const rootReducer = combineReducers({
   RemarkTemplate: RemarkTemplateSlice,
   ViewProgressReport: ViewProgressReportslice,
   FinalResultGenerateAll: FinalResultGenerateAllSlice,
-  ProgressReportNew:ProgressReportSlice
+  ProgressReportNew: ProgressReportSlice,
+  MissingAttendanceAleart: MissingattendanceAleartSlice
+
 });
 
 export default rootReducer;
