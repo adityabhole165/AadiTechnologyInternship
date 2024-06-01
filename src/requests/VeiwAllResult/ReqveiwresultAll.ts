@@ -24,7 +24,7 @@ const VeiwResultSlice = createSlice({
         getSubjectDetailsView: [],
         getMarkDetailsView: [],
         getGradesDetailsView: [],
-        iscofigred: " ",
+        iscofigred: {},
         unpublishexam: [],
         notResultList: [],
         HeaderList: [],
@@ -94,18 +94,18 @@ export const GetStudentResultList =
     (data: IGetAllStudentTestprogressBody): AppThunk =>
         async (dispatch) => {
             const response = await VeiwResultAll.GetAllStudentResult(data);
-            let StudentList = response.data?.map((item) => {
-                return {
-                    // Id: item.Standard_Division_Id,
-                    // Text1: item.Roll_No,
-                    // Text2: item.Name,
-                    // Text3: item.Marks == '' ? 'N/A' : item.Marks,
-                    // Text4: item.Percentage == '' ? 'N/A' : item.Percentage,
-                    // Text5: item.Grade_Name == '' ? 'N/A' : item.Grade_Name,
-                    // Text6: item.Result == '' ? 'N/A' : item.Result
-                };
-            });
-            dispatch(VeiwResultSlice.actions.AllStudentResultList(StudentList));
+            // let StudentList = response.data.map((item) => {
+            //     return {
+            //         // Id: item.Standard_Division_Id,
+            //         // Text1: item.Roll_No,
+            //         // Text2: item.Name,
+            //         // Text3: item.Marks == '' ? 'N/A' : item.Marks,
+            //         // Text4: item.Percentage == '' ? 'N/A' : item.Percentage,
+            //         // Text5: item.Grade_Name == '' ? 'N/A' : item.Grade_Name,
+            //         // Text6: item.Result == '' ? 'N/A' : item.Result
+            //     };
+            // });
+            // dispatch(VeiwResultSlice.actions.AllStudentResultList(StudentList));
             //  console.log(StudentList, 'StudentList');
         };
 
@@ -115,7 +115,6 @@ export const StudentNameList =
     (data: IGetStudentNameListBody): AppThunk =>
         async (dispatch) => {
             const response = await VeiwResultAll.GetStudentNameResult(data);
-
             let studentResult = [{ Id: '0', Name: 'All', Value: '0' }]
             response.data.map((item, i) => {
                 studentResult.push({
@@ -186,9 +185,16 @@ export const getiscofigred =
 export const getunpublishedexam =
     (data: IUnpublishedTestexamBody): AppThunk =>
         async (dispatch) => {
-            dispatch(VeiwResultSlice.actions.getLoading(true));
-            let resp = await VeiwResultAll.Getunplishedexam(data);
-            dispatch(VeiwResultSlice.actions.UnpublishexamName(resp.data));
+            const response = await VeiwResultAll.Getunplishedexam(data);
+            let StudentListAll = response.data.map((item, i) => {
+                return {
+                    Id: item.SchoolWise_Test_Name,
+                    Name: item.SchoolWise_Test_Name,
+                    Value: item.SchoolWise_Test_Name
+
+                };
+            })
+            dispatch(VeiwResultSlice.actions.UnpublishexamName(response.data));
             //  console.log(resp, "unpublished");
 
         };

@@ -16,7 +16,7 @@ import { RootState } from 'src/store';
 import { getDateFormatted } from '../Common/Util';
 
 function MissingAttandence() {
-  // USE PARAMS FOR PREVIOUS PAGES DATE
+  // USE PARAMS FOR PREVIOUS PAGES DATE 
   const { assignedDate, StandardId } = useParams();
 
   // VARIABLES
@@ -121,8 +121,7 @@ function MissingAttandence() {
                       <List16 Class={items.Class} key={i} />
                     </>
                   )}
-                </div>
-              );
+                </div> );
             }
           )
         )}
