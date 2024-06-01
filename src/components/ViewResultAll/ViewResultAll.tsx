@@ -194,15 +194,7 @@ const ViewResultAll = (props: Props) => {
   // }
 
 
-  if (Usisconfigred === "0" && Usunpublishedexam && Array.isArray(Usunpublishedexam) && Usunpublishedexam.length > 0) {
-    const errorMessageArray = Usunpublishedexam.map(exam => exam.SchoolWise_Test_Name);
-    const errorMessage = errorMessageArray.join(', ');
-    const message = `All Configured Exams Are Not Published${errorMessage ? " - " + errorMessage : ''}`;
-    console.log("Displaying error message:", message);
-    setDisplayNote(message);
-  } else {
-    setDisplayNote('');
-  }
+  
 
   useEffect(() => {
     console.log("xxxyyyyssss", Usunpublishedexam);
@@ -213,18 +205,6 @@ const ViewResultAll = (props: Props) => {
     dispatch(getunpublishedexam(unpublishexam));
   }, []);
 
-  //  }, []);
-
-
-  // const getexamname = () => {
-  //   let subjectname = '';
-  //   Usunpublishedexam.map((item) => {
-  //     if (item.Value == Usunpublishedexam) subjectname = item.Name;
-  //   });
-  //   return subjectname;
-  // };
-  // const subjectnamee = getexamname()
-  // console.log(subjectnamee, "subjectnamee");
 
 
 
@@ -474,7 +454,10 @@ const ViewResultAll = (props: Props) => {
               </Typography>
 
             )}
-
+{/* 
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>{Usunpublishedexam}</b>
+            </Typography> */}
           </Box>
         </Box>
       </Box>
