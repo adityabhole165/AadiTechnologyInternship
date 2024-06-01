@@ -60,16 +60,18 @@ const ViewResultAll = (props: Props) => {
   const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView);
 
 
-  const Usisconfigred = useSelector((state: RootState) => state.VeiwResult.iscofigred);
+  const Usisconfigred :any = useSelector((state: RootState) => state.VeiwResult.iscofigred);
   // console.log(Usisconfigred, "issssssconfiiiig");
+ 
 
-  const Usunpublishedexam = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
+  const Usunpublishedexam :any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   // console.log(Usunpublishedexam, "unpublished name exam");
 
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
+  console.log("xxxyyyyssss", Usunpublishedexam);
+  console.log("Usisconfigred", Usisconfigred.IsConfiged);
 
-
-
+ 
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
     asAcademicYearId,
@@ -197,8 +199,7 @@ const ViewResultAll = (props: Props) => {
   
 
   useEffect(() => {
-    console.log("xxxyyyyssss", Usunpublishedexam);
-    console.log("uuuudddididi", Usisconfigred);
+   
 
 
     dispatch(getiscofigred(iscofigred));
@@ -454,10 +455,24 @@ const ViewResultAll = (props: Props) => {
               </Typography>
 
             )}
-{/* 
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>{Usunpublishedexam}</b>
-            </Typography> */}
+        {Usisconfigred.IsConfiged == 0 ? (
+        <div>
+          {Usunpublishedexam.map((item) => {
+           return (
+               <b>{item.SchoolWise_Test_Name}</b>
+           )
+         })}
+        </div>
+
+               
+              ) : (
+               <span> </span>
+              )}
+
+
+         
+     
+
           </Box>
         </Box>
       </Box>
@@ -471,13 +486,7 @@ const ViewResultAll = (props: Props) => {
           BACK
         </Button>
       </Box>
-      <Box sx={{ background: 'white', p: 2 }}>
-        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
-          {displayNote}
-        </Typography>
-
-
-      </Box>
+     
 
 
 
