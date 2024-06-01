@@ -35,7 +35,6 @@ const ViewResultAll = (props: Props) => {
 
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '');
   const [studentList, setStudentList] = useState();
-  const [SchoolWise_Test_Name, setSchoolWise_Test_Name] = useState();
   // console.log(studentList, "sjddjdd");
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -45,15 +44,12 @@ const ViewResultAll = (props: Props) => {
 
   const USClassTeachers = useSelector((state: RootState) => state.VeiwResult.ClassTeachers);
   const USStudentListDropDown = useSelector((state: RootState) => state.VeiwResult.StudentName);
-  //console.log(USStudentListDropDown, "nnannsnss");
 
   const USStudentResultList = useSelector((state: RootState) => state.VeiwResult.StudentResultList);
 
   const USSStudentsingleResult = useSelector((state: RootState) => state.VeiwResult.StudentsingleResult);
-  // console.log(USSStudentsingleResult, "oooss");
 
   const MarkDetailsView = useSelector((state: RootState) => state.VeiwResult.getMarkDetailsView);
-  //console.log(MarkDetailsView, "hhhhhss");
 
 
   const SubjectDetailsView = useSelector((state: RootState) => state.VeiwResult.getSubjectDetailsView)
@@ -111,24 +107,16 @@ const ViewResultAll = (props: Props) => {
     asStudentId: Number(studentList),
     asInsertedById: Number(asUserId),
     asWithGrace: 0,
-
-
     // asSchoolId: 18,
     // asAcademicYearId: 53,
     // asStudentId: 32682,
     // asInsertedById: 1,
     // asWithGrace: 0
 
-
-
   }
   useEffect(() => {
-
     dispatch(GetsingleStudentResultVA(StudentsingleresultBody))
-    // dispatch(SubjectDetailsVA(StudentsingleresultBody))
-    // dispatch(MarksDetailsVA(StudentsingleresultBody))
-    // dispatch(GradesDetailsVA(StudentsingleresultBody))
-  }, [selectTeacher, studentList])
+      }, [selectTeacher, studentList])
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
@@ -151,62 +139,10 @@ const ViewResultAll = (props: Props) => {
     dispatch(GetStudentResultList(StudentResultBody));
   }, [selectTeacher, studentList]);
 
-
-  //  useEffect(() => {
-
-
-  // Usisconfigred === "0" 
-  // ?    setDisplayNote(`All Configured Exams Are Not Published - ${Usunpublishedexam.SchoolWise_Test_Name}`)
-  // : '';
-
-
-
-  // {
-  //   const DisplayNote = Usisconfigred === '0' ? (
-  //     Usunpublishedexam && Usunpublishedexam.length > 0 ? (
-  //       `All Configured Exams Are Not Published - ${(Usunpublishedexam)}`
-  //     ) : (
-  //       'No unpublished exams found.'
-  //     )
-  //   ) : (
-  //     ''
-  //   )
-  // }
-  //   console.log('Usunpublishedexam:', Usunpublishedexam);
-  //   console.log('Usisconfigred:', Usisconfigred);
-
-  //   if (Usisconfigred === "0" && Usunpublishedexam) {
-  //     const errorMessage = Usunpublishedexam;
-  //     const message = `All Configured Exams Are Not Published${errorMessage ? " - " + errorMessage : ''}`;
-  //     setDisplayNote(message);
-  //   } else {
-  //     setDisplayNote('');
-  //   }
-  // }, [Usunpublishedexam, Usisconfigred]);
-
-  // useEffect(() => {
-  // if (Usisconfigred === "0" && Usunpublishedexam && Array.isArray(Usunpublishedexam) && Usunpublishedexam.length > 0) {
-  //   const errorMessageArray = Usunpublishedexam.map(exam => exam.SchoolWise_Test_Name);
-  //   const errorMessage = errorMessageArray.join(', ');
-  //   const message = `All Configured Exams Are Not Published${errorMessage ? " - " + errorMessage : ''}`;
-  //   console.log("Displaying error message:", message);
-  //   setDisplayNote(message);
-  // } else {
-  //   setDisplayNote('');
-  // }
-
-
-  
-
   useEffect(() => {
-   
-
-
-    dispatch(getiscofigred(iscofigred));
+       dispatch(getiscofigred(iscofigred));
     dispatch(getunpublishedexam(unpublishexam));
   }, []);
-
-
 
 
   const getStudentName = () => {
@@ -219,80 +155,12 @@ const ViewResultAll = (props: Props) => {
   const isgenrate = getStudentName()
   console.log(isgenrate, "genrate");
 
-  // const Changevalue = (value) => {
-  //   setStudentList(value);
-  // };
-  // const clickPrint = (value) => {
-  //   const userLoginId = sessionStorage.getItem('Userlogin');
-  //   let returnString =
-  //      'ID_Num='+
-  //  'Grade='+
-  //  'ID_Num='+
-  //  'Subject_Id='+
-  //  'Subject_Name='+
-  //  'Subject_Id='+ 
-  // 'Subject_Id='+
-  //  'Marks_Scored='+
-  //  'Subject_Total_Marks='+
-  //  'Subject_Id='+
-  //  'YearWise_Student_Id='+
-  //  'Student_Name='+
-  //  'Roll_No='+
-  //  'Standard_Name='+
-  //  'Division_Name='+
-  //  'Academic_Year='+
-
-
-  //   const body: IGetsingleStudentBody = {
-  //     // asSchoolId: localStorage.getItem('localSchoolId'),
-  //     // asUserLogin: userLoginId,
-  //     // asQueryString: returnString,
-  //     asSchoolId: 18,
-  //     asAcademicYearId: 53,
-  //     asStudentId: 32682,
-  //     asInsertedById: 1,
-  //     asWithGrace: 0,
-  //     asSchoolSiteUrl:
-  //       localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx? http://aaditechnology.com:8090/PPSN Website',
-  //     asRedirectPageUrl:
-  //       localStorage.getItem('SiteURL') +
-  //       '/RITeSchool/Student/StudentAnnualResultPrint.aspx?'
-  //   };
-  //   dispatch(GetStudentResultList(body));
-  // };
-
+ 
   const clickPrint = () => {
     window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
   };
 
-  // const columns: Column[] = [
-  //   {
-  //     id: 'english',
-  //     label: 'English',
-  //     renderCell: (rowData) => rowData.Text1,
-  //   },
-  //   {
-  //     id: 'mathematics',
-  //     label: 'Mathematics',
-  //     renderCell: (rowData) => rowData.Text2,
-  //   },
-  //   {
-  //     id: 'evs',
-  //     label: 'E.V.S.',
-  //     renderCell: (rowData) => rowData.Text3,
-  //   },
-  //   {
-  //     id: 'computerStudies',
-  //     label: 'Computer Studies',
-  //     renderCell: (rowData) => rowData.Text4,
-  //   },
-  //   {
-  //     id: 'hindi3',
-  //     label: 'Hindi III',
-  //     renderCell: (rowData) => rowData.Text5,
-  //   },
-  // ];
-
+  
   return (
     <Box px={2}>
       <CommonPageHeader
@@ -343,7 +211,6 @@ const ViewResultAll = (props: Props) => {
           </Box>
 
           <Box>
-
             <Button
               onClick={clickPrint}
               sx={{
@@ -357,17 +224,8 @@ const ViewResultAll = (props: Props) => {
             </Button>
           </Box>
         </>}
-
       />
-      {/* <Box>
-        {Usisconfigred > [0] ? (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
-          >
-            <b>All Configured Exams Are Not Published:{subjectnamee}</b>
-          </Typography>
-        ) : null}
-      </Box> */}
-
+  
       <Box sx={{ mt: 1, background: 'white' }}>
         <Box>
           <hr />
@@ -384,11 +242,6 @@ const ViewResultAll = (props: Props) => {
           </Typography>
           <hr />
           <Typography variant={"h4"} mb={1}>Student Details</Typography>
-
-
-
-
-
 
           {MarkDetailsView.length > 0 ? (
             <Table>
@@ -409,16 +262,11 @@ const ViewResultAll = (props: Props) => {
             <span></span>
           )}
 
-
           <Box sx={{ overflowX: 'auto' }}>
 
             {MarkDetailsView.length > 0 ? (
               <Table>
-
-
                 <TableBody>
-
-
                   <TableRow>
                     <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
                       Subjects
@@ -463,17 +311,11 @@ const ViewResultAll = (props: Props) => {
            )
          })}
         </div>
-
-               
-              ) : (
+                         ) : (
                <span> </span>
-              )}
-
-
-         
+              )}      
      
-
-          </Box>
+         </Box>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
@@ -486,20 +328,9 @@ const ViewResultAll = (props: Props) => {
           BACK
         </Button>
       </Box>
-     
-
-
-
-
-
-
-    </Box>
+         </Box>
   );
 };
 
 export default ViewResultAll;
 
-
-
-
-//<p>{displayNote}</p>
