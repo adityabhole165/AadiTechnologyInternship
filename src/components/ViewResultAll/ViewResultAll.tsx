@@ -1,5 +1,8 @@
-import { Alert, Box, Button, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import Print from '@mui/icons-material/Print';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import { Alert, Box, Button, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -34,14 +37,13 @@ const ViewResultAll = (props: Props) => {
 
   const TeacherId = (sessionStorage.getItem('TeacherId'));
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
-
-  // const [selectTeacher, setSelectTeacher] = useState( TeacherId|| '')
+  const [open, setOpen] = useState(false);
   console.log(TeacherId, " ----", selectTeacher);
 
-
   const [studentList, setStudentList] = useState();
-  // console.log(studentList, "sjddjdd");
-
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -49,26 +51,15 @@ const ViewResultAll = (props: Props) => {
 
   const USClassTeachers = useSelector((state: RootState) => state.VeiwResult.ClassTeachers);
   const USStudentListDropDown = useSelector((state: RootState) => state.VeiwResult.StudentName);
-
   const USStudentResultList = useSelector((state: RootState) => state.VeiwResult.StudentResultList);
-
   const USSStudentsingleResult = useSelector((state: RootState) => state.VeiwResult.StudentsingleResult);
-
   const MarkDetailsView = useSelector((state: RootState) => state.VeiwResult.getMarkDetailsView);
-
-
   const SubjectDetailsView = useSelector((state: RootState) => state.VeiwResult.getSubjectDetailsView)
   const GradesDetailsView = useSelector((state: RootState) => state.VeiwResult.getGradesDetailsView);
-
-
   const Usisconfigred: any = useSelector((state: RootState) => state.VeiwResult.iscofigred);
-  // console.log(Usisconfigred, "issssssconfiiiig");
-
-
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
-  // console.log(Usunpublishedexam, "unpublished name exam");
-
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
+
   console.log("xxxyyyyssss", Usunpublishedexam);
   console.log("Usisconfigred", Usisconfigred.IsConfiged);
 
@@ -93,7 +84,6 @@ const ViewResultAll = (props: Props) => {
     asTestId: 1,
   };
 
-
   const iscofigred: IconfiguredExamBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
@@ -112,11 +102,7 @@ const ViewResultAll = (props: Props) => {
     asStudentId: Number(studentList),
     asInsertedById: Number(asUserId),
     asWithGrace: 0,
-    // asSchoolId: 18,
-    // asAcademicYearId: 53,
-    // asStudentId: 32682,
-    // asInsertedById: 1,
-    // asWithGrace: 0
+
 
   }
   useEffect(() => {
@@ -127,9 +113,17 @@ const ViewResultAll = (props: Props) => {
     setSelectTeacher(value);
   };
 
+
+
   const clickStudentList = (value) => {
-    setStudentList(value);
+    setOpen(false);
+    setStudentList(value)
   };
+
+  const ClickShow = (value) => {
+    setOpen(true)
+  }
+
 
   useEffect(() => {
     dispatch(ClassTechersListt(ClassTeachersBody));
@@ -148,6 +142,17 @@ const ViewResultAll = (props: Props) => {
     dispatch(getiscofigred(iscofigred));
     dispatch(getunpublishedexam(unpublishexam));
   }, []);
+
+
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'Final veiw result') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+  console.log("GetScreenPermission", GetScreenPermission())
+
 
 
   const getStudentName = () => {
@@ -182,16 +187,21 @@ const ViewResultAll = (props: Props) => {
         rightActions={<>
           <Box>
             <SearchableDropdown
+              sx={{
+                minWidth: '300px'
+                , bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
+              }}
               ItemList={USClassTeachers}
               onChange={clickSelectClass}
               defaultValue={selectTeacher}
               size="small"
-              sx={{ width: '350px' }}
               label="Class Teacher"
+              DisableClearable={GetScreenPermission() === 'N'}
 
               disabled={TeacherId == selectTeacher}
             />
           </Box>
+
           <Box>
             <SearchableDropdown
               ItemList={USStudentListDropDown}
@@ -202,162 +212,165 @@ const ViewResultAll = (props: Props) => {
               sx={{ width: '350px' }}
             />
           </Box>
-          <Box>
 
-            <Button
-              onClick={clickStudentList}
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: grey[600],
-                },
-              }}
-            > Show
-            </Button>
+          <Box>
+            <Tooltip
+              title={`Help`}
+            >
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Box>
+              <Tooltip title={'Show'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                  onClick={ClickShow}>
+                  <VisibilityTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Box>
 
           <Box>
-            <Button
-              onClick={clickPrint}
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: grey[600],
-                },
-              }}
-            > Print Preview
-            </Button>
+            <Tooltip title={"Print Preview"}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+                onClick={clickPrint} >
+                <Print />
+              </IconButton>
+            </Tooltip>
           </Box>
+
         </>}
       />
 
       <Box sx={{ mt: 1, background: 'white' }}>
-        <Box>
-          <hr />
-          <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
-            Pawar Public Charitable Trust's
-          </Typography>
-          <hr />
-          <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
-            PAWAR PUBLIC SCHOOL
-          </Typography>
-          <hr />
-          <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
-            Final Result
-          </Typography>
-          <hr />
-          <Typography variant={"h4"} mb={1}>Student Details</Typography>
+        {open && (
+          <Box>
+            <hr />
+            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+              Pawar Public Charitable Trust's
+            </Typography>
+            <hr />
+            <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
+              PAWAR PUBLIC SCHOOL
+            </Typography>
+            <hr />
+            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+              Final Result
+            </Typography>
+            <hr />
+            <Typography variant={"h4"} mb={1}>Student Details</Typography>
 
-          {MarkDetailsView.length > 0 ? (
-            <Table>
-              <TableBody>
-                {USSStudentsingleResult.map((item) => {
-                  return (
-                    <TableRow sx={{ bgcolor: 'grey.200' }}>
-                      <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
-                      <TableCell><b>Name:</b> {item.Text1}	</TableCell>
-                      <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
-                      <TableCell><b>Year:</b> {item.Text5}	</TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          ) : (
-            <span></span>
-          )}
 
-          <Box sx={{ overflowX: 'auto' }}>
 
             {MarkDetailsView.length > 0 ? (
               <Table>
                 <TableBody>
-                  <TableRow>
-                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                      Subjects
-                    </Typography>
-                    {SubjectDetailsView.map((subject) => (
-                      <TableCell><b>{subject.Name}</b></TableCell>
-                    ))}
-                  </TableRow>
-
-                  <TableRow>
-                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                      Marks
-                    </Typography>
-                    {MarkDetailsView.map((marks) => (
-                      <TableCell>{marks.Name}</TableCell>
-                    ))}
-                  </TableRow>
-
-                  <TableRow>
-                    <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                      Grade
-                    </Typography>
-                    {GradesDetailsView.map((Grade) => (
-                      <TableCell>{Grade.Name}
-                      </TableCell>
+                  {USSStudentsingleResult.map((item) => {
+                    return (
+                      <TableRow sx={{ bgcolor: 'grey.200' }}>
+                        <TableCell><b>Roll No:</b>{item.Text2} </TableCell>
+                        <TableCell><b>Name:</b> {item.Text1}	</TableCell>
+                        <TableCell><b>Class:</b> {item.Text3} - {item.Text4}	</TableCell>
+                        <TableCell><b>Year:</b> {item.Text5}	</TableCell>
+                      </TableRow>
                     )
-                    )}
-                  </TableRow>
+                  })}
                 </TableBody>
               </Table>
             ) : (
-              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                <b>Result not generated for this student: {isgenrate}</b>
-              </Typography>
-
+              <span></span>
             )}
 
-            {/* {Usisconfigred.IsConfiged == 0 ? (
-              <div>
-                {Usunpublishedexam.map((item) => {
-                  return (
+            <Box sx={{ overflowX: 'auto' }}>
+
+              {MarkDetailsView.length > 0 ? (
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                        Subjects
+                      </Typography>
+                      {SubjectDetailsView.map((subject) => (
+                        <TableCell><b>{subject.Name}</b></TableCell>
+                      ))}
+                    </TableRow>
+
+                    <TableRow>
+                      <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                        Marks
+                      </Typography>
+                      {MarkDetailsView.map((marks) => (
+                        <TableCell>{marks.Name}</TableCell>
+                      ))}
+                    </TableRow>
+
+                    <TableRow>
+                      <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                        Grade
+                      </Typography>
+                      {GradesDetailsView.map((Grade) => (
+                        <TableCell>{Grade.Name}
+                        </TableCell>
+                      )
+                      )}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              ) : (
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  <b>Result not generated for this student: {isgenrate}</b>
+                </Typography>
+
+              )}
+              {Usisconfigred.IsConfiged == 0 ? (
+                <div>
+                  {Usunpublishedexam.length > 0 && (
                     <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                      <b> configured exams are not published : {item.SchoolWise_Test_Name}</b>
+                      <b>All configured exams are not published -  {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
                     </Alert>
-                  )
-                })}
-              </div>
-            ) : (
-              <span> </span>
-            )} */}
-
-            {Usisconfigred.IsConfiged == 0 ? (
-              <div>
-                {Usunpublishedexam.length > 0 && (
-                  <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                    <b>Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
-                  </Alert>
-                )}
-              </div>
-            ) : (
-              <span> </span>
-            )}
-
-
-
-
-
-
-
-
-
-
+                  )}
+                </div>
+              ) : (
+                <span> </span>
+              )}
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+                <Button
+                  onClick={() => {
+                    navigate('/extended-sidebar/Teacher/FinalResult');
+                  }}
+                  variant="contained"
+                  color="error">
+                  BACK
+                </Button>
+              </Box>
+            </Box>
           </Box>
-        </Box>
-      </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-        <Button
-          onClick={() => {
-            navigate('/extended-sidebar/Teacher/FinalResult');
-          }}
-          variant="contained"
-          color="error">
-          BACK
-        </Button>
+        )}
       </Box>
     </Box>
   );
