@@ -565,12 +565,12 @@ function SelectSchool() {
         </Box>
 
         <Grid>
-          <CardDetail10 onClick={changeschool}>
+          <CardDetail10 onClick={changeschool} sx={{ cursor: 'pointer' }}>
             Change School For Login
           </CardDetail10>
         </Grid>
         <Grid>
-          <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
+          <CardDetail10 onClick={schoolNotice} sx={{ cursor: 'pointer' }}>School Notices</CardDetail10>
         </Grid>
         <br />
 
