@@ -64,9 +64,9 @@ const MissingAttendanceDialog = ({
     }, [])
 
 
-    useEffect(() => {
-        dispatch(MissingAttenDateAleart(MissingDayBody))
-    }, [])
+    // useEffect(() => {
+    //     dispatch(MissingAttenDateAleart(MissingDayBody))
+    // }, [])
 
 
     const clickMissingDay = (value) => {
