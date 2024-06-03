@@ -32,7 +32,8 @@ const ViewResultAll = (props: Props) => {
   const dispatch = useDispatch();
 
 
-  const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '');
+  const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
+  
   const [studentList, setStudentList] = useState();
   // console.log(studentList, "sjddjdd");
 
