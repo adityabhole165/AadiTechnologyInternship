@@ -320,8 +320,6 @@ const ViewResultAll = (props: Props) => {
                 </Typography>
 
               )}
-
-
               {Usisconfigred.IsConfiged == 0 ? (
                 <div>
                   {Usunpublishedexam.length > 0 && (
