@@ -82,7 +82,7 @@ const ExamResultToppers = () => {
 
     const HeaderListCT = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
     const HeaderList1CT = ['Roll No.', 'Student Name'];
-    const HeaderListST = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
+    const HeaderListST = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
     const HeaderList1ST = ['Roll No.', 'Class', 'Student Name'];
 
 
