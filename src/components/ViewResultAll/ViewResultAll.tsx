@@ -1,4 +1,4 @@
-import { Box, Button, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { Alert, Box, Button, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import {
   IconfiguredExamBody
 } from 'src/interfaces/VeiwResultAll/IViewResultAll';
 
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import {
   ClassTechersListt,
   GetStudentResultList,
@@ -35,9 +36,9 @@ const ViewResultAll = (props: Props) => {
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
 
   // const [selectTeacher, setSelectTeacher] = useState( TeacherId|| '')
-  console.log(TeacherId ," ----", selectTeacher);
-  
-  
+  console.log(TeacherId, " ----", selectTeacher);
+
+
   const [studentList, setStudentList] = useState();
   // console.log(studentList, "sjddjdd");
 
@@ -187,8 +188,8 @@ const ViewResultAll = (props: Props) => {
               size="small"
               sx={{ width: '350px' }}
               label="Class Teacher"
-            
-           disabled={TeacherId == selectTeacher}
+
+              disabled={TeacherId == selectTeacher}
             />
           </Box>
           <Box>
@@ -309,17 +310,41 @@ const ViewResultAll = (props: Props) => {
               </Typography>
 
             )}
-            {Usisconfigred.IsConfiged == 0 ? (
+
+            {/* {Usisconfigred.IsConfiged == 0 ? (
               <div>
                 {Usunpublishedexam.map((item) => {
                   return (
-                    <b>{item.SchoolWise_Test_Name}</b>
+                    <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                      <b> configured exams are not published : {item.SchoolWise_Test_Name}</b>
+                    </Alert>
                   )
                 })}
               </div>
             ) : (
               <span> </span>
+            )} */}
+
+            {Usisconfigred.IsConfiged == 0 ? (
+              <div>
+                {Usunpublishedexam.length > 0 && (
+                  <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                    <b>Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+                  </Alert>
+                )}
+              </div>
+            ) : (
+              <span> </span>
             )}
+
+
+
+
+
+
+
+
+
 
           </Box>
         </Box>
