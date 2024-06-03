@@ -31,8 +31,12 @@ const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
+  const TeacherId = (sessionStorage.getItem('TeacherId'));
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
+
+  // const [selectTeacher, setSelectTeacher] = useState( TeacherId|| '')
+  console.log(TeacherId ," ----", selectTeacher);
+  
   
   const [studentList, setStudentList] = useState();
   // console.log(studentList, "sjddjdd");
@@ -183,6 +187,8 @@ const ViewResultAll = (props: Props) => {
               size="small"
               sx={{ width: '350px' }}
               label="Class Teacher"
+            
+           disabled={TeacherId == selectTeacher}
             />
           </Box>
           <Box>
