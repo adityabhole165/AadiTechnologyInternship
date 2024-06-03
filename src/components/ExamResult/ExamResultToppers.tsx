@@ -584,11 +584,10 @@ const ExamResultToppers = () => {
                 />
                 {radioBtn === '1' ? (
                     <Box>
-                        <Grid container item xs={12} justifyContent="center">
-                            <Typography variant={"h4"} my={2}>
-                                {selectedExamName}
-                            </Typography>
-                        </Grid>
+                        <Typography variant={"h4"} my={2}>
+                            {selectedExamName}
+                        </Typography>
+
                         <DynamicList2
                             HeaderList={HeaderListCT}
                             ItemList={ClassToppersListCT}
