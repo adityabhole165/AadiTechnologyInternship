@@ -83,9 +83,8 @@ const Getisconfigred = (data: IconfiguredExamBody) => {
   return http.post<IconfiguredExamResult>('Teacher/AllConffguredTestPublished', data);
 };
 const Getunplishedexam = (data: IUnpublishedTestexamBody) => {
-  return http.post<IUnpublishedTestexamResult>('Teacher//AllUnpublishedTestForStdDiv', data);
+  return http.post<IUnpublishedTestexamResult[]>('Teacher//AllUnpublishedTestForStdDiv', data);
 };
-
 
 
 const FinalResultApi = {
