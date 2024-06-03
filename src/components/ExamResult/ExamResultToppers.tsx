@@ -482,7 +482,7 @@ const ExamResultToppers = () => {
             setHighlightStudentId('0')
     }
 
-    const groupedBySubject = GetSubjectToppersListCT.reduce((acc, row) => {
+    const groupedBySubject = SubjectToppersListCT.reduce((acc, row) => {
         if (!acc[row.Subject]) {
             acc[row.Subject] = [];
         }
@@ -645,7 +645,9 @@ const ExamResultToppers = () => {
                                                                 </TableCell>
                                                             )}
                                                             <TableCell align={"center"}>{student.Text1}</TableCell>
-                                                            <TableCell>{student.Text2}</TableCell>
+                                                            <TableCell
+                                                                sx={{ color: student.IsHighlightStudent ? 'red' : '' }}
+                                                            >{student.Text2}</TableCell>
                                                         </TableRow>
                                                     ))
                                                 ))}
