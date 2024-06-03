@@ -150,8 +150,7 @@ export interface IconfiguredExamBody {
 }
 
 
-export interface IconfiguredExamResult 
-{
+export interface IconfiguredExamResult {
   IsConfiged: number,
 
 }
@@ -191,6 +190,6 @@ export interface IGetPagedStudentResult {
   User_Id: number;
   SchoolWise_Student_Id: number;
   Is_ResultGenrated: boolean;
-  
+
 }
 

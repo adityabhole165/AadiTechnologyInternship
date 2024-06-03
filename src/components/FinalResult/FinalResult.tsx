@@ -23,7 +23,9 @@ import {
   IGetPagedStudentBody,
   IPublishBody,
   IUnpublishBody,
+  IUnpublishedTestexamBody,
   IViewBody,
+  IconfiguredExamBody,
   isAtleastOneResultGeneratedBody,
   isResultPublishedBody,
   isTestPublishedBody
@@ -41,6 +43,8 @@ import {
   GetUnpublishResult,
   GetViewResult,
   getConfiguredTestPublished,
+  getiscofigred,
+  getunpublishedexam,
   resetPublishResult,
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
@@ -249,6 +253,13 @@ const FinalResult = () => {
 
   console.log("GetAtleastOneResultGenerated", GetAtleastOneResultGenerated)
 
+  const Usisconfigred: any = useSelector((state: RootState) => state.FinalResult.iscofigred);
+  console.log(Usisconfigred, "Usisconfigred");
+
+  const Usunpublishedexam: any = useSelector((state: RootState) => state.FinalResult.unpublishexam);
+
+  console.log(Usunpublishedexam, "Usunpublishedexam");
+
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
@@ -353,6 +364,18 @@ const FinalResult = () => {
     asAcadmicYearId: asAcademicYearId,
     asStdDivId: SelectTeacher
   }
+
+  const iscofigred: IconfiguredExamBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId,
+    asStdDivId: StandardDivisionId,
+  };
+
+  const unpublishexam: IUnpublishedTestexamBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId,
+    asStdDivId: StandardDivisionId,
+  };
 
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
@@ -484,6 +507,11 @@ const FinalResult = () => {
     }
   }, [GetResultGenerated])
 
+  useEffect(() => {
+    dispatch(getiscofigred(iscofigred));
+    dispatch(getunpublishedexam(unpublishexam));
+  }, []);
+
   const clickTeacher = (value) => {
     setstandardDivisionId(value);
   }
@@ -520,6 +548,9 @@ const FinalResult = () => {
               size={"small"}
             />
           </Box>
+
+
+
           <Box>
             <Tooltip title={"Display student list for their result generation. Click on &quot;Generate All&quot; to generate final result for all the students in selected class.  Click on &quot;Publish&quot; to publish final result of selected class. Click on “Publish All” to publish final results of all the classes in your school."}>
               <IconButton
@@ -630,19 +661,28 @@ const FinalResult = () => {
           </Box>
         </>}
       />
-      <Box sx={{ background: 'white', p: 2 }}>
-        <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-          All configured exams are not published - Internal II, Subject Enrichment Analysis - I, Subject Enrichment Analysis II
-        </Alert>
 
-        {GetStudentLists && GetStudentLists.length > 0 && (
-          <DataTable
-            columns={columns}
-            data={GetStudentLists}
-          />
-        )}
+      {Usisconfigred.IsConfiged == 0 ? (
+        <div>
+          {Usunpublishedexam.length > 0 && (
+            <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+              <b> All Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+            </Alert>
+          )}
+        </div>
+      ) : (
+        <span> </span>
+      )}
 
-        {/* {GetStudentLists != undefined && (
+
+      {GetStudentLists && GetStudentLists.length > 0 && (
+        <DataTable
+          columns={columns}
+          data={GetStudentLists}
+        />
+      )}
+
+      {/* {GetStudentLists != undefined && (
           <DynamicList2
             HeaderList={HeaderList}
             ItemList={GetStudentLists}
@@ -651,19 +691,19 @@ const FinalResult = () => {
           />
         )} */}
 
-        {Open && (
-          <FinalResultUnpublish
-            open={Open}
-            setOpen={setOpen}
-            ClickCloseDialogBox={ClickCloseDialogbox}
-            onClickUnpublish={onClickUnpublish}
-            ExamName={Exam}
-            TeacherName={getDropdownName(GetClassTeachers, SelectTeacher)}
-          />
-        )}
-      </Box>
+      {Open && (
+        <FinalResultUnpublish
+          open={Open}
+          setOpen={setOpen}
+          ClickCloseDialogBox={ClickCloseDialogbox}
+          onClickUnpublish={onClickUnpublish}
+          ExamName={Exam}
+          TeacherName={getDropdownName(GetClassTeachers, SelectTeacher)}
+        />
+      )}
     </Box>
-  );
-};
+  )
+
+}
 
 export default FinalResult;

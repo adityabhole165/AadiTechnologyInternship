@@ -1,8 +1,6 @@
-import Print from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Alert, Box, Button, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -212,7 +210,7 @@ const ViewResultAll = (props: Props) => {
               sx={{ width: '350px' }}
             />
           </Box>
-
+          
           <Box>
             <Tooltip
               title={`Help`}
@@ -220,10 +218,9 @@ const ViewResultAll = (props: Props) => {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
+                  backgroundColor: blue[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: blue[600] }
                 }}
               >
                 <QuestionMarkIcon />
@@ -231,38 +228,36 @@ const ViewResultAll = (props: Props) => {
             </Tooltip>
           </Box>
           <Box>
-            <Box>
-              <Tooltip title={'Show'}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    '&:hover': {
-                      backgroundColor: grey[600]
-                    }
-                  }}
-                  onClick={ClickShow}>
-                  <VisibilityTwoToneIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
+
+            <Button
+              onClick={ClickShow}
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: grey[600],
+                },
+              }}
+            > Show
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              onClick={clickPrint}
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: grey[600],
+                },
+              }}
+            > Print Preview
+            </Button>
           </Box>
 
-          <Box>
-            <Tooltip title={"Print Preview"}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-                onClick={clickPrint} >
-                <Print />
-              </IconButton>
-            </Tooltip>
-          </Box>
+          
+
+
 
         </>}
       />
@@ -351,7 +346,7 @@ const ViewResultAll = (props: Props) => {
                 <div>
                   {Usunpublishedexam.length > 0 && (
                     <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                      <b>All configured exams are not published -  {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+                      <b>Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
                     </Alert>
                   )}
                 </div>

@@ -30,7 +30,7 @@ const FinalResultSlice = createSlice({
     ViewResult: [],
     HeaderList: [],
     GetConfiguredTestPublished: [],
-    iscofigred: " ",
+    iscofigred: {},
     unpublishexam: [],
     GetResultPublishd: false,
     GetAtleastOneResultGenerated: {},
@@ -205,16 +205,24 @@ export const getiscofigred =
       dispatch(FinalResultSlice.actions.getLoading(true));
       let res = await FinalResultApi.Getisconfigred(data);
       dispatch(FinalResultSlice.actions.isconfiexam(res.data));
-      // console.log(res, "configgg");
+      console.log(res.data, "configurationnnnnnnn");
 
     };
 export const getunpublishedexam =
   (data: IUnpublishedTestexamBody): AppThunk =>
     async (dispatch) => {
       dispatch(FinalResultSlice.actions.getLoading(true));
-      let resp = await FinalResultApi.Getunplishedexam(data);
-      dispatch(FinalResultSlice.actions.UnpublishexamName(resp.data));
-      //  console.log(resp, "unpublished");
+      const response = await FinalResultApi.Getunplishedexam(data);
+      let StudentListAll = response.data.map((item, i) => {
+        return {
+          Id: item.SchoolWise_Test_Name,
+          Name: item.SchoolWise_Test_Name,
+          Value: item.SchoolWise_Test_Name
+
+        };
+      })
+      dispatch(FinalResultSlice.actions.UnpublishexamName(response.data));
+      console.log(response, "unpublished");
 
     };
 
