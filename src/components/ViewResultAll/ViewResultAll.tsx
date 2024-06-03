@@ -1,6 +1,8 @@
+import Print from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Alert, Box, Button, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -218,9 +220,10 @@ const ViewResultAll = (props: Props) => {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: blue[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: blue[600] }
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
                 }}
               >
                 <QuestionMarkIcon />
@@ -228,36 +231,38 @@ const ViewResultAll = (props: Props) => {
             </Tooltip>
           </Box>
           <Box>
-
-            <Button
-              onClick={ClickShow}
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: grey[600],
-                },
-              }}
-            > Show
-            </Button>
+            <Box>
+              <Tooltip title={'Show'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                  onClick={ClickShow}>
+                  <VisibilityTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Box>
+
           <Box>
-            <Button
-              onClick={clickPrint}
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: grey[600],
-                },
-              }}
-            > Print Preview
-            </Button>
+            <Tooltip title={"Print Preview"}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+                onClick={clickPrint} >
+                <Print />
+              </IconButton>
+            </Tooltip>
           </Box>
-
-
-
-
 
         </>}
       />
