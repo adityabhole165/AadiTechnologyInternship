@@ -1,4 +1,5 @@
-import { Alert, Box, Button, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Alert, Box, Button, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -198,6 +199,7 @@ const ViewResultAll = (props: Props) => {
               disabled={TeacherId == selectTeacher}
             />
           </Box>
+
           <Box>
             <SearchableDropdown
               ItemList={USStudentListDropDown}
@@ -207,6 +209,23 @@ const ViewResultAll = (props: Props) => {
               size="small"
               sx={{ width: '350px' }}
             />
+          </Box>
+
+          <Box>
+            <Tooltip
+              title={`Help`}
+            >
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: blue[600] }
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box>
 
@@ -235,6 +254,9 @@ const ViewResultAll = (props: Props) => {
             > Print Preview
             </Button>
           </Box>
+
+
+
 
 
         </>}
@@ -324,7 +346,7 @@ const ViewResultAll = (props: Props) => {
                 <div>
                   {Usunpublishedexam.length > 0 && (
                     <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                      <b>Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+                      <b>All configured exams are not published -  {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
                     </Alert>
                   )}
                 </div>
