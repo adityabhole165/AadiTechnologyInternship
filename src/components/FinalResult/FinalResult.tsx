@@ -72,6 +72,8 @@ const FinalResult = () => {
   const [asWithGrace, setasWithGrace] = useState();
   const Exam = ['Final Result'];
 
+  console.log(SelectTeacher, "SelectTeacher", StandardDivisionId, "StandardDivisionId");
+
 
   const getDropdownName = (List, value) => {
     let returnVal = ""
@@ -330,30 +332,32 @@ const FinalResult = () => {
   const ConfiguredTestPublishedBody: IConfiguredTestPublishedBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: StandardDivisionId
+    asStdDivId: SelectTeacher
 
   }
 
   const ResultPublishedBody: isResultPublishedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: StandardDivisionId
+    asStdDivId: SelectTeacher
   }
 
   const TestPublishedBody: isTestPublishedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: StandardDivisionId
+    asStdDivId: SelectTeacher
   }
 
   const AtleastOneResultGeneratedBody: isAtleastOneResultGeneratedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: StandardDivisionId
+    asStdDivId: SelectTeacher
   }
 
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
+    console.log(value, "clickTeacherDropdown");
+
   };
   const ClickItem = (value) => { };
 
@@ -388,7 +392,7 @@ const FinalResult = () => {
       const UnpublishResultBody: IUnpublishBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId: StandardDivisionId,
+        asStandardDivId: SelectTeacher,
         asUnPublishReason: asUnPublishReason
       }
       dispatch(GetUnpublishResult(UnpublishResultBody))
@@ -401,6 +405,19 @@ const FinalResult = () => {
 
     }  // dispatch(GetPublishResult(PublishResultBody));
   };
+  const onClickGenerateAll = () => {
+    alert('hi')
+    // const GenerateAllBody: IGenerateAllBody = {
+    //   asSchoolId: asSchoolId,
+    //   asAcadmicYearId: asAcademicYearId,
+    //   asStdDivId: StandardDivisionId,
+    //   asUserId: asUserId,
+    //   asUseAvarageFinalResult: asUseAvarageFinalResult
+    // }
+
+    // dispatch(GetGenerateAll(GenerateAllBody))
+
+  };
 
   const onClickPublish = (publish) => {
     if (publish) {
@@ -409,49 +426,63 @@ const FinalResult = () => {
       }
       const PublishBody: IPublishBody = {
         asSchoolId: asSchoolId,
-        asAcadmicYearId: asAcademicYearId,
-        asStdDivId: asStdDivId,
+        asAcadmicYearId: 54,
+        asStdDivId: SelectTeacher,
         // asPublishById: 1
       }
       dispatch(GetPublishResult(PublishBody))
+      dispatch(GetResultPublishd(ResultPublishedBody))
 
-      dispatch(GetUnpublishResult(UnpublishResultBody))
+      // dispatch(GetUnpublishResult(UnpublishResultBody))
 
     };
 
-    useEffect(() => {
-      if (UnpublishResult !== '') {
-        toast.success(UnpublishResult)
-        dispatch(resetUnpublishResult())
-        // dispatch(GetStudentResultList(PagedStudentBody))
-        dispatch(GetResultPublishd(ResultPublishedBody))
-        dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
-      }
-    }, [UnpublishResult])
-
-    useEffect(() => {
-      if (PublishResult !== '')
-        toast.success(PublishResult)
-      dispatch(resetPublishResult())
-      dispatch(GetStudentResultList(PagedStudentBody))
-    }, [PublishResult])
-
-    useEffect(() => {
-      dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
-    }, [SelectTeacher])
-
-    useEffect(() => {
-      dispatch(GetResultPublishd(ResultPublishedBody))
-    }, [StandardDivisionId])
   }
+
+
+  useEffect(() => {
+    if (UnpublishResult !== '') {
+      toast.success(UnpublishResult)
+      dispatch(resetUnpublishResult())
+      // dispatch(GetStudentResultList(PagedStudentBody))
+      dispatch(GetResultPublishd(ResultPublishedBody))
+      dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+    }
+  }, [UnpublishResult])
+
+  useEffect(() => {
+    if (PublishResult !== '')
+      toast.success(PublishResult)
+    dispatch(resetPublishResult())
+    dispatch(GetStudentResultList(PagedStudentBody))
+  }, [PublishResult])
+
+  useEffect(() => {
+    dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
+  }, [SelectTeacher])
+
+  useEffect(() => {
+    dispatch(GetResultPublishd(ResultPublishedBody))
+  }, [])
+
 
   useEffect(() => {
     dispatch(GetTestPublishedd(TestPublishedBody))
-  }, [StandardDivisionId])
+  }, [SelectTeacher])
 
   useEffect(() => {
     dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
-  }, [StandardDivisionId])
+  }, [SelectTeacher])
+
+  // useEffect(() => {
+  //   dispatch(GetStudentResultList(PagedStudentBody))
+  // }, [onClickGenerateAll]);
+
+  useEffect(() => {
+    if (GetResultGenerated) {
+      dispatch(GetStudentResultList(PagedStudentBody));
+    }
+  }, [GetResultGenerated])
 
   const clickTeacher = (value) => {
     setstandardDivisionId(value);
@@ -520,30 +551,28 @@ const FinalResult = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          {!GetResultGenerated && (
-            <Box>
 
-              <Tooltip title={"Generate All"}>
-                <IconButton
-                  onClick={onClickPublish}
-                  disabled={GetResultGenerated}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: GetResultGenerated ? grey[200] : grey[500],
-                    '&:hover': {
-                      backgroundColor: grey[600]
-                    }
+          <Box>
 
+            <Tooltip title={"Generate All"}>
+              <IconButton
+                onClick={onClickGenerateAll}
+                disabled={GetResultGenerated}
+                sx={{
+                  color: 'white',
+                  backgroundColor: GetResultGenerated ? grey[200] : grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
                   }
-                  }
-                >
-                  <Autorenew />
-                </IconButton>
-              </Tooltip>
 
-            </Box>
-          )
-          }
+                }
+                }
+              >
+                <Autorenew />
+              </IconButton>
+            </Tooltip>
+
+          </Box>
           <Box>
             <Tooltip title={"View All Results"}>
               <IconButton
@@ -569,10 +598,10 @@ const FinalResult = () => {
             <Tooltip title={"Unpublish"}>
               <IconButton
                 onClick={ClickOpenDialogbox}
-                disabled={GetResultGenerated}
+                disabled={!GetResultGenerated}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetResultGenerated ? grey[200] : grey[500],
+                  backgroundColor: !GetResultGenerated ? grey[200] : grey[500],
                   '&:hover': {
                     backgroundColor: red[600]
                   }
@@ -629,7 +658,7 @@ const FinalResult = () => {
             ClickCloseDialogBox={ClickCloseDialogbox}
             onClickUnpublish={onClickUnpublish}
             ExamName={Exam}
-            TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
+            TeacherName={getDropdownName(GetClassTeachers, SelectTeacher)}
           />
         )}
       </Box>

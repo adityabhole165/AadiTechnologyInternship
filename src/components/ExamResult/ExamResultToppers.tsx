@@ -598,15 +598,12 @@ const ExamResultToppers = () => {
                             Subject Toppers
                         </Typography>
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-
-                                <TableContainer component={Paper}>
-
-                                    {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
-                                        <Table key={subjectIndex}>
+                        <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
+                            {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
+                                <Grid item key={subjectIndex} xs={12} sm={12} md={6}>
+                                    <TableContainer component={Paper}>
+                                        <Table>
                                             <TableHead>
-
                                                 <TableRow>
                                                     <TableCell colSpan={3}>
                                                         <Typography variant={"h4"}>
@@ -617,12 +614,11 @@ const ExamResultToppers = () => {
 
                                                 <StyledTableRow>
                                                     <StyledTableCell>Rank</StyledTableCell>
-                                                    <StyledTableCell align={"center"}>Roll. No.</StyledTableCell>
+                                                    <StyledTableCell align={"center"}>Roll No.</StyledTableCell>
                                                     <StyledTableCell>Student Name</StyledTableCell>
                                                 </StyledTableRow>
                                             </TableHead>
                                             <TableBody>
-
                                                 {groupedBySubject[subject].map((row, index) => (
                                                     row.Students.map((student, studentIndex) => (
                                                         <TableRow key={`${subjectIndex}-${index}-${studentIndex}`}>
@@ -654,12 +650,12 @@ const ExamResultToppers = () => {
                                                     ))
                                                 ))}
                                             </TableBody>
-
                                         </Table>
-                                    ))}
-                                </TableContainer>
-                            </Grid>
+                                    </TableContainer>
+                                </Grid>
+                            ))}
                         </Grid>
+
 
                     </Box>
                 ) : (
@@ -676,16 +672,12 @@ const ExamResultToppers = () => {
                         <Typography variant={"h4"} my={2}>
                             Subject Toppers
                         </Typography>
-
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-
-                                <TableContainer component={Paper}>
-
-                                    {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
-                                        <Table key={subjectIndex}>
+                        <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
+                            {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
+                                <Grid item key={subjectIndex} xs={12} sm={12} md={6}>
+                                    <TableContainer component={Paper}>
+                                        <Table>
                                             <TableHead>
-
                                                 <TableRow>
                                                     <TableCell colSpan={3}>
                                                         <Typography variant={"h4"}>
@@ -696,12 +688,11 @@ const ExamResultToppers = () => {
 
                                                 <StyledTableRow>
                                                     <StyledTableCell>Rank</StyledTableCell>
-                                                    <StyledTableCell align={"center"}>Roll. No.</StyledTableCell>
+                                                    <StyledTableCell align={"center"}>Roll No.</StyledTableCell>
                                                     <StyledTableCell>Student Name</StyledTableCell>
                                                 </StyledTableRow>
                                             </TableHead>
                                             <TableBody>
-
                                                 {groupedBySubject[subject].map((row, index) => (
                                                     row.Students.map((student, studentIndex) => (
                                                         <TableRow key={`${subjectIndex}-${index}-${studentIndex}`}>
@@ -733,18 +724,18 @@ const ExamResultToppers = () => {
                                                     ))
                                                 ))}
                                             </TableBody>
-
                                         </Table>
-                                    ))}
-                                </TableContainer>
-                            </Grid>
-
+                                    </TableContainer>
+                                </Grid>
+                            ))}
                         </Grid>
+
+
 
                     </Box>
                 )}
             </Box>
-        </Box>
+        </Box >
     );
 };
 

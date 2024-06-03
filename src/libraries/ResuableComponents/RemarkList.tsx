@@ -1,3 +1,5 @@
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { Box } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
@@ -6,10 +8,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { useContext } from 'react';
 import ProgressRemarkTerm from 'src/components/ProgressRemarks/ProgressRemarkTerm';
-import React, { useContext } from 'react';
 
 function RemarkList({
   ItemList,
@@ -18,23 +18,23 @@ function RemarkList({
   ClickHeader
 }) {
 
-    
-    const onClick = (value) => {
-        const updatedItemList = ItemList.map((item) => {
-          if (item.Id === value) {
-            const updatedItem = { ...item, IsActive: !item.IsActive };
-            updatedItem.Text1 = replaceText(updatedItem.Text1); 
-            return updatedItem;
-          } else {
-            return item;
-          }
-        });
-        onChange(updatedItemList);
-      };
+
+  const onClick = (value) => {
+    const updatedItemList = ItemList.map((item) => {
+      if (item.Id === value) {
+        const updatedItem = { ...item, IsActive: !item.IsActive };
+        updatedItem.Text1 = replaceText(updatedItem.Text1);
+        return updatedItem;
+      } else {
+        return item;
+      }
+    });
+    onChange(updatedItemList);
+  };
 
 
-     
-      
+
+
 
   const clickHeader = (value) => {
     if (value !== undefined) {
@@ -46,7 +46,7 @@ function RemarkList({
   }
 
   let List = useContext(ProgressRemarkTerm);
-  
+
   const replaceText = (text) => {
     let replacedText = text.replace('%FNAME%', List.StudentId ? List.StudentFName : '');
     if (List.PassSalutationId == 6) {
@@ -58,19 +58,19 @@ function RemarkList({
       replacedText = replacedText.replace('%HIS/HER%', 'her');
     } else if (List.PassSalutationId == 5) {
       replacedText = replacedText.replace('%HIS/HER%', 'his');
-    }  
+    }
 
     if (List.PassSalutationId == 6) {
-        replacedText = replacedText.replace('%MASTER/MISS%', 'Miss');
-      } else if (List.PassSalutationId == 5) {
-        replacedText = replacedText.replace('%MASTER/MISS%', 'Master');
-      }  
+      replacedText = replacedText.replace('%MASTER/MISS%', 'Miss');
+    } else if (List.PassSalutationId == 5) {
+      replacedText = replacedText.replace('%MASTER/MISS%', 'Master');
+    }
 
-  
-  
+
+
     return replacedText;
   };
-  
+
 
   return (
     <>
@@ -96,7 +96,7 @@ function RemarkList({
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
-                    justifyContent: item?.align ? 'center' : 'flex-start'
+                    justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center'
                   }}>
                     <b>{item.Header}</b>
                     {item.SortOrder !== undefined ?

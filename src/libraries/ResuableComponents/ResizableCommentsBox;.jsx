@@ -165,17 +165,17 @@ function ResizableCommentsBox({
     >
       <TableContainer component={Card}>
         <Table aria-label="simple table">
-          <TableHead>
+          <TableHead >
             <TableRow>
               {HeaderArray.map((item, i) => (
-                <TableCell
+                <TableCell align={item.Header.includes('Name') ? 'left' : 'center'}
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
                     backgroundColor: (theme) => theme.palette.secondary.main,
                     color: 'white'
                   }}
-                  align="center"
+                 
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -187,9 +187,10 @@ function ResizableCommentsBox({
               <TableRow
                 key={i}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+
               >
                 <TableCell align="center" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text1}</TableCell>
-                <TableCell align="center" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text2}</TableCell>
+                <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text2}</TableCell>
 
                 {TermId == 2 && (
                   <TableCell align="center">
@@ -206,6 +207,7 @@ function ResizableCommentsBox({
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
+                      maxRows={4}
                       maxLength={300}
                       style={{ width: '200px' }}
                     />

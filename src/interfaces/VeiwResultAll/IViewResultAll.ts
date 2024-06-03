@@ -150,7 +150,8 @@ export interface IconfiguredExamBody {
 }
 
 
-export interface IconfiguredExamResult {
+export interface IconfiguredExamResult 
+{
   IsConfiged: number,
 
 }

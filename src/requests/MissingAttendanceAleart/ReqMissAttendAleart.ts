@@ -50,22 +50,22 @@ export const MissingAttenNameAleart =
 
         }
 
-export const MissingAttenDateAleart =
-    (data: IMissingattendancealeartDateBody): AppThunk =>
-        async (dispatch) => {
+// export const MissingAttenDateAleart =
+//     (data: IMissingattendancealeartDateBody): AppThunk =>
+//         async (dispatch) => {
 
-            const response = await Missingattendance.MissingDateList(data);
-            console.log(response.data, "respon");
+//             const response = await Missingattendance.MissingDateList(data);
+//             console.log(response.data, "respon");
 
-            let MissingDate = response.data.MissingAttendanceDatesList.map((item, i) => {
-                return {
-                    Id: item.MissingAttendanceDates,
-                    // Name: item.MissingAttendanceDates,
-                    // Value: item.MissingAttendanceDates,
-                };
-            });
+//             let MissingDate = response.data.MissingAttendanceDatesList.map((item, i) => {
+//                 return {
+//                     Id: item.MissingAttendanceDates,
+//                     // Name: item.MissingAttendanceDates,
+//                     // Value: item.MissingAttendanceDates,
+//                 };
+//             });
 
-            dispatch(MissingattendanceAleartSlice.actions.MissingAttenaceDate(MissingDate));
-            console.log(MissingDate, 'StudentListnamealll');
-        };
+//             dispatch(MissingattendanceAleartSlice.actions.MissingAttenaceDate(MissingDate));
+//             console.log(MissingDate, 'StudentListnamealll');
+//         };
 export default MissingattendanceAleartSlice.reducer;

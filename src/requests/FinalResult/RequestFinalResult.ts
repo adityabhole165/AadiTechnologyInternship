@@ -182,6 +182,8 @@ export const GetViewResult = (data: IViewBody): AppThunk =>
 export const GetResultPublishd = (data: isResultPublishedBody): AppThunk =>
   async (dispatch) => {
     const response = await FinalResultApi.GetResultPublished(data);
+    console.log(response.data, "GetResultPublishd");
+
     dispatch(FinalResultSlice.actions.getResultPublished(response.data));
   };
 

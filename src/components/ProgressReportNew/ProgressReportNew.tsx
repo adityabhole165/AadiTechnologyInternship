@@ -74,7 +74,8 @@ const ProgressReportNew = () => {
     const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
     const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
     const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
-
+    console.log(Data3,"Data3");
+    
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -379,39 +380,35 @@ const ProgressReportNew = () => {
                       </Typography>
                       <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
                         Exam
+                        
                       </Typography>
                       {USlistSubjectsDetails.map((item) => (
                         <TableCell><b>{item.Subject_Name}</b></TableCell>
                       ))}
                     </TableRow>
+                       {USListSubjectidDetails.map((item) => (
+                        <TableCell  sx={{ mr:"9px"}}>
+                          <Typography color="#42a5f5"  textAlign={'left'} mr={8}  >
+
+                            <b  style={{marginRight:"9px"}}>{item.ShortenTestType_Name}</b>
+
+                          </Typography>
+
+                        </TableCell>
+                      ))}
                     <TableRow>
+
                       {USlistTestDetails.map((item) => (
-                        <TableCell >
+                        <TableRow >
                           <Typography color="black" >
                             {item.Test_Name}
-                          </Typography>
-
-
-                        </TableCell>
+                          </Typography>                        
+                        </TableRow>
                       ))}
                     </TableRow>
-                    <TableRow>
-                      {USListSubjectidDetails.map((item) => (
-                        <TableCell>
-                          <Typography color="#42a5f5" >
-
-                            <b>{item.ShortenTestType_Name}</b>
-
-                          </Typography>
-
-                        </TableCell>
-                      ))}
-                    </TableRow>
-
-                   
-                    <TableRow>
-                      {USlistSubjectIdDetails.map((item) => (
-                        <TableCell>{Data3.Grade}</TableCell>
+                               <TableRow>
+                      {Data3.map((item) => (
+                        <TableCell>{item.Grade}</TableCell>
                       ))}
                     </TableRow>
                   </TableBody>
