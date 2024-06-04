@@ -1,10 +1,8 @@
-
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Alert, Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -189,7 +187,7 @@ const ViewResultAll = (props: Props) => {
               size="small"
               label="Class Teacher"
               DisableClearable={GetScreenPermission() === 'N'}
-
+              mandatory
               disabled={TeacherId == selectTeacher}
             />
           </Box>
@@ -236,10 +234,6 @@ const ViewResultAll = (props: Props) => {
               </IconButton>
             </Tooltip>
           </Box>
-
-
-
-
           <Box>
             <Tooltip title={'Print'}>
               <IconButton
@@ -255,8 +249,6 @@ const ViewResultAll = (props: Props) => {
               </IconButton>
             </Tooltip>
           </Box>
-
-
         </>}
       />
 
@@ -307,7 +299,6 @@ const ViewResultAll = (props: Props) => {
                           <TableCell><b>{subject.Name}</b></TableCell>
                         ))}
                       </TableRow>
-
                       <TableRow>
                         <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
                           Marks
@@ -316,7 +307,6 @@ const ViewResultAll = (props: Props) => {
                           <TableCell>{marks.Name}</TableCell>
                         ))}
                       </TableRow>
-
                       <TableRow>
                         <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
                           Subject Grade
@@ -330,32 +320,27 @@ const ViewResultAll = (props: Props) => {
                     </TableBody>
                   </Table>
                 </Box>
-
                 <hr />
                 <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
                   {Usisconfigred.IsConfiged == 0 ? (
                     <div>
                       {Usunpublishedexam.length > 0 && (
                         <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                          <b> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+                          <b style={{ color: 'blue' }}> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
                         </Alert>
                       )}
                     </div>
                   ) : (
                     <span> </span>
                   )}
-
                 </Typography>
-
               </Box>
             ) : (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>Result not generated for this student :  {isgenrate}</b>
               </Typography>
             )}
-
           </Box>
-
         )}
       </Box>
     </Box>
