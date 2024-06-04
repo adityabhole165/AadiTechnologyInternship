@@ -132,11 +132,15 @@ function ResizableCommentsBox({
   NoteClick,
   setTextValues
 }) {
+
+  let TermId = useContext(ProgressRemarkTerm);
+    
+
   const TextChange = (value) => {
     // Remove character filtering
     // const filteredValue = value.Value.replace(/[^a-zA-Z\s]/g, '');
     const filteredValue = value.Value;
-    if (filteredValue.length <= 300) {
+    if (filteredValue.length <= TermId.maxRemarkLength) {
       const updatedItemList = ItemList.map((item) => {
         return {
           ...item,
@@ -152,7 +156,7 @@ function ResizableCommentsBox({
     }
   };
   
-  let TermId = useContext(ProgressRemarkTerm);
+  
 
   return (
     <div
@@ -192,7 +196,7 @@ function ResizableCommentsBox({
                 <TableCell align="center" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text1}</TableCell>
                 <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text2}</TableCell>
 
-                {TermId == 2 && (
+                {TermId.SelectTerm == 2 && (
                   <TableCell align="center">
                     <TextareaAutosize value={item.Text4} />
                   </TableCell>
@@ -208,14 +212,14 @@ function ResizableCommentsBox({
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
                       maxRows={4}
-                      maxLength={300}
+                      maxLength={TermId.maxRemarkLength}
                       style={{ width: '200px' }}
                     />
                     <IconButton onClick={() => NoteClick(item.Id, j)}>
                       <MoreVertIcon />
                     </IconButton>
                     <Typography variant="caption" color="textSecondary">
-                      ({300 - RemarksItem.Text3.length})
+                      ({TermId.maxRemarkLength- RemarksItem.Text3.length})
                     </Typography>
                   </TableCell>
                 ))}

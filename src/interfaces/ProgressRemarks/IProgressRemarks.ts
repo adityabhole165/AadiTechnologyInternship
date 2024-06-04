@@ -16,7 +16,9 @@ export interface IAllPrimaryClassTeachersResult {
   SchoolWise_Standard_Division_Id: string
   Is_PrePrimary: string
   IsReportingUser: string
+  Standard_Id: string
 }
+
 
 export interface IGetTestwiseTermBody {
   asSchoolId: Number;
@@ -237,5 +239,21 @@ export interface IGetFinalPublishedExamStatusResult {
   SchoolwiseTestId: string
   IsPublishedStatus: string
   ShowFlag: string
+}
+
+
+export interface IGetConfiguredMaxRemarkLengthBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardId: number
+  asTermId: number
+}
+
+
+export interface IGetConfiguredMaxRemarkLengthResult {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardId: number
+  asTermId: number
 }
 

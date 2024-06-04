@@ -6,6 +6,7 @@ import {
   IGetAllStudentsForProgressRemarkResult,
   IGetAllStudentswiseRemarkDetailsNewBody,
   IGetAllStudentswiseRemarkDetailsNewResult,
+  IGetConfiguredMaxRemarkLengthResult,
   IGetFinalPublishedExamStatusBody,
   IGetFinalPublishedExamStatusResult,
   IGetRemarkTemplateDetailsBody,
@@ -17,7 +18,8 @@ import {
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
   IStudentswiseRemarkDetailsToExportResult,
-  IUpdateAllStudentsRemarkDetailsBody
+  IUpdateAllStudentsRemarkDetailsBody,
+  IGetConfiguredMaxRemarkLengthBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -94,6 +96,15 @@ const GetFinalPublishedExamStatus = (data: IGetFinalPublishedExamStatusBody) => 
 };
 
 
+const GetConfiguredMaxRemarkLength = (data: IGetConfiguredMaxRemarkLengthBody) => {
+  return http.post<IGetConfiguredMaxRemarkLengthResult>(
+    'Teacher/GetConfiguredMaxRemarkLength',
+    data
+  );
+};
+
+
+
 const ApiProgressRemark = {
   ClassTeachers,
   GetTestwiseTerm,
@@ -105,6 +116,7 @@ const ApiProgressRemark = {
   GetRemarksCategory,
   GetRemarksTemplateDetail,
   GetAllStudentsForProgressRemark,
-  GetFinalPublishedExamStatus
+  GetFinalPublishedExamStatus,
+  GetConfiguredMaxRemarkLength
 };
 export default ApiProgressRemark;

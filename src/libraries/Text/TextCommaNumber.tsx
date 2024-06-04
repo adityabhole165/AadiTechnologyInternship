@@ -54,7 +54,7 @@ const TextCommaNumber = ({
   };
 
   return (
-    <Box sx={{ backgroundColor: 'white' }}>
+    <Box sx={{ backgroundColor: 'white', width: '45%' }}>
       <TextField
         InputLabelProps={{
           shrink: true
@@ -64,6 +64,10 @@ const TextCommaNumber = ({
         error={getLabel !== defaultLabel}
         label={getLabel}
         onChange={(e) => SetTextData2(e.target.value)}
+        InputProps={{
+          readOnly: true // Set input as read-only
+        }}
+        sx={{ height: '70px' }}
       />
     </Box>
   );

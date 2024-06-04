@@ -47,7 +47,7 @@ function CardCalender1({
 
     ClickItem(returnVal);
   };
-  
+
   const clickPrevNextMonth = (value) => {
     let newDate;
 
@@ -55,8 +55,8 @@ function CardCalender1({
       newDate = new Date('1 ' + formattedDate);
     } else {
       newDate = new Date(formattedDate);
-    } 
-    const newMonth = newDate.getMonth() + value; 
+    }
+    const newMonth = newDate.getMonth() + value;
     if (value < 0) {
       newDate = new Date(newDate.getFullYear(), newMonth, 1);
     } else {
@@ -70,7 +70,7 @@ function CardCalender1({
     ClickItem(getDateFormatted(newDate));
   };
 
- 
+
   let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay();
   const datePicker = useRef(null);
 
@@ -121,7 +121,29 @@ function CardCalender1({
       >
         <Box>
           <Typography sx={{ fontWeight: 'normal !important', display: 'flex', alignItems: 'center', gap: 1 }} variant={'h3'}>
-            <div style={{ whiteSpace: 'nowrap' }}>{formattedDate} |{' '}</div>
+            <div style={{ whiteSpace: 'nowrap' }}>
+              <IconButton
+                onClick={() => clickPrevNextMonth(-1)}
+                sx={{
+                  color: (theme) => theme.palette.primary.main,
+                  backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                  marginRight: '8px'
+                }}
+              >
+                <ChevronLeftTwoToneIcon />
+              </IconButton>
+              {formattedDate} {' '}
+              <IconButton
+                onClick={() => clickPrevNextMonth(1)}
+                sx={{
+                  color: (theme) => theme.palette.primary.main,
+                  backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                  marginLeft: '8px'
+                }}
+              >
+                <ChevronRightTwoToneIcon />
+              </IconButton>
+            </div>
             <div style={{
               fontWeight: 'bold',
               fontSize: '16px',
@@ -154,7 +176,7 @@ function CardCalender1({
               </IconButton>
             </Tooltip>
           )}
-          <IconButton
+          {/* <IconButton
             onClick={() => clickPrevNextMonth(-1)}
             sx={{
               color: (theme) => theme.palette.primary.main,
@@ -162,7 +184,7 @@ function CardCalender1({
             }}
           >
             <ChevronLeftTwoToneIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton color={"primary"} onClick={(() => {
             datePicker.current.showPicker();
           })}>
@@ -178,7 +200,7 @@ function CardCalender1({
 
               }} />
           </IconButton>
-          <IconButton
+          {/* <IconButton
             onClick={() => clickPrevNextMonth(1)}
             sx={{
               color: (theme) => theme.palette.primary.main,
@@ -186,7 +208,7 @@ function CardCalender1({
             }}
           >
             <ChevronRightTwoToneIcon />
-          </IconButton>
+          </IconButton> */}
         </Box>
       </Box>
       <Grid container sx={{ mt: 2 }}>

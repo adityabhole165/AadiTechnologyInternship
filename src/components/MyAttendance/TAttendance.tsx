@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { grey, red, teal } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -388,7 +388,7 @@ const TAttendance = () => {
     } else {
       setMarksError(''); // Clear any existing error message
     }
-  }, [AcademicDates]);
+  }, [AcademicDates, ClassTeacherDropdownnew]);
 
   const SaveMsg = () => {
     if (!SaveIsActive) return;
@@ -597,6 +597,7 @@ const TAttendance = () => {
                 defaultValue={selectClasstecahernew}
                 size={"small"}
                 DisableClearable={GetScreenPermission() == 'N'}
+                disabled={GetScreenPermission() === 'N'}
               />
               {/* <Paper
               component="form"
@@ -1010,25 +1011,57 @@ const TAttendance = () => {
           <Grid container justifyContent="center">
             <Box sx={{ backgroundColor: 'white' }}>
               {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
+              {/* <div style={{ marginTop: '70px' }}> */}
               <div style={{
                 fontWeight: 'bold',
                 fontSize: '16px',
                 color: red[500],
-                marginTop: '20px',
-                marginLeft: '10px'
+                background: '#FFCCCC',
+                marginTop: '35px',
+                marginLeft: '10px',
+                border: MarksError ? '1px solid black' : 'none'
               }}>
                 {MarksError}
 
               </div>
-              <div style={{
-                fontWeight: 'bold',
-                fontSize: '16px',
-                color: teal[500],
-                marginTop: '5px',
-                marginLeft: '10px'
-              }}>
-                {AttendanceStatus}
-              </div>
+              {AttendanceStatus && (
+                <div
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: '16px',
+                    marginTop: '35px',
+                    marginLeft: '10px',
+                    color:
+                      AttendanceStatus.includes('Attendance not yet marked.') ||
+                        AttendanceStatus.includes('Attendance date should be within current academic year') ||
+                        AttendanceStatus.includes('Term Start & End dates have not been configured')
+                        ? 'red'
+                        : AttendanceStatus.includes('Attendance is already marked')
+                          ? 'green'
+                          : 'red', // Set the text color based on the content of AttendanceStatus
+                    backgroundColor:
+                      AttendanceStatus.includes('Attendance not yet marked.') ||
+                        AttendanceStatus.includes('Attendance date should be within current academic year') ||
+                        AttendanceStatus.includes('Term Start & End dates have not been configured')
+                        ? '#FFCCCC' // Light red background color
+                        : AttendanceStatus.includes('Attendance is already marked')
+                          ? '#CCFFCC' // Light green background color
+                          : '#FFCCCC', // No background color for other messages
+                    border:
+                      AttendanceStatus.includes('Attendance not yet marked.') ||
+                        AttendanceStatus.includes('Attendance date should be within current academic year') ||
+                        AttendanceStatus.includes('Term Start & End dates have not been configured') ||
+                        AttendanceStatus.includes('Attendance is already marked')
+                        ? '1px solid black' // Add border for highlighted messages
+                        : '1px solid black', // No border for other messages
+                    padding: '5px', // Add padding for better spacing
+                  }}
+                >
+                  {AttendanceStatus}
+                </div>)}
+              {/* </div> */}
+
+              {/* <div style={{ marginTop: '5px' }}> */}
               <CardCalender1
                 ItemList={listAttendanceCalender}
                 ClickItem={ClickItem}
@@ -1043,6 +1076,7 @@ const TAttendance = () => {
                 clickNav={clickNav}
                 getAssignedDateStatus={getAssignedDateStatus}
               />
+
             </Box>
           </Grid>
         </Grid>

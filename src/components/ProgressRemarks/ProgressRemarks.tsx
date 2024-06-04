@@ -18,7 +18,8 @@ import {
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
-  IUpdateAllStudentsRemarkDetailsBody
+  IUpdateAllStudentsRemarkDetailsBody,
+  IGetConfiguredMaxRemarkLengthBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
@@ -35,7 +36,8 @@ import {
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
   CDAresetSaveMassage,
-  CDAResetStudentDropdown
+  CDAResetStudentDropdown,
+  CDAGetConfiguredMaxRemarkLength
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -56,6 +58,7 @@ const ProgressRemarks = () => {
 
   const [page1, setPage1] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10); // Show 20 records by default
+  const asStandardId = sessionStorage.getItem('StandardId');
 
   const handleChangePage = (event, newPage) => {
     setPage1(newPage);
@@ -82,6 +85,9 @@ const ProgressRemarks = () => {
   const { StandardDivisionId } = useParams();
 
   const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
+
+  
+  
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -161,12 +167,22 @@ const ProgressRemarks = () => {
       state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
   );
 
-  console.log(USGetAllStudentswiseRemarkDetails, "USGetAllStudentswiseRemarkDetails");
 
   const USRemarkDetailsHeaderList: any = useSelector(
     (state: RootState) =>
       state.ProgressRemarkSlice.ISRemarkDetailsHeaderList
   );
+
+
+  const USGetConfiguredMaxRemarkLength: any = useSelector(
+    (state: RootState) =>
+      state.ProgressRemarkSlice.ISGetConfiguredMaxRemarkLength
+  );
+
+  const maxRemarkLength = USGetConfiguredMaxRemarkLength?.MaxRemarkLength;
+
+  console.log(maxRemarkLength, "---M1");
+  
 
   useEffect(() => {
     let headerArray = [
@@ -206,6 +222,8 @@ const ProgressRemarks = () => {
   };
 
 
+  
+
 
 
 
@@ -242,10 +260,36 @@ const ProgressRemarks = () => {
     })
     return returnVal
   }
+
+  const getStandardId = () => {
+    let returnVal = 0
+    USClassTeachers.map((Item) => {
+      if (Item.Value == selectTeacher)
+        returnVal = Item.asStandardId
+    })
+    return returnVal
+  }
+
+
   const RemarkCategoryBody: IGetRemarksCategoryBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId
   };
+
+
+  const GetConfiguredMaxRemarkLengthBody: IGetConfiguredMaxRemarkLengthBody = 
+    {
+    asSchoolId:asSchoolId,
+    asAcademicYearId:asAcademicYearId,
+    asStandardId: getStandardId() ,
+    asTermId:SelectTerm
+  };
+
+  
+
+
+  
+
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
@@ -376,7 +420,7 @@ const ProgressRemarks = () => {
           const updatedRemarks = item.Remarks.map((remark, i) => {
             if (i === ColIndex) {
               const newText3 = remark.Text3 + activeTexts;
-              if (newText3.length > 300) {
+              if (newText3.length > maxRemarkLength) {
                 showAlert = true;
                 return remark; // Return the original remark without changes
               } else {
@@ -387,7 +431,7 @@ const ProgressRemarks = () => {
             return remark;
           });
           if (showAlert) {
-            alert("Remarks length should not be more than 300");
+            alert(`Remarks length should not be more than ${maxRemarkLength}`);
           }
           return {
             ...item,
@@ -636,6 +680,13 @@ const ProgressRemarks = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
+  }, [SelectTerm]);
+
+  
+
+
+  useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
   }, [SelectTerm, selectTeacher]);
 
@@ -772,7 +823,7 @@ const ProgressRemarks = () => {
               )}
 
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                <ProgressRemarkTerm.Provider value={SelectTerm}>
+                <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm } }>
                   <ResizableCommentsBox
                     HeaderArray={HeaderArray}
                     ItemList={Itemlist}

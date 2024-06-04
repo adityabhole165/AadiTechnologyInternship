@@ -5,6 +5,7 @@ import {
   IGetAllGradesForStandardBody,
   IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentswiseRemarkDetailsNewBody,
+  IGetConfiguredMaxRemarkLengthBody,
   IGetFinalPublishedExamStatusBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
@@ -32,7 +33,8 @@ const ProgressRemarkSlice = createSlice({
     ISGetRemarkTemplateDetail: [],
     ISGetAllStudentsForProgressRemark: [],
     ISRGetFinalPublishedExamStatus: {},
-    ISRemarkDetailsHeaderList: []
+    ISRemarkDetailsHeaderList: [],
+    ISGetConfiguredMaxRemarkLength:[]
 
   },
   reducers: {
@@ -85,8 +87,9 @@ const ProgressRemarkSlice = createSlice({
       state.ISRGetFinalPublishedExamStatus = action.payload;
     },
 
-
-
+    RGetConfiguredMaxRemarkLength(state, action) {
+      state.ISGetConfiguredMaxRemarkLength = action.payload;
+    },
     RresetSaveMassage(state) {
       state.ISUpdateAllStudentsRemarkDetailsBody = '';
     },
@@ -118,12 +121,13 @@ export const CDAGetClassTeachers =
   (data: IAllPrimaryClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.ClassTeachers(data);
-      let ClassTeachers = [{ Id: '0', Name: '--Select--', Value: '0' }];
+      let ClassTeachers = [{ Id: '0', Name: '--Select--', Value: '0', asStandardId :'0'}];
       response.data.map((item, i) => {
         ClassTeachers.push({
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
-          Value: item.Teacher_Id
+          Value: item.Teacher_Id ,      
+          asStandardId: item.Standard_Id
         });
       });
 
@@ -402,7 +406,16 @@ export const CDAGetAllStudentsForProgressRemark =
     };
 
 
-export const CDAGetFinalPublishedExamStatus =
+export const   CDAGetConfiguredMaxRemarkLength =
+  (data: IGetConfiguredMaxRemarkLengthBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressRemark.GetConfiguredMaxRemarkLength(data);
+      console.log(response,"response---");
+      
+      dispatch(ProgressRemarkSlice.actions.RGetConfiguredMaxRemarkLength(response.data));};
+
+
+  export const CDAGetFinalPublishedExamStatus =
   (data: IGetFinalPublishedExamStatusBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressRemark.GetFinalPublishedExamStatus(data);
@@ -410,6 +423,7 @@ export const CDAGetFinalPublishedExamStatus =
 
       dispatch(ProgressRemarkSlice.actions.RGetFinalPublishedExamStatus(response.data));
     };
+
 
 
 

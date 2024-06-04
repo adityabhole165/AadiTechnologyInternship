@@ -45,35 +45,42 @@ function CardCalenderList({
         sx={{
           alignItems: 'center',
           justifyContent: 'center',
-          textAlign: 'center'
+          textAlign: 'center',
+          '& > .MuiIconButton-root': {
+            margin: '0 2px' // Set margin to the IconButton components
+          }
         }}
       >
-        <Box display="flex" justifyContent="space-between">
+        <Box display="flex" alignItems="center">
+          <IconButton
+            color={'primary'}
+            sx={{
+              backgroundColor: (theme) =>
+                alpha(theme.palette.primary.main, 0.2),
+              marginRight: '8px'
+            }}
+            onClick={() => handlePrevMonth()}
+          >
+            <ArrowBackIosNewIcon />
+          </IconButton>
           <Typography m={0} variant={'h3'}>
             <b>{formattedDate}</b>
           </Typography>
+          <IconButton
+            color={'primary'}
+            sx={{
+              backgroundColor: (theme) =>
+                alpha(theme.palette.primary.main, 0.2),
+              marginLeft: '8px'
 
+            }}
+            onClick={() => handleNextMonth()}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
           <Stack direction={'row'} gap={1}>
-            <IconButton
-              color={'primary'}
-              sx={{
-                backgroundColor: (theme) =>
-                  alpha(theme.palette.primary.main, 0.2)
-              }}
-              onClick={() => handlePrevMonth()}
-            >
-              <ArrowBackIosNewIcon />
-            </IconButton>
-            <IconButton
-              color={'primary'}
-              sx={{
-                backgroundColor: (theme) =>
-                  alpha(theme.palette.primary.main, 0.2)
-              }}
-              onClick={() => handleNextMonth()}
-            >
-              <ArrowForwardIosIcon />
-            </IconButton>
+
+
           </Stack>
         </Box>
 

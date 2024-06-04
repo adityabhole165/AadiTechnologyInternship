@@ -28,7 +28,10 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate }) => {
   };
   return (
     <div>
-      <Box>
+      <Box 
+      sx={{ height: '50px'}}
+      
+      >
         <ListHeaderCard3ColSel
           Item={{
             text1: 'Roll No.',
@@ -42,9 +45,10 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate }) => {
       {Itemlist.map((item, index) => (
         <Box
           sx={{
-            py: 1,
+            py: 0,
             border: `1px solid ${grey[300]}`,
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            
           }}
           key={index}
         >
