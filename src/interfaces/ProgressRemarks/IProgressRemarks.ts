@@ -239,3 +239,19 @@ export interface IGetFinalPublishedExamStatusResult {
   ShowFlag: string
 }
 
+
+export interface IGetConfiguredMaxRemarkLengthBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardId: number
+  asTermId: number
+}
+
+
+export interface IGetConfiguredMaxRemarkLengthResult {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardId: number
+  asTermId: number
+}
+
