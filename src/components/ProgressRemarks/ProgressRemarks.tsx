@@ -261,9 +261,14 @@ const ProgressRemarks = () => {
     return returnVal
   }
 
-  
-  
-
+  const getStandardId = () => {
+    let returnVal = 0
+    USClassTeachers.map((Item) => {
+      if (Item.Value == selectTeacher)
+        returnVal = Item.asStandardId
+    })
+    return returnVal
+  }
 
 
   const RemarkCategoryBody: IGetRemarksCategoryBody = {
@@ -275,8 +280,8 @@ const ProgressRemarks = () => {
   const GetConfiguredMaxRemarkLengthBody: IGetConfiguredMaxRemarkLengthBody = 
     {
     asSchoolId:asSchoolId,
-    asAcademicYearId:54,
-    asStandardId: 1062 ,
+    asAcademicYearId:asAcademicYearId,
+    asStandardId: getStandardId() ,
     asTermId:SelectTerm
   };
 
@@ -676,7 +681,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
-  }, []);
+  }, [SelectTerm]);
 
   
 
