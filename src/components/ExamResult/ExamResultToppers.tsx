@@ -82,7 +82,7 @@ const ExamResultToppers = () => {
 
     const HeaderListCT = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
     const HeaderList1CT = ['Roll No.', 'Student Name'];
-    const HeaderListST = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
+    const HeaderListST = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
     const HeaderList1ST = ['Roll No.', 'Class', 'Student Name'];
 
 
@@ -198,6 +198,8 @@ const ExamResultToppers = () => {
     const GetSubjectdropdownST = useSelector(
         (state: RootState) => state.ExamResultToppers.SubjectDropdownListST
     );
+    console.log(GetSubjectdropdownST, 'GetSubjectdropdownSTttttt');
+
     const GetStandardToppersListST = useSelector(
         (state: RootState) => state.ExamResultToppers.StandardTopperST
     );
@@ -308,6 +310,7 @@ const ExamResultToppers = () => {
         if (GetSubjectdropdownST.length > 0)
             setSubjectST(GetSubjectdropdownST[0].Id);
     }, [GetSubjectdropdownST]);
+
     useEffect(() => {
 
         setClassToppersListCT(
@@ -417,12 +420,12 @@ const ExamResultToppers = () => {
         console.log(SelectExamCT, 'SelectExamCT');
 
     };
-    // useEffect(() => {
-    //     if (GetExamdropdownCT.length > 0) {
-    //         setExamCT(GetExamdropdownCT[0].Id);
-    //         setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
-    //     }
-    // }, [GetExamdropdownCT]);
+    useEffect(() => {
+        if (GetExamdropdownCT.length > 0) {
+            setExamCT(GetExamdropdownCT[0].Id);
+            setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
+        }
+    }, [GetExamdropdownCT]);
 
 
     const clickSubjectDropdownCT = (value) => {
@@ -490,12 +493,20 @@ const ExamResultToppers = () => {
         return acc;
     }, {});
 
+    const groupedBySubject1 = SubjectToppersListST.reduce((acc, row) => {
+        if (!acc[row.Subject]) {
+            acc[row.Subject] = [];
+        }
+        acc[row.Subject].push(row);
+        return acc;
+    }, {});
+
     const ClickItem = () => { };
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' + StandardDivisionId + "/" + TestId },
+                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
                     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
                 ]}
                 rightActions={<>
@@ -584,16 +595,24 @@ const ExamResultToppers = () => {
                 />
                 {radioBtn === '1' ? (
                     <Box>
-                        <Typography variant={"h4"} my={2}>
-                            {selectedExamName}
-                        </Typography>
+                        {GetClassToppersListCT.length > 0 ? (
+                            <div>
+                                <Typography variant={"h4"} my={2}>
+                                    {selectedExamName}
+                                </Typography>
+                                <DynamicList2
+                                    HeaderList={HeaderListCT}
+                                    ItemList={ClassToppersListCT}
+                                    IconList={[]}
+                                    ClickItem={clickHighlightStudent}
+                                />
+                            </div>
+                        ) : (
+                            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                <b>No record found.</b>
+                            </Typography>
 
-                        <DynamicList2
-                            HeaderList={HeaderListCT}
-                            ItemList={ClassToppersListCT}
-                            IconList={[]}
-                            ClickItem={clickHighlightStudent}
-                        />
+                        )}
                         <Typography variant={"h4"} my={2}>
                             Subject Toppers
                         </Typography>
@@ -644,7 +663,7 @@ const ExamResultToppers = () => {
                                                                     )}
                                                                 </TableCell>
                                                             )}
-                                                            <TableCell align={"center"}>{student.Text1}</TableCell>
+                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
                                                             <TableCell
                                                                 sx={{ color: student.IsHighlightStudent ? 'red' : '' }}
                                                             >{student.Text2}</TableCell>
@@ -662,20 +681,29 @@ const ExamResultToppers = () => {
                     </Box>
                 ) : (
                     <Box>
-                        <Typography variant={"h4"} my={2}>
-                            {selectedExamName}
-                        </Typography>
-                        <DynamicList2
-                            HeaderList={HeaderListST}
-                            ItemList={StandardToppersListST}
-                            IconList={[]}
-                            ClickItem={clickHighlightStudent}
-                        />
+                        {GetStandardToppersListST.length > 0 ? (
+                            <div>
+                                <Typography variant={"h4"} my={2}>
+                                    {selectedExamName}
+                                </Typography>
+                                <DynamicList2
+                                    HeaderList={HeaderListST}
+                                    ItemList={StandardToppersListST}
+                                    IconList={[]}
+                                    ClickItem={clickHighlightStudent}
+                                />
+                            </div>
+                        ) : (
+                            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                <b>No record found.</b>
+                            </Typography>
+
+                        )}
                         <Typography variant={"h4"} my={2}>
                             Subject Toppers
                         </Typography>
                         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
-                            {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
+                            {Object.keys(groupedBySubject1).map((subject, subjectIndex) => (
                                 <Grid item key={subjectIndex} xs={12} sm={12} md={6}>
                                     <TableContainer component={Paper}>
                                         <Table>
@@ -690,12 +718,13 @@ const ExamResultToppers = () => {
 
                                                 <StyledTableRow>
                                                     <StyledTableCell>Rank</StyledTableCell>
+                                                    <StyledTableCell>Class</StyledTableCell>
                                                     <StyledTableCell align={"center"}>Roll No.</StyledTableCell>
                                                     <StyledTableCell>Student Name</StyledTableCell>
                                                 </StyledTableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {groupedBySubject[subject].map((row, index) => (
+                                                {groupedBySubject1[subject].map((row, index) => (
                                                     row.Students.map((student, studentIndex) => (
                                                         <TableRow key={`${subjectIndex}-${index}-${studentIndex}`}>
                                                             {studentIndex === 0 && (
@@ -720,8 +749,9 @@ const ExamResultToppers = () => {
                                                                     )}
                                                                 </TableCell>
                                                             )}
-                                                            <TableCell align={"center"}>{student.Text1}</TableCell>
-                                                            <TableCell>{student.Text2}</TableCell>
+                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text3}</TableCell>
+                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
+                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }}>{student.Text2}</TableCell>
                                                         </TableRow>
                                                     ))
                                                 ))}
@@ -736,7 +766,9 @@ const ExamResultToppers = () => {
 
                     </Box>
                 )}
+
             </Box>
+
         </Box >
     );
 };

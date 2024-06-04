@@ -124,13 +124,13 @@ const DynamicList2 = ({
                     </Link>
                   </TableCell> */}
                   {item.Text1 != undefined && (
-                    <TableCell>{item.Text1}</TableCell>
+                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '' }}>{item.Text1}</TableCell>
                   )}
                   {item.Text6 != undefined && (
                     <TableCell  >{item.Text6}</TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell align={"center"}>{item.Text2}</TableCell>
+                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '' }} align={"center"}>{item.Text2}</TableCell>
                   )}
                   {item.Text3 != undefined && (
                     <TableCell
@@ -140,7 +140,7 @@ const DynamicList2 = ({
                     </TableCell>
                   )}
                   {item.Text4 != undefined && (
-                    <TableCell >{item.Text4}</TableCell>
+                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '' }}>{item.Text4}</TableCell>
                   )}
                   {item.Text5 != undefined && (
                     <TableCell >{item.Text5}</TableCell>

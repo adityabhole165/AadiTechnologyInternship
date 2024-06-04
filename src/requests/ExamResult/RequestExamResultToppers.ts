@@ -106,6 +106,7 @@ export const ClassSubjectListCT =
       });
       dispatch(ExamResultToppersSlice.actions.SubjectListCT(abc));
     };
+
 export const ClassTopperListCT =
   (data: IGetClassToppersListBOdyCT): AppThunk =>
     async (dispatch) => {
@@ -204,6 +205,7 @@ export const StandardSubjectListST =
   (data: IGetSubjectDropdownBodyST): AppThunk =>
     async (dispatch) => {
       const response = await ExamResultToppersApi.ClassSubjectDropdownST(data);
+      console.log(response, "pppppppppssssssssss");
       let abc = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         abc.push({
@@ -213,6 +215,8 @@ export const StandardSubjectListST =
         });
       });
       dispatch(ExamResultToppersSlice.actions.SubjectListST(abc));
+      console.log(abc, "ssssssssss");
+
     };
 
 export const StandardTopperListST =
@@ -224,6 +228,7 @@ export const StandardTopperListST =
           Id: item.Student_Id,
           Text77: item.TopperRank,
           // localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
+          Text1: item.Standard,
           Text2: item.Roll_No,
           Text3: item.Student_Name,
           Text4: item.Marks,

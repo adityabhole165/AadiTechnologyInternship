@@ -57,7 +57,7 @@ const StandardExamDropdownST = (data: IGetStandardExamDropdownBodyST) => {
 };
 const ClassSubjectDropdownST = (data: IGetSubjectDropdownBodyST) => {
   return http.post<IGetSubjectDropdownResultST[]>(
-    'Teacher/GetClassSubjectsDropDown',
+    'Teacher/GetStandardSubjectsDropDown',
     data
   );
 };
