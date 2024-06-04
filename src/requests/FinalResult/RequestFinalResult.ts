@@ -105,13 +105,14 @@ export const ClassTechersList =
   (data: IClassTeacherListBody): AppThunk =>
     async (dispatch) => {
       const response = await FinalResultApi.ClassTeacherList(data);
-      let abc = [{ Id: '0', Name: 'Select', Value: '0' }]
+      let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0' }]
       dispatch(FinalResultSlice.actions.getLoading(true));
       response.data.map((item, i) => {
         abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
-          Value: item.StdDivId
+          Value: item.StdDivId,
+          StanderdId: item.Original_Standard_Id
         });
       });
       dispatch(FinalResultSlice.actions.classTeacherList(abc));
@@ -123,7 +124,7 @@ export const GetStudentResultList =
       const response = await FinalResultApi.GetStudentResult(data);
       let StudentList = response.data?.map((item) => {
         return {
-          Id: item.SchoolWise_Standard_Division_Id,
+          Id: item.Student_Id,
           Text1: item.Roll_No,
           Text2: item.Name,
           Text3: item.Marks == '' ? 'N/A' : item.Marks,

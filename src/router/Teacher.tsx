@@ -344,9 +344,13 @@ const teacherRoutes = [
     path: 'FinalResultToppers',
     element: <FinalResultToppers />
   },
+  // {
+  //   path: 'FinalResultToppers/:TeacherId',
+  //   element: <FinalResultToppers />
+  // },
   {
-    path: 'FinalResultToppers/:TeacherId',
-    element: <FinalResultToppers />
+    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:standardId',
+    element: <ExamResultToppers />
   },
   {
     path: 'StandardToppers',

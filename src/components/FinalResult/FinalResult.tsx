@@ -167,7 +167,6 @@ const FinalResult = () => {
       renderCell: (row) => <>
         <VisibilityIcon onClick={() => {
           navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
-
         }} />
       </>
     },
@@ -176,7 +175,7 @@ const FinalResult = () => {
       label: 'Grace',
       renderCell: (row) => row.grace
     }
-  ], [])
+  ], []);
   const IconList = [
     {
       Id: 1,
@@ -382,7 +381,18 @@ const FinalResult = () => {
     console.log(value, "clickTeacherDropdown");
 
   };
-  const ClickItem = (value) => { };
+  const getstandardId = () => {
+    let returnVal = false
+    GetClassTeachers.map((item) => {
+      if (item.Value == StandardDivisionId) {
+        returnVal = item.StanderdId
+      }
+    })
+    return returnVal
+  }
+
+
+  const standardId = getstandardId();
 
   const getTeacherId = () => {
     let TeacherId = '';
@@ -391,9 +401,11 @@ const FinalResult = () => {
     });
     return TeacherId;
   };
+
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/FinalResultToppers/' + getTeacherId());
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId);
   };
+
 
   const getTeacherName = () => {
     let TeacherName = '';
