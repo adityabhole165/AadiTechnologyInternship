@@ -211,9 +211,9 @@ function ResizableCommentsBox({
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
-                      maxRows={4}
+                      maxRows={3}
                       maxLength={TermId.maxRemarkLength}
-                      style={{ width: '200px' }}
+                      style={{ width: '300px' , height:"50px"}}
                     />
                     <IconButton onClick={() => NoteClick(item.Id, j)}>
                       <MoreVertIcon />
