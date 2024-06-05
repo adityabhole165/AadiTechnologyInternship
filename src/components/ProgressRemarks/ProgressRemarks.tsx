@@ -261,9 +261,14 @@ const ProgressRemarks = () => {
     return returnVal
   }
 
-  
-  
-
+  const getStandardId = () => {
+    let returnVal = 0
+    USClassTeachers.map((Item) => {
+      if (Item.Value == selectTeacher)
+        returnVal = Item.asStandardId
+    })
+    return returnVal
+  }
 
 
   const RemarkCategoryBody: IGetRemarksCategoryBody = {
@@ -275,8 +280,8 @@ const ProgressRemarks = () => {
   const GetConfiguredMaxRemarkLengthBody: IGetConfiguredMaxRemarkLengthBody = 
     {
     asSchoolId:asSchoolId,
-    asAcademicYearId:54,
-    asStandardId: 1062 ,
+    asAcademicYearId:asAcademicYearId,
+    asStandardId: getStandardId() ,
     asTermId:SelectTerm
   };
 
@@ -441,15 +446,22 @@ const ProgressRemarks = () => {
 
   const [message, setMessage] = useState("");
   useEffect(() => {
-    const autoSave = setInterval(() => {
-      if (IsDirty) {
-        UpdateRemark();
-        setMessage("We are saving current progress remarks details.Please wait.");
-      }
-    }, 60000);
+    if (USGetFinalPublishedExamStatus.IsPublishedStatus == 1) {
+        <span> </span>
+    }
 
-    return () => clearInterval(autoSave);
-  }, [IsDirty, UpdateRemark]);
+    else{
+      const autoSave = setInterval(() => {
+        if (IsDirty) {
+          UpdateRemark();
+          setMessage("We are saving current progress remarks details.Please wait.");
+        }
+      }, 60000);
+  
+      return () => clearInterval(autoSave);
+
+    }
+  }, [IsDirty, UpdateRemark, USGetFinalPublishedExamStatus.IsPublishedStatus]);
 
   useEffect(() => {
     if (message) {
@@ -676,7 +688,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
-  }, []);
+  }, [SelectTerm]);
 
   
 
@@ -715,7 +727,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '25vw', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
@@ -728,7 +740,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             ItemList={USGetTestwiseTerm}
-            sx={{ minWidth: '200px' }}
+            sx={{ minWidth: '25vw' }}
             onChange={clickSelectTerm}
             defaultValue={SelectTerm}
             label={'Term'}
@@ -737,7 +749,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             ItemList={USStudentListDropDown}
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '25vw' }}
             onChange={clickStudentList}
             defaultValue={StudentList}
             label={'StudentList'}
@@ -885,7 +897,7 @@ const ProgressRemarks = () => {
                 />
                 <SearchableDropdown
                   ItemList={USRemarksCategory}
-                  sx={{ minWidth: '200px' }}
+                  sx={{ minWidth: '25vw' }}
                   onChange={clickRemark}
                   defaultValue={Remark}
                   label={'Remark Category'}
@@ -893,7 +905,7 @@ const ProgressRemarks = () => {
                 />
                 <SearchableDropdown
                   ItemList={GradeDropDown}
-                  sx={{ minWidth: '230px' }}
+                  sx={{ minWidth: '25vw' }}
                   onChange={clickGrade}
                   defaultValue={SelectGrade}
                   label={'Grades'}

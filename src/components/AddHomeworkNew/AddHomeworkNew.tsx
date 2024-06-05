@@ -770,7 +770,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               })}
               onChange={clickSubjectList}
               defaultValue={Subject}
-              sx={{ minWidth: '100%' }}
+              sx={{ minWidth: '25vw' }}
               label='Select Subject'
             />
 

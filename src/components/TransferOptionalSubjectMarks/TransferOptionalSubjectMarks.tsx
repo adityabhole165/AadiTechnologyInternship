@@ -334,7 +334,7 @@ const TransferOptionalSubjectMarks = () => {
                 rightActions={
                     <>
                         <SearchableDropdown
-                            sx={{ width: '300px' }}
+                            sx={{ width: '25vw' }}
                             ItemList={USClassTeacherList}
                             onChange={ClickSelctTecher}
                             label={'Select Teacher:'}
@@ -343,7 +343,7 @@ const TransferOptionalSubjectMarks = () => {
                             size={"small"}
                         />
                         <TextField
-                            sx={{ wdth: '200px' }}
+                            sx={{ wdth: '25vw' }}
                             fullWidth
                             label="Student Name / Reg.No. :"
                             value={SearchText}

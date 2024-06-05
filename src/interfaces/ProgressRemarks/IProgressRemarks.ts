@@ -16,7 +16,9 @@ export interface IAllPrimaryClassTeachersResult {
   SchoolWise_Standard_Division_Id: string
   Is_PrePrimary: string
   IsReportingUser: string
+  Standard_Id: string
 }
+
 
 export interface IGetTestwiseTermBody {
   asSchoolId: Number;

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import ApiRequisition from 'src/api/Requisition/APIRequisition';
 import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import {
+  IGetDeleteRequisitionBody,
   IGetPagedRequisitionBody,
   IGetRequisitionStatusBody
 } from 'src/interfaces/Requisition/IRequisition';
@@ -11,7 +12,10 @@ const SliceRequisition = createSlice({
   name: 'Requisition',
   initialState: {
     Requisition: [],
-    RequisitionList: []
+    RequisitionList: [],
+    ISDeleteRequisition:"",
+
+
   },
   reducers: {
     Requisition(state, action) {
@@ -19,7 +23,16 @@ const SliceRequisition = createSlice({
     },
     RequisitionList(state, action) {
       state.RequisitionList = action.payload;
-    }
+    },
+    RDeleteRequisition(state, action) {
+      state.ISDeleteRequisition = action.payload;
+    },
+  
+    RresetMessage(state) {
+      state.ISDeleteRequisition = '';
+    },
+
+    
   }
 });
 
@@ -29,7 +42,7 @@ export const RequisitionStatus =
     const response = await ApiRequisition.RequisitionApi(data);
     let abc = response.data.map((item, i) => {
       return {
-        Id: item.Inserted_By_id,
+        Id: item.Insert_Date,
         Name: item.StatusName,
         Value: item.StatusID
       };
@@ -42,19 +55,30 @@ export const RequisitionListt =
     const response = await ApiRequisition.RequisitionListApi(data);
     let abc = response.data.map((item, i) => {
       return {
-        Id: item.StatusID,
-        Text1: item.RequisitionCode,
-        Text2: item.RequisitionName,
-        Text3: item.StatusName,
-
-        Text4: item.CreaterName,
-
-        Text5: getDateMonthYearFormatted(item.Created_Date),
-        Text7: item.Editble,
-        Text8: item.IsDelete,
-        Text11: item.School_Id
+        Id: item.RequisitionID,
+        RequisitionCode: item.RequisitionCode,
+        RequisitionName: item.RequisitionName,
+        StatusName: item.StatusName,
+        CreaterName: item.CreaterName,
+        Created_Date: getDateMonthYearFormatted(item.Created_Date),
+        Editble: item.Editble,
+        IsDelete: item.IsDelete,
+        IsFinalApproval: item.IsFinalApproval,
       };
     });
     dispatch(SliceRequisition.actions.RequisitionList(abc));
   };
+
+  export const CDADeleteRequisitionn =
+  (data: IGetDeleteRequisitionBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiRequisition.DeleteRequisition(data);
+    dispatch(SliceRequisition.actions.RDeleteRequisition(response.data));
+  };
+
+  export const resetMessage= (): AppThunk => async (dispatch) => {
+    dispatch(SliceRequisition.actions.RresetMessage());
+  };
+
+
 export default SliceRequisition.reducer;

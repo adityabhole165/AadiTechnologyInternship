@@ -127,6 +127,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/ProgressReportNew'
     },
     {
+      title: 'Requisition',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/Requisition'
+    },
+
+    {
       title: 'Lesson Plan',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
