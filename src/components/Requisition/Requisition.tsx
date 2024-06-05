@@ -130,10 +130,10 @@ const StatusRequisition = () => {
     } else {
       setPagedRequisition(
         GetPagedRequisition.filter((item) => {
-          const text1Match = item.Text2.toLowerCase().includes(
+          const text1Match = item.RequisitionCode.toLowerCase().includes(
             regNoOrName.toLowerCase()
           );
-          const text2Match = item.Text4.toLowerCase().includes(
+          const text2Match = item.RequisitionName.toLowerCase().includes(
             regNoOrName.toLowerCase()
           );
           return text1Match || text2Match;
@@ -149,6 +149,13 @@ const StatusRequisition = () => {
   const AddRequisition = (value) => {
     navigate('/extended-sidebar/Teacher/AddRequisition');
   };
+
+  useEffect(() => {
+    if (Requision.length > 0) {
+      setSelectResult(Requision[0].Value);
+    }
+  }, [Requision]);
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
