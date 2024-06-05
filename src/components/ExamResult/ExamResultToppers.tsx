@@ -55,7 +55,7 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { TeacherId, StandardDivisionId, TestId, standardId } = useParams();
+    let { TeacherId, StandardDivisionId, TestId, standardId } = useParams();
     console.log(standardId, 'sssssssstandardId');
 
 
@@ -169,7 +169,7 @@ const ExamResultToppers = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
     const Note: string =
-        'Display the first three class / standard toppers as well as subject toppers of your class/ standard for the selected exam';
+        'Display the first three class / standard toppers as well as subject toppers of your class / standard for the selected exam';
     const GetClassdropdownCT = useSelector(
         (state: RootState) => state.ExamResultToppers.ClassDropdownListCT
     );
@@ -302,14 +302,14 @@ const ExamResultToppers = () => {
     //         setStandardST(GetStandarddropdownST[0].Id);
     // }, [GetStandarddropdownST]);
 
-    useEffect(() => {
-        if (GetExamdropdownST.length > 0) setExamST(GetExamdropdownST[0].Id);
-    }, [GetExamdropdownST]);
+    // useEffect(() => {
+    //     if (GetExamdropdownST.length > 0) setExamST(GetExamdropdownST[0].Id);
+    // }, [GetExamdropdownST]);
 
-    useEffect(() => {
-        if (GetSubjectdropdownST.length > 0)
-            setSubjectST(GetSubjectdropdownST[0].Id);
-    }, [GetSubjectdropdownST]);
+    // useEffect(() => {
+    //     if (GetSubjectdropdownST.length > 0)
+    //         setSubjectST(GetSubjectdropdownST[0].Id);
+    // }, [GetSubjectdropdownST]);
 
     useEffect(() => {
 
@@ -420,12 +420,12 @@ const ExamResultToppers = () => {
         console.log(SelectExamCT, 'SelectExamCT');
 
     };
-    useEffect(() => {
-        if (GetExamdropdownCT.length > 0) {
-            setExamCT(GetExamdropdownCT[0].Id);
-            setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
-        }
-    }, [GetExamdropdownCT]);
+    // useEffect(() => {
+    //     if (GetExamdropdownCT.length > 0) {
+    //         setExamCT(GetExamdropdownCT[0].Id);
+    //         setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
+    //     }
+    // }, [GetExamdropdownCT]);
 
 
     const clickSubjectDropdownCT = (value) => {
@@ -514,7 +514,7 @@ const ExamResultToppers = () => {
                         <Box sx={{ display: 'flex', gap: '8px' }}>
                             {CanEdit == 'Y' && (
                                 <SearchableDropdown
-                                    sx={{ pl: 0, minWidth: '200px' }}
+                                    sx={{ pl: 0, minWidth: '10vw' }}
                                     ItemList={GetClassdropdownCT}
                                     onChange={clickClassDropdownCT}
                                     defaultValue={SelectClassCT}
@@ -523,7 +523,7 @@ const ExamResultToppers = () => {
                                 />
                             )}
                             <SearchableDropdown
-                                sx={{ pl: 0, minWidth: '200px' }}
+                                sx={{ pl: 0, minWidth: '20vw' }}
                                 ItemList={GetExamdropdownCT}
                                 onChange={clickExamDropdownCT}
                                 defaultValue={SelectExamCT}
@@ -531,7 +531,7 @@ const ExamResultToppers = () => {
                                 label='Select Exam'
                             />
                             <SearchableDropdown
-                                sx={{ pl: 0, minWidth: '200px' }}
+                                sx={{ pl: 0, minWidth: '20vw' }}
                                 ItemList={GetSubjectdropdownCT}
                                 onChange={clickSubjectDropdownCT}
                                 defaultValue={SelectSubjectCT}
@@ -544,7 +544,7 @@ const ExamResultToppers = () => {
                             {CanEdit == 'Y' && (
                                 <SearchableDropdown
                                     label='Select Standard'
-                                    sx={{ pl: 0, minWidth: '200px' }}
+                                    sx={{ pl: 0, minWidth: '10vw' }}
                                     ItemList={GetStandarddropdownST}
                                     onChange={clickStandardDropdownST}
                                     defaultValue={SelectStandardST}
@@ -553,7 +553,7 @@ const ExamResultToppers = () => {
                             )}
                             <SearchableDropdown
                                 ItemList={GetExamdropdownST}
-                                sx={{ pl: 0, minWidth: '200px' }}
+                                sx={{ pl: 0, minWidth: '20vw' }}
                                 onChange={clickExamDropdownST}
                                 defaultValue={SelectExamST}
                                 label={'Select Exam'}
@@ -561,7 +561,7 @@ const ExamResultToppers = () => {
                             />
                             <SearchableDropdown
                                 ItemList={GetSubjectdropdownST}
-                                sx={{ pl: 0, minWidth: '200px' }}
+                                sx={{ pl: 0, minWidth: '20vw' }}
                                 onChange={clickSubjectDropdownST}
                                 defaultValue={SelectSubjectST}
                                 label={'Subject'}
