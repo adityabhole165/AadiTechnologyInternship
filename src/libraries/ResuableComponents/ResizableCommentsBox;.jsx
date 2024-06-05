@@ -203,7 +203,7 @@ function ResizableCommentsBox({
                 )}
 
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="center" key={j}>
+                  <TableCell align="center" key={j} sx={{ padding: '10px'}}>
                     <TextareaAutosize
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
@@ -211,9 +211,9 @@ function ResizableCommentsBox({
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
-                      maxRows={3}
+                      maxRows={1}
                       maxLength={TermId.maxRemarkLength}
-                      style={{ width: '300px' , height:"50px"}}
+                      style={{ width: '200px',minHeight:'30px'}}
                     />
                     <IconButton onClick={() => NoteClick(item.Id, j)}>
                       <MoreVertIcon />
