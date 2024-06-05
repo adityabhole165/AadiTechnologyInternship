@@ -11,7 +11,13 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
 
   const userJoinDate = new Date(Item.joinDate);
   const selectedDate = new Date(assignedDate);
-  const color = userJoinDate > selectedDate ? '#787876' : '';
+ // const color = userJoinDate > selectedDate ? '#787876' : '';
+ const color = userJoinDate > selectedDate ? 'pink' : '';
+  const fontWeight = userJoinDate > selectedDate ? 'bold' : 'normal';
+  console.log(userJoinDate,"userJoinDate")
+
+
+  //const color = userJoinDate == selectedDate ? '#787876' : '';
   const theme = useTheme();
 
   return (
@@ -41,13 +47,13 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
         </Grid>
         <Grid item xs={2}>
           <CardDetailR>
-          <Typography color={Item.isError?'primary':'error'}>{Item.text1}</Typography>
+            <Typography color={Item.isError ? 'primary' : 'error'}fontWeight={fontWeight}>{Item.text1}</Typography>
 
-            </CardDetailR>
+          </CardDetailR>
         </Grid>
         <Grid item xs={9}>
           <CardDetailA>
-          <Typography color={Item.isError?'primary':'error'}>{Item.text2}</Typography>
+            <Typography color={Item.isError ? 'primary' : 'error'}fontWeight={fontWeight}>{Item.text2}</Typography>
           </CardDetailA>
         </Grid>
       </Box>
