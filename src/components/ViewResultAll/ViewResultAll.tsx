@@ -63,6 +63,8 @@ const ViewResultAll = (props: Props) => {
   console.log("xxxyyyyssss", Usunpublishedexam);
   console.log("Usisconfigred", Usisconfigred.IsConfiged);
 
+  const Data3 = SubjectDetailsView.filter((item) => item.Grade == "")
+  const Data4 = SubjectDetailsView.filter((item) => item.Marks_Scored == "")
 
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
@@ -162,7 +164,7 @@ const ViewResultAll = (props: Props) => {
   };
 
   return (
-    <Box px={2}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           {
@@ -316,6 +318,14 @@ const ViewResultAll = (props: Props) => {
                           </TableCell>
                         )
                         )}
+                      </TableRow>
+                      <TableRow>
+                        {Data3.map((item) => (
+                          <TableCell>{item.Grade}</TableCell>
+                        ))} ||
+                        {Data4.map((item) => (
+                          <TableCell>{item.Marks_Scored}</TableCell>
+                        ))}
                       </TableRow>
                     </TableBody>
                   </Table>
