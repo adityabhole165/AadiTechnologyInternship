@@ -446,15 +446,22 @@ const ProgressRemarks = () => {
 
   const [message, setMessage] = useState("");
   useEffect(() => {
-    const autoSave = setInterval(() => {
-      if (IsDirty) {
-        UpdateRemark();
-        setMessage("We are saving current progress remarks details.Please wait.");
-      }
-    }, 60000);
+    if (USGetFinalPublishedExamStatus.IsPublishedStatus == 1) {
+        <span> </span>
+    }
 
-    return () => clearInterval(autoSave);
-  }, [IsDirty, UpdateRemark]);
+    else{
+      const autoSave = setInterval(() => {
+        if (IsDirty) {
+          UpdateRemark();
+          setMessage("We are saving current progress remarks details.Please wait.");
+        }
+      }, 60000);
+  
+      return () => clearInterval(autoSave);
+
+    }
+  }, [IsDirty, UpdateRemark, USGetFinalPublishedExamStatus.IsPublishedStatus]);
 
   useEffect(() => {
     if (message) {
