@@ -82,8 +82,8 @@ const GetRemarksTemplateDetail = (data: IGetRemarkTemplateDetailsBody) => {
 };
 
 const GetAllStudentsForProgressRemark = (data: IGetAllStudentsForProgressRemarkBody) => {
-  return http.post<IGetAllStudentsForProgressRemarkResult>(
-    'Teacher/GetAllStudentsForProgressRemark',
+  return http.post<IGetAllStudentsForProgressRemarkResult[]>(
+    'Teacher/GetStudentListToProgressRemark',
     data
   );
 };

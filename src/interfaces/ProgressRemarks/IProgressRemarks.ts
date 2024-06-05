@@ -205,9 +205,9 @@ export interface IGetRemarkTemplateDetailsResult {
 export interface IGetAllStudentsForProgressRemarkBody {
   asSchoolId: number
   asAcademicYearId: number
-  aTeacherId: number
+  asStandard_Division_Id: number
   asStudentId: number
-  asTermId: number
+  asTerm_Id: number
   asStartIndex: number
   asEndIndex: number
   asSortExp: string
@@ -215,16 +215,16 @@ export interface IGetAllStudentsForProgressRemarkBody {
 
 
 export interface IGetAllStudentsForProgressRemarkResult {
-  GetAllStudentsList: [{
-    RowID: string
-    TotalRows: string
-    Student_Id: string
-    StudentName: string
-    Remark: string
-    Studentwise_Remark_Id: string
-    SchoolWise_Standard_Division_Id: string
-    Roll_No: string
-  }]
+  Standard_Id: string
+  Division_Id: string
+  Student_Id: string
+  Student_Name: string
+  Academic_Year_Id: string
+  Roll_No: string
+  SchoolWise_Standard_Division_Id: string
+  SchoolLeft_Date: string
+  Joining_Date: string
+  Teacher_Id: string
 }
 
 

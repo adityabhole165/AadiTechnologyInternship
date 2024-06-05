@@ -251,9 +251,9 @@ export const CDAGetAllStudentswiseRemarkDetails = (
   {
     asSchoolId: data.asSchoolId,
     asAcademicYearId: data.asAcademicYearId,
-    aTeacherId: data.TeacherId,
+    asStandard_Division_Id: data.asStandardDivId,
     asStudentId: data.asStudentId,
-    asTermId: data.asTermId,
+    asTerm_Id: data.asTermId,
     asStartIndex: data.asStartIndex,
     asEndIndex: data.asEndIndex,
     asSortExp: "Roll_No"
@@ -261,15 +261,18 @@ export const CDAGetAllStudentswiseRemarkDetails = (
 
   const response2 = await ApiProgressRemark.GetAllStudentsForProgressRemark(NewBody);
 
-  let AllStudentsList = response2.data.GetAllStudentsList.map((item, i) => ({
+  let AllStudentsList = response2.data.map((item, i) => ({
     Id: item.Student_Id,
     Text1: item.Roll_No,
-    Text2: item.StudentName,
-    Text3: item.Remark,
+    Text2: item.Student_Name,
+   
     Text5: item.SchoolWise_Standard_Division_Id,
-    Text6: item.Studentwise_Remark_Id,
+    
     Value: item.Student_Id,
-    Name: item.StudentName
+    Name: item.Student_Name
+
+   
+
 
   }));
 
@@ -326,7 +329,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
 
     let listResult1st = []
     let PrevRollNo = 0
-    response2.data.GetAllStudentsList.map((StudentItem, index) => {
+    response2.data.map((StudentItem, index) => {
       response.data.GetAllStudentswiseRemarkDetailsList.map((item, i) => {
         if (StudentItem.Student_Id == item.YearwiseStudentId.toString()) {
           if (PrevRollNo !== item.RollNo) {
@@ -391,15 +394,13 @@ export const CDAGetAllStudentsForProgressRemark =
     async (dispatch) => {
       const response = await ApiProgressRemark.GetAllStudentsForProgressRemark(data);
 
-      let AllStudentsList = response.data.GetAllStudentsList.map((item, i) => ({
+      let AllStudentsList = response.data.map((item, i) => ({
         Id: item.Student_Id,
         Text1: item.Roll_No,
-        Text2: item.StudentName,
-        Text3: item.Remark,
+        Text2: item.Student_Name,
         Text5: item.SchoolWise_Standard_Division_Id,
-        Text6: item.Studentwise_Remark_Id,
         Value: item.Student_Id,
-        Name: item.StudentName
+        Name: item.Student_Name
 
       }));
       dispatch(ProgressRemarkSlice.actions.RGetAllStudentsForProgressRemark(AllStudentsList));
