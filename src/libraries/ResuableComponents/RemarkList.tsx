@@ -88,7 +88,7 @@ function RemarkList({
                   sx={{
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white,
-                    py: 1,
+                    py: 1
                   }}
                   onClick={() => { clickHeader(item.Id) }}
                 >
@@ -112,8 +112,8 @@ function RemarkList({
           </TableHead>
           <TableBody>
             {ItemList.map((item, i) => (
-              <TableRow key={i}>
-                <TableCell>
+              <TableRow key={i} >
+                <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                   <Checkbox
                     checked={item.IsActive}
                     onChange={() => {
@@ -121,7 +121,7 @@ function RemarkList({
                     }}
                   />
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} >
                   {replaceText(item.Text1)}
                 </TableCell>
               </TableRow>
