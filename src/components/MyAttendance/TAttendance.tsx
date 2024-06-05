@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { grey, red } from '@mui/material/colors';
+import { blue, green, grey, purple, red, teal } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -643,7 +643,7 @@ const TAttendance = () => {
                   }}
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: blue[600],
                     '&:hover': {
                       backgroundColor: grey[600]
                     }
@@ -661,7 +661,7 @@ const TAttendance = () => {
                   }}
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: teal[600],
                     '&:hover': {
                       backgroundColor: grey[600]
                     }
