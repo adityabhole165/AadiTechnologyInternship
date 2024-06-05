@@ -155,15 +155,15 @@ export const GetsingleStudentResultVA =
                 return {
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
-                    Value: item.Subject_Id
+                    Value: item.Grade
 
                 };
             });
-            let Grades = response.data.listParcentageDetails.map((item, i) => {
+            let Grades = response.data.listSubjectDetails.map((item, i) => {
                 return {
                     Id: item.ID_Num,
                     Name: item.Grade,
-                    Value: item.ID_Num
+                    Value: item.Grade
                 };
             });
             dispatch(VeiwResultSlice.actions.GradesDetailsView(Grades));
