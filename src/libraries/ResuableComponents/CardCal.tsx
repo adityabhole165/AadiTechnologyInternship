@@ -45,7 +45,8 @@ function CardCal({
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (item.Text1 === 'Present' || item.Text1 === 'Absent'){
+    setIsHovered(true);}
   };
 
   const handleMouseLeave = () => {
@@ -66,7 +67,8 @@ function CardCal({
           color: legendColors[index],
           ...cardStyle,
           fontWeight: '700',
-          height: '10vh'
+          height: '10vh',
+          cursor: isHovered ? 'pointer' : 'default'
         }}
         textAlign="center"
         display="flex"
@@ -75,6 +77,8 @@ function CardCal({
         onClick={() => {
           onClick(item.Value);
         }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <Box dangerouslySetInnerHTML={{ __html: item.Name }}></Box>
       </Box>

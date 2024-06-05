@@ -304,30 +304,30 @@ export const CDASummaryCountforAttendanceBody =
           {
             Id: '1',
             Text1: 'Present Student ',
-            Text2: response.data.listSummaryCountforAttendance.Boys,
-            Text3: response.data.listSummaryCountforAttendance.Girls,
-            Text4: response.data.listSummaryCountforAttendance.Total
+            Text2: response.data.listSummaryCountforAttendance.Boys !== "0" ? response.data.listSummaryCountforAttendance.Boys : "-",
+            Text3: response.data.listSummaryCountforAttendance.Girls !== "0" ? response.data.listSummaryCountforAttendance.Girls : "-",
+            Text4: response.data.listSummaryCountforAttendance.Total !== "0" ? response.data.listSummaryCountforAttendance.Girls : "-",
           },
           {
             Id: '2',
             Text1: 'Absent  Student ',
-            Text2: response.data.listAbsentCountforAttendance.Boys,
-            Text3: response.data.listAbsentCountforAttendance.Girls,
-            Text4: response.data.listAbsentCountforAttendance.Total
+            Text2: response.data.listAbsentCountforAttendance.Boys !== "0" ? response.data.listAbsentCountforAttendance.Girls : "-",
+            Text3: response.data.listAbsentCountforAttendance.Girls !== "0" ? response.data.listAbsentCountforAttendance.Girls : "-",
+            Text4: response.data.listAbsentCountforAttendance.Total !== "0" ? response.data.listAbsentCountforAttendance.Total : "-",
           },
           {
             Id: '3',
             Text1: 'Total Student ',
-            Text2: response.data.listtotalCountforAttendance.Boys,
-            Text3: response.data.listtotalCountforAttendance.Girls,
-            Text4: response.data.listtotalCountforAttendance.Total
+            Text2: response.data.listtotalCountforAttendance.Boys !== "0" ? response.data.listtotalCountforAttendance.Boys : "-",
+            Text3: response.data.listtotalCountforAttendance.Girls !== "0" ? response.data.listtotalCountforAttendance.Girls : "-",
+            Text4: response.data.listtotalCountforAttendance.Total !== "0" ? response.data.listtotalCountforAttendance.Total : "-",
           },
           {
             Id: '4',
             Text1: 'Present month summary',
-            Text2: response.data.listPresentGendersAttendance.PresentBoys,
-            Text3: response.data.listPresentGendersAttendance.PresentGirls,
-            Text4: response.data.listPresentGendersAttendance.Total
+            Text2: response.data.listPresentGendersAttendance.PresentBoys !== "0" ? response.data.listPresentGendersAttendance.PresentBoys : "-",
+            Text3: response.data.listPresentGendersAttendance.PresentGirls !== "0" ? response.data.listPresentGendersAttendance.PresentGirls : "-",
+            Text4: response.data.listPresentGendersAttendance.Total !== "0" ? response.data.listPresentGendersAttendance.Total : "-"
           }
         ],
         TotalStudents:
