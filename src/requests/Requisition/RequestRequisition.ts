@@ -42,17 +42,15 @@ export const RequisitionListt =
     const response = await ApiRequisition.RequisitionListApi(data);
     let abc = response.data.map((item, i) => {
       return {
-        Id: item.StatusID,
-        Text1: item.RequisitionCode,
-        Text2: item.RequisitionName,
-        Text3: item.StatusName,
-
-        Text4: item.CreaterName,
-
-        Text5: getDateMonthYearFormatted(item.Created_Date),
-        Text7: item.Editble,
-        Text8: item.IsDelete,
-        Text11: item.School_Id
+        Id: item.RequisitionID,
+        RequisitionCode: item.RequisitionCode,
+        RequisitionName: item.RequisitionName,
+        StatusName: item.StatusName,
+        CreaterName: item.CreaterName,
+        Created_Date: getDateMonthYearFormatted(item.Created_Date),
+        Editble: item.Editble,
+        IsDelete: item.IsDelete,
+        IsFinalApproval: item.IsFinalApproval,
       };
     });
     dispatch(SliceRequisition.actions.RequisitionList(abc));
