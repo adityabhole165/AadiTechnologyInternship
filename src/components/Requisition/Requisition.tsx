@@ -252,7 +252,9 @@ const StatusRequisition = () => {
             clickCancel={clickView}
           />
         )}
-        <TablePagination
+        {
+          PagedRequisition.length > 0 ? (
+            <TablePagination
           rowsPerPageOptions={[10,20,30]}
           component="div"
           count={PagedRequisition.length}
@@ -261,6 +263,13 @@ const StatusRequisition = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+
+          ):(
+            <span></span>
+            
+          )
+        }
+        
       </Box>
     </Box>
   );

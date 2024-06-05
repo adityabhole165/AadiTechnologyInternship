@@ -42,18 +42,20 @@ function RequisitionList1({
                     <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                             {HeaderArray.slice(0, 5).map((item, i) => (
-                                <TableCell
-                                    key={i}
-                                    sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
-                                    onClick={() => { clickHeader(item.Id) }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
-                                        <b>{item.Header}</b>
-                                        {item.SortOrder !== null ?
-                                            item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon /> : null
-                                        }
-                                    </div>
-                                </TableCell>
+                               <TableCell
+                               key={i}
+                               sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
+                               onClick={item.Id !== 3 ? () => clickHeader(item.Id) : null} 
+                           >
+                               <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
+                                   <b>{item.Header}</b>
+                                   {item.SortOrder !== null && item.Id !== 3 ? 
+                                       item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                       : null
+                                   }
+                               </div>
+                           </TableCell>
+                           
                             ))}
                             {HeaderArray.slice(5).map((item, i) => (
                                 <TableCell key={i + 5} sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}>
@@ -62,6 +64,7 @@ function RequisitionList1({
                                     </div>
                                 </TableCell>
                             ))}
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
