@@ -21,6 +21,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import RequisitionList1 from 'src/libraries/ResuableComponents/RequisitionList1';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,22 @@ const StatusRequisition = () => {
     'Delete',
     'Cancel'
   ];
+
+  const [HeaderPublish, setHeaderPublish] = useState([
+    { Id: 1, Header: 'Code', SortOrder: "asc" },
+    { Id: 2, Header: 'Requisiton' },
+    { Id: 3, Header: 'Status' },
+    { Id: 4, Header: 'Requestor' },
+    { Id: 5, Header: 'Request Date' },
+    { Id: 6, Header: 'Edit/view' },
+    { Id: 7, Header: 'Delete' },
+    { Id: 8, Header: 'Cancel' },
+  ]);
+
+  const ClickHeader = (value) => {
+    setHeaderPublish(value)
+  }
+
   const IconList = [
     {
       Id: 1,
@@ -210,11 +227,14 @@ const StatusRequisition = () => {
             <b>No Record Found.</b>
           </Typography>
         ) : (
-          <DynamicList2
-            HeaderList={HeaderList}
+          <RequisitionList1
+          HeaderArray={HeaderPublish}
             ItemList={PagedRequisition}
-            IconList={IconList}
-            ClickItem={ClickItem}
+            ClickHeader={ClickHeader}
+            clickEdit={ClickHeader}
+            clickView={ClickHeader}
+            clickDelete={ClickHeader}
+            clickCancel={ClickHeader}
           />
         )}
       </Box>
