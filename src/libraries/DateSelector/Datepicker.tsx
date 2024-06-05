@@ -19,9 +19,9 @@ const Datepicker = ({ DateValue, onDateChange, label, size }) => {
                         size: size || 'medium'
                     }
                 }}
-                sx={{
-                    width: size?.small ? '12vw' : '10vw'
-                }}
+                // sx={{
+                //     width: size?.small ? '12vw' : '10vw'
+                // }}
             />
         </>
     )
