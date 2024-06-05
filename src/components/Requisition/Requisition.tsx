@@ -39,7 +39,7 @@ const StatusRequisition = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5); 
 
   const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: 'Code', SortOrder: "asc" },
+    { Id: 1, Header: 'Code', SortOrder: "ORDER BY Created_Date desc" },
     { Id: 2, Header: 'Requisiton' },
     { Id: 3, Header: 'Status' },
     { Id: 4, Header: 'Requestor' },
@@ -67,7 +67,7 @@ const StatusRequisition = () => {
     asSchoolId: asSchoolId,
     asStartIndex: page1 * rowsPerPage,
     asEndIndex: (page1 + 1) * rowsPerPage,
-    asSortExp: 'ORDER BY Created_Date desc',
+    asSortExp:  ' ' + HeaderPublish[0].SortOrder,
     asStatusID: SelectResult,
     asUserId: Number(asUserId)
   };
