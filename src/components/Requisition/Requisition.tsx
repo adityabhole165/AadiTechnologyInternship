@@ -21,6 +21,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -185,7 +186,7 @@ const StatusRequisition = () => {
             size={"small"}
           />
           <TextField
-            sx={{ width: '25vw' }}
+            sx={{ width: '15vw' }}
             fullWidth
             label="Item Code/Name"
             value={regNoOrName}
@@ -195,6 +196,8 @@ const StatusRequisition = () => {
               handleRegNoOrNameChange(e.target.value);
             }}
           />
+          
+          
           <IconButton
             onClick={clickSearch}
             sx={{
@@ -207,6 +210,22 @@ const StatusRequisition = () => {
           >
             <SearchTwoTone />
           </IconButton>
+          <Box>
+            <Tooltip title={'Here you can see list of existing requisition according to status.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <Tooltip title={'Reset'}>
             <IconButton
               sx={{
@@ -252,7 +271,9 @@ const StatusRequisition = () => {
             clickCancel={clickView}
           />
         )}
-        <TablePagination
+        {
+          PagedRequisition.length > 0 ? (
+            <TablePagination
           rowsPerPageOptions={[10,20,30]}
           component="div"
           count={PagedRequisition.length}
@@ -261,6 +282,13 @@ const StatusRequisition = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+
+          ):(
+            <span></span>
+            
+          )
+        }
+        
       </Box>
     </Box>
   );
