@@ -440,7 +440,7 @@ const LessonPlanBaseScreen = () => {
               <Box sx={{ background: 'white' }}>
                 <Box sx={{ background: 'white' }}>
                   <SearchableDropdown
-                    sx={{ minWidth: '300px' }}
+                    sx={{ minWidth: '25vw' }}
                     ItemList={USGetAllTeachersOfLessonPlan}
                     onChange={ClickSelctTecher}
                     label={'Select Teacher:'}

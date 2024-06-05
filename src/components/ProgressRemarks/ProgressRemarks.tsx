@@ -727,7 +727,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '25vw', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
@@ -740,7 +740,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             ItemList={USGetTestwiseTerm}
-            sx={{ minWidth: '200px' }}
+            sx={{ minWidth: '25vw' }}
             onChange={clickSelectTerm}
             defaultValue={SelectTerm}
             label={'Term'}
@@ -749,7 +749,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             ItemList={USStudentListDropDown}
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '25vw' }}
             onChange={clickStudentList}
             defaultValue={StudentList}
             label={'StudentList'}
@@ -897,7 +897,7 @@ const ProgressRemarks = () => {
                 />
                 <SearchableDropdown
                   ItemList={USRemarksCategory}
-                  sx={{ minWidth: '200px' }}
+                  sx={{ minWidth: '25vw' }}
                   onChange={clickRemark}
                   defaultValue={Remark}
                   label={'Remark Category'}
@@ -905,7 +905,7 @@ const ProgressRemarks = () => {
                 />
                 <SearchableDropdown
                   ItemList={GradeDropDown}
-                  sx={{ minWidth: '230px' }}
+                  sx={{ minWidth: '25vw' }}
                   onChange={clickGrade}
                   defaultValue={SelectGrade}
                   label={'Grades'}

@@ -246,7 +246,7 @@ const AssignHomework = () => {
         ]}
         rightActions={<>
           <SearchableDropdown
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '25vw' }}
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
             label={'Select Teacher'}
@@ -255,7 +255,7 @@ const AssignHomework = () => {
             size={"small"}
           />
           <SearchableDropdown
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '25vw' }}
             ItemList={ClassList}
             onChange={clickClass}
             label={'Select Class:'}
