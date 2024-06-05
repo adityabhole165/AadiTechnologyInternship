@@ -53,8 +53,9 @@ const TextCommaNumber = ({
     else changeText({ text: textarray, getLabel: label });
   };
 
+
   return (
-    <Box sx={{ backgroundColor: 'white', width: '45%' }}>
+    <Box sx={{ backgroundColor: 'white', width: '100%' }}>
       <TextField
         InputLabelProps={{
           shrink: true
@@ -65,12 +66,33 @@ const TextCommaNumber = ({
         label={getLabel}
         onChange={(e) => SetTextData2(e.target.value)}
         InputProps={{
-          readOnly: true // Set input as read-only
+          readOnly: true,
+          sx: {
+            height: '30px', // Set the height of the input container
+            padding: '0 14px', // Adjust padding as necessary
+            '& .MuiOutlinedInput-root': {
+              height: '30px', // Set the height of the input container
+              '& fieldset': {
+                top: 0,
+                height: '100%', // Ensure fieldset takes full height
+                '& legend': {
+                  display: 'none',
+                },
+              },
+            },
+            '& .MuiInputBase-input': {
+              padding: '5px 14px', // Adjust the padding to center the text vertically
+              height: '20px', // Adjust the height of the input area
+              boxSizing: 'border-box',
+            },
+          },
         }}
-        sx={{ height: '70px' }}
+        sx={{
+          margin: '8px 0', // Optionally, adjust the margin to fit the design
+        }}
       />
     </Box>
   );
-};
+}
 
 export default TextCommaNumber;
