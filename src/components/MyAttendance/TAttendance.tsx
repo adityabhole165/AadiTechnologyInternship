@@ -591,7 +591,7 @@ const TAttendance = () => {
             <Box sx={{ background: 'white' }}>
               <SearchableDropdown
                 label={""}
-                sx={{ pl: 0, minWidth: '20px' }}
+                sx={{ pl: 0, minWidth: '20vw' }}
                 ItemList={ClassTeacherDropdownnew}
                 onChange={clickClassTechernew}
                 defaultValue={selectClasstecahernew}
