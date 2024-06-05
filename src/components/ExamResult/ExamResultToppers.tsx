@@ -68,6 +68,7 @@ const ExamResultToppers = () => {
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
     const [radioBtn, setRadioBtn] = useState('1');
+    
     const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
     const ScreensAccessPermission = JSON.parse(
         sessionStorage.getItem('ScreensAccessPermission')
@@ -238,22 +239,25 @@ const ExamResultToppers = () => {
     //         setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
     //     }
     // }, [GetExamdropdownCT]);
-    useEffect(() => {
-        if (GetExamdropdownST.length > 0) {
-            setExamST(GetExamdropdownST[0].Id);
-            setSelectedExamName(GetExamdropdownST[0].Name); // Set the selected exam name
-        }
-    }, [GetExamdropdownST]);
+    // useEffect(() => {
+    //     if (GetExamdropdownST.length > 0) {
+    //         setExamST(GetExamdropdownST[0].Id);
+    //         setSelectedExamName(GetExamdropdownST[0].Name); // Set the selected exam name
+    //     }
+    // }, [GetExamdropdownST]);
+
     useEffect(() => {
         if (radioBtn === '1' && GetExamdropdownCT.length > 0) {
             const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
             if (selectedExam) {
                 setSelectedExamName(selectedExam.Name);
+                setExamST(SelectExamCT);
             }
         } else if (radioBtn === '2' && GetExamdropdownST.length > 0) {
             const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
             if (selectedExam) {
                 setSelectedExamName(selectedExam.Name);
+                setExamCT(SelectExamST)
             }
         }
     }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST]);
@@ -446,6 +450,7 @@ const ExamResultToppers = () => {
         const selectedExam = GetExamdropdownST.find((exam) => exam.Id === value);
         if (selectedExam) {
             setSelectedExamName(selectedExam.Name);
+            setExamCT(value);
         }
     };
 
@@ -458,11 +463,13 @@ const ExamResultToppers = () => {
             const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
             if (selectedExam) {
                 setSelectedExamName(selectedExam.Name);
+
             }
         } else {
             const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
             if (selectedExam) {
                 setSelectedExamName(selectedExam.Name);
+                // setExamCT(GetExamdropdownCT[0].Id)
             }
         }
     }, [SelectExamCT, SelectExamST, radioBtn, GetExamdropdownCT, GetExamdropdownST]);
