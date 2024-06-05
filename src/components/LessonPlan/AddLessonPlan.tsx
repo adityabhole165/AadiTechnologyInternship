@@ -831,7 +831,7 @@ const AddLessonPlan = () => {
               defaultValue={SelectClass}
               label='Class'
               mandatory
-              sx={{ width: '100%' }}
+              sx={{ minWidth: '20vw' }}
               onChange={onClickClass}
             />
           </Grid>

@@ -205,7 +205,7 @@ const TermwiseHeightWeight = () => {
         ]}
         rightActions={<>
           <SearchableDropdown
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '20vw' }}
             ItemList={ClassTeacherDropdown}
             onChange={clickTeacherDropdown}
             label={'Class Teacher'}
@@ -214,7 +214,7 @@ const TermwiseHeightWeight = () => {
             size={"small"}
           />
           <SearchableDropdown
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '20vw' }}
             ItemList={TermDropdown}
             onChange={clickTermDropdown}
             label={'Term'}
