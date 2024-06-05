@@ -185,7 +185,7 @@ const StatusRequisition = () => {
             size={"small"}
           />
           <TextField
-            sx={{ width: '25vw' }}
+            sx={{ width: '15vw' }}
             fullWidth
             label="Item Code/Name"
             value={regNoOrName}
