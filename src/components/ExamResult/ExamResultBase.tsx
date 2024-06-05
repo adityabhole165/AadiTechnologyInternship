@@ -255,22 +255,35 @@ const ExamResultBase = () => {
   }, [ClassTeachers, GetScreenPermission()]);
 
 
+  // useEffect(() => {
+  //   setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
+
+  //   if (ProgressSheet === "Published") {
+  //     setDisplayNote('Results for this exam have been published.');
+  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
+  //   } else if (ProgressSheet !== "Submitted" && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
+  //     setDisplayNote('Not all results for this exam have been submitted.');
+  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
+  //   } else {
+  //     setDisplayNote('');
+  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
+  //   }
+  // }, [ProgressSheet, ClassPassFailDetailsForButton]);
+
   useEffect(() => {
     setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
 
-    if (ProgressSheet === "Published") {
+    if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-    } else if (ProgressSheet !== "Submitted" && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
+    } else if (Submitted === 'N' || Submitted === 'Y' && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('Not all results for this exam have been submitted.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-    } else {
+    } else if (Submitted === 'Y' && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
       setDisplayNote('');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     }
-  }, [ProgressSheet, ClassPassFailDetailsForButton]);
-
-
+  }, [Submitted,ClassPassFailDetailsForButton]);
   useEffect(() => {
     dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
 
@@ -524,7 +537,7 @@ const ExamResultBase = () => {
 
           <SearchableDropdown
             sx={{
-              minWidth: '300px'
+              minWidth: '20px'
               , bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
             }}
             ItemList={ClassTeachers}
@@ -541,7 +554,7 @@ const ExamResultBase = () => {
 
 
           <SearchableDropdown
-            sx={{ minWidth: '300px' }}
+            sx={{ minWidth: '20px' }}
             ItemList={ClasswiseExams}
             onChange={clickExam}
             label={'Exam'}
