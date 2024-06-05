@@ -3,7 +3,7 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Link } from '@mui/material';
+import { Box, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -77,23 +77,34 @@ function RequisitionList1({
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Created_Date}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} align="center">
                                     {item.Editble === '1' ? (
+                                         <Tooltip title={"Edit"}>
                                         <EditTwoTone onClick={() => clickEdit(item.Id)} />
+
+                                         </Tooltip>
                                     ) : (
+                                        <Tooltip title={"View"}>
                                         <Visibility onClick={() => clickView(item.Id)} />
+                                        </Tooltip>
                                     )}
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                                     {item.IsDelete === "True" ? (
+                                        <Tooltip title={"Delete"}>
                                         <DeleteForeverIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
+                                        </Tooltip>
                                     ) : <span></span>
                                     }
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                                     {item.IsFinalApproval === "1" ? (
+                                        <Tooltip title={"Cancel"}>
+
                                         <Link onClick={() => clickCancel(item.Id)} sx={{ color: 'blue' }}>Cancel</Link>
+                                        </Tooltip>
                                     ) : <span></span>}
                                 </TableCell>
                             </TableRow>
+                            
                         ))}
                     </TableBody>
                 </Table>

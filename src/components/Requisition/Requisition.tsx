@@ -21,6 +21,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -195,6 +196,8 @@ const StatusRequisition = () => {
               handleRegNoOrNameChange(e.target.value);
             }}
           />
+          
+          
           <IconButton
             onClick={clickSearch}
             sx={{
@@ -207,6 +210,22 @@ const StatusRequisition = () => {
           >
             <SearchTwoTone />
           </IconButton>
+          <Box>
+            <Tooltip title={'Here you can see list of existing requisition according to status.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <Tooltip title={'Reset'}>
             <IconButton
               sx={{
