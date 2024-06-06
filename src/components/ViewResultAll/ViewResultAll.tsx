@@ -30,25 +30,19 @@ import {
 } from 'src/requests/VeiwAllResult/ReqveiwresultAll';
 
 type Props = {};
-
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const TeacherId = (sessionStorage.getItem('TeacherId'));
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
   const [open, setOpen] = useState(false);
-  console.log(TeacherId, " ----", selectTeacher);
-
+  // console.log(TeacherId, " ----", selectTeacher);
   const [studentList, setStudentList] = useState();
-  const ScreensAccessPermission = JSON.parse(
-    sessionStorage.getItem('ScreensAccessPermission')
-  );
+  const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const asUserId = Number(sessionStorage.getItem('Id'));
-
   const USClassTeachers = useSelector((state: RootState) => state.VeiwResult.ClassTeachers);
   const USStudentListDropDown = useSelector((state: RootState) => state.VeiwResult.StudentName);
   const USStudentResultList = useSelector((state: RootState) => state.VeiwResult.StudentResultList);
@@ -60,11 +54,12 @@ const ViewResultAll = (props: Props) => {
   const Usunpublishedexam: any = useSelector((state: RootState) => state.VeiwResult.unpublishexam);
   const GetnotgenrateLists = useSelector((state: RootState) => state.VeiwResult.notResultList);
 
-  console.log("xxxyyyyssss", Usunpublishedexam);
-  console.log("Usisconfigred", Usisconfigred.IsConfiged);
-
   const Data3 = SubjectDetailsView.filter((item) => item.Grade == "")
-  const Data4 = SubjectDetailsView.filter((item) => item.Marks_Scored == "")
+  const Data4 = SubjectDetailsView.filter((item) => item.Marks == "")
+  const showOnlyGrades = USSStudentsingleResult.some((item) => item.ShowOnlyGrades.trim() === 'true');
+  // console.log(showOnlyGrades, "showgradeess");
+  const totalconsidration = SubjectDetailsView.filter((item) => item.Total_Consideration === "N")
+  //console.log(totalconsidration, "totalconsidrationdddd");
 
   const ClassTeachersBody: IClassTeacherBody = {
     asSchoolId,
@@ -147,13 +142,14 @@ const ViewResultAll = (props: Props) => {
     });
     return perm;
   };
-  console.log("GetScreenPermission", GetScreenPermission())
+  //console.log("GetScreenPermission", GetScreenPermission())
 
   const getStudentName = () => {
     let classStudentName = '';
     USStudentListDropDown.map((item) => {
       if (item.Value == studentList) classStudentName = item.Name;
     });
+
     return classStudentName;
   };
   const isgenrate = getStudentName()
@@ -199,14 +195,14 @@ const ViewResultAll = (props: Props) => {
               ItemList={USStudentListDropDown}
               onChange={clickStudentList}
               defaultValue={studentList}
-              label="All"
+              label="Student"
               size="small"
               sx={{ width: '25vw' }}
             />
           </Box>
 
           <Box>
-            <Tooltip title={'Help View result of all/selected student .'}>
+            <Tooltip title={'View result of all / selected student .'}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -254,8 +250,6 @@ const ViewResultAll = (props: Props) => {
         </>}
       />
 
-
-
       <Box sx={{ mt: 1, background: 'white' }}>
         {open && (
           <Box>
@@ -274,19 +268,26 @@ const ViewResultAll = (props: Props) => {
                   Final Result
                 </Typography>
 
+                <Table>
+                  <TableBody>
+                    {USSStudentsingleResult.map((item) => (
+                      <TableRow key={item.id} sx={{ bgcolor: 'grey.200' }}>
+                        <TableCell><b>Roll No : </b> {item.Text2} </TableCell>
+                        <TableCell><b>Name : </b> {item.Text1}</TableCell>
+                        <TableCell><b>Class : </b> {item.Text3} - {item.Text4}</TableCell>
+                        <TableCell><b>Year : </b> {item.Text5}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
 
                 <Table>
                   <TableBody>
-                    {USSStudentsingleResult.map((item) => {
-                      return (
-                        <TableRow sx={{ bgcolor: 'grey.200' }}>
-                          <TableCell><b>Roll No : </b> {item.Text2} </TableCell>
-                          <TableCell><b>Name : </b> {item.Text1}	</TableCell>
-                          <TableCell><b>Class : </b> {item.Text3} - {item.Text4}	</TableCell>
-                          <TableCell><b>Year : </b> {item.Text5}	</TableCell>
-                        </TableRow>
-                      )
-                    })}
+                    {totalconsidration.length > 0 && (
+                      <TableRow sx={{ bgcolor: 'grey.200' }}>
+                        <TableCell><b> Legend </b> *:Subject marks not considered in total marks </TableCell>
+                      </TableRow>
+                    )}
                   </TableBody>
                 </Table>
 
@@ -302,12 +303,17 @@ const ViewResultAll = (props: Props) => {
                         ))}
                       </TableRow>
                       <TableRow>
-                        <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
-                          Marks
-                        </Typography>
-                        {MarkDetailsView.map((marks) => (
-                          <TableCell>{marks.Name}</TableCell>
-                        ))}
+                        {!showOnlyGrades && (
+                          <>
+                            <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                              Marks
+                            </Typography>
+
+                            {MarkDetailsView.map((marks) => (
+                              <TableCell key={marks.Name}>{marks.Name}</TableCell>
+                            ))}
+                          </>
+                        )}
                       </TableRow>
                       <TableRow>
                         <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
@@ -318,14 +324,6 @@ const ViewResultAll = (props: Props) => {
                           </TableCell>
                         )
                         )}
-                      </TableRow>
-                      <TableRow>
-                        {Data3.map((item) => (
-                          <TableCell>{item.Grade}</TableCell>
-                        ))} ||
-                        {Data4.map((item) => (
-                          <TableCell>{item.Marks_Scored}</TableCell>
-                        ))}
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -356,5 +354,4 @@ const ViewResultAll = (props: Props) => {
     </Box>
   );
 };
-
 export default ViewResultAll;
