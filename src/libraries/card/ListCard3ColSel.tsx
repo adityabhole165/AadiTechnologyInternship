@@ -3,23 +3,44 @@ import { CardDetailA, CardDetailR } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg';
 
 const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
+  console.log("Item:", Item);
   const date = Item.joinDate;
-  const Day = new Date(date).getDate();
-  const Month = new Date(date).toLocaleString('default', { month: 'short' });
-  const Year = new Date(date).getFullYear();
-  const joinDate = `${Day}-${Month}-${Year}`;
+  console.log("date:", date);
+  // const Day = new Date(date).getDate();
+  // const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  // const Year = new Date(date).getFullYear();
+  const dateParts = Item.joinDate.split(' ')[0].split('-');
+  const Day = parseInt(dateParts[0]);
+  const Month = parseInt(dateParts[1]);
+  const Year = parseInt(dateParts[2]);
 
-  const userJoinDate = new Date(Item.joinDate);
+  const joinDate = new Date(Year, Month - 1, Day);
+
+  console.log("Join Date:", joinDate);
+  //const joinDate = `new Date(Year, Month - 1, Day)`;
+  console.log("Join Date:", joinDate);
+  // const userJoinDate = new Date(Item.joinDate);
+  // const selectedDate = new Date(assignedDate);
+  const joinDateParts = Item.joinDate.split(/[- :]/);
+  // month is 0-indexed, so we subtract 1 from the month
+  const userJoinDate = new Date(joinDateParts[2], joinDateParts[1] - 1, joinDateParts[0], joinDateParts[3], joinDateParts[4], joinDateParts[5]);
+  // const userJoinDate = new Date(Item.joinDate);
   const selectedDate = new Date(assignedDate);
- // const color = userJoinDate > selectedDate ? '#787876' : '';
- const color = userJoinDate > selectedDate ? 'pink' : '';
-  const fontWeight = userJoinDate > selectedDate ? 'bold' : 'normal';
-  console.log(userJoinDate,"userJoinDate")
 
+  console.log("User Join Date:", userJoinDate); // Log userJoinDate to verify its value
+  console.log("Selected Date:", selectedDate);
+  // const color = userJoinDate > selectedDate ? '#787876' : '';
+  const color = userJoinDate > selectedDate ? '#e1bee7' : '';
+  const fontWeight = userJoinDate > selectedDate ? 'bold' : 'normal';
+  console.log("Item.text1:", Item.text1);
+  console.log("Item.text2:", Item.text2);
 
   //const color = userJoinDate == selectedDate ? '#787876' : '';
   const theme = useTheme();
 
+  if ((Item.text1 === "49") && (Item.text2 === "Master Soham Bhagade") && userJoinDate > selectedDate) {
+    console.log("Student Data:", Item);
+  }
   return (
     <>
       <Box
@@ -47,13 +68,13 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
         </Grid>
         <Grid item xs={2}>
           <CardDetailR>
-            <Typography color={Item.isError ? 'primary' : 'error'}fontWeight={fontWeight}>{Item.text1}</Typography>
+            <Typography color={Item.isError ? 'primary' : 'error'} fontWeight={fontWeight}>{Item.text1}</Typography>
 
           </CardDetailR>
         </Grid>
         <Grid item xs={9}>
           <CardDetailA>
-            <Typography color={Item.isError ? 'primary' : 'error'}fontWeight={fontWeight}>{Item.text2}</Typography>
+            <Typography color={Item.isError ? 'primary' : 'error'} fontWeight={fontWeight}>{Item.text2}</Typography>
           </CardDetailA>
         </Grid>
       </Box>

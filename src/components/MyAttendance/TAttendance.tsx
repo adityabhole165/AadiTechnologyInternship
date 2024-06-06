@@ -142,7 +142,7 @@ const TAttendance = () => {
   const AcademicDates = useSelector(
     (state: RootState) => state.AttendanceList.GetAcademicDates
   );
-  console.log("AcademicDates", AcademicDates)
+
   const getAssignedDateStatus = () => {
     let a = listAttendanceCalender.filter((item) => item.Value == assignedDate);
     return a.length > 0 ? a[0].Text3 : '';

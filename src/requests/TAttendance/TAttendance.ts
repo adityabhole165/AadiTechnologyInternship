@@ -3,6 +3,7 @@ import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
 import {
   getDateFromatDateTime,
   getDateMonthSpace,
+  getDateMonthYearDayDash,
   getDateMonthYearFormatted,
   getDateMonthYearFormattedDash
 } from 'src/components/Common/Util';
@@ -166,7 +167,7 @@ export const GetStudentList =
         studentList = response?.data.map((item, index) => {
           let studentName = item.StudentName;
           let IsLateJoin = false;
-          if (new Date(getDateMonthYearFormattedDash(item.JoinDate)) > new Date(data.asDate)) {
+          if (new Date(getDateMonthYearDayDash(item.JoinDate)) > new Date(data.asDate)) {
             IsLateJoin = true;
           }
 

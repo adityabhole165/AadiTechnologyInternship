@@ -205,7 +205,7 @@ export const getClassPassFailDetailsForTest =
       let HeaderListTemp = response.data?.LstExamStatusForTest.map((item) => {
         return item.ExamStatus.trim();
       });
-
+     
       let HeaderList = ['Subject', ...HeaderListTemp, 'Edit'];
       dispatch(SliceExamResult.actions.GetHeaderList(HeaderList));
 
@@ -264,10 +264,14 @@ export const getClassPassFailDetailsForTest =
         );
         Column.push(row);
       });
+     
+     
 
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTest(Column));
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTestData(ColumnData));
-      // dispatch(SliceExamResult.actions.GetClassPassFailDetailsForButton(ColumnData))
+     
+   
+
     };
 
 export default SliceExamResult.reducer;
