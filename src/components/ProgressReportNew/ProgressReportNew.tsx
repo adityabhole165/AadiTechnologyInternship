@@ -2,7 +2,7 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography,TableHead } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,6 +44,8 @@ const ProgressReportNew = () => {
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
   );
+   console.log(USGetClassTeachers,"USGetClassTeachers");
+   
   const USGetStudentNameDropdown: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetStudentNameDropdown
   );
@@ -63,14 +65,8 @@ const ProgressReportNew = () => {
   const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
-
- 
-
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
-  
-   
-
     const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
     const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
     const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
@@ -233,8 +229,7 @@ const ProgressReportNew = () => {
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
             size={"small"}
-            DisableClearable={GetScreenPermission() == 'N'}
-            disabled={GetScreenPermission() == 'N'}
+           
 
           />
 
@@ -373,45 +368,39 @@ const ProgressReportNew = () => {
               </Box>
               <Box sx={{ overflowX: 'auto' }}>
                 <Table>
-                  <TableBody>
+                  <TableHead>
                     <TableRow sx={{ bgcolor: '#b3e5fc' }}>
-                      <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} mt={3}>
-                        Subjects
-                      </Typography>
-                      <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
-                        Exam
-                        
-                      </Typography>
+                      <TableCell rowSpan={2}>
+                        <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
+                          Subjects &#9654;
+                        </Typography>
+                        <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                          &#9660; Exam
+                        </Typography></TableCell>
                       {USlistSubjectsDetails.map((item) => (
                         <TableCell><b>{item.Subject_Name}</b></TableCell>
                       ))}
                     </TableRow>
-                       {USListSubjectidDetails.map((item) => (
-                        <TableCell  sx={{ mr:"9px"}}>
-                          <Typography color="#42a5f5"  textAlign={'left'} mr={8}  >
-
-                            <b  style={{marginRight:"9px"}}>{item.ShortenTestType_Name}</b>
-
+                    <TableRow>
+                      {USListSubjectidDetails.map((item) => (
+                        <TableCell >
+                          <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
+                            <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                           </Typography>
-
                         </TableCell>
                       ))}
-                    <TableRow>
-
-                      {USlistTestDetails.map((item) => (
-                        <TableRow >
-                          <Typography color="black" >
-                            {item.Test_Name}
-                          </Typography>                        
-                        </TableRow>
-                      ))}
                     </TableRow>
-                               <TableRow>
-                      {Data3.map((item) => (
-                        <TableCell>{item.Grade}</TableCell>
-                      ))}
-                    </TableRow>
-                  </TableBody>
+                  </TableHead>
+                  {USlistTestDetails.map((testItem) => (
+                    <TableBody key={testItem.id}>
+                      <TableRow>
+                        <TableCell>{testItem.Test_Name}</TableCell>
+                        {Data3.map((subjectItem) => (
+                          <TableCell>{subjectItem.Grade}</TableCell>
+                        ))}
+                      </TableRow>
+                    </TableBody>
+                  ))}
                 </Table>
               </Box>
             </>
