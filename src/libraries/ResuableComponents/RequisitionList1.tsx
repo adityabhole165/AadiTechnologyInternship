@@ -96,7 +96,7 @@ function RequisitionList1({
                                     }
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-                                    {item.IsFinalApproval === "1" ? (
+                                    {item.IsFinalApproval == "1" ? (
                                         <Tooltip title={"Cancel"}>
 
                                         <Link onClick={() => clickCancel(item.Id)} sx={{ color: 'blue' }}>Cancel</Link>

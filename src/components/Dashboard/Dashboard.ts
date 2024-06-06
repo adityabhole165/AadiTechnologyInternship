@@ -452,7 +452,7 @@ const DashboardData = {
         Color: '#81c784',
         iconColor: '#424242',
         Icon: AssignmentIcon,
-        Link: 'Teacher/LessonPlanBaseScreen',
+        Link: 'Teacher/Lesson Plan',
         index: 15
       },
       // {

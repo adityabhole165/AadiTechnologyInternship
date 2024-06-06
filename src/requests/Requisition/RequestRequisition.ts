@@ -4,7 +4,8 @@ import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import {
   IGetDeleteRequisitionBody,
   IGetPagedRequisitionBody,
-  IGetRequisitionStatusBody
+  IGetRequisitionStatusBody,
+  IGetCancelRequisitionBody
 } from 'src/interfaces/Requisition/IRequisition';
 import { AppThunk } from 'src/store';
 
@@ -14,6 +15,7 @@ const SliceRequisition = createSlice({
     Requisition: [],
     RequisitionList: [],
     ISDeleteRequisition:"",
+    ISCancelRequisition:""
 
 
   },
@@ -27,9 +29,16 @@ const SliceRequisition = createSlice({
     RDeleteRequisition(state, action) {
       state.ISDeleteRequisition = action.payload;
     },
+    RCancelRequisition(state, action) {
+      state.ISCancelRequisition = action.payload;
+    },
   
-    RresetMessage(state) {
+    RresetMessageDeleteRequisitionn(state) {
       state.ISDeleteRequisition = '';
+    },
+
+    RresetMessageCancelRequisition(state) {
+      state.ISCancelRequisition = "";
     },
 
     
@@ -44,7 +53,7 @@ export const RequisitionStatus =
       return {
         Id: item.Insert_Date,
         Name: item.StatusName,
-        Value: item.StatusID
+        Value: item.StatusID,
       };
     });
     dispatch(SliceRequisition.actions.Requisition(abc));
@@ -64,6 +73,7 @@ export const RequisitionListt =
         Editble: item.Editble,
         IsDelete: item.IsDelete,
         IsFinalApproval: item.IsFinalApproval,
+        Value :item.CreatedId
       };
     });
     dispatch(SliceRequisition.actions.RequisitionList(abc));
@@ -76,9 +86,23 @@ export const RequisitionListt =
     dispatch(SliceRequisition.actions.RDeleteRequisition(response.data));
   };
 
-  export const resetMessage= (): AppThunk => async (dispatch) => {
-    dispatch(SliceRequisition.actions.RresetMessage());
+  export const CDACancelRequisition =
+  (data: IGetCancelRequisitionBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiRequisition.CancelRequisition(data);
+    dispatch(SliceRequisition.actions.RCancelRequisition(response.data));
   };
+
+
+  export const resetMessageDeleteRequisitionn = (): AppThunk => async (dispatch) => {
+    dispatch(SliceRequisition.actions.RresetMessageDeleteRequisitionn());
+  };
+  export const resetMessageCancelRequisition= (): AppThunk => async (dispatch) => {
+    dispatch(SliceRequisition.actions.RresetMessageCancelRequisition());
+  };
+
+
+  
 
 
 export default SliceRequisition.reducer;
