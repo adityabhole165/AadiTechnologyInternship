@@ -66,7 +66,7 @@ const VeiwResultSlice = createSlice({
         },
         getLoading(state, action) {
             state.Loading = true;
-            state.StudentsingleResult = [];
+            //  state.StudentsingleResult = [];
 
         },
         PageStudentList(state, action) {
@@ -132,7 +132,7 @@ export const GetsingleStudentResultVA =
     (data: IGetsingleStudentBody): AppThunk =>
         async (dispatch) => {
             const response = await VeiwResultAll.GetsingleStudentResult(data);
-            //console.log(response.data, "respons");
+            console.log(response.data, "respons");
 
             let StudentListAll = response.data.listStudentDetail.map((item, i) => {
                 return {
@@ -141,8 +141,12 @@ export const GetsingleStudentResultVA =
                     Text2: item.Roll_No,
                     Text3: item.Standard_Name,
                     Text4: item.Division_Name,
-                    Text5: item.Academic_Year
+                    Text5: item.Academic_Year,
+                    ShowOnlyGrades: item.ShowOnlyGrades
+
                 };
+                // console.log(StudentListAll,"showonlygradess");
+
             });
             let MarkList = response.data.listSubjectDetails.map((item, i) => {
                 return {
@@ -155,7 +159,8 @@ export const GetsingleStudentResultVA =
                 return {
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
-                    Value: item.Grade
+                    Value: item.Grade,
+                    Total_Consideration: item.Total_Consideration
 
                 };
             });
