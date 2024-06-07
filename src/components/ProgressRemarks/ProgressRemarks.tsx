@@ -838,14 +838,13 @@ const ProgressRemarks = () => {
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
                 <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                   <TablePagination
-                    rowsPerPageOptions={[10, 20, 30, 40]}
                     component="div"
                     count={Itemlist.length}
                     rowsPerPage={rowsPerPage}
                     page={page1}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    // ActionsComponent={CustomTablePaginationActions}
+                   
                   />
                 </Box>
               ) : (
