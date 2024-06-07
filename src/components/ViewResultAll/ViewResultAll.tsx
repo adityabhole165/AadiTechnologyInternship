@@ -124,9 +124,12 @@ const ViewResultAll = (props: Props) => {
 
   useEffect(() => {
     dispatch(StudentNameList(StudentListDropDowntBody));
+  }, [dispatch]);
+  useEffect(() => {
+    //dispatch(StudentNameList(StudentListDropDowntBody));
     if (USStudentListDropDown.length > 0)
       setStudentList(USStudentListDropDown[0].Id)
-  }, [selectTeacher]);
+  }, [USStudentListDropDown]);
 
   useEffect(() => {
     dispatch(GetStudentResultList(StudentResultBody));
