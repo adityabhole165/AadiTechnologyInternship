@@ -105,7 +105,10 @@ const StatusRequisition = () => {
       asUpdatedById: Number(asUserId),
       asCanceledById: 0
     };
-
+     if(textall == ''){
+      alert('Reason Should not be blank.');
+      return;
+     }
     dispatch(CDACancelRequisition(CancelRequisitionBody));
   };
 
@@ -221,6 +224,7 @@ const StatusRequisition = () => {
   useEffect(() => {
     if (USCancelRequisition != '') {
       toast.success(USCancelRequisition);
+      setOpenPublishDialogall(false)
       dispatch(resetMessageCancelRequisition());
       dispatch(RequisitionListt(RequisitionList));
     }
@@ -347,30 +351,38 @@ const StatusRequisition = () => {
 
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '25vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'RequisitionCode'}
                 size={"small"}
-                value={RequisitionCode()} />
+                value={RequisitionCode()} 
+                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                />
             </Grid>
           </Grid>
           <br></br>
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '25vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'RequisitionName'}
                 size={"small"}
-                value={RequisitionName()} />
+                value={RequisitionName()} 
+                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+
+                />
             </Grid>
           </Grid>
           <br></br>
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '25vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'RequisitionName'}
                 size={"small"}
-                value={StatusName()} />
+                value={StatusName()} 
+                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+
+                />
             </Grid>
           </Grid>
           <br></br>
@@ -378,10 +390,13 @@ const StatusRequisition = () => {
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '25vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'RequisitionName'}
                 size={"small"}
-                value={CreaterName()} />
+                value={CreaterName()}
+                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+
+                />
             </Grid>
           </Grid>
           <br></br>
@@ -398,13 +413,13 @@ const StatusRequisition = () => {
           />
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button onClick={clickcancel} variant={'contained'} >
+            Confirm
+          </Button>
           <Button onClick={() => {
             setOpenPublishDialogall(false)
           }} color={'error'}>
             Cancel
-          </Button>
-          <Button onClick={clickcancel} variant={'contained'} >
-            Confirm
           </Button>
         </DialogActions>
       </Dialog>
