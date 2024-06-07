@@ -1,4 +1,3 @@
-
 import {
   IClassTeacherListBody,
   IClassTeacherListRsult,
@@ -44,7 +43,7 @@ const GetStudentResult = (data: IGetPagedStudentBody) => {
 };
 
 const GetPublishResult = (data: IPublishBody) => {
-  return http.post<IPublishResult>('Teacher/IsAllConffguredTestPublished', data);
+  return http.post<IPublishResult>('Teacher/AnnualResultPublish', data);
 };
 
 const GetUnpublishResult = (data: IUnpublishBody) => {
