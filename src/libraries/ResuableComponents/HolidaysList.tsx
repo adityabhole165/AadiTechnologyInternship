@@ -206,7 +206,7 @@ function HolidaysList({
             </Table>
             {ItemList.length >= 5 && (
               <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20]}
+                // rowsPerPageOptions={[5, 10, 15, 20]}
                 component="div"
                 count={ItemList.length}
                 rowsPerPage={rowsPerPage}
