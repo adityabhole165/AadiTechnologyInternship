@@ -63,9 +63,10 @@ export interface IGetPagedStudentResult {
 
 export interface IPublishBody {
   asSchoolId: number,
-  asAcadmicYearId: number,
-  asStdDivId: number,
-  // asPublishById: number
+  asAcademicYrId: number,
+  asStandardDivision_Id: number,
+  asInsertedById: number
+  asPublishById: number
 }
 
 export interface IPublishResult {
