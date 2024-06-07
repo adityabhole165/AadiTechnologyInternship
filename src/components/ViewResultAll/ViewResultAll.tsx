@@ -124,6 +124,8 @@ const ViewResultAll = (props: Props) => {
 
   useEffect(() => {
     dispatch(StudentNameList(StudentListDropDowntBody));
+    if (USStudentListDropDown.length > 0)
+      setStudentList(USStudentListDropDown[0].Id)
   }, [selectTeacher]);
 
   useEffect(() => {
@@ -176,7 +178,7 @@ const ViewResultAll = (props: Props) => {
           <Box>
             <SearchableDropdown
               sx={{
-                minWidth: '25vw'
+                minWidth: '20vw'
                 , bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
               }}
               ItemList={USClassTeachers}
@@ -195,9 +197,9 @@ const ViewResultAll = (props: Props) => {
               ItemList={USStudentListDropDown}
               onChange={clickStudentList}
               defaultValue={studentList}
-              label="Student"
+              label="Student Name "
               size="small"
-              sx={{ width: '25vw' }}
+              sx={{ width: '20vw' }}
             />
           </Box>
 
@@ -284,10 +286,18 @@ const ViewResultAll = (props: Props) => {
                 <Table>
                   <TableBody>
                     {totalconsidration.length > 0 && (
-                      <TableRow sx={{ bgcolor: 'grey.200' }}>
-                        <TableCell><b> Legend </b> *:Subject marks not considered in total marks </TableCell>
-                      </TableRow>
+                      <>
+                        <TableRow sx={{ bgcolor: 'grey.200' }}>
+                          <TableCell><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks </TableCell>
+                        </TableRow>
+                        {/* {totalconsidration.map((Subject) => (
+                          <TableRow key={Subject.Subject_Id}>
+                            <TableCell>{Subject.Name}<span style={{ color: 'red' }}>*</span></TableCell>
+                          </TableRow>
+                        ))} */}
+                      </>
                     )}
+
                   </TableBody>
                 </Table>
 
@@ -299,8 +309,16 @@ const ViewResultAll = (props: Props) => {
                           Subjects
                         </Typography>
                         {SubjectDetailsView.map((subject) => (
-                          <TableCell><b>{subject.Name}</b></TableCell>
+
+                          <TableCell key={subject.Subject_Id}><b>{subject.Name}  </b>
+                            {/* {(totalconsidration == subject.Subject_Id) && <span style={{ color: 'red' }}>*</span>} */}
+
+                            {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
+
+                          </TableCell>
+
                         ))}
+
                       </TableRow>
                       <TableRow>
                         {!showOnlyGrades && (
@@ -327,6 +345,7 @@ const ViewResultAll = (props: Props) => {
                       </TableRow>
                     </TableBody>
                   </Table>
+
                 </Box>
                 <hr />
                 <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
