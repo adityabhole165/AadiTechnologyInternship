@@ -49,6 +49,7 @@ import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
+  const { paramsselectClasstecaher } = useParams();
   const HeaderArray = [
     { Id: 1, Header: '' },
     { Id: 2, Header: 'Boys' },
@@ -96,7 +97,11 @@ const TAttendance = () => {
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
     sessionStorage.getItem('TeacherId')
   );
-
+  // const [selectClasstecahernew, setselectClasstecahernew] = useState(
+  //   paramsselectClasstecaher !== undefined
+  //     ? paramsselectClasstecaher.toString()
+  //     : ("TeacherId")
+  // );
   // Date selector Start
   const [asAbsentRollNos, setAbsentRollNos] = useState('');
   const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
@@ -310,6 +315,8 @@ const TAttendance = () => {
     }
     setAbsentRollNos(value);
     setItemList(Itemlist);
+
+
   };
 
   const SaveAttendance_old = () => {
@@ -388,7 +395,7 @@ const TAttendance = () => {
     } else {
       setMarksError(''); // Clear any existing error message
     }
-  }, [AcademicDates, ClassTeacherDropdownnew]);
+  }, [AcademicDates]);
 
   const SaveMsg = () => {
     if (!SaveIsActive) return;
@@ -639,7 +646,7 @@ const TAttendance = () => {
               <Tooltip title={'Individual Attendance'}>
                 <IconButton
                   onClick={() => {
-                    navigate('/extended-sidebar/Teacher/IndidualAttendance');
+                    navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew);
                   }}
                   sx={{
                     color: 'white',
@@ -657,7 +664,7 @@ const TAttendance = () => {
               <Tooltip title={'Month Wise Attendance'}>
                 <IconButton
                   onClick={() => {
-                    navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
+                    navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew);
                   }}
                   sx={{
                     color: 'white',
@@ -1119,21 +1126,25 @@ const TAttendance = () => {
                     value={StudentAbsent}
                   ></TextField>
                 </Hidden> */}
-                <Box>
-                  <List26
-                    sendmeassagestudent={sendmeassagestudent}
-                    handleCheckboxChange={handleCheckboxChange}
-                    Dataa={RollNoList}
-                    getAbsetNumber={getAbsetNumber}
-                    assignedDate={assignedDate}
-                  ></List26>
-                </Box>
+                {AcademicDates && AcademicDates.StartDate && AcademicDates.EndDate && (
+                  <Box>
+
+                    <List26
+                      sendmeassagestudent={sendmeassagestudent}
+                      handleCheckboxChange={handleCheckboxChange}
+                      Dataa={RollNoList}
+                      getAbsetNumber={getAbsetNumber}
+                      assignedDate={assignedDate}
+                    ></List26>
+                  </Box>
+                )}
               </Box>
             </Box>
           </Grid>
         ) : (
           <Grid item xs={12} md={6}></Grid>
         )}
+
       </Grid>
     </Box >
   );
