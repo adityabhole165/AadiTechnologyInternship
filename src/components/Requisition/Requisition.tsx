@@ -263,7 +263,7 @@ const StatusRequisition = () => {
           <TextField
             sx={{ width: '15vw' }}
             fullWidth
-            label="Item Code/Name"
+            label="Item Code/ Requisition"
             value={regNoOrName}
             variant={'outlined'}
             size={"small"}
@@ -411,7 +411,7 @@ const StatusRequisition = () => {
       <Box mb={1} sx={{ p: 2, background: 'white' }}>
         {PagedRequisition && PagedRequisition.length === 0 ? (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
+            <b>No record found.</b>
           </Typography>
         ) : (
           <RequisitionList1

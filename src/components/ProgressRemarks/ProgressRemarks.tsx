@@ -333,16 +333,7 @@ const ProgressRemarks = () => {
     asMarksGradesConfigurationDetailsId: SelectGrade,
     asStandardId: getStdDivisionId()
   }
-  const AllStudentsForProgressRemarkBody: IGetAllStudentsForProgressRemarkBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    aTeacherId: Number(selectTeacher),
-    asStudentId: Number(StudentList),
-    asTermId: Number(SelectTerm),
-    asStartIndex: 0,
-    asEndIndex: 20,
-    asSortExp: "Roll_No"
-  }
+ 
   const StudentListDropDowntBody: IStudentListDropDowntBody = {
     asStandard_Division_Id: getStdDivisionId(),
     asSchoolId: asSchoolId,
@@ -715,7 +706,7 @@ const ProgressRemarks = () => {
     }
   }, [UpdateAllStudentsRemarkDetail]);
 
-
+  const CustomTablePaginationActions = () => null;
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -854,6 +845,7 @@ const ProgressRemarks = () => {
                     page={page1}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
+                    // ActionsComponent={CustomTablePaginationActions}
                   />
                 </Box>
               ) : (
