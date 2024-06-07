@@ -344,12 +344,16 @@ const teacherRoutes = [
     path: 'FinalResultToppers',
     element: <FinalResultToppers />
   },
-  // {
-  //   path: 'FinalResultToppers/:TeacherId',
-  //   element: <FinalResultToppers />
-  // },
   {
-    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:standardId',
+    path: 'FinalResult/:TeacherId',
+    element: <FinalResult />
+  },
+  {
+    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:standardId/:examtopperProp',
+    element: <ExamResultToppers />
+  },
+  {
+    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
     element: <ExamResultToppers />
   },
   {

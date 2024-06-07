@@ -55,7 +55,7 @@ import { StyledTableCell, StyledTableRow } from '../DataTable';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let { TeacherId, StandardDivisionId, TestId, standardId } = useParams();
+    let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly } = useParams();
     console.log(standardId, 'sssssssstandardId');
 
 
@@ -68,7 +68,7 @@ const ExamResultToppers = () => {
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
     const [radioBtn, setRadioBtn] = useState('1');
-    
+
     const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
     const ScreensAccessPermission = JSON.parse(
         sessionStorage.getItem('ScreensAccessPermission')
@@ -508,14 +508,37 @@ const ExamResultToppers = () => {
         return acc;
     }, {});
 
+    const ExamResultLink = {
+        title: 'Exam Results',
+        path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId
+        //path: '/extended-sidebar/Teacher/ExamResultBase'
+    };
+
+    const FinalResultLink = {
+        title: 'Final Result ',
+        path: '/extended-sidebar/Teacher/FinalResult/' + TeacherId
+
+    };
+
     const ClickItem = () => { };
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
-                navLinks={[
-                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
-                    { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
-                ]}
+                // navLinks={[
+                //     { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + StandardDivisionId + "/" + TestId },
+                //     { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }
+                // ]}
+                navLinks={
+                    IsReadOnly
+                        ? (examtopperProp === "true"
+                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
+                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+
+                        : (examtopperProp === "true"
+                            ? [FinalResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/FinalResultToppers/' }]
+                            : [ExamResultLink, { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers/' }])
+                }
+
                 rightActions={<>
                     {radioBtn === '1' ? (
                         <Box sx={{ display: 'flex', gap: '8px' }}>

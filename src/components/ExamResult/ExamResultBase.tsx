@@ -270,7 +270,7 @@ const ExamResultBase = () => {
   //   }
   // }, [ProgressSheet, ClassPassFailDetailsForButton]);
 
-useEffect(() => {
+  useEffect(() => {
     setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
 
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
@@ -283,7 +283,7 @@ useEffect(() => {
       setDisplayNote('');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     }
-  }, [Submitted,ClassPassFailDetailsForButton]);
+  }, [Submitted, ClassPassFailDetailsForButton]);
   useEffect(() => {
     dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
 
@@ -474,8 +474,11 @@ useEffect(() => {
     );
   };
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId);
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
   };
+  // const Toppers = (value) => {
+  //   navigate('/extended-sidebar/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
+  // };
 
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);

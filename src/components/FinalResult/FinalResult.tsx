@@ -403,8 +403,11 @@ const FinalResult = () => {
   };
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId);
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
   };
+  // const Toppers = (value) => {
+  //   navigate('/extended-sidebar/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + 0 + '/' + standardId + '/' + false);
+  // };
 
 
   const getTeacherName = () => {
