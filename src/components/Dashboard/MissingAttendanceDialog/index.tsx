@@ -1,5 +1,5 @@
 import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -86,7 +86,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
             label: 'Class',
             renderCell: (rowData) => rowData.Id
         },
-       
+
         {
             id: 'missingDays',
             label: 'Missing Days',
@@ -125,7 +125,50 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                 <Alert variant="filled" color={"info"} icon={<></>} sx={{ boxShadow: 'none' }}>
                     This is the class-wise missing attendance list till Yesterday. Click on the day count link under Missing Days to view missing attendance dates.
                 </Alert>
+                {showMissingDates && (
+                        <Box mt={2}>
+                            <Typography variant="subtitle1" gutterBottom>
+                                <b> Missing Attendance Dates  {missingDay}:</b>
+                            </Typography>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Table aria-label="simple table" sx={{ width: '200px', textAlign: 'center' }}>
+                                    <TableHead>
+                                        <TableRow
+                                            sx={{
+                                                background: (theme) => theme.palette.secondary.main,
+                                                color: (theme) => theme.palette.common.white,
+                                            }}
+                                        >
+                                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                                <b>Days</b>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {MissingDate.map((dateItem, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                                    {dateItem.Name}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Box>
 
+
+
+                            <Button variant="text" color="error" onClick={handleCloseMissingDates}>
+                                Cancel
+                            </Button>
+                        </Box>
+                    )}
                 <Box mt={2}>
 
                     <DataTable
@@ -133,23 +176,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                         data={MissingName}
                         isLoading={false}
                     />
-                    {showMissingDates && (
-                        <Box mt={2}>
-                            <Typography variant="subtitle1" gutterBottom>
-                                <b> Missing Attendance Dates  {missingDay}:</b>
-                            </Typography>
-                            <ul>
-                                {MissingDate.map((dateItem, index) => (
-                                    <li key={index}>
-                                        {dateItem.Name}
-                                    </li>
-                                ))}
-                            </ul>
-                            <Button variant="text" color="error" onClick={handleCloseMissingDates}>
-                                Cancel
-                            </Button>
-                        </Box>
-                    )}
+                  
                 </Box>
 
             </DialogContent>
