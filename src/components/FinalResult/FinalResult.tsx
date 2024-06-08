@@ -436,7 +436,7 @@ const FinalResult = () => {
   }, [GetClassTeachers, FinalResultFullAccess]);
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId);
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
   };
 
 
