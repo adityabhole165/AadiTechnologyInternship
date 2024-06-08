@@ -1,5 +1,5 @@
 import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -20,15 +20,13 @@ type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MissingAttendanceDialog = ({
-
-    open, setOpen
-}: Props) => {
+const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [missingDay, setmissingday] = useState();
+    const [missingDay, setMissingDay] = useState(null);
+    const [showMissingDates, setShowMissingDates] = useState(false);
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -36,12 +34,7 @@ const MissingAttendanceDialog = ({
     const asUserId = Number(sessionStorage.getItem('Id'));
 
     const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
-    console.log(MissingName, "MissingNameeee");
-
     const MissingDate = useSelector((state: RootState) => state.MissingAttendanceAleart.Missingattenddate);
-    console.log(MissingDate, "MissingDateeee");
-
-
 
     const MissingNameBody: IMissingattendancealeartNameBody = {
         asSchoolId: Number(asSchoolId),
@@ -60,17 +53,26 @@ const MissingAttendanceDialog = ({
     };
 
     useEffect(() => {
-        dispatch(MissingAttenNameAleart(MissingNameBody))
-    }, [])
+        dispatch(MissingAttenNameAleart(MissingNameBody));
+    }, []);
 
+    useEffect(() => {
+        dispatch(MissingAttenDateAleart(MissingDayBody));
+    }, []);
 
     // useEffect(() => {
-    //     dispatch(MissingAttenDateAleart(MissingDayBody))
-    // }, [])
-
+    //     if (MissingDate && MissingDate.length < 1) {
+    //         setOpen(false);
+    //     }
+    // }, [MissingDate, setOpen]);
 
     const clickMissingDay = (value) => {
-        setmissingday(value);
+        setMissingDay(value);
+        setShowMissingDates(true);
+    };
+
+    const handleCloseMissingDates = () => {
+        setShowMissingDates(false);
     };
 
     const missingAttendanceColumns = [
@@ -84,25 +86,24 @@ const MissingAttendanceDialog = ({
             label: 'Class',
             renderCell: (rowData) => rowData.Id
         },
+       
         {
             id: 'missingDays',
             label: 'Missing Days',
             renderCell: (rowData) => (
-                <p onClick={() => clickMissingDay(rowData.Value)}>
+                <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                        handleCloseMissingDates();
+                        clickMissingDay(rowData.Value);
+                    }}
+                >
                     {rowData.Value}
-                </p>
+                </Button>
             )
-
         },
-
     ];
-    // const missingAttendanceRows = [
-    //     {
-    //         classTeacherName: 'Ms. Afreen A. Shaikh',
-    //         class: '7-B',
-    //         missingDays: '76'
-    //     },
-    // ]
 
     return (
         <Dialog
@@ -122,34 +123,51 @@ const MissingAttendanceDialog = ({
             </DialogTitle>
             <DialogContent dividers>
                 <Alert variant="filled" color={"info"} icon={<></>} sx={{ boxShadow: 'none' }}>
-                    This is the class wise missing attendance list till Yesterday. Click on the day count link under Missing Days to view missing attendance dates.
+                    This is the class-wise missing attendance list till Yesterday. Click on the day count link under Missing Days to view missing attendance dates.
                 </Alert>
+
                 <Box mt={2}>
+
                     <DataTable
                         columns={missingAttendanceColumns}
                         data={MissingName}
                         isLoading={false}
                     />
-                </Box>
-                <Box mt={2}>
-                    <ul>
-                        {MissingDate.map((dateItem: string, index: number) => (
-                            <li key={index}>{dateItem}</li>
-                        ))}
-                    </ul>
+                    {showMissingDates && (
+                        <Box mt={2}>
+                            <Typography variant="subtitle1" gutterBottom>
+                                <b> Missing Attendance Dates  {missingDay}:</b>
+                            </Typography>
+                            <ul>
+                                {MissingDate.map((dateItem, index) => (
+                                    <li key={index}>
+                                        {dateItem.Name}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Button variant="text" color="error" onClick={handleCloseMissingDates}>
+                                Cancel
+                            </Button>
+                        </Box>
+                    )}
                 </Box>
 
             </DialogContent>
             <DialogActions>
-                <Button variant={"text"} color={"error"}
-                    onClick={() => setOpen(false)}
-                >
+                <Button variant={"text"} color={"error"} onClick={() => setOpen(false)}>
                     Close
                 </Button>
             </DialogActions>
         </Dialog>
-
-    )
+    );
 }
 
-export default MissingAttendanceDialog
+export default MissingAttendanceDialog;
+
+
+
+
+
+
+
+
