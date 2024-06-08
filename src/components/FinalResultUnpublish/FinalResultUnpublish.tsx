@@ -1,14 +1,38 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography, } from '@mui/material';
 import { useState } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogBox, onClickUnpublish }) => {
-  const [Reason, setReason] = useState('');
+  const dispatch = useDispatch();
+  const { Id } = useParams();
+  const navigate = useNavigate();
 
+  const [Reason, setReason] = useState('');
+  const [ReasonError, setReasonError] = useState('');
+
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+
+
+
+
+  const ResetForm = () => {
+    setReason('');
+  };
+
+
+  // const ClickOk = () => {
+  //   if (Reason !== '') clickPublishUnpublish(false, Reason);
+  //   setOpen(false);
+  // };
   const ClickOk = () => {
-    if (Reason !== '') onClickUnpublish(false, Reason);
-    setOpen(false);
+    if (Reason === '') {
+      setReasonError('Please fix the following error(s): Reason for Unpublish should not be blank.');
+    } else {
+      setReasonError('');
+      onClickUnpublish(false, Reason);
+      setOpen(false);
+    }
   };
 
   return (
@@ -20,44 +44,31 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
       fullWidth
       maxWidth={'sm'}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 1
-        }}
-      >
-        <Tooltip title={"Enter the reason for exam unpublish"}>
-          <IconButton
-            sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: grey[600]
-              }
-            }}
-          >
-            <QuestionMark />
-          </IconButton>
-        </Tooltip>
-      </Box>
       <DialogTitle
         sx={{
           backgroundColor: (theme) => theme.palette.error.main,
-          py: 1
+          py: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}
       >
         <Typography variant="h6">
-          Enter reason for Unpublish
+          Enter reason for unpublish
         </Typography>
+
 
       </DialogTitle>
-
-
       <DialogContent dividers sx={{ px: 4 }}>
-        <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Exam :
-        </Typography>
+        <Grid container justifyContent="space-between" alignItems="center">
+
+          <Typography variant={"h4"} sx={{ mb: 1 }}>
+            Exam :
+          </Typography>
+          <Typography variant="body2" color="error">
+            * Mandatory Fields
+          </Typography>
+        </Grid>
         <Grid container spacing={1} alignItems="center">
 
           <Grid item xs={2}>
@@ -83,7 +94,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
         </Grid>
         <br></br>
         <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Unpublish Reason
+          Unpublish Reason<span style={{ color: 'red' }}>*</span>
         </Typography>
         <TextField
           multiline
@@ -93,6 +104,8 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
             setReason(e.target.value);
           }}
           sx={{ width: '100%' }}
+          error={ReasonError !== ''}
+          helperText={ReasonError}
         />
       </DialogContent>
       <DialogActions sx={{ py: 2, px: 3 }}>
@@ -106,7 +119,6 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
-
+  );
+};
 export default FinalResultUnpublish;

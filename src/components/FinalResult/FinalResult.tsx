@@ -66,7 +66,7 @@ const FinalResult = () => {
 
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
 
-  const [SelectTeacher, setSelectTeacher] = useState();
+  const [SelectTeacher, setSelectTeacher] = useState('');
 
   // const [selectTeacherNew, setSelectTecherNew] = useState(sessionStorage.getItem('TeacherId') || '')
   // console.log(TeacherId, "---", selectTeacherNew);
@@ -101,7 +101,9 @@ const FinalResult = () => {
     return returnVal
   };
 
-  const FinalResultFullAccess = GetScreenPermission('Final Result')
+
+  const FinalResultFullAccess = GetScreenPermission('Final Result');
+  console.log("FinalResultFullAccess", FinalResultFullAccess);
 
   const AssignmentClickIcon = (value) => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
@@ -317,7 +319,13 @@ const FinalResult = () => {
   //   asStandardDivId: StandardDivisionId,
   //   asUnPublishReason: asUnPublishReason
   // }
-
+  const getTeacherId = () => {
+    let TeacherId = '';
+    GetClassTeachers.map((item) => {
+      if (item.Value == SelectTeacher) TeacherId = item.Id;
+    });
+    return TeacherId;
+  };
 
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
@@ -329,8 +337,11 @@ const FinalResult = () => {
 
   const ClassTeachersBody: IClassTeacherListBody = {
     asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId
+    asAcademicYearId: asAcademicYearId,
+    // asTeacherId: "2532"
+    asTeacherId: FinalResultFullAccess === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(SelectTeacher))
   };
+
   const PagedStudentBody: IGetPagedStudentBody = {
     asSchoolId: asSchoolId.toString(),
     asAcademicyearId: asAcademicYearId.toString(),
@@ -358,38 +369,38 @@ const FinalResult = () => {
   const ConfiguredTestPublishedBody: IConfiguredTestPublishedBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: SelectTeacher
+    asStdDivId: Number(SelectTeacher)
 
   }
 
   const ResultPublishedBody: isResultPublishedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: SelectTeacher
+    asStdDivId: Number(SelectTeacher)
   }
 
   const TestPublishedBody: isTestPublishedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: SelectTeacher
+    asStdDivId: Number(SelectTeacher)
   }
 
   const AtleastOneResultGeneratedBody: isAtleastOneResultGeneratedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: SelectTeacher
+    asStdDivId: Number(SelectTeacher)
   }
 
   const iscofigred: IconfiguredExamBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: SelectTeacher,
+    asStdDivId: Number(SelectTeacher),
   };
 
   const unpublishexam: IUnpublishedTestexamBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: SelectTeacher,
+    asStdDivId: Number(SelectTeacher),
   };
 
   const clickTeacherDropdown = (value) => {
@@ -410,13 +421,19 @@ const FinalResult = () => {
 
   const standardId = getstandardId();
 
-  const getTeacherId = () => {
-    let TeacherId = '';
-    GetClassTeachers.map((item) => {
-      if (item.Value == SelectTeacher) TeacherId = item.Id;
-    });
-    return TeacherId;
-  };
+
+  useEffect(() => {
+    if (GetClassTeachers && GetClassTeachers.length > 0) {
+      if (FinalResultFullAccess === 'Y') {
+        setSelectTeacher(GetClassTeachers[0].Value);
+      } else {
+        const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
+        if (teacherIdFromSession !== null) {
+          setSelectTeacher(teacherIdFromSession);
+        }
+      }
+    }
+  }, [GetClassTeachers, FinalResultFullAccess]);
 
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId);
@@ -443,7 +460,7 @@ const FinalResult = () => {
       const UnpublishResultBody: IUnpublishBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId: SelectTeacher,
+        asStandardDivId: Number(SelectTeacher),
         asUnPublishReason: unPublish ? null : Reason
       }
       dispatch(GetUnpublishResult(UnpublishResultBody))
@@ -464,7 +481,7 @@ const FinalResult = () => {
     const GenerateAllBody: IGenerateAllBody = {
       asSchoolId: asSchoolId,
       asAcadmicYearId: asAcademicYearId,
-      asStdDivId: SelectTeacher,
+      asStdDivId: Number(SelectTeacher),
       asUserId: asUserId,
       asUseAvarageFinalResult: asUseAvarageFinalResult
     }
@@ -581,8 +598,9 @@ const FinalResult = () => {
               onChange={clickTeacherDropdown}
               label={'Teacher'}
               defaultValue={SelectTeacher}
-              // DisableClearable={FinalResultFullAccess === 'N'}
-              // disabled={TeacherId == Number(selectTeacherNew)}
+              DisableClearable={FinalResultFullAccess === 'N'}
+              disabled={FinalResultFullAccess === 'N'}
+
               mandatory
               size={"small"}
 

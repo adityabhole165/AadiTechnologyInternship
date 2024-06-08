@@ -65,3 +65,21 @@ export interface EditHolidayDetailsResult {
     }
   ];
 }
+
+export interface SaveHolidayDetailsBody {
+
+  asHolidayName: string,
+  asRemarks: string,
+  asStartDate: string,
+  asEndDate: string,
+  asSchoolId: number,
+  asAcademicYearID: number,
+  asInsertedById: number,
+  asAssociatedStandard: string,
+  asHoliday_Id: number
+
+}
+
+export interface SaveHolidayDetailsResult {
+  string
+}

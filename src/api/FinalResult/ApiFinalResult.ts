@@ -30,7 +30,7 @@ import http from '../../requests/SchoolService/schoolServices';
 
 const ClassTeacherList = (data: IClassTeacherListBody) => {
   return http.post<IClassTeacherListRsult[]>(
-    'Teacher/GetClassTeachersDropdown',
+    'Teacher/GetClassTeachers',
     data
   );
 };
