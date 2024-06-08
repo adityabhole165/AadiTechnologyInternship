@@ -66,7 +66,7 @@ export interface IPublishBody {
   asAcademicYrId: number,
   asStandardDivision_Id: number,
   asInsertedById: number
-  asPublishById: number
+  // asPublishById: number
 }
 
 export interface IPublishResult {

@@ -483,7 +483,7 @@ const FinalResult = () => {
         asAcademicYrId: 55,
         asStandardDivision_Id: StandardDivisionId,
         asInsertedById: asUserId,
-        asPublishById: 0
+        // asPublishById: 0
       }
       dispatch(GetPublishResult(PublishBody))
       dispatch(GetResultPublishd(ResultPublishedBody))
