@@ -29,8 +29,6 @@ import {
   getClassPassFailDetailsForButton,
   getClassPassFailDetailsForTest,
   getClassTeachers, getClasswiseExam,
-  getMonthConfigurationForExamResult,
-  getPrePrimaryExamConfiguration,
   getProgressSheetStatus,
   getPublishUnpublishExam, getSMSTemplate, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
@@ -46,16 +44,12 @@ const ExamResultBase = () => {
   const asUserRole = localStorage.getItem('RoleName');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
 
-  // const [StandardDivisionId, setStandardDivisionId] = useState(
-  //   ParamsStandardDivisionId == undefined ? sessionStorage.getItem('TeacherId') : ParamsStandardDivisionId
-  // );
-
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState(
     ParamsTestId == undefined ? "0" : ParamsTestId
 
   );
-  console.log("ParamsTestId", ParamsTestId)
+  // console.log("ParamsTestId", ParamsTestId)
   const [DisplayNote, setDisplayNote] = useState('');
   const [HelpNote, setHelpNote] = useState('');
   const [Open, setOpen] = useState(false);
@@ -65,13 +59,17 @@ const ExamResultBase = () => {
   );
 
   const [StandardDivisionId, setStandardDivisionId] = useState(
-    ParamsStandardDivisionId !== undefined
-      ? ParamsStandardDivisionId.toString()
-      : (selectTeacher !== undefined ? selectTeacher : "StandardDivisionId")
+    ParamsStandardDivisionId
+    //  !== undefined
+    //   ? ParamsStandardDivisionId
+    //   : ""
+    // : (selectTeacher !== undefined ? selectTeacher : "StandardDivisionId")
   );
+
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ClassTeachers
   );
+  console.log(ClassTeachers, "-", ParamsStandardDivisionId);
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeachers.map((item) => {
@@ -79,25 +77,15 @@ const ExamResultBase = () => {
     });
     return TeacherId;
   };
-  // const asTeacherId = getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId);
-  console.log("ParamsStandardDivisionId", ParamsStandardDivisionId)
-  // const [StandardDivisionId, setStandardDivisionId] = useState()
-  // const [StandardDivisionId, setStandardDivisionId] = useState(
-  //   ParamsStandardDivisionId !== undefined && ScreensAccessPermission !== 'Y'
-  //     ? sessionStorage.getItem('TeacherId') || ParamsStandardDivisionId.toString()
-  //     : (selectTeacher !== undefined ? selectTeacher : '0')
-  // );
+  // console.log("ParamsStandardDivisionId", ParamsStandardDivisionId)
+
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
-
-
 
   const Submitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
-  console.log(Submitted, "abcderg");
-
-
+  // console.log(Submitted, "abcderg");
 
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
@@ -114,40 +102,33 @@ const ExamResultBase = () => {
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
   );
 
-
   const ClassPassFailDetailsForTestData: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTestData
   );
-
 
   const ClassPassFailDetailsForButton: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassDetailsForButton
   );
 
-
   const ClasswiseExams: any = useSelector(
     (state: RootState) => state.ExamResult.ClasswiseExam
   );
-
 
   const PublishUnpublish: any = useSelector(
     (state: RootState) => state.ExamResult.PublishUnpublishExam
   );
 
-
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
   );
-  console.log(ProgressSheet, "ProgressSheet")
+  // console.log(ProgressSheet, "ProgressSheet")
   const PrePrimaryExam: any = useSelector(
     (state: RootState) => state.ExamResult.IsPrePrimaryExamConfiguration
   );
 
-
   const MonthConfigurationForExam: any = useSelector(
     (state: RootState) => state.ExamResult.IsMonthConfigurationForExamResult
   );
-
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
@@ -158,7 +139,7 @@ const ExamResultBase = () => {
     });
     return perm;
   };
-  console.log("GetScreenPermission", GetScreenPermission())
+  //console.log("GetScreenPermission", GetScreenPermission())
 
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
@@ -174,16 +155,16 @@ const ExamResultBase = () => {
   const GetClasswiseExamDropdown: IGetClasswiseExamDropdownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    //asStandardDivisionId: Number(StandardDivisionId)
-    asStandardDivisionId: ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)
+    asStandardDivisionId: Number(StandardDivisionId)
+    // asStandardDivisionId: ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)
   };
 
 
   const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    //asStdDivId: StandardDivisionId,
-    asStdDivId: ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId.toString(),
+    asStdDivId: StandardDivisionId,
+    // asStdDivId: ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId.toString(),
     aiTestId: TestId.toString()
   };
 
@@ -212,8 +193,12 @@ const ExamResultBase = () => {
     IsLeftStudents: false
   }
   useEffect(() => {
+
     dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
   }, [StandardDivisionId]);
+
+
+
   const GetSMSTemplate: IGetSMSTemplateBody = {
     asSchoolId: Number(asSchoolId),
     asSmsTemplateId: Number(sendmeassagestudent)
@@ -243,16 +228,20 @@ const ExamResultBase = () => {
   // }, [ClassTeachers, ScreensAccessPermission]);
   useEffect(() => {
     if (ClassTeachers && ClassTeachers.length > 0) {
-      if (GetScreenPermission() === 'Y') {
-        setStandardDivisionId(ClassTeachers[0].Value);
-      } else {
-        const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
-        if (teacherIdFromSession !== null) {
-          setStandardDivisionId(teacherIdFromSession);
+      if (ParamsStandardDivisionId == undefined) {
+        if (GetScreenPermission() === 'Y') {
+          setStandardDivisionId(ClassTeachers[0].Value);
+          console.log(GetScreenPermission(), "ClassTeachers 2", ClassTeachers[0].Value)
+        } else {
+          const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
+          if (teacherIdFromSession !== null) {
+            setStandardDivisionId(teacherIdFromSession);
+            console.log(teacherIdFromSession, "ClassTeachers 1")
+          }
         }
       }
     }
-  }, [ClassTeachers, GetScreenPermission()]);
+  }, [ClassTeachers]);
 
 
   const getCheckSubmitted = () => {
@@ -285,21 +274,19 @@ const ExamResultBase = () => {
   }, [ClassPassFailDetailsForButton]);
 
 
-  useEffect(() => {
-    dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+  // useEffect(() => {
+  //   dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+  // }, [ClassPassFailDetailsForButton, PrePrimaryExam, StandardDivisionId]);
 
-  }, [ClassPassFailDetailsForButton, PrePrimaryExam, StandardDivisionId]);
 
+  // useEffect(() => {
+  //   dispatch(getProgressSheetStatus(GetPrePrimaryProgressSheetStatusBody));
+  // }, [StandardDivisionId, TestId]);
 
-  useEffect(() => {
-    dispatch(getProgressSheetStatus(GetPrePrimaryProgressSheetStatusBody));
-
-  }, [StandardDivisionId, TestId]);
-
-  useEffect(() => {
-    dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
-    dispatch(getMonthConfigurationForExamResult(MonthConfigurationForExamResult));
-  }, [StandardDivisionId, TestId]);
+  // useEffect(() => {
+  //   dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
+  //   dispatch(getMonthConfigurationForExamResult(MonthConfigurationForExamResult));
+  // }, [StandardDivisionId, TestId]);
 
 
   useEffect(() => {
@@ -325,20 +312,20 @@ const ExamResultBase = () => {
   //     setTestId(ClasswiseExams[0].Value);
   // }, [ClasswiseExams]);
   useEffect(() => {
-    if (ClasswiseExams.length > 0 && (TestId === "0" || !getIsTestExists(TestId))) {
+    if (ClasswiseExams.length > 0 && (TestId === "0" || ParamsTestId === "0" || !getIsTestExists(TestId))) {
       setTestId(ClasswiseExams[0].Value);
     }
-  }, [ClasswiseExams, TestId]);
+  }, [ClasswiseExams, TestId, ParamsTestId]);
 
   useEffect(() => {
-    if (StandardDivisionId == '0')
+    if (StandardDivisionId == '0' || ParamsStandardDivisionId == '0')
       dispatch(getClasswiseExam(GetClasswiseExamDropdown));
-  }, [StandardDivisionId]);
+  }, [StandardDivisionId, ParamsStandardDivisionId]);
 
   useEffect(() => {
-    if (StandardDivisionId !== '0')
+    if (StandardDivisionId !== '0' || ParamsStandardDivisionId !== '0')
       dispatch(getClasswiseExam(GetClasswiseExamDropdown));
-  }, [StandardDivisionId]);
+  }, [StandardDivisionId, ParamsStandardDivisionId]);
 
 
   useEffect(() => {
@@ -349,22 +336,16 @@ const ExamResultBase = () => {
 
   const clickTeacher = (value) => {
     setStandardDivisionId(value);
+    console.log(value, "clickTeacher 3")
 
   };
   const clickExam = (value) => {
     setTestId(value);
 
   };
-  // const ClickItem = (value) => {
-  //   navigate('/extended-sidebar/Teacher/SubjectExamMarks/' + examResultProp
-  //   ) 
-
-  //     ;
-  // };
-
 
   const getSubjectId = (index) => {
-    console.log(index, "index");
+    // console.log(index, "index");
 
     let returnVal = "0"
     ClassPassFailDetailsForTestData.map((Item, i) => {
@@ -547,8 +528,8 @@ const ExamResultBase = () => {
             ItemList={ClassTeachers}
             onChange={clickTeacher}
             label={'Teacher'}
-            defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
-            //defaultValue={StandardDivisionId.toString()}
+            // defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
+            defaultValue={StandardDivisionId}
             mandatory
             size={"small"}
             DisableClearable={GetScreenPermission() === 'N'}
@@ -708,28 +689,6 @@ const ExamResultBase = () => {
                   )}
               </Stack>
             </Stack>
-            {/* {ClassPassFailDetailsForButton &&
-                  (
-                    (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) // Condition 1: IsPublish is false and all results are submitted
-
-                  ) && (
-                    <Box display="flex" justifyContent="flex-end">
-                      <Stack direction={'row'} gap={1} >
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={sendmeassagestudent}
-                              onChange={(e) => {
-                                handleCheckboxChange(e.target.checked);
-                              }}
-                            />
-                          }
-                          label="Send Message and Mobile Notification"
-                        /></Stack>
-                    </Box>
-                  )} */}
-
-
             {ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No record found.</b>
