@@ -255,35 +255,36 @@ const ExamResultBase = () => {
   }, [ClassTeachers, GetScreenPermission()]);
 
 
-  // useEffect(() => {
-  //   setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
-
-  //   if (ProgressSheet === "Published") {
-  //     setDisplayNote('Results for this exam have been published.');
-  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-  //   } else if (ProgressSheet !== "Submitted" && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
-  //     setDisplayNote('Not all results for this exam have been submitted.');
-  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-  //   } else {
-  //     setDisplayNote('');
-  //     setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-  //   }
-  // }, [ProgressSheet, ClassPassFailDetailsForButton]);
+  const getCheckSubmitted = () => {
+    let allSubmitted = true;
+    ClassPassFailDetailsForButton.LstGetFileDetails.forEach((item) => {
+      if (item.Is_Submitted !== "Y") {
+        allSubmitted = false;
+      }
+    });
+    return allSubmitted;
+  };
 
   useEffect(() => {
+    // Set the help note
     setHelpNote('View the summarised results of your class for the selected exam. Click the subject name link to view the marks/grades scored by each student in the subject. Exam result can be published by clicking on publish button and unpublished by clicking on unpublish button.');
 
     if (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish) {
+      // Case 1: Results are published
       setDisplayNote('Results for this exam have been published.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-    } else if (Submitted === 'N' || Submitted === 'Y' && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
+    } else if (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) {
+      // Case 2: Not all results submitted and not published
       setDisplayNote('Not all results for this exam have been submitted.');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
-    } else if (Submitted === 'Y' && ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish) {
+    } else if (ClassPassFailDetailsForButton && getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) {
+      // Case 3: All results submitted but not published
       setDisplayNote('');
       setIconList([{ Id: 1, Icon: <EditIcon />, Action: 'Edit' }]);
     }
-  }, [Submitted, ClassPassFailDetailsForButton]);
+  }, [ClassPassFailDetailsForButton]);
+
+
   useEffect(() => {
     dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration));
 
@@ -546,8 +547,8 @@ const ExamResultBase = () => {
             ItemList={ClassTeachers}
             onChange={clickTeacher}
             label={'Teacher'}
-            defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
-            //defaultValue={StandardDivisionId.toString()}
+            //   defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
+            defaultValue={StandardDivisionId.toString()}
             mandatory
             size={"small"}
             DisableClearable={GetScreenPermission() === 'N'}
@@ -561,8 +562,8 @@ const ExamResultBase = () => {
             ItemList={ClasswiseExams}
             onChange={clickExam}
             label={'Exam'}
-            // defaultValue={TestId} // Convert number to string
-            defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
+            defaultValue={TestId} // Convert number to string
+            // defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
             mandatory
             size={"small"}
           />
@@ -636,7 +637,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: red[500]
               }
-            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || ProgressSheet !== "Submitted" && ProgressSheet !== "Published")
+            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish)
 
             }>
               {/* UNPUBLISH ALL */}
@@ -689,8 +690,8 @@ const ExamResultBase = () => {
                   Termwise Height-Weight
                 </Button>
                 {ClassPassFailDetailsForButton &&
-                  ClassPassFailDetailsForButton.length === 0 || Submitted === 'Y' && !ClassPassFailDetailsForButton?.IsPublish &&
                   (
+                    (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) && // Condition 1: IsPublish is false and all results are submitted
 
                     <Box display="flex" justifyContent="flex-end">
                       <Stack direction={'row'} gap={1} >
