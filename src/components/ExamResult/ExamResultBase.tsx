@@ -547,8 +547,8 @@ const ExamResultBase = () => {
             ItemList={ClassTeachers}
             onChange={clickTeacher}
             label={'Teacher'}
-            //   defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
-            defaultValue={StandardDivisionId.toString()}
+            defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
+            //defaultValue={StandardDivisionId.toString()}
             mandatory
             size={"small"}
             DisableClearable={GetScreenPermission() === 'N'}
@@ -562,8 +562,8 @@ const ExamResultBase = () => {
             ItemList={ClasswiseExams}
             onChange={clickExam}
             label={'Exam'}
-            defaultValue={TestId} // Convert number to string
-            // defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
+            // defaultValue={TestId} // Convert number to string
+            defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
             mandatory
             size={"small"}
           />
@@ -588,7 +588,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: grey[600]
               }
-            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || ProgressSheet !== "Submitted" && ProgressSheet !== "Published")
+            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton.IsPublish)
 
             }>
               {/* VIEW PROGRESS REPORT  */}
@@ -606,7 +606,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: grey[600]
               }
-            }} disabled={(ProgressSheet !== "Submitted" && ProgressSheet !== "Published" || ClassPassFailDetailsForButton?.ToppersGenerated)
+            }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated)
 
             }>
               {/* GENERATE TOPPERS */}
@@ -622,7 +622,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: green[500]
               }
-            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish || ProgressSheet !== "Submitted" && ProgressSheet !== "Published")
+            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton.IsPublish)
 
             }>
               {/* PUBLISH ALL */}
@@ -637,7 +637,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: red[500]
               }
-            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish)
+            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish)
 
             }>
               {/* UNPUBLISH ALL */}
@@ -654,7 +654,7 @@ const ExamResultBase = () => {
                 '&:hover': {
                   backgroundColor: grey[600]
                 }
-              }} disabled={(ProgressSheet !== "Submitted" && ProgressSheet !== "Published" && !ClassPassFailDetailsForButton?.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
+              }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
 
             >
               <Person />
@@ -691,8 +691,9 @@ const ExamResultBase = () => {
                 </Button>
                 {ClassPassFailDetailsForButton &&
                   (
-                    (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) && // Condition 1: IsPublish is false and all results are submitted
-
+                    (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) || // Condition 1: IsPublish is false and all results are submitted
+                    (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.LstClassPassFailDetailsForTest && ClassPassFailDetailsForButton.LstClassPassFailDetailsForTest.length! === 0) // Condition 2: LstClassPassFailDetailsForTest is empty
+                  ) && (
                     <Box display="flex" justifyContent="flex-end">
                       <Stack direction={'row'} gap={1} >
                         <FormControlLabel
