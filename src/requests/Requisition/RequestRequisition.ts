@@ -73,7 +73,9 @@ export const RequisitionListt =
         Editble: item.Editble,
         IsDelete: item.IsDelete,
         IsFinalApproval: item.IsFinalApproval,
-        Value :item.CreatedId
+        Value :item.CreatedId,
+        StatusID : item.StatusID,
+        CreatedId : item.CreatedId
       };
     });
     dispatch(SliceRequisition.actions.RequisitionList(abc));

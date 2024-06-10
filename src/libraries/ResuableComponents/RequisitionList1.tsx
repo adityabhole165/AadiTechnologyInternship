@@ -34,6 +34,7 @@ function RequisitionList1({
         });
         ClickHeader(updatedHeaderArray);
     }
+    const asUserId = Number(localStorage.getItem('UserId'));
 
     return (
         <>
@@ -96,7 +97,7 @@ function RequisitionList1({
                                     }
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-                                    {item.IsFinalApproval == "1" ? (
+                                    {item.StatusID == 3 ||  item.StatusID == 8  && item.CreatedId !== asUserId? (
                                         <Tooltip title={"Cancel"}>
 
                                         <Link onClick={() => clickCancel(item.Id)} sx={{ color: 'blue' }}>Cancel</Link>
