@@ -689,10 +689,29 @@ const ExamResultBase = () => {
                 <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
                   Termwise Height-Weight
                 </Button>
+
                 {ClassPassFailDetailsForButton &&
+                  (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) && (
+                    <Box display="flex" justifyContent="flex-end" mb={1}>
+                      <Stack direction={'row'} gap={1}>
+                        {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length > 0 && (
+                          <FormControlLabel
+                            control={<Checkbox
+                              checked={sendmeassagestudent}
+                              onChange={(e) => {
+                                handleCheckboxChange(e.target.checked);
+                              }} />}
+                            label="Send Message and Mobile Notification" />
+                        )}
+                      </Stack>
+                    </Box>
+                  )}
+              </Stack>
+            </Stack>
+            {/* {ClassPassFailDetailsForButton &&
                   (
-                    (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) || // Condition 1: IsPublish is false and all results are submitted
-                    (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.LstClassPassFailDetailsForTest && ClassPassFailDetailsForButton.LstClassPassFailDetailsForTest.length! === 0) // Condition 2: LstClassPassFailDetailsForTest is empty
+                    (!ClassPassFailDetailsForButton.IsPublish && getCheckSubmitted()) // Condition 1: IsPublish is false and all results are submitted
+
                   ) && (
                     <Box display="flex" justifyContent="flex-end">
                       <Stack direction={'row'} gap={1} >
@@ -708,9 +727,8 @@ const ExamResultBase = () => {
                           label="Send Message and Mobile Notification"
                         /></Stack>
                     </Box>
-                  )}
-              </Stack>
-            </Stack>
+                  )} */}
+
 
             {ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -721,8 +739,7 @@ const ExamResultBase = () => {
                 {DisplayNote &&
                   <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 6, color: 'white' }}>
                     {DisplayNote}
-                  </Typography>
-                }
+                  </Typography>}
                 <br></br>
                 <DynamicList
                   HeaderList={HeaderList}
@@ -735,6 +752,7 @@ const ExamResultBase = () => {
                 />
               </>
             )}
+
           </Box>
         </Box>
 
