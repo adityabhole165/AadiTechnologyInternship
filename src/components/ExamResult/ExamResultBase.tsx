@@ -588,7 +588,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: grey[600]
               }
-            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton.IsPublish)
+            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
             }>
               {/* VIEW PROGRESS REPORT  */}
@@ -622,7 +622,7 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: green[500]
               }
-            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton.IsPublish)
+            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
             }>
               {/* PUBLISH ALL */}
