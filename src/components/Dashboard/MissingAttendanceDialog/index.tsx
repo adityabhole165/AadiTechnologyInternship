@@ -127,9 +127,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                 </Alert>
                 {showMissingDates && (
                         <Box mt={2}>
-                            <Typography variant="subtitle1" gutterBottom>
-                                <b> Missing Attendance Dates  {missingDay}:</b>
-                            </Typography>
+                           
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -146,7 +144,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                             }}
                                         >
                                             <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-                                                <b>Days</b>
+                                                <b>Missing Attendance Dates </b>
                                             </TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -161,9 +159,6 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                     </TableBody>
                                 </Table>
                             </Box>
-
-
-
                             <Button variant="text" color="error" onClick={handleCloseMissingDates}>
                                 Cancel
                             </Button>
