@@ -34,7 +34,7 @@ const SliceRequisition = createSlice({
     },
   
     RresetMessageDeleteRequisitionn(state) {
-      state.ISDeleteRequisition = '';
+      state.ISDeleteRequisition = "";
     },
 
     RresetMessageCancelRequisition(state) {
@@ -75,7 +75,8 @@ export const RequisitionListt =
         IsFinalApproval: item.IsFinalApproval,
         Value :item.CreatedId,
         StatusID : item.StatusID,
-        CreatedId : item.CreatedId
+        CreatedId : item.CreatedId,
+       
       };
     });
     dispatch(SliceRequisition.actions.RequisitionList(abc));

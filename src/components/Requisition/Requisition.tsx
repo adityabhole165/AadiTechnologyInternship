@@ -103,7 +103,7 @@ const StatusRequisition = () => {
       asReasonText: textall,
       asSchoolId: asSchoolId,
       asUpdatedById: Number(asUserId),
-      asCanceledById: 0
+      asCanceledById: Number(asUserId)
     };
      if(textall == ''){
       alert('Reason Should not be blank.');
@@ -214,7 +214,7 @@ const StatusRequisition = () => {
   }, [GetPagedRequisition]);
 
   useEffect(() => {
-    if (DeleteRequisition != " ") {
+    if (DeleteRequisition != "") {
       toast.success(DeleteRequisition);
       dispatch(resetMessageDeleteRequisitionn());
       dispatch(RequisitionListt(RequisitionList));
@@ -222,13 +222,14 @@ const StatusRequisition = () => {
   }, [DeleteRequisition]);
 
   useEffect(() => {
-    if (USCancelRequisition !== " ") {
+    if (USCancelRequisition != "") {
       toast.success(USCancelRequisition);
-      setOpenPublishDialogall(false)
       dispatch(resetMessageCancelRequisition());
+      setTextall('')
+      setOpenPublishDialogall(false)
       dispatch(RequisitionListt(RequisitionList));
     }
-  }, [DeleteRequisition]);
+  }, [USCancelRequisition]);
 
 
   useEffect(() => {
