@@ -99,7 +99,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
       </TableContainer>
       {isPagination && (
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+        // rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
