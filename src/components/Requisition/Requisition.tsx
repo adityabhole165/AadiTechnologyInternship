@@ -339,7 +339,7 @@ const StatusRequisition = () => {
       <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
         maxWidth={'sm'}>
         <DialogTitle sx={{ fontSize: '20px !important', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          Cancel Approved Requisition Popup !!!
+        Cancel Approved Requisition Popup!!!
           <IconButton
             onClick={ClickClose}
             color="error">
@@ -402,7 +402,7 @@ const StatusRequisition = () => {
           </Grid>
           <br></br>
           <Typography variant="h4" sx={{ mb: 1 }}>
-            Unpublish Reason  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+          Reason to cancel :  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
           </Typography>
           <TextField
             multiline
@@ -443,7 +443,6 @@ const StatusRequisition = () => {
         {
           PagedRequisition.length > 0 ? (
             <TablePagination
-              rowsPerPageOptions={[10, 20, 30]}
               component="div"
               count={PagedRequisition.length}
               rowsPerPage={rowsPerPage}
