@@ -66,20 +66,20 @@ const FinalResult = () => {
 
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
 
-  const [SelectTeacher, setSelectTeacher] = useState('');
+  // const [SelectTeacher, setSelectTeacher] = useState('');
 
   // const [selectTeacherNew, setSelectTecherNew] = useState(sessionStorage.getItem('TeacherId') || '')
   // console.log(TeacherId, "---", selectTeacherNew);
 
   // console.log(TeacherId, " ----", SelectTeacher);
 
-  const StandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
+  // const StandardDivisionId = Number(
+  //   sessionStorage.getItem('StandardDivisionId')
+  // );
 
   const [Reason, setReason] = useState('');
 
-  const [standardDivisionId, setstandardDivisionId] = useState('');
+  const [StandardDivisionId, setStandardDivisionId] = useState('');
 
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
@@ -90,7 +90,7 @@ const FinalResult = () => {
   const [asWithGrace, setasWithGrace] = useState();
   const Exam = ['Final Result'];
 
-  console.log(SelectTeacher, "SelectTeacher", StandardDivisionId, "StandardDivisionId");
+  // console.log(SelectTeacher, "SelectTeacher", StandardDivisionId, "StandardDivisionId");
 
   const getDropdownName = (List, value) => {
     let returnVal = ""
@@ -282,7 +282,7 @@ const FinalResult = () => {
 
   useEffect(() => {
     if (GetClassTeachers.length > 0) {
-      setSelectTeacher(GetClassTeachers[0].Value);
+      setStandardDivisionId(GetClassTeachers[0].Value);
     }
   }, [GetClassTeachers])
 
@@ -307,8 +307,8 @@ const FinalResult = () => {
   }, [])
 
   useEffect(() => {
-    if (SelectTeacher != '0') dispatch(GetStudentResultList(PagedStudentBody));
-  }, [SelectTeacher]);
+    if (StandardDivisionId != '0') dispatch(GetStudentResultList(PagedStudentBody));
+  }, [StandardDivisionId]);
 
 
 
@@ -322,7 +322,7 @@ const FinalResult = () => {
   const getTeacherId = () => {
     let TeacherId = '';
     GetClassTeachers.map((item) => {
-      if (item.Value == SelectTeacher) TeacherId = item.Id;
+      if (item.Value == StandardDivisionId) TeacherId = item.Id;
     });
     return TeacherId;
   };
@@ -339,13 +339,13 @@ const FinalResult = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     // asTeacherId: "2532"
-    asTeacherId: FinalResultFullAccess === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(SelectTeacher))
+    asTeacherId: FinalResultFullAccess === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
   };
 
   const PagedStudentBody: IGetPagedStudentBody = {
     asSchoolId: asSchoolId.toString(),
     asAcademicyearId: asAcademicYearId.toString(),
-    asStandardDivisionId: SelectTeacher,
+    asStandardDivisionId: StandardDivisionId,
     SortExp: 'ORDER BY Roll_No',
     prm_StartIndex: 0,
     PageSize: 20
@@ -369,42 +369,42 @@ const FinalResult = () => {
   const ConfiguredTestPublishedBody: IConfiguredTestPublishedBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher)
+    asStdDivId: Number(StandardDivisionId)
 
   }
 
   const ResultPublishedBody: isResultPublishedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher)
+    asStdDivId: Number(StandardDivisionId)
   }
 
   const TestPublishedBody: isTestPublishedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher)
+    asStdDivId: Number(StandardDivisionId)
   }
 
   const AtleastOneResultGeneratedBody: isAtleastOneResultGeneratedBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher)
+    asStdDivId: Number(StandardDivisionId)
   }
 
   const iscofigred: IconfiguredExamBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher),
+    asStdDivId: Number(StandardDivisionId),
   };
 
   const unpublishexam: IUnpublishedTestexamBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher),
+    asStdDivId: Number(StandardDivisionId),
   };
 
   const clickTeacherDropdown = (value) => {
-    setSelectTeacher(value);
+    setStandardDivisionId(value);
     console.log(value, "clickTeacherDropdown");
 
   };
@@ -425,11 +425,11 @@ const FinalResult = () => {
   useEffect(() => {
     if (GetClassTeachers && GetClassTeachers.length > 0) {
       if (FinalResultFullAccess === 'Y') {
-        setSelectTeacher(GetClassTeachers[0].Value);
+        setStandardDivisionId(GetClassTeachers[0].Value);
       } else {
         const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
         if (teacherIdFromSession !== null) {
-          setSelectTeacher(teacherIdFromSession);
+          setStandardDivisionId(teacherIdFromSession);
         }
       }
     }
@@ -443,7 +443,7 @@ const FinalResult = () => {
   const getTeacherName = () => {
     let TeacherName = '';
     GetClassTeachers.map((item) => {
-      if (item.Value == SelectTeacher) TeacherName = item.Name;
+      if (item.Value == StandardDivisionId) TeacherName = item.Name;
     });
     return TeacherName;
   };
@@ -460,7 +460,7 @@ const FinalResult = () => {
       const UnpublishResultBody: IUnpublishBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId: Number(SelectTeacher),
+        asStandardDivId: Number(StandardDivisionId),
         asUnPublishReason: unPublish ? null : Reason
       }
       dispatch(GetUnpublishResult(UnpublishResultBody))
@@ -481,7 +481,7 @@ const FinalResult = () => {
     const GenerateAllBody: IGenerateAllBody = {
       asSchoolId: asSchoolId,
       asAcadmicYearId: asAcademicYearId,
-      asStdDivId: Number(SelectTeacher),
+      asStdDivId: Number(StandardDivisionId),
       asUserId: asUserId,
       asUseAvarageFinalResult: asUseAvarageFinalResult
     }
@@ -498,7 +498,7 @@ const FinalResult = () => {
       const PublishBody: IPublishBody = {
         asSchoolId: asSchoolId,
         asAcademicYrId: 55,
-        asStandardDivision_Id: StandardDivisionId,
+        asStandardDivision_Id: Number(StandardDivisionId),
         asInsertedById: asUserId,
         // asPublishById: 0
       }
@@ -532,7 +532,7 @@ const FinalResult = () => {
 
   useEffect(() => {
     dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
-  }, [SelectTeacher])
+  }, [StandardDivisionId])
 
   // useEffect(() => {
   //   dispatch(GetResultPublishd(ResultPublishedBody))
@@ -541,11 +541,11 @@ const FinalResult = () => {
 
   useEffect(() => {
     dispatch(GetTestPublishedd(TestPublishedBody))
-  }, [SelectTeacher])
+  }, [StandardDivisionId])
 
   useEffect(() => {
     dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
-  }, [SelectTeacher])
+  }, [StandardDivisionId])
 
   // useEffect(() => {
   //   dispatch(GetStudentResultList(PagedStudentBody))
@@ -562,9 +562,9 @@ const FinalResult = () => {
     dispatch(getunpublishedexam(unpublishexam));
   }, []);
 
-  const clickTeacher = (value) => {
-    setstandardDivisionId(value);
-  }
+  // const clickTeacher = (value) => {
+  //   setstandardDivisionId(value);
+  // }
 
   return (
     <Box sx={{ px: 2 }}>
@@ -597,7 +597,7 @@ const FinalResult = () => {
               ItemList={GetClassTeachers}
               onChange={clickTeacherDropdown}
               label={'Teacher'}
-              defaultValue={SelectTeacher}
+              defaultValue={StandardDivisionId}
               DisableClearable={FinalResultFullAccess === 'N'}
               disabled={FinalResultFullAccess === 'N'}
 
@@ -757,7 +757,7 @@ const FinalResult = () => {
           ClickCloseDialogBox={ClickCloseDialogbox}
           onClickUnpublish={onClickUnpublish}
           ExamName={Exam}
-          TeacherName={getDropdownName(GetClassTeachers, SelectTeacher)}
+          TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
         />
       )}
     </Box>
