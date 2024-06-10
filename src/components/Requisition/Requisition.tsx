@@ -214,7 +214,7 @@ const StatusRequisition = () => {
   }, [GetPagedRequisition]);
 
   useEffect(() => {
-    if (DeleteRequisition != '') {
+    if (DeleteRequisition != " ") {
       toast.success(DeleteRequisition);
       dispatch(resetMessageDeleteRequisitionn());
       dispatch(RequisitionListt(RequisitionList));
@@ -222,7 +222,7 @@ const StatusRequisition = () => {
   }, [DeleteRequisition]);
 
   useEffect(() => {
-    if (USCancelRequisition != '') {
+    if (USCancelRequisition !== " ") {
       toast.success(USCancelRequisition);
       setOpenPublishDialogall(false)
       dispatch(resetMessageCancelRequisition());
