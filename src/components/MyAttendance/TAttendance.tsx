@@ -243,7 +243,7 @@ const TAttendance = () => {
   useEffect(() => {
 
     dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
-  }, []);
+  }, [ClassTeacherDropdownnew]);
 
 
   useEffect(() => {
@@ -582,7 +582,11 @@ const TAttendance = () => {
               <Stack direction={'row'} alignItems={'center'} gap={1}>
                 <Tooltip title={"School Attendance Overview"}>
                   <Typography color="primary" fontWeight={"bold"}
-                    sx={{ cursor: 'pointer' }} onClick={() => { clickNavigateSchoolAttendanceOverview() }
+                    sx={{ cursor: 'pointer' }} onClick={() => {
+                      if (!MarksError) {
+                        clickNavigateSchoolAttendanceOverview()
+                      }
+                    }
                     }>
                     Overview
                   </Typography>
@@ -599,7 +603,11 @@ const TAttendance = () => {
                     gap: 1,
                   }}
                   fontWeight={'bold'}
-                  onClick={() => { clickNavigateSchoolAttendanceOverview() }}
+                  onClick={() => {
+                    if (!MarksError) {
+                      clickNavigateSchoolAttendanceOverview()
+                    }
+                  }}
                 >
 
                   <Tooltip title={'Present Students / Total Student'}>
@@ -613,7 +621,11 @@ const TAttendance = () => {
                   color={'primary'}
                   sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1 }}
                   fontWeight={'bold'}
-                  onClick={() => { clickNavigateSchoolAttendanceOverview() }}
+                  onClick={() => {
+                    if (!MarksError) {
+                      clickNavigateSchoolAttendanceOverview()
+                    }
+                  }}
                 >
 
                   <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
@@ -684,6 +696,7 @@ const TAttendance = () => {
                       backgroundColor: blue[600]
                     }
                   }}
+                  disabled={MarksError ? true : false}
                 >
                   <PersonIcon />
                 </IconButton>
@@ -702,6 +715,7 @@ const TAttendance = () => {
                       backgroundColor: teal[600]
                     }
                   }}
+                  disabled={MarksError ? true : false}
                 >
                   <CalendarMonthIcon />
                 </IconButton>
@@ -732,6 +746,7 @@ const TAttendance = () => {
                       color: 'white',
                       backgroundColor: 'green'
                     }}
+                    disabled={MarksError ? true : false}
                   >
                     <SaveIcon />
                   </IconButton>
@@ -761,7 +776,7 @@ const TAttendance = () => {
               p: 2,
               textAlign: 'center'
             }}
-          >
+          >   {!MarksError && (
             <Typography
               variant={'h4'}
               sx={{
@@ -771,8 +786,9 @@ const TAttendance = () => {
               }}
               color={'green'}
             >
+
               {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text1}
-            </Typography>
+            </Typography>)}
             <Stack
               direction={'row'}
               gap={2}
@@ -789,9 +805,10 @@ const TAttendance = () => {
                       justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'} textAlign={'center'}>
-                      {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text2}
-                    </Typography>
+                    {!MarksError && (
+                      <Typography variant={'body1'} textAlign={'center'}>
+                        {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text2}
+                      </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -802,10 +819,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  > {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text3}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -816,10 +833,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text4}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
               </Grid>
@@ -833,7 +850,7 @@ const TAttendance = () => {
               p: 2,
               textAlign: 'center'
             }}
-          >
+          >  {!MarksError && (
             <Typography
               variant={'h4'}
               sx={{
@@ -844,7 +861,7 @@ const TAttendance = () => {
               color={'error'}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text1}
-            </Typography>
+            </Typography>)}
             <Stack
               direction={'row'}
               gap={2}
@@ -861,9 +878,10 @@ const TAttendance = () => {
                       justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'} textAlign={'center'}>
-                      {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text2}
-                    </Typography>
+                    {!MarksError && (
+                      <Typography variant={'body1'} textAlign={'center'}>
+                        {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text2}
+                      </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -874,10 +892,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text3}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -888,10 +906,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text4}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
               </Grid>
@@ -905,7 +923,7 @@ const TAttendance = () => {
               p: 2,
               textAlign: 'center'
             }}
-          >
+          >  {!MarksError && (
             <Typography
               variant={'h4'}
               sx={{
@@ -916,7 +934,7 @@ const TAttendance = () => {
               color={'primary'}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text1}
-            </Typography>
+            </Typography>)}
             <Stack
               direction={'row'}
               gap={2}
@@ -932,10 +950,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text2}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -946,10 +964,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text3}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -960,10 +978,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  > {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text4}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
               </Grid>
@@ -977,7 +995,7 @@ const TAttendance = () => {
               p: 2,
               textAlign: 'center'
             }}
-          >
+          > {!MarksError && (
             <Typography
               variant={'h4'}
               sx={{
@@ -987,7 +1005,7 @@ const TAttendance = () => {
               }}
             >
               {new Date(assignedDate).toLocaleString('default', { month: 'long' })} Summary
-            </Typography>
+            </Typography>)}
             <Stack
               direction={'row'}
               gap={2}
@@ -1003,10 +1021,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text2}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -1017,10 +1035,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text3}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -1031,10 +1049,10 @@ const TAttendance = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                  >
+                  >  {!MarksError && (
                     <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text4}
-                    </Typography>
+                    </Typography>)}
                   </Box>
                 </Grid>
               </Grid>
@@ -1044,10 +1062,13 @@ const TAttendance = () => {
       </Grid>
       <Grid container spacing={2} mt={1}>
         <Grid item xs={12} md={6}>
+
           <Grid container justifyContent="center">
+
             <Box sx={{ backgroundColor: 'white' }}>
               {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
               {/* <div style={{ marginTop: '70px' }}> */}
+
               <div style={{
                 fontWeight: 'bold',
                 fontSize: '16px',
@@ -1060,7 +1081,7 @@ const TAttendance = () => {
                 {MarksError}
 
               </div>
-              {AttendanceStatus && (
+              {!MarksError && AttendanceStatus && (
                 <div
                   style={{
                     fontWeight: 'bold',
