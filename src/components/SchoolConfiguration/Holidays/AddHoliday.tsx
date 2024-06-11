@@ -56,8 +56,8 @@ const AddHoliday = ({ }) => {
     // const asSchoolId = localStorage.getItem('localSchoolId');
     const asUserId = Number(localStorage.getItem('UserId'));
     const [asHoliday_Id, setasHoliday_Id] = useState();
-    const [asHolidayName, setasHolidayName] = useState('');
-    const [asRemarks, setasRemarks] = useState('');
+    // const [asHolidayName, setasHolidayName] = useState('');
+    // const [asRemarks, setasRemarks] = useState('');
 
     const [asAssociatedStandard, setasAssociatedStandard] = useState('');
 
@@ -87,7 +87,7 @@ const AddHoliday = ({ }) => {
         const start = new Date(StartDate);
         const end = new Date(EndDate);
         const timeDiff = end.getTime() - start.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
 
@@ -102,37 +102,37 @@ const AddHoliday = ({ }) => {
     }, []);
 
 
-   
+
 
     const isClassSelected = () => {
         let arr = []
         ItemList.map(item => {
-          if (item.IsActive)
-            arr.push(item.Id)
-    
+            if (item.IsActive)
+                arr.push(item.Id)
+
         })
         return arr.toString()
-      }
-     
-      const ClassSelected  = isClassSelected()
+    }
+
+    const ClassSelected = isClassSelected()
 
 
-   
-        const SaveHolidayBody: SaveHolidayDetailsBody = {
 
-            asHolidayName: asHolidayName,
-            asRemarks: asRemarks,
-            asStartDate: StartDate,
-            asEndDate: EndDate,
-            asSchoolId: asSchoolId,
-            asAcademicYearID: asAcademicYearId,
-            asInsertedById: asUserId,
-            asAssociatedStandard: ClassSelected,
-            asHoliday_Id: asHoliday_Id
+    const SaveHolidayBody: SaveHolidayDetailsBody = {
 
-        }
+        asHolidayName: HolidayTitle,
+        asRemarks: Reamrk,
+        asStartDate: StartDate,
+        asEndDate: EndDate,
+        asSchoolId: asSchoolId,
+        asAcademicYearID: asAcademicYearId,
+        asInsertedById: asUserId,
+        asAssociatedStandard: ClassSelected,
+        asHoliday_Id: asHoliday_Id
 
-   
+    }
+
+
 
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
@@ -169,8 +169,8 @@ const AddHoliday = ({ }) => {
     //     return returnVal;
     // }
 
-    
-      
+
+
 
     const onSelectStartDate = (value) => {
         setStartDate(value);
@@ -227,7 +227,7 @@ const AddHoliday = ({ }) => {
         } else {
             setErrorEndDate('');
         }
-         
+
 
         if (isError) {
             return; // Prevent form submission if there are validation errors
