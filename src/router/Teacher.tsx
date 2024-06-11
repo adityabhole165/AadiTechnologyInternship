@@ -226,8 +226,20 @@ const teacherRoutes = [
     element: <IndidualAttendance />
   },
   {
+    path: 'IndidualAttendance/:selectClasstecahernew/:assignedDate',
+    element: <IndidualAttendance />
+  },
+  {
     path: 'AddAnnualPlaner',
     element: <AddAnnualPlaner />
+  },
+  {
+    path: 'MonthwiseAttendance/:selectClasstecahernew/:assignedDate',
+    element: <MonthwiseAttandance />
+  },
+  {
+    path: 'TAttendance/:paramsselectClassteacher/:paramsassignedDate',
+    element: <TAttendance />
   },
   {
     path: 'MonthwiseAttendance',
