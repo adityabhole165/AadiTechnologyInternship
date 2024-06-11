@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import HolidaysApi from 'src/api/Holiday/Holiday';
 import { getDateFormatted, getDateMonthYearDayDash, isFutureDateTime } from 'src/components/Common/Util';
-import IHolidays, { IGetHolidayBody, IHolidaysFA } from 'src/interfaces/Common/Holidays';
+import IHolidays, { IAllClassesAndDivisionsBody, IGetHolidayBody, IHolidaysFA, ISelectedStandardAndDivisionCheckBoxBody, SaveHolidayDetailsBody } from 'src/interfaces/Common/Holidays';
 import { AppThunk } from 'src/store';
 
 const Holidaysslice = createSlice({
@@ -11,6 +11,10 @@ const Holidaysslice = createSlice({
     HolidaysDataF: [],
     DeleteHolidayMsg: '',
     EditHolidayDetails: [],
+    AllClassesAndDivisionss: [],
+    AllClassesAndDivisionss1: [],
+    SelectedStandardAndDivisionCheckBoxx: [],
+    SaveHoliday: '',
     HolidayDetails: null,
     Loading: true
   },
@@ -36,6 +40,18 @@ const Holidaysslice = createSlice({
     getEditHolidayDetails(state, action) {
       state.Loading = false;
       state.EditHolidayDetails = action.payload
+    },
+    getAllClassesAndDivisionss(state, action) {
+      state.AllClassesAndDivisionss = action.payload;
+    },
+    getAllClassesAndDivisionss1(state, action) {
+      state.AllClassesAndDivisionss1 = action.payload;
+    },
+    getSelectedStandardAndDivisionCheckBoxx(state, action) {
+      state.SelectedStandardAndDivisionCheckBoxx = action.payload;
+    },
+    getSaveHoliday(state, action) {
+      state.SaveHoliday = action.payload;
     },
 
     getLoading(state, action) {
@@ -121,5 +137,59 @@ export const getEditHolidayDetails =
       const response = await HolidaysApi.GetEditHolidayDetails(data);
       dispatch(Holidaysslice.actions.getEditHolidayDetails(response.data))
     };
+
+export const getSaveHolidays =
+  (data: SaveHolidayDetailsBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(Holidaysslice.actions.getLoading(true));
+      const response = await HolidaysApi.SaveHolidays(data);
+      dispatch(Holidaysslice.actions.getSaveHoliday(response.data))
+
+      // console.log(getSaveHolidays, "getSaveHolidays")
+    }
+
+export const GetAllClassAndDivision =
+  (data: IAllClassesAndDivisionsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await HolidaysApi.AllClassesAndDivisions(data);
+      let responseData = response.data.map((item, i) => {
+        return {
+          Id: item.SchoolWise_Standard_Division_Id,
+          Name: item.Division_Name,
+          Value: item.SchoolWise_Standard_Division_Id,
+          ParentId: item.Standard_Id,
+          IsActive: false
+        }
+      })
+
+      let arr = []
+      let arrStd = []
+      response.data.map((item, i) => {
+        if (!arrStd.includes(item.Standard_Id)) {
+
+          arrStd.push(item.Standard_Id)
+          arr.push({
+            Id: item.Standard_Id,
+            Name: item.Standard_Name,
+            Value: item.Standard_Id,
+            IsActive: false
+          })
+        }
+      })
+      // console.log(arr,"arr")
+
+
+      dispatch(Holidaysslice.actions.getAllClassesAndDivisionss(responseData))
+      dispatch(Holidaysslice.actions.getAllClassesAndDivisionss1(arr))
+
+    }
+
+export const GetSelectedStandardAndDivisionCheckBoxx =
+  (data: ISelectedStandardAndDivisionCheckBoxBody): AppThunk =>
+    async (dispatch) => {
+      const response = await HolidaysApi.SelectedStandardAndDivisionCheckBox(data);
+      dispatch(Holidaysslice.actions.getSelectedStandardAndDivisionCheckBoxx(response.data))
+    }
+
 
 export default Holidaysslice.reducer;

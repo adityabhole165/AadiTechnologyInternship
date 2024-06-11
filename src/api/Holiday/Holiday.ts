@@ -3,8 +3,16 @@ import IHolidays, {
   GetHolidayListResult,
   GetHolidayListResult1,
 
+  IAllClassesAndDivisionsBody,
+
+  IAllClassesAndDivisionsResult,
+
   IGetHolidayBody,
-  IHolidaysFA
+  IHolidaysFA,
+  ISelectedStandardAndDivisionCheckBoxBody,
+  ISelectedStandardAndDivisionCheckBoxResult,
+  SaveHolidayDetailsBody,
+  SaveHolidayDetailsResult
 } from '../../interfaces/Common/Holidays';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -24,11 +32,28 @@ const GetEditHolidayDetails = (data: IGetHolidayBody) => {
   return http.post<EditHolidayDetailsResult[]>('Teacher/GetHolidayDetails', data);
 }
 
+//3.AllClassesAndDivisions
+const AllClassesAndDivisions = (data: IAllClassesAndDivisionsBody) => {
+  return http.post<IAllClassesAndDivisionsResult[]>('Teacher/GetAllClassesAndDivisions', data);
+}
+
+const SelectedStandardAndDivisionCheckBox = (data: ISelectedStandardAndDivisionCheckBoxBody) => {
+  return http.post<ISelectedStandardAndDivisionCheckBoxResult[]>('Teacher/GetSelectedStandardAndDivisionCheckBox', data);
+}
+
+const SaveHolidays = (data: SaveHolidayDetailsBody) => {
+  return http.post<SaveHolidayDetailsResult>('Teacher/SaveHolidayDetails', data);
+}
+
+
 const HolidaysApi = {
   GetHolidayList,
   GetHolidayList1,
   GetDeleteHoliday,
   GetEditHolidayDetails,
+  AllClassesAndDivisions,
+  SelectedStandardAndDivisionCheckBox,
+  SaveHolidays
 
 };
 

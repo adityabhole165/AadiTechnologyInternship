@@ -83,3 +83,38 @@ export interface SaveHolidayDetailsBody {
 export interface SaveHolidayDetailsResult {
   string
 }
+
+// GetAllClassAndDivisons
+
+export interface IAllClassesAndDivisionsBody {
+
+  asSchoolId: number,
+  asAcademicYearId: number
+
+}
+
+export interface IAllClassesAndDivisionsResult {
+
+  SchoolWise_Standard_Division_Id: string,
+  Standard_Id: string,
+  Standard_Name: string,
+  Division_Id: string,
+  Division_Name: string
+
+}
+
+export interface ISelectedStandardAndDivisionCheckBoxBody {
+
+  asSchoolId: number,
+  asEventId: number
+
+}
+
+export interface ISelectedStandardAndDivisionCheckBoxResult {
+
+  StandardDivisionId: string,
+  Event_Id: string,
+  Standard_Name: string,
+  Division_Name: string
+
+}

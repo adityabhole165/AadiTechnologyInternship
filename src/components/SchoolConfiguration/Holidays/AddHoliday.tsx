@@ -1,56 +1,252 @@
 
 
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import QuestionMark from "@mui/icons-material/QuestionMark";
-import { Box, Grid, IconButton, TextField, Tooltip } from "@mui/material";
+import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { ClearIcon } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getDateFormattedDash, isGreaterThanDate } from "src/components/Common/Util";
 import CommonPageHeader from "src/components/CommonPageHeader";
+import { IAllClassesAndDivisionsBody } from "src/interfaces/Common/Holidays";
+import Datepicker from "src/libraries/DateSelector/Datepicker";
+import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
+import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
+import { GetAllClassAndDivision } from "src/requests/Holiday/Holiday";
+import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
 
-    const getCurrentDate = () => {
+    const getFormattedDate = (date) => {
         const monthNames = [
             'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'
         ];
 
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = monthNames[today.getMonth()];
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${day}-${month}-${year}`;
+        const day = String(date.getDate()).padStart(2, '0');
+        const monthIndex = date.getMonth();
+        const year = date.getFullYear();
+
+        const monthName = monthNames[monthIndex];
+
+        return `${day}-${monthName}-${year}`;
     };
 
-    console.log(getCurrentDate(), "getCurrentDate");
 
-    // const today = new Date();
-    // console.log("today", today);
-
-
+    const dispatch = useDispatch();
+    const [ItemList, setitemList] = useState([]);
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const [StartDate, setStartDate] = useState(getFormattedDate(new Date()));
+    const [ErrorStartDate, setErrorStartDate] = useState('');
+    const [EndDate, setEndDate] = useState(getFormattedDate(new Date()));
+    const [ErrorEndDate, setErrorEndDate] = useState('');
+    console.log(StartDate, "StartDate");
     const [HolidayTitle, setHolidayTitle] = useState('');
     const [errorHolidayTitle, SetErrorHolidayTitle] = useState('');
-
-    const [HolidayStartDate, setHolidayStartDate] = useState(getCurrentDate);
-
-    const [HolidayEndDate, setHolidayEndDate] = useState(getCurrentDate);
+    // const [HolidayStartDate, setHolidayStartDate] = useState(getCurrentDate);
+    // const [HolidayEndDate, setHolidayEndDate] = useState(getCurrentDate);
     const [ErrorHolidayStartDate, setErrorHolidayStartDate] = useState('');
     const [ErrorHolidayEndDate, setErrorHolidayEndDate] = useState('');
     const [TotalDays, setTotalDays] = useState(1);
     const [Reamrk, setRemark] = useState('');
+    const [ErrorClass, setErrorClass] = useState('');
+
+    // const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    // const asSchoolId = localStorage.getItem('localSchoolId');
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const [asHoliday_Id, setasHoliday_Id] = useState();
+    const [asHolidayName, setasHolidayName] = useState('');
+    const [asRemarks, setasRemarks] = useState('');
+
+    const [asAssociatedStandard, setasAssociatedStandard] = useState('');
+
+
+
+
+    const ClassesAndDivisionss = useSelector(
+        (state: RootState) => state.Holidays.AllClassesAndDivisionss
+    );
+    console.log("ClassesAndDivisionss", ClassesAndDivisionss)
+
+    const ClassesAndDivisionss1 = useSelector(
+        (state: RootState) => state.Holidays.AllClassesAndDivisionss1
+    );
+
+    console.log("ClassesAndDivisionss1", ClassesAndDivisionss1)
+
+    const SaveHolidays = useSelector(
+        (state: RootState) => state.Holidays.SaveHoliday
+    )
+
+    console.log("SaveHolidays", SaveHolidays);
+
+
 
     useEffect(() => {
-        const start = new Date(HolidayStartDate);
-        const end = new Date(HolidayEndDate);
+        const start = new Date(StartDate);
+        const end = new Date(EndDate);
         const timeDiff = end.getTime() - start.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         setTotalDays(daysDiff);
-    }, [HolidayStartDate, HolidayEndDate]);
+    }, [StartDate, EndDate]);
+
+    useEffect(() => {
+
+        const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId
+        };
+        dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
+
+    }, []);
+
+
+    const isClassSelected = () => {
+        let returnVal = false
+        ItemList.map((Item) => {
+            if (Item.IsActive) {
+                return {
+                    asAssociatedStandard: Item.Standard_Id
+                }
+
+            }
+        })
+        return returnVal;
+
+    }
+    console.log("isClassSelected", isClassSelected());
+
+    // useEffect(() => {
+    //     const SaveHolidayBody: SaveHolidayDetailsBody = {
+
+    //         asHolidayName: asHolidayName,
+    //         asRemarks: asRemarks,
+    //         asStartDate: StartDate,
+    //         asEndDate: EndDate,
+    //         asSchoolId: asSchoolId,
+    //         asAcademicYearID: asAcademicYearId,
+    //         asInsertedById: asUserId,
+    //         asAssociatedStandard: isClassSelected(),
+    //         asHoliday_Id: asHoliday_Id
+
+    //     }
+
+    //     dispatch(getSaveHolidays(SaveHolidayBody))
+    // }, [])
+
+    useEffect(() => {
+        setitemList(ClassesAndDivisionss);
+    }, [ClassesAndDivisionss]);
+
+    const ClickChild = (value) => {
+        setitemList(value);
+    };
+
+    const handleTodayButtonClick = () => {
+        onSelectStartDate(new Date());
+
+    };
+
+    const handleClearButtonClick = (value) => {
+        setStartDate(value || '');
+    };
+
+    const handleTodayButtonClick1 = () => {
+        onSelectEndDate(new Date());
+    };
+
+    const handleClearButtonClick1 = (value) => {
+        setEndDate(value || '');
+    };
+
+    // const isClassSelected = () => {
+    //     let returnVal = false
+    //     ItemList.map((Item) => {
+    //         if (Item.IsActive)
+    //             returnVal = true
+
+    //     })
+    //     return returnVal;
+    // }
+
+    const onSelectStartDate = (value) => {
+        setStartDate(value);
+    };
+
+    const onSelectEndDate = (value) => {
+        setEndDate(value);
+    };
+
+    const ClickSave = () => {
+        let isError = false;
+        if (HolidayTitle == '') {
+            SetErrorHolidayTitle('Holiday name should not be blank.');
+            isError = true;
+        } else SetErrorHolidayTitle('')
+
+        if (!isClassSelected()) {
+            setErrorClass('At least one class should be associated.');
+            isError = true;
+        } else setErrorClass('')
+
+        if (StartDate === 'DD MMMM YYYY' || StartDate === '') {
+            setErrorStartDate('Please choose a valid start date');
+            isError = true;
+        } else if (ErrorStartDate != '') {
+            isError = true;
+        } else setErrorStartDate('')
+
+
+        if (EndDate == '') {
+            setErrorEndDate('Please choose a valid End date.');
+            isError = true;
+        } else if (ErrorEndDate != '') {
+            isError = true;
+        } else setErrorEndDate('')
+
+        if (isGreaterThanDate(StartDate, EndDate)) {
+            setErrorStartDate('Start Date should be less than end date');
+            isError = true;
+        } else if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
+            setErrorStartDate('Holiday start date must be within current academic year ' +
+                '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+                ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
+            // isError = true;
+        } else {
+            setErrorStartDate('');
+        }
+
+        if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))) {
+            setErrorEndDate('Holiday end date must be within current academic year ' +
+                '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+                ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
+            // isError = true;
+        } else {
+            setErrorEndDate('');
+        }
+
+        if (isError) {
+            return; // Prevent form submission if there are validation errors
+        }
+
+    }
+
+    const resetForm = () => {
+
+
+
+    }
 
     return (
         <>
             <Box sx={{ px: 2 }}>
                 <CommonPageHeader
                     navLinks={[
+                        {
+                            title: 'Holidays',
+                            path: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+                        },
                         {
                             title: 'Add Holiday',
                             path: '/extended-sidebar/Admin/SchoolConfiguration/AddHoliday',
@@ -76,7 +272,7 @@ const AddHoliday = ({ }) => {
                 />
             </Box>
             <Grid container spacing={2}>
-                <Grid item xs={6} md={6}>
+                {/* <Grid item xs={6} md={6}>
 
                     <TextField
                         label={
@@ -84,13 +280,13 @@ const AddHoliday = ({ }) => {
                                 Start Date <span style={{ color: 'red' }}>*</span>
                             </span>
                         }
-                        // inputProps={{ type: 'date' }}
+                        inputProps={{ type: 'date' }}
                         InputLabelProps={{
                             shrink: true
                         }}
-                        value={HolidayStartDate}
+                        value={StartDate}
                         onChange={(e) => {
-                            setHolidayStartDate(e.target.value);
+                            setStartDate(e.target.value);
                             // console.log('EventStartDate :', e.target.value);
                         }}
                         error={ErrorHolidayStartDate !== ''}
@@ -98,8 +294,31 @@ const AddHoliday = ({ }) => {
                         fullWidth
 
                     />
-                </Grid>
+                </Grid> */}
+
+
                 <Grid item xs={6} md={6}>
+                    <Datepicker
+                        DateValue={StartDate}
+                        onDateChange={onSelectStartDate}
+                        label={'Start Date'}
+                        size={"medium"}
+                    />
+                    <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+
+                    <Grid item xs={1}>
+                        <IconButton onClick={handleTodayButtonClick}>
+                            <CalendarTodayIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <IconButton onClick={handleClearButtonClick}>
+                            <ClearIcon />
+                        </IconButton>
+                    </Grid>
+
+                </Grid>
+                {/* <Grid item xs={6} md={6}>
                     <TextField
                         label={
                             <span>
@@ -123,6 +342,26 @@ const AddHoliday = ({ }) => {
                         helperText={ErrorHolidayEndDate}
                         fullWidth
                     />
+                </Grid> */}
+                <Grid item xs={6} md={6}>
+                    <Datepicker
+                        DateValue={EndDate}
+                        onDateChange={onSelectEndDate}
+                        label={'End Date'}
+                        size={"medium"}
+                    />
+                    <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+
+                    <Grid item xs={1}>
+                        <IconButton onClick={handleTodayButtonClick1}>
+                            <CalendarTodayIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <IconButton onClick={handleClearButtonClick1}>
+                            <ClearIcon />
+                        </IconButton>
+                    </Grid>
                 </Grid>
 
                 <Grid item xs={12} md={12}>
@@ -178,13 +417,34 @@ const AddHoliday = ({ }) => {
                     >
 
                     </TextField>
+
+
+
                 </Grid>
 
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h6">
+                        Associated Classes <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                    <SelectListHierarchy
+                        ItemList={ItemList}
+                        ParentList={ClassesAndDivisionss1}
+                        ClickChild={ClickChild}
+                    ></SelectListHierarchy>
+                    <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
 
+                </Grid>
 
-
-
-
+                <Grid item xs={12} md={12}>
+                    <Stack direction={"row"} gap={2} alignItems={"center"}>
+                        <Button variant={'contained'} color="success" onClick={ClickSave}>
+                            SAVE
+                        </Button>
+                        <Button variant={'contained'} color="error" onClick={resetForm}>
+                            CANCEL
+                        </Button>
+                    </Stack>
+                </Grid>
             </Grid >
         </>
     )
@@ -192,3 +452,5 @@ const AddHoliday = ({ }) => {
 
 
 export default AddHoliday;
+
+
