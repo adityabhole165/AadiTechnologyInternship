@@ -10,16 +10,15 @@ import { toast } from 'react-toastify';
 import {
   IAllPrimaryClassTeachersBody,
   IGetAllGradesForStandardBody,
-  IGetAllStudentsForProgressRemarkBody,
   IGetAllStudentswiseRemarkDetailsNewBody,
+  IGetConfiguredMaxRemarkLengthBody,
   IGetFinalPublishedExamStatusBody,
   IGetRemarkTemplateDetailsBody,
   IGetRemarksCategoryBody,
   IGetTestwiseTermBody,
   IStudentListDropDowntBody,
   IStudentswiseRemarkDetailsToExportBody,
-  IUpdateAllStudentsRemarkDetailsBody,
-  IGetConfiguredMaxRemarkLengthBody
+  IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
@@ -27,17 +26,17 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import {
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
+  CDAGetConfiguredMaxRemarkLength,
   CDAGetFinalPublishedExamStatus,
   CDAGetRemarkTemplateDetails,
   CDAGetRemarksCategory,
   CDAGetTestwiseTerm,
   CDAGradeDropDown,
+  CDAResetStudentDropdown,
   CDAStudentListDropDown,
   CDAStudentswiseRemarkDetailsToExport,
   CDAUpdateAllStudentsRemarkDetails,
-  CDAresetSaveMassage,
-  CDAResetStudentDropdown,
-  CDAGetConfiguredMaxRemarkLength
+  CDAresetSaveMassage
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -82,12 +81,12 @@ const ProgressRemarks = () => {
   const endIndex = startIndex + itemsPerPage;
 
 
-  const { StandardDivisionId } = useParams();
+  const { StandardDivisionId, TestId } = useParams();
 
   const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
 
-  
-  
+
+
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -182,7 +181,7 @@ const ProgressRemarks = () => {
   const maxRemarkLength = USGetConfiguredMaxRemarkLength?.MaxRemarkLength;
 
   console.log(maxRemarkLength, "---M1");
-  
+
 
   useEffect(() => {
     let headerArray = [
@@ -222,7 +221,7 @@ const ProgressRemarks = () => {
   };
 
 
-  
+
 
 
 
@@ -277,18 +276,18 @@ const ProgressRemarks = () => {
   };
 
 
-  const GetConfiguredMaxRemarkLengthBody: IGetConfiguredMaxRemarkLengthBody = 
-    {
-    asSchoolId:asSchoolId,
-    asAcademicYearId:asAcademicYearId,
-    asStandardId: getStandardId() ,
-    asTermId:SelectTerm
+  const GetConfiguredMaxRemarkLengthBody: IGetConfiguredMaxRemarkLengthBody =
+  {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardId: getStandardId(),
+    asTermId: SelectTerm
   };
 
-  
 
 
-  
+
+
 
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
@@ -333,7 +332,7 @@ const ProgressRemarks = () => {
     asMarksGradesConfigurationDetailsId: SelectGrade,
     asStandardId: getStdDivisionId()
   }
- 
+
   const StudentListDropDowntBody: IStudentListDropDowntBody = {
     asStandard_Division_Id: getStdDivisionId(),
     asSchoolId: asSchoolId,
@@ -438,17 +437,17 @@ const ProgressRemarks = () => {
   const [message, setMessage] = useState("");
   useEffect(() => {
     if (USGetFinalPublishedExamStatus.IsPublishedStatus == 1) {
-        <span> </span>
+      <span> </span>
     }
 
-    else{
+    else {
       const autoSave = setInterval(() => {
         if (IsDirty) {
           UpdateRemark();
           setMessage("We are saving current progress remarks details.Please wait.");
         }
       }, 60000);
-  
+
       return () => clearInterval(autoSave);
 
     }
@@ -681,7 +680,7 @@ const ProgressRemarks = () => {
     dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
   }, [SelectTerm]);
 
-  
+
 
 
   useEffect(() => {
@@ -690,11 +689,11 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     if (StudentList === '') {
-        dispatch(CDAResetStudentDropdown());
+      dispatch(CDAResetStudentDropdown());
     } else {
-        dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+      dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
     }
-}, [selectTeacher, SelectTerm, StudentList, page1, rowsPerPage]);
+  }, [selectTeacher, SelectTerm, StudentList, page1, rowsPerPage]);
 
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
@@ -711,7 +710,7 @@ const ProgressRemarks = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + selectTeacher },
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + getStdDivisionId() + '/' + TestId },
           { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
         ]}
         rightActions={<>
@@ -821,7 +820,7 @@ const ProgressRemarks = () => {
               )}
 
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm } }>
+                <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm }}>
                   <ResizableCommentsBox
                     HeaderArray={HeaderArray}
                     ItemList={Itemlist}
@@ -844,7 +843,7 @@ const ProgressRemarks = () => {
                     page={page1}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                   
+
                   />
                 </Box>
               ) : (
