@@ -153,7 +153,7 @@ const Holidays = (props: Props) => {
         asDivisionId: Number(0),
         asSortExp: "ORDER BY Holiday_Start_Date ASC",
         asStartIndex: Number(0),
-        asPageSize: Number(20),
+        asPageSize: Number(100),
     };
 
     useEffect(() => {

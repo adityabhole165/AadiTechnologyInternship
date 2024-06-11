@@ -6,6 +6,7 @@ import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } 
 import { ClearIcon } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router';
 import { getDateFormattedDash, isGreaterThanDate } from "src/components/Common/Util";
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { IAllClassesAndDivisionsBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
@@ -16,6 +17,7 @@ import { GetAllClassAndDivision, getSaveHolidays } from "src/requests/Holiday/Ho
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
+    const navigate = useNavigate();
 
     const getFormattedDate = (date) => {
         const monthNames = [
@@ -117,18 +119,23 @@ const AddHoliday = ({ }) => {
     const ClassSelected = isClassSelected()
 
 
+    const toUTC = (dateString) => {
+        const date = new Date(dateString);
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    };
+
 
     const SaveHolidayBody: SaveHolidayDetailsBody = {
 
         asHolidayName: HolidayTitle,
         asRemarks: Reamrk,
-        asStartDate: StartDate,
-        asEndDate: EndDate,
+        asStartDate: toUTC(StartDate).toISOString(),
+        asEndDate: toUTC(EndDate).toISOString(),
         asSchoolId: asSchoolId,
         asAcademicYearID: asAcademicYearId,
         asInsertedById: asUserId,
         asAssociatedStandard: ClassSelected,
-        asHoliday_Id: asHoliday_Id
+        asHoliday_Id: 0
 
     }
 
@@ -210,34 +217,46 @@ const AddHoliday = ({ }) => {
         if (isGreaterThanDate(StartDate, EndDate)) {
             setErrorStartDate('Start Date should be less than end date');
             isError = true;
-        } else if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
+        } else {
+            setErrorStartDate('')
+        }
+
+        if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
             setErrorStartDate('Holiday start date must be within current academic year ' +
                 '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
                 ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
-            // isError = true;
+            isError = true;
         } else {
             setErrorStartDate('');
+
+
+            if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))) {
+                setErrorEndDate('Holiday end date must be within current academic year ' +
+                    '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+                    ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
+                isError = true;
+            } else {
+                setErrorEndDate('');
+            }
+
+
+            if (!isError) {
+                return; // Prevent form submission if there are validation errors
+            }
+
+            if (!isError) {
+                dispatch(getSaveHolidays(SaveHolidayBody))
+
+            }
+
+            if (!isError) {
+                navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+            }
+
+
+
+
         }
-
-        if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))) {
-            setErrorEndDate('Holiday end date must be within current academic year ' +
-                '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-                ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
-            // isError = true;
-        } else {
-            setErrorEndDate('');
-        }
-
-
-        if (isError) {
-            return; // Prevent form submission if there are validation errors
-        }
-
-        if (!isError) {
-            dispatch(getSaveHolidays(SaveHolidayBody))
-
-        }
-
     }
 
     const resetForm = () => {
