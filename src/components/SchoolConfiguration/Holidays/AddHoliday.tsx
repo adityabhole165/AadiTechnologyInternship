@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDateFormattedDash, isGreaterThanDate } from "src/components/Common/Util";
 import CommonPageHeader from "src/components/CommonPageHeader";
-import { IAllClassesAndDivisionsBody } from "src/interfaces/Common/Holidays";
+import { IAllClassesAndDivisionsBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, getSaveHolidays } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
@@ -102,38 +102,37 @@ const AddHoliday = ({ }) => {
     }, []);
 
 
+   
+
     const isClassSelected = () => {
-        let returnVal = false
-        ItemList.map((Item) => {
-            if (Item.IsActive) {
-                return {
-                    asAssociatedStandard: Item.Standard_Id
-                }
-
-            }
+        let arr = []
+        ItemList.map(item => {
+          if (item.IsActive)
+            arr.push(item.Id)
+    
         })
-        return returnVal;
+        return arr.toString()
+      }
+     
+      const ClassSelected  = isClassSelected()
 
-    }
-    console.log("isClassSelected", isClassSelected());
 
-    // useEffect(() => {
-    //     const SaveHolidayBody: SaveHolidayDetailsBody = {
+   
+        const SaveHolidayBody: SaveHolidayDetailsBody = {
 
-    //         asHolidayName: asHolidayName,
-    //         asRemarks: asRemarks,
-    //         asStartDate: StartDate,
-    //         asEndDate: EndDate,
-    //         asSchoolId: asSchoolId,
-    //         asAcademicYearID: asAcademicYearId,
-    //         asInsertedById: asUserId,
-    //         asAssociatedStandard: isClassSelected(),
-    //         asHoliday_Id: asHoliday_Id
+            asHolidayName: asHolidayName,
+            asRemarks: asRemarks,
+            asStartDate: StartDate,
+            asEndDate: EndDate,
+            asSchoolId: asSchoolId,
+            asAcademicYearID: asAcademicYearId,
+            asInsertedById: asUserId,
+            asAssociatedStandard: ClassSelected,
+            asHoliday_Id: asHoliday_Id
 
-    //     }
+        }
 
-    //     dispatch(getSaveHolidays(SaveHolidayBody))
-    // }, [])
+   
 
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
@@ -169,6 +168,9 @@ const AddHoliday = ({ }) => {
     //     })
     //     return returnVal;
     // }
+
+    
+      
 
     const onSelectStartDate = (value) => {
         setStartDate(value);
@@ -225,9 +227,15 @@ const AddHoliday = ({ }) => {
         } else {
             setErrorEndDate('');
         }
+         
 
         if (isError) {
             return; // Prevent form submission if there are validation errors
+        }
+
+        if (!isError) {
+            dispatch(getSaveHolidays(SaveHolidayBody))
+
         }
 
     }
