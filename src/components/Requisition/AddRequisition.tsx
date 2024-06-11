@@ -1,18 +1,16 @@
-import DeleteIcon from '@mui/icons-material/Delete';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import DynamicList2 from 'src/libraries/list/DynamicList2';
+import { CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
-import { IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -29,48 +27,33 @@ const AddRequisition = () => {
         'Item Quantity',
         'Delete',
     ];
-    const IconList = [
-        {
-            Id: 2,
-            Icon: <DeleteIcon />,
-            Action: 'Delete'
-        },
-    ];
 
-    const Requision = useSelector(
-        (state: RootState) => state.SliceRequisition.Requisition
-    );
-    console.log(Requision, 'StatusRequisition');
-
-
-    const USGetItemCategory :any = useSelector(
+    const USGetItemCategory: any = useSelector(
         (state: RootState) => state.SliceAddRequisition.ISGetItemCategory
     );
-    
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
-      };
+    };
 
-      
-    useEffect(() => {
-        dispatch(CDAGetItemCategory(GetItemCategoryBody));
-    }, []);
-    
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
     };
-    const ClickItem = (value) => { };
-
-
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
-   
-   
-   
 
-  
+
+    useEffect(() => {
+        if (USGetItemCategory.length > 0) {
+            setItemCategory(USGetItemCategory[0].Value);
+        }
+    }, [USGetItemCategory]);
+
+    useEffect(() => {
+        dispatch(CDAGetItemCategory(GetItemCategoryBody));
+    }, []);
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -86,23 +69,27 @@ const AddRequisition = () => {
                         ItemList={USGetItemCategory}
                         onChange={ItemCategoryDropdown}
                         label={'Category'}
-                        defaultValue={ItemCategory} 
+                        defaultValue={ItemCategory}
                         mandatory
                         size={"small"}
                     />
-                    {/* <TextField
+                    <TextField
                         sx={{ minWidth: '250px' }}
                         fullWidth
-                        label="Item Code/Name"
-                        value={regNoOrName}
+                        label={
+                            <span>
+                              Item Code/Name <span style={{ color: 'red' }}>*</span>
+                            </span>
+                          }
+                        // value={regNoOrName}
                         variant={'outlined'}
                         size={"small"}
-                        onChange={(e) => {
-                            handleRegNoOrNameChange(e.target.value);
-                        }}
-                    /> */}
+                        // onChange={(e) => {
+                        //     handleRegNoOrNameChange(e.target.value);
+                        // }}
+                    />
                     <IconButton
-                      
+
                         // disabled={selectClasstecaher === '0'}
                         sx={{
                             background: (theme) => theme.palette.primary.main,
@@ -145,9 +132,9 @@ const AddRequisition = () => {
 
                 </>}
             />
-            <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                
-            </Box>
+            {/* <Box mb={1} sx={{ p: 2, background: 'white' }}>
+
+            </Box> */}
         </Box>
     );
 };

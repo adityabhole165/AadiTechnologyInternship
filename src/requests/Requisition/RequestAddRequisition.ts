@@ -20,14 +20,17 @@ export const CDAGetItemCategory =
   (data: IGetItemCategoryBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiAddRequisition.GetItemCategory(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Id,
-        Name: item.Name,
-        Value: item.Id,
-      };
-    });
-    dispatch(SliceAddRequisition.actions.RGetItemCategory(abc));
+    let ItemCategory = [{ Id: '0', Name: 'All', Value: '0'}];
+      response.data.map((item, i) => {
+        ItemCategory.push({
+            Id: item.Id,
+            Name: item.Name,
+            Value: item.Id    
+         
+        });
+      });
+
+    dispatch(SliceAddRequisition.actions.RGetItemCategory(ItemCategory));
   };
   
 
