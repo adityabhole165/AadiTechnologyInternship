@@ -46,18 +46,12 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
     >
       <DialogTitle
         sx={{
-          backgroundColor: (theme) => theme.palette.error.main,
+          // backgroundColor: (theme) => theme.palette.error.main,
+          backgroundColor: '#324b84',
           py: 1,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+
         }}
       >
-        <Typography variant="h6">
-          Enter reason for unpublish
-        </Typography>
-
-
       </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Grid container justifyContent="space-between" alignItems="center">
@@ -65,9 +59,9 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
           <Typography variant={"h4"} sx={{ mb: 1 }}>
             Exam :
           </Typography>
-          <Typography variant="body2" color="error">
+          {/* <Typography variant="body2" color="error">
             * Mandatory Fields
-          </Typography>
+          </Typography> */}
         </Grid>
         <Grid container spacing={1} alignItems="center">
 
@@ -94,7 +88,8 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         </Grid>
         <br></br>
         <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Unpublish Reason<span style={{ color: 'red' }}>*</span>
+          Unpublish Reason :
+          {/* <span style={{ color: 'red' }}>*</span> */}
         </Typography>
         <TextField
           multiline
@@ -109,14 +104,15 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         />
       </DialogContent>
       <DialogActions sx={{ py: 2, px: 3 }}>
-        <Button onClick={() => { ClickOk() }} variant={'contained'}>
-          Unpublish
-        </Button>
         <Button onClick={() => {
           setOpen(false)
         }} color={'error'}>
-          Close
+          Cancel
         </Button>
+        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+          Unpublish
+        </Button>
+
       </DialogActions>
     </Dialog>
   );

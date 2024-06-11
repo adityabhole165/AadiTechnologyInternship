@@ -37,7 +37,7 @@ import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
   const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
-
+  const [toppersGenerated, setToppersGenerated] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -159,7 +159,10 @@ const ExamResultBase = () => {
     // asStandardDivisionId: ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)
   };
 
-
+  const handleGenerateToppers = () => {
+    // Logic for generating toppers
+    setToppersGenerated(true);
+  };
   const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -592,9 +595,11 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: grey[600]
               }
-            }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated)
+            }}
+              onClick={handleGenerateToppers}
+              disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated && !toppersGenerated)
 
-            }>
+              }>
               {/* GENERATE TOPPERS */}
               <ManageAccounts />
             </IconButton>
@@ -643,7 +648,7 @@ const ExamResultBase = () => {
                 '&:hover': {
                   backgroundColor: grey[600]
                 }
-              }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
+              }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated && toppersGenerated)}
 
             >
               <Person />
