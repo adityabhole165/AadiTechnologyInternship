@@ -7,7 +7,7 @@ import { ClearIcon } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
-import { getDateFormattedDash, isGreaterThanDate } from "src/components/Common/Util";
+import { getDateFormattedDash, isGreaterThanDate, isLessThanDate } from "src/components/Common/Util";
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { IAllClassesAndDivisionsBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
@@ -54,6 +54,7 @@ const AddHoliday = ({ }) => {
     const [Reamrk, setRemark] = useState('');
     const [ErrorClass, setErrorClass] = useState('');
 
+    const [ErrorEndDate1, setErrorEndDate1] = useState('');
     // const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     // const asSchoolId = localStorage.getItem('localSchoolId');
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -119,18 +120,18 @@ const AddHoliday = ({ }) => {
     const ClassSelected = isClassSelected()
 
 
-    // const toUTC = (dateString) => {
-    //     const date = new Date(dateString);
-    //     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    // };
+    const toUTC = (dateString) => {
+        const date = new Date(dateString);
+        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    };
 
 
     const SaveHolidayBody: SaveHolidayDetailsBody = {
 
         asHolidayName: HolidayTitle,
         asRemarks: Reamrk,
-        asStartDate: StartDate,
-        asEndDate: EndDate,
+        asStartDate: toUTC(StartDate).toISOString(),
+        asEndDate: toUTC(EndDate).toISOString(),
         asSchoolId: asSchoolId,
         asAcademicYearID: asAcademicYearId,
         asInsertedById: asUserId,
@@ -165,6 +166,18 @@ const AddHoliday = ({ }) => {
     const handleClearButtonClick1 = (value) => {
         setEndDate(value || '');
     };
+
+    // const isClassSelected = () => {
+    //     let returnVal = false
+    //     ItemList.map((Item) => {
+    //         if (Item.IsActive)
+    //             returnVal = true
+
+    //     })
+    //     return returnVal;
+    // }
+
+
 
 
     const onSelectStartDate = (value) => {
@@ -202,13 +215,10 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setErrorEndDate('')
 
-        if (isGreaterThanDate(StartDate, EndDate)) {
-            setErrorStartDate('Start Date should be less than end date');
-            isError = true;
-        } else {
-            setErrorStartDate('')
-        }
-
+        // if (isGreaterThanDate(StartDate, EndDate)) {
+        //     setErrorStartDate('Start Date should be less than end date');
+        //     isError = true;
+        // } else 
         if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
             setErrorStartDate('Holiday start date must be within current academic year ' +
                 '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
@@ -216,35 +226,40 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else {
             setErrorStartDate('');
+        }
 
+        if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))) {
+            setErrorEndDate('Holiday end date must be within current academic year ' +
+                '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+                ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
+            isError = true;
+        } else {
+            setErrorEndDate('');
+        }
 
-            if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))) {
-                setErrorEndDate('Holiday end date must be within current academic year ' +
-                    '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-                    ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')');
-                isError = true;
-            } else {
-                setErrorEndDate('');
-            }
+        if (isLessThanDate(EndDate, StartDate)) {
+            setErrorEndDate1('End date should not be less than Start date.');
+            isError = true;
+        } else {
+            setErrorEndDate1('');
+        }
 
+        if (!isError) {
+            return; // Prevent form submission if there are validation errors
+        }
 
-            if (!isError) {
-                return; // Prevent form submission if there are validation errors
-            }
-
-            if (!isError) {
-                dispatch(getSaveHolidays(SaveHolidayBody))
-
-            }
-
-            if (!isError) {
-                navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
-            }
-
-
-
+        if (!isError) {
+            dispatch(getSaveHolidays(SaveHolidayBody))
 
         }
+
+        if (!isError) {
+            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+        }
+
+
+
+
     }
 
     const resetForm = () => {
@@ -333,31 +348,7 @@ const AddHoliday = ({ }) => {
                     </Grid>
 
                 </Grid>
-                {/* <Grid item xs={6} md={6}>
-                    <TextField
-                        label={
-                            <span>
-                                End Date <span style={{ color: 'red' }}>*</span>
-                            </span>
-                        }
-                        type="text"
-                        value={HolidayEndDate}
-                        onChange={(e) => {
-                            setHolidayEndDate(e.target.value);
-                            // console.log('EventEndDate :', e.target.value);
-                        }}
-                        InputProps={{
-                            endAdornment: <CalendarTodayIcon />,
 
-                        }}
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                        error={ErrorHolidayEndDate !== ''}
-                        helperText={ErrorHolidayEndDate}
-                        fullWidth
-                    />
-                </Grid> */}
                 <Grid item xs={6} md={6}>
                     <Datepicker
                         DateValue={EndDate}
@@ -366,6 +357,7 @@ const AddHoliday = ({ }) => {
                         size={"medium"}
                     />
                     <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                    <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
 
                     <Grid item xs={1}>
                         <IconButton onClick={handleTodayButtonClick1}>
@@ -407,7 +399,6 @@ const AddHoliday = ({ }) => {
                         error={errorHolidayTitle !== ''}
                         helperText={errorHolidayTitle}
                         fullWidth
-                        inputProps={{ maxLength: 50 }}
                         sx={{
                             resize: 'both'
                         }}
