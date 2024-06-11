@@ -119,18 +119,18 @@ const AddHoliday = ({ }) => {
     const ClassSelected = isClassSelected()
 
 
-    const toUTC = (dateString) => {
-        const date = new Date(dateString);
-        return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    };
+    // const toUTC = (dateString) => {
+    //     const date = new Date(dateString);
+    //     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    // };
 
 
     const SaveHolidayBody: SaveHolidayDetailsBody = {
 
         asHolidayName: HolidayTitle,
         asRemarks: Reamrk,
-        asStartDate: toUTC(StartDate).toISOString(),
-        asEndDate: toUTC(EndDate).toISOString(),
+        asStartDate: StartDate,
+        asEndDate: EndDate,
         asSchoolId: asSchoolId,
         asAcademicYearID: asAcademicYearId,
         asInsertedById: asUserId,
@@ -165,18 +165,6 @@ const AddHoliday = ({ }) => {
     const handleClearButtonClick1 = (value) => {
         setEndDate(value || '');
     };
-
-    // const isClassSelected = () => {
-    //     let returnVal = false
-    //     ItemList.map((Item) => {
-    //         if (Item.IsActive)
-    //             returnVal = true
-
-    //     })
-    //     return returnVal;
-    // }
-
-
 
 
     const onSelectStartDate = (value) => {
@@ -419,6 +407,7 @@ const AddHoliday = ({ }) => {
                         error={errorHolidayTitle !== ''}
                         helperText={errorHolidayTitle}
                         fullWidth
+                        inputProps={{ maxLength: 50 }}
                         sx={{
                             resize: 'both'
                         }}
