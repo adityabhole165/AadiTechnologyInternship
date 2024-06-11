@@ -159,7 +159,7 @@ const DynamicList = ({
                   {item.Text6 != undefined && (
                     <TableCell align="center">{parseInt(item.Text6)}</TableCell>
                   )}
-                  {IconList?.map((obj, i) => {
+                  {/* {IconList?.map((obj, i) => {
                     return (
                       (Data[index] != undefined && !Data[index].IsGrey) ?
                         < TableCell align="center" key={i}
@@ -172,7 +172,22 @@ const DynamicList = ({
                         < TableCell>-</TableCell>
 
                     );
-                  })}
+                  })} */}
+                  {IconList &&
+                    IconList.map((obj, i) => (
+                      Data[index] && !Data[index].IsGrey ? (
+                        <TableCell
+                          align="center"
+                          key={i}
+                          onClick={() => ClickItem({ Id: i, Action: obj.Action, Index: index })}
+                          style={{ cursor: 'pointer' }} // Apply cursor pointer style here
+                        >
+                          {obj.Icon}
+                        </TableCell>
+                      ) : (
+                        <TableCell key={i}>-</TableCell>
+                      )
+                    ))}
                 </TableRow>
               );
             })}
