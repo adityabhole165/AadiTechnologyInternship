@@ -7,18 +7,12 @@ import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import {
-    IGetPagedRequisitionBody,
-    IGetRequisitionStatusBody
-} from 'src/interfaces/Requisition/IRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
-import {
-    RequisitionListt,
-    RequisitionStatus
-} from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
+import { IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -26,9 +20,7 @@ const AddRequisition = () => {
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
-    const [SelectResult, setSelectResult] = useState(0);
-    const [SelectRequisition, setRequisiton] = useState(0);
-    const [regNoOrName, setRegNoOrName] = useState('');
+    const [ItemCategory, setItemCategory] = useState();
 
     const HeaderList = [
         'Item Code',
@@ -50,89 +42,55 @@ const AddRequisition = () => {
     );
     console.log(Requision, 'StatusRequisition');
 
-    const [PagedRequisition, setPagedRequisition] = useState([]);
-    const GetPagedRequisition = useSelector(
-        (state: RootState) => state.SliceRequisition.RequisitionList
+
+    const USGetItemCategory :any = useSelector(
+        (state: RootState) => state.SliceAddRequisition.ISGetItemCategory
     );
-    useEffect(() => {
-        setPagedRequisition(GetPagedRequisition);
-    }, [GetPagedRequisition]);
-    console.log(GetPagedRequisition, 'GetPagedRequisitionList');
+    
 
-    useEffect(() => {
-        dispatch(RequisitionStatus(Requisition));
-    }, []);
-    useEffect(() => {
-        dispatch(RequisitionListt(RequisitionList));
-    }, [SelectResult]);
-
-    const Requisition: IGetRequisitionStatusBody = {
+    const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
-    };
-    const RequisitionList: IGetPagedRequisitionBody = {
-        asSchoolId: asSchoolId,
-        asStartIndex: 0,
-        asEndIndex: 15,
-        asSortExp: 'ORDER BY Created_Date desc',
-        asStatusID: SelectResult,
-        asUserId: Number(asUserId)
-    };
+      };
 
-    const GetRequisitionStatusDropdown = (value) => {
-        setSelectResult(value);
+      
+    useEffect(() => {
+        dispatch(CDAGetItemCategory(GetItemCategoryBody));
+    }, []);
+    
+    const ItemCategoryDropdown = (value) => {
+        setItemCategory(value);
     };
     const ClickItem = (value) => { };
+
+
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
-    const onClickAdd = () => {
-        navigate('/extended-sidebar/Teacher/ExamResultBase');
-    };
-    const clickReset = () => {
-        setPagedRequisition(GetPagedRequisition);
-        setRegNoOrName('');
-    };
-    const clickSearch = () => {
-        if (regNoOrName === '') {
-            setPagedRequisition(GetPagedRequisition);
-        } else {
-            setPagedRequisition(
-                GetPagedRequisition.filter((item) => {
-                    const text1Match = item.Text2.toLowerCase().includes(
-                        regNoOrName.toLowerCase()
-                    );
-                    const text2Match = item.Text4.toLowerCase().includes(
-                        regNoOrName.toLowerCase()
-                    );
-                    return text1Match || text2Match;
-                })
-            );
-        }
-    };
+   
+   
+   
 
-    const handleRegNoOrNameChange = (value) => {
-        setRegNoOrName(value);
-    };
+  
 
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
                     { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' },
-                    { title: 'AddRequisition', path: '/extended-sidebar/Teacher/AddRequisition' }
+                    { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
                 ]}
                 rightActions={<>
 
                     <SearchableDropdown
                         sx={{ minWidth: '250px' }}
-                        ItemList={Requision}
-                        onChange={GetRequisitionStatusDropdown}
+                        ItemList={USGetItemCategory}
+                        onChange={ItemCategoryDropdown}
                         label={'Category'}
-                        defaultValue={SelectResult.toString()} // Convert number to string
+                        defaultValue={ItemCategory} 
                         mandatory
                         size={"small"}
                     />
-                    <TextField
+                    {/* <TextField
                         sx={{ minWidth: '250px' }}
                         fullWidth
                         label="Item Code/Name"
@@ -142,9 +100,9 @@ const AddRequisition = () => {
                         onChange={(e) => {
                             handleRegNoOrNameChange(e.target.value);
                         }}
-                    />
+                    /> */}
                     <IconButton
-                        onClick={clickSearch}
+                      
                         // disabled={selectClasstecaher === '0'}
                         sx={{
                             background: (theme) => theme.palette.primary.main,
@@ -188,18 +146,7 @@ const AddRequisition = () => {
                 </>}
             />
             <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                {PagedRequisition && PagedRequisition.length === 0 ? (
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                        <b>No Record Found.</b>
-                    </Typography>
-                ) : (
-                    <DynamicList2
-                        HeaderList={HeaderList}
-                        ItemList={PagedRequisition}
-                        IconList={IconList}
-                        ClickItem={ClickItem}
-                    />
-                )}
+                
             </Box>
         </Box>
     );
