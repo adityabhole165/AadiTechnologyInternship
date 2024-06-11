@@ -74,7 +74,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
           <Grid item xs={2}>
             <TextField
               sx={{ minWidth: '400px' }}
-              label={'Exam'}
+              // label={'Exam'}
               size={"small"}
               value={ExamName} />
           </Grid>
@@ -87,7 +87,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
           <Grid item >
             <TextField
               sx={{ minWidth: '400px' }}
-              label={'Class Teacher Name'}
+              // label={'Class Teacher Name'}
               size={"small"}
               value={TeacherName} />
           </Grid>

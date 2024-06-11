@@ -477,7 +477,12 @@ const ExamResultBase = () => {
 
     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
   };
-
+  const handlePublishClick = () => {
+    const confirmation = window.confirm("Once you publish the result it will be visible to parents/students.       Are you sure you want to continue?");
+    if (confirmation) {
+      clickPublishUnpublish(true);
+    }
+  };
   useEffect(() => {
 
     if (PublishUnpublish !== '') {
@@ -527,7 +532,7 @@ const ExamResultBase = () => {
             }}
             ItemList={ClassTeachers}
             onChange={clickTeacher}
-            label={'Teacher'}
+            label={'Select Class Teacher'}
             // defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
             defaultValue={StandardDivisionId}
             mandatory
@@ -542,7 +547,7 @@ const ExamResultBase = () => {
             sx={{ minWidth: '20vw' }}
             ItemList={ClasswiseExams}
             onChange={clickExam}
-            label={'Exam'}
+            label={'Select Exam'}
             // defaultValue={TestId} // Convert number to string
             defaultValue={ParamsTestId != null ? ParamsTestId.toString() : TestId}
             mandatory
@@ -603,9 +608,12 @@ const ExamResultBase = () => {
               '&:hover': {
                 backgroundColor: green[500]
               }
-            }} onClick={() => clickPublishUnpublish(true)} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+            }}
+              //  onClick={() => clickPublishUnpublish(true)} 
+              onClick={handlePublishClick}
+              disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
-            }>
+              }>
               {/* PUBLISH ALL */}
               <CheckCircle />
             </IconButton>
