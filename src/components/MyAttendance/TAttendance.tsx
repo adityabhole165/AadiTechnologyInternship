@@ -1068,25 +1068,28 @@ const TAttendance = () => {
             <Box sx={{ backgroundColor: 'white' }}>
               {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
               {/* <div style={{ marginTop: '70px' }}> */}
-
+              {MarksError ? (
               <div style={{
                 fontWeight: 'bold',
                 fontSize: '16px',
                 color: red[500],
                 background: '#FFCCCC',
-                marginTop: '35px',
+                marginTop: '12px',
                 marginLeft: '10px',
+                marginBottom: '0px',
+                padding: '5px',
                 border: MarksError ? '1px solid black' : 'none'
               }}>
                 {MarksError}
 
               </div>
+              ): null}
               {!MarksError && AttendanceStatus && (
                 <div
                   style={{
                     fontWeight: 'bold',
                     fontSize: '16px',
-                    marginTop: '35px',
+                    marginTop: '12px',
                     marginLeft: '10px',
                     color:
                       AttendanceStatus.includes('Attendance not yet marked.') ||
@@ -1176,7 +1179,7 @@ const TAttendance = () => {
                     value={StudentAbsent}
                   ></TextField>
                 </Hidden> */}
-                {AcademicDates && AcademicDates.StartDate && AcademicDates.EndDate && (
+                {AcademicDates && AcademicDates.StartDate && AcademicDates.EndDate && ClassTeacherDropdownnew && (
                   <Box>
 
                     <List26
