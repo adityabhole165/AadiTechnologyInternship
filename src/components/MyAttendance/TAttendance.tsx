@@ -278,7 +278,7 @@ const TAttendance = () => {
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
-  }, [Standardid, assignedDate, selectClasstecahernew]);
+  }, [Standardid, assignedDate, selectClasstecahernew, AcademicDates]);
 
   const ClickDeleteAttendance = () => {
     showAlert({
@@ -1069,21 +1069,21 @@ const TAttendance = () => {
               {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
               {/* <div style={{ marginTop: '70px' }}> */}
               {MarksError ? (
-              <div style={{
-                fontWeight: 'bold',
-                fontSize: '16px',
-                color: red[500],
-                background: '#FFCCCC',
-                marginTop: '12px',
-                marginLeft: '10px',
-                marginBottom: '0px',
-                padding: '5px',
-                border: MarksError ? '1px solid black' : 'none'
-              }}>
-                {MarksError}
+                <div style={{
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  color: red[500],
+                  background: '#FFCCCC',
+                  marginTop: '12px',
+                  marginLeft: '10px',
+                  marginBottom: '0px',
+                  padding: '5px',
+                  border: MarksError ? '1px solid black' : 'none'
+                }}>
+                  {MarksError}
 
-              </div>
-              ): null}
+                </div>
+              ) : null}
               {!MarksError && AttendanceStatus && (
                 <div
                   style={{
@@ -1170,8 +1170,9 @@ const TAttendance = () => {
               <Hidden mdUp>
                 <ErrorDetail>{AttendanceStatus}</ErrorDetail>
               </Hidden> */}
-              <Box sx={{ display: AYStatus }}>
-                {/* <Hidden mdUp>
+              {ClassTeacherDropdownnew ? (
+                <Box sx={{ display: AYStatus }}>
+                  {/* <Hidden mdUp>
                   <TextField
                     variant="standard"
                     fullWidth
@@ -1179,21 +1180,25 @@ const TAttendance = () => {
                     value={StudentAbsent}
                   ></TextField>
                 </Hidden> */}
-                {AcademicDates && AcademicDates.StartDate && AcademicDates.EndDate && ClassTeacherDropdownnew && (
-                  <Box>
 
-                    <List26
-                      sendmeassagestudent={sendmeassagestudent}
-                      handleCheckboxChange={handleCheckboxChange}
-                      Dataa={RollNoList}
-                      getAbsetNumber={getAbsetNumber}
-                      assignedDate={assignedDate}
-                    ></List26>
-                  </Box>
-                )}
-              </Box>
+                  {AcademicDates && AcademicDates.StartDate && AcademicDates.EndDate && (
+                    <Box>
+
+                      <List26
+                        sendmeassagestudent={sendmeassagestudent}
+                        handleCheckboxChange={handleCheckboxChange}
+                        Dataa={RollNoList}
+                        getAbsetNumber={getAbsetNumber}
+                        assignedDate={assignedDate}
+                      ></List26>
+                    </Box>
+                  )}
+                </Box>
+
+              ) : null}
             </Box>
           </Grid>
+
         ) : (
           <Grid item xs={12} md={6}></Grid>
         )}
