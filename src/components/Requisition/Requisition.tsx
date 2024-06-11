@@ -339,7 +339,7 @@ const StatusRequisition = () => {
       <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
         maxWidth={'sm'}>
         <DialogTitle sx={{ fontSize: '20px !important', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        Cancel Approved Requisition Popup!!!
+        Cancel Approved Requisition
           <IconButton
             onClick={ClickClose}
             color="error">
