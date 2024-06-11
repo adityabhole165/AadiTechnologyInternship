@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
 import { AlertContext } from 'src/contexts/AlertContext';
 import ITAttendance, {
-  IStudentsDetails
+  IStudentsDetails,
 } from 'src/interfaces/Teacher/TAttendance';
 import {
   IDeleteAttendanceBody,
@@ -49,7 +49,7 @@ import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
-  const { paramsselectClasstecaher } = useParams();
+  const { paramsselectClasstecaher, paramsassignedDate } = useParams();
   const HeaderArray = [
     { Id: 1, Header: '' },
     { Id: 2, Header: 'Boys' },
@@ -84,7 +84,7 @@ const TAttendance = () => {
 
   const [Standardid, setStandardid] = useState<string>();
   const [MarksError, setMarksError] = useState('')
-  const [assignedDate, setAssignedDate] = useState<string>('');
+  const [assignedDate, setAssignedDate] = useState<string>(paramsassignedDate);
 
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
   const [singleStdName, setSingleStdName] = useState('');
@@ -93,10 +93,8 @@ const TAttendance = () => {
     new Date().toISOString()
   );
   const [asUserId, SetUserId] = useState();
-  // const [selectClasstecaher, setselectClasstecaher] = useState( (sessionStorage.getItem('TeacherId')));
-  const [selectClasstecahernew, setselectClasstecahernew] = useState(
-    sessionStorage.getItem('TeacherId')
-  );
+
+  const [selectClasstecahernew, setselectClasstecahernew] = useState(paramsselectClasstecaher);
   // const [selectClasstecahernew, setselectClasstecahernew] = useState(
   //   paramsselectClasstecaher !== undefined
   //     ? paramsselectClasstecaher.toString()
@@ -106,7 +104,9 @@ const TAttendance = () => {
   const [asAbsentRollNos, setAbsentRollNos] = useState('');
   const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
   const [ItemList, setItemList] = useState([]);
-
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
   );
@@ -153,17 +153,14 @@ const TAttendance = () => {
     return a.length > 0 ? a[0].Text3 : '';
   };
 
-  const ScreensAccessPermission = JSON.parse(
-    sessionStorage.getItem('ScreensAccessPermission')
-  );
-
   const GetScreenPermission = () => {
     let perm = 'N';
-    ScreensAccessPermission?.map((item) => {
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
       if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
     });
     return perm;
   };
+
 
   const [SaveIsActive, setSaveIsActive] = useState(true);
   const GetStudentDetails: IStudentsDetails = {
@@ -201,26 +198,53 @@ const TAttendance = () => {
     asStdDivId: Number(asStandardDivisionId),
     asUserId: Number(TeacherId)
   };
-
+  const getTeacherId = () => {
+    let TeacherId = '';
+    ClassTeacherDropdownnew.map((item) => {
+      if (item.Value == selectClasstecahernew) TeacherId = item.Id;
+    });
+    return TeacherId;
+  };
   useEffect(() => {
     const ClassTeachernewBody: IGetClassTeachersBodynew = {
       asSchoolId: Number(asSchoolId),
       asAcadmicYearId: Number(asAcademicYearId),
-      asTeacher_id: Number(
-        GetScreenPermission() == 'Y' ? 0 : selectClasstecahernew
-      )
-    };
+      asTeacher_id: GetScreenPermission() === 'Y'
+        ? 0
+        : (getTeacherId() ? Number(getTeacherId()) : Number(selectClasstecahernew))
+
+    }
     dispatch(CDAGetTeacherNameList(ClassTeachernewBody));
   }, []);
-  useEffect(() => {
-
-    dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
-  }, [selectClasstecahernew]);
   useEffect(() => {
     if (ClassTeacherDropdownnew.length > 0) {
       setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
     }
   }, [ClassTeacherDropdownnew]);
+
+
+  useEffect(() => {
+    if (ClassTeacherDropdownnew && ClassTeacherDropdownnew.length > 0) {
+      if (paramsselectClasstecaher == undefined) {
+        if (GetScreenPermission() === 'Y') {
+          setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
+          console.log(GetScreenPermission(), "ClassTeachers 2", ClassTeacherDropdownnew[0].Value)
+        } else {
+          const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
+          if (teacherIdFromSession !== null) {
+            setselectClasstecahernew(teacherIdFromSession);
+            console.log(teacherIdFromSession, "ClassTeachers 1")
+          }
+        }
+      }
+    }
+  }, [ClassTeacherDropdownnew]);
+
+  useEffect(() => {
+
+    dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
+  }, []);
+
 
   useEffect(() => {
     const ScreensAccessPermission = JSON.parse(
@@ -319,6 +343,9 @@ const TAttendance = () => {
 
   };
 
+
+
+
   const SaveAttendance_old = () => {
     const GetSaveStudentAttendance: ISaveAttendance = {
       asStandardDivisionId: Standardid,
@@ -367,7 +394,7 @@ const TAttendance = () => {
   useEffect(() => {
     if (saveResponseMessage != '') {
       dispatch(GetStudentList(GetStudentDetails));
-      toast.success(saveResponseMessage);
+      toast.success(saveResponseMessage, { toastId: 'success1' });
       dispatch(setSaveResponse());
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
@@ -396,6 +423,8 @@ const TAttendance = () => {
       setMarksError(''); // Clear any existing error message
     }
   }, [AcademicDates]);
+
+
 
   const SaveMsg = () => {
     if (!SaveIsActive) return;
@@ -646,7 +675,7 @@ const TAttendance = () => {
               <Tooltip title={'Individual Attendance'}>
                 <IconButton
                   onClick={() => {
-                    navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew);
+                    navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew + '/' + assignedDate);
                   }}
                   sx={{
                     color: 'white',
@@ -664,7 +693,7 @@ const TAttendance = () => {
               <Tooltip title={'Month Wise Attendance'}>
                 <IconButton
                   onClick={() => {
-                    navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew);
+                    navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew + '/' + assignedDate);
                   }}
                   sx={{
                     color: 'white',
