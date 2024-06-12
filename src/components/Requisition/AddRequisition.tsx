@@ -1,17 +1,18 @@
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { green, red } from '@mui/material/colors';
+import { Box, IconButton, TextField, Tooltip } from '@mui/material';
+import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetItemCategoryBody ,IGetAddItemListBody} from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody, IGetAddItemListBody } from 'src/interfaces/Requisition/IAddRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetAddItemList, CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-
+import DataTable from '../DataTable';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -19,40 +20,70 @@ const AddRequisition = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const [ItemCategory, setItemCategory] = useState();
-
-    const HeaderList = [
-        'Item Code',
-        'Item Name',
-        'Current Stock',
-        'Item Quantity',
-        'Delete',
-    ];
+    const [Itemlist, setItemlist] = useState([]);
 
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
-    console.log(USGetAddItemList,"USGetAddItemList");
-    
+    console.log(USGetAddItemList, "USGetAddItemList");
+
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
     };
 
     const GetAddItemListBody: IGetAddItemListBody = {
-    "asSchoolId":18,
-    "asName":"4",
-    "asItemCategoryId":0,
-    "asStartIndex":0,
-    "asEndIndex":5,
-    "asSortExp":"ORDER BY ItemName"
+        asSchoolId: 18,
+        asName: "4",
+        asItemCategoryId: 0,
+        asStartIndex: 1,
+        asEndIndex: 100,
+        asSortExp: "ORDER BY ItemName"
     };
 
+    const Columns = [
+        {
+            id: 'itemCode',
+            label: 'Item Code',
+            selector: row => row.ItemCode,
+            renderCell: row => row.ItemCode
+        },
+        {
+            id: 'itemName',
+            label: 'Item Name',
+            selector: row => row.ItemName,
+            renderCell: row => row.ItemName
+        },
+        {
+            id: 'currentStock',
+            label: 'Current Stock',
+            selector: row => row.CurrentStock,
+            renderCell: row => row.CurrentStock
+        },
+        {
+            id: 'category',
+            label: 'Category',
+            selector: row => row.ItemCategoryName,
+            renderCell: row => row.ItemCategoryName
+        },
+        {
+            id: 'Add Item',
+            label: 'Add Item',
+            renderCell: row => (
+                <IconButton onClick={() => (row.ItemID)}>
+                    <AddCircleIcon />
+                </IconButton>
+            )
+        }
+        
+
+    ];
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
     };
+
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
-
 
     useEffect(() => {
         if (USGetItemCategory.length > 0) {
@@ -61,12 +92,19 @@ const AddRequisition = () => {
     }, [USGetItemCategory]);
 
     useEffect(() => {
+        setItemlist(USGetAddItemList);
+    }, [USGetAddItemList]);
+
+    useEffect(() => {
         dispatch(CDAGetItemCategory(GetItemCategoryBody));
     }, []);
+
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
 
+    console.log('Columns:', Columns);
+    console.log('Itemlist:', Itemlist);
 
     return (
         <Box sx={{ px: 2 }}>
@@ -76,7 +114,6 @@ const AddRequisition = () => {
                     { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
                 ]}
                 rightActions={<>
-
                     <SearchableDropdown
                         sx={{ minWidth: '250px' }}
                         ItemList={USGetItemCategory}
@@ -91,19 +128,13 @@ const AddRequisition = () => {
                         fullWidth
                         label={
                             <span>
-                              Item Code/Name <span style={{ color: 'red' }}>*</span>
+                                Item Code/Name <span style={{ color: 'red' }}>*</span>
                             </span>
-                          }
-                        // value={regNoOrName}
+                        }
                         variant={'outlined'}
                         size={"small"}
-                        // onChange={(e) => {
-                        //     handleRegNoOrNameChange(e.target.value);
-                        // }}
                     />
                     <IconButton
-
-                        // disabled={selectClasstecaher === '0'}
                         sx={{
                             background: (theme) => theme.palette.primary.main,
                             color: 'white',
@@ -128,7 +159,7 @@ const AddRequisition = () => {
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title={'send Requisition'}>
+                    <Tooltip title={'Send Requisition'}>
                         <IconButton
                             onClick={onClickBack}
                             sx={{
@@ -142,13 +173,13 @@ const AddRequisition = () => {
                             <SendIcon />
                         </IconButton>
                     </Tooltip>
-
                 </>}
             />
-            {/* <Box mb={1} sx={{ p: 2, background: 'white' }}>
-
-            </Box> */}
+            <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                <DataTable columns={Columns} data={Itemlist} isPagination />
+            </Box>
         </Box>
     );
 };
+
 export default AddRequisition;

@@ -44,12 +44,8 @@ export const CDAGetItemCategory =
   (data: IGetAddItemListBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAddRequisition.GetAddItemList(data);
-      let AllStudentsList = response.data.map((item, i) => ({
-        Text1: item.ItemCategoryName,
-        Text2: item.ItemName,
-        Text5: item.PieceCount,
-      }));
-      dispatch(SliceAddRequisition.actions.RGetAddItemList(AllStudentsList));
+      
+      dispatch(SliceAddRequisition.actions.RGetAddItemList(response.data));
     };
 
   
