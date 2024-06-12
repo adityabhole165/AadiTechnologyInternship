@@ -8,9 +8,9 @@ import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetAddItemListBody, IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetAddItemListBody, IGetItemCategoryBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAddItemList, CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
+import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
@@ -26,9 +26,14 @@ const AddRequisition = () => {
     const [regNoOrName, setRegNoOrName] = useState('');
     const [PagedRequisition, setPagedRequisition] = useState([]);
 
+    const [AddItemlist, SetAddItemlist] = useState([]);
+
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
-    console.log(USGetAddItemList, "USGetAddItemList");
+    const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
+    const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
+
+    console.log(USSaveRequisition, "USSaveRequisition",UsSlistGetRequisitionName);
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
@@ -41,6 +46,39 @@ const AddRequisition = () => {
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
+    };
+
+
+
+    const getXML = () => {
+        const sXML = AddItemlist.map((Item) => {
+            return `
+            <RequisitionItems>
+              <ItemID>${Item.ItemID}</ItemID>
+              <UOM>${Item.UOMUnit}</UOM>
+              <ItemQty>${Item.ItemQty}</ItemQty>
+              <ItemOrgQty>${Item.ItemOrgQty}</ItemOrgQty>
+            </RequisitionItems>
+          `;
+        }).join('');
+
+        return sXML;
+    };
+    console.log(getXML(), "--getXML");
+
+
+
+
+
+    const SaveRequisitionBody: ISaveRequisitionBody = {
+        "asSchoolId": 18,
+        "asRequisitionId": 0,
+        "asUserId": 754,
+        "asRequisitionName": "gfdfhf",
+        "asRequisitionDesc": "pan",
+        "asAction": "save",
+        "asRequisitionItemDetailsXml": "<RequisitionItems><RequisitionItems ItemID=\"791\" UOM=\"0\" ItemQty=\"1.00\" ItemOrgQty=\"1.00\" /></RequisitionItems>",
+        "asIsGeneral": 0
     };
 
     const clickSearch = () => {
@@ -109,6 +147,8 @@ const AddRequisition = () => {
         setItemlist([]);
     }
 
+
+
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
@@ -126,6 +166,15 @@ const AddRequisition = () => {
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
+
+    useEffect(() => {
+        SetAddItemlist(USSaveRequisition);
+    }, []);
+
+    useEffect(() => {
+        dispatch(CDASaveRequisition(SaveRequisitionBody));
+    }, []);
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -163,7 +212,7 @@ const AddRequisition = () => {
 
                     <IconButton
                         onClick={clickSearch}
-                        disabled={Itemlist.length > 0 }
+                        disabled={Itemlist.length > 0}
                         sx={{
                             background: (theme) => theme.palette.primary.main,
                             color: 'white',
@@ -205,12 +254,12 @@ const AddRequisition = () => {
                     </Tooltip>
                 </>}
             />
-           {Itemlist.length > 0 ?
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end'  }}>
-                <Button variant="outlined" onClick={ClickRestItemLIst} sx ={{backgroundColor:"green" ,color:"white"}}>
-                    Change Input
-                </Button>
-            </Box> : null }
+            {Itemlist.length > 0 ?
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button variant="outlined" onClick={ClickRestItemLIst} sx={{ backgroundColor: "green", color: "white" }}>
+                        Change Input
+                    </Button>
+                </Box> : null}
             <br></br>
 
             {Itemlist.length > 0 ?
