@@ -70,6 +70,7 @@ import SlicePrePrimaryResult from 'src/requests/PrePrimaryResult/RequestPrePrima
 import UnpublishSlice from 'src/requests/PrePrimaryResult/RequestUnpublishPrePrimaryResult';
 import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import SliceRequisition from 'src/requests/Requisition/RequestRequisition';
+import SliceAddRequisition from 'src/requests/Requisition/RequestAddRequisition';
 import SchoolAttendanceOverviewSlice from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import SliceSchoolNoticeBoard from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
@@ -195,6 +196,7 @@ const rootReducer = combineReducers({
   LessonPlanBase: LessonPlanBaseScreenSlice,
   PrePrimaryResult: SlicePrePrimaryResult,
   SliceRequisition: SliceRequisition,
+  SliceAddRequisition:SliceAddRequisition,
   Finalunpublish: FinalUnPublishTestSlice,
   UnpublishSlice: UnpublishSlice,
   AadharcardTecaherSlice: AadharcardTecaherSlice,
