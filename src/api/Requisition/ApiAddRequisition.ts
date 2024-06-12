@@ -1,5 +1,5 @@
 
-  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult } from 'src/interfaces/Requisition/IAddRequisition';
+  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import http from '../../requests/SchoolService/schoolServices';
   
   const GetItemCategory = (data: IGetItemCategoryBody) => {
@@ -16,10 +16,19 @@ import http from '../../requests/SchoolService/schoolServices';
     );
   };
 
+  const SaveRequisition = (data: ISaveRequisitionBody) => {
+    return http.post<ISaveRequisitionResult>(
+      'Teacher/SaveRequisition',
+      data
+    );
+  };
+
+
   
   const ApiAddRequisition = {
     GetItemCategory,
-    GetAddItemList
+    GetAddItemList,
+    SaveRequisition
    
   };
   
