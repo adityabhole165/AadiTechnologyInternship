@@ -33,6 +33,13 @@ import SchoolNoticeBoard from '../SchoolNoticeBoard/SchoolNoticeBoard';
 import DashboardData from './Dashboard';
 import MissingAttendanceDialog from './MissingAttendanceDialog';
 
+import {
+  IMissingattendancealeartNameBody
+} from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
+
+import {
+  MissingAttenNameAleart
+} from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   Leftpadding: theme.spacing(1),
@@ -56,6 +63,18 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(true);
   const [showBday, setShowBday] = useState(false);
+  const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
+  console.log(MissingName, "MissingNamennnn");
+
+  // const Data4 = MissingName.filter((item) => item.Value == "")
+  // console.log(Data4, "Missingdaysss");
+
+  const MissingDays = MissingName.map(item => item.MissingDays);
+  console.log(MissingDays, "Missingdaysss");
+
+  const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0); 
+
+
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
   );
@@ -114,6 +133,25 @@ function Dashboard() {
     abIsPreprimary: false,
     abXseedApplicable: false
   };
+  const MissingNameBody: IMissingattendancealeartNameBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(AcademicYearId),
+    asUserId: Number(userId),
+    asStandardDivisionId: null,
+    asDate: null
+  };
+  useEffect(() => {
+    dispatch(MissingAttenNameAleart(MissingNameBody));
+  }, []);
+
+  useEffect(() => {
+    if (hasMissingDays) {
+      setMissingAttendanceDialog(true);
+    } else {
+      setMissingAttendanceDialog(false);
+    }
+  }, [hasMissingDays]);
+
 
   const getScreensAccessPermissions: IGetScreensAccessPermissions = {
     asSchoolId: asSchoolId,
