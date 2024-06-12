@@ -165,7 +165,10 @@ const AddRequisition = () => {
     const clickDelete = () => {
 
     }
-
+    const ChangeItemQty = (value) => {
+        setItemlist(value);
+       
+      };
 
 
     const onClickBack = () => {
@@ -293,7 +296,9 @@ const AddRequisition = () => {
                 <AddRequisitionlist
                     ItemList={AddItemlist}
                     HeaderArray={HeaderPublish}
-                    clickDelete={clickDelete} />
+                    clickDelete={clickDelete} 
+                    onTextChange2 ={ChangeItemQty}
+                    />
             </Box>
 
             <Grid item xs={3}>

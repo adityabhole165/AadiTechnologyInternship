@@ -76,7 +76,7 @@ export const CDAGetItemCategory =
           ReturnQty:item.ReturnQty,
           CancelQty:item.CancelQty,
           IssueQty:item.IssueQty,
-        
+           Text3 :item.ItemQty
 
         };
       });
