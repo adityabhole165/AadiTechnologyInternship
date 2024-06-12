@@ -571,75 +571,83 @@ const ExamResultBase = () => {
           </Tooltip>
 
           <Tooltip title={"View Progress Report"}>
-            <IconButton sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: grey[600]
-              }
-            }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+            <span>
+              <IconButton sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
+              }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
-            }>
-              {/* VIEW PROGRESS REPORT  */}
-              <FactCheck />
-            </IconButton>
+              }>
+                {/* VIEW PROGRESS REPORT  */}
+                <FactCheck />
+              </IconButton>
+            </span>
           </Tooltip>
 
           {/* {!ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || ClassPassFailDetailsForButton?.IsPublish && ClassPassFailDetailsForButton?.ToppersGenerated || Submitted === 'N' && !ClassPassFailDetailsForButton?.ToppersGenerated && !ClassPassFailDetailsForButton?.IsPublish && */}
 
           <Tooltip title={"Generate Toppers"}>
+            <span>
+              <IconButton sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
+              }}
+                onClick={handleGenerateToppers}
+                disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated)
 
-            <IconButton sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: grey[600]
-              }
-            }}
-              onClick={handleGenerateToppers}
-              disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated)
-
-              }>
-              {/* GENERATE TOPPERS */}
-              <ManageAccounts />
-            </IconButton>
+                }>
+                {/* GENERATE TOPPERS */}
+                <ManageAccounts />
+              </IconButton>
+            </span>
           </Tooltip>
 
           {/* } */}
           <Tooltip title={"Publish All"} >
-            <IconButton sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: green[500]
-              }
-            }}
-              //  onClick={() => clickPublishUnpublish(true)} 
-              onClick={handlePublishClick}
-              disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+            <span>
+              <IconButton sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: green[500]
+                }
+              }}
+                //  onClick={() => clickPublishUnpublish(true)} 
+                onClick={handlePublishClick}
+                disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
-              }>
-              {/* PUBLISH ALL */}
-              <CheckCircle />
-            </IconButton>
+                }>
+                {/* PUBLISH ALL */}
+                <CheckCircle />
+              </IconButton>
+            </span>
           </Tooltip>
 
           <Tooltip title={"Unpublish All"}>
-            <IconButton sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: red[500]
-              }
-            }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish)
+            <span>
+              <IconButton sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: red[500]
+                }
+              }} onClick={ClickOpenDialogbox} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish)
 
-            }>
-              {/* UNPUBLISH ALL */}
-              <Unpublished />
-            </IconButton>
+              }>
+                {/* UNPUBLISH ALL */}
+                <Unpublished />
+              </IconButton>
+            </span>
           </Tooltip>
 
           <Tooltip title={"Toppers"} >
+            <span>
             <IconButton
               onClick={Toppers}
               sx={{
@@ -653,6 +661,7 @@ const ExamResultBase = () => {
             >
               <Person />
             </IconButton>
+            </span>
           </Tooltip>
         </>}
       />
