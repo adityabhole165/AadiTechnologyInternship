@@ -156,7 +156,7 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
                                                             <TableBody>
                                                                 {MissingDate.map((dateItem, index) => (
                                                                     <TableRow key={index}>
-                                                                        <TableCell sx={{ textTransform: 'capitalize' }}>
+                                                                        <TableCell sx={{ textTransform: 'capitalize' , textAlign: 'center'}}>
                                                                             {dateItem.Name}
                                                                         </TableCell>
                                                                     </TableRow>
