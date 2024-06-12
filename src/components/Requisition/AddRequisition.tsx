@@ -1,3 +1,4 @@
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
@@ -6,13 +7,12 @@ import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetItemCategoryBody, IGetAddItemListBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetAddItemListBody, IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetAddItemList, CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -21,6 +21,8 @@ const AddRequisition = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const [ItemCategory, setItemCategory] = useState();
     const [Itemlist, setItemlist] = useState([]);
+    const [regNoOrName, setRegNoOrName] = useState('');
+    const [PagedRequisition, setPagedRequisition] = useState([]);
 
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
@@ -32,12 +34,34 @@ const AddRequisition = () => {
 
     const GetAddItemListBody: IGetAddItemListBody = {
         asSchoolId: 18,
-        asName: "4",
-        asItemCategoryId: 0,
+        asName: regNoOrName,
+        asItemCategoryId: ItemCategory,
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
     };
+
+    const clickSearch = () => {
+        if (regNoOrName === '') {
+            setItemlist(USGetAddItemList);
+        } else {
+            setItemlist(
+                USGetAddItemList.filter((item) => {
+                    const text1Match = item.ItemCode.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    const text2Match = item.ItemName.toLowerCase().includes(
+                        regNoOrName.toLowerCase()
+                    );
+                    return text1Match || text2Match;
+                })
+            );
+        }
+    };
+    const handleRegNoOrNameChange = (value) => {
+        setRegNoOrName(value);
+    };
+
 
     const Columns = [
         {
@@ -73,7 +97,7 @@ const AddRequisition = () => {
                 </IconButton>
             )
         }
-        
+
 
     ];
 
@@ -103,8 +127,7 @@ const AddRequisition = () => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
 
-    console.log('Columns:', Columns);
-    console.log('Itemlist:', Itemlist);
+   
 
     return (
         <Box sx={{ px: 2 }}>
@@ -123,18 +146,26 @@ const AddRequisition = () => {
                         mandatory
                         size={"small"}
                     />
+
                     <TextField
-                        sx={{ minWidth: '250px' }}
+                        sx={{ width: '15vw' }}
                         fullWidth
                         label={
                             <span>
                                 Item Code/Name <span style={{ color: 'red' }}>*</span>
                             </span>
                         }
+                        value={regNoOrName}
                         variant={'outlined'}
                         size={"small"}
+                        onChange={(e) => {
+                            handleRegNoOrNameChange(e.target.value);
+                        }}
                     />
+
+
                     <IconButton
+                        onClick={clickSearch}
                         sx={{
                             background: (theme) => theme.palette.primary.main,
                             color: 'white',
