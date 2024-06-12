@@ -48,7 +48,7 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
         asUserId: Number(asUserId),
-        asStandardDivisionId: null,
+        asStandardDivisionId: Number(asStandardDivisionId),
         asDate: null
     };
 
@@ -57,14 +57,8 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
     }, []);
 
     useEffect(() => {
-        if (selectedTeacher) {
-            const teacherBody = {
-                ...MissingDayBody,
-                asStandardDivisionId: selectedTeacher.Id,
-            };
-            dispatch(MissingAttenDateAleart(teacherBody));
-        }
-    }, [selectedTeacher]);
+                    dispatch(MissingAttenDateAleart(MissingDayBody));
+         }, []);
 
     const clickMissingDay = (teacher) => {
         if (selectedTeacher && selectedTeacher.Id === teacher.Id) {
