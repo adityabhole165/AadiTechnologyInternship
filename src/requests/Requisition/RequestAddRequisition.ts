@@ -1,17 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
-import { IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody,IGetAddItemListBody } from 'src/interfaces/Requisition/IAddRequisition';
 import { AppThunk } from 'src/store';
 
 const SliceAddRequisition = createSlice({
   name: 'AddRequisition',
   initialState: {
     ISGetItemCategory: [],
+    IsGetAddItemList :[]
   },
   reducers: {
     RGetItemCategory(state, action) {
       state.ISGetItemCategory = action.payload;
     },
+
+    RGetAddItemList(state, action) {
+      state.IsGetAddItemList = action.payload;
+    },
+
    
   }
 });
@@ -32,6 +38,20 @@ export const CDAGetItemCategory =
 
     dispatch(SliceAddRequisition.actions.RGetItemCategory(ItemCategory));
   };
+
+ 
+  export const CDAGetAddItemList =
+  (data: IGetAddItemListBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAddRequisition.GetAddItemList(data);
+      let AllStudentsList = response.data.map((item, i) => ({
+        Text1: item.ItemCategoryName,
+        Text2: item.ItemName,
+        Text5: item.PieceCount,
+      }));
+      dispatch(SliceAddRequisition.actions.RGetAddItemList(AllStudentsList));
+    };
+
   
 
 

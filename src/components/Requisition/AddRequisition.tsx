@@ -6,9 +6,9 @@ import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody ,IGetAddItemListBody} from 'src/interfaces/Requisition/IAddRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
+import { CDAGetAddItemList, CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -28,13 +28,23 @@ const AddRequisition = () => {
         'Delete',
     ];
 
-    const USGetItemCategory: any = useSelector(
-        (state: RootState) => state.SliceAddRequisition.ISGetItemCategory
-    );
-
+    const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
+    const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
+    console.log(USGetAddItemList,"USGetAddItemList");
+    
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
     };
+
+    const GetAddItemListBody: IGetAddItemListBody = {
+    "asSchoolId":18,
+    "asName":"4",
+    "asItemCategoryId":0,
+    "asStartIndex":0,
+    "asEndIndex":5,
+    "asSortExp":"ORDER BY ItemName"
+    };
+
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
@@ -52,6 +62,9 @@ const AddRequisition = () => {
 
     useEffect(() => {
         dispatch(CDAGetItemCategory(GetItemCategoryBody));
+    }, []);
+    useEffect(() => {
+        dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
 
 

@@ -1,5 +1,5 @@
 
-  import { IGetItemCategoryResult,IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
+  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult } from 'src/interfaces/Requisition/IAddRequisition';
 import http from '../../requests/SchoolService/schoolServices';
   
   const GetItemCategory = (data: IGetItemCategoryBody) => {
@@ -8,9 +8,18 @@ import http from '../../requests/SchoolService/schoolServices';
       data
     );
   };
+
+  const GetAddItemList = (data: IGetAddItemListBody) => {
+    return http.post<IGetAddItemListResult[]>(
+      'Teacher/GetAddItemList',
+      data
+    );
+  };
+
   
   const ApiAddRequisition = {
     GetItemCategory,
+    GetAddItemList
    
   };
   
