@@ -1,8 +1,9 @@
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, Button, IconButton, TextField, Tooltip } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ import { CDAGetAddItemList, CDAGetItemCategory } from 'src/requests/Requisition/
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -58,10 +60,10 @@ const AddRequisition = () => {
             );
         }
     };
+
     const handleRegNoOrNameChange = (value) => {
         setRegNoOrName(value);
     };
-
 
     const Columns = [
         {
@@ -97,13 +99,15 @@ const AddRequisition = () => {
                 </IconButton>
             )
         }
-
-
     ];
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
     };
+
+    const ClickRestItemLIst = () => {
+        setItemlist([]);
+    }
 
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
@@ -116,18 +120,12 @@ const AddRequisition = () => {
     }, [USGetItemCategory]);
 
     useEffect(() => {
-        setItemlist(USGetAddItemList);
-    }, [USGetAddItemList]);
-
-    useEffect(() => {
         dispatch(CDAGetItemCategory(GetItemCategoryBody));
     }, []);
 
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
-
-   
 
     return (
         <Box sx={{ px: 2 }}>
@@ -163,9 +161,9 @@ const AddRequisition = () => {
                         }}
                     />
 
-
                     <IconButton
                         onClick={clickSearch}
+                        disabled={Itemlist.length > 0 }
                         sx={{
                             background: (theme) => theme.palette.primary.main,
                             color: 'white',
@@ -176,6 +174,7 @@ const AddRequisition = () => {
                     >
                         <SearchTwoTone />
                     </IconButton>
+
                     <Tooltip title={'Save'}>
                         <IconButton
                             sx={{
@@ -206,9 +205,19 @@ const AddRequisition = () => {
                     </Tooltip>
                 </>}
             />
-            <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                <DataTable columns={Columns} data={Itemlist} isPagination />
-            </Box>
+           {Itemlist.length > 0 ?
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end'  }}>
+                <Button variant="outlined" onClick={ClickRestItemLIst} sx ={{backgroundColor:"green" ,color:"white"}}>
+                    Change Input
+                </Button>
+            </Box> : null }
+            <br></br>
+
+            {Itemlist.length > 0 ?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                    <DataTable columns={Columns} data={Itemlist} isPagination />
+                </Box> : null}
+
         </Box>
     );
 };
