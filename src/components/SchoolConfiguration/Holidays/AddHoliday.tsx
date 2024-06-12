@@ -244,6 +244,7 @@ const AddHoliday = ({ }) => {
 
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than Start date.');
+
             isError = true;
         } else {
             setErrorEndDate1('');
@@ -370,8 +371,9 @@ const AddHoliday = ({ }) => {
                         label={'End Date'}
                         size={"medium"}
                     />
-                    <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                    <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
+                    {/* <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1> */}
+                    {/* <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1> */}
+                    <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
 
                     <Grid item xs={1}>
                         <IconButton onClick={handleTodayButtonClick1}>
