@@ -70,7 +70,13 @@ export const CDAGetItemCategory =
           ItemQty:item.ItemQty,
           UOMUnit:item.UOMUnit,
           ItemOrgQty:item.ItemOrgQty,
-          ItemName:item.ItemName
+          ItemCode:item.ItemCode,
+          ItemName:item.ItemName,
+          CurrentStock:item.CurrentStock,
+          ReturnQty:item.ReturnQty,
+          CancelQty:item.CancelQty,
+          IssueQty:item.IssueQty,
+        
 
         };
       });
