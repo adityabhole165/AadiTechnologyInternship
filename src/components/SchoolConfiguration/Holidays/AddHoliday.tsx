@@ -52,6 +52,11 @@ const AddHoliday = ({ }) => {
     const [ErrorHolidayEndDate, setErrorHolidayEndDate] = useState('');
     const [TotalDays, setTotalDays] = useState(1);
     const [Reamrk, setRemark] = useState('');
+    const [Reamrk1, setRemarkError] = useState('');
+
+
+
+    setRemarkError
     const [ErrorClass, setErrorClass] = useState('');
 
     const [ErrorEndDate1, setErrorEndDate1] = useState('');
@@ -244,6 +249,15 @@ const AddHoliday = ({ }) => {
             setErrorEndDate1('');
         }
 
+        if (Reamrk.length > 200) {
+            setRemarkError('Remark should be less than 200 characters');
+            isError = true;
+        } else {
+            setRemarkError('');
+        }
+
+
+
         if (!isError) {
             return; // Prevent form submission if there are validation errors
         }
@@ -264,7 +278,7 @@ const AddHoliday = ({ }) => {
 
     const resetForm = () => {
 
-
+        navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays')
 
     }
 
@@ -421,6 +435,10 @@ const AddHoliday = ({ }) => {
                             setRemark(e.target.value);
                         }}
                         fullWidth
+                        // inputProps={{ maxLength: 200 }}
+
+                        error={Reamrk1 !== ''}
+                        helperText={Reamrk1}
                     >
 
                     </TextField>
