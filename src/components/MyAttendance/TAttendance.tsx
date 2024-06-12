@@ -685,6 +685,7 @@ const TAttendance = () => {
 
             <Box>
               <Tooltip title={'Individual Attendance'}>
+                <span>
                 <IconButton
                   onClick={() => {
                     navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew + '/' + assignedDate);
@@ -700,10 +701,12 @@ const TAttendance = () => {
                 >
                   <PersonIcon />
                 </IconButton>
+                </span>
               </Tooltip>
             </Box>
             <Box>
               <Tooltip title={'Month Wise Attendance'}>
+                <span>
                 <IconButton
                   onClick={() => {
                     navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew + '/' + assignedDate);
@@ -719,12 +722,13 @@ const TAttendance = () => {
                 >
                   <CalendarMonthIcon />
                 </IconButton>
+                </span>
               </Tooltip>
             </Box>
             <Box>
               <Tooltip
                 title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
-              >
+              ><span>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -735,11 +739,13 @@ const TAttendance = () => {
                 >
                   <QuestionMarkIcon />
                 </IconButton>
+                </span>
               </Tooltip>
             </Box>
             <Box>
               {SaveIsActive ? (
                 <Tooltip title={'Save Attendance'}>
+                  <span>
                   <IconButton
                     onClick={SaveMsg}
                     sx={{
@@ -750,9 +756,11 @@ const TAttendance = () => {
                   >
                     <SaveIcon />
                   </IconButton>
+                  </span>
                 </Tooltip>
               ) : (
                 <Tooltip title={'Save Attendance'}>
+                  <span>
                   <IconButton
                     onClick={SaveMsg}
                     sx={{
@@ -762,6 +770,7 @@ const TAttendance = () => {
                   >
                     <SaveIcon />
                   </IconButton>
+                  </span>
                 </Tooltip>
               )}
             </Box>
