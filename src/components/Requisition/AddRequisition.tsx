@@ -3,17 +3,19 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Button, IconButton, TextField, Tooltip } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetAddItemListBody, IGetItemCategoryBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetAddItemListBody, IGetItemCategoryBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAddItemList, CDAGetItemCategory } from 'src/requests/Requisition/RequestAddRequisition';
+import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+
+import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -24,11 +26,17 @@ const AddRequisition = () => {
     const [ItemCategory, setItemCategory] = useState();
     const [Itemlist, setItemlist] = useState([]);
     const [regNoOrName, setRegNoOrName] = useState('');
-    const [PagedRequisition, setPagedRequisition] = useState([]);
+    const [ItemID, SetItemID] = useState();
+    console.log(ItemID, "ItemID");
+
+    const [AddItemlist, SetAddItemlist] = useState([]);
 
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
-    console.log(USGetAddItemList, "USGetAddItemList");
+    const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
+    const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
+
+    console.log(USSaveRequisition, "USSaveRequisition", UsSlistGetRequisitionName);
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
@@ -41,6 +49,51 @@ const AddRequisition = () => {
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
+    };
+
+    const HeaderPublish = [
+        { Id: 1, Header: 'Item Code' },
+        { Id: 2, Header: 'Item Name' },
+        { Id: 3, Header: 'Current Stock' },
+        { Id: 4, Header: 'Item Quantity' },
+        { Id: 5, Header: 'Issued Qty' },
+        { Id: 6, Header: 'Returned Qty' },
+        { Id: 7, Header: 'Cancelled Qty' },
+        { Id: 8, Header: 'Delete' },
+
+    ];
+
+
+
+    const getXML = () => {
+        const sXML = AddItemlist.map((Item) => {
+            return `
+            <RequisitionItems>
+              <ItemID>${Item.ItemID}</ItemID>
+              <UOM>${Item.UOMUnit}</UOM>
+              <ItemQty>${Item.ItemQty}</ItemQty>
+              <ItemOrgQty>${Item.ItemOrgQty}</ItemOrgQty>
+            </RequisitionItems>
+          `;
+        }).join('');
+
+        return sXML;
+    };
+    console.log(getXML(), "--getXML");
+
+
+
+
+
+    const SaveRequisitionBody: ISaveRequisitionBody = {
+        asSchoolId: asSchoolId,
+        asRequisitionId: 0,
+        asUserId: asUserId,
+        asRequisitionName: "gfdfhf",
+        asRequisitionDesc: "pan",
+        asAction: "save",
+        asRequisitionItemDetailsXml: "<RequisitionItems><RequisitionItems ItemID=\"791\" UOM=\"0\" ItemQty=\"1.00\" ItemOrgQty=\"1.00\" /></RequisitionItems>",
+        asIsGeneral: 0
     };
 
     const clickSearch = () => {
@@ -94,7 +147,7 @@ const AddRequisition = () => {
             id: 'Add Item',
             label: 'Add Item',
             renderCell: row => (
-                <IconButton onClick={() => (row.ItemID)}>
+                <IconButton onClick={() => SetItemID((row.ItemID))}>
                     <AddCircleIcon />
                 </IconButton>
             )
@@ -108,6 +161,15 @@ const AddRequisition = () => {
     const ClickRestItemLIst = () => {
         setItemlist([]);
     }
+
+    const clickDelete = () => {
+
+    }
+    const ChangeItemQty = (value) => {
+        setItemlist(value);
+       
+      };
+
 
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
@@ -126,6 +188,15 @@ const AddRequisition = () => {
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
+
+    useEffect(() => {
+        SetAddItemlist(USSaveRequisition);
+    }, []);
+
+    useEffect(() => {
+        dispatch(CDASaveRequisition(SaveRequisitionBody));
+    }, []);
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -163,7 +234,7 @@ const AddRequisition = () => {
 
                     <IconButton
                         onClick={clickSearch}
-                        disabled={Itemlist.length > 0 }
+                        disabled={Itemlist.length > 0}
                         sx={{
                             background: (theme) => theme.palette.primary.main,
                             color: 'white',
@@ -205,12 +276,15 @@ const AddRequisition = () => {
                     </Tooltip>
                 </>}
             />
-           {Itemlist.length > 0 ?
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end'  }}>
-                <Button variant="outlined" onClick={ClickRestItemLIst} sx ={{backgroundColor:"green" ,color:"white"}}>
-                    Change Input
-                </Button>
-            </Box> : null }
+
+
+
+            {Itemlist.length > 0 ?
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button variant="outlined" onClick={ClickRestItemLIst} sx={{ backgroundColor: "green", color: "white" }}>
+                        Change Input
+                    </Button>
+                </Box> : null}
             <br></br>
 
             {Itemlist.length > 0 ?
@@ -218,7 +292,44 @@ const AddRequisition = () => {
                     <DataTable columns={Columns} data={Itemlist} isPagination />
                 </Box> : null}
 
+            <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                <AddRequisitionlist
+                    ItemList={AddItemlist}
+                    HeaderArray={HeaderPublish}
+                    clickDelete={clickDelete} 
+                    onTextChange2 ={ChangeItemQty}
+                    />
+            </Box>
+
+            <Grid item xs={3}>
+            <Typography variant="h4" sx={{ mb: 1 }}>
+            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+          </Typography>
+          <TextField
+            multiline
+            rows={3}
+            type="text"
+            // value={}
+            // onChange={}
+            sx={{ width: '70%' }}
+          />
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h4" sx={{ mb: 1 }}>
+            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+          </Typography>
+          <TextField
+            multiline
+            rows={3}
+            type="text"
+            // value={}
+            // onChange={}
+            sx={{ width: '70%'  }}
+          />
+          </Grid>
+
         </Box>
+
     );
 };
 

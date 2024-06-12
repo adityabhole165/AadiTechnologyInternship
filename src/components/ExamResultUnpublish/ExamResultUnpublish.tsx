@@ -48,10 +48,12 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         sx={{
           // backgroundColor: (theme) => theme.palette.error.main,
           backgroundColor: '#324b84',
-          py: 1,
-
-        }}
+          py: 1,  
+        }}  
       >
+        <Typography variant={"h4"} sx={{ mb: 1,color: 'white' }}>
+          Enter Reason For Unpublish 
+          </Typography>
       </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Grid container justifyContent="space-between" alignItems="center">

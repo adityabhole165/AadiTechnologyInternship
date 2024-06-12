@@ -211,7 +211,7 @@ const TAttendance = () => {
       asAcadmicYearId: Number(asAcademicYearId),
       asTeacher_id: GetScreenPermission() === 'Y'
         ? 0
-        : (getTeacherId() ? Number(getTeacherId()) : Number(selectClasstecahernew))
+        : (getTeacherId() ? Number(getTeacherId()) : (paramsselectClasstecaher != null ? Number(paramsselectClasstecaher) : Number(selectClasstecahernew)))
 
     }
     dispatch(CDAGetTeacherNameList(ClassTeachernewBody));
@@ -225,7 +225,7 @@ const TAttendance = () => {
 
   useEffect(() => {
     if (ClassTeacherDropdownnew && ClassTeacherDropdownnew.length > 0) {
-      if (paramsselectClasstecaher == undefined) {
+      if (paramsselectClasstecaher == undefined && paramsassignedDate == undefined) {
         if (GetScreenPermission() === 'Y') {
           setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
           console.log(GetScreenPermission(), "ClassTeachers 2", ClassTeacherDropdownnew[0].Value)
@@ -243,7 +243,7 @@ const TAttendance = () => {
   useEffect(() => {
 
     dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
-  }, [ClassTeacherDropdownnew]);
+  }, [selectClasstecahernew, assignedDate]);
 
 
   useEffect(() => {
@@ -269,6 +269,13 @@ const TAttendance = () => {
     if (AssignedDate != undefined || StandardId != undefined) {
       setStandardid(StandardId);
       setAssignedDate(AssignedDate);
+      setOnlySelectedClass('');
+    }
+
+    getCurrentDates(new Date());
+    if (paramsassignedDate != undefined || paramsselectClasstecaher != undefined) {
+      setselectClasstecahernew(selectClasstecahernew);
+      setAssignedDate(paramsassignedDate);
       setOnlySelectedClass('');
     }
   }, []);
@@ -310,7 +317,9 @@ const TAttendance = () => {
   const getCurrentDate = (newDate?: Date) => {
     setAssignedDate(getDateFormatted(newDate));
   };
-
+  const getCurrentDates = (newDate?: Date) => {
+    setAssignedDate(getDateFormatted(newDate));
+  };
   const handleChange = (value) => {
     if (value != 'Select Class') {
       setStandardid(value);
@@ -685,83 +694,92 @@ const TAttendance = () => {
 
             <Box>
               <Tooltip title={'Individual Attendance'}>
-                <IconButton
-                  onClick={() => {
-                    navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew + '/' + assignedDate);
-                  }}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[600],
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}
-                  disabled={MarksError ? true : false}
-                >
-                  <PersonIcon />
-                </IconButton>
+                <span>
+                  <IconButton
+                    onClick={() => {
+                      navigate('/extended-sidebar/Teacher/IndidualAttendance/' + selectClasstecahernew + '/' + getDateFormattedDash(assignedDate));
+                    }}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: blue[600],
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    disabled={MarksError ? true : false}
+                  >
+                    <PersonIcon />
+                  </IconButton>
+                </span>
               </Tooltip>
             </Box>
             <Box>
               <Tooltip title={'Month Wise Attendance'}>
-                <IconButton
-                  onClick={() => {
-                    navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew + '/' + assignedDate);
-                  }}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: teal[600],
-                    '&:hover': {
-                      backgroundColor: teal[600]
-                    }
-                  }}
-                  disabled={MarksError ? true : false}
-                >
-                  <CalendarMonthIcon />
-                </IconButton>
+                <span>
+                  <IconButton
+                    onClick={() => {
+                      navigate('/extended-sidebar/Teacher/MonthwiseAttendance/' + selectClasstecahernew + '/' + getDateFormattedDash(assignedDate));
+                    }}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: teal[600],
+                      '&:hover': {
+                        backgroundColor: teal[600]
+                      }
+                    }}
+                    disabled={MarksError ? true : false}
+                  >
+                    <CalendarMonthIcon />
+                  </IconButton>
+                </span>
               </Tooltip>
             </Box>
             <Box>
               <Tooltip
                 title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
-              >
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
-                  }}
-                >
-                  <QuestionMarkIcon />
-                </IconButton>
+              ><span>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
+                </span>
               </Tooltip>
             </Box>
             <Box>
               {SaveIsActive ? (
                 <Tooltip title={'Save Attendance'}>
-                  <IconButton
-                    onClick={SaveMsg}
-                    sx={{
-                      color: 'white',
-                      backgroundColor: 'green'
-                    }}
-                    disabled={MarksError ? true : false}
-                  >
-                    <SaveIcon />
-                  </IconButton>
+                  <span>
+                    <IconButton
+                      onClick={SaveMsg}
+                      sx={{
+                        color: 'white',
+                        backgroundColor: 'green'
+                      }}
+                      disabled={MarksError ? true : false}
+                    >
+                      <SaveIcon />
+                    </IconButton>
+                  </span>
                 </Tooltip>
               ) : (
                 <Tooltip title={'Save Attendance'}>
-                  <IconButton
-                    onClick={SaveMsg}
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500]
-                    }}
-                  >
-                    <SaveIcon />
-                  </IconButton>
+                  <span>
+                    <IconButton
+                      onClick={SaveMsg}
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500]
+                      }}
+                    >
+                      <SaveIcon />
+                    </IconButton>
+                  </span>
                 </Tooltip>
               )}
             </Box>

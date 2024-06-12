@@ -12,7 +12,7 @@ import {
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance';
@@ -20,19 +20,20 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
 const MonthwiseAttandance = () => {
+  const { selectClasstecahernew, AssignedDate } = useParams();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const StandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
+  // const StandardDivisionId = Number(
+  //   sessionStorage.getItem('StandardDivisionId')
+  // );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const StudentId = Number(sessionStorage.getItem('StudentId'));
   const Note = (
     <span>
-     Displays list of students along with their month wise attendance. Attendance is given in following format.<br/>
-Number of days present / Total attendance days.
+      Displays list of students along with their month wise attendance. Attendance is given in following format.<br />
+      Number of days present / Total attendance days.
     </span>
   );
 
@@ -50,7 +51,7 @@ Number of days present / Total attendance days.
   const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
     asSchoolId: asSchoolId,
     asAcademicyearId: asAcademicYearId,
-    asStanardDivisionId: StandardDivisionId,
+    asStanardDivisionId: Number(selectClasstecahernew),
     // TopRanker: 1000,
     // Student_Id: StudentId,
     // SortExp: ' ORDER BY [Roll_No] ASC',
@@ -88,7 +89,7 @@ Number of days present / Total attendance days.
   }, [MonthWiseAttendance]);
 
   const click = () => {
-    navigate('/extended-sidebar/Teacher/TAttendance');
+    navigate('/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew);
   };
   return (
     <>
@@ -101,7 +102,7 @@ Number of days present / Total attendance days.
           navLinks={[
             {
               title: 'Attendance',
-              path: '/extended-sidebar/Teacher/TAttendance'
+              path: '/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew + '/' + AssignedDate
             },
             {
               title: 'Month Wise Attendance',

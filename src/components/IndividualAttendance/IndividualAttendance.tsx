@@ -19,7 +19,7 @@ import { green, grey } from '@mui/material/colors';
 import { useTheme } from '@mui/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
@@ -40,15 +40,17 @@ import { getAttendanceLegend } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const IndividualAttendance = () => {
+  const { selectClasstecahernew,AssignedDate } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
   const [search, setSearch] = useState(true);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const StandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
+  // const StandardDivisionId = Number(
+  //   sessionStorage.getItem('StandardDivisionId')
+  // );
+  // const [StandardDivisionId, setStandardDivisionId] = useState('');
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const studentId = sessionStorage.getItem('StudentId');
   const [asStudentsAttendance, setasStudentsAttendance] = useState();
@@ -56,7 +58,8 @@ const IndividualAttendance = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [ItemList, setItemList] = useState([]);
   const [DefaultValue, setDefaultValue] = useState(null);
-  const [StudentId, setStudentId] = useState('0');
+  //const [StudentId, setStudentId] = useState('0');
+  const [StudentId, setStudentId] = useState(selectClasstecahernew || undefined);
   const itemlist2 = [
     { id: 'Y', Text: 'Present All' },
     { id: 'N', Text: 'Absent All' }
@@ -81,11 +84,30 @@ const IndividualAttendance = () => {
   const SaveAttendanceforStudent = useSelector(
     (state: RootState) => state.IndividualAttendance.SaveStudentAttendance
   );
-
+  // const ScreensAccessPermission = JSON.parse(
+  //   sessionStorage.getItem('ScreensAccessPermission')
+  // );
+  // const GetScreenPermission = () => {
+  //   let perm = 'N';
+  //   ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+  //     if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
+  //   });
+  //   return perm;
+  // };
+  // console.log("GetScreenPermission", GetScreenPermission())
+  const getStudentId = () => {
+    let StudentsId = '';
+    StudentList.map((item) => {
+      if (item.Value == StudentId) StudentsId = item.Id;
+    });
+    return StudentsId;
+  };
   const IGetStudentNameBody: IGetStudentNameBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
+    asStandardDivisionId: selectClasstecahernew !== undefined
+      ? Number(selectClasstecahernew)
+      : (StudentList && StudentList.length > 0 ? Number(StudentList[0].Value) : null),
   };
   const IGetCalendarForStudent: IGetCalendarForStudentBody = {
     asSchoolId: asSchoolId,
@@ -94,6 +116,8 @@ const IndividualAttendance = () => {
     aMonthId: Number(month),
     aYear: new Date(formattedDate).getFullYear()
   };
+
+
 
   const HeaderPublish = [
     { Id: 1, Header: 'Sun' },
@@ -108,10 +132,28 @@ const IndividualAttendance = () => {
   useEffect(() => {
     dispatch(getstudentname(IGetStudentNameBody));
   }, []);
-
+  // useEffect(() => {
+  //   if (StudentList && StudentList.length > 0) {
+  //     if (GetScreenPermission() === 'Y') {
+  //       setStudentId(StudentList[0].Value);
+  //     } else {
+  //       const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
+  //       if (teacherIdFromSession !== null) {
+  //         setStudentId(teacherIdFromSession);
+  //       }
+  //     }
+  //   }
+  // }, [StudentList, GetScreenPermission()]);
+  useEffect(() => {
+    if (StudentList && StudentList.length > 0) {
+      setStudentId(selectClasstecahernew || StudentList[0].Value);
+    }
+  }, [StudentList, selectClasstecahernew]);
   useEffect(() => {
     if (StudentId != '0') dispatch(getcalendar(IGetCalendarForStudent));
   }, [month, StudentId]);
+
+
 
   useEffect(() => {
     setItemList(CalendarForStudent);
@@ -280,7 +322,8 @@ const IndividualAttendance = () => {
         navLinks={[
           {
             title: 'Attendance',
-            path: '/extended-sidebar/Teacher/TAttendance'
+            path: '/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew + '/' + AssignedDate
+            
           },
           {
             title: 'Individual Attendance',
