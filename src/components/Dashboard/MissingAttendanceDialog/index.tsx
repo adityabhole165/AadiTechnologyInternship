@@ -1,5 +1,5 @@
 import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
-import { Accordion, AccordionDetails, Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Accordion, AccordionDetails, Alert, Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -19,13 +19,13 @@ type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
+const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleClose = () => {
         setOpen(false);
-      };
+    };
     const [selectedTeacher, setSelectedTeacher] = useState(null);
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -57,8 +57,8 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
     }, []);
 
     useEffect(() => {
-                    dispatch(MissingAttenDateAleart(MissingDayBody));
-         }, []);
+        dispatch(MissingAttenDateAleart(MissingDayBody));
+    }, []);
 
     const clickMissingDay = (teacher) => {
         if (selectedTeacher && selectedTeacher.Id === teacher.Id) {
@@ -145,18 +145,18 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
                                             <TableCell colSpan={missingAttendanceColumns.length}>
                                                 <Accordion expanded>
                                                     <AccordionDetails>
-                                                    <Table aria-label="inner table" sx={{ width: '45%', textAlign: 'center', margin: '0 auto' }}>
-    <TableHead>
-        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-                <b>Missing Attendance Dates</b>
-            </TableCell>
-        </TableRow>
-    </TableHead>
+                                                        <Table aria-label="inner table" sx={{ width: '45%', textAlign: 'center', margin: '0 auto' }}>
+                                                            <TableHead>
+                                                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                                                    <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                                                        <b>Missing Attendance Dates</b>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            </TableHead>
                                                             <TableBody>
                                                                 {MissingDate.map((dateItem, index) => (
                                                                     <TableRow key={index}>
-                                                                        <TableCell sx={{ textTransform: 'capitalize' , textAlign: 'center'}}>
+                                                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                                                                             {dateItem.Name}
                                                                         </TableCell>
                                                                     </TableRow>
@@ -164,9 +164,9 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
                                                             </TableBody>
                                                         </Table>
                                                         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
-    <Button variant="text" color="error" onClick={handleCloseMissingDates}>
-        Cancel
-    </Button></Box>
+                                                            <Button variant="text" color="error" onClick={handleCloseMissingDates}>
+                                                                Cancel
+                                                            </Button></Box>
 
                                                     </AccordionDetails>
                                                 </Accordion>
@@ -179,11 +179,11 @@ const MissingAttendanceDialog = ({ open, setOpen  }: Props) => {
                     </Table>
                 </Box>
             </DialogContent>
-            <DialogActions sx={{ justifyContent: 'center' }}>
+            {/* <DialogActions sx={{ justifyContent: 'center' }}>
                 <Button variant="text" color="error" onClick={() => setOpen(false)}>
                     Close
                 </Button>
-            </DialogActions>
+            </DialogActions> */}
         </Dialog>
     );
 }
