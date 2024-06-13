@@ -28,17 +28,12 @@ const AddRequisition = () => {
     const [ItemNewID, SetItemNewID] = useState();
     const [textall, setTextall] = useState('');
     const [textall1, setTextall1] = useState('');
-
-
-    const [AddItemlist, SetAddItemlist] = useState([]);
-    console.log(AddItemlist, "AddItemlist");
-
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-
-    console.log(USSaveRequisition, "USSaveRequisition");
+     console.log(USSaveRequisition,"USSaveRequisition");
+     
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
@@ -205,9 +200,10 @@ const AddRequisition = () => {
         dispatch(CDASaveRequisition(SaveRequisitionBody));
 
     }, [ItemNewID]);
-    useEffect(() => {
-        SetAddItemlist(USSaveRequisition);
-    }, []);
+
+    // useEffect(() => {
+    //     SetAddItemlist(USSaveRequisition);
+    // }, []);
 
 
 
@@ -308,7 +304,7 @@ const AddRequisition = () => {
 
             <Box mb={1} sx={{ p: 2, background: 'white' }}>
                 <AddRequisitionlist
-                    ItemList={AddItemlist}
+                    ItemList={USSaveRequisition}
                     HeaderArray={HeaderPublish}
                     clickDelete={clickDelete}
                     onTextChange2={ChangeItemQty}

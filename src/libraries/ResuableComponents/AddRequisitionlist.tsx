@@ -30,7 +30,7 @@ function AddRequisitionlist({
     changeText1({ Value: numericValue, Id: item.Id });
   };
 
-  console.log(ItemList,"ItemList");
+  console.log(ItemList, "ItemList");
   
   return (
     <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
@@ -60,7 +60,7 @@ function AddRequisitionlist({
         </TableHead>
         <TableBody>
           {ItemList.map((item, i) => (
-            <TableRow key={i}>
+            <TableRow key={item.Id}>
               <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
                 {item.ItemCode}
               </TableCell>
