@@ -146,6 +146,7 @@ const AddRequisition = () => {
       };
       dispatch(CDASaveRequisition(SaveRequisitionBodysend));
       toast.success("Requisition is send successfully!!!");
+      navigate('/extended-sidebar/Teacher/Requisition')
     };
 
 
