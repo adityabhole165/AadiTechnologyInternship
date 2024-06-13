@@ -16,6 +16,7 @@ import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition } from 'src/r
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+import { toast } from 'react-toastify';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -64,34 +65,89 @@ const AddRequisition = () => {
     ];
 
 
+    // const getXML = () => {
+    //     let sXML = '<RequisitionItems>';
+    //     Itemlist.forEach((Item) => {
+    //             sXML +=
+    //                 '<RequisitionItems ' +
+    //                 'ItemID="' + ItemNewID + '" ' +
+    //                 'UOM="0" ' +
+    //                 'ItemQty=" ' + Text + ' " ' +
+    //                 'ItemOrgQty=" '+ Text + ' " />';
+            
+    //     });
+    //     sXML += '</RequisitionItems>';
+
+    //     return sXML;
+    // };
+
     const getXML = () => {
         let sXML = '<RequisitionItems>';
+        const usedItemIDs = new Set();
+    
         Itemlist.forEach((Item) => {
+            if (!usedItemIDs.has(ItemNewID)) {
                 sXML +=
                     '<RequisitionItems ' +
                     'ItemID="' + ItemNewID + '" ' +
                     'UOM="0" ' +
                     'ItemQty=" ' + Text + ' " ' +
                     'ItemOrgQty=" '+ Text + ' " />';
-            
+                
+                usedItemIDs.add(ItemNewID);
+            }
         });
+    
         sXML += '</RequisitionItems>';
-
+    
         return sXML;
     };
-
+    
 
 
     const SaveRequisitionBody: ISaveRequisitionBody = {
         asSchoolId: asSchoolId,
         asRequisitionId: 0,
-        asUserId: 754,
+        asUserId: asUserId,
         asRequisitionName: textall,
         asRequisitionDesc: textall1,
         asAction: "save",
         asRequisitionItemDetailsXml: getXML(),
         asIsGeneral: 0
     };
+
+
+
+    const clicksave = () => {
+          const SaveRequisitionBodyNew: ISaveRequisitionBody = {
+            asSchoolId: asSchoolId,
+            asRequisitionId: 0,
+            asUserId: asUserId,
+            asRequisitionName: textall,
+            asRequisitionDesc: textall1,
+            asAction: "save",
+            asRequisitionItemDetailsXml: getXML(),
+            asIsGeneral: 0
+        };
+        dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
+        toast.success("Requisition is saved(draft) successfully!!!");
+      };
+
+      const clickSend = () => {
+        const SaveRequisitionBodysend: ISaveRequisitionBody = {
+          asSchoolId: asSchoolId,
+          asRequisitionId: 0,
+          asUserId: asUserId,
+          asRequisitionName: textall,
+          asRequisitionDesc: textall1,
+          asAction: "send",
+          asRequisitionItemDetailsXml: getXML(),
+          asIsGeneral: 0
+      };
+      dispatch(CDASaveRequisition(SaveRequisitionBodysend));
+      toast.success("Requisition is send successfully!!!");
+    };
+
 
     const clickSearch = () => {
         if (regNoOrName === '') {
@@ -259,6 +315,7 @@ const AddRequisition = () => {
 
                     <Tooltip title={'Save'}>
                         <IconButton
+                            onClick={clicksave}
                             sx={{
                                 background: green[500],
                                 color: 'white',
@@ -273,7 +330,7 @@ const AddRequisition = () => {
 
                     <Tooltip title={'Send Requisition'}>
                         <IconButton
-                            onClick={onClickBack}
+                            onClick={clickSend}
                             sx={{
                                 background: green[500],
                                 color: 'white',
