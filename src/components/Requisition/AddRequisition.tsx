@@ -200,9 +200,11 @@ const AddRequisition = () => {
             id: 'Add Item',
             label: 'Add Item',
             renderCell: row => (
+                <Tooltip title="Add">
                 <IconButton onClick={() => SetItemNewID((row.ItemID))}>
-                    <AddCircleIcon />
+                    <AddCircleIcon  sx={{color:"#29b6f6" }}/>
                 </IconButton>
+                </Tooltip>
             )
         }
     ];
