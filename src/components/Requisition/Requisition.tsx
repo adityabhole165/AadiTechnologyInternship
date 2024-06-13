@@ -353,7 +353,7 @@ const StatusRequisition = () => {
             <Grid item xs={2}>
               <TextField
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
-                label={'RequisitionCode'}
+                label={'Requisition Code'}
                 size={"small"}
                 value={RequisitionCode()} 
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
@@ -365,7 +365,7 @@ const StatusRequisition = () => {
             <Grid item xs={2}>
               <TextField
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
-                label={'RequisitionName'}
+                label={'Requisition Name'}
                 size={"small"}
                 value={RequisitionName()} 
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
@@ -378,7 +378,7 @@ const StatusRequisition = () => {
             <Grid item xs={2}>
               <TextField
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
-                label={'RequisitionName'}
+                label={'Requisition Status'}
                 size={"small"}
                 value={StatusName()} 
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
@@ -392,7 +392,7 @@ const StatusRequisition = () => {
             <Grid item xs={2}>
               <TextField
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
-                label={'RequisitionName'}
+                label={'Requester'}
                 size={"small"}
                 value={CreaterName()}
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
@@ -402,7 +402,7 @@ const StatusRequisition = () => {
           </Grid>
           <br></br>
           <Typography variant="h4" sx={{ mb: 1 }}>
-          Reason to cancel :  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+          Reason to cancel   <Typography component="span" sx={{ color: red[500] }}>*</Typography>
           </Typography>
           <TextField
             multiline

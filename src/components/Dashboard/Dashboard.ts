@@ -448,11 +448,11 @@ const DashboardData = {
       // },
       {
         Text1: 'Lesson Plan ',
-        Text2: 'BaseScreen ',
+        Text2: '',
         Color: '#81c784',
         iconColor: '#424242',
         Icon: AssignmentIcon,
-        Link: 'Teacher/Lesson Plan',
+        Link: 'Teacher/LessonPlanBaseScreen',
         index: 15
       },
       // {

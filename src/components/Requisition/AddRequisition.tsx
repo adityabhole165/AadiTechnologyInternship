@@ -2,6 +2,7 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import SendIcon from '@mui/icons-material/Send';
 import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
@@ -24,6 +25,8 @@ const AddRequisition = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const [ItemCategory, setItemCategory] = useState();
     const [Itemlist, setItemlist] = useState([]);
+    const [ItemlistNew, setItemlistNew] = useState([]);
+    const [Text, setText] = useState(0);
     const [regNoOrName, setRegNoOrName] = useState('');
     const [ItemNewID, SetItemNewID] = useState();
     const [textall, setTextall] = useState('');
@@ -32,8 +35,8 @@ const AddRequisition = () => {
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-     console.log(USSaveRequisition,"USSaveRequisition");
-     
+    console.log(USSaveRequisition, "USSaveRequisition");
+
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
@@ -60,22 +63,18 @@ const AddRequisition = () => {
 
     ];
 
-   
+
     const getXML = () => {
         let sXML = '<RequisitionItems>';
-
-        Itemlist.map((Item) => {
-            if (Item.ItemID == ItemNewID) {
+        Itemlist.forEach((Item) => {
                 sXML +=
                     '<RequisitionItems ' +
-                    'ItemID="' + Item.ItemID + '" ' +
+                    'ItemID="' + ItemNewID + '" ' +
                     'UOM="0" ' +
-                    'ItemQty=" 1" ' +
-                    'ItemOrgQty=" 1" />';
-            }
+                    'ItemQty=" ' + Text + ' " ' +
+                    'ItemOrgQty=" '+ Text + ' " />';
+            
         });
-
-
         sXML += '</RequisitionItems>';
 
         return sXML;
@@ -87,8 +86,8 @@ const AddRequisition = () => {
         asSchoolId: asSchoolId,
         asRequisitionId: 0,
         asUserId: 754,
-        asRequisitionName: "gfdfhf",
-        asRequisitionDesc:"pan",
+        asRequisitionName: textall,
+        asRequisitionDesc: textall1,
         asAction: "save",
         asRequisitionItemDetailsXml: getXML(),
         asIsGeneral: 0
@@ -146,14 +145,14 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <IconButton onClick={() => SetItemNewID((row.ItemID))}>
-                    <AddCircleIcon  />
+                    <AddCircleIcon />
                 </IconButton>
             )
         }
     ];
 
 
-   
+
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
@@ -161,14 +160,19 @@ const AddRequisition = () => {
 
     const ClickRestItemLIst = () => {
         setItemlist([]);
+        setItemlistNew([])
     }
 
     const clickDelete = () => {
 
     }
-    const ChangeItemQty = (value) => {
-        setItemlist(value);
 
+    useEffect(() => {
+        setItemlistNew(USSaveRequisition);
+    }, [USSaveRequisition]);
+
+    const ChangeItemQty = (event) => {
+        setText(event.target.value);
     };
 
     const Detailschnageall = (event) => {
@@ -204,9 +208,6 @@ const AddRequisition = () => {
     // useEffect(() => {
     //     SetAddItemlist(USSaveRequisition);
     // }, []);
-
-
-
 
     return (
         <Box sx={{ px: 2 }}>
@@ -284,60 +285,70 @@ const AddRequisition = () => {
                             <SendIcon />
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title={'Change Input'}>
+                    {Itemlist.length > 0  ?
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+                       <IconButton
+                            onClick={ClickRestItemLIst}
+                            sx={{
+                                background: green[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: green[600]
+                                }
+                            }}
+                        >
+                            <ChangeCircleIcon />
+                        </IconButton>
+                </Box> : null}
+                </Tooltip>
                 </>}
             />
-
-
-
-            {Itemlist.length > 0 ?
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button variant="outlined" onClick={ClickRestItemLIst} sx={{ backgroundColor: "green", color: "white" }}>
-                        Change Input
-                    </Button>
-                </Box> : null}
             <br></br>
 
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
                 </Box> : null}
+            {ItemlistNew.length > 0 && Itemlist.length > 0 ?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
-            <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                <AddRequisitionlist
-                    ItemList={USSaveRequisition}
-                    HeaderArray={HeaderPublish}
-                    clickDelete={clickDelete}
-                    onTextChange2={ChangeItemQty}
-                />
-            </Box>
+                    <AddRequisitionlist
+                        ItemList={ItemlistNew}
+                        HeaderArray={HeaderPublish}
+                        clickDelete={clickDelete}
+                        Detailschnageall={ChangeItemQty}
+                        textall={Text}
+                    />
+                              <br></br> 
+                    <Grid item xs={3}>
+                        <Typography variant="h4" sx={{ mb: 1 }}>
+                            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                        </Typography>
+                        <TextField
+                            multiline
+                            rows={3}
+                            type="text"
+                            value={textall}
+                            onChange={Detailschnageall}
+                            sx={{ width: '70%' }}
+                        />
+                       <br></br>  <br></br> 
+                        <Typography variant="h4" sx={{ mb: 1 }}>
+                            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                        </Typography>
+                        <TextField
+                            multiline
+                            rows={3}
+                            type="text"
+                            value={textall1}
+                            onChange={Detailschnageall2}
+                            sx={{ width: '70%' }}
+                        />
 
-            <Grid item xs={3}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                    Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                </Typography>
-                <TextField
-                    multiline
-                    rows={3}
-                    type="text"
-                    value={textall}
-                    onChange={Detailschnageall}
-                    sx={{ width: '70%' }}
-                />
-            </Grid>
-            <Grid item xs={3}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                    Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                </Typography>
-                <TextField
-                    multiline
-                    rows={3}
-                    type="text"
-                    value={textall1}
-                    onChange={Detailschnageall2}
-                    sx={{ width: '70%' }}
-                />
-            </Grid>
-
+                    </Grid>
+                </Box> : null}
         </Box>
 
     );
