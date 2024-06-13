@@ -75,8 +75,8 @@ const AddRequisition = () => {
                     '<RequisitionItems ' +
                     'ItemID="' + Item.ItemID + '" ' +
                     'UOM="0" ' +
-                    'ItemQty="' + Item.ItemQty + '" ' +
-                    'ItemOrgQty="' + Item.ItemQty + '" />';
+                    'ItemQty=" 1" ' +
+                    'ItemOrgQty=" 1" />';
             }
         });
 
@@ -151,17 +151,14 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <IconButton onClick={() => SetItemNewID((row.ItemID))}>
-                    <AddCircleIcon onClick={clickAdd} />
+                    <AddCircleIcon  />
                 </IconButton>
             )
         }
     ];
 
 
-    const clickAdd = () => {
-        dispatch(CDASaveRequisition(SaveRequisitionBody));
-
-    }
+   
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
@@ -207,7 +204,7 @@ const AddRequisition = () => {
     useEffect(() => {
         dispatch(CDASaveRequisition(SaveRequisitionBody));
 
-    }, []);
+    }, [ItemNewID]);
     useEffect(() => {
         SetAddItemlist(USSaveRequisition);
     }, []);

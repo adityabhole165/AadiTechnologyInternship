@@ -30,6 +30,8 @@ function AddRequisitionlist({
     changeText1({ Value: numericValue, Id: item.Id });
   };
 
+  console.log(ItemList,"ItemList");
+  
   return (
     <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
       <Table aria-label="simple table">
