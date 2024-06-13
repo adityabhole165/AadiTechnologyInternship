@@ -64,13 +64,13 @@ function Dashboard() {
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(true);
   const [showBday, setShowBday] = useState(false);
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
-  console.log(MissingName, "MissingNamennnn");
+  // console.log(MissingName, "MissingNamennnn");
 
   // const Data4 = MissingName.filter((item) => item.Value == "")
   // console.log(Data4, "Missingdaysss");
 
   const MissingDays = MissingName.map(item => item.MissingDays);
-  console.log(MissingDays, "Missingdaysss");
+  // console.log(MissingDays, "Missingdaysss");
 
   const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0); 
 
