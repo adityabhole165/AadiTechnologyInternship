@@ -6,18 +6,10 @@ function AddRequisitionlist({
   ItemList,
   HeaderArray,
   clickDelete,
-  onTextChange2
+  textall,
+  Detailschnageall
 }) {
-  const changeText1 = (value) => {
-    const updatedItemList = ItemList.map((item) => {
-      return item.Id === value.Id ? { ...item, Text3: value.Value } : item;
-    });
-    onTextChange2(updatedItemList);
-  };
-
-  const handleText3Change = (e, item) => {
-    changeText1({ Value:e.target.value, Id: item.Id });
-  };
+ 
 
   return (
     <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,  overflow: 'hidden' }}>
@@ -61,9 +53,9 @@ function AddRequisitionlist({
                 <TextField
                   size="small"
                   id="outlined-basic"
-                  value={item.Text3}
+                  value={textall}
                   variant="outlined"
-                  onChange={(e) => handleText3Change(e, item)}
+                  onChange={Detailschnageall}
                   sx={{ width: '150px', height: '10px' }} />
                 &nbsp; &nbsp; &nbsp;
                 <Select value={item.UOMUnit} sx={{ width: '150px', height: '37px' }} disabled>

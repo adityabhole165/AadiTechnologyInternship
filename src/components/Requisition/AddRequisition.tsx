@@ -26,8 +26,7 @@ const AddRequisition = () => {
     const [ItemCategory, setItemCategory] = useState();
     const [Itemlist, setItemlist] = useState([]);
     const [ItemlistNew, setItemlistNew] = useState([]);
-
-
+    const [Text, setText] = useState(0);
     const [regNoOrName, setRegNoOrName] = useState('');
     const [ItemNewID, SetItemNewID] = useState();
     const [textall, setTextall] = useState('');
@@ -67,19 +66,15 @@ const AddRequisition = () => {
 
     const getXML = () => {
         let sXML = '<RequisitionItems>';
-
-        Itemlist.map((Item) => {
-            if (Item.ItemID == ItemNewID) {
+        Itemlist.forEach((Item) => {
                 sXML +=
                     '<RequisitionItems ' +
-                    'ItemID="' + Item.ItemID + '" ' +
+                    'ItemID="' + ItemNewID + '" ' +
                     'UOM="0" ' +
-                    'ItemQty=" 1" ' +
-                    'ItemOrgQty=" 1" />';
-            }
+                    'ItemQty=" ' + Text + ' " ' +
+                    'ItemOrgQty=" '+ Text + ' " />';
+            
         });
-
-
         sXML += '</RequisitionItems>';
 
         return sXML;
@@ -91,8 +86,8 @@ const AddRequisition = () => {
         asSchoolId: asSchoolId,
         asRequisitionId: 0,
         asUserId: 754,
-        asRequisitionName: "gfdfhf",
-        asRequisitionDesc: "pan",
+        asRequisitionName: textall,
+        asRequisitionDesc: textall1,
         asAction: "save",
         asRequisitionItemDetailsXml: getXML(),
         asIsGeneral: 0
@@ -177,7 +172,7 @@ const AddRequisition = () => {
     }, [USSaveRequisition]);
 
     const ChangeItemQty = (event) => {
-        setItemlistNew(event.target.value);
+        setText(event.target.value);
     };
 
     const Detailschnageall = (event) => {
@@ -323,7 +318,8 @@ const AddRequisition = () => {
                         ItemList={ItemlistNew}
                         HeaderArray={HeaderPublish}
                         clickDelete={clickDelete}
-                        onTextChange2={ChangeItemQty}
+                        Detailschnageall={ChangeItemQty}
+                        textall={Text}
                     />
                               <br></br> 
                     <Grid item xs={3}>
