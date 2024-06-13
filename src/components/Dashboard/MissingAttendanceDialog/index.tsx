@@ -1,5 +1,20 @@
 import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
-import { Accordion, AccordionDetails, Alert, Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    Alert,
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -20,11 +35,11 @@ type Props = {
 }
 
 const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleClose = () => {
         setOpen(false);
+        sessionStorage.setItem('hasShownMissingAttendancePopup', 'true');
     };
     const [selectedTeacher, setSelectedTeacher] = useState(null);
 
@@ -37,18 +52,18 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
     const MissingDate = useSelector((state: RootState) => state.MissingAttendanceAleart.Missingattenddate);
 
     const MissingNameBody: IMissingattendancealeartNameBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asUserId: Number(asUserId),
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: asUserId,
         asStandardDivisionId: null,
         asDate: null
     };
 
     const MissingDayBody: IMissingattendancealeartDateBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asUserId: Number(asUserId),
-        asStandardDivisionId: Number(asStandardDivisionId),
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: asUserId,
+        asStandardDivisionId: asStandardDivisionId,
         asDate: null
     };
 
@@ -102,14 +117,14 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
     return (
         <Dialog
             open={open}
-            onClose={() => setOpen(false)}
+            onClose={handleClose}
             fullWidth
             maxWidth="sm"
         >
             <DialogTitle sx={{ fontSize: '20px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 Missing Attendance Alert(s)
                 <IconButton
-                    onClick={() => setOpen(false)}
+                    onClick={handleClose}
                     color="error"
                 >
                     <CloseTwoTone />
@@ -166,8 +181,8 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                                         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
                                                             <Button variant="text" color="error" onClick={handleCloseMissingDates}>
                                                                 Cancel
-                                                            </Button></Box>
-
+                                                            </Button>
+                                                        </Box>
                                                     </AccordionDetails>
                                                 </Accordion>
                                             </TableCell>
@@ -179,11 +194,6 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                     </Table>
                 </Box>
             </DialogContent>
-            {/* <DialogActions sx={{ justifyContent: 'center' }}>
-                <Button variant="text" color="error" onClick={() => setOpen(false)}>
-                    Close
-                </Button>
-            </DialogActions> */}
         </Dialog>
     );
 }

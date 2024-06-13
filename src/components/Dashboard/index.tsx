@@ -40,6 +40,7 @@ import {
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
+
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   Leftpadding: theme.spacing(1),
@@ -59,21 +60,13 @@ function Dashboard() {
       UserLoginDetails1.LastLoginDetails
     );
   }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(true);
   const [showBday, setShowBday] = useState(false);
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
-  // console.log(MissingName, "MissingNamennnn");
-
-  // const Data4 = MissingName.filter((item) => item.Value == "")
-  // console.log(Data4, "Missingdaysss");
-
   const MissingDays = MissingName.map(item => item.MissingDays);
-  // console.log(MissingDays, "Missingdaysss");
-
-  const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0); 
-
+  const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0);
 
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
@@ -140,18 +133,19 @@ function Dashboard() {
     asStandardDivisionId: null,
     asDate: null
   };
+
   useEffect(() => {
     dispatch(MissingAttenNameAleart(MissingNameBody));
   }, []);
 
   useEffect(() => {
-    if (hasMissingDays) {
+    if (hasMissingDays && !sessionStorage.getItem('hasShownMissingAttendancePopup')) {
       setMissingAttendanceDialog(true);
+      sessionStorage.setItem('hasShownMissingAttendancePopup', 'true');
     } else {
       setMissingAttendanceDialog(false);
     }
   }, [hasMissingDays]);
-
 
   const getScreensAccessPermissions: IGetScreensAccessPermissions = {
     asSchoolId: asSchoolId,
@@ -204,6 +198,7 @@ function Dashboard() {
       }
     } else setShowBday(false);
   }, []);
+
   let items1 = [];
   let items2 = [];
   let items3 = [];
@@ -223,9 +218,6 @@ function Dashboard() {
     items1 = items1.filter((el) => {
       return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true;
     });
-    // items1 = items1.filter((el) => {
-    //   return el.Text2 == 'Committee' ? TransportCommitteeForStudent : true
-    // })
 
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
@@ -393,6 +385,13 @@ function Dashboard() {
   let header4 = RoleId === '1' && 'Communication';
   const [forceUpdate, setForceUpdate] = useState(false);
 
+  const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false);
+
+  const handleMissingAttendanceDialogClose = () => {
+    setMissingAttendanceDialog(false);
+    sessionStorage.setItem('hasShownMissingAttendancePopup', 'true');
+  };
+
   return (
     <>
       <NewRelease />
@@ -405,7 +404,6 @@ function Dashboard() {
         Messagecount={Messagecount.MESSAGECOUNT}
         ExternalLibrarySite={ExternalLibrarySite}
       ></Card2>
-      {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="6" Messagecount={Messagecount.MESSAGECOUNT} />} */}
       {RoleId != '6' && (
         <Card2
           items={items2}
@@ -433,7 +431,7 @@ function Dashboard() {
       {missingAttendanceDialog && (
         <MissingAttendanceDialog
           open={missingAttendanceDialog}
-          setOpen={setMissingAttendanceDialog}
+          setOpen={handleMissingAttendanceDialogClose}
         />
       )}
     </>
