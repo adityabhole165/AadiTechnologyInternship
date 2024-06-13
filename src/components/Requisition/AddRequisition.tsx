@@ -24,6 +24,9 @@ const AddRequisition = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const [ItemCategory, setItemCategory] = useState();
     const [Itemlist, setItemlist] = useState([]);
+    const [ItemlistNew, setItemlistNew] = useState([]);
+
+    
     const [regNoOrName, setRegNoOrName] = useState('');
     const [ItemNewID, SetItemNewID] = useState();
     const [textall, setTextall] = useState('');
@@ -166,9 +169,13 @@ const AddRequisition = () => {
     const clickDelete = () => {
 
     }
-    const ChangeItemQty = (value) => {
-        setItemlist(value);
+    
+    useEffect(() => {
+        setItemlistNew(USSaveRequisition);
+      }, [USSaveRequisition]);
 
+    const ChangeItemQty = (event) => {
+          setItemlistNew(event.target.value);
     };
 
     const Detailschnageall = (event) => {
@@ -304,7 +311,7 @@ const AddRequisition = () => {
 
             <Box mb={1} sx={{ p: 2, background: 'white' }}>
                 <AddRequisitionlist
-                    ItemList={USSaveRequisition}
+                    ItemList={ItemlistNew}
                     HeaderArray={HeaderPublish}
                     clickDelete={clickDelete}
                     onTextChange2={ChangeItemQty}
