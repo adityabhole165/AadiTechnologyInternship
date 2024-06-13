@@ -26,12 +26,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { logoURL } from 'src/components/Common/Util';
+import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const theme = useTheme();
   const classes = Styles();
   const [opent, setopent] = useState(opend ? opend : 'false');
+  const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false); // Set initial state to false
   const [imgsrc, setimgsrc] = useState(
     logoURL +
     localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
@@ -72,7 +74,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/landing/landing'
     },
     {
-      title: 'AnnualPlanner',
+      title: 'Annual Planner',
       icon: <CalendarToday />,
       link: '/extended-sidebar/Common/AnnualPlanner'
     },
@@ -158,8 +160,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <FactCheck />,
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
+    },
+
+    {
+      title: 'Missing Attendance',
+      icon: <FactCheck />,
+      link: null // No link for this item
     }
-    
+
   ];
   const activeStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,
@@ -186,6 +194,15 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleListItemClick = (text) => {
+    if (text.title === 'Missing Attendance') {
+      setMissingAttendanceDialog(true);
+    } else {
+      navigate(text.link);
+    }
+    IconClick(text.title);
   };
 
   const list = (anchor: Anchor) => (
@@ -224,10 +241,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
             >
               <ListItemButton
                 sx={text.title === activeItem ? activeStyle : buttonStyle}
-                onClick={() => {
-                  navigate(text.link);
-                  IconClick(text.title);
-                }}
+                onClick={() => handleListItemClick(text)}
               >
                 <ListItemIcon
                   sx={{
@@ -303,6 +317,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   return (
     <div>
       <React.Fragment>{list('left')}</React.Fragment>
+      {missingAttendanceDialog && (
+        <MissingAttendanceDialog
+          open={missingAttendanceDialog}
+          setOpen={setMissingAttendanceDialog}
+        />
+      )}
     </div>
   );
 }
