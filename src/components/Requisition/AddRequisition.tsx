@@ -325,7 +325,7 @@ const AddRequisition = () => {
                         clickDelete={clickDelete}
                         onTextChange2={ChangeItemQty}
                     />
-
+                              <br></br> 
                     <Grid item xs={3}>
                         <Typography variant="h4" sx={{ mb: 1 }}>
                             Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
@@ -338,7 +338,7 @@ const AddRequisition = () => {
                             onChange={Detailschnageall}
                             sx={{ width: '70%' }}
                         />
-
+                       <br></br>  <br></br> 
                         <Typography variant="h4" sx={{ mb: 1 }}>
                             Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
                         </Typography>

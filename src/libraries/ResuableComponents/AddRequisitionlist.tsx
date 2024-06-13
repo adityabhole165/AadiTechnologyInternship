@@ -20,7 +20,7 @@ function AddRequisitionlist({
   };
 
   return (
-    <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+    <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,  overflow: 'hidden' }}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
