@@ -16,7 +16,18 @@ function AddRequisitionlist({
   };
 
   const handleText3Change = (e, item) => {
-    changeText1({ Value: e.target.value, Id: item.ItemID});
+    const numericValue = e.target.value.replace(/[^0-9.]/g, '');
+    const parts = numericValue.split('.');
+
+    if (parts[0].length > 3) {
+      return;
+    }
+
+    if (parts[1] && parts[1].length > 3) {
+      return;
+    }
+
+    changeText1({ Value: numericValue, Id: item.Id });
   };
 
   return (
@@ -59,14 +70,14 @@ function AddRequisitionlist({
               </TableCell>
               
               <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
-              <TextField
-                  size="small"
-                  id="outlined-basic"
-                  value={item.Text3}
-                  variant="outlined"
-                  onChange={(e) => handleText3Change(e, item)}
-                  sx={{ width: '150px', height: '10px' }}
-                /> &nbsp; &nbsp; &nbsp;
+                   <TextField
+                    size="small"
+                    id="outlined-basic"
+                    value={item.Text3}
+                    variant="outlined"
+                    onChange={(e) => handleText3Change(e, item)}
+                  sx={{ width: '150px', height: '10px' }} />
+                 &nbsp; &nbsp; &nbsp;
                 <Select value={item.UOMUnit} sx={{ width: '150px', height: '37px' }} disabled>
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>

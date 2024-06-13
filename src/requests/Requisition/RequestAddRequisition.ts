@@ -65,7 +65,7 @@ export const CDAGetItemCategory =
 
       let listRequisitionnItemDetails = response.data.listRequisitionnItemDetails.map((item, i) => {
         return {
-        
+          Id: item.ItemID,
           ItemID: item.ItemID,
           ItemQty:item.ItemQty,
           UOMUnit:item.UOMUnit,
@@ -76,7 +76,8 @@ export const CDAGetItemCategory =
           ReturnQty:item.ReturnQty,
           CancelQty:item.CancelQty,
           IssueQty:item.IssueQty,
-           Text3 :item.ItemQty
+          Text3 :item.ItemQty,
+          Text1 :item.ItemID
 
         };
       });

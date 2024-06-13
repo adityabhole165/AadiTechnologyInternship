@@ -9,13 +9,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { IGetAddItemListBody, IGetItemCategoryBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-
-import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -26,17 +25,20 @@ const AddRequisition = () => {
     const [ItemCategory, setItemCategory] = useState();
     const [Itemlist, setItemlist] = useState([]);
     const [regNoOrName, setRegNoOrName] = useState('');
-    const [ItemID, SetItemID] = useState();
-    console.log(ItemID, "ItemID");
+    const [ItemNewID, SetItemNewID] = useState();
+    const [textall, setTextall] = useState('');
+    const [textall1, setTextall1] = useState('');
+
 
     const [AddItemlist, SetAddItemlist] = useState([]);
+    console.log(AddItemlist, "AddItemlist");
 
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
 
-    console.log(USSaveRequisition, "USSaveRequisition", UsSlistGetRequisitionName);
+    console.log(USSaveRequisition, "USSaveRequisition");
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
@@ -63,36 +65,37 @@ const AddRequisition = () => {
 
     ];
 
-
-
+   
     const getXML = () => {
-        const sXML = AddItemlist.map((Item) => {
-            return `
-            <RequisitionItems>
-              <ItemID>${Item.ItemID}</ItemID>
-              <UOM>${Item.UOMUnit}</UOM>
-              <ItemQty>${Item.ItemQty}</ItemQty>
-              <ItemOrgQty>${Item.ItemOrgQty}</ItemOrgQty>
-            </RequisitionItems>
-          `;
-        }).join('');
+        let sXML = '<RequisitionItems>';
+
+        Itemlist.map((Item) => {
+            if (Item.ItemID == ItemNewID) {
+                sXML +=
+                    '<RequisitionItems ' +
+                    'ItemID="' + Item.ItemID + '" ' +
+                    'UOM="0" ' +
+                    'ItemQty="' + Item.ItemQty + '" ' +
+                    'ItemOrgQty="' + Item.ItemQty + '" />';
+            }
+        });
+
+
+        sXML += '</RequisitionItems>';
 
         return sXML;
     };
-    console.log(getXML(), "--getXML");
-
-
 
 
 
     const SaveRequisitionBody: ISaveRequisitionBody = {
         asSchoolId: asSchoolId,
         asRequisitionId: 0,
-        asUserId: asUserId,
+        asUserId: 754,
         asRequisitionName: "gfdfhf",
-        asRequisitionDesc: "pan",
+        asRequisitionDesc:"pan",
         asAction: "save",
-        asRequisitionItemDetailsXml: "<RequisitionItems><RequisitionItems ItemID=\"791\" UOM=\"0\" ItemQty=\"1.00\" ItemOrgQty=\"1.00\" /></RequisitionItems>",
+        asRequisitionItemDetailsXml: getXML(),
         asIsGeneral: 0
     };
 
@@ -147,12 +150,18 @@ const AddRequisition = () => {
             id: 'Add Item',
             label: 'Add Item',
             renderCell: row => (
-                <IconButton onClick={() => SetItemID((row.ItemID))}>
-                    <AddCircleIcon />
+                <IconButton onClick={() => SetItemNewID((row.ItemID))}>
+                    <AddCircleIcon onClick={clickAdd} />
                 </IconButton>
             )
         }
     ];
+
+
+    const clickAdd = () => {
+        dispatch(CDASaveRequisition(SaveRequisitionBody));
+
+    }
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
@@ -167,9 +176,15 @@ const AddRequisition = () => {
     }
     const ChangeItemQty = (value) => {
         setItemlist(value);
-       
-      };
 
+    };
+
+    const Detailschnageall = (event) => {
+        setTextall(event.target.value)
+    }
+    const Detailschnageall2 = (event) => {
+        setTextall1(event.target.value)
+    }
 
     const onClickBack = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
@@ -190,12 +205,14 @@ const AddRequisition = () => {
     }, []);
 
     useEffect(() => {
+        dispatch(CDASaveRequisition(SaveRequisitionBody));
+
+    }, []);
+    useEffect(() => {
         SetAddItemlist(USSaveRequisition);
     }, []);
 
-    useEffect(() => {
-        dispatch(CDASaveRequisition(SaveRequisitionBody));
-    }, []);
+
 
 
     return (
@@ -296,37 +313,37 @@ const AddRequisition = () => {
                 <AddRequisitionlist
                     ItemList={AddItemlist}
                     HeaderArray={HeaderPublish}
-                    clickDelete={clickDelete} 
-                    onTextChange2 ={ChangeItemQty}
-                    />
+                    clickDelete={clickDelete}
+                    onTextChange2={ChangeItemQty}
+                />
             </Box>
 
             <Grid item xs={3}>
-            <Typography variant="h4" sx={{ mb: 1 }}>
-            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-          </Typography>
-          <TextField
-            multiline
-            rows={3}
-            type="text"
-            // value={}
-            // onChange={}
-            sx={{ width: '70%' }}
-          />
-          </Grid>
-          <Grid item xs={3}>
-            <Typography variant="h4" sx={{ mb: 1 }}>
-            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-          </Typography>
-          <TextField
-            multiline
-            rows={3}
-            type="text"
-            // value={}
-            // onChange={}
-            sx={{ width: '70%'  }}
-          />
-          </Grid>
+                <Typography variant="h4" sx={{ mb: 1 }}>
+                    Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                </Typography>
+                <TextField
+                    multiline
+                    rows={3}
+                    type="text"
+                    value={textall}
+                    onChange={Detailschnageall}
+                    sx={{ width: '70%' }}
+                />
+            </Grid>
+            <Grid item xs={3}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
+                    Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                </Typography>
+                <TextField
+                    multiline
+                    rows={3}
+                    type="text"
+                    value={textall1}
+                    onChange={Detailschnageall2}
+                    sx={{ width: '70%' }}
+                />
+            </Grid>
 
         </Box>
 
