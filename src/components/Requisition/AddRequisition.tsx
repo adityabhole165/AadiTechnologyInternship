@@ -26,7 +26,7 @@ const AddRequisition = () => {
     const [Itemlist, setItemlist] = useState([]);
     const [ItemlistNew, setItemlistNew] = useState([]);
 
-    
+
     const [regNoOrName, setRegNoOrName] = useState('');
     const [ItemNewID, SetItemNewID] = useState();
     const [textall, setTextall] = useState('');
@@ -35,8 +35,8 @@ const AddRequisition = () => {
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-     console.log(USSaveRequisition,"USSaveRequisition");
-     
+    console.log(USSaveRequisition, "USSaveRequisition");
+
 
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
@@ -63,7 +63,7 @@ const AddRequisition = () => {
 
     ];
 
-   
+
     const getXML = () => {
         let sXML = '<RequisitionItems>';
 
@@ -91,7 +91,7 @@ const AddRequisition = () => {
         asRequisitionId: 0,
         asUserId: 754,
         asRequisitionName: "gfdfhf",
-        asRequisitionDesc:"pan",
+        asRequisitionDesc: "pan",
         asAction: "save",
         asRequisitionItemDetailsXml: getXML(),
         asIsGeneral: 0
@@ -149,14 +149,14 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <IconButton onClick={() => SetItemNewID((row.ItemID))}>
-                    <AddCircleIcon  />
+                    <AddCircleIcon />
                 </IconButton>
             )
         }
     ];
 
 
-   
+
 
     const ItemCategoryDropdown = (value) => {
         setItemCategory(value);
@@ -164,18 +164,19 @@ const AddRequisition = () => {
 
     const ClickRestItemLIst = () => {
         setItemlist([]);
+        setItemlistNew([])
     }
 
     const clickDelete = () => {
 
     }
-    
+
     useEffect(() => {
         setItemlistNew(USSaveRequisition);
-      }, [USSaveRequisition]);
+    }, [USSaveRequisition]);
 
     const ChangeItemQty = (event) => {
-          setItemlistNew(event.target.value);
+        setItemlistNew(event.target.value);
     };
 
     const Detailschnageall = (event) => {
@@ -296,7 +297,7 @@ const AddRequisition = () => {
 
 
 
-            {Itemlist.length > 0 ?
+            {Itemlist.length > 0  ?
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button variant="outlined" onClick={ClickRestItemLIst} sx={{ backgroundColor: "green", color: "white" }}>
                         Change Input
@@ -309,41 +310,50 @@ const AddRequisition = () => {
                     <DataTable columns={Columns} data={Itemlist} isPagination />
                 </Box> : null}
 
-            <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                <AddRequisitionlist
-                    ItemList={ItemlistNew}
-                    HeaderArray={HeaderPublish}
-                    clickDelete={clickDelete}
-                    onTextChange2={ChangeItemQty}
-                />
-            </Box>
 
-            <Grid item xs={3}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                    Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                </Typography>
-                <TextField
-                    multiline
-                    rows={3}
-                    type="text"
-                    value={textall}
-                    onChange={Detailschnageall}
-                    sx={{ width: '70%' }}
-                />
-            </Grid>
-            <Grid item xs={3}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                    Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                </Typography>
-                <TextField
-                    multiline
-                    rows={3}
-                    type="text"
-                    value={textall1}
-                    onChange={Detailschnageall2}
-                    sx={{ width: '70%' }}
-                />
-            </Grid>
+
+            {ItemlistNew.length > 0 && Itemlist.length > 0 ?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}>
+
+                    <AddRequisitionlist
+                        ItemList={ItemlistNew}
+                        HeaderArray={HeaderPublish}
+                        clickDelete={clickDelete}
+                        onTextChange2={ChangeItemQty}
+                    />
+
+                    <Grid item xs={3}>
+                        <Typography variant="h4" sx={{ mb: 1 }}>
+                            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                        </Typography>
+                        <TextField
+                            multiline
+                            rows={3}
+                            type="text"
+                            value={textall}
+                            onChange={Detailschnageall}
+                            sx={{ width: '70%' }}
+                        />
+
+                        <Typography variant="h4" sx={{ mb: 1 }}>
+                            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                        </Typography>
+                        <TextField
+                            multiline
+                            rows={3}
+                            type="text"
+                            value={textall1}
+                            onChange={Detailschnageall2}
+                            sx={{ width: '70%' }}
+                        />
+
+                    </Grid>
+                </Box> : null}
+
+
+
+
+
 
         </Box>
 
