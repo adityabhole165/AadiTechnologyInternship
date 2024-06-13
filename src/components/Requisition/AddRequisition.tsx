@@ -2,6 +2,7 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import SendIcon from '@mui/icons-material/Send';
 import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
@@ -213,9 +214,6 @@ const AddRequisition = () => {
     //     SetAddItemlist(USSaveRequisition);
     // }, []);
 
-
-
-
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -292,26 +290,32 @@ const AddRequisition = () => {
                             <SendIcon />
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title={'Change Input'}>
+                    {Itemlist.length > 0  ?
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+                       <IconButton
+                            onClick={ClickRestItemLIst}
+                            sx={{
+                                background: green[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: green[600]
+                                }
+                            }}
+                        >
+                            <ChangeCircleIcon />
+                        </IconButton>
+                </Box> : null}
+                </Tooltip>
                 </>}
             />
-
-
-
-            {Itemlist.length > 0  ?
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button variant="outlined" onClick={ClickRestItemLIst} sx={{ backgroundColor: "green", color: "white" }}>
-                        Change Input
-                    </Button>
-                </Box> : null}
             <br></br>
 
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
                 </Box> : null}
-
-
-
             {ItemlistNew.length > 0 && Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
@@ -349,12 +353,6 @@ const AddRequisition = () => {
 
                     </Grid>
                 </Box> : null}
-
-
-
-
-
-
         </Box>
 
     );
