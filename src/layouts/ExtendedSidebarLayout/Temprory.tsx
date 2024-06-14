@@ -186,13 +186,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
     },
 
-    // {
-    //   title: 'Missing Attendance',
-    //   icon: <FactCheck />,
-    //   link: null // No link for this item
-    // }
-
-  ];
+     ];
 
     if (hasMissingDays) {
     sideList.push({
@@ -228,14 +222,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   };
 
-  // const handleListItemClick = (text) => {
-  //   if (text.title === 'Missing Attendance') {
-  //     setMissingAttendanceDialog(true);
-  //   } else {
-  //     navigate(text.link);
-  //   }
-  //   IconClick(text.title);
-  // };
+
 
   const MissingNameBody: IMissingattendancealeartNameBody = {
     asSchoolId: Number(asSchoolId),
