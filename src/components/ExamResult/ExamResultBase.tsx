@@ -36,7 +36,7 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
-  const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
+  const { ParamsStandardDivisionId, ParamsTestId, selectTeacher, examResultProp } = useParams();
   const [toppersGenerated, setToppersGenerated] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -334,7 +334,7 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
+  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId, examResultProp]);
 
 
   const clickTeacher = (value) => {
@@ -599,9 +599,20 @@ const ExamResultBase = () => {
                 }
               }}
                 onClick={handleGenerateToppers}
-                disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated)
+                //   disabled={
+                //     !examResultProp ? true : // Disable if examResultProp is false
+                //     (
+                //       (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                //       (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                //       (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
+                //     )
+                //   }
+                // >
+                disabled={ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish && !examResultProp}
+                >
+                {/* disabled={(!examResultProp || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated) */}
 
-                }>
+              
                 {/* GENERATE TOPPERS */}
                 <ManageAccounts />
               </IconButton>
@@ -648,19 +659,19 @@ const ExamResultBase = () => {
 
           <Tooltip title={"Toppers"} >
             <span>
-            <IconButton
-              onClick={Toppers}
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
+              <IconButton
+                onClick={Toppers}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }} disabled={(Boolean(examResultProp) || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
 
-            >
-              <Person />
-            </IconButton>
+              >
+                <Person />
+              </IconButton>
             </span>
           </Tooltip>
         </>}

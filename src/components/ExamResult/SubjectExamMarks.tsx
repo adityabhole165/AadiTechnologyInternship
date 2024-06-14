@@ -313,7 +313,7 @@ const SubjectExamMarks = () => {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
       if (examResultProp === "true") {
-        navigate("/extended-sidebar/Teacher/ExamResultBase/" + StandardDivisionId + "/" + TestId);
+        navigate("/extended-sidebar/Teacher/ExamResultBase/" + StandardDivisionId + "/" + TestId + "/" + true);
       } else {
         navigate("/extended-sidebar/Teacher/AssignExamMark/" + ClassTecher + "/" + ClassId + "/" + TestId);
       }
