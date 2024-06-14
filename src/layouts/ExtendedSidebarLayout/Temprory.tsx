@@ -186,13 +186,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
     },
 
-    {
+    // {
+    //   title: 'Missing Attendance',
+    //   icon: <FactCheck />,
+    //   link: null // No link for this item
+    // }
+
+  ];
+
+    if (hasMissingDays) {
+    sideList.push({
       title: 'Missing Attendance',
       icon: <FactCheck />,
       link: null // No link for this item
-    }
-
-  ];
+    });
+  }
   const activeStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,
     ':hover': {
