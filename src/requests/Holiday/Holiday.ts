@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import HolidaysApi from 'src/api/Holiday/Holiday';
 import { getDateFormatted, getDateMonthYearDayDash, isFutureDateTime } from 'src/components/Common/Util';
-import IHolidays, { IAllClassesAndDivisionsBody, IGetHolidayBody, IHolidaysFA, ISelectedStandardAndDivisionCheckBoxBody, SaveHolidayDetailsBody } from 'src/interfaces/Common/Holidays';
+import IHolidays, { IAllClassesAndDivisionsBody, IGetHolidayBody, IGetNameAndStartDateEndDateValidationBody, IHolidaysFA, ISelectedStandardAndDivisionCheckBoxBody, SaveHolidayDetailsBody } from 'src/interfaces/Common/Holidays';
 import { AppThunk } from 'src/store';
 
 const Holidaysslice = createSlice({
@@ -15,6 +15,8 @@ const Holidaysslice = createSlice({
     AllClassesAndDivisionss1: [],
     SelectedStandardAndDivisionCheckBoxx: [],
     SaveHoliday: '',
+    NameAndStartDateEndDateValidation: [],
+
     HolidayDetails: null,
     Loading: true
   },
@@ -50,6 +52,11 @@ const Holidaysslice = createSlice({
     getSelectedStandardAndDivisionCheckBoxx(state, action) {
       state.SelectedStandardAndDivisionCheckBoxx = action.payload;
     },
+
+    getNameAndStartDateEndDateValidation(state, action) {
+      state.NameAndStartDateEndDateValidation = action.payload;
+    },
+
     getSaveHoliday(state, action) {
       state.SaveHoliday = action.payload;
     },
@@ -123,6 +130,13 @@ export const DeleteHolidayDetails = (data: IGetHolidayBody): AppThunk => async (
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetDeleteHoliday(data);
   dispatch(Holidaysslice.actions.getDeleteHolidayMsg(response.data));
+};
+
+export const NameAndStartDateEndDateValidations = (data: IGetNameAndStartDateEndDateValidationBody): AppThunk => async (dispatch) => {
+  dispatch(Holidaysslice.actions.getLoading(true));
+  const response = await HolidaysApi.GetNameAndStartDateEndDateValidation(data);
+  dispatch(Holidaysslice.actions.getNameAndStartDateEndDateValidation(response.data));
+
 };
 
 

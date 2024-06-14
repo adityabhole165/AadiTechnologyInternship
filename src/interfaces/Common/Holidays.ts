@@ -118,3 +118,30 @@ export interface ISelectedStandardAndDivisionCheckBoxResult {
   Division_Name: string
 
 }
+
+export interface IGetNameAndStartDateEndDateValidationBody {
+
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asStandardDivIds: string,
+  asHolidayId: number,
+  asHolidayName: string,
+  asHolidayStartDate: string,
+  asHolidayEndDate: string
+
+}
+
+export interface IGetNameAndStartDateEndDateValidationResult {
+
+  HolidayDuplicateNameValidationCount: [
+    {
+      DuplicateHolidayNameCount: string
+    }
+  ],
+  HolidayStartAndEndDatePredefinedValidationCount: [
+    {
+      PredefinedStartDateAndEndDateCount: string
+    }
+  ]
+}
+
