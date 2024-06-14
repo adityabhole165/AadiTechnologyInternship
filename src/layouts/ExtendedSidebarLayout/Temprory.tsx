@@ -22,16 +22,33 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { grey } from '@mui/material/colors';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { logoURL } from 'src/components/Common/Util';
+import { useDispatch, useSelector } from 'react-redux';
+
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
+
+import {
+  IMissingattendancealeartNameBody
+} from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
+
+import {
+  MissingAttenNameAleart
+} from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
+import { RootState } from 'src/store';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const theme = useTheme();
   const classes = Styles();
+  const dispatch = useDispatch();
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+  const asUserId = Number(sessionStorage.getItem('Id'));
+
   const [opent, setopent] = useState(opend ? opend : 'false');
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false); // Set initial state to false
   const [imgsrc, setimgsrc] = useState(
@@ -43,6 +60,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     left: false
   });
   const [activeItem, setActiveItem] = useState(null);
+
+
+  const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
+  const MissingDays = MissingName.map(item => item.MissingDays);
+  const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0);
+
+
   const navigate = useNavigate();
 
   const IconClick = (title) => {
@@ -196,14 +220,49 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   };
 
+  // const handleListItemClick = (text) => {
+  //   if (text.title === 'Missing Attendance') {
+  //     setMissingAttendanceDialog(true);
+  //   } else {
+  //     navigate(text.link);
+  //   }
+  //   IconClick(text.title);
+  // };
+
+  const MissingNameBody: IMissingattendancealeartNameBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(asUserId),
+    asStandardDivisionId: null,
+    asDate: null
+  };
+
   const handleListItemClick = (text) => {
     if (text.title === 'Missing Attendance') {
-      setMissingAttendanceDialog(true);
+      if (hasMissingDays) {
+        setMissingAttendanceDialog(true);
+      } else {
+        setMissingAttendanceDialog(false);
+      }
     } else {
       navigate(text.link);
     }
     IconClick(text.title);
   };
+  
+  useEffect(() => {
+    dispatch(MissingAttenNameAleart(MissingNameBody));
+  }, []);
+  
+  useEffect(() => {
+    if (hasMissingDays && !sessionStorage.getItem('hasShownMissingAttendancePopup')) {
+      setMissingAttendanceDialog(true);
+      sessionStorage.setItem('hasShownMissingAttendancePopup', 'true');
+    } else {
+      setMissingAttendanceDialog(false);
+    }
+  }, [hasMissingDays]);
+  
 
   const list = (anchor: Anchor) => (
     <Box
