@@ -51,9 +51,10 @@ const StatusRequisition = () => {
     { Id: 3, Header: 'Status', SortOrder: null, sortKey: 'StatusName' },
     { Id: 4, Header: 'Requestor', SortOrder: null, sortKey: 'CreaterName' },
     { Id: 5, Header: 'Request Date', SortOrder: 'desc', sortKey: 'Created_Date' },
-    { Id: 6, Header: 'Edit/view' },
-    { Id: 7, Header: 'Delete' },
-    { Id: 8, Header: 'Cancel' },
+    { Id: 6, Header: 'Expiry Date', SortOrder: null, sortKey: 'ExpiryDate' },
+    { Id: 7, Header: 'Edit/view' },
+    { Id: 8, Header: 'Delete' },
+    { Id: 9, Header: 'Cancel' },
   ]);
 
   const handleHeaderClick = (updatedHeaderArray) => {

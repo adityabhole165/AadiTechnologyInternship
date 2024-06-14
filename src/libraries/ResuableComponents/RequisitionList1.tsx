@@ -42,7 +42,7 @@ function RequisitionList1({
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                            {HeaderArray.slice(0, 5).map((item, i) => (
+                            {HeaderArray.slice(0, 6).map((item, i) => (
                                 <TableCell
                                     key={i}
                                     sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
@@ -58,8 +58,8 @@ function RequisitionList1({
                                 </TableCell>
 
                             ))}
-                            {HeaderArray.slice(5).map((item, i) => (
-                                <TableCell key={i + 5} sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}>
+                            {HeaderArray.slice(6).map((item, i) => (
+                                <TableCell key={i + 6} sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
                                         <b>{item.Header}</b>
                                     </div>
@@ -76,6 +76,8 @@ function RequisitionList1({
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.StatusName}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.CreaterName}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Created_Date}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.ExpiryDate}</TableCell>
+
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} align="center">
                                     {item.Editble === '1' ? (
                                         <Tooltip title={"Edit"}>

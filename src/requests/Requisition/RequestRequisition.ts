@@ -70,6 +70,7 @@ export const RequisitionListt =
         StatusName: item.StatusName,
         CreaterName: item.CreaterName,
         Created_Date: getDateMonthYearFormatted(item.Created_Date),
+        ExpiryDate: item.ExpiryDate ? getDateMonthYearFormatted(item.ExpiryDate) : "-",
         Editble: item.Editble,
         IsDelete: item.IsDelete,
         IsFinalApproval: item.IsFinalApproval,
