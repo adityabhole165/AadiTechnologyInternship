@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
 import { formatDateAsDDMMMYYYY, isLessThanDate, isOutsideAcademicYear } from "src/components/Common/Util";
 import CommonPageHeader from "src/components/CommonPageHeader";
-import { IAllClassesAndDivisionsBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
+import { IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision, getSaveHolidays } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getSaveHolidays } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
@@ -60,7 +60,7 @@ const AddHoliday = ({ }) => {
     const [ErrorClass, setErrorClass] = useState('');
 
     const [ErrorEndDate1, setErrorEndDate1] = useState('');
-
+    const [ErrorEndDate2, setErrorEndDate2] = useState('');
     const [ErrorStartDate2, setErrorStartDate2] = useState('');
 
 
@@ -93,6 +93,13 @@ const AddHoliday = ({ }) => {
 
     console.log("SaveHolidays", SaveHolidays);
 
+    const NameAndDateValidation = useSelector(
+        (state: RootState) => state.Holidays.NameAndStartDateEndDateValidation
+    )
+
+    console.log(NameAndDateValidation, "NameAndDateValidation");
+
+
 
 
     useEffect(() => {
@@ -112,6 +119,7 @@ const AddHoliday = ({ }) => {
         dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
 
     }, []);
+
 
 
 
@@ -151,6 +159,21 @@ const AddHoliday = ({ }) => {
 
 
 
+    const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivIds: ClassSelected,
+        asHolidayId: 0,
+        asHolidayName: HolidayTitle,
+        asHolidayStartDate: StartDate,
+        asHolidayEndDate: EndDate
+    }
+
+
+
+
+
+
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
     }, [ClassesAndDivisionss]);
@@ -170,10 +193,13 @@ const AddHoliday = ({ }) => {
 
     const handleTodayButtonClick1 = () => {
         onSelectEndDate(new Date());
+        setTotalDays(1);
     };
 
     const handleClearButtonClick1 = (value) => {
         setEndDate(value || '');
+        setTotalDays(0);
+
     };
 
 
@@ -244,11 +270,48 @@ const AddHoliday = ({ }) => {
             setRemarkError('');
         }
 
-        if (!isError) {
-            return; // Prevent form submission if there are validation errors
+
+        {
+            const duplicateNameCount = NameAndDateValidation[0]?.HolidayDuplicateNameValidationCount?.[0]?.DuplicateHolidayNameCount || 0;
+            const predefinedDateCount = NameAndDateValidation[1]?.HolidayStartAndEndDatePredefinedValidationCount?.[0]?.PredefinedStartDateAndEndDateCount || 0;
+
+            if (duplicateNameCount > 0) {
+                SetErrorHolidayTitle('Holiday name already exists.');
+                isError = true;
+            } else {
+                SetErrorHolidayTitle('');
+            }
+
+            if (predefinedDateCount > 0) {
+                setErrorEndDate2('Holiday already exists for the given date range.');
+                isError = true;
+            } else {
+                setErrorEndDate('');
+
+                // const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
+                //     asSchoolId: asSchoolId,
+                //     asAcademicYearId: asAcademicYearId,
+                //     asStandardDivIds: ClassSelected,
+                //     asHolidayId: 0,
+                //     asHolidayName: HolidayTitle,
+                //     asHolidayStartDate: StartDate,
+                //     asHolidayEndDate: EndDate
+                // }
+
+
+
+            }
         }
 
+
+
+        // if (!isError) {
+        //     return; // Prevent form submission if there are validation errors
+        // }
+
         if (!isError) {
+            dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody))
+
             dispatch(getSaveHolidays(SaveHolidayBody))
 
         }
@@ -357,6 +420,7 @@ const AddHoliday = ({ }) => {
                     {/* <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1> */}
                     <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
                     <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
+                    <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
 
                     <Grid item xs={1}>
                         <IconButton onClick={handleTodayButtonClick1}>

@@ -8,6 +8,8 @@ import IHolidays, {
   IAllClassesAndDivisionsResult,
 
   IGetHolidayBody,
+  IGetNameAndStartDateEndDateValidationBody,
+  IGetNameAndStartDateEndDateValidationResult,
   IHolidaysFA,
   ISelectedStandardAndDivisionCheckBoxBody,
   ISelectedStandardAndDivisionCheckBoxResult,
@@ -46,6 +48,13 @@ const SaveHolidays = (data: SaveHolidayDetailsBody) => {
 }
 
 
+const GetNameAndStartDateEndDateValidation = (data: IGetNameAndStartDateEndDateValidationBody) => {
+  return http.post<IGetNameAndStartDateEndDateValidationResult[]>('Teacher/GetHolidayNameAndStartDateEnddateValidationForSave', data);
+
+};
+
+
+
 const HolidaysApi = {
   GetHolidayList,
   GetHolidayList1,
@@ -53,7 +62,8 @@ const HolidaysApi = {
   GetEditHolidayDetails,
   AllClassesAndDivisions,
   SelectedStandardAndDivisionCheckBox,
-  SaveHolidays
+  SaveHolidays,
+  GetNameAndStartDateEndDateValidation
 
 };
 

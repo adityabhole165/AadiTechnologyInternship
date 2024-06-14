@@ -86,6 +86,8 @@ const Getunplishedexam = (data: IUnpublishedTestexamBody) => {
 };
 
 
+
+
 const FinalResultApi = {
   ClassTeacherList,
   GetStudentResult,
@@ -99,6 +101,8 @@ const FinalResultApi = {
   GetAtleastOneResultGenerated,
   GetTestPublished,
   Getisconfigred,
-  Getunplishedexam
+  Getunplishedexam,
+
+
 };
 export default FinalResultApi;
