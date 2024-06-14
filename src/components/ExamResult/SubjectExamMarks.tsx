@@ -312,10 +312,16 @@ const SubjectExamMarks = () => {
     if (ManageStudentsTestMarks !== '') {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
-      navigate("/extended-sidebar/Teacher/AssignExamMark/" +
-        ClassTecher + "/" + TestId + "/" + ClassId
-      )
+      if (examResultProp === "true") {
+        navigate("/extended-sidebar/Teacher/ExamResultBase/" + StandardDivisionId + "/" + TestId);
+      } else {
+        navigate("/extended-sidebar/Teacher/AssignExamMark/" + ClassTecher + "/" + ClassId + "/" + TestId);
+      }
     }
+    //   navigate("/extended-sidebar/Teacher/AssignExamMark/" +
+    //     ClassTecher + "/" + TestId + "/" + ClassId
+    //   )
+    // }
   }, [ManageStudentsTestMarks])
   const ExamMarks = [
     { Marks: 10, Grade: "A" },
