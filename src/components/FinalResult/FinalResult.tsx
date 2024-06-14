@@ -78,6 +78,10 @@ const FinalResult = () => {
   // );
 
   const [Reason, setReason] = useState('');
+  const [showProgressReport, setShowProgressReport] = useState(true);
+  const handleVisibilityClick = () => {
+    setShowProgressReport(!showProgressReport); // Toggle visibility
+  }
 
   const [StandardDivisionId, setStandardDivisionId] = useState('');
 
@@ -172,7 +176,7 @@ const FinalResult = () => {
       },
       renderCell: (row) => <>
         <AssignmentIcon onClick={() => {
-          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Student_Id)
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 )
         }} />
       </>
     },
@@ -185,12 +189,13 @@ const FinalResult = () => {
       headerCellProps: {
         align: 'center'
       },
-      renderCell: (row) =>
-        <>
+      renderCell: (row) => (
+        row.CanShowVisibility ? (
           <VisibilityIcon onClick={() => {
             navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id)
           }} />
-        </>
+        ) : null
+      )
     },
     {
       id: 'grace',

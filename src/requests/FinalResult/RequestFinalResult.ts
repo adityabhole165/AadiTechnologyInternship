@@ -130,7 +130,10 @@ export const GetStudentResultList =
           Text3: item.Marks == '' ? 'N/A' : item.Marks,
           Text4: item.Percentage == '' ? 'N/A' : item.Percentage,
           Text5: item.Grade_Name == '' ? 'N/A' : item.Grade_Name,
-          Text6: item.Result == '' ? 'N/A' : item.Result
+          Text6: item.Result == '' ? 'N/A' : item.Result,
+          Text7: item.Is_ResultGenrated == '' ? 'N' : item.Is_ResultGenrated,
+          CanShowVisibility: item.Result === 'Pass' && item.Is_ResultGenrated === 'Y'
+          // Grade_Name: item.Grade_Name == '' ? 'N' : item.Grade_Name,
         };
       });
       dispatch(FinalResultSlice.actions.PageStudentList(StudentList));

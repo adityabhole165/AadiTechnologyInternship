@@ -14,6 +14,7 @@ const FinalResultGenerateAllSlice = createSlice({
         getGenerateAll: '',
         getViewResult: [],
         getSubjectDetails: [],
+        getShortenTestDetails: [],
         getTestMarksGA: [],
         getExamDetails: [],
         getSubjectDetailsView: [],
@@ -51,6 +52,10 @@ const FinalResultGenerateAllSlice = createSlice({
             state.Loading = false;
             state.getSubjectDetails = action.payload;
         },
+        ShortenTestDetails(state, action) {
+            state.Loading = false;
+            state.getShortenTestDetails = action.payload;
+        },
         MarkDetailsView(state, action) {
             state.Loading = false;
             state.getMarkDetailsView = action.payload;
@@ -87,56 +92,52 @@ export const StudentDetailsGA =
             });
             dispatch(FinalResultGenerateAllSlice.actions.StudentDetails(abc));
             console.log(abc)
-        }
 
-
-export const SubjectDetailsGA =
-    (data: IGetStudentPrrogressReportBody): AppThunk =>
-        async (dispatch) => {
-            const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
-            let abc = [];
-            response.data.listSubjectsDetails.map((item, i) => {
-                abc.push({
+            let Subjects = [];
+            response.data.listSubjectIdDetails.map((item, i) => {
+                Subjects.push({
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
                     Value: item.Subject_Id
                 });
             });
-            dispatch(FinalResultGenerateAllSlice.actions.SubjectDetails(abc));
-            console.log(abc)
-        }
+            dispatch(FinalResultGenerateAllSlice.actions.SubjectDetails(Subjects));
+            console.log(Subjects)
 
-
-export const ExamDetailsGA =
-    (data: IGetStudentPrrogressReportBody): AppThunk =>
-        async (dispatch) => {
-            const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
-            let abc = [];
-            response.data.listTestDetails.map((item, i) => {
-                abc.push({
-                    Id: item.Test_Id,
-                    Name: item.Test_Name,
-                    Value: item.Test_Id
+            let ShortenTestType = [];
+            response.data.listSubjectIdDetails.map((item, i) => {
+                ShortenTestType.push({
+                    Id: item.Subject_Id,
+                    Name: item.ShortenTestType_Name,
+                    Value: item.Subject_Id
                 });
             });
-            dispatch(FinalResultGenerateAllSlice.actions.ExamDetails(abc));
-            console.log(abc)
-        }
+            dispatch(FinalResultGenerateAllSlice.actions.ShortenTestDetails(ShortenTestType));
+            console.log(ShortenTestType, "ShortenTestType")
 
-export const TestMarksDetailsGA =
-    (data: IGetStudentPrrogressReportBody): AppThunk =>
-        async (dispatch) => {
-            const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
+            let Exams = [];
+            response.data.listSubjectIdDetails.map((item, i) => {
+                Exams.push({
+                    Id: item.SchoolWise_Test_Id,
+                    Name: item.SchoolWise_Test_Name,
+                    Value: item.SchoolWise_Test_Id
+                });
+            });
+            dispatch(FinalResultGenerateAllSlice.actions.ExamDetails(Exams));
+            console.log(Exams)
+
             let testMarks = [];
             response.data.listSubjectIdDetails.map((item, i) => {
                 testMarks.push({
                     Id: item.SchoolWise_Test_Id,
                     Name: `${item.Marks_Scored} / ${item.Subject_Total_Marks}`,
-                    Value: item.SchoolWise_Test_Id
+                    Value: item.SchoolWise_Test_Id,
+                    // Grade: item.Grade
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.TestMarksDetails(testMarks));
             console.log(testMarks);
+
         }
 
 export const GenerateAllGA = (data: IGetGenerateAllStudentBody): AppThunk => async (dispatch) => {
