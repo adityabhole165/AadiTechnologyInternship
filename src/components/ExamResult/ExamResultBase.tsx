@@ -57,7 +57,8 @@ const ExamResultBase = () => {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
-
+  const [isGenerateTopperDisabled, setGenerateTopperDisabled] = useState(false);
+  const [isTopperIconDisabled, setTopperIconDisabled] = useState(true);
   const [StandardDivisionId, setStandardDivisionId] = useState(
     ParamsStandardDivisionId
     //  !== undefined
@@ -519,7 +520,10 @@ const ExamResultBase = () => {
   }
 
   const standardId = getstandardId();
-
+  const toggleIcons = () => {
+    setGenerateTopperDisabled(true);
+    setTopperIconDisabled(false);
+  };
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -598,21 +602,10 @@ const ExamResultBase = () => {
                   backgroundColor: grey[600]
                 }
               }}
-                onClick={handleGenerateToppers}
-                //   disabled={
-                //     !examResultProp ? true : // Disable if examResultProp is false
-                //     (
-                //       (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
-                //       (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
-                //       (ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
-                //     )
-                //   }
-                // >
-                disabled={ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish && !examResultProp}
-                >
+                onClick={toggleIcons}
+                disabled={isGenerateTopperDisabled || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish && !examResultProp}
+              >
                 {/* disabled={(!examResultProp || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated) */}
-
-              
                 {/* GENERATE TOPPERS */}
                 <ManageAccounts />
               </IconButton>
@@ -667,7 +660,7 @@ const ExamResultBase = () => {
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
-                }} disabled={(Boolean(examResultProp) || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated)}
+                }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated &&isTopperIconDisabled)}
 
               >
                 <Person />
