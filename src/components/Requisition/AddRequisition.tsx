@@ -67,10 +67,21 @@ const AddRequisition = () => {
 
     const getXML = () => {
         let sXML = '<RequisitionItems>';
-        Itemlist.forEach((Item) => {
+        Itemlist.map((Item) => {
+            if( Item.ItemID ==  ItemNewID) {
                 sXML +=
                     '<RequisitionItems ' +
-                    'ItemID="' + ItemNewID + '" ' +
+                    'ItemID="' + Item.ItemID + '" ' +
+                    'UOM="0" ' +
+                    'ItemQty=" ' + Text + ' " ' +
+                    'ItemOrgQty=" '+ Text + ' " />';
+            }
+        });
+
+        ItemlistNew.map((Item) => {
+                sXML +=
+                    '<RequisitionItems ' +
+                    'ItemID="' + Item.ItemID + '" ' +
                     'UOM="0" ' +
                     'ItemQty=" ' + Text + ' " ' +
                     'ItemOrgQty=" '+ Text + ' " />';
@@ -81,17 +92,7 @@ const AddRequisition = () => {
         return sXML;
     };
 
-    //  const getXML = () => {
-//         let sXML = '<RequisitionItems>'+
-//                     '<RequisitionItems ' +
-//                     'ItemID="' + ItemNewID + '" ' +
-//                     'UOM="0" ' +
-//                     'ItemQty=" ' + Text + ' " ' +
-//                     'ItemOrgQty=" '+ Text + ' " />'+
-//             '</RequisitionItems>';
-
-//         return sXML
-//     };
+   
 
 
     const SaveRequisitionBody: ISaveRequisitionBody = {
@@ -399,7 +400,7 @@ const AddRequisition = () => {
                     </Grid>
                 </Box> : null}
         </Box>
-
+    
     );
 };
 
