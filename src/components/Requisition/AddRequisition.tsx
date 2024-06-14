@@ -65,44 +65,33 @@ const AddRequisition = () => {
     ];
 
 
-    // const getXML = () => {
-    //     let sXML = '<RequisitionItems>';
-    //     Itemlist.forEach((Item) => {
-    //             sXML +=
-    //                 '<RequisitionItems ' +
-    //                 'ItemID="' + ItemNewID + '" ' +
-    //                 'UOM="0" ' +
-    //                 'ItemQty=" ' + Text + ' " ' +
-    //                 'ItemOrgQty=" '+ Text + ' " />';
-            
-    //     });
-    //     sXML += '</RequisitionItems>';
-
-    //     return sXML;
-    // };
-
     const getXML = () => {
         let sXML = '<RequisitionItems>';
-        const usedItemIDs = new Set();
-    
         Itemlist.forEach((Item) => {
-            if (!usedItemIDs.has(ItemNewID)) {
                 sXML +=
                     '<RequisitionItems ' +
                     'ItemID="' + ItemNewID + '" ' +
                     'UOM="0" ' +
                     'ItemQty=" ' + Text + ' " ' +
                     'ItemOrgQty=" '+ Text + ' " />';
-                
-                usedItemIDs.add(ItemNewID);
-            }
+            
         });
-    
         sXML += '</RequisitionItems>';
-    
+
         return sXML;
     };
-    
+
+    //  const getXML = () => {
+//         let sXML = '<RequisitionItems>'+
+//                     '<RequisitionItems ' +
+//                     'ItemID="' + ItemNewID + '" ' +
+//                     'UOM="0" ' +
+//                     'ItemQty=" ' + Text + ' " ' +
+//                     'ItemOrgQty=" '+ Text + ' " />'+
+//             '</RequisitionItems>';
+
+//         return sXML
+//     };
 
 
     const SaveRequisitionBody: ISaveRequisitionBody = {
