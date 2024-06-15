@@ -176,7 +176,7 @@ const FinalResult = () => {
       },
       renderCell: (row) => <>
         <AssignmentIcon onClick={() => {
-          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false )
+          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false)
         }} />
       </>
     },
@@ -192,7 +192,7 @@ const FinalResult = () => {
       renderCell: (row) => (
         row.CanShowVisibility ? (
           <VisibilityIcon onClick={() => {
-            navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/'+ 'Y' +'/' + true)
+            navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true)
           }} />
         ) : null
       )
@@ -441,7 +441,7 @@ const FinalResult = () => {
   }, [GetClassTeachers, FinalResultFullAccess]);
 
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
+    navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
   };
 
 

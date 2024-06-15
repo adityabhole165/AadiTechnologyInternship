@@ -144,8 +144,11 @@ const AadharCard = Loader(
 const WeeklyTimetable = Loader(
   lazy(() => import('src/components/WeeklyTimetable/WeeklyTimetable'))
 )
-const ExamResultToppers = Loader(
-  lazy(() => import('src/components/ExamResult/ExamResultToppers'))
+// const ExamResultToppers = Loader(
+//   lazy(() => import('src/components/ExamResult/ExamResultToppers'))
+// )
+const Toppers = Loader(
+  lazy(() => import('src/components/ExamResult/Toppers'))
 )
 const SubjectMarkList = Loader(
   lazy(() => import('src/components/ExamResult/SubjectMarkList'))
@@ -367,13 +370,21 @@ const teacherRoutes = [
     path: 'FinalResult/:TeacherId',
     element: <FinalResult />
   },
+  // {
+  //   path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:standardId/:examtopperProp',
+  //   element: <ExamResultToppers />
+  // },
+  // {
+  //   path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
+  //   element: <ExamResultToppers />
+  // },
   {
-    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:standardId/:examtopperProp',
-    element: <ExamResultToppers />
+    path: 'Toppers/:TeacherId/:StandardDivisionId/:standardId/:examtopperProp',
+    element: <Toppers />
   },
   {
-    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
-    element: <ExamResultToppers />
+    path: 'Toppers/:TeacherId/:StandardDivisionId/:TestId/:standardId/:IsReadOnly',
+    element: <Toppers />
   },
   {
     path: 'StandardToppers',
@@ -460,11 +471,14 @@ const teacherRoutes = [
     path: 'WeeklyTimetable',
     element: <WeeklyTimetable />
   },
+  // {
+  //   path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:TestId/:standardId',
+  //   element: <ExamResultToppers />
+  // },
   {
-    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId/:TestId/:standardId',
-    element: <ExamResultToppers />
-  }
-  ,
+    path: 'Toppers/:TeacherId/:StandardDivisionId/:TestId/:standardId',
+    element: <Toppers />
+  },
   {
     path: 'TransferOptionalSubjectMarks',
     element: <TransferOptionalSubjectMarks />

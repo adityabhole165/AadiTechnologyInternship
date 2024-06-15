@@ -460,7 +460,7 @@ const ExamResultBase = () => {
     );
   };
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
+    navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
   };
   // const Toppers = (value) => {
   //   navigate('/extended-sidebar/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
@@ -660,7 +660,7 @@ const ExamResultBase = () => {
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
-                }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated &&isTopperIconDisabled)}
+                }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated && isTopperIconDisabled)}
 
               >
                 <Person />
