@@ -11,11 +11,12 @@ const TextCommaNumber = ({
   textarray,
   validarray,
   changeText,
-  getLabel
+  getLabel,
+  assignedDate
 }) => {
   const defaultLabel = 'Absent Student ' + name;
   let label = '';
-
+  const selectedDate = new Date(assignedDate);
   const SetTextData2 = (value) => {
     label = '';
     let arr = value.split(',');

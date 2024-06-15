@@ -18,16 +18,31 @@ function List26({
   const [textarray, setTextarray] = useState('');
   const [getLabel, setGetLabel] = useState('Absent Student Roll Number');
   const [Data, setData] = useState([]);
-
+  const [lateJoiners, setLateJoiners] = useState([]);
   const refreshData = (data) => {
     let arr = [];
-    data.map((obj) => {
-      if (!obj.isActive) arr.push(obj.text1);
+    let lateJoinersArr = [];
+    const selectedDate = new Date(assignedDate);
+    // data.map((obj) => {
+    //   if (!obj.isActive) arr.push(obj.text1);
+    // });
+    data.forEach((obj) => {
+      const joinDateParts = obj.joinDate.split(/[- :]/);
+      const joinDate = new Date(joinDateParts[2], joinDateParts[1] - 1, joinDateParts[0]);
+
+      if (!obj.isActive && joinDate <= selectedDate) {
+        arr.push(obj.text1);
+      }
+
+      if (joinDate > selectedDate) {
+        lateJoinersArr.push(obj.text1);
+      }
     });
     setTextarray(arr.join(','));
     setGetLabel('Absent Student Roll Number');
     getAbsetNumber(arr.join(','), data);
     setData(data);
+    setLateJoiners(lateJoinersArr);
   };
 
   useEffect(() => {
@@ -66,9 +81,11 @@ function List26({
             <TextCommaNumber
               name={'Roll Number'}
               textarray={textarray}
-              validarray={Data.map((obj) => obj.text1)}
+            //  validarray={Data.map((obj) => obj.text1)}
+            validarray={Data.map((obj) => obj.text1).filter((num) => !lateJoiners.includes(num))}
               changeText={changeText}
               getLabel={getLabel}
+              assignedDate={assignedDate}
             />
           </Box>
           <Typography margin={'1px'}>
@@ -88,7 +105,7 @@ function List26({
         <List3ColSelAll
           Itemlist={Data}
           refreshData={refreshData}
-          assignedDate={assignedDate}
+         assignedDate={assignedDate}
         />
       </>
     </>
