@@ -93,17 +93,17 @@ const AddHoliday = ({ }) => {
 
     console.log("SaveHolidays", SaveHolidays);
 
-    const NameValidation = useSelector(
+    const DuplicateHolidayNameCount = useSelector(
         (state: RootState) => state.Holidays.IHolidayDuplicateNameValidationCount
     )
 
-    console.log(NameValidation, "NameValidation");
+    console.log(DuplicateHolidayNameCount, "DuplicateHolidayNameCount");
 
-    const StartDateEndDateValidation = useSelector(
+    const PredefinedStartDateAndEndDateCount = useSelector(
         (state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount
     )
 
-    console.log(StartDateEndDateValidation, "StartDateEndDateValidation");
+    console.log(PredefinedStartDateAndEndDateCount, "PredefinedStartDateAndEndDateCount");
 
 
 
@@ -169,15 +169,17 @@ const AddHoliday = ({ }) => {
         const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
-            asStandardDivIds: ClassSelected,
-            asHolidayId: 0,
-            asHolidayName: HolidayTitle,
-            asHolidayStartDate: StartDate,
-            asHolidayEndDate: EndDate
+            asStandardDivIds:ClassSelected,
+            asHolidayId:0,
+            asHolidayName:HolidayTitle,
+            asHolidayStartDate:StartDate,
+            asHolidayEndDate:EndDate
+
+          
         }
         dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody));
 
-    }, [])
+    }, [ClassSelected])
 
 
 
@@ -285,7 +287,7 @@ const AddHoliday = ({ }) => {
         //     const duplicateNameCount = NameAndDateValidation[0]?.HolidayDuplicateNameValidationCount?.[0]?.DuplicateHolidayNameCount || 0;
         //     const predefinedDateCount = NameAndDateValidation[1]?.HolidayStartAndEndDatePredefinedValidationCount?.[0]?.PredefinedStartDateAndEndDateCount || 0;
 
-        //     if (duplicateNameCount > 0) {
+        //     if (DuplicateHolidayNameCount > 0) {
         //         SetErrorHolidayTitle('Holiday name already exists.');
         //         isError = true;
         //     } else {

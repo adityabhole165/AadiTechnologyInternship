@@ -143,7 +143,7 @@ export const NameAndStartDateEndDateValidations = (data: IGetNameAndStartDateEnd
   let HolidayDuplicateNameValidation = response.data.HolidayDuplicateNameValidationCount.map((item, i) => {
 
     return {
-      Id: item.DuplicateHolidayNameCount
+      DuplicateHolidayNameCount: item.DuplicateHolidayNameCount
     };
 
   });
@@ -151,13 +151,13 @@ export const NameAndStartDateEndDateValidations = (data: IGetNameAndStartDateEnd
   let HolidayDuplicateStartDateValidation = response.data.HolidayStartAndEndDatePredefinedValidationCount.map((item, i) => {
 
     return {
-      Id: item.PredefinedStartDateAndEndDateCount
+      PredefinedStartDateAndEndDateCount: item.PredefinedStartDateAndEndDateCount
 
     }
 
 
   })
-
+   
 
   dispatch(Holidaysslice.actions.getHolidayDuplicateNameValidationCount(HolidayDuplicateNameValidation));
   dispatch(Holidaysslice.actions.getHolidayStartAndEndDatePredefinedValidationCount(HolidayDuplicateStartDateValidation));
