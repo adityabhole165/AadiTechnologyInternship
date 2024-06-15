@@ -149,6 +149,9 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
             toast.success("Requisition is saved (draft) successfully!!!");
+            setText(0)
+        setTextall('')
+        setTextall1('')
         }
     };
 
@@ -190,6 +193,9 @@ const AddRequisition = () => {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
             toast.success("Requisition is send successfully!!!");
             navigate('/extended-sidebar/Teacher/Requisition')
+            setText(0)
+        setTextall('')
+        setTextall1('')
         }
     };
 
