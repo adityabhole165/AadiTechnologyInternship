@@ -39,7 +39,9 @@ export const MissingAttenNameAleart =
                 return {
                     Id: item.ClassName,
                     Name: item.ClassTeacherName,
-                    Value: item.MissingDays
+                    Value: item.MissingDays,
+                    StandardDivisionId:item.StandardDivisionId
+
 
                 };
             });
