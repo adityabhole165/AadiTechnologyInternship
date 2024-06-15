@@ -32,13 +32,21 @@ const AddRequisition = () => {
     const [ItemNewID, SetItemNewID] = useState();
     const [textall, setTextall] = useState('');
     const [textall1, setTextall1] = useState('');
+    const [Error, setError] = useState('');
+    const [Error1, setError1] = useState('');
+    const [Error2, setError2] = useState('');
+
+    
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-    console.log(USSaveRequisition, "USSaveRequisition");
+ 
+        const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
+        console.log(itemNames, "itemNames");
+    
 
-
+  
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
     };
@@ -109,7 +117,10 @@ const AddRequisition = () => {
 
 
     const clicksave = () => {
-          const SaveRequisitionBodyNew: ISaveRequisitionBody = {
+        let isError = false;
+        let errorMessages = [];
+
+        const SaveRequisitionBodyNew: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
             asRequisitionId: 0,
             asUserId: asUserId,
@@ -119,26 +130,71 @@ const AddRequisition = () => {
             asRequisitionItemDetailsXml: getXML(),
             asIsGeneral: 0
         };
-        dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
-        toast.success("Requisition is saved(draft) successfully!!!");
-      };
-
-      const clickSend = () => {
-        const SaveRequisitionBodysend: ISaveRequisitionBody = {
-          asSchoolId: asSchoolId,
-          asRequisitionId: 0,
-          asUserId: asUserId,
-          asRequisitionName: textall,
-          asRequisitionDesc: textall1,
-          asAction: "send",
-          asRequisitionItemDetailsXml: getXML(),
-          asIsGeneral: 0
-      };
-      dispatch(CDASaveRequisition(SaveRequisitionBodysend));
-      toast.success("Requisition is send successfully!!!");
-      navigate('/extended-sidebar/Teacher/Requisition')
+    
+        if (textall.trim() === '') {
+            setError('Requisition Name should not be blank.');
+            isError = true;
+        }
+    
+        if (textall1.trim() === '') {
+            setError1('Requisition Description should not be blank.');
+            isError = true;
+        }
+      
+        if (Text == 0) {
+            setError2(`Quantity should be greater than zero for item ${itemNames}.`);
+            isError = true;
+        }
+    
+        if (!isError) {
+            dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
+            toast.success("Requisition is saved (draft) successfully!!!");
+        }
     };
 
+
+
+    const clickSend = () => {
+        let isError = false;
+      
+    
+       
+
+        const SaveRequisitionBodysend: ISaveRequisitionBody = {
+            asSchoolId: asSchoolId,
+            asRequisitionId: 0,
+            asUserId: asUserId,
+            asRequisitionName: textall,
+            asRequisitionDesc: textall1,
+            asAction: "send",
+            asRequisitionItemDetailsXml: getXML(),
+            asIsGeneral: 0
+        };
+    
+        if (textall.trim() === '') {
+            setError('Requisition Name should not be blank.');
+            isError = true;
+        }
+    
+        if (textall1.trim() === '') {
+            setError1('Requisition Description should not be blank.');
+            isError = true;
+        }
+     
+            if (Text == 0) {
+                setError2(`Quantity should be greater than zero for item ${itemNames}.`);
+                isError = true;
+            }
+    
+        if (!isError) {
+            dispatch(CDASaveRequisition(SaveRequisitionBodysend));
+            toast.success("Requisition is send successfully!!!");
+            navigate('/extended-sidebar/Teacher/Requisition')
+        }
+    };
+
+    
+    
 
     const clickSearch = () => {
         if (regNoOrName === '') {
@@ -209,7 +265,14 @@ const AddRequisition = () => {
 
     const ClickRestItemLIst = () => {
         setItemlist([]);
-        setItemlistNew([])
+        setItemlistNew([]);
+        setError('')
+        setError1('')
+        setError2('')
+        setText(0)
+        setTextall('')
+        setTextall1('')
+
     }
 
     const clickDelete = () => {
@@ -265,6 +328,7 @@ const AddRequisition = () => {
                     { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' },
                     { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
                 ]}
+                
                 rightActions={<>
                     <SearchableDropdown
                         sx={{ minWidth: '250px' }}
@@ -320,7 +384,7 @@ const AddRequisition = () => {
                             <Save />
                         </IconButton>
                     </Tooltip>
-
+                    
                     <Tooltip title={'Send Requisition'}>
                         <IconButton
                             onClick={clickSend}
@@ -355,6 +419,19 @@ const AddRequisition = () => {
                 </Tooltip>
                 </>}
             />
+             {Error !== '' ?
+               <Box mb={1} sx={{ p: 2, background: 'white' }}>
+               < Typography style={{ color: 'red' , fontSize:"15px" }}>{Error}</ Typography>
+               <Typography style={{ color: 'red', fontSize:"15px" }}>{Error1}</Typography>
+               <Typography style={{ color: 'red', fontSize:"15px" }}>{Error2}</Typography>
+  
+               </Box>
+                
+                
+                
+                : null}
+             
+           
             <br></br>
 
             {Itemlist.length > 0 ?
