@@ -131,18 +131,25 @@ const AddRequisition = () => {
             asIsGeneral: 0
         };
     
-        if (textall.trim() === '') {
+        if (textall === '') {
             setError('Requisition Name should not be blank.');
             isError = true;
         }
     
-        if (textall1.trim() === '') {
+        if (textall1 === '') {
             setError1('Requisition Description should not be blank.');
             isError = true;
         }
       
-        if (Text == 0) {
-            setError2(`Quantity should be greater than zero for item ${itemNames}.`);
+
+        USSaveRequisition.forEach(item => {
+            if (Text == 0 ) {
+                errorMessages.push(`Quantity should be greater than zero for item ${item.ItemName}.`);
+            }
+        });
+
+        if (errorMessages.length > 0) {
+            setError2(errorMessages.join("\n"));
             isError = true;
         }
     
@@ -159,10 +166,7 @@ const AddRequisition = () => {
 
     const clickSend = () => {
         let isError = false;
-      
-    
-       
-
+        let errorMessages = [];
         const SaveRequisitionBodysend: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
             asRequisitionId: 0,
@@ -174,20 +178,27 @@ const AddRequisition = () => {
             asIsGeneral: 0
         };
     
-        if (textall.trim() === '') {
+        if (textall === '') {
             setError('Requisition Name should not be blank.');
             isError = true;
         }
     
-        if (textall1.trim() === '') {
+        if (textall1 === '') {
             setError1('Requisition Description should not be blank.');
             isError = true;
         }
      
-            if (Text == 0) {
-                setError2(`Quantity should be greater than zero for item ${itemNames}.`);
-                isError = true;
+        USSaveRequisition.forEach(item => {
+            if (Text == 0 ) {
+                errorMessages.push(`Quantity should be greater than zero for item ${item.ItemName}.`);
             }
+        });
+
+        if (errorMessages.length > 0) {
+            setError2(errorMessages.join("\n"));
+            isError = true;
+        }
+    
     
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
