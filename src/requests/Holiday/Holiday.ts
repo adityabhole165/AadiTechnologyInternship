@@ -15,7 +15,8 @@ const Holidaysslice = createSlice({
     AllClassesAndDivisionss1: [],
     SelectedStandardAndDivisionCheckBoxx: [],
     SaveHoliday: '',
-    NameAndStartDateEndDateValidation: [],
+    IHolidayDuplicateNameValidationCount: [],
+    IHolidayStartAndEndDatePredefinedValidationCount: [],
 
     HolidayDetails: null,
     Loading: true
@@ -53,8 +54,12 @@ const Holidaysslice = createSlice({
       state.SelectedStandardAndDivisionCheckBoxx = action.payload;
     },
 
-    getNameAndStartDateEndDateValidation(state, action) {
-      state.NameAndStartDateEndDateValidation = action.payload;
+    getHolidayDuplicateNameValidationCount(state, action) {
+      state.IHolidayDuplicateNameValidationCount = action.payload;
+    },
+
+    getHolidayStartAndEndDatePredefinedValidationCount(state, action) {
+      state.IHolidayStartAndEndDatePredefinedValidationCount = action.payload;
     },
 
     getSaveHoliday(state, action) {
@@ -135,7 +140,28 @@ export const DeleteHolidayDetails = (data: IGetHolidayBody): AppThunk => async (
 export const NameAndStartDateEndDateValidations = (data: IGetNameAndStartDateEndDateValidationBody): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetNameAndStartDateEndDateValidation(data);
-  dispatch(Holidaysslice.actions.getNameAndStartDateEndDateValidation(response.data));
+  let HolidayDuplicateNameValidation = response.data.HolidayDuplicateNameValidationCount.map((item, i) => {
+
+    return {
+      Id: item.DuplicateHolidayNameCount
+    };
+
+  });
+
+  let HolidayDuplicateStartDateValidation = response.data.HolidayStartAndEndDatePredefinedValidationCount.map((item, i) => {
+
+    return {
+      Id: item.PredefinedStartDateAndEndDateCount
+
+    }
+
+
+  })
+
+
+  dispatch(Holidaysslice.actions.getHolidayDuplicateNameValidationCount(HolidayDuplicateNameValidation));
+  dispatch(Holidaysslice.actions.getHolidayStartAndEndDatePredefinedValidationCount(HolidayDuplicateStartDateValidation));
+
 
 };
 

@@ -93,11 +93,18 @@ const AddHoliday = ({ }) => {
 
     console.log("SaveHolidays", SaveHolidays);
 
-    const NameAndDateValidation = useSelector(
-        (state: RootState) => state.Holidays.NameAndStartDateEndDateValidation
+    const NameValidation = useSelector(
+        (state: RootState) => state.Holidays.IHolidayDuplicateNameValidationCount
     )
 
-    console.log(NameAndDateValidation, "NameAndDateValidation");
+    console.log(NameValidation, "NameValidation");
+
+    const StartDateEndDateValidation = useSelector(
+        (state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount
+    )
+
+    console.log(StartDateEndDateValidation, "StartDateEndDateValidation");
+
 
 
 
@@ -158,16 +165,19 @@ const AddHoliday = ({ }) => {
     }
 
 
+    useEffect(() => {
+        const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asStandardDivIds: ClassSelected,
+            asHolidayId: 0,
+            asHolidayName: HolidayTitle,
+            asHolidayStartDate: StartDate,
+            asHolidayEndDate: EndDate
+        }
+        dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody));
 
-    const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivIds: ClassSelected,
-        asHolidayId: 0,
-        asHolidayName: HolidayTitle,
-        asHolidayStartDate: StartDate,
-        asHolidayEndDate: EndDate
-    }
+    }, [])
 
 
 
@@ -271,46 +281,43 @@ const AddHoliday = ({ }) => {
         }
 
 
-        {
-            const duplicateNameCount = NameAndDateValidation[0]?.HolidayDuplicateNameValidationCount?.[0]?.DuplicateHolidayNameCount || 0;
-            const predefinedDateCount = NameAndDateValidation[1]?.HolidayStartAndEndDatePredefinedValidationCount?.[0]?.PredefinedStartDateAndEndDateCount || 0;
+        // {
+        //     const duplicateNameCount = NameAndDateValidation[0]?.HolidayDuplicateNameValidationCount?.[0]?.DuplicateHolidayNameCount || 0;
+        //     const predefinedDateCount = NameAndDateValidation[1]?.HolidayStartAndEndDatePredefinedValidationCount?.[0]?.PredefinedStartDateAndEndDateCount || 0;
 
-            if (duplicateNameCount > 0) {
-                SetErrorHolidayTitle('Holiday name already exists.');
-                isError = true;
-            } else {
-                SetErrorHolidayTitle('');
-            }
+        //     if (duplicateNameCount > 0) {
+        //         SetErrorHolidayTitle('Holiday name already exists.');
+        //         isError = true;
+        //     } else {
+        //         SetErrorHolidayTitle('');
+        //     }
 
-            if (predefinedDateCount > 0) {
-                setErrorEndDate2('Holiday already exists for the given date range.');
-                isError = true;
-            } else {
-                setErrorEndDate('');
+        //     if (predefinedDateCount > 0) {
+        //         setErrorEndDate2('Holiday already exists for the given date range.');
+        //         isError = true;
+        //     } else {
+        //         setErrorEndDate('');
 
-                // const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
-                //     asSchoolId: asSchoolId,
-                //     asAcademicYearId: asAcademicYearId,
-                //     asStandardDivIds: ClassSelected,
-                //     asHolidayId: 0,
-                //     asHolidayName: HolidayTitle,
-                //     asHolidayStartDate: StartDate,
-                //     asHolidayEndDate: EndDate
-                // }
-
-
-
-            }
-        }
+        //         // const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
+        //         //     asSchoolId: asSchoolId,
+        //         //     asAcademicYearId: asAcademicYearId,
+        //         //     asStandardDivIds: ClassSelected,
+        //         //     asHolidayId: 0,
+        //         //     asHolidayName: HolidayTitle,
+        //         //     asHolidayStartDate: StartDate,
+        //         //     asHolidayEndDate: EndDate
+        //         // }
 
 
 
+        //     }
+        // }
         // if (!isError) {
         //     return; // Prevent form submission if there are validation errors
         // }
 
         if (!isError) {
-            dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody))
+            // dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody))
 
             dispatch(getSaveHolidays(SaveHolidayBody))
 
@@ -526,5 +533,7 @@ const AddHoliday = ({ }) => {
 
 
 export default AddHoliday;
+
+
 
 
