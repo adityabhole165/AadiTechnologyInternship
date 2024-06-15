@@ -45,7 +45,10 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
         sessionStorage.setItem('hasShownMissingAttendancePopup', 'true');
     };
     const [selectedTeacher, setSelectedTeacher] = useState(null);
-
+    const [ItemNewID, SetItemNewID] = useState(null);
+   console.log(ItemNewID);
+   
+      
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -53,6 +56,9 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
 
     const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
     const MissingDate = useSelector((state: RootState) => state.MissingAttendanceAleart.Missingattenddate);
+
+   
+
 
     const MissingNameBody: IMissingattendancealeartNameBody = {
         asSchoolId: asSchoolId,
@@ -66,7 +72,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asUserId: asUserId,
-        asStandardDivisionId: asStandardDivisionId,
+        asStandardDivisionId: ItemNewID,
         asDate: null
     };
 
@@ -76,7 +82,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
 
     useEffect(() => {
         dispatch(MissingAttenDateAleart(MissingDayBody));
-    }, []);
+    }, [ItemNewID]);
 
     const clickMissingDay = (teacher) => {
         if (selectedTeacher && selectedTeacher.Id === teacher.Id) {
@@ -106,13 +112,19 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
             id: 'missingDays',
             label: 'Missing Days',
             renderCell: (rowData) => (
-                <Button
+
+                <IconButton onClick={() => SetItemNewID((rowData.StandardDivisionId))}>
+
+                      <Button
                     variant="text"
                     color="primary"
                     onClick={() => clickMissingDay(rowData)}
                 >
                     {rowData.Value}
                 </Button>
+
+                </IconButton>
+               
             )
         },
     ];

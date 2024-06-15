@@ -176,13 +176,13 @@ const teacherRoutes = [
     element: <GenerateAll />
   },
   {
-    path: 'GenerateAll/:asStudentId',
+    path: 'GenerateAll/:asStudentId/:isGenerated/:IsView',
     element: <GenerateAll />
   },
-  {
-    path: 'GenerateAll/:asStudentId/:isGenerated',
-    element: <GenerateAll />
-  },
+  // {
+  //   path: 'GenerateAll/:asStudentId/:isGenerated',
+  //   element: <GenerateAll />
+  // },
   {
     path: 'TAttendance',
     element: <TAttendance />

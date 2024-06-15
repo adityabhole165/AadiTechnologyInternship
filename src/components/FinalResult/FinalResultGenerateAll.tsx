@@ -1,6 +1,4 @@
-import Print from '@mui/icons-material/Print';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import Search from '@mui/icons-material/Search';
 import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -20,7 +18,7 @@ const GenerateAll = ({ }) => {
     const [isResultGenerated, setIsResultGenerated] = useState(false); // State to track result generation
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { asStudentId, isGenerated } = useParams();
+    const { asStudentId, isGenerated, IsView } = useParams();
     console.log("asStudentId", asStudentId);
 
     const asAcadmeicYearId = sessionStorage.getItem('AcademicYearId');
@@ -105,7 +103,7 @@ const GenerateAll = ({ }) => {
         })
         return returnVal
     }
-const Grade = getStudentGrade();
+    const Grade = getStudentGrade();
     console.log(Grade, 'getStudentGradeeeee');
 
 
@@ -145,89 +143,93 @@ const Grade = getStudentGrade();
 
                 //  {showProgressReport && (
                 <div>
-                    <Box sx={{ background: 'white' }}>
-                        <Box>
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
-                                Pawar Public Charitable Trust's
-                            </Typography>
-                            <hr />
-                            <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
-                                PAWAR PUBLIC SCHOOL
-                            </Typography>
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
-                                Progress Report
-                            </Typography>
-                            <hr />
-                            <Typography variant={"h4"} mb={1}>Student Details</Typography>
-                            <Table>
-                                <TableBody>
-                                    {StudentDetailsUS.map((item) => {
-                                        return (
-                                            <TableRow sx={{ bgcolor: 'grey.200' }} key={item.Text1}>
-                                                <TableCell><b>Roll No:</b>{item.Text2}</TableCell>
-                                                <TableCell><b>Name:</b>{item.Text1}</TableCell>
-                                                <TableCell><b>Class:</b>{item.Text3} - {item.Text4}</TableCell>
-                                                <TableCell><b>Year:</b>{item.Text5}</TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                            <Box sx={{ overflowX: 'auto' }}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow sx={{ bgcolor: '#b3e5fc' }}>
-                                            <TableCell rowSpan={2}>
-                                                <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
-                                                    Subjects &#9654;
-                                                </Typography>
-                                                <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
-                                                    &#9660; Exam
-                                                </Typography></TableCell>
-                                            {SubjectDetails.map((item) => (
-                                                // <TableCell><b>{item.Name}</b></TableCell>
-                                                <TableCell>
-                                                    <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                        <b style={{ marginRight: "9px" }}>{item.Name}</b>
-                                                    </Typography></TableCell>
-                                            ))}
-                                        </TableRow>
-                                        <TableRow>
-                                            {ShortenTestDetails.map((item) => (
-                                                <TableCell >
-                                                    <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                        <b style={{ marginRight: "9px" }}>{item.Name}</b>
-                                                    </Typography>
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    {ExamDetails.map((testItem) => (
-                                        <TableBody key={testItem.Id}>
-                                            <TableRow>
-                                                <TableRow>{testItem.Name}</TableRow>
-                                                {TestMarksDetails.map((subjectItem) => (
-                                                    <TableCell>{subjectItem.Name}</TableCell>
-                                                ))}
-                                            </TableRow>
+                    {(IsView == 'false' && isGenerated) && (
+                        <div>
+                            <Box sx={{ background: 'white' }}>
+                                <Box>
+                                    <hr />
+                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
+                                        Pawar Public Charitable Trust's
+                                    </Typography>
+                                    <hr />
+                                    <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
+                                        PAWAR PUBLIC SCHOOL
+                                    </Typography>
+                                    <hr />
+                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                        Progress Report
+                                    </Typography>
+                                    <hr />
+                                    <Typography variant={"h4"} mb={1}>Student Details</Typography>
+                                    <Table>
+                                        <TableBody>
+                                            {StudentDetailsUS.map((item) => {
+                                                return (
+                                                    <TableRow sx={{ bgcolor: 'grey.200' }} key={item.Text1}>
+                                                        <TableCell><b>Roll No:</b>{item.Text2}</TableCell>
+                                                        <TableCell><b>Name:</b>{item.Text1}</TableCell>
+                                                        <TableCell><b>Class:</b>{item.Text3} - {item.Text4}</TableCell>
+                                                        <TableCell><b>Year:</b>{item.Text5}</TableCell>
+                                                    </TableRow>
+                                                );
+                                            })}
                                         </TableBody>
-                                    ))}
-                                </Table>
-                            </Box>
+                                    </Table>
+                                    <Box sx={{ overflowX: 'auto' }}>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow sx={{ bgcolor: '#b3e5fc' }}>
+                                                    <TableCell rowSpan={2}>
+                                                        <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
+                                                            Subjects &#9654;
+                                                        </Typography>
+                                                        <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                                                            &#9660; Exam
+                                                        </Typography></TableCell>
+                                                    {SubjectDetails.map((item) => (
+                                                        // <TableCell><b>{item.Name}</b></TableCell>
+                                                        <TableCell>
+                                                            <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
+                                                                <b style={{ marginRight: "9px" }}>{item.Name}</b>
+                                                            </Typography></TableCell>
+                                                    ))}
+                                                </TableRow>
+                                                <TableRow>
+                                                    {ShortenTestDetails.map((item) => (
+                                                        <TableCell >
+                                                            <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
+                                                                <b style={{ marginRight: "9px" }}>{item.Name}</b>
+                                                            </Typography>
+                                                        </TableCell>
+                                                    ))}
+                                                </TableRow>
+                                            </TableHead>
+                                            {ExamDetails.map((testItem) => (
+                                                <TableBody key={testItem.Id}>
+                                                    <TableRow>
+                                                        <TableRow>{testItem.Name}</TableRow>
+                                                        {TestMarksDetails.map((subjectItem) => (
+                                                            <TableCell>{subjectItem.Name}</TableCell>
+                                                        ))}
+                                                    </TableRow>
+                                                </TableBody>
+                                            ))}
+                                        </Table>
+                                    </Box>
 
-                        </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                        <Button
-                            onClick={onSaveGenerate}
-                            variant="contained"
-                            color="error"
-                        >
-                            SAVE & GENERATE RESULT
-                        </Button>
-                    </Box>
+                                </Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+                                <Button
+                                    onClick={onSaveGenerate}
+                                    variant="contained"
+                                    color="error"
+                                >
+                                    SAVE & GENERATE RESULT
+                                </Button>
+                            </Box>
+                        </div>
+                    )}
                     {(isResultGenerated || isGenerated == 'Y') && ( // Conditionally display the final result section
                         <Box sx={{ mt: 1, background: 'white' }}>
                             <Box>
