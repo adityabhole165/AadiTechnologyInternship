@@ -49,7 +49,7 @@ const SaveHolidays = (data: SaveHolidayDetailsBody) => {
 
 
 const GetNameAndStartDateEndDateValidation = (data: IGetNameAndStartDateEndDateValidationBody) => {
-  return http.post<IGetNameAndStartDateEndDateValidationResult[]>('Teacher/GetHolidayNameAndStartDateEnddateValidationForSave', data);
+  return http.post<IGetNameAndStartDateEndDateValidationResult>('Teacher/GetHolidayNameAndStartDateEnddateValidationForSave', data);
 
 };
 
