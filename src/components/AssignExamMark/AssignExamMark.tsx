@@ -192,8 +192,9 @@ const AssignExamMark = () => {
     showAlert({
       title: 'Submit',
       message: value.asIsSubmitted !== 'N' ?
-        'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-        ' Are you sure, Do you want to unsubmit the result ?',
+        //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        'Once you submit the result to the class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        'Are you sure, Do you want to unsubmit marks/grades?',
       variant: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
@@ -368,7 +369,7 @@ const AssignExamMark = () => {
 
         <Grid container sx={{ mt: 2 }}>
           <Grid item xs={12}>
-            <Typography variant={"h4"} mb={1}>Legends</Typography>
+            <Typography variant={"h4"} mb={1}>Legend</Typography>
             <Box sx={{ display: 'flex', gap: '20px' }}>
               <DotLegends
                 color="secondary"
