@@ -7,7 +7,7 @@ import { ClearIcon } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router';
-import { formatDateAsDDMMMYYYY, isLessThanDate, isOutsideAcademicYear } from "src/components/Common/Util";
+import { formatDateAsDDMMMYYYY, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
@@ -18,6 +18,8 @@ import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
     const navigate = useNavigate();
+
+
 
     const getFormattedDate = (date) => {
         const monthNames = [
@@ -39,12 +41,16 @@ const AddHoliday = ({ }) => {
     const [ItemList, setitemList] = useState([]);
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const [StartDate, setStartDate] = useState(getFormattedDate(new Date()));
+    // const [StartDate, setStartDate] = useState(new Date());
+    const [StartDate, setStartDate]: any = useState(new Date().toISOString().split('T')[0]);
     const [ErrorStartDate, setErrorStartDate] = useState('');
-    const [EndDate, setEndDate] = useState(getFormattedDate(new Date()));
+    // const [EndDate, setEndDate] = useState(new Date());
+    const [EndDate, setEndDate]: any = useState(new Date().toISOString().split('T')[0]);
     const [ErrorEndDate, setErrorEndDate] = useState('');
     console.log(StartDate, "StartDate");
     const [HolidayTitle, setHolidayTitle] = useState('');
+
+    console.log("HolidayTitle", HolidayTitle);
     const [errorHolidayTitle, SetErrorHolidayTitle] = useState('');
     // const [HolidayStartDate, setHolidayStartDate] = useState(getCurrentDate);
     // const [HolidayEndDate, setHolidayEndDate] = useState(getCurrentDate);
@@ -93,17 +99,17 @@ const AddHoliday = ({ }) => {
 
     console.log("SaveHolidays", SaveHolidays);
 
-    const DuplicateHolidayNameCount = useSelector(
+    const DuplicateHolidayNameCount: any = useSelector(
         (state: RootState) => state.Holidays.IHolidayDuplicateNameValidationCount
     )
 
-    console.log(DuplicateHolidayNameCount, "DuplicateHolidayNameCount");
 
-    const PredefinedStartDateAndEndDateCount = useSelector(
+
+    const PredefinedStartDateAndEndDateCount: any = useSelector(
         (state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount
     )
 
-    console.log(PredefinedStartDateAndEndDateCount, "PredefinedStartDateAndEndDateCount");
+    console.log(DuplicateHolidayNameCount[0], "----", PredefinedStartDateAndEndDateCount[0])
 
 
 
@@ -169,17 +175,17 @@ const AddHoliday = ({ }) => {
         const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
-            asStandardDivIds:ClassSelected,
-            asHolidayId:0,
-            asHolidayName:HolidayTitle,
-            asHolidayStartDate:StartDate,
-            asHolidayEndDate:EndDate
+            asStandardDivIds: ClassSelected,
+            asHolidayId: 0,
+            asHolidayName: HolidayTitle,
+            asHolidayStartDate: StartDate,
+            asHolidayEndDate: EndDate
 
-          
+
         }
         dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody));
 
-    }, [ClassSelected])
+    }, [ClassSelected, StartDate, EndDate, HolidayTitle])
 
 
 
@@ -225,6 +231,7 @@ const AddHoliday = ({ }) => {
 
     const ClickSave = () => {
         let isError = false;
+
         if (HolidayTitle == '') {
             SetErrorHolidayTitle('Holiday name should not be blank.');
             isError = true;
@@ -283,51 +290,28 @@ const AddHoliday = ({ }) => {
         }
 
 
-        // {
-        //     const duplicateNameCount = NameAndDateValidation[0]?.HolidayDuplicateNameValidationCount?.[0]?.DuplicateHolidayNameCount || 0;
-        //     const predefinedDateCount = NameAndDateValidation[1]?.HolidayStartAndEndDatePredefinedValidationCount?.[0]?.PredefinedStartDateAndEndDateCount || 0;
+        if (DuplicateHolidayNameCount[0] != "0") {
+            SetErrorHolidayTitle('Holiday name already exists.');
+            isError = true;
+        }
 
-        //     if (DuplicateHolidayNameCount > 0) {
-        //         SetErrorHolidayTitle('Holiday name already exists.');
-        //         isError = true;
-        //     } else {
-        //         SetErrorHolidayTitle('');
-        //     }
+        if (PredefinedStartDateAndEndDateCount[0] != "0") {
+            setErrorEndDate2('Holiday already exists for the given date range.');
+            isError = true;
+        }
 
-        //     if (predefinedDateCount > 0) {
-        //         setErrorEndDate2('Holiday already exists for the given date range.');
-        //         isError = true;
-        //     } else {
-        //         setErrorEndDate('');
-
-        //         // const NameAndStartDateValidationBody: IGetNameAndStartDateEndDateValidationBody = {
-        //         //     asSchoolId: asSchoolId,
-        //         //     asAcademicYearId: asAcademicYearId,
-        //         //     asStandardDivIds: ClassSelected,
-        //         //     asHolidayId: 0,
-        //         //     asHolidayName: HolidayTitle,
-        //         //     asHolidayStartDate: StartDate,
-        //         //     asHolidayEndDate: EndDate
-        //         // }
-
-
-
-        //     }
-        // }
         // if (!isError) {
         //     return; // Prevent form submission if there are validation errors
         // }
 
         if (!isError) {
             // dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody))
-
             dispatch(getSaveHolidays(SaveHolidayBody))
-
-        }
-
-        if (!isError) {
             navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+
         }
+
+
 
     }
 

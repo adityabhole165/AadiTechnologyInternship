@@ -460,7 +460,7 @@ const ExamResultBase = () => {
     );
   };
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
+    navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + false);
   };
   // const Toppers = (value) => {
   //   navigate('/extended-sidebar/Teacher/ExamResultToppers/' + '/' + StandardDivisionId + '/' + TestId + '/' + standardId + '/' + true);
@@ -520,9 +520,13 @@ const ExamResultBase = () => {
   }
 
   const standardId = getstandardId();
-  const toggleIcons = () => {
-    setGenerateTopperDisabled(true);
-    setTopperIconDisabled(false);
+ 
+  const GenerateTopper = () => {
+    console.log('Before toggling ToppersGenerated:', ClassPassFailDetailsForButton.ToppersGenerated);
+    const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
+    console.log('After toggling ToppersGenerated:', updatedValue);
+    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
+   // dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
   };
   return (
     <Box sx={{ px: 2 }}>
@@ -595,15 +599,19 @@ const ExamResultBase = () => {
 
           <Tooltip title={"Generate Toppers"}>
             <span>
-              <IconButton sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
-              }}
-                onClick={toggleIcons}
-                disabled={isGenerateTopperDisabled || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish && !examResultProp}
+              <IconButton
+                onClick={GenerateTopper}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+                // onClick={GenerateTopper}
+                disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                  (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                  ClassPassFailDetailsForButton?.ToppersGenerated}
               >
                 {/* disabled={(!examResultProp || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton?.ToppersGenerated) */}
                 {/* GENERATE TOPPERS */}
@@ -611,6 +619,7 @@ const ExamResultBase = () => {
               </IconButton>
             </span>
           </Tooltip>
+
 
           {/* } */}
           <Tooltip title={"Publish All"} >
@@ -660,7 +669,11 @@ const ExamResultBase = () => {
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
-                }} disabled={(ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 && !ClassPassFailDetailsForButton?.IsPublish || ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || !ClassPassFailDetailsForButton?.ToppersGenerated &&isTopperIconDisabled)}
+                }} 
+                disabled={
+                  (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
+                  (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||
+                  !ClassPassFailDetailsForButton?.ToppersGenerated}
 
               >
                 <Person />

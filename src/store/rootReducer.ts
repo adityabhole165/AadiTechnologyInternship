@@ -69,8 +69,8 @@ import {
 import SlicePrePrimaryResult from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 import UnpublishSlice from 'src/requests/PrePrimaryResult/RequestUnpublishPrePrimaryResult';
 import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks';
-import SliceRequisition from 'src/requests/Requisition/RequestRequisition';
 import SliceAddRequisition from 'src/requests/Requisition/RequestAddRequisition';
+import SliceRequisition from 'src/requests/Requisition/RequestRequisition';
 import SchoolAttendanceOverviewSlice from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import SliceSchoolNoticeBoard from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
@@ -92,6 +92,7 @@ import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLogi
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
+import ToppersSlice from '../requests/ExamResult/RequestToppers';
 import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 import FinalResultGenerateAllSlice from '../requests/FinalResult/RequestFinalResultGenerateAll';
 import MissingattendanceAleartSlice from '../requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -196,7 +197,7 @@ const rootReducer = combineReducers({
   LessonPlanBase: LessonPlanBaseScreenSlice,
   PrePrimaryResult: SlicePrePrimaryResult,
   SliceRequisition: SliceRequisition,
-  SliceAddRequisition:SliceAddRequisition,
+  SliceAddRequisition: SliceAddRequisition,
   Finalunpublish: FinalUnPublishTestSlice,
   UnpublishSlice: UnpublishSlice,
   AadharcardTecaherSlice: AadharcardTecaherSlice,
@@ -208,8 +209,8 @@ const rootReducer = combineReducers({
   ViewProgressReport: ViewProgressReportslice,
   FinalResultGenerateAll: FinalResultGenerateAllSlice,
   ProgressReportNew: ProgressReportSlice,
-  MissingAttendanceAleart: MissingattendanceAleartSlice
-
+  MissingAttendanceAleart: MissingattendanceAleartSlice,
+  Toppers: ToppersSlice
 });
 
 export default rootReducer;
