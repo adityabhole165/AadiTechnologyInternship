@@ -28,7 +28,7 @@ const adminRoutes = [
         element: <AddHoliday />
     },
     {
-        path: 'SchoolConfiguration/AddHoliday/:Id',
+        path: 'SchoolConfiguration/AddHoliday/:Holiday_Id',
         element: <AddHoliday />
     },
     {
