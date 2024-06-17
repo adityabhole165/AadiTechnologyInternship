@@ -28,6 +28,10 @@ const adminRoutes = [
         element: <AddHoliday />
     },
     {
+        path: 'SchoolConfiguration/AddHoliday/:Id',
+        element: <AddHoliday />
+    },
+    {
         path: 'SchoolConfiguration/PageHeader',
         element: <PageHeader heading={''} />
     },

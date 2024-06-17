@@ -52,19 +52,41 @@ export interface IGetHolidayBody {
   asAcademicYearID: number;
 }
 
-export interface EditHolidayDetailsResult {
-  EditHolidayListResult: [
-    {
-      Holiday_Id: string,
-      Holiday_Name: string,
-      Holiday_Start_Date: string,
-      Holiday_End_Date: string,
-      AssociatedStandard: string,
-      Remarks: string,
-      Is_Deleted: string
-    }
-  ];
+
+export interface EditHolidayDetailsBody {
+
+  asHoliday_Id: number,
+  asSchoolId: number,
+  asAcademicYearID: number
 }
+
+export interface EditHolidayDetailsResult {
+  Holiday_Id: string,
+  Holiday_Name: string,
+  Holiday_Start_Date: string,
+  Holiday_End_Date: string,
+  AssociatedStandard: string,
+  Remarks: string,
+  Is_Deleted: string
+}
+
+
+
+
+
+// export interface EditHolidayDetailsResult {
+//   EditHolidayListResult: [
+//     {
+//       Holiday_Id: string,
+//       Holiday_Name: string,
+//       Holiday_Start_Date: string,
+//       Holiday_End_Date: string,
+//       AssociatedStandard: string,
+//       Remarks: string,
+//       Is_Deleted: string
+//     }
+//   ];
+// }
 
 export interface SaveHolidayDetailsBody {
 
