@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import HolidaysApi from 'src/api/Holiday/Holiday';
 import { getDateFormatted, getDateMonthYearDayDash, isFutureDateTime } from 'src/components/Common/Util';
-import IHolidays, { IAllClassesAndDivisionsBody, IGetHolidayBody, IGetNameAndStartDateEndDateValidationBody, IHolidaysFA, ISelectedStandardAndDivisionCheckBoxBody, SaveHolidayDetailsBody } from 'src/interfaces/Common/Holidays';
+import IHolidays, { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetHolidayBody, IGetNameAndStartDateEndDateValidationBody, IHolidaysFA, ISelectedStandardAndDivisionCheckBoxBody, SaveHolidayDetailsBody } from 'src/interfaces/Common/Holidays';
 import { AppThunk } from 'src/store';
 
 const Holidaysslice = createSlice({
@@ -131,6 +131,27 @@ export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) =>
 };
 
 
+export const getEditHolidayDetails =
+  (data: EditHolidayDetailsBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(Holidaysslice.actions.getLoading(true));
+      const response = await HolidaysApi.GetEditHolidayDetails(data);
+      const responseData = response.data.map((Item, i) => {
+        return {
+          Id: Item.Holiday_Id,
+          Text1: Item.Holiday_Name,
+          Text2: Item.Holiday_Start_Date,
+          Text3: Item.Holiday_End_Date,
+          Text4: Item.AssociatedStandard,
+          Text5: Item.Remarks,
+          Text6: Item.Is_Deleted
+        }
+      })
+      dispatch(Holidaysslice.actions.getEditHolidayDetails(response.data))
+    };
+
+
+
 export const DeleteHolidayDetails = (data: IGetHolidayBody): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetDeleteHoliday(data);
@@ -157,7 +178,7 @@ export const NameAndStartDateEndDateValidations = (data: IGetNameAndStartDateEnd
 
 
   })
-   
+
 
   dispatch(Holidaysslice.actions.getHolidayDuplicateNameValidationCount(HolidayDuplicateNameValidation));
   dispatch(Holidaysslice.actions.getHolidayStartAndEndDatePredefinedValidationCount(HolidayDuplicateStartDateValidation));
@@ -170,13 +191,6 @@ export const resetDeleteHolidayDetails = (): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.resetDeleteHolidayDetails());
 };
 
-export const getEditHolidayDetails =
-  (data: IGetHolidayBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(Holidaysslice.actions.getLoading(true));
-      const response = await HolidaysApi.GetEditHolidayDetails(data);
-      dispatch(Holidaysslice.actions.getEditHolidayDetails(response.data))
-    };
 
 export const getSaveHolidays =
   (data: SaveHolidayDetailsBody): AppThunk =>

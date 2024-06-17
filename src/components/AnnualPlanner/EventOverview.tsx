@@ -238,11 +238,11 @@ const EventOverview = (props: Props) => {
                           <Typography variant={'h4'} sx={{ p: 1, background: (theme) => theme.palette.secondary.main, color: 'white' }}>{obj.DisplayDate}</Typography>
                           <Box sx={{ p: 1 }}>
                             <React.Fragment>
-                              <Typography variant={'h4'}>Event Title: </Typography>
+                              {/* <Typography variant={'h4'}>Event Title: </Typography> */}
                               <Typography variant={'h5'}>
                                 {obj.EventDescription}
                               </Typography>
-                              <Typography>Standards: </Typography>
+                              {/* <Typography>Standards: </Typography> */}
                               <span>{obj.Standards}</span>
                             </React.Fragment>
                           </Box>

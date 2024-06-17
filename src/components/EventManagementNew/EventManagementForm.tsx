@@ -168,7 +168,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
         setEventTitle('');
         setEventDescription('');
         setEventStartDate(getCalendarDateFormatDate(SelectedDate));
-        setEventEndDate(getCalendarDateFormatDateNew(SelectedDate));
+        setEventEndDate(getCalendarDateFormatDate(SelectedDate));
         setShowRiseAndShine(false);
         setitemList(ItemList.map((Item) => {
             return { ...Item, IsActive: false }

@@ -6,17 +6,21 @@ import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } 
 import { ClearIcon } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { formatDateAsDDMMMYYYY, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
-import { IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
+import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getSaveHolidays } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
+
+    const { Holiday_Id } = useParams();
+    console.log(Holiday_Id, "Holiday_Id");
+
     const navigate = useNavigate();
 
 
@@ -104,6 +108,14 @@ const AddHoliday = ({ }) => {
     )
 
 
+    const Editholiday = useSelector(
+        (state: RootState) => state.Holidays.EditHolidayDetails
+    );
+    console.log("Editholiday", Editholiday);
+
+
+
+
 
     const PredefinedStartDateAndEndDateCount: any = useSelector(
         (state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount
@@ -137,6 +149,8 @@ const AddHoliday = ({ }) => {
 
 
 
+
+
     const isClassSelected = () => {
         let arr = []
         ItemList.map(item => {
@@ -149,6 +163,16 @@ const AddHoliday = ({ }) => {
 
     const ClassSelected = isClassSelected()
 
+
+    useEffect(() => {
+
+        const EditHolidayBody: EditHolidayDetailsBody = {
+            asHoliday_Id: Number(Holiday_Id),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearID: Number(asAcademicYearId)
+        }
+        dispatch(getEditHolidayDetails(EditHolidayBody))
+    }, [])
 
     // const toUTC = (dateString) => {
     //     const date = new Date(dateString);
@@ -188,7 +212,11 @@ const AddHoliday = ({ }) => {
     }, [ClassSelected, StartDate, EndDate, HolidayTitle])
 
 
+    //   useEffect(()=>{
 
+    //       if()
+
+    //   },[])
 
 
 

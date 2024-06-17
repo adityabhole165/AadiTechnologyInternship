@@ -47,7 +47,7 @@ const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, Divisio
         }
     }, [DeleteEventt]);
     const clickeventDelete = (Id) => {
-        if (confirm('Are You Sure you want to delete The List')) {
+        if (confirm('Are you sure you want to delete the event?')) {
             const DeleteEventBody: IDeleteEventBody = {
                 asSchoolId: asSchoolId,
                 asEventId: Number(Id),

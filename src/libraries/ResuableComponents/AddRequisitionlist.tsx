@@ -11,6 +11,22 @@ function AddRequisitionlist({
 }) {
  
 
+  // const changeText1 = (value) => {
+  //   ItemList = ItemList.map((item) => {
+  //     return item.Id === value.Id ? { ...item, Text3: value.Value } : item;
+  //   });
+  //   onTextChange2(ItemList);
+  // };
+
+  
+  // const handleText3Change = (e, item) => {
+  //     const numericValue = e.target.value.replace(/[^0-9.]/g, '');
+  //     changeText1({ Value: numericValue, Id: item.ItemID });
+    
+  // };
+
+
+
   return (
     <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,  overflow: 'hidden' }}>
       <Table aria-label="simple table">

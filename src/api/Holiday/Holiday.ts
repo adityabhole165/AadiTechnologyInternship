@@ -1,4 +1,5 @@
 import IHolidays, {
+  EditHolidayDetailsBody,
   EditHolidayDetailsResult,
   GetHolidayListResult,
   GetHolidayListResult1,
@@ -30,7 +31,7 @@ const GetDeleteHoliday = (data: IGetHolidayBody) => {
   return http.post<string>('Teacher/DeleteHolidayDetails', data);
 };
 
-const GetEditHolidayDetails = (data: IGetHolidayBody) => {
+const GetEditHolidayDetails = (data: EditHolidayDetailsBody) => {
   return http.post<EditHolidayDetailsResult[]>('Teacher/GetHolidayDetails', data);
 }
 
