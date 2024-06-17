@@ -9,6 +9,8 @@ const ToppersSlice = createSlice({
     name: 'Toppers',
 
     initialState: {
+        LatestExamIdCT: '',
+        LatestExamIdST: '',
         ClassDropdownList: [],
         StandardDropdownList: [],
         ExamDropdownListCT: [],
@@ -21,6 +23,13 @@ const ToppersSlice = createSlice({
         StandardSubjectToppersList: []
     },
     reducers: {
+
+        LatestExamIdforClass(state, action) {
+            state.LatestExamIdCT = action.payload;
+        },
+        LatestExamIdforStandard(state, action) {
+            state.LatestExamIdST = action.payload;
+        },
         classList(state, action) {
             state.ClassDropdownList = action.payload;
         },
@@ -53,6 +62,20 @@ const ToppersSlice = createSlice({
         }
     }
 });
+
+export const LatestClassExam =
+    (data: IGetLatestExamIdandDropdownBody): AppThunk =>
+        async (dispatch) => {
+            const LatestId = await ToppersApi.LatestExamId(data);
+            dispatch(ToppersSlice.actions.LatestExamIdforClass(LatestId.data.toString()));
+        };
+
+export const LatestStandardExam =
+    (data: IGetLatestExamIdandDropdownBody): AppThunk =>
+        async (dispatch) => {
+            const LatestId = await ToppersApi.LatestExamId(data);
+            dispatch(ToppersSlice.actions.LatestExamIdforStandard(LatestId.data.toString()));
+        };
 
 export const ClassdropdownListCT =
     (data: IGetClassDivandStandardDropdownBody): AppThunk =>
