@@ -22,7 +22,7 @@ import { IGetClassDivandStandardDropdownBody, IGetClassandStandardToppersListBod
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
-import { ClassExamdropdownListCT, ClassSubjectdropdownListCT, ClassToppersList, ClassdropdownListCT, StandardExamdropdownListST, StandardSubjectdropdownListST, StandardToppersList, StandarddropdownListST } from 'src/requests/ExamResult/RequestToppers';
+import { ClassExamdropdownListCT, ClassSubjectdropdownListCT, ClassToppersList, ClassdropdownListCT, LatestClassExam, LatestStandardExam, StandardExamdropdownListST, StandardSubjectdropdownListST, StandardToppersList, StandarddropdownListST } from 'src/requests/ExamResult/RequestToppers';
 import { RootState, useDispatch } from 'src/store';
 import BronzeMedal from '../../assets/img/medals/bronze-medal.png';
 import GoldMedal from '../../assets/img/medals/gold-medal.png';
@@ -79,6 +79,16 @@ const ExamResultToppers = () => {
     const [SubjectToppersListST, setSubjectToppersListST] = useState([])
     console.log("ClassToppersListCT", ClassToppersListCT);
 
+    const GetLatestclassExam = useSelector(
+        (state: RootState) => state.Toppers.LatestExamIdCT
+    );
+    console.log(GetLatestclassExam, "GetLatestclassExam");
+
+    const GetLatestStandardExam = useSelector(
+        (state: RootState) => state.Toppers.LatestExamIdST
+    )
+    console.log(GetLatestStandardExam, "GetLatestStandardExam");
+
     const GetClassdropdownCT = useSelector(
         (state: RootState) => state.Toppers.ClassDropdownList
     );
@@ -113,7 +123,12 @@ const ExamResultToppers = () => {
     const GetSubjectToppersListST = useSelector(
         (state: RootState) => state.Toppers.StandardSubjectToppersList
     );
-
+    useEffect(() => {
+        dispatch(LatestClassExam(ExamDropdownBodyCT));
+    }, [SelectClassCT]);
+    useEffect(() => {
+        dispatch(LatestStandardExam(LatestExamSTBody));
+    }, [SelectStandardST]);
     useEffect(() => {
         setSubjectToppersListCT(GetSubjectToppersListCT)
     }, [GetSubjectToppersListCT])
@@ -230,6 +245,13 @@ const ExamResultToppers = () => {
         }))
 
     }, [HighlightStudentId])
+
+    const LatestExamSTBody: IGetLatestExamIdandDropdownBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivId: null,
+        asStandardId: Number(SelectStandardST)
+    };
 
     const ClassDropdownBodyCT: IGetClassDivandStandardDropdownBody = {
         asSchoolId: asSchoolId,
