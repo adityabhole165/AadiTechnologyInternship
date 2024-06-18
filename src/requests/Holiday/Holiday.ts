@@ -147,7 +147,7 @@ export const getEditHolidayDetails =
           Is_Deleted: Item.Is_Deleted
         }
       })
-      dispatch(Holidaysslice.actions.getEditHolidayDetails(response.data))
+      dispatch(Holidaysslice.actions.getEditHolidayDetails(responseData))
     };
 
 
