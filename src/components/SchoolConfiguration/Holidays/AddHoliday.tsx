@@ -52,7 +52,12 @@ const AddHoliday = ({ }) => {
     const Editholiday: any = useSelector((state: RootState) => state.Holidays.EditHolidayDetails);
     console.log("Editholiday", Editholiday);
     const PredefinedStartDateAndEndDateCount: any = useSelector((state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount)
+    const filteredItems = DuplicateHolidayNameCount.filter(item => item.DuplicateHolidayNameCount);
+    const result = filteredItems.length > 0 ? filteredItems[0] : null;
 
+       const filteredItems1 = PredefinedStartDateAndEndDateCount.filter(item => item.PredefinedStartDateAndEndDateCount);
+       const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
+       console.log(result,"-",result1);
 
     useEffect(() => {
         const start = new Date(StartDate);
@@ -260,12 +265,12 @@ const AddHoliday = ({ }) => {
         } else {
             setRemarkError('');
         }
-        if (DuplicateHolidayNameCount[0] != "0") {
+        if (result[0] != "0") {
             SetErrorHolidayTitle('Holiday name already exists.');
             isError = true;
         }
 
-        if (PredefinedStartDateAndEndDateCount[0] != "0") {
+        if (result[0] != "0") {
             setErrorEndDate2('Holiday already exists for the given date range.');
             isError = true;
         }
