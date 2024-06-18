@@ -108,7 +108,7 @@ const AddHoliday = ({ }) => {
     )
 
 
-    const Editholiday = useSelector(
+    const Editholiday: any = useSelector(
         (state: RootState) => state.Holidays.EditHolidayDetails
     );
     console.log("Editholiday", Editholiday);
@@ -173,6 +173,18 @@ const AddHoliday = ({ }) => {
         }
         dispatch(getEditHolidayDetails(EditHolidayBody))
     }, [])
+
+    useEffect(() => {
+        if (Editholiday != null) {
+            setStartDate(Editholiday.Holiday_Start_Date)
+            setEndDate(Editholiday.Holiday_End_Date)
+            setHolidayTitle(Editholiday.Holiday_Name)
+            setRemark(Editholiday.Remarks)
+
+        }
+        console.log(setStartDate, "setStartDate");
+
+    }, [Editholiday])
 
     // const toUTC = (dateString) => {
     //     const date = new Date(dateString);
