@@ -1,3 +1,5 @@
+
+
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IGetAllStandards, {
@@ -9,7 +11,6 @@ import { RootState } from 'src/store';
 // import { IGetExamsList } from 'src/interfaces/Student/ExamSchedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import Icon3 from 'src/libraries/icon/icon3';
 import {
   EmptyExam,
   GetSelectExamRes,
@@ -17,10 +18,10 @@ import {
   ViewExamDataRess
 } from 'src/requests/TExamschedule/TExamschedule';
 
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Alert, Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import CardExamSchedule from 'src/libraries/card/CardExamSchedule';
 import CommonPageHeader from '../CommonPageHeader';
 
 const TExamScheduleNew = () => {
@@ -52,6 +53,7 @@ const TExamScheduleNew = () => {
   const [std, setStd] = useState('');
   const [exam, setExam] = useState('');
   const [isFirstTime, setIsFirstTime] = useState(true);
+  const [showCardData, setShowCardData] = useState(false);
 
   const ExamList_body: IGetExamsList = {
     asSchoolId: asSchoolId,
@@ -74,6 +76,7 @@ const TExamScheduleNew = () => {
 
   const examChange = (value) => {
     setExam(value);
+    setShowCardData(false); // Reset the card data visibility on exam change
   };
 
   useEffect(() => {
@@ -194,47 +197,56 @@ const TExamScheduleNew = () => {
         </>}
       />
 
-      <Box sx={{ background: 'white', p: 2 }}>
-        {loading ? (
-          <SuspenseLoader />
-        ) : (
-          <>
-            {SubList?.map((item, i) => {
-              return (
-                <div key={i}>
-                  {i == 0 && item.Instructions !== '' ? (
-                    <Icon3 Note={item.Instructions} />
-                  ) : null}
+      {exam && (
+        <Box sx={{ mt: 2, cursor: 'pointer' }} onClick={() => setShowCardData(!showCardData)}>
+          <Typography variant="h6">{`Selected Exam: ${exam}`}</Typography>
+        </Box>
+      )}
 
-                  {/* <Card1 key={i}
-                header={item.header}
-                text1={''}
-                text2={item.text2}
-                text3={item.text3}
-                text4={''}
-                text5={item.text5}
-                text6={''}
-                Color={''}
-                margin={''}
-                FileName={''}
-
-              /> */}
-                  <CardExamSchedule
-                    header={item.header}
-                    text2={item.text3}
-                    text3={item.text2}
-                    text5={item.text5}
-                    text6={getTime(item.startTime, item.endTime)}
-                  />
-                </div>
-              );
-            })}
-          </>
-        )}
-      </Box>
+      {showCardData && (
+        <Box sx={{ background: 'white', p: 2 }}>
+          {loading ? (
+            <SuspenseLoader />
+          ) : (
+            <>
+              {SubList?.length > 0 ? (
+                <Table>
+                  <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
+                    <TableRow>
+                      <TableCell> Date</TableCell>
+                      <TableCell>Time</TableCell>
+                      <TableCell>Subject</TableCell>
+                      <TableCell>Instruction</TableCell>
+                      <TableCell>Duration</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {SubList.map((item, i) => (
+                      <TableRow key={i}>
+                        <TableCell>{item.text3}</TableCell>
+                        <TableCell>{item.text2}</TableCell>
+                        <TableCell>{item.header}</TableCell>
+                        <TableCell sx={{ color: 'blue' }}>{item.Instructions}</TableCell>
+                        <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+                  <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                    <b style={{ color: 'blue' }}> No exam has been scheduled </b>
+                  </Alert>
+                </Typography>
+              )}
+            </>
+          )}
+        </Box>
+      )}
       <br />
     </Box>
   );
 };
 
 export default TExamScheduleNew;
+

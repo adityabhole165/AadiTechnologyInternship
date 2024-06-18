@@ -50,6 +50,8 @@ export interface GetExamsListResult {
       EndTime: string;
       StartDate: string;
       EndDate: string;
+      StartDayDate:string;
+      EndDayDate: string;
       TestType: string;
       Instructions: string;
       Description: string;
