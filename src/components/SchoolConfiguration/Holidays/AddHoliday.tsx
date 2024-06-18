@@ -163,6 +163,9 @@ const AddHoliday = ({ }) => {
 
     const ClassSelected = isClassSelected()
 
+    const [associatedStandard, setAssociatedStandard] = useState(ClassSelected);
+
+    console.log(associatedStandard, "associatedStandardssssssssss");
 
     useEffect(() => {
 
@@ -176,13 +179,20 @@ const AddHoliday = ({ }) => {
 
     useEffect(() => {
         if (Editholiday != null) {
+
+            console.log('Holiday Start Date:', Editholiday.Holiday_Start_Date);
+            console.log('Holiday End Date:', Editholiday.Holiday_End_Date);
+            console.log('Holiday Name:', Editholiday.Holiday_Name);
+            console.log('Remarks:', Editholiday.Remarks);
+
             setStartDate(Editholiday.Holiday_Start_Date)
             setEndDate(Editholiday.Holiday_End_Date)
             setHolidayTitle(Editholiday.Holiday_Name)
             setRemark(Editholiday.Remarks)
+            setAssociatedStandard(Editholiday)
 
         }
-        console.log(setStartDate, "setStartDate");
+
 
     }, [Editholiday])
 
