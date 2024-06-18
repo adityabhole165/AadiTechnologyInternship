@@ -212,8 +212,8 @@ export const GetAllClassAndDivision =
           Name: item.Division_Name,
           Value: item.SchoolWise_Standard_Division_Id,
           ParentId: item.Standard_Id,
-          IsActive: (data.associatedStandard.includes(item.SchoolWise_Standard_Division_Id) ?
-          true : false) 
+          IsActive:  data.associatedStandard.length > 0 ?  (data.associatedStandard.includes(item.SchoolWise_Standard_Division_Id) ?
+          true : false ) : true
         }
       })
 
