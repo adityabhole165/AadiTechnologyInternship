@@ -42,7 +42,7 @@ const AddHoliday = ({ }) => {
     const [ErrorStartDate2, setErrorStartDate2] = useState('');
     const asUserId = Number(localStorage.getItem('UserId'));
     const [asHoliday_Id, setasHoliday_Id] = useState();
-    const [associatedStandard, setAssociatedStandard] = useState('');
+    const [associatedStandard, setAssociatedStandard] = useState("");
        console.log(associatedStandard,"associatedStandard----");
 
     const ClassesAndDivisionss = useSelector((state: RootState) => state.Holidays.AllClassesAndDivisionss);
@@ -100,7 +100,7 @@ const AddHoliday = ({ }) => {
           setEndDate(getCalendarDateFormatDate(holiday.Holiday_End_Date));
           setHolidayTitle(holiday.Holiday_Name);
           setRemark(holiday.Remarks);
-          setAssociatedStandard(holiday.AssociatedStandard.split(','));
+          setAssociatedStandard(holiday.AssociatedStandard);
         }
       }, [Editholiday]);
 
