@@ -198,9 +198,21 @@ const TExamScheduleNew = () => {
       />
 
       {exam && (
-        <Box sx={{ mt: 2, cursor: 'pointer' }} onClick={() => setShowCardData(!showCardData)}>
-          <Typography variant="h6">{`Selected Exam: ${exam}`}</Typography>
+
+        <Box
+          sx={{
+            mt: 2,
+            cursor: 'pointer',
+            backgroundColor: '#FFC0CB',
+            padding: '7px',
+            border: '1px solid brown',
+            borderRadius: '3px',
+          }}
+          onClick={() => setShowCardData(!showCardData)}
+        >
+          <Typography variant="h6" sx={{ color: '#654321' }}> <b>{`Selected Exam: ${exam}`}</b></Typography>
         </Box>
+
       )}
 
       {showCardData && (
