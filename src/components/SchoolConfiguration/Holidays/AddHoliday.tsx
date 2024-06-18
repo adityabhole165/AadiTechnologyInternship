@@ -62,14 +62,14 @@ const AddHoliday = ({ }) => {
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
 
-    useEffect(() => {
-        const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId
-        };
-        dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
+    // useEffect(() => {
+    //     const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
+    //         asSchoolId: asSchoolId,
+    //         asAcademicYearId: asAcademicYearId
+    //     };
+    //     dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
 
-    }, []);
+    // }, []);
 
     const isClassSelected = () => {
         let arr = []
@@ -101,7 +101,41 @@ const AddHoliday = ({ }) => {
           setHolidayTitle(holiday.Holiday_Name);
           setRemark(holiday.Remarks);
           setAssociatedStandard(holiday.AssociatedStandard);
+
+          const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            associatedStandard :holiday.AssociatedStandard 
+
+        };
+        dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
+
         }
+
+     else{
+        if (Editholiday.length > 0 && Editholiday[0] != null) {
+            const holiday = Editholiday[0];
+            setStartDate(getCalendarDateFormatDate(holiday.Holiday_Start_Date));
+            setEndDate(getCalendarDateFormatDate(holiday.Holiday_End_Date));
+            setHolidayTitle(holiday.Holiday_Name);
+            setRemark(holiday.Remarks);
+            setAssociatedStandard(holiday.AssociatedStandard);
+  
+          
+  
+          }
+  
+          const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
+              asSchoolId: asSchoolId,
+              asAcademicYearId: asAcademicYearId,
+              associatedStandard :associatedStandard 
+  
+          };
+          dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
+     }
+
+
+
       }, [Editholiday]);
 
     const SaveHolidayBody: SaveHolidayDetailsBody = {

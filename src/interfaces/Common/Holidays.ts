@@ -111,7 +111,8 @@ export interface SaveHolidayDetailsResult {
 export interface IAllClassesAndDivisionsBody {
 
   asSchoolId: number,
-  asAcademicYearId: number
+  asAcademicYearId: number,
+  associatedStandard: string,
 
 }
 
