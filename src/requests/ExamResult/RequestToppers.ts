@@ -89,7 +89,6 @@ export const ClassdropdownListCT =
                 };
             });
             dispatch(ToppersSlice.actions.classList(abc));
-            console.log(abc, 'abc');
         };
 
 export const StandarddropdownListST =
@@ -104,7 +103,6 @@ export const StandarddropdownListST =
                 };
             });
             dispatch(ToppersSlice.actions.standardList(Standard));
-            console.log(Standard, 'Standard');
         };
 
 export const ClassExamdropdownListCT =
@@ -119,7 +117,6 @@ export const ClassExamdropdownListCT =
                 };
             });
             dispatch(ToppersSlice.actions.ClassExamListCT(classExam));
-            console.log(classExam, 'classExam');
         };
 
 export const StandardExamdropdownListST =
@@ -134,7 +131,6 @@ export const StandardExamdropdownListST =
                 };
             });
             dispatch(ToppersSlice.actions.StandardExamListST(StandardExam));
-            console.log(StandardExam, 'StandardExam');
         };
 
 export const ClassSubjectdropdownListCT =
@@ -151,7 +147,6 @@ export const ClassSubjectdropdownListCT =
                 });
             });
             dispatch(ToppersSlice.actions.ClassSubjectListCT(ClassSubject));
-            console.log(ClassSubject, 'StandardSubject');
         };
 
 export const StandardSubjectdropdownListST =
@@ -167,7 +162,6 @@ export const StandardSubjectdropdownListST =
                 });
             });
             dispatch(ToppersSlice.actions.StandardSubjectListST(StandardSubject));
-            console.log(StandardSubject, 'StandardSubject');
         };
 
 export const ClassToppersList =
@@ -223,7 +217,6 @@ export const ClassToppersList =
                 });
                 responseData.push(child);
             });
-            console.log(responseData, 'Subjects');
 
             dispatch(
                 ToppersSlice.actions.ClassSubjectToppersListCT(responseData)
@@ -286,7 +279,7 @@ export const StandardToppersList =
                 });
                 responseData.push(child);
             });
-            console.log(responseData, 'Subjects');
+
 
             dispatch(
                 ToppersSlice.actions.StandardSubjectToppersListST(responseData)

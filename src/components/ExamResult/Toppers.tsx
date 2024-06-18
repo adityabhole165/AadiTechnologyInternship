@@ -35,11 +35,11 @@ const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly } = useParams();
-    console.log(standardId, 'sssssssstandardId');
+    // console.log(standardId, 'sssssssstandardId');
 
 
     const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
-    const [SelectExamCT, setExamCT] = useState('');
+    const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
     const [SelectStandardST, setStandardST] = useState(standardId);
@@ -77,7 +77,7 @@ const ExamResultToppers = () => {
     const [StandardToppersListST, setStandardToppersListST] = useState([])
     const [ClassToppersListCT, setClassToppersListCT] = useState([])
     const [SubjectToppersListST, setSubjectToppersListST] = useState([])
-    console.log("ClassToppersListCT", ClassToppersListCT);
+    // console.log("ClassToppersListCT", ClassToppersListCT);
 
     const GetLatestclassExam = useSelector(
         (state: RootState) => state.Toppers.LatestExamIdCT
@@ -115,7 +115,7 @@ const ExamResultToppers = () => {
     const GetSubjectdropdownST = useSelector(
         (state: RootState) => state.Toppers.SubjectDropdownListST
     );
-    console.log(GetSubjectdropdownST, 'GetSubjectdropdownSTttttt');
+    // console.log(GetSubjectdropdownST, 'GetSubjectdropdownSTttttt');
 
     const GetStandardToppersListST = useSelector(
         (state: RootState) => state.Toppers.StandardToppersList
@@ -150,27 +150,56 @@ const ExamResultToppers = () => {
         return perm;
     };
 
+    const [IsPageload, setIsPageload] = useState(true);
     useEffect(() => {
-        if (radioBtn === '1' && GetExamdropdownCT.length > 0) {
-            const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
-            if (selectedExam) {
-                setSelectedExamName(selectedExam.Name);
-                setExamST(SelectExamCT);
-            }
-        } else if (radioBtn === '2' && GetExamdropdownST.length > 0) {
-            const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
-            if (selectedExam) {
-                setSelectedExamName(selectedExam.Name);
-                setExamCT(SelectExamST)
-            }
-        }
-    }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST]);
+        if (GetExamdropdownCT.length > 0) {
+            let SelectExamTemp = ''
+            console.log(radioBtn, "radioBtn");
 
-    useEffect(() => {
-        if (TestId != null) {
-            setExamCT(TestId)
+            if (radioBtn === '1') {
+                console.log(IsPageload, "IsPageload");
+                if (!IsPageload) {
+                    console.log(GetExamdropdownCT[0], "GetExamdropdownCT");
+
+                    if (GetExamdropdownCT[0].Id === "-1") {
+                        SelectExamTemp = GetExamdropdownCT[0].Id
+                    } else {
+                        SelectExamTemp = GetLatestclassExam
+                    }
+                } else {
+                    // setExamCT(SelectExamCT);
+                    SelectExamTemp = TestId == undefined ? "" : TestId
+                }
+                setExamCT(SelectExamTemp)
+                const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamTemp);
+                if (selectedExam) {
+                    setSelectedExamName(selectedExam.Name);
+                }
+
+            } else if (radioBtn === '2') {
+
+                if (GetExamdropdownST[0].Id === -1) {
+                    SelectExamTemp = GetExamdropdownST[0].Id;
+                } else {
+                    SelectExamTemp = GetLatestclassExam
+                }
+                setExamST(SelectExamTemp)
+                const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
+                if (selectedExam) {
+                    setSelectedExamName(selectedExam.Name);
+                }
+
+
+            }
         }
-    }, [TestId])
+    }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST, IsPageload]);
+
+
+    // useEffect(() => {
+    //     if (TestId != null) {
+    //         setExamCT(TestId)
+    //     }
+    // }, [TestId])
 
     useEffect(() => {
         dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
@@ -324,6 +353,7 @@ const ExamResultToppers = () => {
     };
     const clickStandardDropdownST = (value) => {
         setStandardST(value);
+        setIsPageload(false)
     };
     const clickExamDropdownST = (value) => {
         setExamST(value);
@@ -344,13 +374,13 @@ const ExamResultToppers = () => {
             const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
             if (selectedExam) {
                 setSelectedExamName(selectedExam.Name);
-
+                // setExamCT(GetExamdropdownCT[0].Id)
             }
         } else {
             const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
             if (selectedExam) {
                 setSelectedExamName(selectedExam.Name);
-                // setExamCT(GetExamdropdownCT[0].Id)
+                // setExamST(GetExamdropdownST[0].Id)
             }
         }
     }, [SelectExamCT, SelectExamST, radioBtn, GetExamdropdownCT, GetExamdropdownST]);
@@ -359,6 +389,7 @@ const ExamResultToppers = () => {
         setRadioBtn(value);
         setHighlightStudentId('0')
         setSelectedExamName('');
+        setIsPageload(false)
     };
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
