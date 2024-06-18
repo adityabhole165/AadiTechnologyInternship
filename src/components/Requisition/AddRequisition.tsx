@@ -346,7 +346,8 @@ const AddRequisition = () => {
                     { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
                 ]}
                 
-                rightActions={<>
+                rightActions={
+                <>
                     <SearchableDropdown
                         sx={{ minWidth: '250px' }}
                         ItemList={USGetItemCategory}
