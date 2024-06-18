@@ -138,13 +138,13 @@ export const getEditHolidayDetails =
       const response = await HolidaysApi.GetEditHolidayDetails(data);
       const responseData = response.data.map((Item, i) => {
         return {
-          Id: Item.Holiday_Id,
-          Text1: Item.Holiday_Name,
-          Text2: Item.Holiday_Start_Date,
-          Text3: Item.Holiday_End_Date,
-          Text4: Item.AssociatedStandard,
-          Text5: Item.Remarks,
-          Text6: Item.Is_Deleted
+          Holiday_Id: Item.Holiday_Id,
+          Holiday_Name: Item.Holiday_Name,
+          Holiday_Start_Date: Item.Holiday_Start_Date,
+          Holiday_End_Date: Item.Holiday_End_Date,
+          AssociatedStandard: Item.AssociatedStandard,
+          Remarks: Item.Remarks,
+          Is_Deleted: Item.Is_Deleted
         }
       })
       dispatch(Holidaysslice.actions.getEditHolidayDetails(response.data))
