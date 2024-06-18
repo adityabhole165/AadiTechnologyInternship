@@ -320,11 +320,18 @@ const LessonPlanBaseScreen = () => {
 
 
   const clickView = (Id, Remarks, sStartDate, sEndDate, sUserId) => {
+    console.log('View clicked with Id:', Id);
+    console.log('Remarks:', Remarks);
+    console.log('StartDate:', sStartDate);
+    console.log('EndDate:', sEndDate);
+    console.log('UserId:', sUserId);
+
     setOpenViewRemarkDialog(true);
 
     setViewRemarks(Remarks);
 
     if (sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+      console.log('Condition met: Updating read suggestion');
       const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
         asSchoolId: asSchoolId,
         asAcadmicYearId: asAcademicYearId,
