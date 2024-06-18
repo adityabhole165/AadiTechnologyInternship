@@ -423,6 +423,9 @@ const LessonPlanBaseScreen = () => {
 
     dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
   }, [page]);
+  const removeDash = (remarks) => {
+    return remarks.replace(/-\s*/g, '');
+  };
 
 
   return (
@@ -578,7 +581,7 @@ const LessonPlanBaseScreen = () => {
 
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-            Select a page:
+            Pages:
             {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
@@ -634,7 +637,7 @@ const LessonPlanBaseScreen = () => {
             <Stack gap={1}>
               <div>
                 <Typography variant={"h4"} style={{ marginBottom: '10px' }}
-                  dangerouslySetInnerHTML={{ __html: ViewRemarks }}>
+                  dangerouslySetInnerHTML={{ __html: removeDash(ViewRemarks) }}>
                 </Typography>
 
 

@@ -17,7 +17,9 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 function ListEditIcon2({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
- 
+  const cellStyle = {
+    padding: '6px 8px', // Adjust these values to reduce the height
+  };
   
   return (
     <div>
@@ -41,15 +43,15 @@ function ListEditIcon2({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
           <TableBody>
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} >
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} >
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} align="center">
                   {item.STATUS === 'Not Started' && (
                     <Tooltip title={'Marks entry not started'}>
                       <EditOff style={{ color: '#f44336', cursor: 'pointer' }}
@@ -94,7 +96,7 @@ function ListEditIcon2({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: '', ...cellStyle }} align="center">
                   {item.STATUS === 'Not Started' ? (
                     <Tooltip title={'Marks cannot be submitted.'}>
                       <span>Marks cannot be submitted.</span>

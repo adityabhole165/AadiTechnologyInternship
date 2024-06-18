@@ -1,10 +1,8 @@
-import React from 'react';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOff from '@mui/icons-material/EditOff';
-import TaskIcon from '@mui/icons-material/Task';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import { Box, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -13,10 +11,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
+  const cellStyle = {
+    padding: '6px 8px', // Adjust these values to reduce the height
+  };
   return (
     <div>
       <TableContainer component={Box}>
@@ -39,15 +38,15 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
           <TableBody>
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} >
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} >
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} align="center">
                   {item.STATUS === 'Not Started' && (
                     <Tooltip title={'Marks entry not started'}>
                       <EditOff style={{ color: '#f44336', cursor: 'pointer' }}
@@ -92,7 +91,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: '', ...cellStyle }} align="center">
                   {item.STATUS === 'Not Started' ? (
                     <Tooltip title={'Marks cannot be submitted.'}>
                       <span>Marks cannot be submitted.</span>
