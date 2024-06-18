@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow';
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
   const cellStyle = {
-    padding: '6px 8px', // Adjust these values to reduce the height
+    padding: '8px 8px', // Adjust these values to reduce the height
   };
   return (
     <div>
