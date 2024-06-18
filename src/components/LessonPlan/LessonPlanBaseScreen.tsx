@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Pagination, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -47,7 +47,8 @@ const LessonPlanBaseScreen = () => {
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
 
@@ -407,34 +408,44 @@ const LessonPlanBaseScreen = () => {
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
 
-  const [page, setPage] = useState(1);
 
 
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-  };
-  const itemsPerPage = 20;
 
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  useEffect(() => {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+  // const handlePageChange = (pageNumber) => {
+  //   setPage(pageNumber);
+  // };
+  //const itemsPerPage = 20;
 
-    const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
-      ...GetLessonPlanListBody,
-      asStartIndex: startIndex,
-      asEndIndex: endIndex
+  // const startIndex = (page - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // useEffect(() => {
+  //   const startIndex = (page - 1) * itemsPerPage;
+  //   const endIndex = startIndex + itemsPerPage;
 
-    };
+  //   const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
+  //     ...GetLessonPlanListBody,
+  //     asStartIndex: startIndex,
+  //     asEndIndex: endIndex
 
-    dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
-  }, [page]);
+  //   };
+
+  //   dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
+  // }, [page]);
   const removeDash = (remarks) => {
     return remarks.replace(/-\s*/g, '');
   };
 
-
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  //const paginatedItems = LessonPlanList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const startIndex = page * rowsPerPage + 1;
+  const endIndex = Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length);
+  const totalRecords = LessonPlanList.length;
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -527,8 +538,6 @@ const LessonPlanBaseScreen = () => {
                   </Tooltip>
                 )
                 }
-
-
               </Box>
               <Box>
                 {String(asUserId) == String(selectClasstecahernew) ? (
@@ -549,8 +558,6 @@ const LessonPlanBaseScreen = () => {
                   <span></span>
                 )}
               </Box>
-
-
             </>
           }
         />
@@ -558,11 +565,16 @@ const LessonPlanBaseScreen = () => {
           {/* <Typography variant={'h4'} mb={1}>
             My Subjects
           </Typography> */}
+          <Typography variant="subtitle1"
+            sx={{ margin: '16px 0', textAlign: 'center' }}>
+            {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
+            <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
+          </Typography>
           {LessonPlanList.length > 0 ? (
             <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
               <ListIcon
                 HeaderArray={HeaderList1}
-                ItemList={LessonPlanList}
+                ItemList={LessonPlanList.slice(startIndex - 1, endIndex)}
                 clickView={clickView}
                 clickEdit={ClickEdit}
                 clickDelete={clickDelete}
@@ -577,36 +589,43 @@ const LessonPlanBaseScreen = () => {
               />
             </IsHighliteStaus.Provider>
 
-
-
-
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No record found.</b>
             </Typography>
           )}
 
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-            Pages:
-            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
+          {LessonPlanList.length >= 5 && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
+             Pages:
+              {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
               </ButtonGroup> */}
+              <TablePagination
+                // rowsPerPageOptions={[5, 10, 15, 20]}
+                component="div"
+                count={LessonPlanList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Box>
+          )}
+          {/* <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}> */}
+          {/* <DotLegends2
+              color="secondary"
+              text={''}
+              text1={'Submited'}
+              text2={'Non Submited'}
+              text3={'Not Applicable'}
+              text4={'Suggestion Added'}
+              text5={''}
+            /> */}
 
-            <Pagination
-              count={5}
-              variant={"outlined"}
-              shape='rounded' showFirstButton
-              showLastButton
-              onChange={(event, value) => {
-                handlePageChange(value);
-              }}
-            />
-
-          </Box>
-
-          <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
+          <Typography variant={"h4"} mb={2}>Legend</Typography>
+          <Box sx={{ display: 'flex', gap: '20px' }}>
             <DotLegends2
               color="secondary"
               text={''}
@@ -621,8 +640,10 @@ const LessonPlanBaseScreen = () => {
 
       </Box>
 
+
+
       {/* View remark dialog */}
-      <Dialog
+      < Dialog
         open={openViewRemarkDialog}
         onClose={() => {
           setOpenViewRemarkDialog(false);
@@ -664,7 +685,7 @@ const LessonPlanBaseScreen = () => {
             Close
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog >
     </>
   );
 };
