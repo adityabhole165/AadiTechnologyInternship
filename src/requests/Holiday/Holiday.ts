@@ -212,7 +212,8 @@ export const GetAllClassAndDivision =
           Name: item.Division_Name,
           Value: item.SchoolWise_Standard_Division_Id,
           ParentId: item.Standard_Id,
-          IsActive: false
+          IsActive: (data.associatedStandard.includes(item.SchoolWise_Standard_Division_Id) ?
+          true : false) 
         }
       })
 
@@ -226,7 +227,7 @@ export const GetAllClassAndDivision =
             Id: item.Standard_Id,
             Name: item.Standard_Name,
             Value: item.Standard_Id,
-            IsActive: false
+            IsActive: true
           })
         }
       })
