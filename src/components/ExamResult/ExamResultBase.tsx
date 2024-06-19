@@ -351,7 +351,8 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
+    dispatch(getGenerateTopper(GetGenerateTopper));
+  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId, asUserId]);
 
 
   const clickTeacher = (value) => {
@@ -543,7 +544,6 @@ const ExamResultBase = () => {
     const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
     console.log('After toggling ToppersGenerated:', updatedValue);
     dispatch(getGenerateTopper(GetGenerateTopper));
-    //dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   };
   return (
