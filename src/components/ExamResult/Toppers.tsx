@@ -149,6 +149,14 @@ const ExamResultToppers = () => {
         });
         return perm;
     };
+    const getStandardFromCT = () => {
+        let returnVal = "0"
+        GetClassdropdownCT.map((item) => {
+            if (item.Value == SelectClassCT)
+                returnVal = item.Id
+        })
+        return returnVal
+    }
 
     const [IsPageload, setIsPageload] = useState(true);
     useEffect(() => {
@@ -167,7 +175,7 @@ const ExamResultToppers = () => {
                         SelectExamTemp = GetLatestclassExam
                     }
                 } else {
-                    // setExamCT(SelectExamCT);
+                    // setExamST(SelectExamCT);
                     SelectExamTemp = TestId == undefined ? "" : TestId
                 }
                 setExamCT(SelectExamTemp)
@@ -184,6 +192,8 @@ const ExamResultToppers = () => {
                     SelectExamTemp = GetLatestclassExam
                 }
                 setExamST(SelectExamTemp)
+                setStandardST(getStandardFromCT)
+
                 const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
                 if (selectedExam) {
                     setSelectedExamName(selectedExam.Name);
