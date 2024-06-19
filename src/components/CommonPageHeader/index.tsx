@@ -58,7 +58,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                         >
                             <Typography
                                 variant={'h3'}
-                                fontSize={'20px'}
+                                fontSize={'18px'}
                                 fontWeight={'normal'}
                                 color={'text.primary'}
                                 sx={{
@@ -72,7 +72,7 @@ const CommonPageHeader = ({ navLinks, rightActions }: Props) => {
                         </Link>
                     ))}
                     {navLinks[navLinks.length - 1] && (
-                        <Typography variant={'h3'} fontSize={'20px'} color="text.primary">
+                        <Typography variant={'h3'} fontSize={'18px'} color="text.primary">
                             {navLinks[navLinks.length - 1].title}
                         </Typography>
                     )}
