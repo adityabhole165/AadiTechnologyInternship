@@ -119,6 +119,7 @@ export const ViewExamDataRess =
           text2: item.StartTime + ' - ' + item.EndTime ,
           text5: item.Description,
           text3: item.StartDayDate.replace('-', ' ').replace('-', ' '),
+          Standard_Name:item.Standard_Name,
           Instructions: item.Instructions,
           startTime: item.StartTime,
           endTime: item.EndTime
