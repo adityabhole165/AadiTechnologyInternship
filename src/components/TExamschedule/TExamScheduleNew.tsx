@@ -172,16 +172,6 @@ const TExamScheduleNew = () => {
             )}
           </Box>
           {getExamlist.length > 0 ? (
-        <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
-          <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-            <b style={{ color: 'blue' }}> No exam has been scheduled </b>
-          </Alert>
-        </Typography>
-      ) :
-        (<span></span>)
-      }
-
-          {getExamlist.length > 0 ? (
             <Box sx={{ width: '200px' }} >
               <Dropdown
                 Array={getExamlist}
@@ -271,7 +261,15 @@ const TExamScheduleNew = () => {
       )}
       <br />
 
-     
+      {getExamlist.length > 0 ? (
+        <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+          <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+            <b style={{ color: 'blue' }}> No exam has been scheduled </b>
+          </Alert>
+        </Typography>
+      ) :
+        (<span></span>)
+      }
 
     </Box>
   );
