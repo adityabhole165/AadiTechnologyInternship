@@ -351,8 +351,11 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-    dispatch(getGenerateTopper(GetGenerateTopper));
-  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId, asUserId]);
+  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
+
+  // useEffect(() => {
+  //   dispatch(getGenerateTopper(GetGenerateTopper));
+  // }, [StandardDivisionId, TestId, asUserId]);
 
 
   const clickTeacher = (value) => {

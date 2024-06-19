@@ -5,7 +5,8 @@ const Datepicker = ({ DateValue, onDateChange, label, size }) => {
     return (
         <>
             <DatePicker
-                value={new Date(DateValue)}
+                //value={new Date(DateValue)}
+                value={DateValue ? new Date(DateValue) : null}
                 onChange={onDateChange}
                 format="dd MMM yyyy"
                 label={<>
