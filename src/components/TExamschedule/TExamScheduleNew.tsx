@@ -72,6 +72,15 @@ const TExamScheduleNew = () => {
     setIsFirstTime(false);
   };
 
+  const getExamName = () => {
+    let returnVal = ""
+    getExamlist.map((Item) => {
+      if (Item.Value == exam)
+        returnVal = Item.Name
+    })
+    return returnVal
+  }
+
   const examChange = (value) => {
     setExam(value);
     setShowCardData(false); // Reset the card data visibility on exam change
@@ -163,6 +172,16 @@ const TExamScheduleNew = () => {
             )}
           </Box>
           {getExamlist.length > 0 ? (
+        <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+          <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+            <b style={{ color: 'blue' }}> No exam has been scheduled </b>
+          </Alert>
+        </Typography>
+      ) :
+        (<span></span>)
+      }
+
+          {getExamlist.length > 0 ? (
             <Box sx={{ width: '200px' }} >
               <Dropdown
                 Array={getExamlist}
@@ -207,7 +226,7 @@ const TExamScheduleNew = () => {
           }}
           onClick={() => setShowCardData(!showCardData)}
         >
-          <Typography variant="h6" sx={{ color: '#654321' }}> <b> {exam} </b></Typography>
+          <Typography variant="h6" sx={{ color: '#654321' }}> <b>  {getExamName()} </b></Typography>
         </Box>
 
       )}
@@ -224,7 +243,7 @@ const TExamScheduleNew = () => {
                     <TableRow>
                       <TableCell> Date</TableCell>
                       <TableCell>Time</TableCell>
-                      <TableCell>Standard</TableCell>
+                      <TableCell>Standards</TableCell>
                       <TableCell>Subject</TableCell>
                       <TableCell>Instruction</TableCell>
                       <TableCell>Duration</TableCell>
@@ -233,28 +252,27 @@ const TExamScheduleNew = () => {
                   <TableBody>
                     {SubList.map((item, i) => (
                       <TableRow key={i}>
-                      <TableCell>{item.text3 || '--'}</TableCell>
-                      <TableCell>{item.text2 || '--'}</TableCell>
-                      <TableCell>{item.Standard_Name || '--'}</TableCell>
-                      <TableCell>{item.header || '-'}</TableCell>
-                      <TableCell sx={{ color: 'blue' }}>{item.Instructions || '--'}</TableCell>
-                      <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>
-                    </TableRow>
+                        <TableCell>{item.text3 || '--'}</TableCell>
+                        <TableCell>{item.text2 || '--'}</TableCell>
+                        <TableCell>{item.Standard_Name || '--'}</TableCell>
+                        <TableCell>{item.header || '-'}</TableCell>
+                        <TableCell sx={{ color: 'blue' }}>{item.Instructions || '--'}</TableCell>
+                        <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>
+                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               ) : (
-                <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
-                  <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                    <b style={{ color: 'blue' }}> No exam has been scheduled </b>
-                  </Alert>
-                </Typography>
+                <span></span>
               )}
             </>
           )}
         </Box>
       )}
       <br />
+
+     
+
     </Box>
   );
 };
