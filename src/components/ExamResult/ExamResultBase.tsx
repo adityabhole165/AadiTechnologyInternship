@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import {
+  IGenerateTestTotalMarksBody,
   IGetAllStudentsByGivenStdDivsBody,
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
@@ -29,6 +30,7 @@ import {
   getClassPassFailDetailsForButton,
   getClassPassFailDetailsForTest,
   getClassTeachers, getClasswiseExam,
+  getGenerateTopper,
   getProgressSheetStatus,
   getPublishUnpublishExam, getSMSTemplate, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
@@ -36,7 +38,7 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
-  const { ParamsStandardDivisionId, ParamsTestId, selectTeacher, examResultProp } = useParams();
+  const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
   const [toppersGenerated, setToppersGenerated] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,14 +53,14 @@ const ExamResultBase = () => {
   );
   // console.log("ParamsTestId", ParamsTestId)
   const [DisplayNote, setDisplayNote] = useState('');
+  // const [InsertedId, setInsertedId] = useState('');
   const [HelpNote, setHelpNote] = useState('');
   const [Open, setOpen] = useState(false);
   const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
-  const [isGenerateTopperDisabled, setGenerateTopperDisabled] = useState(false);
-  const [isTopperIconDisabled, setTopperIconDisabled] = useState(true);
+  const asUserId = localStorage.getItem('UserId');
   const [StandardDivisionId, setStandardDivisionId] = useState(
     ParamsStandardDivisionId
     //  !== undefined
@@ -118,6 +120,9 @@ const ExamResultBase = () => {
   const PublishUnpublish: any = useSelector(
     (state: RootState) => state.ExamResult.PublishUnpublishExam
   );
+  const GenerateToppers: any = useSelector(
+    (state: RootState) => state.ExamResult.GenerateTopper
+  );
 
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
@@ -158,6 +163,14 @@ const ExamResultBase = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStandardDivisionId: Number(StandardDivisionId)
     // asStandardDivisionId: ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)
+  };
+  const GetGenerateTopper: IGenerateTestTotalMarksBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivId: Number(StandardDivisionId),
+    asTestId: Number(TestId),
+    asInsertedById: Number(asUserId)
+
   };
 
   const handleGenerateToppers = () => {
@@ -201,7 +214,10 @@ const ExamResultBase = () => {
     dispatch(getAllStudentsByGivenStdDivsResult(GetAllStudentsByGivenStdDivs));
   }, [StandardDivisionId]);
 
+  // useEffect(() => {
 
+  //   dispatch(getGenerateTopper(GetGenerateTopper));
+  // }, []);
 
   const GetSMSTemplate: IGetSMSTemplateBody = {
     asSchoolId: Number(asSchoolId),
@@ -332,10 +348,10 @@ const ExamResultBase = () => {
   }, [StandardDivisionId, ParamsStandardDivisionId]);
 
 
-  useEffect(() => {
-    dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
-    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId, examResultProp]);
+  // useEffect(() => {
+  //   dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
+  //   dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
+  // }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
 
 
   const clickTeacher = (value) => {
@@ -520,13 +536,16 @@ const ExamResultBase = () => {
   }
 
   const standardId = getstandardId();
- 
+
   const GenerateTopper = () => {
+
     console.log('Before toggling ToppersGenerated:', ClassPassFailDetailsForButton.ToppersGenerated);
     const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
     console.log('After toggling ToppersGenerated:', updatedValue);
+    dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-   // dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
+    dispatch(getGenerateTopper(GetGenerateTopper));
+
   };
   return (
     <Box sx={{ px: 2 }}>
@@ -669,7 +688,7 @@ const ExamResultBase = () => {
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
-                }} 
+                }}
                 disabled={
                   (ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0) ||
                   (ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) ||

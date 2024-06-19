@@ -157,3 +157,14 @@ export interface IGetSMSTemplateResult {
   SmsType: string,
   TemplateRegistrationId: string
 }
+
+export interface IGenerateTestTotalMarksBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asStandardDivId: Number,
+  asTestId: Number,
+  asInsertedById: Number
+}
+export interface IGenerateTestTotalMarksResult {
+  string
+}
