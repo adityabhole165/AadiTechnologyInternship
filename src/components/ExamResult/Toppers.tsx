@@ -338,6 +338,7 @@ const ExamResultToppers = () => {
 
     const clickClassDropdownCT = (value) => {
         setClassCT(value);
+        setIsPageload(false)
     };
     const clickExamDropdownCT = (value) => {
         setExamCT(value);
@@ -389,7 +390,7 @@ const ExamResultToppers = () => {
         setRadioBtn(value);
         setHighlightStudentId('0')
         setSelectedExamName('');
-        setIsPageload(false)
+        // setIsPageload(false)
     };
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
