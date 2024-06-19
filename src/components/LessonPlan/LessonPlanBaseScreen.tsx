@@ -36,6 +36,7 @@ import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import IsHighliteStaus from './LessonPlanContext';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,9 +56,10 @@ const LessonPlanBaseScreen = () => {
   let CanEdit = getSchoolConfigurations(233)
 
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
-
-  const [StartDate, setStartDate] = useState();
-  const [EndDate, setEndDate] = useState();
+  const [StartDate, setStartDate]: any = useState(null);
+  //const [StartDate, setStartDate] = useState();
+  //const [EndDate, setEndDate] = useState();
+  const [EndDate, setEndDate]: any = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
     localStorage.getItem('UserId')
@@ -479,7 +481,7 @@ const LessonPlanBaseScreen = () => {
                 </Typography>
               )}
               <Box sx={{ background: 'white' }}>
-                <TextField
+                {/* <TextField
                   value={StartDate}
                   type='date'
                   onChange={(e) => { onSelectStartDate(e.target.value) }}
@@ -489,12 +491,18 @@ const LessonPlanBaseScreen = () => {
                     shrink: true
                   }}
 
-                />
+                /> */}
+                <Datepicker
+                  DateValue={StartDate}
+                  onDateChange={onSelectStartDate}
+                  label={'Start Date'}
+                  size={"small"}
 
+                />
               </Box>
 
               <Box sx={{ background: 'white' }}>
-                <TextField
+                {/* <TextField
                   value={EndDate}
                   type='date'
                   onChange={(e) => { onSelectEndDate(e.target.value) }}
@@ -502,7 +510,14 @@ const LessonPlanBaseScreen = () => {
                   size="small"
                   InputLabelProps={{
                     shrink: true
-                  }}
+                  }} */}
+
+                {/* /> */}
+                <Datepicker
+                  DateValue={EndDate}
+                  onDateChange={onSelectEndDate}
+                  label={'End Date'}
+                  size={"small"}
 
                 />
               </Box>
@@ -597,7 +612,7 @@ const LessonPlanBaseScreen = () => {
 
           {LessonPlanList.length >= 5 && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-             Pages:
+              Pages:
               {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
