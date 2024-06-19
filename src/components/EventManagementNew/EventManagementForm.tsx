@@ -18,7 +18,7 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
     const dispatch = useDispatch();
@@ -35,9 +35,9 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
     const [EventTitle, setEventTitle] = useState('');
     const [EventDescription, setEventDescription] = useState('');
     // const [EventStartDate, setEventStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
-    const [EventStartDate, setEventStartDate]: any = useState(new Date().toISOString().split('T')[0]);
+    const [EventStartDate, setEventStartDate]: any = useState(null);
     //const [EventEndDate, setEventEndDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
-    const [EventEndDate, setEventEndDate]: any = useState(new Date().toISOString().split('T')[0]);
+    const [EventEndDate, setEventEndDate]: any = useState(null);
     const [ItemList, setitemList] = useState([]);
     const [showRiseAndShine, setShowRiseAndShine] = useState(false);
     const [FileName, setFileName] = useState('');
@@ -145,25 +145,29 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             dispatch(GetEventdetail(EDetails));
         }
     }, [DeleteeEventImage])
+    
     useEffect(() => {
-      
-        if (isGreaterThanDate(EventStartDate, EventEndDate)) {
-            setErrorEventStartDate('Start date should not be greater than end date')
-        } else
-            if (isOutsideAcademicYear(EventStartDate)) {
+        if (EventStartDate && EventEndDate) {
+            if (isGreaterThanDate(EventStartDate, EventEndDate)) {
+                setErrorEventStartDate('Start date should not be greater than end date');
+            } else if (isOutsideAcademicYear(EventStartDate)) {
                 setErrorEventStartDate('Event Start date must be within current academic year ' +
                     '(i.e between ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("StartDate")) +
-                    ' and ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("EndDate")) + ')')
-            } else setErrorEventStartDate('')
-        if (isOutsideAcademicYear(EventEndDate)
-        ) {
-            setErrorEventEndDate('Event End date must be within current academic year ' +
-                '(i.e between ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("StartDate")) +
-                ' and ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("EndDate")) + ')')
-        } else setErrorEventEndDate('')
+                    ' and ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("EndDate")) + ')');
+            } else {
+                setErrorEventStartDate('');
+            }
 
+            if (isOutsideAcademicYear(EventEndDate)) {
+                setErrorEventEndDate('Event End date must be within current academic year ' +
+                    '(i.e between ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("StartDate")) +
+                    ' and ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("EndDate")) + ')');
+            } else {
+                setErrorEventEndDate('');
+            }
+        }
+    }, [EventStartDate, EventEndDate]);
 
-    }, [EventStartDate, EventEndDate])
 
     const resetForm = () => {
         dispatch(resetEventdetail())
@@ -176,6 +180,8 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
         setitemList(ItemList.map((Item) => {
             return { ...Item, IsActive: false }
         }))
+        setErrorEventStartDate('');
+        setErrorEventEndDate('');
     }
     const getEventString = () => {
         let XMLString = '<StandardDivisions>';
@@ -265,13 +271,13 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             '/DOWNLOADS/Event Planner/' +
             EventDetaill.Event_Image);
     }
-    const onSelectStartDate = (value) => {
-        setEventStartDate(value);
-    };
+    // const onSelectStartDate = (value) => {
+    //     setEventStartDate(value);
+    // };
 
-    const onSelectEndDate = (value) => {
-        setEventEndDate(value);
-    };
+    // const onSelectEndDate = (value) => {
+    //     setEventEndDate(value);
+    // };
 
     return (
         <>
@@ -340,7 +346,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                     /> */}
                     <Datepicker
                         DateValue={EventStartDate}
-                        onDateChange={onSelectStartDate}
+                        onDateChange={setEventStartDate}
                         label={'Start Date'}
                         size={"medium"}
 
@@ -351,13 +357,13 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                 <Grid item xs={6} md={6}>
                     <Datepicker
                         DateValue={EventEndDate}
-                        onDateChange={onSelectEndDate}
+                        onDateChange={setEventEndDate}
                         label={'End Date'}
                         size={"medium"}
-                        
+
                     />
-                   <ErrorMessage1 Error={ErrorEventEndDate}></ErrorMessage1>
-                   {/* <ErrorMessage1 Error={ErrorEventEndDate}></ErrorMessage1> */}
+                    <ErrorMessage1 Error={ErrorEventEndDate}></ErrorMessage1>
+                    {/* <ErrorMessage1 Error={ErrorEventEndDate}></ErrorMessage1> */}
                     {/* <TextField
                         label={
                             <span>

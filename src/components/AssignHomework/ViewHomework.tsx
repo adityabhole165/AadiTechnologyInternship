@@ -7,6 +7,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,8 +15,8 @@ import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interf
 import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
+import { getDateFormatted } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { green, grey, red } from '@mui/material/colors';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const ViewHomework = () => {
     }
   };
 
- 
+
 
   const ClickAttachments = () => {
     navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id +
@@ -138,7 +139,7 @@ const ViewHomework = () => {
             <>
               <Box>
                 <Tooltip title={`User can view homework details.`}>
-                <IconButton
+                  <IconButton
                     sx={{
                       color: 'white',
                       backgroundColor: grey[500],
@@ -162,12 +163,12 @@ const ViewHomework = () => {
               <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.AssignedDate} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.AssignedDate)} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
 
 
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.CompleteByDate} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.CompleteByDate)} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
 
             </Grid>
 

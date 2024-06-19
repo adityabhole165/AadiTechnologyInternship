@@ -9,15 +9,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IAllPublishUnpublishAddHomeworkBody, IDeleteHomeworkBody, IGetHomeworkDetailBody, IGetSubjectListForTeacherBody, IGetTeacherSubjectAndClassSubjectBody, IPublishUnPublishHomeworkBody, ISaveHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import MultipleFile from 'src/libraries/File/MultipleFile';
-import SingleFile from 'src/libraries/File/SingleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
-import { getCalendarDateFormatDate, isFutureDate, isFutureDate1, isGreaterThanDate } from '../Common/Util';
+import { getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 const AddHomeworkNew = () => {
@@ -41,7 +42,7 @@ const AddHomeworkNew = () => {
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
 
   const [ErrorTitle, setErrorTitle] = useState('');
-  const [CompleteDate, setCompleteDate] = useState('');
+  const [CompleteDate, setCompleteDate]: any = useState(new Date().toISOString().split('T')[0]);
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
   const [fileName, setFileName] = useState('');
@@ -399,8 +400,8 @@ const AddHomeworkNew = () => {
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
 
-    if (IsPublish == true &&  isFutureDate1(new Date(Text3)) ) {
-       
+    if (IsPublish == true && isFutureDate1(new Date(Text3))) {
+
       alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
       return;
     }
@@ -455,7 +456,7 @@ const AddHomeworkNew = () => {
     })
     return arr.toString()
   }
-  
+
 
 
   const getSubjectName = (SubjetId) => {
@@ -592,7 +593,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);
-   
+
 
   };
 
@@ -795,7 +796,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           </Grid>
 
           <Grid item xs={3}>
-            <TextField
+         
+        
+            {/* <TextField
               fullWidth
               label={
                 <span>
@@ -811,10 +814,18 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               error={ErrorAssignedDate !== ''}
               helperText={ErrorAssignedDate}
 
+            /> */}
+            <Datepicker
+              DateValue={AssignedDate}
+              onDateChange={handleAssignedDateChange}
+              label={'Assigned Date'}
+              size={"medium"}
+
             />
+            <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1>
           </Grid>
           <Grid item xs={3}>
-            <TextField
+            {/* <TextField
               fullWidth
               InputLabelProps={{
                 shrink: true
@@ -831,7 +842,15 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               helperText={ErrorCompleteDate}
 
 
+            /> */}
+            <Datepicker
+              DateValue={CompleteDate}
+              onDateChange={handleCompleteByDateChange}
+              label={'Complete By Date'}
+              size={"medium"}
+
             />
+            <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1>
           </Grid>
 
           {/* <Grid item xs={3}>
@@ -904,7 +923,16 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             label={'Select Homework Status:'}
             size={"small"}
           />
-          <TextField
+          <Box sx={{ minWidth: '150px' }}>
+            <Datepicker
+              DateValue={AssignedDate1}
+              onDateChange={setAssignedDate}
+              label={'Date'}
+              size={"small"}
+
+            />
+          </Box>
+          {/* <TextField
             size={"small"}
             sx={{ with: '250px' }}
             InputLabelProps={{
@@ -917,7 +945,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               setAssignedDate1(e.target.value);
               console.log('EventEndDate :', e.target.value);
             }}
-          />
+          /> */}
 
           <TextField
             size={"small"}
@@ -984,7 +1012,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             clickVisibilityIcon={clickView}
             clickpublish={clickPublishUnpublish}
             HeaderArray={HeaderPublish}
-            // clickAttachment={clickFileName}
+          // clickAttachment={clickFileName}
           />
         ) : (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
