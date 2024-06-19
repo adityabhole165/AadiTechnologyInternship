@@ -175,7 +175,7 @@ const TExamScheduleNew = () => {
                 defaultValue={exam}
               />
             </Box>
-          ) : (
+          )    : (
             ((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
               <ErrorMessages Error={'No exam has been scheduled'} />
             )
@@ -210,7 +210,7 @@ const TExamScheduleNew = () => {
           }}
           onClick={() => setShowCardData(!showCardData)}
         >
-          <Typography variant="h6" sx={{ color: '#654321' }}> <b>{`Selected Exam: ${exam}`}</b></Typography>
+          <Typography variant="h6" sx={{ color: '#654321' }}> <b> {exam} </b></Typography>
         </Box>
 
       )}
