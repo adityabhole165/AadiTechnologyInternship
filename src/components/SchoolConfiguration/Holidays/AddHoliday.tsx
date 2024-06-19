@@ -67,8 +67,10 @@ const AddHoliday = ({ }) => {
         ItemList.map(item => {
             if (item.IsActive)
                 arr.push(item.Id)
+           
 
         })
+      
         return arr.toString()
     }
 
@@ -133,7 +135,7 @@ const AddHoliday = ({ }) => {
         asAcademicYearID: asAcademicYearId,
         asInsertedById: asUserId,
         asAssociatedStandard: ClassSelected,
-        asHoliday_Id: 0
+        asHoliday_Id:Number(Holiday_Id ? Holiday_Id :0),
 
     }
 
@@ -142,7 +144,7 @@ const AddHoliday = ({ }) => {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
             asStandardDivIds: ClassSelected,
-            asHolidayId: 0,
+            asHolidayId: Number(Holiday_Id ? Holiday_Id :0),
             asHolidayName: HolidayTitle,
             asHolidayStartDate: StartDate,
             asHolidayEndDate: EndDate
