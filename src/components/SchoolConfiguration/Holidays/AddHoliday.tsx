@@ -67,8 +67,10 @@ const AddHoliday = ({ }) => {
         ItemList.map(item => {
             if (item.IsActive)
                 arr.push(item.Id)
+           
 
         })
+      
         return arr.toString()
     }
 
@@ -133,7 +135,7 @@ const AddHoliday = ({ }) => {
         asAcademicYearID: asAcademicYearId,
         asInsertedById: asUserId,
         asAssociatedStandard: ClassSelected,
-        asHoliday_Id: 0
+        asHoliday_Id:Number(Holiday_Id ? Holiday_Id :0),
 
     }
 
@@ -142,7 +144,7 @@ const AddHoliday = ({ }) => {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
             asStandardDivIds: ClassSelected,
-            asHolidayId: 0,
+            asHolidayId: Number(Holiday_Id ? Holiday_Id :0),
             asHolidayName: HolidayTitle,
             asHolidayStartDate: StartDate,
             asHolidayEndDate: EndDate
@@ -216,41 +218,36 @@ const AddHoliday = ({ }) => {
 
 
         if (isOutsideAcademicYear(StartDate)) {
+            
             setErrorStartDate('Holiday start date must be within current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-        } else {
-            setErrorStartDate('');
+                isError = true;
         }
 
         if (isOutsideAcademicYear(EndDate)) {
             setErrorEndDate('Holiday end date must be within current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-        } else {
-            setErrorEndDate('');
-        }
+                isError = true;
+        } 
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than Start date.');
 
             isError = true;
-        } else {
-            setErrorEndDate1('');
-        }
+        } 
 
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters');
             isError = true;
-        } else {
-            setRemarkError('');
-        }
+        } 
         if (result.DuplicateHolidayNameCount !== "0") {
             SetErrorHolidayTitle('Holiday name already exists.');
             isError = true;
         }
 
         if (result1.PredefinedStartDateAndEndDateCount !== "0") {
-            setErrorEndDate2('Holiday already exists for the given date range.');
+            setErrorEndDate2('Holiday already defined.');
             isError = true;
         }
 

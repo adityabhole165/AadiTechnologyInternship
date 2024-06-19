@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -32,6 +32,7 @@ import {
   resetdeleteplan
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -55,9 +56,10 @@ const LessonPlanBaseScreen = () => {
   let CanEdit = getSchoolConfigurations(233)
 
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
-
-  const [StartDate, setStartDate] = useState();
-  const [EndDate, setEndDate] = useState();
+  const [StartDate, setStartDate]: any = useState(null);
+  //const [StartDate, setStartDate] = useState();
+  //const [EndDate, setEndDate] = useState();
+  const [EndDate, setEndDate]: any = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
     localStorage.getItem('UserId')
@@ -479,7 +481,7 @@ const LessonPlanBaseScreen = () => {
                 </Typography>
               )}
               <Box sx={{ background: 'white' }}>
-                <TextField
+                {/* <TextField
                   value={StartDate}
                   type='date'
                   onChange={(e) => { onSelectStartDate(e.target.value) }}
@@ -489,12 +491,18 @@ const LessonPlanBaseScreen = () => {
                     shrink: true
                   }}
 
-                />
+                /> */}
+                <Datepicker
+                  DateValue={StartDate}
+                  onDateChange={onSelectStartDate}
+                  label={'Start Date'}
+                  size={"small"}
 
+                />
               </Box>
 
               <Box sx={{ background: 'white' }}>
-                <TextField
+                {/* <TextField
                   value={EndDate}
                   type='date'
                   onChange={(e) => { onSelectEndDate(e.target.value) }}
@@ -502,18 +510,27 @@ const LessonPlanBaseScreen = () => {
                   size="small"
                   InputLabelProps={{
                     shrink: true
-                  }}
+                  }} */}
+
+                {/* /> */}
+                <Datepicker
+                  DateValue={EndDate}
+                  onDateChange={onSelectEndDate}
+                  label={'End Date'}
+                  size={"small"}
 
                 />
               </Box>
-              <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Tooltip title={"Displays all available lesson plans."}>
                   <IconButton
                     sx={{
                       color: 'white',
                       backgroundColor: grey[500],
                       height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
+                      ':hover': { backgroundColor: grey[600] },
+                      marginRight: '-4px',
+                      // marginLeft: '8px', 
                     }}
                   >
                     <QuestionMark />
@@ -529,7 +546,8 @@ const LessonPlanBaseScreen = () => {
                         color: 'white',
                         backgroundColor: grey[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] }
+                        ':hover': { backgroundColor: grey[600] },
+                        // marginLeft: '8px', 
                       }}
                       onClick={OnClickExportAll}
                     >
@@ -547,7 +565,8 @@ const LessonPlanBaseScreen = () => {
                         color: 'white',
                         backgroundColor: grey[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] }
+                        ':hover': { backgroundColor: grey[600] },
+                        marginLeft: '-4px',
                       }}
                       onClick={onClickAdd}
                     >
@@ -566,7 +585,7 @@ const LessonPlanBaseScreen = () => {
             My Subjects
           </Typography> */}
           <Typography variant="subtitle1"
-            sx={{ margin: '16px 0', textAlign: 'center' }}>
+            sx={{ marginTop: '2px',marginBottom: '2px', textAlign: 'center' }}>
             {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
             <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
           </Typography>
@@ -597,7 +616,7 @@ const LessonPlanBaseScreen = () => {
 
           {LessonPlanList.length >= 5 && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-             Pages:
+              Pages:
               {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
