@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { DeleteEventImageBody, IAllClassesAndDivisionsBody, IEventDetailsBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
@@ -17,7 +18,7 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
     const dispatch = useDispatch();
@@ -33,8 +34,10 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
 
     const [EventTitle, setEventTitle] = useState('');
     const [EventDescription, setEventDescription] = useState('');
-    const [EventStartDate, setEventStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
-    const [EventEndDate, setEventEndDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
+    // const [EventStartDate, setEventStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
+    const [EventStartDate, setEventStartDate]: any = useState(null);
+    //const [EventEndDate, setEventEndDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
+    const [EventEndDate, setEventEndDate]: any = useState(null);
     const [ItemList, setitemList] = useState([]);
     const [showRiseAndShine, setShowRiseAndShine] = useState(false);
     const [FileName, setFileName] = useState('');
@@ -142,37 +145,43 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             dispatch(GetEventdetail(EDetails));
         }
     }, [DeleteeEventImage])
+    
     useEffect(() => {
+        if (EventStartDate && EventEndDate) {
+            if (isGreaterThanDate(EventStartDate, EventEndDate)) {
+                setErrorEventStartDate('Start date should not be greater than end date');
+            } else if (isOutsideAcademicYear(EventStartDate)) {
+                setErrorEventStartDate('Event Start date must be within current academic year ' +
+                    '(i.e between ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("StartDate")) +
+                    ' and ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("EndDate")) + ')');
+            } else {
+                setErrorEventStartDate('');
+            }
 
-        if (isGreaterThanDate(EventStartDate, EventEndDate)) {
-            setErrorEventStartDate('Start Date should be greater than end date')
-        } else
-            if (isGreaterThanDate(sessionStorage.getItem("StartDate"), EventStartDate)) {
-                setErrorEventStartDate('Event End date must be within current academic year ' +
-                    '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-                    ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
-            } else setErrorEventStartDate('')
-        if (isGreaterThanDate(EventEndDate, sessionStorage.getItem("EndDate"))
-        ) {
-            setErrorEventEndDate('Event End date must be within current academic year ' +
-                '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
-                ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
-        } else setErrorEventEndDate('')
+            if (isOutsideAcademicYear(EventEndDate)) {
+                setErrorEventEndDate('Event End date must be within current academic year ' +
+                    '(i.e between ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("StartDate")) +
+                    ' and ' + formatDateAsDDMMMYYYY(sessionStorage.getItem("EndDate")) + ')');
+            } else {
+                setErrorEventEndDate('');
+            }
+        }
+    }, [EventStartDate, EventEndDate]);
 
-
-    }, [EventStartDate, EventEndDate])
 
     const resetForm = () => {
         dispatch(resetEventdetail())
         EventId = 0;
         setEventTitle('');
         setEventDescription('');
-        setEventStartDate(getCalendarDateFormatDate(SelectedDate));
-        setEventEndDate(getCalendarDateFormatDate(SelectedDate));
+        setEventStartDate(null);
+        setEventEndDate(null);
         setShowRiseAndShine(false);
         setitemList(ItemList.map((Item) => {
             return { ...Item, IsActive: false }
         }))
+        setErrorEventStartDate('');
+        setErrorEventEndDate('');
     }
     const getEventString = () => {
         let XMLString = '<StandardDivisions>';
@@ -262,6 +271,13 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             '/DOWNLOADS/Event Planner/' +
             EventDetaill.Event_Image);
     }
+    // const onSelectStartDate = (value) => {
+    //     setEventStartDate(value);
+    // };
+
+    // const onSelectEndDate = (value) => {
+    //     setEventEndDate(value);
+    // };
 
     return (
         <>
@@ -309,7 +325,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                     />
                 </Grid>
                 <Grid item xs={6} md={6}>
-                    <TextField
+                    {/* <TextField
                         label={
                             <span>
                                 Start Date <span style={{ color: 'red' }}>*</span>
@@ -327,10 +343,28 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                         error={ErrorEventStartDate !== ''}
                         helperText={ErrorEventStartDate}
                         fullWidth
+                    /> */}
+                    <Datepicker
+                        DateValue={EventStartDate}
+                        onDateChange={setEventStartDate}
+                        label={'Start Date'}
+                        size={"medium"}
+
                     />
+                    <ErrorMessage1 Error={ErrorEventStartDate}></ErrorMessage1>
+                    {/* <ErrorMessage1 Error={ErrorEventStartDate}></ErrorMessage1> */}
                 </Grid>
                 <Grid item xs={6} md={6}>
-                    <TextField
+                    <Datepicker
+                        DateValue={EventEndDate}
+                        onDateChange={setEventEndDate}
+                        label={'End Date'}
+                        size={"medium"}
+
+                    />
+                    <ErrorMessage1 Error={ErrorEventEndDate}></ErrorMessage1>
+                    {/* <ErrorMessage1 Error={ErrorEventEndDate}></ErrorMessage1> */}
+                    {/* <TextField
                         label={
                             <span>
                                 End Date <span style={{ color: 'red' }}>*</span>
@@ -348,7 +382,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                         error={ErrorEventEndDate !== ''}
                         helperText={ErrorEventEndDate}
                         fullWidth
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <SelectListHierarchy
