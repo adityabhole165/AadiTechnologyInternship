@@ -203,7 +203,7 @@ const ExamResultToppers = () => {
 
     useEffect(() => {
         dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
-    }, [TeacherId]);
+    }, [SelectClassCT]);
     useEffect(() => {
         dispatch(ClassExamdropdownListCT(ExamDropdownBodyCT));
     }, [SelectClassCT]);
@@ -216,7 +216,7 @@ const ExamResultToppers = () => {
 
     useEffect(() => {
         dispatch(StandarddropdownListST(StandardDropdownBodyST));
-    }, [TeacherId]);
+    }, [SelectStandardST]);
     useEffect(() => {
         dispatch(StandardExamdropdownListST(ExamDropdownBodyST));
     }, [SelectStandardST]);
