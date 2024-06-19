@@ -542,10 +542,9 @@ const ExamResultBase = () => {
     console.log('Before toggling ToppersGenerated:', ClassPassFailDetailsForButton.ToppersGenerated);
     const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
     console.log('After toggling ToppersGenerated:', updatedValue);
+    dispatch(getGenerateTopper(GetGenerateTopper));
     //dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-    dispatch(getGenerateTopper(GetGenerateTopper));
-
   };
   return (
     <Box sx={{ px: 2 }}>
