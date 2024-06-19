@@ -1,4 +1,3 @@
-
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
@@ -86,7 +85,8 @@ const TExamScheduleNew = () => {
   const stdChange = (value) => {
     setStd(value);
     setExam('');
-    setIsFirstTime(false);
+    setIsFirstTime(true); // Reset the isFirstTime flag to true when standard changes
+    setShowCardData(false); // Reset the card data visibility on standard change
   };
 
   const examChange = (value) => {
@@ -95,11 +95,15 @@ const TExamScheduleNew = () => {
   };
 
   useEffect(() => {
-    if (std != '') dispatch(GetSelectExamRes(ExamList_body));
+    if (std !== '') {
+      dispatch(GetSelectExamRes(ExamList_body));
+    }
   }, [std]);
 
   useEffect(() => {
-    dispatch(ViewExamDataRess(getexamType_body));
+    if (exam !== '') {
+      dispatch(ViewExamDataRess(getexamType_body));
+    }
   }, [exam]);
 
   useEffect(() => {
@@ -176,13 +180,13 @@ const TExamScheduleNew = () => {
                 />
               </Box>
             ) : (
-              ((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
-                <Typography variant="h6" textAlign="center" color="primary" mb={2}>
-                  <Alert variant="filled" color='info' sx={{ mb: 2 }} icon={<InfoOutlinedIcon />}>
-                    <b style={{ color: 'blue' }}> No exam has been scheduled </b>
-                  </Alert>
-                </Typography>
-              )
+              //((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
+              <Typography variant="h6" textAlign="center" color="primary" mb={2}>
+                <Alert variant="filled" color='info' sx={{ mb: 2 }} icon={<InfoOutlinedIcon />}>
+                  <b style={{ color: 'blue' }}> No exam has been scheduled </b>
+                </Alert>
+              </Typography>
+              //)
             )}
             <Box>
               <Tooltip title="Displays standardwise exam schedule.">
@@ -219,52 +223,51 @@ const TExamScheduleNew = () => {
         </Box>
       )}
 
-      {showCardData && (
+      {showCardData && SubList?.length > 0 ? (
         <Box sx={{ background: 'white', p: 2, mt: 2 }}>
           {loading ? (
             <SuspenseLoader />
           ) : (
-            <>
-              {SubList?.length > 0 ? (
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
-                      <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Time & Duration</TableCell>
-                        {classList.map((className) => (
-                          <TableCell key={className}>{className}</TableCell>
-                        ))}
-                        <TableCell>Instructions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {SubList.map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{item.text3 || '--'}</TableCell>
-                          <TableCell>
-                            {item.startTime} - {item.endTime}   <br /> ({getTime(item.startTime, item.endTime)})
-                          </TableCell>
-                          {classList.map((className) => (
-                            <TableCell key={`${className}-${index}`}>
-                              {item.Standard_Name === className ? item.header || '--' : '--'}
-                            </TableCell>
-                          ))}
-                          <TableCell sx={{ color: 'blue' }}>{item.Instructions || '--'}</TableCell>
-                        </TableRow>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
+                  <TableRow>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Time & Duration</TableCell>
+                    {classList.map((className) => (
+                      <TableCell key={className}>{className}</TableCell>
+                    ))}
+                    <TableCell>Instructions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {SubList.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.text3 || '--'}</TableCell>
+                      <TableCell>
+                        {item.startTime} - {item.endTime}
+                        <br />
+                        ({getTime(item.startTime, item.endTime)})
+                      </TableCell>
+                      {classList.map((className) => (
+                        <TableCell key={`${className}-${index}`}>
+                          {item.Standard_Name === className ? item.header || '--' : '--'}
+                        </TableCell>
                       ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <span></span>
-              )}
-            </>
+                      <TableCell sx={{ color: 'blue' }}>{item.Instructions || '--'}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           )}
         </Box>
+      ) : (
+        <span></span>
       )}
+
     </Box>
   );
-};
 
+};
 export default TExamScheduleNew;
