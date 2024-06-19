@@ -585,7 +585,7 @@ const LessonPlanBaseScreen = () => {
             My Subjects
           </Typography> */}
           <Typography variant="subtitle1"
-            sx={{ marginTop: '2px',marginBottom: '-10px', textAlign: 'center' }}>
+            sx={{ marginTop: '2px',marginBottom: '2px', textAlign: 'center' }}>
             {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
             <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
           </Typography>
