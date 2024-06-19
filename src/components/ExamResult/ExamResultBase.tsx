@@ -348,10 +348,10 @@ const ExamResultBase = () => {
   }, [StandardDivisionId, ParamsStandardDivisionId]);
 
 
-  // useEffect(() => {
-  //   dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
-  //   dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
-  // }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
+  useEffect(() => {
+    dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
+    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
+  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
 
 
   const clickTeacher = (value) => {
@@ -542,10 +542,9 @@ const ExamResultBase = () => {
     console.log('Before toggling ToppersGenerated:', ClassPassFailDetailsForButton.ToppersGenerated);
     const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
     console.log('After toggling ToppersGenerated:', updatedValue);
-    dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
-    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
     dispatch(getGenerateTopper(GetGenerateTopper));
-
+    //dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody))
+    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   };
   return (
     <Box sx={{ px: 2 }}>
