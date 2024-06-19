@@ -7,7 +7,6 @@ import IGetAllStandards, {
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { RootState } from 'src/store';
 // import { IGetExamsList } from 'src/interfaces/Student/ExamSchedule';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   EmptyExam,
@@ -171,7 +170,7 @@ const TExamScheduleNew = () => {
               />
             )}
           </Box>
-          {getExamlist.length > 0 ? (
+          {getExamlist.length > 1 ? (
             <Box sx={{ width: '200px' }} >
               <Dropdown
                 Array={getExamlist}
@@ -184,8 +183,11 @@ const TExamScheduleNew = () => {
             </Box>
           ) : (
             ((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
-              <ErrorMessages Error={'No exam has been scheduled'} />
-            )
+              <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+                <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                  <b style={{ color: 'blue' }}> No exam has been scheduled </b>
+                </Alert>
+              </Typography>)
           )}
           <Box>
             <Tooltip title={"Displays standardwise exam schedule."}>
@@ -260,7 +262,7 @@ const TExamScheduleNew = () => {
         </Box>
       )}
       <br />
-
+      {/* 
       {getExamlist.length > 0 ? (
         <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
           <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
@@ -269,7 +271,7 @@ const TExamScheduleNew = () => {
         </Typography>
       ) :
         (<span></span>)
-      }
+      } */}
 
     </Box>
   );
