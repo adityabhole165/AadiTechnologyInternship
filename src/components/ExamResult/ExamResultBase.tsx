@@ -352,7 +352,7 @@ const ExamResultBase = () => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
     dispatch(getGenerateTopper(GetGenerateTopper));
-  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
+  }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId, asUserId]);
 
 
   const clickTeacher = (value) => {
