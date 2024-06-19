@@ -18,6 +18,7 @@ import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/Requ
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 
 
 const SchoolAttendanceOverview = () => {
@@ -106,7 +107,7 @@ const SchoolAttendanceOverview = () => {
                   max: new Date().toISOString().split('T')[0]
                 }}
               /> */}
-              <DatePicker
+              {/* <DatePicker
                 views={['year', 'month', 'day']}
                 value={new Date(SelectDate)}
                 onChange={(date) => {
@@ -120,7 +121,14 @@ const SchoolAttendanceOverview = () => {
                   }
                 }}
 
-              />
+              /> */}
+                <Datepicker
+                  DateValue={SelectDate}
+                  onDateChange={onSelectDate}
+                  label={'Start Date'}
+                  size={"small"}
+
+                />
             </Box>
             <Box>
               <Tooltip title={Note}>
