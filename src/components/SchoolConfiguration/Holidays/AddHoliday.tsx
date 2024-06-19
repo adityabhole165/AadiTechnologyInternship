@@ -221,31 +221,25 @@ const AddHoliday = ({ }) => {
             setErrorStartDate('Holiday start date must be within current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-        } else {
-            setErrorStartDate('');
+                isError = true;
         }
 
         if (isOutsideAcademicYear(EndDate)) {
             setErrorEndDate('Holiday end date must be within current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-        } else {
-            setErrorEndDate('');
-        }
+                isError = true;
+        } 
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than Start date.');
 
             isError = true;
-        } else {
-            setErrorEndDate1('');
-        }
+        } 
 
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters');
             isError = true;
-        } else {
-            setRemarkError('');
-        }
+        } 
         if (result.DuplicateHolidayNameCount !== "0") {
             SetErrorHolidayTitle('Holiday name already exists.');
             isError = true;
