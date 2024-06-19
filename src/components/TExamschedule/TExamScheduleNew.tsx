@@ -196,7 +196,6 @@ const TExamScheduleNew = () => {
       />
 
       {exam && (
-
         <Box
           sx={{
             mt: 2,
@@ -234,13 +233,13 @@ const TExamScheduleNew = () => {
                   <TableBody>
                     {SubList.map((item, i) => (
                       <TableRow key={i}>
-                        <TableCell>{item.text3}</TableCell>
-                        <TableCell>{item.text2}</TableCell>
-                        <TableCell>{item.Standard_Name}</TableCell>
-                        <TableCell>{item.header}</TableCell>
-                        <TableCell sx={{ color: 'blue' }}>{item.Instructions}</TableCell>
-                        <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>
-                      </TableRow>
+                      <TableCell>{item.text3 || '--'}</TableCell>
+                      <TableCell>{item.text2 || '--'}</TableCell>
+                      <TableCell>{item.Standard_Name || '--'}</TableCell>
+                      <TableCell>{item.header || '-'}</TableCell>
+                      <TableCell sx={{ color: 'blue' }}>{item.Instructions || '--'}</TableCell>
+                      <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>
+                    </TableRow>
                     ))}
                   </TableBody>
                 </Table>
