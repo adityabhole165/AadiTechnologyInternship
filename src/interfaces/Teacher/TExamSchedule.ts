@@ -46,6 +46,7 @@ export interface GetExamsListResult {
       ExamEndDate: string;
       TestName: null;
       Standard: null;
+      Standard_Name:string;
       StartTime: string;
       EndTime: string;
       StartDate: string;

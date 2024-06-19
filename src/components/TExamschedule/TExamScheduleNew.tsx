@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IGetAllStandards, {
@@ -210,7 +208,7 @@ const TExamScheduleNew = () => {
           }}
           onClick={() => setShowCardData(!showCardData)}
         >
-          <Typography variant="h6" sx={{ color: '#654321' }}> <b>{`Selected Exam: ${exam}`}</b></Typography>
+          <Typography variant="h6" sx={{ color: '#654321' }}> <b> {exam} </b></Typography>
         </Box>
 
       )}
@@ -227,6 +225,7 @@ const TExamScheduleNew = () => {
                     <TableRow>
                       <TableCell> Date</TableCell>
                       <TableCell>Time</TableCell>
+                      <TableCell>Standard</TableCell>
                       <TableCell>Subject</TableCell>
                       <TableCell>Instruction</TableCell>
                       <TableCell>Duration</TableCell>
@@ -237,6 +236,7 @@ const TExamScheduleNew = () => {
                       <TableRow key={i}>
                         <TableCell>{item.text3}</TableCell>
                         <TableCell>{item.text2}</TableCell>
+                        <TableCell>{item.Standard_Name}</TableCell>
                         <TableCell>{item.header}</TableCell>
                         <TableCell sx={{ color: 'blue' }}>{item.Instructions}</TableCell>
                         <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>

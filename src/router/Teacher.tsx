@@ -264,7 +264,7 @@ const teacherRoutes = [
     element: <ExamResultBase />
   },
   {
-    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId/:examResultProp',
+    path: 'ExamResultBase/:ParamsStandardDivisionId/:ParamsTestId',
     element: <ExamResultBase />
   },
   {

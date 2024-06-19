@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiExamResult from 'src/api/ExamResult/ApiExamResult';
 import {
+  IGenerateTestTotalMarksBody,
   IGetAllStudentsByGivenStdDivsBody,
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody,
@@ -29,6 +30,7 @@ const SliceExamResult = createSlice({
     IsMonthConfigurationForExamResult: false,
     GetAllStudentsByGivenStdDivs: [],
     GetSMSTemplate: null,
+    GenerateTopper: null,
     Loading: true
   },
   reducers: {
@@ -88,6 +90,10 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.GetSMSTemplate = action.payload;
     },
+    GetGenerateTopper(state, action) {
+      state.Loading = false;
+      state.GenerateTopper = action.payload;
+    },
 
 
     getLoading(state, action) {
@@ -109,7 +115,14 @@ export const getSMSTemplate =
       const response = await ApiExamResult.GetSMSTemplateApi(data);
       dispatch(SliceExamResult.actions.GetSMSTemplates(response.data));
     };
-
+    export const getGenerateTopper =
+    (data: IGenerateTestTotalMarksBody): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceExamResult.actions.getLoading(true));
+        const response = await ApiExamResult.GenerateTestTotalMarksApi(data);
+        dispatch(SliceExamResult.actions.GetGenerateTopper(response.data));
+      };
+  
 export const getAllStudentsByGivenStdDivsResult =
   (data: IGetAllStudentsByGivenStdDivsBody): AppThunk =>
     async (dispatch) => {

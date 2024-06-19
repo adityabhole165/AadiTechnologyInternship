@@ -1,4 +1,6 @@
 import {
+  IGenerateTestTotalMarksBody,
+  IGenerateTestTotalMarksResult,
   IGetAllStudentsByGivenStdDivsBody, IGetAllStudentsByGivenStdDivsResult,
   IGetClassPassFailDetailsForTestBody,
   IGetClassPassFailDetailsForTestResult,
@@ -70,6 +72,12 @@ const GetSMSTemplateApi = (data: IGetSMSTemplateBody) => {
     data
   );
 };
+const GenerateTestTotalMarksApi = (data: IGenerateTestTotalMarksBody) => {
+  return http.post<IGenerateTestTotalMarksResult>(
+    'Teacher/GenerateTestTotalMarks',
+    data
+  );
+};
 const ApiExamResult = {
   ClassTeachersApi,
   GetClasswiseExamDropDownApi,
@@ -79,7 +87,8 @@ const ApiExamResult = {
   PrePrimaryExamConfigurationApi,
   MonthConfigurationForExamResultApi,
   GetAllStudentsByGivenStdDivsApi,
-  GetSMSTemplateApi
+  GetSMSTemplateApi,
+  GenerateTestTotalMarksApi
 };
 export default ApiExamResult;
 
