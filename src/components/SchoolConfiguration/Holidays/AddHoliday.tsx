@@ -218,6 +218,7 @@ const AddHoliday = ({ }) => {
 
 
         if (isOutsideAcademicYear(StartDate)) {
+            
             setErrorStartDate('Holiday start date must be within current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
@@ -246,7 +247,7 @@ const AddHoliday = ({ }) => {
         }
 
         if (result1.PredefinedStartDateAndEndDateCount !== "0") {
-            setErrorEndDate2('Holiday already exists for the given date range.');
+            setErrorEndDate2('Holiday already defined.');
             isError = true;
         }
 
