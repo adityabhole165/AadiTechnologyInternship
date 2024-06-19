@@ -4,6 +4,7 @@ import { Avatar, Box, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 import Dropdown from '../dropdown/Dropdown';
 import { ListStyle } from '../styled/CardStyle';
+import Datepicker from '../DateSelector/Datepicker';
 
 const MCForm = ({
   AcademicYearList,
@@ -116,13 +117,20 @@ const MCForm = ({
           </Box>
         </Grid>
         <Grid item xs={5}>
-          <TextField
+          {/* <TextField
             type="date"
             id="outlined-required"
             variant="standard"
             onChange={clickDate}
             fullWidth
-          />
+          /> */}
+           <Datepicker
+                  DateValue={searchDate}
+                  onDateChange={clickDate}
+                  label={''}
+                  size={"small"}
+
+                />
         </Grid>
         <Grid item xs={2}>
           <ArrowCircleRightRoundedIcon
