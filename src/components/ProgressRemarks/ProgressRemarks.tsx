@@ -869,10 +869,10 @@ const ProgressRemarks = () => {
       >
         <Box sx={style}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Box>
-              <Box>
+            
+              
                 <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
-              </Box>
+              
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
 
                 <TextField
@@ -880,14 +880,14 @@ const ProgressRemarks = () => {
                   fullWidth
                   label={"Student Name"}
                   value={studentName}
-                  sx={{ bgcolor: '#f0e68c', minWidth: '250px' }}
+                  sx={{ bgcolor: '#f0e68c', minWidth: '230px' }}
                   InputProps={{
                     readOnly: true,
                   }}
                 />
                 <SearchableDropdown
                   ItemList={USRemarksCategory}
-                  sx={{ minWidth: '25vw' }}
+                  sx={{ minWidth: '230px' }}
                   onChange={clickRemark}
                   defaultValue={Remark}
                   label={'Remark Category'}
@@ -895,7 +895,7 @@ const ProgressRemarks = () => {
                 />
                 <SearchableDropdown
                   ItemList={GradeDropDown}
-                  sx={{ minWidth: '25vw' }}
+                  sx={{ minWidth: '230px' }}
                   onChange={clickGrade}
                   defaultValue={SelectGrade}
                   label={'Grades'}
@@ -904,7 +904,7 @@ const ProgressRemarks = () => {
 
               </Box>
 
-              <Box sx={{ padding: 1, marginBottom: '8px', maxHeight: '320px', overflowY: 'auto' }}>
+              <Box sx={{ padding: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
                 {remarkTemplates.length > 0 ? (
                   <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
 
@@ -922,8 +922,8 @@ const ProgressRemarks = () => {
                 )}
               </Box>
 
-            </Box>
-            <Box>
+            
+            <Box sx={{mt:"15px"}}>
               <Button
                 variant="contained"
                 sx={{
