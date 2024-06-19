@@ -40,6 +40,7 @@ import {
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 
 
 const AddDailyLog = () => {
@@ -464,7 +465,14 @@ const AddDailyLog = () => {
               <TextField fullWidth label={'Class'} sx={{ background: (theme) => alpha(theme.palette.primary.main, 0.2) }} value={ClassName} />
             </Grid>
             <Grid item xs={5}>
-              <TextField
+            <Datepicker
+                  DateValue={dateState}
+                  onDateChange={handleChange}
+                  label={'Date'}
+                  size={"medium"}
+
+                />
+              {/* <TextField
                 fullWidth
                 type="date"
                 value={dateState}
@@ -478,7 +486,7 @@ const AddDailyLog = () => {
                 helperText={dateError}
                 InputLabelProps={{ shrink: true }}
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
-              />
+              /> */}
             </Grid>
             <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'flex-start'}>
               <SingleFile
@@ -511,7 +519,14 @@ const AddDailyLog = () => {
               >
 
                 <Box>
-                  <DatePicker
+                <Datepicker
+                  DateValue={dateSearch}
+                  onDateChange={onSelectDate}
+                  label={''}
+                  size={"small"}
+
+                />
+                  {/* <DatePicker
                     value={new Date(dateSearch)}
                     onChange={(date) => {
                       onSelectDate(date);
@@ -528,7 +543,7 @@ const AddDailyLog = () => {
                         size: 'small',
                       }
                     }}
-                  />
+                  /> */}
                 </Box>
                 <Box>
                  

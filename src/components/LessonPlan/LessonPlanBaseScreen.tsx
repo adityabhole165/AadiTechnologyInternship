@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -32,11 +32,11 @@ import {
   resetdeleteplan
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import IsHighliteStaus from './LessonPlanContext';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -521,14 +521,16 @@ const LessonPlanBaseScreen = () => {
 
                 />
               </Box>
-              <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Tooltip title={"Displays all available lesson plans."}>
                   <IconButton
                     sx={{
                       color: 'white',
                       backgroundColor: grey[500],
                       height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
+                      ':hover': { backgroundColor: grey[600] },
+                      marginRight: '-4px',
+                      // marginLeft: '8px', 
                     }}
                   >
                     <QuestionMark />
@@ -544,7 +546,8 @@ const LessonPlanBaseScreen = () => {
                         color: 'white',
                         backgroundColor: grey[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] }
+                        ':hover': { backgroundColor: grey[600] },
+                        // marginLeft: '8px', 
                       }}
                       onClick={OnClickExportAll}
                     >
@@ -562,7 +565,8 @@ const LessonPlanBaseScreen = () => {
                         color: 'white',
                         backgroundColor: grey[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] }
+                        ':hover': { backgroundColor: grey[600] },
+                        marginLeft: '-4px',
                       }}
                       onClick={onClickAdd}
                     >
@@ -581,7 +585,7 @@ const LessonPlanBaseScreen = () => {
             My Subjects
           </Typography> */}
           <Typography variant="subtitle1"
-            sx={{ margin: '16px 0', textAlign: 'center' }}>
+            sx={{ marginTop: '2px',marginBottom: '-10px', textAlign: 'center' }}>
             {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
             <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
           </Typography>

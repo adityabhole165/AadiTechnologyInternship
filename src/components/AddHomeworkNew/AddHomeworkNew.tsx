@@ -796,8 +796,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           </Grid>
 
           <Grid item xs={3}>
-         
-        
+
+
             {/* <TextField
               fullWidth
               label={
@@ -1016,7 +1016,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           />
         ) : (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
+            <b>No record found.</b>
           </Typography>
         )}
 
@@ -1035,7 +1035,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Record Found.</b>
+              <b>No record found.</b>
             </Typography>
           )
           }
