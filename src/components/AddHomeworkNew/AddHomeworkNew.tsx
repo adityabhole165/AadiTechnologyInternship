@@ -684,7 +684,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   return (
     <>
 
-      <Box>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
