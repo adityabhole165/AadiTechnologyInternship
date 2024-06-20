@@ -10,7 +10,9 @@ const SliceAddRequisition = createSlice({
     IsGetAddItemList :[],
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
-    ISGetItemImage:{}
+    ISGetItemImage: {
+      ImageUrls: []
+    },
 
   },
   reducers: {
@@ -30,7 +32,7 @@ const SliceAddRequisition = createSlice({
     },
 
     RGetItemImage(state, action) {
-      state.ISGetItemImage = action.payload;
+      state.ISGetItemImage.ImageUrls = action.payload;
     },
 
    
@@ -116,8 +118,6 @@ export const CDAGetItemCategory =
       ImageUrl:item.ImageUrl
       };
     });
-
-
 
     dispatch(SliceAddRequisition.actions.RGetItemImage(GetImageUrl));
   };

@@ -45,11 +45,13 @@ const AddRequisition = () => {
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-    const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
-    const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
-    const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
-    console.log(result1,"result1");
-     
+    // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
+    // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
+    // const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
+    // console.log(result1,"result1");
+    const imageUrls: string[] = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
+      console.log(imageUrls,"imageUrls");
+      
 
         const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
     
@@ -553,7 +555,9 @@ const AddRequisition = () => {
                   </Box>
                   
                   <DialogContent>
-                  <img src={result1} alt="Item" />
+                  {imageUrls.map((url, index) => (
+                <img key={index} src={url} alt={`Item ${index + 1}`} />
+                     ))}
                   </DialogContent>
                 </Dialog>
                 </Box>
