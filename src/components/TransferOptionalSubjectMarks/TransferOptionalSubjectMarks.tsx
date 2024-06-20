@@ -2,7 +2,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Pagination, Paper, SelectChangeEvent, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,19 @@ import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+
 
 const TransferOptionalSubjectMarks = () => {
     const dispatch = useDispatch();
@@ -40,7 +53,7 @@ const TransferOptionalSubjectMarks = () => {
     const [OptionalSubjects, setOptionalSubjects] = useState([])
     const [defaultSubjects, setdefaultSubjects] = useState([])
 
-    
+
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
     useEffect(() => {
@@ -108,41 +121,41 @@ const TransferOptionalSubjectMarks = () => {
         })
         return returnVal;
     }
-   const getXML = () => {
-    let sXML = '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+    const getXML = () => {
+        let sXML = '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 
-    StudentsList.map((Item, i) => {
-        if (Item.IsActive) {
-            OptionalSubjects.map((Obj, Index) => {
-                if (Obj.isActive) {
-                    if (Obj.SubjectId === "0") {
-                        defaultSubjects.map((defaultObj) => {
+        StudentsList.map((Item, i) => {
+            if (Item.IsActive) {
+                OptionalSubjects.map((Obj, Index) => {
+                    if (Obj.isActive) {
+                        if (Obj.SubjectId === "0") {
+                            defaultSubjects.map((defaultObj) => {
+                                sXML +=
+                                    '<TransferSubjectMarksInfo>' +
+                                    '<StudentId>' + Item.StudentId + '</StudentId>' +
+                                    '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
+                                    '<SubjectId>' + defaultObj.SubjectId + '</SubjectId>' +
+                                    '<SubjectGroupId>' + defaultObj.SubjectGroupId + '</SubjectGroupId>' +
+                                    '</TransferSubjectMarksInfo>';
+                            });
+                        } else {
                             sXML +=
                                 '<TransferSubjectMarksInfo>' +
                                 '<StudentId>' + Item.StudentId + '</StudentId>' +
                                 '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
-                                '<SubjectId>' + defaultObj.SubjectId + '</SubjectId>' +
-                                '<SubjectGroupId>' + defaultObj.SubjectGroupId + '</SubjectGroupId>' +
+                                '<SubjectId>' + Obj.SubjectId + '</SubjectId>' +
+                                '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
                                 '</TransferSubjectMarksInfo>';
-                        });
-                    } else {
-                        sXML +=
-                            '<TransferSubjectMarksInfo>' +
-                            '<StudentId>' + Item.StudentId + '</StudentId>' +
-                            '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
-                            '<SubjectId>' + Obj.SubjectId + '</SubjectId>' +
-                            '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
-                            '</TransferSubjectMarksInfo>';
+                        }
                     }
-                }
-            });
-        }
-    });
+                });
+            }
+        });
 
-    sXML += '</ArrayOfTransferSubjectMarksInfo>';
+        sXML += '</ArrayOfTransferSubjectMarksInfo>';
 
-    return sXML;
-};
+        return sXML;
+    };
 
 
     useEffect(() => {
@@ -171,8 +184,8 @@ const TransferOptionalSubjectMarks = () => {
         const activeSubjects = USOptionalSubjectsForMarksTransfer.filter(item => item.OptionalSubjectsId === "0");
         setdefaultSubjects(activeSubjects);
     }, [USOptionalSubjectsForMarksTransfer]);
-    
-  console.log(defaultSubjects,"defaultSubjects---");
+
+    console.log(defaultSubjects, "defaultSubjects---");
 
     const SubjectSelection = (subjectId) => {
         setIsDirty(true)
@@ -197,7 +210,7 @@ const TransferOptionalSubjectMarks = () => {
             }
             else
                 setselectClasstecaher(value);
-                setPage(1)
+            setPage(1)
         } else {
             setselectClasstecaher(value);
             setPage(1)
@@ -325,196 +338,217 @@ const TransferOptionalSubjectMarks = () => {
     }, [ISTransferOptionalSubjectMarks]);
     return (
         <>
-            <CommonPageHeader
-                navLinks={[
-                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
-                    { title: 'Transfer Optional Subject Marks', path: '/extended-sidebar/Teacher/TransferOptionalSubjectMarks' }
+            <Box sx={{ px: 2 }}>
+                <CommonPageHeader
+                    navLinks={[
+                        { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+                        { title: 'Transfer Optional Subject Marks', path: '/extended-sidebar/Teacher/TransferOptionalSubjectMarks' }
 
-                ]}
-                rightActions={
-                    <>
-                        <SearchableDropdown
-                            sx={{ width: '25vw' }}
-                            ItemList={USClassTeacherList}
-                            onChange={ClickSelctTecher}
-                            label={'Select Teacher:'}
-                            defaultValue={selectClasstecaher}
-                            mandatory
-                            size={"small"}
-                        />
-                        <TextField
-                            sx={{ wdth: '25vw' }}
-                            fullWidth
-                            label="Student Name / Reg.No. :"
-                            value={SearchText}
-                            variant={'outlined'}
-                            size={"small"}
-                            onChange={(e) => {
-                                SearchNameChange(e.target.value);
-                            }}
-                        />
-                        <IconButton
-                            onClick={changeSearchText}
-                            disabled={selectClasstecaher === '0'}
-                            sx={{
-                                background: (theme) => theme.palette.primary.main,
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: (theme) => theme.palette.primary.dark
+                    ]}
+                    rightActions={
+                        <>
+                            <SearchableDropdown
+                                sx={{ width: '25vw' }}
+                                ItemList={USClassTeacherList}
+                                onChange={ClickSelctTecher}
+                                label={'Select Teacher:'}
+                                defaultValue={selectClasstecaher}
+                                mandatory
+                                size={"small"}
+                            />
+                            <TextField
+                                sx={{ wdth: '25vw' }}
+                                fullWidth
+                                label="Student Name / Reg.No. :"
+                                value={SearchText}
+                                variant={'outlined'}
+                                size={"small"}
+                                onChange={(e) => {
+                                    SearchNameChange(e.target.value);
+                                }}
+                            />
+                            <IconButton
+                                onClick={changeSearchText}
+                                disabled={selectClasstecaher === '0'}
+                                sx={{
+                                    background: (theme) => theme.palette.primary.main,
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: (theme) => theme.palette.primary.dark
+                                    }
+                                }}
+                            >
+                                <SearchTwoTone />
+                            </IconButton>
+                            <Box>
+                                <Tooltip title={"Transfer student's marks from one optional subject to another optional subject"}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] }
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            {StudentsList.length > 0 && (
+                                <Tooltip title={"Transfer"}>
+                                    <IconButton
+                                        onClick={clickTransfer}
+                                        disabled={selectClasstecaher === '0'}
+                                        sx={{
+                                            background: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+
+                        </>
+                    }
+                />
+
+
+
+                {StudentsList.length > 0 && (
+                    <Paper sx={{ marginTop: '10px' }}>
+                        <Accordion >
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                            >
+                                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Optional Subjects</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{ display: 'flex', flexDirection: 'column' }}>
+                                {StudentsList.length > 0 && (
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', width: "520px", height: '230px' }}>
+
+                                        {ParentOptionalSubjects
+                                            .map((subject, index) => (
+                                                <Accordion key={index}>
+                                                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                                        {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <ul >
+                                                            {OptionalSubjects
+                                                                .filter((objParent) => {
+                                                                    return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                                        && objParent.OptionalSubjectsId !== "0"
+                                                                    )
+                                                                })
+                                                                .map((subItem, subIndex) => (
+                                                                    <li key={subIndex} style={{ listStyleType: "none" }}>
+                                                                        <label>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                checked={subItem.isActive}
+                                                                                onChange={() => SubjectSelection(subItem.SubjectId)}
+                                                                            />
+                                                                            {subItem.SubjectName}
+                                                                            {OptionalSubjects
+                                                                                .filter((objChildItem) => {
+                                                                                    return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
+                                                                                        && objChildItem.OptionalSubjectsId == "0"
+                                                                                        && objChildItem.SubjectGroupId == subItem.SubjectGroupId
+                                                                                    )
+                                                                                })
+                                                                                .map((objChild, objChildIndex) => (
+                                                                                    <ul key={objChildIndex}>
+                                                                                        <label>{objChild.SubjectName}</label>
+                                                                                    </ul>))
+                                                                            }
+                                                                        </label>
+                                                                    </li>
+                                                                ))}
+                                                        </ul>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                            ))}
+
+                                    </Box>
+
+                                )
                                 }
-                            }}
-                        >
-                            <SearchTwoTone />
-                        </IconButton>
-                        <Box>
-                            <Tooltip title={"Transfer student's marks from one optional subject to another optional subject"}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        height: '36px !important',
-                                        ':hover': { backgroundColor: grey[600] }
-                                    }}
-                                >
-                                    <QuestionMarkIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                        {StudentsList.length > 0 && (
-                            <Tooltip title={"Transfer"}>
-                                <IconButton
-                                    onClick={clickTransfer}
-                                    disabled={selectClasstecaher === '0'}
-                                    sx={{
-                                        background: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                >
-                                    <Save />
-                                </IconButton>
-                            </Tooltip>
-                        )}
+                            </AccordionDetails>
+                        </Accordion>
+                    </Paper>
+                )} <br />
 
+                {errorMessage && (
+                    <>
+                        <Typography sx={{ color: 'red' }}>
+                            Please fix following error(s):</Typography>
+                        <Typography sx={{ color: 'red' }}>
+                            {errorMessage}
+                        </Typography>
                     </>
-                }
-            />
-            {errorMessage && (
-                <>
-                    <Typography sx={{ color: 'red' }}>
-                        Please fix following error(s):</Typography>
-                    <Typography sx={{ color: 'red' }}>
-                        {errorMessage}
-                    </Typography>
-                </>
-            )}
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', height: "800" }}>
-
-                {StudentsList.length > 0 && (
-                    <SubjectMarkList
-                        ItemList={StudentsList}
-                        HeaderArray={HeaderPublish}
-                        clickchange={Changevalue}
-                        clickTitle={""}
-                    />
                 )}
-                {StudentsList.length > 0 && (
-                    <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
-                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-                            <h3>Optional Subjects</h3>
-                            {ParentOptionalSubjects
-                                .map((subject, index) => (
-                                    <Accordion key={index}>
-                                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                            {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <ul>
-                                                {OptionalSubjects
-                                                    .filter((objParent) => {
-                                                        return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
-                                                            && objParent.OptionalSubjectsId !== "0"
-                                                        )
-                                                    })
-                                                    .map((subItem, subIndex) => (
-                                                        <li key={subIndex}>
-                                                            <label>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={subItem.isActive}
-                                                                    onChange={() => SubjectSelection(subItem.SubjectId)}
-                                                                />
-                                                                {subItem.SubjectName}
-                                                                {OptionalSubjects
-                                                                    .filter((objChildItem) => {
-                                                                        return (objChildItem.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
-                                                                            && objChildItem.OptionalSubjectsId == "0"
-                                                                            && objChildItem.SubjectGroupId == subItem.SubjectGroupId
-                                                                        )
-                                                                    })
-                                                                    .map((objChild, objChildIndex) => (
-                                                                        <ul key={objChildIndex}>
-                                                                            <label>{objChild.SubjectName}</label>
-                                                                        </ul>))
-                                                                }
-                                                            </label>
-                                                        </li>
-                                                    ))}
-                                            </ul>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                ))}
-                        </Box>
-                    </Box>
 
-                )
-                }
-            </Box>
-            {StudentsList.length > 0 && (
-                <Paper sx={{ marginTop: '10px' }}>
-                    <Accordion defaultExpanded>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                        >
-                            <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
-                            <Alert variant="filled" severity="info">{Note1}</Alert>
-                            <Alert variant="filled" severity="info">{Note2}</Alert>
-                            <Alert variant="filled" severity="info">{Note3}</Alert>
-                            <Alert variant="filled" severity="info">{Note4}</Alert>
-                        </AccordionDetails>
-                    </Accordion>
-                </Paper>
-            )}
-            {selectClasstecaher !== '0' ? (
-                StudentsList.length > 0 ? (
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
-                        <Box sx={{ textAlign: 'center' }}>
-                            {`${startIndex} To ${endIndex} Out Of 39 Records`}
-                        </Box>
-                        Select a page:
-                        <Pagination
-                            count={5}
-                            variant={"outlined"}
-                            shape='rounded' showFirstButton
-                            showLastButton
-                            onChange={(event, value) => {
-                                handlePageChange(value);
-                            }}
+                <Box sx={{ display: 'flex', flexDirection: 'row', height: "800" }}>
+
+                    {StudentsList.length > 0 && (
+                        <SubjectMarkList
+                            ItemList={StudentsList}
+                            HeaderArray={HeaderPublish}
+                            clickchange={Changevalue}
+                            clickTitle={""}
                         />
-                    </Box>
-                ) : (
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                        <b>No Record Found.</b>
-                    </Typography>
-                )
-            ) : null}
+                    )}
+
+                </Box>
+                {StudentsList.length > 0 && (
+                    <Paper sx={{ marginTop: '10px' }}>
+                        <Accordion defaultExpanded>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                            >
+                                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
+                                <Alert variant="filled" severity="info">{Note1}</Alert>
+                                <Alert variant="filled" severity="info">{Note2}</Alert>
+                                <Alert variant="filled" severity="info">{Note3}</Alert>
+                                <Alert variant="filled" severity="info">{Note4}</Alert>
+                            </AccordionDetails>
+                        </Accordion>
+                    </Paper>
+                )}
+                {selectClasstecaher !== '0' ? (
+                    StudentsList.length > 0 ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                                {`${startIndex} To ${endIndex} Out Of 39 Records`}
+                            </Box>
+                            Select a page:
+                            <Pagination
+                                count={5}
+                                variant={"outlined"}
+                                shape='rounded' showFirstButton
+                                showLastButton
+                                onChange={(event, value) => {
+                                    handlePageChange(value);
+                                }}
+                            />
+                        </Box>
+                    ) : (
+                        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                            <b>No Record Found.</b>
+                        </Typography>
+                    )
+                ) : null}
+            </Box >
         </>
     );
 };
