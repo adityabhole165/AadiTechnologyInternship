@@ -372,22 +372,6 @@ const ExamResultToppers = () => {
     };
     const ClickItemST = () => { };
 
-    // useEffect(() => {
-    //     if (radioBtn === '1') {
-    //         const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
-    //         if (selectedExam) {
-    //             setSelectedExamName(selectedExam.Name);
-    //             // setExamCT(GetExamdropdownCT[0].Id)
-    //         }
-    //     } else {
-    //         const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
-    //         if (selectedExam) {
-    //             setSelectedExamName(selectedExam.Name);
-    //             // setExamST(GetExamdropdownST[0].Id)
-    //         }
-    //     }
-    // }, [SelectExamCT, SelectExamST, radioBtn, GetExamdropdownCT, GetExamdropdownST]);
-
     const ClickRadio = (value) => {
         setRadioBtn(value);
         setHighlightStudentId('0')
