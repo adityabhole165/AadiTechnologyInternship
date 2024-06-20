@@ -83,7 +83,7 @@ export const ClassdropdownListCT =
             const response = await ToppersApi.ClassandStandardDropdown(data);
             let abc = response.data.map((item, i) => {
                 return {
-                    Id: item.SchoolWise_Standard_Division_Id,
+                    Id: item.Standard_Id,
                     Name: item.StandardDivision,
                     Value: item.SchoolWise_Standard_Division_Id
                 };

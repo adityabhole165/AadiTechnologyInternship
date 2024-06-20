@@ -149,6 +149,14 @@ const ExamResultToppers = () => {
         });
         return perm;
     };
+    const getStandardFromCT = () => {
+        let returnVal = "0"
+        GetClassdropdownCT.map((item) => {
+            if (item.Value == SelectClassCT)
+                returnVal = item.Id
+        })
+        return returnVal
+    }
 
     const [IsPageload, setIsPageload] = useState(true);
     useEffect(() => {
@@ -158,17 +166,12 @@ const ExamResultToppers = () => {
 
             if (radioBtn === '1') {
                 console.log(IsPageload, "IsPageload");
-                if (!IsPageload) {
-                    console.log(GetExamdropdownCT[0], "GetExamdropdownCT");
-
-                    if (GetExamdropdownCT[0].Id === "-1") {
-                        SelectExamTemp = GetExamdropdownCT[0].Id
-                    } else {
-                        SelectExamTemp = GetLatestclassExam
-                    }
-                } else {
-                    // setExamCT(SelectExamCT);
-                    SelectExamTemp = TestId == undefined ? "" : TestId
+                if (IsPageload) {
+                    // setExamST(SelectExamCT);
+                    SelectExamTemp = TestId == undefined ? GetExamdropdownCT[0].Id : TestId
+                }
+                else {
+                    SelectExamTemp = GetExamdropdownCT[0].Id
                 }
                 setExamCT(SelectExamTemp)
                 const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamTemp);
@@ -178,12 +181,10 @@ const ExamResultToppers = () => {
 
             } else if (radioBtn === '2') {
 
-                if (GetExamdropdownST[0].Id === -1) {
-                    SelectExamTemp = GetExamdropdownST[0].Id;
-                } else {
-                    SelectExamTemp = GetLatestclassExam
-                }
+                SelectExamTemp = GetExamdropdownST[0].Id;
                 setExamST(SelectExamTemp)
+                setStandardST(getStandardFromCT)
+
                 const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
                 if (selectedExam) {
                     setSelectedExamName(selectedExam.Name);
@@ -192,7 +193,8 @@ const ExamResultToppers = () => {
 
             }
         }
-    }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST, IsPageload]);
+    }, [radioBtn, GetExamdropdownCT, GetExamdropdownST, IsPageload]);
+    // }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST, IsPageload]);
 
 
     // useEffect(() => {
@@ -390,7 +392,7 @@ const ExamResultToppers = () => {
         setRadioBtn(value);
         setHighlightStudentId('0')
         setSelectedExamName('');
-        // setIsPageload(false)
+        setIsPageload(false)
     };
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
