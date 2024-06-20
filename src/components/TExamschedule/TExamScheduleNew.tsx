@@ -181,11 +181,11 @@ const TExamScheduleNew = () => {
               </Box>
             ) : (
               //((!isFirstTime && RoleId === '2') || RoleId !== '2') && (
-              <Typography variant="h6" textAlign="center" color="primary" mb={2}>
-                <Alert variant="filled" color='info' sx={{ mb: 2 }} icon={<InfoOutlinedIcon />}>
-                  <b style={{ color: 'blue' }}> No exam </b>
-                </Alert>
-              </Typography>
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+ <b>No exam has been scheduled</b>
+</Typography>
+
+
               //)
             )}
             <Box>
@@ -286,11 +286,9 @@ const TExamScheduleNew = () => {
           )}
         </Box>
       ) : (
-        <Typography variant="h6" textAlign="center" color="primary" mb={2}>
-          <Alert variant="filled" color='info' sx={{ mb: 2 }} icon={<InfoOutlinedIcon />}>
-            <b style={{ color: 'blue' }}> No exam has been scheduled </b>
-          </Alert>
-        </Typography>
+        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+        <b>No exam has been scheduled</b>
+       </Typography>
       )}
 
     </Box>
