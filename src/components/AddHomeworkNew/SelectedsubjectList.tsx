@@ -1,8 +1,8 @@
 
-import Delete from '@mui/icons-material/Delete';
-import Edit from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Link } from '@mui/material';
+import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,8 +10,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 const SelectedsubjectList = ({
   ItemList,
   HeaderArray,
@@ -54,7 +52,7 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <Link href={''} onClick={() => clickView(item.Id)}  style={{textDecoration:'underline'}}>
+                  <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
                     {item.Text2}
                   </Link>
                 </TableCell>
@@ -68,7 +66,7 @@ const SelectedsubjectList = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                {item.Text5}
+                  {item.Text5}
                   {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
                   
                   </Link> */}
@@ -96,19 +94,27 @@ const SelectedsubjectList = ({
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text7 == 'False' ? (
-                    <EditTwoTone
-                      style={{ color: 'black ' }}
-                      onClick={() => clickEdit(item.Id)}
-                     />
+                    <Tooltip title="Edit">
+                      <IconButton>
+                        <EditTwoTone
+                          style={{ color: 'black ', cursor: 'pointer' }}
+                          onClick={() => clickEdit(item.Id)}
+                        />
+                      </IconButton>
+                    </ Tooltip>
                   ) : null}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text7 == 'False' ? (
-                    <DeleteForeverIcon
-                     sx={{ color: 'red' }}
-                      onClick={() => clickDelete(item.Id)}
-                    />
+                    <Tooltip title="Delete">
+                      <IconButton>
+                        <DeleteForeverIcon
+                          sx={{ color: 'red', cursor: 'pointer' }}
+                          onClick={() => clickDelete(item.Id)}
+                        />
+                      </IconButton>
+                    </ Tooltip>
                   ) : null}
                 </TableCell>
               </TableRow>
