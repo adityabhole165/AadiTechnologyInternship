@@ -189,7 +189,7 @@ const TExamScheduleNew = () => {
               //)
             )}
             <Box>
-              <Tooltip title="Displays standardwise exam schedule.">
+              <Tooltip title="Display Standardwise Exam Schedule.">
                 <IconButton sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -232,14 +232,37 @@ const TExamScheduleNew = () => {
               <Table>
                 <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time & Duration</TableCell>
-                    {classList.map((className) => (
+                  <TableCell></TableCell>
+                  <TableCell>Standards</TableCell>
+                                       {classList.map((className) => (
                       <TableCell key={className}>{className}</TableCell>
                     ))}
-                    <TableCell>Instructions</TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
+
+                <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
+                  <TableRow>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Time & Duration</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Subject</TableCell>
+                    <TableCell>Instructions</TableCell>
+
+                                     </TableRow>
+                </TableHead>
+
                 <TableBody>
                   {SubList.map((item, index) => (
                     <TableRow key={index}>
