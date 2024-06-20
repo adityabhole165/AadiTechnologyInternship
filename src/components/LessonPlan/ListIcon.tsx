@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Link, Tooltip } from '@mui/material';
+import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -111,7 +111,7 @@ function ListIcon({
                                         (
                                             <Tooltip title={"View Remarks"}>
                                                 <Visibility onClick={() =>
-                                                    clickView(item.Id, item.Text3, item.StartDate, item.EndDate, item.UserId)} />
+                                                    clickView(item.Id, item.Text3, item.StartDate, item.EndDate, item.UserId)} sx={{ cursor: 'pointer' }} />
                                             </Tooltip>
                                         ) :
                                         "-"
@@ -121,7 +121,7 @@ function ListIcon({
                                     <TableCell align="center">
 
                                         <Tooltip title={"Edit"}>
-                                            <EditTwoTone onClick={() => clickEdit({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })} />
+                                            <EditTwoTone onClick={() => clickEdit({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })} sx={{ cursor: 'pointer' }} />
                                         </Tooltip>
                                     </TableCell>
                                 }
@@ -129,7 +129,7 @@ function ListIcon({
                                 <TableCell align="center">
                                     {item.SubmitedByReportingUser == "0" && (
                                         <Tooltip title={"Delete"}>
-                                            <DeleteForeverIcon onClick={() => clickDelete(item.StartDate, item.EndDate)} sx={{ color: 'red' }} />
+                                            <DeleteForeverIcon onClick={() => clickDelete(item.StartDate, item.EndDate)} sx={{ color: 'red', cursor: 'pointer' }} />
                                         </Tooltip>
                                     )}
                                 </TableCell>
@@ -140,7 +140,7 @@ function ListIcon({
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => {
                                                 clicknav({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })
-                                            }} />
+                                            }} sx={{ cursor: 'pointer' }} />
                                         </Tooltip>
                                     </TableCell>
                                 )}
@@ -153,7 +153,7 @@ function ListIcon({
                                             component="button"
                                             onClick={() => clickExport(item.Id)}
                                             sx={{
-                                                color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit'
+                                                color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit', cursor: 'pointer'
                                             }}
                                         >
                                             Export
@@ -161,11 +161,12 @@ function ListIcon({
                                     )}
                                 </TableCell>
 
-                                <TableCell align="center">
+                                <TableCell align="center" >
                                     {ReportingConfigs.map((config, i) => {
                                         if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
-                                            return (<Tooltip title={config.ReportingUserName} key={i}>
-                                                {getStatusIcon(config.IsSubmitted)}
+                                            return (<Tooltip title={config.ReportingUserName} key={i}  >
+                                                <IconButton sx={{ cursor: 'pointer' }}>  {getStatusIcon(config.IsSubmitted)}</IconButton>
+
                                             </Tooltip>)
                                         }
                                     })}
