@@ -113,7 +113,7 @@ function HolidaysList({
                         sx={{
                           textTransform: 'capitalize',
                           backgroundColor: rowStyle.backgroundColor,
-                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
                         align="center"
                       >
@@ -123,7 +123,7 @@ function HolidaysList({
                         sx={{
                           textTransform: 'capitalize',
                           backgroundColor: rowStyle.backgroundColor,
-                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
                         align="center"
                       >
@@ -134,7 +134,7 @@ function HolidaysList({
                           textTransform: 'capitalize',
                           backgroundColor: rowStyle.backgroundColor,
                           textAlign: 'left',
-                          opacity: !isCurrentDate && isPast ? 0.5 : 1
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
                         align="left"
                       >
@@ -145,7 +145,7 @@ function HolidaysList({
                           textTransform: 'capitalize',
                           backgroundColor: rowStyle.backgroundColor,
                           textAlign: 'left',
-                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
                         align="left"
                       >
@@ -155,7 +155,7 @@ function HolidaysList({
                         sx={{
                           textTransform: 'capitalize',
                           backgroundColor: rowStyle.backgroundColor,
-                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
                         align="center"
                       >
@@ -164,7 +164,7 @@ function HolidaysList({
                       <TableCell
                         sx={{
                           textTransform: 'capitalize',
-                          backgroundColor: rowStyle.backgroundColor,
+                          backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px',
                           opacity: 1,
                         }}
                         align="center"
@@ -182,7 +182,7 @@ function HolidaysList({
                         sx={{
                           textTransform: 'capitalize',
                           opacity: 1,
-                          backgroundColor: rowStyle.backgroundColor,
+                          backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px'
 
                         }}
                         align="center"
