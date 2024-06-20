@@ -47,21 +47,6 @@ const SelectStandardExamslice = createSlice({
 //       dispatch(SelectStandardExamslice.actions.getSelectStandardRes(itemlist));
 //     };
 
-// export const GetSelectExamRes =
-//   (data: IGetExamsList): AppThunk =>
-//     async (dispatch) => {
-//       const response = await GetTExamResultListApi.IGetExams(data);
-//       let itemlist = [];
-//       if (response.data !== null)
-//         itemlist = response.data?.GetExamsForStandardResult.map((item) => {
-//           return {
-//             id: item.Id,
-//             Name: item.Name,
-//             Value: item.Id
-//           };
-//         });
-//       dispatch(SelectStandardExamslice.actions.getSelectExamRes(itemlist));
-//     };
 
 
 
@@ -82,21 +67,38 @@ export const GetSelectStandardRes =
     dispatch(SelectStandardExamslice.actions.getSelectStandardRes(itemlist));
   };
 
-export const GetSelectExamRes =
+
+  export const GetSelectExamRes =
   (data: IGetExamsList): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTExamResultListApi.IGetExams(data);
-    let itemlist = [{ id: '0', Name: 'All', Value: '0' }];
-    if (response.data !== null) {
-      const exams = response.data.GetExamsForStandardResult.map((item) => ({
-        id: item.Id,
-        Name: item.Name,
-        Value: item.Id
-      }));
-      itemlist.push(...exams);
-    }
-    dispatch(SelectStandardExamslice.actions.getSelectExamRes(itemlist));
-  };
+    async (dispatch) => {
+      const response = await GetTExamResultListApi.IGetExams(data);
+      let itemlist = [];
+      if (response.data !== null)
+        itemlist = response.data?.GetExamsForStandardResult.map((item) => {
+          return {
+            id: item.Id,
+            Name: item.Name,
+            Value: item.Id
+          };
+        });
+      dispatch(SelectStandardExamslice.actions.getSelectExamRes(itemlist));
+    };
+
+// export const GetSelectExamRes =
+//   (data: IGetExamsList): AppThunk =>
+//   async (dispatch) => {
+//     const response = await GetTExamResultListApi.IGetExams(data);
+//     let itemlist = [{ id: '0', Name: 'All', Value: '0' }];
+//     if (response.data !== null) {
+//       const exams = response.data.GetExamsForStandardResult.map((item) => ({
+//         id: item.Id,
+//         Name: item.Name,
+//         Value: item.Id
+//       }));
+//       itemlist.push(...exams);
+//     }
+//     dispatch(SelectStandardExamslice.actions.getSelectExamRes(itemlist));
+//   };
 
 
 
