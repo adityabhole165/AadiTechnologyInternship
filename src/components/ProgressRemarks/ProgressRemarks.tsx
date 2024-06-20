@@ -717,7 +717,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '25vw', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '20vw', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
@@ -730,7 +730,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             ItemList={USGetTestwiseTerm}
-            sx={{ minWidth: '25vw' }}
+            sx={{ minWidth: '10vw' }}
             onChange={clickSelectTerm}
             defaultValue={SelectTerm}
             label={'Term'}
@@ -739,7 +739,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             ItemList={USStudentListDropDown}
-            sx={{ minWidth: '25vw' }}
+            sx={{ minWidth: '20vw' }}
             onChange={clickStudentList}
             defaultValue={StudentList}
             label={'StudentList'}
@@ -869,61 +869,61 @@ const ProgressRemarks = () => {
       >
         <Box sx={style}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            
-              
-                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
-              
-              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
 
-                <TextField
-                  size={"small"}
-                  fullWidth
-                  label={"Student Name"}
-                  value={studentName}
-                  sx={{ bgcolor: '#f0e68c', minWidth: '230px' }}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                <SearchableDropdown
-                  ItemList={USRemarksCategory}
-                  sx={{ minWidth: '230px' }}
-                  onChange={clickRemark}
-                  defaultValue={Remark}
-                  label={'Remark Category'}
-                  size={"small"}
-                />
-                <SearchableDropdown
-                  ItemList={GradeDropDown}
-                  sx={{ minWidth: '230px' }}
-                  onChange={clickGrade}
-                  defaultValue={SelectGrade}
-                  label={'Grades'}
-                  size={"small"}
-                />
 
-              </Box>
+            <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
 
-              <Box sx={{ padding: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
-                {remarkTemplates.length > 0 ? (
-                  <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
 
-                    <RemarkList
-                      ItemList={remarkTemplates}
-                      HeaderArray={HeaderPublish}
-                      onChange={Changevalue}
-                      ClickHeader={ClickHeader}
-                    />
-                  </ProgressRemarkTerm.Provider>
-                ) : (
-                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
-                    <b>No Record Found.</b>
-                  </Typography>
-                )}
-              </Box>
+              <TextField
+                size={"small"}
+                fullWidth
+                label={"Student Name"}
+                value={studentName}
+                sx={{ bgcolor: '#f0e68c', minWidth: '230px' }}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <SearchableDropdown
+                ItemList={USRemarksCategory}
+                sx={{ minWidth: '230px' }}
+                onChange={clickRemark}
+                defaultValue={Remark}
+                label={'Remark Category'}
+                size={"small"}
+              />
+              <SearchableDropdown
+                ItemList={GradeDropDown}
+                sx={{ minWidth: '230px' }}
+                onChange={clickGrade}
+                defaultValue={SelectGrade}
+                label={'Grades'}
+                size={"small"}
+              />
 
-            
-            <Box sx={{mt:"15px"}}>
+            </Box>
+
+            <Box sx={{ padding: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
+              {remarkTemplates.length > 0 ? (
+                <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
+
+                  <RemarkList
+                    ItemList={remarkTemplates}
+                    HeaderArray={HeaderPublish}
+                    onChange={Changevalue}
+                    ClickHeader={ClickHeader}
+                  />
+                </ProgressRemarkTerm.Provider>
+              ) : (
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
+                  <b>No Record Found.</b>
+                </Typography>
+              )}
+            </Box>
+
+
+            <Box sx={{ mt: "15px" }}>
               <Button
                 variant="contained"
                 sx={{
