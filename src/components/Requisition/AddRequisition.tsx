@@ -4,19 +4,21 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetAddItemListBody, IGetItemCategoryBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetAddItemListBody, IGetItemCategoryBody, ISaveRequisitionBody,GetItemImageBody } from 'src/interfaces/Requisition/IAddRequisition';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
+import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition , CDAGetItemImage} from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 import { toast } from 'react-toastify';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { ClearIcon } from '@mui/x-date-pickers';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -35,15 +37,21 @@ const AddRequisition = () => {
     const [Error, setError] = useState('');
     const [Error1, setError1] = useState('');
     const [Error2, setError2] = useState('');
+    const [imageid, Setimageid] = useState('');
 
+    
     
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
- 
+    const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
+    const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
+    const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
+    console.log(result1,"result1");
+     
+
         const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
-        console.log(itemNames, "itemNames");
     
 
   
@@ -52,13 +60,20 @@ const AddRequisition = () => {
     };
 
     const GetAddItemListBody: IGetAddItemListBody = {
-        asSchoolId: 18,
+        asSchoolId: asSchoolId,
         asName: regNoOrName,
         asItemCategoryId: ItemCategory,
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
     };
+
+    const GetImageBody: GetItemImageBody = {
+        asSchoolId: asSchoolId,
+        asItemId: Number(imageid)
+        
+    };
+
 
     const HeaderPublish = [
         { Id: 1, Header: 'Item Code' },
@@ -235,6 +250,18 @@ const AddRequisition = () => {
         setRegNoOrName(value);
     };
 
+    
+    const [open1, setOpen1] = useState(false);
+
+    const Openimage = () => {
+        setOpen1(true);
+    };
+
+    const handleClose = () => {
+        setOpen1(false); 
+      };
+    
+
     const Columns = [
         {
             id: 'itemCode',
@@ -260,6 +287,21 @@ const AddRequisition = () => {
             selector: row => row.ItemCategoryName,
             renderCell: row => row.ItemCategoryName
         },
+
+        {
+            id: 'ImageCount',
+            label: 'Item Image',
+            selector: row => row.ImageCount,
+            renderCell: row => (
+                row.ImageCount > 0 ? (
+                        <IconButton   onClick={() => Setimageid((row.ItemID))} >
+                            <VisibilityIcon onClick={Openimage} />
+                        </IconButton>
+                   
+                ) : <div> </div>
+            )
+        },
+
         {
             id: 'Add Item',
             label: 'Add Item',
@@ -328,6 +370,11 @@ const AddRequisition = () => {
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
+
+    useEffect(() => {
+        dispatch(CDAGetItemImage(GetImageBody));
+    }, [imageid]);
+
 
     useEffect(() => {
         dispatch(CDASaveRequisition(SaveRequisitionBody));
@@ -494,6 +541,23 @@ const AddRequisition = () => {
 
                     </Grid>
                 </Box> : null}
+
+
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 ,minHeight: '400px', minWidth:'300px'}}>
+                <Dialog open={open1} onClose={handleClose} scroll="body" >
+                <Box sx={{backgroundColor:"#ede7f6"}}>  
+                  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      Item Images
+                    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                  </DialogTitle>
+                  </Box>
+                  
+                  <DialogContent>
+                  <img src={result1} alt="Item" />
+                  </DialogContent>
+                </Dialog>
+                </Box>
+
         </Box>
     
     );

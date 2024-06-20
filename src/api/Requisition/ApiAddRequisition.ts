@@ -1,5 +1,5 @@
 
-  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody,GetItemImageResult,GetItemImageBody } from 'src/interfaces/Requisition/IAddRequisition';
 import http from '../../requests/SchoolService/schoolServices';
   
   const GetItemCategory = (data: IGetItemCategoryBody) => {
@@ -24,11 +24,21 @@ import http from '../../requests/SchoolService/schoolServices';
   };
 
 
+  const GetItemImage = (data: GetItemImageBody) => {
+    return http.post<GetItemImageResult[]>(
+      'Teacher/GetItemImage',
+      data
+    );
+  };
+
+
+
   
   const ApiAddRequisition = {
     GetItemCategory,
     GetAddItemList,
-    SaveRequisition
+    SaveRequisition,
+    GetItemImage
    
   };
   

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
-import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody} from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody} from 'src/interfaces/Requisition/IAddRequisition';
 import { AppThunk } from 'src/store';
 
 const SliceAddRequisition = createSlice({
@@ -9,7 +9,8 @@ const SliceAddRequisition = createSlice({
     ISGetItemCategory: [],
     IsGetAddItemList :[],
     ISSaveRequisition:[],
-    ISlistGetRequisitionName:{}
+    ISlistGetRequisitionName:{},
+    ISGetItemImage:{}
 
   },
   reducers: {
@@ -26,6 +27,10 @@ const SliceAddRequisition = createSlice({
 
     RlistGetRequisitionName(state, action) {
       state.ISlistGetRequisitionName = action.payload;
+    },
+
+    RGetItemImage(state, action) {
+      state.ISGetItemImage = action.payload;
     },
 
    
@@ -100,6 +105,24 @@ export const CDAGetItemCategory =
 
       
     };
+
+
+    export const CDAGetItemImage =
+  (data: GetItemImageBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAddRequisition.GetItemImage(data);
+    let GetImageUrl = response.data.map((item, i) => {
+      return {
+      ImageUrl:item.ImageUrl
+      };
+    });
+
+
+
+    dispatch(SliceAddRequisition.actions.RGetItemImage(GetImageUrl));
+  };
+
+
 
 
   

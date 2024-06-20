@@ -85,3 +85,18 @@ export interface ISaveRequisitionResult {
 
 }
 
+export interface GetItemImageBody {
+
+    asSchoolId: number,
+    asItemId: number
+
+}
+
+
+export interface GetItemImageResult {
+
+    ControlId: string,
+    ImageUrl: string
+
+}
+
