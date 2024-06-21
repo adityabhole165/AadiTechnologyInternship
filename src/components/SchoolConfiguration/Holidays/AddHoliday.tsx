@@ -222,14 +222,14 @@ const AddHoliday = ({ }) => {
 
             setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ') .');
+                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
             isError = true;
         }
 
         if (isOutsideAcademicYear(EndDate)) {
             setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ') .');
+                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
             isError = true;
         }
         if (isLessThanDate(EndDate, StartDate)) {
@@ -286,7 +286,7 @@ const AddHoliday = ({ }) => {
                     ]}
                     rightActions={
                         <>
-                            <Tooltip title={'Declare a new classwise holiday for your school'}>
+                            <Tooltip title={'Declare a new classwise holiday for your school.'}>
                                 <IconButton
                                     sx={{
                                         bgcolor: 'grey.500',
