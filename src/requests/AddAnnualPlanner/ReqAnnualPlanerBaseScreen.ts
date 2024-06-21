@@ -159,6 +159,63 @@ export const GetYearList =
       dispatch(AnnualPlanerBaseScreenSlice.actions.RSelectYearList(a));
     };
 
+// export const CDAGetEventsDataList =
+//   (data: IGetEventsDataListBody): AppThunk =>
+//     async (dispatch) => {
+//       let arrDays = [];
+//       const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
+//       let a = [];
+
+//       const getMultipleEvents = (value) => {
+//         let arr = []
+//         response.data
+//           .filter((Item) => (
+//             getDateMonthYearFormattedDash(Item.Event_Date) == value
+//             && data.asEventType.includes(Item.Sort_Order)
+//           ))
+//           .map((Item) => {
+//             arr.push({ Name: stripHtml(Item.Event_Desc), Legend: Item.Sort_Order })
+//           })
+//         return arr
+//       }
+
+//       const getLegend = (value) => {
+//         let legend = 7
+//         response.data
+//           .filter((Item) => (
+//             getDateMonthYearFormattedDash(Item.Event_Date) == value
+//             && data.asEventType.includes(Item.Sort_Order)
+//           ))
+//           .map((Item) => {
+//             if (Number(Item.Sort_Order) < legend)
+//               legend = Number(Item.Sort_Order)
+//           })
+//         return legend
+//       }
+//       response.data.map((item, i) => {
+//         if (!arrDays.includes(item.Day)) {
+//           a.push({
+//             Id: i,
+//             Name: item.Day,
+//             Value: getDateMonthYearFormattedDash(item.Event_Date),
+//             IsActive: false,
+//             Text1: getMultipleEvents(getDateMonthYearFormattedDash(item.Event_Date)),
+//             Text3: item.Event_Desc,
+//             Type: item.Sort_Order,
+//             Legend: getLegend(getDateMonthYearFormattedDash(item.Event_Date))
+
+//           })
+
+//           arrDays.push(item.Day);
+//         }
+//       });
+
+//       dispatch(
+//         AnnualPlanerBaseScreenSlice.actions.REventsDataList(
+//           a.sort((a, b) => Number(a.Name) - Number(b.Name))
+//         )
+//       );
+//     };
 export const CDAGetEventsDataList =
   (data: IGetEventsDataListBody): AppThunk =>
     async (dispatch) => {
@@ -167,44 +224,61 @@ export const CDAGetEventsDataList =
       let a = [];
 
       const getMultipleEvents = (value) => {
-        let arr = []
+        let arr = [];
         response.data
           .filter((Item) => (
-            getDateMonthYearFormattedDash(Item.Event_Date) == value
+            getDateMonthYearFormattedDash(Item.Event_Date) === value
             && data.asEventType.includes(Item.Sort_Order)
           ))
-          .map((Item) => {
-            arr.push({ Name: stripHtml(Item.Event_Desc), Legend: Item.Sort_Order })
-          })
-        return arr
-      }
+          .forEach((Item) => {
+            arr.push({ Name: stripHtml(Item.Event_Desc), Legend: Item.Sort_Order });
+          });
+        return arr;
+      };
 
       const getLegend = (value) => {
-        let legend = 7
+        let legend = 7; // A default high value to ensure any valid Sort_Order is lower
         response.data
           .filter((Item) => (
-            getDateMonthYearFormattedDash(Item.Event_Date) == value
+            getDateMonthYearFormattedDash(Item.Event_Date) === value
             && data.asEventType.includes(Item.Sort_Order)
           ))
-          .map((Item) => {
-            if (Number(Item.Sort_Order) < legend)
-              legend = Number(Item.Sort_Order)
-          })
-        return legend
-      }
-      response.data.map((item, i) => {
+          .forEach((Item) => {
+            if (Item.Event_Desc.includes("Outside Academic Year")) {
+              legend = 0; // Assuming "Outside Academic Year" has the highest priority
+            } else if (Number(Item.Sort_Order) < legend) {
+              legend = Number(Item.Sort_Order);
+            }
+          });
+        return legend;
+      };
+
+      response.data.forEach((item, i) => {
         if (!arrDays.includes(item.Day)) {
+          const value = getDateMonthYearFormattedDash(item.Event_Date);
+          const eventsForDay = response.data.filter(
+            (Item) => getDateMonthYearFormattedDash(Item.Event_Date) === value &&
+              data.asEventType.includes(Item.Sort_Order)
+          );
+
+          const hasOutsideAcademicYear = eventsForDay.some((Item) => Item.Event_Desc.includes("Outside Academic Year"));
+
+          const filteredEvents = hasOutsideAcademicYear
+            ? eventsForDay.filter((Item) => !Item.Event_Desc.includes("Weekend"))
+            : eventsForDay;
+
           a.push({
             Id: i,
             Name: item.Day,
-            Value: getDateMonthYearFormattedDash(item.Event_Date),
+            Value: value,
             IsActive: false,
-            Text1: getMultipleEvents(getDateMonthYearFormattedDash(item.Event_Date)),
-            Text3: item.Event_Desc,
+            Text1: filteredEvents.map((Item) => ({ Name: stripHtml(Item.Event_Desc), Legend: Item.Sort_Order })),
+            Text3: hasOutsideAcademicYear
+              ? "<div style=\"margin:2px; border: 1px solid #006600;font-size: 9pt; font-weight:bold; background-color: transparent; color: #cc00cc;\"><b>Outside Academic Year</b></div>"
+              : item.Event_Desc,
             Type: item.Sort_Order,
-            Legend: getLegend(getDateMonthYearFormattedDash(item.Event_Date))
-
-          })
+            Legend: getLegend(value)
+          });
 
           arrDays.push(item.Day);
         }

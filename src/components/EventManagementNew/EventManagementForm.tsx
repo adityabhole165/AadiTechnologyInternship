@@ -18,7 +18,7 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
     const dispatch = useDispatch();
@@ -145,7 +145,29 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             dispatch(GetEventdetail(EDetails));
         }
     }, [DeleteeEventImage])
-    
+    const isOutsideAcademicYear = (date) => {
+        // Assuming EventStartDate and EventEndDate are Date objects
+        if (!date) return false; // Handle case where date is null or undefined
+
+        // Get the current academic year boundaries from sessionStorage
+        const academicYearStart = new Date(sessionStorage.getItem("StartDate"));
+        const academicYearEnd = new Date(sessionStorage.getItem("EndDate"));
+
+        // Convert date to a Date object if it is not already
+        const eventDate = new Date(date);
+
+        // Define the valid academic year range: April 1, 2024 to March 31, 2025
+        const validAcademicYearStart = new Date('2024-04-01'); // April 1, 2024
+        const validAcademicYearEnd = new Date('2025-03-31');   // March 31, 2025
+
+        // Check if the date is outside the valid academic year range
+        if (eventDate < validAcademicYearStart || eventDate > validAcademicYearEnd) {
+            return true; // Outside valid academic year range
+        }
+
+        return false;
+    };
+
     useEffect(() => {
         if (EventStartDate && EventEndDate) {
             if (isGreaterThanDate(EventStartDate, EventEndDate)) {
