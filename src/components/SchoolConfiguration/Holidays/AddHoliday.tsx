@@ -265,24 +265,24 @@ const AddHoliday = ({ }) => {
     }
 
     return (
-        <>   
-      
+        <>
+
             <Box sx={{ px: 2 }}>
                 <CommonPageHeader
                     navLinks={[
                         {
                             title: 'Holidays',
                             path: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
-                          },
-                          Holiday_Id ? 
-                          {
-                            title: 'Edit Holiday',
-                            path: '/extended-sidebar/Admin/SchoolConfiguration/EditHoliday/',
-                          } : 
-                          {
-                            title: 'Add Holiday',
-                            path: '/extended-sidebar/Admin/SchoolConfiguration/AddHoliday',
-                          },
+                        },
+                        Holiday_Id ?
+                            {
+                                title: 'Edit Holiday',
+                                path: '/extended-sidebar/Admin/SchoolConfiguration/EditHoliday/',
+                            } :
+                            {
+                                title: 'Add Holiday',
+                                path: '/extended-sidebar/Admin/SchoolConfiguration/AddHoliday',
+                            },
                     ]}
                     rightActions={
                         <>
@@ -319,9 +319,9 @@ const AddHoliday = ({ }) => {
                         </>
                     }
                 />
-            </Box>
-            <Grid container spacing={2}>
-               
+
+                <Grid container spacing={2}>
+
                     <Grid item xs={6} md={4}>
                         <Datepicker
                             DateValue={StartDate}
@@ -355,77 +355,77 @@ const AddHoliday = ({ }) => {
                             fullWidth
                         />
                     </Grid>
-                
-
-                <Grid xs={6} md={6} item>
-                    <TextField
-                        label={
-                            <span>
-                                Name <span style={{ color: 'red' }}>*</span>
-                            </span>
-                        }
-                        multiline
-                        rows={3}
-                        value={HolidayTitle}
-                        onChange={(e) => {
-                            setHolidayTitle(e.target.value);
-                        }}
-                        error={errorHolidayTitle !== ''}
-                        helperText={errorHolidayTitle}
-                        fullWidth
-                        sx={{
-                            resize: 'both'
-                        }}
-                    >
-                    </TextField>
-                </Grid>
-                <Grid xs={6} md={6} item>
-                    <TextField
-                        label={
-                            <span>
-                                Remark
-                            </span>
-                        }
-                        multiline
-                        rows={3}
-                        value={Reamrk}
-                        onChange={(e) => {
-                            setRemark(e.target.value);
-                        }}
-                        fullWidth
-                        error={Reamrk1 !== ''}
-                        helperText={Reamrk1}
-                    >
-                    </TextField>
-                </Grid>
-
-                <Grid item xs={12} md={12} mt={4}>
-                    <Typography variant="h6">
-                        Associated Classes <span style={{ color: 'red' }}>*</span>
-                    </Typography>
-                    <SelectListHierarchy
-                        ItemList={ItemList}
-                        ParentList={ClassesAndDivisionss1}
-                        ClickChild={ClickChild}
-                    ></SelectListHierarchy>
-                    <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
-
-                </Grid>
-
-                <Grid item xs={12} md={12}>
-                    <Stack direction={"row"} gap={2} alignItems={"center"}>
-                        <Button variant={'contained'} color="success" onClick={ClickSave}>
-                            SAVE
-                        </Button>
-                        <Button variant={'contained'} color="error" onClick={resetForm}>
-                            CANCEL
-                        </Button>
-                    </Stack>
-                </Grid>
-            </Grid >
 
 
-    
+                    <Grid xs={6} md={6} item>
+                        <TextField
+                            label={
+                                <span>
+                                    Name <span style={{ color: 'red' }}>*</span>
+                                </span>
+                            }
+                            multiline
+                            rows={3}
+                            value={HolidayTitle}
+                            onChange={(e) => {
+                                setHolidayTitle(e.target.value);
+                            }}
+                            error={errorHolidayTitle !== ''}
+                            helperText={errorHolidayTitle}
+                            fullWidth
+                            sx={{
+                                resize: 'both'
+                            }}
+                        >
+                        </TextField>
+                    </Grid>
+                    <Grid xs={6} md={6} item>
+                        <TextField
+                            label={
+                                <span>
+                                    Remark
+                                </span>
+                            }
+                            multiline
+                            rows={3}
+                            value={Reamrk}
+                            onChange={(e) => {
+                                setRemark(e.target.value);
+                            }}
+                            fullWidth
+                            error={Reamrk1 !== ''}
+                            helperText={Reamrk1}
+                        >
+                        </TextField>
+                    </Grid>
+
+                    <Grid item xs={12} md={12} mt={4}>
+                        <Typography variant="h6">
+                            Associated Classes <span style={{ color: 'red' }}>*</span>
+                        </Typography>
+                        <SelectListHierarchy
+                            ItemList={ItemList}
+                            ParentList={ClassesAndDivisionss1}
+                            ClickChild={ClickChild}
+                        ></SelectListHierarchy>
+                        <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
+
+                    </Grid>
+
+                    <Grid item xs={12} md={12}>
+                        <Stack direction={"row"} gap={2} alignItems={"center"}>
+                            <Button variant={'contained'} color="success" onClick={ClickSave}>
+                                SAVE
+                            </Button>
+                            <Button variant={'contained'} color="error" onClick={resetForm}>
+                                CANCEL
+                            </Button>
+                        </Stack>
+                    </Grid>
+                </Grid >
+
+
+            </Box>
         </>
     )
 };
