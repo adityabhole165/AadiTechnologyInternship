@@ -273,11 +273,16 @@ const AddHoliday = ({ }) => {
                         {
                             title: 'Holidays',
                             path: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
-                        },
-                        {
+                          },
+                          Holiday_Id ? 
+                          {
+                            title: 'Edit Holiday',
+                            path: '/extended-sidebar/Admin/SchoolConfiguration/EditHoliday/',
+                          } : 
+                          {
                             title: 'Add Holiday',
                             path: '/extended-sidebar/Admin/SchoolConfiguration/AddHoliday',
-                        },
+                          },
                     ]}
                     rightActions={
                         <>
