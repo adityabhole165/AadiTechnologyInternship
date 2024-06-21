@@ -10,33 +10,26 @@ const InvestmentDeclaration = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
 
-    // const ViewResult = useSelector(
-    //     (state: RootState) => state.FinalResult.ViewResult
-    //   );
+   
 
     const USListInvestmentDetails: any = useSelector(
-        (state: RootState) => state.InvestmentDeclaration.IslistInvestmentDetails
+        (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentDetails
     )
+    const USISlistInvestmentAmountDetails: any = useSelector(
+        (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentAmountDetails
+    )
+  
+    const USISlistInvestmentEmpDetails: any = useSelector(
+        (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
+    )
+   
     console.log(USListInvestmentDetails, "USListInvestmentDetails");
+    console.log(USISlistInvestmentAmountDetails, "USISlistInvestmentAmountDetails");
+    console.log(USISlistInvestmentEmpDetails, "USISlistInvestmentEmpDetails");
 
-    const USInvestmentEmpDetails: any = useSelector(
-        (state: RootState) => state.InvestmentDeclaration.IslistInvestmentEmpDetails
-    )
-    console.log(USInvestmentEmpDetails, "USInvestmentEmpDetails");
-
-    const USInvestmentSectionDetails: any = useSelector(
-        (state: RootState) => state.InvestmentDeclaration.IslistInvestmentSectionDetails
-    )
-    console.log(USInvestmentSectionDetails, "USInvestmentSectionDetails");
-
-    const USInvestmentAmountDetails: any = useSelector(
-        (state: RootState) => state.InvestmentDeclaration.IslistInvestmentAmountDetails
-    )
-    console.log(USInvestmentAmountDetails, "USInvestmentAmountDetails");
-
-
+    
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
-        asSchoolId: asSchoolId,
+        asSchoolId: 18,
         asFinancialYearId: 10,
         asUserId: 4463
     }

@@ -7,35 +7,25 @@ const InvestmentDeclarationSlice = createSlice({
     name: 'InvestmentDeclaration',
 
     initialState: {
-        // InvestmentDetails: [],
-        IslistInvestmentDetails: [],
-        IslistInvestmentEmpDetails: [],
-        IslistInvestmentSectionDetails: [],
-        IslistInvestmentAmountDetails: [],
-        Loading: true
+        ISlistInvestmentDetails: [],
+        ISlistInvestmentEmpDetails:[],
+        ISlistInvestmentAmountDetails:[],
+      
     },
     reducers: {
 
-        RgetListInvestmentDetails(state, action) {
-            state.IslistInvestmentDetails = action.payload
+        RlistInvestmentDetails(state, action) {
+            state.ISlistInvestmentDetails = action.payload
         },
-
-        RgetListInvestmentEmpDetails(state, action) {
-            state.IslistInvestmentEmpDetails = action.payload
+        RlistInvestmentEmpDetails(state, action) {
+            state.ISlistInvestmentEmpDetails = action.payload
         },
-
-        RgetListInvestmentSectionDetails(state, action) {
-            state.IslistInvestmentSectionDetails = action.payload
+    
+        RlistInvestmentAmountDetails(state, action) {
+            state.ISlistInvestmentAmountDetails = action.payload
         },
-
-        RgetListInvestmentAmountDetails(state, action) {
-            state.IslistInvestmentAmountDetails = action.payload
-        },
-
-
-        getLoading(state, action) {
-            state.Loading = true;
-        }
+        
+    
     }
 
 });
@@ -43,9 +33,6 @@ const InvestmentDeclarationSlice = createSlice({
 export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        // dispatch(InvestmentDeclarationSlice.actions.getInvestmentDetails(response.data));
-        // console.log(response.data, "response");
-
         let listInvestmentDetails = response.data.listInvestmentDetails.map((item, i) => {
             return {
                 Id: item.Id,
@@ -54,7 +41,6 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
                 AssociatedEarnDeductId: item.AssociatedEarnDeductId,
                 MaxAmount: item.MaxAmount,
                 DocumentCount: item.DocumentCount
-
 
             };
         });
@@ -77,18 +63,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
                 RegimeId: item.RegimeId
             };
         });
-
-        let listInvestmentSectionDetails = response.data.listInvestmentSectionDetail.map((item, i) => {
-            return {
-                Id: item.Id,
-                Name: item.Name,
-                SectionGroupId: item.SectionGroupId,
-                GroupMaxAmount: item.GroupMaxAmount,
-                CategoryId: item.CategoryId,
-                SortOrder: item.SortOrder
-
-            }
-        })
+       
 
         let listInvestmentAmountDetails = response.data.listInvestmentAmountDetails.map((item, i) => {
             return {
@@ -100,10 +75,16 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
             }
         });
 
-        dispatch(InvestmentDeclarationSlice.actions.RgetListInvestmentDetails(listInvestmentDetails));
-        dispatch(InvestmentDeclarationSlice.actions.RgetListInvestmentEmpDetails(listInvestmentEmpDetails));
-        dispatch(InvestmentDeclarationSlice.actions.RgetListInvestmentSectionDetails(listInvestmentSectionDetails));
-        dispatch(InvestmentDeclarationSlice.actions.RgetListInvestmentAmountDetails(listInvestmentAmountDetails));
+       
+
+
+        dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentDetails(listInvestmentDetails));
+         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentEmpDetails(listInvestmentEmpDetails));
+
+         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentAmountDetails(listInvestmentAmountDetails));
+
+         
+
 
     };
 
