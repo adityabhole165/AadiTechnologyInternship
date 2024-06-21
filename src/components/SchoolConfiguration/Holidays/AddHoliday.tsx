@@ -7,6 +7,7 @@ import { green } from '@mui/material/colors';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
+import { toast } from "react-toastify";
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
@@ -67,10 +68,10 @@ const AddHoliday = ({ }) => {
         ItemList.map(item => {
             if (item.IsActive)
                 arr.push(item.Id)
-           
+
 
         })
-      
+
         return arr.toString()
     }
 
@@ -135,7 +136,7 @@ const AddHoliday = ({ }) => {
         asAcademicYearID: asAcademicYearId,
         asInsertedById: asUserId,
         asAssociatedStandard: ClassSelected,
-        asHoliday_Id:Number(Holiday_Id ? Holiday_Id :0),
+        asHoliday_Id: Number(Holiday_Id ? Holiday_Id : 0),
 
     }
 
@@ -144,7 +145,7 @@ const AddHoliday = ({ }) => {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
             asStandardDivIds: ClassSelected,
-            asHolidayId: Number(Holiday_Id ? Holiday_Id :0),
+            asHolidayId: Number(Holiday_Id ? Holiday_Id : 0),
             asHolidayName: HolidayTitle,
             asHolidayStartDate: StartDate,
             asHolidayEndDate: EndDate
@@ -202,7 +203,7 @@ const AddHoliday = ({ }) => {
         } else setErrorClass('')
 
         if (StartDate === 'DDMMMMYYYY' || StartDate === '') {
-            setErrorStartDate2('Please choose a valid start date');
+            setErrorStartDate2('Please choose a valid start date.');
             isError = true;
         } else if (ErrorStartDate2 != '') {
             isError = true;
@@ -218,29 +219,29 @@ const AddHoliday = ({ }) => {
 
 
         if (isOutsideAcademicYear(StartDate)) {
-            
-            setErrorStartDate('Holiday start date must be within current academic year (i.e., between ' +
+
+            setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-                isError = true;
+                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ') .');
+            isError = true;
         }
 
         if (isOutsideAcademicYear(EndDate)) {
-            setErrorEndDate('Holiday end date must be within current academic year (i.e., between ' +
+            setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
-                isError = true;
-        } 
+                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ') .');
+            isError = true;
+        }
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than Start date.');
 
             isError = true;
-        } 
+        }
 
         if (Reamrk.length > 200) {
-            setRemarkError('Remark should be less than 200 characters');
+            setRemarkError('Remark should be less than 200 characters.');
             isError = true;
-        } 
+        }
         if (result.DuplicateHolidayNameCount !== "0") {
             SetErrorHolidayTitle('Holiday name already exists.');
             isError = true;
@@ -253,6 +254,7 @@ const AddHoliday = ({ }) => {
 
         if (!isError) {
             dispatch(getSaveHolidays(SaveHolidayBody))
+            toast.success("Holiday details saved successfully.");
             navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
 
         }
@@ -263,7 +265,8 @@ const AddHoliday = ({ }) => {
     }
 
     return (
-        <>
+        <>   
+      
             <Box sx={{ px: 2 }}>
                 <CommonPageHeader
                     navLinks={[
@@ -313,39 +316,42 @@ const AddHoliday = ({ }) => {
                 />
             </Box>
             <Grid container spacing={2}>
-                <Grid item xs={6} md={6}>
-                    <Datepicker
-                        DateValue={StartDate}
-                        onDateChange={onSelectStartDate}
-                        label={'Start Date'}
-                        size={"medium"}
+               
+                    <Grid item xs={6} md={4}>
+                        <Datepicker
+                            DateValue={StartDate}
+                            onDateChange={onSelectStartDate}
+                            label={'Start Date'}
+                            size={"medium"}
+                        />
+                        <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
+                    </Grid>
 
-                    />
-                    <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
-                    <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
-                </Grid>
-                <Grid item xs={6} md={6}>
-                    <Datepicker
-                        DateValue={EndDate}
-                        onDateChange={onSelectEndDate}
-                        label={'End Date'}
-                        size={"medium"}
-                    />
-                    <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                    <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
-                    <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
-                </Grid>
+                    <Grid item xs={6} md={4}>
+                        <Datepicker
+                            DateValue={EndDate}
+                            onDateChange={onSelectEndDate}
+                            label={'End Date'}
+                            size={"medium"}
+                        />
+                        <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
+                    </Grid>
 
-                <Grid item xs={12} md={12}>
-                    <TextField
-                        label="Total Days"
-                        value={TotalDays}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        fullWidth
-                    />
-                </Grid>
+                    <Grid item xs={6} md={4}>
+                        <TextField
+                            label="Total Days"
+                            value={TotalDays}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            fullWidth
+                        />
+                    </Grid>
+                
+
                 <Grid xs={6} md={6} item>
                     <TextField
                         label={
@@ -388,7 +394,7 @@ const AddHoliday = ({ }) => {
                     </TextField>
                 </Grid>
 
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={12} mt={4}>
                     <Typography variant="h6">
                         Associated Classes <span style={{ color: 'red' }}>*</span>
                     </Typography>
@@ -412,6 +418,9 @@ const AddHoliday = ({ }) => {
                     </Stack>
                 </Grid>
             </Grid >
+
+
+    
         </>
     )
 };
