@@ -43,9 +43,9 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
     };
     const [selectedTeacher, setSelectedTeacher] = useState(null);
     const [ItemNewID, SetItemNewID] = useState(null);
-   console.log(ItemNewID);
-   
-      
+    console.log(ItemNewID);
+
+
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -54,7 +54,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
     const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
     const MissingDate = useSelector((state: RootState) => state.MissingAttendanceAleart.Missingattenddate);
 
-   
+
 
 
     const MissingNameBody: IMissingattendancealeartNameBody = {
@@ -112,16 +112,16 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
 
                 <IconButton onClick={() => SetItemNewID((rowData.StandardDivisionId))}>
 
-                      <Button
-                    variant="text"
-                    color="primary"
-                    onClick={() => clickMissingDay(rowData)}
-                >
-                    {rowData.Value}
-                </Button>
+                    <Button
+                        variant="text"
+                        color="primary"
+                        onClick={() => clickMissingDay(rowData)}
+                    >
+                        {rowData.Value}
+                    </Button>
 
                 </IconButton>
-               
+
             )
         },
     ];
@@ -151,7 +151,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                         <TableHead>
                             <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {missingAttendanceColumns.map((column, index) => (
-                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize' }}>
+                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize' }} >
                                         <b>{column.label}</b>
                                     </TableCell>
                                 ))}
@@ -162,7 +162,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                                 <React.Fragment key={rowData.Id}>
                                     <TableRow>
                                         {missingAttendanceColumns.map((column) => (
-                                            <TableCell key={column.id}>
+                                            <TableCell key={column.id} sx={{ paddingTop: '0.5px', paddingBottom: '0.5px' }}>
                                                 {column.renderCell(rowData)}
                                             </TableCell>
                                         ))}
