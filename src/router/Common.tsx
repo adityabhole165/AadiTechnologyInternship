@@ -57,6 +57,11 @@ const EventOverview = Loader(
 const EventManagement = Loader(
   lazy(() => import('src/components/EventManagementNew/EventManagement'))
 );
+
+const InvestmentDeclaration = Loader(
+  lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
+)
+
 const commonRoutes = [
   {
     path: 'pta',
@@ -152,6 +157,12 @@ const commonRoutes = [
     path: 'StaffBirthday',
     element: <StaffBirthday />
   },
+
+  {
+    path: 'InvestmentDeclaration',
+    element: <InvestmentDeclaration />
+  },
+
   {
     path: 'EventManagementForm/:SelectedDate/:StandardId/:DivisionId',
     element: <EventManagement />
