@@ -9,9 +9,18 @@ const Datepicker = ({ DateValue, onDateChange, label, size }) => {
                 value={DateValue ? new Date(DateValue) : null}
                 onChange={onDateChange}
                 format="dd MMM yyyy"
-                label={<>
-                    {label || "Select Date"} <span style={{ color: 'red' }}>*</span>
-                </>}
+                label={
+                    label ? (
+                        <>
+                            {label} {label && <span style={{ color: 'red' }}>*</span>}
+                        </>
+                    ) : (
+                        "Select Date"
+                    )
+                }
+                // label={<>
+                //     {label || "Select Date"} <span style={{ color: 'red' }}>*</span>
+                // </>}
                 views={['year', 'month', 'day']}
                 slotProps={{
                     textField: {
@@ -20,9 +29,9 @@ const Datepicker = ({ DateValue, onDateChange, label, size }) => {
                         size: size || 'medium'
                     }
                 }}
-                // sx={{
-                //     width: size?.small ? '12vw' : '10vw'
-                // }}
+            // sx={{
+            //     width: size?.small ? '12vw' : '10vw'
+            // }}
             />
         </>
     )

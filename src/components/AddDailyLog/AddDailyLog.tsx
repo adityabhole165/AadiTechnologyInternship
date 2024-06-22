@@ -462,7 +462,7 @@ const AddDailyLog = () => {
         <Box sx={{ p: 2, backgroundColor: 'white' }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
-              <TextField fullWidth label={'Class'} sx={{ background: (theme) => alpha(theme.palette.primary.main, 0.2) }} value={ClassName} />
+              <TextField fullWidth label={'Class'}  sx={{ bgcolor: '#f0e68c' }} value={ClassName} />
             </Grid>
             <Grid item xs={5}>
             <Datepicker

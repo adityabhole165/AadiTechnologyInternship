@@ -456,7 +456,7 @@ const SubjectExamMarks = () => {
                 />
               </Box>
 
-              <Box sx={{ ml: 1 }}>
+              <Box sx={{ ml: 1,width: '27%'  }}>
                 <TextField
                   size={"small"}
                   fullWidth
@@ -622,9 +622,9 @@ const SubjectExamMarks = () => {
               //   disabled={IsReadOnly === 'true'} />
             }
           </Typography>
-          {TestName && TestName.Grade_Or_Marks == "M" &&
+          {/* {TestName && TestName.Grade_Or_Marks == "M" &&
             <div>|</div>
-          }
+          } */}
           <Typography variant={"h4"}>
             {/* Passing Marks: 20 */}
             {TestName && TestName.Grade_Or_Marks == "M" &&
@@ -640,7 +640,7 @@ const SubjectExamMarks = () => {
                 size={"small"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
-                    TestName.Passing_Total_Marks
+                    parseInt(TestName.Passing_Total_Marks)
                     :
                     ''
                 }
