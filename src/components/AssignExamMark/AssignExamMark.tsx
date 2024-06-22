@@ -326,7 +326,25 @@ const AssignExamMark = () => {
         </>}
       />
       {/* <AssignExamMarkNew ItemList={ExamMarksStatusForClass} /> */}
-
+      <Box sx={{ background: 'white', p: 1 }}>
+      <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+      <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
+            <Box sx={{ display: 'flex', gap: '20px' }}>
+              <DotLegends
+                color="secondary"
+                text={
+                  'No student in class / Subject not applicable to student'
+                }
+                text1={'Marks entry not started'}
+                text2={'Marks entry partially done'}
+                text3={'Submit exam marks to the class teacher'}
+                text4={'Unsubmit Exam Marks'}
+                text5={'Marks entry completed	'}
+              />
+            </Box>
+            </Box>
+        </Box>
+        <br></br>
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
@@ -367,24 +385,7 @@ const AssignExamMark = () => {
         )}
 
 
-        <Grid container sx={{ mt: 2 }}>
-          <Grid item xs={12}>
-            <Typography variant={"h4"} mb={1}>Legend</Typography>
-            <Box sx={{ display: 'flex', gap: '20px' }}>
-              <DotLegends
-                color="secondary"
-                text={
-                  'No student in class / Subject not applicable to student'
-                }
-                text1={'Marks entry not started'}
-                text2={'Marks entry partially done'}
-                text3={'Submit exam marks to the class teacher'}
-                text4={'Unsubmit Exam Marks'}
-                text5={'Marks entry completed	'}
-              />
-            </Box>
-          </Grid>
-        </Grid>
+       
       </Box>
     </Box>
   );
