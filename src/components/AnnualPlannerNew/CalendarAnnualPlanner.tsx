@@ -6,7 +6,7 @@ import CalendarList from './CalendarList';
 import SearchAnnualPlanner from './SearchAnnualPlanner';
 
 const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterList,
-    ClickFilterItem, SelectedDate, SelectedFilter, EventType, ClickEventType }) => {
+    ClickFilterItem, SelectedDate, SelectedFilter, EventType, ClickEventType,AnnualPlannerViewAccess }) => {
     const handlePrevNextMonth = (PrevNext) => {
         const newDate = new Date(SelectedDate);
         newDate.setDate(1)
@@ -52,7 +52,7 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
             </Box>
             <CalendarList ItemList={DaysList} ClickItem={ClickDate}
                 DefaultValue={SelectedDate} EventType={EventType}
-                ClickEventType={ClickEventType} />
+                ClickEventType={ClickEventType} AnnualPlannerViewAccess={AnnualPlannerViewAccess}/>
         </Box>
     )
 }

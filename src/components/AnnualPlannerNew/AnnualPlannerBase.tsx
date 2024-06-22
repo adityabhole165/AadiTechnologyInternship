@@ -223,6 +223,7 @@ const AnnualPlannerBase = () => {
           SelectedFilter={DefaultValue}
           EventType={EventType}
           ClickEventType={ClickEventType}
+          AnnualPlannerViewAccess={AnnualPlannerViewAccess}
         />
       </Box>
     </Box>

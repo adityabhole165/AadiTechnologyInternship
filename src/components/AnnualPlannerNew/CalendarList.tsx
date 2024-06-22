@@ -3,7 +3,7 @@ import DotLegendTeacher from "src/libraries/summary/DotLegendTeacher";
 import CalendarDays from "./CalendarDays";
 import CalendarWeekHeader from "./CalendarWeekHeader";
 
-const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEventType }) => {
+const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEventType,AnnualPlannerViewAccess }) => {
     const legendColors = [
         '#ffffff',
         '#ff0000',
@@ -43,7 +43,7 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
 
             <Grid item xs={12} md={12}>
                 <CalendarDays legendColors={legendColors} ItemList={ItemList}
-                    ClickItem={ClickItem} DefaultValue={DefaultValue} />
+                    ClickItem={ClickItem} DefaultValue={DefaultValue} AnnualPlannerViewAccess={AnnualPlannerViewAccess}/>
             </Grid>
 
             <Grid container sx={{ mt: 2 }}>

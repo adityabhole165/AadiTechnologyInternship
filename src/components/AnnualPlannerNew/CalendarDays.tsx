@@ -232,7 +232,7 @@
 import { Box, Grid, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
-const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
+const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPlannerViewAccess }) => {
   const date = new Date(DefaultValue);
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -272,7 +272,8 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
 
       const isOutsideAcademicYear = Item && Item.Text1.some(obj => obj.Name.includes('Outside Academic Year'));
       const backgroundColor = isOutsideAcademicYear ? 'rgba(200, 0, 200, 0.1)' : (Item ? bg[Item.Legend] : 'transparent');
-
+      //const cursorStyle = isOutsideAcademicYear ? 'default' : 'pointer';
+      const cursorStyle = (AnnualPlannerViewAccess === 'N' || isOutsideAcademicYear) ? 'default' : 'pointer';
       gridItems.push(
         <Grid
           item
@@ -290,7 +291,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: cursorStyle,
               backgroundColor: backgroundColor,
               ...cardStyle,
               fontWeight: '500',
