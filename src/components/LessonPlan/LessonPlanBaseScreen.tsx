@@ -580,71 +580,10 @@ const LessonPlanBaseScreen = () => {
             </>
           }
         />
-        <Box sx={{ background: 'white', p: 2 }}>
-          {/* <Typography variant={'h4'} mb={1}>
-            My Subjects
-          </Typography> */}
-          <Typography variant="subtitle1"
-            sx={{ marginTop: '2px',marginBottom: '2px', textAlign: 'center' }}>
-            {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
-            <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
-          </Typography>
-          {LessonPlanList.length > 0 ? (
-            <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
-              <ListIcon
-                HeaderArray={HeaderList1}
-                ItemList={LessonPlanList.slice(startIndex - 1, endIndex)}
-                clickView={clickView}
-                clickEdit={ClickEdit}
-                clickDelete={clickDelete}
-                clickExport={downloadJsonToPdf}
-                CanEdit={CanEdit}
-                clicknav={Clicknav}
-                SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
-                ReportingConfigs={LessonPlanList1}
-                Text2={LessonPlanList.map((item) => item.Text2)}
-                ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
 
-              />
-            </IsHighliteStaus.Provider>
-
-          ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No record found.</b>
-            </Typography>
-          )}
-
-          {LessonPlanList.length >= 5 && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-              Pages:
-              {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
-                <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-              </ButtonGroup> */}
-              <TablePagination
-                // rowsPerPageOptions={[5, 10, 15, 20]}
-                component="div"
-                count={LessonPlanList.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Box>
-          )}
-          {/* <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}> */}
-          {/* <DotLegends2
-              color="secondary"
-              text={''}
-              text1={'Submited'}
-              text2={'Non Submited'}
-              text3={'Not Applicable'}
-              text4={'Suggestion Added'}
-              text5={''}
-            /> */}
-
-          <Typography variant={"h4"} mb={2}>Legend</Typography>
-          <Box sx={{ display: 'flex', gap: '20px' }}>
+        {/* <Box sx={{ background: 'white', p: 1 }}>
+        <Box sx={{ display: 'flex', gap: '20px' }}>
+          <Typography variant={"h4"} mb={-1}>Legend</Typography>
             <DotLegends2
               color="secondary"
               text={''}
@@ -655,7 +594,88 @@ const LessonPlanBaseScreen = () => {
               text5={''}
             />
           </Box>
+        </Box> */}
+        <Box sx={{ background: 'white', p: 1 }}>
+          <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+            {/* <Typography variant="h4" mb={0}>Legend</Typography> */}
+            {/* <Typography variant="h4" sx={{ mb: 0, lineHeight: '1.5', alignSelf: 'center' }}>Legend</Typography> */}
+            <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
+            <DotLegends2
+              color="secondary"
+              text=""
+              text1="Submitted"
+              text2="Non Submitted"
+              text3="Not Applicable"
+              text4="Suggestion Added"
+              text5=""
+            />
+          </Box>
         </Box>
+
+        {/* <Typography variant={'h4'} mb={1}>
+            My Subjects
+          </Typography> */}
+        <Typography variant="subtitle1"
+          sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
+          {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
+          <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
+        </Typography>
+        {LessonPlanList.length > 0 ? (
+          <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
+            <ListIcon
+              HeaderArray={HeaderList1}
+              ItemList={LessonPlanList.slice(startIndex - 1, endIndex)}
+              clickView={clickView}
+              clickEdit={ClickEdit}
+              clickDelete={clickDelete}
+              clickExport={downloadJsonToPdf}
+              CanEdit={CanEdit}
+              clicknav={Clicknav}
+              SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
+              ReportingConfigs={LessonPlanList1}
+              Text2={LessonPlanList.map((item) => item.Text2)}
+              ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
+
+            />
+          </IsHighliteStaus.Provider>
+
+        ) : (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No record found.</b>
+          </Typography>
+        )}
+
+        {LessonPlanList.length >= 5 && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
+            Pages:
+            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
+                <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+              </ButtonGroup> */}
+            <TablePagination
+              // rowsPerPageOptions={[5, 10, 15, 20]}
+              component="div"
+              count={LessonPlanList.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Box>
+        )}
+        {/* <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}> */}
+        {/* <DotLegends2
+              color="secondary"
+              text={''}
+              text1={'Submited'}
+              text2={'Non Submited'}
+              text3={'Not Applicable'}
+              text4={'Suggestion Added'}
+              text5={''}
+            /> */}
+
+
+
 
       </Box>
 
