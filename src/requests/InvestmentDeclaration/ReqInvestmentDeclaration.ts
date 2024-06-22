@@ -10,8 +10,7 @@ const InvestmentDeclarationSlice = createSlice({
         ISlistInvestmentDetails: [],
         ISlistInvestmentEmpDetails: [],
         ISlistInvestmentAmountDetails: [],
-        ISlistInvestmentSectionDetails: []
-
+        ISNewGetInvestmentDetails:[],
     },
     reducers: {
 
@@ -25,8 +24,8 @@ const InvestmentDeclarationSlice = createSlice({
         RlistInvestmentAmountDetails(state, action) {
             state.ISlistInvestmentAmountDetails = action.payload
         },
-        RlistInvestmentSectionDetails(state, action) {
-            state.ISlistInvestmentSectionDetails = action.payload
+        NewGetInvestmentDetails(state, action) {
+            state.ISNewGetInvestmentDetails = action.payload
         }
 
 
@@ -34,23 +33,7 @@ const InvestmentDeclarationSlice = createSlice({
 
 });
 
-export const GetInvestmentSectionDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
-    async (dispatch) => {
-        const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        // let listInvestmentSectionDetails = response.data.listInvestmentSectionDetail.map((item, i) => {
-        //     return {
-        //         Id: item.Id,
-        //         Name: item.Name,
-        //         SectionGroupId: item.SectionGroupId,
-        //         GroupMaxAmount: item.GroupMaxAmount,
-        //         CategoryId: item.CategoryId,
-        //         SortOrder: item.SortOrder
-        //     }
 
-        // });
-        console.log(response.data, "responseeeeeeeeeeeeeee");
-        dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentSectionDetails(response.data));
-    }
 
 export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
@@ -111,5 +94,12 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
 
 
     };
+
+    export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
+            dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
+        }
+
 
 export default InvestmentDeclarationSlice.reducer;

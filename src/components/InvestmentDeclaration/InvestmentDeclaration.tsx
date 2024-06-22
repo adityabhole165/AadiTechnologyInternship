@@ -2,7 +2,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
-import { GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
+import { GetInvestmentDetails, CDAGetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
 
 const InvestmentDeclaration = () => {
@@ -25,13 +25,10 @@ const InvestmentDeclaration = () => {
     )
 
     const USListInvestmentSectionDetails: any = useSelector(
-        (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentSectionDetails
+        (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
     )
 
-    console.log(USListInvestmentDetails, "USListInvestmentDetails");
-    console.log(USISlistInvestmentAmountDetails, "USISlistInvestmentAmountDetails");
-    console.log(USISlistInvestmentEmpDetails, "USISlistInvestmentEmpDetails");
-    console.log(USListInvestmentSectionDetails, "USListInvestmentSectionDetails");
+    const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
 
 
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
@@ -40,9 +37,22 @@ const InvestmentDeclaration = () => {
         asUserId: asUserId
     }
 
+    const GetInvestmentDeclarationBodyNew: IGetInvestmentDetailsBody = {
+        asSchoolId: asSchoolId,
+        asFinancialYearId: 10,
+        asUserId: asUserId
+    }
+
     useEffect(() => {
         dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
     }, [])
+
+    useEffect(() => {
+        dispatch(CDAGetInvestmentDetails(GetInvestmentDeclarationBodyNew))
+    }, [])
+
+
+    
 
 
 
