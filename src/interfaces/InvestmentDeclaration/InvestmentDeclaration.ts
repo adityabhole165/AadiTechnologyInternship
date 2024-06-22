@@ -56,4 +56,14 @@ export interface IGetInvestmentDetailsResult {
 
 
 
+
+}
+
+export interface IGetRegimeDetailsDropdownBody {
+    asSchoolId: number
+}
+
+export interface IGetRegimeDetailsDropdownResult {
+    Id: string,
+    Name: string
 }
