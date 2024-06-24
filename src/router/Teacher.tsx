@@ -1,6 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
+import LeaveDetailsBaseScreen from 'src/components/LeaveDetails/LeaveDetailsBaseScreen';
 
 import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubjectMarks/TransferOptionalSubjectMarks';
 
@@ -19,6 +20,9 @@ const TAttendance = Loader(
 );
 const StudentProgressReport = Loader(
   lazy(() => import('src/components/FinalResult/StudentProgressReport'))
+);
+const LeaveDetails = Loader(
+  lazy(() => import('src/components/LeaveDetails/LeaveDetailsBaseScreen'))
 );
 const TExamschedule = Loader(
   lazy(() => import('src/components/TExamschedule/TExamScheduleNew'))
@@ -174,6 +178,11 @@ const ProgressReportNew = Loader(
 
 
 const teacherRoutes = [
+  
+  {
+    path: 'LeaveDetails',
+    element: <LeaveDetailsBaseScreen />
+  },
   {
     path: 'GenerateAll',
     element: <GenerateAll />

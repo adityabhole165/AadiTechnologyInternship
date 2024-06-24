@@ -336,15 +336,6 @@ const DashboardData = {
         Link: 'Common/VideoGallery/VideoAlbum',
         index: 5
       },
-      // {
-      //   Text1: 'Monthwise Attendance',
-      //   Text2: '',
-      //   Color: '#90a4ae',
-      //   iconColor: '#f0483e ',
-      //   Icon: CakeIcon,
-      //   Link: 'Teacher/MonthwiseAttendance',
-      //   index: 26
-      // },
 
       // {
       //   Text1: 'Individual Attendance',
@@ -405,7 +396,7 @@ const DashboardData = {
         Link: 'Teacher/AssignPrePrimaryGrades',
         index: 8
       },
-     
+
       {
         Text1: 'Aadhar Card',
         Text2: 'Details',
@@ -577,7 +568,16 @@ const DashboardData = {
         Link: 'Common/StaffBirthday',
         index: 20,
         ScreenPermission: 'StaffBirthday'
-      }
+      },
+      {
+        Text1: 'Leave Details',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#f0483e ',
+        Icon: EventNoteIcon,
+        Link: 'Teacher/LeaveDetails',
+        index: 28
+      },
     ],
     items3: [
       {
@@ -651,6 +651,7 @@ const DashboardData = {
         index: 3,
         ScreenPermission: 'HolidaysManagement'
       },
+      
       {
         Text1: 'Staff   ',
         Text2: 'Birthday',

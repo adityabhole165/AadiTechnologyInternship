@@ -174,6 +174,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
     },
     {
+      title: 'Leave Details',
+      icon: <DateRangeIcon />,
+      link: '/extended-sidebar/Teacher/LeaveDetails'
+    },
+    {
       title: 'SMS Center',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/SmsCenter'
