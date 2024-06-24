@@ -59,10 +59,15 @@ const AddHoliday = ({ }) => {
         const start = new Date(StartDate);
         const end = new Date(EndDate);
         const timeDiff = end.getTime() - start.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+    
+        if (daysDiff < 0) {
+            daysDiff = 0;
+        }
+    
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
-
+    
     const isClassSelected = () => {
         let arr = []
         ItemList.map(item => {
@@ -233,7 +238,7 @@ const AddHoliday = ({ }) => {
             isError = true;
         }
         if (isLessThanDate(EndDate, StartDate)) {
-            setErrorEndDate1('End date should not be less than Start date.');
+            setErrorEndDate1('End date should not be less than start date.');
 
             isError = true;
         }
@@ -368,16 +373,20 @@ const AddHoliday = ({ }) => {
                             rows={3}
                             value={HolidayTitle}
                             onChange={(e) => {
-                                setHolidayTitle(e.target.value);
+                                const value = e.target.value;
+                                if (value.length <= 50) {
+                                    setHolidayTitle(value);
+                                }
                             }}
-                            error={errorHolidayTitle !== ''}
-                            helperText={errorHolidayTitle}
+                            // error={errorHolidayTitle !== ''}
+                            // helperText={errorHolidayTitle}
                             fullWidth
                             sx={{
                                 resize: 'both'
                             }}
                         >
                         </TextField>
+                        <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
                     </Grid>
                     <Grid xs={6} md={6} item>
                         <TextField
