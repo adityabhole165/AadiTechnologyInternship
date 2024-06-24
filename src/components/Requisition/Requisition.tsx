@@ -28,6 +28,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -40,11 +41,11 @@ const StatusRequisition = () => {
   const [PagedRequisition, setPagedRequisition] = useState([]);
   const [SelectRequisition, setRequisiton] = useState(0);
   const [regNoOrName, setRegNoOrName] = useState('');
-  const [page1, setPage1] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [RequisitionId, SetRequisitionId] = useState();
   const [sortExpression, setSortExpression] = useState('Created_Date desc');
-
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page2, setPage2] = useState(1);
+  const rowsPerPageOptions = [5, 10, 20, 50];
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Code', SortOrder: null, sortKey: 'RequisitionCode' },
     { Id: 2, Header: 'Requisition', SortOrder: null, sortKey: 'RequisitionName' },
@@ -83,8 +84,8 @@ const StatusRequisition = () => {
   };
   const RequisitionList: IGetPagedRequisitionBody = {
     asSchoolId: asSchoolId,
-    asStartIndex: page1 * rowsPerPage,
-    asEndIndex: (page1 + 1) * rowsPerPage,
+    asStartIndex: (page2 - 1) * rowsPerPage,
+    asEndIndex: page2 * rowsPerPage,
     asSortExp: `ORDER BY ${sortExpression}`,
     asStatusID: SelectResult,
     asUserId: Number(asUserId)
@@ -172,14 +173,7 @@ const StatusRequisition = () => {
     setRegNoOrName('');
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage1(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage1(0);
-  };
+  
 
   const clickSearch = () => {
     if (regNoOrName === '') {
@@ -205,6 +199,14 @@ const StatusRequisition = () => {
 
   const AddRequisition = (value) => {
     navigate('/extended-sidebar/Teacher/AddRequisition');
+  };
+  const handlePageChange = (pageNumber) => {
+    setPage2(pageNumber);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage2(1); // Reset to the first page when changing rows per page
   };
 
 
@@ -248,8 +250,10 @@ const StatusRequisition = () => {
 
   useEffect(() => {
     dispatch(RequisitionListt(RequisitionList));
-  }, [sortExpression, page1, rowsPerPage, SelectResult]);
+  }, [sortExpression, page2, rowsPerPage , SelectResult]);
 
+  const totalPages = Math.ceil(PagedRequisition.length / rowsPerPage);
+  
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -443,14 +447,15 @@ const StatusRequisition = () => {
         )}
         {
           PagedRequisition.length > 0 ? (
-            <TablePagination
-              component="div"
-              count={PagedRequisition.length}
-              rowsPerPage={rowsPerPage}
-              page={page1}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            <ButtonGroupComponent
+            ItemList={PagedRequisition}
+            page={page2}
+            handlePageChange={handlePageChange}
+            numberOfButtons={5}
+            rowsPerPage={rowsPerPage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+          />
 
           ) : (
             <span></span>
