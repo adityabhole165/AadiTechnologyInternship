@@ -259,11 +259,15 @@ const AddHoliday = ({ }) => {
         } else setErrorEndDate2('')
 
         if (!isError) {
-            dispatch(getSaveHolidays(SaveHolidayBody))
-            toast.success("Holiday details saved successfully.");
+            dispatch(getSaveHolidays(SaveHolidayBody));
+            if (Holiday_Id) {
+                toast.success("Holiday details updated successfully.");
+            } else {
+                toast.success("Holiday details saved successfully.");
+            }
             navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
-
         }
+        
     }
 
 
