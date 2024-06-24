@@ -281,32 +281,67 @@ const SubjectExamMarks = () => {
     })
     return returnVal + "</SchoolWiseStudentTestMarksDetails>"
   }
+  // const onClickSave = () => {
+  //   if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
+  //     setMarksError('Exam date should be within the current academic year (i.e. between ' +
+  //       formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+  //   } else {
+  //     setMarksError('')
+  //     if (!MarksError)  {
+  //       const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+  //         asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
+  //         asInserted_By_id: Number(userId),
+  //         asStudent_Test_Type_MarksXml: getStudentTestType(),
+  //         asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
+  //         asRemoveProgress: RemoveProgress,
+  //         RemarkXml: RemarkXml,
+  //         asHasRemark: HasRemark,
+  //         asTestId: Number(TestId),
+  //         asSubjectId: Number(SubjectId),
+  //         asSchoolId: Number(asSchoolId),
+  //         asAcademicYearId: Number(asAcademicYearId)
+  //       };
+
+  //       dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+  //     }
+  //   }
+  // };
   const onClickSave = () => {
     if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
-      setMarksError('Exam date should be within the current academic year (i.e. between ' +
-        formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+        setMarksError('Exam date should be within the current academic year (i.e. between ' +
+            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
     } else {
-      setMarksError('')
-      if (!MarksError) {
-        const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-          asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
-          asInserted_By_id: Number(userId),
-          asStudent_Test_Type_MarksXml: getStudentTestType(),
-          asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
-          asRemoveProgress: RemoveProgress,
-          RemarkXml: RemarkXml,
-          asHasRemark: HasRemark,
-          asTestId: Number(TestId),
-          asSubjectId: Number(SubjectId),
-          asSchoolId: Number(asSchoolId),
-          asAcademicYearId: Number(asAcademicYearId)
-        };
+        setMarksError('');
+        if (!MarksError) {
+            let isValid = true;
+            MarksAssignment.forEach((Item) => {
+                Item.MarksForStudent.forEach((studentItem) => {
+                    if (Number(studentItem.Text1) > Number(studentItem.Text2)) {
+                        isValid = false;
+                        setMarksError(`Marks Scored should be less than ${studentItem.Text2}`);
+                    }
+                });
+            });
 
-        dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
-      }
+            if (isValid) {
+                const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+                    asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
+                    asInserted_By_id: Number(userId),
+                    asStudent_Test_Type_MarksXml: getStudentTestType(),
+                    asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
+                    asRemoveProgress: RemoveProgress,
+                    RemarkXml: RemarkXml,
+                    asHasRemark: HasRemark,
+                    asTestId: Number(TestId),
+                    asSubjectId: Number(SubjectId),
+                    asSchoolId: Number(asSchoolId),
+                    asAcademicYearId: Number(asAcademicYearId)
+                };
+                dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody));
+            }
+        }
     }
-  };
-
+};
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {

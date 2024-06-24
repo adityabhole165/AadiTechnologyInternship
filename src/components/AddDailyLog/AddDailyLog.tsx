@@ -459,7 +459,7 @@ const AddDailyLog = () => {
             </Box>
           </>}
         />
-        <Box sx={{ p: 2, backgroundColor: 'white' }}>
+        <Box sx={{ p: 2, backgroundColor: 'white',width: '50%', margin: '0 auto'  }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
               <TextField fullWidth label={'Class'}  sx={{ bgcolor: '#f0e68c' }} value={ClassName} />
@@ -472,21 +472,6 @@ const AddDailyLog = () => {
                   size={"medium"}
 
                 />
-              {/* <TextField
-                fullWidth
-                type="date"
-                value={dateState}
-                label={
-                  <span>
-                    Date <span style={{ color: 'red' }}>*</span>
-                  </span>
-                }
-                onChange={handleChange}
-                error={dateError !== ''}
-                helperText={dateError}
-                InputLabelProps={{ shrink: true }}
-                inputProps={{ max: new Date().toISOString().split('T')[0] }}
-              /> */}
             </Grid>
             <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'flex-start'}>
               <SingleFile
