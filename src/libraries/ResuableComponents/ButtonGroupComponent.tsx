@@ -24,7 +24,7 @@ const ButtonGroupComponent = ({
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <FormControl variant="outlined" style={{ minWidth: 120, marginRight: 'auto' }}>
+      <FormControl variant="outlined" style={{ minWidth: 100, marginRight: 'auto', height: 'auto' }}>
         <InputLabel>Rows per pages</InputLabel>
         <Select
           value={rowsPerPage}
@@ -52,7 +52,7 @@ const ButtonGroupComponent = ({
         </Typography>
       </div>
     <Typography> Pages </Typography> &nbsp; &nbsp;
-      <ButtonGroup color="primary" aria-label="outlined primary button group">
+    <ButtonGroup color="primary" aria-label="outlined primary button group" size="small">
         {buttons.map((button) => (
           <Button key={button} onClick={() => handlePageChange(button)}>
             {button}
