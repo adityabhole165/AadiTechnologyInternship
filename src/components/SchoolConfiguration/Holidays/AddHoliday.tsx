@@ -26,9 +26,10 @@ const AddHoliday = ({ }) => {
     const [ItemList, setitemList] = useState([]);
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const [StartDate, setStartDate]: any = useState(new Date().toISOString().split('T')[0]);
+    const [StartDate, setStartDate]: any = useState(new Date());
     const [ErrorStartDate, setErrorStartDate] = useState('');
-    const [EndDate, setEndDate]: any = useState(new Date().toISOString().split('T')[0]);
+    const [EndDate, setEndDate]: any = useState(new Date());
+    //const [EndDate, setEndDate]: any = useState(new Date().toISOString().split('T')[0]);
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [HolidayTitle, setHolidayTitle] = useState('');
     const [errorHolidayTitle, SetErrorHolidayTitle] = useState('')
