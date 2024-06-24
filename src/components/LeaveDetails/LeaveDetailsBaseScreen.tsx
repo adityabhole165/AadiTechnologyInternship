@@ -2,11 +2,14 @@ import Add from '@mui/icons-material/Add';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useNavigate } from 'react-router';
 import CommonPageHeader from '../CommonPageHeader';
 
 const LeaveDetailsBaseScreen = () => {
+    const navigate = useNavigate();
     const AddLeave = () => {
-        console.log('Add new holiday');
+        navigate("../AddLeaveDetails");
+        console.log('Add New Leave');
     };
 
     return (
@@ -15,7 +18,7 @@ const LeaveDetailsBaseScreen = () => {
                 navLinks={[
                     {
                         title: 'Leave Details',
-                        path: '/extended-sidebar/Teacher/LeaveDetailsBaseScreen'
+                        path: ' '
                     }
                 ]}
                 rightActions={

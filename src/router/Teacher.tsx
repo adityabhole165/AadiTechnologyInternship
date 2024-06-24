@@ -1,6 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
+import AddLeaveDetails from 'src/components/LeaveDetails/AddLeaveDetails';
 import LeaveDetailsBaseScreen from 'src/components/LeaveDetails/LeaveDetailsBaseScreen';
 
 import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubjectMarks/TransferOptionalSubjectMarks';
@@ -178,10 +179,14 @@ const ProgressReportNew = Loader(
 
 
 const teacherRoutes = [
-  
+
   {
     path: 'LeaveDetails',
     element: <LeaveDetailsBaseScreen />
+  },
+  {
+    path: 'AddLeaveDetails',
+    element: <AddLeaveDetails />
   },
   {
     path: 'GenerateAll',
