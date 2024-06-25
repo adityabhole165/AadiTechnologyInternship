@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
-import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody,IGetNewRequisitionValidateItemQuantityBody} from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody,IGetNewRequisitionValidateItemQuantityBody, ICanCreateGenralRequisitionBody,ICanSendRequisitionbody} from 'src/interfaces/Requisition/IAddRequisition';
 import { AppThunk } from 'src/store';
 
 const SliceAddRequisition = createSlice({
@@ -13,6 +13,8 @@ const SliceAddRequisition = createSlice({
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
     ISGetNewRequisitionValidateItemQuantity:{},
+    ISCanCreateGenralRequisition:'',
+    ISCanSendRequisition:'',
     ISGetItemImage: {
       ImageUrls: []
     },
@@ -37,6 +39,15 @@ const SliceAddRequisition = createSlice({
     RGetNewRequisitionValidateItemQuantity(state, action) {
       state.ISGetNewRequisitionValidateItemQuantity = action.payload;
     },
+
+    RCanCreateGenralRequisition(state, action) {
+      state.ISCanCreateGenralRequisition = action.payload;
+    },
+    RCanSendRequisition(state, action) {
+      state.ISCanSendRequisition = action.payload;
+    },
+
+    
 
 
     RGetItemImage(state, action) {
@@ -162,6 +173,22 @@ export const CDAGetItemCategory =
   async (dispatch) => {
     const response = await ApiAddRequisition.GetNewRequisitionValidateItemQuantity(data);     
     dispatch(SliceAddRequisition.actions.RGetNewRequisitionValidateItemQuantity(response.data));
+  };
+
+
+  export const CDACanCreateGenralRequisition =
+  (data: ICanCreateGenralRequisitionBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAddRequisition.CanCreateGenralRequisition(data);     
+    dispatch(SliceAddRequisition.actions.RCanCreateGenralRequisition(response.data));
+  };
+
+
+  export const CDACanSendRequisition =
+  (data: ICanSendRequisitionbody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAddRequisition.CanSendRequisition(data);     
+    dispatch(SliceAddRequisition.actions.RCanSendRequisition(response.data));
   };
 
 

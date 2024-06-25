@@ -5,18 +5,18 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { GetItemImageBody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { GetItemImageBody, ICanCreateGenralRequisitionBody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody, ICanSendRequisitionbody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
+import { CDACanCreateGenralRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition , CDACanSendRequisition} from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
@@ -24,7 +24,7 @@ import DataTable from '../DataTable';
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const [ItemCategory, setItemCategory] = useState();
@@ -42,20 +42,22 @@ const AddRequisition = () => {
     const [AddItemlistNew, setAddItemlistNew] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
-    console.log(ValidateItemQuantity);
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
 
-
-
+    const [isChecked, setIsChecked] = useState(false);
 
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
- 
-  
+    const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
+    const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
+
+    console.log(USCanCreateGenralRequisition, "USCanCreateGenralRequisition",USCanSendRequisition);
+
+
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
     // const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
@@ -80,6 +82,19 @@ const AddRequisition = () => {
     const GetImageBody: GetItemImageBody = {
         asSchoolId: asSchoolId,
         asItemId: Number(imageid)
+
+    };
+
+    const CanCreateGenralRequisitionBody: ICanCreateGenralRequisitionBody = {
+        asSchoolId: asSchoolId,
+        asUserId: asUserId
+
+    };
+
+    const CanSendRequisitionbody: ICanSendRequisitionbody = {
+        asSchoolId: asSchoolId,
+        asUserId: asUserId,
+        asAcademicYearId:asAcademicYearId
 
     };
 
@@ -211,6 +226,7 @@ const AddRequisition = () => {
             setText(0)
             setTextall('')
             setTextall1('')
+            setValidateItemQuantity('')
         }
     };
 
@@ -265,6 +281,7 @@ const AddRequisition = () => {
             setText(0)
             setTextall('')
             setTextall1('')
+            setValidateItemQuantity('')
         }
     };
 
@@ -304,7 +321,9 @@ const AddRequisition = () => {
         setOpen1(false);
     };
 
-
+    const handleCheckboxChange = (event) => {
+        setIsChecked(event.target.checked);
+    };
     const handleClick = (itemID) => {
         SetItemNewID(itemID);
         setErrorMessage('');
@@ -427,6 +446,15 @@ const AddRequisition = () => {
         dispatch(CDAGetNewRequisitionValidateItemQuantity(GetNewRequisitionValidateItemQuantityBody));
     }, [xmlString]);
 
+    useEffect(() => {
+        dispatch(CDACanCreateGenralRequisition(CanCreateGenralRequisitionBody));
+    }, []);
+
+    useEffect(() => {
+        dispatch(CDACanSendRequisition(CanSendRequisitionbody));
+    }, []);
+
+    
 
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
@@ -437,7 +465,7 @@ const AddRequisition = () => {
     }, [imageid]);
 
 
-   
+
 
     useEffect(() => {
         if (ItemNewID) {
@@ -564,6 +592,38 @@ const AddRequisition = () => {
                         </Tooltip>
                     </>}
             />
+            <Box display="flex" alignItems="center">
+
+                <TextField
+                    sx={{
+                        width: '12vw',
+                        '& .MuiInputBase-root': {
+                            height: '35px',
+                            color: 'black', 
+                        },
+                        '& .MuiInputLabel-root': {
+                            top: '-6px',
+                            color: 'black', 
+                        },
+                    }}
+                    label="Is General Requisition ? :"
+                    disabled
+                />
+
+                {USCanCreateGenralRequisition == "N" ? <span> </span> : <Checkbox
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                    sx={{
+                        mr: 1,
+                        '& .MuiSvgIcon-root': {
+                            fontSize: 30,
+                        },
+                    }}
+
+                />}
+
+
+            </Box>
             {Error !== '' ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 

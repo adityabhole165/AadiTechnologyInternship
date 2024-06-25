@@ -1,5 +1,5 @@
 
-  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody,GetItemImageResult,GetItemImageBody, IGetNewRequisitionValidateItemQuantityResult, IGetNewRequisitionValidateItemQuantityBody } from 'src/interfaces/Requisition/IAddRequisition';
+  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody,GetItemImageResult,GetItemImageBody, IGetNewRequisitionValidateItemQuantityResult, IGetNewRequisitionValidateItemQuantityBody , ICanCreateGenralRequisitionBody,ICanSendRequisitionbody} from 'src/interfaces/Requisition/IAddRequisition';
 import http from '../../requests/SchoolService/schoolServices';
   
   const GetItemCategory = (data: IGetItemCategoryBody) => {
@@ -40,6 +40,21 @@ import http from '../../requests/SchoolService/schoolServices';
   };
 
 
+  const CanCreateGenralRequisition = (data: ICanCreateGenralRequisitionBody) => {
+    return http.post<''>(
+      'Teacher/CanCreateGenralRequisition',
+      data
+    );
+  };
+
+  const CanSendRequisition = (data: ICanSendRequisitionbody) => {
+    return http.post<''>(
+      'Teacher/CanSendRequisition',
+      data
+    );
+  };
+
+
 
 
   
@@ -48,7 +63,9 @@ import http from '../../requests/SchoolService/schoolServices';
     GetAddItemList,
     SaveRequisition,
     GetItemImage,
-    GetNewRequisitionValidateItemQuantity
+    GetNewRequisitionValidateItemQuantity,
+    CanCreateGenralRequisition,
+    CanSendRequisition
    
   };
   

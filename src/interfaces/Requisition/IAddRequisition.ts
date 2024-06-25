@@ -123,5 +123,20 @@ export interface IGetNewRequisitionValidateItemQuantityResult {
 
 }
 
+export interface ICanCreateGenralRequisitionBody {
+    asSchoolId:number
+    asUserId:number
+  
+  }
+
+  export interface ICanSendRequisitionbody {
+    asSchoolId:number
+    asUserId:number
+    asAcademicYearId:number
+  
+  }
+
+
+  
 
 
