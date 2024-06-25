@@ -19,6 +19,7 @@ import DataTable from '../DataTable';
 import { toast } from 'react-toastify';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ClearIcon } from '@mui/x-date-pickers';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const AddRequisition = () => {
     const [Error2, setError2] = useState('');
     const [imageid, Setimageid] = useState('');
     const [AddItemlistNew, setAddItemlistNew] = useState([]);
-      console.log(AddItemlistNew,"AddItemlistNew");
+    const [errorMessage, setErrorMessage] = useState('');
       
     
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
@@ -82,9 +83,9 @@ const AddRequisition = () => {
         { Id: 2, Header: 'Item Name' },
         { Id: 3, Header: 'Current Stock' },
         { Id: 4, Header: 'Item Quantity' },
-        { Id: 5, Header: 'Issued Qty' },
-        { Id: 6, Header: 'Returned Qty' },
-        { Id: 7, Header: 'Cancelled Qty' },
+        // { Id: 5, Header: 'Issued Qty' },
+        // { Id: 6, Header: 'Returned Qty' },
+        // { Id: 7, Header: 'Cancelled Qty' },
         { Id: 8, Header: 'Delete' },
 
     ];
@@ -264,6 +265,11 @@ const AddRequisition = () => {
       };
     
 
+      const handleClick = (itemID) => {
+        SetItemNewID(itemID);
+        setErrorMessage(''); 
+      };
+
     const Columns = [
         {
             id: 'itemCode',
@@ -309,7 +315,7 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <Tooltip title="Add">
-                <IconButton onClick={() => SetItemNewID((row.ItemID))}>
+                <IconButton  onClick={() => handleClick(row.ItemID)}>
                     <AddCircleIcon  sx={{color:"#29b6f6" }}/>
                 </IconButton>
                 </Tooltip>
@@ -333,6 +339,7 @@ const AddRequisition = () => {
         setText(0)
         setTextall('')
         setTextall1('')
+        setErrorMessage('')
 
     }
 
@@ -380,29 +387,35 @@ const AddRequisition = () => {
         dispatch(CDASaveRequisition(SaveRequisitionBody));
 
     }, [ItemNewID]);
-
+    
     useEffect(() => {
         if (ItemNewID) {
-            const newItem = USGetAddItemList.find(item => item.ItemID === ItemNewID);
-            if (newItem) {
-                setAddItemlistNew(prevList => {
-                   
-                    if (!prevList.some(item => item.ItemID === newItem.ItemID)) {
-                        return [...prevList, newItem];
-                    }
-                    return prevList;
-                });
-            }
+          const newItem = USGetAddItemList.find(item => item.ItemID === ItemNewID);
+          if (newItem) {
+            setAddItemlistNew(prevList => {
+              if (!prevList.some(item => item.ItemID === newItem.ItemID)) {
+                return [...prevList, newItem];
+              } else {
+                setErrorMessage(`Item already exists.`);
+                return prevList;
+              }
+            });
+
+          }
         }
-    }, [ItemNewID, USGetAddItemList]);
+
+      }, [ItemNewID, USGetAddItemList]);
+    
 
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
+        setErrorMessage('')
     };
 
     
     return (
         <Box sx={{ px: 2 }}>
+
             <CommonPageHeader
                 navLinks={[
                     { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' },
@@ -511,15 +524,18 @@ const AddRequisition = () => {
                 
                 
                 : null}
+
+            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
              
-           
             <br></br>
+
+
 
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
                 </Box> : null}
-            {ItemlistNew.length > 0 && Itemlist.length > 0 ?
+            {Itemlist.length > 0 && AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
                     <AddRequisitionlist
