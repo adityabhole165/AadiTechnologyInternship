@@ -1,5 +1,5 @@
 
-  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody,GetItemImageResult,GetItemImageBody } from 'src/interfaces/Requisition/IAddRequisition';
+  import { IGetItemCategoryResult,IGetItemCategoryBody, IGetAddItemListBody, IGetAddItemListResult, ISaveRequisitionResult, ISaveRequisitionBody,GetItemImageResult,GetItemImageBody, IGetNewRequisitionValidateItemQuantityResult, IGetNewRequisitionValidateItemQuantityBody } from 'src/interfaces/Requisition/IAddRequisition';
 import http from '../../requests/SchoolService/schoolServices';
   
   const GetItemCategory = (data: IGetItemCategoryBody) => {
@@ -32,13 +32,23 @@ import http from '../../requests/SchoolService/schoolServices';
   };
 
 
+  const GetNewRequisitionValidateItemQuantity = (data: IGetNewRequisitionValidateItemQuantityBody) => {
+    return http.post<IGetNewRequisitionValidateItemQuantityResult>(
+      'Teacher/GetNewRequisitionValidateItemQuantity',
+      data
+    );
+  };
+
+
+
 
   
   const ApiAddRequisition = {
     GetItemCategory,
     GetAddItemList,
     SaveRequisition,
-    GetItemImage
+    GetItemImage,
+    GetNewRequisitionValidateItemQuantity
    
   };
   

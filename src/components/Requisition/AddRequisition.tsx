@@ -1,25 +1,25 @@
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetAddItemListBody, IGetItemCategoryBody, ISaveRequisitionBody,GetItemImageBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { toast } from 'react-toastify';
+import { GetItemImageBody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAddItemList, CDAGetItemCategory, CDASaveRequisition , CDAGetItemImage} from 'src/requests/Requisition/RequestAddRequisition';
+import { CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-import { toast } from 'react-toastify';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { ClearIcon } from '@mui/x-date-pickers';
-import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -41,24 +41,29 @@ const AddRequisition = () => {
     const [imageid, Setimageid] = useState('');
     const [AddItemlistNew, setAddItemlistNew] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-      
-    
+    const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
+
+    const [xmlString, setXmlString] = useState('');
+    const [xmlString1, setXmlString1] = useState('');
+
+
+
+
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
+    const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
+
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
     // const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
     // console.log(result1,"result1");
     const imageUrls: string[] = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
-      console.log(imageUrls,"imageUrls");
-      
+    const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
 
-        const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
-    
 
-  
+
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
     };
@@ -74,7 +79,7 @@ const AddRequisition = () => {
     const GetImageBody: GetItemImageBody = {
         asSchoolId: asSchoolId,
         asItemId: Number(imageid)
-        
+
     };
 
 
@@ -91,34 +96,76 @@ const AddRequisition = () => {
     ];
 
 
-    const getXML = () => {
-        let sXML = '<RequisitionItems>';
-        AddItemlistNew.map((Item) => {
-            if( Item.ItemID ==  ItemNewID) {
-                sXML +=
-                    '<RequisitionItems ' +
-                    'ItemID="' + Item.ItemID + '" ' +
-                    'UOM="0" ' +
-                    'ItemQty=" ' + Item.Text3 + ' " ' +
-                    'ItemOrgQty=" '+ Item.Text3 + ' " />';
-            }
-        });
-        return sXML;
+    // const getXML = () => {
+    //     let sXML = '<RequisitionItems>';
+    //     AddItemlistNew.map((Item) => {
+    //         if( Item.ItemID ==  ItemNewID) {
+    //             sXML +=
+    //                 '<RequisitionItems ' +
+    //                 'ItemID="' + Item.ItemID + '" ' +
+    //                 'UOM="0" ' +
+    //                 'ItemQty=" ' + Item.Text3 + ' " ' +
+    //                 'ItemOrgQty=" '+ Item.Text3 + ' " />';
+    //         }
+    //     });
+    //     return sXML;
+    // };
+
+
+
+    useEffect(() => {
+        const getXML = () => {
+            let sXML = '<RequisitionItems>';
+            AddItemlistNew.map((Item) => {
+                if (Item.ItemID == ItemNewID) {
+                    sXML +=
+                        '<RequisitionItems ' +
+                        'ItemID="' + Item.ItemID + '" ' +
+                        'UOM="0" ' +
+                        'ItemQty=" ' + Item.Text3 + ' " ' +
+                        'ItemOrgQty=" ' + Item.Text3 + ' " />';
+                }
+            });
+            return sXML;
+        };
+        const xml = getXML();
+        setXmlString1(xml);
+
+    }, [AddItemlistNew, ItemNewID]);
+
+
+
+
+   
+
+    useEffect(() => {
+        const getXML1 = () => {
+            let sXML =
+                '<ArrayOfRequisitionData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+            AddItemlistNew.map((Item) => {
+                sXML =
+                    sXML +
+                    '<RequisitionData>' +
+                    '<ItemId>' + Item.ItemID + '</ItemId>' +
+                    '<Quantity>' + Item.Text3 + '</Quantity>' +
+                    '</RequisitionData>';
+            });
+            sXML = sXML + '</ArrayOfRequisitionData>';
+
+
+            return sXML;
+        };
+        const xml = getXML1();
+        setXmlString(xml);
+
+    }, [AddItemlistNew]);
+
+    const GetNewRequisitionValidateItemQuantityBody: IGetNewRequisitionValidateItemQuantityBody = {
+        asSchoolId: 18,
+        asQuantityDetailsXML: xmlString
+
+
     };
- 
-
-    const SaveRequisitionBody: ISaveRequisitionBody = {
-        asSchoolId: asSchoolId,
-        asRequisitionId: 0,
-        asUserId: asUserId,
-        asRequisitionName: textall,
-        asRequisitionDesc: textall1,
-        asAction: "save",
-        asRequisitionItemDetailsXml: getXML(),
-        asIsGeneral: 0
-    };
-
-
 
     const clicksave = () => {
         let isError = false;
@@ -131,23 +178,23 @@ const AddRequisition = () => {
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
             asAction: "save",
-            asRequisitionItemDetailsXml: getXML(),
+            asRequisitionItemDetailsXml: xmlString1,
             asIsGeneral: 0
         };
-    
+
         if (textall === '') {
             setError('Requisition Name should not be blank.');
             isError = true;
         }
-    
+
         if (textall1 === '') {
             setError1('Requisition Description should not be blank.');
             isError = true;
         }
-      
+
 
         USSaveRequisition.forEach(item => {
-            if (Text == 0 ) {
+            if (Text == 0) {
                 errorMessages.push(`Quantity should be greater than zero for item ${item.ItemName}.`);
             }
         });
@@ -156,13 +203,20 @@ const AddRequisition = () => {
             setError2(errorMessages.join("\n"));
             isError = true;
         }
-    
+
+        if (USGetNewRequisitionValidateItemQuantity != null) {
+            setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
+            isError = true;
+        }
+
+
+
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
             toast.success("Requisition is saved (draft) successfully!!!");
             setText(0)
-        setTextall('')
-        setTextall1('')
+            setTextall('')
+            setTextall1('')
         }
     };
 
@@ -178,22 +232,22 @@ const AddRequisition = () => {
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
             asAction: "send",
-            asRequisitionItemDetailsXml: getXML(),
+            asRequisitionItemDetailsXml: xmlString1,
             asIsGeneral: 0
         };
-    
+
         if (textall === '') {
             setError('Requisition Name should not be blank.');
             isError = true;
         }
-    
+
         if (textall1 === '') {
             setError1('Requisition Description should not be blank.');
             isError = true;
         }
-     
+
         USSaveRequisition.forEach(item => {
-            if (Text == 0 ) {
+            if (Text == 0) {
                 errorMessages.push(`Quantity should be greater than zero for item ${item.ItemName}.`);
             }
         });
@@ -202,20 +256,26 @@ const AddRequisition = () => {
             setError2(errorMessages.join("\n"));
             isError = true;
         }
-    
-    
+
+        if (USGetNewRequisitionValidateItemQuantity !== null) {
+            setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
+            isError = true;
+        }
+
+
+
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
             toast.success("Requisition is send successfully!!!");
             navigate('/extended-sidebar/Teacher/Requisition')
             setText(0)
-        setTextall('')
-        setTextall1('')
+            setTextall('')
+            setTextall1('')
         }
     };
 
-    
-    
+
+
 
     const clickSearch = () => {
         if (regNoOrName === '') {
@@ -239,7 +299,7 @@ const AddRequisition = () => {
         setRegNoOrName(value);
     };
 
-    
+
     const [open1, setOpen1] = useState(false);
 
     const Openimage = () => {
@@ -247,14 +307,14 @@ const AddRequisition = () => {
     };
 
     const handleClose = () => {
-        setOpen1(false); 
-      };
-    
+        setOpen1(false);
+    };
 
-      const handleClick = (itemID) => {
+
+    const handleClick = (itemID) => {
         SetItemNewID(itemID);
-        setErrorMessage(''); 
-      };
+        setErrorMessage('');
+    };
 
     const Columns = [
         {
@@ -288,10 +348,10 @@ const AddRequisition = () => {
             selector: row => row.ImageCount,
             renderCell: row => (
                 row.ImageCount > 0 ? (
-                        <IconButton   onClick={() => Setimageid((row.ItemID))} >
-                            <VisibilityIcon onClick={Openimage} />
-                        </IconButton>
-                   
+                    <IconButton onClick={() => Setimageid((row.ItemID))} >
+                        <VisibilityIcon onClick={Openimage} />
+                    </IconButton>
+
                 ) : <div> </div>
             )
         },
@@ -301,9 +361,9 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <Tooltip title="Add">
-                <IconButton  onClick={() => handleClick(row.ItemID)}>
-                    <AddCircleIcon  sx={{color:"#29b6f6" }}/>
-                </IconButton>
+                    <IconButton onClick={() => handleClick(row.ItemID)}>
+                        <AddCircleIcon sx={{ color: "#29b6f6" }} />
+                    </IconButton>
                 </Tooltip>
             )
         }
@@ -329,7 +389,10 @@ const AddRequisition = () => {
 
     }
 
-  
+
+
+
+
 
     useEffect(() => {
         setItemlistNew(USSaveRequisition);
@@ -342,6 +405,11 @@ const AddRequisition = () => {
     const Detailschnageall = (value) => {
         setAddItemlistNew(value)
     }
+
+    const Detailschnageall3 = (event) => {
+        setTextall(event.target.value)
+    }
+
     const Detailschnageall2 = (event) => {
         setTextall1(event.target.value)
     }
@@ -361,6 +429,11 @@ const AddRequisition = () => {
     }, []);
 
     useEffect(() => {
+        dispatch(CDAGetNewRequisitionValidateItemQuantity(GetNewRequisitionValidateItemQuantityBody));
+    }, []);
+
+
+    useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, []);
 
@@ -369,36 +442,33 @@ const AddRequisition = () => {
     }, [imageid]);
 
 
-    useEffect(() => {
-        dispatch(CDASaveRequisition(SaveRequisitionBody));
+   
 
-    }, [ItemNewID]);
-    
     useEffect(() => {
         if (ItemNewID) {
-          const newItem = USGetAddItemList.find(item => item.ItemID === ItemNewID);
-          if (newItem) {
-            setAddItemlistNew(prevList => {
-              if (!prevList.some(item => item.ItemID === newItem.ItemID)) {
-                return [...prevList, newItem];
-              } else {
-                setErrorMessage(`Item already exists.`);
-                return prevList;
-              }
-            });
+            const newItem = USGetAddItemList.find(item => item.ItemID === ItemNewID);
+            if (newItem) {
+                setAddItemlistNew(prevList => {
+                    if (!prevList.some(item => item.ItemID === newItem.ItemID)) {
+                        return [...prevList, newItem];
+                    } else {
+                        setErrorMessage(`Item already exists.`);
+                        return prevList;
+                    }
+                });
 
-          }
+            }
         }
 
-      }, [ItemNewID, USGetAddItemList]);
-    
+    }, [ItemNewID, USGetAddItemList]);
+
 
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
         setErrorMessage('')
     };
 
-    
+
     return (
         <Box sx={{ px: 2 }}>
 
@@ -407,115 +477,117 @@ const AddRequisition = () => {
                     { title: 'Requisition', path: '/extended-sidebar/Teacher/Requisition' },
                     { title: 'Requisition Details', path: '/extended-sidebar/Teacher/AddRequisition' }
                 ]}
-                
+
                 rightActions={
-                <>
-                    <SearchableDropdown
-                        sx={{ minWidth: '250px' }}
-                        ItemList={USGetItemCategory}
-                        onChange={ItemCategoryDropdown}
-                        label={'Category'}
-                        defaultValue={ItemCategory}
-                        mandatory
-                        size={"small"}
-                    />
+                    <>
+                        <SearchableDropdown
+                            sx={{ minWidth: '250px' }}
+                            ItemList={USGetItemCategory}
+                            onChange={ItemCategoryDropdown}
+                            label={'Category'}
+                            defaultValue={ItemCategory}
+                            mandatory
+                            size={"small"}
+                        />
 
-                    <TextField
-                        sx={{ width: '15vw' }}
-                        fullWidth
-                        label={
-                            <span>
-                                Item Code/Name <span style={{ color: 'red' }}>*</span>
-                            </span>
-                        }
-                        value={regNoOrName}
-                        variant={'outlined'}
-                        size={"small"}
-                        onChange={(e) => {
-                            handleRegNoOrNameChange(e.target.value);
-                        }}
-                    />
-
-                    <IconButton
-                        onClick={clickSearch}
-                        disabled={Itemlist.length > 0}
-                        sx={{
-                            background: (theme) => theme.palette.primary.main,
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: (theme) => theme.palette.primary.dark
+                        <TextField
+                            sx={{ width: '15vw' }}
+                            fullWidth
+                            label={
+                                <span>
+                                    Item Code/Name <span style={{ color: 'red' }}>*</span>
+                                </span>
                             }
-                        }}
-                    >
-                        <SearchTwoTone />
-                    </IconButton>
+                            value={regNoOrName}
+                            variant={'outlined'}
+                            size={"small"}
+                            onChange={(e) => {
+                                handleRegNoOrNameChange(e.target.value);
+                            }}
+                        />
 
-                    <Tooltip title={'Save'}>
                         <IconButton
-                            onClick={clicksave}
+                            onClick={clickSearch}
+                            disabled={Itemlist.length > 0}
                             sx={{
-                                background: green[500],
+                                background: (theme) => theme.palette.primary.main,
                                 color: 'white',
                                 '&:hover': {
-                                    backgroundColor: green[600]
+                                    backgroundColor: (theme) => theme.palette.primary.dark
                                 }
                             }}
                         >
-                            <Save />
+                            <SearchTwoTone />
                         </IconButton>
-                    </Tooltip>
-                    
-                    <Tooltip title={'Send Requisition'}>
-                        <IconButton
-                            onClick={clickSend}
-                            sx={{
-                                background: green[500],
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: green[600]
-                                }
-                            }}
-                        >
-                            <SendIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={'Change Input'}>
-                    {Itemlist.length > 0  ?
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
-                       <IconButton
-                            onClick={ClickRestItemLIst}
-                            sx={{
-                                background: green[500],
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: green[600]
-                                }
-                            }}
-                        >
-                            <ChangeCircleIcon />
-                        </IconButton>
-                </Box> : null}
-                </Tooltip>
-                </>}
+                        <Tooltip title={'Save'}>
+                            <IconButton
+                                onClick={clicksave}
+                                sx={{
+                                    background: green[500],
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: green[600]
+                                    }
+                                }}
+                            >
+                                <Save />
+                            </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title={'Send Requisition'}>
+                            <IconButton
+                                onClick={clickSend}
+                                sx={{
+                                    background: green[500],
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: green[600]
+                                    }
+                                }}
+                            >
+                                <SendIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={'Change Input'}>
+                            {Itemlist.length > 0 ?
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+                                    <IconButton
+                                        onClick={ClickRestItemLIst}
+                                        sx={{
+                                            background: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                    >
+                                        <ChangeCircleIcon />
+                                    </IconButton>
+                                </Box> : <span> </span>}
+                        </Tooltip>
+                    </>}
             />
-             {Error !== '' ?
-               <Box mb={1} sx={{ p: 2, background: 'white' }}>
-               
-               <ErrorMessage1 Error={Error}></ErrorMessage1>
-            <ErrorMessage1 Error={Error1}></ErrorMessage1>
-            <ErrorMessage1 Error={Error2}></ErrorMessage1>
+            {Error !== '' ?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}>
+
+                    <ErrorMessage1 Error={Error}></ErrorMessage1>
+                    <ErrorMessage1 Error={Error1}></ErrorMessage1>
+                    <ErrorMessage1 Error={Error2}></ErrorMessage1>
+                    <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
 
 
-  
-               </Box>
-                
-                
-                
+
+
+                </Box>
+
+
+
                 : null}
-               <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
-               
-             
+            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
+
+
             <br></br>
 
             {Itemlist.length > 0 ?
@@ -530,8 +602,8 @@ const AddRequisition = () => {
                         HeaderArray={HeaderPublish}
                         clickDelete={clickDelete}
                         onTextChange2={Detailschnageall}
-                         />
-                              <br></br> 
+                    />
+                    <br></br>
                     <Grid item xs={3}>
                         <Typography variant="h4" sx={{ mb: 1 }}>
                             Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
@@ -541,10 +613,10 @@ const AddRequisition = () => {
                             rows={3}
                             type="text"
                             value={textall}
-                            onChange={Detailschnageall}
+                            onChange={Detailschnageall3}
                             sx={{ width: '70%' }}
                         />
-                       <br></br>  <br></br> 
+                        <br></br>  <br></br>
                         <Typography variant="h4" sx={{ mb: 1 }}>
                             Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
                         </Typography>
@@ -561,25 +633,25 @@ const AddRequisition = () => {
                 </Box> : null}
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 ,minHeight: '400px', minWidth:'300px'}}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: '400px', minWidth: '300px' }}>
                 <Dialog open={open1} onClose={handleClose} scroll="body" >
-                <Box sx={{backgroundColor:"#ede7f6"}}>  
-                  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      Item Images
-                    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
-                  </DialogTitle>
-                  </Box>
-                  
-                  <DialogContent>
-                  {imageUrls.map((url, index) => (
-                <img key={index} src={url} alt={`Item ${index + 1}`} />
-                     ))}
-                  </DialogContent>
+                    <Box sx={{ backgroundColor: "#ede7f6" }}>
+                        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            Item Images
+                            <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                        </DialogTitle>
+                    </Box>
+
+                    <DialogContent>
+                        {imageUrls.map((url, index) => (
+                            <img key={index} src={url} alt={`Item ${index + 1}`} />
+                        ))}
+                    </DialogContent>
                 </Dialog>
-                </Box>
+            </Box>
 
         </Box>
-    
+
     );
 };
 

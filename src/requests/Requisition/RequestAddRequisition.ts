@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
-import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody} from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody,IGetNewRequisitionValidateItemQuantityBody} from 'src/interfaces/Requisition/IAddRequisition';
 import { AppThunk } from 'src/store';
 
 const SliceAddRequisition = createSlice({
@@ -12,6 +12,7 @@ const SliceAddRequisition = createSlice({
     IsGetAddItemList :[],
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
+    ISGetNewRequisitionValidateItemQuantity:{},
     ISGetItemImage: {
       ImageUrls: []
     },
@@ -32,6 +33,11 @@ const SliceAddRequisition = createSlice({
     RlistGetRequisitionName(state, action) {
       state.ISlistGetRequisitionName = action.payload;
     },
+
+    RGetNewRequisitionValidateItemQuantity(state, action) {
+      state.ISGetNewRequisitionValidateItemQuantity = action.payload;
+    },
+
 
     RGetItemImage(state, action) {
       state.ISGetItemImage.ImageUrls = action.payload;
@@ -149,6 +155,16 @@ export const CDAGetItemCategory =
     dispatch(SliceAddRequisition.actions.RGetItemImage(GetImageUrl));
   };
 
+
+
+  export const CDAGetNewRequisitionValidateItemQuantity =
+  (data: IGetNewRequisitionValidateItemQuantityBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAddRequisition.GetNewRequisitionValidateItemQuantity(data);
+     console.log(response.data,"---vvvv");
+     
+    dispatch(SliceAddRequisition.actions.RGetNewRequisitionValidateItemQuantity(response.data));
+  };
 
 
 

@@ -107,3 +107,21 @@ export interface GetItemImageResult {
 
 }
 
+
+
+export interface IGetNewRequisitionValidateItemQuantityBody {
+
+    asSchoolId: number,
+    asQuantityDetailsXML: string
+
+}
+
+
+export interface IGetNewRequisitionValidateItemQuantityResult {
+
+  Codes: string
+
+}
+
+
+
