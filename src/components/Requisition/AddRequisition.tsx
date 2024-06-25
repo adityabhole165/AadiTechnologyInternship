@@ -140,8 +140,11 @@ const AddRequisition = () => {
                         'UOM="0" ' +
                         'ItemQty=" ' + Item.Text3 + ' " ' +
                         'ItemOrgQty=" ' + Item.Text3 + ' " />';
+                       '</RequisitionItems>' 
                 }
             });
+
+            sXML = sXML + '</RequisitionItems>';
             return sXML;
         };
         const xml = getXML();
