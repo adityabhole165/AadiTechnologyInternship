@@ -14,7 +14,6 @@ export interface IGetItemCategoryResult {
 export interface IGetAddItemListBody {
     asSchoolId: number
     asName: string
-    asItemCategoryId: number
     asStartIndex: number
     asEndIndex: number
     asSortExp: string
@@ -22,18 +21,26 @@ export interface IGetAddItemListBody {
 
 export interface IGetAddItemListResult {
     ItemID: string
-    ItemCode: string
-    ItemName: string
-    ItemQty: string
-    CurrentStock: string
-    ItemCategoryName: string
-    ItemReorderLevelQty: string
-    IsConsiderForDetailLevel: string
-    ConsiderUnitQuantity: string
-    ConsiderUnitReorderLevel: string
-    UOMUnit: string
-    PieceCount: string
-    ItemCategoryID: string
+  ItemCode: string
+  ItemName: string
+  RackNo: string
+  ShelfNo: string
+  Hall: string
+  ItemPrice: string
+  School_Id: string
+  UOMID: string
+  ItemQty: string
+  CurrentStock: string
+  ItemCategoryName: string
+  ItemReorderLevelQty: string
+  IsConsiderForDetailLevel: string
+  ConsiderUnitQuantity: string
+  ConsiderUnitReorderLevel: string
+  UOMUnit: string
+  PieceCount: string
+  ActualQuantity: string
+  ImageCount: string
+  ItemCategoryID: string
 }
 
 

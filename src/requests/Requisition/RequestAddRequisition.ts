@@ -1,3 +1,5 @@
+
+
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
 import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody} from 'src/interfaces/Requisition/IAddRequisition';
@@ -61,8 +63,33 @@ export const CDAGetItemCategory =
   (data: IGetAddItemListBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAddRequisition.GetAddItemList(data);
+
+      let AddItemList = response.data.map((item, i) => {
+        return {
+          ItemID: item.ItemID,
+          ItemCode:item.ItemCode,
+          ItemName:item.ItemName,
+          ItemPrice:item.ItemPrice,
+          UOMID:item.UOMID,
+          ItemQty:item.ItemQty,
+          CurrentStock:item.CurrentStock,
+          ItemCategoryName:item.ItemCategoryName,
+          ItemReorderLevelQty:item.ItemReorderLevelQty,
+          IsConsiderForDetailLevel:item.IsConsiderForDetailLevel,
+          ConsiderUnitQuantity:item.ConsiderUnitQuantity,
+          ConsiderUnitReorderLevel:item.ConsiderUnitReorderLevel,
+          UOMUnit:item.UOMUnit,
+          PieceCount:item.PieceCount,
+          ActualQuantity:item.ActualQuantity,
+          ImageCount:item.ImageCount,
+          ItemCategoryID:item.ItemCategoryID
+    
+
+        };
+      });
+  
       
-      dispatch(SliceAddRequisition.actions.RGetAddItemList(response.data));
+      dispatch(SliceAddRequisition.actions.RGetAddItemList(AddItemList));
     };
 
     export const CDASaveRequisition =
@@ -70,24 +97,24 @@ export const CDAGetItemCategory =
     async (dispatch) => {
       const response = await ApiAddRequisition.SaveRequisition(data);
 
-      let listRequisitionnItemDetails = response.data.listRequisitionnItemDetails.map((item, i) => {
-        return {
-          Id: item.ItemID,
-          ItemID: item.ItemID,
-          ItemQty:item.ItemQty,
-          UOMUnit:item.UOMUnit,
-          ItemOrgQty:item.ItemOrgQty,
-          ItemCode:item.ItemCode,
-          ItemName:item.ItemName,
-          CurrentStock:item.CurrentStock,
-          ReturnQty:item.ReturnQty,
-          CancelQty:item.CancelQty,
-          IssueQty:item.IssueQty,
-          Text3 :item.ItemQty,
-          Text1 :item.ItemID
+      // let listRequisitionnItemDetails = response.data.listRequisitionnItemDetails.map((item, i) => {
+      //   return {
+      //     Id: item.ItemID,
+      //     ItemID: item.ItemID,
+      //     ItemQty:item.ItemQty,
+      //     UOMUnit:item.UOMUnit,
+      //     ItemOrgQty:item.ItemOrgQty,
+      //     ItemCode:item.ItemCode,
+      //     ItemName:item.ItemName,
+      //     CurrentStock:item.CurrentStock,
+      //     ReturnQty:item.ReturnQty,
+      //     CancelQty:item.CancelQty,
+      //     IssueQty:item.IssueQty,
+      //     Text3 :item.ItemQty,
+      //     Text1 :item.ItemID
 
-        };
-      });
+      //   };
+      // });
 
       let listGetRequisitionName = response.data.listGetRequisitionName.map((item, i) => {
         return {
@@ -102,7 +129,6 @@ export const CDAGetItemCategory =
 
 
       
-      dispatch(SliceAddRequisition.actions.RSaveRequisition(listRequisitionnItemDetails));
       dispatch(SliceAddRequisition.actions.RlistGetRequisitionName(listGetRequisitionName));
 
       

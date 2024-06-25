@@ -38,8 +38,9 @@ const AddRequisition = () => {
     const [Error1, setError1] = useState('');
     const [Error2, setError2] = useState('');
     const [imageid, Setimageid] = useState('');
-
-    
+    const [AddItemlistNew, setAddItemlistNew] = useState([]);
+      console.log(AddItemlistNew,"AddItemlistNew");
+      
     
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
@@ -64,7 +65,6 @@ const AddRequisition = () => {
     const GetAddItemListBody: IGetAddItemListBody = {
         asSchoolId: asSchoolId,
         asName: regNoOrName,
-        asItemCategoryId: ItemCategory,
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
@@ -336,9 +336,7 @@ const AddRequisition = () => {
 
     }
 
-    const clickDelete = () => {
-
-    }
+  
 
     useEffect(() => {
         setItemlistNew(USSaveRequisition);
@@ -383,10 +381,26 @@ const AddRequisition = () => {
 
     }, [ItemNewID]);
 
-    // useEffect(() => {
-    //     SetAddItemlist(USSaveRequisition);
-    // }, []);
+    useEffect(() => {
+        if (ItemNewID) {
+            const newItem = USGetAddItemList.find(item => item.ItemID === ItemNewID);
+            if (newItem) {
+                setAddItemlistNew(prevList => {
+                   
+                    if (!prevList.some(item => item.ItemID === newItem.ItemID)) {
+                        return [...prevList, newItem];
+                    }
+                    return prevList;
+                });
+            }
+        }
+    }, [ItemNewID, USGetAddItemList]);
 
+    const clickDelete = (ItemNewID) => {
+        setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
+    };
+
+    
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -509,7 +523,7 @@ const AddRequisition = () => {
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
                     <AddRequisitionlist
-                        ItemList={ItemlistNew}
+                        ItemList={AddItemlistNew}
                         HeaderArray={HeaderPublish}
                         clickDelete={clickDelete}
                         Detailschnageall={ChangeItemQty}

@@ -10,6 +10,8 @@ function AddRequisitionlist({
   Detailschnageall
 }) {
  
+  console.log(ItemList,"ItemList");
+  
 
   // const changeText1 = (value) => {
   //   ItemList = ItemList.map((item) => {
@@ -55,7 +57,7 @@ function AddRequisitionlist({
         </TableHead>
         <TableBody>
           {ItemList.map((item) => (
-            <TableRow key={item.Id}>
+            <TableRow key={item.ItemID}>
               <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
                 {item.ItemCode}
               </TableCell>
@@ -78,7 +80,7 @@ function AddRequisitionlist({
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              {/* <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
                 {item.ReturnQty}
               </TableCell>
               <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
@@ -86,7 +88,7 @@ function AddRequisitionlist({
               </TableCell>
               <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
                 {item.IssueQty}
-              </TableCell>
+              </TableCell> */}
               <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }} align="center">
                 <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} sx={{ color: 'red' }} />
               </TableCell>
