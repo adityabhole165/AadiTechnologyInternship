@@ -188,7 +188,7 @@ const AddRequisition = () => {
             asRequisitionDesc: textall1,
             asAction: "save",
             asRequisitionItemDetailsXml: xmlString1,
-            asIsGeneral: 0
+            asIsGeneral:isChecked
         };
 
         if (textall === '') {
@@ -243,7 +243,7 @@ const AddRequisition = () => {
             asRequisitionDesc: textall1,
             asAction: "send",
             asRequisitionItemDetailsXml: xmlString1,
-            asIsGeneral: 0
+            asIsGeneral:isChecked
         };
 
         if (textall === '') {
@@ -272,6 +272,9 @@ const AddRequisition = () => {
             isError = true;
         }
 
+        if (USCanSendRequisition == false) {
+            isError = true;
+        }
 
 
         if (!isError) {

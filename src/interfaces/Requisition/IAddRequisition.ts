@@ -52,7 +52,7 @@ export interface ISaveRequisitionBody {
     asRequisitionDesc: string
     asAction: string
     asRequisitionItemDetailsXml: string
-    asIsGeneral: number
+    asIsGeneral: boolean 
 }
 
 
