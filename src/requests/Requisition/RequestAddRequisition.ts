@@ -160,9 +160,7 @@ export const CDAGetItemCategory =
   export const CDAGetNewRequisitionValidateItemQuantity =
   (data: IGetNewRequisitionValidateItemQuantityBody): AppThunk =>
   async (dispatch) => {
-    const response = await ApiAddRequisition.GetNewRequisitionValidateItemQuantity(data);
-     console.log(response.data,"---vvvv");
-     
+    const response = await ApiAddRequisition.GetNewRequisitionValidateItemQuantity(data);     
     dispatch(SliceAddRequisition.actions.RGetNewRequisitionValidateItemQuantity(response.data));
   };
 

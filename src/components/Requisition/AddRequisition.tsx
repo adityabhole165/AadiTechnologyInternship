@@ -42,7 +42,7 @@ const AddRequisition = () => {
     const [AddItemlistNew, setAddItemlistNew] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
-
+    console.log(ValidateItemQuantity);
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
 
@@ -54,7 +54,8 @@ const AddRequisition = () => {
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
-
+ 
+  
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
     // const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
@@ -131,12 +132,7 @@ const AddRequisition = () => {
         const xml = getXML();
         setXmlString1(xml);
 
-    }, [AddItemlistNew, ItemNewID]);
-
-
-
-
-   
+    }, [AddItemlistNew]);
 
     useEffect(() => {
         const getXML1 = () => {
@@ -151,8 +147,6 @@ const AddRequisition = () => {
                     '</RequisitionData>';
             });
             sXML = sXML + '</ArrayOfRequisitionData>';
-
-
             return sXML;
         };
         const xml = getXML1();
@@ -161,7 +155,7 @@ const AddRequisition = () => {
     }, [AddItemlistNew]);
 
     const GetNewRequisitionValidateItemQuantityBody: IGetNewRequisitionValidateItemQuantityBody = {
-        asSchoolId: 18,
+        asSchoolId: asSchoolId,
         asQuantityDetailsXML: xmlString
 
 
@@ -204,7 +198,7 @@ const AddRequisition = () => {
             isError = true;
         }
 
-        if (USGetNewRequisitionValidateItemQuantity != null) {
+        if (USGetNewRequisitionValidateItemQuantity.Codes != null) {
             setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
             isError = true;
         }
@@ -257,7 +251,7 @@ const AddRequisition = () => {
             isError = true;
         }
 
-        if (USGetNewRequisitionValidateItemQuantity !== null) {
+        if (USGetNewRequisitionValidateItemQuantity.Codes !== null) {
             setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
             isError = true;
         }
@@ -386,6 +380,7 @@ const AddRequisition = () => {
         setTextall('')
         setTextall1('')
         setErrorMessage('')
+        setValidateItemQuantity('')
 
     }
 
@@ -430,7 +425,7 @@ const AddRequisition = () => {
 
     useEffect(() => {
         dispatch(CDAGetNewRequisitionValidateItemQuantity(GetNewRequisitionValidateItemQuantityBody));
-    }, []);
+    }, [xmlString]);
 
 
     useEffect(() => {
@@ -460,7 +455,7 @@ const AddRequisition = () => {
             }
         }
 
-    }, [ItemNewID, USGetAddItemList]);
+    }, [ItemNewID]);
 
 
     const clickDelete = (ItemNewID) => {
@@ -575,7 +570,6 @@ const AddRequisition = () => {
                     <ErrorMessage1 Error={Error}></ErrorMessage1>
                     <ErrorMessage1 Error={Error1}></ErrorMessage1>
                     <ErrorMessage1 Error={Error2}></ErrorMessage1>
-                    <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
 
 
 
@@ -586,6 +580,7 @@ const AddRequisition = () => {
 
                 : null}
             <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
+            <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
 
 
             <br></br>
