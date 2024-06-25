@@ -6,31 +6,18 @@ function AddRequisitionlist({
   ItemList,
   HeaderArray,
   clickDelete,
-  textall,
-  Detailschnageall
+  onTextChange2
 }) {
- 
-  console.log(ItemList,"ItemList");
-  
-
-  // const changeText1 = (value) => {
-  //   ItemList = ItemList.map((item) => {
-  //     return item.Id === value.Id ? { ...item, Text3: value.Value } : item;
-  //   });
-  //   onTextChange2(ItemList);
-  // };
-
-  
-  // const handleText3Change = (e, item) => {
-  //     const numericValue = e.target.value.replace(/[^0-9.]/g, '');
-  //     changeText1({ Value: numericValue, Id: item.ItemID });
-    
-  // };
-
-
+  const handleText3Change = (e, item) => {
+    const numericValue = e.target.value.replace(/[^0-9.]/g, '');
+    const updatedItemList = ItemList.map((listItem) =>
+      listItem.ItemID === item.ItemID ? { ...listItem, Text3: numericValue } : listItem
+    );
+    onTextChange2(updatedItemList);
+  };
 
   return (
-    <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`,  overflow: 'hidden' }}>
+    <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
@@ -71,24 +58,16 @@ function AddRequisitionlist({
                 <TextField
                   size="small"
                   id="outlined-basic"
-                  value={textall}
+                  value={item.Text3}
                   variant="outlined"
-                  onChange={Detailschnageall}
-                  sx={{ width: '150px', height: '10px' }} />
+                  onChange={(e) => handleText3Change(e, item)}
+                  sx={{ width: '150px', height: '10px' }}
+                />
                 &nbsp; &nbsp; &nbsp;
                 <Select value={item.UOMUnit} sx={{ width: '150px', height: '37px' }} disabled>
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>
-              {/* <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
-                {item.ReturnQty}
-              </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
-                {item.CancelQty}
-              </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
-                {item.IssueQty}
-              </TableCell> */}
               <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }} align="center">
                 <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} sx={{ color: 'red' }} />
               </TableCell>

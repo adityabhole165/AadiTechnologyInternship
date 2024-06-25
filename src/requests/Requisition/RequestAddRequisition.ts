@@ -82,7 +82,8 @@ export const CDAGetItemCategory =
           PieceCount:item.PieceCount,
           ActualQuantity:item.ActualQuantity,
           ImageCount:item.ImageCount,
-          ItemCategoryID:item.ItemCategoryID
+          ItemCategoryID:item.ItemCategoryID,
+          Text3 : 0,
     
 
         };

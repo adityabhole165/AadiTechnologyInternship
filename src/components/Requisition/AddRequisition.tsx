@@ -93,33 +93,19 @@ const AddRequisition = () => {
 
     const getXML = () => {
         let sXML = '<RequisitionItems>';
-        Itemlist.map((Item) => {
+        AddItemlistNew.map((Item) => {
             if( Item.ItemID ==  ItemNewID) {
                 sXML +=
                     '<RequisitionItems ' +
                     'ItemID="' + Item.ItemID + '" ' +
                     'UOM="0" ' +
-                    'ItemQty=" ' + Text + ' " ' +
-                    'ItemOrgQty=" '+ Text + ' " />';
+                    'ItemQty=" ' + Item.Text3 + ' " ' +
+                    'ItemOrgQty=" '+ Item.Text3 + ' " />';
             }
         });
-
-        ItemlistNew.map((Item) => {
-                sXML +=
-                    '<RequisitionItems ' +
-                    'ItemID="' + Item.ItemID + '" ' +
-                    'UOM="0" ' +
-                    'ItemQty=" ' + Text + ' " ' +
-                    'ItemOrgQty=" '+ Text + ' " />';
-            
-        });
-        sXML += '</RequisitionItems>';
-
         return sXML;
     };
-
-   
-
+ 
 
     const SaveRequisitionBody: ISaveRequisitionBody = {
         asSchoolId: asSchoolId,
@@ -332,7 +318,7 @@ const AddRequisition = () => {
 
     const ClickRestItemLIst = () => {
         setItemlist([]);
-        setItemlistNew([]);
+        setAddItemlistNew([]);
         setError('')
         setError1('')
         setError2('')
@@ -353,8 +339,8 @@ const AddRequisition = () => {
         setText(event.target.value);
     };
 
-    const Detailschnageall = (event) => {
-        setTextall(event.target.value)
+    const Detailschnageall = (value) => {
+        setAddItemlistNew(value)
     }
     const Detailschnageall2 = (event) => {
         setTextall1(event.target.value)
@@ -515,21 +501,22 @@ const AddRequisition = () => {
             />
              {Error !== '' ?
                <Box mb={1} sx={{ p: 2, background: 'white' }}>
-               < Typography style={{ color: 'red' , fontSize:"15px" }}>{Error}</ Typography>
-               <Typography style={{ color: 'red', fontSize:"15px" }}>{Error1}</Typography>
-               <Typography style={{ color: 'red', fontSize:"15px" }}>{Error2}</Typography>
+               
+               <ErrorMessage1 Error={Error}></ErrorMessage1>
+            <ErrorMessage1 Error={Error1}></ErrorMessage1>
+            <ErrorMessage1 Error={Error2}></ErrorMessage1>
+
+
   
                </Box>
                 
                 
                 
                 : null}
-
-            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
+               <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
+               
              
             <br></br>
-
-
 
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
@@ -542,9 +529,8 @@ const AddRequisition = () => {
                         ItemList={AddItemlistNew}
                         HeaderArray={HeaderPublish}
                         clickDelete={clickDelete}
-                        Detailschnageall={ChangeItemQty}
-                        textall={Text}
-                    />
+                        onTextChange2={Detailschnageall}
+                         />
                               <br></br> 
                     <Grid item xs={3}>
                         <Typography variant="h4" sx={{ mb: 1 }}>
