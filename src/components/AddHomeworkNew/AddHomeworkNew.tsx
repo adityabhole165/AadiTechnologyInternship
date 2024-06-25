@@ -748,57 +748,57 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           }
         />
 
+        <Box sx={{ background: 'white', p: 3, mt: 1  }}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c', width: '100%' }} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                label={'Class Teacher'}
+                value={TeacherName}
+                sx={{ bgcolor: '#f0e68c', width: '100%' }}
+                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+            </Grid>
+            <Grid item xs={3}>
 
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c' }} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              label={'Class Teacher'}
-              value={TeacherName}
-              sx={{ bgcolor: '#f0e68c' }}
-              disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
-          </Grid>
-          <Grid item xs={3}>
-
-            <SearchableDropdown
-              ItemList={ClassSubject.filter((Item) => {
-                return MySubject == 'true' ?
-                  Item.TeacherId == TeacherId :
-                  Item.TeacherId != TeacherId
-              })}
-              onChange={clickSubjectList}
-              defaultValue={Subject}
-              sx={{ minWidth: '25vw' }}
-              label='Select Subject'
-            />
-
-
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              value={Title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              error={ErrorTitle !== ''}
-              helperText={ErrorTitle}
-
-              label={
-                <span>
-                  Title <span style={{ color: 'red' }}>*</span>
-                </span>
-              }
-            />
-          </Grid>
-
-          <Grid item xs={3}>
+              <SearchableDropdown
+                ItemList={ClassSubject.filter((Item) => {
+                  return MySubject == 'true' ?
+                    Item.TeacherId == TeacherId :
+                    Item.TeacherId != TeacherId
+                })}
+                onChange={clickSubjectList}
+                defaultValue={Subject}
+                sx={{ width: '100%' }}
+                label='Select Subject'
+              />
 
 
-            {/* <TextField
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                value={Title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                error={ErrorTitle !== ''}
+                helperText={ErrorTitle}
+                sx={{ width: '100%' }}
+                label={
+                  <span>
+                    Title <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+              />
+            </Grid>
+
+            <Grid item xs={3}>
+
+
+              {/* <TextField
               fullWidth
               label={
                 <span>
@@ -815,17 +815,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               helperText={ErrorAssignedDate}
 
             /> */}
-            <Datepicker
-              DateValue={AssignedDate}
-              onDateChange={handleAssignedDateChange}
-              label={'Assigned Date'}
-              size={"medium"}
+              <Datepicker
+                DateValue={AssignedDate}
+                onDateChange={handleAssignedDateChange}
+                label={'Assigned Date'}
+                size={"medium"}
 
-            />
-            <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1>
-          </Grid>
-          <Grid item xs={3}>
-            {/* <TextField
+              />
+              <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1>
+            </Grid>
+            <Grid item xs={3}>
+              {/* <TextField
               fullWidth
               InputLabelProps={{
                 shrink: true
@@ -843,17 +843,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
 
             /> */}
-            <Datepicker
-              DateValue={CompleteDate}
-              onDateChange={handleCompleteByDateChange}
-              label={'Complete By Date'}
-              size={"medium"}
+              <Datepicker
+                DateValue={CompleteDate}
+                onDateChange={handleCompleteByDateChange}
+                label={'Complete By Date'}
+                size={"medium"}
 
-            />
-            <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1>
-          </Grid>
+              />
+              <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1>
+            </Grid>
 
-          {/* <Grid item xs={3}>
+            {/* <Grid item xs={3}>
             <SingleFile
               ValidFileTypes={ValidFileTypes}
               MaxfileSize={MaxfileSize}
@@ -865,19 +865,19 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               isMandatory={false}
             />
           </Grid> */}
-          <Grid item xs={3}>
-            <MultipleFile
-              ValidFileTypes={ValidFileTypes}
-              MaxfileSize={MaxfileSize}
-              // FileName={fileName}
-              ChangeFile={setMultipleFiles}
-              FileLabel={'Attachments'}
-              width={'100%'}
-              height={"52px"}
-              isMandatory={false}
-            />
-          </Grid>
-          {/* 
+            <Grid item xs={3}>
+              <MultipleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                // FileName={fileName}
+                ChangeFile={setMultipleFiles}
+                FileLabel={'Attachments'}
+                width={'100%'}
+                height={"52px"}
+                isMandatory={false}
+              />
+            </Grid>
+            {/* 
           <Grid item xs={3}>
             <Button
               startIcon={<CloudUpload />}
@@ -890,49 +890,49 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
           </Grid> */}
 
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label={
-                <span>
-                  Details <span style={{ color: 'red' }}>*</span>
-                </span>
-              }
-              multiline
-              rows={3}
-              value={Details}
-              onChange={(e) => {
-                setDetails(e.target.value);
-              }}
-              error={ErrorDetails !== ''}
-              helperText={ErrorDetails}
-            />
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label={
+                  <span>
+                    Details <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                multiline
+                rows={3}
+                value={Details}
+                onChange={(e) => {
+                  setDetails(e.target.value);
+                }}
+                error={ErrorDetails !== ''}
+                helperText={ErrorDetails}
+              />
+            </Grid>
+
           </Grid>
 
-        </Grid>
+        </Box>
 
-
-        <br />
-        <br />
-        <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={2} pb={1}>
-          <SearchableDropdown
-            sx={{ minWidth: '250px' }}
-            ItemList={HomeworkStatus}
-            onChange={clickHomeworkStatus}
-            defaultValue={HomeworkS.toString()}
-            label={'Select Homework Status:'}
-            size={"small"}
-          />
-          <Box sx={{ minWidth: '150px' }}>
-            <Datepicker
-              DateValue={AssignedDate1}
-              onDateChange={setAssignedDate}
-              label={'Date'}
+        <Box sx={{ background: 'white', p: 2, mt: 1  }}>
+          <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={1} pb={1}>
+            <SearchableDropdown
+              sx={{ minWidth: '250px' }}
+              ItemList={HomeworkStatus}
+              onChange={clickHomeworkStatus}
+              defaultValue={HomeworkS.toString()}
+              label={'Select Homework Status:'}
               size={"small"}
-
             />
-          </Box>
-          {/* <TextField
+            <Box sx={{ minWidth: '150px' }}>
+              <Datepicker
+                DateValue={AssignedDate1}
+                onDateChange={setAssignedDate}
+                label={'Date'}
+                size={"small"}
+
+              />
+            </Box>
+            {/* <TextField
             size={"small"}
             sx={{ with: '250px' }}
             InputLabelProps={{
@@ -947,25 +947,25 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }}
           /> */}
 
-          <TextField
-            size={"small"}
-            sx={{ with: '250px' }}
-            label="Title"
-            value={SearchText}
+            <TextField
+              size={"small"}
+              sx={{ with: '250px' }}
+              label="Title"
+              value={SearchText}
 
-            onChange={(e) => {
-              SearchNameChange(e.target.value);
-            }}
-          />
-          <IconButton onClick={changeSearchText} sx={{
-            background: (theme) => theme.palette.primary.main,
-            color: 'white',
-            mr: 2
-          }}>
-            <SearchTwoTone />
-          </IconButton>
-        </Stack>
-
+              onChange={(e) => {
+                SearchNameChange(e.target.value);
+              }}
+            />
+            <IconButton onClick={changeSearchText} sx={{
+              background: (theme) => theme.palette.primary.main,
+              color: 'white',
+              mr: 2
+            }}>
+              <SearchTwoTone />
+            </IconButton>
+          </Stack>
+        </Box>
         <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)} fullWidth
           maxWidth={'sm'}>
           <DialogTitle
@@ -999,48 +999,49 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           </DialogActions>
         </Dialog>
 
-
-        <Typography variant={"h4"} my={1}>
-          Assigned homework for selected subject :
-        </Typography>
-        {Subjectlistsforteacher.length > 0 && SearchTittle.length > 0 ? (
-          <SelectedsubjectList
-            ItemList={SearchTittle}
-            clickView={clickTitle}
-            clickDelete={clickDelete}
-            clickEdit={handleEditClick}
-            clickVisibilityIcon={clickView}
-            clickpublish={clickPublishUnpublish}
-            HeaderArray={HeaderPublish}
-          // clickAttachment={clickFileName}
-          />
-        ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No record found.</b>
-          </Typography>
-        )}
-
-
-        <Box my={2}>
+        <Box sx={{ background: 'white', p: 1, mt: 1 }}>
           <Typography variant={"h4"} my={1}>
-            Homework assigned for other subjects :
+            Assigned homework for selected subject :
           </Typography>
-          {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 ? (
-            <SubjectList1
-              ItemList={SearchTittle1}
-              HeaderArray={HeaderPublish1}
-              onChange={Changevalue}
-              clickchange={''}
-              clickTitle={clickTitle1}
+          {Subjectlistsforteacher.length > 0 && SearchTittle.length > 0 ? (
+            <SelectedsubjectList
+              ItemList={SearchTittle}
+              clickView={clickTitle}
+              clickDelete={clickDelete}
+              clickEdit={handleEditClick}
+              clickVisibilityIcon={clickView}
+              clickpublish={clickPublishUnpublish}
+              HeaderArray={HeaderPublish}
+            // clickAttachment={clickFileName}
             />
+
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No record found.</b>
             </Typography>
-          )
-          }
-        </Box>
+          )}
 
+
+          <Box my={2}>
+            <Typography variant={"h4"} my={1}>
+              Homework assigned for other subjects :
+            </Typography>
+            {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 ? (
+              <SubjectList1
+                ItemList={SearchTittle1}
+                HeaderArray={HeaderPublish1}
+                onChange={Changevalue}
+                clickchange={''}
+                clickTitle={clickTitle1}
+              />
+            ) : (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>No record found.</b>
+              </Typography>
+            )
+            }
+          </Box>
+        </Box>
 
         <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
           maxWidth={'sm'}>
