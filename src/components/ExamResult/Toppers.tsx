@@ -69,7 +69,7 @@ const ExamResultToppers = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
     const Note: string =
-        'Display the first three class / standard toppers as well as subject toppers of your class / standard for the selected exam';
+        'Displays the first three class / standard toppers as well as subject toppers of your class / standard for the selected exam';
 
 
     const [SubjectToppersListCT, setSubjectToppersListCT] = useState([])
@@ -549,9 +549,11 @@ const ExamResultToppers = () => {
                             </Typography>
 
                         )}
-                        <Typography variant={"h4"} my={2}>
-                            Subject Toppers
-                        </Typography>
+                        {GetSubjectToppersListCT.length > 0 && (
+                            <Typography variant={"h4"} my={2}>
+                                Subject Toppers
+                            </Typography>
+                        )}
 
                         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
                             {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
