@@ -17,6 +17,7 @@ export interface IGetAddItemListBody {
     asStartIndex: number
     asEndIndex: number
     asSortExp: string
+    asItemCategoryId:number
 }
 
 export interface IGetAddItemListResult {
