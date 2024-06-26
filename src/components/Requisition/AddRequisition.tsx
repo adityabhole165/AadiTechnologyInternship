@@ -521,7 +521,7 @@ const AddRequisition = () => {
             }
         }
 
-    }, [ItemNewID]);
+    }, [ItemNewID, USGetAddItemList, errorMessage]);
 
 
     const clickDelete = (ItemNewID) => {
@@ -666,7 +666,7 @@ const AddRequisition = () => {
                     disabled
                 />
 
-                {USCanCreateGenralRequisition == "N" ? <span> </span> : <Checkbox
+                {USCanCreateGenralRequisition == "Y" ?   <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     sx={{
@@ -676,7 +676,7 @@ const AddRequisition = () => {
                         },
                     }}
 
-                />}
+                />  :  <span> </span> }
 
 
             </Box>
