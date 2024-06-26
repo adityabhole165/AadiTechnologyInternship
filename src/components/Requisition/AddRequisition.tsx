@@ -43,6 +43,7 @@ const AddRequisition = () => {
     const [AddItemlistNew, setAddItemlistNew] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
+    const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -279,6 +280,7 @@ const AddRequisition = () => {
         }
 
         if (USCanSendRequisition == false) {
+            setValidateSendRequisition ("You can not send requisition since approval level is not configured or user is not available in approval designation.")
             isError = true;
         }
 
@@ -434,11 +436,15 @@ const AddRequisition = () => {
     }
 
     const Detailschnageall3 = (event) => {
-        setTextall(event.target.value)
+        if (event.target.value.length <= 40) {
+            setTextall(event.target.value);
+          }
     }
 
     const Detailschnageall2 = (event) => {
-        setTextall1(event.target.value)
+        if (event.target.value.length <= 500) {
+            setTextall(event.target.value);
+          }
     }
 
     const onClickBack = () => {
@@ -476,8 +482,6 @@ const AddRequisition = () => {
     useEffect(() => {
         dispatch(CDAGetItemImage(GetImageBody));
     }, [imageid]);
-
-
 
 
     useEffect(() => {
@@ -621,6 +625,7 @@ const AddRequisition = () => {
 
             <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
             <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
+            <ErrorMessage1 Error={ValidateSendRequisition}></ErrorMessage1>
             <ErrorMessage1 Error={error}></ErrorMessage1>
 
 
