@@ -549,9 +549,11 @@ const ExamResultToppers = () => {
                             </Typography>
 
                         )}
-                        <Typography variant={"h4"} my={2}>
-                            Subject Toppers
-                        </Typography>
+                        {GetSubjectToppersListCT.length > 0 && (
+                            <Typography variant={"h4"} my={2}>
+                                Subject Toppers
+                            </Typography>
+                        )}
 
                         <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row" }}>
                             {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
