@@ -461,7 +461,7 @@ const AddRequisition = () => {
 
     const Detailschnageall2 = (event) => {
         if (event.target.value.length <= 500) {
-            setTextall(event.target.value);
+            setTextall1(event.target.value);
           }
     }
 
@@ -681,15 +681,13 @@ const AddRequisition = () => {
 
 
             </Box>
-            {Error !== '' ?
-                <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                    <ErrorMessage1 Error={'Please fix following error(s):'}></ErrorMessage1>
+           
+               
                     <ErrorMessage1 Error={Error}></ErrorMessage1>
                     <ErrorMessage1 Error={Error1}></ErrorMessage1>
                     <ErrorMessage1 Error={Error2}></ErrorMessage1>
                     <ErrorMessage1 Error={ErrorQuantity}></ErrorMessage1>
-                </Box>
-                : null}
+                
             <br></br>
 
             {Itemlist.length > 0 ?
