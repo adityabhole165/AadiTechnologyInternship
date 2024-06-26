@@ -168,3 +168,51 @@ export interface IGenerateTestTotalMarksBody {
 export interface IGenerateTestTotalMarksResult {
   string
 }
+export interface IGetTeacherDetailsForControlPanelBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asTeacherID: Number
+}
+export interface IGetTeacherDetailsForControlPanelResult {
+  listTeacherDetailss: [
+    {
+      TeacherName: string,
+      TeacherStdDiv: string,
+      Teacher_Designation_Name: string,
+      qualification: string,
+      Standard_Id: string,
+      Standard_Name: string,
+      Is_PrePrimary: string,
+      Teacher_Designation_Id: string
+    }
+  ],
+  listBirthdayDetailss: [
+    {
+      YearWise_Student_Id: string,
+      DOB: string,
+      StudentName: string,
+      className: string,
+      Photo_file_Path: string,
+      DateOfBirth: string
+    },
+  ],
+  listCountofnewmessagesDetails: [
+    {
+      GetCountOfNewMessage: string
+    }
+  ],
+  listMessageDetails: [
+    {
+      Message_Id: string,
+      Message: string,
+      Start_Date: string,
+      End_Date: string,
+      Is_Default_Msg: string
+    }
+  ],
+  listBdayCountDetails: [
+    {
+      TotalBirthdayCount: string
+    }
+  ]
+}

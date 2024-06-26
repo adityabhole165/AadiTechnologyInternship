@@ -20,8 +20,9 @@ import {
   INewGetAllMonthsDropDownotBody,
   INewGetAllMonthsDropDownotResult,
   INewGetAssociatedStdLstForTeacherDropDownBody,
-  INewGetAssociatedStdLstForTeacherDropDownResult
+  INewGetAssociatedStdLstForTeacherDropDownResult,
 } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import { IGetTeacherDetailsForControlPanelBody, IGetTeacherDetailsForControlPanelResult } from 'src/interfaces/ExamResult/IExamResult';
 import http from '../../requests/SchoolService/schoolServices';
 
 const StandardDropDown = (data: IGetAssociatedStdLstForTeacherDropDownBody) => {
@@ -106,7 +107,12 @@ const MonthList = (data: INewGetAllMonthsDropDownotBody) => {
     data
   );
 };
-
+const GetTeacherDetailsForControlPanel = (data: IGetTeacherDetailsForControlPanelBody) => {
+  return http.post<IGetTeacherDetailsForControlPanelResult>(
+    'Teacher/GetTeacherDetailsForControlPanel',
+    data
+  );
+};
 const ApiAnnualPlanerBaseScreen = {
   StandardDropDown,
   DivisionDropDown,
@@ -119,7 +125,8 @@ const ApiAnnualPlanerBaseScreen = {
   GetAllMonthsDropDown,
   GetAllEvents,
   Stdlist,
-  MonthList
+  MonthList,
+  GetTeacherDetailsForControlPanel
 };
 
 export default ApiAnnualPlanerBaseScreen;
