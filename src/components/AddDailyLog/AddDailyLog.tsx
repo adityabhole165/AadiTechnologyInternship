@@ -4,17 +4,14 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
-  Button,
   Grid,
   IconButton,
   Pagination,
   TextField,
   Tooltip,
-  Typography,
-  alpha
+  Typography
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -26,6 +23,8 @@ import {
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
@@ -39,15 +38,15 @@ import {
   resetPublishUnpublish
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
+import { formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 
 
 const AddDailyLog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Id, ClassName } = useParams();
-  const [dateState, setDateState] = useState('');
+  const [dateState, setDateState]: any = useState('');
   const [dateSearch, setDateSearch] = useState('');
   const [dateSearchError, setDateSearchError] = useState('');
   const [dateError, setDateError] = useState('');
@@ -126,10 +125,10 @@ const AddDailyLog = () => {
     asFolderName: 'PPSN Website',
     asBase64String: base64URL == '' ? null : base64URL
   };
-
+  const formattedDate = dateSearch ? formatDateAsDDMMMYYYY(new Date(dateSearch)) : "";
   const GetAllHomeworkDailyLogsBody: IGetAllHomeworkDailyLogsBody = {
     asSchoolId: asSchoolId,
-    asFilter: dateSearch,
+    asFilter: formattedDate,
     asStdDivId: Number(Id),
     asSortExpression: 'Date ' + HeaderPublish[0].SortOrder,
     asStartIndex: startIndex,
@@ -277,11 +276,17 @@ const AddDailyLog = () => {
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/AssignHomework');
   };
-
+  const handleDateChange = (selectedDate) => {
+    setDateState(selectedDate);
+    // Update dateState with selectedDate
+    if (selectedDate && dateError !== '') {
+      setDateError('');
+    }
+  };
   const handleChange = (e) => {
     const selectedDate = e.target.value;
     setDateState(selectedDate);
-    if (!selectedDate) {
+    if (!selectedDate || selectedDate === null) {
       setDateError('Date should not be blank.');
     } else {
       const currentDate = new Date();
@@ -300,17 +305,21 @@ const AddDailyLog = () => {
     }
   };
 
-
-
   const onSelectDate = (value) => {
-    setDateSearch(value);
-
+    // Ensure value is properly formatted and reflects the selected date
+    console.log('Selected date:', value);
+    setDateSearch(value); // Update dateSearch with selected date
   };
+
+  // const onSelectDate = (value) => {
+  //   setDateSearch(value);
+
+  // };
 
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
-    
+
   };
 
   const ResetForm = () => {
@@ -324,18 +333,23 @@ const AddDailyLog = () => {
   };
   const onClickSave = () => {
     let isError = false;
-    if (dateState === '') {
+    if (!dateState || dateState === '') {
       setDateError('Date should not be blank.');
       isError = true;
     } else {
-      const selectedDay = new Date(dateState).getDay();
-      if (selectedDay === 0 || selectedDay === 6) {
-        setDateError('Weekend dates are not allowed.');
-        isError = true;
-      } else {
-        setDateError('');
-      }
+      // Clear the error if date is not blank
+
+      setDateError('');
+      console.log('Saving data...', dateState);
     }
+    // const selectedDay = new Date(dateState).getDay();
+    // if (selectedDay === 0 || selectedDay === 6) {
+    //   setDateError('Weekend dates are not allowed.');
+    //   isError = true;
+    // } else {
+    //   setDateError('');
+    // }
+
     if (fileName === '') {
       setFileNameError('Please select file to upload');
       isError = true; // Set isError to true for this condition
@@ -347,6 +361,7 @@ const AddDailyLog = () => {
       ResetForm();
     }
   };
+
   useEffect(() => {
     if (SaveDailyLog != '') {
       if (SaveDailyLog == "Record for given date is already exist.")
@@ -374,6 +389,10 @@ const AddDailyLog = () => {
     getCurrentDateTime();
   }, []);
 
+  //   const formatDateAsDDMMMYYYY = (date) => {
+  //     const options = { day: '2-digit', month: 'short', year: 'numeric' };
+  //     return new Date(date).toLocaleDateString('en-GB', options);
+  // };
 
   const onClickSearch = () => {
 
@@ -387,6 +406,7 @@ const AddDailyLog = () => {
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   };
+
 
   const ClickHeader = (value) => {
     setHeaderPublish(value)
@@ -459,19 +479,20 @@ const AddDailyLog = () => {
             </Box>
           </>}
         />
-        <Box sx={{ p: 2, backgroundColor: 'white',width: '50%', margin: '0 auto'  }}>
+        <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
-              <TextField fullWidth label={'Class'}  sx={{ bgcolor: '#f0e68c' }} value={ClassName} />
+              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c' }} value={ClassName} />
             </Grid>
             <Grid item xs={5}>
-            <Datepicker
-                  DateValue={dateState}
-                  onDateChange={handleChange}
-                  label={'Date'}
-                  size={"medium"}
+              <Datepicker
+                DateValue={dateState}
+                onDateChange={handleDateChange}
+                label={'Date'}
+                size={"medium"}
 
-                />
+              />
+              <ErrorMessage1 Error={dateError}></ErrorMessage1>
             </Grid>
             <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'flex-start'}>
               <SingleFile
@@ -504,13 +525,13 @@ const AddDailyLog = () => {
               >
 
                 <Box>
-                <Datepicker
-                  DateValue={dateSearch}
-                  onDateChange={onSelectDate}
-                  label={''}
-                  size={"small"}
+                  <Datepicker
+                    DateValue={dateSearch}
+                    onDateChange={onSelectDate}
+                    label={''}
+                    size={"small"}
 
-                />
+                  />
                   {/* <DatePicker
                     value={new Date(dateSearch)}
                     onChange={(date) => {
@@ -531,15 +552,15 @@ const AddDailyLog = () => {
                   /> */}
                 </Box>
                 <Box>
-                 
+
 
                   <IconButton onClick={onClickSearch} sx={{
-            background: (theme) => theme.palette.primary.main,
-            color: 'white',
-            mr: 2
-          }}>
-            <SearchTwoTone />
-          </IconButton>
+                    background: (theme) => theme.palette.primary.main,
+                    color: 'white',
+                    mr: 2
+                  }}>
+                    <SearchTwoTone />
+                  </IconButton>
                 </Box>
               </Box>
             </Grid>

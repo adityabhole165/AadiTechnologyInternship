@@ -185,15 +185,14 @@ const AddRequisition = () => {
     };
 
     const GEtSalutation = () => {
-        let classStudentName = '';
-        Itemlist.map((item) => {
-            if (item.ItemID == ItemNewID) classStudentName = item.ItemName;
+        let classStudentNames = [];
+        AddItemlistNew.forEach((item) => {
+            classStudentNames.push(item.ItemName);
         });
-        return classStudentName;
+        return classStudentNames.join(', ');
     };
-
+    
     const ItemName = GEtSalutation()
-
 
     const clicksave = () => {
         let isError = false;
@@ -224,13 +223,6 @@ const AddRequisition = () => {
             setError1('Requisition Description should not be blank.');
             isError = true;
         }
-
-
-        USSaveRequisition.forEach(item => {
-            if (Text == 0) {
-                errorMessages.push(`Quantity should be greater than zero for item ${item.ItemName}.`);
-            }
-        });
 
         if (errorMessages.length > 0) {
             setError2(errorMessages.join("\n"));
@@ -282,12 +274,7 @@ const AddRequisition = () => {
             isError = true;
         }
 
-        USSaveRequisition.forEach(item => {
-            if (Text == 0) {
-                errorMessages.push(`Quantity should be greater than zero for item ${item.ItemName}.`);
-            }
-        });
-
+    
         if (errorMessages.length > 0) {
             setError2(errorMessages.join("\n"));
             isError = true;
