@@ -75,6 +75,7 @@ const AddRequisition = () => {
     const GetAddItemListBody: IGetAddItemListBody = {
         asSchoolId: asSchoolId,
         asName: regNoOrName,
+        asItemCategoryId:ItemCategory,
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
