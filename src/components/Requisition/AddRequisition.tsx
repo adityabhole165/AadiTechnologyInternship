@@ -21,7 +21,6 @@ import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-import { t } from 'i18next';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const AddRequisition = () => {
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
-
+    const [error, seterror] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const [isSearchEmpty, setIsSearchEmpty] = useState(false);
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
@@ -232,6 +231,7 @@ const AddRequisition = () => {
             setTextall('')
             setTextall1('')
             setValidateItemQuantity('')
+            seterror('')
         }
     };
 
@@ -297,8 +297,8 @@ const AddRequisition = () => {
 
 
     const clickSearch = () => {
-        if (regNoOrName === '') {
-            setItemlist(USGetAddItemList);
+        if (regNoOrName == '') {
+            seterror('Item Code / Name should not be blank');
             setIsSearchEmpty(false);
         } else {
             const filteredList = USGetAddItemList.filter((item) => {
@@ -313,11 +313,13 @@ const AddRequisition = () => {
 
             setItemlist(filteredList);
             setIsSearchEmpty(filteredList.length === 0);
+            seterror('')
         }
     };
 
     const handleRegNoOrNameChange = (value) => {
         setRegNoOrName(value);
+
     };
 
 
@@ -534,9 +536,8 @@ const AddRequisition = () => {
                             value={regNoOrName}
                             variant={'outlined'}
                             size={"small"}
-                            onChange={(e) => {
-                                handleRegNoOrNameChange(e.target.value);
-                            }}
+                            onChange={(e) => handleRegNoOrNameChange(e.target.value)}
+
                         />
 
                         <IconButton
@@ -597,7 +598,7 @@ const AddRequisition = () => {
                         </Tooltip>
 
                         <Tooltip title={'Change Input'}>
-                            {Itemlist.length > 0  ?
+                            {Itemlist.length > 0 ?
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
                                     <IconButton
@@ -616,6 +617,12 @@ const AddRequisition = () => {
                         </Tooltip>
                     </>}
             />
+
+            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
+            <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
+            <ErrorMessage1 Error={error}></ErrorMessage1>
+
+
             <Box display="flex" alignItems="center">
 
                 <TextField
@@ -663,8 +670,7 @@ const AddRequisition = () => {
 
 
                 : null}
-            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
-            <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
+
 
 
             <br></br>
@@ -672,25 +678,25 @@ const AddRequisition = () => {
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
-                </Box> :  (
-                isSearchEmpty && (
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            textAlign: 'center',
-                            marginTop: 4,
-                            backgroundColor: '#324b84',
-                            padding: 1,
-                            borderRadius: 2,
-                            color: 'white',
-                        }}
-                    >
-                        <b>No record found.</b>
-                    </Typography>
-                ) )}
+                </Box> : (
+                    isSearchEmpty && (
+                        <Typography
+                            variant="body1"
+                            sx={{
+                                textAlign: 'center',
+                                marginTop: 4,
+                                backgroundColor: '#324b84',
+                                padding: 1,
+                                borderRadius: 2,
+                                color: 'white',
+                            }}
+                        >
+                            <b>No record found.</b>
+                        </Typography>
+                    ))}
 
 
-           
+
             {Itemlist.length > 0 && AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
