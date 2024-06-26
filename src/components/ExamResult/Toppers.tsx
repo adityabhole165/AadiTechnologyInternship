@@ -84,7 +84,6 @@ const ExamResultToppers = () => {
     const GetLatestStandardExam = useSelector(
         (state: RootState) => state.Toppers.LatestExamIdST
     )
-
     const GetClassdropdownCT = useSelector(
         (state: RootState) => state.Toppers.ClassDropdownList
     );
@@ -100,8 +99,6 @@ const ExamResultToppers = () => {
     const GetSubjectToppersListCT = useSelector(
         (state: RootState) => state.Toppers.ClassSubjectToppersList
     );
-
-
     const GetStandarddropdownST = useSelector(
         (state: RootState) => state.Toppers.StandardDropdownList
     );
@@ -207,7 +204,7 @@ const ExamResultToppers = () => {
             setExamCT(SelectExamTemp)
             const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamTemp);
             if (selectedExam) {
-                setSelectedExamName(selectedExam.Name);
+                setSelectedExamName(selectedExam.Name.replaceAll("-", ""));
             }
         }
         if (GetExamdropdownST.length > 0 && radioBtn == '2') {
@@ -215,7 +212,7 @@ const ExamResultToppers = () => {
             setExamST(SelectExamTemp)
             const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
             if (selectedExam) {
-                setSelectedExamName(selectedExam.Name);
+                setSelectedExamName(selectedExam.Name.replaceAll("-", ""));
             }
 
         }
