@@ -44,6 +44,7 @@ const AddRequisition = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
+    const [ErrorQuantity, setErrorQuantity] = useState('');
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -182,6 +183,18 @@ const AddRequisition = () => {
 
     };
 
+    const GEtSalutation = () => {
+        let classStudentName = '';
+        Itemlist.map((item) => {
+          if (item.ItemID == ItemNewID) classStudentName = item.ItemName;
+        });
+        return classStudentName;
+      };
+  
+       const ItemName  =  GEtSalutation()
+      
+
+
     const clicksave = () => {
         let isError = false;
         let errorMessages = [];
@@ -196,6 +209,11 @@ const AddRequisition = () => {
             asRequisitionItemDetailsXml: xmlString1,
             asIsGeneral: isChecked
         };
+          
+        if  (AddItemlistNew.map((Item) => {Item.Text3 == 0 })) {
+            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}`);
+            isError = true;
+        }
 
         if (textall === '') {
             setError('Requisition Name should not be blank.');
@@ -628,6 +646,8 @@ const AddRequisition = () => {
             <ErrorMessage1 Error={ValidateSendRequisition}></ErrorMessage1>
             <ErrorMessage1 Error={error}></ErrorMessage1>
 
+            
+
 
             <Box display="flex" alignItems="center">
 
@@ -663,22 +683,13 @@ const AddRequisition = () => {
             </Box>
             {Error !== '' ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
-
+                    <ErrorMessage1 Error={'Please fix following error(s):'}></ErrorMessage1>
                     <ErrorMessage1 Error={Error}></ErrorMessage1>
                     <ErrorMessage1 Error={Error1}></ErrorMessage1>
                     <ErrorMessage1 Error={Error2}></ErrorMessage1>
-
-
-
-
+                    <ErrorMessage1 Error={ErrorQuantity}></ErrorMessage1>
                 </Box>
-
-
-
                 : null}
-
-
-
             <br></br>
 
             {Itemlist.length > 0 ?
