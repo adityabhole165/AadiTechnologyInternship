@@ -236,13 +236,15 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             setErrorEventDescription('Description should not be blank.');
             isError = true;
         } else setErrorEventDescription('')
-        if (EventStartDate == '') {
+        console.log('EventStartDate:', EventStartDate);
+        if (EventStartDate === '' || EventStartDate === null) {
             setErrorEventStartDate('Start date should not be blank.');
             isError = true;
         } else if (ErrorEventStartDate != '') {
+            console.log('Start date error already set');
             isError = true;
-        } else setErrorEventStartDate('')
-        if (EventEndDate == '') {
+        } else  setErrorEventStartDate('')
+        if (EventEndDate === '' || EventEndDate === null) {
             setErrorEventEndDate('End date should not be blank.');
             isError = true;
         } else if (ErrorEventEndDate != '') {

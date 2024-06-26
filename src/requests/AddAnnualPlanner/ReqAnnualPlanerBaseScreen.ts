@@ -18,6 +18,7 @@ import {
   INewGetAllMonthsDropDownotBody,
   INewGetAssociatedStdLstForTeacherDropDownBody
 } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import { IGetTeacherDetailsForControlPanelBody } from 'src/interfaces/ExamResult/IExamResult';
 import { AppThunk } from 'src/store';
 
 const AnnualPlanerBaseScreenSlice = createSlice({
@@ -38,7 +39,9 @@ const AnnualPlanerBaseScreenSlice = createSlice({
     ISGetAllEvents: [],
     ISStdList: [],
     ISMonthList: [],
-    ParentList: []
+    ParentList: [],
+    GetTeacherDetails: null,
+    listTeacherDetail:[]
   },
   reducers: {
     addanual(state, action) {
@@ -97,6 +100,10 @@ const AnnualPlanerBaseScreenSlice = createSlice({
 
     RMonthList(state, action) {
       state.ISMonthList = action.payload;
+    },
+    GetTeacherDetailsForControlPanel(state, action) {
+      state.GetTeacherDetails = action.payload;
+      state.listTeacherDetail= action.payload.listTeacherDetailss
     }
   }
 });
@@ -114,6 +121,12 @@ export const GetStandardList =
       });
 
       dispatch(AnnualPlanerBaseScreenSlice.actions.RSelectStandardList(a));
+    };
+export const GetTeacherDetailsForControlPanels =
+  (data: IGetTeacherDetailsForControlPanelBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAnnualPlanerBaseScreen.GetTeacherDetailsForControlPanel(data);
+      dispatch(AnnualPlanerBaseScreenSlice.actions.GetTeacherDetailsForControlPanel(response.data));
     };
 
 export const GetDivisionList =
