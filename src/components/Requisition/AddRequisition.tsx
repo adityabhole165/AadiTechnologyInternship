@@ -45,6 +45,7 @@ const AddRequisition = () => {
     const [ValidateItemQuantity, setValidateItemQuantity] = useState('');
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [ErrorQuantity, setErrorQuantity] = useState('');
+    const [text3, settext3] = useState();
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -77,7 +78,7 @@ const AddRequisition = () => {
     const GetAddItemListBody: IGetAddItemListBody = {
         asSchoolId: asSchoolId,
         asName: regNoOrName,
-        asItemCategoryId:ItemCategory,
+        asItemCategoryId: ItemCategory,
         asStartIndex: 1,
         asEndIndex: 100,
         asSortExp: "ORDER BY ItemName"
@@ -186,13 +187,12 @@ const AddRequisition = () => {
     const GEtSalutation = () => {
         let classStudentName = '';
         Itemlist.map((item) => {
-          if (item.ItemID == ItemNewID) classStudentName = item.ItemName;
+            if (item.ItemID == ItemNewID) classStudentName = item.ItemName;
         });
         return classStudentName;
-      };
-  
-       const ItemName  =  GEtSalutation()
-      
+    };
+
+    const ItemName = GEtSalutation()
 
 
     const clicksave = () => {
@@ -209,8 +209,8 @@ const AddRequisition = () => {
             asRequisitionItemDetailsXml: xmlString1,
             asIsGeneral: isChecked
         };
-          
-        if  (AddItemlistNew.map((Item) => {Item.Text3 == 0 })) {
+
+        if (text3 == undefined) {
             setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}`);
             isError = true;
         }
@@ -252,6 +252,7 @@ const AddRequisition = () => {
             setTextall1('')
             setValidateItemQuantity('')
             seterror('')
+            setErrorQuantity('')
         }
     };
 
@@ -298,7 +299,7 @@ const AddRequisition = () => {
         }
 
         if (USCanSendRequisition == false) {
-            setValidateSendRequisition ("You can not send requisition since approval level is not configured or user is not available in approval designation.")
+            setValidateSendRequisition("You can not send requisition since approval level is not configured or user is not available in approval designation.")
             isError = true;
         }
 
@@ -433,7 +434,7 @@ const AddRequisition = () => {
         setTextall1('')
         setErrorMessage('')
         setValidateItemQuantity('')
-
+        setErrorQuantity('')
     }
 
 
@@ -450,19 +451,21 @@ const AddRequisition = () => {
     };
 
     const Detailschnageall = (value) => {
-        setAddItemlistNew(value)
-    }
+        setAddItemlistNew(value);
+        settext3(value.map(item => item.Text3))
+
+    };
 
     const Detailschnageall3 = (event) => {
         if (event.target.value.length <= 40) {
             setTextall(event.target.value);
-          }
+        }
     }
 
     const Detailschnageall2 = (event) => {
         if (event.target.value.length <= 500) {
             setTextall1(event.target.value);
-          }
+        }
     }
 
     const onClickBack = () => {
@@ -641,12 +644,8 @@ const AddRequisition = () => {
                     </>}
             />
 
-            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
-            <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
-            <ErrorMessage1 Error={ValidateSendRequisition}></ErrorMessage1>
-            <ErrorMessage1 Error={error}></ErrorMessage1>
 
-            
+
 
 
             <Box display="flex" alignItems="center">
@@ -681,13 +680,18 @@ const AddRequisition = () => {
 
 
             </Box>
-           
-               
-                    <ErrorMessage1 Error={Error}></ErrorMessage1>
-                    <ErrorMessage1 Error={Error1}></ErrorMessage1>
-                    <ErrorMessage1 Error={Error2}></ErrorMessage1>
-                    <ErrorMessage1 Error={ErrorQuantity}></ErrorMessage1>
-                
+
+
+            <ErrorMessage1 Error={Error}></ErrorMessage1>
+            <ErrorMessage1 Error={Error1}></ErrorMessage1>
+            <ErrorMessage1 Error={Error2}></ErrorMessage1>
+            <ErrorMessage1 Error={ErrorQuantity}></ErrorMessage1>
+            <ErrorMessage1 Error={errorMessage}></ErrorMessage1>
+            <ErrorMessage1 Error={ValidateItemQuantity}></ErrorMessage1>
+            <ErrorMessage1 Error={ValidateSendRequisition}></ErrorMessage1>
+            <ErrorMessage1 Error={error}></ErrorMessage1>
+
+
             <br></br>
 
             {Itemlist.length > 0 ?
