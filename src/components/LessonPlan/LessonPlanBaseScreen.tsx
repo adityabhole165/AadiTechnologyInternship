@@ -613,11 +613,13 @@ const LessonPlanBaseScreen = () => {
         {/* <Typography variant={'h4'} mb={1}>
             My Subjects
           </Typography> */}
+          {LessonPlanList.length > 0 && (
         <Typography variant="subtitle1"
           sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
           {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
           <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
-        </Typography>
+          
+        </Typography>)}
         {LessonPlanList.length > 0 ? (
           <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
             <ListIcon
@@ -643,7 +645,7 @@ const LessonPlanBaseScreen = () => {
           </Typography>
         )}
 
-        {LessonPlanList.length >= 5 && (
+        {LessonPlanList.length >= 5 &&LessonPlanList.length > 0 && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
             Pages:
             {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
