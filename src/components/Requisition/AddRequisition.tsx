@@ -307,11 +307,18 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
             toast.success("Requisition is send successfully!!!");
-            // navigate('/extended-sidebar/Teacher/Requisition')
+            navigate('/extended-sidebar/Teacher/Requisition')
+            setItemlist([]);
+            setAddItemlistNew([]);
+            setError('')
+            setError1('')
+            setError2('')
             setText(0)
             setTextall('')
             setTextall1('')
+            setErrorMessage('')
             setValidateItemQuantity('')
+            setErrorQuantity('')
         }
     };
 
@@ -521,7 +528,7 @@ const AddRequisition = () => {
             }
         }
 
-    }, [ItemNewID]);
+    }, [ItemNewID, USGetAddItemList, errorMessage]);
 
 
     const clickDelete = (ItemNewID) => {
@@ -666,7 +673,7 @@ const AddRequisition = () => {
                     disabled
                 />
 
-                {USCanCreateGenralRequisition == "N" ? <span> </span> : <Checkbox
+                {USCanCreateGenralRequisition == "Y" ? <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     sx={{
@@ -676,7 +683,7 @@ const AddRequisition = () => {
                         },
                     }}
 
-                />}
+                /> : <span> </span>}
 
 
             </Box>
