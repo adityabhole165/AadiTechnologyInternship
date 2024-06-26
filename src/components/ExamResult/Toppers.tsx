@@ -35,14 +35,13 @@ const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let { TeacherId, StandardDivisionId, TestId, standardId, examtopperProp, IsReadOnly } = useParams();
-    // console.log(standardId, 'sssssssstandardId');
 
 
-    const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
+    const [SelectClassCT, setClassCT] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState(TestId == undefined ? "" : TestId);
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
-    const [SelectStandardST, setStandardST] = useState(standardId);
+    const [SelectStandardST, setStandardST] = useState("0");
     const [SelectExamST, setExamST] = useState('0');
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
@@ -77,17 +76,14 @@ const ExamResultToppers = () => {
     const [StandardToppersListST, setStandardToppersListST] = useState([])
     const [ClassToppersListCT, setClassToppersListCT] = useState([])
     const [SubjectToppersListST, setSubjectToppersListST] = useState([])
-    // console.log("ClassToppersListCT", ClassToppersListCT);
 
     const GetLatestclassExam = useSelector(
         (state: RootState) => state.Toppers.LatestExamIdCT
     );
-    console.log(GetLatestclassExam, "GetLatestclassExam");
 
     const GetLatestStandardExam = useSelector(
         (state: RootState) => state.Toppers.LatestExamIdST
     )
-    console.log(GetLatestStandardExam, "GetLatestStandardExam");
 
     const GetClassdropdownCT = useSelector(
         (state: RootState) => state.Toppers.ClassDropdownList
@@ -115,7 +111,6 @@ const ExamResultToppers = () => {
     const GetSubjectdropdownST = useSelector(
         (state: RootState) => state.Toppers.SubjectDropdownListST
     );
-    // console.log(GetSubjectdropdownST, 'GetSubjectdropdownSTttttt');
 
     const GetStandardToppersListST = useSelector(
         (state: RootState) => state.Toppers.StandardToppersList
@@ -124,11 +119,12 @@ const ExamResultToppers = () => {
         (state: RootState) => state.Toppers.StandardSubjectToppersList
     );
     useEffect(() => {
-        dispatch(LatestClassExam(ExamDropdownBodyCT));
-    }, [SelectClassCT]);
-    useEffect(() => {
-        dispatch(LatestStandardExam(LatestExamSTBody));
-    }, [SelectStandardST]);
+        if (radioBtn == '1' && SelectClassCT !== "0") {
+            dispatch(LatestClassExam(ExamDropdownBodyCT));
+        } else if (radioBtn == '2' && SelectStandardST !== "0") {
+            dispatch(LatestStandardExam(LatestExamSTBody));
+        }
+    }, [SelectClassCT, SelectStandardST]);
     useEffect(() => {
         setSubjectToppersListCT(GetSubjectToppersListCT)
     }, [GetSubjectToppersListCT])
@@ -159,75 +155,90 @@ const ExamResultToppers = () => {
     }
 
     const [IsPageload, setIsPageload] = useState(true);
+
     useEffect(() => {
-        if (GetExamdropdownCT.length > 0) {
-            let SelectExamTemp = ''
-            console.log(radioBtn, "radioBtn");
+        if (radioBtn == '1') {
+            dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
+            // setStandardST("0")
+        } else if (radioBtn == '2') {
+            dispatch(StandarddropdownListST(StandardDropdownBodyST));
+            // setClassCT("0")
+        }
+    }, [radioBtn]);
 
-            if (radioBtn === '1') {
-                console.log(IsPageload, "IsPageload");
-                if (IsPageload) {
-                    // setExamST(SelectExamCT);
-                    SelectExamTemp = TestId == undefined ? GetExamdropdownCT[0].Id : TestId
+    useEffect(() => {
+        if (GetClassdropdownCT.length > 0 && radioBtn == '1') {
+            if (SelectClassCT == "0")
+                setClassCT(GetClassdropdownCT[0].Value)
+        }
+        if (GetStandarddropdownST.length > 0 && radioBtn == '2') {
+            if (SelectStandardST == "0")
+                setStandardST(GetStandarddropdownST[0].Value)
+            setStandardST(getStandardFromCT())
+
+        }
+    }, [GetClassdropdownCT, GetStandarddropdownST])
+
+    useEffect(() => {
+
+        if (radioBtn == '1' && SelectClassCT !== "0") {
+            dispatch(ClassExamdropdownListCT(ExamDropdownBodyCT));
+            setExamST(SelectExamST)
+        } else if (radioBtn == '2' && SelectStandardST != "0") {
+            dispatch(StandardExamdropdownListST(ExamDropdownBodyST));
+            setExamCT(SelectExamCT)
+        }
+    }, [radioBtn, SelectClassCT, SelectStandardST]);
+
+    useEffect(() => {
+        let SelectExamTemp = "0"
+        if (GetExamdropdownCT.length > 0 && radioBtn == '1') {
+            if (IsPageload) {
+                SelectExamTemp = TestId == undefined ? GetExamdropdownCT[0].Value : TestId
+            }
+            else {
+
+                if (GetExamdropdownCT[0].Value === '-1') {
+                    SelectExamTemp = GetExamdropdownCT[0].Value
+                } else {
+                    SelectExamTemp = GetLatestclassExam
                 }
-                else {
-                    SelectExamTemp = GetExamdropdownCT[0].Id
-                }
-                setExamCT(SelectExamTemp)
-                const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamTemp);
-                if (selectedExam) {
-                    setSelectedExamName(selectedExam.Name);
-                }
-
-            } else if (radioBtn === '2') {
-
-                SelectExamTemp = GetExamdropdownST[0].Id;
-                setExamST(SelectExamTemp)
-                setStandardST(getStandardFromCT)
-
-                const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
-                if (selectedExam) {
-                    setSelectedExamName(selectedExam.Name);
-                }
-
-
+            }
+            setExamCT(SelectExamTemp)
+            const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamTemp);
+            if (selectedExam) {
+                setSelectedExamName(selectedExam.Name);
             }
         }
-    }, [radioBtn, GetExamdropdownCT, GetExamdropdownST, IsPageload]);
-    // }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST, IsPageload]);
+        if (GetExamdropdownST.length > 0 && radioBtn == '2') {
+            SelectExamTemp = GetExamdropdownST[0].Id;
+            setExamST(SelectExamTemp)
+            const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
+            if (selectedExam) {
+                setSelectedExamName(selectedExam.Name);
+            }
+
+        }
+    }, [GetExamdropdownCT, GetExamdropdownST])
 
 
-    // useEffect(() => {
-    //     if (TestId != null) {
-    //         setExamCT(TestId)
-    //     }
-    // }, [TestId])
-
     useEffect(() => {
-        dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
-    }, [SelectClassCT]);
-    useEffect(() => {
-        dispatch(ClassExamdropdownListCT(ExamDropdownBodyCT));
-    }, [SelectClassCT]);
-    useEffect(() => {
-        dispatch(ClassSubjectdropdownListCT(SubjectDropdownBodyCT));
-    }, [SelectClassCT, SelectExamCT]);
+        if (radioBtn == '1') {
+            dispatch(ClassSubjectdropdownListCT(SubjectDropdownBodyCT));
+        }
+    }, [SelectExamCT]);
     useEffect(() => {
         dispatch(ClassToppersList(ToppersListBodyCT));
     }, [SelectClassCT, SelectExamCT, SelectSubjectCT]);
-
     useEffect(() => {
-        dispatch(StandarddropdownListST(StandardDropdownBodyST));
-    }, [SelectStandardST]);
-    useEffect(() => {
-        dispatch(StandardExamdropdownListST(ExamDropdownBodyST));
-    }, [SelectStandardST]);
-    useEffect(() => {
-        dispatch(StandardSubjectdropdownListST(SubjectDropdownBodyST));
-    }, [SelectStandardST, SelectExamST]);
+        if (radioBtn == '2') {
+            dispatch(StandardSubjectdropdownListST(SubjectDropdownBodyST));
+        }
+    }, [SelectExamST]);
     useEffect(() => {
         dispatch(StandardToppersList(StandardToppersBodyST));
     }, [SelectStandardST, SelectExamST, SelectSubjectST]);
+
 
 
     useEffect(() => {
@@ -348,7 +359,6 @@ const ExamResultToppers = () => {
         if (selectedExam) {
             setSelectedExamName(selectedExam.Name);
         }
-        console.log(SelectExamCT, 'SelectExamCT');
 
     };
     const clickSubjectDropdownCT = (value) => {
