@@ -1,25 +1,27 @@
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { green, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { GetItemImageBody, ICanCreateGenralRequisitionBody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody, ICanSendRequisitionbody } from 'src/interfaces/Requisition/IAddRequisition';
+import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDACanCreateGenralRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition , CDACanSendRequisition} from 'src/requests/Requisition/RequestAddRequisition';
+import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+import { t } from 'i18next';
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -46,7 +48,7 @@ const AddRequisition = () => {
     const [xmlString1, setXmlString1] = useState('');
 
     const [isChecked, setIsChecked] = useState(false);
-
+    const [isSearchEmpty, setIsSearchEmpty] = useState(false);
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
@@ -55,7 +57,7 @@ const AddRequisition = () => {
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
 
-    console.log(USCanCreateGenralRequisition, "USCanCreateGenralRequisition",USCanSendRequisition);
+    console.log(USCanCreateGenralRequisition, "USCanCreateGenralRequisition", USCanSendRequisition);
 
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
@@ -94,7 +96,7 @@ const AddRequisition = () => {
     const CanSendRequisitionbody: ICanSendRequisitionbody = {
         asSchoolId: asSchoolId,
         asUserId: asUserId,
-        asAcademicYearId:asAcademicYearId
+        asAcademicYearId: asAcademicYearId
 
     };
 
@@ -140,7 +142,7 @@ const AddRequisition = () => {
                         'UOM="0" ' +
                         'ItemQty=" ' + Item.Text3 + ' " ' +
                         'ItemOrgQty=" ' + Item.Text3 + ' " />';
-                       '</RequisitionItems>' 
+                    '</RequisitionItems>'
                 }
             });
 
@@ -191,7 +193,7 @@ const AddRequisition = () => {
             asRequisitionDesc: textall1,
             asAction: "save",
             asRequisitionItemDetailsXml: xmlString1,
-            asIsGeneral:isChecked
+            asIsGeneral: isChecked
         };
 
         if (textall === '') {
@@ -246,7 +248,7 @@ const AddRequisition = () => {
             asRequisitionDesc: textall1,
             asAction: "send",
             asRequisitionItemDetailsXml: xmlString1,
-            asIsGeneral:isChecked
+            asIsGeneral: isChecked
         };
 
         if (textall === '') {
@@ -283,7 +285,7 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
             toast.success("Requisition is send successfully!!!");
-            navigate('/extended-sidebar/Teacher/Requisition')
+            // navigate('/extended-sidebar/Teacher/Requisition')
             setText(0)
             setTextall('')
             setTextall1('')
@@ -297,18 +299,20 @@ const AddRequisition = () => {
     const clickSearch = () => {
         if (regNoOrName === '') {
             setItemlist(USGetAddItemList);
+            setIsSearchEmpty(false);
         } else {
-            setItemlist(
-                USGetAddItemList.filter((item) => {
-                    const text1Match = item.ItemCode.toLowerCase().includes(
-                        regNoOrName.toLowerCase()
-                    );
-                    const text2Match = item.ItemName.toLowerCase().includes(
-                        regNoOrName.toLowerCase()
-                    );
-                    return text1Match || text2Match;
-                })
-            );
+            const filteredList = USGetAddItemList.filter((item) => {
+                const text1Match = item.ItemCode.toLowerCase().includes(
+                    regNoOrName.toLowerCase()
+                );
+                const text2Match = item.ItemName.toLowerCase().includes(
+                    regNoOrName.toLowerCase()
+                );
+                return text1Match || text2Match;
+            });
+
+            setItemlist(filteredList);
+            setIsSearchEmpty(filteredList.length === 0);
         }
     };
 
@@ -460,11 +464,11 @@ const AddRequisition = () => {
         dispatch(CDACanSendRequisition(CanSendRequisitionbody));
     }, []);
 
-    
+
 
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
-    }, []);
+    }, [ItemCategory]);
 
     useEffect(() => {
         dispatch(CDAGetItemImage(GetImageBody));
@@ -549,6 +553,19 @@ const AddRequisition = () => {
                             <SearchTwoTone />
                         </IconButton>
 
+                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: grey[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: grey[600] }
+                                }}
+                            >
+                                <QuestionMarkIcon />
+                            </IconButton>
+                        </Tooltip>
+
                         <Tooltip title={'Save'}>
                             <IconButton
                                 onClick={clicksave}
@@ -578,8 +595,9 @@ const AddRequisition = () => {
                                 <SendIcon />
                             </IconButton>
                         </Tooltip>
+
                         <Tooltip title={'Change Input'}>
-                            {Itemlist.length > 0 ?
+                            {Itemlist.length > 0  ?
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
                                     <IconButton
@@ -605,11 +623,11 @@ const AddRequisition = () => {
                         width: '12vw',
                         '& .MuiInputBase-root': {
                             height: '35px',
-                            color: 'black', 
+                            color: 'black',
                         },
                         '& .MuiInputLabel-root': {
                             top: '-6px',
-                            color: 'black', 
+                            color: 'black',
                         },
                     }}
                     label="Is General Requisition ? :"
@@ -654,7 +672,25 @@ const AddRequisition = () => {
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
-                </Box> : null}
+                </Box> :  (
+                isSearchEmpty && (
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            textAlign: 'center',
+                            marginTop: 4,
+                            backgroundColor: '#324b84',
+                            padding: 1,
+                            borderRadius: 2,
+                            color: 'white',
+                        }}
+                    >
+                        <b>No record found.</b>
+                    </Typography>
+                ) )}
+
+
+           
             {Itemlist.length > 0 && AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
