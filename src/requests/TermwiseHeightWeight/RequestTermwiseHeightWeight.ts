@@ -54,10 +54,11 @@ export const getTeacherNameList =
         abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
-          Value: item.StandardDivisionId
+          Value: item.SchoolWise_Standard_Division_Id
         });
       });
       dispatch(TermwiseHeightWeightSlice.actions.TeacherNameList(abc));
+      // console.log(Response, "abc")
     };
 
 export const getTermList =
