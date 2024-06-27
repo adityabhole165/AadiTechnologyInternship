@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { green, grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
@@ -35,8 +35,8 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
             Action: 'AddNewEvent',
             sx: {
                 color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': { backgroundColor: grey[600] }
+                backgroundColor: blue[500],
+                '&:hover': { backgroundColor: blue[600] }
             }
         },
         {
@@ -47,7 +47,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
             sx: {
                 color: 'white',
                 backgroundColor: green[500],
-                '&:hover': { backgroundColor: green[700] }
+                '&:hover': { backgroundColor: green[600] }
             }
         }
     ]

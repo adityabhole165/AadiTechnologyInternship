@@ -717,7 +717,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                   <IconButton
                     sx={{
                       color: 'white',
-                      backgroundColor: grey[500],
+                      backgroundColor: red[500],
                       height: '36px !important',
                       ':hover': { backgroundColor: red[600] }
                     }}
@@ -1070,7 +1070,13 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOkall} variant={'contained'} >
+            <Button onClick={ClickOkall} sx={{
+                            color: 'white',
+                            backgroundColor: green[500],
+                            '&:hover': {
+                                backgroundColor: green[600]
+                            }
+                        }}variant={'contained'} >
               Confirm
             </Button>
           </DialogActions>
@@ -1079,10 +1085,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
           <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-            <ButtonPrimary style={{ backgroundColor: '#45b08d' }} onClick={publishAll}>
+            <ButtonPrimary style={{ backgroundColor: green[500] }} onClick={publishAll}>
               PUBLISH ALL
             </ButtonPrimary>
-            <ButtonPrimary style={{ backgroundColor: '#3ec275' }} onClick={ClickOpenDialogbox}>
+            <ButtonPrimary style={{ backgroundColor: red[500] }} onClick={ClickOpenDialogbox}>
               UNPUBLISH ALL
             </ButtonPrimary>
           </Box>

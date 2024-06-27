@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { grey, yellow } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -96,9 +96,9 @@ function SmsCenter() {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: yellow[700],
                     height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                    ':hover': { backgroundColor: yellow[800] }
                   }}
                 >
                   <PriorityHighIcon />

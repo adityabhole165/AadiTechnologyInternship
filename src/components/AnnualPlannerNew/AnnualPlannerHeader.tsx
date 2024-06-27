@@ -89,9 +89,9 @@ const AnnualPlannerHeader = () => {
             ? [{
                 Id: 4, Icon: <Visibility />, Title: 'Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: blue[500],
                     '&:hover': {
-                        backgroundColor: grey[600]
+                        backgroundColor: blue[600]
                     }
                 }
             }]

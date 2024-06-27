@@ -16,6 +16,7 @@ import {
   GetDivisionList,
   GetMonthList,
   GetStandardList,
+  GetTeacherDetailsForControlPanels,
   GetYearList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { resetEventList } from 'src/requests/EventManegment/RequestEventManegment';
@@ -26,6 +27,7 @@ import CalendarAnnualPlanner from './CalendarAnnualPlanner';
 
 const AnnualPlannerBase = () => {
   const { selectedDate, standardId, divisionId } = useParams();
+  const [selectedStandardId, setSelectedStandardId] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,17 +46,29 @@ const AnnualPlannerBase = () => {
   const USEventsDataList: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList
   );
-
+  const GetTeacherDetail: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.listTeacherDetail
+  );
+  console.log("GetTeacherDetail", GetTeacherDetail)
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
+  const IsClassTeacher = sessionStorage.getItem('IsClassTeacher')
+  const TeacherId = sessionStorage.getItem('TeacherId')
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
-  let AnnualPlannerViewAccess = "N"
-  ScreensAccessPermission?.map((item) => {
-    if (item.ScreenName === 'Annual Planner') AnnualPlannerViewAccess = item.IsFullAccess;
-  });
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'Annual Planner') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+  // let AnnualPlannerViewAccess = "N"
+  // ScreensAccessPermission?.map((item) => {
+  //   if (item.ScreenName === 'Annual Planner') AnnualPlannerViewAccess = item.IsFullAccess;
+  // });
   const ItemList = {
     StandardList: USStandardList,
     StandardDivisionList: USStandardDivision,
@@ -77,7 +91,7 @@ const AnnualPlannerBase = () => {
     Month: (new Date(SelectedDate).getMonth() + 1).toString(),
     Year: new Date(SelectedDate).getFullYear().toString()
   });
-  console.log(SelectedDate, "selectedDate");
+  // console.log(SelectedDate, "selectedDate");
 
   const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
   const [fileName, setFileName] = useState('');
@@ -90,13 +104,18 @@ const AnnualPlannerBase = () => {
     { Id: 5, Name: "Outside Academic Year", Value: "5", IsActive: true }
   ]);
   useEffect(() => {
-    const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =
-    {
+
+    const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId),
-      asUserId: Number(UserId)
+      asUserId: GetScreenPermission() === 'Y'
+        ? 0
+        : (IsClassTeacher === 'Y' ? 0 : Number(UserId))
     };
+
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
+
+
     const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
       asSchoolId: Number(asSchoolId)
     };
@@ -108,9 +127,58 @@ const AnnualPlannerBase = () => {
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
 
   }, []);
+  useEffect(() => {
+    if (IsClassTeacher === "Y") {
+      const GetTeacherDetailsForControlPanel = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asTeacherID: Number(TeacherId)
+      };
+  
+      dispatch(GetTeacherDetailsForControlPanels(GetTeacherDetailsForControlPanel));
+    }
+  }, [TeacherId]);
+ 
 
+  //  useEffect(() => {
+  //   if (USStandardList.length > 0) {
+  //     setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
+  //     callGetDivisionList(USStandardList[0].Value);
+  //   }
+  // }, [USStandardList]);
+
+  const checkStandardIdMatch = () => {
+    if (!GetTeacherDetail || !GetTeacherDetail.Standard_Id || !USStandardList) {
+      return false;
+    }
+  
+    return USStandardList.some(standard => standard.StandardId === GetTeacherDetail.Standard_Id);
+  };
+  useEffect(() => {
+    if (IsClassTeacher === "Y" && USStandardList.length > 0 && GetTeacherDetail && GetTeacherDetail.Standard_Id) {
+      console.log("USStandardList:", USStandardList);
+      console.log("GetTeacherDetail:", GetTeacherDetail);
+  
+      const foundStandard = USStandardList.find(standard => standard.StandardId === GetTeacherDetail.Standard_Id);
+  
+      if (foundStandard) {
+        console.log("Setting value with matched StandardId:", foundStandard.StandardId);
+        setSelectedStandardId(foundStandard.StandardId);
+        setValue(foundStandard.StandardId, 'Standard');
+        callGetDivisionList(foundStandard.StandardId);
+      } else {
+        console.warn("No matching StandardId found in USStandardList. Setting default value.");
+        console.log("Setting value with default USStandardList[0].StandardId:", USStandardList[0].StandardId);
+        setSelectedStandardId(USStandardList[0].StandardId);
+        setValue(USStandardList[0].StandardId, 'Standard');
+        callGetDivisionList(USStandardList[0].StandardId);
+      }
+    }
+  }, [USStandardList, GetTeacherDetail]);
+  
   const setValue = (value, selectedItem) => {
     setDefaultValue({
+
       Standard: selectedItem == 'Standard' ? value : DefaultValue.Standard,
       StandardDivision:
         selectedItem == 'StandardDivision'
@@ -126,12 +194,7 @@ const AnnualPlannerBase = () => {
           : DefaultValue.Year
     });
   };
-  useEffect(() => {
-    if (USStandardList.length > 0) {
-      setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
-      callGetDivisionList(USStandardList[0].Value);
-    }
-  }, [USStandardList]);
+
 
   useEffect(() => {
     if (USStandardDivision.length > 0) {
@@ -186,7 +249,7 @@ const AnnualPlannerBase = () => {
     setValue(value, 'MonthYear');
   };
   const ClickDate = (value) => {
-    if (AnnualPlannerViewAccess == "Y") {
+    if (GetScreenPermission() == "Y") {
       setSelectedDate(value);
       setValue(value, 'MonthYear');
       dispatch(resetEventList())
@@ -200,7 +263,7 @@ const AnnualPlannerBase = () => {
     date.setMonth(value.Month - 1);
     date.setFullYear(value.Year);
     setSelectedDate(getDateDDMMMDash(new Date(date)));
-    console.log(getDateDDMMMDash(new Date(date)), 'ClickFilterItem');
+    // console.log(getDateDDMMMDash(new Date(date)), 'ClickFilterItem');
     //If standard is changed, call Division API
     if (value.Standard != DefaultValue.Standard)
       callGetDivisionList(value.Standard);
@@ -223,7 +286,7 @@ const AnnualPlannerBase = () => {
           SelectedFilter={DefaultValue}
           EventType={EventType}
           ClickEventType={ClickEventType}
-          AnnualPlannerViewAccess={AnnualPlannerViewAccess}
+          AnnualPlannerViewAccess={GetScreenPermission()}
         />
       </Box>
     </Box>
