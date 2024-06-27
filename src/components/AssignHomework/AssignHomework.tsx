@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -283,14 +283,14 @@ const AssignHomework = () => {
             ((asStandardDivisionId === SelectClass && GetScreenPermission() === 'Y') ||
               SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
               <div>
-                <Tooltip title={'Add Daily Log'}>a
+                <Tooltip title={'Add Daily Log'}>
                   <IconButton
                     onClick={onClick}
                     sx={{
                       color: 'white',
-                      backgroundColor: blue[500],
+                      backgroundColor: green[500],
                       '&:hover': {
-                        backgroundColor: blue[600]
+                        backgroundColor: green[600]
                       }
                     }}
                   >

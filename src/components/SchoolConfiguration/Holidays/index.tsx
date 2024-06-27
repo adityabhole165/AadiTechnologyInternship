@@ -224,10 +224,10 @@ const Holidays = (props: Props) => {
                         <Box>
                             <Tooltip title={"Add New Holiday"}>
                                 <IconButton sx={{
-                                    bgcolor: blue[500],
+                                    bgcolor: green[500],
                                     color: 'white',
                                     '&:hover': {
-                                        bgcolor: blue[600]
+                                        bgcolor: green[600]
                                     }
                                 }} onClick={() => AddHoliday()}>
                                     <Add />
