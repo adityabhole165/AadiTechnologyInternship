@@ -175,7 +175,7 @@ export const ClassToppersList =
                     // localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
                     Text2: item.Roll_No,
                     Text3: item.Student_Name,
-                    Text4: item.Marks,
+                    Text4: `${parseInt(item.Marks_Scored)} / ${item.Total_Marks}`,
                     IsHighlightStudent: false
                 };
             });
@@ -185,11 +185,11 @@ export const ClassToppersList =
             response.data.GetSelectedSubjectTopperList.map((item, i) => {
                 if (
                     !Subjects.includes(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${parseInt(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
                     )
                 ) {
                     Subjects.push(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${parseInt(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
                     );
                 }
             });
@@ -205,7 +205,7 @@ export const ClassToppersList =
                 response.data.GetSelectedSubjectTopperList.map((item, i) => {
                     if (
                         obj ==
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${parseInt(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
                     ) {
                         child.Students.push({
                             Id: item.Student_Id,
@@ -236,7 +236,7 @@ export const StandardToppersList =
                     Text1: item.Standard,
                     Text2: item.Roll_No,
                     Text3: item.Student_Name,
-                    Text4: item.Marks,
+                    Text4: `${parseInt(item.Marks_Scored)} / ${item.Total_Marks}`,
                     IsHighlightStudent: false
                 };
             });
@@ -246,11 +246,11 @@ export const StandardToppersList =
             response.data.GetSelectedSubjectTopperList.map((item, i) => {
                 if (
                     !Subjects.includes(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${item.Total_Marks_Scored} / ${item.Subject_Total_Marks}`,
                     )
                 ) {
                     Subjects.push(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${item.Total_Marks_Scored} / ${item.Subject_Total_Marks}`
                     );
                 }
             });
@@ -266,7 +266,7 @@ export const StandardToppersList =
                 response.data.GetSelectedSubjectTopperList.map((item, i) => {
                     if (
                         obj ==
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${item.Total_Marks_Scored} / ${item.Subject_Total_Marks}`
                     ) {
                         child.Students.push({
                             Id: item.Student_Id,
