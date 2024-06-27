@@ -31,6 +31,7 @@ const AddHoliday = ({ }) => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [HolidayTitle, setHolidayTitle] = useState('');
     const [errorHolidayTitle, SetErrorHolidayTitle] = useState('')
+    const [errorHolidayTitle1, SetErrorHolidayTitle1] = useState('')
     const [ErrorHolidayStartDate, setErrorHolidayStartDate] = useState('');
     const [ErrorHolidayEndDate, setErrorHolidayEndDate] = useState('');
     const [TotalDays, setTotalDays] = useState(1);
@@ -242,9 +243,9 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setRemarkError('')
         if (result.DuplicateHolidayNameCount !== "0") {
-            SetErrorHolidayTitle('Holiday name already exists.');
+            SetErrorHolidayTitle1('Holiday name already exists.');
             isError = true;
-        } else SetErrorHolidayTitle('')
+        } else SetErrorHolidayTitle1('')
 
         if (result1.PredefinedStartDateAndEndDateCount !== "0") {
             setErrorEndDate2('Holiday already defined.');
@@ -460,6 +461,8 @@ const AddHoliday = ({ }) => {
                         >
                         </TextField>
                         <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
+                        <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
+
                     </Grid>
                     <Grid xs={6} md={6} item>
                         <TextField
