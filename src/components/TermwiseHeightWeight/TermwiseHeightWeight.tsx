@@ -4,7 +4,7 @@ import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
 import {
@@ -33,6 +33,7 @@ import CommonPageHeader from '../CommonPageHeader';
 const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { getTeacherId } = useParams();
 
   const [SelectTeacher, setSelectTeacher] = useState(0);
   const [SelectTerm, setSelectTerm] = useState(0);
@@ -117,8 +118,10 @@ const TermwiseHeightWeight = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassTeacherDropdown.length > 0)
-      setSelectTeacher(ClassTeacherDropdown[0].Id);
+    if (ClassTeacherDropdown.length > 0) {
+
+      setSelectTeacher(screenPermission.perm == "N" ? getStdDiv() : (ClassTeacherDropdown[0].Id));
+    }
   }, [ClassTeacherDropdown]);
 
   useEffect(() => {
@@ -131,6 +134,15 @@ const TermwiseHeightWeight = () => {
     asSchoolId: asSchoolId,
     asTerm_Id: SelectTerm
   };
+  const getStdDiv = () => {
+    let returnVal = '';
+    ClassTeacherDropdown.map((item) => {
+      if (item.Id == getTeacherId) {
+        returnVal = item.Value
+      }
+    })
+    return returnVal;
+  }
   useEffect(() => {
 
     dispatch(getstudentdetails(StudentlistBody));
