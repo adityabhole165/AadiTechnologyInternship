@@ -11,6 +11,7 @@ import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { green, red } from '@mui/material/colors';
 function Adddailyloglist({
   ItemList,
   clickView,
@@ -94,7 +95,9 @@ function Adddailyloglist({
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
 
                 >
-                  <ButtonPrimary onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '100px' }}>
+                  <ButtonPrimary 
+                  style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
+                  onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '100px' }}>
                     {item.Text3 === 'False' ? ' PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>

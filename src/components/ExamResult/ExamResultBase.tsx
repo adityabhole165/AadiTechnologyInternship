@@ -6,7 +6,7 @@ import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Unpublished from '@mui/icons-material/Unpublished';
 import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -591,7 +591,7 @@ const ExamResultBase = () => {
                 color: 'white',
                 backgroundColor: grey[500],
                 '&:hover': {
-                  backgroundColor: grey[500]
+                  backgroundColor: grey[600]
                 }
               }}
             >
@@ -603,9 +603,9 @@ const ExamResultBase = () => {
             <span>
               <IconButton sx={{
                 color: 'white',
-                backgroundColor: grey[500],
+                backgroundColor: blue[500],
                 '&:hover': {
-                  backgroundColor: grey[600]
+                  backgroundColor: blue[600]
                 }
               }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
@@ -624,9 +624,9 @@ const ExamResultBase = () => {
                 onClick={GenerateTopper}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: blue[600]
                   }
                 }}
                 // onClick={GenerateTopper}
@@ -647,7 +647,7 @@ const ExamResultBase = () => {
             <span>
               <IconButton sx={{
                 color: 'white',
-                backgroundColor: grey[500],
+                backgroundColor: green[500],
                 '&:hover': {
                   backgroundColor: green[500]
                 }
@@ -667,7 +667,7 @@ const ExamResultBase = () => {
             <span>
               <IconButton sx={{
                 color: 'white',
-                backgroundColor: grey[500],
+                backgroundColor: red[500],
                 '&:hover': {
                   backgroundColor: red[500]
                 }
@@ -686,9 +686,9 @@ const ExamResultBase = () => {
                 onClick={Toppers}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: blue[600]
                   }
                 }}
                 disabled={

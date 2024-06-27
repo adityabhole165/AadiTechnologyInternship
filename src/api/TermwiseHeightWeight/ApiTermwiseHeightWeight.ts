@@ -12,7 +12,7 @@ import {
 import http from '../../requests/SchoolService/schoolServices';
 
 const ClassTeacherDropdownApi = (data: IClassTeacherDropdownBody) => {
-  return http.post<IClassTeacherDropdownResult[]>('Teacher/GetAllPrimaryClassTeachers', data);
+  return http.post<IClassTeacherDropdownResult[]>('Teacher/GetAllPrimaryClassTeachers1', data);
 };
 const TermDropdownApi = (data: ITermDropdownBody) => {
   return http.post<ITermDropdownResult[]>('Teacher/GetTestwiseTerm', data);

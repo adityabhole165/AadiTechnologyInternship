@@ -42,8 +42,11 @@ const TermwiseHeightWeight = () => {
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const UserId = Number(localStorage.getItem('UserId'));
+  const asUserId = Number(sessionStorage.getItem('UserId'));
 
   const ClassTeacherDropdown = useSelector((state: RootState) => state.TermwiseHtWt.ClassTeacherList);
+  console.log(ClassTeacherDropdown, "ClassTeacherDropdown");
+
   const TermDropdown = useSelector((state: RootState) => state.TermwiseHtWt.TermwiseTermList);
   const StudentList = useSelector((state: RootState) => state.TermwiseHtWt.Student);
   const UpdateStudentDetails = useSelector((state: RootState) => state.TermwiseHtWt.UpdateStudent);
@@ -71,7 +74,8 @@ const TermwiseHeightWeight = () => {
   useEffect(() => {
     const ClassTeacherBody: IClassTeacherDropdownBody = {
       asSchoolId: asSchoolId,
-      asAcademicYearID: asAcademicYearId
+      asAcademicYearId: asAcademicYearId,
+      asUserId: 0
     };
     dispatch(getTeacherNameList(ClassTeacherBody));
   }, []);

@@ -5,6 +5,7 @@ export interface IGetInvestmentDetailsBody {
 }
 
 export interface IGetInvestmentDetailsResult {
+    IGetRegimeDetailsDropdownResult: any
     listInvestmentDetails: [
         {
             Id: string,

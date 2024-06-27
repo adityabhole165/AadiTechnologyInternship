@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import InvestmentDeclarationApi from 'src/api/InvestmentDeclaration/InvestmentDeclarationApi';
-import { IGetInvestmentDetailsBody } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
+import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
 import { AppThunk } from 'src/store';
 
 const InvestmentDeclarationSlice = createSlice({
@@ -10,7 +10,9 @@ const InvestmentDeclarationSlice = createSlice({
         ISlistInvestmentDetails: [],
         ISlistInvestmentEmpDetails: [],
         ISlistInvestmentAmountDetails: [],
-        ISNewGetInvestmentDetails:[],
+        ISNewGetInvestmentDetails: [],
+        ISGetRegimeDropdown: []
+
     },
     reducers: {
 
@@ -26,8 +28,10 @@ const InvestmentDeclarationSlice = createSlice({
         },
         NewGetInvestmentDetails(state, action) {
             state.ISNewGetInvestmentDetails = action.payload
+        },
+        RGetRegimeDropdown(state, action) {
+            state.ISGetRegimeDropdown = action.payload
         }
-
 
     }
 
@@ -95,11 +99,17 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
 
     };
 
-    export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
-        async (dispatch) => {
-            const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-            dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
-        }
+export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
+    async (dispatch) => {
+        const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
+        dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
+    }
+
+export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppThunk =>
+    async (dispatch) => {
+        const response = await InvestmentDeclarationApi.GetRegimeDropdown(data)
+        dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(response.data));
+    }
 
 
 export default InvestmentDeclarationSlice.reducer;

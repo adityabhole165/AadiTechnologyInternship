@@ -15,7 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { green, grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useTheme } from '@mui/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -341,20 +341,33 @@ const IndividualAttendance = () => {
                 size={"small"}
               />
             </Box>
+            <Tooltip title="Mark monthly attendance of an individual student.">
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] }
+                }}
+              >
+                <Help />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Present All">
               <IconButton
                 onClick={handlePresent}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: green[700],
                   width: '36px',
                   height: '36px !important',
-                  ':hover': { backgroundColor: 'green' }
+                  ':hover': { backgroundColor: green[800] }
                 }}
               >
                 <h5>P</h5>
               </IconButton>
             </Tooltip>
+           
             <Popover
               disableScrollLock
               anchorEl={ref.current}
@@ -393,7 +406,7 @@ const IndividualAttendance = () => {
                       variant="contained"
                       sx={{
                         px: 6,
-                        backgroundColor: (theme) => theme.palette.primary.main,
+                        backgroundColor: green[600],
                         color: 'white'
                       }}
                       color="primary"
@@ -442,16 +455,16 @@ const IndividualAttendance = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    backgroundColor: (theme) => theme.palette.primary.main,
+                    backgroundColor: green[600],
                     color: 'white'
                   }}
-                  color="primary"
+                 // color="primary"
                 >
                   Confirm
                 </Button>
               </DialogActions>
             </Dialog>
-
+            
             <Tooltip title="Absent All">
               <IconButton
                 onClick={handleAbsent}
@@ -459,8 +472,8 @@ const IndividualAttendance = () => {
                   color: 'white',
                   height: '36px !important',
                   width: '36px',
-                  backgroundColor: grey[500],
-                  ':hover': { backgroundColor: 'rgb(245, 17, 17)' }
+                  backgroundColor: red[500],
+                  ':hover': { backgroundColor: red[600] }
                 }}
               >
                 <h5>A</h5>
@@ -503,10 +516,10 @@ const IndividualAttendance = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    backgroundColor: (theme) => theme.palette.primary.main,
+                    backgroundColor: green[600],
                     color: 'white'
                   }}
-                  color="primary"
+                  // color="primary"
                 >
                   Update
                 </Button>
@@ -517,7 +530,7 @@ const IndividualAttendance = () => {
                 onClick={handleSave}
                 sx={{
                   color: 'white',
-                  backgroundColor: green[600],
+                  backgroundColor: green[500],
                   height: '36px !important',
                   ':hover': { backgroundColor: green[600] }
                 }}
@@ -525,18 +538,7 @@ const IndividualAttendance = () => {
                 <SaveAlt />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Mark monthly attendance of an individual student.">
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <Help />
-              </IconButton>
-            </Tooltip>
+            
           </>
         }
       />
@@ -591,10 +593,10 @@ const IndividualAttendance = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: (theme) => theme.palette.primary.main,
+              backgroundColor: green[600],
               color: 'white'
             }}
-            color="primary"
+            // color="primary"
           >
             Confirm
           </Button>

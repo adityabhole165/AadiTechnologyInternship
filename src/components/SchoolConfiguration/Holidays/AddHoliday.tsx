@@ -4,7 +4,6 @@ import QuestionMark from "@mui/icons-material/QuestionMark";
 import Save from '@mui/icons-material/Save';
 import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import { green } from '@mui/material/colors';
-import { ClearIcon } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
@@ -20,7 +19,6 @@ import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
     const { Holiday_Id } = useParams();
-    console.log(Holiday_Id, "Holiday_Id");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [ItemList, setitemList] = useState([]);
@@ -33,6 +31,7 @@ const AddHoliday = ({ }) => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [HolidayTitle, setHolidayTitle] = useState('');
     const [errorHolidayTitle, SetErrorHolidayTitle] = useState('')
+    const [errorHolidayTitle1, SetErrorHolidayTitle1] = useState('')
     const [ErrorHolidayStartDate, setErrorHolidayStartDate] = useState('');
     const [ErrorHolidayEndDate, setErrorHolidayEndDate] = useState('');
     const [TotalDays, setTotalDays] = useState(1);
@@ -55,7 +54,6 @@ const AddHoliday = ({ }) => {
     const result = filteredItems.length > 0 ? filteredItems[0] : null;
     const filteredItems1 = PredefinedStartDateAndEndDateCount.filter(item => item.PredefinedStartDateAndEndDateCount);
     const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
-    console.log(result, "-", result1);
 
     useEffect(() => {
         const start = new Date(StartDate);
@@ -198,7 +196,6 @@ const AddHoliday = ({ }) => {
 
     const ClickSave = () => {
         let isError = false;
-
         if (HolidayTitle == '') {
             SetErrorHolidayTitle('Holiday name should not be blank.');
             isError = true;
@@ -209,18 +206,14 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setErrorClass('')
 
-        if (StartDate === 'DDMMMMYYYY' || StartDate === '') {
+        if (StartDate === '') {
             setErrorStartDate2('Please choose a valid start date.');
-            isError = true;
-        } else if (ErrorStartDate2 != '') {
             isError = true;
         } else setErrorStartDate2('')
 
 
         if (EndDate == '') {
             setErrorEndDate('Please choose a valid End date.');
-            isError = true;
-        } else if (ErrorEndDate != '') {
             isError = true;
         } else setErrorEndDate('')
 
@@ -243,16 +236,16 @@ const AddHoliday = ({ }) => {
             setErrorEndDate1('End date should not be less than start date.');
 
             isError = true;
-        }
+        } else setErrorEndDate1('')
 
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters.');
             isError = true;
         } else setRemarkError('')
         if (result.DuplicateHolidayNameCount !== "0") {
-            SetErrorHolidayTitle('Holiday name already exists.');
+            SetErrorHolidayTitle1('Holiday name already exists.');
             isError = true;
-        } else SetErrorHolidayTitle('')
+        } else SetErrorHolidayTitle1('')
 
         if (result1.PredefinedStartDateAndEndDateCount !== "0") {
             setErrorEndDate2('Holiday already defined.');
@@ -268,8 +261,8 @@ const AddHoliday = ({ }) => {
             }
             navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
         }
-        
-    }
+
+    };
 
 
     // const ClickSave = () => {
@@ -425,7 +418,7 @@ const AddHoliday = ({ }) => {
                             label={'End Date'}
                             size={"medium"}
                         />
-                        
+
                         <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
@@ -468,6 +461,8 @@ const AddHoliday = ({ }) => {
                         >
                         </TextField>
                         <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
+                        <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
+
                     </Grid>
                     <Grid xs={6} md={6} item>
                         <TextField

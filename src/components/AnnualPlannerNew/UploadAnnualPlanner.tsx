@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Typography
 } from '@mui/material';
+import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -182,7 +183,13 @@ const UploadAnnualPlanner = ({
               fileName.length !== 0 && base64URL.length !== 0 ? false : true
             }
             onClick={clickSubmit}
-            color={'primary'}
+            sx={{
+              color: 'white',
+              backgroundColor: green[500],
+              '&:hover': {
+                  backgroundColor: green[600]
+              }
+          }}
             variant={'contained'}>
             Save
           </Button>
