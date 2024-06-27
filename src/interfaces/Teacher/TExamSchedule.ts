@@ -1,12 +1,6 @@
 export default interface IGetAllStandards {
-  asAcademicYearId: string;
   asSchoolId: string;
-}
-
-export interface IGetExamsList {
   asAcademicYearId: string;
-  asSchoolId: string;
-  asStandardId: any;
 }
 
 export interface GetStandardListResult {
@@ -17,45 +11,51 @@ export interface GetStandardListResult {
     }
   ];
 }
-export interface GetExamsForStandardResult {
-  GetExamsForStandardResult: [
-    {
-      Id: string;
-      Name: string;
-    }
-  ];
-}
 
-export interface GetExamListResult {
-  Id: string;
-  Name: string;
-}
 
-export interface IExamList {
-  asSchoolId: string;
+export interface IGetExamsList {
   asAcademicYearId: string;
-  asStandardId: string;
-  asExamId: string;
+  asSchoolId: string;
+  asStandardId: any;
 }
 
 export interface GetExamsListResult {
-  GetExamSchedulesResult: [
+  GetExamDropDownForExamScheduleDetailsList: [
     {
+        SchoolWise_Test_Name: string,
+        SchoolWise_Test_Id: string,
+        Exam_Start_Date: string,
+        Exam_End_Date: string,
+        IsCollapsed: string,
+        Instructions: string,
+        StandardId: string
+    }
+  ],
+  ExamScheduleList: [
+    {
+      SchoolWise_Test_Id:string;
       SubjectName: string;
       ExamStartDate: string;
       ExamEndDate: string;
-      TestName: null;
+      Total_Exam_Days:string;
+      Instructions: string;
       Standard: null;
+      Standard_Id:string;
       Standard_Name: string;
+      TestName: null;
+      TestType: string;
+      SchoolWise_Test_Name:string;
+      Description: string;
       StartTime: string;
       EndTime: string;
       StartDate: string;
       EndDate: string;
       StartDayDate: string;
       EndDayDate: string;
-      TestType: string;
-      Instructions: string;
-      Description: string;
+     Subject: string,
+       Exam: string,
+      StartDateAndTime: string,
+      EndDateAndTime: string
     }
   ];
 }

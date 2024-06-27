@@ -20,7 +20,6 @@ import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
     const { Holiday_Id } = useParams();
-    console.log(Holiday_Id, "Holiday_Id");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [ItemList, setitemList] = useState([]);
@@ -55,7 +54,6 @@ const AddHoliday = ({ }) => {
     const result = filteredItems.length > 0 ? filteredItems[0] : null;
     const filteredItems1 = PredefinedStartDateAndEndDateCount.filter(item => item.PredefinedStartDateAndEndDateCount);
     const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
-    console.log(result, "-", result1);
 
     useEffect(() => {
         const start = new Date(StartDate);
@@ -209,18 +207,14 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setErrorClass('')
 
-        if (StartDate === 'DDMMMMYYYY' || StartDate === '') {
+        if ( StartDate === '') {
             setErrorStartDate2('Please choose a valid start date.');
             isError = true;
-        } else if (ErrorStartDate2 != '') {
-            isError = true;
-        } else setErrorStartDate2('')
+        }  else setErrorStartDate2('')
 
 
         if (EndDate == '') {
             setErrorEndDate('Please choose a valid End date.');
-            isError = true;
-        } else if (ErrorEndDate != '') {
             isError = true;
         } else setErrorEndDate('')
 
