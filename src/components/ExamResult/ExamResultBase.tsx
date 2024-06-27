@@ -420,7 +420,7 @@ const ExamResultBase = () => {
   };
 
   const TermwiseHighwight = (value) => {
-    navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
+    navigate('/extended-sidebar/Teacher/TermwiseHeightWeight/' + getTeacherId());
   };
 
   // const getClassTeacherName = () => {

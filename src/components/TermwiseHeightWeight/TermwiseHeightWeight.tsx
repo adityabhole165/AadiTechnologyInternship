@@ -54,6 +54,9 @@ const TermwiseHeightWeight = () => {
 
   const GetFinalPublishedExamStatus: any = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
   console.log('GetFinalPublishedExamStatus', GetFinalPublishedExamStatus);
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
 
   const ShowFlag = GetFinalPublishedExamStatus.ShowFlag;
 
@@ -71,11 +74,38 @@ const TermwiseHeightWeight = () => {
     { Id: 4, Header: 'Weight (In Kilograms)' }
   ];
 
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    let UserId = 0;
+    console.log(ScreensAccessPermission, "ScreensAccessPermission");
+    let ExamResultsAccess, TermwiseHeightWeightAccess = ""
+
+    if (ScreensAccessPermission) {
+      ScreensAccessPermission.forEach((item) => {
+        if (item.ScreenName === 'Termwise Height-Weight') {
+          TermwiseHeightWeightAccess = item.IsFullAccess
+        }
+        if (item.ScreenName === 'Exam Results') {
+          ExamResultsAccess = item.IsFullAccess
+        }
+      });
+
+      if (ExamResultsAccess == "N" && TermwiseHeightWeightAccess == "N") {
+        UserId = asUserId;
+      }
+      else {
+        UserId = 0;
+      }
+    }
+
+    return { perm: ((TermwiseHeightWeightAccess == "N" && ExamResultsAccess == "N") ? "N" : "Y"), UserId: UserId }
+  };
+  const screenPermission = GetScreenPermission();
   useEffect(() => {
     const ClassTeacherBody: IClassTeacherDropdownBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asUserId: 0
+      asUserId: screenPermission.UserId
     };
     dispatch(getTeacherNameList(ClassTeacherBody));
   }, []);
@@ -209,13 +239,18 @@ const TermwiseHeightWeight = () => {
         ]}
         rightActions={<>
           <SearchableDropdown
-            sx={{ minWidth: '20vw' }}
+            sx={{
+              minWidth: '20vw'
+              , bgcolor: screenPermission.perm === 'N' ? '#f0e68c' : 'inherit'
+            }}
             ItemList={ClassTeacherDropdown}
             onChange={clickTeacherDropdown}
             label={'Class Teacher'}
             defaultValue={SelectTeacher.toString()} // Convert number to string
             mandatory
             size={"small"}
+            DisableClearable={screenPermission.perm === 'N'}
+            disabled={screenPermission.perm === 'N'}
           />
           <SearchableDropdown
             sx={{ minWidth: '20vw' }}

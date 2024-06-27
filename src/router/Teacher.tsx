@@ -316,6 +316,10 @@ const teacherRoutes = [
     path: 'TermwiseHeightWeight',
     element: <TermwiseHeightWeight />
   },
+  {
+    path: 'TermwiseHeightWeight/:getTeacherId',
+    element: <TermwiseHeightWeight />
+  },
 
   {
     path: 'AddDailyLog',
