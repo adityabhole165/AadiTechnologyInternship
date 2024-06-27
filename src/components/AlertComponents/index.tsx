@@ -11,6 +11,7 @@ import {
   Grid,
   Typography
 } from '@mui/material';
+import { green } from '@mui/material/colors';
 
 export type AlertProps = {
   variant: 'success' | 'error' | 'warning' | 'info';
@@ -89,7 +90,11 @@ const AlertDialog = ({
         <Button onClick={onCancel} color={'error'}>
           {cancelButtonText || 'Cancel'}
         </Button>
-        <Button onClick={onConfirm} variant={'contained'}>
+        <Button onClick={onConfirm} variant={'contained'} sx={{
+          backgroundColor: green[500],
+          color: 'white',
+          ':hover': { backgroundColor: green[600] }
+        }}>
           {confirmButtonText || 'Confirm'}
         </Button>
       </DialogActions>

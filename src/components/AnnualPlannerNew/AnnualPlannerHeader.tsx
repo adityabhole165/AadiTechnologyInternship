@@ -3,7 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
-import { grey } from '@mui/material/colors';
+import { blue, grey, yellow } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -50,9 +50,9 @@ const AnnualPlannerHeader = () => {
             Action: 'Note',
             sx: {
                 color: 'white',
-                backgroundColor: grey[500],
+                backgroundColor: yellow[700],
                 '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: yellow[800]
                 }
             }
         },
@@ -68,9 +68,9 @@ const AnnualPlannerHeader = () => {
         {
             Id: 3, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview', sx: {
                 color: 'white',
-                backgroundColor: grey[500],
+                backgroundColor: blue[500],
                 '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: blue[600]
                 }
             }
         },
@@ -78,9 +78,9 @@ const AnnualPlannerHeader = () => {
             ? [{
                 Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: blue[500],
                     '&:hover': {
-                        backgroundColor: grey[700]
+                        backgroundColor: blue[600]
                     }
                 }
             }]
