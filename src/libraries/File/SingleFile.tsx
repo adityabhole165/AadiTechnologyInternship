@@ -123,7 +123,7 @@ const SingleFile = ({
           </Button>
         </Tooltip>
         {FilePath != '' && (
-          <div>
+          <Stack direction="row" spacing={-1}>
             {deleteIcon &&
               <IconButton
                 sx={{ marginRight: 1 }}
@@ -141,7 +141,7 @@ const SingleFile = ({
               <VisibilityTwoToneIcon style={{ fontSize: 32 }} />
             </IconButton>
             }
-          </div>
+          </Stack>
         )}
       </Grid>
       {FileError && (

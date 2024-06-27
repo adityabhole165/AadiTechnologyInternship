@@ -10,7 +10,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, grey, red, teal } from '@mui/material/colors';
+import { blue, green, grey, red, teal } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -591,7 +591,7 @@ const TAttendance = () => {
             <Stack direction={'row'} gap={1} alignItems={'center'}>
               <Stack direction={'row'} alignItems={'center'} gap={1}>
                 <Tooltip title={"School Attendance Overview"}>
-                  <Typography color="primary" fontWeight={"bold"}
+                  <Typography color={MarksError ? grey[500] : blue[500]} fontWeight={"bold"}
                     sx={{ cursor: 'pointer' }} onClick={() => {
                       if (!MarksError) {
                         clickNavigateSchoolAttendanceOverview()
@@ -601,11 +601,11 @@ const TAttendance = () => {
                     Overview
                   </Typography>
                 </Tooltip>
-                <Typography color="primary" fontWeight={"bold"}>
+                <Typography color={MarksError ? grey[500] : blue[500]} fontWeight={"bold"}>
                   -
                 </Typography>
                 <Typography
-                  color={'primary'}
+                  color={MarksError ? grey[500] : blue[500]}
                   sx={{
                     cursor: 'pointer',
                     display: 'flex',
@@ -628,7 +628,7 @@ const TAttendance = () => {
               <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
               <Stack direction={'row'} alignItems={'center'} gap={1}>
                 <Typography
-                  color={'primary'}
+                  color={MarksError ? grey[500] : blue[500]}
                   sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1 }}
                   fontWeight={'bold'}
                   onClick={() => {
@@ -692,7 +692,23 @@ const TAttendance = () => {
               </IconButton>
             </Paper> */}
             </Box>
-
+            <Box>
+              <Tooltip
+                title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
+              ><span>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+            </Box>
             <Box>
               <Tooltip title={'Individual Attendance'}>
                 <span>
@@ -702,7 +718,7 @@ const TAttendance = () => {
                     }}
                     sx={{
                       color: 'white',
-                      backgroundColor: blue[600],
+                      backgroundColor: blue[500],
                       '&:hover': {
                         backgroundColor: blue[600]
                       }
@@ -723,9 +739,9 @@ const TAttendance = () => {
                     }}
                     sx={{
                       color: 'white',
-                      backgroundColor: teal[600],
+                      backgroundColor: blue[500],
                       '&:hover': {
-                        backgroundColor: teal[600]
+                        backgroundColor: blue[600]
                       }
                     }}
                     disabled={MarksError ? true : false}
@@ -735,23 +751,7 @@ const TAttendance = () => {
                 </span>
               </Tooltip>
             </Box>
-            <Box>
-              <Tooltip
-                title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
-              ><span>
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
-                    }}
-                  >
-                    <QuestionMarkIcon />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </Box>
+            
             <Box>
               {SaveIsActive ? (
                 <Tooltip title={'Save Attendance'}>
@@ -760,7 +760,10 @@ const TAttendance = () => {
                       onClick={SaveMsg}
                       sx={{
                         color: 'white',
-                        backgroundColor: 'green'
+                        backgroundColor: green[500],
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
                       }}
                       disabled={MarksError ? true : false}
                     >
@@ -775,7 +778,10 @@ const TAttendance = () => {
                       onClick={SaveMsg}
                       sx={{
                         color: 'white',
-                        backgroundColor: grey[500]
+                        backgroundColor: green[500],
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
                       }}
                     >
                       <SaveIcon />

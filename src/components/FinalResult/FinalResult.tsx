@@ -8,7 +8,7 @@ import TextSnippet from '@mui/icons-material/TextSnippet';
 import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Alert, Box, IconButton, Tooltip } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -636,9 +636,9 @@ const FinalResult = () => {
                 disabled={!GetTestPublished && GetAtleastOneResultGenerated.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[500],
+                  backgroundColor: blue[500],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: blue[600]
                   }
                 }}
               >
@@ -655,9 +655,9 @@ const FinalResult = () => {
                 disabled={GetResultGenerated}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetResultGenerated ? grey[200] : grey[500],
+                  backgroundColor: GetResultGenerated ? blue[200] : blue[500],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: blue[600]
                   }
 
                 }
@@ -679,9 +679,9 @@ const FinalResult = () => {
                 disabled={GetAtleastOneResultGenerated.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetAtleastOneResultGenerated.AllowPublish == false ? grey[200] : grey[500],
+                  backgroundColor: GetAtleastOneResultGenerated.AllowPublish == false ? blue[200] : blue[500],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: blue[600]
                   }
                 }}
               >
@@ -696,7 +696,7 @@ const FinalResult = () => {
                 disabled={!GetResultGenerated}
                 sx={{
                   color: 'white',
-                  backgroundColor: !GetResultGenerated ? grey[200] : grey[500],
+                  backgroundColor: !GetResultGenerated ? red[200] : red[500],
                   '&:hover': {
                     backgroundColor: red[600]
                   }
@@ -713,7 +713,7 @@ const FinalResult = () => {
                 disabled={GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false) ? grey[200] : grey[500],
+                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false) ? green[200] : green[500],
                   '&:hover': {
                     backgroundColor: green[600]
                   }

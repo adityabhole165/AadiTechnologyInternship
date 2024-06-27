@@ -237,7 +237,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             isError = true;
         } else setErrorEventDescription('')
         console.log('EventStartDate:', EventStartDate);
-       
+
         if (EventEndDate === '' || EventEndDate === null) {
             setErrorEventEndDate('End date should not be blank.');
             isError = true;

@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -288,9 +288,9 @@ const AssignHomework = () => {
                     onClick={onClick}
                     sx={{
                       color: 'white',
-                      backgroundColor: grey[500],
+                      backgroundColor: green[500],
                       '&:hover': {
-                        backgroundColor: grey[600]
+                        backgroundColor: green[600]
                       }
                     }}
                   >

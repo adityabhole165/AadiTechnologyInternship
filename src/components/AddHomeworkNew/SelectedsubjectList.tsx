@@ -9,6 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { green, red } from '@mui/material/colors';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 const SelectedsubjectList = ({
   ItemList,
@@ -82,10 +83,10 @@ const SelectedsubjectList = ({
 
                 <TableCell sx={{ textTransform: 'capitalize' }}  >
                   <ButtonPrimary
-                    style={{ backgroundColor: item.IsPublished === 'False' ? '#45b08d' : '#3ec275' }}
+                    style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500] }}
                     onClick={() => {
                       clickpublish(item.Id, item.Text3);
-                    }}
+                    }} sx={{ minWidth: '100px' }}
                   >
                     {item.IsPublished === 'False' ? 'PUBLISH' : 'UNPUBLISH'}
                   </ButtonPrimary>

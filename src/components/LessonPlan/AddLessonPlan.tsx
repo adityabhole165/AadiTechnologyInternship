@@ -661,10 +661,10 @@ const AddLessonPlan = () => {
               <Tooltip title={'Translation Guide'}>
                 <IconButton
                   sx={{
-                    backgroundColor: grey[500],
+                    backgroundColor: blue[500],
                     color: 'white',
                     '&:hover': {
-                      backgroundColor: grey[600]
+                      backgroundColor: blue[600]
                     }
                   }}
                   onClick={() => {
@@ -684,10 +684,10 @@ const AddLessonPlan = () => {
                     disabled={(GetEnableButtonList.length > 0 &&
                       GetEnableButtonList[0].EnableSubmitButton == "False")}
                     sx={{
-                      backgroundColor: blue[500],
+                      backgroundColor: green[500],
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: blue[600]
+                        backgroundColor: green[600]
                       }
                     }}
                     onClick={onClickSubmit}

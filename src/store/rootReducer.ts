@@ -96,6 +96,7 @@ import ToppersSlice from '../requests/ExamResult/RequestToppers';
 import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 import FinalResultGenerateAllSlice from '../requests/FinalResult/RequestFinalResultGenerateAll';
 import InvestmentDeclarationSlice from '../requests/InvestmentDeclaration/ReqInvestmentDeclaration';
+import LeaveDetailsslice from '../requests/LeaveDetails/RequestLeaveDetails';
 import MissingattendanceAleartSlice from '../requests/MissingAttendanceAleart/ReqMissAttendAleart';
 import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
@@ -212,7 +213,8 @@ const rootReducer = combineReducers({
   ProgressReportNew: ProgressReportSlice,
   MissingAttendanceAleart: MissingattendanceAleartSlice,
   Toppers: ToppersSlice,
-  InvestmentDeclaration: InvestmentDeclarationSlice
+  InvestmentDeclaration: InvestmentDeclarationSlice,
+  LeaveDetails: LeaveDetailsslice
 });
 
 export default rootReducer;

@@ -208,7 +208,11 @@ const ExamResultToppers = () => {
             }
         }
         if (GetExamdropdownST.length > 0 && radioBtn == '2') {
-            SelectExamTemp = GetExamdropdownST[0].Id;
+            if (CanEdit == 'Y') {
+                SelectExamTemp = GetExamdropdownST[0].Id;
+            } else {
+                SelectExamTemp = SelectExamCT
+            }
             setExamST(SelectExamTemp)
             const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamTemp);
             if (selectedExam) {
@@ -487,6 +491,7 @@ const ExamResultToppers = () => {
                                     size={"small"}
                                 />
                             )}
+                            {CanEdit == 'Y' && (
                             <SearchableDropdown
                                 ItemList={GetExamdropdownST}
                                 sx={{ pl: 0, minWidth: '20vw' }}
@@ -495,6 +500,17 @@ const ExamResultToppers = () => {
                                 label={'Select Exam'}
                                 size={"small"}
                             />
+                            )}
+                            {CanEdit == 'N' && (
+                            <SearchableDropdown
+                                ItemList={GetExamdropdownCT}
+                                sx={{ pl: 0, minWidth: '20vw' }}
+                                onChange={clickExamDropdownST}
+                                defaultValue={SelectExamST}
+                                label={'Select Exam'}
+                                size={"small"}
+                            />
+                            )}
                             <SearchableDropdown
                                 ItemList={GetSubjectdropdownST}
                                 sx={{ pl: 0, minWidth: '20vw' }}

@@ -2,7 +2,7 @@ import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -544,9 +544,9 @@ const LessonPlanBaseScreen = () => {
                     <IconButton
                       sx={{
                         color: 'white',
-                        backgroundColor: grey[500],
+                        backgroundColor: blue[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] },
+                        ':hover': { backgroundColor: blue[600] },
                         // marginLeft: '8px', 
                       }}
                       onClick={OnClickExportAll}
@@ -563,9 +563,9 @@ const LessonPlanBaseScreen = () => {
                     <IconButton
                       sx={{
                         color: 'white',
-                        backgroundColor: grey[500],
+                        backgroundColor: green[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: grey[600] },
+                        ':hover': { backgroundColor: green[600] },
                         marginLeft: '-4px',
                       }}
                       onClick={onClickAdd}

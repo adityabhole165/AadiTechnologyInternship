@@ -3,6 +3,7 @@ import Delete from "@mui/icons-material/Delete"
 import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, IconButton, Tooltip } from "@mui/material"
+import { blue, green } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
@@ -223,10 +224,10 @@ const Holidays = (props: Props) => {
                         <Box>
                             <Tooltip title={"Add New Holiday"}>
                                 <IconButton sx={{
-                                    bgcolor: 'grey.500',
+                                    bgcolor: green[500],
                                     color: 'white',
                                     '&:hover': {
-                                        bgcolor: 'grey.600'
+                                        bgcolor: green[600]
                                     }
                                 }} onClick={() => AddHoliday()}>
                                     <Add />

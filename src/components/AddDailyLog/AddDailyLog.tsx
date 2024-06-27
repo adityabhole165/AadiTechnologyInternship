@@ -448,7 +448,7 @@ const AddDailyLog = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500],
+                    backgroundColor: red[500],
                     height: '36px !important',
                     ':hover': { backgroundColor: red[600] }
                   }}
@@ -480,29 +480,34 @@ const AddDailyLog = () => {
           </>}
         />
         <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
-          <Grid container spacing={1}>
-            <Grid item xs={5}>
-              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c' }} value={ClassName} />
-            </Grid>
-            <Grid item xs={5}>
-              <Datepicker
-                DateValue={dateState}
-                onDateChange={handleDateChange}
-                label={'Date'}
-                size={"medium"}
 
-              />
-              <ErrorMessage1 Error={dateError}></ErrorMessage1>
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={4}>
+              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c', width: '90%' }} value={ClassName} />
             </Grid>
-            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'flex-start'}>
-              <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
-                ChangeFile={ChangeFile}
-                errorMessage={fileNameError}
-                FileName={fileName}
-                height='53.5px'
-              />
+            <Grid item xs={4}>
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1, width: 'calc(90% + 1px)' }}>
+                <Datepicker
+                  DateValue={dateState}
+                  onDateChange={handleDateChange}
+                  label={'Date'}
+                  size={"medium"}
+
+                />
+                <ErrorMessage1 Error={dateError}></ErrorMessage1>
+              </Box>
+            </Grid>
+            <Grid item xs={4} >
+              <Box sx={{ display: 'flex', alignItems: 'center', ml:-1.5, width: 'calc(100% + 1px)' }}>
+                <SingleFile
+                  ValidFileTypes={ValidFileTypes}
+                  MaxfileSize={MaxfileSize}
+                  ChangeFile={ChangeFile}
+                  errorMessage={fileNameError}
+                  FileName={fileName}
+                  height='52.5px'
+                />
+              </Box>
             </Grid>
           </Grid>
         </Box>

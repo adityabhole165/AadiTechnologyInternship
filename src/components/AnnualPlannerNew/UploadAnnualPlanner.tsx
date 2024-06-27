@@ -182,7 +182,7 @@ const UploadAnnualPlanner = ({
               fileName.length !== 0 && base64URL.length !== 0 ? false : true
             }
             onClick={clickSubmit}
-            color={'primary'}
+            color={'success'}
             variant={'contained'}>
             Save
           </Button>

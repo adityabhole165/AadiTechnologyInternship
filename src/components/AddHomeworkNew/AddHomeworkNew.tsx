@@ -717,7 +717,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                   <IconButton
                     sx={{
                       color: 'white',
-                      backgroundColor: grey[500],
+                      backgroundColor: red[500],
                       height: '36px !important',
                       ':hover': { backgroundColor: red[600] }
                     }}
@@ -748,7 +748,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           }
         />
 
-        <Box sx={{ background: 'white', p: 3, mt: 1  }}>
+        <Box sx={{ background: 'white', p: 3, mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c', width: '100%' }} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
@@ -913,7 +913,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         </Box>
 
-        <Box sx={{ background: 'white', p: 2, mt: 1  }}>
+        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={1} pb={1}>
             <SearchableDropdown
               sx={{ minWidth: '250px' }}
@@ -1070,7 +1070,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOkall} variant={'contained'} >
+            <Button onClick={ClickOkall} color={'success'} variant={'contained'} >
               Confirm
             </Button>
           </DialogActions>
@@ -1079,10 +1079,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
           <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-            <ButtonPrimary style={{ backgroundColor: '#45b08d' }} onClick={publishAll}>
+            <ButtonPrimary style={{ backgroundColor: green[500] }} onClick={publishAll}>
               PUBLISH ALL
             </ButtonPrimary>
-            <ButtonPrimary style={{ backgroundColor: '#3ec275' }} onClick={ClickOpenDialogbox}>
+            <ButtonPrimary style={{ backgroundColor: red[500] }} onClick={ClickOpenDialogbox}>
               UNPUBLISH ALL
             </ButtonPrimary>
           </Box>

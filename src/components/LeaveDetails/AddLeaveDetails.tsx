@@ -1,4 +1,5 @@
-import { Box, Button, Grid, Stack, TextField } from '@mui/material';
+
+import { Box, Button, Grid, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
@@ -12,16 +13,15 @@ const AddLeaveDetails = () => {
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
     const [ErrorStartDate, setErrorStartDate] = useState('');
-    const [ErrorStartDate2, setErrorStartDate2] = useState('');
     const [ErrorEndDate, setErrorEndDate] = useState('');
-    const [ErrorEndDate1, setErrorEndDate1] = useState('');
-    const [ErrorEndDate2, setErrorEndDate2] = useState('');
+    const [Description, setDescription] = useState('');
+    const [DescriptionError, setDescriptionError] = useState('');
 
     useEffect(() => {
         const start = new Date(StartDate);
         const end = new Date(EndDate);
         const timeDiff = end.getTime() - start.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
 
@@ -59,8 +59,7 @@ const AddLeaveDetails = () => {
                         label={'Start Date'}
                         size={"medium"}
                     />
-                    <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
-                   
+                    <ErrorMessage1 Error={ErrorStartDate} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Datepicker
@@ -69,8 +68,7 @@ const AddLeaveDetails = () => {
                         label={'End Date'}
                         size={"medium"}
                     />
-                    <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                   
+                    <ErrorMessage1 Error={ErrorEndDate} />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField
@@ -82,12 +80,52 @@ const AddLeaveDetails = () => {
                         fullWidth
                     />
                 </Grid>
-                <Grid item xs={12} md={12} container justifyContent="center">
-                    <Stack direction={"row"} gap={2} alignItems={"center"}>
-                        <Button variant={'contained'} color="success">
+                <Grid item xs={12}>
+                    <TextField
+                        label="Description"
+                        multiline
+                        rows={3}
+                        value={Description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        fullWidth
+                        error={DescriptionError !== ''}
+                        helperText={DescriptionError}
+                    />
+                </Grid>
+                <Grid item xs={2}>
+                        <Box sx={{ backgroundColor: '#f0f0f0', borderRadius: '8px'}}>
+                        <Typography variant="body1" fontWeight="bold">
+                            Note 1:
+                        </Typography>
+                        </Box>
+                        </Grid>
+                        <Grid item xs={9}>
+                        <Box>
+                            <Typography variant="body1">
+                               Leave Balance : CL(3.00), SL(113.00), EL(180.00), A(Unpaid), ML(0.00), LWP(Unpaid), Off(0.00), O.D.(0.00)
+                            </Typography>
+                        </Box>
+                </Grid>
+                <Grid item xs={2}>
+                        <Box sx={{ backgroundColor: '#f0f0f0', borderRadius: '8px'}}>
+                        <Typography variant="body1" fontWeight="bold">
+                            Note 2:
+                        </Typography>
+                        </Box>
+                        </Grid>
+                        <Grid item xs={9}>
+                        <Box>
+                            <Typography variant="body1">
+                                If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.
+                            </Typography>
+                        </Box>
+                </Grid>
+                <Grid item xs={12} container justifyContent="center">
+                    <Stack direction="row" gap={2} alignItems="center">
+                        <Button variant="contained" color="success">
                             SUBMIT
                         </Button>
-                        <Button variant={'contained'} color="error" onClick={resetForm}>
+                        <Button variant="contained" color="error" onClick={resetForm}>
                             CLEAR
                         </Button>
                     </Stack>
