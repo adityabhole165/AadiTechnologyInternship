@@ -196,63 +196,79 @@ const AddHoliday = ({ }) => {
 
     const ClickSave = () => {
         let isError = false;
-
-        if (HolidayTitle == '') {
+    
+        if (HolidayTitle.trim() === '') {
             SetErrorHolidayTitle('Holiday name should not be blank.');
             isError = true;
-        } else SetErrorHolidayTitle('')
-
+        } else {
+            SetErrorHolidayTitle('');
+        }
+    
         if (!isClassSelected()) {
             setErrorClass('At least one class should be associated.');
             isError = true;
-        } else setErrorClass('')
-
-        if ( StartDate === '') {
+        } else {
+            setErrorClass('');
+        }
+    
+        if (StartDate.trim() === '') {
             setErrorStartDate2('Please choose a valid start date.');
             isError = true;
-        }  else setErrorStartDate2('')
-
-
-        if (EndDate == '') {
+        } else {
+            setErrorStartDate2('');
+        }
+    
+        if (EndDate.trim() === '') {
             setErrorEndDate('Please choose a valid End date.');
             isError = true;
-        } else setErrorEndDate('')
-
-
+        } else {
+            setErrorEndDate('');
+        }
+    
         if (isOutsideAcademicYear(StartDate)) {
-
-            setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
+            setErrorStartDate('Holiday start date must be within the current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
             isError = true;
-        } else setErrorStartDate('')
-
+        } else {
+            setErrorStartDate('');
+        }
+    
         if (isOutsideAcademicYear(EndDate)) {
-            setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
+            setErrorEndDate('Holiday end date must be within the current academic year (i.e., between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
             isError = true;
-        } else setErrorEndDate('')
+        } else {
+            setErrorEndDate('');
+        }
+    
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than start date.');
-
             isError = true;
         }
-
+    
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters.');
             isError = true;
-        } else setRemarkError('')
+        } else {
+            setRemarkError('');
+        }
+    
         if (result.DuplicateHolidayNameCount !== "0") {
             SetErrorHolidayTitle('Holiday name already exists.');
             isError = true;
-        } else SetErrorHolidayTitle('')
-
+        } else {
+            SetErrorHolidayTitle('');
+        }
+    
         if (result1.PredefinedStartDateAndEndDateCount !== "0") {
             setErrorEndDate2('Holiday already defined.');
             isError = true;
-        } else setErrorEndDate2('')
-
+        } else {
+            setErrorEndDate2('');
+        }
+    
         if (!isError) {
             dispatch(getSaveHolidays(SaveHolidayBody));
             if (Holiday_Id) {
@@ -262,9 +278,8 @@ const AddHoliday = ({ }) => {
             }
             navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
         }
-        
-    }
-
+    };
+    
 
     // const ClickSave = () => {
     //     let isError = false;
