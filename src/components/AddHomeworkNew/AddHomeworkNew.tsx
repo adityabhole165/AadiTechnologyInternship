@@ -748,7 +748,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           }
         />
 
-        <Box sx={{ background: 'white', p: 3, mt: 1  }}>
+        <Box sx={{ background: 'white', p: 3, mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c', width: '100%' }} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
@@ -913,7 +913,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         </Box>
 
-        <Box sx={{ background: 'white', p: 2, mt: 1  }}>
+        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={1} pb={1}>
             <SearchableDropdown
               sx={{ minWidth: '250px' }}
@@ -1070,13 +1070,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOkall} sx={{
-                            color: 'white',
-                            backgroundColor: green[500],
-                            '&:hover': {
-                                backgroundColor: green[600]
-                            }
-                        }}variant={'contained'} >
+            <Button onClick={ClickOkall} color={'success'} variant={'contained'} >
               Confirm
             </Button>
           </DialogActions>

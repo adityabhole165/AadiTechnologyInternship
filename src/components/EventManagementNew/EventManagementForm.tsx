@@ -19,7 +19,6 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
-import { green } from '@mui/material/colors';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
     const dispatch = useDispatch();
@@ -447,13 +446,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                         <Button variant={'contained'} color="error" onClick={resetForm}>
                             CANCEL
                         </Button>
-                        <Button variant={'contained'} sx={{
-                            color: 'white',
-                            backgroundColor: green[500],
-                            '&:hover': {
-                                backgroundColor: green[600]
-                            }
-                        }} onClick={ClickSave}>
+                        <Button variant={'contained'} color="success" onClick={ClickSave}>
                             SAVE
                         </Button>
                     </Stack>

@@ -48,12 +48,12 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         sx={{
           // backgroundColor: (theme) => theme.palette.error.main,
           backgroundColor: '#324b84',
-          py: 1,  
-        }}  
+          py: 1,
+        }}
       >
-        <Typography variant={"h4"} sx={{ mb: 1,color: 'white' }}>
-          Enter Reason For Unpublish 
-          </Typography>
+        <Typography variant={"h4"} sx={{ mb: 1, color: 'white' }}>
+          Enter Reason For Unpublish
+        </Typography>
       </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Grid container justifyContent="space-between" alignItems="center">
@@ -69,11 +69,11 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
 
           <Grid item xs={2}>
             <TextField
-              sx={{ minWidth: '400px',bgcolor: '#f0e68c' }}
+              sx={{ minWidth: '400px', bgcolor: '#f0e68c' }}
               // label={'Exam'}
               size={"small"}
               value={ExamName}
-           />
+            />
           </Grid>
         </Grid>
         <br></br>
@@ -83,7 +83,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         <Grid container spacing={1} alignItems="center">
           <Grid item >
             <TextField
-              sx={{ minWidth: '400px' ,bgcolor: '#f0e68c'}}
+              sx={{ minWidth: '400px', bgcolor: '#f0e68c' }}
               // label={'Class Teacher Name'}
               size={"small"}
               value={TeacherName} />
@@ -112,7 +112,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         }} color={'error'}>
           Cancel
         </Button>
-        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+        <Button onClick={() => { ClickOk() }} color={'error'} variant={'contained'}>
           Unpublish
         </Button>
 

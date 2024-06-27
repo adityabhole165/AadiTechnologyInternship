@@ -32,8 +32,8 @@ const AddHoliday = ({ }) => {
     const [HolidayTitle, setHolidayTitle] = useState('');
     const [errorHolidayTitle, SetErrorHolidayTitle] = useState('')
     const [errorHolidayTitle1, SetErrorHolidayTitle1] = useState('')
-    const [ErrorHolidayStartDate, setErrorHolidayStartDate] = useState('');
-    const [ErrorHolidayEndDate, setErrorHolidayEndDate] = useState('');
+    const [ErrorStartDateblank, setErrorStartDateblank] = useState('');
+    const [ErrorEndDateblank, setErrorEndDateblank] = useState('');
     const [TotalDays, setTotalDays] = useState(1);
     const [Reamrk, setRemark] = useState('');
     const [Reamrk1, setRemarkError] = useState('');
@@ -211,20 +211,31 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setErrorStartDate2('')
 
+        if (StartDate === null ) {
+            setErrorStartDateblank('Start Date should not be blank.');
+            isError = true;
+        } else setErrorStartDateblank('')
+
 
         if (EndDate == '') {
             setErrorEndDate('Please choose a valid End date.');
             isError = true;
         } else setErrorEndDate('')
 
+        if (EndDate == null ) {
+            setErrorEndDateblank('End Date should not be blank.');
+            isError = true;
+        } else setErrorEndDateblank('')
 
+        if (StartDate !== null && EndDate !== null) {
         if (isOutsideAcademicYear(StartDate)) {
-
             setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
             isError = true;
         } else setErrorStartDate('')
+    }
+    if (StartDate !== null && EndDate !== null) {
 
         if (isOutsideAcademicYear(EndDate)) {
             setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
@@ -232,6 +243,7 @@ const AddHoliday = ({ }) => {
                 formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
             isError = true;
         } else setErrorEndDate('')
+    }
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than start date.');
 
@@ -263,6 +275,9 @@ const AddHoliday = ({ }) => {
         }
 
     };
+
+
+
 
 
     // const ClickSave = () => {
@@ -409,6 +424,9 @@ const AddHoliday = ({ }) => {
                         />
                         <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
+
+                        
                     </Grid>
 
                     <Grid item xs={6} md={4}>
@@ -422,6 +440,9 @@ const AddHoliday = ({ }) => {
                         <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
+
+                        
                     </Grid>
 
                     <Grid item xs={6} md={4}>

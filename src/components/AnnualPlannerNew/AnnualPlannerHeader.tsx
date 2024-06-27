@@ -3,7 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
-import { blue, grey, yellow } from '@mui/material/colors';
+import { blue, green, grey, yellow } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -78,9 +78,9 @@ const AnnualPlannerHeader = () => {
             ? [{
                 Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
-                    backgroundColor: blue[500],
+                    backgroundColor: green[500],
                     '&:hover': {
-                        backgroundColor: blue[600]
+                        backgroundColor: green[600]
                     }
                 }
             }]

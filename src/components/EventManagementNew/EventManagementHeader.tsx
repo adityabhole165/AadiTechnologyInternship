@@ -28,17 +28,17 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
                 '&:hover': { backgroundColor: grey[600] }
             }
         },
-        {
-            Id: 4,
-            Icon: <AddIcon />,
-            Title: 'Add New Event',
-            Action: 'AddNewEvent',
-            sx: {
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': { backgroundColor: blue[600] }
-            }
-        },
+        // {
+        //     Id: 4,
+        //     Icon: <AddIcon />,
+        //     Title: 'Add New Event',
+        //     Action: 'AddNewEvent',
+        //     sx: {
+        //         color: 'white',
+        //         backgroundColor: green[500],
+        //         '&:hover': { backgroundColor: green[600] }
+        //     }
+        // },
         {
             Id: 3,
             Icon: <SaveIcon />,

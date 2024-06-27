@@ -563,9 +563,9 @@ const LessonPlanBaseScreen = () => {
                     <IconButton
                       sx={{
                         color: 'white',
-                        backgroundColor: blue[500],
+                        backgroundColor: green[500],
                         height: '36px !important',
-                        ':hover': { backgroundColor: blue[600] },
+                        ':hover': { backgroundColor: green[600] },
                         marginLeft: '-4px',
                       }}
                       onClick={onClickAdd}
