@@ -212,27 +212,27 @@ const AddRequisition = () => {
         if (text3 == undefined) {
             setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}`);
             isError = true;
-        }
+        }else setErrorQuantity('')
 
         if (textall === '') {
             setError('Requisition Name should not be blank.');
             isError = true;
-        }
+        }else setError('')
 
         if (textall1 === '') {
             setError1('Requisition Description should not be blank.');
             isError = true;
-        }
+        }else setError1('')
 
         if (errorMessages.length > 0) {
             setError2(errorMessages.join("\n"));
             isError = true;
-        }
+        }else setError2('')
 
         if (USGetNewRequisitionValidateItemQuantity.Codes != null) {
             setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
             isError = true;
-        }
+        }else setValidateItemQuantity('')
 
 
 
@@ -267,28 +267,28 @@ const AddRequisition = () => {
         if (textall === '') {
             setError('Requisition Name should not be blank.');
             isError = true;
-        }
+        }else setError('')
 
         if (textall1 === '') {
             setError1('Requisition Description should not be blank.');
             isError = true;
-        }
+        }else setError1('')
 
     
         if (errorMessages.length > 0) {
             setError2(errorMessages.join("\n"));
             isError = true;
-        }
+        }else setError2('')
 
         if (USGetNewRequisitionValidateItemQuantity.Codes !== null) {
             setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
             isError = true;
-        }
+        }else setValidateItemQuantity('')
 
         if (USCanSendRequisition == false) {
             setValidateSendRequisition("You can not send requisition since approval level is not configured or user is not available in approval designation.")
             isError = true;
-        }
+        }else setValidateSendRequisition('')
 
 
         if (!isError) {
@@ -308,7 +308,8 @@ const AddRequisition = () => {
             setErrorQuantity('')
         }
     };
-
+    
+    
 
 
 
