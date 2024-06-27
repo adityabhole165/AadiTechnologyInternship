@@ -358,7 +358,7 @@ const ExamResultToppers = () => {
         setExamCT(value);
         const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === value);
         if (selectedExam) {
-            setSelectedExamName(selectedExam.Name);
+            setSelectedExamName(selectedExam.Name.replaceAll("-", ""));
         }
 
     };
@@ -373,7 +373,7 @@ const ExamResultToppers = () => {
         setExamST(value);
         const selectedExam = GetExamdropdownST.find((exam) => exam.Id === value);
         if (selectedExam) {
-            setSelectedExamName(selectedExam.Name);
+            setSelectedExamName(selectedExam.Name.replaceAll("-", ""));
             setExamCT(value);
         }
     };
@@ -492,24 +492,24 @@ const ExamResultToppers = () => {
                                 />
                             )}
                             {CanEdit == 'Y' && (
-                            <SearchableDropdown
-                                ItemList={GetExamdropdownST}
-                                sx={{ pl: 0, minWidth: '20vw' }}
-                                onChange={clickExamDropdownST}
-                                defaultValue={SelectExamST}
-                                label={'Select Exam'}
-                                size={"small"}
-                            />
+                                <SearchableDropdown
+                                    ItemList={GetExamdropdownST}
+                                    sx={{ pl: 0, minWidth: '20vw' }}
+                                    onChange={clickExamDropdownST}
+                                    defaultValue={SelectExamST}
+                                    label={'Select Exam'}
+                                    size={"small"}
+                                />
                             )}
                             {CanEdit == 'N' && (
-                            <SearchableDropdown
-                                ItemList={GetExamdropdownCT}
-                                sx={{ pl: 0, minWidth: '20vw' }}
-                                onChange={clickExamDropdownST}
-                                defaultValue={SelectExamST}
-                                label={'Select Exam'}
-                                size={"small"}
-                            />
+                                <SearchableDropdown
+                                    ItemList={GetExamdropdownCT}
+                                    sx={{ pl: 0, minWidth: '20vw' }}
+                                    onChange={clickExamDropdownST}
+                                    defaultValue={SelectExamST}
+                                    label={'Select Exam'}
+                                    size={"small"}
+                                />
                             )}
                             <SearchableDropdown
                                 ItemList={GetSubjectdropdownST}
