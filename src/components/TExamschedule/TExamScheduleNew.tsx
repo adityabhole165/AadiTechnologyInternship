@@ -130,8 +130,15 @@ const TExamScheduleNew = () => {
 const getExamName = () => {
     if (getExamlist && getExamlist.length > 0) {
       console.log('First Exam Object:', getExamlist[0]);
-      console.log('SchoolWise_Test_Name:', getExamlist[0].Text1); 
-      return getExamlist[0].Text1; 
+      console.log('SchoolWise_Test_Name:', getExamlist[0].Text1);
+      console.log('SchoolWise_Test_Name:', getExamlist[0].Text3); 
+      console.log('SchoolWise_Test_Name:', getExamlist[0].Text4); 
+
+      return getExamlist[0].Text1;
+      return getExamlist[0].Text3;
+      return getExamlist[0].Text4;
+
+
     }
     return '';
   };
@@ -191,12 +198,15 @@ const getExamName = () => {
           onClick={() => setShowCardData(!showCardData)}
         >
           <Typography variant="h6" sx={{ color: '#654321' }}>
-            <b>{exam.Text1}</b>
-            {/* {Data4} */}
+<b><span style={{ margin: '0 5px' }}>{exam.Text1}</span></b>
+<b>{exam.Text3}</b>
+  <b> To </b>
+<b>{exam.Text4}</b>
+
           </Typography>
         </Box>
       ))}
-      
+
 
       {showCardData && getExamlist.length > 0 ? (
         <Box sx={{ background: 'white', p: 2, mt: 2 }}>
@@ -271,3 +281,4 @@ const getExamName = () => {
 };
 
 export default TExamScheduleNew;
+
