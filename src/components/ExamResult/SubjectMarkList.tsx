@@ -1,6 +1,6 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -105,17 +105,17 @@ const SubjectMarkList = () => {
             </Tooltip>)}
 
           {rowData.rank === "1" &&
-            <img src={GoldMedal} alt="Gold Medal" width={20} />
+            <img src={GoldMedal} alt="Gold Medal" height={20} />
           }
 
           {/* If student rank is 2 */}
           {rowData.rank === "2" &&
-            <img src={SilverMedal} alt="Silver Medal" width={20} />
+            <img src={SilverMedal} alt="Silver Medal" height={20} />
           }
 
           {/* If student rank is 3 */}
           {rowData.rank === "3" &&
-            <img src={BronzeMedal} alt="Bronze Medal" width={20} />
+            <img src={BronzeMedal} alt="Bronze Medal" height={20} />
           }
         </Stack>
       </>
@@ -163,6 +163,17 @@ const SubjectMarkList = () => {
       setColumns(Columncpy);
     }
   }, [HeaderListTestMark]);
+  let totalRecords = TestMarkListNew.length
+  let recordsPerPage = 10
+  let pageCount = Math.ceil(totalRecords / recordsPerPage)
+  let startIndex = 0, endIndex = recordsPerPage - 1
+  let arrPages = []
+  for (let i = 0; i < pageCount; i++) {
+    arrPages.push({ startIndex: startIndex, endIndex: endIndex });
+    startIndex += recordsPerPage
+    endIndex += recordsPerPage
+  }
+  let gridIndex = 12 / pageCount
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -257,79 +268,19 @@ const SubjectMarkList = () => {
 
         <Box sx={{ p: 2, background: 'white' }}>
           {/* New Table */}
-          <DataTable
-            columns={Columns}
-            data={TestMarkListNew}
-          // data={
-          //   [
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "1",
-          //       rank: "0",
-          //       theoryType: "Exempted",
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
+          <Grid container spacing={2}>
+            {arrPages.map((arrItem) => {
+              return (
+                <Grid item xs={gridIndex}>
+                  <DataTable
+                    columns={Columns}
+                    data={TestMarkListNew.filter((item) => { return (item.Index >= arrItem.startIndex && item.Index < arrItem.endIndex) })}
+                    isPagination={false}
+                  />
+                </Grid>
+              )
+            })}</Grid>
 
-          //       name: "Student Name",
-          //       rollNo: "2",
-          //       rank: "2",
-          //       theoryType: "Late Joinee",
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "3",
-          //       rank: "3",
-          //       theoryType: "Absent",
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "4",
-          //       rank: "0",
-          //       theoryType: null,
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "5",
-          //       rank: "0",
-          //       theoryType: "Absent",
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "6",
-          //       rank: "1",
-          //       theoryType: "Absent",
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "7",
-          //       rank: "2",
-          //       theoryType: null,
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //     {
-          //       name: "Student Name",
-          //       rollNo: "8",
-          //       rank: "3",
-          //       theoryType: "Absent",
-          //       theory: "40",
-          //       total: "100"
-          //     },
-          //   ]
-          // }
-          />
           <Box mt={2}>
             {/* <Typography variant={"h4"}>
               Legends:
