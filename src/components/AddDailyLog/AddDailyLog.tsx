@@ -575,6 +575,7 @@ const AddDailyLog = () => {
             </Grid>
             <Grid item xs={12}  >
               {GetAllHomeworkDailyLogs.length > 0 ? (
+                <>
                 <Adddailyloglist
                   ItemList={GetAllHomeworkDailyLogs}
                   clickView={clickFileName}
@@ -584,13 +585,9 @@ const AddDailyLog = () => {
                   clickDelete={clickDelete}
                   clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
                 />
-              ) : (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                  <b>No record found.</b>
-                </Typography>
-
-              )}
-              {GetAllHomeworkDailyLogs.length > 0 ? (
+              
+              
+             
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', mt: 2 }}>
                   {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
                     Select a page:
@@ -612,14 +609,18 @@ const AddDailyLog = () => {
                     }}
                   />
                 </Box>
-
+</>
               ) : (
-                <b />
-              )}
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  <b>No record found.</b>
+                </Typography>
 
+              )}
+              {GetAllHomeworkDailyLogs.length > 0 && (
               <Box sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right', textAlign: 'right' }}>
                 Page {page} of 5
               </Box>
+              )}
             </Grid>
           </Grid>
         </Box>
