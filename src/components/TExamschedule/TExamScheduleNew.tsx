@@ -148,7 +148,7 @@ const TExamScheduleNew = () => {
               )}
             </Box>
             <Box>
-              <Tooltip title="Display Standardwise Exam Schedule.">
+              <Tooltip title=" Examination Schedule for your class.">
                 <IconButton sx={{
                   color: 'white',
                   backgroundColor: grey[500],
@@ -247,7 +247,7 @@ const TExamScheduleNew = () => {
       ) : (
         !loading && isLoaded && getExamlist.length === 0 && (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No exam has been scheduled</b>
+            <b>No exam has been scheduled. </b>
           </Typography>
         )
       )}
