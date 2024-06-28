@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
+import InvestmentSection from "./InvestmentSection";
 
 const InvestmentDeclaration = () => {
     const dispatch = useDispatch();
@@ -91,8 +92,13 @@ const InvestmentDeclaration = () => {
 
     const matchingDetailsData = filteredSectionDetails.flatMap(section => section.matchingDetails);
 
-    console.log(matchingDetailsData, "matchingDetailsData");
+    console.log(USListInvestmentDetails, "matchingDetailsData1");
 
+    const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
+    useEffect(() => {
+        if (USListInvestmentDetails.length > 0)
+            setListInvestmentDetails(USListInvestmentDetails)
+    }, [USListInvestmentDetails])
 
     return (
         <>
@@ -100,6 +106,12 @@ const InvestmentDeclaration = () => {
                 <Typography variant="h4" gutterBottom>
                     Employee Investment Details
                 </Typography>
+                {USListInvestmentDetails.length > 0 &&
+                    <Grid container>
+                        <InvestmentSection></InvestmentSection>
+                    </Grid>}
+                <br></br>
+                <br></br>
                 <Grid container spacing={3}>
                     {USISlistInvestmentEmpDetails.map((detail) => (
                         <Grid item xs={12} key={detail.UserId}>
