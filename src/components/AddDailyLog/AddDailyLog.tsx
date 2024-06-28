@@ -486,7 +486,7 @@ const AddDailyLog = () => {
               <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c', width: '90%' }} value={ClassName} />
             </Grid>
             <Grid item xs={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1, width: 'calc(90% + 1px)' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)' }}>
                 <Datepicker
                   DateValue={dateState}
                   onDateChange={handleDateChange}
@@ -494,11 +494,15 @@ const AddDailyLog = () => {
                   size={"medium"}
 
                 />
-                <ErrorMessage1 Error={dateError}></ErrorMessage1>
+                {dateError && (
+                  <Box sx={{ mt: 1, marginLeft: '40px' }}>
+                    <ErrorMessage1 Error={dateError}></ErrorMessage1>
+                  </Box>
+                )}
               </Box>
             </Grid>
             <Grid item xs={4} >
-              <Box sx={{ display: 'flex', alignItems: 'center', ml:-1.5, width: 'calc(100% + 1px)' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)' }}>
                 <SingleFile
                   ValidFileTypes={ValidFileTypes}
                   MaxfileSize={MaxfileSize}

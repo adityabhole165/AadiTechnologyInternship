@@ -34,6 +34,7 @@ const AnnualPlannerBase = () => {
   const USStandardList: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList
   );
+  console.log(USStandardList, "USStandardList")
   const USStandardDivision: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList
   );
@@ -110,7 +111,7 @@ const AnnualPlannerBase = () => {
       asAcademicYearId: Number(asAcademicYearId),
       asUserId: GetScreenPermission() === 'Y'
         ? 0
-        : (IsClassTeacher === 'Y' ? 0 : Number(UserId))
+        : Number(UserId)
     };
 
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
@@ -127,6 +128,7 @@ const AnnualPlannerBase = () => {
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
 
   }, []);
+
   useEffect(() => {
     if (IsClassTeacher === "Y") {
       const GetTeacherDetailsForControlPanel = {
@@ -134,48 +136,24 @@ const AnnualPlannerBase = () => {
         asAcademicYearId: Number(asAcademicYearId),
         asTeacherID: Number(TeacherId)
       };
-  
+
       dispatch(GetTeacherDetailsForControlPanels(GetTeacherDetailsForControlPanel));
     }
   }, [TeacherId]);
- 
 
-  //  useEffect(() => {
-  //   if (USStandardList.length > 0) {
-  //     setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
-  //     callGetDivisionList(USStandardList[0].Value);
-  //   }
-  // }, [USStandardList]);
-
-  const checkStandardIdMatch = () => {
-    if (!GetTeacherDetail || !GetTeacherDetail.Standard_Id || !USStandardList) {
-      return false;
-    }
-  
-    return USStandardList.some(standard => standard.StandardId === GetTeacherDetail.Standard_Id);
+  const findMatchingId = (teacherId: string) => {
+    const matchedId = teacherId ? USStandardList.find(item => item.Id === teacherId.toString()) : undefined;
+    return matchedId ? matchedId.Value : undefined;
   };
+
   useEffect(() => {
-    if (IsClassTeacher === "Y" && USStandardList.length > 0 && GetTeacherDetail && GetTeacherDetail.Standard_Id) {
-      console.log("USStandardList:", USStandardList);
-      console.log("GetTeacherDetail:", GetTeacherDetail);
-  
-      const foundStandard = USStandardList.find(standard => standard.StandardId === GetTeacherDetail.Standard_Id);
-  
-      if (foundStandard) {
-        console.log("Setting value with matched StandardId:", foundStandard.StandardId);
-        setSelectedStandardId(foundStandard.StandardId);
-        setValue(foundStandard.StandardId, 'Standard');
-        callGetDivisionList(foundStandard.StandardId);
-      } else {
-        console.warn("No matching StandardId found in USStandardList. Setting default value.");
-        console.log("Setting value with default USStandardList[0].StandardId:", USStandardList[0].StandardId);
-        setSelectedStandardId(USStandardList[0].StandardId);
-        setValue(USStandardList[0].StandardId, 'Standard');
-        callGetDivisionList(USStandardList[0].StandardId);
-      }
+    if (USStandardList.length > 0 && GetTeacherDetail && GetTeacherDetail.length > 0) {
+      const standardId = findMatchingId(GetTeacherDetail[0].Standard_Id);
+      setValue(standardId === undefined ? USStandardList[0].Value : standardId, 'Standard');
+      callGetDivisionList(standardId === undefined ? USStandardList[0].Value : standardId);
     }
   }, [USStandardList, GetTeacherDetail]);
-  
+
   const setValue = (value, selectedItem) => {
     setDefaultValue({
 
@@ -195,6 +173,12 @@ const AnnualPlannerBase = () => {
     });
   };
 
+  //  useEffect(() => {
+  //   if (USStandardList.length > 0) {
+  //     setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
+  //     callGetDivisionList(USStandardList[0].Value);
+  //   }
+  // }, [USStandardList]);
 
   useEffect(() => {
     if (USStandardDivision.length > 0) {
