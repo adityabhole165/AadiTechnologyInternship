@@ -20,7 +20,6 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { GetSelectStandardRes, ViewExamDataRess } from 'src/requests/TExamschedule/TExamschedule';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import Exam from '../Holidays/Exam';
 
 const TExamScheduleNew = () => {
   const dispatch = useDispatch();
@@ -48,7 +47,7 @@ const TExamScheduleNew = () => {
   const [showCardData, setShowCardData] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const Data4 = getExamlist.filter((item) => item.SchoolWise_Test_Name == "");
+  //const Data4 = getExamlist.filter((item) => item.SchoolWise_Test_Name == "");
 
   const getstandardList_body = {
     asAcademicYearId: asAcademicYearId,
@@ -117,11 +116,25 @@ const TExamScheduleNew = () => {
 
   const classList = ['Nursery', 'Junior KG', 'Senior KG', ...Array.from({ length: 10 }, (_, i) => `${i + 1}`)];
 
-  const getExamName = () => {
-    const selectedExam = getExamlist.find((Item) => Item.Value === Exam);
-    return selectedExam ? selectedExam.Text1 : '';
+  // const getExamName = () => {
+  //   const selectedExam = getExamlist.find((Item) => Item.Value === Exam);
+  //   return selectedExam ? selectedExam.Text1 : '';
+  // };
+  // const getExamName = () => {
+  //   if (getExamlist && getExamlist.length > 0) {
+  //     console.log('SchoolWise_Test_Name:', getExamlist[0].SchoolWise_Test_Name);
+  //     return getExamlist[0].SchoolWise_Test_Name; 
+  //   }
+  //   return '';
+  // };
+const getExamName = () => {
+    if (getExamlist && getExamlist.length > 0) {
+      console.log('First Exam Object:', getExamlist[0]);
+      console.log('SchoolWise_Test_Name:', getExamlist[0].Text1); 
+      return getExamlist[0].Text1; 
+    }
+    return '';
   };
-
   const uniqueDates = new Set();
 
   return (
@@ -164,8 +177,9 @@ const TExamScheduleNew = () => {
         }
       />
 
-      {SubList.length > 0 && (
+{SubList.length > 0 && getExamlist && getExamlist.length > 0 && getExamlist.map((exam, index) => (
         <Box
+        key={index}
           sx={{
             mt: 2,
             cursor: 'pointer',
@@ -177,11 +191,12 @@ const TExamScheduleNew = () => {
           onClick={() => setShowCardData(!showCardData)}
         >
           <Typography variant="h6" sx={{ color: '#654321' }}>
-            <b>{getExamName()}</b>
-            {Data4}
+            <b>{exam.Text1}</b>
+            {/* {Data4} */}
           </Typography>
         </Box>
-      )}
+      ))}
+      
 
       {showCardData && getExamlist.length > 0 ? (
         <Box sx={{ background: 'white', p: 2, mt: 2 }}>
