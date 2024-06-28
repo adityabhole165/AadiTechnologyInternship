@@ -31,7 +31,6 @@ const TExamScheduleNew = () => {
   const getExamlist = useSelector(
     (state: RootState) => state.StandardAndExamList.ExamData
   );
-  console.log(getExamlist, "getExamlist");
 
   const SubList = useSelector(
     (state: RootState) => state.StandardAndExamList.VeiwAllData
@@ -45,10 +44,11 @@ const TExamScheduleNew = () => {
   const RoleId = sessionStorage.getItem('RoleId');
   const asStandardId = sessionStorage.getItem('StandardId');
 
-
-  const [std, setStd] = useState('0'); // Default to '0' for "All"
+  const [std, setStd] = useState('0');
   const [showCardData, setShowCardData] = useState(false);
-  const Data4 = getExamlist.filter((item) => item.SchoolWise_Test_Name == "")
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const Data4 = getExamlist.filter((item) => item.SchoolWise_Test_Name == "");
 
   const getstandardList_body = {
     asAcademicYearId: asAcademicYearId,
@@ -70,12 +70,13 @@ const TExamScheduleNew = () => {
 
   const stdChange = (value) => {
     setStd(value);
-    setShowCardData(false); // Reset the card data visibility on standard change
+    setShowCardData(false);
   };
 
   useEffect(() => {
     if (std !== '') {
       dispatch(ViewExamDataRess(ExamList_body));
+      setIsLoaded(false);
     }
   }, [std]);
 
@@ -85,27 +86,33 @@ const TExamScheduleNew = () => {
     }
   }, [getstandard]);
 
+  useEffect(() => {
+    if (!loading) {
+      setIsLoaded(true);
+    }
+  }, [loading]);
+
   const getTime = (startTime, endTime) => {
-    const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
-    let adjustedStartHours =
-      parseInt(startHours, 10) + (startPeriod === 'PM' ? 12 : 0);
-    const [endHours, endMinutes, endPeriod] = endTime.split(/:|\s/);
-    let adjustedEndHours =
-      parseInt(endHours, 10) + (endPeriod === 'PM' ? 12 : 0);
+    const formatTime = (time) => {
+      const [hours, minutes] = time.split(':');
+      let period = 'AM';
+      let adjustedHours = parseInt(hours, 10);
 
-    const startDate = new Date();
-    startDate.setHours(adjustedStartHours);
-    startDate.setMinutes(parseInt(startMinutes, 10));
+      if (adjustedHours >= 12) {
+        period = 'PM';
+        adjustedHours -= 12;
+      }
+      if (adjustedHours === 0) {
+        adjustedHours = 12;
+      }
 
-    const endDate = new Date();
-    endDate.setHours(adjustedEndHours);
-    endDate.setMinutes(parseInt(endMinutes, 10));
+      return `${adjustedHours}:${minutes} ${period}`;
+    };
 
-    const timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
-    const hours1 = Math.floor(timeDifference / (1000 * 60 * 60));
-    const minutes2 = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const formattedStartTime = formatTime(startTime);
+    const formattedEndTime = formatTime(endTime);
 
-    return hours1 + ' hrs ' + minutes2 + ' mins';
+    return `${formattedStartTime} - ${formattedEndTime}`;
   };
 
   const classList = ['Nursery', 'Junior KG', 'Senior KG', ...Array.from({ length: 10 }, (_, i) => `${i + 1}`)];
@@ -114,6 +121,8 @@ const TExamScheduleNew = () => {
     const selectedExam = getExamlist.find((Item) => Item.Value === Exam);
     return selectedExam ? selectedExam.Text1 : '';
   };
+
+  const uniqueDates = new Set();
 
   return (
     <Box sx={{ px: 2 }}>
@@ -184,49 +193,63 @@ const TExamScheduleNew = () => {
                 <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
                   <TableRow>
                     <TableCell>Date</TableCell>
-                    <TableCell>Time & Duration</TableCell>
+                    <TableCell>Time </TableCell>
+                    <TableCell>Duration</TableCell>
                     {std === '0' && classList.map((className) => (
                       <TableCell key={className}>{className}</TableCell>
                     ))}
                     {std !== '0' && <TableCell>Subject</TableCell>}
-                    <TableCell>Description</TableCell>
-
-                    <TableCell>Instructions</TableCell>
+                    {std !== '0' && <TableCell>Description</TableCell>}
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {SubList.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{item.text3 || '--'}</TableCell>
-                      <TableCell>
-                        {item.startTime} - {item.endTime}
-                        <br />
-                        ({getTime(item.startTime, item.endTime)})
-                      </TableCell>
-                      {std === '0' ? (
-                        classList.map((className) => (
-                          <TableCell key={`${className}-${index}`}>
-                            {item.Standard_Name === className ? item.header || '--' : '--'}
-                          </TableCell>
-                        ))
-                      ) : (
-                        <TableCell>{item.header || '--'}</TableCell>
-                      )}
-                      <TableCell >{item.Description || '--'}</TableCell>
-                      <TableCell sx={{ color: 'blue' }}>{item.Instructions || '--'}</TableCell>
+                  {SubList.map((item, index) => {
+                    const isDuplicateDate = uniqueDates.has(item.text3);
+                    uniqueDates.add(item.text3);
 
-                    </TableRow>
-                  ))}
+                    return (
+                      <>
+                        <TableRow>
+                          <TableCell>{isDuplicateDate ? '' : (item.text3 || '-')}</TableCell>
+                          <TableCell>{getTime(item.startTime, item.endTime)}</TableCell>
+                          <TableCell>{item.startTime} - {item.endTime}</TableCell>
+                          {std === '0' ? (
+                            classList.map((className) => (
+                              <TableCell key={`${className}-${index}`}>
+                                {item.Standard_Name === className ? item.header || '-' : '-'}
+                              </TableCell>
+                            ))
+                          ) : (
+                            <>
+                              <TableCell>{item.header || '-'}</TableCell>
+                              <TableCell>{item.Description || '-'}</TableCell>
+                            </>
+                          )}
+                        </TableRow>
+                        {std === '0' && !isDuplicateDate && (
+                          <TableRow>
+                            <TableCell colSpan={5}>
+                              <Typography variant="body2" sx={{ color: 'darkblue' }}>
+                                <b>Instructions: -</b> {item.Instructions || '-'}
+                              </Typography>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           )}
         </Box>
       ) : (
-        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-          <b>No exam has been scheduled</b>
-        </Typography>
+        !loading && isLoaded && getExamlist.length === 0 && (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No exam has been scheduled</b>
+          </Typography>
+        )
       )}
     </Box>
   );
