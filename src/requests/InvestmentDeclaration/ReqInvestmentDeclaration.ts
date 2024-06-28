@@ -42,17 +42,19 @@ const InvestmentDeclarationSlice = createSlice({
 export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        let listInvestmentDetails = response.data.listInvestmentDetails.map((item, i) => {
-            return {
-                Id: item.Id,
-                SectionId: item.SectionId,
-                Name: item.Name,
-                AssociatedEarnDeductId: item.AssociatedEarnDeductId,
-                MaxAmount: item.MaxAmount,
-                DocumentCount: item.DocumentCount
-
-            };
-        });
+        let listInvestmentDetails = response.data.listInvestmentDetails
+            .filter((obj) => { return obj.SectionId == "125" })
+            .map((item, i) => {
+                return {
+                    Id: item.Id,
+                    SectionId: item.SectionId,
+                    Name: item.Name,
+                    AssociatedEarnDeductId: item.AssociatedEarnDeductId,
+                    MaxAmount: item.MaxAmount,
+                    DocumentCount: item.DocumentCount,
+                    Amount: ""
+                };
+            });
 
         let listInvestmentEmpDetails = response.data.listInvestmentEmpDetails.map((item, i) => {
             return {
