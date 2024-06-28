@@ -15,7 +15,7 @@ const RequisitionApi = (data: IGetRequisitionStatusBody) => {
   );
 };
 const RequisitionListApi = (data: IGetPagedRequisitionBody) => {
-  return http.post<IGetPagedRequisitionResult[]>(
+  return http.post<IGetPagedRequisitionResult>(
     'Teacher/GetPagedRequisition',
     data
   );

@@ -62,7 +62,7 @@ export const RequisitionListt =
   (data: IGetPagedRequisitionBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiRequisition.RequisitionListApi(data);
-    let abc = response.data.map((item, i) => {
+    let abc = response.data.GetPagedRequisitionList.map((item, i) => {
       return {
         Id: item.RequisitionID,
         RequisitionCode: item.RequisitionCode,

@@ -20,22 +20,40 @@ export interface IGetPagedRequisitionBody {
   asStatusID: number;
   asUserId: number;
 }
+
+
+
 export interface IGetPagedRequisitionResult {
-  RequisitionID: string
-  RequisitionCode: string
-  RequisitionName: string
-  StatusName: string
-  School_Id: string
-  Created_Date: string
-  StatusID: string
-  CreatedId: string
-  CreaterName: string
-  NextDesignationId: string
-  ExpiryDate: string
-  Editble: string
-  IsDelete: string
-  IsFinalApproval: string
+  GetPagedRequisitionList: [
+      {
+        RequisitionID: string
+        RequisitionCode: string
+        RequisitionName: string
+        StatusName: string
+        School_Id: string
+        Created_Date: string
+        StatusID: string
+        CreatedId: string
+        CreaterName: string
+        NextDesignationId: string
+        ExpiryDate: string
+        Editble: string
+        IsDelete: string
+        IsFinalApproval: string
+      }
+  ],
+  TotalCountRequisitionDetails: [
+      {
+        TotalCount: string;
+         
+      }
+  ],
+      
+
+  
 }
+
+
 export interface IGetDeleteRequisitionBody {
   asRequisitionId: number;
   asSchoolId: number;
