@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-    IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IViewBody
+    IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
 import {
-    GenerateAllGA, GradesDetailsVA, MarksDetailsVA,
-    StudentDetailsGA, SubjectDetailsVA, ViewResultGA
+    GenerateAllGA,
+    StudentDetailsGA,
+    UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -63,28 +64,58 @@ const GenerateAll = ({ }) => {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcadmeicYearId),
             asStudentId: Number(asStudentId),
-            asInsertedById: Number(asUserId),
             asWithGrace: 0,
         };
         dispatch(ViewResultGA(GetViewResultBody));
-        dispatch(SubjectDetailsVA(GetViewResultBody));
-        dispatch(MarksDetailsVA(GetViewResultBody));
-        dispatch(GradesDetailsVA(GetViewResultBody));
     }, []);
 
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/FinalResult');
     };
 
+
+    // const getXML = () => {
+    //     console.log(Itemlist, '----');
+    //     let sXML =
+    //       "<ArrayOfStudentInfoForHeightWeight xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>";
+    //     Itemlist.map((Item) => {
+    //       sXML =
+    //         sXML +
+    //         '<StudentInfoForHeightWeight><RollNo>' +
+    //         Item.Text1 +
+    //         '</RollNo><YearWiseStudentId>' +
+    //         Item.Text6 +
+    //         '</YearWiseStudentId><Height>' +
+    //         (Item.Text3 === "" ? "0" : Item.Text3) +
+    //         '</Height><Weight>' +
+    //         (Item.Text4 === "" ? "0" : Item.Text4) +
+    //         '</Weight><IsLeftStudent>' +
+    //         Item.Text5 +
+    //         '</IsLeftStudent></StudentInfoForHeightWeight>';
+    //     });
+    //     sXML = sXML + '</ArrayOfStudentInfoForHeightWeight>';
+
+    //     console.log('XMLLLLLLLL', sXML);
+    //     return sXML;
+    //   };
+
     const onSaveGenerate = () => {
-        const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcadmeicYearId: Number(asAcadmeicYearId),
-            asStudentId: Number(asStudentId),
-            asUserId: Number(asUserId)
+        const UpdateStudentTestMarksBody: IUpdateStudentTestMarksBody = {
+            asschoolId: Number(asSchoolId),
+            asStudentMarkDetails: '',
+            asUpdatedById: 0,
+            asUseAvarageFinalResult: ""
         };
-        dispatch(StudentDetailsGA(GetStudentPrrogressReportBody));
+        dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
         setIsResultGenerated(true); // Set the result as generated
+
+        const GetViewResultBody: IViewBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcadmeicYearId),
+            asStudentId: Number(asStudentId),
+            asWithGrace: 1,
+        };
+        dispatch(ViewResultGA(GetViewResultBody));
     };
 
     // const handleVisibilityClick = () => {
@@ -266,7 +297,7 @@ const GenerateAll = ({ }) => {
                                     <Table>
                                         <TableBody>
                                             <TableRow>
-                                                <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                                                <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={3} ml={2}>
                                                     Subjects
                                                 </Typography>
                                                 {SubjectDetailsView.map((subject) => (
@@ -275,12 +306,12 @@ const GenerateAll = ({ }) => {
                                             </TableRow>
                                             <TableRow>
                                                 {MarkDetailsView.map((subject) => (
-                                                    <TableCell key={subject.Name}>{subject.Name}</TableCell>
+                                                    <TableCell key={subject.Name} align="center">  {subject.IsAbsent === '1' ? '-' : subject.Name}</TableCell>
                                                 ))}
                                             </TableRow>
                                             <TableRow>
                                                 {GradesDetailsView.map((Grade) => (
-                                                    <TableCell key={Grade.Name}>{Grade.Name}</TableCell>
+                                                    <TableCell key={Grade.Name} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))}
                                             </TableRow>
                                         </TableBody>

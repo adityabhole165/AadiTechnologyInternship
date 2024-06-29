@@ -150,7 +150,6 @@ export interface IViewBody {
     asSchoolId: number,
     asAcademicYearId: number,
     asStudentId: number,
-    asInsertedById: number,
     asWithGrace: number
 }
 
@@ -221,4 +220,12 @@ export interface IViewResult {
             GraceMarkMessage: string
         }
     ]
+}
+
+
+export interface IUpdateStudentTestMarksBody {
+    asschoolId: number,
+    asStudentMarkDetails: string,
+    asUpdatedById: number,
+    asUseAvarageFinalResult: string
 }
