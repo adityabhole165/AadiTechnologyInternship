@@ -314,6 +314,7 @@
 // export default TExamScheduleNew;
 
 
+
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
@@ -584,10 +585,11 @@ const TExamScheduleNew = () => {
                         ) : null;
                       })}
 
-                      <TableRow>
+
+                      {/* <TableRow>
                         <TableCell colSpan={3}>
                           <Typography variant="subtitle1" gutterBottom>
-                            Instructions for Each Class:
+                            Instructions:
                           </Typography>
                           {classList.map((className) => (
                             <Typography key={className} variant="body2" gutterBottom>
@@ -595,7 +597,19 @@ const TExamScheduleNew = () => {
                             </Typography>
                           ))}
                         </TableCell>
-                      </TableRow>
+                      </TableRow> */}
+                      <TableRow>
+                        <TableCell colSpan={3}>
+                          <b>Instructions:</b>
+                        </TableCell>
+                        {classList.map((className) => (
+                          <TableCell key={className}>
+                            <Typography variant="body2" sx={{ color: 'darkblue' }}>
+                              {classInstructions[className] || ''}
+                            </Typography>
+                          </TableCell>
+                        ))}                  
+                       </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -604,6 +618,12 @@ const TExamScheduleNew = () => {
           )}
         </Box>
       ))}
+
+      {!loading && getExamlist.length === 0 && (
+        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+          <b>No exam has been scheduled.</b>
+        </Typography>
+      )}
     </Box>
   );
 };
