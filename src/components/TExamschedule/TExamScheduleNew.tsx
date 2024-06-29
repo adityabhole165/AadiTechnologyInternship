@@ -210,8 +210,8 @@ const TExamScheduleNew = () => {
                         onClick={() => setExpandedCardIndex(expandedCardIndex === index ? null : index)}
                     >
                         <Typography variant="h6" sx={{ color: '#654321' }}>
-                            <span style={{ margin: '0 5px' }}>{exam.Text1}</span>
-                            {exam.Text3} To {exam.Text4}
+                            <span style={{ margin: '0 5px' }}>  <b> {exam.Text1}</b></span>
+                            <b>  {exam.Text3} To {exam.Text4}</b>
                         </Typography>
                     </Box>
 
@@ -272,9 +272,18 @@ const TExamScheduleNew = () => {
                                                 <b>Instructions:</b>
                                             </TableCell>
                                             {/* Check if there are subjects in the standard columns */}
-                                            {std !== '0' && SubList.some((item) => item.Standard_Name === getstandard.find(s => s.id === std)?.Standard_Name) && (
+                                            {/* {std === '0' && SubList.some((item) => item.Standard_Name === getstandard.find(s => s.id === std)?.Standard_Name) && (
                                                 <TableRow>
-
+                                                    {classList.map((className) => (
+                                                        <TableCell key={className}>
+                                                            <Typography variant="body2" sx={{ color: 'darkblue' }}>
+                                                                {classInstructions[className] || ''}
+                                                            </Typography>
+                                                        </TableCell>
+                                                    ))}
+                                                </TableRow> */}
+                                            {std === '0' && SubList.some((item) => item.Standard_Name === getstandard.find(s => s.id === std)?.Standard_Name && item.SubjectName) && (
+                                                <TableRow>
                                                     {classList.map((className) => (
                                                         <TableCell key={className}>
                                                             <Typography variant="body2" sx={{ color: 'darkblue' }}>
@@ -284,6 +293,9 @@ const TExamScheduleNew = () => {
                                                     ))}
                                                 </TableRow>
                                             )}
+
+
+
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
