@@ -268,13 +268,13 @@ const TExamScheduleNew = () => {
                                                     </TableRow>
                                                 ) : null;
                                             })}
-
+                                            <TableCell colSpan={3}>
+                                                <b>Instructions:</b>
+                                            </TableCell>
                                             {/* Check if there are subjects in the standard columns */}
                                             {std !== '0' && SubList.some((item) => item.Standard_Name === getstandard.find(s => s.id === std)?.Standard_Name) && (
                                                 <TableRow>
-                                                    <TableCell colSpan={3}>
-                                                        <b>Instructions:</b>
-                                                    </TableCell>
+
                                                     {classList.map((className) => (
                                                         <TableCell key={className}>
                                                             <Typography variant="body2" sx={{ color: 'darkblue' }}>
