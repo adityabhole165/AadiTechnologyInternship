@@ -319,7 +319,7 @@ const AddDailyLog = () => {
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
-
+    setFileNameError('');
   };
 
   const ResetForm = () => {
@@ -350,7 +350,7 @@ const AddDailyLog = () => {
     //   setDateError('');
     // }
 
-    if (fileName === '') {
+    if (!fileName ||fileName === '') {
       setFileNameError('Please select file to upload');
       isError = true; // Set isError to true for this condition
     } else {
@@ -479,7 +479,7 @@ const AddDailyLog = () => {
             </Box>
           </>}
         />
-        <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
+        {/* <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
 
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={4}>
@@ -514,7 +514,47 @@ const AddDailyLog = () => {
               </Box>
             </Grid>
           </Grid>
+        </Box> */}
+        <Box sx={{ p: 3, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={4}>
+              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c', width: '90%' }} value={ClassName} />
+            </Grid>
+            <Grid item xs={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
+                <Datepicker
+                  DateValue={dateState}
+                  onDateChange={handleDateChange}
+                  label={'Date'}
+                  size={"medium"}
+                />
+                {dateError && (
+                  <Box sx={{ mt: 1, marginLeft: '40px', position: 'absolute', bottom: '-25px' }}>
+                    <ErrorMessage1 Error={dateError}></ErrorMessage1>
+                  </Box>
+                )}
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)',position: 'relative' }}>
+                <SingleFile
+                  ValidFileTypes={ValidFileTypes}
+                  MaxfileSize={MaxfileSize}
+                  ChangeFile={ChangeFile}
+                  errorMessage={''}
+                  FileName={fileName}
+                  height='52.5px'
+                />
+                {fileNameError && (
+                  <Box sx={{ mt: 1, marginLeft: '40px', position: 'absolute', bottom: '-25px' }}>
+                    <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+                  </Box>
+                )}
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
+
         <Box sx={{ mt: 2, backgroundColor: 'white', p: 2 }}>
           <Grid
             container
@@ -576,20 +616,20 @@ const AddDailyLog = () => {
             <Grid item xs={12}  >
               {GetAllHomeworkDailyLogs.length > 0 ? (
                 <>
-                <Adddailyloglist
-                  ItemList={GetAllHomeworkDailyLogs}
-                  clickView={clickFileName}
-                  HeaderArray={HeaderPublish}
-                  ClickHeader={ClickHeader}
-                  clickEdit={clickEdit1}
-                  clickDelete={clickDelete}
-                  clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
-                />
-              
-              
-             
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', mt: 2 }}>
-                  {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                  <Adddailyloglist
+                    ItemList={GetAllHomeworkDailyLogs}
+                    clickView={clickFileName}
+                    HeaderArray={HeaderPublish}
+                    ClickHeader={ClickHeader}
+                    clickEdit={clickEdit1}
+                    clickDelete={clickDelete}
+                    clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
+                  />
+
+
+
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', mt: 2 }}>
+                    {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
                     Select a page:
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
                       <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
@@ -598,18 +638,18 @@ const AddDailyLog = () => {
                       <Button value={"4"} onClick={() => handlePageChange("4")}>4</Button>
                     </ButtonGroup>
                   </Box> */}
-                  {/* Refer this documentation to make it functional: https://mui.com/material-ui/react-pagination/ */}
-                  <Pagination
-                    count={5}
-                    variant={"outlined"}
-                    shape='rounded' showFirstButton
-                    showLastButton
-                    onChange={(event, value) => {
-                      handlePageChange(value);
-                    }}
-                  />
-                </Box>
-</>
+                    {/* Refer this documentation to make it functional: https://mui.com/material-ui/react-pagination/ */}
+                    <Pagination
+                      count={5}
+                      variant={"outlined"}
+                      shape='rounded' showFirstButton
+                      showLastButton
+                      onChange={(event, value) => {
+                        handlePageChange(value);
+                      }}
+                    />
+                  </Box>
+                </>
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                   <b>No record found.</b>
@@ -617,9 +657,9 @@ const AddDailyLog = () => {
 
               )}
               {GetAllHomeworkDailyLogs.length > 0 && (
-              <Box sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right', textAlign: 'right' }}>
-                Page {page} of 5
-              </Box>
+                <Box sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right', textAlign: 'right' }}>
+                  Page {page} of 5
+                </Box>
               )}
             </Grid>
           </Grid>
