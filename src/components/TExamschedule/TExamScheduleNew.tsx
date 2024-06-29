@@ -313,6 +313,7 @@
 
 // export default TExamScheduleNew;
 
+
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
@@ -455,10 +456,11 @@ const TExamScheduleNew = () => {
     }
   });
 
+  // Grouping SubList by date-time and examId
   const groupByDateTime = (list) => {
     const grouped = {};
     list.forEach((item) => {
-      const key = `${item.text3}-${item.startTime}-${item.endTime}`;
+      const key = `${item.text3}-${item.startTime}-${item.endTime}-${item.text1}`;
       if (!grouped[key]) {
         grouped[key] = [];
       }
@@ -550,8 +552,8 @@ const TExamScheduleNew = () => {
 
                     <TableBody>
                       {Object.keys(groupedSubList).map((key, index) => {
-                        const items = groupedSubList[key].filter(item => item.examId === exam.examId);
-                        const [date, startTime, endTime] = key.split('-');
+                        const items = groupedSubList[key].filter(item => item.text1 === exam.Text2); // Filter by SchoolWise_Test_Id
+                        const [date, startTime, endTime, examId] = key.split('-');
                         const uniqueDates = new Set();
 
                         return items.length > 0 ? (
