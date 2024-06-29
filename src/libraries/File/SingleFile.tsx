@@ -60,7 +60,7 @@ const SingleFile = ({
   };
   return (
     <Grid container>
-      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height }}>
+      <Grid item xs={12} sx={{ display: 'flex', alignItems: FileError ? 'flex-start' : 'center', justifyContent: 'center', height:'auto' }}>
         <Tooltip
           title={
             'Supports only ' +
@@ -145,10 +145,10 @@ const SingleFile = ({
         )}
       </Grid>
       {FileError && (
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center',mt: 1 }}>
 
           <Typography mt={2}>
-            {FileError && <Errormessage Error={FileError} />}
+            {/* {FileError && <Errormessage Error={FileError} />} */}
           </Typography>
         </Grid>
       )}
