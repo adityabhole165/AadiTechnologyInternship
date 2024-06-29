@@ -1,5 +1,5 @@
 
-import { IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IGetStudentPrrogressReportResult, IViewBody, IViewResult } from "src/interfaces/FinalResult/IFinalResultGenerateAll";
+import { IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IGetStudentPrrogressReportResult, IUpdateStudentTestMarksBody, IViewBody, IViewResult } from "src/interfaces/FinalResult/IFinalResultGenerateAll";
 import http from '../../requests/SchoolService/schoolServices';
 
 const StudentPrrogressReport = (data: IGetStudentPrrogressReportBody) => {
@@ -19,9 +19,17 @@ const ViewReportProgress = (data: IViewBody) => {
         data
     );
 };
+
+const UpdateStudentTestMarks = (data: IUpdateStudentTestMarksBody) => {
+    return http.post<string>(
+        'Teacher/UpdateStudentTestMarks',
+        data
+    );
+};
 const ApiFinalResultGenerateAll = {
     StudentPrrogressReport,
     GenerateResultAll,
-    ViewReportProgress
+    ViewReportProgress,
+    UpdateStudentTestMarks
 };
 export default ApiFinalResultGenerateAll;
