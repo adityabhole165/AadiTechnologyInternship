@@ -44,6 +44,10 @@ const Holidaysslice = createSlice({
       state.Loading = false;
       state.EditHolidayDetails = action.payload
     },
+    resetEditHolidayDetails(state) {
+      state.EditHolidayDetails = []
+    },
+
     getAllClassesAndDivisionss(state, action) {
       state.AllClassesAndDivisionss = action.payload;
     },
@@ -152,6 +156,10 @@ export const getEditHolidayDetails =
 
 
 
+export const resetEditHolidayDetails = (): AppThunk => async (dispatch) => {
+  dispatch(Holidaysslice.actions.resetEditHolidayDetails());
+};
+
 export const DeleteHolidayDetails = (data: IGetHolidayBody): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetDeleteHoliday(data);
@@ -212,8 +220,8 @@ export const GetAllClassAndDivision =
           Name: item.Division_Name,
           Value: item.SchoolWise_Standard_Division_Id,
           ParentId: item.Standard_Id,
-          IsActive:  data.associatedStandard.length > 0 ?  (data.associatedStandard.includes(item.SchoolWise_Standard_Division_Id) ?
-          true : false ) : true
+          IsActive: data.associatedStandard.length > 0 ? (data.associatedStandard.includes(item.SchoolWise_Standard_Division_Id) ?
+            true : false) : true
         }
       })
 
