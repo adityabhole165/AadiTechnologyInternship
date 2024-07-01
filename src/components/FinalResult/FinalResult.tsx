@@ -7,7 +7,7 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import TextSnippet from '@mui/icons-material/TextSnippet';
 import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Alert, Box, IconButton, Tooltip } from '@mui/material';
+import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -565,7 +565,7 @@ const FinalResult = () => {
   useEffect(() => {
     dispatch(getiscofigred(iscofigred));
     dispatch(getunpublishedexam(unpublishexam));
-  }, []);
+  }, [StandardDivisionId]);
 
   // const clickTeacher = (value) => {
   //   setstandardDivisionId(value);
@@ -615,7 +615,7 @@ const FinalResult = () => {
 
 
           <Box>
-            <Tooltip title={"Display student list for their result generation. Click on &quot;Generate All&quot; to generate final result for all the students in selected class.  Click on &quot;Publish&quot; to publish final result of selected class. Click on “Publish All” to publish final results of all the classes in your school."}>
+            <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -726,17 +726,19 @@ const FinalResult = () => {
         </>}
       />
 
-      {Usisconfigred.IsConfiged == 0 ? (
-        <div>
-          {Usunpublishedexam.length > 0 && (
-            <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-              <b> All Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
-            </Alert>
-          )}
-        </div>
-      ) : (
-        <span> </span>
-      )}
+      <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+        {Usisconfigred.IsConfiged == 0 ? (
+          <div>
+            {Usunpublishedexam.length > 0 && (
+              <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                <b style={{ color: 'blue' }}> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+              </Alert>
+            )}
+          </div>
+        ) : (
+          <span> </span>
+        )}
+      </Typography>
 
 
       {GetStudentLists && GetStudentLists.length > 0 && (
