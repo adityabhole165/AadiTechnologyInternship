@@ -216,7 +216,13 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setErrorEndDateblank('')
 
-        if (StartDate !== null && EndDate !== null) {
+        if (isLessThanDate(EndDate, StartDate)) {
+            setErrorEndDate1('End date should not be less than start date.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDate1('')
+
+        if (dateError == false) {
             if (isOutsideAcademicYear(StartDate)) {
                 setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
@@ -235,18 +241,13 @@ const AddHoliday = ({ }) => {
                 setErrorEndDate('')
             }
 
-            if (result1.PredefinedStartDateAndEndDateCount !== "0" && dateError == false) {
-                setErrorEndDate2('Holiday already defined.');
-                isError = true;
-            } else setErrorEndDate2('')
-            if (isLessThanDate(EndDate, StartDate)) {
-                setErrorEndDate1('End date should not be less than start date.');
-
-                isError = true;
-            } else setErrorEndDate1('')
 
 
         }
+        if (result1.PredefinedStartDateAndEndDateCount !== "0" && dateError == false) {
+            setErrorEndDate2('Holiday already defined.');
+            isError = true;
+        } else setErrorEndDate2('')
 
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters.');
