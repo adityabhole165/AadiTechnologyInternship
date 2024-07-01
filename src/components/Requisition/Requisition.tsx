@@ -478,6 +478,8 @@ const StatusRequisition = () => {
             clickCancel={Clickok}
           />
         )}
+        
+        <br />
         {
           PagedRequisition.length > 0 ? (
             <ButtonGroupComponent
