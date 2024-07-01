@@ -89,7 +89,7 @@ const FinalResult = Loader(
   lazy(() => import('src/components/FinalResult/FinalResult'))
 );
 const StudentRecords = Loader(
-  lazy(() => import('src/components/StudentRecords/StudentRecords'))
+  lazy(() => import('src/components/StudentRecords/StudentRecordBaseScreen'))
 );
 const FinalResultToppers = Loader(
   lazy(() => import('src/components/FinalResult/FinalResultToppers'))
