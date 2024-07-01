@@ -711,7 +711,7 @@ const ExamResultToppers = () => {
                                                                     )}
                                                                 </TableCell>
                                                             )}
-                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text3}</TableCell>
+                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '', pl: "2px" }} align={"center"}>{student.Text3}</TableCell>
                                                             <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
                                                             <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }}>{student.Text2}</TableCell>
                                                         </TableRow>
