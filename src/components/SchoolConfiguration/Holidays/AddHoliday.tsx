@@ -180,6 +180,7 @@ const AddHoliday = ({ }) => {
 
     const ClickSave = () => {
         let isError = false;
+        let dateError = false;
         if (HolidayTitle == '') {
             SetErrorHolidayTitle('Holiday name should not be blank.');
             isError = true;
@@ -192,22 +193,26 @@ const AddHoliday = ({ }) => {
 
         if (StartDate === '') {
             setErrorStartDate2('Please choose a valid start date.');
+            dateError = true
             isError = true;
         } else setErrorStartDate2('')
 
         if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
+            dateError = true
             isError = true;
         } else setErrorStartDateblank('')
 
 
         if (EndDate == '') {
             setErrorEndDate('Please choose a valid End date.');
+            dateError = true
             isError = true;
         } else setErrorEndDate('')
 
         if (EndDate == null) {
             setErrorEndDateblank('End Date should not be blank.');
+            dateError = true
             isError = true;
         } else setErrorEndDateblank('')
 
@@ -216,6 +221,7 @@ const AddHoliday = ({ }) => {
                 setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
                 isError = true;
             } else setErrorStartDate('')
 
@@ -223,18 +229,23 @@ const AddHoliday = ({ }) => {
                 setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
                 isError = true;
-            } else setErrorEndDate('')
+            } else {
+                setErrorEndDate('')
+            }
+
+            if (result1.PredefinedStartDateAndEndDateCount !== "0" && dateError == false) {
+                setErrorEndDate2('Holiday already defined.');
+                isError = true;
+            } else setErrorEndDate2('')
             if (isLessThanDate(EndDate, StartDate)) {
                 setErrorEndDate1('End date should not be less than start date.');
 
                 isError = true;
             } else setErrorEndDate1('')
 
-            if (result1.PredefinedStartDateAndEndDateCount !== "0") {
-                setErrorEndDate2('Holiday already defined.');
-                isError = true;
-            } else setErrorEndDate2('')
+
         }
 
         if (Reamrk.length > 200) {
