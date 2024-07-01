@@ -141,7 +141,7 @@ const StudentRecords = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'StudentRecords', path: '/extended-sidebar/Teacher/StudentRecords' }
+          { title: 'Student Record List', path: '/extended-sidebar/Teacher/StudentRecords' }
         ]}
         rightActions={
           <>
