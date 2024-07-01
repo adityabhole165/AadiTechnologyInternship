@@ -43,7 +43,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
         let listInvestmentDetails = response.data.listInvestmentDetails
-            .filter((obj) => { return obj.SectionId == "125" })
+            .filter((obj) => { return obj.SectionId })
             .map((item, i) => {
                 return {
                     Id: item.Id,

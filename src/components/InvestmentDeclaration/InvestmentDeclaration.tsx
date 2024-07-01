@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
@@ -303,6 +303,21 @@ const InvestmentDeclaration = () => {
                     </Typography>
                 </Box>
             </Container>
+            <Container>
+                <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
+                    <Grid item>
+                        <Button variant="contained" color="success">
+                            SAVE
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="success">
+                            SUBMIT
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Container>
+
         </>
     );
 
