@@ -370,7 +370,7 @@ const TExamScheduleNew = () => {
 
     const stdChange = (value) => {
         setStd(value);
-        setExpandedCardIndex(0); // Open the first accordion when a standard is selected
+        setExpandedCardIndex(0); 
     };
 
     useEffect(() => {
@@ -382,11 +382,11 @@ const TExamScheduleNew = () => {
     useEffect(() => {
         if (getstandard.length > 0) {
             setStd(getstandard[0].id);
-            setExpandedCardIndex(0); // Open the first accordion by default
+            setExpandedCardIndex(0); 
         }
     }, [getstandard]);
 
-    // Prepare class instructions based on Standard_Name and SchoolWise_Test_Id (text1)
+   
     const classInstructions = {};
     SubList.forEach((item) => {
         if (!classInstructions[item.Standard_Name]) {
