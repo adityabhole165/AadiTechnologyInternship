@@ -17,7 +17,7 @@ const ButtonGroupComponent = ({
   const [selectedButton, setSelectedButton] = useState('1'); 
   const buttons = Array.from({ length: numberOfButtons }, (_, i) => (i + 1).toString());
 
-  const handleButtonClick = (button) => {
+  const ButtonClick = (button) => {
     setSelectedButton(button.toString()); 
     handlePageChange(button);
   };
@@ -44,7 +44,7 @@ const ButtonGroupComponent = ({
         {buttons.map((button) => (
           <Button
             key={button}
-            onClick={() => handleButtonClick(button)}
+            onClick={() => ButtonClick(button)}
             variant={selectedButton === button ? 'contained' : 'outlined'}
           >
             {button}
