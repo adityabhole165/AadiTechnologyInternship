@@ -295,7 +295,7 @@ const AadharCard = () => {
               </Tooltip>
 
             </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' ,mt:2}}>
               {fileError && <Errormessage Error={fileError} />}
             </Grid>
           </Grid>
