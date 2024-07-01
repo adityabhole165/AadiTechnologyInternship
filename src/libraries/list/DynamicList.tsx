@@ -52,8 +52,14 @@ const DynamicList = ({
     return re.test(value);
   };
   const cellStyle = {
-    padding: '0.5em 1em', // Adjust these values to reduce the height
+    padding: '0.2em 1.5em', // Adjust these values to reduce the height
   };
+  const rowStyle = {
+    height: '0.5em 1.5em', // Ensure auto height to adjust based on content
+  };
+  // const rowStyle = {
+  //   padding: '0.2em', // Adjust padding to reduce space between rows
+  // };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -86,11 +92,13 @@ const DynamicList = ({
         >
           <TableBody>
             {ItemList.map((item, index) => {
+             
+
               return (
                 <TableRow key={index} style={{
                   // backgroundColor: Data[index]?.IsGrey ? '#A9A9A9' : ''
                   //  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#A9A9A9' : ''
-                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : ''
+                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : '',...rowStyle
                 }}>
                   {item.length > 0 && item.map((obj, i) => {
                     return (
