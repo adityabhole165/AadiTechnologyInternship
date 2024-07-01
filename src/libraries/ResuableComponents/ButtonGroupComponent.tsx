@@ -13,15 +13,10 @@ const ButtonGroupComponent = ({
   rowsPerPage,
   handleChangeRowsPerPage,
   rowsPerPageOptions,
-  page,
-  ItemList
+ 
 }) => {
   const buttons = Array.from({ length: numberOfButtons }, (_, i) => (i + 1).toString());
-
  
-  const startIndex = page * rowsPerPage ;
-  const endIndex = Math.min(page * rowsPerPage + rowsPerPage, ItemList.length);
-
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
      <FormControl variant="outlined" style={{ minWidth: 120, marginRight: 'auto'  }}>
@@ -39,7 +34,7 @@ const ButtonGroupComponent = ({
         </Select>
       </FormControl>
       
-      <div style={{ flex: 1, textAlign: 'center' }}>
+      {/* <div style={{ flex: 1, textAlign: 'center' }}>
         <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
           <Box component="span" fontWeight="fontWeightBold">
             {startIndex}
@@ -50,7 +45,7 @@ const ButtonGroupComponent = ({
           </Box>{' '}
           {ItemList.length === 1 ? 'record' : 'records'}
         </Typography>
-      </div>
+      </div> */}
     <Typography> Pages </Typography> &nbsp; &nbsp;
     <ButtonGroup color="primary" aria-label="outlined primary button group" size="small">
         {buttons.map((button) => (

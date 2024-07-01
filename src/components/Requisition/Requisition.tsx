@@ -3,7 +3,7 @@ import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import {
   IGetPagedRequisitionBody,
   IGetRequisitionStatusBody
 } from 'src/interfaces/Requisition/IRequisition';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import RequisitionList1 from 'src/libraries/ResuableComponents/RequisitionList1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
@@ -28,14 +29,13 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asUserId = Number(localStorage.getItem('UserId'));
-  const [SelectResult, setSelectResult] = useState(0);
+  const [SelectResult, setSelectResult] = useState(0);  
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [textall, setTextall] = useState('');
   const [PagedRequisition, setPagedRequisition] = useState([]);
@@ -43,9 +43,9 @@ const StatusRequisition = () => {
   const [regNoOrName, setRegNoOrName] = useState('');
   const [RequisitionId, SetRequisitionId] = useState();
   const [sortExpression, setSortExpression] = useState('Created_Date desc');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page2, setPage2] = useState(1);
-  const rowsPerPageOptions = [5, 10, 20, 50];
+  const rowsPerPageOptions = [20, 50, 100, 200];
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Code', SortOrder: null, sortKey: 'RequisitionCode' },
     { Id: 2, Header: 'Requisition', SortOrder: null, sortKey: 'RequisitionName' },
@@ -72,6 +72,13 @@ const StatusRequisition = () => {
   const GetPagedRequisition = useSelector(
     (state: RootState) => state.SliceRequisition.RequisitionList
   );
+  const CountGetPagedRequisition: any = useSelector(
+    (state: RootState) => state.SliceRequisition.RequisitionListCount
+
+  );
+  console.log(CountGetPagedRequisition.TotalCount / rowsPerPage, "CountGetPagedRequisition----");
+
+
 
   const DeleteRequisition = useSelector(
     (state: RootState) => state.SliceRequisition.ISDeleteRequisition
@@ -107,10 +114,10 @@ const StatusRequisition = () => {
       asUpdatedById: Number(asUserId),
       asCanceledById: Number(asUserId)
     };
-     if(textall == ''){
+    if (textall == '') {
       alert('Reason Should not be blank.');
       return;
-     }
+    }
     dispatch(CDACancelRequisition(CancelRequisitionBody));
   };
 
@@ -173,7 +180,7 @@ const StatusRequisition = () => {
     setRegNoOrName('');
   };
 
-  
+
 
   const clickSearch = () => {
     if (regNoOrName === '') {
@@ -250,10 +257,12 @@ const StatusRequisition = () => {
 
   useEffect(() => {
     dispatch(RequisitionListt(RequisitionList));
-  }, [sortExpression, page2, rowsPerPage , SelectResult]);
+  }, [sortExpression, page2, rowsPerPage, SelectResult]);
 
-  const totalPages = Math.ceil(PagedRequisition.length / rowsPerPage);
-  
+  const startRecord = (page2 - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page2 * rowsPerPage, CountGetPagedRequisition.TotalCount);
+    console.log(endRecord,"endRecord----");
+    
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -344,7 +353,7 @@ const StatusRequisition = () => {
       <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
         maxWidth={'sm'}>
         <DialogTitle sx={{ fontSize: '20px !important', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        Cancel Approved Requisition
+          Cancel Approved Requisition
           <IconButton
             onClick={ClickClose}
             color="error">
@@ -360,9 +369,9 @@ const StatusRequisition = () => {
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'Requisition Code'}
                 size={"small"}
-                value={RequisitionCode()} 
+                value={RequisitionCode()}
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
-                />
+              />
             </Grid>
           </Grid>
           <br></br>
@@ -372,10 +381,10 @@ const StatusRequisition = () => {
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'Requisition Name'}
                 size={"small"}
-                value={RequisitionName()} 
+                value={RequisitionName()}
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
 
-                />
+              />
             </Grid>
           </Grid>
           <br></br>
@@ -385,10 +394,10 @@ const StatusRequisition = () => {
                 sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
                 label={'Requisition Status'}
                 size={"small"}
-                value={StatusName()} 
+                value={StatusName()}
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
 
-                />
+              />
             </Grid>
           </Grid>
           <br></br>
@@ -402,12 +411,12 @@ const StatusRequisition = () => {
                 value={CreaterName()}
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
 
-                />
+              />
             </Grid>
           </Grid>
           <br></br>
           <Typography variant="h4" sx={{ mb: 1 }}>
-          Reason to cancel   <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+            Reason to cancel   <Typography component="span" sx={{ color: red[500] }}>*</Typography>
           </Typography>
           <TextField
             multiline
@@ -430,6 +439,30 @@ const StatusRequisition = () => {
         </DialogActions>
       </Dialog>
       <Box mb={1} sx={{ p: 2, background: 'white' }}>
+
+        {
+          PagedRequisition.length > 0 ? (
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                <Box component="span" fontWeight="fontWeightBold">
+                  {startRecord} to {endRecord}
+                </Box>
+                {' '}out of{' '}
+                <Box component="span" fontWeight="fontWeightBold">
+                  {CountGetPagedRequisition.TotalCount}
+                </Box>{' '}
+                {CountGetPagedRequisition.TotalCount === 1 ? 'record' : 'records'}
+              </Typography>
+            </div>
+
+          ) : (
+            <span></span>
+
+          )
+        }
+
+
+
         {PagedRequisition && PagedRequisition.length === 0 ? (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No record found.</b>
@@ -448,14 +481,12 @@ const StatusRequisition = () => {
         {
           PagedRequisition.length > 0 ? (
             <ButtonGroupComponent
-            ItemList={PagedRequisition}
-            page={page2}
-            handlePageChange={handlePageChange}
-            numberOfButtons={5}
-            rowsPerPage={rowsPerPage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-          />
+              handlePageChange={handlePageChange}
+              numberOfButtons={CountGetPagedRequisition.TotalCount / rowsPerPage}
+              rowsPerPage={rowsPerPage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
 
           ) : (
             <span></span>
