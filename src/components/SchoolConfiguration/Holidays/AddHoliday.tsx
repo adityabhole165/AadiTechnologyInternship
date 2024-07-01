@@ -14,7 +14,7 @@ import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDa
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
@@ -83,52 +83,36 @@ const AddHoliday = ({ }) => {
     const ClassSelected = isClassSelected()
 
     useEffect(() => {
-        const EditHolidayBody: EditHolidayDetailsBody = {
-            asHoliday_Id: Number(Holiday_Id),
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearID: Number(asAcademicYearId)
+
+        if (Holiday_Id != undefined) {
+            const EditHolidayBody: EditHolidayDetailsBody = {
+                asHoliday_Id: Number(Holiday_Id),
+                asSchoolId: Number(asSchoolId),
+                asAcademicYearID: Number(asAcademicYearId)
+            }
+            dispatch(getEditHolidayDetails(EditHolidayBody))
         }
-        dispatch(getEditHolidayDetails(EditHolidayBody))
+        else {
+            dispatch(resetEditHolidayDetails())
+        }
+
     }, [])
 
-
     useEffect(() => {
-        if (Editholiday.length > 0 && Editholiday[0] != null) {
+        if (Holiday_Id != undefined && Editholiday.length > 0 && Editholiday[0] != null) {
             const holiday = Editholiday[0];
             setStartDate(getCalendarDateFormatDate(holiday.Holiday_Start_Date));
             setEndDate(getCalendarDateFormatDate(holiday.Holiday_End_Date));
             setHolidayTitle(holiday.Holiday_Name);
             setRemark(holiday.Remarks);
             setAssociatedStandard(holiday.AssociatedStandard);
-
-            const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
-                asSchoolId: asSchoolId,
-                asAcademicYearId: asAcademicYearId,
-                associatedStandard: holiday.AssociatedStandard
-
-            };
-            dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
-
         }
-
-        else {
-            if (Editholiday.length > 0 && Editholiday[0] != null) {
-                const holiday = Editholiday[0];
-                setStartDate(getCalendarDateFormatDate(holiday.Holiday_Start_Date));
-                setEndDate(getCalendarDateFormatDate(holiday.Holiday_End_Date));
-                setHolidayTitle(holiday.Holiday_Name);
-                setRemark(holiday.Remarks);
-                setAssociatedStandard(holiday.AssociatedStandard);
-            }
-
-            const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
-                asSchoolId: asSchoolId,
-                asAcademicYearId: asAcademicYearId,
-                associatedStandard: associatedStandard
-
-            };
-            dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
-        }
+        const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            associatedStandard: (Holiday_Id == undefined || Editholiday.length == 0) ? [] : Editholiday[0].AssociatedStandard
+        };
+        dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
     }, [Editholiday]);
 
     const SaveHolidayBody: SaveHolidayDetailsBody = {
@@ -196,6 +180,7 @@ const AddHoliday = ({ }) => {
 
     const ClickSave = () => {
         let isError = false;
+        let dateError = false;
         if (HolidayTitle == '') {
             SetErrorHolidayTitle('Holiday name should not be blank.');
             isError = true;
@@ -208,47 +193,60 @@ const AddHoliday = ({ }) => {
 
         if (StartDate === '') {
             setErrorStartDate2('Please choose a valid start date.');
+            dateError = true
             isError = true;
         } else setErrorStartDate2('')
 
-        if (StartDate === null ) {
+        if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
+            dateError = true
             isError = true;
         } else setErrorStartDateblank('')
 
 
         if (EndDate == '') {
             setErrorEndDate('Please choose a valid End date.');
+            dateError = true
             isError = true;
         } else setErrorEndDate('')
 
-        if (EndDate == null ) {
+        if (EndDate == null) {
             setErrorEndDateblank('End Date should not be blank.');
+            dateError = true
             isError = true;
         } else setErrorEndDateblank('')
 
         if (StartDate !== null && EndDate !== null) {
-        if (isOutsideAcademicYear(StartDate)) {
-            setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
-            isError = true;
-        } else setErrorStartDate('')
-    }
-    if (StartDate !== null && EndDate !== null) {
+            if (isOutsideAcademicYear(StartDate)) {
+                setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
+                isError = true;
+            } else setErrorStartDate('')
 
-        if (isOutsideAcademicYear(EndDate)) {
-            setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
-                formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
-            isError = true;
-        } else setErrorEndDate('')
-    }
-        if (isLessThanDate(EndDate, StartDate)) {
-            setErrorEndDate1('End date should not be less than start date.');
+            if (isOutsideAcademicYear(EndDate)) {
+                setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
+                isError = true;
+            } else {
+                setErrorEndDate('')
+            }
 
-            isError = true;
-        } else setErrorEndDate1('')
+            if (result1.PredefinedStartDateAndEndDateCount !== "0" && dateError == false) {
+                setErrorEndDate2('Holiday already defined.');
+                isError = true;
+            } else setErrorEndDate2('')
+            if (isLessThanDate(EndDate, StartDate)) {
+                setErrorEndDate1('End date should not be less than start date.');
+
+                isError = true;
+            } else setErrorEndDate1('')
+
+
+        }
 
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters.');
@@ -258,11 +256,6 @@ const AddHoliday = ({ }) => {
             SetErrorHolidayTitle1('Holiday name already exists.');
             isError = true;
         } else SetErrorHolidayTitle1('')
-
-        if (result1.PredefinedStartDateAndEndDateCount !== "0") {
-            setErrorEndDate2('Holiday already defined.');
-            isError = true;
-        } else setErrorEndDate2('')
 
         if (!isError) {
             dispatch(getSaveHolidays(SaveHolidayBody));
@@ -426,7 +419,7 @@ const AddHoliday = ({ }) => {
                         <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
 
-                        
+
                     </Grid>
 
                     <Grid item xs={6} md={4}>
@@ -442,7 +435,7 @@ const AddHoliday = ({ }) => {
                         <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
 
-                        
+
                     </Grid>
 
                     <Grid item xs={6} md={4}>

@@ -194,11 +194,16 @@ const ExamResultToppers = () => {
                 SelectExamTemp = TestId == undefined ? GetExamdropdownCT[0].Value : TestId
             }
             else {
+                if (CanEdit == 'Y') {
 
-                if (GetExamdropdownCT[0].Value === '-1') {
-                    SelectExamTemp = GetExamdropdownCT[0].Value
-                } else {
-                    SelectExamTemp = GetLatestclassExam
+                    if (GetExamdropdownCT[0].Value === '-1') {
+                        SelectExamTemp = GetExamdropdownCT[0].Value
+                    } else {
+                        SelectExamTemp = GetLatestclassExam
+                    }
+                }
+                else {
+                    SelectExamTemp = SelectExamST
                 }
             }
             setExamCT(SelectExamTemp)
@@ -209,7 +214,7 @@ const ExamResultToppers = () => {
         }
         if (GetExamdropdownST.length > 0 && radioBtn == '2') {
             if (CanEdit == 'Y') {
-                SelectExamTemp = GetExamdropdownST[0].Id;
+                SelectExamTemp = GetExamdropdownST[0].Value;
             } else {
                 SelectExamTemp = SelectExamCT
             }
@@ -538,7 +543,7 @@ const ExamResultToppers = () => {
 
                 </>}
             />
-            <Box sx={{ px: 2, pt: 1, background: 'white' }}>
+            <Box sx={{ px: 2, pt: 1, background: 'white', paddingBottom: 4 }}>
                 <RadioButton1
                     Array={RadioListCT}
                     ClickRadio={ClickRadio}
@@ -560,6 +565,7 @@ const ExamResultToppers = () => {
                                 />
                             </div>
                         ) : (
+
                             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                                 <b>No record found.</b>
                             </Typography>
@@ -705,7 +711,7 @@ const ExamResultToppers = () => {
                                                                     )}
                                                                 </TableCell>
                                                             )}
-                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text3}</TableCell>
+                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '', pl: "2px" }} align={"center"}>{student.Text3}</TableCell>
                                                             <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
                                                             <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }}>{student.Text2}</TableCell>
                                                         </TableRow>

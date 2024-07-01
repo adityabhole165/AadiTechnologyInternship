@@ -7,7 +7,7 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import TextSnippet from '@mui/icons-material/TextSnippet';
 import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Alert, Box, IconButton, Tooltip } from '@mui/material';
+import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -88,7 +88,7 @@ const FinalResult = () => {
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
-  const [asUseAvarageFinalResult, asasUseAvarageFinalResult] = useState();
+  const [asUseAvarageFinalResult, asasUseAvarageFinalResult] = useState('Y');
   const [asStudentId, setasStudentId] = useState();
   const [asInsertedById, setasInsertedById] = useState();
   const [asWithGrace, setasWithGrace] = useState();
@@ -299,9 +299,9 @@ const FinalResult = () => {
   //   dispatch(GetUnpublishResult(UnpublishResultBody));
   // }, [])
 
-  useEffect(() => {
-    dispatch(GetGenerateAll(GenerateAllBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(GetGenerateAll(GenerateAllBody));
+  // }, []);
 
   useEffect(() => {
     dispatch(GetViewResult(ViewResultBody));
@@ -334,7 +334,7 @@ const FinalResult = () => {
 
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
-    asAcadmicYearId: asAcademicYearId,
+    asAcademicYearId: asAcademicYearId,
     asStdDivId: asStdDivId,
     asUserId: asUserId,
     asUseAvarageFinalResult: asUseAvarageFinalResult
@@ -485,7 +485,7 @@ const FinalResult = () => {
 
     const GenerateAllBody: IGenerateAllBody = {
       asSchoolId: asSchoolId,
-      asAcadmicYearId: asAcademicYearId,
+      asAcademicYearId: asAcademicYearId,
       asStdDivId: Number(StandardDivisionId),
       asUserId: asUserId,
       asUseAvarageFinalResult: asUseAvarageFinalResult
@@ -565,7 +565,7 @@ const FinalResult = () => {
   useEffect(() => {
     dispatch(getiscofigred(iscofigred));
     dispatch(getunpublishedexam(unpublishexam));
-  }, []);
+  }, [StandardDivisionId]);
 
   // const clickTeacher = (value) => {
   //   setstandardDivisionId(value);
@@ -615,7 +615,7 @@ const FinalResult = () => {
 
 
           <Box>
-            <Tooltip title={"Display student list for their result generation. Click on &quot;Generate All&quot; to generate final result for all the students in selected class.  Click on &quot;Publish&quot; to publish final result of selected class. Click on “Publish All” to publish final results of all the classes in your school."}>
+            <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -633,7 +633,7 @@ const FinalResult = () => {
             <Tooltip title={"Toppers"}>
               <IconButton
                 onClick={Toppers}
-                disabled={!GetTestPublished && GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={!GetTestPublished && GetAtleastOneResultGenerated?.AllowPublish == false}
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -676,10 +676,10 @@ const FinalResult = () => {
 
                 }
                 }
-                disabled={GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={GetAtleastOneResultGenerated?.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetAtleastOneResultGenerated.AllowPublish == false ? blue[200] : blue[500],
+                  backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
                   '&:hover': {
                     backgroundColor: blue[600]
                   }
@@ -710,10 +710,10 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false) ? green[200] : green[500],
+                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false) ? green[200] : green[500],
                   '&:hover': {
                     backgroundColor: green[600]
                   }
@@ -726,17 +726,19 @@ const FinalResult = () => {
         </>}
       />
 
-      {Usisconfigred.IsConfiged == 0 ? (
-        <div>
-          {Usunpublishedexam.length > 0 && (
-            <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-              <b> All Configured exams are not published: {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
-            </Alert>
-          )}
-        </div>
-      ) : (
-        <span> </span>
-      )}
+      <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+        {Usisconfigred.IsConfiged == 0 ? (
+          <div>
+            {Usunpublishedexam.length > 0 && (
+              <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                <b style={{ color: 'blue' }}> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+              </Alert>
+            )}
+          </div>
+        ) : (
+          <span> </span>
+        )}
+      </Typography>
 
 
       {GetStudentLists && GetStudentLists.length > 0 && (

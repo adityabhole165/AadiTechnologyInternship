@@ -94,6 +94,9 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.GenerateTopper = action.payload;
     },
+    resetGenerateTopper(state) {
+      state.GenerateTopper = "";
+    },
 
 
     getLoading(state, action) {
@@ -115,14 +118,20 @@ export const getSMSTemplate =
       const response = await ApiExamResult.GetSMSTemplateApi(data);
       dispatch(SliceExamResult.actions.GetSMSTemplates(response.data));
     };
-    export const getGenerateTopper =
-    (data: IGenerateTestTotalMarksBody): AppThunk =>
-      async (dispatch) => {
-        dispatch(SliceExamResult.actions.getLoading(true));
-        const response = await ApiExamResult.GenerateTestTotalMarksApi(data);
-        dispatch(SliceExamResult.actions.GetGenerateTopper(response.data));
-      };
-  
+export const getGenerateTopper =
+  (data: IGenerateTestTotalMarksBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.GenerateTestTotalMarksApi(data);
+      dispatch(SliceExamResult.actions.GetGenerateTopper(response.data));
+    };
+
+export const resetGenerateTopper =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.resetGenerateTopper());
+    };
+
 export const getAllStudentsByGivenStdDivsResult =
   (data: IGetAllStudentsByGivenStdDivsBody): AppThunk =>
     async (dispatch) => {
@@ -218,7 +227,7 @@ export const getClassPassFailDetailsForTest =
       let HeaderListTemp = response.data?.LstExamStatusForTest.map((item) => {
         return item.ExamStatus.trim();
       });
-     
+
       let HeaderList = ['Subject', ...HeaderListTemp, 'Edit'];
       dispatch(SliceExamResult.actions.GetHeaderList(HeaderList));
 
@@ -277,13 +286,13 @@ export const getClassPassFailDetailsForTest =
         );
         Column.push(row);
       });
-     
-     
+
+
 
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTest(Column));
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTestData(ColumnData));
-     
-   
+
+
 
     };
 
