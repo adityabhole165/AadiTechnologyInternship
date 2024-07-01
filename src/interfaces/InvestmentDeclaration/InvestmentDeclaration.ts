@@ -68,3 +68,7 @@ export interface IGetRegimeDetailsDropdownResult {
     Id: string,
     Name: string
 }
+
+// export default ISaveInvestmentDetailsBody {
+
+// }

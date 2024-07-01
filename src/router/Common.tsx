@@ -62,6 +62,10 @@ const InvestmentDeclaration = Loader(
   lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
 )
 
+const List = Loader(
+  lazy(() => import('src/components/InvestmentDeclaration/List'))
+)
+
 const commonRoutes = [
   {
     path: 'pta',
@@ -161,6 +165,10 @@ const commonRoutes = [
   {
     path: 'InvestmentDeclaration',
     element: <InvestmentDeclaration />
+  },
+  {
+    path: 'List',
+    element: <List />
   },
 
   {
