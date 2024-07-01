@@ -88,7 +88,7 @@ const FinalResult = () => {
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
-  const [asUseAvarageFinalResult, asasUseAvarageFinalResult] = useState();
+  const [asUseAvarageFinalResult, asasUseAvarageFinalResult] = useState('Y');
   const [asStudentId, setasStudentId] = useState();
   const [asInsertedById, setasInsertedById] = useState();
   const [asWithGrace, setasWithGrace] = useState();
@@ -299,9 +299,9 @@ const FinalResult = () => {
   //   dispatch(GetUnpublishResult(UnpublishResultBody));
   // }, [])
 
-  useEffect(() => {
-    dispatch(GetGenerateAll(GenerateAllBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(GetGenerateAll(GenerateAllBody));
+  // }, []);
 
   useEffect(() => {
     dispatch(GetViewResult(ViewResultBody));
@@ -334,7 +334,7 @@ const FinalResult = () => {
 
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
-    asAcadmicYearId: asAcademicYearId,
+    asAcademicYearId: asAcademicYearId,
     asStdDivId: asStdDivId,
     asUserId: asUserId,
     asUseAvarageFinalResult: asUseAvarageFinalResult
@@ -485,7 +485,7 @@ const FinalResult = () => {
 
     const GenerateAllBody: IGenerateAllBody = {
       asSchoolId: asSchoolId,
-      asAcadmicYearId: asAcademicYearId,
+      asAcademicYearId: asAcademicYearId,
       asStdDivId: Number(StandardDivisionId),
       asUserId: asUserId,
       asUseAvarageFinalResult: asUseAvarageFinalResult
@@ -633,7 +633,7 @@ const FinalResult = () => {
             <Tooltip title={"Toppers"}>
               <IconButton
                 onClick={Toppers}
-                disabled={!GetTestPublished && GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={!GetTestPublished && GetAtleastOneResultGenerated?.AllowPublish == false}
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -676,10 +676,10 @@ const FinalResult = () => {
 
                 }
                 }
-                disabled={GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={GetAtleastOneResultGenerated?.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: GetAtleastOneResultGenerated.AllowPublish == false ? blue[200] : blue[500],
+                  backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
                   '&:hover': {
                     backgroundColor: blue[600]
                   }
@@ -710,10 +710,10 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false}
+                disabled={GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false}
                 sx={{
                   color: 'white',
-                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated.AllowPublish == false) ? green[200] : green[500],
+                  backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false) ? green[200] : green[500],
                   '&:hover': {
                     backgroundColor: green[600]
                   }
