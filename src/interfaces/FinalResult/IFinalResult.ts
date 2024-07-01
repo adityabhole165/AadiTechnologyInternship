@@ -93,7 +93,7 @@ export interface IUnpublishResult {
 
 export interface IGenerateAllBody {
   asSchoolId: number,
-  asAcadmicYearId: number,
+  asAcademicYearId: number,
   asStdDivId: number,
   asUserId: number,
   asUseAvarageFinalResult: string
