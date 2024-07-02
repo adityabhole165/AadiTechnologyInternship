@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Common/Util"
+import { GetScreenPermission, getDateMonthYearDayDash, getSchoolConfigurations } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
@@ -23,7 +23,8 @@ const Holidays = (props: Props) => {
     const asStandardId = sessionStorage.getItem('StandardId');
     const asDivisionId = sessionStorage.getItem('DivisionId');
     const [asHoliday_Id, setAsHoliday_Id] = useState();
-
+    let CanAdd = getSchoolConfigurations(14)
+   
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const HolidayFullAccess = GetScreenPermission('Holidays')
@@ -220,7 +221,7 @@ const Holidays = (props: Props) => {
                             </IconButton>
                         </Tooltip>
                     </Box>
-                    {HolidayFullAccess === 'Y' ? (
+                    {CanAdd === 'Y' ? (
                         <Box>
                             <Tooltip title={"Add New Holiday"}>
                                 <IconButton sx={{
