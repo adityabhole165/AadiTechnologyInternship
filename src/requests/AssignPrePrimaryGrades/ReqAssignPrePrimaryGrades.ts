@@ -2,8 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignPrePrimaryGrades';
 import {
   IGetClassTeachersBody,
+  IGetGetStudentsForNonXseedSubjects,
+  IGetStudentsForStdDevMasters,
   IGetTeacherXseedSubjectsBody,
   IGetTestwiseTermBody,
+  ISaveNonXseedSubGrades,
   ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
 import { AppThunk } from 'src/store';
@@ -15,7 +18,13 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ISGetClassTeachers: [],
     ISGetTeacherXseedSubjectsBody: [],
     ISSubmitExamMarksStatus: '',
-    ISSubmitMarksRest: ''
+    ISSubmitMarksRest: '',
+    IGetStudentsForStdDevMasters: [],
+    listGradesDetails: [],
+    ISGetStudentsForNonXseedSubjects: [],
+    ISGetNonXseedStudentsName: [],
+    IGetSaveNonXseedSubGradesMsg: '',
+    ISGetNonXseedStudentsObs: []
   },
   reducers: {
     RGetTestwiseTerm(state, action) {
@@ -35,84 +44,211 @@ const AssignPrePrimaryGradesSlice = createSlice({
     },
     resetMessage(state) {
       state.ISSubmitMarksRest = '';
+    },
+    GetStudentsForStdDevMasters(state, action) {
+      state.IGetStudentsForStdDevMasters = action.payload;
+    },
+    RGetListGradesDetails(state, action) {
+      state.listGradesDetails = action.payload;
+    },
+    RGetStudentsForNonXseedSubjects(state, action) {
+      state.ISGetStudentsForNonXseedSubjects = action.payload;
+    },
+    RGetStudentsNameForNonXseedSubjects(state, action) {
+      state.ISGetNonXseedStudentsName = action.payload;
+    },
+    RIGetSaveNonXseedSubGrades(state, action) {
+      state.IGetSaveNonXseedSubGradesMsg = action.payload;
+    },
+    ResetSaveNonXseedSubGradesMsg(state) {
+      state.IGetSaveNonXseedSubGradesMsg = ''
+    },
+    RGetNonXseedStudentsObs(state, action) {
+      state.ISGetNonXseedStudentsObs = action.payload;
     }
   }
 });
 
+export const CDAGetNonXseedStudentsObs =
+  (data: IGetGetStudentsForNonXseedSubjects): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetStudentsForNonXseedSubjectWithObs(
+        data
+      );
+
+      let NonXseedStudentsObs = response.data.map((item, i) => {
+        return {
+          Id: item.Roll_No,
+          Text1: item.StudentName,
+          Text2: item.GradeId.toString(),
+          Text3: item.Observation,
+          Text4: item.YearwiseStudentId
+        };
+      })
+      console.log(response, 'NonXseedObservation >> ');
+
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetNonXseedStudentsObs(NonXseedStudentsObs)
+      );
+    };
+
 export const CDAGetTestwiseTerm =
   (data: IGetTestwiseTermBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiAssignPrePrimaryGrades.GetTestwiseTermA(data);
-    let TestwiseTerm = response.data.map((item, i) => {
-      return {
-        Id: item.AssessmentId,
-        Name: item.Name,
-        Value: item.AssessmentId
-      };
-    });
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetTestwiseTermA(data);
+      let TestwiseTerm = response.data.map((item, i) => {
+        return {
+          Id: item.AssessmentId,
+          Name: item.Name,
+          Value: item.AssessmentId
+        };
+      });
 
-    dispatch(
-      AssignPrePrimaryGradesSlice.actions.RGetTestwiseTerm(TestwiseTerm)
-    );
-  };
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetTestwiseTerm(TestwiseTerm)
+      );
+    };
+
+export const GetStudentsForStdDevMasters =
+  (data: IGetStudentsForStdDevMasters): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetStudentsForStdDevMasters(data);
+      // let GradesList = response.data.listGradesDetails ? response.data.listGradesDetails.map((item, i) => {
+      //   return {
+      //     Id: item.GradeId,
+      //     Name: item.GradeName,
+      //     Value: item.GradeId
+      //   };
+      // }) : [];
+
+      let GradesList = [{ Id: 0, Name: '--Select--', Value: "0" }];
+      response.data.listGradesDetails.map((item, i) => {
+        GradesList.push({
+          Id: item.GradeId,
+          Name: item.GradeName,
+          Value: item.GradeId.toString()
+        });
+      });
+
+      let NonXseedStudentsList = response.data.listYearwiseStudentDetails.map((item, i) => {
+        return {
+          Id: item.YearWise_Student_Id,
+          Text1: item.StudentName,
+          Text2: item.YearWise_Student_Id,
+          Text3: item.SchoolWise_Standard_Division_Id,
+          Text4: item.AssessmentId,
+          Text5: item.SchoolLeft_Date,
+          Text6: item.StartDate
+        };
+      })
+      console.log(GradesList)
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetListGradesDetails(GradesList)
+      );
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetStudentsNameForNonXseedSubjects(NonXseedStudentsList)
+      );
+    };
 
 export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiAssignPrePrimaryGrades.GetClassTeachers(data);
-    let ClassTeachers = response.data.map((item, i) => {
-      return {
-        Id: item.Teacher_Id,
-        Name: item.TeacherName,
-        Value: item.Teacher_Id
-      };
-    });
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetClassTeachers(data);
+      let ClassTeachers = response.data.map((item, i) => {
+        return {
+          Id: item.Teacher_Id,
+          Name: item.TeacherName,
+          Value: item.Teacher_Id
+        };
+      });
 
-    dispatch(
-      AssignPrePrimaryGradesSlice.actions.RGetClassTeachers(ClassTeachers)
-    );
-  };
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetClassTeachers(ClassTeachers)
+      );
+    };
 
 export const CDAGetTeacherXseedSubjects =
   (data: IGetTeacherXseedSubjectsBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiAssignPrePrimaryGrades.GetTeacherXseedSubjects(
-      data
-    );
-    let TeacherXseedSubjects = response.data.map((item, i) => {
-      return {
-        Id: i,
-        SubjectId: item.SubjectId,
-        StandardDivisionID: item.StandardDivisionID,
-        Text1: item.StandardDivision,
-        Text2: item.Subject_Name,
-        Text3: item.EditStatus,
-        Text4: item.SubmitStatus
-      };
-    });
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetTeacherXseedSubjects(
+        data
+      );
+      let TeacherXseedSubjects = response.data.map((item, i) => {
+        return {
+          Id: i,
+          SubjectId: item.SubjectId,
+          StandardDivisionID: item.StandardDivisionID,
+          Text1: item.StandardDivision,
+          Text2: item.Subject_Name,
+          Text3: item.EditStatus,
+          Text4: item.SubmitStatus
+        };
+      });
 
-    dispatch(
-      AssignPrePrimaryGradesSlice.actions.RGetTeacherXseedSubjects(
-        TeacherXseedSubjects
-      )
-    );
-  };
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetTeacherXseedSubjects(
+          TeacherXseedSubjects
+        )
+      );
+    };
+
+export const CDAGetStudentsForNonXseedSubjects =
+  (data: IGetGetStudentsForNonXseedSubjects): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetStudentsForNonXseedSubjects(
+        data
+      );
+      console.log(response, 'response----------students');
+      let StudentsForNonXseedSubjects = response.data.map((item, i) => {
+        return {
+          Id: item.Roll_No,
+          Text1: item.Roll_No,
+          Text2: item.StudentName,
+          Text3: item.YearwiseStudentId,
+          Text4: item.Observation,
+          Text5: item.GradeId
+        };
+      });
+
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetStudentsForNonXseedSubjects(
+          StudentsForNonXseedSubjects
+        )
+      );
+    };
 
 export const CDASubmitExamMarksStatus =
   (data: ISubmitExamMarksStatusBody): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(
-      data
-    );
-    console.log(response, 'response----------');
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(
+        data
+      );
+      console.log(response, 'response----------');
 
-    dispatch(
-      AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data)
-    );
-  };
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data)
+      );
+    };
 
 export const resetMessage = (): AppThunk => async (dispatch) => {
   dispatch(AssignPrePrimaryGradesSlice.actions.resetMessage());
+};
+
+export const CDASaveNonXseedSubGrades =
+  (data: ISaveNonXseedSubGrades): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.IGetSaveNonXseedSubGrades(
+        data
+      );
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RIGetSaveNonXseedSubGrades(
+          response.data
+        )
+      );
+    };
+
+export const resetSavenonXseedMsg = (): AppThunk => async (dispatch) => {
+  dispatch(AssignPrePrimaryGradesSlice.actions.ResetSaveNonXseedSubGradesMsg());
 };
 
 export default AssignPrePrimaryGradesSlice.reducer;
