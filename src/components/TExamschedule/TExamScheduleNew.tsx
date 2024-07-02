@@ -154,6 +154,16 @@ const TExamScheduleNew = () => {
         setExpandedCardIndex(expandedCardIndex === index ? null : index);
     };
 
+    const getClassName = () => {
+        let returnVal = ""
+        console.log(getstandard, "--ajit--", std);
+
+        getstandard.map((item) => {
+            if (item.Value == std)
+                returnVal = item.Name
+        })
+        return returnVal;
+    }
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -210,7 +220,7 @@ const TExamScheduleNew = () => {
                         onClick={() => toggleAccordion(index)}
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box sx={{ width: '20px', height: '20px', border: '1px solid brown', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ width: '10px', height: '10px', border: '1px solid brown', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Typography sx={{ color: 'brown', fontSize: '16px', fontWeight: 'bold' }}>
                                     {expandedCardIndex === index ? '-' : '+'}
                                 </Typography>
@@ -222,7 +232,7 @@ const TExamScheduleNew = () => {
                     </Box>
 
                     {expandedCardIndex === index && (
-                        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+                        <Box sx={{ background: 'white', p: 1 }}>
                             {loading ? (
                                 <SuspenseLoader />
                             ) : (
@@ -238,14 +248,14 @@ const TExamScheduleNew = () => {
                                                     borderLeft: '1px solid white',
                                                 }
                                             }}>
-                                                <TableCell sx={{ width: '20%' }}>Date</TableCell>
-                                                <TableCell sx={{ width: '20%' }}>Time</TableCell>
-                                                <TableCell sx={{ width: '20%' }}>Duration</TableCell>
+                                                <TableCell sx={{ width: '10%' }}>Date</TableCell>
+                                                <TableCell sx={{ width: '10%' }}>Time</TableCell>
+                                                <TableCell sx={{ width: '8%' }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
                                                     <TableCell key={index}>{className}</TableCell>
                                                 ))}
-                                                {std !== '0' && <TableCell sx={{ width: '20%' }}>Subject</TableCell>}
-                                                {std !== '0' && <TableCell sx={{ width: '20%' }}>Description</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Subject</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
 
@@ -283,10 +293,21 @@ const TExamScheduleNew = () => {
                                                 ) : null;
                                             })}
                                             <TableRow>
-                                                <TableCell colSpan={3}>
-                                                    <b>Instructions:</b>
-                                                </TableCell>
-                                                {std === '0' || std !== '0' ? (
+                                                {std === '0' &&
+                                                    <TableCell colSpan={3}>
+                                                        <b>Instructions:</b>
+                                                    </TableCell>
+                                                }
+                                                {std !== '0' && <>
+                                                    <TableCell colSpan={3}>
+                                                        <Typography sx={{ color: 'darkblue' }}>
+                                                            <b>Instructions:</b>
+                                                            {classInstructions[getClassName()][exam.Text2]}
+                                                        </Typography>
+                                                    </TableCell>
+                                                </>
+                                                }
+                                                {std === '0' ? (
                                                     classList.map((className) => (
                                                         <TableCell key={className} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
                                                             <Typography sx={{ color: 'darkblue' }}>
