@@ -11,8 +11,11 @@ import {
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CategoryDropdown } from 'src/requests/LeaveDetails/RequestLeaveDetails';
+import { CategoryDropdown, DeleteLeaveDetails, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import { GetScreenPermission, getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -25,26 +28,68 @@ const LeaveDetailsBaseScreen = () => {
     const [selectCategory, setCategory] = useState("0");
     const HolidayFullAccess = GetScreenPermission('Holidays');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const UserId = Number(localStorage.getItem('UserId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
 
     const GetCategoryDropdownList = useSelector(
         (state: RootState) => state.LeaveDetails.CategoryDropdownList
     );
+    const GetLeaveList = useSelector(
+        (state: RootState) => state.LeaveDetails.LeaveDetailsList
+    );
+
+
+    const deleteLeavedetailsMsg = useSelector(
+        (state: RootState) => state.LeaveDetails.DeleteLeaveMsg
+    );
 
     const CategoryDropdownBody = {
         asSchoolId: asSchoolId,
-        asId: UserId
+        asId: asUserId
     };
 
     useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
     }, []);
 
-    const deleteRow = (user_Id) => {
-        if (window.confirm('Are you sure you want to delete this holiday?')) {
-            // Handle delete logic here
+
+    const body: IGetLeaveDetailsListBody = {
+        asSchoolId: Number(asSchoolId),
+        asUserId: Number(asUserId),
+        asCategoryId: Number(1),
+        asSortExpression: "StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
+        asStartIndex: Number(0),
+        asEndIndex: Number(20),
+        asShowOnlyNonUpdated: false
+    };
+
+    useEffect(() => {
+        dispatch(getLeaveDetailList(body));
+    }, []);
+
+
+    const deleteRow = (Id) => {
+        console.log(Id, 'asdfghjklqwertyuioasdfghjk');
+
+        if (
+            confirm('Are you sure you want to delete this leave?')
+        ) {
+            const DeleteLeaveBody: IGetDeleteLeaveBody = {
+                asSchoolId: Number(asSchoolId),
+                asUserId: Number(asUserId),
+                asUpdatedById: Number(Id),
+            };
+            dispatch(DeleteLeaveDetails(DeleteLeaveBody));
         }
     };
+
+
+    useEffect(() => {
+        if (deleteLeavedetailsMsg != '') {
+            toast.success(deleteLeavedetailsMsg)
+            dispatch(resetDeleteHolidayDetails());
+            dispatch(getLeaveDetailList(body));
+        }
+    }, [DeleteLeaveDetails])
 
     const getLeaveDetailsColumns = () => {
         let columns: Column[] = [
@@ -66,7 +111,7 @@ const LeaveDetailsBaseScreen = () => {
                 id: 'endDate',
                 label: 'End Date',
                 renderCell: (rowData: any) => (
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'left' }}>
                         {getDateMonthYearDayDash(rowData.Text3)}
                     </div>
                 )
@@ -109,7 +154,7 @@ const LeaveDetailsBaseScreen = () => {
                 },
                 renderCell: (row) => (
                     <VisibilityIcon onClick={() => {
-                        navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true)
+                        navigate("../AddLeaveDetails" + "/" + row.Id)
                     }} />
                 )
             },
@@ -140,10 +185,28 @@ const LeaveDetailsBaseScreen = () => {
         return columns;
     };
 
+
+    const HeaderLeave = [
+        { Id: 1, Header: 'Sender Name' },
+        { Id: 2, Header: 'Start Date 	' },
+        { Id: 3, Header: ' 	End Date' },
+        { Id: 4, Header: ' Total Days' },
+        { Id: 5, Header: ' Leave Name ' },
+        { Id: 6, Header: ' Leave Balance' },
+        { Id: 7, Header: 'View' },
+        { Id: 8, Header: 'Delete' }
+    ];
+
     const [holidayColumns, setHolidayColumns] = useState<Column[]>(getLeaveDetailsColumns());
 
     const AddLeave = () => {
         navigate("../AddLeaveDetails");
+    };
+
+    const ViewLeave = (Id) => {
+        console.log(Id, "value");
+
+        navigate("../AddLeaveDetails" + "/" + Id)
     };
 
     const clickCategoryDropdown = (value) => {
@@ -161,6 +224,16 @@ const LeaveDetailsBaseScreen = () => {
                 ]}
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
+
+                        <SearchableDropdown
+                            sx={{ pl: 0, minWidth: '20vw', pr:'52px' }}
+                            ItemList={GetCategoryDropdownList}
+                            defaultValue={selectCategory}
+                            onChange={clickCategoryDropdown}
+                            size={"small"}
+                            label='Category'
+                        />
+
                         <Tooltip title="Use this page to manage your leave.">
                             <IconButton
                                 sx={{
@@ -192,19 +265,13 @@ const LeaveDetailsBaseScreen = () => {
                 }
             />
 
-            {/* Searchable Dropdown */}
-            <Box sx={{ maxWidth: '20vw' }}>
-                <SearchableDropdown
-                    ItemList={GetCategoryDropdownList} // Replace with your actual dropdown options
-                    defaultValue={selectCategory}
-                    onChange={clickCategoryDropdown}
-                    size={"small"}
-                    label='Category' // Ensure the dropdown respects the maximum width
-                />
-            </Box>
 
-            {/* Table Section */}
-            {/* Include your table here */}
+            <LeaveList
+                HeaderArray={HeaderLeave}
+                ItemList={GetLeaveList}
+                clickDelete={deleteRow}
+                clickView={ViewLeave} />
+
         </Box>
     );
 };

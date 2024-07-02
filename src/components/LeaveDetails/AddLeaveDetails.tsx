@@ -1,14 +1,22 @@
 
 import { Box, Button, Grid, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import CommonPageHeader from '../CommonPageHeader';
+import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { useDispatch, useSelector } from 'react-redux';
+import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
+import { RootState } from 'src/store';
+import { getCalendarDateFormatDate } from '../Common/Util';
 
 const AddLeaveDetails = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { LeaveId } = useParams();
+    console.log(LeaveId,"LeaveId");
+    
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
@@ -16,6 +24,14 @@ const AddLeaveDetails = () => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [Description, setDescription] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
+
+
+
+    const GetViewLeave = useSelector(
+        (state: RootState) => state.LeaveDetails.ViewLeaveDetails
+    );
+    console.log(GetViewLeave,"GetViewLeave");
+    
 
     useEffect(() => {
         const start = new Date(StartDate);
@@ -25,6 +41,27 @@ const AddLeaveDetails = () => {
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
 
+    useEffect(() => {
+        if(LeaveId){
+            const GetViewLeaveBody : IGetViewLeaveBody = {
+                asSchoolId: 18,
+                asUserId: 5488,
+                asId: Number(LeaveId)
+            }
+            dispatch(getViewLeaveDetails(GetViewLeaveBody))
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     if(GetViewLeave){
+    //         const Leave = GetViewLeave[0];
+    //         // setStartDate(getCalendarDateFormatDate(Leave.Text2));
+    //         // setEndDate(getCalendarDateFormatDate(Leave.Text3));
+    //         setDescription(Leave.Text5);
+    //         setTotalDays(Leave.Text4);
+    //     }
+    // }, [GetViewLeave]);
+
     const onSelectStartDate = (value) => {
         setStartDate(value);
     };
@@ -32,9 +69,15 @@ const AddLeaveDetails = () => {
     const onSelectEndDate = (value) => {
         setEndDate(value);
     };
-
+    const clear= () => {
+        setStartDate(new Date().toISOString().split('T')[0]);
+        setEndDate(new Date().toISOString().split('T')[0]);
+        setTotalDays(1);
+        setDescription('')
+    }
     const resetForm = () => {
-        navigate('/extended-sidebar/Teacher/LeaveDetails');
+        clear();
+        //navigate('/extended-sidebar/Teacher/LeaveDetails');
     };
 
     return (
