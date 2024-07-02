@@ -282,7 +282,7 @@ const TExamScheduleNew = () => {
                                                 <TableCell colSpan={3}>
                                                     <b>Instructions:</b>
                                                 </TableCell>
-                                                {std === '0' ? (
+                                                {std === '0' || std !== '0' ? (
                                                     classList.map((className) => (
                                                         <TableCell key={className}>
                                                             <Typography sx={{ color: 'darkblue' }}>
