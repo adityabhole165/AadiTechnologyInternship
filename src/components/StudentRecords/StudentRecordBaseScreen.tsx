@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 //import DynamicList from 'src/libraries/list/DynamicList'
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
@@ -16,7 +16,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { toast } from 'react-toastify';
 import {
   IGetAllStudentStatusBody,
@@ -201,16 +201,16 @@ const StudentRecords = () => {
             </Box>
             <Tooltip title="Search">
               <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: blue[600] },
-                  // marginLeft: '8px',
-                }}
                 onClick={clickSearch}
+                sx={{
+                  background: (theme) => theme.palette.primary.main,
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: (theme) => theme.palette.primary.dark
+                  }
+                }}
               >
-                <SearchIcon />
+                <SearchTwoTone />
               </IconButton>
             </Tooltip>
           </>
