@@ -17,13 +17,14 @@ import {
   Typography
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   IGetAllStudentStatusBody,
   IGetTeacherListBody
 } from 'src/interfaces/StudentRecords/IStudentRecords';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import DynamicList2 from 'src/libraries/list/DynamicList2';
+import StudentRecordList from 'src/libraries/ResuableComponents/StudentRecordList';
 import {
   GetAllStudentStatuss,
   GetTeachersList
@@ -34,6 +35,7 @@ import StudentRecordsNotes from './StudentRecordsNotes';
 
 const StudentRecords = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [SelectTeacher, setSelectTeacher] = useState('0');
   const [StudentStatusList, setStudentStatusList] = useState([]);
   const [showRiseAndShine, setShowRiseAndShine] = useState(false);
@@ -57,14 +59,20 @@ const StudentRecords = () => {
     (state: RootState) => state.StudentRecords.StudentStatus
   );
   // console.log(GetStatusStudents,"GetStatusStudents");
-  const HeaderList = [
-    'Registration Number',
-    'Roll No.',
-    'Class',
-    'Name',
-    'Action For Me',
-    'Action'
-  ];
+  const [headerArray, setHeaderArray] = useState([
+    { Id: 1, Header: 'Registration Number', SortOrder: null, sortKey: 'RegistrationNumber' },
+    { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo.' },
+    { Id: 3, Header: 'Class', SortOrder: null, sortKey: 'ClassName' },
+    { Id: 4, Header: 'Name', SortOrder: null, sortKey: 'StudentName' },
+    { Id: 5, Header: 'Action For Me' },
+    { Id: 6, Header: 'Action' },
+  ]);
+  const handleHeaderClick = (updatedHeaderArray) => {
+    setHeaderArray(updatedHeaderArray);
+    const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+    // const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
+    // setSortExpression(newSortExpression);
+  };
   const IconList = [
     {
       Id: 1,
@@ -135,6 +143,12 @@ const StudentRecords = () => {
   };
   const handleCheckboxChange = (value) => {
     setShowRiseAndShine(value);
+  };
+  const clickEdit = () => {
+    navigate('/extended-sidebar/Teacher/AddRequisition');
+  };
+  const clickView = () => {
+    navigate('/extended-sidebar/Teacher/AddStudentRecord');
   };
 
   return (
@@ -232,12 +246,20 @@ ClickItem={ClickItem} IconList={IconList}/> */}
           </Typography>
 
         ) : (
-          <DynamicList2
-            HeaderList={HeaderList}
+          // <DynamicList2
+          //   HeaderList={HeaderList}
+          //   ItemList={StudentList}
+          //   ClickItem={ClickItem}
+          //   IconList={IconList}
+          // />
+          <StudentRecordList
             ItemList={StudentList}
-            ClickItem={ClickItem}
-            IconList={IconList}
+            HeaderArray={headerArray}
+            ClickHeader={handleHeaderClick}
+            clickEdit={clickEdit}
+            clickView={clickView}
           />
+
         )}
       </Grid>
     </Box>

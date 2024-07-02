@@ -1,64 +1,37 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ITimetable from 'src/interfaces/Student/TimeTable';
-import IWdays, {
-  GettimeTable,
-  ItimeTable
-} from 'src/interfaces/Student/Tmtimetable';
-import CardTimetable from 'src/libraries/card/CardTimetable';
-import { getTimetable } from 'src/requests/Teacher/TMtimetable';
-import { RootState } from 'src/store';
-import CommonPageHeader from '../CommonPageHeader';
-function TeacherTimetable() {
+import QuestionMark from "@mui/icons-material/QuestionMark"
+import { Box, Card, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material"
+import { grey } from "@mui/material/colors"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
+import { GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
+import { RootState } from "src/store"
+import CommonPageHeader from "../CommonPageHeader"
+
+const TeacherTimetable = () => {
   const dispatch = useDispatch();
-  const weekdaysList = useSelector(
-    (state: RootState) => state.TMTimetable.Weekdays
-  );
-  const TMTimetable = useSelector(
-    (state: RootState) => state.TMTimetable.TmTimetable
-  );
-  const AddLectures = useSelector(
-    (state: RootState) => state.TMTimetable.AdditionalLecture
-  );
-  const [expanded, setExpanded] = useState<boolean>(true);
-  const [additional, setAdditional] = useState<GettimeTable>();
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const asStandardDivisionId = sessionStorage.getItem('DivisionId');
-  const asTeacherId = sessionStorage.getItem('TeacherId');
-
-  const tt_body: IWdays = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId
-  };
-
-  const t_body: ITimetable = {
-    asStandardDivId: '0',
-    asTeacherId: asTeacherId,
-    asIsTeacher: '1',
-    asAcademicYearId: asAcademicYearId,
-    asSchoolId: asSchoolId
-  };
-  const teacger_body: ItimeTable = {
-    asStandardDivId: '0',
-    asTeacherId: asTeacherId,
-    asIsTeacher: 1,
-    asAcademicYearId: asAcademicYearId,
-    asSchoolId: asSchoolId
-  };
+  const TimeTableList = useSelector((state: RootState) => state.TMTimetable.ISGetTeacherTimeTableResult);
 
   useEffect(() => {
-    dispatch(getTimetable(t_body));
-    // dispatch(getAdditional(teacger_body));
-  }, []);
+    const TeacherTimetableBody: IGetTeacherTimeTableBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
+      asTeacher_Id: Number(sessionStorage.getItem('TeacherId'))
+    }
+    dispatch(GetTeacherTimeTableResult(TeacherTimetableBody))
+    console.log(TimeTableList)
+  }, [])
+
+  const HeaderArray = [
+    { Id: 1, Header: 'WeekDays >>' },
+    { Id: 2, Header: 'Monday' },
+    { Id: 3, Header: 'Tuesday' },
+    { Id: 4, Header: 'Wednesday' },
+    { Id: 5, Header: 'Thursday' },
+    { Id: 6, Header: 'Friday' },
+  ];
+
+
 
   return (
     <>
@@ -86,13 +59,37 @@ function TeacherTimetable() {
           }
         />
 
-        <Box>
-          <CardTimetable header={TMTimetable}></CardTimetable>
-        </Box>
-        {/* <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2> */}
+        <TableContainer component={Card}>
+          <Table aria-label="simple table">
+            <TableHead >
+              <TableRow>
+                {HeaderArray.map((item, i) => (
+                  <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white' }}>
+                    <b>{item.Header}</b>
+                  </TableCell>
+                ))}
+              </TableRow>
+
+            </TableHead>
+            <TableBody>
+              {TimeTableList?.map((item, i) => (
+
+                <TableRow key={i}>
+                  <TableCell align={'center'} dangerouslySetInnerHTML={{ __html: item.Text1 }} />
+                  <TableCell align={'center'} dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                  <TableCell align={'center'} dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                  <TableCell align={'center'} dangerouslySetInnerHTML={{ __html: item.Text4 }} />
+                  <TableCell align={'center'} dangerouslySetInnerHTML={{ __html: item.Text5 }} />
+                  <TableCell align={'center'} dangerouslySetInnerHTML={{ __html: item.Text6 }} />
+                </TableRow>
+
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
     </>
-  );
+  )
 }
 
-export default TeacherTimetable;
+export default TeacherTimetable

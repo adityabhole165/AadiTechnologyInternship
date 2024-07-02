@@ -91,6 +91,11 @@ const FinalResult = Loader(
 const StudentRecords = Loader(
   lazy(() => import('src/components/StudentRecords/StudentRecordBaseScreen'))
 );
+const AddStudentRecord = Loader(
+  lazy(() => import('src/components/StudentRecords/AddStudentRecord'))
+);
+
+
 const FinalResultToppers = Loader(
   lazy(() => import('src/components/FinalResult/FinalResultToppers'))
 );
@@ -189,6 +194,10 @@ const teacherRoutes = [
   {
     path: 'LeaveDetails',
     element: <LeaveDetailsBaseScreen />
+  },
+  {
+    path: 'AddLeaveDetails/:Id',
+    element: <AddLeaveDetails />
   },
   {
     path: 'AddLeaveDetails',
@@ -380,6 +389,10 @@ const teacherRoutes = [
   {
     path: 'StudentRecords',
     element: <StudentRecords />
+  },
+  {
+    path: 'AddStudentRecord',
+    element: <AddStudentRecord />
   },
 
   {
