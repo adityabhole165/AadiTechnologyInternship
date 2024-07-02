@@ -11,7 +11,7 @@ import {
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import LegendsIcon from 'src/libraries/ResuableComponents/LegendsIcon';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAGetClassTeachers,
   CDAGetTeacherXseedSubjects,
@@ -65,10 +65,10 @@ const AssignPrePrimaryGrades = () => {
   };
 
   const GetTeacherXseedSubjectsBody: IGetTeacherXseedSubjectsBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYear_ID: asAcademicYearId,
-    asTeacherId: selectTeacher,
-    asAssessmentId: SelectTerm
+    asSchoolId: Number(asSchoolId),
+    asAcademicYear_ID: Number(asAcademicYearId),
+    asTeacherId: Number(selectTeacher),
+    asAssessmentId: Number(SelectTerm)
   };
 
   const ClickSubmit = (value, StandardDivisionID) => {
@@ -148,13 +148,24 @@ const AssignPrePrimaryGrades = () => {
 
   const clickSelectClass = (value) => {
     SetselectTeacher(value);
+    console.log("Selected Teacher..>>", selectTeacher, typeof (selectTeacher))
   };
-  const clickEdit = () => {
-    navigate('/extended-sidebar/Teacher/examresult');
-  };
-
-  const clickEdit1 = () => {
-    navigate('/extended-sidebar/Common/EventOverview');
+  const clickEdit = (EditId, ClassName, SubjectName, SubjectId, StandardDivisionID) => {
+    let EditStatusId = EditId
+    let StandardDivisionId = StandardDivisionID
+    let Assesment: string;
+    USGetTestwiseTerm.forEach(AssesmentArray => {
+      if (AssesmentArray.Id === SelectTerm) {
+        Assesment = AssesmentArray.Name
+      }
+    })
+    if (EditId === "1") {
+      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
+    } else if (EditId === "2") {
+      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
+    } else if (EditId === "3") {
+      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
+    }
   };
 
   return (
@@ -167,33 +178,36 @@ const AssignPrePrimaryGrades = () => {
           }
         ]}
           rightActions={
-            <Stack direction={"row"} alignItems={"center"} sx={{ gap: 2 }}>
-              <Dropdown
-                Array={USGetTestwiseTerm}
-                handleChange={clickSelectTerm}
+            <>
+              <SearchableDropdown
+                ItemList={USGetTestwiseTerm}
+                onChange={clickSelectTerm}
                 defaultValue={SelectTerm}
                 label={'Assessment: '}
-                variant={"outlined"}
+                sx={{ minWidth: '10vw' }}
+                mandatory
               />
-              <Dropdown
-                Array={USGetClassTeachers}
-                handleChange={clickSelectClass}
+              <SearchableDropdown
+                ItemList={USGetClassTeachers}
+                onChange={clickSelectClass}
                 defaultValue={selectTeacher}
                 label={'Subject Teacher: '}
-                variant={"outlined"}
+                sx={{ minWidth: '20vw' }}
+                mandatory
               />
-            </Stack>
+            </>
           }
         />
 
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
-          <EditIconList
-            ItemList={USGetTeacherXseedSubjects}
+
+          < EditIconList
+            ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
             clickEdit={clickEdit}
-            clickEdit1={clickEdit1}
             HeaderArray={HeaderPublish}
             clicksubmit={ClickSubmit}
           />
+
           <Box sx={{ mt: 2 }}>
             <Typography variant='h4'>
               Legends
