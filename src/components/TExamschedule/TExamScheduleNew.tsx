@@ -154,6 +154,16 @@ const TExamScheduleNew = () => {
         setExpandedCardIndex(expandedCardIndex === index ? null : index);
     };
 
+    const getClassName = () => {
+        let returnVal = ""
+        console.log(getstandard, "--ajit--", std);
+
+        getstandard.map((item) => {
+            if (item.Value == std)
+                returnVal = item.Name
+        })
+        return returnVal;
+    }
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -283,10 +293,21 @@ const TExamScheduleNew = () => {
                                                 ) : null;
                                             })}
                                             <TableRow>
-                                                <TableCell colSpan={3}>
-                                                    <b>Instructions:</b>
-                                                </TableCell>
-                                                {std === '0' || std !== '0' ? (
+                                                {std === '0' &&
+                                                    <TableCell colSpan={3}>
+                                                        <b>Instructions:</b>
+                                                    </TableCell>
+                                                }
+                                                {std !== '0' && <>
+                                                    <TableCell colSpan={3}>
+                                                        <Typography sx={{ color: 'darkblue' }}>
+                                                            <b>Instructions:</b>
+                                                            {classInstructions[getClassName()][exam.Text2]}
+                                                        </Typography>
+                                                    </TableCell>
+                                                </>
+                                                }
+                                                {std === '0' ? (
                                                     classList.map((className) => (
                                                         <TableCell key={className} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
                                                             <Typography sx={{ color: 'darkblue' }}>
