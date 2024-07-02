@@ -152,6 +152,12 @@ const WeeklyTimetable = Loader(
 // const ExamResultToppers = Loader(
 //   lazy(() => import('src/components/ExamResult/ExamResultToppers'))
 // )
+const AssignProgressReportSubject = Loader(
+  lazy(
+    () => import('src/components/AssignPrePrimaryGrades/AssignProgressReportSubject')
+  )
+);
+
 const Toppers = Loader(
   lazy(() => import('src/components/ExamResult/Toppers'))
 )
@@ -513,6 +519,14 @@ const teacherRoutes = [
   {
     path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
     element: <AddHomeworkNew />
+  },
+  {
+    path: 'AssignProgressReportSubject',
+    element: <AssignProgressReportSubject />
+  },
+  {
+    path: 'AssignProgressReportSubject/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId',
+    element: <AssignProgressReportSubject />
   },
   {
     path: 'AddHomeworkNew',
