@@ -254,8 +254,8 @@ const TExamScheduleNew = () => {
                                                 {std === '0' && classList.map((className, index) => (
                                                     <TableCell key={index}>{className}</TableCell>
                                                 ))}
-                                                {std !== '0' && <TableCell sx={{ width: '20%' }}>Subject</TableCell>}
-                                                {std !== '0' && <TableCell sx={{ width: '20%' }}>Description</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Subject</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
 
