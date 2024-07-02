@@ -220,7 +220,7 @@ const TExamScheduleNew = () => {
                         onClick={() => toggleAccordion(index)}
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box sx={{ width: '20px', height: '20px', border: '1px solid brown', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ width: '20px', height: '17px', border: '1px solid brown', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Typography sx={{ color: 'brown', fontSize: '16px', fontWeight: 'bold' }}>
                                     {expandedCardIndex === index ? '-' : '+'}
                                 </Typography>
@@ -232,7 +232,7 @@ const TExamScheduleNew = () => {
                     </Box>
 
                     {expandedCardIndex === index && (
-                        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+                        <Box sx={{ background: 'white', p: 1 }}>
                             {loading ? (
                                 <SuspenseLoader />
                             ) : (
@@ -248,9 +248,9 @@ const TExamScheduleNew = () => {
                                                     borderLeft: '1px solid white',
                                                 }
                                             }}>
-                                                <TableCell sx={{ width: '20%' }}>Date</TableCell>
-                                                <TableCell sx={{ width: '20%' }}>Time</TableCell>
-                                                <TableCell sx={{ width: '20%' }}>Duration</TableCell>
+                                                <TableCell sx={{ width: '10%' }}>Date</TableCell>
+                                                <TableCell sx={{ width: '10%' }}>Time</TableCell>
+                                                <TableCell sx={{ width: '8%' }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
                                                     <TableCell key={index}>{className}</TableCell>
                                                 ))}
