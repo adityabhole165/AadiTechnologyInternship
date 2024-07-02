@@ -73,7 +73,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                 {ItemList.map((item, i) => (
                   <>
                     <TableRow key={i} sx={rowStyle}>
-                      {item.Text18 > 75 ? (
+                      {item.Text17 > 75 ? (
                         <>
                           <TableCell
                             align="center"
@@ -273,7 +273,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                               ...dangercellstyle
                             }}
                           ></TableCell>
-                          <TableCell
+                          {/* <TableCell
                             align="center"
                             dangerouslySetInnerHTML={{ __html: item.Text18 }}
                             sx={{
@@ -281,7 +281,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                               fontWeight: 'bold',
                               ...dangercellstyle
                             }}
-                          ></TableCell>
+                          ></TableCell> */}
                         </>
                       )}
                     </TableRow>
