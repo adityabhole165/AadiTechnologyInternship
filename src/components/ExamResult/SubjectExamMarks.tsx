@@ -63,7 +63,7 @@ const SubjectExamMarks = () => {
   const [ItemList, setItemList] = useState([]);
   const [StudentTestType, setStudentTestType] = useState('');
   const [StudentTestTypeDetails, setStudentTestTypeDetails] = useState('');
-  const [RemoveProgress, setRemoveProgress] = useState('');
+  const [RemoveProgress, setRemoveProgress] = useState('N');
   const [RemarkXml, setRemarkXml] = useState('');
   const [HasRemark, setHasRemark] = useState(false);
   const [ShowTotalAsPerOutOfMarks, setShowTotalAsPerOutOfMarks] = useState('');
@@ -257,11 +257,14 @@ const SubjectExamMarks = () => {
           "\" Test_Date=\"" + TestDate +
           "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
           "\" IsAbsent=\"Y\" IsOptional=\"N\" />"
+        
       }
     })
 
     return returnVal + "</SchoolWiseStudentTestMarks>"
+    
   }
+  console.log(getStudentTestType());
   const getStudentTestTypeDetails = () => {
     let returnVal = "<SchoolWiseStudentTestMarksDetails>"
     MarksAssignment.map((Obj, i) => {
@@ -281,6 +284,7 @@ const SubjectExamMarks = () => {
     })
     return returnVal + "</SchoolWiseStudentTestMarksDetails>"
   }
+  console.log(getStudentTestTypeDetails());
   // const onClickSave = () => {
   //   if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
   //     setMarksError('Exam date should be within the current academic year (i.e. between ' +
