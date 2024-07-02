@@ -1,4 +1,4 @@
-import { IGetCategoryDropdownBody, IGetCategoryDropdownResult, IGetDeleteLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetCategoryDropdownBody, IGetCategoryDropdownResult, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetLeaveDetailsListResult, IGetViewLeaveBody, IGetViewLeaveResult } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -9,6 +9,13 @@ const GetCategoryDropdown = (data: IGetCategoryDropdownBody) => {
     );
 };
 
+
+const GetLeaveDetailsList = (data: IGetLeaveDetailsListBody) => {
+    return http.post<IGetLeaveDetailsListResult[]>('Teacher/GetAllLeaveApprovalCatgories', data);
+};
+const GetViewLeaveDetails = (data: IGetViewLeaveBody) => {
+    return http.post<IGetViewLeaveResult[]>('Teacher/GetLeaveCategoryDetails', data);
+}
 const GetDeleteLeaveDetails = (data: IGetDeleteLeaveBody) => {
     return http.post<string>('Teacher/DeleteLeaveApprovalCatgories', data);
 };
@@ -16,10 +23,12 @@ const GetDeleteLeaveDetails = (data: IGetDeleteLeaveBody) => {
 
 const LeaveDetailsAPI = {
     GetCategoryDropdown,
-    GetDeleteLeaveDetails
-  };
-  
-  
-  
-  
-  export default LeaveDetailsAPI;
+    GetDeleteLeaveDetails,
+    GetViewLeaveDetails,
+    GetLeaveDetailsList
+};
+
+
+
+
+export default LeaveDetailsAPI;
