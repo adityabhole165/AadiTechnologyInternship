@@ -95,16 +95,17 @@ export const AcademicYearDropdown =
     (data: IGetAcademicYearBody): AppThunk =>
         async (dispatch) => {
             const response = await LeaveDetailsAPI.GetAcademicYearDropdown(data);
+            let abc = [{ Id: '0', Name: '-- Select --', Value: '0' }];
             console.log(response, 'response')
-            let academicYear = response.data.map((item, i) => {
-                return {
+            response.data.map((item, i) => {
+                abc.push({
                     Id: item.Academic_Year_ID,
                     Name: item.YearValue,
                     Value: item.Academic_Year_ID
-                };
+                });
             });
-            console.log(academicYear, 'academicYear')
-            dispatch(LeaveDetailsslice.actions.getAcademicYear(academicYear));
+            // console.log(academicYear, 'academicYear')
+            dispatch(LeaveDetailsslice.actions.getAcademicYear(abc));
 
         };
 
