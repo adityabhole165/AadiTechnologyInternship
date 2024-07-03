@@ -20,29 +20,42 @@ export interface IGetAddItemListBody {
     asItemCategoryId:number
 }
 
+
+
+
 export interface IGetAddItemListResult {
-    ItemID: string
-  ItemCode: string
-  ItemName: string
-  RackNo: string
-  ShelfNo: string
-  Hall: string
-  ItemPrice: string
-  School_Id: string
-  UOMID: string
-  ItemQty: string
-  CurrentStock: string
-  ItemCategoryName: string
-  ItemReorderLevelQty: string
-  IsConsiderForDetailLevel: string
-  ConsiderUnitQuantity: string
-  ConsiderUnitReorderLevel: string
-  UOMUnit: string
-  PieceCount: string
-  ActualQuantity: string
-  ImageCount: string
-  ItemCategoryID: string
-}
+    GetAddItemList: [
+        {
+            ItemID: string
+            ItemCode: string
+            ItemName: string
+            RackNo: string
+            ShelfNo: string
+            Hall: string
+            ItemPrice: string
+            School_Id: string
+            UOMID: string
+            ItemQty: string
+            CurrentStock: string
+            ItemCategoryName: string
+            ItemReorderLevelQty: string
+            IsConsiderForDetailLevel: string
+            ConsiderUnitQuantity: string
+            ConsiderUnitReorderLevel: string
+            UOMUnit: string
+            PieceCount: string
+            ActualQuantity: string
+            ImageCount: string
+            ItemCategoryID: string
+        }
+    ],
+    CountRowsOfItems: [
+        {
+            TotalCount: string;
+           
+        }
+    ],  
+  }
 
 
 export interface ISaveRequisitionBody {
