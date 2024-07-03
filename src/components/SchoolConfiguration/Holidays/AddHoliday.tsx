@@ -218,7 +218,7 @@ const AddHoliday = ({ }) => {
 
         if (dateError == false) {
             if (isOutsideAcademicYear(StartDate)) {
-                setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
+                setErrorStartDate('Holiday start date must be within current academic year (i.e between ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
                 dateError = true
