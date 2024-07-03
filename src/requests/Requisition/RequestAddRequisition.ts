@@ -10,6 +10,7 @@ const SliceAddRequisition = createSlice({
   initialState: {
     ISGetItemCategory: [],
     IsGetAddItemList :[],
+    ISCountRequisitionList :[],
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
     ISGetNewRequisitionValidateItemQuantity:{},
@@ -28,6 +29,10 @@ const SliceAddRequisition = createSlice({
     RGetAddItemList(state, action) {
       state.IsGetAddItemList = action.payload;
     },
+    CountRequisitionList(state, action) {
+      state.ISCountRequisitionList = action.payload;
+    },
+    
     RSaveRequisition(state, action) {
       state.ISSaveRequisition = action.payload;
     },
@@ -108,6 +113,8 @@ export const CDAGetItemCategory =
   
       
       dispatch(SliceAddRequisition.actions.RGetAddItemList(AddItemList));
+    dispatch(SliceAddRequisition.actions.CountRequisitionList(response.data.CountRowsOfItems));
+    
       
     };
 

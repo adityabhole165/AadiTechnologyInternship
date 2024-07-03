@@ -4,7 +4,7 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { grey, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -322,13 +322,13 @@ const StatusRequisition = () => {
 
           <Tooltip title={'Reset'}>
             <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: red[600]
-                }
-              }}
+             sx={{
+              color: 'white',
+              backgroundColor: blue[500],
+              '&:hover': {
+                backgroundColor: blue[600]
+              }
+            }}
               onClick={clickReset} >
               <RestartAltIcon />
             </IconButton>
@@ -338,10 +338,10 @@ const StatusRequisition = () => {
               onClick={AddRequisition}
               sx={{
                 color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[600]
-                }
+                backgroundColor: green[500],
+                height: '36px !important',
+                ':hover': { backgroundColor: green[600] },
+                marginLeft: '-4px',
               }}
             >
               <AddTwoTone />
