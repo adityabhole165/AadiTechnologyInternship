@@ -66,11 +66,18 @@ const LeaveDetailsBaseScreen = () => {
     useEffect(() => {
         dispatch(AcademicYearDropdown(AcademicYearBody));
     }, []);
+    // useEffect(() => {
+    //     if (GetAcademicYear.length > 0) {
+    //         setAcademicYear(GetAcademicYear[0].Value)
+    //     }
+    // }, [GetAcademicYear])
     useEffect(() => {
         if (GetAcademicYear.length > 0) {
-            setAcademicYear(GetAcademicYear[0].Value)
+            const initialYears = GetAcademicYear.slice(0, 4);
+            const currentYear = initialYears.find(year => year.Is_Current_Year === 'Y') || initialYears[1];
+            setAcademicYear(currentYear.Value);
         }
-    }, [GetAcademicYear])
+    }, [GetAcademicYear]);
     useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
     }, [selectAcademicYear]);
@@ -291,7 +298,7 @@ const LeaveDetailsBaseScreen = () => {
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
                             sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
-                            ItemList={GetAcademicYear}
+                            ItemList={GetAcademicYear.slice(0, 4)}
                             defaultValue={selectAcademicYear}
                             onChange={clickAcademicYearDropdown}
                             size={"small"}
