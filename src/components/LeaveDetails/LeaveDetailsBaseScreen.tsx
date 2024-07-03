@@ -12,10 +12,10 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CategoryDropdown, DeleteLeaveDetails, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
+import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import { GetScreenPermission, getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -26,30 +26,70 @@ const LeaveDetailsBaseScreen = () => {
     const dispatch = useDispatch();
 
     const [selectCategory, setCategory] = useState("0");
+    const [selectAcademicYear, setAcademicYear] = useState("0");
+    const [selectStatus, setStatus] = useState("0");
     const HolidayFullAccess = GetScreenPermission('Holidays');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
+    const [asUpdatedById, setasUpdatedById] = useState('0');
 
+    const GetAcademicYear = useSelector(
+        (state: RootState) => state.LeaveDetails.AcademicYearDropdown
+    );
     const GetCategoryDropdownList = useSelector(
         (state: RootState) => state.LeaveDetails.CategoryDropdownList
+    );
+    const GetStatusDropdown = useSelector(
+        (state: RootState) => state.LeaveDetails.StatusList
     );
     const GetLeaveList = useSelector(
         (state: RootState) => state.LeaveDetails.LeaveDetailsList
     );
-
-
     const deleteLeavedetailsMsg = useSelector(
         (state: RootState) => state.LeaveDetails.DeleteLeaveMsg
     );
-
+    const AcademicYearBody = {
+        asSchoolId: asSchoolId
+    };
     const CategoryDropdownBody = {
         asSchoolId: asSchoolId,
         asId: asUserId
     };
-
+    const StatusBody: IGetStatusDropdownBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(selectAcademicYear),
+        asUserId: Number(asUserId),
+        asCategoryId: Number(1),
+        asShowOnlyNonUpdated: false
+    };
+    useEffect(() => {
+        dispatch(AcademicYearDropdown(AcademicYearBody));
+    }, []);
+    useEffect(() => {
+        if (GetAcademicYear.length > 0) {
+            setAcademicYear(GetAcademicYear[0].Value)
+        }
+    }, [GetAcademicYear])
     useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
-    }, []);
+    }, [selectAcademicYear]);
+    useEffect(() => {
+        if (GetCategoryDropdownList.length > 0) {
+            setCategory(GetCategoryDropdownList[0].Value)
+        }
+    }, [GetCategoryDropdownList])
+    useEffect(() => {
+        dispatch(StatusDropdown(StatusBody));
+    }, [selectCategory]);
+    useEffect(() => {
+        if (GetStatusDropdown.length > 0) {
+            setStatus(GetStatusDropdown[0].Value)
+        }
+    }, [GetStatusDropdown])
+    useEffect(() => {
+        dispatch(getLeaveDetailList(body));
+    }, [selectAcademicYear, selectCategory, selectStatus]);
+
 
 
     const body: IGetLeaveDetailsListBody = {
@@ -62,11 +102,6 @@ const LeaveDetailsBaseScreen = () => {
         asShowOnlyNonUpdated: false
     };
 
-    useEffect(() => {
-        dispatch(getLeaveDetailList(body));
-    }, []);
-
-
     const deleteRow = (Id) => {
         console.log(Id, 'asdfghjklqwertyuioasdfghjk');
 
@@ -75,8 +110,8 @@ const LeaveDetailsBaseScreen = () => {
         ) {
             const DeleteLeaveBody: IGetDeleteLeaveBody = {
                 asSchoolId: Number(asSchoolId),
-                asUserId: Number(asUserId),
-                asUpdatedById: Number(Id),
+                asUserId: Number(Id),
+                asUpdatedById: Number(asUpdatedById), // userId for delete 
             };
             dispatch(DeleteLeaveDetails(DeleteLeaveBody));
         }
@@ -209,10 +244,15 @@ const LeaveDetailsBaseScreen = () => {
         navigate("../AddLeaveDetails" + "/" + Id)
     };
 
+    const clickAcademicYearDropdown = (value) => {
+        setAcademicYear(value);
+    };
     const clickCategoryDropdown = (value) => {
         setCategory(value);
     };
-
+    const clickStatusDropdown = (value) => {
+        setStatus(value);
+    };
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -224,14 +264,30 @@ const LeaveDetailsBaseScreen = () => {
                 ]}
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
+                        <SearchableDropdown
+                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
+                            ItemList={GetAcademicYear}
+                            defaultValue={selectAcademicYear}
+                            onChange={clickAcademicYearDropdown}
+                            size={"small"}
+                            label='Academic Year'
+                        />
 
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr:'52px' }}
+                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
                             ItemList={GetCategoryDropdownList}
                             defaultValue={selectCategory}
                             onChange={clickCategoryDropdown}
                             size={"small"}
                             label='Category'
+                        />
+                        <SearchableDropdown
+                            sx={{ pl: 0, minWidth: '20vw', pr: '52px' }}
+                            ItemList={GetStatusDropdown}
+                            defaultValue={selectStatus}
+                            onChange={clickStatusDropdown}
+                            size={"small"}
+                            label='Status'
                         />
 
                         <Tooltip title="Use this page to manage your leave.">

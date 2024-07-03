@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import LeaveDetailsAPI from 'src/api/LeaveDetails/ApiLeaveDetails';
 import { getDateMonthYearDayDash } from 'src/components/Common/Util';
-import { IGetCategoryDropdownBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetAcademicYearBody, IGetCategoryDropdownBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody, IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 
 import { AppThunk } from 'src/store';
 
@@ -9,17 +9,23 @@ const LeaveDetailsslice = createSlice({
     name: 'LeaveDetails',
 
     initialState: {
-
+        AcademicYearDropdown: [],
         CategoryDropdownList: [],
+        StatusList: [],
         LeaveDetailsList: [],
         ViewLeaveDetails: [],
         DeleteLeaveMsg: '',
         Loading: true
     },
     reducers: {
-
+        getAcademicYear(state, action) {
+            state.AcademicYearDropdown = action.payload;
+        },
         CategoryList(state, action) {
             state.CategoryDropdownList = action.payload;
+        },
+        StatusDropdownList(state, action) {
+            state.StatusList = action.payload;
         },
 
         getLeaveDetailsList(state, action) {
@@ -61,7 +67,7 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             Text3: getDateMonthYearDayDash(Item.EndDate),
             Text4: parseInt(Item.TotalDays),
             Text6: Item.LeaveBalance,
-            Text5: Item.Description
+            Text5: Item.Description,
         };
     });
     dispatch(LeaveDetailsslice.actions.getLeaveDetailsList(responseData));
@@ -79,6 +85,38 @@ export const CategoryDropdown =
                 };
             });
             dispatch(LeaveDetailsslice.actions.CategoryList(abc));
+        };
+
+
+export const AcademicYearDropdown =
+    (data: IGetAcademicYearBody): AppThunk =>
+        async (dispatch) => {
+            const response = await LeaveDetailsAPI.GetAcademicYearDropdown(data);
+            console.log(response, 'response')
+            let academicYear = response.data.map((item, i) => {
+                return {
+                    Id: item.Academic_Year_ID,
+                    Name: item.YearValue,
+                    Value: item.Academic_Year_ID
+                };
+            });
+            console.log(academicYear, 'academicYear')
+            dispatch(LeaveDetailsslice.actions.getAcademicYear(academicYear));
+
+        };
+
+export const StatusDropdown =
+    (data: IGetStatusDropdownBody): AppThunk =>
+        async (dispatch) => {
+            const response = await LeaveDetailsAPI.GetStatusDropdown(data);
+            let abc = response.data.map((item, i) => {
+                return {
+                    Id: item.StatusId,
+                    Name: item.Status,
+                    Value: item.StatusId
+                };
+            });
+            dispatch(LeaveDetailsslice.actions.StatusDropdownList(abc));
         };
 
 export const DeleteLeaveDetails = (data: IGetDeleteLeaveBody): AppThunk => async (dispatch) => {
@@ -99,7 +137,7 @@ export const getViewLeaveDetails =
             const response = await LeaveDetailsAPI.GetViewLeaveDetails(data);
             const responseData = response.data.map((Item, i) => {
                 return {
-                    Id: Item.LeaveId,
+                    Id: Item.Id,
                     Text1: Item.UserName,
                     Text2: getDateMonthYearDayDash(Item.StartDate),
                     Text3: getDateMonthYearDayDash(Item.EndDate),

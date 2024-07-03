@@ -65,3 +65,26 @@ export interface IGetLeaveDetailsListResult {
     TotalRows: string,
     ApproverRemark: string
 }
+
+
+export interface IGetAcademicYearBody {
+    asSchoolId: number;
+}
+export interface IGetAcademicYearResult {
+    Academic_Year_ID: string,
+    YearValue: string,
+    School_Id: string,
+    Is_Current_Year: string,
+}
+
+export interface IGetStatusDropdownBody {
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asUserId: number,
+    asCategoryId: number,
+    asShowOnlyNonUpdated: boolean
+}
+export interface IGetStatusDropdownResult {
+    StatusId: string;
+    Status: string;
+}

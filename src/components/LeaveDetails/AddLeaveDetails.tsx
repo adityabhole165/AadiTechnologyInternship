@@ -46,7 +46,7 @@ const AddLeaveDetails = () => {
             const GetViewLeaveBody : IGetViewLeaveBody = {
                 asSchoolId: 18,
                 asUserId: 5488,
-                asId: Number(LeaveId)
+                asId: Number(LeaveId)  //Id for ViewDetails
             }
             dispatch(getViewLeaveDetails(GetViewLeaveBody))
         }
