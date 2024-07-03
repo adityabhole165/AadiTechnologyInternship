@@ -184,7 +184,7 @@ function LeaveList({
                                                 align="center"
                                             >
 
-                                                {/* {HolidayFullAccess == 'Y' ? ( */}
+                                                 {item.StatusId == '1' ? ( 
                                                 <IconButton
                                                     sx={{ color: 'red', cursor: 'pointer' }}
                                                     onClick={() => clickDelete(item.Id)}
@@ -193,7 +193,7 @@ function LeaveList({
                                                         <DeleteForeverIcon />
                                                     </Tooltip>
                                                 </IconButton>
-                                                {/* ) : null} */}
+                                                 ) : null} 
                                             </TableCell>
                                         </TableRow>
                                     );

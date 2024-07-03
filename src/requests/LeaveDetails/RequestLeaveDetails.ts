@@ -68,7 +68,8 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             Text4: Item.Description,
             Text5: parseInt(Item.TotalDays),
             Text6: Item.LeaveName,
-            Text7: Item.LeaveBalance
+            Text7: Item.LeaveBalance,
+            StatusId: Item.StatusId
 
         };
     });
