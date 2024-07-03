@@ -16,7 +16,6 @@ import { toast } from 'react-toastify';
 import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
@@ -498,7 +497,7 @@ const AddRequisition = () => {
 
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
-    }, [ItemCategory, page, rowsPerPage,regNoOrName]);
+    }, [ItemCategory, page, rowsPerPage, regNoOrName]);
 
     useEffect(() => {
         dispatch(CDAGetItemImage(GetImageBody));
@@ -538,7 +537,7 @@ const AddRequisition = () => {
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, CountAddReq.TotalCount);
     const pagecount = Math.ceil(CountAddReq.TotalCount / rowsPerPage);
-      console.log(pagecount,"pagecount",CountAddReq)
+    console.log(pagecount, "pagecount", CountAddReq)
     return (
         <Box sx={{ px: 2 }}>
 
@@ -582,12 +581,16 @@ const AddRequisition = () => {
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',
                                 '&:hover': {
-                                    backgroundColor: (theme) => theme.palette.primary.dark
-                                }
+                                    backgroundColor: (theme) => theme.palette.primary.dark,
+                                },
+                                '&.Mui-disabled': {
+                                    color: (theme) => theme.palette.action.disabled,
+                                },
                             }}
                         >
                             <SearchTwoTone />
                         </IconButton>
+
 
                         <Tooltip title={'Here you can create/modify/view/approve/denied requisition'}>
                             <IconButton
@@ -601,38 +604,6 @@ const AddRequisition = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
-
-                        
-                        {Itemlist.length > 0 ? <Tooltip title={'Save'}>
-                            <IconButton
-                                onClick={clicksave}
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: green[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
-                                    marginLeft: '-4px',
-                                  }}
-                            >
-                                <Save />
-                            </IconButton>
-                        </Tooltip>:<span> </span>}
-                        {Itemlist.length > 0 ?  <Tooltip title={'Send Requisition'}>
-                            <IconButton
-                                onClick={clickSend}
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: green[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
-                                    marginLeft: '-4px',
-                                  }}
-                            >
-                                <SendIcon />
-                            </IconButton>
-                        </Tooltip>:<span> </span>}
-                        
-
                         <Tooltip title={'Change Input'}>
                             {Itemlist.length > 0 ?
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -643,14 +614,46 @@ const AddRequisition = () => {
                                             color: 'white',
                                             backgroundColor: blue[500],
                                             '&:hover': {
-                                              backgroundColor: blue[600]
+                                                backgroundColor: blue[600]
                                             }
-                                          }}
+                                        }}
                                     >
                                         <ChangeCircleIcon />
                                     </IconButton>
                                 </Box> : <span> </span>}
                         </Tooltip>
+
+                        {AddItemlistNew.length > 0 ? <Tooltip title={'Save'}>
+                            <IconButton
+                                onClick={clicksave}
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: green[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: green[600] },
+                                    marginLeft: '-4px',
+                                }}
+                            >
+                                <Save />
+                            </IconButton>
+                        </Tooltip> : <span> </span>}
+                        {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
+                            <IconButton
+                                onClick={clickSend}
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: green[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: green[600] },
+                                    marginLeft: '-4px',
+                                }}
+                            >
+                                <SendIcon />
+                            </IconButton>
+                        </Tooltip> : <span> </span>}
+
+
+
                     </>}
             />
 
@@ -707,7 +710,7 @@ const AddRequisition = () => {
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
-                    
+
                 </Box> : (
                     isSearchEmpty && (
                         <Typography
