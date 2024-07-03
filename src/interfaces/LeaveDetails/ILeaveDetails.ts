@@ -26,13 +26,13 @@ export interface IGetViewLeaveResult {
     Description: string,
     StatusId: string,
     UserName: string,
-    IsApprovedByApprover: string,
+    IsFinalApprover: string,
     ApproverRemark: string
 }
 
 export interface IGetDeleteLeaveBody {
     asSchoolId: number;
-    asUserId: number;
+    asId: number;
     asUpdatedById: number;
 }
 
@@ -40,11 +40,13 @@ export interface IGetLeaveDetailsListBody {
     asSchoolId: number,
     asUserId: number,
     asCategoryId: number,
+    asStatusId: number,
     // asSortExpression:"StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
     asSortExpression: string,
     asStartIndex: number,
     asEndIndex: number,
-    asShowOnlyNonUpdated: boolean
+    asShowOnlyNonUpdated: boolean,
+    asAcademicYearId: number
 }
 export interface IGetLeaveDetailsListResult {
     RowNo: string,

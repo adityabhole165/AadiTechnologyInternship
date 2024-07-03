@@ -65,9 +65,11 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             Text1: Item.UserName,
             Text2: getDateMonthYearDayDash(Item.StartDate),
             Text3: getDateMonthYearDayDash(Item.EndDate),
-            Text4: parseInt(Item.TotalDays),
-            Text6: Item.LeaveBalance,
-            Text5: Item.Description,
+            Text4: Item.Description,
+            Text5: parseInt(Item.TotalDays),
+            Text6: Item.LeaveName,
+            Text7: Item.LeaveBalance
+
         };
     });
     dispatch(LeaveDetailsslice.actions.getLeaveDetailsList(responseData));

@@ -18,7 +18,7 @@ const GetStatusDropdown = (data: IGetStatusDropdownBody) => {
 };
 
 const GetLeaveDetailsList = (data: IGetLeaveDetailsListBody) => {
-    return http.post<IGetLeaveDetailsListResult[]>('Teacher/GetAllLeaveApprovalCatgories', data);
+    return http.post<IGetLeaveDetailsListResult[]>('Teacher/GetAllLeaveApprovalCatgoriesList', data);
 };
 const GetViewLeaveDetails = (data: IGetViewLeaveBody) => {
     return http.post<IGetViewLeaveResult[]>('Teacher/GetLeaveCategoryDetails', data);

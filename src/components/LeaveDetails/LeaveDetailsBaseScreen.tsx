@@ -31,6 +31,7 @@ const LeaveDetailsBaseScreen = () => {
     const HolidayFullAccess = GetScreenPermission('Holidays');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const [asUpdatedById, setasUpdatedById] = useState('0');
 
     const GetAcademicYear = useSelector(
@@ -96,35 +97,57 @@ const LeaveDetailsBaseScreen = () => {
         asSchoolId: Number(asSchoolId),
         asUserId: Number(asUserId),
         asCategoryId: Number(1),
+        asStatusId: Number(selectStatus),
         asSortExpression: "StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
         asStartIndex: Number(0),
         asEndIndex: Number(20),
-        asShowOnlyNonUpdated: false
+        asShowOnlyNonUpdated: false,
+        asAcademicYearId: Number(asAcademicYearId)
     };
+    useEffect(() => {
+        if (deleteLeavedetailsMsg !== '') {
+            toast.success(deleteLeavedetailsMsg, { toastId: 'success1' });
+        }
+        dispatch(resetDeleteHolidayDetails());
+    }, [deleteLeavedetailsMsg]);
 
     const deleteRow = (Id) => {
         console.log(Id, 'asdfghjklqwertyuioasdfghjk');
-
-        if (
-            confirm('Are you sure you want to delete this leave?')
-        ) {
+        if (confirm('Are you sure you want to delete this leave?')) {
             const DeleteLeaveBody: IGetDeleteLeaveBody = {
                 asSchoolId: Number(asSchoolId),
-                asUserId: Number(Id),
-                asUpdatedById: Number(asUpdatedById), // userId for delete 
+                asId: Number(Id),
+                asUpdatedById: Number(asUserId), // userId for delete 
             };
             dispatch(DeleteLeaveDetails(DeleteLeaveBody));
-        }
-    };
-
-
-    useEffect(() => {
-        if (deleteLeavedetailsMsg != '') {
-            toast.success(deleteLeavedetailsMsg)
-            dispatch(resetDeleteHolidayDetails());
             dispatch(getLeaveDetailList(body));
+
         }
-    }, [DeleteLeaveDetails])
+    }
+
+    // const deleteRow = (Id) => {
+    //     console.log(Id, 'asdfghjklqwertyuioasdfghjk');
+
+    //     if (
+    //         confirm('Are you sure you want to delete this leave?')
+    //     ) {
+    //         const DeleteLeaveBody: IGetDeleteLeaveBody = {
+    //             asSchoolId: Number(asSchoolId),
+    //             asId: Number(Id),
+    //             asUpdatedById: Number(asUserId), // userId for delete 
+    //         };
+    //         dispatch(DeleteLeaveDetails(DeleteLeaveBody));
+    //     }
+    // };
+
+
+    // useEffect(() => {
+    //     if (deleteLeavedetailsMsg != '') {
+    //         toast.success(deleteLeavedetailsMsg)
+    //         dispatch(resetDeleteHolidayDetails());
+    //         dispatch(getLeaveDetailList(body));
+    //     }
+    // }, [deleteLeavedetailsMsg])
 
     const getLeaveDetailsColumns = () => {
         let columns: Column[] = [
@@ -152,9 +175,14 @@ const LeaveDetailsBaseScreen = () => {
                 )
             },
             {
+                id: 'Description',
+                label: 'Description',
+                renderCell: (rowData: any) => rowData.Text4
+            },
+            {
                 id: 'totalDays',
                 label: 'Total Days',
-                renderCell: (rowData: any) => rowData.Text4,
+                renderCell: (rowData: any) => rowData.Text5,
                 cellProps: {
                     align: 'center'
                 },
@@ -165,12 +193,12 @@ const LeaveDetailsBaseScreen = () => {
             {
                 id: 'leaveType',
                 label: 'Leave Type',
-                renderCell: (rowData: any) => rowData.Text5,
+                renderCell: (rowData: any) => rowData.Text6,
             },
             {
                 id: 'leaveBalance',
                 label: 'Leave balance',
-                renderCell: (rowData: any) => rowData.Text6,
+                renderCell: (rowData: any) => rowData.Text7,
                 cellProps: {
                     align: 'left'
                 },
@@ -225,11 +253,12 @@ const LeaveDetailsBaseScreen = () => {
         { Id: 1, Header: 'Sender Name' },
         { Id: 2, Header: 'Start Date 	' },
         { Id: 3, Header: ' 	End Date' },
-        { Id: 4, Header: ' Total Days' },
-        { Id: 5, Header: ' Leave Name ' },
-        { Id: 6, Header: ' Leave Balance' },
-        { Id: 7, Header: 'View' },
-        { Id: 8, Header: 'Delete' }
+        { id: 4, Header: 'Description' },
+        { Id: 5, Header: ' Total Days' },
+        { Id: 6, Header: ' Leave Name ' },
+        { Id: 7, Header: ' Leave Balance' },
+        { Id: 8, Header: 'View' },
+        { Id: 9, Header: 'Delete' }
     ];
 
     const [holidayColumns, setHolidayColumns] = useState<Column[]>(getLeaveDetailsColumns());

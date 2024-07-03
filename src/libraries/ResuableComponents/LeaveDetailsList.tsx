@@ -122,7 +122,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                     //backgroundColor: rowStyle.backgroundColor,
-                                                    // opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -143,7 +143,7 @@ function LeaveList({
                                                     textTransform: 'capitalize',
                                                     //backgroundColor: rowStyle.backgroundColor,
                                                     textAlign: 'center',
-                                                    opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    // opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -179,6 +179,8 @@ function LeaveList({
                                                 align="center"
                                             >
                                                 {item.Text7}
+                                            </TableCell>
+                                            <TableCell>
                                                 <Tooltip title="View">
                                                     <VisibilityIcon
                                                         sx={{ color: 'black', cursor: 'pointer' }}
@@ -195,17 +197,17 @@ function LeaveList({
                                                 }}
                                                 align="center"
                                             >
-                                                {item.Text8}
-                                                {HolidayFullAccess == 'Y' ? (
-                                                    <IconButton
-                                                        sx={{ color: 'red', cursor: 'pointer' }}
-                                                        onClick={() => clickDelete(item.Id)}
-                                                    >
-                                                        <Tooltip title="Delete" >
-                                                            <DeleteForeverIcon />
-                                                        </Tooltip>
-                                                    </IconButton>
-                                                ) : null}
+
+                                                {/* {HolidayFullAccess == 'Y' ? ( */}
+                                                <IconButton
+                                                    sx={{ color: 'red', cursor: 'pointer' }}
+                                                    onClick={() => clickDelete(item.Id)}
+                                                >
+                                                    <Tooltip title="Delete" >
+                                                        <DeleteForeverIcon />
+                                                    </Tooltip>
+                                                </IconButton>
+                                                {/* ) : null} */}
                                             </TableCell>
                                         </TableRow>
                                     );
