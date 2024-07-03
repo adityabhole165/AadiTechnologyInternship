@@ -33,20 +33,20 @@ export const MissingAttenNameAleart =
     (data: IMissingattendancealeartNameBody): AppThunk =>
         async (dispatch) => {
             const response = await Missingattendance.MissingNameList(data);
-           console.log(response.data, "respons");
+            //  console.log(response.data, "respons");
 
             let MissingAttendancelist = response.data.MissingAttendanceDetailsList.map((item, i) => {
                 return {
                     Id: item.ClassName,
                     Name: item.ClassTeacherName,
                     Value: item.MissingDays,
-                    StandardDivisionId:item.StandardDivisionId
+                    StandardDivisionId: item.StandardDivisionId
 
 
                 };
             });
             dispatch(MissingattendanceAleartSlice.actions.MissingAttenace(MissingAttendancelist));
-          //  console.log(MissingAttendancelist, 'StudentListnamealll');
+            //  console.log(MissingAttendancelist, 'StudentListnamealll');
 
         }
 
@@ -55,13 +55,13 @@ export const MissingAttenDateAleart =
         async (dispatch) => {
 
             const response = await Missingattendance.MissingDateList(data);
-            console.log(response.data, "respon");
+          //  console.log(response.data, "respon");
 
             let MissingDate = response.data.MissingAttendanceDatesList.map((item, i) => {
                 return {
                     Id: item.MissingAttendanceDates,
                     Name: item.MissingAttendanceDates,
-                     Value: item.MissingAttendanceDates,
+                    Value: item.MissingAttendanceDates,
                 };
             });
 
