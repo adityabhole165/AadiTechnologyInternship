@@ -210,12 +210,13 @@ const TExamScheduleNew = () => {
                             mt: 2,
                             cursor: 'pointer',
                             backgroundColor: '#FFC0CB',
-                            padding: '7px',
+                            padding: '4px',
                             border: '1px solid brown',
                             borderRadius: '3px',
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
+                            mr: 1,
                         }}
                         onClick={() => toggleAccordion(index)}
                     >
