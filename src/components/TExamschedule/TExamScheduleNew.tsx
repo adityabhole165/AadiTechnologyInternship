@@ -237,8 +237,8 @@ const TExamScheduleNew = () => {
                             {loading ? (
                                 <SuspenseLoader />
                             ) : (
-                                <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
-                                    <Table sx={{ minWidth: 650 }}>
+                                <TableContainer component={Paper} sx={{ width: '99%', overflowX: 'auto' }}>
+                                    <Table sx={{ minWidth: 640 }}>
                                         <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
                                             <TableRow sx={{
                                                 '& > *': {
@@ -276,17 +276,17 @@ const TExamScheduleNew = () => {
                                                                 <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center' }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
-                                                                        .map((item) => item.header || '-')
+                                                                        .map((item) => item.header)
                                                                         .join('/ ') || '-'}
                                                                 </TableCell>
                                                             ))
                                                         ) : (
                                                             <>
                                                                 <TableCell sx={{ textAlign: 'center' }}>
-                                                                    {items.map((item) => item.header || '-').join(',') || '-'}
+                                                                    {items.map((item) => item.header || '-').join('/')}
                                                                 </TableCell>
                                                                 <TableCell sx={{ textAlign: 'center' }}>
-                                                                    {items.map((item) => item.Description || '-').join(', ') || '-'}
+                                                                    {items.map((item) => item.Description || '-').join(',')}
                                                                 </TableCell>
                                                             </>
                                                         )}
@@ -319,7 +319,7 @@ const TExamScheduleNew = () => {
                                                 ) : (
                                                     <TableCell colSpan={3} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
                                                         <Typography sx={{ color: 'darkblue' }}>
-                                                            {classInstructions[std] && classInstructions[std][exam.Text2] || '-'}
+                                                            {classInstructions[std] && classInstructions[std][exam.Text2]}
                                                         </Typography>
                                                     </TableCell>
                                                 )}
@@ -338,9 +338,15 @@ const TExamScheduleNew = () => {
                     <b>No exam has been scheduled.</b>
                 </Typography>
             )}
+
         </Box>
     );
 };
 
 export default TExamScheduleNew;
+
+
+
+
+
 
