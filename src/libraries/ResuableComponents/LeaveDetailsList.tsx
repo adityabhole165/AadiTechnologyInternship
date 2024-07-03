@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
-import { Equal, GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
+import { Equal, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function LeaveList({
     ItemList,
@@ -18,7 +18,7 @@ function LeaveList({
 }) {
     console.log(ItemList, "ItemList----------");
 
-    const HolidayFullAccess = GetScreenPermission('Holidays');
+    //const HolidayFullAccess = GetScreenPermission('Holidays');
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -74,19 +74,18 @@ function LeaveList({
                                     sx={{ background: (theme) => theme.palette.secondary.main, }}
                                 >
                                     {HeaderArray.map((item, i) => (
-                                        (item.Header !== 'Delete') || (HolidayFullAccess !== 'N') ? (
-                                            <TableCell
-                                                key={i}
-                                                sx={{
-                                                    // textTransform: 'capitalize',
-                                                    color: (theme) => theme.palette.common.white,
-                                                    textAlign: i === 2 || i === 3 ? 'left' : 'center'
-                                                }}
-                                                align="center"
-                                            >
-                                                <b>{item.Header}</b>
-                                            </TableCell>
-                                        ) : <TableCell key={i} style={{ width: 0, height: 0, padding: 0, border: 0 }} />
+                                        <TableCell
+                                            key={i}
+                                            sx={{
+                                                // textTransform: 'capitalize',
+                                                color: (theme) => theme.palette.common.white,
+                                                textAlign: i === 2 || i === 3 ? 'center' : 'center'
+                                            }}
+                                            align="center"
+                                        >
+                                            <b>{item.Header}</b>
+                                        </TableCell>
+
                                     ))}
 
                                 </TableRow>
@@ -121,8 +120,7 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-                                                    opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+
                                                 }}
                                                 align="center"
                                             >
@@ -131,32 +129,20 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-                                                    opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
                                                 {item.Text3}
                                             </TableCell>
+
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                     //backgroundColor: rowStyle.backgroundColor,
-                                                    textAlign: 'center',
-                                                    // opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
-                                                }}
-                                                align="center"
-                                            >
-                                                {item.Text4}
-                                            </TableCell>
-                                            <TableCell
-                                                sx={{
-                                                    textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-                                                    textAlign: 'center',
+
                                                     //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="left"
+                                                align="center"
                                             >
                                                 {item.Text5}
                                             </TableCell>
@@ -180,7 +166,7 @@ function LeaveList({
                                             >
                                                 {item.Text7}
                                             </TableCell>
-                                            <TableCell>
+                                            <TableCell sx={{ pl: "52px" }}>
                                                 <Tooltip title="View">
                                                     <VisibilityIcon
                                                         sx={{ color: 'black', cursor: 'pointer' }}

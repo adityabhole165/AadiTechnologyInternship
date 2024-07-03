@@ -253,7 +253,6 @@ const LeaveDetailsBaseScreen = () => {
         { Id: 1, Header: 'Sender Name' },
         { Id: 2, Header: 'Start Date 	' },
         { Id: 3, Header: ' 	End Date' },
-        { id: 4, Header: 'Description' },
         { Id: 5, Header: ' Total Days' },
         { Id: 6, Header: ' Leave Name ' },
         { Id: 7, Header: ' Leave Balance' },
@@ -262,17 +261,14 @@ const LeaveDetailsBaseScreen = () => {
     ];
 
     const [holidayColumns, setHolidayColumns] = useState<Column[]>(getLeaveDetailsColumns());
-
     const AddLeave = () => {
         navigate("../AddLeaveDetails");
     };
-
     const ViewLeave = (Id) => {
         console.log(Id, "value");
 
         navigate("../AddLeaveDetails" + "/" + Id)
     };
-
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);
     };
@@ -301,7 +297,6 @@ const LeaveDetailsBaseScreen = () => {
                             size={"small"}
                             label='Academic Year'
                         />
-
                         <SearchableDropdown
                             sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
                             ItemList={GetCategoryDropdownList}
@@ -318,7 +313,6 @@ const LeaveDetailsBaseScreen = () => {
                             size={"small"}
                             label='Status'
                         />
-
                         <Tooltip title="Use this page to manage your leave.">
                             <IconButton
                                 sx={{
