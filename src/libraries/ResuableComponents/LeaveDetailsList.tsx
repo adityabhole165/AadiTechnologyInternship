@@ -93,11 +93,11 @@ function LeaveList({
                             </TableHead>
                             <TableBody>
                                 {ItemList.map((item, index) => {
-                                    // const formattedItemDate = formatDate(new Date(item.Text2));
-                                    // const isCurrentDate = formattedItemDate === formattedDate;
-                                    // const isFuture = isFutureDateTime(new Date(item.Text2));
-                                    // const isPast = isPastDateTime(new Date(item.Text2));
-                                    // const isEqual = Equal(new Date(item.Text2))
+                                    const formattedItemDate = formatDate(new Date(item.Text2));
+                                    const isCurrentDate = formattedItemDate === formattedDate;
+                                    const isFuture = isFutureDateTime(new Date(item.Text2));
+                                    const isPast = isPastDateTime(new Date(item.Text2));
+                                    const isEqual = Equal(new Date(item.Text2))
 
                                     //const backgroundColor = isCurrentDate || (page === 0 && index === 0 && isFuture) ? '#EFDCC9 ' : isPast ? "white" : 'white';
 
@@ -111,7 +111,7 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                   // backgroundColor: rowStyle.backgroundColor,
+                                                    // backgroundColor: rowStyle.backgroundColor,
                                                     //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
@@ -122,7 +122,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                     //backgroundColor: rowStyle.backgroundColor,
-                                                   // opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    // opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -132,7 +132,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                     //backgroundColor: rowStyle.backgroundColor,
-                                                   // opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -143,7 +143,7 @@ function LeaveList({
                                                     textTransform: 'capitalize',
                                                     //backgroundColor: rowStyle.backgroundColor,
                                                     textAlign: 'center',
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >

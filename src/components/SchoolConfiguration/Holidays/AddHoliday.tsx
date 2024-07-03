@@ -216,12 +216,6 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else setErrorEndDateblank('')
 
-        if (isLessThanDate(EndDate, StartDate)) {
-            setErrorEndDate1('End date should not be less than start date.');
-            dateError = true
-            isError = true;
-        } else setErrorEndDate1('')
-
         if (dateError == false) {
             if (isOutsideAcademicYear(StartDate)) {
                 setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
@@ -241,9 +235,13 @@ const AddHoliday = ({ }) => {
                 setErrorEndDate('')
             }
 
-
-
         }
+
+        if (isLessThanDate(EndDate, StartDate)) {
+            setErrorEndDate1('End date should not be less than start date.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDate1('')
         if (result1.PredefinedStartDateAndEndDateCount !== "0" && dateError == false) {
             setErrorEndDate2('Holiday already defined.');
             isError = true;

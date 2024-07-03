@@ -81,7 +81,7 @@ export const CDAGetItemCategory =
     async (dispatch) => {
       const response = await ApiAddRequisition.GetAddItemList(data);
 
-      let AddItemList = response.data.map((item, i) => {
+      let AddItemList = response.data.GetAddItemList.map((item, i) => {
         return {
           ItemID: item.ItemID,
           ItemCode:item.ItemCode,
@@ -108,6 +108,7 @@ export const CDAGetItemCategory =
   
       
       dispatch(SliceAddRequisition.actions.RGetAddItemList(AddItemList));
+      
     };
 
     export const CDASaveRequisition =

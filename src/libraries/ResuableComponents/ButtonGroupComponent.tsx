@@ -8,10 +8,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { Box, Typography } from '@mui/material';
 
 const ButtonGroupComponent = ({
-  handlePageChange,
+  PageChange,
   numberOfButtons,
   rowsPerPage,
-  handleChangeRowsPerPage,
+  ChangeRowsPerPage,
   rowsPerPageOptions,
 }) => {
   const [selectedButton, setSelectedButton] = useState('1'); 
@@ -19,16 +19,16 @@ const ButtonGroupComponent = ({
 
   const ButtonClick = (button) => {
     setSelectedButton(button.toString()); 
-    handlePageChange(button);
+    PageChange(button);
   };
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <FormControl variant="outlined" style={{ minWidth: 120, marginRight: 'auto' }}>
+      <FormControl variant="outlined" style={{ minWidth: 100, marginRight: 'auto' }}>
         <InputLabel>Rows per page</InputLabel>
         <Select
           value={rowsPerPage}
-          onChange={handleChangeRowsPerPage}
+          onChange={ChangeRowsPerPage}
           label="Rows per page"
         >
           {rowsPerPageOptions.map(option => (

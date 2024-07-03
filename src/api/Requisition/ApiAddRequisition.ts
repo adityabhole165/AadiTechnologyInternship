@@ -10,7 +10,7 @@ import http from '../../requests/SchoolService/schoolServices';
   };
 
   const GetAddItemList = (data: IGetAddItemListBody) => {
-    return http.post<IGetAddItemListResult[]>(
+    return http.post<IGetAddItemListResult>(
       'Teacher/GetAddItemList',
       data
     );
