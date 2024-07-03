@@ -1,4 +1,3 @@
-
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
@@ -177,7 +176,7 @@ const TExamScheduleNew = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {RoleId !== '3' && (
-                            <Box sx={{ width: '200px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
+                            <Box sx={{ width: '150px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
                                 <Dropdown
                                     Array={getstandard}
                                     handleChange={stdChange}
@@ -212,7 +211,7 @@ const TExamScheduleNew = () => {
                             cursor: 'pointer',
                             backgroundColor: 'whitesmoke',
                             padding: '2px',
-                            border: '1px solid brown',
+                            border: '1px solid White',
                             borderRadius: '2px',
                             display: 'flex',
                             justifyContent: 'space-between',
