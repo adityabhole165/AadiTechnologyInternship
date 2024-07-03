@@ -3,8 +3,8 @@ import { Box, Divider, IconButton, Stack, Table, TableBody, TableCell, TableCont
 import { grey } from "@mui/material/colors"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
-import { GetLectureCountsForTeachers, GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
+import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
+import { GetDataForAdditionalClasses, GetLectureCountsForTeachers, GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
 import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
@@ -42,6 +42,7 @@ const TeacherTimetable = () => {
   const TimeTableList = useSelector((state: RootState) => state.TMTimetable.ISGetTeacherTimeTableResult);
   const ApplicablesData = useSelector((state: RootState) => state.TMTimetable.ISApplicables);
   const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
+  const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
 
   useEffect(() => {
     const TeacherTimetableBody: IGetTeacherTimeTableBody = {
@@ -68,6 +69,16 @@ const TeacherTimetable = () => {
 
 
   }, [ApplicablesData])
+
+  useEffect(() => {
+    const AdditionalLectureBody: IGetDataForAdditionalClassesBody = {
+      asSchoolId: Number(localStorage.getItem('localSchoolId')),
+      asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
+      asTeacher_Id: Number(sessionStorage.getItem('TeacherId')),
+      asStandardDivision_Id: Number(sessionStorage.getItem('StandardDivisionId'))
+    }
+    dispatch(GetDataForAdditionalClasses(AdditionalLectureBody))
+  }, [])
 
   const HeaderArray = [
     { Id: 1, Header: 'WeekDays >>' },
@@ -256,28 +267,34 @@ const TeacherTimetable = () => {
               </TableContainer>
             </Box>
             <Box sx={{ flex: 1 }}>
+
               <Typography variant={"h4"} mb={1} sx={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
                 Additional Lectures
               </Typography>
+              {/* WeekDay	Lecture Number	Class	Subject */}
               <TableContainer sx={{ width: '100%' }}>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <HeaderStyledCell>Class Subjects</HeaderStyledCell>
-                      <HeaderStyledCell>Lecture Count</HeaderStyledCell>
+                      <HeaderStyledCell>WeekDay</HeaderStyledCell>
+                      <HeaderStyledCell>Lecture Number</HeaderStyledCell>
+                      <HeaderStyledCell>Class</HeaderStyledCell>
+                      <HeaderStyledCell>Subject </HeaderStyledCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {/* Loopable content */}
-                    <TableRow>
-                      <StyledCell>6-A Library	</StyledCell>
-                      <StyledCell>2</StyledCell>
-                    </TableRow>
+                    {AdditionalClasses.map((item, i) => (
+                      <TableRow>
+                        <StyledCell>{item.Text1}</StyledCell>
+                        <StyledCell>{item.Text2}</StyledCell>
+                        <StyledCell>{item.Text3}</StyledCell>
+                        <StyledCell>{item.Text4}</StyledCell>
+                      </TableRow>
+                    ))}
+
                     {/* Fixed Footer */}
-                    <TableRow>
-                      <FooterStyledCell>Total Weekly Lectures	</FooterStyledCell>
-                      <FooterStyledCell>0</FooterStyledCell>
-                    </TableRow>
+
                   </TableBody>
                 </Table>
               </TableContainer>

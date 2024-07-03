@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ITimetable, { IWeekdays } from 'src/interfaces/Student/TimeTable';
 import { ItimeTable } from 'src/interfaces/Student/Tmtimetable';
-import { IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from 'src/interfaces/Teacher/ITeacherTimeTable';
+import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from 'src/interfaces/Teacher/ITeacherTimeTable';
 import { AppThunk } from 'src/store';
 import WeekdaysApi from '../../api/Student/TimeTable';
 import WeekdayApi from '../../api/Teacher/TMtimetable';
@@ -15,7 +15,8 @@ const TMTimetableslice = createSlice({
     AdditionalLecture: [],
     ISGetTeacherTimeTableResult: [],
     ISApplicables: [],
-    ISGetLectureCountsForTeachers: []
+    ISGetLectureCountsForTeachers: [],
+    ISGetDataForAdditionalClasses: []
 
   },
 
@@ -42,6 +43,10 @@ const TMTimetableslice = createSlice({
 
     RGetLectureCountsForTeachers(state, action) {
       state.ISGetLectureCountsForTeachers = action.payload;
+    },
+
+    RGetDataForAdditionalClasses(state, action) {
+      state.ISGetDataForAdditionalClasses = action.payload;
     }
   }
 });
@@ -164,6 +169,28 @@ export const GetLectureCountsForTeachers =
       dispatch(TMTimetableslice.actions.RGetLectureCountsForTeachers(SubjectLectureCount));
 
     };
+
+
+export const GetDataForAdditionalClasses =
+  (data: IGetDataForAdditionalClassesBody): AppThunk =>
+    async (dispatch) => {
+      const response = await WeekdayApi.GetDataForAdditionalClasses(data);
+
+      // Table data
+      let AdditionalLecture = response.data.listSubjectName.map((item, i) => {
+        return {
+          Id: item.Standard_Division_Id,
+          Text1: item.WeekDay_Name,
+          Text2: item.Lecture_Number,
+          Text3: item.ClassName,
+          Text4: item.Subject_Name
+        }
+      })
+      console.log(">>>>>>>>>>>>TC", AdditionalLecture)
+      dispatch(TMTimetableslice.actions.RGetDataForAdditionalClasses(AdditionalLecture));
+
+    };
+
 
 
 export default TMTimetableslice.reducer;
