@@ -52,9 +52,11 @@ const Holidaysslice = createSlice({
       state.AllClassesAndDivisionss = action.payload;
     },
     getAllClassesAndDivisionss1(state, action) {
+      state.Loading = false;
       state.AllClassesAndDivisionss1 = action.payload;
     },
     getSelectedStandardAndDivisionCheckBoxx(state, action) {
+      state.Loading = false;
       state.SelectedStandardAndDivisionCheckBoxx = action.payload;
     },
 
@@ -63,10 +65,12 @@ const Holidaysslice = createSlice({
     },
 
     getHolidayStartAndEndDatePredefinedValidationCount(state, action) {
+      state.Loading = false;
       state.IHolidayStartAndEndDatePredefinedValidationCount = action.payload;
     },
 
     getSaveHoliday(state, action) {
+      state.Loading = false;
       state.SaveHoliday = action.payload;
     },
 
@@ -119,7 +123,6 @@ export const getHolidays =
 export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetHolidayList1(data);
-  console.log(response, "response---");
 
   const responseData = response.data.map((Item, i) => {
     return {

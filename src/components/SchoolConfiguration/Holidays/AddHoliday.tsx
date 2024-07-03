@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
+import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
@@ -50,6 +51,7 @@ const AddHoliday = ({ }) => {
     const DuplicateHolidayNameCount: any = useSelector((state: RootState) => state.Holidays.IHolidayDuplicateNameValidationCount)
     const Editholiday: any = useSelector((state: RootState) => state.Holidays.EditHolidayDetails);
     const PredefinedStartDateAndEndDateCount: any = useSelector((state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount)
+    const Loading: any = useSelector((state: RootState) => state.Holidays.Loading);
     const filteredItems = DuplicateHolidayNameCount.filter(item => item.DuplicateHolidayNameCount);
     const result = filteredItems.length > 0 ? filteredItems[0] : null;
     const filteredItems1 = PredefinedStartDateAndEndDateCount.filter(item => item.PredefinedStartDateAndEndDateCount);
@@ -405,6 +407,9 @@ const AddHoliday = ({ }) => {
                     }
                 />
 
+                {Loading &&
+                    <SuspenseLoader />
+                }
                 <Grid container spacing={2}>
 
                     <Grid item xs={6} md={4}>

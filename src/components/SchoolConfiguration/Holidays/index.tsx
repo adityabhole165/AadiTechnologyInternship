@@ -3,7 +3,7 @@ import Delete from "@mui/icons-material/Delete"
 import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, IconButton, Tooltip } from "@mui/material"
-import { blue, green } from "@mui/material/colors"
+import { green } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { GetScreenPermission, getDateMonthYearDayDash, getSchoolConfigurations }
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
+import SuspenseLoader from "src/layouts/components/SuspenseLoader"
 import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
@@ -24,7 +25,7 @@ const Holidays = (props: Props) => {
     const asDivisionId = sessionStorage.getItem('DivisionId');
     const [asHoliday_Id, setAsHoliday_Id] = useState();
     let CanAdd = getSchoolConfigurations(14)
-   
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const HolidayFullAccess = GetScreenPermission('Holidays')
@@ -39,6 +40,7 @@ const Holidays = (props: Props) => {
         (state: RootState) => state.Holidays.DeleteHolidayMsg
     );
 
+    const Loading: any = useSelector((state: RootState) => state.Holidays.Loading);
 
 
     const getHolidayColumns = () => {
@@ -239,6 +241,9 @@ const Holidays = (props: Props) => {
                     ) : null}
                 </>}
             />
+            {Loading &&
+                <SuspenseLoader />
+            }
             {/* Content */}
             <Box sx={{ background: 'white', p: 2 }}>
                 {/* <DataTable
