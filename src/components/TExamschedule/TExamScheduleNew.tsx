@@ -296,13 +296,13 @@ const TExamScheduleNew = () => {
                                             <TableRow>
                                                 {std === '0' &&
                                                     <TableCell colSpan={3}>
-                                                        <b>Instructions:</b>
+                                                        <b>Instructions : </b>
                                                     </TableCell>
                                                 }
                                                 {std !== '0' && <>
                                                     <TableCell colSpan={3}>
                                                         <Typography sx={{ color: 'darkblue' }}>
-                                                            <b>Instructions:</b>
+                                                            <b>Instructions : </b>
                                                             {classInstructions[getClassName()][exam.Text2]}
                                                         </Typography>
                                                     </TableCell>
