@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ITimetable, { IWeekdays } from 'src/interfaces/Student/TimeTable';
 import { ItimeTable } from 'src/interfaces/Student/Tmtimetable';
-import { IGetTeacherTimeTableBody } from 'src/interfaces/Teacher/ITeacherTimeTable';
+import { IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from 'src/interfaces/Teacher/ITeacherTimeTable';
 import { AppThunk } from 'src/store';
 import WeekdaysApi from '../../api/Student/TimeTable';
 import WeekdayApi from '../../api/Teacher/TMtimetable';
@@ -13,7 +13,10 @@ const TMTimetableslice = createSlice({
     Weekdays: [],
     TmTimetable: [],
     AdditionalLecture: [],
-    ISGetTeacherTimeTableResult: []
+    ISGetTeacherTimeTableResult: [],
+    ISApplicables: [],
+    ISGetLectureCountsForTeachers: []
+
   },
 
   reducers: {
@@ -31,6 +34,14 @@ const TMTimetableslice = createSlice({
 
     RGetTeacherTimeTableResult(state, action) {
       state.ISGetTeacherTimeTableResult = action.payload;
+    },
+
+    RApplicables(state, action) {
+      state.ISApplicables = action.payload;
+    },
+
+    RGetLectureCountsForTeachers(state, action) {
+      state.ISGetLectureCountsForTeachers = action.payload;
     }
   }
 });
@@ -101,6 +112,8 @@ export const GetTeacherTimeTableResult =
     async (dispatch) => {
       const response = await WeekdayApi.GetTimeTableDisplayForTeacher(data);
       console.log("kfaklfalafld", response)
+
+      // Table data
       let TimeTableList = response.data.listLectureName.map((item, i) => {
         return {
           Id: item.Lecture_No,
@@ -112,10 +125,45 @@ export const GetTeacherTimeTableResult =
           Text6: item.Friday
         }
       })
+
+      // applicables data | Count Data
+      let applicables = response.data.listMPT_Applicables.map((item, i) => {
+        return {
+          MPT: item.MPT_Applicable,
+          Assemble: item.Assembly_Applicable,
+          Stayback: item.Stayback_Applicable,
+        }
+      })
+
       console.log("kfaklfalafld..>>>>>", TimeTableList)
+
+      console.log("Applicable..>>>>>", applicables)
 
 
       dispatch(TMTimetableslice.actions.RGetTeacherTimeTableResult(TimeTableList));
+      dispatch(TMTimetableslice.actions.RApplicables(applicables));
     };
+
+export const GetLectureCountsForTeachers =
+  (data: IGetLectureCountsForTeachersBody): AppThunk =>
+    async (dispatch) => {
+      const response = await WeekdayApi.GetLectureCountsForTeachers(data);
+
+      // Table data
+      let SubjectLectureCount = response.data.map((item, i) => {
+        return {
+          Id: item.Teacher_Subject_Id,
+          Text1: item.Teacher_Subject_Id,
+          Text2: item.Class_Subject,
+          Text3: item.Count,
+          Text4: item.Standard_Division_Id,
+          Text5: item.Subject_Id,
+        }
+      })
+      console.log(">>>>>>>>>>>>TC", SubjectLectureCount)
+      dispatch(TMTimetableslice.actions.RGetLectureCountsForTeachers(SubjectLectureCount));
+
+    };
+
 
 export default TMTimetableslice.reducer;

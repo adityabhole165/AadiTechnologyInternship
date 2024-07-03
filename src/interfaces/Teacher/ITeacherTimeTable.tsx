@@ -40,3 +40,19 @@ export interface IGetTeacherTimeTableResult {
     ]
 }
 
+export interface IGetLectureCountsForTeachersBody {
+    asSchoolId: Number,
+    asTeacher_Id: Number,
+    asConsiderAssembly?: string,
+    asConsiderMPT?: string,
+    asConsiderStayback?: string,
+    asConsiderWeeklyTest?: string
+}
+
+export interface IGetLectureCountsForTeachersResult {
+    Teacher_Subject_Id: Number,
+    Class_Subject: Number,
+    Count: Number,
+    Standard_Division_Id: Number,
+    Subject_Id: Number
+}
