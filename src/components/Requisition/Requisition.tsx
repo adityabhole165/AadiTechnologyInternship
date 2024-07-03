@@ -207,11 +207,11 @@ const StatusRequisition = () => {
   const AddRequisition = (value) => {
     navigate('/extended-sidebar/Teacher/AddRequisition');
   };
-  const handlePageChange = (pageNumber) => {
+  const PageChange = (pageNumber) => {
     setPage2(pageNumber);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const ChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage2(1); // Reset to the first page when changing rows per page
   };
@@ -261,8 +261,8 @@ const StatusRequisition = () => {
 
   const startRecord = (page2 - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page2 * rowsPerPage, CountGetPagedRequisition.TotalCount);
-    console.log(endRecord,"endRecord----");
-    
+  const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
+       
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -483,10 +483,10 @@ const StatusRequisition = () => {
         {
           PagedRequisition.length > 0 ? (
             <ButtonGroupComponent
-              handlePageChange={handlePageChange}
-              numberOfButtons={CountGetPagedRequisition.TotalCount / rowsPerPage}
+              PageChange={PageChange}
+              numberOfButtons={pagecount}
               rowsPerPage={rowsPerPage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}
             />
 

@@ -176,7 +176,7 @@ const TExamScheduleNew = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {RoleId !== '3' && (
-                            <Box sx={{ width: '200px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
+                            <Box sx={{ width: '150px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
                                 <Dropdown
                                     Array={getstandard}
                                     handleChange={stdChange}
@@ -207,15 +207,16 @@ const TExamScheduleNew = () => {
                 <Box key={index}>
                     <Box
                         sx={{
-                            mt: 2,
+                            mt: 1, // Reduced margin-top
                             cursor: 'pointer',
-                            backgroundColor: '#FFC0CB',
-                            padding: '7px',
-                            border: '1px solid brown',
-                            borderRadius: '3px',
+                            backgroundColor: 'whitesmoke',
+                            padding: '2px',
+                            border: '1px solid White',
+                            borderRadius: '2px',
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
+                            mr: 0.5, // Reduced margin-right
                         }}
                         onClick={() => toggleAccordion(index)}
                     >
@@ -248,11 +249,11 @@ const TExamScheduleNew = () => {
                                                     borderLeft: '1px solid white',
                                                 }
                                             }}>
-                                                <TableCell sx={{ width: '10%' }}>Date</TableCell>
-                                                <TableCell sx={{ width: '10%' }}>Time</TableCell>
-                                                <TableCell sx={{ width: '8%' }}>Duration</TableCell>
+                                                <TableCell sx={{ width: '14%', textAlign: 'center' }}>Date</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'center' }}>Time</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'center' }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
-                                                    <TableCell key={index}>{className}</TableCell>
+                                                    <TableCell key={index} sx={{ textAlign: 'center' }}>{className}</TableCell>
                                                 ))}
                                                 {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Subject</TableCell>}
                                                 {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Description</TableCell>}
@@ -295,13 +296,13 @@ const TExamScheduleNew = () => {
                                             <TableRow>
                                                 {std === '0' &&
                                                     <TableCell colSpan={3}>
-                                                        <b>Instructions:</b>
+                                                        <b>Instructions : </b>
                                                     </TableCell>
                                                 }
                                                 {std !== '0' && <>
                                                     <TableCell colSpan={3}>
                                                         <Typography sx={{ color: 'darkblue' }}>
-                                                            <b>Instructions:</b>
+                                                            <b>Instructions : </b>
                                                             {classInstructions[getClassName()][exam.Text2]}
                                                         </Typography>
                                                     </TableCell>
@@ -342,3 +343,4 @@ const TExamScheduleNew = () => {
 };
 
 export default TExamScheduleNew;
+
