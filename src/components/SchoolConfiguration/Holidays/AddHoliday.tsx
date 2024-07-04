@@ -536,14 +536,14 @@ const AddHoliday = ({ }) => {
                                     color: 'green',
                                     ':hover': { backgroundColor: green[100] }
                                 }} onClick={ClickSave}>
-                                    Save
+                                   Save
                                 </Button>
                                 <Button sx={{
                                     // backgroundColor: green[100],
                                     color: 'red',
                                     ':hover': { backgroundColor: red[100] }
                                 }} onClick={resetForm}>
-                                    Cancle
+                                   Cancel
                                 </Button>
                             </Stack>
                         </Grid>
