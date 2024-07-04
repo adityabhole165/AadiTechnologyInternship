@@ -6,7 +6,7 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
@@ -21,6 +21,7 @@ import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
@@ -54,7 +55,6 @@ const AddRequisition = () => {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [page, setPage] = useState(1);
     const rowsPerPageOptions = [20, 50, 100, 200];
-
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
@@ -319,7 +319,7 @@ const AddRequisition = () => {
 
     const clickSearch = () => {
         if (regNoOrName == '') {
-            seterror('Item Code / Name should not be blank');
+            seterror('Item Code / Name should not be blank.');
             setIsSearchEmpty(false);
         } else {
             const filteredList = USGetAddItemList.filter((item) => {
@@ -343,7 +343,9 @@ const AddRequisition = () => {
 
     };
 
-
+    const handleClear = () => {
+        setRegNoOrName('');
+    };
     const [open1, setOpen1] = useState(false);
 
     const Openimage = () => {
@@ -555,7 +557,7 @@ const AddRequisition = () => {
                             onChange={ItemCategoryDropdown}
                             label={'Category'}
                             defaultValue={ItemCategory}
-                            mandatory
+                           
                             size={"small"}
                         />
 
@@ -571,6 +573,18 @@ const AddRequisition = () => {
                             variant={'outlined'}
                             size={"small"}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleClear}
+                                            edge="end"
+                                        >
+                                            <ClearIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
 
                         />
 
@@ -592,7 +606,7 @@ const AddRequisition = () => {
                         </IconButton>
 
 
-                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition'}>
+                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -642,10 +656,10 @@ const AddRequisition = () => {
                                 onClick={clickSend}
                                 sx={{
                                     color: 'white',
-                                    backgroundColor: green[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
-                                    marginLeft: '-4px',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
                                 }}
                             >
                                 <SendIcon />
