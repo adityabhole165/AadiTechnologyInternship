@@ -144,7 +144,7 @@ const AddHoliday = ({ }) => {
         dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody));
 
     }, [ClassSelected, StartDate, EndDate, HolidayTitle])
-
+  
 
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
@@ -201,6 +201,7 @@ const AddHoliday = ({ }) => {
 
         if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
+           
             dateError = true
             isError = true;
         } else setErrorStartDateblank('')
@@ -276,6 +277,13 @@ const AddHoliday = ({ }) => {
             navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
         }
     }, [SaveHolidays])
+
+
+    useEffect(() => {
+        if (StartDate === null) {
+            setTotalDays(0);   
+        }
+    }, [StartDate])
 
 
 
