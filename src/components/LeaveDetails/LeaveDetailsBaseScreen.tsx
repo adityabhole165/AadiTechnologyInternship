@@ -103,7 +103,7 @@ const LeaveDetailsBaseScreen = () => {
     const body: IGetLeaveDetailsListBody = {
         asSchoolId: Number(asSchoolId),
         asUserId: Number(asUserId),
-        asCategoryId: Number(1),
+        asCategoryId: Number(selectCategory),
         asStatusId: Number(selectStatus),
         asSortExpression: "StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
         asStartIndex: Number(0),
