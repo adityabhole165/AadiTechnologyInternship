@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import LeaveDetailsAPI from 'src/api/LeaveDetails/ApiLeaveDetails';
 import { getDateMonthYearDayDash } from 'src/components/Common/Util';
-import { IGetAcademicYearBody, IGetCategoryDropdownBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody, IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetAcademicYearBody, IGetAllReportingUsersBody, IGetCategoryDropdownBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody, IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 
 import { AppThunk } from 'src/store';
 
@@ -13,6 +13,7 @@ const LeaveDetailsslice = createSlice({
         CategoryDropdownList: [],
         StatusList: [],
         LeaveDetailsList: [],
+        AllReportingUsers: [],
         ViewLeaveDetails: [],
         DeleteLeaveMsg: '',
         Loading: true
@@ -31,6 +32,10 @@ const LeaveDetailsslice = createSlice({
         getLeaveDetailsList(state, action) {
             state.Loading = false;
             state.LeaveDetailsList = action.payload;
+        },
+        getAllReportingUsers(state, action) {
+            state.Loading = false;
+            state.AllReportingUsers = action.payload;
         },
         getDeleteLeaveMsg(state, action) {
             state.Loading = false;
@@ -74,6 +79,24 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
         };
     });
     dispatch(LeaveDetailsslice.actions.getLeaveDetailsList(responseData));
+};
+
+export const getAllReportingUsers = (data: IGetAllReportingUsersBody): AppThunk => async (dispatch) => {
+    dispatch(LeaveDetailsslice.actions.getLoading(true));
+    const response = await LeaveDetailsAPI.GetAllReportingUsers(data);
+    console.log(response, "response---");
+
+    const responseData = response.data.map((Item, i) => {
+        return {
+            Id: Item.UserId,
+            Text1: Item.UserName,
+            Text2: Item.ReportingParameterName,
+            Text3: Item.ReportingPrameterId,
+            Text4: Item.ReportingParameterName,
+            Text5: Item.ReportingId
+        };
+    });
+    dispatch(LeaveDetailsslice.actions.getAllReportingUsers(responseData));
 };
 
 export const CategoryDropdown =

@@ -5,17 +5,20 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
+    Checkbox,
+    FormControlLabel,
     IconButton,
     Tooltip,
+    Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
+import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getAllReportingUsers, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import { GetScreenPermission, getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -28,6 +31,7 @@ const LeaveDetailsBaseScreen = () => {
     const [selectCategory, setCategory] = useState("0");
     const [selectAcademicYear, setAcademicYear] = useState("0");
     const [selectStatus, setStatus] = useState("0");
+    const [showNonupdatedrecords, setshowNonupdatedrecords] = useState(true);
     const HolidayFullAccess = GetScreenPermission('Holidays');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -46,6 +50,9 @@ const LeaveDetailsBaseScreen = () => {
     const GetLeaveList = useSelector(
         (state: RootState) => state.LeaveDetails.LeaveDetailsList
     );
+    const AllReportingUser = useSelector(
+        (state: RootState) => state.LeaveDetails.AllReportingUsers
+    );
     const deleteLeavedetailsMsg = useSelector(
         (state: RootState) => state.LeaveDetails.DeleteLeaveMsg
     );
@@ -60,11 +67,14 @@ const LeaveDetailsBaseScreen = () => {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(selectAcademicYear),
         asUserId: Number(asUserId),
-        asCategoryId: Number(1),
+        asCategoryId: Number(selectCategory),
         asShowOnlyNonUpdated: false
     };
     useEffect(() => {
         dispatch(AcademicYearDropdown(AcademicYearBody));
+    }, []);
+    useEffect(() => {
+        dispatch(getAllReportingUsers(AllReportingUsersbody));
     }, []);
     // useEffect(() => {
     //     if (GetAcademicYear.length > 0) {
@@ -98,17 +108,20 @@ const LeaveDetailsBaseScreen = () => {
         dispatch(getLeaveDetailList(body));
     }, [selectAcademicYear, selectCategory, selectStatus]);
 
-
+    const AllReportingUsersbody: IGetAllReportingUsersBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(selectAcademicYear)
+    }
 
     const body: IGetLeaveDetailsListBody = {
         asSchoolId: Number(asSchoolId),
         asUserId: Number(asUserId),
-        asCategoryId: Number(1),
+        asCategoryId: Number(selectCategory),
         asStatusId: Number(selectStatus),
         asSortExpression: "StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
         asStartIndex: Number(0),
         asEndIndex: Number(20),
-        asShowOnlyNonUpdated: false,
+        asShowOnlyNonUpdated: showNonupdatedrecords.toString(),
         asAcademicYearId: Number(asAcademicYearId)
     };
     useEffect(() => {
@@ -261,6 +274,10 @@ const LeaveDetailsBaseScreen = () => {
     const clickStatusDropdown = (value) => {
         setStatus(value);
     };
+    const handleCheckboxChange = (value) => {
+        setshowNonupdatedrecords(value);
+    };
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -309,24 +326,44 @@ const LeaveDetailsBaseScreen = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Add New Leave">
-                            <IconButton
-                                sx={{
-                                    bgcolor: 'grey.500',
-                                    color: 'white',
-                                    '&:hover': {
-                                        bgcolor: 'grey.600'
-                                    }
-                                }}
-                                onClick={AddLeave}
-                            >
-                                <Add />
-                            </IconButton>
-                        </Tooltip>
+                        {selectCategory == '1' ? (
+                            <Tooltip title="Add New Leave">
+                                <IconButton
+                                    sx={{
+                                        bgcolor: 'grey.500',
+                                        color: 'white',
+                                        '&:hover': {
+                                            bgcolor: 'grey.600'
+                                        }
+                                    }}
+                                    onClick={AddLeave}
+                                >
+                                    <Add />
+                                </IconButton>
+                            </Tooltip>
+                        ) : null}
                     </Box>
                 }
             />
+            <Typography margin={'1px'}>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={showNonupdatedrecords}
+                            onChange={(e) => {
+                                handleCheckboxChange(e.target.checked);
+                            }}
+                        />
+                    }
+                    label="Show only non updated records?"
+                />
+            </Typography>
+            <Box sx={{ background: 'white', p: 1 }}>
+                <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                    <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend :  Leave not updated in Payroll</Typography>
 
+                </Box>
+            </Box><br></br>
 
             <LeaveList
                 HeaderArray={HeaderLeave}

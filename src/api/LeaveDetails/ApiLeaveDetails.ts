@@ -1,4 +1,4 @@
-import { IGetAcademicYearBody, IGetAcademicYearResult, IGetCategoryDropdownBody, IGetCategoryDropdownResult, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetLeaveDetailsListResult, IGetStatusDropdownBody, IGetStatusDropdownResult, IGetViewLeaveBody, IGetViewLeaveResult } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetAcademicYearBody, IGetAcademicYearResult, IGetAllReportingUsersBody, IGetAllReportingUsersResult, IGetCategoryDropdownBody, IGetCategoryDropdownResult, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetLeaveDetailsListResult, IGetStatusDropdownBody, IGetStatusDropdownResult, IGetViewLeaveBody, IGetViewLeaveResult } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -20,6 +20,9 @@ const GetStatusDropdown = (data: IGetStatusDropdownBody) => {
 const GetLeaveDetailsList = (data: IGetLeaveDetailsListBody) => {
     return http.post<IGetLeaveDetailsListResult[]>('Teacher/GetAllLeaveApprovalCatgoriesList', data);
 };
+const GetAllReportingUsers = (data: IGetAllReportingUsersBody) => {
+    return http.post<IGetAllReportingUsersResult[]>('Teacher/GetAllReportingUsers', data);
+};
 const GetViewLeaveDetails = (data: IGetViewLeaveBody) => {
     return http.post<IGetViewLeaveResult[]>('Teacher/GetLeaveCategoryDetails', data);
 }
@@ -34,7 +37,8 @@ const LeaveDetailsAPI = {
     GetStatusDropdown,
     GetDeleteLeaveDetails,
     GetViewLeaveDetails,
-    GetLeaveDetailsList
+    GetLeaveDetailsList,
+    GetAllReportingUsers
 };
 
 

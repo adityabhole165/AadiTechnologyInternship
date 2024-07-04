@@ -318,13 +318,15 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                         onChange={(e) => {
                             setEventTitle(e.target.value);
                         }}
-                        error={errorEventTitle !== ''}
-                        helperText={errorEventTitle}
+                       // error={errorEventTitle !== ''}
+                       // helperText={errorEventTitle}
                         fullWidth
                         sx={{
                             resize: 'both'
                         }}
+
                     />
+                     {errorEventTitle && <ErrorMessage1 Error={errorEventTitle} />}
                 </Grid>
                 <Grid xs={6} md={6} item>
                     <TextField
@@ -339,13 +341,14 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                         onChange={(e) => {
                             setEventDescription(e.target.value);
                         }}
-                        error={ErrorEventDescription !== ''}
-                        helperText={ErrorEventDescription}
+                        // error={ErrorEventDescription !== ''}
+                        // helperText={ErrorEventDescription}
                         fullWidth
                         sx={{
                             resize: 'both'
                         }}
                     />
+                     {ErrorEventDescription && <ErrorMessage1 Error={ErrorEventDescription} />}
                 </Grid>
                 <Grid item xs={6} md={6}>
                     {/* <TextField

@@ -801,7 +801,7 @@ const AddLessonPlan = () => {
             <Datepicker
               DateValue={StartDate}
               onDateChange={onSelectStartDate}
-              label={'StartDate'}
+              label={'Start Date'}
               size={"medium"}
             />
 
@@ -823,7 +823,7 @@ const AddLessonPlan = () => {
             // helperText={errorEndDate}
 
             /> */}
-            <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} label={'EndDate'} size={"medium"} />
+            <Datepicker DateValue={EndDate} onDateChange={onSelectEndDate} label={'End Date'} size={"medium"} />
           </Grid>
           <Grid item xs={3}>
             <SearchableDropdown

@@ -52,7 +52,7 @@ const AssignExamMarkSlice = createSlice({
 
 
     resetMessage(state) {
-      state.ISSubmitMarksRest = '';
+      state.ISSubmitMarksTeacher = '';
     }
   }
 });

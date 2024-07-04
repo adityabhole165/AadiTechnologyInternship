@@ -15,7 +15,7 @@ import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails, resetSaveHolidays } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
@@ -144,7 +144,7 @@ const AddHoliday = ({ }) => {
         dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody));
 
     }, [ClassSelected, StartDate, EndDate, HolidayTitle])
-
+  
 
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
@@ -201,6 +201,7 @@ const AddHoliday = ({ }) => {
 
         if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
+           
             dateError = true
             isError = true;
         } else setErrorStartDateblank('')
@@ -260,15 +261,29 @@ const AddHoliday = ({ }) => {
 
         if (!isError) {
             dispatch(getSaveHolidays(SaveHolidayBody));
-            if (Holiday_Id) {
-                toast.success("Holiday details updated successfully.");
-            } else {
-                toast.success("Holiday details saved successfully.");
-            }
-            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
         }
 
     };
+    useEffect(() => {
+        if (SaveHolidays != "") {
+
+            if (Holiday_Id) {
+                toast.success("Holiday details updated successfully.", { toastId: "success1" });
+            } else {
+                toast.success("Holiday details saved successfully.", { toastId: "success1" });
+            }
+            dispatch(resetSaveHolidays());
+
+            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+        }
+    }, [SaveHolidays])
+
+
+    useEffect(() => {
+        if (StartDate === null || EndDate === null) {
+            setTotalDays(0);   
+        }
+    }, [StartDate , EndDate])
 
 
 
@@ -406,128 +421,129 @@ const AddHoliday = ({ }) => {
                         </>
                     }
                 />
+                <Box sx={{ p: 2, background: 'white' }}>
+                    {/* {Loading &&
+                        <SuspenseLoader />
+                    } */}
+                    <Grid container spacing={2}>
 
-                {Loading &&
-                    <SuspenseLoader />
-                }
-                <Grid container spacing={2}>
-
-                    <Grid item xs={6} md={4}>
-                        <Datepicker
-                            DateValue={StartDate}
-                            onDateChange={onSelectStartDate}
-                            label={'Start Date'}
-                            size={"medium"}
-                        />
-                        <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
-
-
-                    </Grid>
-
-                    <Grid item xs={6} md={4}>
-                        <Datepicker
-                            DateValue={EndDate}
-                            onDateChange={onSelectEndDate}
-                            label={'End Date'}
-                            size={"medium"}
-                        />
-
-                        <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
+                        <Grid item xs={6} md={4}>
+                            <Datepicker
+                                DateValue={StartDate}
+                                onDateChange={onSelectStartDate}
+                                label={'Start Date'}
+                                size={"medium"}
+                            />
+                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
 
 
-                    </Grid>
+                        </Grid>
 
-                    <Grid item xs={6} md={4}>
-                        <TextField
-                            label="Total Days"
-                            value={TotalDays}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            fullWidth
-                        />
-                    </Grid>
+                        <Grid item xs={6} md={4}>
+                            <Datepicker
+                                DateValue={EndDate}
+                                onDateChange={onSelectEndDate}
+                                label={'End Date'}
+                                size={"medium"}
+                            />
+
+                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
 
 
-                    <Grid xs={6} md={6} item>
-                        <TextField
-                            label={
-                                <span>
-                                    Name <span style={{ color: 'red' }}>*</span>
-                                </span>
-                            }
-                            multiline
-                            rows={3}
-                            value={HolidayTitle}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                if (value.length <= 50) {
-                                    setHolidayTitle(value);
+                        </Grid>
+
+                        <Grid item xs={6} md={4}>
+                            <TextField
+                                label="Total Days"
+                                value={TotalDays}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                fullWidth
+                            />
+                        </Grid>
+
+
+                        <Grid xs={6} md={6} item>
+                            <TextField
+                                label={
+                                    <span>
+                                        Name <span style={{ color: 'red' }}>*</span>
+                                    </span>
                                 }
-                            }}
-                            // error={errorHolidayTitle !== ''}
-                            // helperText={errorHolidayTitle}
-                            fullWidth
-                            sx={{
-                                resize: 'both'
-                            }}
-                        >
-                        </TextField>
-                        <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
-                        <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
+                                multiline
+                                rows={3}
+                                value={HolidayTitle}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value.length <= 50) {
+                                        setHolidayTitle(value);
+                                    }
+                                }}
+                                // error={errorHolidayTitle !== ''}
+                                // helperText={errorHolidayTitle}
+                                fullWidth
+                                sx={{
+                                    resize: 'both'
+                                }}
+                            >
+                            </TextField>
+                            <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
+                            <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
 
-                    </Grid>
-                    <Grid xs={6} md={6} item>
-                        <TextField
-                            label={
-                                <span>
-                                    Remark
-                                </span>
-                            }
-                            multiline
-                            rows={3}
-                            value={Reamrk}
-                            onChange={(e) => {
-                                setRemark(e.target.value);
-                            }}
-                            fullWidth
-                            error={Reamrk1 !== ''}
-                            helperText={Reamrk1}
-                        >
-                        </TextField>
-                    </Grid>
+                        </Grid>
+                        <Grid xs={6} md={6} item>
+                            <TextField
+                                label={
+                                    <span>
+                                        Remark
+                                    </span>
+                                }
+                                multiline
+                                rows={3}
+                                value={Reamrk}
+                                onChange={(e) => {
+                                    setRemark(e.target.value);
+                                }}
+                                fullWidth
+                                error={Reamrk1 !== ''}
+                                helperText={Reamrk1}
+                            >
+                            </TextField>
+                        </Grid>
 
-                    <Grid item xs={12} md={12} mt={4}>
-                        <Typography variant="h6">
-                            Associated Classes <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <SelectListHierarchy
-                            ItemList={ItemList}
-                            ParentList={ClassesAndDivisionss1}
-                            ClickChild={ClickChild}
-                        ></SelectListHierarchy>
-                        <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
+                        <Grid item xs={12} md={12} mt={4}>
+                            <Typography variant="h6">
+                                Associated Classes <span style={{ color: 'red' }}>*</span>
+                            </Typography>
+                            <SelectListHierarchy
+                                ItemList={ItemList}
+                                ParentList={ClassesAndDivisionss1}
+                                ClickChild={ClickChild}
+                            ></SelectListHierarchy>
+                            <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
 
-                    </Grid>
+                        </Grid>
 
-                    <Grid item xs={12} md={12}>
-                        <Stack direction={"row"} gap={2} alignItems={"center"}>
-                            <Button variant={'contained'} color="success" onClick={ClickSave}>
-                                SAVE
-                            </Button>
-                            <Button variant={'contained'} color="error" onClick={resetForm}>
-                                CANCEL
-                            </Button>
-                        </Stack>
-                    </Grid>
-                </Grid >
+                        <Grid item xs={12} md={12}>
+                            <Stack direction={"row"} gap={2} alignItems={"center"}>
+                                <Button variant={'contained'} color="success" onClick={ClickSave}>
+                                    SAVE
+                                </Button>
+                                <Button variant={'contained'} color="error" onClick={resetForm}>
+                                    CANCEL
+                                </Button>
+                            </Stack>
+                        </Grid>
+                    </Grid >
 
 
+                </Box>
             </Box>
         </>
     )

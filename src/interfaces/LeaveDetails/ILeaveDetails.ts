@@ -45,7 +45,7 @@ export interface IGetLeaveDetailsListBody {
     asSortExpression: string,
     asStartIndex: number,
     asEndIndex: number,
-    asShowOnlyNonUpdated: boolean,
+    asShowOnlyNonUpdated: string,
     asAcademicYearId: number
 }
 export interface IGetLeaveDetailsListResult {
@@ -89,4 +89,17 @@ export interface IGetStatusDropdownBody {
 export interface IGetStatusDropdownResult {
     StatusId: string;
     Status: string;
+}
+
+export interface IGetAllReportingUsersBody {
+    asSchoolId: number,
+    asAcademicYearId: number
+}
+export interface IGetAllReportingUsersResult {
+    UserName: string,
+    UserId: string,
+    RoleId: string,
+    ReportingParameterName: string,
+    ReportingPrameterId: string,
+    ReportingId: string
 }
