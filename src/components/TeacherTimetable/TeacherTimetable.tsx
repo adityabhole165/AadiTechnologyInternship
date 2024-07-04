@@ -198,9 +198,9 @@ const TeacherTimetable = () => {
                       padding: '4px'
                     }}
                   >
-                    N/C
+                    N/A
                   </Box>
-                  <Typography>Not Configured</Typography>
+                  <Typography>Not Available</Typography>
                 </Box>
               </Box>
             </Stack> <br />
