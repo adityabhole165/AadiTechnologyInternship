@@ -21,6 +21,7 @@ import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 
 const AddRequisition = () => {
@@ -619,7 +620,7 @@ const AddRequisition = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title={'Change Input'}>
+                        <Tooltip title={'Reset'}>
                             {Itemlist.length > 0 ?
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
@@ -633,7 +634,8 @@ const AddRequisition = () => {
                                             }
                                         }}
                                     >
-                                        <ChangeCircleIcon />
+                                        <RestartAltIcon />
+
                                     </IconButton>
                                 </Box> : <span> </span>}
                         </Tooltip>
