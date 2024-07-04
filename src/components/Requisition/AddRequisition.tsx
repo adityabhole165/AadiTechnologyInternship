@@ -557,7 +557,7 @@ const AddRequisition = () => {
                             onChange={ItemCategoryDropdown}
                             label={'Category'}
                             defaultValue={ItemCategory}
-                           
+                            disabled={Itemlist.length > 0}
                             size={"small"}
                         />
 
@@ -572,6 +572,7 @@ const AddRequisition = () => {
                             value={regNoOrName}
                             variant={'outlined'}
                             size={"small"}
+                            disabled={Itemlist.length > 0}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
                             InputProps={{
                                 endAdornment: (
