@@ -4,21 +4,20 @@ import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, IconButton, Tooltip, Typography } from "@mui/material"
 import { green } from "@mui/material/colors"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission, getDateMonthYearDayDash, getSchoolConfigurations } from "src/components/Common/Util"
+import { GetScreenPermission, getSchoolConfigurations } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
+import { AlertContext } from 'src/contexts/AlertContext'
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
 import SuspenseLoader from "src/layouts/components/SuspenseLoader"
 import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent"
 import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
-import { useContext } from 'react';
-import { AlertContext } from 'src/contexts/AlertContext';
 type Props = {}
 
 const Holidays = (props: Props) => {
@@ -171,7 +170,7 @@ const Holidays = (props: Props) => {
         asPageSize: Number(20),
     };
 
-    
+
 
     // const deleteRow = (Holiday_Id) => {
     //     if (
@@ -194,25 +193,25 @@ const Holidays = (props: Props) => {
             asAcademicYearID: Number(asAcademicYearId),
             asHoliday_Id: Number(Holiday_Id),
         };
-        
-    showAlert({
-        title: 'Please Confirm',
-        message:
-          'Are you sure you want to delete this holiday?  ',
-        variant: 'warning',
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        onCancel: () => {
-          closeAlert();
-        },
-        onConfirm: () => {
-            dispatch(DeleteHolidayDetails(DeleteHolidayBody));
-          closeAlert();
-        }
-      });
 
-      
-};
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete this holiday?  ',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(DeleteHolidayDetails(DeleteHolidayBody));
+                closeAlert();
+            }
+        });
+
+
+    };
 
     useEffect(() => {
         if (deleteHolidaydetailsMsg != '') {
@@ -299,7 +298,7 @@ const Holidays = (props: Props) => {
                     isLoading={false}
                 /> */}
 
-                {holidaysList.length > 20 ? <div style={{ flex: 1, textAlign: 'center' }}>
+                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                         <Box component="span" fontWeight="fontWeightBold">
                             {startRecord} to {endRecord}
@@ -321,7 +320,7 @@ const Holidays = (props: Props) => {
                     clickDelete={deleteRow}
                 />
                 <br />
-                {holidaysList.length > 19 ? <ButtonGroupComponent
+                {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
                     PageChange={PageChange}
                     numberOfButtons={pagecount}
                     rowsPerPage={rowsPerPage}
