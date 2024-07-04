@@ -42,7 +42,8 @@ const AddHomeworkNew = () => {
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
 
   const [ErrorTitle, setErrorTitle] = useState('');
-  const [CompleteDate, setCompleteDate]: any = useState(new Date().toISOString().split('T')[0]);
+  //const [CompleteDate, setCompleteDate]: any = useState(null);
+  const [CompleteDate, setCompleteDate] = useState<string | null>(null);
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
   const [fileName, setFileName] = useState('');
@@ -81,7 +82,7 @@ const AddHomeworkNew = () => {
 
   const HeaderPublish1 = [
     { Id: 1, Header: ' 	' },
-    { Id: 2, Header: 'SR.No 	' },
+    { Id: 2, Header: 'Sr.No 	' },
     { Id: 3, Header: 'Subject' },
     { Id: 4, Header: 'Title' },
     { Id: 5, Header: 'Is Published? ', align: 'center' },
@@ -157,7 +158,10 @@ const AddHomeworkNew = () => {
     asHomeworkTitle: '',
     asAssignedDate: AssignedDate1
   }
-
+  const adjustToLocalTimezone = (date) => {
+    const localDate = new Date(date);
+    return new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+  };
   const HomeworkSaveBody: ISaveHomeworkBody = {
     AsId: Number(HomeworkId),
     asTitle: Title,
@@ -166,7 +170,7 @@ const AddHomeworkNew = () => {
     asAttachmentPath: fileName,
     asDetails: Details,
     asAssignDate: AssignedDate,
-    asCompleteByDate: CompleteDate,
+    asCompleteByDate: adjustToLocalTimezone(CompleteDate).toISOString(),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asInsertedById: Number(asTeacherId),
@@ -179,25 +183,21 @@ const AddHomeworkNew = () => {
   const ResetForm = () => {
     setSubjectCheckID('');
     setTitle('');
-
-    setCompleteDate('');
-
+    setAssignedDate('');
+    setCompleteDate(null);
     setFileName('');
     setDetails('');
     setMultipleFiles([]);
-
   };
 
   const ResetForm1 = () => {
     setSubjectCheckID('');
-
-
-    setCompleteDate('');
-
+    setTitle('');
+    setAssignedDate('');
+    setCompleteDate(null);
     setFileName('');
     setDetails('');
     setMultipleFiles([]);
-
   };
 
   const handleEditClick = (Id) => {
@@ -227,35 +227,81 @@ const AddHomeworkNew = () => {
 
 
 
+  // const ClickSaveHomework = () => {
+  //   let isError = false;
+  //   if (Title == '') {
+  //     setErrorTitle(' Title should not be blank.')
+  //     isError = true
+
+  //   } else if (AssignedDate == '') {
+  //     setErrorAssignedDate('AssignedDate should not be blank ')
+  //     isError = true
+  //   }
+  //   else if (CompleteDate == '') {
+  //     setErrorCompleteDate('Complete by Date should not be blank ')
+  //     isError = true
+  //   }
+
+  //   else if (Details == '') {
+  //     setErrorDetails('Details should not be blank')
+  //     isError = true
+  //   }
+
+  //   else if (!isError) {
+  //     dispatch(HomeworkSave(HomeworkSaveBody))
+
+  //   }
+
+  //   else (!isError)
+  //   ResetForm1()
+
+  // }
   const ClickSaveHomework = () => {
     let isError = false;
-    if (Title == '') {
-      setErrorTitle(' Title should not be blank.')
-      isError = true
 
-    } else if (AssignedDate == '') {
-      setErrorAssignedDate('AssignedDate should not be blank ')
-      isError = true
-    }
-    else if (CompleteDate == '') {
-      setErrorCompleteDate('Complete by Date should not be blank ')
-      isError = true
+    if (Title.trim()  === '') {
+      setErrorTitle('Title should not be blank.');
+      isError = true;
+    } else {
+      setErrorTitle('');
     }
 
-    else if (Details == '') {
-      setErrorDetails('Details should not be blank')
-      isError = true
+    if (AssignedDate.trim() === '') {
+      setErrorAssignedDate('Assigned date should not be blank.');
+      isError = true;
+    } else if (ErrorAssignedDate) {
+      isError = true; // Check if there's an error message for Assigned Date
+    } else {
+      setErrorAssignedDate('');
+    }
+    if (!CompleteDate) {
+      setErrorCompleteDate('Complete by date should not be blank.');
+      isError = true;
+    } else {
+      setErrorCompleteDate('');
     }
 
-    else if (!isError) {
-      dispatch(HomeworkSave(HomeworkSaveBody))
-
+    if (Details.trim() === '') {
+      setErrorDetails('Details should not be blank.');
+      isError = true;
+    } else {
+      setErrorDetails('');
     }
+    
+    // if (fileName === '') {
+    //   setErrorDetails('');
+    //   isError = true;
+    // } else {
+    //   setErrorDetails('');
+    // }
 
-    else (!isError)
-    ResetForm1()
+    if (!isError) {
 
-  }
+      dispatch(HomeworkSave(HomeworkSaveBody));
+      ResetForm1();
+    }
+  };
+
   useEffect(() => {
     if (SaveHomework != '') {
       dispatch(resetHomework());
@@ -281,29 +327,56 @@ const AddHomeworkNew = () => {
 
   }
 
-  const handleAssignedDateChange = (e) => {
-    const selectedDate = e.target.value;
+
+
+  // Function to handle change in complete by date
+  // const handleCompleteByDateChange = (e) => {
+  //   const selectedDate = e.target.value;
+  //   const currentDate = new Date().toISOString().split('T')[0];
+  //   if (selectedDate < currentDate) {
+  //     setErrorCompleteDate('Complete by date cannot be a past date.');
+  //   } else {
+  //     setErrorCompleteDate('');
+  //     setCompleteDate(selectedDate);
+  //   }
+  // };
+  const handleAssignedDateChange = (selectedDate: string) => {
+    if (!selectedDate) {
+      setErrorAssignedDate('Assigned date should not be blank.');
+      setAssignedDate(''); // Reset AssignedDate state if needed
+      return;
+    }
+
+    const selectedDateISO = new Date(selectedDate).toISOString().split('T')[0];
     const currentDate = new Date().toISOString().split('T')[0];
-    if (selectedDate < currentDate) {
+
+    if (selectedDateISO < currentDate) {
       setErrorAssignedDate('Assigned date cannot be a past date.');
     } else {
       setErrorAssignedDate('');
-      setAssignedDate(selectedDate);
+      setAssignedDate(selectedDateISO);
     }
   };
 
-  // Function to handle change in complete by date
-  const handleCompleteByDateChange = (e) => {
-    const selectedDate = e.target.value;
+
+  const handleCompleteByDateChange = (selectedDate: string) => {
+    // Check if selectedDate is null or undefined
+    if (!selectedDate) {
+      setErrorCompleteDate('');
+      setCompleteDate(null); // or handle it according to your logic
+      return;
+    }
+
     const currentDate = new Date().toISOString().split('T')[0];
-    if (selectedDate < currentDate) {
+    const selectedDateISO = new Date(selectedDate).toISOString().split('T')[0];
+
+    if (selectedDateISO < currentDate) {
       setErrorCompleteDate('Complete by date cannot be a past date.');
     } else {
       setErrorCompleteDate('');
       setCompleteDate(selectedDate);
     }
   };
-
 
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id +
@@ -354,10 +427,6 @@ const AddHomeworkNew = () => {
       dispatch(HomeworkDelete(DeleteHomeworkBody));
     }
   };
-
-
-
-
 
   useEffect(() => {
     if (DeleteHomework != '') {
@@ -549,8 +618,6 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
   };
 
-
-
   const ClickOkall = () => {
     if (textall !== '') {
       setOpenPublishDialogall(false);
@@ -560,10 +627,6 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
       toast.error('Please provide a reason for unpublishing.');
     }
   };
-
-
-
-
 
 
   useEffect(() => {
@@ -679,6 +742,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
     }
   };
+  const handleFileChange = (files) => {
+    setMultipleFiles(files);
+  };
 
 
   return (
@@ -784,8 +850,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
-                error={ErrorTitle !== ''}
-                helperText={ErrorTitle}
+                //error={ErrorTitle !== ''}
+                //helperText={ErrorTitle}
                 sx={{ width: '100%' }}
                 label={
                   <span>
@@ -793,6 +859,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                   </span>
                 }
               />
+                {ErrorTitle && <ErrorMessage1 Error={ErrorTitle} />}
             </Grid>
 
             <Grid item xs={3}>
@@ -822,7 +889,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 size={"medium"}
 
               />
-              <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1>
+              {/* <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1> */}
+              {ErrorAssignedDate && <ErrorMessage1 Error={ErrorAssignedDate} />}
             </Grid>
             <Grid item xs={3}>
               {/* <TextField
@@ -850,7 +918,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 size={"medium"}
 
               />
-              <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1>
+              {/* <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1> */}
+              {ErrorCompleteDate && <ErrorMessage1 Error={ErrorCompleteDate} />}
             </Grid>
 
             {/* <Grid item xs={3}>
@@ -865,18 +934,33 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               isMandatory={false}
             />
           </Grid> */}
-            <Grid item xs={3}>
+            {/* <Grid item xs={3}>
               <MultipleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
-                // FileName={fileName}
-                ChangeFile={setMultipleFiles}
+                FileName={fileName}
+              
+                ChangeFile={handleFileChange}
                 FileLabel={'Attachments'}
                 width={'100%'}
                 height={"52px"}
                 isMandatory={false}
               />
+            </Grid> */}
+            <Grid item xs={3}>
+              <MultipleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                ChangeFile={handleFileChange}
+                FileLabel={'Attachments'}
+                width={'100%'}
+                height={'52px'}
+                isMandatory={false}
+                
+              />
             </Grid>
+
+
             {/* 
           <Grid item xs={3}>
             <Button
@@ -904,9 +988,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 onChange={(e) => {
                   setDetails(e.target.value);
                 }}
-                error={ErrorDetails !== ''}
-                helperText={ErrorDetails}
+               // error={ErrorDetails !== ''}
+              //  helperText={ErrorDetails}
               />
+               {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
             </Grid>
 
           </Grid>
@@ -1012,7 +1097,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               clickVisibilityIcon={clickView}
               clickpublish={clickPublishUnpublish}
               HeaderArray={HeaderPublish}
-            // clickAttachment={clickFileName}
+           // clickAttachment={clickFileName}
             />
 
           ) : (
