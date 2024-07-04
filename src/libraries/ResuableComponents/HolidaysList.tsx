@@ -145,7 +145,10 @@ function HolidaysList({
                           textTransform: 'capitalize',
                           backgroundColor: rowStyle.backgroundColor,
                           textAlign: 'left',
-                          opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                          opacity: !isCurrentDate && isPast ? 0.5 : 1,
+                          // paddingTop: '16px',
+                          // paddingBottom: '7px'
+                          padding: '10px'
                         }}
                         align="left"
                       >
