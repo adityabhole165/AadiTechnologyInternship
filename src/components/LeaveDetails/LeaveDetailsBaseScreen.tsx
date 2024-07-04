@@ -60,7 +60,7 @@ const LeaveDetailsBaseScreen = () => {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(selectAcademicYear),
         asUserId: Number(asUserId),
-        asCategoryId: Number(1),
+        asCategoryId: Number(selectCategory),
         asShowOnlyNonUpdated: false
     };
     useEffect(() => {
@@ -309,6 +309,7 @@ const LeaveDetailsBaseScreen = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
+                        {selectCategory == '1' ? ( 
                         <Tooltip title="Add New Leave">
                             <IconButton
                                 sx={{
@@ -323,6 +324,7 @@ const LeaveDetailsBaseScreen = () => {
                                 <Add />
                             </IconButton>
                         </Tooltip>
+                           ) : null} 
                     </Box>
                 }
             />
