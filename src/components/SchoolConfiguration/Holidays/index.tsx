@@ -258,9 +258,9 @@ const Holidays = (props: Props) => {
                     ) : null}
                 </>}
             />
-            {/* {Loading &&
+            {Loading &&
                 <SuspenseLoader />
-            } */}
+            }
             {/* Content */}
             <Box sx={{ background: 'white', p: 2 }}>
                 {/* <DataTable
