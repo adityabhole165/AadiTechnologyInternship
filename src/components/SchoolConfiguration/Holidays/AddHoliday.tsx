@@ -15,7 +15,7 @@ import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails, resetSaveHolidays } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
@@ -260,15 +260,22 @@ const AddHoliday = ({ }) => {
 
         if (!isError) {
             dispatch(getSaveHolidays(SaveHolidayBody));
-            if (Holiday_Id) {
-                toast.success("Holiday details updated successfully.");
-            } else {
-                toast.success("Holiday details saved successfully.");
-            }
-            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
         }
 
     };
+    useEffect(() => {
+        if (SaveHolidays != "") {
+
+            if (Holiday_Id) {
+                toast.success("Holiday details updated successfully.", { toastId: "success1" });
+            } else {
+                toast.success("Holiday details saved successfully.", { toastId: "success1" });
+            }
+            dispatch(resetSaveHolidays());
+
+            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+        }
+    }, [SaveHolidays])
 
 
 

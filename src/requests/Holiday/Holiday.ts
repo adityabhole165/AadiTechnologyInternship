@@ -74,6 +74,10 @@ const Holidaysslice = createSlice({
       state.SaveHoliday = action.payload;
     },
 
+    resetSaveHoliday(state) {
+      state.SaveHoliday = '';
+    },
+
     getLoading(state, action) {
       state.Loading = true;
       state.HolidaysData = [];
@@ -132,7 +136,7 @@ export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) =>
       Text3: Item.Holiday_Name,
       Text4: Item.AssociatedStandard,
       Text5: Item.TotalDays,
-      TotalRows :Item.TotalRows
+      TotalRows: Item.TotalRows
     };
   });
   dispatch(Holidaysslice.actions.getHolidaysF(responseData));
@@ -212,6 +216,12 @@ export const getSaveHolidays =
       dispatch(Holidaysslice.actions.getSaveHoliday(response.data))
 
       // console.log(getSaveHolidays, "getSaveHolidays")
+    }
+
+export const resetSaveHolidays =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(Holidaysslice.actions.resetSaveHoliday())
     }
 
 export const GetAllClassAndDivision =
