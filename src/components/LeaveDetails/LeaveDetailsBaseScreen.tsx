@@ -112,7 +112,7 @@ const LeaveDetailsBaseScreen = () => {
         asSortExpression: "StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
         asStartIndex: Number(0),
         asEndIndex: Number(20),
-        asShowOnlyNonUpdated: false,
+        asShowOnlyNonUpdated: showNonupdatedrecords.toString(),
         asAcademicYearId: Number(asAcademicYearId)
     };
     useEffect(() => {
