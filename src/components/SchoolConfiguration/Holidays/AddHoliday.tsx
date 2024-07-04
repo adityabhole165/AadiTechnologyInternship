@@ -3,7 +3,7 @@
 import QuestionMark from "@mui/icons-material/QuestionMark";
 import Save from '@mui/icons-material/Save';
 import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
-import { green } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
-import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
@@ -144,7 +143,7 @@ const AddHoliday = ({ }) => {
         dispatch(NameAndStartDateEndDateValidations(NameAndStartDateValidationBody));
 
     }, [ClassSelected, StartDate, EndDate, HolidayTitle])
-  
+
 
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
@@ -201,7 +200,7 @@ const AddHoliday = ({ }) => {
 
         if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
-           
+
             dateError = true
             isError = true;
         } else setErrorStartDateblank('')
@@ -281,9 +280,9 @@ const AddHoliday = ({ }) => {
 
     useEffect(() => {
         if (StartDate === null || EndDate === null) {
-            setTotalDays(0);   
+            setTotalDays(0);
         }
-    }, [StartDate , EndDate])
+    }, [StartDate, EndDate])
 
 
 
@@ -532,11 +531,19 @@ const AddHoliday = ({ }) => {
 
                         <Grid item xs={12} md={12}>
                             <Stack direction={"row"} gap={2} alignItems={"center"}>
-                                <Button variant={'contained'} color="success" onClick={ClickSave}>
-                                    SAVE
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'green',
+                                    ':hover': { backgroundColor: green[100] }
+                                }} onClick={ClickSave}>
+                                    Save
                                 </Button>
-                                <Button variant={'contained'} color="error" onClick={resetForm}>
-                                    CANCEL
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'red',
+                                    ':hover': { backgroundColor: red[100] }
+                                }} onClick={resetForm}>
+                                    Cancle
                                 </Button>
                             </Stack>
                         </Grid>
