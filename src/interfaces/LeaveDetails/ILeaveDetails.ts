@@ -45,7 +45,7 @@ export interface IGetLeaveDetailsListBody {
     asSortExpression: string,
     asStartIndex: number,
     asEndIndex: number,
-    asShowOnlyNonUpdated: boolean,
+    asShowOnlyNonUpdated: string,
     asAcademicYearId: number
 }
 export interface IGetLeaveDetailsListResult {
