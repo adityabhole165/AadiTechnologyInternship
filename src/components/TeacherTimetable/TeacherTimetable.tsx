@@ -1,6 +1,6 @@
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, Divider, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography, alpha, styled } from "@mui/material"
-import { grey } from "@mui/material/colors"
+import { blue, grey } from "@mui/material/colors"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
@@ -178,7 +178,31 @@ const TeacherTimetable = () => {
           </Stack>
           <Box sx={{ mt: 1 }}>
             <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
-              <Typography variant={"h4"}>Legend : N/A Not Available</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                <Typography variant="h6" sx={{ color: blue[500], mr: 1 }}>
+                  Legend:
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      border: '1px solid black',
+                      fontWeight: 'bold',
+                      mr: 1,
+                      backgroundColor: grey[300],
+                      borderRadius: '4px',
+                      padding: '4px'
+                    }}
+                  >
+                    N/A
+                  </Box>
+                  <Typography>Not Available</Typography>
+                </Box>
+              </Box>
             </Stack> <br />
             <TableContainer>
               <Table>
@@ -268,7 +292,7 @@ const TeacherTimetable = () => {
             </Box>
             <Box sx={{ flex: 1 }}>
 
-              <Typography variant={"h4"} mb={1} sx={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography variant={"h4"} mt={1} mb={1.5} sx={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
                 Additional Lectures
               </Typography>
               {/* WeekDay	Lecture Number	Class	Subject */}
