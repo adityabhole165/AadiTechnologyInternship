@@ -1,12 +1,13 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, IconButton, TablePagination, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, TablePagination, Tooltip, Typography, alpha } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { grey, red } from '@mui/material/colors';
 import { useState } from 'react';
 import { Equal, GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
@@ -200,14 +201,23 @@ function HolidaysList({
                         {item.Text7}
                         {HolidayFullAccess == 'Y' ? (
                           <IconButton
-                            sx={{
-                              cursor: 'pointer',
-                              '&:hover': { backgroundColor: '' }
-                            }}
+                          sx={{
+                            color:'#223354',
+                            //  backgroundColor: grey[500],
+                             '&:hover': {
+                              color:'red',
+                            backgroundColor: red[100]
+                            }}}  
+                  
+                            // sx={{ color: 'white',
+                            //   cursor: 'pointer',
+                            //   '&:hover': { backgroundColor: (theme) =>
+                            //     alpha(theme.palette.error.main, 0.2) }
+                            // }}
                             onClick={() => clickDelete(item.Id)}
                           >
                             <Tooltip title="Delete" >
-                              <DeleteForeverIcon />
+                              <DeleteForeverIcon sx={{}}/>
                             </Tooltip>
                           </IconButton>
                         ) : null}
