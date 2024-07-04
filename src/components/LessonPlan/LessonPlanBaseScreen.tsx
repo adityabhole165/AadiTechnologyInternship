@@ -126,7 +126,7 @@ const LessonPlanBaseScreen = () => {
     { Id: 5, Header: 'Delete', align: 'center' },
     ...(LessonPlanList.map((item) => item.Text2) != 'False' && LessonPlanList.map((item) => item.UserId) !== selectClasstecahernew ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
     { Id: 7, Header: 'Export', align: 'center' },
-    { Id: 8, Header: 'Submit Status', align: 'center' }
+    { Id: 8, Header: 'Status', align: 'center' }
   ];
 
 
