@@ -5,8 +5,11 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
+    Checkbox,
+    FormControlLabel,
     IconButton,
     Tooltip,
+    Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -28,6 +31,7 @@ const LeaveDetailsBaseScreen = () => {
     const [selectCategory, setCategory] = useState("0");
     const [selectAcademicYear, setAcademicYear] = useState("0");
     const [selectStatus, setStatus] = useState("0");
+    const [showNonupdatedrecords, setshowNonupdatedrecords] = useState(true);
     const HolidayFullAccess = GetScreenPermission('Holidays');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -261,6 +265,10 @@ const LeaveDetailsBaseScreen = () => {
     const clickStatusDropdown = (value) => {
         setStatus(value);
     };
+    const handleCheckboxChange = (value) => {
+        setshowNonupdatedrecords(value);
+    };
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -309,26 +317,44 @@ const LeaveDetailsBaseScreen = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
-                        {selectCategory == '1' ? ( 
-                        <Tooltip title="Add New Leave">
-                            <IconButton
-                                sx={{
-                                    bgcolor: 'grey.500',
-                                    color: 'white',
-                                    '&:hover': {
-                                        bgcolor: 'grey.600'
-                                    }
-                                }}
-                                onClick={AddLeave}
-                            >
-                                <Add />
-                            </IconButton>
-                        </Tooltip>
-                           ) : null} 
+                        {selectCategory == '1' ? (
+                            <Tooltip title="Add New Leave">
+                                <IconButton
+                                    sx={{
+                                        bgcolor: 'grey.500',
+                                        color: 'white',
+                                        '&:hover': {
+                                            bgcolor: 'grey.600'
+                                        }
+                                    }}
+                                    onClick={AddLeave}
+                                >
+                                    <Add />
+                                </IconButton>
+                            </Tooltip>
+                        ) : null}
                     </Box>
                 }
             />
+            <Typography margin={'1px'}>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={showNonupdatedrecords}
+                            onChange={(e) => {
+                                handleCheckboxChange(e.target.checked);
+                            }}
+                        />
+                    }
+                    label="Show only non updated records?"
+                />
+            </Typography>
+            <Box sx={{ background: 'white', p: 1 }}>
+                <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                    <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend :  Leave not updated in Payroll</Typography>
 
+                </Box>
+            </Box><br></br>
 
             <LeaveList
                 HeaderArray={HeaderLeave}
