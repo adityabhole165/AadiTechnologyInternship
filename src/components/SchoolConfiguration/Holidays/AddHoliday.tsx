@@ -280,10 +280,10 @@ const AddHoliday = ({ }) => {
 
 
     useEffect(() => {
-        if (StartDate === null) {
+        if (StartDate === null || EndDate === null) {
             setTotalDays(0);   
         }
-    }, [StartDate])
+    }, [StartDate , EndDate])
 
 
 
