@@ -59,12 +59,12 @@ function HolidaysList({
       ) : (
 
         <>
-          {ItemList.length >= 5 && (
+          {/* {ItemList.length >= 5 && (
             <Typography variant="subtitle1"
               sx={{ margin: '16px 0', textAlign: 'center' }}>
               <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, ItemList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{ItemList.length}</Box> records
             </Typography>
-          )}
+          )} */}
 
 
           <TableContainer component={Box}>
@@ -217,7 +217,7 @@ function HolidaysList({
                 })}
               </TableBody>
             </Table>
-            {ItemList.length >= 5 && (
+            {/* {ItemList.length >= 5 && (
               <TablePagination
                 // rowsPerPageOptions={[5, 10, 15, 20]}
                 component="div"
@@ -227,7 +227,7 @@ function HolidaysList({
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-            )}
+            )} */}
           </TableContainer>
         </>
       )}

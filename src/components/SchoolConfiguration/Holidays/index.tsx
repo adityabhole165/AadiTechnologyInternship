@@ -2,7 +2,7 @@ import Add from "@mui/icons-material/Add"
 import Delete from "@mui/icons-material/Delete"
 import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
-import { Box, IconButton, Tooltip } from "@mui/material"
+import { Box, IconButton, Tooltip, Typography } from "@mui/material"
 import { green } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -13,6 +13,7 @@ import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
 import SuspenseLoader from "src/layouts/components/SuspenseLoader"
+import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent"
 import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
@@ -25,7 +26,10 @@ const Holidays = (props: Props) => {
     const asDivisionId = sessionStorage.getItem('DivisionId');
     const [asHoliday_Id, setAsHoliday_Id] = useState();
     let CanAdd = getSchoolConfigurations(14)
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
 
+    const [page, setPage] = useState(1);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const HolidayFullAccess = GetScreenPermission('Holidays')
@@ -34,6 +38,10 @@ const Holidays = (props: Props) => {
     const holidaysList = useSelector(
         (state: RootState) => state.Holidays.HolidaysDataF
     );
+    const filteredList = holidaysList.filter((item) => item.TotalRows !== undefined);
+    const TotalCount = filteredList.map((item) => item.TotalRows);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
 
 
     const deleteHolidaydetailsMsg = useSelector(
@@ -156,8 +164,8 @@ const Holidays = (props: Props) => {
         asStandardId: Number(0),
         asDivisionId: Number(0),
         asSortExp: "ORDER BY Holiday_Start_Date ASC",
-        asStartIndex: Number(0),
-        asPageSize: Number(100),
+        asStartIndex: (page - 1) * rowsPerPage,
+        asPageSize: Number(20),
     };
 
     useEffect(() => {
@@ -194,7 +202,16 @@ const Holidays = (props: Props) => {
     const AddHoliday = () => {
         navigate("../AddHoliday");
     };
-
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1); // Reset to the first page when changing rows per page
+    };
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
     console.log(getDateMonthYearDayDash("19-05-2024 00:00:00"))
     return (
         <Box sx={{ px: 2 }}>
@@ -241,9 +258,9 @@ const Holidays = (props: Props) => {
                     ) : null}
                 </>}
             />
-            {Loading &&
+            {/* {Loading &&
                 <SuspenseLoader />
-            }
+            } */}
             {/* Content */}
             <Box sx={{ background: 'white', p: 2 }}>
                 {/* <DataTable
@@ -252,12 +269,38 @@ const Holidays = (props: Props) => {
                     isLoading={false}
                 /> */}
 
+                {holidaysList.length > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {startRecord} to {endRecord}
+                        </Box>
+                        {' '}out of{' '}
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {singleTotalCount}
+                        </Box>{' '}
+                        {singleTotalCount === 1 ? 'record' : 'records'}
+                    </Typography>
+                </div> : <span> </span>}
+
+
+
                 <HolidaysList
                     ItemList={holidaysList}
                     clickEdit={editRow}
                     HeaderArray={HeaderPublish}
                     clickDelete={deleteRow}
                 />
+                <br />
+                {holidaysList.length > 0 ? <ButtonGroupComponent
+                    PageChange={PageChange}
+                    numberOfButtons={pagecount}
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                /> : <span> </span>}
+
+
+
             </Box>
         </Box>
     )

@@ -131,7 +131,8 @@ export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) =>
       Text2: getDateMonthYearDayDash(Item.Holiday_End_Date),
       Text3: Item.Holiday_Name,
       Text4: Item.AssociatedStandard,
-      Text5: Item.TotalDays
+      Text5: Item.TotalDays,
+      TotalRows :Item.TotalRows
     };
   });
   dispatch(Holidaysslice.actions.getHolidaysF(responseData));
