@@ -168,10 +168,7 @@ const Holidays = (props: Props) => {
         asPageSize: Number(20),
     };
 
-    useEffect(() => {
-        dispatch(getHolidaysF(body));
-    }, []);
-
+    
 
     const deleteRow = (Holiday_Id) => {
         if (
@@ -212,7 +209,10 @@ const Holidays = (props: Props) => {
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
-    console.log(getDateMonthYearDayDash("19-05-2024 00:00:00"))
+    useEffect(() => {
+        dispatch(getHolidaysF(body));
+    }, [page, rowsPerPage]);
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -291,7 +291,7 @@ const Holidays = (props: Props) => {
                     clickDelete={deleteRow}
                 />
                 <br />
-                {holidaysList.length > 20 ? <ButtonGroupComponent
+                {holidaysList.length > 19 ? <ButtonGroupComponent
                     PageChange={PageChange}
                     numberOfButtons={pagecount}
                     rowsPerPage={rowsPerPage}
