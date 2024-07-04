@@ -1,6 +1,5 @@
-import React from 'react';
-import { Box, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Box, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 
 function AddRequisitionlist({
   ItemList,
@@ -69,7 +68,10 @@ function AddRequisitionlist({
                 </Select>
               </TableCell>
               <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }} align="center">
-                <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} sx={{ color: 'red' }} />
+                <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} sx={{
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: 'lightgrey' }
+                }} />
               </TableCell>
             </TableRow>
           ))}

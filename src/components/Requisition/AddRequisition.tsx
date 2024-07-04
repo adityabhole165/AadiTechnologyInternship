@@ -219,12 +219,12 @@ const AddRequisition = () => {
         } else setErrorQuantity('')
 
         if (textall === '') {
-            setError('Requisition Name should not be blank.');
+            setError('Requisition name should not be blank.');
             isError = true;
         } else setError('')
 
         if (textall1 === '') {
-            setError1('Requisition Description should not be blank.');
+            setError1('Rquisition description should not be blank.');
             isError = true;
         } else setError1('')
 
@@ -269,12 +269,12 @@ const AddRequisition = () => {
         };
 
         if (textall === '') {
-            setError('Requisition Name should not be blank.');
+            setError('Requisition name should not be blank.');
             isError = true;
         } else setError('')
 
         if (textall1 === '') {
-            setError1('Requisition Description should not be blank.');
+            setError1('Rquisition description should not be blank.');
             isError = true;
         } else setError1('')
 
@@ -557,7 +557,7 @@ const AddRequisition = () => {
                             onChange={ItemCategoryDropdown}
                             label={'Category'}
                             defaultValue={ItemCategory}
-                           
+                            disabled={Itemlist.length > 0}
                             size={"small"}
                         />
 
@@ -572,6 +572,7 @@ const AddRequisition = () => {
                             value={regNoOrName}
                             variant={'outlined'}
                             size={"small"}
+                            disabled={Itemlist.length > 0}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
                             InputProps={{
                                 endAdornment: (

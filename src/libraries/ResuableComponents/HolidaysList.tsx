@@ -171,12 +171,19 @@ function HolidaysList({
                       >
                         {item.Text6}
                         {HolidayFullAccess == 'Y' ? (
-                          <Tooltip title="Edit">
-                            <EditTwoTone
-                              sx={{ color: 'black', cursor: 'pointer' }}
-                              onClick={() => clickEdit(item.Id)} />
-                          </Tooltip>
+                          <IconButton>
+                            <Tooltip title="Edit">
+
+                              <EditTwoTone
+                                sx={{
+                                  cursor: 'pointer',
+                                  '&:hover': { backgroundColor: '' }
+                                }}
+                                onClick={() => clickEdit(item.Id)} />
+                            </Tooltip>
+                          </IconButton>
                         ) : null}
+
                       </TableCell>
                       <TableCell
                         sx={{
@@ -190,7 +197,10 @@ function HolidaysList({
                         {item.Text7}
                         {HolidayFullAccess == 'Y' ? (
                           <IconButton
-                            sx={{ color: 'red', cursor: 'pointer' }}
+                            sx={{
+                              cursor: 'pointer',
+                              '&:hover': { backgroundColor: '' }
+                            }}
                             onClick={() => clickDelete(item.Id)}
                           >
                             <Tooltip title="Delete" >
