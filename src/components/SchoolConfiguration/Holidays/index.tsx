@@ -291,7 +291,7 @@ const Holidays = (props: Props) => {
                     clickDelete={deleteRow}
                 />
                 <br />
-                {holidaysList.length > 0 ? <ButtonGroupComponent
+                {holidaysList.length > 20 ? <ButtonGroupComponent
                     PageChange={PageChange}
                     numberOfButtons={pagecount}
                     rowsPerPage={rowsPerPage}
