@@ -772,7 +772,7 @@ const AadharCard = () => {
                 />
                 <Button
                   sx={{
-                    width: '50%',height: '60px',
+                    width: '50%', height: '60px',
                     gap: 1,
                     position: 'relative',
                     border: (theme) => `1px dashed ${theme.palette.primary.main}`,
@@ -809,7 +809,14 @@ const AadharCard = () => {
                       }}
                     />
                   </Stack>
+                  
                 </Button>
+                {fileError && (
+                   <Box sx={{ display: 'flex', alignItems: '', justifyContent: '', mt: 2 }}>
+                 {/* <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: '-20px' }}> */}
+                    <Typography color="error">{fileError}</Typography>
+                  </Box>
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -839,11 +846,7 @@ const AadharCard = () => {
                 </div>
               )}
 
-              {fileError && (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                  <Typography color="error">{fileError}</Typography>
-                </Box>
-              )}
+
             </Box>
           </Grid>
         </Grid>
