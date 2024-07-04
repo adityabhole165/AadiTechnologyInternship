@@ -60,7 +60,7 @@ const LeaveDetailsBaseScreen = () => {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(selectAcademicYear),
         asUserId: Number(asUserId),
-        asCategoryId: Number(1),
+        asCategoryId: Number(selectCategory),
         asShowOnlyNonUpdated: false
     };
     useEffect(() => {
