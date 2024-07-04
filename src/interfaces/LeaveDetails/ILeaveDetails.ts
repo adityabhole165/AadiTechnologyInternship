@@ -90,3 +90,16 @@ export interface IGetStatusDropdownResult {
     StatusId: string;
     Status: string;
 }
+
+export interface IGetAllReportingUsersBody {
+    asSchoolId: number,
+    asAcademicYearId: number
+}
+export interface IGetAllReportingUsersResult {
+    UserName: string,
+    UserId: string,
+    RoleId: string,
+    ReportingParameterName: string,
+    ReportingPrameterId: string,
+    ReportingId: string
+}

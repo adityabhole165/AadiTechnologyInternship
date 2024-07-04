@@ -15,10 +15,10 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
+import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getAllReportingUsers, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import { GetScreenPermission, getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -50,6 +50,9 @@ const LeaveDetailsBaseScreen = () => {
     const GetLeaveList = useSelector(
         (state: RootState) => state.LeaveDetails.LeaveDetailsList
     );
+    const AllReportingUser = useSelector(
+        (state: RootState) => state.LeaveDetails.AllReportingUsers
+    );
     const deleteLeavedetailsMsg = useSelector(
         (state: RootState) => state.LeaveDetails.DeleteLeaveMsg
     );
@@ -69,6 +72,9 @@ const LeaveDetailsBaseScreen = () => {
     };
     useEffect(() => {
         dispatch(AcademicYearDropdown(AcademicYearBody));
+    }, []);
+    useEffect(() => {
+        dispatch(getAllReportingUsers(AllReportingUsersbody));
     }, []);
     // useEffect(() => {
     //     if (GetAcademicYear.length > 0) {
@@ -102,7 +108,10 @@ const LeaveDetailsBaseScreen = () => {
         dispatch(getLeaveDetailList(body));
     }, [selectAcademicYear, selectCategory, selectStatus]);
 
-
+    const AllReportingUsersbody: IGetAllReportingUsersBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(selectAcademicYear)
+    }
 
     const body: IGetLeaveDetailsListBody = {
         asSchoolId: Number(asSchoolId),
