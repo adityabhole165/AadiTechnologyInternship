@@ -17,6 +17,8 @@ import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupCo
 import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
+import { useContext } from 'react';
+import { AlertContext } from 'src/contexts/AlertContext';
 type Props = {}
 
 const Holidays = (props: Props) => {
@@ -28,6 +30,7 @@ const Holidays = (props: Props) => {
     let CanAdd = getSchoolConfigurations(14)
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
+    const { showAlert, closeAlert } = useContext(AlertContext);
 
     const [page, setPage] = useState(1);
     const dispatch = useDispatch();
@@ -170,19 +173,46 @@ const Holidays = (props: Props) => {
 
     
 
+    // const deleteRow = (Holiday_Id) => {
+    //     if (
+    //         confirm('Are you sure you want to delete this holiday?')
+    //     ) {
+    //         console.log(Holiday_Id, "1234567890");
+    //         const DeleteHolidayBody: IGetHolidayBody = {
+    //             asSchoolId: Number(asSchoolId),
+    //             asAcademicYearID: Number(asAcademicYearId),
+    //             asHoliday_Id: Number(Holiday_Id),
+    //         };
+    //         dispatch(DeleteHolidayDetails(DeleteHolidayBody));
+    //     }
+    // };
+
+
     const deleteRow = (Holiday_Id) => {
-        if (
-            confirm('Are you sure you want to delete this holiday?')
-        ) {
-            console.log(Holiday_Id, "1234567890");
-            const DeleteHolidayBody: IGetHolidayBody = {
-                asSchoolId: Number(asSchoolId),
-                asAcademicYearID: Number(asAcademicYearId),
-                asHoliday_Id: Number(Holiday_Id),
-            };
+        const DeleteHolidayBody: IGetHolidayBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearID: Number(asAcademicYearId),
+            asHoliday_Id: Number(Holiday_Id),
+        };
+        
+    showAlert({
+        title: 'Please Confirm',
+        message:
+          'Are you sure you want to delete this holiday?  ',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
             dispatch(DeleteHolidayDetails(DeleteHolidayBody));
+          closeAlert();
         }
-    };
+      });
+
+      
+};
 
     useEffect(() => {
         if (deleteHolidaydetailsMsg != '') {
