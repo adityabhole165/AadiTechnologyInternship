@@ -414,9 +414,9 @@ const AddHoliday = ({ }) => {
                     }
                 />
                 <Box sx={{ p: 2, background: 'white' }}>
-                    {Loading &&
+                    {/* {Loading &&
                         <SuspenseLoader />
-                    }
+                    } */}
                     <Grid container spacing={2}>
 
                         <Grid item xs={6} md={4}>
