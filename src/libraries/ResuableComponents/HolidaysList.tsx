@@ -80,7 +80,7 @@ function HolidaysList({
                         sx={{
                           // textTransform: 'capitalize',
                           color: (theme) => theme.palette.common.white,
-                          textAlign: i === 2 || i === 3 ? 'left' : 'center'
+                          textAlign: i === 0 || i === 1 || i === 2 || i === 3 ? 'left' : 'center'
                         }}
                         align="center"
                       >
@@ -115,7 +115,7 @@ function HolidaysList({
                           backgroundColor: rowStyle.backgroundColor,
                           opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
-                        align="center"
+                        align="left"
                       >
                         {item.Text1}
                       </TableCell>
@@ -125,7 +125,7 @@ function HolidaysList({
                           backgroundColor: rowStyle.backgroundColor,
                           opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
-                        align="center"
+                        align="left"
                       >
                         {item.Text2}
                       </TableCell>
@@ -171,12 +171,19 @@ function HolidaysList({
                       >
                         {item.Text6}
                         {HolidayFullAccess == 'Y' ? (
-                          <Tooltip title="Edit">
-                            <EditTwoTone
-                              sx={{ color: 'black', cursor: 'pointer' }}
-                              onClick={() => clickEdit(item.Id)} />
-                          </Tooltip>
+                          <IconButton>
+                            <Tooltip title="Edit">
+
+                              <EditTwoTone
+                                sx={{
+                                  cursor: 'pointer',
+                                  '&:hover': { backgroundColor: '' }
+                                }}
+                                onClick={() => clickEdit(item.Id)} />
+                            </Tooltip>
+                          </IconButton>
                         ) : null}
+
                       </TableCell>
                       <TableCell
                         sx={{
@@ -190,7 +197,10 @@ function HolidaysList({
                         {item.Text7}
                         {HolidayFullAccess == 'Y' ? (
                           <IconButton
-                            sx={{ color: 'red', cursor: 'pointer' }}
+                            sx={{
+                              cursor: 'pointer',
+                              '&:hover': { backgroundColor: '' }
+                            }}
                             onClick={() => clickDelete(item.Id)}
                           >
                             <Tooltip title="Delete" >

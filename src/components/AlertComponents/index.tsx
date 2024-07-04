@@ -12,6 +12,7 @@ import {
   Typography
 } from '@mui/material';
 import { green } from '@mui/material/colors';
+import CheckIcon from '@mui/icons-material/Check';
 
 export type AlertProps = {
   variant: 'success' | 'error' | 'warning' | 'info';
@@ -36,7 +37,7 @@ const AlertDialog = ({
     <Dialog open={true} fullWidth maxWidth={'sm'}>
       <DialogTitle
         sx={{
-          backgroundColor: (theme) => theme.palette[variant].main,
+          backgroundColor: '#23527C',
           py: 1
         }}
       ></DialogTitle>
@@ -53,10 +54,10 @@ const AlertDialog = ({
                 />
               )}
               {variant === 'warning' && (
-                <ErrorTwoToneIcon
+                <CheckIcon
                   sx={{
                     fontSize: '68px',
-                    color: (theme) => theme.palette.warning.main
+                    color: (theme) => theme.palette.success.main
                   }}
                 />
               )}
@@ -90,10 +91,12 @@ const AlertDialog = ({
         <Button onClick={onCancel} color={'error'}>
           {cancelButtonText || 'Cancel'}
         </Button>
-        <Button onClick={onConfirm} variant={'contained'} sx={{
-          backgroundColor: green[500],
-          color: 'white',
-          ':hover': { backgroundColor: green[600] }
+        <Button onClick={onConfirm}
+        //  variant={'contained'} 
+        sx={{
+          // backgroundColor: green[100],
+          color: 'green',
+          ':hover': { backgroundColor: green[100] }
         }}>
           {confirmButtonText || 'Confirm'}
         </Button>
