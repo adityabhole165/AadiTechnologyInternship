@@ -80,7 +80,7 @@ function HolidaysList({
                         sx={{
                           // textTransform: 'capitalize',
                           color: (theme) => theme.palette.common.white,
-                          textAlign: i === 2 || i === 3 ? 'left' : 'center'
+                          textAlign: i === 0 || i === 1 || i === 2 || i === 3 ? 'left' : 'center'
                         }}
                         align="center"
                       >
@@ -115,7 +115,7 @@ function HolidaysList({
                           backgroundColor: rowStyle.backgroundColor,
                           opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
-                        align="center"
+                        align="left"
                       >
                         {item.Text1}
                       </TableCell>
@@ -125,7 +125,7 @@ function HolidaysList({
                           backgroundColor: rowStyle.backgroundColor,
                           opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}
-                        align="center"
+                        align="left"
                       >
                         {item.Text2}
                       </TableCell>
