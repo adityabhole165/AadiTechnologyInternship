@@ -518,7 +518,7 @@ const AddDailyLog = () => {
         <Box sx={{ p: 3, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={4}>
-              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c', width: '90%' }} value={ClassName} />
+              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
             </Grid>
             <Grid item xs={4}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
