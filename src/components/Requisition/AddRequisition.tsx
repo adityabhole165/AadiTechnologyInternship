@@ -756,14 +756,14 @@ const AddRequisition = () => {
                         clickDelete={clickDelete}
                         onTextChange2={Detailschnageall}
                     />
-                    <br></br>
+                      <br></br>
                     <Grid item xs={3}>
                         <Typography variant="h4" sx={{ mb: 1 }}>
                             Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
                         </Typography>
                         <TextField
                             multiline
-                            rows={3}
+                            rows={1}
                             type="text"
                             value={textall}
                             onChange={Detailschnageall3}
@@ -775,7 +775,7 @@ const AddRequisition = () => {
                         </Typography>
                         <TextField
                             multiline
-                            rows={3}
+                            rows={1}
                             type="text"
                             value={textall1}
                             onChange={Detailschnageall2}
@@ -786,7 +786,7 @@ const AddRequisition = () => {
                 </Box> : null}
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: '400px', minWidth: '300px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' }}>
                 <Dialog open={open1} onClose={handleClose} scroll="body" >
                     <Box sx={{ backgroundColor: "#ede7f6" }}>
                         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

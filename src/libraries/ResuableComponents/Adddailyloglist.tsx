@@ -1,12 +1,12 @@
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
+import { Box, Link } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, Link } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
@@ -95,9 +95,9 @@ function Adddailyloglist({
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
 
                 >
-                  <ButtonPrimary 
-                  style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
-                  onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '100px' }}>
+                  <ButtonPrimary
+                    style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
+                    onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '100px' }}>
                     {item.Text3 === 'False' ? ' PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>
@@ -105,19 +105,27 @@ function Adddailyloglist({
                 <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
                   {item.Text3 === 'False' ? (
                     <EditTwoTone
-                      onClick={() => {
-                        clickEdit(item.Id);
-                      }}
-                    />
+                      onClick={() =>clickEdit(item.Id)}
+                      sx={{
+                        cursor: 'pointer',
+                        '&:hover': { backgroundColor: 'lightgrey' }
+                    }}
+                      />
                   ) : null}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
                   {item.Text3 === 'False' ? (
-                     < DeleteForeverIcon  onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }}  />
+                    <DeleteForeverRoundedIcon 
+                    onClick={() => clickDelete(item.Id)} 
+                     sx={{
+                      cursor: 'pointer',
+                      '&:hover': { backgroundColor: 'lightgrey' }
+                  }} />
                   ) : null}
                 </TableCell>
               </TableRow>
+
             ))}
           </TableBody>
         </Table>

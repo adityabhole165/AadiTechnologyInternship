@@ -487,7 +487,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#D3D3D3',maxWidth:'20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -495,7 +495,7 @@ const SubjectExamMarks = () => {
                 />
               </Box>
 
-              <Box sx={{ ml: 1,width: '27%'  }}>
+              <Box sx={{ ml: 1,width: '29%'  }}>
                 <TextField
                   size={"small"}
                   fullWidth
@@ -506,7 +506,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#D3D3D3',maxWidth:'20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -520,7 +520,7 @@ const SubjectExamMarks = () => {
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#D3D3D3',maxWidth:'20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -649,7 +649,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#f0e68c' }}
+                sx={{ bgcolor: '#D3D3D3' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -683,7 +683,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#f0e68c' }}
+                sx={{ bgcolor: '#D3D3D3' }}
                 InputProps={{
                   readOnly: true,
                 }}

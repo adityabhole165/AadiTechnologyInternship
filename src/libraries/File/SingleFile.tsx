@@ -73,7 +73,7 @@ const SingleFile = ({
               width: width,
               height: height,
               border: (theme) =>
-                `1px dashed ${FileName ? theme.colors.success.main : theme.colors.primary.main
+                `1px dashed ${FileName ? theme.colors.primary.main : theme.colors.primary.main
                 }`,
               gap: 1,
               position: 'relative',
@@ -81,7 +81,7 @@ const SingleFile = ({
               alignItems: 'center',
               justifyContent: 'space-between'
             }}
-            color={FileName ? 'success' : 'primary'}
+            color={FileName ? 'primary' : 'primary'}
           >
             <Stack
               direction={'row'}
