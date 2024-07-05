@@ -440,7 +440,7 @@ function HolidaysList({
                             onClick={() => clickDelete(item.Id)}
                           >
                             <Tooltip title="Delete" >
-                              <DeleteForeverIcon sx={{}}/>
+                              <DeleteForeverIcon />
                             </Tooltip>
                           </IconButton>
                         ) : null}

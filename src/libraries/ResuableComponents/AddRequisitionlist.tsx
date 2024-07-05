@@ -1,5 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 function AddRequisitionlist({
   ItemList,
@@ -60,18 +61,28 @@ function AddRequisitionlist({
                   value={item.Text3}
                   variant="outlined"
                   onChange={(e) => handleText3Change(e, item)}
-                  sx={{ width: '150px', height: '10px' }}
-                />
+                  sx={{ width: '100px', height: '10px' }}>
+                  </TextField>
+                
                 &nbsp; &nbsp; &nbsp;
-                <Select value={item.UOMUnit} sx={{ width: '150px', height: '37px' }} disabled>
+                <Select value={item.UOMUnit} sx={{ width: '100px', height: '35px' }} disabled>
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>
               <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }} align="center">
-                <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} sx={{
-                  cursor: 'pointer',
-                  '&:hover': { backgroundColor: 'lightgrey' }
-                }} />
+                <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} 
+                // sx={{
+                //   cursor: 'pointer',
+                //   '&:hover': { backgroundColor: 'lightgrey' }
+                // }} 
+                sx={{
+                  color:'#223354',
+                  //  backgroundColor: grey[500],
+                   '&:hover': {
+                    color:'red',
+                  backgroundColor: red[100]
+                  }}}
+                />
               </TableCell>
             </TableRow>
           ))}

@@ -13,9 +13,9 @@ export interface IGetTeacherListResult {
   ];
 }
 export interface IGetAllStudentStatusBody {
-  asSchoolId: string;
-  asAcademicYearId: string;
-  asStdDivId: string;
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asStdDivId: number;
   asFilter: string;
   sortExpression: string;
   sortDirection: string;
