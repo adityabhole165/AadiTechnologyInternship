@@ -37,6 +37,7 @@ const LeaveDetailsBaseScreen = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const [asUpdatedById, setasUpdatedById] = useState('0');
+    const [PagedLeave, setPagedLeave] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
@@ -116,22 +117,20 @@ const LeaveDetailsBaseScreen = () => {
     }, [GetStatusDropdown])
     useEffect(() => {
         dispatch(getLeaveDetailList(body));
-    }, [selectAcademicYear, selectCategory, selectStatus, page, rowsPerPage]);
-
+    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus]);
     const AllReportingUsersbody: IGetAllReportingUsersBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(selectAcademicYear)
     }
-
     const body: IGetLeaveDetailsListBody = {
         asSchoolId: Number(asSchoolId),
         asUserId: Number(asUserId),
         asCategoryId: Number(selectCategory),
         asStatusId: Number(selectStatus),
         asSortExpression: "StartDate Desc, EndDate asc, DesignationId asc ,FirstName  asc, MiddleName asc, LastName asc",
-        asStartIndex: Number(0),
-        asEndIndex: Number(20),
-        asShowOnlyNonUpdated: showNonupdatedrecords.toString(),
+        asStartIndex: (page - 1) * rowsPerPage,
+        asEndIndex: page * rowsPerPage,
+        asShowOnlyNonUpdated: false,
         asAcademicYearId: Number(asAcademicYearId)
     };
     const deleteRow = (Id) => {
@@ -140,7 +139,6 @@ const LeaveDetailsBaseScreen = () => {
             asId: Number(Id),
             asUpdatedById: Number(asUserId), // userId for delete 
         };
-
         showAlert({
             title: 'Please Confirm',
             message:
@@ -156,8 +154,6 @@ const LeaveDetailsBaseScreen = () => {
                 closeAlert();
             }
         });
-
-
     };
     useEffect(() => {
         if (deleteLeavedetailsMsg != '') {
@@ -166,7 +162,6 @@ const LeaveDetailsBaseScreen = () => {
             dispatch(getLeaveDetailList(body));
         }
     }, [deleteLeavedetailsMsg])
-
     const getLeaveDetailsColumns = () => {
         let columns: Column[] = [
             {
@@ -240,8 +235,7 @@ const LeaveDetailsBaseScreen = () => {
                 )
             },
         ];
-
-        if (HolidayFullAccess === 'Y') {
+        if (selectCategory === '1') {
             columns.push({
                 id: 'delete',
                 label: 'Delete',
@@ -262,11 +256,8 @@ const LeaveDetailsBaseScreen = () => {
                 }
             });
         }
-
         return columns;
     };
-
-
     const HeaderLeave = [
         { Id: 1, Header: 'Sender Name' },
         { Id: 2, Header: 'Start Date 	' },
@@ -306,11 +297,16 @@ const LeaveDetailsBaseScreen = () => {
     const handleCheckboxChange = (value) => {
         setshowNonupdatedrecords(value);
     };
+
+    useEffect(() => {
+        if (GetLeaveList) {
+            setPagedLeave(GetLeaveList);
+        }
+    }, [GetLeaveList]);
+
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
-
-
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -377,6 +373,7 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
+
             <Box sx={{ background: 'white', p: 2 }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
@@ -396,14 +393,22 @@ const LeaveDetailsBaseScreen = () => {
                     ItemList={GetLeaveList}
                     clickDelete={deleteRow}
                     clickView={ViewLeave} />
+                <br />
+                {
+                    PagedLeave.length > 0 ? (
+                        <ButtonGroupComponent
+                            PageChange={PageChange}
+                            numberOfButtons={pagecount}
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                        />
 
-                {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
-                    PageChange={PageChange}
-                    numberOfButtons={pagecount}
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                /> : <span> </span>}
+                    ) : (
+                        <span></span>
+
+                    )
+                }
             </Box>
         </Box>
     );
