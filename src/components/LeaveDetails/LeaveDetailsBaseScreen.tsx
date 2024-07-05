@@ -102,9 +102,10 @@ const LeaveDetailsBaseScreen = () => {
     }, [selectAcademicYear]);
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
-            setCategory(GetCategoryDropdownList[0].Value)
+            setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
         }
-    }, [GetCategoryDropdownList])
+    }, [GetCategoryDropdownList]);
+
     useEffect(() => {
         dispatch(StatusDropdown(StatusBody));
     }, [selectCategory]);
@@ -331,7 +332,7 @@ const LeaveDetailsBaseScreen = () => {
                         />
                         <SearchableDropdown
                             sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
-                            ItemList={GetCategoryDropdownList}
+                            ItemList={GetCategoryDropdownList.slice(0, 3)}
                             defaultValue={selectCategory}
                             onChange={clickCategoryDropdown}
                             size={"small"}
