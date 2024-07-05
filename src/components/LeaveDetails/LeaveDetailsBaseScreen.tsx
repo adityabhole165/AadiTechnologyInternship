@@ -5,11 +5,8 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
-    Checkbox,
-    FormControlLabel,
     IconButton,
-    Tooltip,
-    Typography,
+    Tooltip
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -345,26 +342,6 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-            <Typography margin={'1px'}>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={showNonupdatedrecords}
-                            onChange={(e) => {
-                                handleCheckboxChange(e.target.checked);
-                            }}
-                        />
-                    }
-                    label="Show only non updated records?"
-                />
-            </Typography>
-            <Box sx={{ background: 'white', p: 1 }}>
-                <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                    <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend :  Leave not updated in Payroll</Typography>
-
-                </Box>
-            </Box><br></br>
-
             <LeaveList
                 HeaderArray={HeaderLeave}
                 ItemList={GetLeaveList}
