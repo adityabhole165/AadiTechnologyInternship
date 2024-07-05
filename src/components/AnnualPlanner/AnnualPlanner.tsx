@@ -18,7 +18,7 @@ import {
   Typography,
   styled
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -538,18 +538,28 @@ function AnnualPlanner() {
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-            <Button
+            <Button 
+            sx={{
+              // backgroundColor: green[100],
+              color: 'red',
+              ':hover': { backgroundColor: red[100] }
+          }}
               onClick={() => {
                 setOpenAnnualPlannerDialog(false);
               }}
-              color={'error'}
+              // color={'error'}
             >
               Cancel
             </Button>
             <Button
               onClick={clickSubmit}
-              color={'primary'}
-              variant={'contained'}
+              // color={'primary'}
+              // variant={'contained'}
+              sx={{
+                // backgroundColor: green[100],
+                color: 'green',
+                ':hover': { backgroundColor: green[100] }
+            }} 
             >
               Save
             </Button>

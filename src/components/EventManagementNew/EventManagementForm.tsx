@@ -19,6 +19,7 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
+import { green, red } from '@mui/material/colors';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
     const dispatch = useDispatch();
@@ -313,7 +314,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                             </span>
                         }
                         multiline
-                        rows={3}
+                        rows={1}
                         value={EventTitle}
                         onChange={(e) => {
                             setEventTitle(e.target.value);
@@ -336,7 +337,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                             </span>
                         }
                         multiline
-                        rows={3}
+                        rows={1}
                         value={EventDescription}
                         onChange={(e) => {
                             setEventDescription(e.target.value);
@@ -451,10 +452,26 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
-                        <Button variant={'contained'} color="error" onClick={resetForm}>
+                        <Button 
+                        // variant={'contained'} 
+                        // color="error" 
+                        onClick={resetForm}
+                        sx={{
+                            // backgroundColor: green[100],
+                            color: 'red',
+                            ':hover': { backgroundColor: red[100] }
+                        }}>
                             CANCEL
                         </Button>
-                        <Button variant={'contained'} color="success" onClick={ClickSave}>
+                        <Button
+                        //  variant={'contained'} 
+                        //  color="success" 
+                         onClick={ClickSave}
+                         sx={{
+                            // backgroundColor: green[100],
+                            color: 'green',
+                            ':hover': { backgroundColor: green[100] }
+                        }} >
                             SAVE
                         </Button>
                     </Stack>
