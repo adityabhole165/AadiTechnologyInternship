@@ -2,9 +2,9 @@ import Close from '@mui/icons-material/Close';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, debounce, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -148,7 +148,9 @@ const AddHomeworkNew = () => {
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: Number(SelectClass)
   };
-
+  const debouncedFetch = useCallback(debounce((body) => {
+    dispatch(SubjectListforTeacherDropdown(body));
+  }, 500), [dispatch]);
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
@@ -192,8 +194,8 @@ const AddHomeworkNew = () => {
 
   const ResetForm1 = () => {
     setSubjectCheckID('');
-    setTitle('');
-    setAssignedDate('');
+    //setTitle('');
+    //setAssignedDate('');
     setCompleteDate(null);
     setFileName('');
     setDetails('');
@@ -661,8 +663,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   };
 
   useEffect(() => {
-    dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
-  }, []);
+   // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
+    debouncedFetch(GetTeacherSubjectAndClassSubjectBody);
+  }, [TeacherId,SelectClass]);
 
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
