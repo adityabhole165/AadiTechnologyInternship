@@ -531,13 +531,7 @@ const AddHoliday = ({ }) => {
 
                         <Grid item xs={12} md={12}>
                             <Stack direction={"row"} gap={2} alignItems={"center"}>
-                                <Button sx={{
-                                    // backgroundColor: green[100],
-                                    color: 'green',
-                                    ':hover': { backgroundColor: green[100] }
-                                }} onClick={ClickSave}>
-                                   Save
-                                </Button>
+                            
                                 <Button sx={{
                                     // backgroundColor: green[100],
                                     color: 'red',
@@ -545,6 +539,13 @@ const AddHoliday = ({ }) => {
                                 }} onClick={resetForm}>
                                    Cancel
                                 </Button>
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'green',
+                                    ':hover': { backgroundColor: green[100] }
+                                }} onClick={ClickSave}>
+                                   Save
+                                   </Button>
                             </Stack>
                         </Grid>
                     </Grid >
