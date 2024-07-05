@@ -239,29 +239,16 @@ const StudentRecords = () => {
 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
 ClickItem={ClickItem} IconList={IconList}/> */}
 
-      <Grid item xs={12}>
-        {StudentList && StudentList.length === 0 ? (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
-          </Typography>
+      <StudentRecordList
+        ItemList={StudentList}
+        HeaderArray={headerArray}
+        ClickHeader={handleHeaderClick}
+        clickEdit={clickEdit}
+        clickView={clickView}
+      />
 
-        ) : (
-          // <DynamicList2
-          //   HeaderList={HeaderList}
-          //   ItemList={StudentList}
-          //   ClickItem={ClickItem}
-          //   IconList={IconList}
-          // />
-          <StudentRecordList
-            ItemList={StudentList}
-            HeaderArray={headerArray}
-            ClickHeader={handleHeaderClick}
-            clickEdit={clickEdit}
-            clickView={clickView}
-          />
 
-        )}
-      </Grid>
+
     </Box>
   );
 };
