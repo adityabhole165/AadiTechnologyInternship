@@ -1,4 +1,5 @@
-import { Box, Stack, Typography } from '@mui/material';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -185,6 +186,7 @@ const AssignPrePrimaryGrades = () => {
                 defaultValue={SelectTerm}
                 label={'Assessment: '}
                 sx={{ minWidth: '10vw' }}
+                size={"small"}
                 mandatory
               />
               <SearchableDropdown
@@ -193,8 +195,23 @@ const AssignPrePrimaryGrades = () => {
                 defaultValue={selectTeacher}
                 label={'Subject Teacher: '}
                 sx={{ minWidth: '20vw' }}
+                size={"small"}
                 mandatory
               />
+              <Box>
+                <Tooltip title={`View all subjects assigned with the current status of grades given to students.Once grades for all 
+                  the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>
+                  <IconButton sx={{
+                    bgcolor: 'grey.500',
+                    color: 'white',
+                    '&:hover': {
+                      bgcolor: 'grey.600'
+                    }
+                  }}>
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </>
           }
         />
