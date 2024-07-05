@@ -133,26 +133,38 @@ const LeaveDetailsBaseScreen = () => {
         asShowOnlyNonUpdated: showNonupdatedrecords.toString(),
         asAcademicYearId: Number(asAcademicYearId)
     };
-    useEffect(() => {
-        if (deleteLeavedetailsMsg !== '') {
-            toast.success(deleteLeavedetailsMsg, { toastId: 'success1' });
-        }
-        dispatch(resetDeleteHolidayDetails());
-    }, [deleteLeavedetailsMsg]);
-
     const deleteRow = (Id) => {
-        console.log(Id, 'asdfghjklqwertyuioasdfghjk');
-        if (confirm('Are you sure you want to delete this leave?')) {
-            const DeleteLeaveBody: IGetDeleteLeaveBody = {
-                asSchoolId: Number(asSchoolId),
-                asId: Number(Id),
-                asUpdatedById: Number(asUserId), // userId for delete 
-            };
-            dispatch(DeleteLeaveDetails(DeleteLeaveBody));
-            dispatch(getLeaveDetailList(body));
+        const DeleteLeaveBody: IGetDeleteLeaveBody = {
+            asSchoolId: Number(asSchoolId),
+            asId: Number(Id),
+            asUpdatedById: Number(asUserId), // userId for delete 
+        };
 
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete this leave?  ',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(DeleteLeaveDetails(DeleteLeaveBody));
+                closeAlert();
+            }
+        });
+
+
+    };
+    useEffect(() => {
+        if (deleteLeavedetailsMsg != '') {
+            toast.success(deleteLeavedetailsMsg)
+            dispatch(resetDeleteHolidayDetails());
+            dispatch(getLeaveDetailList(body));
         }
-    }
+    }, [deleteLeavedetailsMsg])
 
     const getLeaveDetailsColumns = () => {
         let columns: Column[] = [
