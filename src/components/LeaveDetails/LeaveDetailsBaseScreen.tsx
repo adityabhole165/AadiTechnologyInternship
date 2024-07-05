@@ -258,16 +258,27 @@ const LeaveDetailsBaseScreen = () => {
         }
         return columns;
     };
-    const HeaderLeave = [
+    const [HeaderLeave, setHeaderLeave] = useState([
         { Id: 1, Header: 'Sender Name' },
-        { Id: 2, Header: 'Start Date 	' },
-        { Id: 3, Header: ' 	End Date' },
-        { Id: 5, Header: ' Total Days' },
-        { Id: 6, Header: ' Leave Name ' },
-        { Id: 7, Header: ' Leave Balance' },
+        { Id: 2, Header: 'Start Date' },
+        { Id: 3, Header: 'End Date' },
+        { Id: 5, Header: 'Total Days' },
+        { Id: 6, Header: 'Leave Name' },
+        { Id: 7, Header: 'Leave Balance' },
         { Id: 8, Header: 'View' },
-        { Id: 9, Header: 'Delete' }
-    ];
+    ]);
+    useEffect(() => {
+        if (selectCategory === '1') {
+            if (!HeaderLeave.find(header => header.Id === 9)) {
+                setHeaderLeave(prevHeaders => [
+                    ...prevHeaders,
+                    { Id: 9, Header: 'Delete' }
+                ]);
+            }
+        } else {
+            setHeaderLeave(prevHeaders => prevHeaders.filter(header => header.Id !== 9));
+        }
+    }, [selectCategory]);
 
     const [holidayColumns, setHolidayColumns] = useState<Column[]>(getLeaveDetailsColumns());
     const AddLeave = () => {

@@ -71,10 +71,11 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             Text2: getDateMonthYearDayDash(Item.StartDate),
             Text3: getDateMonthYearDayDash(Item.EndDate),
             Text4: Item.Description,
-            Text5: parseInt(Item.TotalDays),
+            Text5: Item.TotalDays,
             Text6: Item.LeaveName,
             Text7: Item.LeaveBalance,
             StatusId: Item.StatusId,
+            Status: Item.Status,
             TotalRows: Item.TotalRows
 
         };

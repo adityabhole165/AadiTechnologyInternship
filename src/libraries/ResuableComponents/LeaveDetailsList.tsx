@@ -8,8 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useState } from 'react';
-import { Equal, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function LeaveList({
     ItemList,
@@ -17,7 +15,7 @@ function LeaveList({
     HeaderArray,
     clickDelete,
 }) {
-   
+
 
     function formatDate(date) {
         const day = date.getDate().toString().padStart(2, '0');
@@ -44,12 +42,12 @@ function LeaveList({
             ) : (
 
                 <>
-                
+
                     <TableContainer component={Box}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                             <TableHead>
                                 <TableRow
-                                    sx={{ background: (theme) => theme.palette.secondary.main, }}
+                                    sx={{ background: (theme) => theme.palette.secondary.main }}
                                 >
                                     {HeaderArray.map((item, i) => (
                                         <TableCell
@@ -65,13 +63,15 @@ function LeaveList({
                                         </TableCell>
 
                                     ))}
+                                    <TableCell sx={{ color: (theme) => theme.palette.common.white, textAlign: 'center' }} align="center">
 
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {ItemList.map((item, index) => {
                                     const formattedItemDate = formatDate(new Date(item.Text2));
-                                   
+
                                     return (
                                         <TableRow key={item.Id} >
                                             <TableCell
@@ -80,7 +80,7 @@ function LeaveList({
                                                     // backgroundColor: rowStyle.backgroundColor,
                                                     //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text1}
                                             </TableCell>
@@ -152,7 +152,7 @@ function LeaveList({
                                                 align="center"
                                             >
 
-                                                {item.StatusId == '1' ? (
+                                                {item.Status == 'Submitted' ? (
                                                     <IconButton
                                                         sx={{
                                                             color: '#223354',
