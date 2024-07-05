@@ -6,13 +6,16 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
     IconButton,
-    Tooltip
+    Tooltip,
+    Typography
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { green, grey } from "@mui/material/colors";
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getAllReportingUsers, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
@@ -34,6 +37,10 @@ const LeaveDetailsBaseScreen = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const [asUpdatedById, setasUpdatedById] = useState('0');
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
+    const [page, setPage] = useState(1);
+    const { showAlert, closeAlert } = useContext(AlertContext);
 
     const GetAcademicYear = useSelector(
         (state: RootState) => state.LeaveDetails.AcademicYearDropdown
@@ -53,6 +60,11 @@ const LeaveDetailsBaseScreen = () => {
     const deleteLeavedetailsMsg = useSelector(
         (state: RootState) => state.LeaveDetails.DeleteLeaveMsg
     );
+    const filteredList = GetLeaveList.filter((item) => item.TotalRows !== undefined);
+    const TotalCount = filteredList.map((item) => item.TotalRows);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
+
     const AcademicYearBody = {
         asSchoolId: asSchoolId
     };
@@ -103,7 +115,7 @@ const LeaveDetailsBaseScreen = () => {
     }, [GetStatusDropdown])
     useEffect(() => {
         dispatch(getLeaveDetailList(body));
-    }, [selectAcademicYear, selectCategory, selectStatus]);
+    }, [selectAcademicYear, selectCategory, selectStatus, page, rowsPerPage]);
 
     const AllReportingUsersbody: IGetAllReportingUsersBody = {
         asSchoolId: Number(asSchoolId),
@@ -257,6 +269,13 @@ const LeaveDetailsBaseScreen = () => {
     const AddLeave = () => {
         navigate("../AddLeaveDetails");
     };
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1); // Reset to the first page when changing rows per page
+    };
     const ViewLeave = (Id) => {
         console.log(Id, "value");
 
@@ -274,6 +293,10 @@ const LeaveDetailsBaseScreen = () => {
     const handleCheckboxChange = (value) => {
         setshowNonupdatedrecords(value);
     };
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -325,14 +348,13 @@ const LeaveDetailsBaseScreen = () => {
                         </Tooltip>
                         {selectCategory == '1' ? (
                             <Tooltip title="Add New Leave">
-                                <IconButton
-                                    sx={{
-                                        bgcolor: 'grey.500',
-                                        color: 'white',
-                                        '&:hover': {
-                                            bgcolor: 'grey.600'
-                                        }
-                                    }}
+                                <IconButton sx={{
+                                    bgcolor: green[500],
+                                    color: 'white',
+                                    '&:hover': {
+                                        bgcolor: green[600]
+                                    }
+                                }}
                                     onClick={AddLeave}
                                 >
                                     <Add />
@@ -342,12 +364,34 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-            <LeaveList
-                HeaderArray={HeaderLeave}
-                ItemList={GetLeaveList}
-                clickDelete={deleteRow}
-                clickView={ViewLeave} />
+            <Box sx={{ background: 'white', p: 2 }}>
+                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {startRecord} to {endRecord}
+                        </Box>
+                        {' '}out of{' '}
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {singleTotalCount}
+                        </Box>{' '}
+                        {singleTotalCount === 1 ? 'record' : 'records'}
+                    </Typography>
+                </div> : <span> </span>}
 
+                <LeaveList
+                    HeaderArray={HeaderLeave}
+                    ItemList={GetLeaveList}
+                    clickDelete={deleteRow}
+                    clickView={ViewLeave} />
+
+                {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
+                    PageChange={PageChange}
+                    numberOfButtons={pagecount}
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                /> : <span> </span>}
+            </Box>
         </Box>
     );
 };
