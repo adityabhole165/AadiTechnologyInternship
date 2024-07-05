@@ -23,6 +23,7 @@ import staffBirthdayslice from '../requests/StaffBirthday/StaffBirthday';
 import SmsCenterSlice from '../requests/Student/SMSCenter';
 import SentMessageSlice from '../requests/Student/Sentmessage';
 import SubjectTeacherSlice from '../requests/Student/SubjectTeacher';
+import Studentwiseprogressslice from '../requests/StudentWiseProgressReport/ReqStudentWiseProgressReport'
 import Timetableslice from '../requests/Student/Timetable';
 // import ChangePasswordSlice from 'src/Slice/Student/changePassword'
 import SliceAadharCardDetails from 'src/requests/AadharCardDetails/RequestAadharCard';
@@ -214,7 +215,9 @@ const rootReducer = combineReducers({
   MissingAttendanceAleart: MissingattendanceAleartSlice,
   Toppers: ToppersSlice,
   InvestmentDeclaration: InvestmentDeclarationSlice,
-  LeaveDetails: LeaveDetailsslice
+  LeaveDetails: LeaveDetailsslice,
+  Studentwiseprogress:Studentwiseprogressslice
+
 });
 
 export default rootReducer;
