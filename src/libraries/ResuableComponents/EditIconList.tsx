@@ -2,7 +2,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
-import { Box, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -50,29 +50,37 @@ function EditIconList({
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text3 === '3' ? (
-                    <Tooltip title="Marks entry completed">
-                      <CheckIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
-                    </Tooltip>
+                    <IconButton>
+                      <Tooltip title="Marks entry completed">
+                        <CheckIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
+                      </Tooltip>
+                    </IconButton>
                   ) : item.Text3 === '2' ? (
-                    <Tooltip title="Marks entry partially done">
-                      <TaskIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
-                    </Tooltip>
+                    <IconButton>
+                      <Tooltip title="Marks entry partially done">
+                        <TaskIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
+                      </Tooltip>
+                    </IconButton>
                   ) : (
-                    <Tooltip title="Marks entry not started">
-                      <EditOffIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
-                    </Tooltip>
+                    <IconButton>
+                      <Tooltip title="Marks entry not started">
+                        <EditOffIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
+                      </Tooltip>
+                    </IconButton>
                   )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text4 === '2' ? (
-                    <Tooltip title="Submit Marks To Class Teacher">
-                      <AssignmentIcon
-                        onClick={() =>
-                          clicksubmit(item.SubjectId, item.StandardDivisionID)
-                        } sx={{ cursor: 'pointer' }}
-                      />
-                    </Tooltip>
+                    <IconButton>
+                      <Tooltip title="Submit Marks To Class Teacher">
+                        <AssignmentIcon
+                          onClick={() =>
+                            clicksubmit(item.SubjectId, item.StandardDivisionID)
+                          } sx={{ cursor: 'pointer' }}
+                        />
+                      </Tooltip>
+                    </IconButton>
                   ) : item.Text4 === '3' ? (
                     <span>Marks already submitted.</span>
                   ) : (
