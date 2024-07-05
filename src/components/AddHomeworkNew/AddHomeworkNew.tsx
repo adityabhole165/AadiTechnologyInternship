@@ -82,7 +82,7 @@ const AddHomeworkNew = () => {
 
   const HeaderPublish1 = [
     { Id: 1, Header: ' 	' },
-    { Id: 2, Header: 'Sr.No 	' },
+    { Id: 2, Header: 'Sr. No' },
     { Id: 3, Header: 'Subject' },
     { Id: 4, Header: 'Title' },
     { Id: 5, Header: 'Is Published? ', align: 'center' },
