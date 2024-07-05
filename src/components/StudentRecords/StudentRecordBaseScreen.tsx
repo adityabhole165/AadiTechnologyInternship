@@ -49,7 +49,7 @@ const StudentRecords = () => {
   );
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asUpdatedById = localStorage.getItem('Id');
-  const Id = Number(sessionStorage.getItem('Id'));
+  const UserId = Number(sessionStorage.getItem('Id'));
 
   const GetTeachers = useSelector(
     (state: RootState) => state.StudentRecords.ClassTeachers
@@ -105,13 +105,13 @@ const StudentRecords = () => {
   const TeachersBody: IGetTeacherListBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: Id,
+    asUserId: UserId,
     HasFullAccess: 'false'
   };
   const GetStudentStatusBody: IGetAllStudentStatusBody = {
-    asSchoolId: asSchoolId.toString(),
-    asAcademicYearId: asAcademicYearId.toString(),
-    asStdDivId: SelectTeacher,
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
     sortExpression: '',
     sortDirection: 'ASC',
@@ -119,8 +119,8 @@ const StudentRecords = () => {
     EndIndex: 20,
     ShowSaved: true,
     IncludeRiseAndShine: showRiseAndShine,
-    HasEditAccess: 'N',
-    UserId: Id
+    HasEditAccess: 'Y',
+    UserId: UserId
   };
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
