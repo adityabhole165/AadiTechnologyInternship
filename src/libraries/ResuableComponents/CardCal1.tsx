@@ -7,23 +7,24 @@ function CardCal1({
   clickItem,
   DefaultValue,
   options = undefined,
-  assignedDate
+  assignedDate,
+  color
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const fourcolour = ['', 'red', 'green', 'blue', 'gray', 'orange'];
 
-  let color =
-    stripHtml(item?.Text1) === 'Done'
-      ? '#00FF0020'
-      : stripHtml(item?.Text1) === 'Not Done'
-        ? '#9e9e9e20'
-        : stripHtml(item?.Text1) === 'Weekend'
-          ? '#FF000020'
-          : stripHtml(item?.Text1) === 'Holiday'
-            ? '#751b1b20'
-            : stripHtml(item?.Text1) === 'Outside Academic Year'
-              ? '#f0629220'
-              : '#f0629220'
+  // let color =
+  //   stripHtml(item?.Text1) === 'Done'
+  //     ? '#00FF0020'
+  //     : stripHtml(item?.Text1) === 'Not Done'
+  //       ? '#9e9e9e20'
+  //       : stripHtml(item?.Text1) === 'Weekend'
+  //         ? '#FF000020'
+  //         : stripHtml(item?.Text1) === 'Holiday'
+  //           ? '#751b1b20'
+  //           : stripHtml(item?.Text1) === 'Outside Academic Year'
+  //             ? '#f0629220'
+  //             : '#f0629220'
 
   const handleMouseEnter = () => {
     setIsHovered(true);
