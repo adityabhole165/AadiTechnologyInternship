@@ -409,7 +409,7 @@ const LeaveDetailsBaseScreen = () => {
                     clickView={ViewLeave} />
                 <br />
                 {
-                    PagedLeave.length > 19 ? (
+                    endRecord > 19 ? (
                         <ButtonGroupComponent
                             PageChange={PageChange}
                             numberOfButtons={pagecount}
