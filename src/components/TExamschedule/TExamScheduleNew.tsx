@@ -302,17 +302,19 @@ const TExamScheduleNew = () => {
                                                                         ))}
                                                                 </TableCell>
                                                                 <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
-                                                                    {/* {items.map((item) => item.Description || '-').join(',')} */}
-                                                                    {items
-                                                                        .filter((item) => item.Description)
-                                                                        .map((item, idx, arr) => (
+                                                                    {items.length > 0 ? (
+                                                                        items.map((item, idx, arr) => (
                                                                             <p key={idx}>
                                                                                 <div>{item.Description || '-'}</div>
                                                                                 {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
                                                                             </p>
-                                                                        ))}
-
+                                                                        ))
+                                                                    ) : (
+                                                                        '-'
+                                                                    )}
                                                                 </TableCell>
+
+
                                                             </>
                                                         )}
                                                     </TableRow>
