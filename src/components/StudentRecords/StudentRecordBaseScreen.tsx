@@ -130,11 +130,11 @@ const StudentRecords = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
-    sortExpression: '',
+    sortExpression: 'className',
     sortDirection: 'ASC',
     StartIndex: 0,
     EndIndex: 20,
-    ShowSaved: true,
+    ShowSaved: false,
     IncludeRiseAndShine: showRiseAndShine,
     HasEditAccess: 'Y',
     UserId: UserId

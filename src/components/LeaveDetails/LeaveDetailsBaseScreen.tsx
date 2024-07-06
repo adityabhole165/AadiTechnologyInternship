@@ -263,7 +263,7 @@ const LeaveDetailsBaseScreen = () => {
         { Id: 2, Header: 'Start Date' },
         { Id: 3, Header: 'End Date' },
         { Id: 5, Header: 'Total Days' },
-        { Id: 6, Header: 'Leave Name' },
+        { Id: 6, Header: 'Leave Type' },
         { Id: 7, Header: 'Leave Balance' },
         { Id: 8, Header: 'View' },
     ]);
@@ -330,25 +330,28 @@ const LeaveDetailsBaseScreen = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetAcademicYear.slice(0, 4)}
                             defaultValue={selectAcademicYear}
+                            mandatory
                             onChange={clickAcademicYearDropdown}
                             size={"small"}
                             label='Academic Year'
                         />
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetCategoryDropdownList.slice(0, 3)}
                             defaultValue={selectCategory}
+                            mandatory
                             onChange={clickCategoryDropdown}
                             size={"small"}
-                            label='Category'
+                            label={'Category '}
                         />
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '52px' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetStatusDropdown}
                             defaultValue={selectStatus}
+                            mandatory
                             onChange={clickStatusDropdown}
                             size={"small"}
                             label='Status'
