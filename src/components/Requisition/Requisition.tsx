@@ -312,7 +312,7 @@ const StatusRequisition = () => {
               handleRegNoOrNameChange(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' ||e.key === 'Tab'  ) {
                 clickSearch();
               }
             }}

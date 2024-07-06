@@ -583,8 +583,9 @@ const AddRequisition = () => {
                                         <IconButton
                                             onClick={handleClear}
                                             edge="end"
+                                            disabled={Itemlist.length > 0}
                                         >
-                                            <ClearIcon />
+                                            <ClearIcon /> 
                                         </IconButton>
                                     </InputAdornment>
                                 ),
