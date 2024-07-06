@@ -53,7 +53,9 @@ const StudentRecords = () => {
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
-
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(
@@ -93,6 +95,17 @@ const StudentRecords = () => {
     }
   ];
 
+
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'Student Records') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+  const access = GetScreenPermission();
+  console.log(GetScreenPermission(), "GetScreenPermission");
+
   useEffect(() => {
     dispatch(GetTeachersList(TeachersBody));
   }, []);
@@ -123,7 +136,7 @@ const StudentRecords = () => {
     AsSchoolId: asSchoolId,
     AsAcademicYearId: asAcademicYearId,
     AsUserId: UserId,
-    AsHasFullAccess: false
+    AsHasFullAccess: access == 'N' ? false : true
   };
   const GetStudentStatusBody: IGetAllStudentStatusBody = {
     asSchoolId: Number(asSchoolId),
@@ -132,11 +145,11 @@ const StudentRecords = () => {
     asFilter: regNoOrName.toString(),
     sortExpression: 'className',
     sortDirection: 'ASC',
-    StartIndex: 0,
-    EndIndex: 20,
+    StartIndex: (page - 1) * rowsPerPage,
+    EndIndex: page * rowsPerPage,
     ShowSaved: false,
     IncludeRiseAndShine: showRiseAndShine,
-    HasEditAccess: 'Y',
+    HasEditAccess: 'N',
     UserId: UserId
   };
   const clickTeacherDropdown = (value) => {
