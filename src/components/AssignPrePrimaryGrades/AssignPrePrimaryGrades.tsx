@@ -199,7 +199,7 @@ const AssignPrePrimaryGrades = () => {
                 mandatory
               />
               <Box>
-                <Tooltip title={`View all subjects assigned with the current status of grades given to students.Once grades for all 
+                <Tooltip title={`View all subjects assigned with the current status of grades given to students. Once grades for all 
                   the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>
                   <IconButton sx={{
                     bgcolor: 'grey.500',

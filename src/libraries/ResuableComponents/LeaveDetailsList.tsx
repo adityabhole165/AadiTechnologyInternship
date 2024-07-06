@@ -36,7 +36,7 @@ function LeaveList({
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
                     <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No Record Found.
+                        No record found.
                     </Typography>
                 </Box>
             ) : (
@@ -63,9 +63,7 @@ function LeaveList({
                                         </TableCell>
 
                                     ))}
-                                    <TableCell sx={{ color: (theme) => theme.palette.common.white, textAlign: 'center' }} align="center">
-
-                                    </TableCell>
+                                    <span></span>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -77,8 +75,6 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    // backgroundColor: rowStyle.backgroundColor,
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -87,7 +83,6 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-
                                                 }}
                                                 align="center"
                                             >
@@ -105,9 +100,6 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -116,8 +108,6 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -126,8 +116,6 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px',
-                                                    opacity: 1,
                                                 }}
                                                 align="center"
                                             >
@@ -146,8 +134,6 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                     opacity: 1,
-                                                    //backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px'
-
                                                 }}
                                                 align="center"
                                             >
@@ -156,7 +142,6 @@ function LeaveList({
                                                     <IconButton
                                                         sx={{
                                                             color: '#223354',
-                                                            //  backgroundColor: grey[500],
                                                             '&:hover': {
                                                                 color: 'red',
                                                                 backgroundColor: red[100]

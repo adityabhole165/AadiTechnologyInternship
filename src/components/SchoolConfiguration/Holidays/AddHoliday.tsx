@@ -476,7 +476,7 @@ const AddHoliday = ({ }) => {
                                     </span>
                                 }
                                 multiline
-                                rows={3}
+                                rows={1}
                                 value={HolidayTitle}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -494,7 +494,6 @@ const AddHoliday = ({ }) => {
                             </TextField>
                             <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
                             <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
-
                         </Grid>
                         <Grid xs={6} md={6} item>
                             <TextField
@@ -504,7 +503,7 @@ const AddHoliday = ({ }) => {
                                     </span>
                                 }
                                 multiline
-                                rows={3}
+                                rows={1}
                                 value={Reamrk}
                                 onChange={(e) => {
                                     setRemark(e.target.value);

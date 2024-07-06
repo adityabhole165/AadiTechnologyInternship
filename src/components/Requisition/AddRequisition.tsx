@@ -581,7 +581,7 @@ const AddRequisition = () => {
                             fullWidth
                             label={
                                 <span>
-                                    Item Code/Name <span style={{ color: 'red' }}>*</span>
+                                    Item Code/Name<span style={{ color: 'red' }}>*</span>  
                                 </span>
                             }
                             value={regNoOrName}
@@ -772,21 +772,27 @@ const AddRequisition = () => {
                         onTextChange2={Detailschnageall}
                     />
                       <br></br>
-                    <Grid item xs={3}>
-                        <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+
+
+                     <Grid item sx={{display:'plex'}} xs={6} md={6}> 
+                        <Grid xs={12} md={6} mr={1}>
+                        <Typography variant="h4" sx={{ mb: 1}}>
+                            Requisition Name :  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
                         </Typography>
                         <TextField
-                            multiline
-                            rows={1}
+                           multiline
+                            rows={1}  
                             type="text"
                             value={textall}
-                            onChange={Detailschnageall3}
-                            sx={{ width: '70%' }}
+                            onChange={Detailschnageall3}      
+                            sx={{ width: '700px' }}
                         />
+                        </Grid>
+                        
                         <br></br>  <br></br>
+                        <Grid xs={6} md={6} ml={1}>
                         <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+                            Requisition Description :  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
                         </Typography>
                         <TextField
                             multiline
@@ -794,9 +800,9 @@ const AddRequisition = () => {
                             type="text"
                             value={textall1}
                             onChange={Detailschnageall2}
-                            sx={{ width: '70%' }}
+                             sx={{ width: '700px', }}
                         />
-
+                        </Grid>
                     </Grid>
                 </Box> : null}
 
