@@ -51,6 +51,7 @@ import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
   const { paramsselectClasstecaher, paramsassignedDate } = useParams();
+  const [isDirty, setIsDirty] = useState(false);
   const HeaderArray = [
     { Id: 1, Header: '' },
     { Id: 2, Header: 'Boys' },
@@ -311,6 +312,8 @@ const TAttendance = () => {
   }, [Standardid, assignedDate, selectClasstecahernew, AcademicDates]);
 
   const ClickDeleteAttendance = () => {
+    setIsDirty(true);
+
     showAlert({
       title: 'Please Confirm',
       message:
@@ -459,8 +462,8 @@ const TAttendance = () => {
 
 
   const SaveMsg = () => {
-    if (!SaveIsActive) return;
-
+   // if (!SaveIsActive) return;
+    if (!SaveIsActive || !isDirty) return; 
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
     let confirmationMessage = '';
 
@@ -503,6 +506,7 @@ const TAttendance = () => {
               onConfirm: () => {
                 SaveAttendance();
                 closeAlert();
+                setIsDirty(false); 
               }
             });
           } else if (asAllPresentOrAllAbsent === 'N') {
@@ -519,10 +523,12 @@ const TAttendance = () => {
               onConfirm: () => {
                 SaveAttendance();
                 closeAlert();
+                setIsDirty(false); 
               }
             });
           } else {
             SaveAttendance(); // Execute the API call after the second alert
+            setIsDirty(false); 
           }
         }
       });
@@ -543,12 +549,14 @@ const TAttendance = () => {
           onConfirm: () => {
             SaveAttendance();
             closeAlert();
+            setIsDirty(false); 
           }
         });
       } else {
         setAbsentRollNos('');
         SaveAttendance();
         closeAlert();
+        setIsDirty(false); 
       }
     }
     return;
@@ -574,13 +582,16 @@ const TAttendance = () => {
   };
 
   const ClickItem = (value) => {
-    setAssignedDate(value);
+    setIsDirty(true);
+   setAssignedDate(value);
   };
 
   const clickClassTechernew = (value) => {
+    setIsDirty(true);
     setselectClasstecahernew(value);
   };
   const handleCheckboxChange = (value) => {
+    setIsDirty(true);
     setsendmeassagestudent(value);
   };
   useEffect(() => {
@@ -1237,6 +1248,7 @@ const TAttendance = () => {
                         Dataa={RollNoList}
                         getAbsetNumber={getAbsetNumber}
                         assignedDate={assignedDate}
+                        setIsDirty={setIsDirty}
                       ></List26>
                     </Box>
                   )}
