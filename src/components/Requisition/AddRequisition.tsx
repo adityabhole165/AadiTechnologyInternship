@@ -48,6 +48,8 @@ const AddRequisition = () => {
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [ErrorQuantity, setErrorQuantity] = useState('');
     const [text3, settext3] = useState();
+    console.log(text3,"text3---");
+    
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -214,8 +216,8 @@ const AddRequisition = () => {
             asIsGeneral: isChecked
         };
 
-        if (text3 == undefined) {
-            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}`);
+        if (text3 == undefined || text3 == '') {
+            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}.`);
             isError = true;
         } else setErrorQuantity('')
 
@@ -243,7 +245,7 @@ const AddRequisition = () => {
 
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
-            toast.success("Requisition is saved (draft) successfully!!!");
+            toast.success("Requisition is saved (draft) successfully.");
             setText(0)
             setTextall('')
             setTextall1('')
@@ -298,7 +300,7 @@ const AddRequisition = () => {
 
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
-            toast.success("Requisition is send successfully!!!");
+            toast.success("Requisition is send successfully.");
             navigate('/extended-sidebar/Teacher/Requisition')
             setItemlist([]);
             setAddItemlistNew([]);
@@ -455,7 +457,7 @@ const AddRequisition = () => {
     const Detailschnageall = (value) => {
         setAddItemlistNew(value);
         settext3(value.map(item => item.Text3))
-
+      
     };
 
     const Detailschnageall3 = (event) => {
@@ -710,7 +712,7 @@ const AddRequisition = () => {
 
 
             </Box>
-
+            <br/>
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
