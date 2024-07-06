@@ -18,7 +18,7 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 function ListEditIcon2({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
   const cellStyle = {
-    padding: '0.5em 1em', // Adjust these values to reduce the height
+    padding: '0.2em 1.5em', // Adjust these values to reduce the height
   };
   
   return (

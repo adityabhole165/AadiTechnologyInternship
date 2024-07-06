@@ -256,15 +256,27 @@ const SubjectExamMarks = () => {
           "\" TestWise_Subject_Marks_Id=\"" + TestName.TestWise_Subject_Marks_Id +
           "\" Test_Date=\"" + TestDate +
           "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
-          "\" IsAbsent=\"Y\" IsOptional=\"N\" />"
-        
+          "\" IsAbsent=\"" + getAllAbsent(Item.Id) + "\" IsOptional=\"N\" />"
+
       }
     })
 
     return returnVal + "</SchoolWiseStudentTestMarks>"
-    
+
   }
-  console.log(getStudentTestType());
+  const getAllAbsent = (StudentId) => {
+    let returnVal = "Y"
+    MarksAssignment
+      .filter((studentObj) => { return studentObj.Id == StudentId })
+      .map((Obj, i) => {
+        Obj.MarksForStudent
+          .filter((studentObj) => { return studentObj.Student_Id == StudentId })
+          .map((Item) => {
+            returnVal = Item.ExamStatus
+          })
+      })
+    return returnVal
+  }
   const getStudentTestTypeDetails = () => {
     let returnVal = "<SchoolWiseStudentTestMarksDetails>"
     MarksAssignment.map((Obj, i) => {
@@ -276,6 +288,7 @@ const SubjectExamMarks = () => {
             "\" Student_Id=\"" + Item.Student_Id +
             "\" Subject_Id=\"" + SubjectId +
             "\" Is_Absent=\"" + Item.ExamStatus + "\" " +
+            // "\" Is_Absent=\"" + Item.ExamStatus + "\" " +
             "TestType_Id=\"" + Item.Id +
             "\" Marks_Scored=\"" + parseInt(Item.Text1 == "" ? "0" : Item.Text1) +
             "\" Assigned_Grade_Id=\"\" />"
@@ -284,7 +297,6 @@ const SubjectExamMarks = () => {
     })
     return returnVal + "</SchoolWiseStudentTestMarksDetails>"
   }
-  console.log(getStudentTestTypeDetails());
   // const onClickSave = () => {
   //   if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
   //     setMarksError('Exam date should be within the current academic year (i.e. between ' +
@@ -312,40 +324,40 @@ const SubjectExamMarks = () => {
   // };
   const onClickSave = () => {
     if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
-        setMarksError('Exam date should be within the current academic year (i.e. between ' +
-            formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+      setMarksError('Exam date should be within the current academic year (i.e. between ' +
+        formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
     } else {
-        setMarksError('');
-        if (!MarksError) {
-            let isValid = true;
-            MarksAssignment.forEach((Item) => {
-                Item.MarksForStudent.forEach((studentItem) => {
-                    if (Number(studentItem.Text1) > Number(studentItem.Text2)) {
-                        isValid = false;
-                        setMarksError(`Marks Scored should be less than ${studentItem.Text2}`);
-                    }
-                });
-            });
-
-            if (isValid) {
-                const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-                    asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
-                    asInserted_By_id: Number(userId),
-                    asStudent_Test_Type_MarksXml: getStudentTestType(),
-                    asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
-                    asRemoveProgress: RemoveProgress,
-                    RemarkXml: RemarkXml,
-                    asHasRemark: HasRemark,
-                    asTestId: Number(TestId),
-                    asSubjectId: Number(SubjectId),
-                    asSchoolId: Number(asSchoolId),
-                    asAcademicYearId: Number(asAcademicYearId)
-                };
-                dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody));
+      setMarksError('');
+      if (!MarksError) {
+        let isValid = true;
+        MarksAssignment.forEach((Item) => {
+          Item.MarksForStudent.forEach((studentItem) => {
+            if (Number(studentItem.Text1) > Number(studentItem.Text2)) {
+              isValid = false;
+              setMarksError(`Marks Scored should be less than ${studentItem.Text2}`);
             }
+          });
+        });
+
+        if (isValid) {
+          const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+            asTestWise_Subject_Marks_Id: Number(TestName.TestWise_Subject_Marks_Id),
+            asInserted_By_id: Number(userId),
+            asStudent_Test_Type_MarksXml: getStudentTestType(),
+            asStudent_Test_Type_Marks_DetailsXml: getStudentTestTypeDetails(),
+            asRemoveProgress: RemoveProgress,
+            RemarkXml: RemarkXml,
+            asHasRemark: HasRemark,
+            asTestId: Number(TestId),
+            asSubjectId: Number(SubjectId),
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearId: Number(asAcademicYearId)
+          };
+          dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody));
         }
+      }
     }
-};
+  };
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {
@@ -487,7 +499,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#D3D3D3',maxWidth:'20vw' }}
+                  sx={{ bgcolor: '#D3D3D3', maxWidth: '20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -495,7 +507,7 @@ const SubjectExamMarks = () => {
                 />
               </Box>
 
-              <Box sx={{ ml: 1,width: '29%'  }}>
+              <Box sx={{ ml: 1, width: '29%' }}>
                 <TextField
                   size={"small"}
                   fullWidth
@@ -506,7 +518,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#D3D3D3',maxWidth:'20vw' }}
+                  sx={{ bgcolor: '#D3D3D3', maxWidth: '20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -520,7 +532,7 @@ const SubjectExamMarks = () => {
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#D3D3D3',maxWidth:'20vw' }}
+                  sx={{ bgcolor: '#D3D3D3', maxWidth: '20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}

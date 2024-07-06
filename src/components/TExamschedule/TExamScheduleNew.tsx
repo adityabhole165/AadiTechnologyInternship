@@ -156,7 +156,6 @@ const TExamScheduleNew = () => {
 
     const getClassName = () => {
         let returnVal = ""
-        console.log(getstandard, "--ajit--", std);
 
         getstandard.map((item) => {
             if (item.Value == std)
@@ -164,6 +163,7 @@ const TExamScheduleNew = () => {
         })
         return returnVal;
     }
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -216,7 +216,7 @@ const TExamScheduleNew = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            mr: 0.5, // Reduced margin-right
+                            width: '100%',
                         }}
                         onClick={() => toggleAccordion(index)}
                     >
@@ -237,7 +237,7 @@ const TExamScheduleNew = () => {
                             {loading ? (
                                 <SuspenseLoader />
                             ) : (
-                                <TableContainer component={Paper} sx={{ width: '99%', overflowX: 'auto' }}>
+                                <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
                                     <Table sx={{ minWidth: 640 }}>
                                         <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
                                             <TableRow sx={{
@@ -255,10 +255,12 @@ const TExamScheduleNew = () => {
                                                 {std === '0' && classList.map((className, index) => (
                                                     <TableCell key={index} sx={{ textAlign: 'center' }}>{className}</TableCell>
                                                 ))}
-                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Subject</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center' }}>Subject</TableCell>}
                                                 {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
+
+
 
                                         <TableBody>
                                             {Object.keys(groupedSubList).map((key, index) => {
@@ -267,25 +269,40 @@ const TExamScheduleNew = () => {
                                                 const uniqueDates = new Set();
 
                                                 return items.length > 0 ? (
-                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid white', textAlign: 'center' } }}>
+                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center' } }}>
                                                         <TableCell>{uniqueDates.has(date) ? '' : date}</TableCell>
                                                         <TableCell>{getTime(startTime, endTime) || '-'}</TableCell>
                                                         <TableCell>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center' }}>
+
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', borderBottom: '1px solid grey', whiteSpace: 'pre-line' }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
-                                                                        .map((item) => item.header)
-                                                                        .join('/ ') || '-'}
+                                                                        .map((item, idx, arr) => (
+                                                                            <p key={idx}>
+                                                                                <div>{item.header || '-'}</div>
+                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
+                                                                            </p>
+                                                                        ))}
+                                                                    {/* Display '-' if no items match the className */}
+                                                                    {items.filter((item) => item.Standard_Name === className).length === 0 && '-'}
                                                                 </TableCell>
+
                                                             ))
                                                         ) : (
                                                             <>
-                                                                <TableCell sx={{ textAlign: 'center' }}>
-                                                                    {items.map((item) => item.header || '-').join('/')}
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
+                                                                    {items
+                                                                        .filter((item) => item.Standard_Name)
+                                                                        .map((item, idx, arr) => (
+                                                                            <p key={idx}>
+                                                                                <div>{item.header || '-'}</div>
+                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
+                                                                            </p>
+                                                                        ))}
                                                                 </TableCell>
-                                                                <TableCell sx={{ textAlign: 'center' }}>
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
                                                                     {items.map((item) => item.Description || '-').join(',')}
                                                                 </TableCell>
                                                             </>
@@ -294,30 +311,30 @@ const TExamScheduleNew = () => {
                                                 ) : null;
                                             })}
                                             <TableRow>
-                                                {std === '0' &&
+                                                {std === '0' && (
                                                     <TableCell colSpan={3}>
                                                         <b>Instructions : </b>
                                                     </TableCell>
-                                                }
-                                                {std !== '0' && <>
+                                                )}
+                                                {std !== '0' && (
                                                     <TableCell colSpan={3}>
                                                         <Typography sx={{ color: 'darkblue' }}>
                                                             <b>Instructions : </b>
-                                                            {classInstructions[getClassName()][exam.Text2]}
+                                                            {classInstructions[getClassName()] == undefined ? "" :
+                                                                classInstructions[getClassName()][exam.Text2]}
                                                         </Typography>
                                                     </TableCell>
-                                                </>
-                                                }
+                                                )}
                                                 {std === '0' ? (
                                                     classList.map((className) => (
-                                                        <TableCell key={className} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
+                                                        <TableCell key={className} sx={{ textAlign: 'center' }}>
                                                             <Typography sx={{ color: 'darkblue' }}>
                                                                 {classInstructions[className] && classInstructions[className][exam.Text2] || '-'}
                                                             </Typography>
                                                         </TableCell>
                                                     ))
                                                 ) : (
-                                                    <TableCell colSpan={3} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
+                                                    <TableCell colSpan={3} sx={{ textAlign: 'center' }}>
                                                         <Typography sx={{ color: 'darkblue' }}>
                                                             {classInstructions[std] && classInstructions[std][exam.Text2]}
                                                         </Typography>
@@ -325,6 +342,8 @@ const TExamScheduleNew = () => {
                                                 )}
                                             </TableRow>
                                         </TableBody>
+
+
                                     </Table>
                                 </TableContainer>
                             )}

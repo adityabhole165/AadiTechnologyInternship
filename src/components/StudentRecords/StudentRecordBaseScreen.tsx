@@ -23,6 +23,7 @@ import {
   IGetAllStudentStatusBody,
   IGetTeacherListBody
 } from 'src/interfaces/StudentRecords/IStudentRecords';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import StudentRecordList from 'src/libraries/ResuableComponents/StudentRecordList';
 import {
@@ -41,6 +42,17 @@ const StudentRecords = () => {
   const [showRiseAndShine, setShowRiseAndShine] = useState(false);
   const [regNoOrName, setRegNoOrName] = useState('');
   const [StudentList, setStudentList] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const [page, setPage] = useState(1);
+  const filteredList = StudentList.filter((item) => item.TotalRows !== undefined);
+  const TotalCount = filteredList.map((item) => item.TotalRows);
+  const uniqueTotalCount = [...new Set(TotalCount)];
+  const singleTotalCount = uniqueTotalCount[0];
+
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+  const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -85,28 +97,33 @@ const StudentRecords = () => {
     dispatch(GetTeachersList(TeachersBody));
   }, []);
   // useEffect(() => {
-  //     if(SelectTeacher!="0")
+  //   if (SelectTeacher != "0")
   //     dispatch(GetAllStudentStatuss(GetStudentStatusBody))
   // }, [SelectTeacher])
 
   useEffect(() => {
-    if (SelectTeacher != '0')
-      dispatch(GetAllStudentStatuss(GetStudentStatusBody));
-  }, [SelectTeacher]);
-
-  useEffect(() => {
-    if (GetTeachers.length > 0) setSelectTeacher(GetTeachers[0].Value);
+    if (GetTeachers.length > 0)
+      setSelectTeacher(GetTeachers[0].Value);
   }, [GetTeachers]);
 
   useEffect(() => {
-    setStudentList(GetStatusStudents);
+    if (SelectTeacher != '0')
+      dispatch(GetAllStudentStatuss(GetStudentStatusBody));
+  }, [SelectTeacher, page, rowsPerPage]);
+
+
+
+  useEffect(() => {
+    if (GetStatusStudents) {
+      setStudentList(GetStatusStudents);
+    }
   }, [GetStatusStudents]);
 
   const TeachersBody: IGetTeacherListBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asUserId: UserId,
-    HasFullAccess: 'false'
+    AsSchoolId: asSchoolId,
+    AsAcademicYearId: asAcademicYearId,
+    AsUserId: UserId,
+    AsHasFullAccess: false
   };
   const GetStudentStatusBody: IGetAllStudentStatusBody = {
     asSchoolId: Number(asSchoolId),
@@ -149,6 +166,13 @@ const StudentRecords = () => {
   };
   const clickView = () => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord');
+  };
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1); // Reset to the first page when changing rows per page
   };
 
   return (
@@ -238,16 +262,43 @@ const StudentRecords = () => {
  
 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
 ClickItem={ClickItem} IconList={IconList}/> */}
+      <Box sx={{ background: 'white', p: 2 }}>
+        {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <Box component="span" fontWeight="fontWeightBold">
+              {startRecord} to {endRecord}
+            </Box>
+            {' '}out of{' '}
+            <Box component="span" fontWeight="fontWeightBold">
+              {singleTotalCount}
+            </Box>{' '}
+            {singleTotalCount === 1 ? 'record' : 'records'}
+          </Typography>
+        </div> : <span> </span>}
 
-      <StudentRecordList
-        ItemList={StudentList}
-        HeaderArray={headerArray}
-        ClickHeader={handleHeaderClick}
-        clickEdit={clickEdit}
-        clickView={clickView}
-      />
+        <StudentRecordList
+          ItemList={StudentList}
+          HeaderArray={headerArray}
+          ClickHeader={handleHeaderClick}
+          clickEdit={clickEdit}
+          clickView={clickView}
+        />
+        {
+          StudentList.length > 19 ? (
+            <ButtonGroupComponent
+              PageChange={PageChange}
+              numberOfButtons={pagecount}
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
 
+          ) : (
+            <span></span>
 
+          )
+        }
+      </Box>
 
     </Box>
   );
