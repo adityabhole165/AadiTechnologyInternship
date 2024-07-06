@@ -82,14 +82,26 @@ function StudentRecordList({
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text5}</TableCell>
 
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} align="center">
-                                            {item.Editble === '1' ? (
+                                            {item.IsRecordFound === false ? (
                                                 <Tooltip title={"Add"}>
-                                                    <EditTwoTone onClick={() => clickEdit(item.Id)} />
+                                                    <EditTwoTone onClick={() => clickEdit(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                                bgcolor: 'grey.300'
+                                                            }
+                                                        }} />
 
                                                 </Tooltip>
                                             ) : (
                                                 <Tooltip title={"View/Edit"}>
-                                                    <Visibility onClick={() => clickView(item.Id)} />
+                                                    <Visibility onClick={() => clickView(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                                bgcolor: 'grey.300'
+                                                            }
+                                                        }} />
                                                 </Tooltip>
                                             )}
                                         </TableCell>

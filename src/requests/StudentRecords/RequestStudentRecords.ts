@@ -51,7 +51,8 @@ export const GetAllStudentStatuss =
             item.ReadyToSubmitCount == 0
               ? ''
               : 'Unsubmitted :' + item.ReadyToSubmitCount.toString(),
-          TotalRows: item.TotalRows
+          TotalRows: item.TotalRows,
+          IsRecordFound: item.IsRecordFound
         };
       });
       dispatch(StudentRecordsSlice.actions.GetStudentStatus(StudentList));

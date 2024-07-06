@@ -52,39 +52,39 @@ function EditIconList({
                   {item.Text3 === '3' ? (
                     <IconButton>
                       <Tooltip title="Marks entry completed">
-                        <CheckIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
+                        <CheckIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#607d8b' }} />
                       </Tooltip>
                     </IconButton>
                   ) : item.Text3 === '2' ? (
                     <IconButton>
                       <Tooltip title="Marks entry partially done">
-                        <TaskIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
+                        <TaskIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: 'orange' }} />
                       </Tooltip>
                     </IconButton>
                   ) : (
                     <IconButton>
                       <Tooltip title="Marks entry not started">
-                        <EditOffIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer' }} />
+                        <EditOffIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#76ff03' }} />
                       </Tooltip>
                     </IconButton>
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'none' }} align="center">
                   {item.Text4 === '2' ? (
                     <IconButton>
                       <Tooltip title="Submit Marks To Class Teacher">
                         <AssignmentIcon
                           onClick={() =>
                             clicksubmit(item.SubjectId, item.StandardDivisionID)
-                          } sx={{ cursor: 'pointer' }}
+                          } sx={{ cursor: 'pointer', color: 'red' }}
                         />
                       </Tooltip>
                     </IconButton>
                   ) : item.Text4 === '3' ? (
                     <span>Marks already submitted.</span>
                   ) : (
-                    <span>Mark Cannot be Submitted.</span>
+                    <span>Mark cannot be submitted.</span>
                   )}
 
                 </TableCell>
