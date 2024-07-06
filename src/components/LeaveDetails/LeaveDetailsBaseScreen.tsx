@@ -263,7 +263,7 @@ const LeaveDetailsBaseScreen = () => {
         { Id: 2, Header: 'Start Date' },
         { Id: 3, Header: 'End Date' },
         { Id: 5, Header: 'Total Days' },
-        { Id: 6, Header: 'Leave Name' },
+        { Id: 6, Header: 'Leave Type' },
         { Id: 7, Header: 'Leave Balance' },
         { Id: 8, Header: 'View' },
     ]);
@@ -330,7 +330,7 @@ const LeaveDetailsBaseScreen = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
-                              sx={{ minWidth: '20vw' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetAcademicYear.slice(0, 4)}
                             defaultValue={selectAcademicYear}
                             mandatory
@@ -339,7 +339,7 @@ const LeaveDetailsBaseScreen = () => {
                             label='Academic Year'
                         />
                         <SearchableDropdown
-                             sx={{ minWidth: '20vw' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetCategoryDropdownList.slice(0, 3)}
                             defaultValue={selectCategory}
                             mandatory
@@ -348,7 +348,7 @@ const LeaveDetailsBaseScreen = () => {
                             label={'Category '}
                         />
                         <SearchableDropdown
-                              sx={{ minWidth: '20vw' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetStatusDropdown}
                             defaultValue={selectStatus}
                             mandatory
