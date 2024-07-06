@@ -5,11 +5,11 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import { Context, useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { AlertContext } from 'src/contexts/AlertContext'
+import { AlertContext } from 'src/contexts/AlertContext';
 
 import {
   IGetCancelRequisitionBody,
@@ -30,14 +30,13 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { AlertProps } from '../AlertComponents';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asUserId = Number(localStorage.getItem('UserId'));
-  const [SelectResult, setSelectResult] = useState(0);  
+  const [SelectResult, setSelectResult] = useState(0);
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [textall, setTextall] = useState('');
   const [PagedRequisition, setPagedRequisition] = useState([]);
@@ -158,33 +157,33 @@ const StatusRequisition = () => {
   const Detailschnageall = (event) => {
     setTextall(event.target.value)
   }
-       const clickDelete = (Id) => {
-    
-      const DeleteRequisitionBody: IGetDeleteRequisitionBody = {
-        asRequisitionId: Id,
-        asSchoolId: asSchoolId
-      };
+  const clickDelete = (Id) => {
 
-      showAlert({
-        title: 'Please Confirm',
-        message:
-            'Are you sure you want to delete this Requisition?  ',
-        variant: 'warning',
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        onCancel: () => {
-            closeAlert();
-        },
-        onConfirm: () => {
-          dispatch(CDADeleteRequisitionn(DeleteRequisitionBody));
+    const DeleteRequisitionBody: IGetDeleteRequisitionBody = {
+      asRequisitionId: Id,
+      asSchoolId: asSchoolId
+    };
 
-            closeAlert();
-        }
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this Requisition?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDADeleteRequisitionn(DeleteRequisitionBody));
+
+        closeAlert();
+      }
     });
-  
 
 
-    
+
+
   };
 
   const GetRequisitionStatusDropdown = (value) => {
@@ -285,7 +284,7 @@ const StatusRequisition = () => {
   const startRecord = (page2 - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page2 * rowsPerPage, CountGetPagedRequisition.TotalCount);
   const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
-       
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -312,8 +311,12 @@ const StatusRequisition = () => {
             onChange={(e) => {
               handleRegNoOrNameChange(e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                clickSearch();
+              }
+            }}
           />
-
 
           <IconButton
             onClick={clickSearch}
@@ -345,13 +348,13 @@ const StatusRequisition = () => {
 
           <Tooltip title={'Reset'}>
             <IconButton
-             sx={{
-              color: 'white',
-              backgroundColor: blue[500],
-              '&:hover': {
-                backgroundColor: blue[600]
-              }
-            }}
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: blue[600]
+                }
+              }}
               onClick={clickReset} >
               <RestartAltIcon />
             </IconButton>
@@ -452,22 +455,22 @@ const StatusRequisition = () => {
           />
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-        <Button onClick={() => {
+          <Button onClick={() => {
             setOpenPublishDialogall(false)
           }} color={'error'}>
             Cancel
           </Button>
           <Button onClick={clickcancel}
-          //  variant={'contained'}
-           sx={{
-            // backgroundColor: green[100],
-            color: 'green',
-            ':hover': { backgroundColor: green[100] }
-          }}
-            >
+            //  variant={'contained'}
+            sx={{
+              // backgroundColor: green[100],
+              color: 'green',
+              ':hover': { backgroundColor: green[100] }
+            }}
+          >
             Confirm
           </Button>
-          
+
         </DialogActions>
       </Dialog>
       <Box mb={1} sx={{ p: 2, background: 'white' }}>
@@ -510,7 +513,7 @@ const StatusRequisition = () => {
             clickCancel={Clickok}
           />
         )}
-        
+
         <br />
         {
           CountGetPagedRequisition.TotalCount > rowsPerPage ? (
