@@ -366,8 +366,9 @@ const StatusRequisition = () => {
 
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Requisition Code'}
+                variant="outlined"
                 size={"small"}
                 value={RequisitionCode()}
                 disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
@@ -378,7 +379,7 @@ const StatusRequisition = () => {
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Requisition Name'}
                 size={"small"}
                 value={RequisitionName()}
@@ -391,7 +392,7 @@ const StatusRequisition = () => {
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Requisition Status'}
                 size={"small"}
                 value={StatusName()}
@@ -405,7 +406,7 @@ const StatusRequisition = () => {
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={2}>
               <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#f0e68c' }}
+                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Requester'}
                 size={"small"}
                 value={CreaterName()}
@@ -420,7 +421,7 @@ const StatusRequisition = () => {
           </Typography>
           <TextField
             multiline
-            rows={3}
+            rows={1}
             type="text"
             value={textall}
             onChange={Detailschnageall}
@@ -428,14 +429,22 @@ const StatusRequisition = () => {
           />
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button onClick={clickcancel} variant={'contained'} >
-            Confirm
-          </Button>
-          <Button onClick={() => {
+        <Button onClick={() => {
             setOpenPublishDialogall(false)
           }} color={'error'}>
             Cancel
           </Button>
+          <Button onClick={clickcancel}
+          //  variant={'contained'}
+           sx={{
+            // backgroundColor: green[100],
+            color: 'green',
+            ':hover': { backgroundColor: green[100] }
+          }}
+            >
+            Confirm
+          </Button>
+          
         </DialogActions>
       </Dialog>
       <Box mb={1} sx={{ p: 2, background: 'white' }}>
