@@ -256,7 +256,7 @@ const SubjectExamMarks = () => {
           "\" TestWise_Subject_Marks_Id=\"" + TestName.TestWise_Subject_Marks_Id +
           "\" Test_Date=\"" + TestDate +
           "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
-          "\" IsAbsent=\"" + getAllAbsent() + "\" IsOptional=\"N\" />"
+          "\" IsAbsent=\"" + Item.ExamStatus + "\" IsOptional=\"N\" />"
 
       }
     })

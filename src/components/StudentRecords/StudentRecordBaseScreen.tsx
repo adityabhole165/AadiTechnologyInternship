@@ -97,28 +97,33 @@ const StudentRecords = () => {
     dispatch(GetTeachersList(TeachersBody));
   }, []);
   // useEffect(() => {
-  //     if(SelectTeacher!="0")
+  //   if (SelectTeacher != "0")
   //     dispatch(GetAllStudentStatuss(GetStudentStatusBody))
   // }, [SelectTeacher])
+
+  useEffect(() => {
+    if (GetTeachers.length > 0)
+      setSelectTeacher(GetTeachers[0].Value);
+  }, [GetTeachers]);
 
   useEffect(() => {
     if (SelectTeacher != '0')
       dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   }, [SelectTeacher, page, rowsPerPage]);
 
-  useEffect(() => {
-    if (GetTeachers.length > 0) setSelectTeacher(GetTeachers[0].Value);
-  }, [GetTeachers]);
+
 
   useEffect(() => {
-    setStudentList(GetStatusStudents);
+    if (GetStatusStudents) {
+      setStudentList(GetStatusStudents);
+    }
   }, [GetStatusStudents]);
 
   const TeachersBody: IGetTeacherListBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asUserId: UserId,
-    HasFullAccess: 'false'
+    AsSchoolId: asSchoolId,
+    AsAcademicYearId: asAcademicYearId,
+    AsUserId: UserId,
+    AsHasFullAccess: false
   };
   const GetStudentStatusBody: IGetAllStudentStatusBody = {
     asSchoolId: Number(asSchoolId),
@@ -278,13 +283,21 @@ ClickItem={ClickItem} IconList={IconList}/> */}
           clickEdit={clickEdit}
           clickView={clickView}
         />
-        {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
-          PageChange={PageChange}
-          numberOfButtons={pagecount}
-          rowsPerPage={rowsPerPage}
-          ChangeRowsPerPage={ChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-        /> : <span> </span>}
+        {
+          StudentList.length > 19 ? (
+            <ButtonGroupComponent
+              PageChange={PageChange}
+              numberOfButtons={pagecount}
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
+
+          ) : (
+            <span></span>
+
+          )
+        }
       </Box>
 
     </Box>
