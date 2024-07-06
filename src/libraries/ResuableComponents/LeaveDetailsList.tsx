@@ -36,7 +36,7 @@ function LeaveList({
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
                     <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No Record Found.
+                        No record found.
                     </Typography>
                 </Box>
             ) : (
