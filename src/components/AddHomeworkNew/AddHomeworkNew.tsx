@@ -2,7 +2,7 @@ import Close from '@mui/icons-material/Close';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, debounce, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
-import { getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 const AddHomeworkNew = () => {
@@ -38,7 +38,8 @@ const AddHomeworkNew = () => {
   const [Title, setTitle] = useState(SubjectName + ' : ' + formattedDate);
   // const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
-  const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
+  //const [AssignedDate1, setAssignedDate1]: any = useState(new Date().toISOString().split('T')[0]);
+  const [AssignedDate1, setAssignedDate1] = useState(new Date());
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
 
   const [ErrorTitle, setErrorTitle] = useState('');
@@ -151,14 +152,14 @@ const AddHomeworkNew = () => {
   const debouncedFetch = useCallback(debounce((body) => {
     dispatch(SubjectListforTeacherDropdown(body));
   }, 500), [dispatch]);
-
+  const asdate = AssignedDate1 ? formatDateAsDDMMMYYYY(new Date(AssignedDate1)) : "";
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: Number(SelectClass),
     asHomeWorkStatus: HomeworkS.toString(),
     asHomeworkTitle: '',
-    asAssignedDate: AssignedDate1
+    asAssignedDate: asdate
   }
   const adjustToLocalTimezone = (date) => {
     const localDate = new Date(date);
@@ -261,7 +262,7 @@ const AddHomeworkNew = () => {
   const ClickSaveHomework = () => {
     let isError = false;
 
-    if (Title.trim()  === '') {
+    if (Title.trim() === '') {
       setErrorTitle('Title should not be blank.');
       isError = true;
     } else {
@@ -289,7 +290,7 @@ const AddHomeworkNew = () => {
     } else {
       setErrorDetails('');
     }
-    
+
     // if (fileName === '') {
     //   setErrorDetails('');
     //   isError = true;
@@ -663,16 +664,21 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   };
 
   useEffect(() => {
-   // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
+    // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
     debouncedFetch(GetTeacherSubjectAndClassSubjectBody);
-  }, [TeacherId,SelectClass]);
+  }, [TeacherId, SelectClass]);
 
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
   }, [HomeworkS, AssignedDate1, Subject]);
 
-
+  //   useEffect(() => {
+  //     // Check if AssignedDate1 is valid before dispatching the API call
+  //     if (AssignedDate1) {
+  //         dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+  //     }
+  // }, [AssignedDate1]);
 
   useEffect(() => {
     setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject))
@@ -698,29 +704,90 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   const [SearchText, setSearchText] = useState('');
 
 
+  // const changeSearchText = () => {
+  //   if (SearchText === '') {
+  //     setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject));
+  //     setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject));
+  //   } else {
+  //     setSearchTittle(
+  //       Subjectlistsforteacher.
+  //         filter((item) => item.SubjectId === Subject).
+  //         filter((item) => {
+  //           return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+  //         })
+  //     );
+  //     setSearchTittle1(
+  //       Subjectlistsforteacher.
+  //         filter((item) => item.SubjectId !== Subject).
+  //         filter((item) => {
+  //           return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+  //         })
+  //     );
+  //   }
+  // };
   const changeSearchText = () => {
+   // Ensure AssignedDate1 is a Date object
+   const selectedDate = AssignedDate1 instanceof Date ? AssignedDate1 : new Date(AssignedDate1);
+
+   // Log selectedDate to check its value
+    console.log('selectedDate:', selectedDate);
+
+    // Convert selectedDate to formatted string for display
+    //const asdate = formatDateAsDDMMMYYYY(selectedDate);
+    const asdate = AssignedDate1 ? formatDateAsDDMMMYYYY(new Date(AssignedDate1)) : "";
+    let filteredTittle = [];
+    let filteredTittle1 = [];
+
     if (SearchText === '') {
-      setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject));
-      setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject));
+      filteredTittle = Subjectlistsforteacher.filter((item) => {
+        // Check if item matches the selected date
+        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
+        return itemDate.toDateString() === selectedDate.toDateString();
+      });
+
+      filteredTittle1 = Subjectlistsforteacher.filter((item) => {
+        // Check if item does not match the selected date
+        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
+        return itemDate.toDateString() !== selectedDate.toDateString();
+      });
     } else {
-      setSearchTittle(
-        Subjectlistsforteacher.
-          filter((item) => item.SubjectId === Subject).
-          filter((item) => {
-            return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-          })
-      );
-      setSearchTittle1(
-        Subjectlistsforteacher.
-          filter((item) => item.SubjectId !== Subject).
-          filter((item) => {
-            return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-          })
-      );
+      filteredTittle = Subjectlistsforteacher.filter((item) => {
+        // Filter by subject and search text for the selected date
+        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
+        return itemDate.toDateString() === selectedDate.toDateString()&&
+          item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+      });
+
+      filteredTittle1 = Subjectlistsforteacher.filter((item) => {
+        // Filter by subject and search text for dates other than the selected date
+        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
+        return itemDate.toDateString() !== selectedDate.toDateString()&&
+          item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+      });
     }
+
+    // Update state variables with filtered results
+    setSearchTittle(filteredTittle);
+    setSearchTittle1(filteredTittle1);
+
+    // Prepare payload for API call
+    const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivisionId: Number(SelectClass),
+      asHomeWorkStatus: HomeworkS.toString(),
+      asHomeworkTitle: '',
+      asAssignedDate: asdate // Use formatted date for API call
+    };
+
+    // Trigger the API call
+    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
   };
 
 
+  const handleSearchClick = () => {
+    changeSearchText();
+  };
 
   const SearchNameChange = (value) => {
     setSearchText(value);
@@ -748,7 +815,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   const handleFileChange = (files) => {
     setMultipleFiles(files);
   };
-
+  const handleDateChange = (date) => {
+    setAssignedDate1(date); // Update AssignedDate1 with selected date object
+};
 
   return (
     <>
@@ -862,7 +931,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                   </span>
                 }
               />
-                {ErrorTitle && <ErrorMessage1 Error={ErrorTitle} />}
+              {ErrorTitle && <ErrorMessage1 Error={ErrorTitle} />}
             </Grid>
 
             <Grid item xs={3}>
@@ -959,7 +1028,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 width={'100%'}
                 height={'52px'}
                 isMandatory={false}
-                
+
               />
             </Grid>
 
@@ -991,10 +1060,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 onChange={(e) => {
                   setDetails(e.target.value);
                 }}
-               // error={ErrorDetails !== ''}
+              // error={ErrorDetails !== ''}
               //  helperText={ErrorDetails}
               />
-               {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
+              {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
             </Grid>
 
           </Grid>
@@ -1014,7 +1083,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             <Box sx={{ minWidth: '150px' }}>
               <Datepicker
                 DateValue={AssignedDate1}
-                onDateChange={setAssignedDate}
+                onDateChange={handleDateChange}
                 label={'Date'}
                 size={"small"}
 
@@ -1045,7 +1114,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 SearchNameChange(e.target.value);
               }}
             />
-            <IconButton onClick={changeSearchText} sx={{
+            <IconButton onClick={handleSearchClick} sx={{
               background: (theme) => theme.palette.primary.main,
               color: 'white',
               mr: 2
@@ -1100,7 +1169,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               clickVisibilityIcon={clickView}
               clickpublish={clickPublishUnpublish}
               HeaderArray={HeaderPublish}
-           // clickAttachment={clickFileName}
+            // clickAttachment={clickFileName}
             />
 
           ) : (

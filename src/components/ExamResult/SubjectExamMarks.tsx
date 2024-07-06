@@ -256,7 +256,7 @@ const SubjectExamMarks = () => {
           "\" TestWise_Subject_Marks_Id=\"" + TestName.TestWise_Subject_Marks_Id +
           "\" Test_Date=\"" + TestDate +
           "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
-          "\" IsAbsent=\"" + getAllAbsent() + "\" IsOptional=\"N\" />"
+          "\" IsAbsent=\"" + getAllAbsent(Item.Id) + "\" IsOptional=\"N\" />"
 
       }
     })
@@ -264,15 +264,17 @@ const SubjectExamMarks = () => {
     return returnVal + "</SchoolWiseStudentTestMarks>"
 
   }
-  const getAllAbsent = () => {
+  const getAllAbsent = (StudentId) => {
     let returnVal = "Y"
-    MarksAssignment.map((Obj, i) => {
-      Obj.MarksForStudent.map((Item) => {
-        if (Item.ExamStatus) {
-          returnVal = "N"
-        }
+    MarksAssignment
+      .filter((studentObj) => { return studentObj.Id == StudentId })
+      .map((Obj, i) => {
+        Obj.MarksForStudent
+          .filter((studentObj) => { return studentObj.Student_Id == StudentId })
+          .map((Item) => {
+            returnVal = Item.ExamStatus
+          })
       })
-    })
     return returnVal
   }
   const getStudentTestTypeDetails = () => {

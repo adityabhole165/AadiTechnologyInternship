@@ -69,7 +69,7 @@ const DynamicList = ({
           >
             {HeaderList.map((item, i) => {
               return (
-                <TableCell sx={{ color: 'white' }} align="center" key={i} style={cellStyle}>
+                <TableCell sx={{ color: 'white' }} align="center" key={i} >
                   <b>{item}</b>
                   {IsSelect == 2 && i == 0 && (
                     <>
