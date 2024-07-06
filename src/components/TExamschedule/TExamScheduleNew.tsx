@@ -156,7 +156,6 @@ const TExamScheduleNew = () => {
 
     const getClassName = () => {
         let returnVal = ""
-        console.log(getstandard, "--ajit--", std);
 
         getstandard.map((item) => {
             if (item.Value == std)
@@ -164,6 +163,7 @@ const TExamScheduleNew = () => {
         })
         return returnVal;
     }
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -303,7 +303,8 @@ const TExamScheduleNew = () => {
                                                     <TableCell colSpan={3}>
                                                         <Typography sx={{ color: 'darkblue' }}>
                                                             <b>Instructions : </b>
-                                                            {classInstructions[getClassName()][exam.Text2]}
+                                                            {classInstructions[getClassName()] == undefined ? "" :
+                                                                classInstructions[getClassName()][exam.Text2]}
                                                         </Typography>
                                                     </TableCell>
                                                 </>
