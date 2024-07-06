@@ -196,7 +196,7 @@ const teacherRoutes = [
     element: <LeaveDetailsBaseScreen />
   },
   {
-    path: 'AddLeaveDetails/:Id',
+    path: 'AddLeaveDetails/:LeaveId',
     element: <AddLeaveDetails />
   },
   {
