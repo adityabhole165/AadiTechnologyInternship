@@ -346,7 +346,7 @@ const LeaveDetailsBaseScreen = () => {
                             label='Category'
                         />
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '52px' }}
+                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
                             ItemList={GetStatusDropdown}
                             defaultValue={selectStatus}
                             onChange={clickStatusDropdown}
