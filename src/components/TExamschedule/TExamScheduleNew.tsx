@@ -274,12 +274,14 @@ const TExamScheduleNew = () => {
                                                         <TableCell>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
+
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', borderBottom: '1px solid grey', whiteSpace: 'pre-line' }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
                                                                         .map((item) => item.header)
-                                                                        .join('/ ') || '-'}
+                                                                        .join('\n') || '-'}
                                                                 </TableCell>
+
                                                             ))
                                                         ) : (
                                                             <>
