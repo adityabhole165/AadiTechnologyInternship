@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { red } from '@mui/material/colors';
 
 function RequisitionList1({
     ItemList,
@@ -78,22 +79,43 @@ function RequisitionList1({
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Created_Date}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.ExpiryDate}</TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center',}} align="center">
                                     {item.Editble === '1' ? (
                                         <Tooltip title={"Edit"}>
-                                            <EditTwoTone onClick={() => clickEdit(item.Id)} />
+                                            <EditTwoTone onClick={() => clickEdit(item.Id)} 
+                                                sx={{
+                                                    color: '#223354',
+                                                    '&:hover': {
+                                                      bgcolor: 'grey.300'
+                                                    }
+                                                  }}
+                                                />
 
                                         </Tooltip>
                                     ) : (
                                         <Tooltip title={"View"}>
-                                            <Visibility onClick={() => clickView(item.Id)} />
+                                            <Visibility onClick={() => clickView(item.Id)}
+                                               sx={{
+                                                color: '#223354',
+                                                '&:hover': {
+                                                  bgcolor: 'grey.300'
+                                                }
+                                              }} />
                                         </Tooltip>
                                     )}
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                                     {item.IsDelete === "True" ? (
                                         <Tooltip title={"Delete"}>
-                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
+                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)} 
+                                            sx={{
+                                                color:'#223354',
+                                                //  backgroundColor: grey[500],
+                                                 '&:hover': {
+                                                  color:'red',
+                                                backgroundColor: red[100]
+                                                }}}
+                                            />
                                         </Tooltip>
                                     ) : <span></span>
                                     }
