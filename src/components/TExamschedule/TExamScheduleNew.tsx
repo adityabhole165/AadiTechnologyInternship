@@ -260,6 +260,7 @@ const TExamScheduleNew = () => {
                                             </TableRow>
                                         </TableHead>
 
+
                                         <TableBody>
                                             {Object.keys(groupedSubList).map((key, index) => {
                                                 const items = groupedSubList[key].filter(item => item.text1 === exam.Text2);
@@ -267,13 +268,13 @@ const TExamScheduleNew = () => {
                                                 const uniqueDates = new Set();
 
                                                 return items.length > 0 ? (
-                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid white', textAlign: 'center' } }}>
+                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center' } }}>
                                                         <TableCell>{uniqueDates.has(date) ? '' : date}</TableCell>
                                                         <TableCell>{getTime(startTime, endTime) || '-'}</TableCell>
                                                         <TableCell>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center' }}>
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
                                                                         .map((item) => item.header)
@@ -282,10 +283,10 @@ const TExamScheduleNew = () => {
                                                             ))
                                                         ) : (
                                                             <>
-                                                                <TableCell sx={{ textAlign: 'center' }}>
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
                                                                     {items.map((item) => item.header || '-').join('/')}
                                                                 </TableCell>
-                                                                <TableCell sx={{ textAlign: 'center' }}>
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
                                                                     {items.map((item) => item.Description || '-').join(',')}
                                                                 </TableCell>
                                                             </>
@@ -300,7 +301,7 @@ const TExamScheduleNew = () => {
                                                     </TableCell>
                                                 }
                                                 {std !== '0' && <>
-                                                    <TableCell colSpan={3}>
+                                                    <TableCell colSpan={3} sx={{ textAlign: 'center' }}>
                                                         <Typography sx={{ color: 'darkblue' }}>
                                                             <b>Instructions : </b>
                                                             {classInstructions[getClassName()] == undefined ? "" :
@@ -311,14 +312,14 @@ const TExamScheduleNew = () => {
                                                 }
                                                 {std === '0' ? (
                                                     classList.map((className) => (
-                                                        <TableCell key={className} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
+                                                        <TableCell key={className} sx={{ textAlign: 'center' }}>
                                                             <Typography sx={{ color: 'darkblue' }}>
                                                                 {classInstructions[className] && classInstructions[className][exam.Text2] || '-'}
                                                             </Typography>
                                                         </TableCell>
                                                     ))
                                                 ) : (
-                                                    <TableCell colSpan={3} sx={{ borderBottom: '1px solid white', textAlign: 'center' }}>
+                                                    <TableCell colSpan={3} sx={{ textAlign: 'center' }}>
                                                         <Typography sx={{ color: 'darkblue' }}>
                                                             {classInstructions[std] && classInstructions[std][exam.Text2]}
                                                         </Typography>
@@ -326,6 +327,7 @@ const TExamScheduleNew = () => {
                                                 )}
                                             </TableRow>
                                         </TableBody>
+
                                     </Table>
                                 </TableContainer>
                             )}
