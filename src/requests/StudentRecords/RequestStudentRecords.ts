@@ -25,13 +25,14 @@ export const GetTeachersList =
   (data: IGetTeacherListBody): AppThunk =>
     async (dispatch) => {
       const response = await StudentRecordsApi.ClassTeacherList(data);
-
-      let abc = response.data.lstAssociatedTeacher.map((item, i) => {
-        return {
+      let abc = [{ Id: '0', Name: 'All', Value: '0' }];
+      // let abc = response.data.listGetClass_Teachers.map((item, i) => {
+      response.data.listGetClass_Teachers.map((item, i) => {
+        abc.push({
           Id: item.TeacherName,
           Name: item.TeacherName,
           Value: item.StdDivId
-        };
+        });
       });
       dispatch(StudentRecordsSlice.actions.TeacherList(abc));
     };
