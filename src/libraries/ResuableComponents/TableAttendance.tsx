@@ -1,4 +1,4 @@
-import { Box, Modal } from '@mui/material';
+import { Box, Modal, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -39,7 +39,10 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
       {ItemList.length === 0 ? (
         <>
           {' '}
-          <ErrorMessages Error={'No record found'} />
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>No attendance available.</b>
+              </Typography>
+          {/* <ErrorMessages Error={'No attendance available.'} /> */}
         </>
       ) : (
         <>
