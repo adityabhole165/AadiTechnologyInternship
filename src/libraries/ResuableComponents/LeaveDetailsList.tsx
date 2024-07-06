@@ -55,7 +55,7 @@ function LeaveList({
                                             sx={{
                                                 // textTransform: 'capitalize',
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: i === 2 || i === 3 ? 'center' : 'center'
+                                                textAlign: i === 1 || i === 2 ? 'center' : 'left'
                                             }}
                                             align="center"
                                         >
@@ -133,7 +133,7 @@ function LeaveList({
                                             >
                                                 {item.Text7}
                                             </TableCell>
-                                            <TableCell sx={{ pl: "52px" }}>
+                                            <TableCell align="center">
                                                 <Tooltip title="View">
                                                     <VisibilityIcon
                                                         sx={{ color: '#223354', cursor: 'pointer' }}
@@ -152,7 +152,7 @@ function LeaveList({
                                                 align="center"
                                             >
 
-                                                {item.Status == 'Submitted' ? (
+                                                {item.IsApprovedByApprover == 'False' ? (
                                                     <IconButton
                                                         sx={{
                                                             color: '#223354',

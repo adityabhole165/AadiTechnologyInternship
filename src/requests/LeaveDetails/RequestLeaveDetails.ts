@@ -75,6 +75,7 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             Text6: Item.LeaveName,
             Text7: Item.LeaveBalance,
             StatusId: Item.StatusId,
+            IsApprovedByApprover: Item.IsApprovedByApprover,
             Status: Item.Status,
             TotalRows: Item.TotalRows
 

@@ -88,7 +88,7 @@ const LeaveDetailsBaseScreen = () => {
     }, []);
     // useEffect(() => {
     //     if (GetAcademicYear.length > 0) {
-    //         setAcademicYear(GetAcademicYear[0].Value)
+    //         setAcademicYear(GetAcademicYear.slice(0, 4)[1].Value);
     //     }
     // }, [GetAcademicYear])
     useEffect(() => {
@@ -131,7 +131,7 @@ const LeaveDetailsBaseScreen = () => {
         asStartIndex: (page - 1) * rowsPerPage,
         asEndIndex: page * rowsPerPage,
         asShowOnlyNonUpdated: false,
-        asAcademicYearId: Number(asAcademicYearId)
+        asAcademicYearId: Number(selectAcademicYear)
     };
     const deleteRow = (Id) => {
         const DeleteLeaveBody: IGetDeleteLeaveBody = {
@@ -406,7 +406,7 @@ const LeaveDetailsBaseScreen = () => {
                     clickView={ViewLeave} />
                 <br />
                 {
-                    PagedLeave.length > 0 ? (
+                    PagedLeave.length > 19 ? (
                         <ButtonGroupComponent
                             PageChange={PageChange}
                             numberOfButtons={pagecount}
