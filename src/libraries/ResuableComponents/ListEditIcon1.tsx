@@ -28,7 +28,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize', color: 'white' ,...cellStyle}}
+                  sx={{ textTransform: 'capitalize', color: 'white' }}
                   align={item.align ? item.align : 'left'}
                 >
                   <b>{item.Header}</b>
