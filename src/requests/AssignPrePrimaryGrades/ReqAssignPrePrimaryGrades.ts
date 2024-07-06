@@ -103,7 +103,7 @@ export const CDAGetTestwiseTerm =
           Value: item.AssessmentId
         };
       });
-      TestwiseTerm.unshift({ Id: '0', Name: '--Select--', Value: '0' });
+      TestwiseTerm.unshift({ Id: '0', Name: 'Select', Value: '0' });
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetTestwiseTerm(TestwiseTerm)
       );
@@ -161,7 +161,7 @@ export const CDAGetClassTeachers =
           Value: item.Teacher_Id
         };
       });
-      ClassTeachers.unshift({ Id: '0', Name: '--Select--', Value: '0' });
+      ClassTeachers.unshift({ Id: '0', Name: 'Select', Value: '0' });
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetClassTeachers(ClassTeachers)
       );
