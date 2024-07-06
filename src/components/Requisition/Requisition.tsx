@@ -5,10 +5,11 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { Context, useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext'
 
 import {
   IGetCancelRequisitionBody,
@@ -29,6 +30,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { AlertProps } from '../AlertComponents';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -46,6 +48,8 @@ const StatusRequisition = () => {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [page2, setPage2] = useState(1);
   const rowsPerPageOptions = [20, 50, 100, 200];
+  const { showAlert, closeAlert } = useContext(AlertContext);
+
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Code', SortOrder: null, sortKey: 'RequisitionCode' },
     { Id: 2, Header: 'Requisition', SortOrder: null, sortKey: 'RequisitionName' },
@@ -154,14 +158,33 @@ const StatusRequisition = () => {
   const Detailschnageall = (event) => {
     setTextall(event.target.value)
   }
-  const clickDelete = (Id) => {
-    if (confirm('Are you sure you want to delete this Requisition?')) {
+       const clickDelete = (Id) => {
+    
       const DeleteRequisitionBody: IGetDeleteRequisitionBody = {
         asRequisitionId: Id,
         asSchoolId: asSchoolId
       };
-      dispatch(CDADeleteRequisitionn(DeleteRequisitionBody));
-    }
+
+      showAlert({
+        title: 'Please Confirm',
+        message:
+            'Are you sure you want to delete this Requisition?  ',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+            closeAlert();
+        },
+        onConfirm: () => {
+          dispatch(CDADeleteRequisitionn(DeleteRequisitionBody));
+
+            closeAlert();
+        }
+    });
+  
+
+
+    
   };
 
   const GetRequisitionStatusDropdown = (value) => {
@@ -511,3 +534,5 @@ const StatusRequisition = () => {
 };
 
 export default StatusRequisition;
+
+
