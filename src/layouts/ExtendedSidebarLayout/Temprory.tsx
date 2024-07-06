@@ -194,6 +194,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
     },
+    
+    {
+      title: 'Student Wise Progress Report',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
+    },
 
   ];
 

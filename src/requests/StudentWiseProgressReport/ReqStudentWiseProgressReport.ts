@@ -1,0 +1,155 @@
+import { createSlice } from '@reduxjs/toolkit';
+import GetStudentwiseReportApi from 'src/api/StudentWiseProgressReport/StudentWiseProgressReport';
+import {
+    IDeleteAllStudentTestMarksBody,
+    IGetAllPrimaryClassTeachersBody,
+    IGetAssessmentDropdownBody,
+    IGetPagedStudentsForMarkAssignmentBody,
+    IGetPublishStatusBody,
+    IPublishUnpublishXseedResultBody,
+    IoneDeleteStudentTestMarksBody
+} from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
+import { AppThunk } from 'src/store';
+const Studentwiseprogressslice = createSlice({
+    name: 'Studentwiseprogress ',
+
+    initialState: {
+
+        PrimaryClassTeacher: [],
+        AssessmentDropdown: [],
+        StudentsAssignment: [],
+        StudentsAssignmentGrade: [],
+        oneDeleteStudent: [],
+        DeleteAllStudent: [],
+        PublishStatus: [],
+        PublishUnpublishXseed: [],
+        Loading: true
+    },
+
+    reducers: {
+        PrimaryTeacher(state, action) {
+            state.PrimaryClassTeacher = action.payload;
+        },
+        AssessmentDrop(state, action) {
+            state.AssessmentDropdown = action.payload;
+        },
+        StudentsAssign(state, action) {
+            state.StudentsAssignment = action.payload;
+        },
+        StudentsAssigngrades(state, action) {
+            state.StudentsAssignmentGrade = action.payload;
+        },
+        oneDelete(state, action) {
+            state.oneDeleteStudent = action.payload;
+        },
+        DeleteAll(state, action) {
+            state.DeleteAllStudent = action.payload;
+        },
+        PublishStat(state, action) {
+            state.PublishStatus = action.payload;
+        },
+        PublishUnXseed(state, action) {
+            state.PublishUnpublishXseed = action.payload;
+        },
+        setLoading(state, action) {
+            state.Loading = action.payload;
+        }
+    }
+});
+
+
+
+export const GetStudentResultList =
+    (data: IGetAllPrimaryClassTeachersBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.AllPrimaryClassTeacher(data);
+            let TeacherList = response.data?.map((item) => {
+                return {
+                    Id: item.Teacher_Id,
+                    Name: item.TeacherName,
+                    Value: item.Original_Standard_Id,
+                };
+            });
+            dispatch(Studentwiseprogressslice.actions.PrimaryTeacher(TeacherList));
+            console.log(TeacherList, 'TeacherList');
+        };
+
+export const AssessmentDropdown =
+    (data: IGetAssessmentDropdownBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.AssessmentDropdown(data);
+            let Assessment = response.data?.map((item) => {
+                return {
+                    Id: item.AssessmentId,
+                    Name: item.Name,
+                    Value: item.AssessmentId,
+                };
+            });
+            dispatch(Studentwiseprogressslice.actions.AssessmentDrop(Assessment));
+            console.log(Assessment, 'TeacherList');
+        };
+
+
+export const PageStudentsAssignment =
+    (data: IGetPagedStudentsForMarkAssignmentBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.StudentsForMarkAssignment(data);
+            console.log(response.data, "respons");
+
+            let StudentsAssignment = response.data.GetPagedStudentsForMarkAssignmentList.map((item, i) => {
+                return {
+                    Id: item.RollNo,
+                    Text1: item.StudentName,
+                    Text2: item.EditStatus,
+                    Text3: item.ShowDeleteButton,
+                };
+            });
+            let AllStudentRecordCount = response.data.GetAllStudentRecordCount.map((item, i) => {
+                return {
+                    Id: item.Count,
+                    Name: item.Count,
+                    Value: item.Count
+                };
+            });
+
+            dispatch(Studentwiseprogressslice.actions.StudentsAssign(StudentsAssignment));
+            dispatch(Studentwiseprogressslice.actions.StudentsAssigngrades(AllStudentRecordCount));
+
+        };
+
+
+export const oneDeleteStudentTest =
+    (data: IoneDeleteStudentTestMarksBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.oneDeleteStudentTestMark(data);
+            dispatch(Studentwiseprogressslice.actions.oneDelete(response.data));
+        };
+
+
+
+export const DeleteAllStudentTest =
+    (data: IDeleteAllStudentTestMarksBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.DeleteAllStudentTestMarks(data);
+            dispatch(Studentwiseprogressslice.actions.DeleteAll(response.data));
+        };
+
+
+export const PublishStatus =
+    (data: IGetPublishStatusBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.PublishStatus(data);
+            dispatch(Studentwiseprogressslice.actions.PublishStat(response.data));
+        };
+
+
+export const PublishUnpublishXseed =
+    (data: IPublishUnpublishXseedResultBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.PublishUnpublishXseedResult(data);
+            dispatch(Studentwiseprogressslice.actions.PublishUnXseed(response.data));
+        };
+
+
+
+export default Studentwiseprogressslice.reducer;

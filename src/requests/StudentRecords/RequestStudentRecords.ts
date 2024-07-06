@@ -23,36 +23,36 @@ const StudentRecordsSlice = createSlice({
 });
 export const GetTeachersList =
   (data: IGetTeacherListBody): AppThunk =>
-  async (dispatch) => {
-    const response = await StudentRecordsApi.ClassTeacherList(data);
+    async (dispatch) => {
+      const response = await StudentRecordsApi.ClassTeacherList(data);
 
-    let abc = response.data.lstAssociatedTeacher.map((item, i) => {
-      return {
-        Id: item.TeacherName,
-        Name: item.TeacherName,
-        Value: item.StdDivId
-      };
-    });
-    dispatch(StudentRecordsSlice.actions.TeacherList(abc));
-  };
+      let abc = response.data.lstAssociatedTeacher.map((item, i) => {
+        return {
+          Id: item.TeacherName,
+          Name: item.TeacherName,
+          Value: item.StdDivId
+        };
+      });
+      dispatch(StudentRecordsSlice.actions.TeacherList(abc));
+    };
 export const GetAllStudentStatuss =
   (data: IGetAllStudentStatusBody): AppThunk =>
-  async (dispatch) => {
-    const response = await StudentRecordsApi.AllStudentStatus(data);
-    let StudentList = response.data.map((item) => {
-      return {
-        Id: item.SchoolWiseStudentId,
-        Text1: item.RegNo,
-        Text2: item.RollNo,
-        Text3: item.Class,
-        Text4: item.Name,
-        Text5:
-          item.ReadyToSubmitCount == 0
-            ? ''
-            : 'Unread-' + item.ReadyToSubmitCount.toString()
-      };
-    });
-    dispatch(StudentRecordsSlice.actions.GetStudentStatus(StudentList));
-  };
+    async (dispatch) => {
+      const response = await StudentRecordsApi.AllStudentStatus(data);
+      let StudentList = response.data.map((item) => {
+        return {
+          Id: item.SchoolWiseStudentId,
+          Text1: item.RegNo,
+          Text2: item.RollNo,
+          Text3: item.Class,
+          Text4: item.Name,
+          Text5:
+            item.ReadyToSubmitCount == 0
+              ? ''
+              : 'Unsubmitted : 1' + item.ReadyToSubmitCount.toString()
+        };
+      });
+      dispatch(StudentRecordsSlice.actions.GetStudentStatus(StudentList));
+    };
 
 export default StudentRecordsSlice.reducer;

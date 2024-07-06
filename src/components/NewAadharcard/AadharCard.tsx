@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
@@ -84,7 +85,7 @@ const AadharCard = () => {
       alert('Please enter a valid Aadhar card number.');
       isError = true;
     }
-
+   
     if (NamePerAadharCard.trim() === '') {
       setErrorNamePerAadharcard('Please enter name present on Aadhar Card.');
       isError = true;
@@ -717,6 +718,7 @@ const AadharCard = () => {
                       padding: '10px',
                       bgcolor: '#D3D3D3',
                       borderRadius: '4px',
+                      minWidth: '20vw'
                     },
                   }}
                   value={GetUserDetailsForAadharCardNoUS?.TeacherFullName} // Replace with actual value
@@ -744,6 +746,7 @@ const AadharCard = () => {
                       padding: '10px',
                       bgcolor: '',
                       borderRadius: '4px',
+                      minWidth: '20vw'
                     },
                   }}
                 />
@@ -758,8 +761,8 @@ const AadharCard = () => {
                   value={NamePerAadharCard}
                   onChange={(e) => setNamePerAadharcard(e.target.value)}
                   fullWidth
-                  error={Boolean(ErrorNamePerAadharCard)}
-                  helperText={ErrorNamePerAadharCard}
+                  // error={Boolean(ErrorNamePerAadharCard)}
+                  //  helperText={ErrorNamePerAadharCard}
                   sx={{
                     width: '50%',
                     '& .MuiInputBase-input': {
@@ -767,12 +770,14 @@ const AadharCard = () => {
                       padding: '10px',
                       bgcolor: '',
                       borderRadius: '4px',
+                      minWidth: '20vw'
                     },
                   }}
                 />
+                {ErrorNamePerAadharCard && <ErrorMessage1 Error={ErrorNamePerAadharCard} />}
                 <Button
                   sx={{
-                    width: '50%', height: '60px',
+                    width: '50%', height: '65px',
                     gap: 1,
                     position: 'relative',
                     border: (theme) => `1px dashed ${theme.palette.primary.main}`,
@@ -780,6 +785,7 @@ const AadharCard = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginTop: '20px',
+                    minWidth: '20vw'
                   }}
                   color="primary"
                 >
@@ -806,15 +812,17 @@ const AadharCard = () => {
                         bottom: 0,
                         position: 'absolute',
                         cursor: 'pointer',
+                      minWidth: '20vw'
                       }}
                     />
                   </Stack>
-                  
+
                 </Button>
                 {fileError && (
-                   <Box sx={{ display: 'flex', alignItems: '', justifyContent: '', mt: 2 }}>
-                 {/* <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: '-20px' }}> */}
-                    <Typography color="error">{fileError}</Typography>
+                  <Box sx={{ display: 'flex', alignItems: '', justifyContent: '', mt: 2 }}>
+                    {/* <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: '-20px' }}> */}
+                    {/* <Typography color="error">{fileError}</Typography> */}
+                    {fileError && <ErrorMessage1 Error={fileError} />}
                   </Box>
                 )}
               </Grid>
@@ -840,6 +848,7 @@ const AadharCard = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: '10px',
+                    maxWidth: '30vw'
                   }}
                 >
                   <Typography color="textSecondary">No file selected</Typography>

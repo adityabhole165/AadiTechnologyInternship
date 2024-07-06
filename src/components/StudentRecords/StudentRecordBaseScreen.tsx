@@ -49,7 +49,7 @@ const StudentRecords = () => {
   );
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asUpdatedById = localStorage.getItem('Id');
-  const Id = Number(sessionStorage.getItem('Id'));
+  const UserId = Number(sessionStorage.getItem('Id'));
 
   const GetTeachers = useSelector(
     (state: RootState) => state.StudentRecords.ClassTeachers
@@ -105,13 +105,13 @@ const StudentRecords = () => {
   const TeachersBody: IGetTeacherListBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: Id,
+    asUserId: UserId,
     HasFullAccess: 'false'
   };
   const GetStudentStatusBody: IGetAllStudentStatusBody = {
-    asSchoolId: asSchoolId.toString(),
-    asAcademicYearId: asAcademicYearId.toString(),
-    asStdDivId: SelectTeacher,
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
     sortExpression: '',
     sortDirection: 'ASC',
@@ -119,8 +119,8 @@ const StudentRecords = () => {
     EndIndex: 20,
     ShowSaved: true,
     IncludeRiseAndShine: showRiseAndShine,
-    HasEditAccess: 'N',
-    UserId: Id
+    HasEditAccess: 'Y',
+    UserId: UserId
   };
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
@@ -239,29 +239,16 @@ const StudentRecords = () => {
 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
 ClickItem={ClickItem} IconList={IconList}/> */}
 
-      <Grid item xs={12}>
-        {StudentList && StudentList.length === 0 ? (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
-          </Typography>
+      <StudentRecordList
+        ItemList={StudentList}
+        HeaderArray={headerArray}
+        ClickHeader={handleHeaderClick}
+        clickEdit={clickEdit}
+        clickView={clickView}
+      />
 
-        ) : (
-          // <DynamicList2
-          //   HeaderList={HeaderList}
-          //   ItemList={StudentList}
-          //   ClickItem={ClickItem}
-          //   IconList={IconList}
-          // />
-          <StudentRecordList
-            ItemList={StudentList}
-            HeaderArray={headerArray}
-            ClickHeader={handleHeaderClick}
-            clickEdit={clickEdit}
-            clickView={clickView}
-          />
 
-        )}
-      </Grid>
+
     </Box>
   );
 };

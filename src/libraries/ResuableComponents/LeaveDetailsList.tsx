@@ -8,7 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Equal, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function LeaveList({
     ItemList,
@@ -16,7 +15,7 @@ function LeaveList({
     HeaderArray,
     clickDelete,
 }) {
-    console.log(ItemList, "ItemList----------");
+
 
     function formatDate(date) {
         const day = date.getDate().toString().padStart(2, '0');
@@ -43,11 +42,12 @@ function LeaveList({
             ) : (
 
                 <>
+
                     <TableContainer component={Box}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                             <TableHead>
                                 <TableRow
-                                    sx={{ background: (theme) => theme.palette.secondary.main, }}
+                                    sx={{ background: (theme) => theme.palette.secondary.main }}
                                 >
                                     {HeaderArray.map((item, i) => (
                                         <TableCell
@@ -55,7 +55,7 @@ function LeaveList({
                                             sx={{
                                                 // textTransform: 'capitalize',
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: i === 2 || i === 3 ? 'center' : 'center'
+                                                textAlign: i === 1 || i === 2 ? 'center' : 'left'
                                             }}
                                             align="center"
                                         >
@@ -63,31 +63,24 @@ function LeaveList({
                                         </TableCell>
 
                                     ))}
+                                    <TableCell sx={{ color: (theme) => theme.palette.common.white, textAlign: 'center' }} align="center">
 
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {ItemList.map((item, index) => {
                                     const formattedItemDate = formatDate(new Date(item.Text2));
-                                    const isCurrentDate = formattedItemDate === formattedDate;
-                                    const isFuture = isFutureDateTime(new Date(item.Text2));
-                                    const isPast = isPastDateTime(new Date(item.Text2));
-                                    const isEqual = Equal(new Date(item.Text2))
-
-                                    //const backgroundColor = isCurrentDate || (page === 0 && index === 0 && isFuture) ? '#EFDCC9 ' : isPast ? "white" : 'white';
-
-                                    // const rowStyle = !isCurrentDate && isPast ? {
-                                    //     backgroundColor: 'white',
-                                    //     // opacity: 0.5,
-                                    // } : { backgroundColor };
 
                                     return (
                                         <TableRow key={item.Id} >
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
+                                                    // backgroundColor: rowStyle.backgroundColor,
+                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text1}
                                             </TableCell>
@@ -112,6 +105,9 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
+                                                    //backgroundColor: rowStyle.backgroundColor,
+
+                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
@@ -137,7 +133,7 @@ function LeaveList({
                                             >
                                                 {item.Text7}
                                             </TableCell>
-                                            <TableCell sx={{ pl: "52px" }}>
+                                            <TableCell align="center">
                                                 <Tooltip title="View">
                                                     <VisibilityIcon
                                                         sx={{ color: '#223354', cursor: 'pointer' }}
@@ -145,14 +141,18 @@ function LeaveList({
                                                 </Tooltip>
 
                                             </TableCell>
+
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize'
+                                                    textTransform: 'capitalize',
+                                                    opacity: 1,
+                                                    //backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px'
+
                                                 }}
                                                 align="center"
                                             >
 
-                                                {item.StatusId == '1' ? (
+                                                {item.IsApprovedByApprover == 'False' ? (
                                                     <IconButton
                                                         sx={{
                                                             color: '#223354',
@@ -162,6 +162,7 @@ function LeaveList({
                                                                 backgroundColor: red[100]
                                                             }
                                                         }}
+
                                                         onClick={() => clickDelete(item.Id)}
                                                     >
                                                         <Tooltip title="Delete" >

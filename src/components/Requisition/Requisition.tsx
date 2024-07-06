@@ -490,7 +490,7 @@ const StatusRequisition = () => {
         
         <br />
         {
-          PagedRequisition.length > 0 ? (
+          CountGetPagedRequisition.TotalCount > rowsPerPage ? (
             <ButtonGroupComponent
               PageChange={PageChange}
               numberOfButtons={pagecount}
