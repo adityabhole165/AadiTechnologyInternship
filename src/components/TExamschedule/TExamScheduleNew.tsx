@@ -303,7 +303,7 @@ const TExamScheduleNew = () => {
                                                     </TableCell>
                                                 }
                                                 {std !== '0' && <>
-                                                    <TableCell colSpan={3} sx={{ textAlign: 'center' }}>
+                                                    <TableCell colSpan={3} >
                                                         <Typography sx={{ color: 'darkblue' }}>
                                                             <b>Instructions : </b>
                                                             {classInstructions[getClassName()] == undefined ? "" :
