@@ -356,7 +356,7 @@ const StatusRequisition = () => {
               <RestartAltIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={'Add'}>
+          <Tooltip title={'Add Requisition'}>
             <IconButton
               onClick={AddRequisition}
               sx={{
