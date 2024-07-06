@@ -36,6 +36,7 @@ const AddRequisition = () => {
     const [Text, setText] = useState(0);
     const [regNoOrName, setRegNoOrName] = useState('');
     const [ItemNewID, SetItemNewID] = useState();
+    const [ItemNewID1, SetItemNewID1] = useState();
     const [textall, setTextall] = useState('');
     const [textall1, setTextall1] = useState('');
     const [Error, setError] = useState('');
@@ -270,6 +271,12 @@ const AddRequisition = () => {
             asRequisitionItemDetailsXml: xmlString1,
             asIsGeneral: isChecked
         };
+
+
+        if (text3 == undefined || text3 == '') {
+            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}.`);
+            isError = true;
+        } else setErrorQuantity('')
 
         if (textall === '') {
             setError('Requisition name should not be blank.');
@@ -527,6 +534,11 @@ const AddRequisition = () => {
 
     }, [ItemNewID, USGetAddItemList, errorMessage]);
 
+    
+
+    useEffect(() => {
+        SetItemNewID(undefined)
+    }, [ItemNewID]);
 
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
