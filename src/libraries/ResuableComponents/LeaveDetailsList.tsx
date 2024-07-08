@@ -96,7 +96,14 @@ function LeaveList({
                                             >
                                                 {item.Text3}
                                             </TableCell>
-
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize',
+                                                }}
+                                                align="center"
+                                            >
+                                                {item.Text4}
+                                            </TableCell>
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
