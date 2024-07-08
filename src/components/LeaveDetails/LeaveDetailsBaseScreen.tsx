@@ -356,7 +356,7 @@ const LeaveDetailsBaseScreen = () => {
                             size={"small"}
                             label='Status'
                         />
-                        <Tooltip title="Use this page to manage your leave.">
+                        <Tooltip title={`Use this page to manage your leave.`}>
                             <IconButton
                                 sx={{
                                     color: 'white',
