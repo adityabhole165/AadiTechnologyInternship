@@ -45,6 +45,7 @@ import {
   getConfiguredTestPublished,
   getiscofigred,
   getunpublishedexam,
+  resetGenerateAll,
   resetPublishResult,
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
@@ -82,7 +83,7 @@ const FinalResult = () => {
     setShowProgressReport(!showProgressReport); // Toggle visibility
   }
 
-  const [StandardDivisionId, setStandardDivisionId] = useState('');
+  const [StandardDivisionId, setStandardDivisionId] = useState('0');
 
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
@@ -299,9 +300,7 @@ const FinalResult = () => {
     dispatch(GetGenerate(GenerateResultBody));
   }, [])
 
-  useEffect(() => {
-    if (StandardDivisionId != '0') dispatch(GetStudentResultList(PagedStudentBody));
-  }, [StandardDivisionId]);
+
 
 
 
@@ -496,7 +495,6 @@ const FinalResult = () => {
       }
       dispatch(GetPublishResult(PublishBody))
       dispatch(GetResultPublishd(ResultPublishedBody))
-      dispatch(GetStudentResultList(PagedStudentBody))
 
       // dispatch(GetUnpublishResult(UnpublishResultBody))
 
@@ -518,7 +516,7 @@ const FinalResult = () => {
   useEffect(() => {
     if (GenerateAll !== '') {
       toast.success(GenerateAll)
-      dispatch(resetUnpublishResult())
+      dispatch(resetGenerateAll())
       dispatch(GetStudentResultList(PagedStudentBody))
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
@@ -526,27 +524,22 @@ const FinalResult = () => {
   }, [GenerateAll])
 
   useEffect(() => {
-    if (PublishResult !== '')
+    if (PublishResult !== '') {
       toast.success(PublishResult)
-    dispatch(resetPublishResult())
-    dispatch(GetStudentResultList(PagedStudentBody))
+      dispatch(resetPublishResult())
+      dispatch(GetStudentResultList(PagedStudentBody))
+    }
   }, [PublishResult])
 
   useEffect(() => {
-    dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
-  }, [StandardDivisionId])
-
-  // useEffect(() => {
-  //   dispatch(GetResultPublishd(ResultPublishedBody))
-  // }, [])
-
-
-  useEffect(() => {
-    dispatch(GetTestPublishedd(TestPublishedBody))
-  }, [StandardDivisionId])
-
-  useEffect(() => {
-    dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+    if (StandardDivisionId != '0') {
+      dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
+      dispatch(GetTestPublishedd(TestPublishedBody))
+      dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+      dispatch(getiscofigred(iscofigred));
+      dispatch(getunpublishedexam(unpublishexam));
+      dispatch(GetStudentResultList(PagedStudentBody));
+    }
   }, [StandardDivisionId])
 
   // useEffect(() => {
@@ -559,10 +552,6 @@ const FinalResult = () => {
   //   }
   // }, [GetResultGenerated])
 
-  useEffect(() => {
-    dispatch(getiscofigred(iscofigred));
-    dispatch(getunpublishedexam(unpublishexam));
-  }, [StandardDivisionId]);
 
   // const clickTeacher = (value) => {
   //   setstandardDivisionId(value);
