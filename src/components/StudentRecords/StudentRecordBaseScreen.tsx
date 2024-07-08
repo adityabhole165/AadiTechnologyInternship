@@ -107,7 +107,19 @@ const StudentRecords = () => {
     return perm;
   };
   const access = GetScreenPermission();
-  console.log(GetScreenPermission(), "GetScreenPermission");
+
+
+  const checkClassIdDifference = () => {
+    if (GetTeachers.length > 0 && GetAssociatedTeacherUS.length > 0) {
+      const StdDivId = SelectTeacher;
+      const AssociatedClassId = GetAssociatedTeacherUS[0].AssociatedClassId;
+      return StdDivId !== AssociatedClassId;
+    }
+    return true;
+  };
+  console.log(checkClassIdDifference(), "checkClassIdDifference");
+
+  const isDifferentClassId = checkClassIdDifference();
 
   useEffect(() => {
     dispatch(GetTeachersList(TeachersBody));
@@ -150,7 +162,7 @@ const StudentRecords = () => {
     sortDirection: 'ASC',
     StartIndex: (page - 1) * rowsPerPage,
     EndIndex: page * rowsPerPage,
-    ShowSaved: false,
+    ShowSaved: isDifferentClassId,
     IncludeRiseAndShine: showRiseAndShine,
     HasEditAccess: access == 'N' ? 'N' : 'Y',
     UserId: UserId
