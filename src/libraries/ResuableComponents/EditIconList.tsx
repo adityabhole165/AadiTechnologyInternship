@@ -2,7 +2,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
-import { Box } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,8 +14,7 @@ function EditIconList({
   ItemList,
   clickEdit,
   HeaderArray,
-  clicksubmit,
-  clickEdit1
+  clicksubmit
 }) {
   console.log(ItemList, 'ItemList');
 
@@ -51,25 +50,41 @@ function EditIconList({
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text3 === '3' ? (
-                    <CheckIcon />
+                    <IconButton>
+                      <Tooltip title="Marks entry completed">
+                        <CheckIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#607d8b' }} />
+                      </Tooltip>
+                    </IconButton>
                   ) : item.Text3 === '2' ? (
-                    <TaskIcon onClick={() => clickEdit(item.Id)} />
+                    <IconButton>
+                      <Tooltip title="Marks entry partially done">
+                        <TaskIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: 'orange' }} />
+                      </Tooltip>
+                    </IconButton>
                   ) : (
-                    <EditOffIcon onClick={() => clickEdit1(item.Id)} />
+                    <IconButton>
+                      <Tooltip title="Marks entry not started">
+                        <EditOffIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#76ff03' }} />
+                      </Tooltip>
+                    </IconButton>
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'none' }} align="center">
                   {item.Text4 === '2' ? (
-                    <AssignmentIcon
-                      onClick={() =>
-                        clicksubmit(item.SubjectId, item.StandardDivisionID)
-                      }
-                    />
+                    <IconButton>
+                      <Tooltip title="Submit Marks To Class Teacher">
+                        <AssignmentIcon
+                          onClick={() =>
+                            clicksubmit(item.SubjectId, item.StandardDivisionID)
+                          } sx={{ cursor: 'pointer', color: 'red' }}
+                        />
+                      </Tooltip>
+                    </IconButton>
                   ) : item.Text4 === '3' ? (
                     <span>Marks already submitted.</span>
                   ) : (
-                    <span>Mark Cannot be Submitted.</span>
+                    <span>Mark cannot be submitted.</span>
                   )}
 
                 </TableCell>

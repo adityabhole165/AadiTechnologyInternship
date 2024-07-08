@@ -1,3 +1,4 @@
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import { Checkbox, Grow, Tooltip } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -17,8 +18,7 @@ const DynamicList = ({
   ClickLink = undefined,
   Data = undefined,
 }) => {
-
-
+ 
 
   const clickCheckbox = (value) => {
     let arr = [];
@@ -51,6 +51,15 @@ const DynamicList = ({
     const re = /\d+\.\d+/;
     return re.test(value);
   };
+  const cellStyle = {
+    padding: '0.2em 1.5em', // Adjust these values to reduce the height
+  };
+  const rowStyle = {
+    height: '0.5em 1.5em', // Ensure auto height to adjust based on content
+  };
+  // const rowStyle = {
+  //   padding: '0.2em', // Adjust padding to reduce space between rows
+  // };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -60,7 +69,7 @@ const DynamicList = ({
           >
             {HeaderList.map((item, i) => {
               return (
-                <TableCell sx={{ color: 'white' }} align="center" key={i}>
+                <TableCell sx={{ color: 'white' }} align="center" key={i} >
                   <b>{item}</b>
                   {IsSelect == 2 && i == 0 && (
                     <>
@@ -83,15 +92,17 @@ const DynamicList = ({
         >
           <TableBody>
             {ItemList.map((item, index) => {
+             
+
               return (
                 <TableRow key={index} style={{
                   // backgroundColor: Data[index]?.IsGrey ? '#A9A9A9' : ''
                   //  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#A9A9A9' : ''
-                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : ''
+                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : '',...rowStyle
                 }}>
                   {item.length > 0 && item.map((obj, i) => {
                     return (
-                      <TableCell align="center" key={i} >
+                      <TableCell align="center" key={i} style={cellStyle}>
                         {i === 0 ? (
                           <a
                             href="#"
@@ -135,7 +146,7 @@ const DynamicList = ({
 
                   {item.Text1 != undefined && (
                     <TableCell
-                      align="center"
+                      align="center"style={cellStyle}
                     >
                       <Tooltip title={item.MoueOverText1 != undefined ? item.MoueOverText1 : ""} key={index}>
                         <span>{item.Text1}</span>
@@ -144,20 +155,20 @@ const DynamicList = ({
                     </TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell align="center">{parseInt(item.Text2)}</TableCell>
+                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text2)}</TableCell>
 
                   )}
                   {item.Text3 !== undefined && (
-                    <TableCell align="center">{parseInt(item.Text3)}</TableCell>
+                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text3)}</TableCell>
                   )}
                   {item.Text4 != undefined && (
-                    <TableCell align="center">{parseInt(item.Text4)}</TableCell>
+                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text4)}</TableCell>
                   )}
                   {item.Text5 != undefined && (
-                    <TableCell align="center">{parseInt(item.Text5)}</TableCell>
+                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text5)}</TableCell>
                   )}
                   {item.Text6 != undefined && (
-                    <TableCell align="center">{parseInt(item.Text6)}</TableCell>
+                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text6)}</TableCell>
                   )}
                   {/* {IconList?.map((obj, i) => {
                     return (
@@ -173,7 +184,8 @@ const DynamicList = ({
 
                     );
                   })} */}
-                  {IconList &&
+
+                  {/* {IconList &&
                     IconList.map((obj, i) => (
                       Data[index] && !Data[index].IsGrey ? (
                         <TableCell
@@ -187,6 +199,22 @@ const DynamicList = ({
                       ) : (
                         <TableCell key={i}>-</TableCell>
                       )
+                    ))}
+                </TableRow> */}
+                  {IconList &&
+                    IconList.map((obj, i) => (
+                      <TableCell align="center"style={cellStyle} key={i}>
+                        {Data[index] && !Data[index].IsGrey ? (
+                          <Tooltip title="Edit">
+                            <EditTwoTone
+                              sx={{ color: 'black', cursor: 'pointer' }}
+                              onClick={() => ClickItem({Id: i, Action: obj.Action, Index: index})}
+                            />
+                          </Tooltip>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
                     ))}
                 </TableRow>
               );

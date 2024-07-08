@@ -5,7 +5,7 @@ import CalendarToday from '@mui/icons-material/CalendarToday';
 import Dataset from '@mui/icons-material/CalendarViewMonth';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import Dashboard from '@mui/icons-material/Dashboard';
-import DateRange from '@mui/icons-material/DateRange';
+import { default as DateRange, default as DateRangeIcon } from '@mui/icons-material/DateRange';
 import FactCheck from '@mui/icons-material/FactCheck';
 import FeaturedPlayList from '@mui/icons-material/FeaturedPlayList';
 import User from '@mui/icons-material/ManageAccounts';
@@ -15,7 +15,6 @@ import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
 import TableChart from '@mui/icons-material/TableChart';
 import { Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import DateRangeIcon from '@mui/icons-material/DateRange';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -23,10 +22,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { grey } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { logoURL } from 'src/components/Common/Util';
-import { useDispatch, useSelector } from 'react-redux';
 
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 
@@ -123,6 +122,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/AssignExamMark'
     },
     {
+      title: 'Assign Pre-Primary Grades',
+      icon: <FeaturedPlayList />,
+      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
+    },
+    {
       title: 'Change Password',
       icon: <Password />,
       link: '/extended-sidebar/common/changePassword'
@@ -190,10 +194,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
     },
+    
+    {
+      title: 'Student Wise Progress Report',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
+    },
 
-     ];
+  ];
 
-    if (hasMissingDays) {
+  if (hasMissingDays) {
     sideList.push({
       title: 'Missing Attendance',
       icon: <FactCheck />,
@@ -249,11 +259,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
     IconClick(text.title);
   };
-  
+
   useEffect(() => {
     dispatch(MissingAttenNameAleart(MissingNameBody));
   }, []);
-  
+
   useEffect(() => {
     if (hasMissingDays && !sessionStorage.getItem('hasShownMissingAttendancePopup')) {
       setMissingAttendanceDialog(true);
@@ -262,7 +272,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       setMissingAttendanceDialog(false);
     }
   }, [hasMissingDays]);
-  
+
 
   const list = (anchor: Anchor) => (
     <Box

@@ -89,8 +89,13 @@ const FinalResult = Loader(
   lazy(() => import('src/components/FinalResult/FinalResult'))
 );
 const StudentRecords = Loader(
-  lazy(() => import('src/components/StudentRecords/StudentRecords'))
+  lazy(() => import('src/components/StudentRecords/StudentRecordBaseScreen'))
 );
+const AddStudentRecord = Loader(
+  lazy(() => import('src/components/StudentRecords/AddStudentRecord'))
+);
+
+
 const FinalResultToppers = Loader(
   lazy(() => import('src/components/FinalResult/FinalResultToppers'))
 );
@@ -152,6 +157,12 @@ const WeeklyTimetable = Loader(
 // const ExamResultToppers = Loader(
 //   lazy(() => import('src/components/ExamResult/ExamResultToppers'))
 // )
+const AssignProgressReportSubject = Loader(
+  lazy(
+    () => import('src/components/AssignPrePrimaryGrades/AssignProgressReportSubject')
+  )
+);
+
 const Toppers = Loader(
   lazy(() => import('src/components/ExamResult/Toppers'))
 )
@@ -183,6 +194,10 @@ const teacherRoutes = [
   {
     path: 'LeaveDetails',
     element: <LeaveDetailsBaseScreen />
+  },
+  {
+    path: 'AddLeaveDetails/:LeaveId',
+    element: <AddLeaveDetails />
   },
   {
     path: 'AddLeaveDetails',
@@ -375,6 +390,10 @@ const teacherRoutes = [
     path: 'StudentRecords',
     element: <StudentRecords />
   },
+  {
+    path: 'AddStudentRecord',
+    element: <AddStudentRecord />
+  },
 
   {
     path: 'AddDailyLog/:Id/:ClassName',
@@ -509,6 +528,14 @@ const teacherRoutes = [
   {
     path: 'AddHomeworkNew/:TeacherId/:TeacherName/:ClassName/:SubjectName/:SubjectId/:MySubject/:SelectClass',
     element: <AddHomeworkNew />
+  },
+  {
+    path: 'AssignProgressReportSubject',
+    element: <AssignProgressReportSubject />
+  },
+  {
+    path: 'AssignProgressReportSubject/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId',
+    element: <AssignProgressReportSubject />
   },
   {
     path: 'AddHomeworkNew',

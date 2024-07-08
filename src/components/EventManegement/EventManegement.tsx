@@ -14,7 +14,7 @@ import {
   Typography
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import { green, grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -417,7 +417,7 @@ const EventsManagement = () => {
                   </span>
                 }
                 multiline
-                rows={3}
+                rows={1}
                 value={EventTitle}
                 onChange={(e) => {
                   setEventTitle(e.target.value);
@@ -438,7 +438,7 @@ const EventsManagement = () => {
                   </span>
                 }
                 multiline
-                rows={3}
+                rows={1}
                 value={EventDescription}
                 onChange={(e) => {
                   setEventDescription(e.target.value);
@@ -531,10 +531,26 @@ const EventsManagement = () => {
           </Grid>
 
           <Stack spacing={2} direction="row" justifyContent={'center'}>
-            <Button variant={'contained'} color="primary" onClick={CancelEvent}>
+            <Button 
+            // variant={'contained'}
+            //  color="primary" 
+             onClick={CancelEvent}>
+             sx={{
+              // backgroundColor: green[100],
+              color: 'red',
+              ':hover': { backgroundColor: red[100] }
+          }}
+          
               Cancel
             </Button>
-            <Button variant={'contained'} color="success" onClick={ClickSave}>
+            <Button 
+            // variant={'contained'} color="success" 
+            onClick={ClickSave}
+             sx={{
+              // backgroundColor: green[100],
+              color: 'green',
+              ':hover': { backgroundColor: green[100] }
+          }} >
               Save
             </Button>
             {/* <Button

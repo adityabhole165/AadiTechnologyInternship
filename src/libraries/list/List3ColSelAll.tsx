@@ -3,7 +3,7 @@ import { grey } from '@mui/material/colors';
 import ListCard3ColSel from '../card/ListCard3ColSel';
 import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel';
 
-const List3ColSelAll = ({ Itemlist, refreshData, assignedDate }) => {
+const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => {
   let isCheckAll = !Itemlist
   .filter((obj)=>{return !obj.IsExamSubmitted})
   .some((obj) => obj.isActive === false)
@@ -19,12 +19,14 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate }) => {
       return { ...obj, isActive: (!obj.IsExamSubmitted?value:false) }
     });
     refreshData(Itemlist);
+    setIsDirty(true);
   };
   const clickSingle = (value) => {
     Itemlist = Itemlist.map((obj) =>
       obj.text1 === value.name ? { ...obj, isActive: value.checked } : obj
     );
     refreshData(Itemlist);
+    setIsDirty(true);
   };
   return (
     <div>

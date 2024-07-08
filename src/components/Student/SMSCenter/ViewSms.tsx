@@ -91,7 +91,8 @@ function ViewSms() {
             <Grid item xs={2}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <CallReceived color={'primary'} fontSize='small' />
-                From
+                <Typography variant={"h4"}color={'primary'} >From
+                  </Typography>
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.UserName}
@@ -100,7 +101,9 @@ function ViewSms() {
             <Grid item xs={10}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <History color={'primary'} fontSize={'small'} />
-                Received Date :
+                <Typography variant={"h4"}color={'primary'} > Received Date :
+                </Typography>
+               
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.Date}
@@ -112,7 +115,8 @@ function ViewSms() {
             <Grid item xs={12}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <AccountCircleOutlined color={"primary"} fontSize={'small'} />
-                To:
+                <Typography variant={"h4"}color={'primary'} >   To:
+                </Typography>        
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.DisplayText}
@@ -124,7 +128,9 @@ function ViewSms() {
             <Grid item xs={12}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <SmsOutlined color={"primary"} fontSize={'small'} />
-                SMS Text :
+                <Typography variant={"h4"}color={'primary'} > SMS Text :
+                </Typography>   
+              
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.Subject}

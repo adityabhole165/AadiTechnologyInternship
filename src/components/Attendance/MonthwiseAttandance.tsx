@@ -71,6 +71,14 @@ const MonthwiseAttandance = () => {
     }
   };
 
+
+  const onKeyDown = (e) => {
+    if (e.key === "Tab" || e.key === "Enter") {
+      e.preventDefault();
+
+      changeSearchText();
+    }
+  };
   const SearchNameChange = (value) => {
     setSearchText(value);
   };
@@ -127,6 +135,7 @@ const MonthwiseAttandance = () => {
                       placeholder="Search Text"
                       inputProps={{ 'aria-label': 'search Text' }}
                       value={SearchText}
+                      onKeyDown={onKeyDown}
                       onChange={(e) => SearchNameChange(e.target.value)}
                     />
 

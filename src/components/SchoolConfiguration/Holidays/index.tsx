@@ -2,16 +2,19 @@ import Add from "@mui/icons-material/Add"
 import Delete from "@mui/icons-material/Delete"
 import Edit from "@mui/icons-material/Edit"
 import QuestionMark from "@mui/icons-material/QuestionMark"
-import { Box, IconButton, Tooltip } from "@mui/material"
-import { blue, green } from "@mui/material/colors"
-import { useEffect, useState } from "react"
+import { Box, IconButton, Tooltip, Typography } from "@mui/material"
+import { green } from "@mui/material/colors"
+import { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify"
-import { GetScreenPermission, getDateMonthYearDayDash } from "src/components/Common/Util"
+import { GetScreenPermission, getSchoolConfigurations } from "src/components/Common/Util"
 import CommonPageHeader from "src/components/CommonPageHeader"
 import { Column } from "src/components/DataTable"
+import { AlertContext } from 'src/contexts/AlertContext'
 import { IGetHolidayBody, IHolidaysFA } from "src/interfaces/Common/Holidays"
+import SuspenseLoader from "src/layouts/components/SuspenseLoader"
+import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent"
 import HolidaysList from "src/libraries/ResuableComponents/HolidaysList"
 import { DeleteHolidayDetails, getHolidaysF, resetDeleteHolidayDetails } from "src/requests/Holiday/Holiday"
 import { RootState } from "src/store"
@@ -23,7 +26,12 @@ const Holidays = (props: Props) => {
     const asStandardId = sessionStorage.getItem('StandardId');
     const asDivisionId = sessionStorage.getItem('DivisionId');
     const [asHoliday_Id, setAsHoliday_Id] = useState();
+    let CanAdd = getSchoolConfigurations(14)
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
+    const { showAlert, closeAlert } = useContext(AlertContext);
 
+    const [page, setPage] = useState(1);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const HolidayFullAccess = GetScreenPermission('Holidays')
@@ -32,12 +40,17 @@ const Holidays = (props: Props) => {
     const holidaysList = useSelector(
         (state: RootState) => state.Holidays.HolidaysDataF
     );
+    const filteredList = holidaysList.filter((item) => item.TotalRows !== undefined);
+    const TotalCount = filteredList.map((item) => item.TotalRows);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
 
 
     const deleteHolidaydetailsMsg = useSelector(
         (state: RootState) => state.Holidays.DeleteHolidayMsg
     );
 
+    const Loading: any = useSelector((state: RootState) => state.Holidays.Loading);
 
 
     const getHolidayColumns = () => {
@@ -153,27 +166,51 @@ const Holidays = (props: Props) => {
         asStandardId: Number(0),
         asDivisionId: Number(0),
         asSortExp: "ORDER BY Holiday_Start_Date ASC",
-        asStartIndex: Number(0),
-        asPageSize: Number(100),
+        asStartIndex: (page - 1) * rowsPerPage,
+        asPageSize: Number(20),
     };
 
-    useEffect(() => {
-        dispatch(getHolidaysF(body));
-    }, []);
+
+
+    // const deleteRow = (Holiday_Id) => {
+    //     if (
+    //         confirm('Are you sure you want to delete this holiday?')
+    //     ) {
+    //         console.log(Holiday_Id, "1234567890");
+    //         const DeleteHolidayBody: IGetHolidayBody = {
+    //             asSchoolId: Number(asSchoolId),
+    //             asAcademicYearID: Number(asAcademicYearId),
+    //             asHoliday_Id: Number(Holiday_Id),
+    //         };
+    //         dispatch(DeleteHolidayDetails(DeleteHolidayBody));
+    //     }
+    // };
 
 
     const deleteRow = (Holiday_Id) => {
-        if (
-            confirm('Are you sure you want to delete this holiday?')
-        ) {
-            console.log(Holiday_Id, "1234567890");
-            const DeleteHolidayBody: IGetHolidayBody = {
-                asSchoolId: Number(asSchoolId),
-                asAcademicYearID: Number(asAcademicYearId),
-                asHoliday_Id: Number(Holiday_Id),
-            };
-            dispatch(DeleteHolidayDetails(DeleteHolidayBody));
-        }
+        const DeleteHolidayBody: IGetHolidayBody = {
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearID: Number(asAcademicYearId),
+            asHoliday_Id: Number(Holiday_Id),
+        };
+
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete this holiday?  ',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(DeleteHolidayDetails(DeleteHolidayBody));
+                closeAlert();
+            }
+        });
+
+
     };
 
     useEffect(() => {
@@ -191,8 +228,20 @@ const Holidays = (props: Props) => {
     const AddHoliday = () => {
         navigate("../AddHoliday");
     };
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1); // Reset to the first page when changing rows per page
+    };
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+    useEffect(() => {
+        dispatch(getHolidaysF(body));
+    }, [page, rowsPerPage]);
 
-    console.log(getDateMonthYearDayDash("19-05-2024 00:00:00"))
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -220,7 +269,7 @@ const Holidays = (props: Props) => {
                             </IconButton>
                         </Tooltip>
                     </Box>
-                    {HolidayFullAccess === 'Y' ? (
+                    {CanAdd === 'Y' ? (
                         <Box>
                             <Tooltip title={"Add New Holiday"}>
                                 <IconButton sx={{
@@ -238,6 +287,9 @@ const Holidays = (props: Props) => {
                     ) : null}
                 </>}
             />
+            {Loading &&
+                <SuspenseLoader />
+            }
             {/* Content */}
             <Box sx={{ background: 'white', p: 2 }}>
                 {/* <DataTable
@@ -246,12 +298,39 @@ const Holidays = (props: Props) => {
                     isLoading={false}
                 /> */}
 
+                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {startRecord} to {endRecord}
+                        </Box>
+                        {' '}out of{' '}
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {singleTotalCount}
+                        </Box>{' '}
+                        {singleTotalCount === 1 ? 'record' : 'records'}
+                    </Typography>
+                </div> : <span> </span>}
+
+
+
                 <HolidaysList
                     ItemList={holidaysList}
                     clickEdit={editRow}
                     HeaderArray={HeaderPublish}
                     clickDelete={deleteRow}
                 />
+                <br />
+                {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
+                    PageChange={PageChange}
+                    numberOfButtons={pagecount}
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    buttonsPerPage = {pagecount > 1 ? 5 : 0 }
+                /> : <span> </span>}
+
+
+
             </Box>
         </Box>
     )

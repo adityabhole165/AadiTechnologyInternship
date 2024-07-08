@@ -4,6 +4,7 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
+  debounce,
   Grid,
   IconButton,
   Pagination,
@@ -12,7 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -28,14 +29,14 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-  PublishUnpublishHomework,
-  ResetDeleteLog,
-  Savedailylog,
   deletedailylog,
   getalldailylog,
   getdailylog,
+  PublishUnpublishHomework,
+  ResetDeleteLog,
   resetMessage,
-  resetPublishUnpublish
+  resetPublishUnpublish,
+  Savedailylog
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY } from '../Common/Util';
@@ -111,12 +112,15 @@ const AddDailyLog = () => {
     'XLS',
     'XLSX'
   ];
-
+  const debouncedFetch = useCallback(debounce((body) => {
+    dispatch(Savedailylog(body));
+  }, 500), [dispatch]);
+  const asdate = dateState ? formatDateAsDDMMMYYYY(new Date(dateState)) : "";
   //PaylodBody
   const SaveDailylogBody: ISaveDailyLogBody = {
     aHomeWorkLogId: LogId,
     asStdDivId: Number(Id),
-    asDate: dateState,
+    asDate: asdate,
     asAttachmentName: fileName == '' ? null : fileName,
     asSchoolId: asSchoolId,
     asAcademicYearId: Number(asAcademicYearId),
@@ -338,9 +342,19 @@ const AddDailyLog = () => {
       isError = true;
     } else {
       // Clear the error if date is not blank
-
       setDateError('');
-      console.log('Saving data...', dateState);
+
+      const selectedDate = new Date(dateState);
+      const currentDate = new Date();
+
+      if (selectedDate > currentDate) {
+        setDateError('Future date is not allowed.');
+        isError = true;
+      } else {
+        setDateError('');
+        console.log('Saving data...', dateState);
+      }
+
     }
     // const selectedDay = new Date(dateState).getDay();
     // if (selectedDay === 0 || selectedDay === 6) {
@@ -350,17 +364,19 @@ const AddDailyLog = () => {
     //   setDateError('');
     // }
 
-    if (!fileName ||fileName === '') {
-      setFileNameError('Please select file to upload');
+    if (!fileName || fileName === '') {
+      setFileNameError('Please select file to upload.');
       isError = true; // Set isError to true for this condition
     } else {
       setFileNameError('');
     }
     if (!isError) {
-      dispatch(Savedailylog(SaveDailylogBody));
+      // dispatch(Savedailylog(SaveDailylogBody));
+      debouncedFetch(SaveDailylogBody);
       ResetForm();
     }
   };
+
 
   useEffect(() => {
     if (SaveDailyLog != '') {
@@ -393,20 +409,34 @@ const AddDailyLog = () => {
   //     const options = { day: '2-digit', month: 'short', year: 'numeric' };
   //     return new Date(date).toLocaleDateString('en-GB', options);
   // };
-
-  const onClickSearch = () => {
-
+  const isFutureDate = (selectedDate) => {
     const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set to the beginning of the day
+    selectedDate.setHours(0, 0, 0, 0); // Set to the beginning of the day
+    return selectedDate > currentDate;
+  };
+  const onClickSearch = () => {
     const selectedDateObj = new Date(dateSearch);
 
-    if (selectedDateObj > currentDate) {
-      setDateSearchError('Future dates are disabled.');
+    if (isFutureDate(selectedDateObj)) {
+      setDateSearchError('Future dates are selected.');
     } else {
       setDateSearchError('');
-      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
+    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   };
+  // const onClickSearch = () => {
 
+  //   const currentDate = new Date();
+  //   const selectedDateObj = new Date(dateSearch);
+
+  //   if (selectedDateObj > currentDate) {
+  //     setDateSearchError('Future dates are disabled.');
+  //   } else {
+  //     setDateSearchError('');
+  //     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+  //   }
+  // };
 
   const ClickHeader = (value) => {
     setHeaderPublish(value)
@@ -518,7 +548,7 @@ const AddDailyLog = () => {
         <Box sx={{ p: 3, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={4}>
-              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c', width: '90%' }} value={ClassName} />
+              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
             </Grid>
             <Grid item xs={4}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
@@ -529,14 +559,14 @@ const AddDailyLog = () => {
                   size={"medium"}
                 />
                 {dateError && (
-                  <Box sx={{ mt: 1, marginLeft: '40px', position: 'absolute', bottom: '-25px' }}>
+                  <Box sx={{ mt: 1, marginLeft: '', position: 'absolute', bottom: '-25px' }}>
                     <ErrorMessage1 Error={dateError}></ErrorMessage1>
                   </Box>
                 )}
               </Box>
             </Grid>
             <Grid item xs={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)',position: 'relative' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
                 <SingleFile
                   ValidFileTypes={ValidFileTypes}
                   MaxfileSize={MaxfileSize}
@@ -546,7 +576,7 @@ const AddDailyLog = () => {
                   height='52.5px'
                 />
                 {fileNameError && (
-                  <Box sx={{ mt: 1, marginLeft: '40px', position: 'absolute', bottom: '-25px' }}>
+                  <Box sx={{ mt: 1, marginLeft: '', position: 'absolute', bottom: '-25px' }}>
                     <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
                   </Box>
                 )}

@@ -1,17 +1,5 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import {
-    Box,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Tooltip,
-    Typography
-} from '@mui/material';
+import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,20 +12,10 @@ import CommonPageHeader from '../CommonPageHeader';
 const TExamScheduleNew = () => {
     const dispatch = useDispatch();
 
-    const getstandard = useSelector(
-        (state: RootState) => state.StandardAndExamList.SelectStandard
-    );
-    const getExamlist = useSelector(
-        (state: RootState) => state.StandardAndExamList.ExamData
-    );
-
-    const SubList = useSelector(
-        (state: RootState) => state.StandardAndExamList.VeiwAllData
-    );
-    const loading = useSelector(
-        (state: RootState) => state.StandardAndExamList.Loading
-    );
-
+    const getstandard = useSelector((state: RootState) => state.StandardAndExamList.SelectStandard);
+    const getExamlist = useSelector((state: RootState) => state.StandardAndExamList.ExamData);
+    const SubList = useSelector((state: RootState) => state.StandardAndExamList.VeiwAllData);
+    const loading = useSelector((state: RootState) => state.StandardAndExamList.Loading);
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const RoleId = sessionStorage.getItem('RoleId');
@@ -45,6 +23,22 @@ const TExamScheduleNew = () => {
 
     const [std, setStd] = useState('0');
     const [expandedCardIndex, setExpandedCardIndex] = useState(null);
+
+    const formatDate = (dateStr) => {
+        const parts = dateStr.split('-');
+        const day = parts[0];
+        const month = parts[1];
+        const year = parts[2];
+
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        const monthText = months[parseInt(month, 10) - 1]; // Adjust for zero-indexed month array
+
+        return `${day} ${monthText} ${year}`;
+    };
 
     const getstandardList_body = {
         asAcademicYearId: asAcademicYearId,
@@ -66,7 +60,7 @@ const TExamScheduleNew = () => {
 
     const stdChange = (value) => {
         setStd(value);
-        setExpandedCardIndex(0); // Open the first accordion when a standard is selected
+        setExpandedCardIndex(0);
     };
 
     useEffect(() => {
@@ -78,9 +72,17 @@ const TExamScheduleNew = () => {
     useEffect(() => {
         if (getstandard.length > 0) {
             setStd(getstandard[0].id);
-            setExpandedCardIndex(0); // Open the first accordion by default
+            setExpandedCardIndex(0);
         }
     }, [getstandard]);
+
+    const classInstructions = {};
+    SubList.forEach((item) => {
+        if (!classInstructions[item.Standard_Name]) {
+            classInstructions[item.Standard_Name] = {};
+        }
+        classInstructions[item.Standard_Name][item.text1] = item.Instructions || '-';
+    });
 
     const getTime = (startTime, endTime) => {
         const formatTime = (time) => {
@@ -133,15 +135,6 @@ const TExamScheduleNew = () => {
         return '';
     };
 
-    // Collecting instructions for each class
-    const classInstructions = {};
-    SubList.forEach((item) => {
-        if (!classInstructions[item.Standard_Name]) {
-            classInstructions[item.Standard_Name] = item.Instructions || '-';
-        }
-    });
-
-    // Grouping SubList by date-time and examId
     const groupByDateTime = (list) => {
         const grouped = {};
         list.forEach((item) => {
@@ -156,6 +149,20 @@ const TExamScheduleNew = () => {
 
     const groupedSubList = groupByDateTime(SubList);
 
+    const toggleAccordion = (index) => {
+        setExpandedCardIndex(expandedCardIndex === index ? null : index);
+    };
+
+    const getClassName = () => {
+        let returnVal = ""
+
+        getstandard.map((item) => {
+            if (item.Value == std)
+                returnVal = item.Name
+        })
+        return returnVal;
+    }
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -166,9 +173,9 @@ const TExamScheduleNew = () => {
                     }
                 ]}
                 rightActions={
-                    <>
-                        <Box sx={{ width: '200px', mr: 2 }}>
-                            {RoleId !== '3' && (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        {RoleId !== '3' && (
+                            <Box sx={{ width: '150px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
                                 <Dropdown
                                     Array={getstandard}
                                     handleChange={stdChange}
@@ -177,22 +184,21 @@ const TExamScheduleNew = () => {
                                     variant="outlined"
                                     defaultValue={std}
                                 />
-                            )}
-                        </Box>
-                        <Box>
-                            <Tooltip title="Examination Schedule for your class.">
-                                <IconButton sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}>
-                                    <QuestionMarkIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </>
+                            </Box>
+                        )}
+                        <Tooltip title="Examination Schedule for your class." arrow placement="top">
+                            <IconButton sx={{
+                                color: 'white',
+                                backgroundColor: grey[500],
+                                '&:hover': {
+                                    backgroundColor: grey[600]
+                                }
+                            }}>
+                                <QuestionMarkIcon />
+                            </IconButton>
+                        </Tooltip>
+
+                    </Box>
                 }
             />
 
@@ -200,90 +206,154 @@ const TExamScheduleNew = () => {
                 <Box key={index}>
                     <Box
                         sx={{
-                            mt: 2,
+                            mt: 1, // Reduced margin-top
                             cursor: 'pointer',
-                            backgroundColor: '#FFC0CB',
-                            padding: '7px',
-                            border: '1px solid brown',
-                            borderRadius: '3px',
+                            backgroundColor: 'whitesmoke',
+                            padding: '2px',
+                            border: '1px solid White',
+                            borderRadius: '2px',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            width: '100%',
                         }}
-                        onClick={() => setExpandedCardIndex(expandedCardIndex === index ? null : index)}
+                        onClick={() => toggleAccordion(index)}
                     >
-                        <Typography variant="h6" sx={{ color: '#654321' }}>
-                            <span style={{ margin: '0 5px' }}>  <b> {exam.Text1}</b></span>
-                            <b>  {exam.Text3} To {exam.Text4}</b>
-                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '10px', height: '10px', border: '1px solid brown', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography sx={{ color: 'brown', fontSize: '16px', fontWeight: 'bold' }}>
+                                    {expandedCardIndex === index ? '-' : '+'}
+                                </Typography>
+                            </Box>
+                            <Typography variant="h6" sx={{ color: '#654321', ml: 1 }}>
+                                <b>{exam.Text1}</b> <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
+                            </Typography>
+                        </Box>
                     </Box>
 
                     {expandedCardIndex === index && (
-                        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+                        <Box sx={{ background: 'white', p: 1 }}>
                             {loading ? (
                                 <SuspenseLoader />
                             ) : (
-                                <TableContainer component={Paper}>
-                                    <Table>
+                                <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
+                                    <Table sx={{ minWidth: 640 }}>
                                         <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
-                                            <TableRow>
-                                                <TableCell>Date</TableCell>
-                                                <TableCell>Time</TableCell>
-                                                <TableCell>Duration</TableCell>
-                                                {std === '0' && classList.map((className) => (
-                                                    <TableCell key={className}>{className}</TableCell>
+                                            <TableRow sx={{
+                                                '& > *': {
+                                                    borderBottom: '1px solid white',
+                                                    textAlign: 'center', // Center align headers
+                                                },
+                                                '& > :not(:first-of-type)': {
+                                                    borderLeft: '1px solid white',
+                                                }
+                                            }}>
+                                                <TableCell sx={{ width: '14%', textAlign: 'center' }}>Date</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'center' }}>Time</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'center' }}>Duration</TableCell>
+                                                {std === '0' && classList.map((className, index) => (
+                                                    <TableCell key={index} sx={{ textAlign: 'center' }}>{className}</TableCell>
                                                 ))}
-                                                {std !== '0' && <TableCell>Subject</TableCell>}
-                                                {std !== '0' && <TableCell>Description</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center' }}>Subject</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
 
+
+
                                         <TableBody>
                                             {Object.keys(groupedSubList).map((key, index) => {
-                                                const items = groupedSubList[key].filter(item => item.text1 === exam.Text2); // Filter by SchoolWise_Test_Id
+                                                const items = groupedSubList[key].filter(item => item.text1 === exam.Text2);
                                                 const [date, startTime, endTime, examId] = key.split('-');
                                                 const uniqueDates = new Set();
 
                                                 return items.length > 0 ? (
-                                                    <TableRow key={index}>
+                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center' } }}>
                                                         <TableCell>{uniqueDates.has(date) ? '' : date}</TableCell>
                                                         <TableCell>{getTime(startTime, endTime) || '-'}</TableCell>
                                                         <TableCell>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
-                                                                <TableCell key={`${className}-${index}`}>
+
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', borderBottom: '1px solid grey', whiteSpace: 'pre-line' }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
-                                                                        .map((item) => item.header || '-')
-                                                                        .join('/ ') || '-'}
+                                                                        .map((item, idx, arr) => (
+                                                                            <p key={idx}>
+                                                                                <div>{item.header || '-'}</div>
+                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
+                                                                            </p>
+                                                                        ))}
+                                                                    {/* Display '-' if no items match the className */}
+                                                                    {items.filter((item) => item.Standard_Name === className).length === 0 && '-'}
                                                                 </TableCell>
+
                                                             ))
                                                         ) : (
                                                             <>
-                                                                <TableCell>
-                                                                    {items.map((item) => item.header || '-').join(',') || '-'}
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
+                                                                    {items
+                                                                        .filter((item) => item.Standard_Name)
+                                                                        .map((item, idx, arr) => (
+                                                                            <p key={idx}>
+                                                                                <div>{item.header || '-'}</div>
+                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
+                                                                            </p>
+                                                                        ))}
                                                                 </TableCell>
-                                                                <TableCell>
-                                                                    {items.map((item) => item.Description || '-').join(', ') || '-'}
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
+                                                                    {items.length > 0 ? (
+                                                                        items.map((item, idx, arr) => (
+                                                                            <p key={idx}>
+                                                                                <div>{item.Description || '-'}</div>
+                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
+                                                                            </p>
+                                                                        ))
+                                                                    ) : (
+                                                                        '-'
+                                                                    )}
                                                                 </TableCell>
+
+
                                                             </>
                                                         )}
                                                     </TableRow>
                                                 ) : null;
                                             })}
-                                            <TableCell colSpan={3}>
-                                                <b>Instructions:</b>
-                                            </TableCell>
-
-                                            {std === '0' && SubList.some((item) => item.Standard_Name === getstandard.find(s => s.id === std)?.Standard_Name && item.SubjectName) && (
-                                                <TableRow>
-                                                    {classList.map((className) => (
-                                                        <TableCell key={className}>
-                                                            <Typography variant="body2" sx={{ color: 'darkblue' }}>
-                                                                {classInstructions[className] || ''}
+                                            <TableRow>
+                                                {std === '0' && (
+                                                    <TableCell colSpan={3}>
+                                                        <b>Instructions : </b>
+                                                    </TableCell>
+                                                )}
+                                                {std !== '0' && (
+                                                    <TableCell colSpan={3}>
+                                                        <Typography sx={{ color: 'darkblue' }}>
+                                                            <b>Instructions : </b>
+                                                            {classInstructions[getClassName()] == undefined ? "" :
+                                                                classInstructions[getClassName()][exam.Text2]}
+                                                        </Typography>
+                                                    </TableCell>
+                                                )}
+                                                {std === '0' ? (
+                                                    classList.map((className) => (
+                                                        <TableCell key={className} sx={{ textAlign: 'center' }}>
+                                                            <Typography sx={{ color: 'darkblue' }}>
+                                                                {classInstructions[className] && classInstructions[className][exam.Text2] || '-'}
                                                             </Typography>
                                                         </TableCell>
-                                                    ))}
-                                                </TableRow>
-                                            )}
+                                                    ))
+                                                ) : (
+                                                    <TableCell colSpan={3} sx={{ textAlign: 'center' }}>
+                                                        <Typography sx={{ color: 'darkblue' }}>
+                                                            {classInstructions[std] && classInstructions[std][exam.Text2]}
+                                                        </Typography>
+                                                    </TableCell>
+                                                )}
+                                            </TableRow>
                                         </TableBody>
+
+
                                     </Table>
                                 </TableContainer>
                             )}
@@ -297,8 +367,15 @@ const TExamScheduleNew = () => {
                     <b>No exam has been scheduled.</b>
                 </Typography>
             )}
+
         </Box>
     );
 };
 
 export default TExamScheduleNew;
+
+
+
+
+
+

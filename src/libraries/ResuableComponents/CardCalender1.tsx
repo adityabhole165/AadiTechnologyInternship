@@ -13,7 +13,7 @@ import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { teal } from '@mui/material/colors';
 import React, { useRef } from 'react';
-import { getCalendarDateFormatDateNew, getDateFormatted } from 'src/components/Common/Util';
+import { getCalendarDateFormatDateNew, getDateFormatted, stripHtml } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
 function CardCalender1({
@@ -47,6 +47,32 @@ function CardCalender1({
 
     ClickItem(returnVal);
   };
+  console.log('Formatted Date:', formattedDate);
+  console.log('ItemList:', ItemList);
+
+  const updatedItemList = ItemList.map((item) => {
+    const itemDate = new Date(item.Value);
+
+    const formattedDateObj = new Date(formattedDate);
+    const formattedMonth = formattedDateObj.getMonth();
+    const formattedYear = formattedDateObj.getFullYear();
+
+    const isCurrentMonth = itemDate.getMonth() === formattedMonth && itemDate.getFullYear() === formattedYear;
+
+    console.log(`Item ${item.Name}:`, {
+      item,
+      isCurrentMonth,
+      itemDate,
+      formattedMonth,
+      formattedYear,
+    });
+
+    return {
+      ...item,
+      isCurrentMonth,
+    };
+  });
+
 
   const clickPrevNextMonth = (value) => {
     let newDate;
@@ -213,6 +239,7 @@ function CardCalender1({
       </Box>
       <Grid container sx={{ mt: 2 }}>
         {ArrayList.map((item, i) => (
+
           <React.Fragment key={i}>
             <Grid
               item
@@ -243,7 +270,7 @@ function CardCalender1({
           sx={{ textAlign: 'center', pt: 0 }}
         >
         </Grid>
-        {ItemList.map((item, i) => {
+        {/* {ItemList.map((item, i) => {
           return (
             <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }} key={i}>
               <CardCal1
@@ -254,7 +281,65 @@ function CardCalender1({
               />
             </Grid>
           );
+        })} */}
+        {/* {updatedItemList.map((item, i) => {
+          // Check if the day is a weekend and belongs to the current month
+          //if (item.isWeekend && new Date(item.Value).getMonth() === new Date(formattedDate).getMonth()) {
+            if (item.isWeekend && item.isCurrentMonth) {
+            return (
+              <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }} key={i}>
+                <CardCal1
+                  item={item}
+                  clickItem={() => ClickItem(item.Value)}
+                  DefaultValue={DefaultValue}
+                  assignedDate={formattedDate}
+                />
+              </Grid>
+            );
+          }
+        })} */}
+        {updatedItemList.map((item, i) => {
+          if (item.isCurrentMonth) {
+            let color;
+            switch (stripHtml(item.Text1)) {
+              case 'Done':
+                color = '#00FF0020';
+                break;
+              case 'Not Done':
+                color = '#9e9e9e20';
+                break;
+              case 'Weekend':
+                color = '#FF000020';
+                break;
+              case 'Holiday':
+                color = '#751b1b20';
+                break;
+              case 'Outside Academic Year':
+                color = '#f0629220';
+                break;
+              default:
+                color = '#f0629220';
+            }
+
+            return (
+              <Grid item xs={12 / 7} md={12 / 7} key={i}>
+                <CardCal1
+                  item={item}
+                  clickItem={() => ClickItem(item.Value)}
+                  DefaultValue={DefaultValue}
+                  assignedDate={formattedDate}
+                  color={color} // Pass the color based on Text1 status
+                />
+              </Grid>
+            );
+          } else {
+            return null; // Render nothing for days not in the current month
+          }
         })}
+
+
+
+
       </Grid>
       <Grid
         mt={2}

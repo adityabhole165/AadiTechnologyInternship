@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiRequisition from 'src/api/Requisition/APIRequisition';
-import { getDateMonthYearFormatted } from 'src/components/Common/Util';
+import { getDateMonthYearFormatted, logoURL } from 'src/components/Common/Util';
 import {
   IGetDeleteRequisitionBody,
   IGetPagedRequisitionBody,
@@ -14,6 +14,7 @@ const SliceRequisition = createSlice({
   initialState: {
     Requisition: [],
     RequisitionList: [],
+    RequisitionListCount:[],
     ISDeleteRequisition:"",
     ISCancelRequisition:""
 
@@ -26,6 +27,11 @@ const SliceRequisition = createSlice({
     RequisitionList(state, action) {
       state.RequisitionList = action.payload;
     },
+
+     CountRequisitionList(state, action) {
+      state.RequisitionListCount = action.payload;
+    },
+
     RDeleteRequisition(state, action) {
       state.ISDeleteRequisition = action.payload;
     },
@@ -58,10 +64,11 @@ export const RequisitionStatus =
     });
     dispatch(SliceRequisition.actions.Requisition(abc));
   };
-export const RequisitionListt =
+  export const RequisitionListt =
   (data: IGetPagedRequisitionBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiRequisition.RequisitionListApi(data);
+  
     let abc = response.data.GetPagedRequisitionList.map((item, i) => {
       return {
         Id: item.RequisitionID,
@@ -74,14 +81,17 @@ export const RequisitionListt =
         Editble: item.Editble,
         IsDelete: item.IsDelete,
         IsFinalApproval: item.IsFinalApproval,
-        Value :item.CreatedId,
-        StatusID : item.StatusID,
-        CreatedId : item.CreatedId,
-       
+        Value: item.CreatedId,
+        StatusID: item.StatusID,
+        CreatedId: item.CreatedId,
       };
     });
+
     dispatch(SliceRequisition.actions.RequisitionList(abc));
+
+    dispatch(SliceRequisition.actions.CountRequisitionList(response.data.TotalCountRequisitionDetails));
   };
+
 
   export const CDADeleteRequisitionn =
   (data: IGetDeleteRequisitionBody): AppThunk =>

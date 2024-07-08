@@ -2,29 +2,35 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 //import DynamicList from 'src/libraries/list/DynamicList'
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
   Checkbox,
   FormControlLabel,
   Grid,
+  IconButton,
+  Paper,
   TextField,
+  Tooltip,
   Typography
 } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
 import { toast } from 'react-toastify';
 import {
   IGetAllStudentStatusBody,
   IGetTeacherListBody
 } from 'src/interfaces/StudentRecords/IStudentRecords';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import Icon1 from 'src/libraries/icon/icon1';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   GetAllStudentStatuss,
   GetTeachersList
 } from 'src/requests/StudentRecords/RequestStudentRecords';
+import CommonPageHeader from '../CommonPageHeader';
+import StudentRecordsNotes from './StudentRecordsNotes';
+
 
 const StudentRecords = () => {
   const dispatch = useDispatch();
@@ -66,9 +72,6 @@ const StudentRecords = () => {
       Action: 'View'
     }
   ];
-
-  const Note: string =
-    'Principal and Counsellor can see those students to whom details are submitted by class teacher(s).If Principal or Counsellor is a class teacher of any class then on selection of same class, he / she can see all students to whom details of selected class. 	Status column will show unread, unsubmitted student records and comments.';
 
   useEffect(() => {
     dispatch(GetTeachersList(TeachersBody));
@@ -136,98 +139,106 @@ const StudentRecords = () => {
 
   return (
     <Box sx={{ px: 2 }}>
-      <br></br>
-      <br></br>
-      <PageHeader heading={'Student Record List'} subheading={''} />
-      <br></br>
-      <br></br>
-      <Box sx={{ float: 'right' }}>
-        <Icon1 Note={Note} />
-      </Box>
-      <Grid container spacing={10} alignItems="center">
-        <Grid item xs={2}>
-          <Typography marginLeft={'1px'}>
-            <b>Class Teacher:</b>
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Box
-            sx={{
-              marginRight: '500px',
-              width: '180%',
-              padding: '0.9px',
-              boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-              border: '1px solid black'
-            }}
-          >
-            <Dropdown
-              Array={GetTeachers}
-              handleChange={clickTeacherDropdown}
-              label={''}
-              defaultValue={SelectTeacher}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography margin={'1px'}>
-            <b>Reg No/Name:</b>
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            label=""
-            value={regNoOrName}
-            onChange={(e) => {
-              handleRegNoOrNameChange(e.target.value);
-            }}
-            fullWidth
-          />
-          <br></br>
-        </Grid>
-        <Grid item xs={2}>
-          <ButtonPrimary
-            onClick={clickSearch}
-            variant="contained"
-            style={{ marginRight: '150px', backgroundColor: 'green' }}
-          >
-            Search
-          </ButtonPrimary>
-        </Grid>
-
-        <Grid item xs={4}>
-          <Typography margin={'1px'}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={showRiseAndShine}
-                  onChange={(e) => {
-                    handleCheckboxChange(e.target.checked);
-                  }}
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Student Record List', path: '/extended-sidebar/Teacher/StudentRecords' }
+        ]}
+        rightActions={
+          <>
+            <Box sx={{ background: 'white' }}>
+              <Box sx={{ background: 'white' }}>
+                <SearchableDropdown
+                  sx={{ minWidth: '25vw' }}
+                  ItemList={GetTeachers}
+                  onChange={clickTeacherDropdown}
+                  label={'Class(s) :'}
+                  defaultValue={SelectTeacher}
+                  size={"small"}
                 />
-              }
-              label="Show only Rise and Shine Students"
+              </Box>
+            </Box>
+            <TextField
+              sx={{ width: '15vw' }}
+              fullWidth
+              label="Registration Number / Name :"
+              value={regNoOrName}
+              variant={'outlined'}
+              size={"small"}
+              onChange={(e) => {
+                handleRegNoOrNameChange(e.target.value);
+              }}
             />
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {/* 
+            <Grid item xs={4}>
+              <Typography margin={'1px'}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={showRiseAndShine}
+                      onChange={(e) => {
+                        handleCheckboxChange(e.target.checked);
+                      }}
+                    />
+                  }
+                  label="Show only Rise and Shine Students"
+                />
+              </Typography>
+            </Grid>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Tooltip title={"Display list of students as per selected class and filter and it's status."}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] },
+                    marginRight: '-4px',
+                    // marginLeft: '8px', 
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Tooltip title="Search">
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: blue[600] },
+                  // marginLeft: '8px',
+                }}
+                onClick={clickSearch}
+              >
+                <SearchIcon />
+              </IconButton>
+            </Tooltip>
+          </>
+        }
+      />
+      <Paper sx={{ mb: '10px' }}>
+        <StudentRecordsNotes />
+      </Paper>
+
+      {/* 
  
 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
 ClickItem={ClickItem} IconList={IconList}/> */}
 
-          <Grid item xs={12}>
-            {StudentList && StudentList.length === 0 ? (
-              <Typography>No Records Found</Typography>
-            ) : (
-              <DynamicList2
-                HeaderList={HeaderList}
-                ItemList={StudentList}
-                ClickItem={ClickItem}
-                IconList={IconList}
-              />
-            )}
-          </Grid>
-        </Grid>
+      <Grid item xs={12}>
+        {StudentList && StudentList.length === 0 ? (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+          </Typography>
+
+        ) : (
+          <DynamicList2
+            HeaderList={HeaderList}
+            ItemList={StudentList}
+            ClickItem={ClickItem}
+            IconList={IconList}
+          />
+        )}
       </Grid>
     </Box>
   );

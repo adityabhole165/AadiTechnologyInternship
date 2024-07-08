@@ -14,6 +14,18 @@ export interface IGetClassTeachersBody {
 }
 
 export interface IGetClassTeachersResult {
+  listGradesDetails: [
+    {
+      GradeId?: number;
+      GradeName?: string;
+      ShortName?: string;
+      ConsideredAsAbsent?: number;
+      ConsideredAsExempted?: number;
+      SortOrder?: number;
+    }
+  ],
+  GradeId: number;
+  GradeName: string;
   Teacher_Id: string;
   TeacherName: string;
   Designation_Id: string;
@@ -21,6 +33,45 @@ export interface IGetClassTeachersResult {
   DesignationSortOrder: string;
   Teacher_Middle_Name: string;
   Teacher_Last_Name: string;
+}
+
+export interface IGetGradeListBody {
+  listGradesDetails: [
+    {
+      GradeId: number;
+      GradeName: string;
+      ShortName: string;
+      ConsideredAsAbsent: number;
+      ConsideredAsExempted: number;
+      SortOrder: number;
+    }
+  ]
+}
+
+export interface IGetStudentsForStdDevMastersBody {
+  listGradesDetails: [
+    {
+      GradeId: number;
+      GradeName: string;
+      ShortName: string;
+      ConsideredAsAbsent: number;
+      ConsideredAsExempted: number;
+      SortOrder: number;
+    }
+  ],
+  listYearwiseStudentDetails: [
+    {
+      StudentName: string,
+      YearWise_Student_Id: number,
+      SchoolWise_Standard_Division_Id: number,
+      AssessmentId: number,
+      SchoolLeft_Date: string,
+      StartDate: string
+    }
+  ],
+  ClassAndSubjectDetails: any,
+  AssessmentSectionDetails: any,
+  SubjectSectionDetails: any
 }
 
 export interface IGetTeacherXseedSubjectsBody {
@@ -50,4 +101,47 @@ export interface ISubmitExamMarksStatusBody {
   asSchoolId: Number;
   asInserted_By_id: Number;
   asInsertDate: string;
+}
+
+export interface IGetStudentsForStdDevMasters {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asStandardDivisionId: Number,
+  asAssessmentId: Number,
+  asSubjectId: Number
+}
+
+export interface IGetGetStudentsForNonXseedSubjectsBody {
+  Roll_No: number,
+  StudentName: string,
+  YearwiseStudentId: number,
+  Observation: string,
+  GradeId: number
+}
+
+export interface IGetGetStudentsForNonXseedSubjects {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asStandardDivisionId: Number,
+  asAssessmentId: Number,
+  asSubjectId: Number
+}
+
+export interface ISaveNonXseedSubGrades {
+  asXseedGradesXML: string,
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asAssessmentId: Number,
+  asStandardDivId: Number,
+  asSubjectId: Number,
+  asInsertedById: Number,
+  asUpdatedById: Number
+}
+
+export interface IGetNonXseedStudentsObs {
+  Roll_No: Number,
+  StudentName: string,
+  YearwiseStudentId: Number,
+  Observation: string,
+  GradeId: Number
 }

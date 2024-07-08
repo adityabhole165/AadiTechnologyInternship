@@ -52,9 +52,11 @@ const Holidaysslice = createSlice({
       state.AllClassesAndDivisionss = action.payload;
     },
     getAllClassesAndDivisionss1(state, action) {
+      state.Loading = false;
       state.AllClassesAndDivisionss1 = action.payload;
     },
     getSelectedStandardAndDivisionCheckBoxx(state, action) {
+      state.Loading = false;
       state.SelectedStandardAndDivisionCheckBoxx = action.payload;
     },
 
@@ -63,11 +65,17 @@ const Holidaysslice = createSlice({
     },
 
     getHolidayStartAndEndDatePredefinedValidationCount(state, action) {
+      state.Loading = false;
       state.IHolidayStartAndEndDatePredefinedValidationCount = action.payload;
     },
 
     getSaveHoliday(state, action) {
+      state.Loading = false;
       state.SaveHoliday = action.payload;
+    },
+
+    resetSaveHoliday(state) {
+      state.SaveHoliday = '';
     },
 
     getLoading(state, action) {
@@ -119,7 +127,6 @@ export const getHolidays =
 export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) => {
   dispatch(Holidaysslice.actions.getLoading(true));
   const response = await HolidaysApi.GetHolidayList1(data);
-  console.log(response, "response---");
 
   const responseData = response.data.map((Item, i) => {
     return {
@@ -128,7 +135,8 @@ export const getHolidaysF = (data: IHolidaysFA): AppThunk => async (dispatch) =>
       Text2: getDateMonthYearDayDash(Item.Holiday_End_Date),
       Text3: Item.Holiday_Name,
       Text4: Item.AssociatedStandard,
-      Text5: Item.TotalDays
+      Text5: Item.TotalDays,
+      TotalRows: Item.TotalRows
     };
   });
   dispatch(Holidaysslice.actions.getHolidaysF(responseData));
@@ -208,6 +216,12 @@ export const getSaveHolidays =
       dispatch(Holidaysslice.actions.getSaveHoliday(response.data))
 
       // console.log(getSaveHolidays, "getSaveHolidays")
+    }
+
+export const resetSaveHolidays =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(Holidaysslice.actions.resetSaveHoliday())
     }
 
 export const GetAllClassAndDivision =

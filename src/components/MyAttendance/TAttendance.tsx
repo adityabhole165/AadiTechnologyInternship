@@ -8,10 +8,11 @@ import {
   IconButton,
   Stack,
   Tooltip,
-  Typography
+  Typography,
+  debounce
 } from '@mui/material';
-import { blue, green, grey, red, teal } from '@mui/material/colors';
-import { useContext, useEffect, useState } from 'react';
+import { blue, green, grey, red } from '@mui/material/colors';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -50,6 +51,7 @@ import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
   const { paramsselectClasstecaher, paramsassignedDate } = useParams();
+  const [isDirty, setIsDirty] = useState(false);
   const HeaderArray = [
     { Id: 1, Header: '' },
     { Id: 2, Header: 'Boys' },
@@ -206,6 +208,23 @@ const TAttendance = () => {
     });
     return TeacherId;
   };
+  // useEffect(() => {
+  //   const ClassTeachernewBody: IGetClassTeachersBodynew = {
+  //     asSchoolId: Number(asSchoolId),
+  //     asAcadmicYearId: Number(asAcademicYearId),
+  //     asTeacher_id: GetScreenPermission() === 'Y'
+  //       ? 0
+  //       : (getTeacherId() ? Number(getTeacherId()) : (paramsselectClasstecaher != null ? Number(paramsselectClasstecaher) : Number(selectClasstecahernew)))
+
+  //   }
+  //   dispatch(CDAGetTeacherNameList(ClassTeachernewBody));
+  // }, []);
+
+
+  const debouncedFetch = useCallback(debounce((body) => {
+    dispatch(CDAGetTeacherNameList(body));
+  }, 500), [dispatch]);
+
   useEffect(() => {
     const ClassTeachernewBody: IGetClassTeachersBodynew = {
       asSchoolId: Number(asSchoolId),
@@ -215,8 +234,10 @@ const TAttendance = () => {
         : (getTeacherId() ? Number(getTeacherId()) : (paramsselectClasstecaher != null ? Number(paramsselectClasstecaher) : Number(selectClasstecahernew)))
 
     }
-    dispatch(CDAGetTeacherNameList(ClassTeachernewBody));
+    // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
+    debouncedFetch(ClassTeachernewBody);
   }, []);
+
   useEffect(() => {
     if (ClassTeacherDropdownnew.length > 0) {
       setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
@@ -240,10 +261,12 @@ const TAttendance = () => {
       }
     }
   }, [ClassTeacherDropdownnew]);
-
+  const debouncedFetch1 = useCallback(debounce((body) => {
+    dispatch(GetAcademicDatesForStandardDivision(body));
+  }, 500), [dispatch]);
   useEffect(() => {
-
-    dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
+    debouncedFetch1(getAcademicDates);
+    //dispatch(GetAcademicDatesForStandardDivision(getAcademicDates));
   }, [selectClasstecahernew, assignedDate]);
 
 
@@ -289,6 +312,8 @@ const TAttendance = () => {
   }, [Standardid, assignedDate, selectClasstecahernew, AcademicDates]);
 
   const ClickDeleteAttendance = () => {
+    setIsDirty(true);
+
     showAlert({
       title: 'Please Confirm',
       message:
@@ -437,8 +462,8 @@ const TAttendance = () => {
 
 
   const SaveMsg = () => {
-    if (!SaveIsActive) return;
-
+   // if (!SaveIsActive) return;
+    if (!SaveIsActive || !isDirty) return; 
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
     let confirmationMessage = '';
 
@@ -481,6 +506,7 @@ const TAttendance = () => {
               onConfirm: () => {
                 SaveAttendance();
                 closeAlert();
+                setIsDirty(false); 
               }
             });
           } else if (asAllPresentOrAllAbsent === 'N') {
@@ -497,10 +523,12 @@ const TAttendance = () => {
               onConfirm: () => {
                 SaveAttendance();
                 closeAlert();
+                setIsDirty(false); 
               }
             });
           } else {
             SaveAttendance(); // Execute the API call after the second alert
+            setIsDirty(false); 
           }
         }
       });
@@ -521,12 +549,14 @@ const TAttendance = () => {
           onConfirm: () => {
             SaveAttendance();
             closeAlert();
+            setIsDirty(false); 
           }
         });
       } else {
         setAbsentRollNos('');
         SaveAttendance();
         closeAlert();
+        setIsDirty(false); 
       }
     }
     return;
@@ -552,13 +582,16 @@ const TAttendance = () => {
   };
 
   const ClickItem = (value) => {
-    setAssignedDate(value);
+    setIsDirty(true);
+   setAssignedDate(value);
   };
 
   const clickClassTechernew = (value) => {
+    setIsDirty(true);
     setselectClasstecahernew(value);
   };
   const handleCheckboxChange = (value) => {
+    setIsDirty(true);
     setsendmeassagestudent(value);
   };
   useEffect(() => {
@@ -751,7 +784,7 @@ const TAttendance = () => {
                 </span>
               </Tooltip>
             </Box>
-            
+
             <Box>
               {SaveIsActive ? (
                 <Tooltip title={'Save Attendance'}>
@@ -1215,6 +1248,7 @@ const TAttendance = () => {
                         Dataa={RollNoList}
                         getAbsetNumber={getAbsetNumber}
                         assignedDate={assignedDate}
+                        setIsDirty={setIsDirty}
                       ></List26>
                     </Box>
                   )}

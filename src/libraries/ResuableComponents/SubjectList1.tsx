@@ -1,4 +1,4 @@
-import Cancel from '@mui/icons-material/Cancel';
+import { BoltRounded, Cancel } from '@mui/icons-material';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import { Box, Link, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
@@ -16,9 +16,9 @@ function SubjectList1({
   onChange,
   clickchange,
   clickTitle
-  
+
 }) {
-  
+
 
   const IsCheckAll = () => {
     let returnValue = true;
@@ -44,7 +44,7 @@ function SubjectList1({
 
   return (
     <>
-     
+
       <TableContainer component={Box} sx={{
         border: (theme) => `1px solid ${theme.palette.grey[300]}`,
       }}>
@@ -85,7 +85,7 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text10} 
+                  {item.Text10}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
@@ -93,15 +93,26 @@ function SubjectList1({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
-                <Link href={''} onClick={() => clickTitle(item.Id)}  style={{textDecoration:'underline'}}>
+                  <Link href={''} onClick={() => clickTitle(item.Id)} style={{ textDecoration: 'underline' }}>
                     {item.Text2}
                   </Link>
                 </TableCell>
-               
 
-               
+
+
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
-                  {item.IsPublished === 'True' ? <CheckCircle color={"success"} /> : <Cancel color={"error"} />}
+                  {item.IsPublished === 'True' ?
+                    //  <CheckCircle color={"success"} /> 
+                    <Typography component="span" color="green"fontWeight="bold" >
+                       Yes
+                    </Typography>
+                    :
+                    //  <Cancel color={"error"}
+
+                    <Typography component="span" color="error"fontWeight="bold">
+                      No
+                    </Typography>
+                  }
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {getDateMonthYearFormatted(item.Text6)}

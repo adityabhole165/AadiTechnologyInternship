@@ -1,7 +1,7 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { grey, yellow } from '@mui/material/colors';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -251,9 +251,9 @@ const SubjectMarkList = () => {
 
                     sx={{
                       color: 'white',
-                      backgroundColor: grey[500],
+                      backgroundColor: yellow[700],
                       '&:hover': {
-                        backgroundColor: grey[500]
+                        backgroundColor: yellow[800]
                       }
                     }}
                   >

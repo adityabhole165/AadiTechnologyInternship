@@ -190,7 +190,9 @@ const ViewHomework = () => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
+              <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true}} InputProps={{
+                    readOnly: true,
+                  }} value={HomeworkDetail.Details} />
             </Grid>
           </Grid>
         </Box>

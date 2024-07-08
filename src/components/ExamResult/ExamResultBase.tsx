@@ -32,7 +32,7 @@ import {
   getClassTeachers, getClasswiseExam,
   getGenerateTopper,
   getProgressSheetStatus,
-  getPublishUnpublishExam, getSMSTemplate, resetPublishUnpublishExams
+  getPublishUnpublishExam, getSMSTemplate, resetGenerateTopper, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -353,9 +353,9 @@ const ExamResultBase = () => {
     dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   }, [StandardDivisionId, TestId, ParamsStandardDivisionId, ParamsTestId]);
 
-  useEffect(() => {
-    dispatch(getGenerateTopper(GetGenerateTopper));
-  }, [StandardDivisionId, TestId, asUserId, ParamsStandardDivisionId, ParamsTestId]);
+  // useEffect(() => {
+  //   dispatch(getGenerateTopper(GetGenerateTopper));
+  // }, [StandardDivisionId, TestId, asUserId, ParamsStandardDivisionId, ParamsTestId]);
 
 
   const clickTeacher = (value) => {
@@ -547,8 +547,15 @@ const ExamResultBase = () => {
     const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
     console.log('After toggling ToppersGenerated:', updatedValue);
     dispatch(getGenerateTopper(GetGenerateTopper));
-    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
   };
+  useEffect(() => {
+    if (GenerateToppers != "") {
+      toast.success(GenerateToppers, { toastId: "succes1" })
+
+      dispatch(resetGenerateTopper());
+      dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
+    }
+  }, [GenerateToppers])
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -560,7 +567,7 @@ const ExamResultBase = () => {
           <SearchableDropdown
             sx={{
               minWidth: '20vw'
-              , bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
+              , bgcolor: GetScreenPermission() === 'N' ? '#D3D3D3' : 'inherit'
             }}
             ItemList={ClassTeachers}
             onChange={clickTeacher}

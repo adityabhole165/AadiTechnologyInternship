@@ -1,13 +1,13 @@
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
+import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 
+
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -34,6 +35,7 @@ const AddRequisition = () => {
     const [Text, setText] = useState(0);
     const [regNoOrName, setRegNoOrName] = useState('');
     const [ItemNewID, SetItemNewID] = useState();
+    const [ItemNewID1, SetItemNewID1] = useState();
     const [textall, setTextall] = useState('');
     const [textall1, setTextall1] = useState('');
     const [Error, setError] = useState('');
@@ -46,11 +48,16 @@ const AddRequisition = () => {
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [ErrorQuantity, setErrorQuantity] = useState('');
     const [text3, settext3] = useState();
+    console.log(text3, "text3---");
+
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const [isSearchEmpty, setIsSearchEmpty] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const [page, setPage] = useState(1);
+    const rowsPerPageOptions = [20, 50, 100, 200];
     const USGetItemCategory: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemCategory);
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
@@ -58,8 +65,8 @@ const AddRequisition = () => {
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
+    const CountAddReq: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCountRequisitionList);
 
-    console.log(USCanCreateGenralRequisition, "USCanCreateGenralRequisition", USCanSendRequisition);
 
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
@@ -79,8 +86,8 @@ const AddRequisition = () => {
         asSchoolId: asSchoolId,
         asName: regNoOrName,
         asItemCategoryId: ItemCategory,
-        asStartIndex: 1,
-        asEndIndex: 100,
+        asStartIndex: (page - 1) * rowsPerPage,
+        asEndIndex: page * rowsPerPage,
         asSortExp: "ORDER BY ItemName"
     };
 
@@ -191,7 +198,7 @@ const AddRequisition = () => {
         });
         return classStudentNames.join(', ');
     };
-    
+
     const ItemName = GEtSalutation()
 
     const clicksave = () => {
@@ -209,42 +216,42 @@ const AddRequisition = () => {
             asIsGeneral: isChecked
         };
 
-        if (text3 == undefined) {
-            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}`);
+        if (text3 == undefined || text3 == '') {
+            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}.`);
             isError = true;
-        }else setErrorQuantity('')
+        } else setErrorQuantity('')
 
         if (textall === '') {
-            setError('Requisition Name should not be blank.');
+            setError('Requisition name should not be blank.');
             isError = true;
-        }else setError('')
+        } else setError('')
 
         if (textall1 === '') {
-            setError1('Requisition Description should not be blank.');
+            setError1('Rquisition description should not be blank.');
             isError = true;
-        }else setError1('')
+        } else setError1('')
 
         if (errorMessages.length > 0) {
             setError2(errorMessages.join("\n"));
             isError = true;
-        }else setError2('')
+        } else setError2('')
 
         if (USGetNewRequisitionValidateItemQuantity.Codes != null) {
             setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
             isError = true;
-        }else setValidateItemQuantity('')
+        } else setValidateItemQuantity('')
 
 
 
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
-            toast.success("Requisition is saved (draft) successfully!!!");
-            setText(0)
-            setTextall('')
-            setTextall1('')
-            setValidateItemQuantity('')
-            seterror('')
-            setErrorQuantity('')
+            toast.success("Requisition is saved (draft) successfully.");
+            // setText(0)
+            // setTextall('')
+            // setTextall1('')
+            // setValidateItemQuantity('')
+            // seterror('')
+            // setErrorQuantity('')
         }
     };
 
@@ -264,36 +271,42 @@ const AddRequisition = () => {
             asIsGeneral: isChecked
         };
 
-        if (textall === '') {
-            setError('Requisition Name should not be blank.');
+
+        if (text3 == undefined || text3 == '') {
+            setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}.`);
             isError = true;
-        }else setError('')
+        } else setErrorQuantity('')
+
+        if (textall === '') {
+            setError('Requisition name should not be blank.');
+            isError = true;
+        } else setError('')
 
         if (textall1 === '') {
-            setError1('Requisition Description should not be blank.');
+            setError1('Rquisition description should not be blank.');
             isError = true;
-        }else setError1('')
+        } else setError1('')
 
-    
+
         if (errorMessages.length > 0) {
             setError2(errorMessages.join("\n"));
             isError = true;
-        }else setError2('')
+        } else setError2('')
 
         if (USGetNewRequisitionValidateItemQuantity.Codes !== null) {
             setValidateItemQuantity(`Item quantity should not be greater than current stock for item with code : ${USGetNewRequisitionValidateItemQuantity.Codes}`);
             isError = true;
-        }else setValidateItemQuantity('')
+        } else setValidateItemQuantity('')
 
         if (USCanSendRequisition == false) {
             setValidateSendRequisition("You can not send requisition since approval level is not configured or user is not available in approval designation.")
             isError = true;
-        }else setValidateSendRequisition('')
+        } else setValidateSendRequisition('')
 
 
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
-            toast.success("Requisition is send successfully!!!");
+            toast.success("Requisition is send successfully.");
             navigate('/extended-sidebar/Teacher/Requisition')
             setItemlist([]);
             setAddItemlistNew([]);
@@ -308,14 +321,14 @@ const AddRequisition = () => {
             setErrorQuantity('')
         }
     };
-    
-    
+
+
 
 
 
     const clickSearch = () => {
         if (regNoOrName == '') {
-            seterror('Item Code / Name should not be blank');
+            seterror('Item Code / Name should not be blank.');
             setIsSearchEmpty(false);
         } else {
             const filteredList = USGetAddItemList.filter((item) => {
@@ -339,7 +352,9 @@ const AddRequisition = () => {
 
     };
 
-
+    const handleClear = () => {
+        setRegNoOrName('');
+    };
     const [open1, setOpen1] = useState(false);
 
     const Openimage = () => {
@@ -493,7 +508,7 @@ const AddRequisition = () => {
 
     useEffect(() => {
         dispatch(CDAGetAddItemList(GetAddItemListBody));
-    }, [ItemCategory]);
+    }, [ItemCategory, page, rowsPerPage, regNoOrName]);
 
     useEffect(() => {
         dispatch(CDAGetItemImage(GetImageBody));
@@ -519,12 +534,26 @@ const AddRequisition = () => {
     }, [ItemNewID, USGetAddItemList, errorMessage]);
 
 
+
+    useEffect(() => {
+        SetItemNewID(undefined)
+    }, [ItemNewID]);
+
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
         setErrorMessage('')
     };
-
-
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1); // Reset to the first page when changing rows per page
+    };
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, CountAddReq.TotalCount);
+    const pagecount = Math.ceil(CountAddReq.TotalCount / rowsPerPage);
+    console.log(pagecount, "pagecount", CountAddReq)
     return (
         <Box sx={{ px: 2 }}>
 
@@ -542,7 +571,7 @@ const AddRequisition = () => {
                             onChange={ItemCategoryDropdown}
                             label={'Category'}
                             defaultValue={ItemCategory}
-                            mandatory
+                            disabled={Itemlist.length > 0}
                             size={"small"}
                         />
 
@@ -551,13 +580,27 @@ const AddRequisition = () => {
                             fullWidth
                             label={
                                 <span>
-                                    Item Code/Name <span style={{ color: 'red' }}>*</span>
+                                    Item Code/Name<span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             value={regNoOrName}
                             variant={'outlined'}
                             size={"small"}
+                            disabled={Itemlist.length > 0}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleClear}
+                                            edge="end"
+                                            disabled={Itemlist.length > 0}
+                                        >
+                                            <ClearIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
 
                         />
 
@@ -568,14 +611,18 @@ const AddRequisition = () => {
                                 background: (theme) => theme.palette.primary.main,
                                 color: 'white',
                                 '&:hover': {
-                                    backgroundColor: (theme) => theme.palette.primary.dark
-                                }
+                                    backgroundColor: (theme) => theme.palette.primary.dark,
+                                },
+                                '&.Mui-disabled': {
+                                    color: (theme) => theme.palette.action.disabled,
+                                },
                             }}
                         >
                             <SearchTwoTone />
                         </IconButton>
 
-                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition'}>
+
+                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -587,55 +634,57 @@ const AddRequisition = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
-
-                        <Tooltip title={'Save'}>
-                            <IconButton
-                                onClick={clicksave}
-                                sx={{
-                                    background: green[500],
-                                    color: 'white',
-                                    '&:hover': {
-                                        backgroundColor: green[600]
-                                    }
-                                }}
-                            >
-                                <Save />
-                            </IconButton>
-                        </Tooltip>
-
-                        <Tooltip title={'Send Requisition'}>
-                            <IconButton
-                                onClick={clickSend}
-                                sx={{
-                                    background: green[500],
-                                    color: 'white',
-                                    '&:hover': {
-                                        backgroundColor: green[600]
-                                    }
-                                }}
-                            >
-                                <SendIcon />
-                            </IconButton>
-                        </Tooltip>
-
-                        <Tooltip title={'Change Input'}>
+                        <Tooltip title={'Reset'}>
                             {Itemlist.length > 0 ?
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
                                     <IconButton
                                         onClick={ClickRestItemLIst}
                                         sx={{
-                                            background: green[500],
                                             color: 'white',
+                                            backgroundColor: blue[500],
                                             '&:hover': {
-                                                backgroundColor: green[600]
+                                                backgroundColor: blue[600]
                                             }
                                         }}
                                     >
-                                        <ChangeCircleIcon />
+                                        <RestartAltIcon />
+
                                     </IconButton>
                                 </Box> : <span> </span>}
                         </Tooltip>
+
+                        {AddItemlistNew.length > 0 ? <Tooltip title={'Save'}>
+                            <IconButton
+                                onClick={clicksave}
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: green[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: green[600] },
+                                    marginLeft: '-4px',
+                                }}
+                            >
+                                <Save />
+                            </IconButton>
+                        </Tooltip> : <span> </span>}
+                        {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
+                            <IconButton
+                                onClick={clickSend}
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
+                                }}
+                            >
+                                <SendIcon />
+                            </IconButton>
+                        </Tooltip> : <span> </span>}
+
+
+
                     </>}
             />
 
@@ -647,7 +696,7 @@ const AddRequisition = () => {
 
                 <TextField
                     sx={{
-                        width: '12vw',
+                        width: '14vw',
                         '& .MuiInputBase-root': {
                             height: '35px',
                             color: 'black',
@@ -675,7 +724,7 @@ const AddRequisition = () => {
 
 
             </Box>
-
+            <br />
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
@@ -692,6 +741,7 @@ const AddRequisition = () => {
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination />
+
                 </Box> : (
                     isSearchEmpty && (
                         <Typography
@@ -720,37 +770,42 @@ const AddRequisition = () => {
                         clickDelete={clickDelete}
                         onTextChange2={Detailschnageall}
                     />
+
+
                     <br></br>
-                    <Grid item xs={3}>
-                        <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                        </Typography>
+                    <Grid item xs={12}>
                         <TextField
+                            label={
+                                <span>
+                                  Requisition Name <span style={{ color: 'red' }}>*</span>
+                                </span>
+                              }
                             multiline
                             rows={3}
-                            type="text"
                             value={textall}
                             onChange={Detailschnageall3}
-                            sx={{ width: '70%' }}
+                            fullWidth
                         />
-                        <br></br>  <br></br>
-                        <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                        </Typography>
+                    </Grid>
+                    <br></br>
+                    <Grid item xs={12}>
                         <TextField
+                            label={
+                                <span>
+                                  Requisition Description <span style={{ color: 'red' }}>*</span>
+                                </span>
+                              }
                             multiline
                             rows={3}
-                            type="text"
                             value={textall1}
                             onChange={Detailschnageall2}
-                            sx={{ width: '70%' }}
+                            fullWidth
                         />
-
                     </Grid>
                 </Box> : null}
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: '400px', minWidth: '300px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' }}>
                 <Dialog open={open1} onClose={handleClose} scroll="body" >
                     <Box sx={{ backgroundColor: "#ede7f6" }}>
                         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

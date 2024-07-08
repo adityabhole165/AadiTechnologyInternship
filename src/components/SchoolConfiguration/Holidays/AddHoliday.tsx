@@ -3,7 +3,7 @@
 import QuestionMark from "@mui/icons-material/QuestionMark";
 import Save from '@mui/icons-material/Save';
 import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
-import { green } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
@@ -14,7 +14,7 @@ import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDa
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SelectListHierarchy from "src/libraries/SelectList/SelectListHierarchy";
-import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails } from "src/requests/Holiday/Holiday";
+import { GetAllClassAndDivision, NameAndStartDateEndDateValidations, getEditHolidayDetails, getSaveHolidays, resetEditHolidayDetails, resetSaveHolidays } from "src/requests/Holiday/Holiday";
 import { RootState } from "src/store";
 
 const AddHoliday = ({ }) => {
@@ -50,6 +50,7 @@ const AddHoliday = ({ }) => {
     const DuplicateHolidayNameCount: any = useSelector((state: RootState) => state.Holidays.IHolidayDuplicateNameValidationCount)
     const Editholiday: any = useSelector((state: RootState) => state.Holidays.EditHolidayDetails);
     const PredefinedStartDateAndEndDateCount: any = useSelector((state: RootState) => state.Holidays.IHolidayStartAndEndDatePredefinedValidationCount)
+    const Loading: any = useSelector((state: RootState) => state.Holidays.Loading);
     const filteredItems = DuplicateHolidayNameCount.filter(item => item.DuplicateHolidayNameCount);
     const result = filteredItems.length > 0 ? filteredItems[0] : null;
     const filteredItems1 = PredefinedStartDateAndEndDateCount.filter(item => item.PredefinedStartDateAndEndDateCount);
@@ -180,6 +181,7 @@ const AddHoliday = ({ }) => {
 
     const ClickSave = () => {
         let isError = false;
+        let dateError = false;
         if (HolidayTitle == '') {
             SetErrorHolidayTitle('Holiday name should not be blank.');
             isError = true;
@@ -192,47 +194,60 @@ const AddHoliday = ({ }) => {
 
         if (StartDate === '') {
             setErrorStartDate2('Please choose a valid start date.');
+            dateError = true
             isError = true;
         } else setErrorStartDate2('')
 
         if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
+
+            dateError = true
             isError = true;
         } else setErrorStartDateblank('')
 
 
         if (EndDate == '') {
             setErrorEndDate('Please choose a valid End date.');
+            dateError = true
             isError = true;
         } else setErrorEndDate('')
 
         if (EndDate == null) {
             setErrorEndDateblank('End Date should not be blank.');
+            dateError = true
             isError = true;
         } else setErrorEndDateblank('')
 
-        if (StartDate !== null && EndDate !== null) {
+        if (dateError == false) {
             if (isOutsideAcademicYear(StartDate)) {
-                setErrorStartDate('Holiday end date must be within current academic year (i.e between ' +
+                setErrorStartDate('Holiday start date must be within current academic year (i.e between ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
                 isError = true;
             } else setErrorStartDate('')
-        }
-        if (StartDate !== null && EndDate !== null) {
 
             if (isOutsideAcademicYear(EndDate)) {
                 setErrorEndDate('Holiday end date must be within current academic year (i.e between ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
                     formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
                 isError = true;
-            } else setErrorEndDate('')
+            } else {
+                setErrorEndDate('')
+            }
+
         }
+
         if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate1('End date should not be less than start date.');
-
+            dateError = true
             isError = true;
         } else setErrorEndDate1('')
+        if (result1.PredefinedStartDateAndEndDateCount !== "0" && dateError == false) {
+            setErrorEndDate2('Holiday already defined.');
+            isError = true;
+        } else setErrorEndDate2('')
 
         if (Reamrk.length > 200) {
             setRemarkError('Remark should be less than 200 characters.');
@@ -243,22 +258,31 @@ const AddHoliday = ({ }) => {
             isError = true;
         } else SetErrorHolidayTitle1('')
 
-        if (result1.PredefinedStartDateAndEndDateCount !== "0") {
-            setErrorEndDate2('Holiday already defined.');
-            isError = true;
-        } else setErrorEndDate2('')
-
         if (!isError) {
             dispatch(getSaveHolidays(SaveHolidayBody));
-            if (Holiday_Id) {
-                toast.success("Holiday details updated successfully.");
-            } else {
-                toast.success("Holiday details saved successfully.");
-            }
-            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
         }
 
     };
+    useEffect(() => {
+        if (SaveHolidays != "") {
+
+            if (Holiday_Id) {
+                toast.success("Holiday details updated successfully.", { toastId: "success1" });
+            } else {
+                toast.success("Holiday details saved successfully.", { toastId: "success1" });
+            }
+            dispatch(resetSaveHolidays());
+
+            navigate('/extended-sidebar/Admin/SchoolConfiguration/Holidays');
+        }
+    }, [SaveHolidays])
+
+
+    useEffect(() => {
+        if (StartDate === null || EndDate === null) {
+            setTotalDays(0);
+        }
+    }, [StartDate, EndDate])
 
 
 
@@ -396,125 +420,137 @@ const AddHoliday = ({ }) => {
                         </>
                     }
                 />
+                <Box sx={{ p: 2, background: 'white' }}>
+                    {/* {Loading &&
+                        <SuspenseLoader />
+                    } */}
+                    <Grid container spacing={2}>
 
-                <Grid container spacing={2}>
-
-                    <Grid item xs={6} md={4}>
-                        <Datepicker
-                            DateValue={StartDate}
-                            onDateChange={onSelectStartDate}
-                            label={'Start Date'}
-                            size={"medium"}
-                        />
-                        <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
-
-
-                    </Grid>
-
-                    <Grid item xs={6} md={4}>
-                        <Datepicker
-                            DateValue={EndDate}
-                            onDateChange={onSelectEndDate}
-                            label={'End Date'}
-                            size={"medium"}
-                        />
-
-                        <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
-                        <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
+                        <Grid item xs={6} md={4}>
+                            <Datepicker
+                                DateValue={StartDate}
+                                onDateChange={onSelectStartDate}
+                                label={'Start Date'}
+                                size={"medium"}
+                            />
+                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
 
 
-                    </Grid>
+                        </Grid>
 
-                    <Grid item xs={6} md={4}>
-                        <TextField
-                            label="Total Days"
-                            value={TotalDays}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            fullWidth
-                        />
-                    </Grid>
+                        <Grid item xs={6} md={4}>
+                            <Datepicker
+                                DateValue={EndDate}
+                                onDateChange={onSelectEndDate}
+                                label={'End Date'}
+                                size={"medium"}
+                            />
+
+                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
 
 
-                    <Grid xs={6} md={6} item>
-                        <TextField
-                            label={
-                                <span>
-                                    Name <span style={{ color: 'red' }}>*</span>
-                                </span>
-                            }
-                            multiline
-                            rows={3}
-                            value={HolidayTitle}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                if (value.length <= 50) {
-                                    setHolidayTitle(value);
+                        </Grid>
+
+                        <Grid item xs={6} md={4}>
+                            <TextField
+                                label="Total Days"
+                                value={TotalDays}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                fullWidth
+                            />
+                        </Grid>
+
+
+                        <Grid xs={6} md={6} item>
+                            <TextField
+                                label={
+                                    <span>
+                                        Name <span style={{ color: 'red' }}>*</span>
+                                    </span>
                                 }
-                            }}
-                            // error={errorHolidayTitle !== ''}
-                            // helperText={errorHolidayTitle}
-                            fullWidth
-                            sx={{
-                                resize: 'both'
-                            }}
-                        >
-                        </TextField>
-                        <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
-                        <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
+                                multiline
+                                rows={1}
+                                value={HolidayTitle}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value.length <= 50) {
+                                        setHolidayTitle(value);
+                                    }
+                                }}
+                                // error={errorHolidayTitle !== ''}
+                                // helperText={errorHolidayTitle}
+                                fullWidth
+                                sx={{
+                                    resize: 'both'
+                                }}
+                            >
+                            </TextField>
+                            <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
+                            <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
+                        </Grid>
+                        <Grid xs={6} md={6} item>
+                            <TextField
+                                label={
+                                    <span>
+                                        Remark
+                                    </span>
+                                }
+                                multiline
+                                rows={1}
+                                value={Reamrk}
+                                onChange={(e) => {
+                                    setRemark(e.target.value);
+                                }}
+                                fullWidth
+                                error={Reamrk1 !== ''}
+                                helperText={Reamrk1}
+                            >
+                            </TextField>
+                        </Grid>
 
-                    </Grid>
-                    <Grid xs={6} md={6} item>
-                        <TextField
-                            label={
-                                <span>
-                                    Remark
-                                </span>
-                            }
-                            multiline
-                            rows={3}
-                            value={Reamrk}
-                            onChange={(e) => {
-                                setRemark(e.target.value);
-                            }}
-                            fullWidth
-                            error={Reamrk1 !== ''}
-                            helperText={Reamrk1}
-                        >
-                        </TextField>
-                    </Grid>
+                        <Grid item xs={12} md={12} mt={4}>
+                            <Typography variant="h6">
+                                Associated Classes <span style={{ color: 'red' }}>*</span>
+                            </Typography>
+                            <SelectListHierarchy
+                                ItemList={ItemList}
+                                ParentList={ClassesAndDivisionss1}
+                                ClickChild={ClickChild}
+                            ></SelectListHierarchy>
+                            <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
 
-                    <Grid item xs={12} md={12} mt={4}>
-                        <Typography variant="h6">
-                            Associated Classes <span style={{ color: 'red' }}>*</span>
-                        </Typography>
-                        <SelectListHierarchy
-                            ItemList={ItemList}
-                            ParentList={ClassesAndDivisionss1}
-                            ClickChild={ClickChild}
-                        ></SelectListHierarchy>
-                        <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
+                        </Grid>
 
-                    </Grid>
-
-                    <Grid item xs={12} md={12}>
-                        <Stack direction={"row"} gap={2} alignItems={"center"}>
-                            <Button variant={'contained'} color="success" onClick={ClickSave}>
-                                SAVE
-                            </Button>
-                            <Button variant={'contained'} color="error" onClick={resetForm}>
-                                CANCEL
-                            </Button>
-                        </Stack>
-                    </Grid>
-                </Grid >
+                        <Grid item xs={12} md={12}>
+                            <Stack direction={"row"} gap={2} alignItems={"center"}>
+                            
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'red',
+                                    ':hover': { backgroundColor: red[100] }
+                                }} onClick={resetForm}>
+                                   Cancel
+                                </Button>
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'green',
+                                    ':hover': { backgroundColor: green[100] }
+                                }} onClick={ClickSave}>
+                                   Save
+                                   </Button>
+                            </Stack>
+                        </Grid>
+                    </Grid >
 
 
+                </Box>
             </Box>
         </>
     )

@@ -14,15 +14,16 @@ import TableRow from '@mui/material/TableRow';
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
   const cellStyle = {
-    padding: '0.5em 1em', // Adjust these values to reduce the height
+    padding: '0.2em 1.5em', // Adjust these values to reduce the height
   };
+  
   return (
     <div>
       <TableContainer component={Box}>
         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow
-              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white ,}}
             >
               {HeaderArray.map((item, i) => (
                 <TableCell
