@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
 import { toast } from "react-toastify";
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
@@ -172,11 +172,11 @@ const AddHoliday = ({ }) => {
 
     };
     const onSelectStartDate = (value) => {
-        setStartDate(value);
+        setStartDate(getCalendarDateFormatDateNew(value));
     };
 
     const onSelectEndDate = (value) => {
-        setEndDate(value);
+        setEndDate(getCalendarDateFormatDateNew(value));
     };
 
     const ClickSave = () => {
@@ -530,21 +530,21 @@ const AddHoliday = ({ }) => {
 
                         <Grid item xs={12} md={12}>
                             <Stack direction={"row"} gap={2} alignItems={"center"}>
-                            
+
                                 <Button sx={{
                                     // backgroundColor: green[100],
                                     color: 'red',
                                     ':hover': { backgroundColor: red[100] }
                                 }} onClick={resetForm}>
-                                   Cancel
+                                    Cancel
                                 </Button>
                                 <Button sx={{
                                     // backgroundColor: green[100],
                                     color: 'green',
                                     ':hover': { backgroundColor: green[100] }
                                 }} onClick={ClickSave}>
-                                   Save
-                                   </Button>
+                                    Save
+                                </Button>
                             </Stack>
                         </Grid>
                     </Grid >
