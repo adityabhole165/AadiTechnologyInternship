@@ -1,13 +1,13 @@
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, red } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,6 @@ import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 
 const AddRequisition = () => {
@@ -49,8 +48,8 @@ const AddRequisition = () => {
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [ErrorQuantity, setErrorQuantity] = useState('');
     const [text3, settext3] = useState();
-    console.log(text3,"text3---");
-    
+    console.log(text3, "text3---");
+
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -464,7 +463,7 @@ const AddRequisition = () => {
     const Detailschnageall = (value) => {
         setAddItemlistNew(value);
         settext3(value.map(item => item.Text3))
-      
+
     };
 
     const Detailschnageall3 = (event) => {
@@ -534,7 +533,7 @@ const AddRequisition = () => {
 
     }, [ItemNewID, USGetAddItemList, errorMessage]);
 
-    
+
 
     useEffect(() => {
         SetItemNewID(undefined)
@@ -581,7 +580,7 @@ const AddRequisition = () => {
                             fullWidth
                             label={
                                 <span>
-                                    Item Code/Name<span style={{ color: 'red' }}>*</span>  
+                                    Item Code/Name<span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             value={regNoOrName}
@@ -597,7 +596,7 @@ const AddRequisition = () => {
                                             edge="end"
                                             disabled={Itemlist.length > 0}
                                         >
-                                            <ClearIcon /> 
+                                            <ClearIcon />
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -725,7 +724,7 @@ const AddRequisition = () => {
 
 
             </Box>
-            <br/>
+            <br />
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
@@ -771,38 +770,37 @@ const AddRequisition = () => {
                         clickDelete={clickDelete}
                         onTextChange2={Detailschnageall}
                     />
-                      <br></br>
 
 
-                     <Grid item sx={{display:'plex'}} xs={6} md={6}> 
-                        <Grid xs={12} md={6} mr={1}>
-                        <Typography variant="h4" sx={{ mb: 1}}>
-                            Requisition Name :  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                        </Typography>
+                    <br></br>
+                    <Grid item xs={12}>
                         <TextField
-                           multiline
-                            rows={1}  
-                            type="text"
-                            value={textall}
-                            onChange={Detailschnageall3}      
-                            sx={{ width: '700px' }}
-                        />
-                        </Grid>
-                        
-                        <br></br>  <br></br>
-                        <Grid xs={6} md={6} ml={1}>
-                        <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Description :  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                        </Typography>
-                        <TextField
+                            label={
+                                <span>
+                                  Requisition Name <span style={{ color: 'red' }}>*</span>
+                                </span>
+                              }
                             multiline
-                            rows={1}
-                            type="text"
+                            rows={3}
+                            value={textall}
+                            onChange={Detailschnageall3}
+                            fullWidth
+                        />
+                    </Grid>
+                    <br></br>
+                    <Grid item xs={12}>
+                        <TextField
+                            label={
+                                <span>
+                                  Requisition Description <span style={{ color: 'red' }}>*</span>
+                                </span>
+                              }
+                            multiline
+                            rows={3}
                             value={textall1}
                             onChange={Detailschnageall2}
-                             sx={{ width: '700px', }}
+                            fullWidth
                         />
-                        </Grid>
                     </Grid>
                 </Box> : null}
 

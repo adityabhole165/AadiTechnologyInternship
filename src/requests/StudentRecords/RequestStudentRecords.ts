@@ -10,11 +10,15 @@ const StudentRecordsSlice = createSlice({
   name: 'StudentRecords',
   initialState: {
     ClassTeachers: [],
-    StudentStatus: []
+    StudentStatus: [],
+    GetAssociatedTeacher: []
   },
   reducers: {
     TeacherList(state, action) {
       state.ClassTeachers = action.payload;
+    },
+    GetAssociatedTeacherList(state, action) {
+      state.GetAssociatedTeacher = action.payload;
     },
     GetStudentStatus(state, action) {
       state.StudentStatus = action.payload;
@@ -35,6 +39,7 @@ export const GetTeachersList =
         });
       });
       dispatch(StudentRecordsSlice.actions.TeacherList(abc));
+      dispatch(StudentRecordsSlice.actions.GetAssociatedTeacherList(response.data.listGetAssociatedTeacher))
     };
 export const GetAllStudentStatuss =
   (data: IGetAllStudentStatusBody): AppThunk =>

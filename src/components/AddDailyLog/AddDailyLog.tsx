@@ -4,6 +4,7 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
+  debounce,
   Grid,
   IconButton,
   Pagination,
@@ -12,7 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -28,19 +29,18 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-  PublishUnpublishHomework,
-  ResetDeleteLog,
-  Savedailylog,
   deletedailylog,
   getalldailylog,
   getdailylog,
+  PublishUnpublishHomework,
+  ResetDeleteLog,
   resetMessage,
-  resetPublishUnpublish
+  resetPublishUnpublish,
+  Savedailylog
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { format } from 'date-fns';
 
 
 const AddDailyLog = () => {
@@ -112,6 +112,9 @@ const AddDailyLog = () => {
     'XLS',
     'XLSX'
   ];
+  const debouncedFetch = useCallback(debounce((body) => {
+    dispatch(Savedailylog(body));
+  }, 500), [dispatch]);
   const asdate = dateState ? formatDateAsDDMMMYYYY(new Date(dateState)) : "";
   //PaylodBody
   const SaveDailylogBody: ISaveDailyLogBody = {
@@ -343,15 +346,15 @@ const AddDailyLog = () => {
 
       const selectedDate = new Date(dateState);
       const currentDate = new Date();
-      
+
       if (selectedDate > currentDate) {
-          setDateError('Future date is not allowed.');
-          isError = true;
-        } else {
-          setDateError('');
-          console.log('Saving data...', dateState);
+        setDateError('Future date is not allowed.');
+        isError = true;
+      } else {
+        setDateError('');
+        console.log('Saving data...', dateState);
       }
-      
+
     }
     // const selectedDay = new Date(dateState).getDay();
     // if (selectedDay === 0 || selectedDay === 6) {
@@ -368,10 +371,12 @@ const AddDailyLog = () => {
       setFileNameError('');
     }
     if (!isError) {
-      dispatch(Savedailylog(SaveDailylogBody));
+      // dispatch(Savedailylog(SaveDailylogBody));
+      debouncedFetch(SaveDailylogBody);
       ResetForm();
     }
   };
+
 
   useEffect(() => {
     if (SaveDailyLog != '') {
@@ -417,7 +422,7 @@ const AddDailyLog = () => {
       setDateSearchError('Future dates are selected.');
     } else {
       setDateSearchError('');
-    }    
+    }
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   };
   // const onClickSearch = () => {
@@ -432,7 +437,7 @@ const AddDailyLog = () => {
   //     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   //   }
   // };
- 
+
   const ClickHeader = (value) => {
     setHeaderPublish(value)
   }
