@@ -68,6 +68,9 @@ const StudentRecords = () => {
   const GetTeachers = useSelector(
     (state: RootState) => state.StudentRecords.ClassTeachers
   );
+  const GetAssociatedTeacherUS = useSelector(
+    (state: RootState) => state.StudentRecords.GetAssociatedTeacher);
+
   console.log(GetTeachers, 'GetTeachers');
   const GetStatusStudents: any = useSelector(
     (state: RootState) => state.StudentRecords.StudentStatus
@@ -149,7 +152,7 @@ const StudentRecords = () => {
     EndIndex: page * rowsPerPage,
     ShowSaved: false,
     IncludeRiseAndShine: showRiseAndShine,
-    HasEditAccess: 'N',
+    HasEditAccess: access == 'N' ? 'N' : 'Y',
     UserId: UserId
   };
   const clickTeacherDropdown = (value) => {
@@ -304,6 +307,7 @@ ClickItem={ClickItem} IconList={IconList}/> */}
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}
+              buttonsPerPage={pagecount > 1 ? 5 : 0}
             />
 
           ) : (
