@@ -1,5 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import Table from '@mui/material/Table';
@@ -100,7 +100,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text4}
                                             </TableCell>
@@ -108,7 +108,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text5}
                                             </TableCell>
@@ -116,7 +116,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text6}
                                             </TableCell>
@@ -124,15 +124,19 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text7}
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Tooltip title="View">
-                                                    <VisibilityIcon
-                                                        sx={{ color: '#223354', cursor: 'pointer' }}
-                                                        onClick={() => clickView(item.Id)} />
+                                                <Tooltip title={"View"}>
+                                                    <Visibility onClick={() => clickView(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                                bgcolor: 'grey.300'
+                                                            }
+                                                        }} />
                                                 </Tooltip>
 
                                             </TableCell>
