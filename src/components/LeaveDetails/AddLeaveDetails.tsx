@@ -149,7 +149,7 @@ const AddLeaveDetails = () => {
                             label={<>
                                 Teacher <span style={{ color: 'red' }}>*</span>
                             </>}
-                            sx={{ bgcolor: '#f0e68c' }}
+                            sx={{ bgcolor: '#D3D3D3' }}
                             InputProps={{
                                 readOnly: true,
                             }}
