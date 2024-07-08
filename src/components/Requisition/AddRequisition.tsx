@@ -247,12 +247,12 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
             toast.success("Requisition is saved (draft) successfully.");
-            setText(0)
-            setTextall('')
-            setTextall1('')
-            setValidateItemQuantity('')
-            seterror('')
-            setErrorQuantity('')
+            // setText(0)
+            // setTextall('')
+            // setTextall1('')
+            // setValidateItemQuantity('')
+            // seterror('')
+            // setErrorQuantity('')
         }
     };
 
