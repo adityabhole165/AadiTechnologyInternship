@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -42,7 +43,7 @@ const LeaveDetailsBaseScreen = () => {
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
     const { showAlert, closeAlert } = useContext(AlertContext);
-
+    const Loading: any = useSelector((state: RootState) => state.LeaveDetails.Loading);
     const GetAcademicYear = useSelector(
         (state: RootState) => state.LeaveDetails.AcademicYearDropdown
     );
@@ -334,7 +335,6 @@ const LeaveDetailsBaseScreen = () => {
                             sx={{ minWidth: '20vw' }}
                             ItemList={GetAcademicYear.slice(0, 4)}
                             defaultValue={selectAcademicYear}
-                            mandatory
                             onChange={clickAcademicYearDropdown}
                             size={"small"}
                             label='Academic Year'
@@ -352,7 +352,6 @@ const LeaveDetailsBaseScreen = () => {
                             sx={{ minWidth: '20vw' }}
                             ItemList={GetStatusDropdown}
                             defaultValue={selectStatus}
-                            mandatory
                             onChange={clickStatusDropdown}
                             size={"small"}
                             label='Status'
@@ -388,7 +387,9 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-
+            {Loading &&
+                <SuspenseLoader />
+            }
             <Box sx={{ background: 'white', p: 2 }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
@@ -417,7 +418,7 @@ const LeaveDetailsBaseScreen = () => {
                             rowsPerPage={rowsPerPage}
                             ChangeRowsPerPage={ChangeRowsPerPage}
                             rowsPerPageOptions={rowsPerPageOptions}
-                            buttonsPerPage = {pagecount > 1 ? 5 : 0 }
+                            buttonsPerPage={pagecount > 1 ? 5 : 0}
                         />
 
                     ) : (
