@@ -98,7 +98,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', width: '250px', wordWrap: 'break-word'
                                                 }}
                                                 align="left"
                                             >
