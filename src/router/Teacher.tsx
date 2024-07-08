@@ -186,6 +186,9 @@ const GenerateAll = Loader(
 const ProgressReportNew = Loader(
   lazy(() => import('src/components/ProgressReportNew/ProgressReportNew'))
 )
+const AllNoticeList = Loader(
+  lazy(() => import('src/components/AddSchoolNitice/AllNoticeList'))
+)
 
 
 
@@ -552,8 +555,15 @@ const teacherRoutes = [
   {
     path: 'ProgressReportNew',
     element: <ProgressReportNew />
+  },
+
+  {
+    path: 'AllNoticeList',
+    element: <AllNoticeList />
   }
 
+
+  
 ];
 
 export default teacherRoutes;
