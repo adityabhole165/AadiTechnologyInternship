@@ -523,6 +523,7 @@ const StatusRequisition = () => {
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}
+              buttonsPerPage = {pagecount > 1 ? 5 : 0 }
             />
 
           ) : (

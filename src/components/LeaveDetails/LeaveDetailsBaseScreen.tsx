@@ -262,6 +262,7 @@ const LeaveDetailsBaseScreen = () => {
         { Id: 1, Header: 'Sender Name' },
         { Id: 2, Header: 'Start Date' },
         { Id: 3, Header: 'End Date' },
+        { Id: 4, Header: 'Description' },
         { Id: 5, Header: 'Total Days' },
         { Id: 6, Header: 'Leave Type' },
         { Id: 7, Header: 'Leave Balance' },
@@ -416,6 +417,7 @@ const LeaveDetailsBaseScreen = () => {
                             rowsPerPage={rowsPerPage}
                             ChangeRowsPerPage={ChangeRowsPerPage}
                             rowsPerPageOptions={rowsPerPageOptions}
+                            buttonsPerPage = {pagecount > 1 ? 5 : 0 }
                         />
 
                     ) : (

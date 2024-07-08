@@ -174,7 +174,7 @@ const AssignPrePrimaryGrades = () => {
       <Box sx={{ px: 2 }}>
         <CommonPageHeader navLinks={[
           {
-            title: 'Assign Pre-Primary Grades',
+            title: 'Assign Pre-Primary Progress Report Grades',
             path: ''
           }
         ]}
@@ -199,7 +199,7 @@ const AssignPrePrimaryGrades = () => {
                 mandatory
               />
               <Box>
-                <Tooltip title={`View all subjects assigned with the current status of grades given to students. Once grades for all 
+                <Tooltip title={`View all subjects assigned with the current status of grades given to students.Once grades for all 
                   the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>
                   <IconButton sx={{
                     bgcolor: 'grey.500',
@@ -216,18 +216,12 @@ const AssignPrePrimaryGrades = () => {
           }
         />
 
+
+
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
-
-          < EditIconList
-            ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
-            clickEdit={clickEdit}
-            HeaderArray={HeaderPublish}
-            clicksubmit={ClickSubmit}
-          />
-
           <Box sx={{ mt: 2 }}>
             <Typography variant='h4'>
-              Legends
+              Legend
             </Typography>
             <Stack direction={'row'} alignItems={'center'} gap={2} sx={{ mt: 1 }}>
               <LegendsIcon
@@ -239,6 +233,15 @@ const AssignPrePrimaryGrades = () => {
               />
             </Stack>
           </Box>
+          <br></br>
+          < EditIconList
+            ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
+            clickEdit={clickEdit}
+            HeaderArray={HeaderPublish}
+            clicksubmit={ClickSubmit}
+          />
+
+
         </Box>
       </Box>
     </>
