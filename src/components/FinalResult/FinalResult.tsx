@@ -29,6 +29,7 @@ import {
   isResultPublishedBody,
   isTestPublishedBody
 } from 'src/interfaces/FinalResult/IFinalResult';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ClassTechersList,
@@ -69,9 +70,7 @@ const FinalResult = () => {
   // const [SelectTeacher, setSelectTeacher] = useState('');
 
   // const [selectTeacherNew, setSelectTecherNew] = useState(sessionStorage.getItem('TeacherId') || '')
-  // console.log(TeacherId, "---", selectTeacherNew);
 
-  // console.log(TeacherId, " ----", SelectTeacher);
 
   // const StandardDivisionId = Number(
   //   sessionStorage.getItem('StandardDivisionId')
@@ -94,7 +93,6 @@ const FinalResult = () => {
   const [asWithGrace, setasWithGrace] = useState();
   const Exam = ['Final Result'];
 
-  // console.log(SelectTeacher, "SelectTeacher", StandardDivisionId, "StandardDivisionId");
 
   const getDropdownName = (List, value) => {
     let returnVal = ""
@@ -107,7 +105,6 @@ const FinalResult = () => {
 
 
   const FinalResultFullAccess = GetScreenPermission('Final Result');
-  console.log("FinalResultFullAccess", FinalResultFullAccess);
 
   const AssignmentClickIcon = (value) => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
@@ -120,8 +117,10 @@ const FinalResult = () => {
   const GetResultGenerated = useSelector(
     (state: RootState) => state.FinalResult.GetResultPublishd
   );
+  const Loading = useSelector(
+    (state: RootState) => state.FinalResult.Loading
+  );
 
-  console.log("GetResultGenerated", GetResultGenerated)
 
   const HeaderList = [
     'Roll No.',
@@ -226,60 +225,49 @@ const FinalResult = () => {
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
-  console.log(GetStudentLists);
 
   const PublishResult = useSelector(
     (state: RootState) => state.FinalResult.PublishResult
   );
-  console.log("PublishResult", PublishResult);
 
   const UnpublishResult = useSelector(
     (state: RootState) => state.FinalResult.UnpublishResult
   );
-  console.log(UnpublishResult);
 
   const GenerateAll = useSelector(
     (state: RootState) => state.FinalResult.GenerateAll
   );
-  console.log(GenerateAll);
 
   const ViewResult = useSelector(
     (state: RootState) => state.FinalResult.ViewResult
   );
 
-  console.log("viewresult", ViewResult);
 
   const GenerateResult = useSelector(
     (state: RootState) => state.FinalResult.Generate
   );
 
-  console.log("GenerateResult", GenerateResult)
 
   const GetConfiguredTestPublished = useSelector(
     (state: RootState) => state.FinalResult.GetConfiguredTestPublished
   );
 
-  console.log("GetConfiguredTestPublished", GetConfiguredTestPublished);
 
 
   const GetTestPublished = useSelector(
     (state: RootState) => state.FinalResult.GetTestPublished
   );
 
-  console.log("GetTestPublished", GetTestPublished)
 
   const GetAtleastOneResultGenerated: any = useSelector(
     (state: RootState) => state.FinalResult.GetAtleastOneResultGenerated
   );
 
-  console.log("GetAtleastOneResultGenerated", GetAtleastOneResultGenerated)
 
   const Usisconfigred: any = useSelector((state: RootState) => state.FinalResult.iscofigred);
-  console.log(Usisconfigred, "Usisconfigred");
 
   const Usunpublishedexam: any = useSelector((state: RootState) => state.FinalResult.unpublishexam);
 
-  // console.log(Usunpublishedexam, "Usunpublishedexam");
 
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
@@ -410,7 +398,6 @@ const FinalResult = () => {
 
   const clickTeacherDropdown = (value) => {
     setStandardDivisionId(value);
-    console.log(value, "clickTeacherDropdown");
 
   };
   const getstandardId = () => {
@@ -527,6 +514,16 @@ const FinalResult = () => {
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
   }, [UnpublishResult])
+
+  useEffect(() => {
+    if (GenerateAll !== '') {
+      toast.success(GenerateAll)
+      dispatch(resetUnpublishResult())
+      dispatch(GetStudentResultList(PagedStudentBody))
+      dispatch(GetResultPublishd(ResultPublishedBody))
+      dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+    }
+  }, [GenerateAll])
 
   useEffect(() => {
     if (PublishResult !== '')
@@ -725,6 +722,10 @@ const FinalResult = () => {
           </Box>
         </>}
       />
+      {
+        Loading &&
+        <SuspenseLoader />
+      }
 
       <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
         {Usisconfigred.IsConfiged == 0 ? (
