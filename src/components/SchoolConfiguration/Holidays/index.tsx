@@ -326,6 +326,7 @@ const Holidays = (props: Props) => {
                     rowsPerPage={rowsPerPage}
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions}
+                    buttonsPerPage = {pagecount > 1 ? 5 : 0 }
                 /> : <span> </span>}
 
 
