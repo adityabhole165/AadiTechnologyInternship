@@ -1,6 +1,7 @@
 import { Save } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Alert, Box, Button, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material';
+import { Accordion, AccordionSummary, Alert, Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -93,7 +94,7 @@ const AddLeaveDetails = () => {
 
     const rightActions = (
         <>
-            <Tooltip title={'Declare a new Leave.'}>
+            <Tooltip title={'Here you can Apply for, Approve, or Reject leave requests.'}>
                 <IconButton
                     sx={{
                         bgcolor: 'grey.500',
@@ -185,7 +186,9 @@ const AddLeaveDetails = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Description"
+                            label={<>
+                                Description <span style={{ color: 'red' }}>*</span>
+                            </>}
                             multiline
                             rows={3}
                             value={Description}
@@ -196,30 +199,41 @@ const AddLeaveDetails = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Alert variant="filled" severity="info" sx={{ mb: 1 }}><b>Note 1 : </b> {Note1}</Alert>
-                        <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                        <Accordion defaultExpanded>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                            >
+                                <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+                            </AccordionSummary>
+                            <Grid item xs={12}>
+                                <Alert variant="filled" severity="info" sx={{ mb: 1 }}><b>Note 1 : </b> {Note1}</Alert>
+                                <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                            </Grid>
+                        </Accordion>
                     </Grid>
                     {LeaveId == undefined ?
-                    <Grid item xs={12} md={12}>
-                        <Stack direction={"row"} gap={2} alignItems={"center"}>
+                        <Grid item xs={12} md={12}>
+                            <Stack direction={"row"} gap={2} alignItems={"center"}>
 
-                            <Button sx={{
-                                // backgroundColor: green[100],
-                                color: 'red',
-                                ':hover': { backgroundColor: red[100] }
-                            }} onClick={resetForm}>
-                                Clear
-                            </Button>
-                            <Button sx={{
-                                // backgroundColor: green[100],
-                                color: 'green',
-                                ':hover': { backgroundColor: green[100] }
-                            }} onClick={undefined}>
-                                Submit
-                            </Button>
-                        </Stack>
-                    </Grid> : null
-                     }
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'red',
+                                    ':hover': { backgroundColor: red[100] }
+                                }} onClick={resetForm}>
+                                    Clear
+                                </Button>
+                                <Button sx={{
+                                    // backgroundColor: green[100],
+                                    color: 'green',
+                                    ':hover': { backgroundColor: green[100] }
+                                }} onClick={undefined}>
+                                    Submit
+                                </Button>
+                            </Stack>
+                        </Grid> : null
+                    }
                 </Grid >
             </Box>
         </Box >
