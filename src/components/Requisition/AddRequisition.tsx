@@ -582,6 +582,11 @@ const AddRequisition = () => {
                             value={regNoOrName}
                             variant={'outlined'}
                             size={"small"}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                                    clickSearch();
+                                }
+                              }}
                             disabled={Itemlist.length > 0}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
                             InputProps={{
@@ -602,6 +607,7 @@ const AddRequisition = () => {
 
                         <IconButton
                             onClick={clickSearch}
+                          
                             disabled={Itemlist.length > 0}
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
