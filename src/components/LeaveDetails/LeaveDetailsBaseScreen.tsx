@@ -101,7 +101,7 @@ const LeaveDetailsBaseScreen = () => {
     }, [GetAcademicYear]);
     useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
-    }, [selectAcademicYear]);
+    }, []);
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
