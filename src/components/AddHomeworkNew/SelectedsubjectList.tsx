@@ -9,8 +9,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { green, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
+
 const SelectedsubjectList = ({
   ItemList,
   HeaderArray,
@@ -37,7 +40,9 @@ const SelectedsubjectList = ({
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
-                    color: (theme) => theme.palette.common.white
+                    color: (theme) => theme.palette.common.white,
+                    height:'10px'
+                    
                   }}
                 >
                   <b>{item.Header}</b>
@@ -48,7 +53,11 @@ const SelectedsubjectList = ({
           <TableBody>
             {ItemList.map((item, i) => (
               <TableRow key={i}>
-                <TableCell sx={{ textTransform: 'capitalize' }}>
+                <TableCell sx={{ 
+                  textTransform: 'capitalize',
+                  height:'5px',
+                  padding:'7px'
+                  }}>
                   {item.Text1}
                 </TableCell>
 
@@ -75,7 +84,14 @@ const SelectedsubjectList = ({
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text9 == 0 ? null : (
                     <VisibilityIcon
-                      style={{ color: 'black' }}
+                    //  style={{ color: 'black ', cursor: 'pointer' }}
+                    sx={{
+                      color:'#223354',
+                           //  backgroundColor: grey[500],
+                            '&:hover': {
+                            //  color:'red',
+                           backgroundColor: grey[200]
+                           }}}
                       onClick={() => clickVisibilityIcon(item.Id)}
                     />
                   )}
@@ -88,7 +104,10 @@ const SelectedsubjectList = ({
                       clickpublish(item.Id, item.Text3);
                     }} sx={{ minWidth: '100px' }}
                   >
-                    {item.IsPublished === 'False' ? 'PUBLISH' : 'UNPUBLISH'}
+                    {item.IsPublished === 'False' ?
+                     <PublishedWithChangesIcon/> : 
+                     <UnpublishedIcon/>
+                     }
                   </ButtonPrimary>
 
                 </TableCell>
@@ -98,7 +117,7 @@ const SelectedsubjectList = ({
                     <Tooltip title="Edit">
                       <IconButton>
                         <EditTwoTone
-                          style={{ color: 'black ', cursor: 'pointer' }}
+                         style={{ color: 'black ', cursor: 'pointer' }}
                           onClick={() => clickEdit(item.Id)}
                         />
                       </IconButton>
@@ -106,12 +125,19 @@ const SelectedsubjectList = ({
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell 
+                sx={{ textTransform: 'capitalize' }} >
                   {item.Text7 == 'False' ? (
                     <Tooltip title="Delete">
                       <IconButton>
                         <DeleteForeverIcon
-                          sx={{ color: 'red', cursor: 'pointer' }}
+                          sx={{
+                            color:'#223354',
+                                 //  backgroundColor: grey[500],
+                                  '&:hover': {
+                                   color:'red',
+                                 backgroundColor: red[100]
+                                 }}}
                           onClick={() => clickDelete(item.Id)}
                         />
                       </IconButton>
