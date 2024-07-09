@@ -320,8 +320,8 @@ function CardCalender1({
             return (
               <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center' }}>
                 <CardCal1
-                  item={item.Value}
-                  clickItem={() => ClickItem('')}
+                  item={{}}
+                  clickItem={() => ClickItem()}
                   DefaultValue={''}
                   assignedDate={''}
                   color={undefined}
