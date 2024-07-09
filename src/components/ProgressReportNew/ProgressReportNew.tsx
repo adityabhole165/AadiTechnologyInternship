@@ -12,6 +12,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,11 @@ const ProgressReportNew = () => {
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const [selectTeacher, SetselectTeacher] = useState(TeacherId);
+  console.log(selectTeacher,"-----");
 
+  const [Error, SetError] = useState('');
+
+  
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -167,13 +172,16 @@ const ProgressReportNew = () => {
   };
 
 
-
-
-
-
   const ClickShow = (value) => {
-    setOpen(true)
+    if (selectTeacher === '0') {
+      SetError('Class Teacher should be selected');
+      return; 
+    }
+  
+    setOpen(true);
+    SetError('')
   }
+  
 
   useEffect(() => {
     if (USGetStudentNameDropdown.length > 0) {
@@ -195,6 +203,11 @@ const ProgressReportNew = () => {
     dispatch(CDAGetClassTeachers(GetClassTeachersBody));
 
   }, []);
+
+
+  
+
+
 
   useEffect(() => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
@@ -296,7 +309,7 @@ const ProgressReportNew = () => {
         </>}
 
       />
-
+         <ErrorMessage1 Error={Error}></ErrorMessage1>
       {StudentId == "0" ? (
         <span></span>
       ) : (
