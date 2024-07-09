@@ -2,7 +2,7 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography,TableHead } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ const ProgressReportNew = () => {
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const [selectTeacher, SetselectTeacher] = useState('');
-  
+
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -41,11 +41,14 @@ const ProgressReportNew = () => {
   };
 
 
+  const USlistTestDetailsArr: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISlistTestDetailsArr
+  );
+  console.log(USlistTestDetailsArr, "USlistTestDetailsArr")
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
   );
-   console.log(USGetClassTeachers,"USGetClassTeachers");
-   
+
   const USGetStudentNameDropdown: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetStudentNameDropdown
   );
@@ -67,11 +70,10 @@ const ProgressReportNew = () => {
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
-    const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
-    const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
-    const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
-    console.log(Data3,"Data3");
-    
+  const Data = USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")
+  const Data1 = USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")
+  const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
+
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -123,7 +125,7 @@ const ProgressReportNew = () => {
   const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(asAcademicYearId),
-    asStandardId:Number(GetClassTeacher()) ,
+    asStandardId: Number(GetClassTeacher()),
     asIsCoCurricular: false
   };
 
@@ -150,8 +152,8 @@ const ProgressReportNew = () => {
   };
 
 
-  
-  
+
+
 
 
   const ClickShow = (value) => {
@@ -229,7 +231,7 @@ const ProgressReportNew = () => {
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
             size={"small"}
-           
+
 
           />
 
@@ -301,13 +303,13 @@ const ProgressReportNew = () => {
                 </Link>
 
                 <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
-                <Box sx={{backgroundColor:"#ede7f6"}}>  
-                  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                   
-                    Grade Configuration Details
-                      
-                    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
-                  </DialogTitle>
+                  <Box sx={{ backgroundColor: "#ede7f6" }}>
+                    <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                      Grade Configuration Details
+
+                      <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                    </DialogTitle>
                   </Box>
                   <DialogContent>
                     <Typography variant="h4" my={1}>
@@ -391,7 +393,17 @@ const ProgressReportNew = () => {
                       ))}
                     </TableRow>
                   </TableHead>
-                  {USlistTestDetails.map((testItem) => (
+                  {USlistTestDetailsArr.map((testItem) => (
+                    <TableBody key={testItem.id}>
+                      <TableRow>
+                        <TableCell>{testItem.Test_Name}</TableCell>
+                        {testItem.subjectIdArr.map((subjectItem) => (
+                          <TableCell>{subjectItem.Grade}</TableCell>
+                        ))}
+                      </TableRow>
+                    </TableBody>
+                  ))}
+                  {/* {USlistTestDetails.map((testItem) => (
                     <TableBody key={testItem.id}>
                       <TableRow>
                         <TableCell>{testItem.Test_Name}</TableCell>
@@ -400,7 +412,7 @@ const ProgressReportNew = () => {
                         ))}
                       </TableRow>
                     </TableBody>
-                  ))}
+                  ))} */}
                 </Table>
               </Box>
             </>
