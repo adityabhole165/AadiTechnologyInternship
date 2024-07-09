@@ -154,10 +154,16 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAssignPrePrimaryGrades.GetClassTeachers(data);
+      // Removing the Class Name and Division from Data through Regex
+      function extractTeacherName(str) {
+        const regex = /\s-\s([A-Z])\s+(.*)/;
+        const match = str.match(regex);
+        return match ? match[2] : null;
+      }
       let ClassTeachers = response.data.map((item, i) => {
         return {
           Id: item.Teacher_Id,
-          Name: item.TeacherName,
+          Name: extractTeacherName(item.TeacherName),
           Value: item.Teacher_Id
         };
       });
