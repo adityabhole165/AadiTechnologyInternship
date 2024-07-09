@@ -74,6 +74,10 @@ const ProgressReportNew = () => {
   const Data1 = USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")
   const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
 
+  const legendText = 'Legend * : Subject marks not considered in total marks';
+
+  const formattedText = legendText.replace('*', '<span style="color: red;">*</span>');
+
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -367,7 +371,12 @@ const ProgressReportNew = () => {
                     })}
                   </TableBody>
                 </Table>
+
               </Box>
+              <Typography
+                sx={{ bgcolor: 'white' }}
+                dangerouslySetInnerHTML={{ __html: formattedText }}
+              />
               <Box sx={{ overflowX: 'auto' }}>
                 <Table>
                   <TableHead>
