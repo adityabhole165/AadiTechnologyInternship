@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import {
   IGetAllStudentStatusBody,
   IGetTeacherListBody
@@ -119,17 +118,12 @@ const StudentRecords = () => {
     }
     return true;
   };
-  console.log(checkClassIdDifference(), "checkClassIdDifference");
 
   const isDifferentClassId = checkClassIdDifference();
 
   useEffect(() => {
     dispatch(GetTeachersList(TeachersBody));
   }, []);
-  // useEffect(() => {
-  //   if (SelectTeacher != "0")
-  //     dispatch(GetAllStudentStatuss(GetStudentStatusBody))
-  // }, [SelectTeacher])
 
   useEffect(() => {
     if (GetTeachers.length > 0)
@@ -137,7 +131,7 @@ const StudentRecords = () => {
   }, [GetTeachers]);
 
   useEffect(() => {
-    if (SelectTeacher != '0')
+    if (SelectTeacher == '0')
       dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   }, [SelectTeacher, page, rowsPerPage, sortExpression, sortDirection]);
 
@@ -172,19 +166,10 @@ const StudentRecords = () => {
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
   };
-  console.log(regNoOrName, 'regNoOrName----');
-  const clickSearch = (value) => {
-    setShowRiseAndShine(value);
-    setSelectTeacher(value);
-    setRegNoOrName(value);
+  const clickSearch = () => {
 
-    if (GetStatusStudents && GetStatusStudents.length === 0) {
-      toast.success('No Records Found');
-    }
     dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   };
-
-  const ClickItem = () => { };
   const handleRegNoOrNameChange = (value) => {
     setRegNoOrName(value);
   };
@@ -192,7 +177,7 @@ const StudentRecords = () => {
     setShowRiseAndShine(value);
   };
   const clickEdit = () => {
-    navigate('/extended-sidebar/Teacher/AddRequisition');
+    navigate('/extended-sidebar/Teacher/AddStudentRecord');
   };
   const clickView = () => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord');
