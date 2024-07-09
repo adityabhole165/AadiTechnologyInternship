@@ -60,7 +60,12 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray, MySubject }) {
                 >
                   <Tooltip title={'Add Homework'}>
                     <EditTwoTone
-                      sx={{ cursor: 'pointer' }}
+                      sx={{
+                        color: '#223354',
+                        '&:hover': {
+                          bgcolor: 'grey.300'
+                        }
+                      }} 
                       onClick={() => {
                         clickAssign(
                           {
