@@ -499,11 +499,13 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#D3D3D3', maxWidth: '20vw' }}
+                  sx={{ bgcolor: '#F0F0F0', maxWidth: '20vw' }}
+                   
                   InputProps={{
                     readOnly: true,
                   }}
-                  disabled={IsReadOnly === 'true'}
+                   disabled={IsReadOnly === 'true'}
+                   //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                 />
               </Box>
 
@@ -518,11 +520,13 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#D3D3D3', maxWidth: '20vw' }}
+                  sx={{ bgcolor: '#F0F0F0', maxWidth: '20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
+                  //disabled={IsReadOnly === 'true'}
                   disabled={IsReadOnly === 'true'}
+  
                 />
               </Box>
 
@@ -532,11 +536,13 @@ const SubjectExamMarks = () => {
                   fullWidth
                   label={"Subject Name"}
                   value={SubjectName || ''}
-                  sx={{ bgcolor: '#D3D3D3', maxWidth: '20vw' }}
+                  sx={{ bgcolor: '#F0F0F0', maxWidth: '20vw' }}
                   InputProps={{
                     readOnly: true,
                   }}
-                  disabled={IsReadOnly === 'true'}
+                 // disabled={IsReadOnly === 'true'}
+                 disabled={IsReadOnly === 'true'}
+                 //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                 />
 
               </Box>
@@ -661,11 +667,13 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#D3D3D3' }}
+                sx={{ bgcolor: '#F0F0F0' }}
                 InputProps={{
                   readOnly: true,
                 }}
-                disabled={IsReadOnly === 'true'}
+               // disabled={IsReadOnly === 'true'}
+               disabled={IsReadOnly === 'true'}
+               //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
               />
               // <TextField
               // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
@@ -695,11 +703,13 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#D3D3D3' }}
+                sx={{ bgcolor: '#F0F0F0' }}
                 InputProps={{
                   readOnly: true,
                 }}
-                disabled={IsReadOnly === 'true'}
+               // disabled={IsReadOnly === 'true'}
+               disabled={IsReadOnly === 'true'}
+               //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
               />
             }
             {TestName && TestName.Grade_Or_Marks == "G" &&
@@ -713,11 +723,13 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
-                sx={{ bgcolor: '#f0e68c' }}
+                sx={{ bgcolor: '#F0F0F0' }}
                 InputProps={{
                   readOnly: true,
                 }}
-                disabled={IsReadOnly === 'true'}
+             //   disabled={IsReadOnly === 'true'}
+             disabled={IsReadOnly === 'true'}
+             //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
               />
             }
 

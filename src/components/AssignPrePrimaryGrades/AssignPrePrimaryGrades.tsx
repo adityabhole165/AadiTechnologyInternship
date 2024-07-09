@@ -21,6 +21,7 @@ import {
   resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
+import { GetIsPrePrimaryTeacher } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
@@ -168,7 +169,8 @@ const AssignPrePrimaryGrades = () => {
       navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
     }
   };
-
+  let a = GetIsPrePrimaryTeacher()
+  console.log("IsPrePrimary >>>>", a)
   return (
     <>
       <Box sx={{ px: 2 }}>

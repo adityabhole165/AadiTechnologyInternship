@@ -153,6 +153,11 @@ const MonthwiseAttandance = () => {
                       setSearch(!search);
                       changeSearchText();
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                        changeSearchText();
+                      }
+                    }}
                     color="primary"
                     aria-label="directions"
                   >
