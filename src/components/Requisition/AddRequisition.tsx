@@ -734,7 +734,8 @@ const AddRequisition = () => {
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination={false} />
-                    <ButtonGroupComponent
+                    <br></br>
+                    {CountAddReq.TotalCount >  rowsPerPage ? <ButtonGroupComponent
                         PageChange={PageChange}
                         numberOfButtons={pagecount}
                         rowsPerPage={rowsPerPage}
@@ -742,7 +743,10 @@ const AddRequisition = () => {
                         rowsPerPageOptions={rowsPerPageOptions}
                         buttonsPerPage={pagecount > 1 ? 5 : 0}
                     />
+                     :<span></span>
 
+                    }
+                
                 </Box> : (
                     isSearchEmpty && (
                         <Typography

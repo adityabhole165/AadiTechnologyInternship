@@ -49,8 +49,8 @@ const ButtonGroupComponent = ({
   );
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <FormControl variant="outlined" style={{ minWidth: 100, marginRight: 'auto' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'   }}>
+      <FormControl variant="outlined" style={{ minWidth: 100, marginRight: 'auto' }} size="small">
         <InputLabel>Rows per page</InputLabel>
         <Select value={rowsPerPage} onChange={ChangeRowsPerPage} label="Rows per page">
           {rowsPerPageOptions.map((option) => (
