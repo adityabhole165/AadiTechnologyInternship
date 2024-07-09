@@ -277,27 +277,11 @@ function CardCalender1({
                 item={item}
                 clickItem={() => ClickItem(item.Value)}
                 DefaultValue={DefaultValue}
-                assignedDate={formattedDate}
-              />
+                assignedDate={formattedDate} color={undefined}              />
             </Grid>
           );
         })} */}
-        {/* {updatedItemList.map((item, i) => {
-          // Check if the day is a weekend and belongs to the current month
-          //if (item.isWeekend && new Date(item.Value).getMonth() === new Date(formattedDate).getMonth()) {
-            if (item.isWeekend && item.isCurrentMonth) {
-            return (
-              <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }} key={i}>
-                <CardCal1
-                  item={item}
-                  clickItem={() => ClickItem(item.Value)}
-                  DefaultValue={DefaultValue}
-                  assignedDate={formattedDate}
-                />
-              </Grid>
-            );
-          }
-        })} */}
+
         {updatedItemList.map((item, i) => {
           if (item.isCurrentMonth) {
             let color;
@@ -322,7 +306,7 @@ function CardCalender1({
             }
 
             return (
-              <Grid item xs={12 / 7} md={12 / 7} key={i}>
+              <Grid item xs={12 / 7} md={12 / 7} key={i} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }}>
                 <CardCal1
                   item={item}
                   clickItem={() => ClickItem(item.Value)}
@@ -333,14 +317,21 @@ function CardCalender1({
               </Grid>
             );
           } else {
-            return null; // Render nothing for days not in the current month
+            return (
+              <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center' }}>
+                <CardCal1
+                  item={item.Value}
+                  clickItem={() => ClickItem('')}
+                  DefaultValue={''}
+                  assignedDate={''}
+                  color={undefined}
+                />
+              </Grid>
+            )
           }
         })}
-
-
-
-
       </Grid>
+
       <Grid
         mt={2}
         item
