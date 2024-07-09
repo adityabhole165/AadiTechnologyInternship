@@ -922,6 +922,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
+              
                 //error={ErrorTitle !== ''}
                 //helperText={ErrorTitle}
                 sx={{ width: '100%' }}
@@ -1109,7 +1110,11 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               sx={{ with: '250px' }}
               label="Title"
               value={SearchText}
-
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                  handleSearchClick();
+                }
+              }}
               onChange={(e) => {
                 SearchNameChange(e.target.value);
               }}

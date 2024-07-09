@@ -88,11 +88,23 @@ export const CDAlessonplanlist =
       // }));
 
       let listResult1st = response.data.listResult1st.map((item, i) => {
-
+        const text3Content = item.Remarks || "";
+        const regex = /<b>(.*?)<\/b><br\/>(.*?)<br\/>/g;
+        let matches;
+        const parsedText3 = [];
+      
+        while ((matches = regex.exec(text3Content)) !== null) {
+          parsedText3.push({
+            name: matches[1],
+            description: matches[2],
+          });
+        }
+        
         return {
           StartDate: getDateMonthYearFormatted(item.StartDate),
           EndDate: getDateMonthYearFormatted(item.EndDate),
-          Text3: item.Remarks,
+          Text3: parsedText3,
+          
           IsSubmitted: item.IsSubmitted,
           SubmitedByReportingUser: item.SubmitedByReportingUser,
           Text2: item.IsSubmitted,
@@ -114,6 +126,7 @@ export const CDAlessonplanlist =
       })).sort((a, b) => Number(a.Text8) - Number(b.Text8));
 
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(listResult1st));
+      console.log(listResult1st,"abc")
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist1(listResult2nd));
     };
 

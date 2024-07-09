@@ -25,7 +25,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
-import { logoURL } from 'src/components/Common/Util';
+import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
 
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 
@@ -40,6 +40,10 @@ import { RootState } from 'src/store';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
+
+  // Checking if Teacher / User if for Primary or Preprimary
+  const isPreprimary: boolean = GetIsPrePrimaryTeacher();
+
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
@@ -122,11 +126,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/AssignExamMark'
     },
     {
-      title: 'Assign Pre-Primary Grades',
-      icon: <FeaturedPlayList />,
-      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
-    },
-    {
       title: 'Change Password',
       icon: <Password />,
       link: '/extended-sidebar/common/changePassword'
@@ -194,7 +193,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
     },
-    
+
     {
       title: 'Student Wise Progress Report',
       icon: <TableChart />,
@@ -210,6 +209,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: null // No link for this item
     });
   }
+
+  // Conditionally insert the "Assign Pre-Primary Grades" item at the 4th position (index 3)
+  if (isPreprimary === true) {
+    sideList.splice(6, 0, {
+      title: 'Assign Pre-Primary Grades',
+      icon: <FeaturedPlayList />,
+      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
+    });
+  }
+
   const activeStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,
     ':hover': {
