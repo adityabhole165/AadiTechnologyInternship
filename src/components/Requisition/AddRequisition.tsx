@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
@@ -48,8 +49,7 @@ const AddRequisition = () => {
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [ErrorQuantity, setErrorQuantity] = useState('');
     const [text3, settext3] = useState();
-    console.log(text3, "text3---");
-
+    const [TextSearch, SetTextSearch] = useState(false)
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -321,31 +321,24 @@ const AddRequisition = () => {
             setErrorQuantity('')
         }
     };
-
-
-
-
-
     const clickSearch = () => {
         if (regNoOrName == '') {
             seterror('Item Code / Name should not be blank.');
-            setIsSearchEmpty(false);
+            SetTextSearch(false)
         } else {
-            const filteredList = USGetAddItemList.filter((item) => {
-                const text1Match = item.ItemCode.toLowerCase().includes(
-                    regNoOrName.toLowerCase()
-                );
-                const text2Match = item.ItemName.toLowerCase().includes(
-                    regNoOrName.toLowerCase()
-                );
-                return text1Match || text2Match;
-            });
-
-            setItemlist(filteredList);
-            setIsSearchEmpty(filteredList.length === 0);
+            setItemlist(USGetAddItemList);
+            SetTextSearch(true)
+            setIsSearchEmpty(Itemlist.length === 0);
             seterror('')
         }
     };
+
+
+    useEffect(() => {
+        if (regNoOrName !== '' && TextSearch == true) {
+            setItemlist(USGetAddItemList);
+        }
+    }, [USGetAddItemList]);
 
     const handleRegNoOrNameChange = (value) => {
         setRegNoOrName(value);
@@ -445,6 +438,9 @@ const AddRequisition = () => {
         setErrorMessage('')
         setValidateItemQuantity('')
         setErrorQuantity('')
+        SetTextSearch(false)
+        setIsSearchEmpty(false);
+
     }
 
 
@@ -689,9 +685,6 @@ const AddRequisition = () => {
             />
 
 
-
-
-
             <Box display="flex" alignItems="center">
 
                 <TextField
@@ -740,7 +733,15 @@ const AddRequisition = () => {
 
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                    <DataTable columns={Columns} data={Itemlist} isPagination />
+                    <DataTable columns={Columns} data={Itemlist} isPagination={false} />
+                    <ButtonGroupComponent
+                        PageChange={PageChange}
+                        numberOfButtons={pagecount}
+                        rowsPerPage={rowsPerPage}
+                        ChangeRowsPerPage={ChangeRowsPerPage}
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        buttonsPerPage={pagecount > 1 ? 5 : 0}
+                    />
 
                 </Box> : (
                     isSearchEmpty && (
@@ -777,9 +778,9 @@ const AddRequisition = () => {
                         <TextField
                             label={
                                 <span>
-                                  Requisition Name <span style={{ color: 'red' }}>*</span>
+                                    Requisition Name <span style={{ color: 'red' }}>*</span>
                                 </span>
-                              }
+                            }
                             multiline
                             rows={3}
                             value={textall}
@@ -792,9 +793,9 @@ const AddRequisition = () => {
                         <TextField
                             label={
                                 <span>
-                                  Requisition Description <span style={{ color: 'red' }}>*</span>
+                                    Requisition Description <span style={{ color: 'red' }}>*</span>
                                 </span>
-                              }
+                            }
                             multiline
                             rows={3}
                             value={textall1}
