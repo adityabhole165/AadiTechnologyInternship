@@ -53,6 +53,8 @@ const StudentRecords = () => {
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+  const [sortExpression, setSortExpression] = useState('className asc');
+  const [sortDirection, setsortDirection] = useState('ASC')
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -79,7 +81,7 @@ const StudentRecords = () => {
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Registration Number', SortOrder: null, sortKey: 'RegistrationNumber' },
     { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo.' },
-    { Id: 3, Header: 'Class', SortOrder: null, sortKey: 'ClassName' },
+    { Id: 3, Header: 'Class', SortOrder: null, sortKey: 'className' },
     { Id: 4, Header: 'Name', SortOrder: null, sortKey: 'StudentName' },
     { Id: 5, Header: 'Action For Me' },
     { Id: 6, Header: 'Action' },
@@ -87,8 +89,8 @@ const StudentRecords = () => {
   const handleHeaderClick = (updatedHeaderArray) => {
     setHeaderArray(updatedHeaderArray);
     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-    // const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
-    // setSortExpression(newSortExpression);
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'className asc';
+    setSortExpression(newSortExpression);
   };
   const IconList = [
     {
@@ -137,7 +139,7 @@ const StudentRecords = () => {
   useEffect(() => {
     if (SelectTeacher != '0')
       dispatch(GetAllStudentStatuss(GetStudentStatusBody));
-  }, [SelectTeacher, page, rowsPerPage]);
+  }, [SelectTeacher, page, rowsPerPage, sortExpression, sortDirection]);
 
 
 
@@ -158,8 +160,8 @@ const StudentRecords = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
-    sortExpression: 'className',
-    sortDirection: 'ASC',
+    sortExpression: `ORDER BY ${sortExpression}`,
+    sortDirection: sortDirection,
     StartIndex: (page - 1) * rowsPerPage,
     EndIndex: page * rowsPerPage,
     ShowSaved: isDifferentClassId,
