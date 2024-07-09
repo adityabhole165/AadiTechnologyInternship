@@ -39,7 +39,7 @@ function StudentRecordList({
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
                     <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No record found.
+                        No Record Found.
                     </Typography>
                 </Box>
             ) : (
