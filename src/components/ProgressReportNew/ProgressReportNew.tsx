@@ -389,7 +389,17 @@ const ProgressReportNew = () => {
                           &#9660; Exam
                         </Typography></TableCell>
                       {USlistSubjectsDetails.map((item) => (
-                        <TableCell><b>{item.Subject_Name}</b></TableCell>
+                        <TableCell key={item.id}>
+                          <b>
+                            {item.Total_Consideration === 'N' ? (
+                              <span>
+                                {item.Subject_Name} <span style={{ color: 'red' }}>*</span>
+                              </span>
+                            ) : (
+                              <span>{item.Subject_Name}</span>
+                            )}
+                          </b>
+                        </TableCell>
                       ))}
                     </TableRow>
                     <TableRow>

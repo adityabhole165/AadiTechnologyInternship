@@ -150,11 +150,12 @@ export const CDAStudentProgressReport =
       });
       let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
         return {
-          Subject_Id: item.Subject_Id,
-          Subject_Name: item.Subject_Name,
-
+            Subject_Id: item.Subject_Id,
+            Subject_Name: item.Subject_Name,
+            Total_Consideration: item.Total_Consideration
         };
-      });
+    });
+    
       // console.log(response.data.listTestDetails, "Tests",
       //   response.data.listSubjectsDetails, "Subjects",
       //   response.data.listSubjectIdDetails, "ID Details"
