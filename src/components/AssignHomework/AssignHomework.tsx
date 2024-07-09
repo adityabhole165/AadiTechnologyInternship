@@ -29,6 +29,7 @@ import {
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
 const AssignHomework = () => {
   const dispatch = useDispatch();
@@ -283,7 +284,7 @@ const AssignHomework = () => {
             ((asStandardDivisionId === SelectClass && GetScreenPermission() === 'Y') ||
               SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
               <div>
-                <Tooltip title={'Add Daily Log'}>
+                <Tooltip title={'Manage Daily Log'}>
                   <IconButton
                     onClick={onClick}
                     sx={{
@@ -294,7 +295,8 @@ const AssignHomework = () => {
                       }
                     }}
                   >
-                    <AddTwoTone />
+                    <AddTaskIcon />
+                    
                   </IconButton>
                 </Tooltip>
               </div>
