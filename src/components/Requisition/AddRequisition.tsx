@@ -538,6 +538,11 @@ const AddRequisition = () => {
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
         setErrorMessage('')
+        setError('')
+        setError1('')
+        setError2('')
+        setErrorQuantity('')
+
     };
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
