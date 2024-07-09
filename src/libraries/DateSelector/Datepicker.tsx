@@ -8,7 +8,7 @@ const Datepicker = ({ DateValue, onDateChange, label, size }) => {
                 //value={new Date(DateValue)}
                 value={DateValue ? new Date(DateValue) : null}
                 onChange={onDateChange}
-                format="dd MM yyyy"
+                format="dd MMM yyyy"
                 label={
                     label ? (
                         <>
