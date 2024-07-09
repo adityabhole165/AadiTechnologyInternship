@@ -1,17 +1,24 @@
 export interface IGetTeacherListBody {
-  asSchoolId: number;
-  asAcademicYearId: number;
-  asUserId: number;
-  HasFullAccess: string;
+  AsSchoolId: number;
+  AsAcademicYearId: number;
+  AsUserId: number;
+  AsHasFullAccess: boolean;
 }
 export interface IGetTeacherListResult {
-  lstAssociatedTeacher: [
+  listGetClass_Teachers: [
     {
-      StdDivId: number;
+      StdDivId: string;
       TeacherName: string;
     }
-  ];
+  ],
+  listGetAssociatedTeacher: [{
+    AssociatedClassId: string;
+    IsPrincipal: string;
+    IsCounsellor: string;
+    IsSubjectTeacher: string
+  }]
 }
+
 export interface IGetAllStudentStatusBody {
   asSchoolId: number;
   asAcademicYearId: number;
