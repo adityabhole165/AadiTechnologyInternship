@@ -20,7 +20,7 @@ const ProgressReportNew = () => {
   const TeacherId = sessionStorage.getItem('TeacherId');
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  const [selectTeacher, SetselectTeacher] = useState('');
+  const [selectTeacher, SetselectTeacher] = useState(TeacherId);
 
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
@@ -96,6 +96,17 @@ const ProgressReportNew = () => {
   };
 
 
+  const StandardDivisionId = () => {
+    let returnVal = 0
+    USGetClassTeachers.map((item) => {
+      if (item.Value == selectTeacher) {
+        returnVal = item.Id
+      }
+    })
+    return returnVal
+  };
+
+
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -105,7 +116,7 @@ const ProgressReportNew = () => {
   const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivisionId: Number(selectTeacher)
+    asStandardDivisionId: StandardDivisionId()
 
   };
 
@@ -230,9 +241,10 @@ const ProgressReportNew = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
             ItemList={USGetClassTeachers}
             onChange={clickSelectClass}
+            disabled={GetScreenPermission() == 'N'}
             defaultValue={selectTeacher}
             size={"small"}
 

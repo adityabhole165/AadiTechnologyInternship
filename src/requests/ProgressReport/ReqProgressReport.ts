@@ -102,7 +102,7 @@ export const CDAGetClassTeachers =
         ClassTeachersList.push({
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
-          Value: item.SchoolWise_Standard_Division_Id
+          Value: item.Teacher_Id
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
