@@ -397,7 +397,7 @@ const StatusRequisition = () => {
                 variant="outlined"
                 size={"small"}
                 value={RequisitionCode()}
-                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
               />
             </Grid>
           </Grid>
@@ -409,7 +409,7 @@ const StatusRequisition = () => {
                 label={'Requisition Name'}
                 size={"small"}
                 value={RequisitionName()}
-                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
               />
             </Grid>
@@ -422,7 +422,7 @@ const StatusRequisition = () => {
                 label={'Requisition Status'}
                 size={"small"}
                 value={StatusName()}
-                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+               inputProps={{ style: {color: 'rgb(0, 0, 0)' } }}
 
               />
             </Grid>
@@ -436,7 +436,7 @@ const StatusRequisition = () => {
                 label={'Requester'}
                 size={"small"}
                 value={CreaterName()}
-                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+               inputProps={{ style: {color: 'rgb(0, 0, 0)' } }}
 
               />
             </Grid>

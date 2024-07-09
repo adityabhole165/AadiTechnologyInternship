@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody , IGetAllMarksGradeConfigurationBody} from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -10,6 +10,7 @@ const ProgressReportSlice = createSlice({
     ISGetClassTeachers: [],
     ISGetStudentNameDropdown: [],
     ISStudentProgressReport: [],
+    ISlistTestDetailsArr: [],
     ISlistStudentsDetails: [],
     ISlistSubjectsDetails: [],
     ISlistTestDetails: [],
@@ -21,8 +22,8 @@ const ProgressReportSlice = createSlice({
     ISListMarkssDetails: [],
     ISListDisplayNameDetails: [],
     ISGetPassedAcademicYears: [],
-    ISGetAllMarksGradeConfiguration:[],
-    ISGetAllMarksGradeConfiguration1:[]
+    ISGetAllMarksGradeConfiguration: [],
+    ISGetAllMarksGradeConfiguration1: []
 
 
   },
@@ -35,6 +36,10 @@ const ProgressReportSlice = createSlice({
     },
     RStudentProgressReport(state, action) {
       state.ISStudentProgressReport = action.payload;
+    },
+
+    RlistTestDetailsArr(state, action) {
+      state.ISlistTestDetailsArr = action.payload;
     },
     RlistStudentsDetails(state, action) {
       state.ISlistStudentsDetails = action.payload;
@@ -80,7 +85,7 @@ const ProgressReportSlice = createSlice({
     },
 
 
-    
+
 
 
 
@@ -113,7 +118,7 @@ export const CDAGetStudentName =
           Id: item.Student_Id,
           Name: item.StudentName,
           Value: item.Student_Id,
-         
+
         });
       });
 
@@ -138,34 +143,50 @@ export const CDAStudentProgressReport =
           Academic_Year: item.Academic_Year,
           School_Name: item.School_Name,
           School_Orgn_Name: item.School_Orgn_Name,
-          Standard_Id:item.Standard_Id,
-          Standard_Division_Id:item.Standard_Division_Id
+          Standard_Id: item.Standard_Id,
+          Standard_Division_Id: item.Standard_Division_Id
 
         };
       });
       let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
         return {
-          Subject_Id: item.Subject_Id,
-          Subject_Name: item.Subject_Name,
-
+            Subject_Id: item.Subject_Id,
+            Subject_Name: item.Subject_Name,
+            Total_Consideration: item.Total_Consideration
         };
-      });
-      let listTestDetails = response.data.listTestDetails
+    });
+    
+      // console.log(response.data.listTestDetails, "Tests",
+      //   response.data.listSubjectsDetails, "Subjects",
+      //   response.data.listSubjectIdDetails, "ID Details"
+      // )
+      let listTestDetailsArr = []
+      response.data.listTestDetails
         .filter(item => Number(item.Test_Id) !== -1)
-        .map(item => {
-          return {
-            Test_Id: item.Test_Id,
-            Test_Name: item.Test_Name,
-          };
+        .map(Tests => {
+          let arr = []
+          response.data.listSubjectsDetails.map((Subjects, i) => {
+            let temp = response.data.listSubjectIdDetails
+              .filter(item => (item.Subject_Id == Subjects.Subject_Id &&
+                item.Original_SchoolWise_Test_Id == Tests.Original_SchoolWise_Test_Id
+              ))
+            arr.push({
+              SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
+              Grade: temp.length > 0 ? temp[0].Grade : "-"
+            })
+          });
+          listTestDetailsArr.push({
+            Test_Id: Tests.Test_Id,
+            Test_Name: Tests.Test_Name,
+            subjectIdArr: arr
+          })
         });
-
-
 
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
-        
+
           SchoolWise_Test_Name: item.SchoolWise_Test_Name,
-          Grade:item.Grade
+          Grade: item.Grade
 
         };
       });
@@ -188,7 +209,7 @@ export const CDAStudentProgressReport =
 
       let ListSubjectidDetails = response.data.ListSubjectidDetails.map((item, i) => {
         return {
-          
+
           Subject_Id: item.Subject_Id,
           ShortenTestType_Name: item.ShortenTestType_Name,
 
@@ -209,11 +230,11 @@ export const CDAStudentProgressReport =
           Text1: '',
           Text2: item.Grade_Name,
           Text3: item.Remarks,
-          IsForCoCurricularSubjects:item.IsForCoCurricularSubjects
+          IsForCoCurricularSubjects: item.IsForCoCurricularSubjects
 
         };
       });
-      
+
 
 
 
@@ -224,7 +245,9 @@ export const CDAStudentProgressReport =
 
         };
       });
+      let listTestDetails = []
 
+      dispatch(ProgressReportSlice.actions.RlistTestDetailsArr(listTestDetailsArr));
       dispatch(ProgressReportSlice.actions.RlistStudentsDetails(listStudentsDetails));
       dispatch(ProgressReportSlice.actions.RlistSubjectsDetails(listSubjectsDetails));
       dispatch(ProgressReportSlice.actions.RlistTestDetails(listTestDetails));
@@ -242,7 +265,6 @@ export const CDAGetPassedAcademicYears =
   (data: IGetPassedAcademicYearsBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetPassedAcademicYears(data)
-      console.log(response.data, "response.data  ");
 
       dispatch(ProgressReportSlice.actions.RGetPassedAcademicYears(response.data));
 
@@ -250,21 +272,21 @@ export const CDAGetPassedAcademicYears =
     };
 
 
-    export const CDAGetAllMarksGradeConfiguration =
+export const CDAGetAllMarksGradeConfiguration =
   (data: IGetAllMarksGradeConfigurationBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
       let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
-          return {
-            Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
-            Text2: item.Grade_Name,
-            Text3: item.Remarks,
-            Standard_Id: item.Standard_Id
-          };
-        });
+        return {
+          Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
+          Text2: item.Grade_Name,
+          Text3: item.Remarks,
+          Standard_Id: item.Standard_Id
+        };
+      });
 
       dispatch(ProgressReportSlice.actions.RGetAllMarksGradeConfiguration(listGradeDetailss));
-      
+
     };
 
 export const CDAGetAllMarksGradeConfiguration1 =
@@ -272,13 +294,13 @@ export const CDAGetAllMarksGradeConfiguration1 =
     async (dispatch) => {
       const response = await ApiProgressReport.GetAllMarksGradeConfiguration(data);
       let listGradeDetailss = response.data.listGradeDetailss.map((item, i) => {
-          return {
-            Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
-            Text2: item.Grade_Name,
-            Text3: item.Remarks,
-            Standard_Id: item.Standard_Id
-          };
-        });
+        return {
+          Text1: `${item.Starting_Marks_Range} - ${item.Ending_Marks_Range}`,
+          Text2: item.Grade_Name,
+          Text3: item.Remarks,
+          Standard_Id: item.Standard_Id
+        };
+      });
 
       dispatch(ProgressReportSlice.actions.RGetAllMarksGradeConfiguration1(listGradeDetailss));
     };
