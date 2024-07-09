@@ -55,7 +55,7 @@ function LeaveList({
                                             sx={{
                                                 // textTransform: 'capitalize',
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: i === 1 || i === 2 ? 'center' : 'left'
+                                                textAlign: i === 1 || i === 2 ? 'left' : 'left'
                                             }}
                                             align="center"
                                         >
@@ -84,7 +84,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text2}
                                             </TableCell>
@@ -92,7 +92,7 @@ function LeaveList({
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text3}
                                             </TableCell>
@@ -130,17 +130,19 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Tooltip title={"View"}>
-                                                    <Visibility onClick={() => clickView(item.Id)}
+                                                    <IconButton
+                                                        onClick={() => clickView(item.Id)}
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
                                                                 bgcolor: 'grey.300'
                                                             }
-                                                        }} />
+                                                        }}
+                                                    >
+                                                        <Visibility />
+                                                    </IconButton>
                                                 </Tooltip>
-
-                                            </TableCell>
-
+                                            </TableCell>                                                     
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
@@ -168,14 +170,15 @@ function LeaveList({
                                                 ) : null}
                                             </TableCell>
                                         </TableRow>
-                                    );
+                            );
                                 })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </>
-            )}
-        </div>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+        </>
+    )
+}
+        </div >
     );
 }
 
