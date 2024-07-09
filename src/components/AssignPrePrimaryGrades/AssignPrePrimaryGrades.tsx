@@ -21,23 +21,31 @@ import {
   resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
-import { GetIsPrePrimaryTeacher } from '../Common/Util';
+import { GetIsPrePrimaryTeacher, GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [selectTeacher, SetselectTeacher] = useState();
+
+
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const Teacher_Id = sessionStorage.getItem('TeacherId')
+  const StandardDivisionId = Number(
+    sessionStorage.getItem('StandardDivisionId')
+  );
+
+  // Getting Screen Permission Status for the Uset Logged in..
+  const isScreenAccess: string = GetScreenPermission(" Assign Pre-Primary Grades");
+
+  const [selectTeacher, SetselectTeacher] = useState(isScreenAccess === "Y" ? "0" : Teacher_Id);
   const [SelectTerm, SetSelectTerm] = useState();
   const [dateState, setDateState] = useState('');
   const [Subjectid, setSubjectid] = useState('');
 
-  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const StandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
+
 
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
@@ -80,7 +88,7 @@ const AssignPrePrimaryGrades = () => {
       asSubjectId: Number(value),
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId,
-      asInserted_By_id: selectTeacher,
+      asInserted_By_id: Number(selectTeacher),
       asInsertDate: String(dateState)
     };
 
@@ -192,9 +200,9 @@ const AssignPrePrimaryGrades = () => {
                 mandatory
               />
               <SearchableDropdown
-                ItemList={USGetClassTeachers}
+                ItemList={isScreenAccess === "Y" ? USGetClassTeachers : USGetClassTeachers.filter(item => item.Id === Teacher_Id)}
                 onChange={clickSelectClass}
-                defaultValue={selectTeacher}
+                defaultValue={isScreenAccess === "Y" ? selectTeacher : String(Teacher_Id)}
                 label={'Subject Teacher: '}
                 sx={{ minWidth: '20vw' }}
                 size={"small"}

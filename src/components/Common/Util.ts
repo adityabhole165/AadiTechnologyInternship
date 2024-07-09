@@ -550,6 +550,7 @@ export function GetScreenPermission(ScreenName) {
     if (item.ScreenName === ScreenName)
       perm = item.IsFullAccess;
   });
+  console.log(perm)
   return perm;
 };
 
