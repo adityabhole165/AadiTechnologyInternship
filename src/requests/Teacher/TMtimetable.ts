@@ -120,14 +120,24 @@ export const GetTeacherTimeTableResult =
 
       // Table data
       let TimeTableList = response.data.listLectureName.map((item, i) => {
+
+        function dynamiContent(x) {
+          let res = x
+
+          if (x === 'N/A') {
+            res = 'N/C'
+          }
+          return res
+        }
+
         return {
           Id: item.Lecture_No,
-          Text1: item.Lecture_Name === 'N/A' ? 'N/C' : item.Lecture_Name,
-          Text2: item.Monday === 'N/A' ? 'N/C' : item.Monday,
-          Text3: item.Tuesday === 'N/A' ? 'N/C' : item.Tuesday,
-          Text4: item.Wednesday === 'N/A' ? 'N/C' : item.Wednesday,
-          Text5: item.Thursday === 'N/A' ? 'N/C' : item.Thursday,
-          Text6: item.Friday === 'N/A' ? 'N/C' : item.Friday
+          Text1: item.Lecture_Name,
+          Text2: item.Monday === 'N/A' && item.Lecture_Name === "Total Lectures" ? '0' : dynamiContent(item.Monday),
+          Text3: item.Tuesday === 'N/A' && item.Lecture_Name === "Total Lectures" ? '0' : dynamiContent(item.Tuesday),
+          Text4: item.Wednesday === 'N/A' && item.Lecture_Name === "Total Lectures" ? '0' : dynamiContent(item.Wednesday),
+          Text5: item.Thursday === 'N/A' && item.Lecture_Name === "Total Lectures" ? '0' : dynamiContent(item.Thursday),
+          Text6: item.Friday === 'N/A' && item.Lecture_Name === "Total Lectures" ? '0' : dynamiContent(item.Friday)
         }
       })
 
