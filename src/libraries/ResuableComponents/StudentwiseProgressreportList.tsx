@@ -1,7 +1,8 @@
-import { EditTwoTone } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import EditOff from '@mui/icons-material/EditOff';
 import { Box, Tooltip } from '@mui/material';
 import { red } from '@mui/material/colors';
 import Table from '@mui/material/Table';
@@ -10,8 +11,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import EditOff from '@mui/icons-material/EditOff';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
 
 function StudentwiseProgressreportList({
     ItemList,
@@ -63,7 +62,7 @@ function StudentwiseProgressreportList({
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== undefined ?
                                             item.SortOrder === "Roll_No" ?
-                                                <  ArrowCircleUpIcon/> :
+                                                <  ArrowCircleUpIcon /> :
                                                 <ArrowDropDownCircleIcon /> :
                                             null
                                         }
@@ -116,20 +115,18 @@ function StudentwiseProgressreportList({
                                     }
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-                                    {item.ShowDeleteButton === "0" ? (
+                                    {item.EditStatus === "2" ? (
+                                        <Tooltip title={"Delete"}>
+                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)}
+                                                sx={{
+                                                    color: '#223354',
+                                                    //  backgroundColor: grey[500],
+                                                     
+                                                }}
+                                            />
+                                        </Tooltip>
+                                    ) :
                                         <span></span>
-                                    ) : <Tooltip title={"Delete"}>
-                                        <DeleteForeverIcon onClick={() => clickDelete(item.Id)}
-                                            sx={{
-                                                color: '#223354',
-                                                //  backgroundColor: grey[500],
-                                                '&:hover': {
-                                                    color: 'red',
-                                                    backgroundColor: red[100]
-                                                }
-                                            }}
-                                        />
-                                    </Tooltip>
                                     }
                                 </TableCell>
 
