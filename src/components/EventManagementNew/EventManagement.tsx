@@ -33,8 +33,8 @@ const EventManagement = () => {
                             SelectedDate={SelectedDate} StandardId={StandardId}
                             DivisionId={DivisionId} />
                         <EventManagementForm EventId={EventId} SelectedDate={SelectedDate}
-                        AddNewEventClicked={AddNewEventClicked}
-                        SaveClicked={SaveClicked} StandardId={StandardId} DivisionId={DivisionId} />
+                            AddNewEventClicked={AddNewEventClicked}
+                            SaveClicked={SaveClicked} />
                     </Box>
                 </Box>
             </Box >

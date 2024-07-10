@@ -75,9 +75,10 @@ function SubjectList1({
           <TableBody>
             {ItemList.map((item, i) => (
               <TableRow key={i}>
-                <TableCell sx={{textTransform: 'capitalize',
-                  height:'7px',
-                  padding:'5px'}}>
+                <TableCell 
+                sx={{textTransform: 'capitalize',
+                  height:'5px',
+                  padding:'6px'}}>
                   <Checkbox
                     checked={item.IsActive}
                     onChange={() => {
