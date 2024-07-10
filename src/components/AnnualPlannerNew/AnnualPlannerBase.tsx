@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, debounce } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
@@ -114,20 +114,30 @@ const AnnualPlannerBase = () => {
         : Number(UserId)
     };
 
-    dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
+    debouncedFetchStandard(GetAssociatedStdLstForTeacherBody);
 
 
     const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
       asSchoolId: Number(asSchoolId)
     };
-    dispatch(GetMonthList(GetAllMonthsDropBody));
+    debouncedFetchMonth(GetAllMonthsDropBody);
     const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
     {
       asSchoolId: Number(asSchoolId)
     };
-    dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+    debouncedFetchYear(GetYearsForAnnualPalannerBody);
 
   }, []);
+
+  const debouncedFetchStandard = useCallback(debounce((body) => {
+    dispatch(GetStandardList(body));
+  }, 500), [dispatch]);
+  const debouncedFetchMonth = useCallback(debounce((body) => {
+    dispatch(GetMonthList(body));
+  }, 500), [dispatch]);
+  const debouncedFetchYear = useCallback(debounce((body) => {
+    dispatch(GetYearList(body));
+  }, 500), [dispatch]);
 
   useEffect(() => {
     if (IsClassTeacher === "Y") {
@@ -229,8 +239,11 @@ const AnnualPlannerBase = () => {
       DefaultValue.Month != '0' &&
       DefaultValue.Year != '0'
     )
-      dispatch(CDAGetEventsDataList(GetEventsDataListBody));
+      debouncedFetchEvent(GetEventsDataListBody);
   }, [DefaultValue, EventType]);
+  const debouncedFetchEvent = useCallback(debounce((body) => {
+    dispatch(CDAGetEventsDataList(body));
+  }, 500), [dispatch]);
 
   const callGetDivisionList = (value) => {
     const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody =
@@ -241,6 +254,9 @@ const AnnualPlannerBase = () => {
     };
     dispatch(GetDivisionList(AllDivisionsForStandardBody));
   };
+  const debouncedFetchdivision = useCallback(debounce((body) => {
+    dispatch(GetDivisionList(body));
+  }, 500), [dispatch]);
 
   const ClickCalendarItem = (value) => {
     setSelectedDate(value);
