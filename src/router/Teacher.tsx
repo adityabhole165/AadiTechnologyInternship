@@ -562,20 +562,18 @@ const teacherRoutes = [
     path: 'ProgressReportNew',
     element: <ProgressReportNew />
   },
-<<<<<<< HEAD
   {
     path: 'Studentwiseprogressreport',
     element: <Studentwiseprogressreport />
-=======
-
+  },
   {
     path: 'AllNoticeList',
     element: <AllNoticeList />
->>>>>>> bd196d85fbb74ca1280e43f40d314d8df13a2e79
+
   }
 
 
-  
+
 ];
 
 export default teacherRoutes;
