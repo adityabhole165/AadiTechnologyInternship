@@ -115,9 +115,7 @@ const FinalResult = () => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asStudentId)
   }
 
-  const GetResultGenerated = useSelector(
-    (state: RootState) => state.FinalResult.GetResultPublishd
-  );
+
   const Loading = useSelector(
     (state: RootState) => state.FinalResult.Loading
   );
@@ -262,6 +260,10 @@ const FinalResult = () => {
 
   const GetAtleastOneResultGenerated: any = useSelector(
     (state: RootState) => state.FinalResult.GetAtleastOneResultGenerated
+  );
+
+  const GetResultGenerated = useSelector(
+    (state: RootState) => state.FinalResult.GetResultPublishd
   );
 
 
@@ -412,6 +414,7 @@ const FinalResult = () => {
 
   const standardId = getstandardId();
 
+  const buttonsDisabled = StandardDivisionId === '0';
 
   useEffect(() => {
     if (GetClassTeachers && GetClassTeachers.length > 0) {
@@ -619,7 +622,7 @@ const FinalResult = () => {
             <Tooltip title={"Toppers"}>
               <IconButton
                 onClick={Toppers}
-                disabled={!GetTestPublished && GetAtleastOneResultGenerated?.AllowPublish == false}
+                disabled={!GetTestPublished && GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -638,7 +641,7 @@ const FinalResult = () => {
             <Tooltip title={"Generate All"}>
               <IconButton
                 onClick={onClickGenerateAll}
-                disabled={GetResultGenerated}
+                disabled={GetResultGenerated || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: GetResultGenerated ? blue[200] : blue[500],
@@ -662,7 +665,7 @@ const FinalResult = () => {
 
                 }
                 }
-                disabled={GetAtleastOneResultGenerated?.AllowPublish == false}
+                disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
@@ -679,7 +682,7 @@ const FinalResult = () => {
             <Tooltip title={"Unpublish"}>
               <IconButton
                 onClick={ClickOpenDialogbox}
-                disabled={!GetResultGenerated}
+                disabled={!GetResultGenerated || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: !GetResultGenerated ? red[200] : red[500],
@@ -696,7 +699,7 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false}
+                disabled={GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false) ? green[200] : green[500],
