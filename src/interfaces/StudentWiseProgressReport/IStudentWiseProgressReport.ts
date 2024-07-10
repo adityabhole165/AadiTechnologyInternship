@@ -73,11 +73,13 @@ export interface IoneDeleteStudentTestMarksResult {
 
 
 export interface IDeleteAllStudentTestMarksBody {
-    asAcadmicYearId: Number,
     asSchoolId: Number,
-    asAssessmentId: Number,
-    asStudentId: Number,
+     asAcadmicYearId: Number,
+      asAssessmentId: Number,
+      asStandardDivId: Number,
     asUpdatedById: Number
+
+
 };
 
 export interface IDeleteAllStudentTestMarksResult {
