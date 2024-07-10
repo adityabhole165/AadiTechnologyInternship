@@ -25,7 +25,7 @@ function StudentwiseProgressreportList({
     const clickHeader = (value) => {
         if (value !== undefined) {
             const updatedHeaderArray = HeaderArray.map((item) => {
-                return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "desc" ? "asc" : "desc" }
+                return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "Roll_No" ? "asc" : "Roll_No" }
             });
             ClickHeader(updatedHeaderArray);
         }
