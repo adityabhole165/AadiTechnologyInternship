@@ -74,3 +74,54 @@ export interface IGetSettingValueByNameBody {
   asAcademicYearId: number;
   asKey: string;
 }
+export interface IGetAllAcademicYearForSchoolBody {
+
+  asSchoolId: number,
+  asUserId: number,
+  asUserRoleId: number
+
+}
+export interface IGetAllAcademicYearForSchoolResult {
+  Academic_Year_ID: string,
+  School_Id: string,
+  YearValue: string,
+  Start_date: string,
+  End_Date: string,
+  School_ReOpen_Date: string,
+  Is_Current_Year: string,
+  Is_Close_Year: string,
+  Is_NewlyCreated: string,
+  Is_FinalYear_Generated: string,
+  Is_Deleted: string,
+  School_Name: string
+}
+export interface IGetUserDetailsBody {
+  asSchoolId: string,
+  asUserId: string,
+  asRoleId: string
+}
+export interface IGetUserDetailsResult {
+  StudentDetails: null,
+  TeacherDetails: {
+    TeacherId: number,
+    IsClassTeacher: string,
+    DesignationName: string,
+    ClassName: string,
+    IsPreprimary: string,
+    StandardDivisionId: number,
+    MobileNumber: null,
+    Address: null,
+    DOB: string,
+    MPT_Applicable: string,
+    Assembly_Applicable: string,
+    Stayback_Applicable: string,
+    IsAcademicYrApplicable: string,
+    SchoolConfiguration: null,
+    SchoolId: number,
+    AcademicYearId: number,
+    StartDate: string,
+    EndDate: string
+  },
+  AdminStaffDetails: null
+
+}

@@ -1,8 +1,8 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, Tooltip, Typography } from '@mui/material';
+import { blue, green, grey, red } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +33,6 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -336,7 +335,7 @@ const LessonPlanBaseScreen = () => {
     if (typeof Remarks === 'string') {
       formattedRemarks = parseRemarksFromString(Remarks);
     } else if (Array.isArray(Remarks)) {
-      
+
       formattedRemarks = Remarks;
     }
 
@@ -476,10 +475,10 @@ const LessonPlanBaseScreen = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  //const paginatedItems = LessonPlanList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  // const startIndex = page * rowsPerPage + 1;
-  // const endIndex = Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length);
-  // const totalRecords = LessonPlanList.length;
+  const paginatedItems = LessonPlanList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const startIndex = page * rowsPerPage + 1;
+  const endIndex = Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length);
+  const totalRecords = LessonPlanList.length;
 
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -488,14 +487,8 @@ const LessonPlanBaseScreen = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1); // Reset to the first page when changing rows per page
   };
-  const filteredList = LessonPlanList.filter((item) => item.TotalRows !== undefined);
-  const TotalCount = filteredList.map((item) => item.TotalRows);
-  const uniqueTotalCount = [...new Set(TotalCount)];
-  const singleTotalCount = uniqueTotalCount[0] as number;
 
-  const startRecord = (page - 1) * rowsPerPage + 1;
-  const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
-  const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
 
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
@@ -670,19 +663,8 @@ const LessonPlanBaseScreen = () => {
           <Typography variant="subtitle1"
             sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
             {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
-            {/* <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records */}
-            {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                <Box component="span" fontWeight="fontWeightBold">
-                  {startRecord} to {endRecord}
-                </Box>
-                {' '}out of{' '}
-                <Box component="span" fontWeight="fontWeightBold">
-                  {singleTotalCount}
-                </Box>{' '}
-                {singleTotalCount === 1 ? 'record' : 'records'}
-              </Typography>
-            </div> : <span> </span>}
+            <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
+
 
 
           </Typography>)}
@@ -713,12 +695,12 @@ const LessonPlanBaseScreen = () => {
 
         {LessonPlanList.length >= 5 && LessonPlanList.length > 0 && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-            {/* Pages: */}
+            Pages:
             {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
               </ButtonGroup> */}
-            {/* <TablePagination
+            <TablePagination
               // rowsPerPageOptions={[5, 10, 15, 20]}
               component="div"
               count={LessonPlanList.length}
@@ -726,15 +708,7 @@ const LessonPlanBaseScreen = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            /> */}
-            {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
-              PageChange={PageChange}
-              numberOfButtons={pagecount}
-              rowsPerPage={rowsPerPage}
-              ChangeRowsPerPage={ChangeRowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-              buttonsPerPage={pagecount > 1 ? 5 : 0}
-            /> : <span> </span>}
+            />
 
           </Box>
         )}
@@ -813,7 +787,7 @@ const LessonPlanBaseScreen = () => {
           </Stack>
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button
+          {/* <Button
             variant={"contained"}
             onClick={() => {
               setOpenViewRemarkDialog(false);
@@ -821,6 +795,15 @@ const LessonPlanBaseScreen = () => {
             color={'error'}
           >
             Close
+          </Button> */}
+          <Button sx={{
+            // backgroundColor: green[100],
+            color: 'red',
+            ':hover': { backgroundColor: red[100] }
+          }}  onClick={() => {
+            setOpenViewRemarkDialog(false);
+          }}>
+            Cancel
           </Button>
         </DialogActions>
       </Dialog >

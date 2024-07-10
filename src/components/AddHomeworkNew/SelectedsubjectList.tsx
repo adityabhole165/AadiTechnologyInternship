@@ -99,17 +99,15 @@ const SelectedsubjectList = ({
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
                   <ButtonPrimary 
-                    style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[400]}}
+                    style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500]}}
                     onClick={() => {
                       clickpublish(item.Id, item.Text3);
-                    }} sx={{ minWidth: '10px', align : 'center', marginLeft:'40px' }}
+                    }} sx={{ minWidth: '10px', marginLeft:'40px' }}
                   >
                     {item.IsPublished === 'False' ?
-                     <PublishedWithChangesIcon/> : 
-                     <UnpublishedIcon/>
+                     <PublishedWithChangesIcon/> : <UnpublishedIcon/>
                      }
                   </ButtonPrimary>
-
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >

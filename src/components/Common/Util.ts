@@ -472,22 +472,39 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     }
   }
 };
-export const CheckFileValidationAdhar = (
-  fileData,
-  allowedFileTypes,
-  fileSize
-) => {
-  const fileExtension = fileData?.name?.split('.').at(-1);
-  if (fileExtension != undefined || null) {
+// export const CheckFileValidationAdhar = (
+//   fileData,
+//   allowedFileTypes,
+//   fileSize
+// ) => {
+//   const fileExtension = fileData?.name?.split('.').at(-1);
+//   if (fileExtension != undefined || null) {
+//     if (fileData?.size > fileSize) {
+//       return 'Please upload a file smaller than ' + (fileSize / 1000000).toString() + ' MB';
+//     }
+//     if (!allowedFileTypes.includes(fileExtension.toUpperCase())) {
+//       return 'File type should be between ' + allowedFileTypes.join(', and ') + ' ';
+//     } else if (allowedFileTypes.includes(fileExtension)) {
+//       return null;
+//     }
+//   }
+// };
+export const CheckFileValidationAdhar = (fileData, allowedFileTypes, fileSize) => {
+  const fileExtension = fileData?.name?.split('.').at(-1)?.toLowerCase();
+  if (fileExtension !== undefined && fileExtension !== null) {
     if (fileData?.size > fileSize) {
-      return 'Please upload a file smaller than ' + (fileSize / 1000000).toString() + ' MB';
+      return 'File size should not be greater than ' + (fileSize / 1000000).toString() + ' MB.';
     }
-    if (!allowedFileTypes.includes(fileExtension.toUpperCase())) {
-      return 'Invalid file type. Supports only ' + allowedFileTypes.join(', ') + ' files types';
-    } else if (allowedFileTypes.includes(fileExtension)) {
-      return null;
+    if (!allowedFileTypes.map(type => type.toLowerCase()).includes(fileExtension)) {
+      const allowedFileTypesFormatted = allowedFileTypes
+        .map(type => `.${type.toLowerCase()}`)
+        .join(', ')
+        .replace(/, ([^,]*)$/, ' and $1'); // Add 'and' before the last item
+      return 'File type should be between ' + allowedFileTypesFormatted + '.';
     }
+    return null;
   }
+  return 'No file selected or invalid file';
 };
 
 export function isBetweenDate(date, dayCount) {

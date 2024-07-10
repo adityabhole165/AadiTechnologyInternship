@@ -1,7 +1,7 @@
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import { Box, Divider, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography, alpha, styled } from "@mui/material"
 import { blue, grey } from "@mui/material/colors"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers, GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
@@ -88,6 +88,19 @@ const TeacherTimetable = () => {
     { Id: 5, Header: 'Thursday' },
     { Id: 6, Header: 'Friday' },
   ];
+  const [isEmpty, setIsEmpty] = useState(false)
+
+  useEffect(() => {
+    if (TimeTableList.length > 0) {
+      TimeTableList.map((item, i) => {
+        if (item.Text1 === "Total Lectures" && item.Text2 === "0" && item.Text3 === "0" && item.Text4 === "0" && item.Text5 === "0" && item.Text6 === "0") {
+          setIsEmpty(true)
+        } else {
+          setIsEmpty(false)
+        }
+      })
+    }
+  }, [TimeTableList])
 
 
 
@@ -171,72 +184,84 @@ const TeacherTimetable = () => {
           }
         />
 
-        <Box sx={{ p: 2, background: 'white' }}>
-          <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
-            {/* <Typography variant={"h4"}>Weekly Timetable for Mr. Devendra Kumar</Typography> */}
 
-          </Stack>
-          <Box sx={{ mt: 1 }}>
+        {isEmpty &&
+          <Box sx={{ background: 'white', p: 2 }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>Timetable not Configured.</b>
+            </Typography>
+          </Box>
+        }
+
+        {!isEmpty &&
+          <Box sx={{ p: 2, background: 'white' }}>
             <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
+              {/* <Typography variant={"h4"}>Weekly Timetable for Mr. Devendra Kumar</Typography> */}
 
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-                <Typography variant="h6" sx={{ color: blue[500], mr: 1 }}>
-                  Legend:
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box
-                    sx={{
-                      width: 30,
-                      height: 30,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      border: '1px solid black',
-                      fontWeight: 'bold',
-                      mr: 1,
-                      backgroundColor: grey[300],
-                      borderRadius: '4px',
-                      padding: '4px'
-                    }}
-                  >
-                    N/C
+            </Stack>
+            <Box sx={{ mt: 1 }}>
+              <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+
+
+                  <Typography variant="h6" sx={{ color: blue[500], mr: 1 }}>
+                    Legend:
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box
+                      sx={{
+                        width: 30,
+                        height: 30,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        border: '1px solid black',
+                        fontWeight: 'bold',
+                        mr: 1,
+                        backgroundColor: grey[300],
+                        borderRadius: '4px',
+                        padding: '4px'
+                      }}
+                    >
+                      N/C
+                    </Box>
+                    <Typography>Not Configured</Typography>
                   </Box>
-                  <Typography>Not Configured</Typography>
                 </Box>
-              </Box>
-            </Stack> <br />
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {HeaderArray.map((item, i) => (
-                      <HeaderStyledCell>{item.Header}</HeaderStyledCell>
+              </Stack> <br />
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {HeaderArray.map((item, i) => (
+                        <HeaderStyledCell>{item.Header}</HeaderStyledCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {/* Loopable content */}
+                    {TimeTableList?.map((item, i) => (
+                      item.Text1 === 'Total Lectures' ?
+                        <TableRow>
+                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
+                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
+                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
+                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
+                        </TableRow>
+                        :
+                        <TableRow>
+                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
+                        </TableRow>
                     ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* Loopable content */}
-                  {TimeTableList?.map((item, i) => (
-                    item.Text1 === 'Total Lectures' ?
-                      <TableRow>
-                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
-                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
-                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
-                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
-                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
-                      </TableRow>
-                      :
-                      <TableRow>
-                        <StyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
-                        <StyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                        <StyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
-                        <StyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
-                        <StyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
-                        <StyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
-                      </TableRow>
-                  ))}
-                  {/* <TableRow>
+                    {/* <TableRow>
                     <StyledCell>1</StyledCell>
                     <StyledCell>
 
@@ -253,79 +278,81 @@ const TeacherTimetable = () => {
                     <StyledCell>
 
                     </StyledCell> */}
-                  {/* </TableRow> */}
-                  {/* Fixed Footer */}
-
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-          <Divider sx={{ my: 2 }} />
-          <Stack direction={"row"} gap={2}>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography>
-              <TableContainer sx={{ width: '100%' }}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <HeaderStyledCell>Class Subjects</HeaderStyledCell>
-                      <HeaderStyledCell>Lecture Count</HeaderStyledCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {/* Loopable content */}
-                    {LectureCountsForTeachers?.map((item, i) => (
-                      item.Text2 === 'Total Weekly Lectures' ?
-                        <TableRow>
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
-                        </TableRow>
-                        :
-                        <TableRow>
-                          <StyledCell>{item.Text2}</StyledCell>
-                          <StyledCell>{item.Text3}</StyledCell>
-                        </TableRow>
-                    ))}
-
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-            <Box sx={{ flex: 1 }}>
-
-              <Typography variant={"h4"} mt={1} mb={1.5} sx={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
-                Additional Lectures
-              </Typography>
-              {/* WeekDay	Lecture Number	Class	Subject */}
-              <TableContainer sx={{ width: '100%' }}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <HeaderStyledCell>WeekDay</HeaderStyledCell>
-                      <HeaderStyledCell>Lecture Number</HeaderStyledCell>
-                      <HeaderStyledCell>Class</HeaderStyledCell>
-                      <HeaderStyledCell>Subject </HeaderStyledCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {/* Loopable content */}
-                    {AdditionalClasses.map((item, i) => (
-                      <TableRow>
-                        <StyledCell>{item.Text1}</StyledCell>
-                        <StyledCell>{item.Text2}</StyledCell>
-                        <StyledCell>{item.Text3}</StyledCell>
-                        <StyledCell>{item.Text4}</StyledCell>
-                      </TableRow>
-                    ))}
-
+                    {/* </TableRow> */}
                     {/* Fixed Footer */}
 
                   </TableBody>
                 </Table>
               </TableContainer>
             </Box>
-          </Stack>
-        </Box>
+            <Divider sx={{ my: 2 }} />
+            <Stack direction={"row"} gap={2}>
+              <Box sx={{ flex: 1 }}>
+                <Typography variant={"h4"} mt={1} mb={1.5} align="center" >Class-Subject Lecture Count</Typography>
+                <TableContainer sx={{ width: '100%' }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <HeaderStyledCell>Class Subjects</HeaderStyledCell>
+                        <HeaderStyledCell>Lecture Count</HeaderStyledCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {/* Loopable content */}
+                      {LectureCountsForTeachers?.map((item, i) => (
+                        item.Text2 === 'Total Weekly Lectures' ?
+                          <TableRow>
+                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                          </TableRow>
+                          :
+                          <TableRow>
+                            <StyledCell>{item.Text2}</StyledCell>
+                            <StyledCell>{item.Text3}</StyledCell>
+                          </TableRow>
+                      ))}
+
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+              <Box sx={{ flex: 1 }}>
+
+                <Typography variant={"h4"} mt={1} mb={1.5} align="center">
+                  Additional Lectures
+                </Typography>
+                {/* WeekDay	Lecture Number	Class	Subject */}
+                <TableContainer sx={{ width: '100%' }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <HeaderStyledCell>WeekDay</HeaderStyledCell>
+                        <HeaderStyledCell>Lecture Number</HeaderStyledCell>
+                        <HeaderStyledCell>Class</HeaderStyledCell>
+                        <HeaderStyledCell>Subject </HeaderStyledCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {/* Loopable content */}
+                      {AdditionalClasses.map((item, i) => (
+                        <TableRow>
+                          <StyledCell>{item.Text1}</StyledCell>
+                          <StyledCell>{item.Text2}</StyledCell>
+                          <StyledCell>{item.Text3}</StyledCell>
+                          <StyledCell>{item.Text4}</StyledCell>
+                        </TableRow>
+                      ))}
+
+                      {/* Fixed Footer */}
+
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Stack>
+          </Box>
+        }
+
       </Box >
 
     </>
