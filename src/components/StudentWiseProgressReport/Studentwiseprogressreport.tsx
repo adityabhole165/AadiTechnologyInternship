@@ -203,7 +203,7 @@ const Studentwiseprogressreport = () => {
 
 
   useEffect(() => {
-    if (USAssessmentDrop.length > 0 && Assessment == "") {
+    if (USAssessmentDrop.length > 0 ) {
       setAssessment(USAssessmentDrop[0].Value);
     }
   }, [USAssessmentDrop]);
@@ -211,7 +211,7 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-  }, [SelectTeacher, Assessment]);
+  }, [SelectTeacher, Assessment,HeaderPublish]);
 
   // useEffect(() => {
   //   dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));

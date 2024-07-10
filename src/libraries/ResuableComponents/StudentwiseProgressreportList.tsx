@@ -27,7 +27,7 @@ function StudentwiseProgressreportList({
     const clickHeader = (value) => {
         if (value !== undefined) {
             const updatedHeaderArray = HeaderArray.map((item) => {
-                return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "Roll_No" ? "asc" : "Roll_No" }
+                return item.SortOrder === undefined ? item : { ...item, SortOrder: item.SortOrder === "Roll_No" ? "Roll_No desc" : "Roll_No" }
             });
             ClickHeader(updatedHeaderArray);
         }
@@ -62,9 +62,9 @@ function StudentwiseProgressreportList({
                                     }}>
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== undefined ?
-                                            item.SortOrder === "desc" ?
+                                            item.SortOrder === "Roll_No" ?
+                                                <  ArrowCircleUpIcon/> :
                                                 <ArrowDropDownCircleIcon /> :
-                                                <ArrowCircleUpIcon /> :
                                             null
                                         }
                                     </div>
