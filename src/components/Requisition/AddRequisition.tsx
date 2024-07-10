@@ -546,7 +546,7 @@ const AddRequisition = () => {
     };
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
-    };
+      };
     const ChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1); // Reset to the first page when changing rows per page
@@ -746,14 +746,14 @@ const AddRequisition = () => {
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination={false} />
                     <br></br>
-                    {CountAddReq.TotalCount >  rowsPerPage ? <ButtonGroupComponent
-                        PageChange={PageChange}
-                        numberOfButtons={pagecount}
-                        rowsPerPage={rowsPerPage}
-                        ChangeRowsPerPage={ChangeRowsPerPage}
-                        rowsPerPageOptions={rowsPerPageOptions}
-                        buttonsPerPage={pagecount > 1 ? 5 : 0}
-                    />
+                    {CountAddReq.TotalCount >  rowsPerPage ? 
+                    <ButtonGroupComponent
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    PageChange={PageChange}
+                    pagecount={pagecount}
+                  />
                      :<span></span>
 
                     }
