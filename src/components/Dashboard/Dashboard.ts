@@ -651,7 +651,7 @@ const DashboardData = {
         index: 3,
         ScreenPermission: 'HolidaysManagement'
       },
-      
+
       {
         Text1: 'Staff   ',
         Text2: 'Birthday',
@@ -701,6 +701,15 @@ const DashboardData = {
         Link: 'SMSCenter/smsCenter',
         index: 22,
         ScreenPermission: 'SMS Center'
+      },
+      {
+        Text1: 'Student wise progress report  ',
+        Text2: 'Center',
+        Color: '#90a4ae',
+        iconColor: ' #424242',
+        Link: 'Teacher/StudentwiseProgressReport',
+        index: 22,
+        ScreenPermission: 'StudentWiseProgressreport'
       }
       // {
       //   Text1: 'NavBar',
