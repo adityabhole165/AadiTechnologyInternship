@@ -23,8 +23,8 @@ import staffBirthdayslice from '../requests/StaffBirthday/StaffBirthday';
 import SmsCenterSlice from '../requests/Student/SMSCenter';
 import SentMessageSlice from '../requests/Student/Sentmessage';
 import SubjectTeacherSlice from '../requests/Student/SubjectTeacher';
-import Studentwiseprogressslice from '../requests/StudentWiseProgressReport/ReqStudentWiseProgressReport'
 import Timetableslice from '../requests/Student/Timetable';
+import Studentwiseprogressslice from '../requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 // import ChangePasswordSlice from 'src/Slice/Student/changePassword'
 import SliceAadharCardDetails from 'src/requests/AadharCardDetails/RequestAadharCard';
 import AnnualPlanerBaseScreenSlice from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
@@ -58,6 +58,7 @@ import StandardToppersSlice from 'src/requests/FinalResult/RqstandardToppers';
 import FinalUnPublishTestSlice from 'src/requests/FinalResultUnpublish/RequestFinalResultUnpublish';
 import SliceHomeworkNew from 'src/requests/Homework/RequestHomeworkNew';
 import SliceIncomeTaxReport from 'src/requests/IncomeTaxReport/RequestIncomeTax';
+import AddLeaveDetailsslice from 'src/requests/LeaveDetails/RequestAddLeave';
 import AddLessonPlanSlice from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import LessonPlanBaseScreenSlice from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import SliceDeleteMessagePermanetly from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
@@ -91,6 +92,7 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
+import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
 import ToppersSlice from '../requests/ExamResult/RequestToppers';
@@ -106,7 +108,6 @@ import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
-import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -217,9 +218,9 @@ const rootReducer = combineReducers({
   Toppers: ToppersSlice,
   InvestmentDeclaration: InvestmentDeclarationSlice,
   LeaveDetails: LeaveDetailsslice,
-  Studentwiseprogress:Studentwiseprogressslice,
-  AddSchoolNotice:AddSchoolNotice
-
+  Studentwiseprogress: Studentwiseprogressslice,
+  AddSchoolNotice: AddSchoolNotice,
+  AddLeaveDetails: AddLeaveDetailsslice
 });
 
 export default rootReducer;
