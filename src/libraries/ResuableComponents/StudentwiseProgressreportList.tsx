@@ -10,6 +10,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import EditOff from '@mui/icons-material/EditOff';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
 
 function StudentwiseProgressreportList({
     ItemList,
@@ -82,10 +84,10 @@ function StudentwiseProgressreportList({
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} >
                                     {item.EditStatus === "1" ? (
-                                        <Tooltip title={"Edit Done"}>
-                                            <EditTwoTone onClick={() => clickEdit(item.Id)}
+                                        <Tooltip title={"Marks entry not started"}>
+                                            <EditOff onClick={() => clickEdit(item.Id)}
                                                 sx={{
-                                                    color: '#223354',
+                                                    color: '#f44336',
                                                     '&:hover': {
                                                         bgcolor: 'grey.300'
                                                     }
@@ -96,10 +98,10 @@ function StudentwiseProgressreportList({
                                     ) : (
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} >
                                             {
-                                                item.EditStatus === "2" ? <Tooltip title={"Edit Not Done"}>
-                                                    <EditTwoTone onClick={() => clickEdit(item.Id)}
+                                                item.EditStatus === "2" ? <Tooltip title={"Marks entry partially done"}>
+                                                    <DesignServicesIcon onClick={() => clickEdit(item.Id)}
                                                         sx={{
-                                                            color: '#223354',
+                                                            color: '#ff9800',
                                                             '&:hover': {
                                                                 bgcolor: 'grey.300'
                                                             }
