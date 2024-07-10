@@ -3,7 +3,7 @@ import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,10 +45,9 @@ const StatusRequisition = () => {
   const [RequisitionId, SetRequisitionId] = useState();
   const [sortExpression, setSortExpression] = useState('Created_Date desc');
   const [rowsPerPage, setRowsPerPage] = useState(20);
-  const [page2, setPage2] = useState(1);
   const rowsPerPageOptions = [20, 50, 100, 200];
   const { showAlert, closeAlert } = useContext(AlertContext);
-
+  const [page, setPage] = useState(1);
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Code', SortOrder: null, sortKey: 'RequisitionCode' },
     { Id: 2, Header: 'Requisition', SortOrder: null, sortKey: 'RequisitionName' },
@@ -92,10 +91,13 @@ const StatusRequisition = () => {
   const Requisition: IGetRequisitionStatusBody = {
     asSchoolId: asSchoolId
   };
+
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
   const RequisitionList: IGetPagedRequisitionBody = {
     asSchoolId: asSchoolId,
-    asStartIndex: (page2 - 1) * rowsPerPage,
-    asEndIndex: page2 * rowsPerPage,
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
     asSortExp: `ORDER BY ${sortExpression}`,
     asStatusID: SelectResult,
     asUserId: Number(asUserId)
@@ -229,16 +231,7 @@ const StatusRequisition = () => {
   const AddRequisition = (value) => {
     navigate('/extended-sidebar/Teacher/AddRequisition');
   };
-  const PageChange = (pageNumber) => {
-    setPage2(pageNumber);
-  };
-
-  const ChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage2(1); // Reset to the first page when changing rows per page
-  };
-
-
+  
   useEffect(() => {
     if (GetPagedRequisition) {
       setPagedRequisition(GetPagedRequisition);
@@ -276,14 +269,21 @@ const StatusRequisition = () => {
   useEffect(() => {
     dispatch(RequisitionStatus(Requisition));
   }, []);
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, CountGetPagedRequisition.TotalCount);
+  const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1); 
+  };
 
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+ 
   useEffect(() => {
     dispatch(RequisitionListt(RequisitionList));
-  }, [sortExpression, page2, rowsPerPage, SelectResult]);
-
-  const startRecord = (page2 - 1) * rowsPerPage + 1;
-  const endRecord = Math.min(page2 * rowsPerPage, CountGetPagedRequisition.TotalCount);
-  const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
+  }, [page, SelectResult, sortExpression, rowsPerPage]);
 
   return (
     <Box sx={{ px: 2 }}>
@@ -312,7 +312,7 @@ const StatusRequisition = () => {
               handleRegNoOrNameChange(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+              if (e.key === 'Enter' || e.key === 'Tab') {
                 clickSearch();
               }
             }}
@@ -422,7 +422,7 @@ const StatusRequisition = () => {
                 label={'Requisition Status'}
                 size={"small"}
                 value={StatusName()}
-               inputProps={{ style: {color: 'rgb(0, 0, 0)' } }}
+                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
               />
             </Grid>
@@ -436,7 +436,7 @@ const StatusRequisition = () => {
                 label={'Requester'}
                 size={"small"}
                 value={CreaterName()}
-               inputProps={{ style: {color: 'rgb(0, 0, 0)' } }}
+                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
               />
             </Grid>
@@ -495,9 +495,6 @@ const StatusRequisition = () => {
 
           )
         }
-
-
-
         {PagedRequisition && PagedRequisition.length === 0 ? (
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No record found.</b>
@@ -514,21 +511,18 @@ const StatusRequisition = () => {
           />
         )}
 
-        <br />
         {
           CountGetPagedRequisition.TotalCount > rowsPerPage ? (
+          
             <ButtonGroupComponent
-              PageChange={PageChange}
-              numberOfButtons={pagecount}
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}
-              buttonsPerPage = {pagecount > 1 ? 5 : 0 }
+              PageChange={PageChange}
+              pagecount={pagecount}
             />
-
           ) : (
             <span></span>
-
           )
         }
 
