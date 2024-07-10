@@ -74,7 +74,7 @@ function LeaveList({
                                         <TableRow key={item.Id} >
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', width: '250px'
                                                 }}
                                                 align="left"
                                             >
@@ -82,7 +82,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word'
                                                 }}
                                                 align="left"
                                             >
@@ -90,7 +90,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word'
                                                 }}
                                                 align="left"
                                             >
@@ -114,7 +114,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize'
                                                 }}
                                                 align="left"
                                             >
@@ -142,7 +142,7 @@ function LeaveList({
                                                         <Visibility />
                                                     </IconButton>
                                                 </Tooltip>
-                                            </TableCell>                                                     
+                                            </TableCell>
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
@@ -170,14 +170,14 @@ function LeaveList({
                                                 ) : null}
                                             </TableCell>
                                         </TableRow>
-                            );
+                                    );
                                 })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-        </>
-    )
-}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+            )
+            }
         </div >
     );
 }
