@@ -87,7 +87,7 @@ export interface IDeleteAllStudentTestMarksResult {
 
 
 export interface IGetPublishStatusBody {
-    asAcadmicYearId: Number,
+    asAcademicYearId: Number,
     asSchoolId: Number,
     asStandardDivId: Number,
     asAssessmentId: Number,
@@ -99,8 +99,13 @@ export interface IGetPublishStatusResult {
 }
 ;
 export interface IPublishUnpublishXseedResultBody {
-    asAcadmicYearId: Number,
+    asAcademicYearId: Number,
     asSchoolId: Number,
+    asStandardDivisionId:Number,
+    asMode:string,
+    asInsertedById:number,
+    asAssessmentId:number
+
 }
 ;
 export interface IPublishUnpublishXseedResultResult {
