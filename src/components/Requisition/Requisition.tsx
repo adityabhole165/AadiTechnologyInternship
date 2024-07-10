@@ -190,6 +190,8 @@ const StatusRequisition = () => {
 
   const GetRequisitionStatusDropdown = (value) => {
     setSelectResult(value);
+    setRowsPerPage(20)
+    setPage(1);
   };
 
   const clickView = () => {

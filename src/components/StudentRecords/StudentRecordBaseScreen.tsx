@@ -131,8 +131,7 @@ const StudentRecords = () => {
   }, [GetTeachers]);
 
   useEffect(() => {
-    if (SelectTeacher == '0')
-      dispatch(GetAllStudentStatuss(GetStudentStatusBody));
+    dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   }, [SelectTeacher, page, rowsPerPage, sortExpression, sortDirection]);
 
 
@@ -301,14 +300,12 @@ ClickItem={ClickItem} IconList={IconList}/> */}
         {
           StudentList.length > 19 ? (
             <ButtonGroupComponent
-              PageChange={PageChange}
-              numberOfButtons={pagecount}
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}
-              buttonsPerPage={pagecount > 1 ? 5 : 0}
+              PageChange={PageChange}
+              pagecount={pagecount}
             />
-
           ) : (
             <span></span>
 

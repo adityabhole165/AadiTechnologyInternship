@@ -21,7 +21,7 @@ import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getAllReportingUsers, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
-import { GetScreenPermission, getDateMonthYearDayDash } from '../Common/Util';
+import { getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { Column } from '../DataTable';
 
@@ -33,7 +33,6 @@ const LeaveDetailsBaseScreen = () => {
     const [selectAcademicYear, setAcademicYear] = useState("0");
     const [selectStatus, setStatus] = useState("0");
     const [showNonupdatedrecords, setshowNonupdatedrecords] = useState(true);
-    const HolidayFullAccess = GetScreenPermission('Holidays');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -110,7 +109,7 @@ const LeaveDetailsBaseScreen = () => {
 
     useEffect(() => {
         dispatch(StatusDropdown(StatusBody));
-    }, [selectCategory]);
+    }, [selectAcademicYear, selectCategory]);
     useEffect(() => {
         if (GetStatusDropdown.length > 0) {
             setStatus(GetStatusDropdown[0].Value)
@@ -282,7 +281,6 @@ const LeaveDetailsBaseScreen = () => {
         }
     }, [selectCategory]);
 
-    const [holidayColumns, setHolidayColumns] = useState<Column[]>(getLeaveDetailsColumns());
     const AddLeave = () => {
         navigate("../AddLeaveDetails");
     };
@@ -300,9 +298,13 @@ const LeaveDetailsBaseScreen = () => {
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);
+        setRowsPerPage(20)
+        setPage(1);
     };
     const clickCategoryDropdown = (value) => {
         setCategory(value);
+        setRowsPerPage(20)
+        setPage(1);
     };
     const clickStatusDropdown = (value) => {
         setStatus(value);
@@ -413,12 +415,11 @@ const LeaveDetailsBaseScreen = () => {
                 {
                     endRecord > 19 ? (
                         <ButtonGroupComponent
-                            PageChange={PageChange}
-                            numberOfButtons={pagecount}
                             rowsPerPage={rowsPerPage}
                             ChangeRowsPerPage={ChangeRowsPerPage}
                             rowsPerPageOptions={rowsPerPageOptions}
-                            buttonsPerPage={pagecount > 1 ? 5 : 0}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
                         />
 
                     ) : (
