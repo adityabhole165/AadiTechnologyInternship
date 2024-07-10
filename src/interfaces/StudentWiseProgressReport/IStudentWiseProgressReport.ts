@@ -18,7 +18,7 @@ export interface IGetAllPrimaryClassTeachersResult {
 };
 
 export interface IGetAssessmentDropdownBody {
-    asAcadmicYearId: Number,
+    asAcademicYearId: Number,
     asSchoolId: Number,
 };
 

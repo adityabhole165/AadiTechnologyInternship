@@ -16,7 +16,7 @@ const Studentwiseprogressslice = createSlice({
     initialState: {
 
         PrimaryClassTeacher: [],
-        AssessmentDropdown: [],
+        ISAssessmentDropdown: [],
         StudentsAssignment: [],
         StudentsAssignmentGrade: [],
         oneDeleteStudent: [],
@@ -31,7 +31,7 @@ const Studentwiseprogressslice = createSlice({
             state.PrimaryClassTeacher = action.payload;
         },
         AssessmentDrop(state, action) {
-            state.AssessmentDropdown = action.payload;
+            state.ISAssessmentDropdown = action.payload;
         },
         StudentsAssign(state, action) {
             state.StudentsAssignment = action.payload;
@@ -65,16 +65,16 @@ export const GetStudentResultList =
             const response = await GetStudentwiseReportApi.AllPrimaryClassTeacher(data);
             let TeacherList = response.data?.map((item) => {
                 return {
-                    Id: item.Teacher_Id,
+                    Id: item.SchoolWise_Standard_Division_Id,
                     Name: item.TeacherName,
-                    Value: item.Original_Standard_Id,
+                    Value: item.Teacher_Id,
                 };
             });
             dispatch(Studentwiseprogressslice.actions.PrimaryTeacher(TeacherList));
             console.log(TeacherList, 'TeacherList');
         };
 
-export const AssessmentDropdown =
+export const CDAAssessmentDropdown =
     (data: IGetAssessmentDropdownBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentwiseReportApi.AssessmentDropdown(data);
@@ -98,25 +98,26 @@ export const PageStudentsAssignment =
 
             let StudentsAssignment = response.data.GetPagedStudentsForMarkAssignmentList.map((item, i) => {
                 return {
-                    Id: item.RollNo,
-                    Text1: item.StudentName,
-                    Text2: item.EditStatus,
-                    Text3: item.ShowDeleteButton,
+                    RollNo: item.RollNo,
+                    Id: item.YearwiseStudentId,
+                    StudentName: item.StudentName,
+                    EditStatus: item.EditStatus,
+                    ShowDeleteButton: item.ShowDeleteButton,
 
                 };
             });
             console.log(StudentsAssignment, "StudentsAssignment");
 
-            let AllStudentRecordCount = response.data.GetAllStudentRecordCount.map((item, i) => {
-                return {
-                    Id: item.Count,
-                    Name: item.Count,
-                    Value: item.Count,
-                };
-            });
+            // let AllStudentRecordCount = response.data.GetAllStudentRecordCount.map((item, i) => {
+            //     return {
+            //         Id: item.Count,
+            //         Name: item.Count,
+            //         Value: item.Count,
+            //     };
+            // });
 
             dispatch(Studentwiseprogressslice.actions.StudentsAssign(StudentsAssignment));
-            dispatch(Studentwiseprogressslice.actions.StudentsAssigngrades(AllStudentRecordCount));
+            // dispatch(Studentwiseprogressslice.actions.StudentsAssigngrades(AllStudentRecordCount));
 
         };
 

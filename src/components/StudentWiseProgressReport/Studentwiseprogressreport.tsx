@@ -26,7 +26,7 @@ import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon2 from 'src/libraries/ResuableComponents/ListEditIcon2';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
-  AssessmentDropdown,
+  CDAAssessmentDropdown,
   DeleteAllStudentTest,
   GetStudentResultList, PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
@@ -35,6 +35,7 @@ import {
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import StudentwiseProgressreportList from 'src/libraries/ResuableComponents/StudentwiseProgressreportList';
 
 
 const Studentwiseprogressreport = () => {
@@ -52,6 +53,17 @@ const Studentwiseprogressreport = () => {
   // const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
 
+
+
+  const [HeaderPublish, setHeaderPublish] = useState([
+    { Id: 1, Header: 'Roll No.', SortOrder: "asc" },
+    { Id: 2, Header: 'Student Name' },
+    { Id: 3, Header: 'Edit' },
+    { Id: 4, Header: 'Delete' }
+  ]);
+
+
+
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -65,8 +77,9 @@ const Studentwiseprogressreport = () => {
   };
 
 
-  const [SelectTeacher, setSelectTeacher] = useState(GetScreenPermission() !== 'Y' ? TeacherId : null);
-
+  const [SelectTeacher, setSelectTeacher] = useState(TeacherId);
+ console.log(SelectTeacher,"SelectTeacher---");
+ 
   const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
@@ -86,9 +99,10 @@ const Studentwiseprogressreport = () => {
 
   const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
   //console.log(PrimaryTeacher, "PrimaryTeacher");
-  const AssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.AssessmentDropdown);
-  //console.log(AssessmentDrop, "AssessmentDrop");
+  const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
   const StudentAssignment = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignment);
+  console.log(StudentAssignment,"StudentAssignment----");
+  
   const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
   const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
   const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
@@ -96,13 +110,21 @@ const Studentwiseprogressreport = () => {
   const PublishUnpublish = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
 
 
-
-
+  
   const GetClassTeacher = () => {
     let returnVal = false
     PrimaryTeacher.map((item) => {
       if (item.Value == selectClass) {
         returnVal = item.IsClassTeacher
+      }
+    })
+    return returnVal
+  };
+  const StandardDivisionId = () => {
+    let returnVal = 0
+    PrimaryTeacher.map((item) => {
+      if (item.Value == SelectTeacher) {
+        returnVal = item.Id
       }
     })
     return returnVal
@@ -119,18 +141,18 @@ const Studentwiseprogressreport = () => {
   };
 
   const GetAssessmentDropdown_Body: IGetAssessmentDropdownBody = {
-    asAcadmicYearId: Number(asAcademicYearId),
+    asAcademicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
   };
-
+ const StandradID =  StandardDivisionId()
   const GetPagedStudentsForMarkAssignment_Body: IGetPagedStudentsForMarkAssignmentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivId: Number(std),
-    asAssessmentId: Assessment,
+    asStandardDivId: Number(StandradID),
+    asAssessmentId: Number(Assessment),
     asStartIndex: 0,
     asEndIndex: 20,
-    asSortExp: StudentAssig
+    asSortExp: "Roll_No"
   }
 
   // const oneDeleteStudentTestMarks_Body: IoneDeleteStudentTestMarksBody = {
@@ -152,7 +174,7 @@ const Studentwiseprogressreport = () => {
   const GetPublishStatusBody: IGetPublishStatusBody = {
     asAcadmicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
-    asStandardDivId: Number(SelectTeacher),
+    asStandardDivId: Number(StandradID),
     asAssessmentId: Assessment,
   }
 
@@ -167,7 +189,11 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(GetStudentResultList(getPrimaryTeacher_body));
-  }, [dispatch, SelectTeacher]);
+  }, [ SelectTeacher]);
+
+  useEffect(() => {
+    dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
+  }, []);
 
   useEffect(() => {
     if (GetScreenPermission() !== 'Y' && PrimaryTeacher.length > 0) {
@@ -175,18 +201,12 @@ const Studentwiseprogressreport = () => {
     }
   }, [PrimaryTeacher]);
 
-  useEffect(() => {
-
-    dispatch(AssessmentDropdown(GetAssessmentDropdown_Body));
-  }, [SelectTeacher]);
-
-
 
   useEffect(() => {
-    if (AssessmentDrop.length > 0 && Assessment == "") {
-      setAssessment(AssessmentDrop[0].Value);
+    if (USAssessmentDrop.length > 0 && Assessment == "") {
+      setAssessment(USAssessmentDrop[0].Value);
     }
-  }, [AssessmentDrop]);
+  }, [USAssessmentDrop]);
 
 
   useEffect(() => {
@@ -270,12 +290,7 @@ const Studentwiseprogressreport = () => {
 
 
 
-  const HeaderPublish = [
-    { Id: 1, Header: 'Roll No' },
-    { Id: 2, Header: 'Student Name ' },
-    { Id: 3, Header: 'Edit', align: 'center' },
-    { Id: 4, Header: 'Delete', align: 'center' }
-  ];
+  
 
   const clickEdit = (value) => {
 
@@ -297,6 +312,12 @@ const Studentwiseprogressreport = () => {
 
   };
 
+  const ClickHeader = (value) => {
+    setHeaderPublish(value)
+  }
+  const ClicEdit = (value) => {
+  }
+  
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -325,7 +346,7 @@ const Studentwiseprogressreport = () => {
             <Box>
               <SearchableDropdown
                 sx={{ minWidth: '300px' }}
-                ItemList={AssessmentDrop}
+                ItemList={USAssessmentDrop}
                 onChange={clickAssessmentDropdown}
                 label={'Assessment:'}
                 defaultValue={Assessment}
@@ -372,11 +393,12 @@ const Studentwiseprogressreport = () => {
       </Box>
 
       <Box>
-        <ListEditIcon2
-          ItemList={StudentAssignment}
-          clickEdit={clickEdit}
-          HeaderArray={HeaderPublish}
-          clickSubmit={ClickDelete}
+        <StudentwiseProgressreportList
+           ItemList={StudentAssignment}
+           HeaderArray={HeaderPublish}
+           ClickHeader={ClickHeader}
+           clickEdit={ClicEdit}
+           clickDelete={ClickDelete}
         />
       </Box>
 
