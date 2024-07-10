@@ -2,7 +2,7 @@ import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +33,6 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -336,7 +335,7 @@ const LessonPlanBaseScreen = () => {
     if (typeof Remarks === 'string') {
       formattedRemarks = parseRemarksFromString(Remarks);
     } else if (Array.isArray(Remarks)) {
-      
+
       formattedRemarks = Remarks;
     }
 
@@ -488,9 +487,9 @@ const LessonPlanBaseScreen = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1); // Reset to the first page when changing rows per page
   };
-  
 
- 
+
+
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
   }, [page, rowsPerPage]);
@@ -665,7 +664,7 @@ const LessonPlanBaseScreen = () => {
             sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
             {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
             <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
-           
+
 
 
           </Typography>)}
@@ -710,7 +709,7 @@ const LessonPlanBaseScreen = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
-           
+
           </Box>
         )}
         {/* <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}> */}
@@ -788,7 +787,7 @@ const LessonPlanBaseScreen = () => {
           </Stack>
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button
+          {/* <Button
             variant={"contained"}
             onClick={() => {
               setOpenViewRemarkDialog(false);
@@ -796,6 +795,15 @@ const LessonPlanBaseScreen = () => {
             color={'error'}
           >
             Close
+          </Button> */}
+          <Button sx={{
+            // backgroundColor: green[100],
+            color: 'red',
+            ':hover': { backgroundColor: red[100] }
+          }}  onClick={() => {
+            setOpenViewRemarkDialog(false);
+          }}>
+            Cancel
           </Button>
         </DialogActions>
       </Dialog >
