@@ -381,7 +381,7 @@ const Studentwiseprogressreport = () => {
       </Box>
 
       <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-        <Tooltip title={"Publish All"}>
+        <Tooltip title={"Publish "}>
           <span>
             <IconButton
               sx={{
@@ -395,7 +395,7 @@ const Studentwiseprogressreport = () => {
           </span>
         </Tooltip>
 
-        <Tooltip title={"Unpublish All"}>
+        <Tooltip title={"Unpublish "}>
           <span>
             <IconButton
               sx={{
@@ -409,9 +409,13 @@ const Studentwiseprogressreport = () => {
           </span>
         </Tooltip>
 
-        <IconButton>
-          <DeleteForeverIcon sx={{ color: 'red', cursor: 'pointer' }} />
-        </IconButton>
+        <Tooltip title={"Delete All"}>
+          <span>
+            <IconButton>
+              <DeleteForeverIcon sx={{ color: 'red', cursor: 'pointer' }} />
+            </IconButton>
+          </span>
+        </Tooltip>
       </Box>
 
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
