@@ -186,16 +186,15 @@ const GenerateAll = Loader(
 const ProgressReportNew = Loader(
   lazy(() => import('src/components/ProgressReportNew/ProgressReportNew'))
 )
-<<<<<<< HEAD
-const Studentwiseprogressreport = Loader(
-  lazy(() => import('src/components/StudentWiseProgressReport/Studentwiseprogressreport'))
-)
-=======
+
+// const Studentwiseprogressreport = Loader(
+//   lazy(() => import('src/components/StudentWiseProgressReport/Studentwiseprogressreport'))
+// )
 const AllNoticeList = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AllNoticeList'))
 )
 
->>>>>>> bd196d85fbb74ca1280e43f40d314d8df13a2e79
+
 
 
 const teacherRoutes = [
@@ -562,10 +561,10 @@ const teacherRoutes = [
     path: 'ProgressReportNew',
     element: <ProgressReportNew />
   },
-  {
-    path: 'Studentwiseprogressreport',
-    element: <Studentwiseprogressreport />
-  },
+  // {
+  //   path: 'Studentwiseprogressreport',
+  //   element: <Studentwiseprogressreport />
+  // },
   {
     path: 'AllNoticeList',
     element: <AllNoticeList />
