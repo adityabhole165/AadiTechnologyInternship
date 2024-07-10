@@ -37,10 +37,10 @@ import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 
+import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
-
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   Leftpadding: theme.spacing(1),
@@ -397,6 +397,7 @@ function Dashboard() {
       <NewRelease />
       {showBday && <BdayPopUp />}
       <SchoolNoticeBoard />
+      <SettingsDropdown />
       <Card2
         items={items1}
         heading={'School'}
