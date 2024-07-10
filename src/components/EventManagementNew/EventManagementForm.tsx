@@ -461,7 +461,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                             color: 'red',
                             ':hover': { backgroundColor: red[100] }
                         }}>
-                            CANCEL
+                            Cancle
                         </Button>
                         <Button
                         //  variant={'contained'} 
@@ -472,7 +472,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                             color: 'green',
                             ':hover': { backgroundColor: green[100] }
                         }} >
-                            SAVE
+                            Save
                         </Button>
                     </Stack>
                 </Grid>
