@@ -1,11 +1,15 @@
 import {
   GetScreensAccessPermissions,
+  IGetAllAcademicYearForSchoolBody,
+  IGetAllAcademicYearForSchoolResult,
   IgetModulesPermission,
   IGetScreensAccessPermissions,
   IGetSettingValueBody,
   IGetSettingValueByNameBody,
   IGetSettingValueByNameResult,
   IGetSettingValueResult,
+  IGetUserDetailsBody,
+  IGetUserDetailsResult,
   ISchoolId
 } from 'src/interfaces/SchoolSetting/schoolSettings';
 import http from '../../requests/SchoolService/schoolServices';
@@ -34,12 +38,20 @@ const GetSettingValueByNameApi = (data: IGetSettingValueByNameBody) => {
     data
   );
 };
+const GetAllAcademicYearApi = (data: IGetAllAcademicYearForSchoolBody) => {
+  return http.post<IGetAllAcademicYearForSchoolResult[]>('Teacher/GetAllAcademicYearsForSchool', data);
+};
+const GetUserDetailApi = (data: IGetUserDetailsBody) => {
+  return http.post<IGetUserDetailsResult>('User/GetUserDetails', data);
+};
 const SchoolSettingApi = {
   GetSchoolSettings,
   GetModulesPermissions,
   GetScreensAccessPermission,
   GetSettingValueapi,
-  GetSettingValueByNameApi
+  GetSettingValueByNameApi,
+  GetAllAcademicYearApi,
+  GetUserDetailApi
 };
 
 export default SchoolSettingApi;
