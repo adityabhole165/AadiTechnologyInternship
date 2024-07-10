@@ -186,7 +186,9 @@ const GenerateAll = Loader(
 const ProgressReportNew = Loader(
   lazy(() => import('src/components/ProgressReportNew/ProgressReportNew'))
 )
-
+const Studentwiseprogressreport = Loader(
+  lazy(() => import('src/components/StudentWiseProgressReport/Studentwiseprogressreport'))
+)
 
 
 const teacherRoutes = [
@@ -552,6 +554,10 @@ const teacherRoutes = [
   {
     path: 'ProgressReportNew',
     element: <ProgressReportNew />
+  },
+  {
+    path: 'Studentwiseprogressreport',
+    element: <Studentwiseprogressreport />
   }
 
 ];
