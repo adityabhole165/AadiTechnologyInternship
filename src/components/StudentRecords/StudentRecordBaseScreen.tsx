@@ -145,7 +145,7 @@ const StudentRecords = () => {
     asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
     sortExpression: `ORDER BY ${sortExpression}`,
-    sortDirection: sortDirection,
+    sortDirection: '',
     StartIndex: (page - 1) * rowsPerPage,
     EndIndex: page * rowsPerPage,
     ShowSaved: isDifferentClassId,
@@ -159,29 +159,52 @@ const StudentRecords = () => {
     setPage(1);
   };
   // const clickSearch = () => {
-
+  //   if (regNoOrName === '') {
+  //     setStudentList(GetStatusStudents);
+  //   } else {
+  //     setStudentList(
+  //       GetStatusStudents.filter((item) => {
+  //         const text1Match = item.Text1.toLowerCase().includes(
+  //           regNoOrName.toLowerCase()
+  //         );
+  //         const text2Match = item.Text4.toLowerCase().includes(
+  //           regNoOrName.toLowerCase()
+  //         );
+  //         return text1Match || text2Match;
+  //       })
+  //     );
+  //   }
   //   dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   // };
   const clickSearch = () => {
-    if (regNoOrName === '') {
-      setStudentList(GetStatusStudents);
-    } else {
-      setStudentList(
-        GetStatusStudents.filter((item) => {
-          const text1Match = item.Text1.toLowerCase().includes(
-            regNoOrName.toLowerCase()
-          );
-          const text2Match = item.Text4.toLowerCase().includes(
-            regNoOrName.toLowerCase()
-          );
-          return text1Match || text2Match;
-        })
+    let filteredStudents = GetStatusStudents;
+
+    if (regNoOrName !== '') {
+      filteredStudents = filteredStudents.filter((item) => {
+        const text1Match = item.Text1.toLowerCase().includes(
+          regNoOrName.toLowerCase()
+        );
+        const text2Match = item.Text4.toLowerCase().includes(
+          regNoOrName.toLowerCase()
+        );
+        return text1Match || text2Match;
+      });
+    }
+
+    if (showRiseAndShine) {
+      filteredStudents = filteredStudents.filter(
+        (item) => item.RiseAndShine === true
       );
     }
+
+    setStudentList(filteredStudents);
+    dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   };
+
   const handleRegNoOrNameChange = (value) => {
     setRegNoOrName(value);
   };
+
   const handleCheckboxChange = (value) => {
     setShowRiseAndShine(value);
   };

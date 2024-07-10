@@ -23,6 +23,7 @@ const AadharCard = () => {
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asFolderName = localStorage.getItem('FolderName');
   const [ErrorNamePerAadharCard, setErrorNamePerAadharcard] = useState('');
+  const [ErrorNumberAadharCard, setErrorNumberAadharcard] = useState('');
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
   const [Name, setName] = useState('');
@@ -40,7 +41,7 @@ const AadharCard = () => {
   const [error2, setError2] = useState(false);
   const aRef = useRef(null);
   const [NamePerAadharCard, setNamePerAadharcard] = useState('')
-  const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
+  const validFiles = ['PDF', 'JPG', 'JPEG', 'PNG', 'BMP'];
   const maxfileSize = 3000000;
 
   const UpdateTeacherAadharDetailsUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails);
@@ -81,11 +82,16 @@ const AadharCard = () => {
   const SaveFile = () => {
     let isError = false;
     const isAadharValid = validateAadharCardNumber(AadharCardNumber);
-    if (!isAadharValid) {
-      alert('Please enter a valid Aadhar card number.');
+    // if (!isAadharValid) {
+    //   alert('Please enter a valid Aadhar card number.');
+    //   isError = true;
+    // }
+    if (AadharCardNumber.trim() === '') {
+      setErrorNumberAadharcard('Please enter Aadhar Card Number.');
       isError = true;
+    } else {
+      setErrorNumberAadharcard('');
     }
-   
     if (NamePerAadharCard.trim() === '') {
       setErrorNamePerAadharcard('Please enter name present on Aadhar Card.');
       isError = true;
@@ -116,7 +122,8 @@ const AadharCard = () => {
   };
   useEffect(() => {
     if (GetUserDetailsForAadharCardNoUS != null) {
-      setAadharCardNumber(GetUserDetailsForAadharCardNoUS.AadharCardNo)
+     // setAadharCardNumber(GetUserDetailsForAadharCardNoUS.AadharCardNo)
+      setAadharCardNumber('')
     }
   }, [GetUserDetailsForAadharCardNoUS])
 
@@ -750,6 +757,7 @@ const AadharCard = () => {
                     },
                   }}
                 />
+                {ErrorNumberAadharCard && <ErrorMessage1 Error={ErrorNumberAadharCard} />}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -775,49 +783,51 @@ const AadharCard = () => {
                   }}
                 />
                 {ErrorNamePerAadharCard && <ErrorMessage1 Error={ErrorNamePerAadharCard} />}
-                <Button
-                  sx={{
-                    width: '50%', height: '65px',
-                    gap: 1,
-                    position: 'relative',
-                    border: (theme) => `1px dashed ${theme.palette.primary.main}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: '20px',
-                    minWidth: '20vw'
-                  }}
-                  color="primary"
-                >
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    gap={1}
+                <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
+                  <Button
                     sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    <CloudUploadIcon />
-                    {fileName === '' ? ' No file selected' : fileName}
-                    <input
-                      type="file"
-                      onChange={changeFile}
-                      style={{
-                        opacity: 0,
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        position: 'absolute',
-                        cursor: 'pointer',
+                      width: '50%', height: '65px',
+                      gap: 1,
+                      position: 'relative',
+                      border: (theme) => `1px dashed ${theme.palette.primary.main}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: '20px',
                       minWidth: '20vw'
+                    }}
+                    color="primary"
+                  >
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      gap={1}
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
                       }}
-                    />
-                  </Stack>
+                    >
+                      <CloudUploadIcon />
+                      {fileName === '' ? ' No file selected' : fileName}
+                      <input
+                        type="file"
+                        onChange={changeFile}
+                        style={{
+                          opacity: 0,
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          position: 'absolute',
+                          cursor: 'pointer',
+                          minWidth: '20vw'
+                        }}
+                      />
+                    </Stack>
 
-                </Button>
+                  </Button>
+                </Tooltip>
                 {fileError && (
                   <Box sx={{ display: 'flex', alignItems: '', justifyContent: '', mt: 2 }}>
                     {/* <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: '-20px' }}> */}
