@@ -56,7 +56,7 @@ export interface IGetPagedStudentsForMarkAssignmentResult {
     ],
     GetAllStudentRecordCount:
     [{
-        Count:string
+        Count: string
     }],
 };
 
@@ -99,12 +99,12 @@ export interface IGetPublishStatusResult {
 }
 ;
 export interface IPublishUnpublishXseedResultBody {
-    asAcademicYearId: Number,
-    asSchoolId: Number,
-    asStandardDivisionId:Number,
-    asMode:string,
-    asInsertedById:number,
-    asAssessmentId:number
+    asSchoolId: number
+    asAcademicYearId: number
+    asStandardDivisionId: number
+    asAssessmentId: number
+    asMode: string
+    asInsertedById: number
 
 }
 ;

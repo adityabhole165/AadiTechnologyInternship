@@ -28,6 +28,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import StudentwiseProgressreportList from 'src/libraries/ResuableComponents/StudentwiseProgressreportList';
 import {
   CDAAssessmentDropdown,
+  PublishresetMessageNewAll,
   DeleteAllStudentTest,
   GetStudentResultList, PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
@@ -36,6 +37,7 @@ import {
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import { toast } from 'react-toastify';
 
 
 const Studentwiseprogressreport = () => {
@@ -52,7 +54,6 @@ const Studentwiseprogressreport = () => {
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
   // const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
-
 
 
   const [HeaderPublish, setHeaderPublish] = useState([
@@ -84,7 +85,7 @@ const Studentwiseprogressreport = () => {
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
   const [Assessment, setAssessment] = useState();
-  
+
   const [std, setstd] = useState();
   const [StudentAssig, setStudentAssig] = useState();
   const [StudentGrad, setStudentGrad] = useState();
@@ -107,10 +108,11 @@ const Studentwiseprogressreport = () => {
   const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
   const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
   const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
-  const PublishUnpublish = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
-  console.log( PublishStatu.AllowPublish, "StudentAssignment----");
+  const PublishUnpublish :any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
+  console.log(PublishStatu.AllowPublish, "StudentAssignment----");
 
- 
+  const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
+
 
   const GetClassTeacher = () => {
     let returnVal = false
@@ -176,20 +178,26 @@ const Studentwiseprogressreport = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
     asStandardDivId: Number(StandradID),
-    asAssessmentId:  Number(Assessment),
-  }
-
-  const PublishUnpublishXseedResultBody: IPublishUnpublishXseedResultBody = {
-    asSchoolId: Number(asAcademicYearId),
-    asAcademicYearId: Number(asSchoolId),
-    asStandardDivisionId :Number(StandradID),
     asAssessmentId: Number(Assessment),
-    asMode:"Publish",
-    asInsertedById: Number(SelectTeacher)
   }
 
+ 
 
+  const ClickPublishUnpublish = () => {
 
+    const PublishUnpublishXseedResultBody: IPublishUnpublishXseedResultBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId:Number(asAcademicYearId),
+      asStandardDivisionId: Number(StandradID),
+      asAssessmentId: Number(Assessment),
+      asMode: asMode,
+      asInsertedById: Number(SelectTeacher)
+    }
+    dispatch(PublishUnpublishXseed(PublishUnpublishXseedResultBody));
+    
+  };
+
+ 
 
   useEffect(() => {
     dispatch(GetStudentResultList(getPrimaryTeacher_body));
@@ -227,11 +235,17 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(PublishStatus(GetPublishStatusBody));
-  }, [StandradID,Assessment]);
+  }, [StandradID, Assessment]);
 
   useEffect(() => {
-    dispatch(PublishUnpublishXseed(PublishUnpublishXseedResultBody));
-  }, [PublishUn]);
+    if (PublishUnpublish != '') {
+      toast.success(PublishUnpublish);
+      dispatch(PublishresetMessageNewAll());
+      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+      dispatch(PublishStatus(GetPublishStatusBody));
+
+    }
+  }, [PublishUnpublish,StandradID,Assessment,SelectTeacher]);
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
@@ -252,7 +266,7 @@ const Studentwiseprogressreport = () => {
   const clickunpublish = (value) => {
     setublishS(value);
   };
-  
+
 
   const ClickDelete = (Id) => {
     const oneDeleteStudentTestMarks_Body: IoneDeleteStudentTestMarksBody = {
@@ -275,6 +289,8 @@ const Studentwiseprogressreport = () => {
       onConfirm: () => {
         closeAlert();
         dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));
+      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+
       },
       onCancel: closeAlert
     });
@@ -292,9 +308,7 @@ const Studentwiseprogressreport = () => {
 
 
 
-  const ClickPublishUnpublish = () => {
-    
-  };
+ 
 
 
   const clickEdit = (value) => {
@@ -406,15 +420,15 @@ const Studentwiseprogressreport = () => {
           clickDelete={ClickDelete}
         />
 
-       {
-        PublishStatu.AllowPublish == false && PublishStatu.AllowUnpublish == false ?
-        <span></span> :
-        <Button  onClick={ClickPublishUnpublish}>
-        {PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish'}
-      </Button>
-       }
+        {PublishStatu.AllowPublish === false && PublishStatu.AllowUnpublish === false ? (
+          <span></span>
+        ) : (
+          <Button onClick={ClickPublishUnpublish}>
+            {asMode}
+          </Button>
+        )}
 
-       
+
 
 
 

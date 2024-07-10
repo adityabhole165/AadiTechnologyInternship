@@ -22,7 +22,7 @@ const Studentwiseprogressslice = createSlice({
         oneDeleteStudent: [],
         DeleteAllStudent: [],
         PublishStatus: [],
-        PublishUnpublishXseed: [],
+        PublishUnpublishXseed: "",
         Loading: true
     },
 
@@ -53,7 +53,10 @@ const Studentwiseprogressslice = createSlice({
         },
         setLoading(state, action) {
             state.Loading = action.payload;
-        }
+        },
+        RPublishresetMessageAll(state) {
+            state.PublishUnpublishXseed = '';
+          },
     }
 });
 
@@ -154,6 +157,10 @@ export const PublishUnpublishXseed =
             const response = await GetStudentwiseReportApi.PublishUnpublishXseedResult(data);
             dispatch(Studentwiseprogressslice.actions.PublishUnXseed(response.data));
         };
+
+        export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
+            dispatch(Studentwiseprogressslice.actions.RPublishresetMessageAll());
+          };
 
 
 
