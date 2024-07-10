@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router';
 import { toast } from "react-toastify";
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from 'src/components/Common/Util';
 import CommonPageHeader from "src/components/CommonPageHeader";
 import { EditHolidayDetailsBody, IAllClassesAndDivisionsBody, IGetNameAndStartDateEndDateValidationBody, SaveHolidayDetailsBody } from "src/interfaces/Common/Holidays";
 import Datepicker from "src/libraries/DateSelector/Datepicker";
@@ -24,9 +24,9 @@ const AddHoliday = ({ }) => {
     const [ItemList, setitemList] = useState([]);
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const [StartDate, setStartDate]: any = useState(new Date());
+    const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
     const [ErrorStartDate, setErrorStartDate] = useState('');
-    const [EndDate, setEndDate]: any = useState(new Date());
+    const [EndDate, setEndDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
     //const [EndDate, setEndDate]: any = useState(new Date().toISOString().split('T')[0]);
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [HolidayTitle, setHolidayTitle] = useState('');
@@ -172,11 +172,11 @@ const AddHoliday = ({ }) => {
 
     };
     const onSelectStartDate = (value) => {
-        setStartDate(value);
+        setStartDate(getCalendarDateFormatDateNew(value));
     };
 
     const onSelectEndDate = (value) => {
-        setEndDate(value);
+        setEndDate(getCalendarDateFormatDateNew(value));
     };
 
     const ClickSave = () => {
@@ -476,7 +476,7 @@ const AddHoliday = ({ }) => {
                                     </span>
                                 }
                                 multiline
-                                rows={3}
+                                rows={1}
                                 value={HolidayTitle}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -494,7 +494,6 @@ const AddHoliday = ({ }) => {
                             </TextField>
                             <ErrorMessage1 Error={errorHolidayTitle}></ErrorMessage1>
                             <ErrorMessage1 Error={errorHolidayTitle1}></ErrorMessage1>
-
                         </Grid>
                         <Grid xs={6} md={6} item>
                             <TextField
@@ -504,7 +503,7 @@ const AddHoliday = ({ }) => {
                                     </span>
                                 }
                                 multiline
-                                rows={3}
+                                rows={1}
                                 value={Reamrk}
                                 onChange={(e) => {
                                     setRemark(e.target.value);
@@ -531,21 +530,21 @@ const AddHoliday = ({ }) => {
 
                         <Grid item xs={12} md={12}>
                             <Stack direction={"row"} gap={2} alignItems={"center"}>
-                            
+
                                 <Button sx={{
                                     // backgroundColor: green[100],
                                     color: 'red',
                                     ':hover': { backgroundColor: red[100] }
                                 }} onClick={resetForm}>
-                                   Cancel
+                                    Cancel
                                 </Button>
                                 <Button sx={{
                                     // backgroundColor: green[100],
                                     color: 'green',
                                     ':hover': { backgroundColor: green[100] }
                                 }} onClick={ClickSave}>
-                                   Save
-                                   </Button>
+                                    Save
+                                </Button>
                             </Stack>
                         </Grid>
                     </Grid >

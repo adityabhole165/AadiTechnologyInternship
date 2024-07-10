@@ -106,6 +106,7 @@ import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
+import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -216,7 +217,8 @@ const rootReducer = combineReducers({
   Toppers: ToppersSlice,
   InvestmentDeclaration: InvestmentDeclarationSlice,
   LeaveDetails: LeaveDetailsslice,
-  Studentwiseprogress:Studentwiseprogressslice
+  Studentwiseprogress:Studentwiseprogressslice,
+  AddSchoolNotice:AddSchoolNotice
 
 });
 

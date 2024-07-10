@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -42,7 +43,7 @@ const LeaveDetailsBaseScreen = () => {
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
     const { showAlert, closeAlert } = useContext(AlertContext);
-
+    const Loading: any = useSelector((state: RootState) => state.LeaveDetails.Loading);
     const GetAcademicYear = useSelector(
         (state: RootState) => state.LeaveDetails.AcademicYearDropdown
     );
@@ -100,7 +101,7 @@ const LeaveDetailsBaseScreen = () => {
     }, [GetAcademicYear]);
     useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
-    }, [selectAcademicYear]);
+    }, [GetAcademicYear]);
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
@@ -262,8 +263,9 @@ const LeaveDetailsBaseScreen = () => {
         { Id: 1, Header: 'Sender Name' },
         { Id: 2, Header: 'Start Date' },
         { Id: 3, Header: 'End Date' },
+        { Id: 4, Header: 'Description' },
         { Id: 5, Header: 'Total Days' },
-        { Id: 6, Header: 'Leave Name' },
+        { Id: 6, Header: 'Leave Type' },
         { Id: 7, Header: 'Leave Balance' },
         { Id: 8, Header: 'View' },
     ]);
@@ -330,7 +332,7 @@ const LeaveDetailsBaseScreen = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetAcademicYear.slice(0, 4)}
                             defaultValue={selectAcademicYear}
                             onChange={clickAcademicYearDropdown}
@@ -338,22 +340,23 @@ const LeaveDetailsBaseScreen = () => {
                             label='Academic Year'
                         />
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetCategoryDropdownList.slice(0, 3)}
                             defaultValue={selectCategory}
+                            mandatory
                             onChange={clickCategoryDropdown}
                             size={"small"}
-                            label='Category'
+                            label={'Category '}
                         />
                         <SearchableDropdown
-                            sx={{ pl: 0, minWidth: '20vw', pr: '16px' }}
+                            sx={{ minWidth: '20vw' }}
                             ItemList={GetStatusDropdown}
                             defaultValue={selectStatus}
                             onChange={clickStatusDropdown}
                             size={"small"}
                             label='Status'
                         />
-                        <Tooltip title="Use this page to manage your leave.">
+                        <Tooltip title={`Use this page to manage your leave.`}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -384,7 +387,9 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-
+            {Loading &&
+                <SuspenseLoader />
+            }
             <Box sx={{ background: 'white', p: 2 }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
@@ -406,13 +411,14 @@ const LeaveDetailsBaseScreen = () => {
                     clickView={ViewLeave} />
                 <br />
                 {
-                    PagedLeave.length > 19 ? (
+                    endRecord > 19 ? (
                         <ButtonGroupComponent
                             PageChange={PageChange}
                             numberOfButtons={pagecount}
                             rowsPerPage={rowsPerPage}
                             ChangeRowsPerPage={ChangeRowsPerPage}
                             rowsPerPageOptions={rowsPerPageOptions}
+                            buttonsPerPage={pagecount > 1 ? 5 : 0}
                         />
 
                     ) : (

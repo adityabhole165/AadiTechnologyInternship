@@ -889,15 +889,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
         <Box sx={{ background: 'white', p: 3, mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#f0e68c', width: '100%' }} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Class'} value={ClassName} 
+              sx={{ bgcolor: '#F0F0F0', width: '100%' }} 
+              inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={3}>
               <TextField
                 fullWidth
                 label={'Class Teacher'}
                 value={TeacherName}
-                sx={{ bgcolor: '#f0e68c', width: '100%' }}
-                disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+                sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={3}>
 
@@ -922,6 +924,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
+              
                 //error={ErrorTitle !== ''}
                 //helperText={ErrorTitle}
                 sx={{ width: '100%' }}
@@ -1055,7 +1058,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                   </span>
                 }
                 multiline
-                rows={3}
+                rows={1}
                 value={Details}
                 onChange={(e) => {
                   setDetails(e.target.value);
@@ -1109,7 +1112,11 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               sx={{ with: '250px' }}
               label="Title"
               value={SearchText}
-
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                  handleSearchClick();
+                }
+              }}
               onChange={(e) => {
                 SearchNameChange(e.target.value);
               }}
@@ -1214,7 +1221,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             </Typography>
             <TextField
               multiline
-              rows={3}
+              rows={1}
               type="text"
               value={textall}
               onChange={Detailschnageall}
@@ -1227,7 +1234,15 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOkall} color={'success'} variant={'contained'} >
+            <Button onClick={ClickOkall} 
+            // color={'success'} variant={'contained'} 
+            sx={{
+              color:'green',
+                   //  backgroundColor: grey[500],
+                    '&:hover': {
+                   backgroundColor: green[100]
+                   }}}
+            >
               Confirm
             </Button>
           </DialogActions>

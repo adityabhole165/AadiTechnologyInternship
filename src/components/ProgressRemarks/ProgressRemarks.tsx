@@ -742,7 +742,7 @@ const ProgressRemarks = () => {
             sx={{ minWidth: '20vw' }}
             onChange={clickStudentList}
             defaultValue={StudentList}
-            label={'StudentList'}
+            label={'Student List'}
             size={"small"}
           />
 

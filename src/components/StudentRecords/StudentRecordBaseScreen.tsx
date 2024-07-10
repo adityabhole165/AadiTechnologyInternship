@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import {
   IGetAllStudentStatusBody,
   IGetTeacherListBody
@@ -53,7 +52,11 @@ const StudentRecords = () => {
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
-
+  const [sortExpression, setSortExpression] = useState('className asc');
+  const [sortDirection, setsortDirection] = useState('ASC')
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(
@@ -66,6 +69,9 @@ const StudentRecords = () => {
   const GetTeachers = useSelector(
     (state: RootState) => state.StudentRecords.ClassTeachers
   );
+  const GetAssociatedTeacherUS = useSelector(
+    (state: RootState) => state.StudentRecords.GetAssociatedTeacher);
+
   console.log(GetTeachers, 'GetTeachers');
   const GetStatusStudents: any = useSelector(
     (state: RootState) => state.StudentRecords.StudentStatus
@@ -74,7 +80,7 @@ const StudentRecords = () => {
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Registration Number', SortOrder: null, sortKey: 'RegistrationNumber' },
     { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo.' },
-    { Id: 3, Header: 'Class', SortOrder: null, sortKey: 'ClassName' },
+    { Id: 3, Header: 'Class', SortOrder: null, sortKey: 'className' },
     { Id: 4, Header: 'Name', SortOrder: null, sortKey: 'StudentName' },
     { Id: 5, Header: 'Action For Me' },
     { Id: 6, Header: 'Action' },
@@ -82,8 +88,8 @@ const StudentRecords = () => {
   const handleHeaderClick = (updatedHeaderArray) => {
     setHeaderArray(updatedHeaderArray);
     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-    // const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
-    // setSortExpression(newSortExpression);
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'className asc';
+    setSortExpression(newSortExpression);
   };
   const IconList = [
     {
@@ -93,13 +99,31 @@ const StudentRecords = () => {
     }
   ];
 
+
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'Student Records') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+  const access = GetScreenPermission();
+
+
+  const checkClassIdDifference = () => {
+    if (GetTeachers.length > 0 && GetAssociatedTeacherUS.length > 0) {
+      const StdDivId = SelectTeacher;
+      const AssociatedClassId = GetAssociatedTeacherUS[0].AssociatedClassId;
+      return StdDivId !== AssociatedClassId;
+    }
+    return true;
+  };
+
+  const isDifferentClassId = checkClassIdDifference();
+
   useEffect(() => {
     dispatch(GetTeachersList(TeachersBody));
   }, []);
-  // useEffect(() => {
-  //   if (SelectTeacher != "0")
-  //     dispatch(GetAllStudentStatuss(GetStudentStatusBody))
-  // }, [SelectTeacher])
 
   useEffect(() => {
     if (GetTeachers.length > 0)
@@ -107,9 +131,8 @@ const StudentRecords = () => {
   }, [GetTeachers]);
 
   useEffect(() => {
-    if (SelectTeacher != '0')
-      dispatch(GetAllStudentStatuss(GetStudentStatusBody));
-  }, [SelectTeacher, page, rowsPerPage]);
+    dispatch(GetAllStudentStatuss(GetStudentStatusBody));
+  }, [SelectTeacher, page, rowsPerPage, sortExpression, sortDirection]);
 
 
 
@@ -123,38 +146,29 @@ const StudentRecords = () => {
     AsSchoolId: asSchoolId,
     AsAcademicYearId: asAcademicYearId,
     AsUserId: UserId,
-    AsHasFullAccess: false
+    AsHasFullAccess: access == 'N' ? false : true
   };
   const GetStudentStatusBody: IGetAllStudentStatusBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
-    sortExpression: 'className',
-    sortDirection: 'ASC',
-    StartIndex: 0,
-    EndIndex: 20,
-    ShowSaved: false,
+    sortExpression: `ORDER BY ${sortExpression}`,
+    sortDirection: sortDirection,
+    StartIndex: (page - 1) * rowsPerPage,
+    EndIndex: page * rowsPerPage,
+    ShowSaved: isDifferentClassId,
     IncludeRiseAndShine: showRiseAndShine,
-    HasEditAccess: 'Y',
+    HasEditAccess: access == 'N' ? 'N' : 'Y',
     UserId: UserId
   };
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
   };
-  console.log(regNoOrName, 'regNoOrName----');
-  const clickSearch = (value) => {
-    setShowRiseAndShine(value);
-    setSelectTeacher(value);
-    setRegNoOrName(value);
+  const clickSearch = () => {
 
-    if (GetStatusStudents && GetStatusStudents.length === 0) {
-      toast.success('No Records Found');
-    }
     dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   };
-
-  const ClickItem = () => { };
   const handleRegNoOrNameChange = (value) => {
     setRegNoOrName(value);
   };
@@ -162,7 +176,7 @@ const StudentRecords = () => {
     setShowRiseAndShine(value);
   };
   const clickEdit = () => {
-    navigate('/extended-sidebar/Teacher/AddRequisition');
+    navigate('/extended-sidebar/Teacher/AddStudentRecord');
   };
   const clickView = () => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord');
@@ -286,13 +300,12 @@ ClickItem={ClickItem} IconList={IconList}/> */}
         {
           StudentList.length > 19 ? (
             <ButtonGroupComponent
-              PageChange={PageChange}
-              numberOfButtons={pagecount}
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}
               rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
             />
-
           ) : (
             <span></span>
 

@@ -13,7 +13,8 @@ function List26({
   getAbsetNumber,
   assignedDate,
   sendmeassagestudent,
-  handleCheckboxChange
+  handleCheckboxChange,
+  setIsDirty
 }) {
   const [textarray, setTextarray] = useState('');
   const [getLabel, setGetLabel] = useState('Absent Student Roll Number');
@@ -106,6 +107,7 @@ function List26({
           Itemlist={Data}
           refreshData={refreshData}
          assignedDate={assignedDate}
+         setIsDirty={setIsDirty}
         />
       </>
     </>

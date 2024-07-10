@@ -16,6 +16,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SmsIcon from '@mui/icons-material/Sms';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import { GetIsPrePrimaryTeacher } from '../Common/Util';
+
+const isPreprimary = GetIsPrePrimaryTeacher();
 const DashboardData = {
   Student: {
     items1: [
@@ -386,17 +389,6 @@ const DashboardData = {
         Link: 'Teacher/AssignExamMark',
         index: 7
       },
-
-      {
-        Text1: 'Assign Pre Primary',
-        Text2: 'Grades',
-        Color: '#ef5350',
-        iconColor: '#f0483e ',
-        Icon: CakeIcon,
-        Link: 'Teacher/AssignPrePrimaryGrades',
-        index: 8
-      },
-
       {
         Text1: 'Aadhar Card',
         Text2: 'Details',
@@ -722,4 +714,29 @@ const DashboardData = {
     ]
   }
 };
+
+// if (isPreprimary === "Y") {
+//   DashboardData.Student.items1.splice(1, 0, {
+//     Text1: 'Assign Pre Primary',
+//     Text2: 'Grades',
+//     Color: '#ef5350',
+//     iconColor: '#f0483e ',
+//     Icon: CakeIcon,
+//     Link: 'Teacher/AssignPrePrimaryGrades',
+//     index: 7
+//   });
+// }
+if (isPreprimary === true) {
+  DashboardData.Teacher.items1.push({
+    Text1: 'Assign Pre-primary ',
+    Text2: 'Grade',
+    Color: '#90a4ae',
+    iconColor: '#35abd9',
+    Icon: EventNoteIcon,
+    Link: 'Teacher/AssignPrePrimaryGrades',
+    index: 5
+  });
+}
+
+
 export default DashboardData;

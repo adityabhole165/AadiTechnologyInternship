@@ -1,3 +1,4 @@
+
 export const WeekdaysFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 // export const WeekdaysFull = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 export function isFutureDate(date) {
@@ -539,6 +540,7 @@ export function getSchoolConfigurations(value) {
   })
   return CanEdit
 }
+
 export function GetScreenPermission(ScreenName) {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -548,6 +550,20 @@ export function GetScreenPermission(ScreenName) {
     if (item.ScreenName === ScreenName)
       perm = item.IsFullAccess;
   });
+  console.log(perm)
   return perm;
 };
 
+
+// IsPrePrimary Teacher Checking from Local Storage
+export function GetIsPrePrimaryTeacher() {
+  let auth_Object = JSON.parse(localStorage.getItem('auth'));
+  const isPreprimary = auth_Object?.data?.TeacherDetails?.IsPreprimary;
+  let IsPrePrimaryCondition: boolean;
+  if (isPreprimary === "Y") {
+    IsPrePrimaryCondition = true
+  } else {
+    IsPrePrimaryCondition = false
+  }
+  return IsPrePrimaryCondition
+}

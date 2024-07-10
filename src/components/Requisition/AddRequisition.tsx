@@ -1,13 +1,13 @@
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Checkbox, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, red } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,12 +16,12 @@ import { toast } from 'react-toastify';
 import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 
 const AddRequisition = () => {
@@ -49,8 +49,7 @@ const AddRequisition = () => {
     const [ValidateSendRequisition, setValidateSendRequisition] = useState('');
     const [ErrorQuantity, setErrorQuantity] = useState('');
     const [text3, settext3] = useState();
-    console.log(text3,"text3---");
-    
+    const [TextSearch, SetTextSearch] = useState(false)
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [error, seterror] = useState('');
@@ -247,12 +246,12 @@ const AddRequisition = () => {
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodyNew));
             toast.success("Requisition is saved (draft) successfully.");
-            setText(0)
-            setTextall('')
-            setTextall1('')
-            setValidateItemQuantity('')
-            seterror('')
-            setErrorQuantity('')
+            // setText(0)
+            // setTextall('')
+            // setTextall1('')
+            // setValidateItemQuantity('')
+            // seterror('')
+            // setErrorQuantity('')
         }
     };
 
@@ -322,31 +321,24 @@ const AddRequisition = () => {
             setErrorQuantity('')
         }
     };
-
-
-
-
-
     const clickSearch = () => {
         if (regNoOrName == '') {
             seterror('Item Code / Name should not be blank.');
-            setIsSearchEmpty(false);
+            SetTextSearch(false)
         } else {
-            const filteredList = USGetAddItemList.filter((item) => {
-                const text1Match = item.ItemCode.toLowerCase().includes(
-                    regNoOrName.toLowerCase()
-                );
-                const text2Match = item.ItemName.toLowerCase().includes(
-                    regNoOrName.toLowerCase()
-                );
-                return text1Match || text2Match;
-            });
-
-            setItemlist(filteredList);
-            setIsSearchEmpty(filteredList.length === 0);
+            setItemlist(USGetAddItemList);
+            SetTextSearch(true)
+            setIsSearchEmpty(Itemlist.length === 0);
             seterror('')
         }
     };
+
+
+    useEffect(() => {
+        if (regNoOrName !== '' && TextSearch == true) {
+            setItemlist(USGetAddItemList);
+        }
+    }, [USGetAddItemList]);
 
     const handleRegNoOrNameChange = (value) => {
         setRegNoOrName(value);
@@ -446,6 +438,9 @@ const AddRequisition = () => {
         setErrorMessage('')
         setValidateItemQuantity('')
         setErrorQuantity('')
+        SetTextSearch(false)
+        setIsSearchEmpty(false);
+
     }
 
 
@@ -464,7 +459,7 @@ const AddRequisition = () => {
     const Detailschnageall = (value) => {
         setAddItemlistNew(value);
         settext3(value.map(item => item.Text3))
-      
+
     };
 
     const Detailschnageall3 = (event) => {
@@ -534,7 +529,7 @@ const AddRequisition = () => {
 
     }, [ItemNewID, USGetAddItemList, errorMessage]);
 
-    
+
 
     useEffect(() => {
         SetItemNewID(undefined)
@@ -543,10 +538,15 @@ const AddRequisition = () => {
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
         setErrorMessage('')
+        setError('')
+        setError1('')
+        setError2('')
+        setErrorQuantity('')
+
     };
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
-    };
+      };
     const ChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1); // Reset to the first page when changing rows per page
@@ -581,12 +581,17 @@ const AddRequisition = () => {
                             fullWidth
                             label={
                                 <span>
-                                    Item Code/Name <span style={{ color: 'red' }}>*</span>
+                                    Item Code/Name<span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             value={regNoOrName}
                             variant={'outlined'}
                             size={"small"}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                                    clickSearch();
+                                }
+                              }}
                             disabled={Itemlist.length > 0}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
                             InputProps={{
@@ -597,7 +602,7 @@ const AddRequisition = () => {
                                             edge="end"
                                             disabled={Itemlist.length > 0}
                                         >
-                                            <ClearIcon /> 
+                                            <ClearIcon />
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -607,6 +612,7 @@ const AddRequisition = () => {
 
                         <IconButton
                             onClick={clickSearch}
+                          
                             disabled={Itemlist.length > 0}
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
@@ -690,9 +696,6 @@ const AddRequisition = () => {
             />
 
 
-
-
-
             <Box display="flex" alignItems="center">
 
                 <TextField
@@ -725,7 +728,7 @@ const AddRequisition = () => {
 
 
             </Box>
-            <br/>
+            <br />
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
@@ -741,8 +744,20 @@ const AddRequisition = () => {
 
             {Itemlist.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                    <DataTable columns={Columns} data={Itemlist} isPagination />
+                    <DataTable columns={Columns} data={Itemlist} isPagination={false} />
+                    <br></br>
+                    {CountAddReq.TotalCount >  rowsPerPage ? 
+                    <ButtonGroupComponent
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    PageChange={PageChange}
+                    pagecount={pagecount}
+                  />
+                     :<span></span>
 
+                    }
+                
                 </Box> : (
                     isSearchEmpty && (
                         <Typography
@@ -771,32 +786,37 @@ const AddRequisition = () => {
                         clickDelete={clickDelete}
                         onTextChange2={Detailschnageall}
                     />
-                      <br></br>
-                    <Grid item xs={3}>
-                        <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Name:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                        </Typography>
+
+
+                    <br></br>
+                    <Grid item xs={12}>
                         <TextField
+                            label={
+                                <span>
+                                    Requisition Name <span style={{ color: 'red' }}>*</span>
+                                </span>
+                            }
                             multiline
-                            rows={1}
-                            type="text"
+                            rows={3}
                             value={textall}
                             onChange={Detailschnageall3}
-                            sx={{ width: '70%' }}
+                            fullWidth
                         />
-                        <br></br>  <br></br>
-                        <Typography variant="h4" sx={{ mb: 1 }}>
-                            Requisition Description:  <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-                        </Typography>
+                    </Grid>
+                    <br></br>
+                    <Grid item xs={12}>
                         <TextField
+                            label={
+                                <span>
+                                    Requisition Description <span style={{ color: 'red' }}>*</span>
+                                </span>
+                            }
                             multiline
-                            rows={1}
-                            type="text"
+                            rows={3}
                             value={textall1}
                             onChange={Detailschnageall2}
-                            sx={{ width: '70%' }}
+                            fullWidth
                         />
-
                     </Grid>
                 </Box> : null}
 

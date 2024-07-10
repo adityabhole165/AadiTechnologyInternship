@@ -39,19 +39,27 @@ const FinalResultSlice = createSlice({
   },
   reducers: {
     classTeacherList(state, action) {
+      state.Loading = false;
       state.ClassTeachers = action.payload;
     },
     PageStudentList(state, action) {
+      state.Loading = false;
       state.StudentResultList = action.payload;
     },
     publishResult(state, action) {
+      state.Loading = false;
       state.PublishResult = action.payload;
     },
     unpublishResult(state, action) {
+      state.Loading = false;
       state.UnpublishResult = action.payload;
     },
     generateAll(state, action) {
+      state.Loading = false;
       state.GenerateAll = action.payload;
+    },
+    resetGenerateAll(state) {
+      state.GenerateAll = '';
     },
     generate(state, action) {
       state.Generate = action.payload;
@@ -65,13 +73,15 @@ const FinalResultSlice = createSlice({
       state.PublishResult = "";
     },
     GetConfiguredTestPublishedd(state, action) {
-
+      state.Loading = false;
       state.GetConfiguredTestPublished = action.payload;
     },
     getResultPublished(state, action) {
+      state.Loading = false;
       state.GetResultPublishd = action.payload
     },
     getAtleastOneResultGenerated(state, action) {
+      state.Loading = false;
       state.GetAtleastOneResultGenerated = action.payload
     },
     getTestPublished(state, action) {
@@ -104,9 +114,9 @@ export const getConfiguredTestPublished =
 export const ClassTechersList =
   (data: IClassTeacherListBody): AppThunk =>
     async (dispatch) => {
+      dispatch(FinalResultSlice.actions.getLoading(true));
       const response = await FinalResultApi.ClassTeacherList(data);
       let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0' }]
-      dispatch(FinalResultSlice.actions.getLoading(true));
       response.data.map((item, i) => {
         abc.push({
           Id: item.Teacher_Id,
@@ -121,6 +131,7 @@ export const ClassTechersList =
 export const GetStudentResultList =
   (data: IGetPagedStudentBody): AppThunk =>
     async (dispatch) => {
+      dispatch(FinalResultSlice.actions.getLoading(true));
       const response = await FinalResultApi.GetStudentResult(data);
       let StudentList = response.data?.map((item) => {
         return {
@@ -142,6 +153,7 @@ export const GetStudentResultList =
 
 export const GetPublishResult = (data: IPublishBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetPublishResult(data);
     dispatch(FinalResultSlice.actions.publishResult(response.data))
 
@@ -149,14 +161,21 @@ export const GetPublishResult = (data: IPublishBody): AppThunk =>
 
 export const GetUnpublishResult = (data: IUnpublishBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetUnpublishResult(data);
     dispatch(FinalResultSlice.actions.unpublishResult(response.data))
   };
 
 export const GetGenerateAll = (data: IGenerateAllBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetGenarateAll(data);
     dispatch(FinalResultSlice.actions.generateAll(response.data));
+  };
+
+export const resetGenerateAll = (): AppThunk =>
+  async (dispatch) => {
+    dispatch(FinalResultSlice.actions.resetGenerateAll());
   };
 
 export const resetUnpublishResult = (): AppThunk =>
@@ -172,6 +191,7 @@ export const resetPublishResult = (): AppThunk =>
 
 export const GetGenerate = (data: IGenerateBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetGenerateResult(data);
     dispatch(FinalResultSlice.actions.generate(response.data))
   }
@@ -179,12 +199,14 @@ export const GetGenerate = (data: IGenerateBody): AppThunk =>
 
 export const GetViewResult = (data: IViewBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetViewResult(data);
     dispatch(FinalResultSlice.actions.viewResult(response.data));
   };
 
 export const GetResultPublishd = (data: isResultPublishedBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetResultPublished(data);
     console.log(response.data, "GetResultPublishd");
 
@@ -193,12 +215,14 @@ export const GetResultPublishd = (data: isResultPublishedBody): AppThunk =>
 
 export const GetAtleastOneResultGeneratedss = (data: isAtleastOneResultGeneratedBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetAtleastOneResultGenerated(data);
     dispatch(FinalResultSlice.actions.getAtleastOneResultGenerated(response.data));
   };
 
 export const GetTestPublishedd = (data: isTestPublishedBody): AppThunk =>
   async (dispatch) => {
+    dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetTestPublished(data);
     dispatch(FinalResultSlice.actions.getTestPublished(response.data));
   }

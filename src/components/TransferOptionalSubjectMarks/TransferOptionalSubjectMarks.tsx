@@ -361,6 +361,11 @@ const TransferOptionalSubjectMarks = () => {
                                 fullWidth
                                 label="Student Name / Reg.No. :"
                                 value={SearchText}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                                        changeSearchText();
+                                    }
+                                  }}
                                 variant={'outlined'}
                                 size={"small"}
                                 onChange={(e) => {

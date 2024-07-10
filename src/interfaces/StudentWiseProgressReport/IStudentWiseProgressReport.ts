@@ -3,7 +3,7 @@ export interface IGetAllPrimaryClassTeachersBody {
     asSchoolId: Number,
     asAcadmicYearId: Number,
     asTeacher_id: Number
-}
+};
 export interface IGetAllPrimaryClassTeachersResult {
     TeacherName: string,
     Teacher_Id: string,
@@ -15,17 +15,17 @@ export interface IGetAllPrimaryClassTeachersResult {
     Original_Division_Id: string,
     SchoolWise_Standard_Division_Id: string,
     Is_PrePrimary: string
-}
+};
 
 export interface IGetAssessmentDropdownBody {
     asAcadmicYearId: Number,
     asSchoolId: Number,
-}
+};
 
 export interface IGetAssessmentDropdownResult {
     AssessmentId: string,
     Name: string
-}
+};
 
 
 export interface IGetPagedStudentsForMarkAssignmentBody {
@@ -36,7 +36,7 @@ export interface IGetPagedStudentsForMarkAssignmentBody {
     asStartIndex: Number,
     asEndIndex: Number,
     asSortExp: string
-}
+};
 
 export interface IGetPagedStudentsForMarkAssignmentResult {
     GetPagedStudentsForMarkAssignmentList: [
@@ -58,7 +58,7 @@ export interface IGetPagedStudentsForMarkAssignmentResult {
     [{
         Count:string
     }],
-}
+};
 
 export interface IoneDeleteStudentTestMarksBody {
     asAcadmicYearId: Number,
@@ -66,10 +66,10 @@ export interface IoneDeleteStudentTestMarksBody {
     asAssessmentId: Number,
     asStudentId: Number,
     asUpdatedById: Number
-}
+};
 export interface IoneDeleteStudentTestMarksResult {
     string
-}
+};
 
 
 export interface IDeleteAllStudentTestMarksBody {
@@ -78,12 +78,12 @@ export interface IDeleteAllStudentTestMarksBody {
     asAssessmentId: Number,
     asStudentId: Number,
     asUpdatedById: Number
-}
+};
 
 export interface IDeleteAllStudentTestMarksResult {
     string
 
-}
+};
 
 
 export interface IGetPublishStatusBody {
@@ -91,17 +91,18 @@ export interface IGetPublishStatusBody {
     asSchoolId: Number,
     asStandardDivId: Number,
     asAssessmentId: Number,
-}
+};
 
 export interface IGetPublishStatusResult {
     AllowPublish: boolean,
     AllowUnpublish: boolean
 }
+;
 export interface IPublishUnpublishXseedResultBody {
     asAcadmicYearId: Number,
     asSchoolId: Number,
 }
-
+;
 export interface IPublishUnpublishXseedResultResult {
     asAcadmicYearId: Number,
     asSchoolId: Number,
@@ -109,4 +110,4 @@ export interface IPublishUnpublishXseedResultResult {
     asAssessmentId: Number,
     asMode: string,
     asInsertedById: Number
-}
+};

@@ -29,6 +29,7 @@ import {
   isResultPublishedBody,
   isTestPublishedBody
 } from 'src/interfaces/FinalResult/IFinalResult';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ClassTechersList,
@@ -44,6 +45,7 @@ import {
   getConfiguredTestPublished,
   getiscofigred,
   getunpublishedexam,
+  resetGenerateAll,
   resetPublishResult,
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
@@ -69,9 +71,7 @@ const FinalResult = () => {
   // const [SelectTeacher, setSelectTeacher] = useState('');
 
   // const [selectTeacherNew, setSelectTecherNew] = useState(sessionStorage.getItem('TeacherId') || '')
-  // console.log(TeacherId, "---", selectTeacherNew);
 
-  // console.log(TeacherId, " ----", SelectTeacher);
 
   // const StandardDivisionId = Number(
   //   sessionStorage.getItem('StandardDivisionId')
@@ -83,7 +83,7 @@ const FinalResult = () => {
     setShowProgressReport(!showProgressReport); // Toggle visibility
   }
 
-  const [StandardDivisionId, setStandardDivisionId] = useState('');
+  const [StandardDivisionId, setStandardDivisionId] = useState('0');
 
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
@@ -94,7 +94,6 @@ const FinalResult = () => {
   const [asWithGrace, setasWithGrace] = useState();
   const Exam = ['Final Result'];
 
-  // console.log(SelectTeacher, "SelectTeacher", StandardDivisionId, "StandardDivisionId");
 
   const getDropdownName = (List, value) => {
     let returnVal = ""
@@ -107,7 +106,6 @@ const FinalResult = () => {
 
 
   const FinalResultFullAccess = GetScreenPermission('Final Result');
-  console.log("FinalResultFullAccess", FinalResultFullAccess);
 
   const AssignmentClickIcon = (value) => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
@@ -117,11 +115,11 @@ const FinalResult = () => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asStudentId)
   }
 
-  const GetResultGenerated = useSelector(
-    (state: RootState) => state.FinalResult.GetResultPublishd
+
+  const Loading = useSelector(
+    (state: RootState) => state.FinalResult.Loading
   );
 
-  console.log("GetResultGenerated", GetResultGenerated)
 
   const HeaderList = [
     'Roll No.',
@@ -226,60 +224,53 @@ const FinalResult = () => {
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
-  console.log(GetStudentLists);
 
   const PublishResult = useSelector(
     (state: RootState) => state.FinalResult.PublishResult
   );
-  console.log("PublishResult", PublishResult);
 
   const UnpublishResult = useSelector(
     (state: RootState) => state.FinalResult.UnpublishResult
   );
-  console.log(UnpublishResult);
 
   const GenerateAll = useSelector(
     (state: RootState) => state.FinalResult.GenerateAll
   );
-  console.log(GenerateAll);
 
   const ViewResult = useSelector(
     (state: RootState) => state.FinalResult.ViewResult
   );
 
-  console.log("viewresult", ViewResult);
 
   const GenerateResult = useSelector(
     (state: RootState) => state.FinalResult.Generate
   );
 
-  console.log("GenerateResult", GenerateResult)
 
   const GetConfiguredTestPublished = useSelector(
     (state: RootState) => state.FinalResult.GetConfiguredTestPublished
   );
 
-  console.log("GetConfiguredTestPublished", GetConfiguredTestPublished);
 
 
   const GetTestPublished = useSelector(
     (state: RootState) => state.FinalResult.GetTestPublished
   );
 
-  console.log("GetTestPublished", GetTestPublished)
 
   const GetAtleastOneResultGenerated: any = useSelector(
     (state: RootState) => state.FinalResult.GetAtleastOneResultGenerated
   );
 
-  console.log("GetAtleastOneResultGenerated", GetAtleastOneResultGenerated)
+  const GetResultGenerated = useSelector(
+    (state: RootState) => state.FinalResult.GetResultPublishd
+  );
+
 
   const Usisconfigred: any = useSelector((state: RootState) => state.FinalResult.iscofigred);
-  console.log(Usisconfigred, "Usisconfigred");
 
   const Usunpublishedexam: any = useSelector((state: RootState) => state.FinalResult.unpublishexam);
 
-  // console.log(Usunpublishedexam, "Usunpublishedexam");
 
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
@@ -311,9 +302,7 @@ const FinalResult = () => {
     dispatch(GetGenerate(GenerateResultBody));
   }, [])
 
-  useEffect(() => {
-    if (StandardDivisionId != '0') dispatch(GetStudentResultList(PagedStudentBody));
-  }, [StandardDivisionId]);
+
 
 
 
@@ -410,7 +399,6 @@ const FinalResult = () => {
 
   const clickTeacherDropdown = (value) => {
     setStandardDivisionId(value);
-    console.log(value, "clickTeacherDropdown");
 
   };
   const getstandardId = () => {
@@ -426,6 +414,7 @@ const FinalResult = () => {
 
   const standardId = getstandardId();
 
+  const buttonsDisabled = StandardDivisionId === '0';
 
   useEffect(() => {
     if (GetClassTeachers && GetClassTeachers.length > 0) {
@@ -509,7 +498,6 @@ const FinalResult = () => {
       }
       dispatch(GetPublishResult(PublishBody))
       dispatch(GetResultPublishd(ResultPublishedBody))
-      dispatch(GetStudentResultList(PagedStudentBody))
 
       // dispatch(GetUnpublishResult(UnpublishResultBody))
 
@@ -529,27 +517,32 @@ const FinalResult = () => {
   }, [UnpublishResult])
 
   useEffect(() => {
-    if (PublishResult !== '')
+    if (GenerateAll !== '') {
+      toast.success(GenerateAll)
+      dispatch(resetGenerateAll())
+      dispatch(GetStudentResultList(PagedStudentBody))
+      dispatch(GetResultPublishd(ResultPublishedBody))
+      dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+    }
+  }, [GenerateAll])
+
+  useEffect(() => {
+    if (PublishResult !== '') {
       toast.success(PublishResult)
-    dispatch(resetPublishResult())
-    dispatch(GetStudentResultList(PagedStudentBody))
+      dispatch(resetPublishResult())
+      dispatch(GetStudentResultList(PagedStudentBody))
+    }
   }, [PublishResult])
 
   useEffect(() => {
-    dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
-  }, [StandardDivisionId])
-
-  // useEffect(() => {
-  //   dispatch(GetResultPublishd(ResultPublishedBody))
-  // }, [])
-
-
-  useEffect(() => {
-    dispatch(GetTestPublishedd(TestPublishedBody))
-  }, [StandardDivisionId])
-
-  useEffect(() => {
-    dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+    if (StandardDivisionId != '0') {
+      dispatch(getConfiguredTestPublished(ConfiguredTestPublishedBody))
+      dispatch(GetTestPublishedd(TestPublishedBody))
+      dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+      dispatch(getiscofigred(iscofigred));
+      dispatch(getunpublishedexam(unpublishexam));
+      dispatch(GetStudentResultList(PagedStudentBody));
+    }
   }, [StandardDivisionId])
 
   // useEffect(() => {
@@ -562,10 +555,6 @@ const FinalResult = () => {
   //   }
   // }, [GetResultGenerated])
 
-  useEffect(() => {
-    dispatch(getiscofigred(iscofigred));
-    dispatch(getunpublishedexam(unpublishexam));
-  }, [StandardDivisionId]);
 
   // const clickTeacher = (value) => {
   //   setstandardDivisionId(value);
@@ -633,7 +622,7 @@ const FinalResult = () => {
             <Tooltip title={"Toppers"}>
               <IconButton
                 onClick={Toppers}
-                disabled={!GetTestPublished && GetAtleastOneResultGenerated?.AllowPublish == false}
+                disabled={!GetTestPublished && GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: blue[500],
@@ -652,7 +641,7 @@ const FinalResult = () => {
             <Tooltip title={"Generate All"}>
               <IconButton
                 onClick={onClickGenerateAll}
-                disabled={GetResultGenerated}
+                disabled={GetResultGenerated || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: GetResultGenerated ? blue[200] : blue[500],
@@ -676,7 +665,7 @@ const FinalResult = () => {
 
                 }
                 }
-                disabled={GetAtleastOneResultGenerated?.AllowPublish == false}
+                disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
@@ -693,7 +682,7 @@ const FinalResult = () => {
             <Tooltip title={"Unpublish"}>
               <IconButton
                 onClick={ClickOpenDialogbox}
-                disabled={!GetResultGenerated}
+                disabled={!GetResultGenerated || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: !GetResultGenerated ? red[200] : red[500],
@@ -710,7 +699,7 @@ const FinalResult = () => {
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false}
+                disabled={GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: (GetResultGenerated || GetAtleastOneResultGenerated?.AllowPublish == false) ? green[200] : green[500],
@@ -725,6 +714,10 @@ const FinalResult = () => {
           </Box>
         </>}
       />
+      {
+        Loading &&
+        <SuspenseLoader />
+      }
 
       <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
         {Usisconfigred.IsConfiged == 0 ? (

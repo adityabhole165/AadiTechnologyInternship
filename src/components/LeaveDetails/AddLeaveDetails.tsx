@@ -1,7 +1,8 @@
-import { Save } from '@mui/icons-material';
+import { Close, HowToReg, PersonRemove, Save } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Alert, Box, Button, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material';
-import { green, red } from '@mui/material/colors';
+import { Accordion, AccordionSummary, Alert, Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -91,15 +92,17 @@ const AddLeaveDetails = () => {
         //navigate('/extended-sidebar/Teacher/LeaveDetails');
     };
 
+
+
     const rightActions = (
         <>
-            <Tooltip title={'Declare a new Leave.'}>
+            <Tooltip title={'Here you can Apply for, Approve, or Reject leave requests.'}>
                 <IconButton
                     sx={{
-                        bgcolor: 'grey.500',
+                        bgcolor: grey[500],
                         color: 'white',
                         '&:hover': {
-                            bgcolor: 'grey.600',
+                            bgcolor: grey[600],
                         },
                     }}
                 >
@@ -107,21 +110,67 @@ const AddLeaveDetails = () => {
                 </IconButton>
             </Tooltip>
 
-            <Tooltip title={'Save'}>
-                <IconButton
-                    onClick={undefined}
-                    sx={{
-                        background: green[500],
-                        color: 'white',
-                        '&:hover': {
-                            backgroundColor: green[600]
-                        }
-                    }}
-                >
-                    <Save />
-                </IconButton>
-            </Tooltip>
-        </>
+
+            {LeaveId === undefined ? (
+                <>
+                    <Tooltip title={'Cancel'}>
+                        <IconButton
+                            sx={{
+                                color: 'white',
+                                backgroundColor: red[500],
+                                height: '36px !important',
+                                ':hover': { backgroundColor: red[600] }
+                            }}
+                            onClick={undefined}
+                        >
+                            <Close />
+                        </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title={'Submit'}>
+                        <IconButton
+                            onClick={undefined}
+                            sx={{
+                                background: green[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: green[600]
+                                }
+                            }}
+                        >
+                            <Save />
+                        </IconButton>
+                    </Tooltip></>) : null}
+                {/* <>
+                    <Tooltip title={'Reject'}>
+                        <IconButton
+                            sx={{
+                                backgroundColor: red[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: red[600]
+                                }
+                            }}
+                            onClick={undefined}
+                        >
+                            <PersonRemove />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={'Approve'}>
+                        <IconButton
+                            sx={{
+                                backgroundColor: green[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: green[600]
+                                }
+                            }}
+                            onClick={undefined}
+                        >
+                            <HowToReg />
+                        </IconButton>
+                    </Tooltip></>} */}
+        </> 
     );
 
     return (
@@ -141,14 +190,14 @@ const AddLeaveDetails = () => {
             />
             <Box sx={{ p: 2, background: 'white' }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                         <TextField
                             fullWidth
                             InputLabelProps={{ shrink: true }}
                             label={<>
                                 Teacher <span style={{ color: 'red' }}>*</span>
                             </>}
-                            sx={{ bgcolor: '#f0e68c' }}
+                            sx={{ bgcolor: '#D3D3D3' }}
                             InputProps={{
                                 readOnly: true,
                             }}
@@ -185,7 +234,9 @@ const AddLeaveDetails = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Description"
+                            label={<>
+                                Description <span style={{ color: 'red' }}>*</span>
+                            </>}
                             multiline
                             rows={3}
                             value={Description}
@@ -196,30 +247,20 @@ const AddLeaveDetails = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Alert variant="filled" severity="info" sx={{ mb: 1 }}><b>Note 1 : </b> {Note1}</Alert>
-                        <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                        <Accordion defaultExpanded>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                            >
+                                <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+                            </AccordionSummary>
+                            <Grid item xs={12}>
+                                <Alert variant="filled" severity="info" sx={{ mb: 1 }}><b>Note 1 : </b> {Note1}</Alert>
+                                <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                            </Grid>
+                        </Accordion>
                     </Grid>
-                    {LeaveId == undefined ?
-                    <Grid item xs={12} md={12}>
-                        <Stack direction={"row"} gap={2} alignItems={"center"}>
-
-                            <Button sx={{
-                                // backgroundColor: green[100],
-                                color: 'red',
-                                ':hover': { backgroundColor: red[100] }
-                            }} onClick={resetForm}>
-                                Clear
-                            </Button>
-                            <Button sx={{
-                                // backgroundColor: green[100],
-                                color: 'green',
-                                ':hover': { backgroundColor: green[100] }
-                            }} onClick={undefined}>
-                                Submit
-                            </Button>
-                        </Stack>
-                    </Grid> : null
-                     }
                 </Grid >
             </Box>
         </Box >

@@ -1,57 +1,44 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+
+import { Box, IconButton, Pagination, Tooltip, Typography } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Box, Typography } from '@mui/material';
+import Select from '@mui/material/Select';
 
 const ButtonGroupComponent = ({
-  PageChange,
-  numberOfButtons,
-  rowsPerPage,
   ChangeRowsPerPage,
   rowsPerPageOptions,
+  rowsPerPage,
+  PageChange,
+  pagecount
 }) => {
-  const [selectedButton, setSelectedButton] = useState('1'); 
-  const buttons = Array.from({ length: numberOfButtons }, (_, i) => (i + 1).toString());
-
-  const ButtonClick = (button) => {
-    setSelectedButton(button.toString()); 
-    PageChange(button);
-  };
-
+  
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <FormControl variant="outlined" style={{ minWidth: 100, marginRight: 'auto' }} size="small">
-        <InputLabel>Rows per page</InputLabel>
-        <Select
-          value={rowsPerPage}
-          onChange={ChangeRowsPerPage}
-          label="Rows per page"
-        >
-          {rowsPerPageOptions.map(option => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <Typography>Pages</Typography> &nbsp; &nbsp;
-      <ButtonGroup color="primary" aria-label="outlined primary button group" size="small">
-        {buttons.map((button) => (
-          <Button
-            key={button}
-            onClick={() => ButtonClick(button)}
-            variant={selectedButton === button ? 'contained' : 'outlined'}
-          >
-            {button}
-          </Button>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+    <FormControl variant="outlined" style={{ minWidth: 100 }} size="small">
+      <InputLabel>Rows per page</InputLabel>
+      <Select value={rowsPerPage} onChange={ChangeRowsPerPage} label="Rows per page">
+        {rowsPerPageOptions.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
         ))}
-      </ButtonGroup>
-    </div>
+      </Select>
+    </FormControl>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      Select a page:
+      <Pagination
+        count={pagecount}
+        variant="outlined"
+        shape="rounded"
+        showFirstButton
+        showLastButton
+        onChange={(event, value) => {
+          PageChange(value);
+        }}
+      />
+    </Box>
+  </Box>
   );
 };
 

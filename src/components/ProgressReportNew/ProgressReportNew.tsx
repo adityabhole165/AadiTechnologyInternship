@@ -2,7 +2,7 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography,TableHead } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,11 @@ const ProgressReportNew = () => {
   const TeacherId = sessionStorage.getItem('TeacherId');
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  const [selectTeacher, SetselectTeacher] = useState('');
+  const [selectTeacher, SetselectTeacher] = useState(TeacherId);
+  console.log(selectTeacher,"-----");
+
+  const [Error, SetError] = useState('');
+
   
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
@@ -41,11 +46,14 @@ const ProgressReportNew = () => {
   };
 
 
+  const USlistTestDetailsArr: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISlistTestDetailsArr
+  );
+  console.log(USlistTestDetailsArr, "USlistTestDetailsArr")
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
   );
-   console.log(USGetClassTeachers,"USGetClassTeachers");
-   
+
   const USGetStudentNameDropdown: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetStudentNameDropdown
   );
@@ -67,11 +75,14 @@ const ProgressReportNew = () => {
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
-    const Data = USGetAllMarksGradeConfiguration .filter((item) => item.Standard_Id != "")
-    const Data1 = USGetAllMarksGradeConfiguration1 .filter((item) => item.Standard_Id != "")
-    const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
-    console.log(Data3,"Data3");
-    
+  const Data = USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")
+  const Data1 = USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")
+  const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
+
+  const legendText = 'Legend * : Subject marks not considered in total marks';
+
+  const formattedText = legendText.replace('*', '<span style="color: red;">*</span>');
+
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -90,6 +101,17 @@ const ProgressReportNew = () => {
   };
 
 
+  const StandardDivisionId = () => {
+    let returnVal = 0
+    USGetClassTeachers.map((item) => {
+      if (item.Value == selectTeacher) {
+        returnVal = item.Id
+      }
+    })
+    return returnVal
+  };
+
+
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -99,7 +121,7 @@ const ProgressReportNew = () => {
   const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivisionId: Number(selectTeacher)
+    asStandardDivisionId: StandardDivisionId()
 
   };
 
@@ -123,7 +145,7 @@ const ProgressReportNew = () => {
   const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(asAcademicYearId),
-    asStandardId:Number(GetClassTeacher()) ,
+    asStandardId: Number(GetClassTeacher()),
     asIsCoCurricular: false
   };
 
@@ -150,13 +172,16 @@ const ProgressReportNew = () => {
   };
 
 
-  
-  
-
-
   const ClickShow = (value) => {
-    setOpen(true)
+    if (selectTeacher === '0') {
+      SetError('Class Teacher should be selected');
+      return; 
+    }
+  
+    setOpen(true);
+    SetError('')
   }
+  
 
   useEffect(() => {
     if (USGetStudentNameDropdown.length > 0) {
@@ -178,6 +203,11 @@ const ProgressReportNew = () => {
     dispatch(CDAGetClassTeachers(GetClassTeachersBody));
 
   }, []);
+
+
+  
+
+
 
   useEffect(() => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
@@ -224,12 +254,13 @@ const ProgressReportNew = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
             ItemList={USGetClassTeachers}
             onChange={clickSelectClass}
+            disabled={GetScreenPermission() == 'N'}
             defaultValue={selectTeacher}
             size={"small"}
-           
+
 
           />
 
@@ -278,7 +309,7 @@ const ProgressReportNew = () => {
         </>}
 
       />
-
+         <ErrorMessage1 Error={Error}></ErrorMessage1>
       {StudentId == "0" ? (
         <span></span>
       ) : (
@@ -301,13 +332,13 @@ const ProgressReportNew = () => {
                 </Link>
 
                 <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
-                <Box sx={{backgroundColor:"#ede7f6"}}>  
-                  <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                   
-                    Grade Configuration Details
-                      
-                    <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
-                  </DialogTitle>
+                  <Box sx={{ backgroundColor: "#ede7f6" }}>
+                    <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                      Grade Configuration Details
+
+                      <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                    </DialogTitle>
                   </Box>
                   <DialogContent>
                     <Typography variant="h4" my={1}>
@@ -365,7 +396,12 @@ const ProgressReportNew = () => {
                     })}
                   </TableBody>
                 </Table>
+
               </Box>
+              <Typography
+                sx={{ bgcolor: 'white' }}
+                dangerouslySetInnerHTML={{ __html: formattedText }}
+              />
               <Box sx={{ overflowX: 'auto' }}>
                 <Table>
                   <TableHead>
@@ -378,7 +414,17 @@ const ProgressReportNew = () => {
                           &#9660; Exam
                         </Typography></TableCell>
                       {USlistSubjectsDetails.map((item) => (
-                        <TableCell><b>{item.Subject_Name}</b></TableCell>
+                        <TableCell key={item.id}>
+                          <b>
+                            {item.Total_Consideration === 'N' ? (
+                              <span>
+                                {item.Subject_Name} <span style={{ color: 'red' }}>*</span>
+                              </span>
+                            ) : (
+                              <span>{item.Subject_Name}</span>
+                            )}
+                          </b>
+                        </TableCell>
                       ))}
                     </TableRow>
                     <TableRow>
@@ -391,7 +437,17 @@ const ProgressReportNew = () => {
                       ))}
                     </TableRow>
                   </TableHead>
-                  {USlistTestDetails.map((testItem) => (
+                  {USlistTestDetailsArr.map((testItem) => (
+                    <TableBody key={testItem.id}>
+                      <TableRow>
+                        <TableCell>{testItem.Test_Name}</TableCell>
+                        {testItem.subjectIdArr.map((subjectItem) => (
+                          <TableCell>{subjectItem.Grade}</TableCell>
+                        ))}
+                      </TableRow>
+                    </TableBody>
+                  ))}
+                  {/* {USlistTestDetails.map((testItem) => (
                     <TableBody key={testItem.id}>
                       <TableRow>
                         <TableCell>{testItem.Test_Name}</TableCell>
@@ -400,7 +456,7 @@ const ProgressReportNew = () => {
                         ))}
                       </TableRow>
                     </TableBody>
-                  ))}
+                  ))} */}
                 </Table>
               </Box>
             </>

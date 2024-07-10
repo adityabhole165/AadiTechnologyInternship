@@ -86,7 +86,7 @@ export const AssessmentDropdown =
                 };
             });
             dispatch(Studentwiseprogressslice.actions.AssessmentDrop(Assessment));
-            console.log(Assessment, 'TeacherList');
+            console.log(Assessment, 'Assessment');
         };
 
 
@@ -94,7 +94,7 @@ export const PageStudentsAssignment =
     (data: IGetPagedStudentsForMarkAssignmentBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentwiseReportApi.StudentsForMarkAssignment(data);
-            console.log(response.data, "respons");
+            
 
             let StudentsAssignment = response.data.GetPagedStudentsForMarkAssignmentList.map((item, i) => {
                 return {
@@ -102,14 +102,15 @@ export const PageStudentsAssignment =
                     Text1: item.StudentName,
                     Text2: item.EditStatus,
                     Text3: item.ShowDeleteButton,
+                    
                 };
-            });
+                        });
+            console.log(StudentsAssignment,"StudentsAssignment");
+            
             let AllStudentRecordCount = response.data.GetAllStudentRecordCount.map((item, i) => {
                 return {
-                    Id: item.Count,
-                    Name: item.Count,
-                    Value: item.Count
-                };
+                                      Name: item.Count,
+                                 };
             });
 
             dispatch(Studentwiseprogressslice.actions.StudentsAssign(StudentsAssignment));
@@ -122,6 +123,7 @@ export const oneDeleteStudentTest =
     (data: IoneDeleteStudentTestMarksBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentwiseReportApi.oneDeleteStudentTestMark(data);
+            console.log(response.data, "response.data  ");
             dispatch(Studentwiseprogressslice.actions.oneDelete(response.data));
         };
 

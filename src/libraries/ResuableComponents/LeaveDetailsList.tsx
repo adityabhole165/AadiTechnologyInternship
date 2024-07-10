@@ -1,5 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import Table from '@mui/material/Table';
@@ -55,7 +55,7 @@ function LeaveList({
                                             sx={{
                                                 // textTransform: 'capitalize',
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: i === 1 || i === 2 ? 'center' : 'left'
+                                                textAlign: i === 1 || i === 2 ? 'left' : 'left'
                                             }}
                                             align="center"
                                         >
@@ -63,9 +63,7 @@ function LeaveList({
                                         </TableCell>
 
                                     ))}
-                                    <TableCell sx={{ color: (theme) => theme.palette.common.white, textAlign: 'center' }} align="center">
-
-                                    </TableCell>
+                                    <span></span>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -76,9 +74,7 @@ function LeaveList({
                                         <TableRow key={item.Id} >
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
-                                                    // backgroundColor: rowStyle.backgroundColor,
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '250px'
                                                 }}
                                                 align="left"
                                             >
@@ -86,68 +82,71 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
-
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text2}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text3}
                                             </TableCell>
-
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', width: '250px', wordWrap: 'break-word'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text4}
+                                            </TableCell>
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text5}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor,
-                                                    //opacity: !isCurrentDate && isPast ? 0.5 : 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text6}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    //backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px',
-                                                    opacity: 1,
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {item.Text7}
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Tooltip title="View">
-                                                    <VisibilityIcon
-                                                        sx={{ color: '#223354', cursor: 'pointer' }}
-                                                        onClick={() => clickView(item.Id)} />
+                                                <Tooltip title={"View"}>
+                                                    <IconButton
+                                                        onClick={() => clickView(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                                bgcolor: 'grey.300'
+                                                            }
+                                                        }}
+                                                    >
+                                                        <Visibility />
+                                                    </IconButton>
                                                 </Tooltip>
-
                                             </TableCell>
-
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
                                                     opacity: 1,
-                                                    //backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px'
-
                                                 }}
                                                 align="center"
                                             >
@@ -156,7 +155,6 @@ function LeaveList({
                                                     <IconButton
                                                         sx={{
                                                             color: '#223354',
-                                                            //  backgroundColor: grey[500],
                                                             '&:hover': {
                                                                 color: 'red',
                                                                 backgroundColor: red[100]
@@ -178,8 +176,9 @@ function LeaveList({
                         </Table>
                     </TableContainer>
                 </>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 
