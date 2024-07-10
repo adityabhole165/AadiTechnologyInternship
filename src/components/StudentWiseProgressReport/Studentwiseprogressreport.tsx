@@ -252,18 +252,18 @@ const Studentwiseprogressreport = () => {
     setPublishUn(value);
   };
 
-  const ClickDelete = (value) => {
+  const ClickDelete = (Id) => {
     const oneDeleteStudentTestMarks_Body: IoneDeleteStudentTestMarksBody = {
       asAcadmicYearId: Number(asAcademicYearId),
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Assessment,
-      asStudentId: StudentAssig,
+      asStudentId: Id,
       asUpdatedById: Number(SelectTeacher)
     }
 
     showAlert({
       title: 'Delete',
-      message: value.ShowDeleteButton !== 'N' ?
+      message: Id.ShowDeleteButton !== 'N' ?
         //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
         'Once you submit the result to the class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
         'Are you sure, Do you want to Delete marks/grades?',
