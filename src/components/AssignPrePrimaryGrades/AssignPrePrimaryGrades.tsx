@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -10,8 +10,8 @@ import {
   IGetTestwiseTermBody,
   ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
+import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
-import LegendsIcon from 'src/libraries/ResuableComponents/LegendsIcon';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAGetClassTeachers,
@@ -21,31 +21,23 @@ import {
   resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
-import { GetIsPrePrimaryTeacher, GetScreenPermission } from '../Common/Util';
+import { GetIsPrePrimaryTeacher } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-
-  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const Teacher_Id = sessionStorage.getItem('TeacherId')
-  const StandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
-
-  // Getting Screen Permission Status for the Uset Logged in..
-  const isScreenAccess: string = GetScreenPermission(" Assign Pre-Primary Grades");
-
-  const [selectTeacher, SetselectTeacher] = useState(isScreenAccess === "Y" ? "0" : Teacher_Id);
+  const [selectTeacher, SetselectTeacher] = useState();
   const [SelectTerm, SetSelectTerm] = useState();
   const [dateState, setDateState] = useState('');
   const [Subjectid, setSubjectid] = useState('');
 
-
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const StandardDivisionId = Number(
+    sessionStorage.getItem('StandardDivisionId')
+  );
 
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
@@ -88,7 +80,7 @@ const AssignPrePrimaryGrades = () => {
       asSubjectId: Number(value),
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId,
-      asInserted_By_id: Number(selectTeacher),
+      asInserted_By_id: selectTeacher,
       asInsertDate: String(dateState)
     };
 
@@ -200,9 +192,9 @@ const AssignPrePrimaryGrades = () => {
                 mandatory
               />
               <SearchableDropdown
-                ItemList={isScreenAccess === "Y" ? USGetClassTeachers : USGetClassTeachers.filter(item => item.Id === Teacher_Id)}
+                ItemList={USGetClassTeachers}
                 onChange={clickSelectClass}
-                defaultValue={isScreenAccess === "Y" ? selectTeacher : String(Teacher_Id)}
+                defaultValue={selectTeacher}
                 label={'Subject Teacher: '}
                 sx={{ minWidth: '20vw' }}
                 size={"small"}
@@ -222,34 +214,45 @@ const AssignPrePrimaryGrades = () => {
                   </IconButton>
                 </Tooltip>
               </Box>
+
             </>
           }
         />
-
-
-
-        <Box sx={{ backgroundColor: 'white', p: 2 }}>
-          <Box sx={{ mt: 2 }}>
-            <Typography variant='h4'>
-              Legend
-            </Typography>
-            <Stack direction={'row'} alignItems={'center'} gap={2} sx={{ mt: 1 }}>
-              <LegendsIcon
+        <Box sx={{ background: 'white', p: 1 }}>
+          <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+            <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
+            <Box sx={{ display: 'flex', gap: '20px' }}>
+              <DotLegends
                 color="secondary"
+
                 text1={'Marks entry not started'}
                 text2={'Marks entry partially done'}
                 text3={'Submit exam marks to the class teacher'}
-                text5={'Marks entry completed '}
-              />
-            </Stack>
+
+                text5={'Marks entry completed	'} text={undefined} text4={undefined} />
+            </Box>
           </Box>
-          <br></br>
-          < EditIconList
-            ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
-            clickEdit={clickEdit}
-            HeaderArray={HeaderPublish}
-            clicksubmit={ClickSubmit}
-          />
+        </Box>
+        <br></br>
+
+
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
+          {USGetTeacherXseedSubjects.length > 0 ? (
+            <div>
+              < EditIconList
+                ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
+                clickEdit={clickEdit}
+                HeaderArray={HeaderPublish}
+                clicksubmit={ClickSubmit}
+              />
+            </div>
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No record found.</b>
+            </Typography>
+          )
+          }
+
 
 
         </Box>
