@@ -122,12 +122,12 @@ export const GetTeacherTimeTableResult =
       let TimeTableList = response.data.listLectureName.map((item, i) => {
         return {
           Id: item.Lecture_No,
-          Text1: item.Lecture_Name,
-          Text2: item.Monday,
-          Text3: item.Tuesday,
-          Text4: item.Wednesday,
-          Text5: item.Thursday,
-          Text6: item.Friday
+          Text1: item.Lecture_Name === 'N/A' ? 'N/C' : item.Lecture_Name,
+          Text2: item.Monday === 'N/A' ? 'N/C' : item.Monday,
+          Text3: item.Tuesday === 'N/A' ? 'N/C' : item.Tuesday,
+          Text4: item.Wednesday === 'N/A' ? 'N/C' : item.Wednesday,
+          Text5: item.Thursday === 'N/A' ? 'N/C' : item.Thursday,
+          Text6: item.Friday === 'N/A' ? 'N/C' : item.Friday
         }
       })
 
