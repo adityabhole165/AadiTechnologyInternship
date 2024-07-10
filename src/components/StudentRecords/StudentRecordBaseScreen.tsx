@@ -4,7 +4,6 @@ import { RootState } from 'src/store';
 //import DynamicList from 'src/libraries/list/DynamicList'
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
   Checkbox,
@@ -37,7 +36,7 @@ const StudentRecords = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [SelectTeacher, setSelectTeacher] = useState('0');
-  const [StudentStatusList, setStudentStatusList] = useState([]);
+  // const [StudentStatusList, setStudentStatusList] = useState([]);
   const [showRiseAndShine, setShowRiseAndShine] = useState(false);
   const [regNoOrName, setRegNoOrName] = useState('');
   const [StudentList, setStudentList] = useState([]);
@@ -48,10 +47,10 @@ const StudentRecords = () => {
   const TotalCount = filteredList.map((item) => item.TotalRows);
   const uniqueTotalCount = [...new Set(TotalCount)];
   const singleTotalCount = uniqueTotalCount[0];
-
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
   const [sortExpression, setSortExpression] = useState('className asc');
   const [sortDirection, setsortDirection] = useState('ASC')
   const ScreensAccessPermission = JSON.parse(
@@ -79,8 +78,8 @@ const StudentRecords = () => {
   // console.log(GetStatusStudents,"GetStatusStudents");
   const [headerArray, setHeaderArray] = useState([
     { Id: 1, Header: 'Registration Number', SortOrder: null, sortKey: 'RegistrationNumber' },
-    { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo.' },
-    { Id: 3, Header: 'Class', SortOrder: null, sortKey: 'className' },
+    { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo' },
+    { Id: 3, Header: 'Class', SortOrder: 'ASC', sortKey: 'className' },
     { Id: 4, Header: 'Name', SortOrder: null, sortKey: 'StudentName' },
     { Id: 5, Header: 'Action For Me' },
     { Id: 6, Header: 'Action' },
@@ -91,14 +90,6 @@ const StudentRecords = () => {
     const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'className asc';
     setSortExpression(newSortExpression);
   };
-  const IconList = [
-    {
-      Id: 1,
-      Icon: <VisibilityIcon />,
-      Action: 'View'
-    }
-  ];
-
 
   const GetScreenPermission = () => {
     let perm = 'N';
@@ -164,10 +155,29 @@ const StudentRecords = () => {
   };
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
+    setRowsPerPage(20)
+    setPage(1);
   };
-  const clickSearch = () => {
+  // const clickSearch = () => {
 
-    dispatch(GetAllStudentStatuss(GetStudentStatusBody));
+  //   dispatch(GetAllStudentStatuss(GetStudentStatusBody));
+  // };
+  const clickSearch = () => {
+    if (regNoOrName === '') {
+      setStudentList(GetStatusStudents);
+    } else {
+      setStudentList(
+        GetStatusStudents.filter((item) => {
+          const text1Match = item.Text1.toLowerCase().includes(
+            regNoOrName.toLowerCase()
+          );
+          const text2Match = item.Text4.toLowerCase().includes(
+            regNoOrName.toLowerCase()
+          );
+          return text1Match || text2Match;
+        })
+      );
+    }
   };
   const handleRegNoOrNameChange = (value) => {
     setRegNoOrName(value);
@@ -218,6 +228,11 @@ const StudentRecords = () => {
               size={"small"}
               onChange={(e) => {
                 handleRegNoOrNameChange(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === 'Tab') {
+                  clickSearch();
+                }
               }}
             />
             <Grid item xs={4}>
