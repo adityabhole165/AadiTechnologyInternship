@@ -74,7 +74,7 @@ export interface IoneDeleteStudentTestMarksResult {
 
 export interface IDeleteAllStudentTestMarksBody {
     asSchoolId: Number,
-     asAcadmicYearId: Number,
+    asAcademicYearId: Number,
       asAssessmentId: Number,
       asStandardDivId: Number,
     asUpdatedById: Number

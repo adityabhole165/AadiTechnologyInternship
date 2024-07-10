@@ -38,6 +38,7 @@ import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { toast } from 'react-toastify';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 
 const Studentwiseprogressreport = () => {
@@ -93,7 +94,9 @@ const Studentwiseprogressreport = () => {
   const [DeleteAll, setDeleteAll] = useState();
   const [ublishS, setublishS] = useState();
   const [PublishUn, setPublishUn] = useState();
-
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const [page, setPage] = useState(1);
 
   const { showAlert, closeAlert } = useContext(AlertContext);
 
@@ -109,8 +112,9 @@ const Studentwiseprogressreport = () => {
   const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
   const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
   const PublishUnpublish :any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
-  console.log(PublishStatu.AllowPublish, "StudentAssignment----");
-
+  const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
+ 
+  
   const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
 
 
@@ -147,14 +151,16 @@ const Studentwiseprogressreport = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
   };
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
   const StandradID = StandardDivisionId()
   const GetPagedStudentsForMarkAssignment_Body: IGetPagedStudentsForMarkAssignmentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStandardDivId: Number(StandradID),
     asAssessmentId: Number(Assessment),
-    asStartIndex: 0,
-    asEndIndex: 20,
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
     asSortExp: ' ' + HeaderPublish[0].SortOrder
   }
 
@@ -167,12 +173,13 @@ const Studentwiseprogressreport = () => {
   // }
 
   const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
-    asAcadmicYearId: Number(asAcademicYearId),
-    asSchoolId: Number(asSchoolId),
-    asAssessmentId: Assessment,
-    asStudentId: StudentAssig,
-    asUpdatedById: Number(SelectTeacher)
-  }
+      asSchoolId:Number(asSchoolId),
+     asAcademicYearId:Number(asAcademicYearId),
+     asStandardDivId:Number(StandradID),
+     asAssessmentId:Number(Assessment),
+     asUpdatedById:Number(SelectTeacher)
+    }
+  
 
   const GetPublishStatusBody: IGetPublishStatusBody = {
     asAcademicYearId: Number(asAcademicYearId),
@@ -223,7 +230,7 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-  }, [SelectTeacher, Assessment, HeaderPublish]);
+  }, [SelectTeacher, Assessment, HeaderPublish,page,rowsPerPage]);
 
   // useEffect(() => {
   //   dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));
@@ -337,6 +344,20 @@ const Studentwiseprogressreport = () => {
   const ClicEdit = (value) => {
   }
 
+
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, StudentRecordCount.Count);
+  const pagecount = Math.ceil(StudentRecordCount.Count / rowsPerPage);
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1); 
+  };
+
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+ 
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -412,12 +433,37 @@ const Studentwiseprogressreport = () => {
       </Box>
 
       <Box>
+
+      {
+          StudentAssignment.length > 0 ? (
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                <Box component="span" fontWeight="fontWeightBold">
+                  {startRecord} to {endRecord}
+                </Box>
+                {' '}out of{' '}
+                <Box component="span" fontWeight="fontWeightBold">
+                  { StudentRecordCount.Count}
+                </Box>{' '}
+                { StudentRecordCount.Count === 1 ? 'record' : 'records'}
+              </Typography>
+            </div>
+
+          ) : (
+            <span></span>
+
+          )
+        }
+
         <StudentwiseProgressreportList
           ItemList={StudentAssignment}
           HeaderArray={HeaderPublish}
           ClickHeader={ClickHeader}
           clickEdit={ClicEdit}
           clickDelete={ClickDelete}
+
+
+         
         />
 
         {PublishStatu.AllowPublish === false && PublishStatu.AllowUnpublish === false ? (
@@ -427,64 +473,24 @@ const Studentwiseprogressreport = () => {
             {asMode}
           </Button>
         )}
-
-
-
-
-
-
       </Box>
 
-      <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-        <Tooltip title={"Publish "}>
-          <span>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: green[500],
-                '&:hover': { backgroundColor: green[600] }
-              }}
-            >
-              <CheckCircle />
-            </IconButton>
-          </span>
-        </Tooltip>
-
-        <Tooltip title={"Unpublish "}>
-          <span>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: red[500],
-                '&:hover': { backgroundColor: red[600] }
-              }}
-            >
-              <Unpublished />
-            </IconButton>
-          </span>
-        </Tooltip>
-
-        <Tooltip title={"Delete All"}>
-          <span>
-            <IconButton>
-              <DeleteForeverIcon sx={{ color: 'red', cursor: 'pointer' }} />
-            </IconButton>
-          </span>
-        </Tooltip>
-      </Box>
-
-      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
-        <Pagination
-          count={5}
-          variant="outlined"
-          shape='rounded'
-          showFirstButton
-          showLastButton
-          onChange={(event, value) => {
-            // handlePageChange(value);
-          }}
-        />
-      </Box>
+    
+      {
+            StudentRecordCount.Count > rowsPerPage ? (
+            
+              <ButtonGroupComponent
+                rowsPerPage={rowsPerPage}
+                ChangeRowsPerPage={ChangeRowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+                PageChange={PageChange}
+                pagecount={pagecount}
+              />
+            ) : (
+              <span></span>
+            )
+          }
+      
     </Box>
   );
 };

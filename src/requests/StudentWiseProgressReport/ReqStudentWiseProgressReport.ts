@@ -21,6 +21,7 @@ const Studentwiseprogressslice = createSlice({
         StudentsAssignmentGrade: [],
         oneDeleteStudent: [],
         DeleteAllStudent: [],
+        ISAllStudentRecordCount:"",
         PublishStatus: [],
         PublishUnpublishXseed: "",
         Loading: true
@@ -57,6 +58,12 @@ const Studentwiseprogressslice = createSlice({
         RPublishresetMessageAll(state) {
             state.PublishUnpublishXseed = '';
           },
+
+
+          AllStudentRecordCount(state, action) {
+            state.ISAllStudentRecordCount = action.payload;
+        },
+          
     }
 });
 
@@ -111,16 +118,11 @@ export const PageStudentsAssignment =
             });
             console.log(StudentsAssignment, "StudentsAssignment");
 
-            // let AllStudentRecordCount = response.data.GetAllStudentRecordCount.map((item, i) => {
-            //     return {
-            //         Id: item.Count,
-            //         Name: item.Count,
-            //         Value: item.Count,
-            //     };
-            // });
+           
 
             dispatch(Studentwiseprogressslice.actions.StudentsAssign(StudentsAssignment));
-            // dispatch(Studentwiseprogressslice.actions.StudentsAssigngrades(AllStudentRecordCount));
+          dispatch(Studentwiseprogressslice.actions.AllStudentRecordCount(response.data.GetAllStudentRecordCount));
+
 
         };
 
