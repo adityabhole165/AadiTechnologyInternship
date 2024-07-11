@@ -63,7 +63,7 @@ function LeaveList({
                                         </TableCell>
 
                                     ))}
-                                    <span></span>
+                                    <TableCell sx={{ background: (theme) => theme.palette.secondary.main }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
