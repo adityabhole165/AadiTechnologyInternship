@@ -22,11 +22,7 @@ const ProgressReportNew = () => {
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const [selectTeacher, SetselectTeacher] = useState(TeacherId);
-  console.log(selectTeacher,"-----");
-
   const [Error, SetError] = useState('');
-
-  
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -49,7 +45,6 @@ const ProgressReportNew = () => {
   const USlistTestDetailsArr: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISlistTestDetailsArr
   );
-  console.log(USlistTestDetailsArr, "USlistTestDetailsArr")
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
   );
@@ -104,14 +99,15 @@ const ProgressReportNew = () => {
   const StandardDivisionId = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == selectTeacher) {
+      if (item.Value == item.NewValue) {
         returnVal = item.Id
       }
     })
     return returnVal
   };
-
-
+  useEffect(() => {
+    StandardDivisionId()
+  }, [selectTeacher]);
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -174,7 +170,7 @@ const ProgressReportNew = () => {
 
   const ClickShow = (value) => {
     if (selectTeacher === '0') {
-      SetError('Class Teacher should be selected');
+      SetError('Class Teacher should be selected.');
       return; 
     }
   
@@ -204,15 +200,9 @@ const ProgressReportNew = () => {
 
   }, []);
 
-
-  
-
-
-
   useEffect(() => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
-
-  }, [selectTeacher]);
+  }, [selectTeacher,StandardDivisionId()]);
 
   useEffect(() => {
     dispatch(CDAStudentProgressReport(StudentProgressReportBody));
@@ -229,10 +219,6 @@ const ProgressReportNew = () => {
     dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
 
   }, [selectTeacher]);
-
-
-
-
 
 
   const handleClick = (event) => {
@@ -256,6 +242,7 @@ const ProgressReportNew = () => {
             label={"Subject Teacher"}
             sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
             ItemList={USGetClassTeachers}
+            mandatory
             onChange={clickSelectClass}
             disabled={GetScreenPermission() == 'N'}
             defaultValue={selectTeacher}

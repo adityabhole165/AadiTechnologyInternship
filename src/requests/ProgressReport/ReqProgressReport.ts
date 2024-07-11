@@ -97,12 +97,13 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0' }];
+      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0',NewValue:'0' }];
       response.data.map((item, i) => {
         ClassTeachersList.push({
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
-          Value: item.Teacher_Id
+          Value: item.Teacher_Id,
+          NewValue:item.Teacher_Id
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
