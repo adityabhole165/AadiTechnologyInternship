@@ -57,7 +57,7 @@ function StudentRecordList({
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start' : 'center' }}>
                                                 <b>{item.Header}</b>
                                                 {i < 4 && item.SortOrder !== null && (
-                                                    item.SortOrder === "ASC" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                    item.SortOrder === "DESC" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
                                                 )}
                                             </div>
                                         </TableCell>

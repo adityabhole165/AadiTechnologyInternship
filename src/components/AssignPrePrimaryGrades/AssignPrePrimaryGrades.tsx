@@ -78,8 +78,7 @@ const AssignPrePrimaryGrades = () => {
   };
 
   const ClickSubmit = (value, StandardDivisionID, pending) => {
-
-
+    console.log(pending)
     const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = {
       asStandard_Division_Id: StandardDivisionID,
       asAssessmentId: SelectTerm,
@@ -89,8 +88,10 @@ const AssignPrePrimaryGrades = () => {
       asInserted_By_id: Number(selectTeacher),
       asInsertDate: String(dateState)
     };
-    if (confirm(`Are you sure you want to submit the result? Because Grades of following roll no.(s) ${pending}`)) {
-      dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    if (confirm(`Roll no.(s) Grades not entered for : ${pending} \nAre you sure you want to continue?`)) {
+      if (confirm(`Once you submit the result to the Class-teacher, you can not modify the grades. Are you sure you want to continue?`)) {
+        dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+      }
     }
   };
 
