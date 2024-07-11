@@ -485,6 +485,10 @@ const Studentwiseprogressreport = () => {
                 rowsPerPageOptions={rowsPerPageOptions}
                 PageChange={PageChange}
                 pagecount={pagecount}
+
+
+
+                
               />
             ) : (
               <span></span>
