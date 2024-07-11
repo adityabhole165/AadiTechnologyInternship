@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignPrePrimaryGrades';
 import {
-  IGetClassTeachersBody,
   IGetGetStudentsForNonXseedSubjects,
   IGetStudentsForStdDevMasters,
+  IGetTeacherDropdownBody,
   IGetTeacherXseedSubjectsBody,
   IGetTestwiseTermBody,
   ISaveNonXseedSubGrades,
@@ -24,7 +24,8 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ISGetStudentsForNonXseedSubjects: [],
     ISGetNonXseedStudentsName: [],
     IGetSaveNonXseedSubGradesMsg: '',
-    ISGetNonXseedStudentsObs: []
+    ISGetNonXseedStudentsObs: [],
+    ISGetTeacherDropdown: [],
   },
   reducers: {
     RGetTestwiseTerm(state, action) {
@@ -65,6 +66,10 @@ const AssignPrePrimaryGradesSlice = createSlice({
     },
     RGetNonXseedStudentsObs(state, action) {
       state.ISGetNonXseedStudentsObs = action.payload;
+    },
+
+    RGetTeacherDropdown(state, action) {
+      state.ISGetTeacherDropdown = action.payload;
     }
   }
 });
@@ -150,28 +155,32 @@ export const GetStudentsForStdDevMasters =
       );
     };
 
-export const CDAGetClassTeachers =
-  (data: IGetClassTeachersBody): AppThunk =>
+export const CDAGetTeacherDropdown =
+  (data: IGetTeacherDropdownBody): AppThunk =>
     async (dispatch) => {
-      const response = await ApiAssignPrePrimaryGrades.GetClassTeachers(data);
+      const response = await ApiAssignPrePrimaryGrades.GetTeacherDropdown(data);
       // Removing the Class Name and Division from Data through Regex
       function extractTeacherName(str) {
         const regex = /\s-\s([A-Z])\s+(.*)/;
         const match = str.match(regex);
         return match ? match[2] : null;
       }
-      let ClassTeachers = response.data.map((item, i) => {
+      console.log(response, "pppppppppssssssssss");
+      let listGradesDetails = response.data.map((item, i) => {
         return {
-          Id: item.Teacher_Id,
-          Name: extractTeacherName(item.TeacherName),
-          Value: item.Teacher_Id
+          Id: item.Teacher_Id.toString(),
+          Name: item.TeacherName,
+          Value: item.Teacher_Id.toString()
         };
       });
-      ClassTeachers.unshift({ Id: '0', Name: 'Select', Value: '0' });
+      console.log(listGradesDetails, "listGradesDetails");
+      listGradesDetails.unshift({ Id: '0', Name: 'Select', Value: '0' });
       dispatch(
-        AssignPrePrimaryGradesSlice.actions.RGetClassTeachers(ClassTeachers)
+        AssignPrePrimaryGradesSlice.actions.RGetTeacherDropdown(listGradesDetails)
       );
     };
+
+
 
 export const CDAGetTeacherXseedSubjects =
   (data: IGetTeacherXseedSubjectsBody): AppThunk =>
@@ -253,8 +262,14 @@ export const CDASaveNonXseedSubGrades =
       );
     };
 
+
+
 export const resetSavenonXseedMsg = (): AppThunk => async (dispatch) => {
   dispatch(AssignPrePrimaryGradesSlice.actions.ResetSaveNonXseedSubGradesMsg());
 };
+
+
+
+
 
 export default AssignPrePrimaryGradesSlice.reducer;

@@ -8,6 +8,23 @@ export interface IGetTestwiseTermResult {
   Name: string;
 }
 
+export interface IGetTeacherDropdownBody {
+  asSchoolId: Number;
+  asAcademicYearId: Number;
+}
+
+export interface IGetTeacherDropdownResult {
+
+  Teacher_Id: number;
+  TeacherName: string;
+  Designation_Id: Number;
+  Teacher_First_Name: string;
+  DesignationSortOrder: string;
+  Teacher_Middle_Name: string;
+  Teacher_Last_Name: string
+}
+
+
 export interface IGetClassTeachersBody {
   asSchoolId: Number;
   asAcademicYearId: Number;
