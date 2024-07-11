@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
 
 function SubHeaderNavBar({ toggleDrawer }) {
   const [pages, setPages] = React.useState([
@@ -329,6 +330,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 <InfoTwoToneIcon />
               </IconButton>
             </Tooltip>
+            <SettingsDropdown />
             {/* Support Menu Popup */}
             <Popper
               open={openSupportMenu}

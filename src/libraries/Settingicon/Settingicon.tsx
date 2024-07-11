@@ -1,8 +1,7 @@
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box, Popover, Tooltip } from '@mui/material';
-import { yellow } from '@mui/material/colors';
+import { alpha, Box, Popover, Stack, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearForSchoolBody, IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getAllAcademicYears, getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
@@ -28,9 +27,9 @@ const SettingsDropdown = () => {
     console.log("AcademicYear", AcademicYear)
     const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
     console.log("UserDetail", UserDetail)
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -70,14 +69,17 @@ const SettingsDropdown = () => {
     };
     const open = Boolean(anchorEl);
     const id = open ? 'settings-menu' : undefined;
-
+    const supportMenuRef = React.useRef<HTMLButtonElement>(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
     return (
         <>
             {UserDetail && UserDetail.IsAcademicYrApplicable === "Y"
 
                 && (
-                    <Box style={{ display: 'inline-flex', alignItems: 'center', borderRadius: '30%', overflow: 'hidden', marginTop: "8px", marginBottom: "0px", marginLeft: "18px" }}>
-                        <Tooltip title={"Choose different academic year"}>
+                    <Stack direction={'row'} alignItems={'center'} gap={1}>
+                        {/* <Tooltip title={"Choose different academic year"}>
                             <IconButton
                                 onClick={handleClick}
                                 aria-describedby={id}
@@ -88,6 +90,18 @@ const SettingsDropdown = () => {
                                         backgroundColor: yellow[800]
                                     }
                                 }}
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                        </Tooltip> */}
+                        <Tooltip title={'Choose different academic year'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    background: (theme) => alpha(theme.palette.common.white, 0.2)
+                                }}
+                                ref={supportMenuRef}
+                                onClick={handleClick}
                             >
                                 <SettingsIcon />
                             </IconButton>
@@ -125,7 +139,7 @@ const SettingsDropdown = () => {
                                 />
                             </Box>
                         </Popover>
-                    </Box>
+                    </Stack>
                 )}
         </>
     );
