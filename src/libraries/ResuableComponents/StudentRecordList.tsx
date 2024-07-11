@@ -22,7 +22,7 @@ function StudentRecordList({
             if (item.Id === id) {
                 return {
                     ...item,
-                    SortOrder: item.SortOrder === 'desc' ? 'asc' : 'desc'
+                    SortOrder: item.SortOrder === 'ASC' ? 'DESC' : 'ASC'
                 };
             } else {
 
@@ -57,7 +57,7 @@ function StudentRecordList({
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start' : 'center' }}>
                                                 <b>{item.Header}</b>
                                                 {i < 4 && item.SortOrder !== null && (
-                                                    item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                    item.SortOrder === "ASC" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
                                                 )}
                                             </div>
                                         </TableCell>
@@ -78,7 +78,7 @@ function StudentRecordList({
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text1}</TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text2}</TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text3}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text4}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.Text4}</TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text5}</TableCell>
 
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} align="center">
@@ -88,18 +88,20 @@ function StudentRecordList({
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
-                                                                bgcolor: 'grey.300'
+                                                                bgcolor: 'grey.300',
+                                                                cursor: 'pointer'
                                                             }
                                                         }} />
 
                                                 </Tooltip>
                                             ) : (
-                                                <Tooltip title={"View/Edit"}>
+                                                <Tooltip title={"View / Edit"}>
                                                     <Visibility onClick={() => clickView(item.Id)}
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
-                                                                bgcolor: 'grey.300'
+                                                                bgcolor: 'grey.300',
+                                                                cursor: 'pointer'
                                                             }
                                                         }} />
                                                 </Tooltip>
