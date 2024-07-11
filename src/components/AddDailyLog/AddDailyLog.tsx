@@ -1,4 +1,5 @@
 import Close from '@mui/icons-material/Close';
+import Add from "@mui/icons-material/Add"
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
@@ -7,6 +8,7 @@ import {
   debounce,
   Grid,
   IconButton,
+  Modal,
   Pagination,
   TextField,
   Tooltip,
@@ -41,6 +43,7 @@ import {
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import { ClearIcon } from '@mui/x-date-pickers';
 
 
 const AddDailyLog = () => {
@@ -441,7 +444,17 @@ const AddDailyLog = () => {
   const ClickHeader = (value) => {
     setHeaderPublish(value)
   }
+  const [open, setOpen] = useState(false);
 
+  const ClickAppropriate = (value) => {
+    setOpen(true)
+  }
+  const handleClose = (value) => {
+    setOpen(false)
+  }
+  
+
+  
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -506,9 +519,67 @@ const AddDailyLog = () => {
                   <Save />
                 </IconButton>
               </Tooltip>
+              </Box>
+              <Box>
+              <Tooltip  title={
+                  'Add Daily Log'
+                }>
+             <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                  onClick={ClickAppropriate}
+                >
+                   <Add />
+                </IconButton>
+             </Tooltip>
+             
             </Box>
           </>}
         />
+
+<Modal open={open} onClose={ClickAppropriate}>
+  <Box sx={style}>
+    <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' }}>
+      <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
+      <Grid container spacing={0} alignItems="center">
+        <Grid item xs={4}>
+          <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
+        </Grid>
+        <Grid item xs={4}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
+            <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
+            {dateError && (
+              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                <ErrorMessage1 Error={dateError}></ErrorMessage1>
+              </Box>
+            )}
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
+            <SingleFile
+              ValidFileTypes={ValidFileTypes}
+              MaxfileSize={MaxfileSize}
+              ChangeFile={ChangeFile}
+              errorMessage={''}
+              FileName={fileName}
+              height='52.5px'
+            />
+            {fileNameError && (
+              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+              </Box>
+            )}
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+  </Box>
+</Modal>
         {/* <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
 
           <Grid container spacing={0} alignItems="center">
@@ -545,45 +616,7 @@ const AddDailyLog = () => {
             </Grid>
           </Grid>
         </Box> */}
-        <Box sx={{ p: 3, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={4}>
-              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
-            </Grid>
-            <Grid item xs={4}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
-                <Datepicker
-                  DateValue={dateState}
-                  onDateChange={handleDateChange}
-                  label={'Date'}
-                  size={"medium"}
-                />
-                {dateError && (
-                  <Box sx={{ mt: 1, marginLeft: '', position: 'absolute', bottom: '-25px' }}>
-                    <ErrorMessage1 Error={dateError}></ErrorMessage1>
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
-                <SingleFile
-                  ValidFileTypes={ValidFileTypes}
-                  MaxfileSize={MaxfileSize}
-                  ChangeFile={ChangeFile}
-                  errorMessage={''}
-                  FileName={fileName}
-                  height='52.5px'
-                />
-                {fileNameError && (
-                  <Box sx={{ mt: 1, marginLeft: '', position: 'absolute', bottom: '-25px' }}>
-                    <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+        
 
         <Box sx={{ mt: 2, backgroundColor: 'white', p: 2 }}>
           <Grid
@@ -701,3 +734,15 @@ const AddDailyLog = () => {
 };
 
 export default AddDailyLog;
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '30%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  height: 165,
+  bgcolor: '#EAF1F5',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 2,
+};
