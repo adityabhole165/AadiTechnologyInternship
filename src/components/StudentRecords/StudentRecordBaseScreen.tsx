@@ -51,7 +51,7 @@ const StudentRecords = () => {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-  const [sortExpression, setSortExpression] = useState('className asc');
+  const [sortExpression, setSortExpression] = useState('ClassName asc');
   const [sortDirection, setsortDirection] = useState('ASC')
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -77,9 +77,9 @@ const StudentRecords = () => {
   );
   // console.log(GetStatusStudents,"GetStatusStudents");
   const [headerArray, setHeaderArray] = useState([
-    { Id: 1, Header: 'Registration Number', SortOrder: null, sortKey: 'RegistrationNumber' },
-    { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'RollNo' },
-    { Id: 3, Header: 'Class', SortOrder: 'ASC', sortKey: 'className' },
+    { Id: 1, Header: 'Registration Number', SortOrder: null, sortKey: 'Enrolment_Number' },
+    { Id: 2, Header: 'Roll No.', SortOrder: null, sortKey: 'Roll_No' },
+    { Id: 3, Header: 'Class', SortOrder: 'ASC', sortKey: 'ClassName' },
     { Id: 4, Header: 'Name', SortOrder: null, sortKey: 'StudentName' },
     { Id: 5, Header: 'Action For Me' },
     { Id: 6, Header: 'Action' },
@@ -87,7 +87,7 @@ const StudentRecords = () => {
   const handleHeaderClick = (updatedHeaderArray) => {
     setHeaderArray(updatedHeaderArray);
     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'className asc';
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'ClassName ASC';
     setSortExpression(newSortExpression);
   };
 
@@ -154,24 +154,7 @@ const StudentRecords = () => {
     setRowsPerPage(20)
     setPage(1);
   };
-  // const clickSearch = () => {
-  //   if (regNoOrName === '') {
-  //     setStudentList(GetStatusStudents);
-  //   } else {
-  //     setStudentList(
-  //       GetStatusStudents.filter((item) => {
-  //         const text1Match = item.Text1.toLowerCase().includes(
-  //           regNoOrName.toLowerCase()
-  //         );
-  //         const text2Match = item.Text4.toLowerCase().includes(
-  //           regNoOrName.toLowerCase()
-  //         );
-  //         return text1Match || text2Match;
-  //       })
-  //     );
-  //   }
-  //   dispatch(GetAllStudentStatuss(GetStudentStatusBody));
-  // };
+
   const clickSearch = () => {
     let filteredStudents = GetStatusStudents;
 
