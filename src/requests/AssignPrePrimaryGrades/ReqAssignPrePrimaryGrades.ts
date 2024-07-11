@@ -196,7 +196,8 @@ export const CDAGetTeacherXseedSubjects =
           Text1: item.StandardDivision,
           Text2: item.Subject_Name,
           Text3: item.EditStatus,
-          Text4: item.SubmitStatus
+          Text4: item.SubmitStatus,
+          Text5: item.IncompleteRollNoString
         };
       });
 
