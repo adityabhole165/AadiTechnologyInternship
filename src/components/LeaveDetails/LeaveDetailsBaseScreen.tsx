@@ -80,12 +80,7 @@ const LeaveDetailsBaseScreen = () => {
         asCategoryId: Number(selectCategory),
         asShowOnlyNonUpdated: false
     };
-    useEffect(() => {
-        dispatch(AcademicYearDropdown(AcademicYearBody));
-    }, []);
-    useEffect(() => {
-        dispatch(getAllReportingUsers(AllReportingUsersbody));
-    }, []);
+  
     // useEffect(() => {
     //     if (GetAcademicYear.length > 0) {
     //         setAcademicYear(GetAcademicYear.slice(0, 4)[1].Value);
@@ -98,30 +93,22 @@ const LeaveDetailsBaseScreen = () => {
             setAcademicYear(currentYear.Value);
         }
     }, [GetAcademicYear]);
-    useEffect(() => {
-        dispatch(CategoryDropdown(CategoryDropdownBody));
-    }, [GetAcademicYear]);
+
+
+   
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
         }
     }, [GetCategoryDropdownList]);
 
-    useEffect(() => {
-        dispatch(StatusDropdown(StatusBody));
-    }, [selectAcademicYear, selectCategory]);
+   
     useEffect(() => {
         if (GetStatusDropdown.length > 0) {
             setStatus(GetStatusDropdown[0].Value)
         }
     }, [GetStatusDropdown])
-    useEffect(() => {
-        dispatch(getLeaveDetailList(body));
-    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus]);
-    const AllReportingUsersbody: IGetAllReportingUsersBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(selectAcademicYear)
-    }
+
     const body: IGetLeaveDetailsListBody = {
         asSchoolId: Number(asSchoolId),
         asUserId: Number(asUserId),
@@ -133,6 +120,15 @@ const LeaveDetailsBaseScreen = () => {
         asShowOnlyNonUpdated: false,
         asAcademicYearId: Number(selectAcademicYear)
     };
+
+
+   
+
+    const AllReportingUsersbody: IGetAllReportingUsersBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(selectAcademicYear)
+    }
+    
     const deleteRow = (Id) => {
         const DeleteLeaveBody: IGetDeleteLeaveBody = {
             asSchoolId: Number(asSchoolId),
@@ -322,6 +318,28 @@ const LeaveDetailsBaseScreen = () => {
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
+
+    useEffect(() => {
+        dispatch(AcademicYearDropdown(AcademicYearBody));
+    }, []);
+
+    useEffect(() => {
+        dispatch(CategoryDropdown(CategoryDropdownBody));
+    }, []);
+
+    useEffect(() => {
+        dispatch(StatusDropdown(StatusBody));
+    }, [selectAcademicYear, selectCategory]); 
+
+    useEffect(() => {
+        dispatch(getLeaveDetailList(body));
+    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus,GetAcademicYear]);
+   
+   
+
+
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -389,9 +407,7 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-            {Loading &&
-                <SuspenseLoader />
-            }
+            
             <Box sx={{ background: 'white', p: 2 }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
