@@ -51,7 +51,7 @@ const StudentRecords = () => {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-  const [sortExpression, setSortExpression] = useState('ClassName asc');
+  const [sortExpression, setSortExpression] = useState('ClassName');
   const [sortDirection, setsortDirection] = useState('ASC')
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -87,7 +87,7 @@ const StudentRecords = () => {
   const handleHeaderClick = (updatedHeaderArray) => {
     setHeaderArray(updatedHeaderArray);
     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'ClassName ASC';
+    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'ClassName';
     setSortExpression(newSortExpression);
   };
 
@@ -140,7 +140,7 @@ const StudentRecords = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
-    sortExpression: `ORDER BY ${sortExpression}`,
+    sortExpression: sortExpression,
     sortDirection: '',
     StartIndex: (page - 1) * rowsPerPage,
     EndIndex: page * rowsPerPage,
