@@ -43,7 +43,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
         let listInvestmentDetails = response.data.listInvestmentDetails
-            .filter((obj) => { return obj.SectionId })
+            .filter((obj) => { return obj.SectionId == "125" })
             .map((item, i) => {
                 return {
                     Id: item.Id,
@@ -87,24 +87,28 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
         });
 
 
-
-
-
-
         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentDetails(listInvestmentDetails));
         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentEmpDetails(listInvestmentEmpDetails));
 
         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentAmountDetails(listInvestmentAmountDetails));
-
-
-
 
     };
 
 export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
+        // dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
+        let listInvestmentSectionDetails = response.data.listInvestmentSectionDetail.map((item, i) => {
+            return {
+                Id: item.Id,
+                Name: item.Name,
+                SectionGroupId: item.SectionGroupId,
+                GroupMaxAmount: item.GroupMaxAmount,
+                CategoryId: item.CategoryId,
+                SortOrder: item.SortOrder
+            }
+        });
+        dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(listInvestmentSectionDetails));
     }
 
 export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppThunk =>
