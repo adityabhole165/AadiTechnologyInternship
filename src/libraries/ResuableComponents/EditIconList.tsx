@@ -1,6 +1,6 @@
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOffIcon from '@mui/icons-material/EditOff';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import TaskIcon from '@mui/icons-material/Task';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -74,10 +74,10 @@ function EditIconList({
                   {item.Text4 === '2' ? (
                     <IconButton>
                       <Tooltip title="Submit Marks To Class Teacher">
-                        <AssignmentIcon
+                        <EventAvailableIcon
                           onClick={() =>
-                            clicksubmit(item.SubjectId, item.StandardDivisionID)
-                          } sx={{ cursor: 'pointer', color: 'red' }}
+                            clicksubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
+                          } sx={{ cursor: 'pointer', color: '#25e67b' }}
                         />
                       </Tooltip>
                     </IconButton>

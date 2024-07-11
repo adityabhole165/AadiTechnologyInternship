@@ -32,6 +32,7 @@ export const getLeaveBalance = (data: IGetLeaveBalanceBody): AppThunk => async (
             Text1: Item.ShortName,
             Text2: Item.LeaveBalance,
         };
+        
     });
     dispatch(AddLeaveDetailsslice.actions.getLeaveBalance(LeavebalanceNt));
 };

@@ -1,18 +1,17 @@
-
-import { CheckCircle, Unpublished } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {
   Box,
-  Button,
   IconButton,
-  Pagination,
   Tooltip, Typography
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IDeleteAllStudentTestMarksBody,
@@ -23,31 +22,26 @@ import {
   IPublishUnpublishXseedResultBody,
   IoneDeleteStudentTestMarksBody,
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import StudentwiseProgressreportList from 'src/libraries/ResuableComponents/StudentwiseProgressreportList';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   CDAAssessmentDropdown,
-  PublishresetMessageNewAll,
   DeleteAllStudentTest,
   GetStudentResultList, PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
+  PublishresetMessageNewAll,
   oneDeleteStudentTest
 } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { toast } from 'react-toastify';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-
 
 const Studentwiseprogressreport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { ClassTecherid, ClassId, TestId } =
-    useParams();
-  let CanEdit = getSchoolConfigurations(74)
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -55,17 +49,6 @@ const Studentwiseprogressreport = () => {
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
   // const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const asExamId = Number(sessionStorage.getItem('ExamID'));
-
-
-  const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: 'Roll No', SortOrder: "Roll_No" },
-    { Id: 2, Header: 'Student Name' },
-    { Id: 3, Header: 'Edit' },
-    { Id: 4, Header: 'Delete' }
-  ]);
-
-
-
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -77,16 +60,15 @@ const Studentwiseprogressreport = () => {
     });
     return perm;
   };
-
-
+  const { ClassTecherid, ClassId, TestId } =
+    useParams();
+  let CanEdit = getSchoolConfigurations(74)
   const [SelectTeacher, setSelectTeacher] = useState(TeacherId);
   console.log(SelectTeacher, "SelectTeacher---");
-
   const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
   const [Assessment, setAssessment] = useState();
-
   const [std, setstd] = useState();
   const [StudentAssig, setStudentAssig] = useState();
   const [StudentGrad, setStudentGrad] = useState();
@@ -97,26 +79,7 @@ const Studentwiseprogressreport = () => {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
   const [page, setPage] = useState(1);
-
   const { showAlert, closeAlert } = useContext(AlertContext);
-
-
-
-  const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
-  //console.log(PrimaryTeacher, "PrimaryTeacher");
-  const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
-  const StudentAssignment = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignment);
-
-  const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
-  const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
-  const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
-  const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
-  const PublishUnpublish :any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
-  const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
- 
-  
-  const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
-
 
   const GetClassTeacher = () => {
     let returnVal = false
@@ -136,10 +99,25 @@ const Studentwiseprogressreport = () => {
     })
     return returnVal
   };
+  const [HeaderPublish, setHeaderPublish] = useState([
+    { Id: 1, Header: 'Roll No', SortOrder: "Roll_No" },
+    { Id: 2, Header: 'Student Name' },
+    { Id: 3, Header: 'Edit' },
+    { Id: 4, Header: 'Delete' }
+  ]);
 
+  const PrimaryTeacher = useSelector((state: RootState) => state.Studentwiseprogress.PrimaryClassTeacher);
+  //console.log(PrimaryTeacher, "PrimaryTeacher");
+  const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
+  const StudentAssignment = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignment);
+  const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
+  const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
+  const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
+  const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
+  const PublishUnpublish: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
+  const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
 
-
-  //ClassDrpdown
+  const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
@@ -164,23 +142,6 @@ const Studentwiseprogressreport = () => {
     asSortExp: ' ' + HeaderPublish[0].SortOrder
   }
 
-  // const oneDeleteStudentTestMarks_Body: IoneDeleteStudentTestMarksBody = {
-  //     asAcadmicYearId: Number(asAcademicYearId),
-  //     asSchoolId: Number(asSchoolId),
-  //     asAssessmentId: Assessment,
-  //     asStudentId: StudentAssig,
-  //     asUpdatedById:  Number(SelectTeacher)
-  // }
-
-  const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
-      asSchoolId:Number(asSchoolId),
-     asAcademicYearId:Number(asAcademicYearId),
-     asStandardDivId:Number(StandradID),
-     asAssessmentId:Number(Assessment),
-     asUpdatedById:Number(SelectTeacher)
-    }
-  
-
   const GetPublishStatusBody: IGetPublishStatusBody = {
     asAcademicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
@@ -188,23 +149,18 @@ const Studentwiseprogressreport = () => {
     asAssessmentId: Number(Assessment),
   }
 
- 
-
   const ClickPublishUnpublish = () => {
-
     const PublishUnpublishXseedResultBody: IPublishUnpublishXseedResultBody = {
       asSchoolId: Number(asSchoolId),
-      asAcademicYearId:Number(asAcademicYearId),
+      asAcademicYearId: Number(asAcademicYearId),
       asStandardDivisionId: Number(StandradID),
       asAssessmentId: Number(Assessment),
       asMode: asMode,
       asInsertedById: Number(SelectTeacher)
     }
     dispatch(PublishUnpublishXseed(PublishUnpublishXseedResultBody));
-    
-  };
 
- 
+  };
 
   useEffect(() => {
     dispatch(GetStudentResultList(getPrimaryTeacher_body));
@@ -230,15 +186,7 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-  }, [SelectTeacher, Assessment, HeaderPublish,page,rowsPerPage]);
-
-  // useEffect(() => {
-  //   dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));
-  // }, [oneDelete]);
-
-  useEffect(() => {
-    dispatch(DeleteAllStudentTest(DeleteAllStudentTestMarksBody));
-  }, [DeleteAll]);
+  }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage]);
 
   useEffect(() => {
     dispatch(PublishStatus(GetPublishStatusBody));
@@ -252,7 +200,7 @@ const Studentwiseprogressreport = () => {
       dispatch(PublishStatus(GetPublishStatusBody));
 
     }
-  }, [PublishUnpublish,StandradID,Assessment,SelectTeacher]);
+  }, [PublishUnpublish, StandradID, Assessment, SelectTeacher]);
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
@@ -260,14 +208,6 @@ const Studentwiseprogressreport = () => {
 
   const clickAssessmentDropdown = (value) => {
     setAssessment(value);
-  };
-
-  // const clickDeleteone = (value) => {
-  // setoneDelete(value);
-  // };
-
-  const clickDeleteall = (value) => {
-    setDeleteAll(value);
   };
 
   const clickunpublish = (value) => {
@@ -286,17 +226,15 @@ const Studentwiseprogressreport = () => {
 
     showAlert({
       title: 'Delete',
-      message: Id.ShowDeleteButton !== 'N' ?
-        //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-        'Once you submit the result to the class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-        'Are you sure, Do you want to Delete marks/grades?',
+      message: Id.ShowDeleteButton !== 'N' ? 'Are you sure you want to delete grades of selected assessment of selected student? ' :
+        '',
       variant: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
         dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));
-      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+        dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
 
       },
       onCancel: closeAlert
@@ -304,22 +242,35 @@ const Studentwiseprogressreport = () => {
 
   };
 
+  const clickDeleteAlll = (Id) => {
 
-  // useEffect(() => {
-  //   if (oneDeleteStud != '') {
-  //     toast.success(oneDeleteStud);
-  //     dispatch(resetMessage());
-  //     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-  //   }
-  // }, [oneDeleteStud]);
+    const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
+      asAcademicYearId: Number(asAcademicYearId),
+      asSchoolId: Number(asSchoolId),
+      asAssessmentId: Assessment,
+      asStandardDivId: Id,
+      asUpdatedById: Number(SelectTeacher)
+    };
 
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete grades of selected assessment of all students.?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(DeleteAllStudentTest(DeleteAllStudentTestMarksBody));
 
-
- 
-
+        closeAlert();
+      }
+    });
+  }
 
   const clickEdit = (value) => {
-
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
       ClassTecher + '/' +
       value.StandardDivisionId + '/' +
@@ -332,10 +283,7 @@ const Studentwiseprogressreport = () => {
       !(value.IsSubmitted == "N") + '/' +
       false + '/' +
       'true'
-    )
-      ;
-
-
+    );
   };
 
   const ClickHeader = (value) => {
@@ -343,20 +291,17 @@ const Studentwiseprogressreport = () => {
   }
   const ClicEdit = (value) => {
   }
-
-
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, StudentRecordCount.Count);
   const pagecount = Math.ceil(StudentRecordCount.Count / rowsPerPage);
   const ChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1); 
+    setPage(1);
   };
 
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
   };
- 
 
   return (
     <Box sx={{ px: 2 }}>
@@ -369,7 +314,7 @@ const Studentwiseprogressreport = () => {
             <Box>
               <SearchableDropdown
                 sx={{
-                  minWidth: '20vw',
+                  minWidth: '18vw',
                   bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
                 }}
                 ItemList={PrimaryTeacher}
@@ -385,7 +330,7 @@ const Studentwiseprogressreport = () => {
 
             <Box>
               <SearchableDropdown
-                sx={{ minWidth: '300px' }}
+                sx={{ minWidth: '15vw' }}
                 ItemList={USAssessmentDrop}
                 onChange={clickAssessmentDropdown}
                 label={'Assessment:'}
@@ -397,9 +342,7 @@ const Studentwiseprogressreport = () => {
 
             <Box>
               <Tooltip
-                title={`View all subjects assigned with the current status of marks given to students.
-                Once marks for all the students are allotted you have to submit these marks to the class teacher by clicking on "submit" button.
-                Pre-primary teachers to add and submit progress report entries of his/her class.`}
+                title={`Select the class and edit any students grades for student wise marks assignment.`}
               >
                 <IconButton
                   sx={{
@@ -413,9 +356,39 @@ const Studentwiseprogressreport = () => {
                 </IconButton>
               </Tooltip>
             </Box>
+
+            <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              {StudentAssignment.length > 0 &&
+                (() => {
+                  const item = StudentAssignment.find(item => item.ShowDeleteButton !== 0);
+                  return item ? (
+                    <Tooltip key={item.Id} title={"Delete"}>
+                      <DeleteForeverIcon
+                        onClick={() => clickDeleteAlll(item.Id)}
+                        sx={{
+                          color: '#223354',
+                          '&:hover': {
+                            color: 'red',
+                            backgroundColor: red[100]
+                          }
+                        }}
+                      />
+                    </Tooltip>
+                  ) : null;
+                })()
+              }
+            </Box>
+
+            {PublishStatu.AllowPublish === false && PublishStatu.AllowUnpublish === false ? (
+              <span></span>
+            ) : (
+              <ButtonPrimary style={{ backgroundColor: PublishStatu.AllowPublish === true ? green[500] : red[500] }} onClick={ClickPublishUnpublish}>
+                {/* {asMode} */}
+                {PublishStatu.AllowPublish === true ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+              </ButtonPrimary>
+            )}
           </>
-        }
-      />
+        } />
 
       <Box sx={{ background: 'white', p: 1 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
@@ -431,29 +404,25 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-
       <Box>
 
-      {
+        {
           StudentAssignment.length > 0 ? (
-            <div style={{ flex: 1, textAlign: 'center' }}>
+            <p style={{ flex: 1, textAlign: 'center' }}>
               <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                 <Box component="span" fontWeight="fontWeightBold">
                   {startRecord} to {endRecord}
                 </Box>
                 {' '}out of{' '}
                 <Box component="span" fontWeight="fontWeightBold">
-                  { StudentRecordCount.Count}
+                  {StudentRecordCount.Count}
                 </Box>{' '}
-                { StudentRecordCount.Count === 1 ? 'record' : 'records'}
+                {StudentRecordCount.Count === 1 ? 'record' : 'records'}
               </Typography>
-            </div>
-
+            </p>
           ) : (
             <span></span>
-
-          )
-        }
+          )}
 
         <StudentwiseProgressreportList
           ItemList={StudentAssignment}
@@ -461,40 +430,22 @@ const Studentwiseprogressreport = () => {
           ClickHeader={ClickHeader}
           clickEdit={ClicEdit}
           clickDelete={ClickDelete}
-
-
-         
         />
-
-        {PublishStatu.AllowPublish === false && PublishStatu.AllowUnpublish === false ? (
-          <span></span>
-        ) : (
-          <Button onClick={ClickPublishUnpublish}>
-            {asMode}
-          </Button>
-        )}
       </Box>
 
-    
       {
-            StudentRecordCount.Count > rowsPerPage ? (
-            
-              <ButtonGroupComponent
-                rowsPerPage={rowsPerPage}
-                ChangeRowsPerPage={ChangeRowsPerPage}
-                rowsPerPageOptions={rowsPerPageOptions}
-                PageChange={PageChange}
-                pagecount={pagecount}
-
-
-
-                
-              />
-            ) : (
-              <span></span>
-            )
-          }
-      
+        StudentRecordCount.Count > rowsPerPage ? (
+          <ButtonGroupComponent
+            rowsPerPage={rowsPerPage}
+            ChangeRowsPerPage={ChangeRowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+            PageChange={PageChange}
+            pagecount={pagecount}
+          />
+        ) : (
+          <span></span>
+        )
+      }
     </Box>
   );
 };

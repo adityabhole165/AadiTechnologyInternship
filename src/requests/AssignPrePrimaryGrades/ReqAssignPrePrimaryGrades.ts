@@ -173,8 +173,8 @@ export const CDAGetTeacherDropdown =
           Value: item.Teacher_Id.toString()
         };
       });
-      console.log(listGradesDetails, "listGradesDetails");
-      listGradesDetails.unshift({ Id: '0', Name: 'Select', Value: '0' });
+      console.log("These are teacher dropdown list ----", listGradesDetails);
+      listGradesDetails.unshift({ Id: "0", Name: 'Select', Value: '0' });
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetTeacherDropdown(listGradesDetails)
       );
@@ -196,7 +196,8 @@ export const CDAGetTeacherXseedSubjects =
           Text1: item.StandardDivision,
           Text2: item.Subject_Name,
           Text3: item.EditStatus,
-          Text4: item.SubmitStatus
+          Text4: item.SubmitStatus,
+          Text5: item.IncompleteRollNoString
         };
       });
 

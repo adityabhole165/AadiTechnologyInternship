@@ -37,7 +37,6 @@ import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 
-import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -397,7 +396,6 @@ function Dashboard() {
       <NewRelease />
       {showBday && <BdayPopUp />}
       <SchoolNoticeBoard />
-      <SettingsDropdown />
       <Card2
         items={items1}
         heading={'School'}
