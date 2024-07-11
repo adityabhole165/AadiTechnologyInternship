@@ -125,14 +125,6 @@ const StudentRecords = () => {
     dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   }, [SelectTeacher, page, rowsPerPage, sortExpression, sortDirection]);
 
-
-
-  useEffect(() => {
-    if (GetStatusStudents) {
-      setStudentList(GetStatusStudents);
-    }
-  }, [GetStatusStudents]);
-
   const TeachersBody: IGetTeacherListBody = {
     AsSchoolId: asSchoolId,
     AsAcademicYearId: asAcademicYearId,
