@@ -172,7 +172,8 @@ export const getViewLeaveDetails =
                     Text2: getDateMonthYearDayDash(Item.StartDate),
                     Text3: getDateMonthYearDayDash(Item.EndDate),
                     Text4: parseInt(Item.TotalDays),
-                    Text5: Item.Description
+                    Text5: Item.Description,
+                    UserId : Item.UserId
                 }
             })
             dispatch(LeaveDetailsslice.actions.getViewLeaveDetails(responseData))

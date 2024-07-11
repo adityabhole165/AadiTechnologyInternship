@@ -1,4 +1,4 @@
-import { Close, HowToReg, PersonRemove, Save } from '@mui/icons-material';
+import { Close, Save } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Accordion, AccordionSummary, Alert, Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router';
 import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
+import { getLeaveBalance } from 'src/requests/LeaveDetails/RequestAddLeave';
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -27,11 +28,18 @@ const AddLeaveDetails = () => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [Description, setDescription] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
+
 
     const GetViewLeave = useSelector(
         (state: RootState) => state.LeaveDetails.ViewLeaveDetails
     );
     console.log(GetViewLeave, "GetViewLeave");
+    const GetLeaveBalance = useSelector(
+        (state: RootState) => state.AddLeaveDetails.LeaveBalanceNote
+    );
+    console.log(GetLeaveBalance, "GetLeaveBalance");
 
     const Note1 = [
         ' Leave Balance : CL(3.00), SL(113.00), EL(180.00), A(Unpaid), ML(0.00), LWP(Unpaid), Off(0.00), O.D.(0.00)'
@@ -64,13 +72,22 @@ const AddLeaveDetails = () => {
     useEffect(() => {
         if (LeaveId) {
             const GetViewLeaveBody: IGetViewLeaveBody = {
-                asSchoolId: 18,
-                asUserId: 5488,
+                asSchoolId: asSchoolId,
+                asUserId: asUserId,
                 asId: Number(LeaveId)  //Id for ViewDetails
             }
             dispatch(getViewLeaveDetails(GetViewLeaveBody))
         }
-    }, [LeaveId, dispatch]);
+    }, [LeaveId]);
+    useEffect(() => {
+        if (asUserId) {
+            const GetLeaveBalanceBody = {
+                asSchoolId: asSchoolId,
+                asUserId: asUserId,
+            };
+            dispatch(getLeaveBalance(GetLeaveBalanceBody));
+        }
+    }, [asUserId]);
 
     const onSelectStartDate = (value) => {
         setStartDate(value);
@@ -141,7 +158,7 @@ const AddLeaveDetails = () => {
                             <Save />
                         </IconButton>
                     </Tooltip></>) : null}
-                {/* <>
+            {/* <>
                     <Tooltip title={'Reject'}>
                         <IconButton
                             sx={{
@@ -170,7 +187,7 @@ const AddLeaveDetails = () => {
                             <HowToReg />
                         </IconButton>
                     </Tooltip></>} */}
-        </> 
+        </>
     );
 
     return (
@@ -256,7 +273,9 @@ const AddLeaveDetails = () => {
                                 <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
                             </AccordionSummary>
                             <Grid item xs={12}>
-                                <Alert variant="filled" severity="info" sx={{ mb: 1 }}><b>Note 1 : </b> {Note1}</Alert>
+                                <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
+                                    <b>Note 1 :</b> <>Leave balance</>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                                </Alert>
                                 <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
                             </Grid>
                         </Accordion>
