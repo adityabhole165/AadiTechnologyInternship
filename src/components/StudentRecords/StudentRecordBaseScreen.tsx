@@ -122,6 +122,10 @@ const StudentRecords = () => {
   }, [GetTeachers]);
 
   useEffect(() => {
+    setStudentList(GetStatusStudents);
+  }, [GetStatusStudents])
+
+  useEffect(() => {
     dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   }, [SelectTeacher, page, rowsPerPage, sortExpression, sortDirection]);
 
