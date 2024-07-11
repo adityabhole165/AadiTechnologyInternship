@@ -76,7 +76,7 @@ function EditIconList({
                       <Tooltip title="Submit Marks To Class Teacher">
                         <AssignmentIcon
                           onClick={() =>
-                            clicksubmit(item.SubjectId, item.StandardDivisionID)
+                            clicksubmit(item.SubjectId, item.StandardDivisionID, item.Text7)
                           } sx={{ cursor: 'pointer', color: 'red' }}
                         />
                       </Tooltip>

@@ -77,7 +77,9 @@ const AssignPrePrimaryGrades = () => {
     asAssessmentId: Number(SelectTerm)
   };
 
-  const ClickSubmit = (value, StandardDivisionID) => {
+  const ClickSubmit = (value, StandardDivisionID, pending) => {
+
+
     const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = {
       asStandard_Division_Id: StandardDivisionID,
       asAssessmentId: SelectTerm,
@@ -87,8 +89,9 @@ const AssignPrePrimaryGrades = () => {
       asInserted_By_id: Number(selectTeacher),
       asInsertDate: String(dateState)
     };
-
-    dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    if (confirm(`Are you sure you want to submit the result? Because Grades of following roll no.(s) ${pending}`)) {
+      dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    }
   };
 
   useEffect(() => {
