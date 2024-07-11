@@ -21,20 +21,24 @@ import {
   resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
-import { GetIsPrePrimaryTeacher } from '../Common/Util';
+import { GetIsPrePrimaryTeacher, GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [selectTeacher, SetselectTeacher] = useState();
+  let Teacher_ID = sessionStorage.getItem("TeacherId")
+  let AssignPrePrimaryGradesAccess = GetScreenPermission(" Assign Pre-Primary Grades");
+  const [selectTeacher, SetselectTeacher] = useState(AssignPrePrimaryGradesAccess === "N" ? Teacher_ID : "0");
   const [SelectTerm, SetSelectTerm] = useState();
   const [dateState, setDateState] = useState('');
   const [Subjectid, setSubjectid] = useState('');
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+
+
+
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
@@ -80,7 +84,7 @@ const AssignPrePrimaryGrades = () => {
       asSubjectId: Number(value),
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId,
-      asInserted_By_id: selectTeacher,
+      asInserted_By_id: Number(selectTeacher),
       asInsertDate: String(dateState)
     };
 
@@ -126,11 +130,7 @@ const AssignPrePrimaryGrades = () => {
     }
   }, [USGetTestwiseTerm]);
 
-  useEffect(() => {
-    if (USGetTeacherDropdown.length > 0) {
-      SetselectTeacher(USGetTeacherDropdown[0].Value);
-    }
-  }, [USGetTeacherDropdown]);
+
 
   useEffect(() => {
     dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
@@ -149,8 +149,9 @@ const AssignPrePrimaryGrades = () => {
   };
 
   const clickSelectClass = (value) => {
+
     SetselectTeacher(value);
-    console.log("Selected Teacher..>>", selectTeacher, typeof (selectTeacher))
+    console.log("Selected Teacher.............>> check number", selectTeacher)
   };
   const clickEdit = (EditId, ClassName, SubjectName, SubjectId, StandardDivisionID) => {
     let EditStatusId = EditId
@@ -191,15 +192,17 @@ const AssignPrePrimaryGrades = () => {
                 size={"small"}
                 mandatory
               />
-              <SearchableDropdown
-                ItemList={USGetTeacherDropdown}
-                onChange={clickSelectClass}
-                defaultValue={selectTeacher}
-                label={'Subject Teacher: '}
-                sx={{ minWidth: '20vw' }}
-                size={"small"}
-                mandatory
-              />
+              {AssignPrePrimaryGradesAccess === "Y" &&
+                <SearchableDropdown
+                  ItemList={USGetTeacherDropdown}
+                  onChange={clickSelectClass}
+                  defaultValue={selectTeacher}
+                  label={'Subject Teacher: '}
+                  sx={{ minWidth: '20vw' }}
+                  size={"small"}
+                  mandatory
+                />
+              }
               <Box>
                 <Tooltip title={`View all subjects assigned with the current status of grades given to students.Once grades for all 
                   the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>

@@ -173,8 +173,8 @@ export const CDAGetTeacherDropdown =
           Value: item.Teacher_Id.toString()
         };
       });
-      console.log(listGradesDetails, "listGradesDetails");
-      listGradesDetails.unshift({ Id: '0', Name: 'Select', Value: '0' });
+      console.log("These are teacher dropdown list ----", listGradesDetails);
+      listGradesDetails.unshift({ Id: "0", Name: 'Select', Value: '0' });
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RGetTeacherDropdown(listGradesDetails)
       );
