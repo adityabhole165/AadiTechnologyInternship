@@ -14,7 +14,7 @@ import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
-  CDAGetClassTeachers,
+  CDAGetTeacherDropdown,
   CDAGetTeacherXseedSubjects,
   CDAGetTestwiseTerm,
   CDASubmitExamMarksStatus,
@@ -43,8 +43,8 @@ const AssignPrePrimaryGrades = () => {
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
   );
 
-  const USGetClassTeachers: any = useSelector(
-    (state: RootState) => state.AssignPrePrimaryGrades.ISGetClassTeachers
+  const USGetTeacherDropdown: any = useSelector(
+    (state: RootState) => state.AssignPrePrimaryGrades.ISGetTeacherDropdown
   );
 
   const USGetTeacherXseedSubjects: any = useSelector(
@@ -61,7 +61,7 @@ const AssignPrePrimaryGrades = () => {
     asAcademicYearId: asAcademicYearId
   };
 
-  const GetClassTeachersBody: IGetClassTeachersBody = {
+  const GetTeacherDropdownBody: IGetClassTeachersBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
   };
@@ -127,18 +127,18 @@ const AssignPrePrimaryGrades = () => {
   }, [USGetTestwiseTerm]);
 
   useEffect(() => {
-    if (USGetClassTeachers.length > 0) {
-      SetselectTeacher(USGetClassTeachers[0].Value);
+    if (USGetTeacherDropdown.length > 0) {
+      SetselectTeacher(USGetTeacherDropdown[0].Value);
     }
-  }, [USGetClassTeachers]);
+  }, [USGetTeacherDropdown]);
 
   useEffect(() => {
     dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
   }, []);
 
   useEffect(() => {
-    dispatch(CDAGetClassTeachers(GetClassTeachersBody));
-  }, []);
+    dispatch(CDAGetTeacherDropdown(GetTeacherDropdownBody));
+  }, [selectTeacher]);
 
   useEffect(() => {
     dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
@@ -192,7 +192,7 @@ const AssignPrePrimaryGrades = () => {
                 mandatory
               />
               <SearchableDropdown
-                ItemList={USGetClassTeachers}
+                ItemList={USGetTeacherDropdown}
                 onChange={clickSelectClass}
                 defaultValue={selectTeacher}
                 label={'Subject Teacher: '}

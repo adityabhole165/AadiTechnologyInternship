@@ -6,6 +6,8 @@ import {
   IGetNonXseedStudentsObs,
   IGetStudentsForStdDevMasters,
   IGetStudentsForStdDevMastersBody,
+  IGetTeacherDropdownBody,
+  IGetTeacherDropdownResult,
   IGetTeacherXseedSubjectsBody,
   IGetTeacherXseedSubjectsResult,
   IGetTestwiseTermBody,
@@ -25,6 +27,12 @@ const GetTestwiseTermA = (data: IGetTestwiseTermBody) => {
 const GetClassTeachers = (data: IGetClassTeachersBody) => {
   return http.post<IGetClassTeachersResult[]>(
     'Teacher/GetClassTeacherss',
+    data
+  );
+};
+const GetTeacherDropdown = (data: IGetTeacherDropdownBody) => {
+  return http.post<IGetTeacherDropdownResult[]>(
+    'Teacher/GetTeacherDropdown',
     data
   );
 };
@@ -75,6 +83,7 @@ const ApiAssignPrePrimaryGrades = {
   GetStudentsForStdDevMasters,
   GetStudentsForNonXseedSubjects,
   IGetSaveNonXseedSubGrades,
-  GetStudentsForNonXseedSubjectWithObs
+  GetStudentsForNonXseedSubjectWithObs,
+  GetTeacherDropdown
 };
 export default ApiAssignPrePrimaryGrades;
