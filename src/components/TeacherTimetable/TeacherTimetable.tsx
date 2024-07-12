@@ -33,6 +33,7 @@ const FooterStyledCell = styled(TableCell)(({ theme }) => ({
 const StyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1.5),
   paddingBottom: theme.spacing(1.5),
+  height: '60px',
   textAlign: 'center',
   border: '1px solid rgba(224, 224, 224, 1)',
 }))
@@ -322,32 +323,42 @@ const TeacherTimetable = () => {
                   Additional Lectures
                 </Typography>
                 {/* WeekDay	Lecture Number	Class	Subject */}
-                <TableContainer sx={{ width: '100%' }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <HeaderStyledCell>WeekDay</HeaderStyledCell>
-                        <HeaderStyledCell>Lecture Number</HeaderStyledCell>
-                        <HeaderStyledCell>Class</HeaderStyledCell>
-                        <HeaderStyledCell>Subject </HeaderStyledCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {/* Loopable content */}
-                      {AdditionalClasses.map((item, i) => (
+                {AdditionalClasses.length === 0 &&
+
+                  <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                    <b>No record found.</b>
+                  </Typography>
+                }
+
+                {AdditionalClasses.length > 0 &&
+                  <TableContainer sx={{ width: '100%' }}>
+                    <Table>
+                      <TableHead>
                         <TableRow>
-                          <StyledCell>{item.Text1}</StyledCell>
-                          <StyledCell>{item.Text2}</StyledCell>
-                          <StyledCell>{item.Text3}</StyledCell>
-                          <StyledCell>{item.Text4}</StyledCell>
+                          <HeaderStyledCell>WeekDay</HeaderStyledCell>
+                          <HeaderStyledCell>Lecture Number</HeaderStyledCell>
+                          <HeaderStyledCell>Class</HeaderStyledCell>
+                          <HeaderStyledCell>Subject </HeaderStyledCell>
                         </TableRow>
-                      ))}
+                      </TableHead>
+                      <TableBody>
+                        {/* Loopable content */}
+                        {AdditionalClasses.map((item, i) => (
+                          <TableRow>
+                            <StyledCell>{item.Text1}</StyledCell>
+                            <StyledCell>{item.Text2}</StyledCell>
+                            <StyledCell>{item.Text3}</StyledCell>
+                            <StyledCell>{item.Text4}</StyledCell>
+                          </TableRow>
+                        ))}
 
-                      {/* Fixed Footer */}
+                        {/* Fixed Footer */}
 
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                }
+
               </Box>
             </Stack>
           </Box>
