@@ -195,11 +195,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
 
     {
-      title: 'Student Wise Progress Report',
-      icon: <TableChart />,
-      link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
-    },
-    {
       title: 'Student Records',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/StudentRecords'
@@ -223,6 +218,15 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
     });
   }
+
+  if (isPreprimary === true) {
+    sideList.push({
+      title: 'Student Wise Progress Report',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
+    });
+  }
+
 
   const activeStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,
