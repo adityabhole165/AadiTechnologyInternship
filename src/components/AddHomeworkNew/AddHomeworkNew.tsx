@@ -1,12 +1,13 @@
+import Add from "@mui/icons-material/Add";
 import Close from '@mui/icons-material/Close';
-import Add from "@mui/icons-material/Add"
 import { AlertContext } from 'src/contexts/AlertContext';
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Modal, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,7 +25,6 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import { ClearIcon } from '@mui/x-date-pickers';
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
     useParams();
@@ -763,10 +763,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   //   }
   // };
   const changeSearchText = () => {
-   // Ensure AssignedDate1 is a Date object
-   const selectedDate = AssignedDate1 instanceof Date ? AssignedDate1 : new Date(AssignedDate1);
+    // Ensure AssignedDate1 is a Date object
+    const selectedDate = AssignedDate1 instanceof Date ? AssignedDate1 : new Date(AssignedDate1);
 
-   // Log selectedDate to check its value
+    // Log selectedDate to check its value
     console.log('selectedDate:', selectedDate);
 
     // Convert selectedDate to formatted string for display
@@ -791,14 +791,14 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
       filteredTittle = Subjectlistsforteacher.filter((item) => {
         // Filter by subject and search text for the selected date
         const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
-        return itemDate.toDateString() === selectedDate.toDateString()&&
+        return itemDate.toDateString() === selectedDate.toDateString() &&
           item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
       });
 
       filteredTittle1 = Subjectlistsforteacher.filter((item) => {
         // Filter by subject and search text for dates other than the selected date
         const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
-        return itemDate.toDateString() !== selectedDate.toDateString()&&
+        return itemDate.toDateString() !== selectedDate.toDateString() &&
           item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
       });
     }
@@ -854,9 +854,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   };
   const handleDateChange = (date) => {
     setAssignedDate1(date); // Update AssignedDate1 with selected date object
-};
+  };
 
-const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const ClickAppropriate = (value) => {
     setOpen(true)
@@ -930,88 +930,95 @@ const [open, setOpen] = useState(false);
               </Box>
 
               <Box>
-              <Tooltip  title={
+                <Tooltip title={
                   'Add HomeWork'
                 }>
-             <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}
-                  onClick={ClickAppropriate}
-                >
-                   <Add />
-                </IconButton>
-             </Tooltip>
-             
-            </Box>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] }
+                    }}
+                    onClick={ClickAppropriate}
+                  >
+                    <Add />
+                  </IconButton>
+                </Tooltip>
+
+              </Box>
 
             </>
           }
         />
 
-       
-        <Modal open={open} onClose={ClickAppropriate}>
-  <Box sx={style}>
-    <Box sx={{ padding: 5, marginBottom: '6px',height: '600px', width: '1200px', overflowY: 'auto', position: 'relative' }}>
-      <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '24px', cursor: 'pointer' }} />
-      <Box sx={{ background: 'white', p: 4,  top: '1px', mr: 4}}>
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <TextField fullWidth label={'Class'} value={ClassName} 
-              sx={{ bgcolor: '#F0F0F0', width: '100%' }} 
-              inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                label={'Class Teacher'}
-                value={TeacherName}
-                sx={{ bgcolor: '#F0F0F0', width: '100%' }}
-                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
-            </Grid>
-            <Grid item xs={3}>
 
-              <SearchableDropdown
-                ItemList={ClassSubject.filter((Item) => {
-                  return MySubject == 'true' ?
-                    Item.TeacherId == TeacherId :
-                    Item.TeacherId != TeacherId
-                })}
-                onChange={clickSubjectList}
-                defaultValue={Subject}
-                sx={{ width: '100%' }}
-                label='Select Subject'
-              />
+        <Dialog
+          open={open}
+          maxWidth={'md'}
+          fullWidth
+          onClose={handleClose}
+          sx={{ height:'100%', width: '100%' }} >
+          <DialogTitle  sx={{bgcolor:'#223354'}}
+          ></DialogTitle>
+          <DialogContent dividers >
+            <Box>
+              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '7px', cursor: 'pointer', marginTop:'33px' }} />
+              <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={3}>
+                    <TextField fullWidth label={'Class'} value={ClassName}
+                      sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      label={'Class Teacher'}
+                      value={TeacherName}
+                      sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                      inputProps={{ style: { color: 'rgb(0, 0, 0)' } }} />
+                  </Grid>
+                  <Grid item xs={3}>
 
-
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                value={Title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              
-                //error={ErrorTitle !== ''}
-                //helperText={ErrorTitle}
-                sx={{ width: '100%' }}
-                label={
-                  <span>
-                    Title <span style={{ color: 'red' }}>*</span>
-                  </span>
-                }
-              />
-              {ErrorTitle && <ErrorMessage1 Error={ErrorTitle} />}
-            </Grid>
-
-            <Grid item xs={3}>
+                    <SearchableDropdown
+                      ItemList={ClassSubject.filter((Item) => {
+                        return MySubject == 'true' ?
+                          Item.TeacherId == TeacherId :
+                          Item.TeacherId != TeacherId
+                      })}
+                      onChange={clickSubjectList}
+                      defaultValue={Subject}
+                      sx={{ width: '100%' }}
+                      label='Select Subject'
+                    />
 
 
-              {/* <TextField
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      value={Title}
+                      onChange={(e) => {
+                        setTitle(e.target.value);
+                      }}
+
+                      //error={ErrorTitle !== ''}
+                      //helperText={ErrorTitle}
+                      sx={{ width: '100%' }}
+                      label={
+                        <span>
+                          Title <span style={{ color: 'red' }}>*</span>
+                        </span>
+                      }
+                    />
+                    {ErrorTitle && <ErrorMessage1 Error={ErrorTitle} />}
+                  </Grid>
+
+                  <Grid item xs={3}>
+
+
+                    {/* <TextField
               fullWidth
               label={
                 <span>
@@ -1028,18 +1035,18 @@ const [open, setOpen] = useState(false);
               helperText={ErrorAssignedDate}
 
             /> */}
-              <Datepicker
-                DateValue={AssignedDate}
-                onDateChange={handleAssignedDateChange}
-                label={'Assigned Date'}
-                size={"medium"}
+                    <Datepicker
+                      DateValue={AssignedDate}
+                      onDateChange={handleAssignedDateChange}
+                      label={'Assigned Date'}
+                      size={"medium"}
 
-              />
-              {/* <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1> */}
-              {ErrorAssignedDate && <ErrorMessage1 Error={ErrorAssignedDate} />}
-            </Grid>
-            <Grid item xs={3}>
-              {/* <TextField
+                    />
+                    {/* <ErrorMessage1 Error={ErrorAssignedDate}></ErrorMessage1> */}
+                    {ErrorAssignedDate && <ErrorMessage1 Error={ErrorAssignedDate} />}
+                  </Grid>
+                  <Grid item xs={3}>
+                    {/* <TextField
               fullWidth
               InputLabelProps={{
                 shrink: true
@@ -1057,18 +1064,18 @@ const [open, setOpen] = useState(false);
 
 
             /> */}
-              <Datepicker
-                DateValue={CompleteDate}
-                onDateChange={handleCompleteByDateChange}
-                label={'Complete By Date'}
-                size={"medium"}
+                    <Datepicker
+                      DateValue={CompleteDate}
+                      onDateChange={handleCompleteByDateChange}
+                      label={'Complete By Date'}
+                      size={"medium"}
 
-              />
-              {/* <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1> */}
-              {ErrorCompleteDate && <ErrorMessage1 Error={ErrorCompleteDate} />}
-            </Grid>
+                    />
+                    {/* <ErrorMessage1 Error={ErrorCompleteDate}></ErrorMessage1> */}
+                    {ErrorCompleteDate && <ErrorMessage1 Error={ErrorCompleteDate} />}
+                  </Grid>
 
-            {/* <Grid item xs={3}>
+                  {/* <Grid item xs={3}>
             <SingleFile
               ValidFileTypes={ValidFileTypes}
               MaxfileSize={MaxfileSize}
@@ -1080,7 +1087,7 @@ const [open, setOpen] = useState(false);
               isMandatory={false}
             />
           </Grid> */}
-            {/* <Grid item xs={3}>
+                  {/* <Grid item xs={3}>
               <MultipleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
@@ -1093,21 +1100,21 @@ const [open, setOpen] = useState(false);
                 isMandatory={false}
               />
             </Grid> */}
-            <Grid item xs={3}>
-              <MultipleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
-                ChangeFile={handleFileChange}
-                FileLabel={'Attachments'}
-                width={'100%'}
-                height={'52px'}
-                isMandatory={false}
+                  <Grid item xs={3}>
+                    <MultipleFile
+                      ValidFileTypes={ValidFileTypes}
+                      MaxfileSize={MaxfileSize}
+                      ChangeFile={handleFileChange}
+                      FileLabel={'Attachments'}
+                      width={'100%'}
+                      height={'52px'}
+                      isMandatory={false}
 
-              />
-            </Grid>
+                    />
+                  </Grid>
 
 
-            {/* 
+                  {/* 
           <Grid item xs={3}>
             <Button
               startIcon={<CloudUpload />}
@@ -1120,32 +1127,63 @@ const [open, setOpen] = useState(false);
 
           </Grid> */}
 
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label={
-                  <span>
-                    Details <span style={{ color: 'red' }}>*</span>
-                  </span>
-                }
-                multiline
-                rows={1}
-                value={Details}
-                onChange={(e) => {
-                  setDetails(e.target.value);
-                }}
-              // error={ErrorDetails !== ''}
-              //  helperText={ErrorDetails}
-              />
-              {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
-            </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label={
+                        <span>
+                          Details <span style={{ color: 'red' }}>*</span>
+                        </span>
+                      }
+                      multiline
+                      rows={1}
+                      value={Details}
+                      onChange={(e) => {
+                        setDetails(e.target.value);
+                      }}
+                    // error={ErrorDetails !== ''}
+                    //  helperText={ErrorDetails}
+                    />
+                    {ErrorDetails && <ErrorMessage1 Error={ErrorDetails} />}
+                  </Grid>
 
-          </Grid>
+                </Grid>
 
-        </Box>
-    </Box>
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button
+              color={'error'}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+
+              onClick={ClickSaveHomework}
+              // color={'success'}
+              // variant={'contained'}
+                  sx={{
+                    color:'green',
+                     //  backgroundColor: grey[500],
+                      '&:hover': {
+                       color:'green',
+                     backgroundColor: green[100]
+                     }}}
+              >
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/*        
+        <Modal open={open} onClose={ClickAppropriate}>
+  <Box sx={style}>
+    
   </Box>
-</Modal>
+</Modal> */}
 
 
         <Box sx={{ background: 'white', p: 2, mt: 1 }}>
@@ -1188,7 +1226,7 @@ const [open, setOpen] = useState(false);
               label="Title"
               value={SearchText}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                if (e.key === 'Enter' || e.key === 'Tab') {
                   handleSearchClick();
                 }
               }}
@@ -1309,14 +1347,15 @@ const [open, setOpen] = useState(false);
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOkall} 
-            // color={'success'} variant={'contained'} 
-            sx={{
-              color:'green',
-                   //  backgroundColor: grey[500],
-                    '&:hover': {
-                   backgroundColor: green[100]
-                   }}}
+            <Button onClick={ClickOkall}
+              // color={'success'} variant={'contained'} 
+              sx={{
+                color: 'green',
+                //  backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: green[100]
+                }
+              }}
             >
               Confirm
             </Button>

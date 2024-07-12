@@ -5,7 +5,12 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
+  Button,
   debounce,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
   Modal,
@@ -482,7 +487,7 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip
                 title={
                   'Cancel'
@@ -500,8 +505,8 @@ const AddDailyLog = () => {
                   <Close />
                 </IconButton>
               </Tooltip>
-            </Box>
-            <Box>
+            </Box> */}
+            {/* <Box>
               <Tooltip
                 title={
                   LogId > 0 ? 'Update' : 'Save'
@@ -519,7 +524,7 @@ const AddDailyLog = () => {
                   <Save />
                 </IconButton>
               </Tooltip>
-              </Box>
+              </Box> */}
               <Box>
               <Tooltip  title={
                   'Add Daily Log'
@@ -541,7 +546,86 @@ const AddDailyLog = () => {
           </>}
         />
 
-<Modal open={open} onClose={ClickAppropriate}>
+
+      <Dialog
+        open={open}
+        maxWidth={'md'}
+        fullWidth
+        onClose={handleClose}
+      >
+        <DialogTitle
+          sx={{
+            py: 1,
+            backgroundColor: (theme) => theme.colors.primary.main,
+            color: (theme) => theme.palette.common.white
+          }}
+        ></DialogTitle>
+        <DialogContent dividers>
+        <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' ,background: 'white' }}>
+      <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
+      <Grid container spacing={0} alignItems="center">
+        <Grid item xs={4}>
+          <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
+        </Grid>
+        <Grid item xs={4}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
+            <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
+            {dateError && (
+              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                <ErrorMessage1 Error={dateError}></ErrorMessage1>
+              </Box>
+            )}
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
+            <SingleFile
+              ValidFileTypes={ValidFileTypes}
+              MaxfileSize={MaxfileSize}
+              ChangeFile={ChangeFile}
+              errorMessage={''}
+              FileName={fileName}
+              height='52.5px'
+            />
+            {fileNameError && (
+              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+              </Box>
+            )}
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+        </DialogContent>
+        <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button
+            color={'error'}
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            disabled={
+              fileName.length !== 0 && base64URL.length !== 0 ? false : true
+            }
+            onClick={onClickSave}
+            // color={'success'}
+            // variant={'contained'}
+            sx={{
+              color:'green',
+                   //  backgroundColor: grey[500],
+                    '&:hover': {
+                     color:'green',
+                   backgroundColor: green[100]
+                   }}}
+            >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+{/* <Modal open={open} onClose={ClickAppropriate}>
   <Box sx={style}>
     <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' ,background: 'white' }}>
       <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
@@ -579,7 +663,7 @@ const AddDailyLog = () => {
       </Grid>
     </Box>
   </Box>
-</Modal>
+</Modal> */}
         {/* <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
 
           <Grid container spacing={0} alignItems="center">

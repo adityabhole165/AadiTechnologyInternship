@@ -5,10 +5,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-    IGetGenerateAllStudentBody, IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
+    IGetStudentPrrogressReportBody, IUpdateStudentTestMarksBody, IViewBody
 } from 'src/interfaces/FinalResult/IFinalResultGenerateAll';
 import {
-    GenerateAllGA,
     StudentDetailsGA,
     UpdateStudentTestMarks, ViewResultGA
 } from 'src/requests/FinalResult/RequestFinalResultGenerateAll';
@@ -20,18 +19,19 @@ const GenerateAll = ({ }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { asStudentId, isGenerated, IsView } = useParams();
-    console.log("asStudentId", asStudentId);
+    //console.log("asStudentId", asStudentId);
 
     const asAcadmeicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asUserId = Number(localStorage.getItem('UserId'));
 
+    const [Itemlist, setItemlist] = useState([]);
+
     const StudentDetailsUS = useSelector((state: RootState) => state.FinalResultGenerateAll.getStudentDetails);
     const ExamDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getExamDetails);
     const TestMarksDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getTestMarksGA);
-    const GenerateAllUS = useSelector((state: RootState) => state.FinalResultGenerateAll.getGenerateAll);
     const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
-    console.log(SubjectDetails, 'SubjectDetails');
+    // console.log(SubjectDetails, 'SubjectDetails');
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
 
     const ViewProgress = useSelector((state: RootState) => state.FinalResultGenerateAll.getViewResult);
@@ -50,16 +50,6 @@ const GenerateAll = ({ }) => {
     }, []);
 
     useEffect(() => {
-        const GetGenerateAllBody: IGetGenerateAllStudentBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcadmeicYearId),
-            asStudentId: Number(asStudentId),
-            asUserId: Number(asUserId)
-        };
-        dispatch(GenerateAllGA(GetGenerateAllBody));
-    }, []);
-
-    useEffect(() => {
         const GetViewResultBody: IViewBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcadmeicYearId),
@@ -73,49 +63,38 @@ const GenerateAll = ({ }) => {
         navigate('/extended-sidebar/Teacher/FinalResult');
     };
 
+    const getXML = () => {
+        let sXML =
+            '<SchoolWiseStudentTestMarksDetails>';
+        Itemlist.map((Item) => {
+            sXML =
+                sXML +
+                '<SchoolWiseStudentTestMarksDetail >' +
+                '<School_Id>' + asSchoolId + '</School_Id>' +
+                '<Academic_Year_Id=>' + asAcadmeicYearId + '</Academic_Year_Id=>' +
+                '<Student_Id>' + Item.Student_Id + '</Student_Id>' +
+                '<TestWise_Subject_Marks_Id>' + Item.TestWise_Subject_Marks_Id + '</TestWise_Subject_Marks_Id>' +
+                '<SchoolWise_Student_Test_Marks_Id>' + Item.SchoolWise_Student_Test_Marks_Id + '</SchoolWise_Student_Test_Marks_Id>' +
+                '<TestType_Id>' + Item.TestType_Id + '</TestType_Id>' +
+                '<Marks_Scored>' + Item.Marks_Scored + '</Marks_Scored> ' +
+                '<Assigned_Grade_Id>' + Item.Grade_id + '</Assigned_Grade_Id> ' +
+                '/>';
+        });
 
-    // const getXML = () => {
-    //     console.log(Itemlist, '----');
-    //     let sXML =
-    //       "<ArrayOfStudentInfoForHeightWeight xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>";
-    //     Itemlist.map((Item) => {
-    //       sXML =
-    //         sXML +
-    //         '<StudentInfoForHeightWeight><RollNo>' +
-    //         Item.Text1 +
-    //         '</RollNo><YearWiseStudentId>' +
-    //         Item.Text6 +
-    //         '</YearWiseStudentId><Height>' +
-    //         (Item.Text3 === "" ? "0" : Item.Text3) +
-    //         '</Height><Weight>' +
-    //         (Item.Text4 === "" ? "0" : Item.Text4) +
-    //         '</Weight><IsLeftStudent>' +
-    //         Item.Text5 +
-    //         '</IsLeftStudent></StudentInfoForHeightWeight>';
-    //     });
-    //     sXML = sXML + '</ArrayOfStudentInfoForHeightWeight>';
-
-    //     console.log('XMLLLLLLLL', sXML);
-    //     return sXML;
-    //   };
+        sXML = sXML + '</SchoolWiseStudentTestMarksDetails>';
+        return sXML;
+    };
 
     const onSaveGenerate = () => {
         const UpdateStudentTestMarksBody: IUpdateStudentTestMarksBody = {
             asschoolId: Number(asSchoolId),
-            asStudentMarkDetails: '',
+            asStudentMarkDetails: getXML(),
             asUpdatedById: 0,
             asUseAvarageFinalResult: ""
         };
         dispatch(UpdateStudentTestMarks(UpdateStudentTestMarksBody));
         setIsResultGenerated(true); // Set the result as generated
 
-        const GetViewResultBody: IViewBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcadmeicYearId),
-            asStudentId: Number(asStudentId),
-            asWithGrace: 1,
-        };
-        dispatch(ViewResultGA(GetViewResultBody));
     };
 
     // const handleVisibilityClick = () => {
@@ -135,7 +114,7 @@ const GenerateAll = ({ }) => {
         return returnVal
     }
     const Grade = getStudentGrade();
-    console.log(Grade, 'getStudentGradeeeee');
+    // console.log(Grade, 'getStudentGradeeeee');
 
 
     return (

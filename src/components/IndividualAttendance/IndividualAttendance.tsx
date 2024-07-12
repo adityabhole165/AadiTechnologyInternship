@@ -40,7 +40,8 @@ import { getAttendanceLegend } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const IndividualAttendance = () => {
-  const { selectClasstecahernew,AssignedDate } = useParams();
+  const { selectClasstecahernew, AssignedDate } = useParams();
+  const parsedDate = new Date(AssignedDate);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -54,8 +55,10 @@ const IndividualAttendance = () => {
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const studentId = sessionStorage.getItem('StudentId');
   const [asStudentsAttendance, setasStudentsAttendance] = useState();
-  const [month, setMonth] = useState((new Date().getMonth() + 1).toString());
+  const [month, setMonth] = useState((new Date().getMonth()).toString());
   const [year, setYear] = useState(new Date().getFullYear());
+  //const [FormattedDate, setFormattedDate] = useState<string | undefined>();
+
   const [ItemList, setItemList] = useState([]);
   const [DefaultValue, setDefaultValue] = useState(null);
   //const [StudentId, setStudentId] = useState('0');
@@ -66,7 +69,15 @@ const IndividualAttendance = () => {
   ];
   const [SearchText, setSearchText] = useState('');
   const [IsPresentAbsent, setIsPresentAbsent] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(AssignedDate));
+
+  const getDateFormatted = (date: Date): string => {
+    return `${date.toLocaleString('default', {
+      month: 'short'
+    })} ${date.getFullYear()}`;
+  };
+  const [FormattedDate, setFormattedDate] = useState<string | undefined>(getDateFormatted(date));
+  console.log(FormattedDate, "FormattedDate") // State for formatted date
   const formattedDate = ` ${date.toLocaleString('default', {
     month: 'short'
   })} ${date.getFullYear()}`;
@@ -114,7 +125,7 @@ const IndividualAttendance = () => {
     aStudentId: Number(StudentId),
     aAcademicYearId: asAcademicYearId,
     aMonthId: Number(month),
-    aYear: new Date(formattedDate).getFullYear()
+    aYear: new Date(FormattedDate).getFullYear()
   };
 
 
@@ -195,29 +206,37 @@ const IndividualAttendance = () => {
     navigate('/extended-sidebar/Teacher/TAttendance');
   };
   const handlePrevMonth = () => {
-    const newDate = new Date(date);
+    const newDate = new Date(FormattedDate);
     newDate.setMonth(newDate.getMonth() - 1);
 
     if (newDate.getMonth() === 11) {
       newDate.setFullYear(newDate.getFullYear());
     }
-
+    const formattedPreviousDate = getDateFormatted(newDate);
+    console.log('Previous Month Date:', newDate);
+    console.log('Previous Month:', newDate.getMonth() + 1);
+    console.log('Previous Year:', newDate.getFullYear());
     setDate(newDate);
     setMonth(`${newDate.getMonth() + 1}`);
     setYear(newDate.getFullYear());
+    setFormattedDate(formattedPreviousDate);
   };
 
   const handleNextMonth = () => {
-    const newDate = new Date(date);
+    const newDate = new Date(FormattedDate);
     newDate.setMonth(newDate.getMonth() + 1);
 
     if (newDate.getMonth() === 0) {
       newDate.setFullYear(newDate.getFullYear());
     }
-
+    const formattedNextDate = getDateFormatted(newDate);
+    console.log('Next Month Date:', newDate);
+    console.log('Next Month:', newDate.getMonth() + 1);
+    console.log('Next Year:', newDate.getFullYear());
     setDate(newDate);
     setMonth(`${newDate.getMonth() + 1}`);
     setYear(newDate.getFullYear());
+    setFormattedDate(formattedNextDate);
   };
   const [AttendanceXML, setAttendanceXML] = useState('');
   const ClickItem = (value) => {
@@ -323,7 +342,7 @@ const IndividualAttendance = () => {
           {
             title: 'Attendance',
             path: '/extended-sidebar/Teacher/TAttendance/' + selectClasstecahernew + '/' + AssignedDate
-            
+
           },
           {
             title: 'Individual Attendance',
@@ -367,7 +386,7 @@ const IndividualAttendance = () => {
                 <h5>P</h5>
               </IconButton>
             </Tooltip>
-           
+
             <Popover
               disableScrollLock
               anchorEl={ref.current}
@@ -458,13 +477,13 @@ const IndividualAttendance = () => {
                     backgroundColor: green[600],
                     color: 'white'
                   }}
-                 // color="primary"
+                // color="primary"
                 >
                   Confirm
                 </Button>
               </DialogActions>
             </Dialog>
-            
+
             <Tooltip title="Absent All">
               <IconButton
                 onClick={handleAbsent}
@@ -519,7 +538,7 @@ const IndividualAttendance = () => {
                     backgroundColor: green[600],
                     color: 'white'
                   }}
-                  // color="primary"
+                // color="primary"
                 >
                   Update
                 </Button>
@@ -538,7 +557,7 @@ const IndividualAttendance = () => {
                 <SaveAlt />
               </IconButton>
             </Tooltip>
-            
+
           </>
         }
       />
@@ -548,7 +567,7 @@ const IndividualAttendance = () => {
           ClickItem={ClickItem}
           handlePrevMonth={handlePrevMonth}
           handleNextMonth={handleNextMonth}
-          formattedDate={formattedDate}
+          formattedDate={FormattedDate}
           DefaultValue={DefaultValue}
           ArrayList={HeaderPublish}
         />
@@ -596,7 +615,7 @@ const IndividualAttendance = () => {
               backgroundColor: green[600],
               color: 'white'
             }}
-            // color="primary"
+          // color="primary"
           >
             Confirm
           </Button>

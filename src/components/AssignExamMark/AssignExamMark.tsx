@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, IconButton, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -112,7 +112,14 @@ const AssignExamMark = () => {
     return returnVal
   };
 
-
+  const getIsTestExists = (value) => {
+    let IsTestExists = false
+    ClassWiseExamDropdown.map((Item) => {
+      if (Item.Value == value)
+        IsTestExists = true
+    })
+    return IsTestExists
+  }
 
   //ClassDrpdown
 
@@ -164,20 +171,30 @@ const AssignExamMark = () => {
 
 
 
-  useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
-      SetClassWiseExam(ClassWiseExamDropdown[0].Value);
-    }
-  }, [ClassWiseExamDropdown]);
-
-
-
-
+  // useEffect(() => {
+  //   if (ClassWiseExamDropdown.length > 0 && ClassWiseExam == "") {
+  //     SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+  //   }
+  // }, [ClassWiseExamDropdown]);
   useEffect(() => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
+  }, []);
 
+  useEffect(() => {
+    if (ClassWiseExamDropdown.length > 0 && (ClassWiseExam === "0" || !getIsTestExists(ClassWiseExam))) {
+      SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+    }
+  }, [ClassWiseExamDropdown, ClassWiseExam]);
+
+  useEffect(() => {
+    if (selectClass == '0')
+      dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, [selectClass]);
 
+  useEffect(() => {
+    if (selectClass !== '0')
+      dispatch(GetClassWiseExam(GetAssignClassWiseExam));
+  }, [selectClass]);
 
 
 
@@ -327,24 +344,24 @@ const AssignExamMark = () => {
       />
       {/* <AssignExamMarkNew ItemList={ExamMarksStatusForClass} /> */}
       <Box sx={{ background: 'white', p: 1 }}>
-      <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-      <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-            <Box sx={{ display: 'flex', gap: '20px' }}>
-              <DotLegends
-                color="secondary"
-                text={
-                  'No student in class / Subject not applicable to student'
-                }
-                text1={'Marks entry not started'}
-                text2={'Marks entry partially done'}
-                text3={'Submit exam marks to the class teacher'}
-                text4={'Unsubmit Exam Marks'}
-                text5={'Marks entry completed	'}
-              />
-            </Box>
-            </Box>
+        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
+          <Box sx={{ display: 'flex', gap: '20px' }}>
+            <DotLegends
+              color="secondary"
+              text={
+                'No student in class / Subject not applicable to student'
+              }
+              text1={'Marks entry not started'}
+              text2={'Marks entry partially done'}
+              text3={'Submit exam marks to the class teacher'}
+              text4={'Unsubmit Exam Marks'}
+              text5={'Marks entry completed	'}
+            />
+          </Box>
         </Box>
-        <br></br>
+      </Box>
+      <br></br>
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ?
@@ -385,7 +402,7 @@ const AssignExamMark = () => {
         )}
 
 
-       
+
       </Box>
     </Box>
   );

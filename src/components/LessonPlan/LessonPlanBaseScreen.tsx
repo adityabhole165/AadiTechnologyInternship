@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TablePagination, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -33,6 +33,7 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -48,12 +49,20 @@ const LessonPlanBaseScreen = () => {
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   // const [rowsPerPage, setRowsPerPage] = useState(5);
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
 
   let CanEdit = getSchoolConfigurations(233)
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  const LessonPlanList1: any = useSelector(
+    (state: RootState) => state.LessonPlanBase.ISLessonList1
+  );
 
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
   const [StartDate, setStartDate]: any = useState(null);
@@ -65,27 +74,20 @@ const LessonPlanBaseScreen = () => {
     localStorage.getItem('UserId')
   );
 
-  const [rowsPerPage, setRowsPerPage] = useState(20);
-  const rowsPerPageOptions = [20, 50, 100, 200];
+
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
+  const [PagedLessonPlanList, setPagedLessonPlanList] = useState([]);
   const LessonPlanList: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
-
-  const LessonPlanList1: any = useSelector(
-    (state: RootState) => state.LessonPlanBase.ISLessonList1
-  );
-
 
 
 
   const USGetAllLessonPlanReportingConfigs: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllLessonPlanReportingConfigs
   );
-
-
 
   const DeleteLessonPlan: any = useSelector(
     (state: RootState) => state.LessonPlanBase.DeletePlan
@@ -94,8 +96,6 @@ const LessonPlanBaseScreen = () => {
   const USUpdateReadSuggestion: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISUpdateReadSuggestion
   );
-
-
 
   const USGetLessonPlanRecordCount: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetLessonPlanRecordCount
@@ -130,9 +130,9 @@ const LessonPlanBaseScreen = () => {
     { Id: 8, Header: 'Status', align: 'center' }
   ];
 
-
-
-
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, LessonPlanList.TotalCount);
 
 
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
@@ -140,8 +140,8 @@ const LessonPlanBaseScreen = () => {
     asAcadmicYearId: asAcademicYearId,
     asUserId: Number(selectClasstecahernew),
     asReportingUserId: asUserId,
-    asStartIndex: 0,
-    asEndIndex: 20,
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
     asRecordCount: false,
     asStartDate: StartDate,
     asEndDate: EndDate
@@ -182,13 +182,14 @@ const LessonPlanBaseScreen = () => {
     IsNewMode: false
   }
 
+
   const GetLessonPlanRecordCountBody: IGetLessonPlanRecordCountBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
     asUserId: asUserId,
     asReportingUserId: asUserId,
-    asStartIndex: 0,
-    asEndIndex: 20,
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
     asStartDate: null,
     asEndDate: null
   }
@@ -210,9 +211,6 @@ const LessonPlanBaseScreen = () => {
     dispatch(CDAGetAllTeachersOfLessonPlan(GetAllTeachersOfLessonBody));
 
   }, []);
-
-
-
 
 
   useEffect(() => {
@@ -425,71 +423,30 @@ const LessonPlanBaseScreen = () => {
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
 
+  useEffect(() => {
+    setPagedLessonPlanList(LessonPlanList);
+  }, [LessonPlanList])
 
 
-
-  // const handlePageChange = (pageNumber) => {
-  //   setPage(pageNumber);
-  // };
-  //const itemsPerPage = 20;
-
-  // const startIndex = (page - 1) * itemsPerPage;
-  // const endIndex = startIndex + itemsPerPage;
-  // useEffect(() => {
-  //   const startIndex = (page - 1) * itemsPerPage;
-  //   const endIndex = startIndex + itemsPerPage;
-
-  //   const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
-  //     ...GetLessonPlanListBody,
-  //     asStartIndex: startIndex,
-  //     asEndIndex: endIndex
-
-  //   };
-
-  //   dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
-  // }, [page]);
-  // const removeDash = (remarks) => {
-  //   return remarks.replace(/-\s*/g, '');
-  // };
-  // const removeDash = (remarks) => {
-  //   if (typeof remarks !== 'string') {
-  //     return remarks; // Return as is if not a string
-  //   }
-  //   return remarks.replace(/-\s*/g, '');
-  // };
   interface RemarkItem {
     name: string;
     description: string;
   }
 
-  const removeDash = (remarks: string | RemarkItem[]): string | RemarkItem[] => {
-    if (typeof remarks !== 'string') {
-      return remarks; // Return as is if not a string
-    }
-    return remarks.replace(/-\s*/g, '');
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+
   const paginatedItems = LessonPlanList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  const startIndex = page * rowsPerPage + 1;
-  const endIndex = Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length);
+
   const totalRecords = LessonPlanList.length;
 
+
+  const pagecount = Math.ceil(LessonPlanList.TotalCount / rowsPerPage);
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
   };
   const ChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1); // Reset to the first page when changing rows per page
+    setPage(1);
   };
-
-
-
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
   }, [page, rowsPerPage]);
@@ -498,15 +455,10 @@ const LessonPlanBaseScreen = () => {
     <>
       <Box sx={{ px: 2 }}>
         <CommonPageHeader
-          navLinks={[
-            {
-              title: 'Lesson Plans',
-              path: ''
-            }
-          ]}
+          navLinks={[{ title: 'Lesson Plans', path: '' }]}
           rightActions={
-            <>{USGetAllTeachersOfLessonPlan.length > 1 &&
-              <Box sx={{ background: 'white' }}>
+            <>
+              {USGetAllTeachersOfLessonPlan.length > 1 && (
                 <Box sx={{ background: 'white' }}>
                   <SearchableDropdown
                     sx={{ minWidth: '25vw' }}
@@ -515,60 +467,33 @@ const LessonPlanBaseScreen = () => {
                     label={'Select Teacher:'}
                     defaultValue={selectClasstecahernew}
                     mandatory
-                    size={"small"}
+                    size="small"
                   />
                 </Box>
-              </Box>
-            }
-
+              )}
               {errorMessage && (
                 <Typography variant="body2" color="error">
                   {errorMessage}
                 </Typography>
               )}
               <Box sx={{ background: 'white' }}>
-                {/* <TextField
-                  value={StartDate}
-                  type='date'
-                  onChange={(e) => { onSelectStartDate(e.target.value) }}
-                  label={'Start Date'}
-                  size="small"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-
-                /> */}
                 <Datepicker
                   DateValue={StartDate}
                   onDateChange={onSelectStartDate}
-                  label={'Start Date'}
-                  size={"small"}
-
+                  label="Start Date"
+                  size="small"
                 />
               </Box>
-
               <Box sx={{ background: 'white' }}>
-                {/* <TextField
-                  value={EndDate}
-                  type='date'
-                  onChange={(e) => { onSelectEndDate(e.target.value) }}
-                  label={'End Date'}
-                  size="small"
-                  InputLabelProps={{
-                    shrink: true
-                  }} */}
-
-                {/* /> */}
                 <Datepicker
                   DateValue={EndDate}
                   onDateChange={onSelectEndDate}
-                  label={'End Date'}
-                  size={"small"}
-
+                  label="End Date"
+                  size="small"
                 />
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Tooltip title={"Displays all available lesson plans."}>
+                <Tooltip title="Displays all available lesson plans.">
                   <IconButton
                     sx={{
                       color: 'white',
@@ -576,7 +501,6 @@ const LessonPlanBaseScreen = () => {
                       height: '36px !important',
                       ':hover': { backgroundColor: grey[600] },
                       marginRight: '-4px',
-                      // marginLeft: '8px', 
                     }}
                   >
                     <QuestionMark />
@@ -584,8 +508,7 @@ const LessonPlanBaseScreen = () => {
                 </Tooltip>
               </Box>
               <Box>
-
-                {(LessonPlanList1.length > 0 ? LessonPlanList1[0].IsSubmitted == "1" : true) && (
+                {(LessonPlanList.length > 0 ? LessonPlanList[0].IsSubmitted === "1" : true) && (
                   <Tooltip title="Export All">
                     <IconButton
                       sx={{
@@ -593,19 +516,17 @@ const LessonPlanBaseScreen = () => {
                         backgroundColor: blue[500],
                         height: '36px !important',
                         ':hover': { backgroundColor: blue[600] },
-                        // marginLeft: '8px', 
                       }}
                       onClick={OnClickExportAll}
                     >
                       <Download />
                     </IconButton>
                   </Tooltip>
-                )
-                }
+                )}
               </Box>
               <Box>
-                {String(asUserId) == String(selectClasstecahernew) ? (
-                  <Tooltip title={"Add Lesson Plan"}>
+                {String(asUserId) === String(selectClasstecahernew) ? (
+                  <Tooltip title="Add Lesson Plan">
                     <IconButton
                       sx={{
                         color: 'white',
@@ -619,28 +540,11 @@ const LessonPlanBaseScreen = () => {
                       <Add />
                     </IconButton>
                   </Tooltip>
-                ) : (
-                  <span></span>
-                )}
+                ) : null}
               </Box>
             </>
           }
         />
-
-        {/* <Box sx={{ background: 'white', p: 1 }}>
-        <Box sx={{ display: 'flex', gap: '20px' }}>
-          <Typography variant={"h4"} mb={-1}>Legend</Typography>
-            <DotLegends2
-              color="secondary"
-              text={''}
-              text1={'Submited'}
-              text2={'Non Submited'}
-              text3={'Not Applicable'}
-              text4={'Suggestion Added'}
-              text5={''}
-            />
-          </Box>
-        </Box> */}
         <Box sx={{ background: 'white', p: 1 }}>
           <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
             <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
@@ -655,158 +559,101 @@ const LessonPlanBaseScreen = () => {
             />
           </Box>
         </Box>
-
-        {/* <Typography variant={'h4'} mb={1}>
-            My Subjects
-          </Typography> */}
-        {LessonPlanList.length > 0 && (
-          <Typography variant="subtitle1"
-            sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
-            {/* <Box component="span" fontWeight="fontWeightBold">{page * rowsPerPage + 1}</Box> to <Box component="span" fontWeight="fontWeightBold">{Math.min(page * rowsPerPage + rowsPerPage, LessonPlanList.length)}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{LessonPlanList.length}</Box> records */}
-            <Box component="span" fontWeight="fontWeightBold">{startIndex}</Box> to <Box component="span" fontWeight="fontWeightBold">{endIndex}</Box> Out of <Box component="span" fontWeight="fontWeightBold">{totalRecords}</Box> records
-
-
-
-          </Typography>)}
-        {LessonPlanList.length > 0 ? (
-          <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
-            <ListIcon
-              HeaderArray={HeaderList1}
-              ItemList={LessonPlanList.slice()}
-              clickView={clickView}
-              clickEdit={ClickEdit}
-              clickDelete={clickDelete}
-              clickExport={downloadJsonToPdf}
-              CanEdit={CanEdit}
-              clicknav={Clicknav}
-              SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
-              ReportingConfigs={LessonPlanList1}
-              Text2={LessonPlanList.map((item) => item.Text2)}
-              ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
-
-            />
-          </IsHighliteStaus.Provider>
-
-        ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No record found.</b>
-          </Typography>
-        )}
-
-        {LessonPlanList.length >= 5 && LessonPlanList.length > 0 && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
-            Pages:
-            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
-                <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-              </ButtonGroup> */}
-            <TablePagination
-              // rowsPerPageOptions={[5, 10, 15, 20]}
-              component="div"
-              count={LessonPlanList.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-
-          </Box>
-        )}
-        {/* <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}> */}
-        {/* <DotLegends2
-              color="secondary"
-              text={''}
-              text1={'Submited'}
-              text2={'Non Submited'}
-              text3={'Not Applicable'}
-              text4={'Suggestion Added'}
-              text5={''}
-            /> */}
+        <Box>
+          {LessonPlanList.length > 0 ? (
+            <>
+              <Typography variant="subtitle1" sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
+                {PagedLessonPlanList.length > 0 && (
+                  <div style={{ flex: 1, textAlign: 'center' }}>
+                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                      <Box component="span" fontWeight="fontWeightBold">
+                        {startRecord} to {endRecord}
+                      </Box> out of <Box component="span" fontWeight="fontWeightBold">
+                        {LessonPlanList.TotalCount}
+                      </Box> {LessonPlanList.TotalCount === 1 ? 'record' : 'records'}
+                    </Typography>
+                  </div>
+                )}
 
 
+              </Typography>
 
+              <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
+                <ListIcon
+                  HeaderArray={HeaderList1}
+                  ItemList={PagedLessonPlanList}
+                  clickView={clickView}
+                  clickEdit={ClickEdit}
+                  clickDelete={clickDelete}
+                  clickExport={downloadJsonToPdf}
+                  CanEdit={CanEdit}
+                  clicknav={Clicknav}
+                  SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
+                  ReportingConfigs={LessonPlanList1}
+                  Text2={LessonPlanList.map((item) => item.Text2)}
+                  ShowEdit={localStorage.getItem("UserId") === selectClasstecahernew}
+                />
+              </IsHighliteStaus.Provider>
+              {LessonPlanList.TotalCount > 19 && (
+                <ButtonGroupComponent
+                  rowsPerPage={rowsPerPage}
+                  ChangeRowsPerPage={ChangeRowsPerPage}
+                  rowsPerPageOptions={rowsPerPageOptions}
+                  PageChange={PageChange}
+                  pagecount={pagecount}
+                />
+              )}
 
+            </>
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No record found.</b>
+            </Typography>
+          )}
+
+        </Box>
       </Box>
-
-
-
-      {/* View remark dialog */}
-      < Dialog
+      <Dialog
         open={openViewRemarkDialog}
-        onClose={() => {
-          setOpenViewRemarkDialog(false);
-        }}
-        maxWidth={"xs"}
+        onClose={() => setOpenViewRemarkDialog(false)}
+        maxWidth="xs"
         fullWidth
       >
         <DialogTitle
           sx={{
             py: 1,
             backgroundColor: (theme) => theme.colors.primary.main,
-            color: (theme) => theme.palette.common.white
+            color: (theme) => theme.palette.common.white,
           }}
         />
         <DialogContent dividers>
           <Stack gap={1}>
-            <Typography variant={"h3"} color={"primary"}>View Remarks: </Typography>
+            <Typography variant="h3" color="primary">View Remarks:</Typography>
             <Divider />
             <Stack gap={1}>
-              <div>
-                {/* <Typography variant={"h4"} style={{ marginBottom: '10px' }}
-                  dangerouslySetInnerHTML={{ __html: removeDash(ViewRemarks) }}>
-                </Typography> */}
-
-
-                {/* 
-                {ViewRemarks && (
-                  <Typography variant="body1" style={{ marginBottom: '10px' }}
-                    dangerouslySetInnerHTML={{
-                      __html: typeof ViewRemarks === 'string'
-                        ? ViewRemarks.replace(/<b>(.*?)<\/b>/g, '<span style="color: blue;">$1</span>')
-                        : ''
-                    }}>
-                  </Typography>
-
-                  )} */}
-                {ViewRemarks && (
-                  <Typography variant="body1" style={{ marginBottom: '10px' }}>
-                    {/* Using dangerouslySetInnerHTML for bold and colored text */}
-                    <div>
-                      {ViewRemarks.map((item, index) => (
-                        <div key={index}>
-                          <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1.2rem' }}>{item.name}</span>&nbsp;
-                          <span style={{ fontWeight: '', color: 'primary', fontSize: '1.2rem' }}>{item.description}</span>
-                          {index < ViewRemarks.length - 1 && <br />} {/* Add line break if not the last item */}
-                        </div>
-                      ))}
+              {ViewRemarks && (
+                <Typography variant="body1" sx={{ marginBottom: '10px' }}>
+                  {ViewRemarks.map((item, index) => (
+                    <div key={index}>
+                      <span style={{ fontWeight: 'bold', color: 'primary', fontSize: '1.2rem' }}>{item.name}</span>&nbsp;
+                      <span style={{ fontWeight: '', color: 'primary', fontSize: '1.2rem' }}>{item.description}</span>
+                      {index < ViewRemarks.length - 1 && <br />} {/* Add line break if not the last item */}
                     </div>
-                  </Typography>
-                )}
-              </div>
+                  ))}
+                </Typography>
+              )}
             </Stack>
           </Stack>
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          {/* <Button
-            variant={"contained"}
-            onClick={() => {
-              setOpenViewRemarkDialog(false);
-            }}
-            color={'error'}
+          <Button
+            sx={{ color: 'red', ':hover': { backgroundColor: red[100] } }}
+            onClick={() => setOpenViewRemarkDialog(false)}
           >
-            Close
-          </Button> */}
-          <Button sx={{
-            // backgroundColor: green[100],
-            color: 'red',
-            ':hover': { backgroundColor: red[100] }
-          }}  onClick={() => {
-            setOpenViewRemarkDialog(false);
-          }}>
             Cancel
           </Button>
         </DialogActions>
-      </Dialog >
+      </Dialog>
     </>
   );
 };
