@@ -1,10 +1,13 @@
 import Close from '@mui/icons-material/Close';
+import Add from "@mui/icons-material/Add"
+import { AlertContext } from 'src/contexts/AlertContext';
+
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Modal, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -21,6 +24,7 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import { ClearIcon } from '@mui/x-date-pickers';
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
     useParams();
@@ -67,7 +71,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const SchoolName = localStorage.getItem('SchoolName');
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
@@ -418,18 +422,50 @@ const AddHomeworkNew = () => {
     );
   };
 
+  // const clickDelete = (Id) => {
+  //   // alert(Id)
+  //   if (confirm(' Are you sure you want to delete this record?')) {
+  //     const DeleteHomeworkBody: IDeleteHomeworkBody = {
+  //       asSchoolId: asSchoolId,
+  //       asAcademicYearId: asAcademicYearId,
+  //       asHomeworkId: Id,
+  //       asUpdatedById: Number(asUpdatedById)
+  //     };
+  //     dispatch(HomeworkDelete(DeleteHomeworkBody));
+  //   }
+  // };
+
   const clickDelete = (Id) => {
-    // alert(Id)
-    if (confirm(' Are you sure you want to delete this record?')) {
-      const DeleteHomeworkBody: IDeleteHomeworkBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asHomeworkId: Id,
-        asUpdatedById: Number(asUpdatedById)
-      };
-      dispatch(HomeworkDelete(DeleteHomeworkBody));
-    }
+
+    const DeleteHomeworkBody: IDeleteHomeworkBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asHomeworkId: Id,
+      asUpdatedById: Number(asUpdatedById)
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this record?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(HomeworkDelete(DeleteHomeworkBody));
+
+
+        closeAlert();
+      }
+    });
+
+
+
+
   };
+
 
   useEffect(() => {
     if (DeleteHomework != '') {
@@ -484,6 +520,7 @@ const AddHomeworkNew = () => {
       setPublishId(Id);
     }
   };
+
 
 
 
@@ -819,6 +856,15 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     setAssignedDate1(date); // Update AssignedDate1 with selected date object
 };
 
+const [open, setOpen] = useState(false);
+
+  const ClickAppropriate = (value) => {
+    setOpen(true)
+  }
+  const handleClose = (value) => {
+    setOpen(false)
+  }
+
   return (
     <>
 
@@ -882,11 +928,36 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                   </IconButton>
                 </Tooltip>
               </Box>
+
+              <Box>
+              <Tooltip  title={
+                  'Add HomeWork'
+                }>
+             <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                  onClick={ClickAppropriate}
+                >
+                   <Add />
+                </IconButton>
+             </Tooltip>
+             
+            </Box>
+
             </>
           }
         />
 
-        <Box sx={{ background: 'white', p: 3, mt: 1 }}>
+       
+        <Modal open={open} onClose={ClickAppropriate}>
+  <Box sx={style}>
+    <Box sx={{ padding: 5, marginBottom: '6px',height: '600px', width: '1200px', overflowY: 'auto', position: 'relative' }}>
+      <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '24px', cursor: 'pointer' }} />
+      <Box sx={{ background: 'white', p: 4,  top: '1px', mr: 4}}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <TextField fullWidth label={'Class'} value={ClassName} 
@@ -1072,6 +1143,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           </Grid>
 
         </Box>
+    </Box>
+  </Box>
+</Modal>
+
 
         <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-end"} gap={1} pb={1}>
@@ -1279,4 +1354,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
 export default AddHomeworkNew
 
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '30%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 1200,
+  height: 400,
+  bgcolor: '#EAF1F5',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 2,
+};
 

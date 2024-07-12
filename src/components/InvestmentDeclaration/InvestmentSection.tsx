@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import { GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
@@ -14,9 +14,26 @@ const InvestmentSection = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
 
     const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
+
+    const [ListInvestmentDetails1, setListInvestmentDetails1] = useState([])
+
     const USListInvestmentDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentDetails
     )
+
+
+    const USListInvestmentSectionDetails: any = useSelector(
+        (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
+    )
+
+    console.log(USListInvestmentSectionDetails, "USListInvestmentSectionDetail12345");
+
+    const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
+
+    console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
+
+
+
 
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
@@ -31,40 +48,61 @@ const InvestmentSection = () => {
         setListInvestmentDetails(USListInvestmentDetails)
     }, [USListInvestmentDetails])
 
+    // useEffect(() => {
+    //     dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
+    // },[])
+
+    useEffect(() => {
+        setListInvestmentDetails1(USListInvestmentDetails)
+    }, [USListInvestmentDetails])
+
+
     const changeText = (value) => {
         console.log(value, "----aa---");
     }
-    const [InvestmentColumns, setInvestmentColumns] = React.useState<Column[]>([
-        {
-            id: 'Section80C',
-            label: 'Section 80C',
-            renderCell: (rowData) => rowData.Name,
-        },
-        {
-            id: 'AttachmentCount',
-            label: 'Attachment Count',
-            renderCell: (rowData) => rowData.DocumentCount,
-        },
-        {
-            id: 'MaximumLimit',
-            label: 'Maximum Limit Rs.',
-            renderCell: (rowData) => rowData.MaxAmount,
-        }
-    ])
+
+    const renderDataTables = () => {
+        return listInvestmentSectionDetails.map((section) => {
+            const filteredData = ListInvestmentDetails.filter((detail) => detail.SectionId === section.Id);
+
+            const columns: Column[] = [
+                {
+                    id: 'Name',
+                    label: section.Name,
+                    renderCell: (rowData) => rowData.Name,
+                },
+                {
+                    id: 'AttachmentCount',
+                    label: 'Attachment Count',
+                    renderCell: (rowData) => rowData.DocumentCount,
+                },
+                {
+                    id: 'MaximumLimit',
+                    label: 'Maximum Limit Rs.',
+                    renderCell: (rowData) => rowData.MaxAmount,
+                }
+            ];
+
+            return (
+                <Box key={section.Id} sx={{ background: 'white', p: 2, mb: 2 }}>
+                    <DataTable
+                        columns={columns}
+                        data={filteredData}
+                        isLoading={false}
+                        isPagination={false}
+                        changeText={changeText}
+                    />
+                </Box>
+            );
+        });
+    };
+
     return (
         <Box sx={{ px: 2 }}>
-            <Box sx={{ background: 'white', p: 2 }}>
-                <DataTable
-                    columns={InvestmentColumns}
-                    data={ListInvestmentDetails}
-                    isLoading={false}
-                    isPagination={false}
-                    changeText={changeText}
-                />
-
-            </Box>
+            {renderDataTables()}
         </Box>
-    )
-}
+    );
+};
 
-export default InvestmentSection
+
+export default InvestmentSection 

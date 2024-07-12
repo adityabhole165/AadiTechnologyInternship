@@ -24,12 +24,18 @@ const InvestmentDeclaration = () => {
     const USISlistInvestmentEmpDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
+    console.log(USISlistInvestmentEmpDetails, "USISlistInvestmentEmpDetails");
+
 
     const USListInvestmentSectionDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
     )
 
+    console.log(USListInvestmentSectionDetails, "USListInvestmentSectionDetail12345");
+
     const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
+
+    console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
     const USGetRegimeDropdown: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISGetRegimeDropdown
@@ -99,6 +105,35 @@ const InvestmentDeclaration = () => {
         if (USListInvestmentDetails.length > 0)
             setListInvestmentDetails(USListInvestmentDetails)
     }, [USListInvestmentDetails])
+
+    // const sortlist = () => {
+    //     let name = ""
+    //     USListInvestmentDetails.map((index) => {
+    //         listInvestmentSectionDetails.map((detail) => {
+    //             if (index.SectionId == detail.Id) {
+    //                 name = index.Name
+    //             }
+
+    //         })
+
+    //     })
+    // }
+    // console.log(sortlist(), "sortlist");
+
+    const sortlist = () => {
+        return USListInvestmentDetails.map((index) => {
+            const detail = listInvestmentSectionDetails.find(detail => detail.Id === index.SectionId);
+            return {
+                ...index,
+                name: detail ? detail.Name : null // Add a default value if no matching detail is found
+            };
+        });
+    };
+
+    // Usage
+    const sortedList = sortlist();
+    console.log(sortedList, "-----------");
+
 
     return (
         <>

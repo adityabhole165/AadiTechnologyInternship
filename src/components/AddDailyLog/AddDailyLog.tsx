@@ -543,7 +543,7 @@ const AddDailyLog = () => {
 
 <Modal open={open} onClose={ClickAppropriate}>
   <Box sx={style}>
-    <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' }}>
+    <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' ,background: 'white' }}>
       <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
       <Grid container spacing={0} alignItems="center">
         <Grid item xs={4}>
