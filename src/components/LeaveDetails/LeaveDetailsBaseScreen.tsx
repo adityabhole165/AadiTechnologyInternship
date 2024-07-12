@@ -15,11 +15,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getAllReportingUsers, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
+import { AcademicYearDropdown, CategoryDropdown, DeleteLeaveDetails, StatusDropdown, getLeaveDetailList, resetDeleteHolidayDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import { getDateMonthYearDayDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -80,7 +79,7 @@ const LeaveDetailsBaseScreen = () => {
         asCategoryId: Number(selectCategory),
         asShowOnlyNonUpdated: false
     };
-  
+
     // useEffect(() => {
     //     if (GetAcademicYear.length > 0) {
     //         setAcademicYear(GetAcademicYear.slice(0, 4)[1].Value);
@@ -95,14 +94,14 @@ const LeaveDetailsBaseScreen = () => {
     }, [GetAcademicYear]);
 
 
-   
+
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
         }
     }, [GetCategoryDropdownList]);
 
-   
+
     useEffect(() => {
         if (GetStatusDropdown.length > 0) {
             setStatus(GetStatusDropdown[0].Value)
@@ -122,13 +121,13 @@ const LeaveDetailsBaseScreen = () => {
     };
 
 
-   
+
 
     const AllReportingUsersbody: IGetAllReportingUsersBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(selectAcademicYear)
     }
-    
+
     const deleteRow = (Id) => {
         const DeleteLeaveBody: IGetDeleteLeaveBody = {
             asSchoolId: Number(asSchoolId),
@@ -290,7 +289,7 @@ const LeaveDetailsBaseScreen = () => {
     const ViewLeave = (Id) => {
         console.log(Id, "value");
 
-        navigate("../AddLeaveDetails" + "/" + Id)
+        navigate("../AddLeaveDetails" + "/" + Id + "/" + asUserId)
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);
@@ -330,13 +329,13 @@ const LeaveDetailsBaseScreen = () => {
 
     useEffect(() => {
         dispatch(StatusDropdown(StatusBody));
-    }, [selectAcademicYear, selectCategory]); 
+    }, [selectAcademicYear, selectCategory]);
 
     useEffect(() => {
         dispatch(getLeaveDetailList(body));
-    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus,GetAcademicYear]);
-   
-   
+    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus, GetAcademicYear]);
+
+
 
 
 
@@ -398,8 +397,7 @@ const LeaveDetailsBaseScreen = () => {
                                         bgcolor: green[600]
                                     }
                                 }}
-                                    onClick={AddLeave}
-                                >
+                                    onClick={() => AddLeave()}>
                                     <Add />
                                 </IconButton>
                             </Tooltip>
@@ -407,7 +405,7 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-            
+
             <Box sx={{ background: 'white', p: 2 }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
