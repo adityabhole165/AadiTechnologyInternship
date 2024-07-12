@@ -1,6 +1,6 @@
-import { AddComment, Check, Save, Send } from '@mui/icons-material';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { blue, green, red } from '@mui/material/colors';
+import { AddComment, Check, QuestionMark, Save, Send } from '@mui/icons-material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { useState } from 'react';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import CommonPageHeader from '../CommonPageHeader';
@@ -45,6 +45,22 @@ const AddStudentRecord = () => {
                             size={"small"}
 
                         />
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Tooltip title={"Add / Submit student details."}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] },
+                                        marginRight: '-4px',
+                                        // marginLeft: '8px', 
+                                    }}
+                                >
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
                         < Box >
                             <Tooltip title={'SAVE'}>
                                 <IconButton
@@ -109,10 +125,14 @@ const AddStudentRecord = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-
                     </>
                 }
             />
+            <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                    General Information
+                </Typography>
+            </Box>
         </Box>
     )
 };
