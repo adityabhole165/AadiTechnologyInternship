@@ -12,6 +12,8 @@ import { ButtonPrimary } from '../styled/ButtonStyle';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { green, red } from '@mui/material/colors';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 function Adddailyloglist({
   ItemList,
   clickView,
@@ -97,8 +99,9 @@ function Adddailyloglist({
                 >
                   <ButtonPrimary
                     style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
-                    onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '100px' }}>
-                    {item.Text3 === 'False' ? ' PUBLISH' : '  UNPUBLISH'}
+                    onClick={() => clickpublish(item.Id, item.Text3)}sx={{ minWidth: '10px', marginLeft:'40px' }}>
+                    {item.Text3 === 'False' ? <PublishedWithChangesIcon/> : <UnpublishedIcon/>
+                     }
                   </ButtonPrimary>
                 </TableCell>
 
@@ -118,9 +121,13 @@ function Adddailyloglist({
                   {item.Text3 === 'False' ? (
                     <DeleteForeverRoundedIcon 
                     onClick={() => clickDelete(item.Id)} 
-                     sx={{
-                      cursor: 'pointer',
-                      '&:hover': { backgroundColor: 'lightgrey' }
+                    sx={{
+                      color:'#223354',
+                           //  backgroundColor: grey[500],
+                            '&:hover': {
+                             color:'red',
+                           backgroundColor: red[100]
+                           }
                   }} />
                   ) : null}
                 </TableCell>
