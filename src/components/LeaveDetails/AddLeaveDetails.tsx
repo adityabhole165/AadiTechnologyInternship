@@ -20,7 +20,7 @@ const AddLeaveDetails = () => {
     const { LeaveId } = useParams();
     console.log(LeaveId, "LeaveId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asUserId = Number(localStorage.getItem('UserId'));
+    const [asUserId, setasUserId] = useState(Number(localStorage.getItem('UserId')));
     const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asUserId);
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
@@ -29,8 +29,6 @@ const AddLeaveDetails = () => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [Description, setDescription] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
-
-
 
     const GetViewLeave = useSelector(
         (state: RootState) => state.LeaveDetails.ViewLeaveDetails
@@ -53,6 +51,7 @@ const AddLeaveDetails = () => {
             setEndDate(ViewLeave.Text3)
             setTotalDays(ViewLeave.Text4)
             setDescription(ViewLeave.Text5)
+            setasUserId(ViewLeave.UserId)
         }
     }, [GetViewLeave]);
 
