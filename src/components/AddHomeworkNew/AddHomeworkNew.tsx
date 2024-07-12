@@ -955,20 +955,15 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         <Dialog
           open={open}
-          maxWidth={'sm'}
+          maxWidth={'md'}
           fullWidth
           onClose={handleClose}
-          style={{ height: '400px', width: '1500px' }} >
-          <DialogTitle
-            sx={{
-              py: 1,
-              backgroundColor: (theme) => theme.colors.primary.main,
-              color: (theme) => theme.palette.common.white
-            }}
+          sx={{ height:'100%', width: '100%' }} >
+          <DialogTitle  sx={{bgcolor:'#223354'}}
           ></DialogTitle>
           <DialogContent dividers >
-            <Box >
-              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '24px', cursor: 'pointer' }} />
+            <Box>
+              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '7px', cursor: 'pointer', marginTop:'33px' }} />
               <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={3}>
@@ -1169,8 +1164,16 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             <Button
 
               onClick={ClickSaveHomework}
-              color={'success'}
-              variant={'contained'}>
+              // color={'success'}
+              // variant={'contained'}
+                  sx={{
+                    color:'green',
+                     //  backgroundColor: grey[500],
+                      '&:hover': {
+                       color:'green',
+                     backgroundColor: green[100]
+                     }}}
+              >
               Save
             </Button>
           </DialogActions>
