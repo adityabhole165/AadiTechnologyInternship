@@ -1,7 +1,8 @@
-import { Button, Checkbox, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Button, Checkbox, debounce, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
+import { green, red } from '@mui/material/colors';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { DeleteEventImageBody, IAllClassesAndDivisionsBody, IEventDetailsBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
@@ -19,9 +20,9 @@ import {
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
-import { green, red } from '@mui/material/colors';
 
-const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
+const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
+    const { SelectedDate, StandardId, DivisionId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -136,7 +137,9 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
             toast.success(SaveUpdateEventt, { toastId: 'success1' });
             dispatch(resetMessage());
             resetForm();
-            navigate('/extended-sidebar/Common/AnnualPlanner');
+            // navigate('/extended-sidebar/Common/AnnualPlanner');
+            navigate('/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId);
+
         }
     }, [SaveUpdateEventt]);
     useEffect(() => {
@@ -273,10 +276,14 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                 asFolderName: asFolderName,
                 asBase64String: base64URL
             };
-
-            dispatch(GetupdateEvent(UpdateEventBody));
+            debouncedFetch(UpdateEventBody);
+            // dispatch(GetupdateEvent(UpdateEventBody));
+            // navigate('/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId)
         }
     };
+    const debouncedFetch = useCallback(debounce((body) => {
+        dispatch(GetupdateEvent(body));
+    }, 500), [dispatch]);
     const clickDelete = () => {
         if (confirm('Are you sure you want to delete image?')) {
             const DeleteEventImageBody: DeleteEventImageBody = {
@@ -319,15 +326,15 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                         onChange={(e) => {
                             setEventTitle(e.target.value);
                         }}
-                       // error={errorEventTitle !== ''}
-                       // helperText={errorEventTitle}
+                        // error={errorEventTitle !== ''}
+                        // helperText={errorEventTitle}
                         fullWidth
                         sx={{
                             resize: 'both'
                         }}
 
                     />
-                     {errorEventTitle && <ErrorMessage1 Error={errorEventTitle} />}
+                    {errorEventTitle && <ErrorMessage1 Error={errorEventTitle} />}
                 </Grid>
                 <Grid xs={6} md={6} item>
                     <TextField
@@ -349,7 +356,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                             resize: 'both'
                         }}
                     />
-                     {ErrorEventDescription && <ErrorMessage1 Error={ErrorEventDescription} />}
+                    {ErrorEventDescription && <ErrorMessage1 Error={ErrorEventDescription} />}
                 </Grid>
                 <Grid item xs={6} md={6}>
                     {/* <TextField
@@ -452,26 +459,26 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
-                        <Button 
-                        // variant={'contained'} 
-                        // color="error" 
-                        onClick={resetForm}
-                        sx={{
-                            // backgroundColor: green[100],
-                            color: 'red',
-                            ':hover': { backgroundColor: red[100] }
-                        }}>
+                        <Button
+                            // variant={'contained'} 
+                            // color="error" 
+                            onClick={resetForm}
+                            sx={{
+                                // backgroundColor: green[100],
+                                color: 'red',
+                                ':hover': { backgroundColor: red[100] }
+                            }}>
                             Cancle
                         </Button>
                         <Button
-                        //  variant={'contained'} 
-                        //  color="success" 
-                         onClick={ClickSave}
-                         sx={{
-                            // backgroundColor: green[100],
-                            color: 'green',
-                            ':hover': { backgroundColor: green[100] }
-                        }} >
+                            //  variant={'contained'} 
+                            //  color="success" 
+                            onClick={ClickSave}
+                            sx={{
+                                // backgroundColor: green[100],
+                                color: 'green',
+                                ':hover': { backgroundColor: green[100] }
+                            }} >
                             Save
                         </Button>
                     </Stack>
