@@ -63,7 +63,13 @@ const Studentwiseprogressslice = createSlice({
           AllStudentRecordCount(state, action) {
             state.ISAllStudentRecordCount = action.payload;
         },
+        rdeleteresetMessage(state) {
+            state.oneDeleteStudent = [];
+          },
           
+          rdeleteresetMessageAll(state) {
+            state.DeleteAllStudent = [];
+          },
     }
 });
 
@@ -165,5 +171,13 @@ export const PublishUnpublishXseed =
           };
 
 
+          export const  deleteresetMessage = (): AppThunk => async (dispatch) => {
+            dispatch(Studentwiseprogressslice.actions.rdeleteresetMessage());
+          };
+         
+          export const  deleteresetMessageAll = (): AppThunk => async (dispatch) => {
+            dispatch(Studentwiseprogressslice.actions.rdeleteresetMessageAll());
+          };
+          
 
 export default Studentwiseprogressslice.reducer;
