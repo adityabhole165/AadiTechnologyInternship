@@ -41,7 +41,6 @@ import CommonPageHeader from '../CommonPageHeader';
 
 const IndividualAttendance = () => {
   const { selectClasstecahernew, AssignedDate } = useParams();
-  const parsedDate = new Date(AssignedDate);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -55,7 +54,8 @@ const IndividualAttendance = () => {
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const studentId = sessionStorage.getItem('StudentId');
   const [asStudentsAttendance, setasStudentsAttendance] = useState();
-  const [month, setMonth] = useState((new Date().getMonth()).toString());
+  //const [month, setMonth] = useState((new Date().getMonth()+1).toString());
+
   const [year, setYear] = useState(new Date().getFullYear());
   //const [FormattedDate, setFormattedDate] = useState<string | undefined>();
 
@@ -82,8 +82,29 @@ const IndividualAttendance = () => {
     month: 'short'
   })} ${date.getFullYear()}`;
   const Note: string = 'Mark the monthly attendance of individual students.';
+  const monthMap: { [key: string]: number } = {
+    Jan: 1,
+    Feb: 2,
+    Mar: 3,
+    Apr: 4,
+    May: 5,
+    Jun: 6,
+    Jul: 7,
+    Aug: 8,
+    Sep: 9,
+    Oct: 10,
+    Nov: 11,
+    Dec: 12
+  };
   const [IsClicked, setIsClicked] = useState(false);
+  const extractMonth = (formattedDate: string): number => {
+    const monthAbbr = formattedDate.split(' ')[0];
+    return monthMap[monthAbbr];
+  };
 
+  const [month, setMonth] = useState<string | undefined>(
+    FormattedDate ? extractMonth(FormattedDate).toString() : undefined
+  );
   const StudentList = useSelector(
     (state: RootState) => state.IndividualAttendance.GetStudentName
   );
@@ -128,7 +149,11 @@ const IndividualAttendance = () => {
     aYear: new Date(FormattedDate).getFullYear()
   };
 
-
+  useEffect(() => {
+    if (FormattedDate) {
+      setMonth(extractMonth(FormattedDate).toString());
+    }
+  }, [FormattedDate]);
 
   const HeaderPublish = [
     { Id: 1, Header: 'Sun' },
