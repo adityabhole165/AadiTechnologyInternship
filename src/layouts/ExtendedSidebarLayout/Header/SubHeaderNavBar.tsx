@@ -330,7 +330,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 <InfoTwoToneIcon />
               </IconButton>
             </Tooltip>
-            <SettingsDropdown />
+
             {/* Support Menu Popup */}
             <Popper
               open={openSupportMenu}
@@ -368,6 +368,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
               )}
             </Popper>
             {/* Support Menu Popup End */}
+            <SettingsDropdown />
             <Tooltip title={'Notifications'}>
               <IconButton
                 sx={{

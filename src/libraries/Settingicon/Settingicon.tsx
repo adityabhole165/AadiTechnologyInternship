@@ -17,7 +17,7 @@ const SettingsDropdown = () => {
     const localSchoolId = localStorage.getItem('localSchoolId');
     const SchoolName = sessionStorage.getItem('SchoolName');
     const EndDate = sessionStorage.getItem('EndDate');
-
+    const [AcademicYearName, setAcademicYearName] = useState('')
     const [academicYear, setAcademicYear] = useState(() => sessionStorage.getItem('AcademicYearId') || '');
     const [anchorEl, setAnchorEl] = useState(null);
     const ScreensAccessPermission = JSON.parse(
@@ -60,6 +60,7 @@ const SettingsDropdown = () => {
             sessionStorage.setItem('EndDate', selectedYearData.Text3);
             localStorage.setItem('SchoolId', selectedYearData.Text1);
             sessionStorage.setItem('SchoolName', selectedYearData.Text4);
+            setAcademicYearName(selectedYearData.Name);
         }
     }, [academicYear, AcademicYear]);
 
@@ -69,15 +70,18 @@ const SettingsDropdown = () => {
     };
     const open = Boolean(anchorEl);
     const id = open ? 'settings-menu' : undefined;
-    const supportMenuRef = React.useRef<HTMLButtonElement>(null);
+    const settingMenuRef = React.useRef<HTMLButtonElement>(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     return (
+
         <>
             {UserDetail && UserDetail.IsAcademicYrApplicable === "Y"
 
                 && (
+
+
                     <Stack direction={'row'} alignItems={'center'} gap={1}>
                         {/* <Tooltip title={"Choose different academic year"}>
                             <IconButton
@@ -94,18 +98,21 @@ const SettingsDropdown = () => {
                                 <SettingsIcon />
                             </IconButton>
                         </Tooltip> */}
+
                         <Tooltip title={'Choose different academic year'}>
+
                             <IconButton
                                 sx={{
                                     color: 'white',
                                     background: (theme) => alpha(theme.palette.common.white, 0.2)
                                 }}
-                                ref={supportMenuRef}
+                                ref={settingMenuRef}
                                 onClick={handleClick}
                             >
                                 <SettingsIcon />
                             </IconButton>
                         </Tooltip>
+
                         <Popover
                             id={id}
                             open={open}
@@ -119,15 +126,26 @@ const SettingsDropdown = () => {
                                 vertical: 'top',
                                 horizontal: 'right',
                             }}
+                            // sx={{
+                            //     '& .MuiPaper-root': {
+                            //         transition: 'height 0.3s ease',
+                            //         minWidth: '200px',
+                            //         overflow: 'hidden',
+                            //     },
+                            // }}
                             sx={{
                                 '& .MuiPaper-root': {
                                     transition: 'height 0.3s ease',
-                                    minWidth: '200px',
+                                    maxWidth: '330px', // Adjust the maxWidth as per your requirement
                                     overflow: 'hidden',
                                 },
                             }}
                         >
-                            <Box p={2}>
+                            <Box p={2} width="50">
+                                <Box style={{ color: 'red', fontStyle: 'italic', fontWeight: 'bold' }}>
+                                    You are viewing data of old academic year ({AcademicYearName}). Please do not modify any data.
+                                </Box>
+                                <br></br>
                                 <SearchableDropdown
                                     sx={{ minWidth: '100%' }}
                                     ItemList={AcademicYear}
@@ -141,7 +159,9 @@ const SettingsDropdown = () => {
                         </Popover>
                     </Stack>
                 )}
+
         </>
+
     );
 
 };
