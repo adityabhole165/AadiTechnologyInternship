@@ -28,9 +28,17 @@ const AddLeaveDetails = () => {
     const [TotalDays, setTotalDays] = useState(1);
     const [SelectLeaveType, setLeaveType] = useState("0");
     const [Description, setDescription] = useState('');
+    const [Remark, setRemark] = useState('');
+    const [Remark1, setRemarkError] = useState('');
+    const [ErrorStartDateblank, setErrorStartDateblank] = useState('');
+    const [ErrorEndDateblank, setErrorEndDateblank] = useState('');
     const [ErrorStartDate, setErrorStartDate] = useState('');
+    const [ErrorEndDate1, setErrorEndDate1] = useState('');
+    const [ErrorEndDate2, setErrorEndDate2] = useState('');
+    const [ErrorStartDate2, setErrorStartDate2] = useState('');
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
+
 
     const GetViewLeave = useSelector(
         (state: RootState) => state.LeaveDetails.ViewLeaveDetails
@@ -116,7 +124,6 @@ const AddLeaveDetails = () => {
         setTotalDays(1);
         setDescription('')
     };
-
 
     useEffect(() => {
         if (StartDate === null || EndDate === null) {
@@ -253,7 +260,11 @@ const AddLeaveDetails = () => {
                             label={'Start Date'}
                             size={"medium"}
                         />
-                        <ErrorMessage1 Error={ErrorStartDate} />
+                        <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
+
+
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Datepicker
@@ -262,7 +273,10 @@ const AddLeaveDetails = () => {
                             label={'End Date'}
                             size={"medium"}
                         />
-                        <ErrorMessage1 Error={ErrorEndDate} />
+                        <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorEndDate2}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <TextField
@@ -314,6 +328,24 @@ const AddLeaveDetails = () => {
                             </Grid>
                         </Accordion>
                     </Grid>
+                    {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
+                        <Grid item xs={12} >
+                            <TextField
+                                label={<>
+                                    Remark <span style={{ color: 'red' }}>*</span>
+                                </>}
+                                multiline
+                                rows={3}
+                                value={Remark}
+                                onChange={(e) => {
+                                    setRemark(e.target.value);
+                                }}
+                                fullWidth
+                                error={Remark1 !== ''}
+                                helperText={Remark1}
+                            >
+                            </TextField>
+                        </Grid>) : null}
                 </Grid >
             </Box>
         </Box >

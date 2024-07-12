@@ -33,8 +33,8 @@ import {
   GetStudentResultList, PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
   PublishresetMessageNewAll,
-  oneDeleteStudentTest
-} from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
+  oneDeleteStudentTest,deleteresetMessage,deleteresetMessageAll
+  } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -242,6 +242,20 @@ const Studentwiseprogressreport = () => {
 
   };
 
+
+
+  useEffect(() => {
+ 
+      toast.success(oneDeleteStud);
+     // dispatch(deleteresetMessage());
+      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+
+    
+  }, [oneDeleteStud]);
+
+
+
+
   const clickDeleteAlll = (Id) => {
 
     const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
@@ -269,6 +283,12 @@ const Studentwiseprogressreport = () => {
       }
     });
   }
+
+  useEffect(() => {
+    toast.success(DeleteAllStud);
+//dispatch(deleteresetMessageAll());
+ dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+}, [DeleteAllStud]);
 
   const clickEdit = (value) => {
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +

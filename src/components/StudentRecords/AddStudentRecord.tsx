@@ -1,11 +1,32 @@
 import { AddComment, Check, QuestionMark, Save, Send } from '@mui/icons-material';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import { GetStudentRecordData } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const AddStudentRecord = () => {
+    const dispatch = useDispatch();
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
+    const listGeneralDetailsUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.listGeneralDetails
+    );
+    console.log(listGeneralDetailsUS, "listGeneralDetails");
+
+    useEffect(() => {
+        dispatch(GetStudentRecordData(GetStudentRecordDataResult));
+    }, []);
+    const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
+        asSchoolId: 18,
+        asSchoolwiseStudentId: 5392,
+        asAcademicYearId: 54,
+        asIsReadMode: "false",
+        asUserId: 3799
+
+    }
 
     const onClickSave = () => {
     };
@@ -127,8 +148,11 @@ const AddStudentRecord = () => {
                         </Box>
                     </>
                 }
-            />
-            <Box mb={1} sx={{ p: 2, background: 'white' }}>
+            /><Box mb={1} sx={{ p: 1, color: 'red', background: 'white', fontWeight: 'bold' }}>
+                The following information is for professional use and will be handled confidentially. This information will assist the counsellor for the child's evaluation.<br></br>
+                Please complete the following questions as fully and accurately as possible. If you are unable to complete a question you may consult other subject teachers for the better understanding of the child.
+            </Box>
+            <Box mb={1} sx={{ p: 1, background: 'white' }}>
                 <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
                     General Information
                 </Typography>
