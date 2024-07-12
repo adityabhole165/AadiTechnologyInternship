@@ -74,6 +74,7 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             Text5: Item.TotalDays,
             Text6: Item.LeaveName,
             Text7: Item.LeaveBalance,
+            ListUserId: Item.UserId,
             StatusId: Item.StatusId,
             IsApprovedByApprover: Item.IsApprovedByApprover,
             Status: Item.Status,
@@ -173,7 +174,7 @@ export const getViewLeaveDetails =
                     Text3: getDateMonthYearDayDash(Item.EndDate),
                     Text4: parseInt(Item.TotalDays),
                     Text5: Item.Description,
-                    UserId : Item.UserId
+                    UserId: Item.UserId
                 }
             })
             dispatch(LeaveDetailsslice.actions.getViewLeaveDetails(responseData))

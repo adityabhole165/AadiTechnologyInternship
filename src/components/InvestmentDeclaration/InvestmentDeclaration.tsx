@@ -1,11 +1,11 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
+import InvestmentSection from "./InvestmentSection";
 
-import DataTable, { Column } from "./Datatable";
 const InvestmentDeclaration = () => {
     const dispatch = useDispatch();
 
@@ -13,12 +13,10 @@ const InvestmentDeclaration = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
 
     const [newFilter, setnewFilter] = useState('');
-    const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
 
     const USListInvestmentDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentDetails
     )
-     
     const USISlistInvestmentAmountDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentAmountDetails
     )
@@ -26,87 +24,31 @@ const InvestmentDeclaration = () => {
     const USISlistInvestmentEmpDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
+    console.log(USISlistInvestmentEmpDetails, "USISlistInvestmentEmpDetails");
+
 
     const USListInvestmentSectionDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
     )
-    
-   
+
+    console.log(USListInvestmentSectionDetails, "USListInvestmentSectionDetail12345");
 
     const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
-   
+
+    console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
     const USGetRegimeDropdown: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISGetRegimeDropdown
     )
-    
-   
-   
+    console.log(USGetRegimeDropdown, "USGetRegimeDropdown")
 
-    const [InvestmentColumns, setInvestmentColumns] = React.useState<Column[]>([
-        {
-            id: 'Section80C',
-            label: 'Section 80C',
-            renderCell: (rowData) => rowData.Name,
-        },
-        {
-            id: 'AttachmentCount',
-            label: 'Attachment Count',
-            renderCell: (rowData) => rowData.DocumentCount,
-        },
-        {
-            id: 'MaximumLimit',
-            label: 'Maximum Limit Rs.',
-            renderCell: (rowData) => rowData.MaxAmount,
-        }
-    ])
-
-
-    const [InvestmentColumns1, setInvestmentColumns1] = React.useState<Column[]>([
-        {
-            id: 'Section 80CCF',
-            label: 'Section 80CCF',
-            renderCell: (rowData) => rowData.Name,
-        },
-        {
-            id: 'AttachmentCount',
-            label: 'Attachment Count',
-            renderCell: (rowData) => rowData.SectionGroupId,
-        },
-        {
-            id: 'MaximumLimit',
-            label: 'Maximum Limit Rs.',
-            renderCell: (rowData) => rowData.GroupMaxAmount,
-        }
-    ])
-
-   
-     
+    // console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
         asFinancialYearId: 10,
         asUserId: asUserId
     }
-
-    useEffect(() => {
-        dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
-    }, [])
-
-    useEffect(() => {
-        setListInvestmentDetails(USListInvestmentDetails)
-    }, [USListInvestmentDetails])
-
-    const changeText = (value) => {
-        console.log(value, "----aa---");
-    }
-
-    const changeText1 = (value) => {
-        console.log(value, "----aa---");
-    }
-
-
-   
 
     const GetInvestmentDeclarationBodyNew: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
@@ -118,14 +60,13 @@ const InvestmentDeclaration = () => {
         asSchoolId: asSchoolId
     }
 
-    const filteredSectionDetails = listInvestmentSectionDetails.map(section => {
-        const matchingDetails = USListInvestmentDetails.filter(detail => detail.sectionId === section.Id);
-        return {
-            ...section,
-            matchingDetails
-        };
-    });
-     
+    // const filteredSectionDetails = listInvestmentSectionDetails.map(section => {
+    //     const matchingDetails = USListInvestmentDetails.filter(detail => detail.sectionId === section.Id);
+    //     return {
+    //         ...section,
+    //         matchingDetails
+    //     };
+    // });
 
     useEffect(() => {
         dispatch(CDAGetRegimeDropdown(GetRegimeDropdown))
@@ -146,13 +87,53 @@ const InvestmentDeclaration = () => {
     // console.log(filteredSectionDetails, "filteredSectionDetails");
 
 
-    
+    const filteredSectionDetails = listInvestmentSectionDetails.map(section => {
+        const matchingDetails = USListInvestmentDetails.filter(detail => detail.SectionId === section.Id);
+        return {
+            matchingDetails
+        }
+    });
+
+    console.log(filteredSectionDetails, "filteredSectionDetails");
 
     const matchingDetailsData = filteredSectionDetails.flatMap(section => section.matchingDetails);
 
- 
-  
-    
+    console.log(USListInvestmentDetails, "matchingDetailsData1");
+
+    const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
+    useEffect(() => {
+        if (USListInvestmentDetails.length > 0)
+            setListInvestmentDetails(USListInvestmentDetails)
+    }, [USListInvestmentDetails])
+
+    // const sortlist = () => {
+    //     let name = ""
+    //     USListInvestmentDetails.map((index) => {
+    //         listInvestmentSectionDetails.map((detail) => {
+    //             if (index.SectionId == detail.Id) {
+    //                 name = index.Name
+    //             }
+
+    //         })
+
+    //     })
+    // }
+    // console.log(sortlist(), "sortlist");
+
+    const sortlist = () => {
+        return USListInvestmentDetails.map((index) => {
+            const detail = listInvestmentSectionDetails.find(detail => detail.Id === index.SectionId);
+            return {
+                ...index,
+                name: detail ? detail.Name : null // Add a default value if no matching detail is found
+            };
+        });
+    };
+
+    // Usage
+    const sortedList = sortlist();
+    console.log(sortedList, "-----------");
+
 
     return (
         <>
@@ -162,22 +143,7 @@ const InvestmentDeclaration = () => {
                 </Typography>
                 {USListInvestmentDetails.length > 0 &&
                     <Grid container>
-                        <DataTable
-                            columns={InvestmentColumns}
-                            data={ListInvestmentDetails}
-                            isLoading={false}
-                            isPagination={false}
-                            changeText={changeText}
-                        />
-
-                        <DataTable
-                            columns={InvestmentColumns1}
-                            data={filteredSectionDetails}
-                            isLoading={false}
-                            isPagination={false}
-                            changeText={changeText1}
-                        />
-
+                        <InvestmentSection></InvestmentSection>
                     </Grid>}
                 <br></br>
                 <br></br>
@@ -332,7 +298,14 @@ const InvestmentDeclaration = () => {
                             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
                                 <Typography variant="h6" gutterBottom>
                                     {section.Name}
+                                    {/* {filteredSectionDetails.matchingDetails.map((detail) => (
 
+                                        { detail.Name }
+
+                                    ))} */}
+                                    {/* {matchingDetailsData.map((detail) => (
+                                        {detail.Name}
+                                    ))} */}
                                 </Typography>
                                 <br></br>
                                 {matchingDetailsData.map((detail, index) => (
@@ -345,7 +318,8 @@ const InvestmentDeclaration = () => {
                                 </Typography>
                             </Box>
                             <Box height={20} />
-
+                            {/* Blank space */}
+                            {/* </Paper> */}
                         </Grid>
                     ))}
                 </Grid>

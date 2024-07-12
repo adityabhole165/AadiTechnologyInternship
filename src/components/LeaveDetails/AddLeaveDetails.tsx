@@ -19,8 +19,9 @@ const AddLeaveDetails = () => {
     const navigate = useNavigate();
     const { LeaveId } = useParams();
     console.log(LeaveId, "LeaveId");
-
-    const [SenderName, setSenderName] = useState('');
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asUserId);
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
@@ -28,8 +29,7 @@ const AddLeaveDetails = () => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [Description, setDescription] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
-    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asUserId = Number(localStorage.getItem('UserId'));
+
 
 
     const GetViewLeave = useSelector(
@@ -41,14 +41,9 @@ const AddLeaveDetails = () => {
     );
     console.log(GetLeaveBalance, "GetLeaveBalance");
 
-    const Note1 = [
-        ' Leave Balance : CL(3.00), SL(113.00), EL(180.00), A(Unpaid), ML(0.00), LWP(Unpaid), Off(0.00), O.D.(0.00)'
-    ];
-    const Hedaer1 = ['Note 1:'];
     const Note2 = [
         ' If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.'
     ];
-    const Hedaer2 = ['Note 2:'];
 
     useEffect(() => {
         if (LeaveId != undefined && GetViewLeave.length > 0 && GetViewLeave[0] != null) {
@@ -198,10 +193,15 @@ const AddLeaveDetails = () => {
                         title: 'Leave Details',
                         path: '/extended-sidebar/Teacher/LeaveDetails',
                     },
-                    {
-                        title: 'Apply / Approve / Reject Leave page',
-                        path: '/extended-sidebar/Teacher/AddLeaveDetails',
-                    }
+                    LeaveId ?
+                        {
+                            title: 'Apply / Approve / Reject Leave page',
+                            path: '/extended-sidebar/Teacher/AddLeaveDetails/',
+                        } :
+                        {
+                            title: 'Apply / Approve / Reject Leave page',
+                            path: '/extended-sidebar/Teacher/AddLeaveDetails',
+                        }
                 ]}
                 rightActions={rightActions}
             />
@@ -274,7 +274,7 @@ const AddLeaveDetails = () => {
                             </AccordionSummary>
                             <Grid item xs={12}>
                                 <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
-                                    <b>Note 1 :</b> <>Leave balance</>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                                    <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
                                 </Alert>
                                 <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
                             </Grid>

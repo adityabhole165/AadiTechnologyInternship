@@ -87,8 +87,10 @@ const StudentRecords = () => {
   const handleHeaderClick = (updatedHeaderArray) => {
     setHeaderArray(updatedHeaderArray);
     const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
-    const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'ClassName';
+    const newSortExpression = sortField ? `${sortField.sortKey}` : 'ClassName';
     setSortExpression(newSortExpression);
+    const newSortDirection = sortField ? `${sortField.SortOrder}` : 'ASC';
+    setsortDirection(newSortDirection);
   };
 
   const GetScreenPermission = () => {
@@ -141,7 +143,7 @@ const StudentRecords = () => {
     asStdDivId: Number(SelectTeacher),
     asFilter: regNoOrName.toString(),
     sortExpression: sortExpression,
-    sortDirection: '',
+    sortDirection: sortDirection,
     StartIndex: (page - 1) * rowsPerPage,
     EndIndex: page * rowsPerPage,
     ShowSaved: isDifferentClassId,
