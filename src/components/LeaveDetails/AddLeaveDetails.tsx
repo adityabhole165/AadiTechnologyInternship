@@ -27,9 +27,9 @@ const AddLeaveDetails = () => {
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
     const [SelectLeaveType, setLeaveType] = useState("0");
+    const [Description, setDescription] = useState('');
     const [ErrorStartDate, setErrorStartDate] = useState('');
     const [ErrorEndDate, setErrorEndDate] = useState('');
-    const [Description, setDescription] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
 
     const GetViewLeave = useSelector(
@@ -66,7 +66,10 @@ const AddLeaveDetails = () => {
         const start = new Date(StartDate);
         const end = new Date(EndDate);
         const timeDiff = end.getTime() - start.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+        if (daysDiff < 0) {
+            daysDiff = 0;
+        }
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
 
@@ -113,6 +116,13 @@ const AddLeaveDetails = () => {
         setTotalDays(1);
         setDescription('')
     };
+
+
+    useEffect(() => {
+        if (StartDate === null || EndDate === null) {
+            setTotalDays(0);
+        }
+    }, [StartDate, EndDate])
 
     const resetForm = () => {
         clear();
