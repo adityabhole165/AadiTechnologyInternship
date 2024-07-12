@@ -13,7 +13,7 @@ type Props = {}
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: '#19bed4',
   color: theme.palette.common.white,
   fontWeight: 'bold',
   textAlign: 'center',
@@ -188,7 +188,7 @@ const TeacherTimetable = () => {
         {isEmpty &&
           <Box sx={{ background: 'white', p: 2 }}>
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Timetable not Configured.</b>
+              <b>Timetable not yet Configured.</b>
             </Typography>
           </Box>
         }
