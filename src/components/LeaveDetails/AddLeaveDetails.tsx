@@ -9,7 +9,8 @@ import { useNavigate, useParams } from 'react-router';
 import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
-import { getLeaveBalance } from 'src/requests/LeaveDetails/RequestAddLeave';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { getLeaveBalance, LeaveTypeDropdown } from 'src/requests/LeaveDetails/RequestAddLeave';
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -25,15 +26,19 @@ const AddLeaveDetails = () => {
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
+    const [SelectLeaveType, setLeaveType] = useState("0");
+    const [Description, setDescription] = useState('');
     const [ErrorStartDate, setErrorStartDate] = useState('');
     const [ErrorEndDate, setErrorEndDate] = useState('');
-    const [Description, setDescription] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
 
     const GetViewLeave = useSelector(
         (state: RootState) => state.LeaveDetails.ViewLeaveDetails
     );
     console.log(GetViewLeave, "GetViewLeave");
+    const GetLeaveTypeDropdown = useSelector(
+        (state: RootState) => state.AddLeaveDetails.LeaveTypeDropdown
+    );
     const GetLeaveBalance = useSelector(
         (state: RootState) => state.AddLeaveDetails.LeaveBalanceNote
     );
@@ -50,16 +55,21 @@ const AddLeaveDetails = () => {
             setStartDate(ViewLeave.Text2)
             setEndDate(ViewLeave.Text3)
             setTotalDays(ViewLeave.Text4)
+            setLeaveType(ViewLeave.LeaveType)
             setDescription(ViewLeave.Text5)
             setasUserId(ViewLeave.UserId)
         }
+        console.log(SelectLeaveType, "SelectLeaveType")
     }, [GetViewLeave]);
 
     useEffect(() => {
         const start = new Date(StartDate);
         const end = new Date(EndDate);
         const timeDiff = end.getTime() - start.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+        if (daysDiff < 0) {
+            daysDiff = 0;
+        }
         setTotalDays(daysDiff);
     }, [StartDate, EndDate]);
 
@@ -73,6 +83,13 @@ const AddLeaveDetails = () => {
             dispatch(getViewLeaveDetails(GetViewLeaveBody))
         }
     }, [LeaveDId]);
+
+    const LeaveTypeDropdownBody = {
+        asSchoolId: asSchoolId
+    };
+    useEffect(() => {
+        dispatch(LeaveTypeDropdown(LeaveTypeDropdownBody))
+    }, []);
     useEffect(() => {
         if (asUserId) {
             const GetLeaveBalanceBody = {
@@ -90,13 +107,22 @@ const AddLeaveDetails = () => {
     const onSelectEndDate = (value) => {
         setEndDate(value);
     };
-
+    const clickLeaveTypeDropdown = (value) => {
+        setLeaveType(value);
+    };
     const clear = () => {
         setStartDate(new Date().toISOString().split('T')[0]);
         setEndDate(new Date().toISOString().split('T')[0]);
         setTotalDays(1);
         setDescription('')
     };
+
+
+    useEffect(() => {
+        if (StartDate === null || EndDate === null) {
+            setTotalDays(0);
+        }
+    }, [StartDate, EndDate])
 
     const resetForm = () => {
         clear();
@@ -246,6 +272,15 @@ const AddLeaveDetails = () => {
                                 readOnly: true,
                             }}
                             fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <SearchableDropdown
+                            sx={{ minWidth: '20vw' }}
+                            ItemList={GetLeaveTypeDropdown}
+                            defaultValue={SelectLeaveType}
+                            onChange={clickLeaveTypeDropdown}
+                            label='Leave Type'
                         />
                     </Grid>
                     <Grid item xs={12}>
