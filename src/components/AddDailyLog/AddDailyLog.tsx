@@ -549,7 +549,7 @@ const AddDailyLog = () => {
 
       <Dialog
         open={open}
-        maxWidth={'sm'}
+        maxWidth={'md'}
         fullWidth
         onClose={handleClose}
       >
@@ -611,8 +611,16 @@ const AddDailyLog = () => {
               fileName.length !== 0 && base64URL.length !== 0 ? false : true
             }
             onClick={onClickSave}
-            color={'success'}
-            variant={'contained'}>
+            // color={'success'}
+            // variant={'contained'}
+            sx={{
+              color:'green',
+                   //  backgroundColor: grey[500],
+                    '&:hover': {
+                     color:'green',
+                   backgroundColor: green[100]
+                   }}}
+            >
             Save
           </Button>
         </DialogActions>
