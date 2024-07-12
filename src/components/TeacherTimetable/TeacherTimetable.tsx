@@ -325,7 +325,7 @@ const TeacherTimetable = () => {
                 {/* WeekDay	Lecture Number	Class	Subject */}
                 {AdditionalClasses.length === 0 &&
 
-                  <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 42, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                     <b>No record found.</b>
                   </Typography>
                 }
