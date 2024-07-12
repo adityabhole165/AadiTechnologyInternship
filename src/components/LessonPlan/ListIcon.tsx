@@ -12,6 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useContext } from 'react';
 import IsHighliteStaus from './LessonPlanContext';
+import { red } from '@mui/material/colors';
 
 function ListIcon({
     HeaderArray,
@@ -182,9 +183,13 @@ function ListIcon({
                                                 <IconButton
                                                     onClick={() => clickDelete(item.StartDate, item.EndDate)}
                                                     sx={{
-                                                        cursor: 'pointer',
-                                                        '&:hover': { backgroundColor: 'lightgrey' }
-                                                    }}
+                                                        color:'#223354',
+                                                             //  backgroundColor: grey[500],
+                                                              '&:hover': {
+                                                               color:'red',
+                                                             backgroundColor: red[100]
+                                                             }}}
+             
                                                 >
                                                     <DeleteForeverRoundedIcon />
                                                 </IconButton>

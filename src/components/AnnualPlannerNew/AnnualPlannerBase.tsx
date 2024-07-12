@@ -87,8 +87,8 @@ const AnnualPlannerBase = () => {
   );
 
   const [DefaultValue, setDefaultValue] = useState({
-    Standard: '0',
-    StandardDivision: '0',
+    Standard: standardId,
+    StandardDivision: divisionId,
     Month: (new Date(SelectedDate).getMonth() + 1).toString(),
     Year: new Date(SelectedDate).getFullYear().toString()
   });
@@ -155,15 +155,17 @@ const AnnualPlannerBase = () => {
   // }, [USStandardList, GetTeacherDetail]);
   useEffect(() => {
     if (USStandardList.length > 0) {
-      if (IsClassTeacher === "N") {
-        console.log("Setting standardId to 0 because IsClassTeacher is 'N'");
-        setValue(USStandardList[0].Value, 'Standard'); // Set standardId to USStandardList[0].Value
-        callGetDivisionList(USStandardList[0].Value);  // Call function with USStandardList[0].Value
-      } else if (GetTeacherDetail && GetTeacherDetail.length > 0) {
-        const standardId = findMatchingId(GetTeacherDetail[0].Standard_Id);
-        console.log("Setting standardId based on GetTeacherDetail:", standardId);
-        setValue(standardId === undefined ? USStandardList[0].Value : standardId, 'Standard');
-        callGetDivisionList(standardId === undefined ? USStandardList[0].Value : standardId);
+      if (standardId == undefined) {
+        if (IsClassTeacher === "N") {
+          console.log("Setting standardId to 0 because IsClassTeacher is 'N'");
+          setValue(USStandardList[0].Value, 'Standard'); // Set standardId to USStandardList[0].Value
+          callGetDivisionList(USStandardList[0].Value);  // Call function with USStandardList[0].Value
+        } else if (GetTeacherDetail && GetTeacherDetail.length > 0) {
+          const standardId = findMatchingId(GetTeacherDetail[0].Standard_Id);
+          console.log("Setting standardId based on GetTeacherDetail:", standardId);
+          setValue(standardId === undefined ? USStandardList[0].Value : standardId, 'Standard');
+          callGetDivisionList(standardId === undefined ? USStandardList[0].Value : standardId);
+        }
       }
     }
   }, [USStandardList, GetTeacherDetail, IsClassTeacher]);
@@ -199,6 +201,11 @@ const AnnualPlannerBase = () => {
       setValue(divisionId == undefined ? USStandardDivision[0].Value : divisionId, 'StandardDivision');
     }
   }, [USStandardDivision]);
+  // useEffect(() => {
+  //   if (USStandardList.length > 0) {
+  //     setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
+  //   }
+  // }, [USStandardList]);
 
   useEffect(() => {
     if (USEventsDataList.length > 0) {
