@@ -97,18 +97,8 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
 export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        // dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
-        let listInvestmentSectionDetails = response.data.listInvestmentSectionDetail.map((item, i) => {
-            return {
-                Id: item.Id,
-                Name: item.Name,
-                SectionGroupId: item.SectionGroupId,
-                GroupMaxAmount: item.GroupMaxAmount,
-                CategoryId: item.CategoryId,
-                SortOrder: item.SortOrder
-            }
-        });
-        dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(listInvestmentSectionDetails));
+         dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
+       
     }
 
 export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppThunk =>
