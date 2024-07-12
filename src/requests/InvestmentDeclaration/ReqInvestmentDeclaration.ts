@@ -100,27 +100,21 @@ export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThu
         console.log(response, "response");
         dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
 
-
-        // let listInvestmentSectionDetails = response.data.listInvestmentSectionDetail.map((item, i) => {
-        //     return {
-        //         Id: item.Id,
-        //         Name: item.Name,
-        //         SectionGroupId: item.SectionGroupId,
-        //         GroupMaxAmount: item.GroupMaxAmount,
-        //         CategoryId: item.CategoryId,
-        //         SortOrder: item.SortOrder
-        //     }
-
-        // });
-        // console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails11122");
-        // dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(listInvestmentSectionDetails));
     };
 
 export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetRegimeDropdown(data)
+        let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
 
         dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(response.data));
+        response.data.map((item, i) => {
+            abc.push({
+                Id: item.Id,
+                Name: item.Name,
+                Value: item.Name
+            })
+        })
     }
 
 
