@@ -17,8 +17,8 @@ import CommonPageHeader from '../CommonPageHeader';
 const AddLeaveDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { LeaveId } = useParams();
-    console.log(LeaveId, "LeaveId");
+    const { LeaveDId } = useParams();
+    console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const [asUserId, setasUserId] = useState(Number(localStorage.getItem('UserId')));
     const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asUserId);
@@ -44,7 +44,7 @@ const AddLeaveDetails = () => {
     ];
 
     useEffect(() => {
-        if (LeaveId != undefined && GetViewLeave.length > 0 && GetViewLeave[0] != null) {
+        if (LeaveDId != undefined && GetViewLeave.length > 0 && GetViewLeave[0] != null) {
             const ViewLeave = GetViewLeave[0]
             setSenderName(ViewLeave.Text1);
             setStartDate(ViewLeave.Text2)
@@ -64,15 +64,15 @@ const AddLeaveDetails = () => {
     }, [StartDate, EndDate]);
 
     useEffect(() => {
-        if (LeaveId) {
+        if (LeaveDId) {
             const GetViewLeaveBody: IGetViewLeaveBody = {
                 asSchoolId: asSchoolId,
                 asUserId: asUserId,
-                asId: Number(LeaveId)  //Id for ViewDetails
+                asId: Number(LeaveDId)  //Id for ViewDetails
             }
             dispatch(getViewLeaveDetails(GetViewLeaveBody))
         }
-    }, [LeaveId]);
+    }, [LeaveDId]);
     useEffect(() => {
         if (asUserId) {
             const GetLeaveBalanceBody = {
@@ -122,7 +122,7 @@ const AddLeaveDetails = () => {
             </Tooltip>
 
 
-            {LeaveId === undefined ? (
+            {LeaveDId === undefined ? (
                 <>
                     <Tooltip title={'Cancel'}>
                         <IconButton
@@ -192,7 +192,7 @@ const AddLeaveDetails = () => {
                         title: 'Leave Details',
                         path: '/extended-sidebar/Teacher/LeaveDetails',
                     },
-                    LeaveId ?
+                    LeaveDId ?
                         {
                             title: 'Apply / Approve / Reject Leave page',
                             path: '/extended-sidebar/Teacher/AddLeaveDetails/',
