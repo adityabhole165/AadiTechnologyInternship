@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import { GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 
-import { Box } from "@mui/material";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { RootState } from "src/store";
 import DataTable, { Column } from "./Datatable";
 
@@ -65,6 +65,11 @@ const InvestmentSection = () => {
         return listInvestmentSectionDetails.map((section) => {
             const filteredData = ListInvestmentDetails.filter((detail) => detail.SectionId === section.Id);
 
+            if (filteredData.length === 0) {
+                return null; // Skip rendering this section if there's no data
+            }
+
+            const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
             const columns: Column[] = [
                 {
                     id: 'Name',
@@ -92,6 +97,21 @@ const InvestmentSection = () => {
                         isPagination={false}
                         changeText={changeText}
                     />
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell colSpan={columns.length} align="right">
+                                        <Typography variant="h6">Total Amount</Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography variant="h6">{totalAmount}</Typography>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
                 </Box>
             );
         });
