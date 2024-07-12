@@ -105,6 +105,7 @@ import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher
 import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
+import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
@@ -220,7 +221,8 @@ const rootReducer = combineReducers({
   LeaveDetails: LeaveDetailsslice,
   Studentwiseprogress: Studentwiseprogressslice,
   AddSchoolNotice: AddSchoolNotice,
-  AddLeaveDetails: AddLeaveDetailsslice
+  AddLeaveDetails: AddLeaveDetailsslice,
+  AddStudentRecords: AddStudentRecordsSlice
 });
 
 export default rootReducer;
