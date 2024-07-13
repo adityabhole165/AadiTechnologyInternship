@@ -309,11 +309,13 @@ const LeaveDetailsBaseScreen = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(StatusDropdown(StatusBody));
+        if (selectAcademicYear != "0")
+            dispatch(StatusDropdown(StatusBody));
     }, [selectAcademicYear, selectCategory]);
 
     useEffect(() => {
-        dispatch(getLeaveDetailList(body));
+        if (selectAcademicYear != "0" && selectCategory != "0")
+            dispatch(getLeaveDetailList(body));
     }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus]);
 
 
