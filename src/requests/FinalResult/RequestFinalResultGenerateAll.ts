@@ -20,7 +20,9 @@ const FinalResultGenerateAllSlice = createSlice({
         getSubjectDetailsView: [],
         getMarkDetailsView: [],
         getGradesDetailsView: [],
+        MarkDetailsList: [],
         UpdateStudentTestMarks: '',
+        ListDisplayNameDetails: [],
         Loading: true
     },
 
@@ -28,6 +30,14 @@ const FinalResultGenerateAllSlice = createSlice({
         StudentDetails(state, action) {
             state.Loading = false;
             state.getStudentDetails = action.payload;
+        },
+        ShowData(state, action) {
+            state.Loading = false;
+            state.MarkDetailsList = action.payload;
+        },
+        getListDisplayNameDetails(state, action) {
+            state.Loading = false;
+            state.ListDisplayNameDetails = action.payload;
         },
         ExamDetails(state, action) {
             state.Loading = false;
@@ -88,6 +98,47 @@ export const StudentDetailsGA =
     (data: IGetStudentPrrogressReportBody): AppThunk =>
         async (dispatch) => {
             const response = await ApiFinalResultGenerateAll.StudentPrrogressReport(data);
+
+            let rows = []
+            const getMatch = (TestId, SubjectId, TestTypeId) => {
+                let returnVal = null
+                response.data.listSubjectIdDetails.map((Item) => {
+                    if (Item.Original_SchoolWise_Test_Id == TestId &&
+                        Item.Subject_Id == SubjectId &&
+                        Item.TestType_Id == TestTypeId
+
+                    )
+                        returnVal = Item
+                })
+                return returnVal
+            }
+            response.data.listTestDetails.map((Test) => {
+                let columns = []
+                response.data.listSubjectsDetails.map((Subject) => {
+
+                    response.data.ListSubjectidDetails
+                        .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
+                        .map((TestType) => {
+                            let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
+                            columns.push({
+                                MarksScored: cell ? cell.Marks_Scored : "-",
+                                TotalMarks: cell ? cell.Subject_Total_Marks : "-",
+                                IsAbsent: cell ? cell.Is_Absent : "N"
+                            })
+
+                        })
+                })
+
+                rows.push({
+                    TestName: Test.Test_Name,
+                    MarksArr: columns
+                })
+            })
+            dispatch(FinalResultGenerateAllSlice.actions.ShowData(rows));
+            dispatch(FinalResultGenerateAllSlice.actions.getListDisplayNameDetails(response.data.ListDisplayNameDetails));
+
+
+
             let abc = response.data.listStudentsDetails.map((item, i) => {
                 return {
                     Id: item.YearWise_Student_Id,
@@ -99,7 +150,7 @@ export const StudentDetailsGA =
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.StudentDetails(abc));
-           
+
             let Subjects = [];
             response.data.listSubjectsDetails.map((item, i) => {
                 Subjects.push({
@@ -120,7 +171,7 @@ export const StudentDetailsGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.ShortenTestDetails(ShortenTestType));
-    
+
             let Exams = [];
             response.data.listTestDetails.map((item, i) => {
                 Exams.push({
@@ -130,7 +181,7 @@ export const StudentDetailsGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.ExamDetails(Exams));
-          
+
             let testMarks = [];
             response.data.listSubjectIdDetails.map((item, i) => {
                 testMarks.push({
@@ -208,7 +259,7 @@ export const ViewResultGA =
             });
             dispatch(FinalResultGenerateAllSlice.actions.MarkDetailsView(Marks));
 
-            let grades = [{ Id: '0', Name: 'Subject Grade', Value: '0' ,IsAbsent: '0'}];
+            let grades = [{ Id: '0', Name: 'Subject Grade', Value: '0', IsAbsent: '0' }];
             response.data.listSubjectDetails.map((item, i) => {
                 grades.push({
                     Id: item.Subject_Id,
