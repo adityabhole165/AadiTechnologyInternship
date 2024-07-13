@@ -34,7 +34,8 @@ const SettingsDropdown = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    const currentYear = new Date().getFullYear();
+    const currentAcademicYear = `${currentYear}-${currentYear + 1}`;
     useEffect(() => {
         const AcademicYearBody: IGetAllAcademicYearForSchoolBody = {
             asSchoolId: Number(asSchoolId),
@@ -141,10 +142,12 @@ const SettingsDropdown = () => {
                                 },
                             }}
                         >
-                            <Box p={2} width="50">
-                                <Box style={{ color: 'red', fontStyle: 'italic', fontWeight: 'bold' }}>
-                                    You are viewing data of old academic year ({AcademicYearName}). Please do not modify any data.
-                                </Box>
+                            <Box p={2} width="50" sx={{ minheight: '100px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}> {/* Fixed height for consistency */}
+                                
+                                    <Box style={{ color: 'red', fontStyle: 'italic', fontWeight: 'bold',visibility: AcademicYearName !== currentAcademicYear ? 'visible' : 'hidden' }}>
+                                        You are viewing data of old academic year ({AcademicYearName}). Please do not modify any data.
+                                    </Box>
+                                
                                 <br></br>
                                 <SearchableDropdown
                                     sx={{ minWidth: '100%' }}
