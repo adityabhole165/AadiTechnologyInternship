@@ -130,7 +130,9 @@ const SchoolAttendanceOverview = () => {
 
                 />
             </Box>
+            
             <Box>
+              
               <Tooltip title={Note}>
                 <IconButton
                   sx={{
@@ -147,7 +149,12 @@ const SchoolAttendanceOverview = () => {
             </Box>
           </>
         }
-      />
+      /><br></br>
+       <Box sx={{ display: 'flex' }}>
+        <Typography>Legend :</Typography>
+        <ClearIcon sx={{ color: 'red' }} />{' '}
+        <Typography>Attendance Not Marked</Typography>
+      </Box>
       {ISWeekendStatusList !== '' ? (
         <Typography variant="h6" sx={{ color: 'red' }}>
           {ISWeekendStatusList}
@@ -166,11 +173,7 @@ const SchoolAttendanceOverview = () => {
           <br></br>
         </>
       )}
-      <Box sx={{ display: 'flex' }}>
-        <Typography>Legend :</Typography>
-        <ClearIcon sx={{ color: 'red' }} />{' '}
-        <Typography>Attendance Not Marked</Typography>
-      </Box>
+     
     </Box>
   );
 };

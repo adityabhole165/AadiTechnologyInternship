@@ -80,7 +80,7 @@ function StudentwiseProgressreportList({
                                             }}
                                         />
                                     </Tooltip>
-                                ) : item.EditStatus === "0" ? (
+                                ) : item.EditStatus === "2" ? (
                                     <Tooltip title="Marks entry partially done">
                                         <DesignServicesIcon
                                             onClick={() => clickEdit(item.Id)}
@@ -94,7 +94,7 @@ function StudentwiseProgressreportList({
                                     </Tooltip>
                                 ) :
 
-                                    item.EditStatus === "2" ? (
+                                    item.EditStatus === "3" ? (
                                         <Tooltip title='Marks entry completed'>
                                             <CheckIcon style={{ color: '#07bc0c', cursor: 'pointer' }}
                                                 onClick={() => clickEdit(item.Id)}
@@ -108,22 +108,41 @@ function StudentwiseProgressreportList({
                                         </Tooltip>) : 'null'
                                 }
                             </TableCell>
+                            {/* <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                {item.EditStatus === "2" && item.ShowProgressReport == "N" &&
+                                    (
+                                        <Tooltip title="Delete">
+                                            <DeleteForeverIcon
+                                                onClick={() => clickDelete(item.Id)}
+                                                sx={{
+                                                    color: '#223354',
+                                                    '&:hover': {
+                                                        color: 'red',
+                                                        backgroundColor: red[100]
+                                                    }
+                                                }}
+                                            />
+                                        </Tooltip>
+                                    )}
+                            </TableCell> */}
                             <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-                                {item.EditStatus === "2" && (
+                                {item.EditStatus !== "1" && item.ShowProgressReport !== "Y" && (
                                     <Tooltip title="Delete">
                                         <DeleteForeverIcon
                                             onClick={() => clickDelete(item.Id)}
                                             sx={{
                                                 color: '#223354',
+                                                cursor: 'pointer',
                                                 '&:hover': {
                                                     color: 'red',
-                                                    backgroundColor: red[100]
-                                                }
+                                                    backgroundColor: red[100],
+                                                },
                                             }}
                                         />
                                     </Tooltip>
                                 )}
                             </TableCell>
+
                         </TableRow>
                     ))}
                 </TableBody>

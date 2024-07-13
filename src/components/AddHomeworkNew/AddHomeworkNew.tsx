@@ -717,109 +717,67 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   //     }
   // }, [AssignedDate1]);
 
-  useEffect(() => {
-    setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject))
-  }, [Subjectlistsforteacher])
+  // useEffect(() => {
+  //   setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject))
+  // }, [Subjectlistsforteacher])
 
   // const Homework_assigned_for_other_subjects = Subjectlistsforteacher.filter((item) => item.SubjectId != Subject);
 
+  // useEffect(() => {
+  //   setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject)
+  //     .map((item, index) => {
+  //       return {
+  //         ...item,
+  //         Text10: index + 1
+  //       }
+  //     })
+
+  //   )
+
+  // }, [Subjectlistsforteacher])
+
   useEffect(() => {
-    setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject)
-      .map((item, index) => {
-        return {
-          ...item,
-          Text10: index + 1
-        }
-      })
+    const filteredTittle = Subjectlistsforteacher.filter((item) => item.SubjectId === Subject);
+    setSearchTittle(filteredTittle);
+  }, [Subjectlistsforteacher, Subject]);
 
-    )
-
-  }, [Subjectlistsforteacher])
-
+  // Effect for SearchTittle1
+  useEffect(() => {
+    const filteredTittle1 = Subjectlistsforteacher
+      .filter((item) => item.SubjectId !== Subject)
+      .map((item, index) => ({
+        ...item,
+        Text10: index + 1
+      }));
+    setSearchTittle1(filteredTittle1);
+  }, [Subjectlistsforteacher, Subject]);
 
 
   const [SearchText, setSearchText] = useState('');
 
 
-  // const changeSearchText = () => {
-  //   if (SearchText === '') {
-  //     setSearchTittle(Subjectlistsforteacher.filter((item) => item.SubjectId === Subject));
-  //     setSearchTittle1(Subjectlistsforteacher.filter((item) => item.SubjectId !== Subject));
-  //   } else {
-  //     setSearchTittle(
-  //       Subjectlistsforteacher.
-  //         filter((item) => item.SubjectId === Subject).
-  //         filter((item) => {
-  //           return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-  //         })
-  //     );
-  //     setSearchTittle1(
-  //       Subjectlistsforteacher.
-  //         filter((item) => item.SubjectId !== Subject).
-  //         filter((item) => {
-  //           return item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-  //         })
-  //     );
-  //   }
-  // };
+ 
   const changeSearchText = () => {
-    // Ensure AssignedDate1 is a Date object
-    const selectedDate = AssignedDate1 instanceof Date ? AssignedDate1 : new Date(AssignedDate1);
+    const searchTextLowerCase = SearchText.toLowerCase().trim();
 
-    // Log selectedDate to check its value
-    console.log('selectedDate:', selectedDate);
+    const filteredTittle = Subjectlistsforteacher.filter((item) => {
+      const itemTitle = item.Text2 && item.Text2.toLowerCase(); // Assuming Text2 is the field for homework title
 
-    // Convert selectedDate to formatted string for display
-    //const asdate = formatDateAsDDMMMYYYY(selectedDate);
-    const asdate = AssignedDate1 ? formatDateAsDDMMMYYYY(new Date(AssignedDate1)) : "";
-    let filteredTittle = [];
-    let filteredTittle1 = [];
+      return itemTitle.includes(searchTextLowerCase) || searchTextLowerCase === '';
+    });
 
-    if (SearchText === '') {
-      filteredTittle = Subjectlistsforteacher.filter((item) => {
-        // Check if item matches the selected date
-        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
-        return itemDate.toDateString() === selectedDate.toDateString();
-      });
+    const filteredTittle1 = Subjectlistsforteacher.filter((item) => {
 
-      filteredTittle1 = Subjectlistsforteacher.filter((item) => {
-        // Check if item does not match the selected date
-        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
-        return itemDate.toDateString() !== selectedDate.toDateString();
-      });
-    } else {
-      filteredTittle = Subjectlistsforteacher.filter((item) => {
-        // Filter by subject and search text for the selected date
-        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
-        return itemDate.toDateString() === selectedDate.toDateString() &&
-          item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-      });
+      const itemTitle = item.Text2 && item.Text2.toLowerCase(); // Assuming Text2 is the title field
 
-      filteredTittle1 = Subjectlistsforteacher.filter((item) => {
-        // Filter by subject and search text for dates other than the selected date
-        const itemDate = new Date(item.Date); // Assuming 'Date' is your date field in Subjectlistsforteacher
-        return itemDate.toDateString() !== selectedDate.toDateString() &&
-          item.Text2 && item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-      });
-    }
+      return itemTitle.includes(searchTextLowerCase) || searchTextLowerCase === '';
+    });
 
-    // Update state variables with filtered results
     setSearchTittle(filteredTittle);
     setSearchTittle1(filteredTittle1);
-
-    // Prepare payload for API call
-    const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: Number(SelectClass),
-      asHomeWorkStatus: HomeworkS.toString(),
-      asHomeworkTitle: '',
-      asAssignedDate: asdate // Use formatted date for API call
-    };
-
-    // Trigger the API call
-    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
   };
+
+
 
 
   const handleSearchClick = () => {
@@ -896,7 +854,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 </Tooltip>
               </Box>
 
-              <Box>
+              {/* <Box>
                 <Tooltip title={`Cancel`}>
                   <IconButton
                     sx={{
@@ -927,7 +885,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                     <SaveIcon />
                   </IconButton>
                 </Tooltip>
-              </Box>
+              </Box> */}
 
               <Box>
                 <Tooltip title={
@@ -1257,7 +1215,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             </Typography>
             <TextField
               multiline
-              rows={3}
+              rows={2}
               type="text"
               value={text}
               onChange={Detailschnage}
@@ -1270,7 +1228,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOk} variant={'contained'} >
+            <Button 
+            onClick={ClickOk} 
+            // variant={'contained'}
+            sx={{
+              color:'green',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'green',
+               backgroundColor: green[100]
+                }}}
+        >
               Confirm
             </Button>
           </DialogActions>
@@ -1365,12 +1333,36 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
           <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-            <ButtonPrimary style={{ backgroundColor: green[500] }} onClick={publishAll}>
-              PUBLISH ALL
-            </ButtonPrimary>
-            <ButtonPrimary style={{ backgroundColor: red[500] }} onClick={ClickOpenDialogbox}>
-              UNPUBLISH ALL
-            </ButtonPrimary>
+            
+            
+            <Button
+            //  style={{ backgroundColor: red[500] }} 
+            sx={{
+              color:'red',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'red',
+               backgroundColor: red[100]
+                }}}
+             onClick={ClickOpenDialogbox}
+             >
+             Unpublish All
+            </Button>
+            
+            <Button
+            sx={{
+              color:'green',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'green',
+               backgroundColor: green[100]
+                }}}
+       
+            // style={{ backgroundColor: green[500] }}
+             onClick={publishAll}>
+              Publish All
+            </Button>
+            
           </Box>
         )}
 
