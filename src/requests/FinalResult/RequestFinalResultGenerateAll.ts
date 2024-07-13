@@ -99,8 +99,7 @@ export const StudentDetailsGA =
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.StudentDetails(abc));
-            console.log(abc)
-
+           
             let Subjects = [];
             response.data.listSubjectsDetails.map((item, i) => {
                 Subjects.push({
@@ -110,7 +109,6 @@ export const StudentDetailsGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.SubjectDetails(Subjects));
-            console.log(Subjects)
 
             let ShortenTestType = [];
             response.data.listSubjectIdDetails.map((item, i) => {
@@ -122,8 +120,7 @@ export const StudentDetailsGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.ShortenTestDetails(ShortenTestType));
-            console.log(ShortenTestType, "ShortenTestType")
-
+    
             let Exams = [];
             response.data.listTestDetails.map((item, i) => {
                 Exams.push({
@@ -133,8 +130,7 @@ export const StudentDetailsGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.ExamDetails(Exams));
-            console.log(Exams)
-
+          
             let testMarks = [];
             response.data.listSubjectIdDetails.map((item, i) => {
                 testMarks.push({
@@ -145,24 +141,18 @@ export const StudentDetailsGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.TestMarksDetails(testMarks));
-            console.log(testMarks);
-
         }
 
 export const GenerateAllGA = (data: IGetGenerateAllStudentBody): AppThunk => async (dispatch) => {
     dispatch(FinalResultGenerateAllSlice.actions.getLoading(true));
     const response = await ApiFinalResultGenerateAll.GenerateResultAll(data);
-    console.log(response, 'dddf');
     dispatch(FinalResultGenerateAllSlice.actions.GenerateAll(response.data));
-    console.log(response.data, 'assdf');
 };
 
 export const UpdateStudentTestMarks = (data: IUpdateStudentTestMarksBody): AppThunk => async (dispatch) => {
     dispatch(FinalResultGenerateAllSlice.actions.getLoading(true));
     const response = await ApiFinalResultGenerateAll.UpdateStudentTestMarks(data);
-    console.log(response, 'dddf');
     dispatch(FinalResultGenerateAllSlice.actions.UpdateStudentTestMarksMSG(response.data));
-    console.log(response.data, 'assdf');
 };
 
 export const resetStudentTestMarks =
@@ -195,7 +185,6 @@ export const ViewResultGA =
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.ViewResult(abc));
-            console.log(abc)
 
             let Subject = [];
             response.data.listSubjectDetails.map((item, i) => {
@@ -218,7 +207,6 @@ export const ViewResultGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.MarkDetailsView(Marks));
-            console.log(Marks)
 
             let grades = [{ Id: '0', Name: 'Subject Grade', Value: '0' ,IsAbsent: '0'}];
             response.data.listSubjectDetails.map((item, i) => {
@@ -230,7 +218,6 @@ export const ViewResultGA =
                 });
             });
             dispatch(FinalResultGenerateAllSlice.actions.GradesDetailsView(grades));
-            console.log(grades)
         }
 
 
