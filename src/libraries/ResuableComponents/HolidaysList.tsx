@@ -416,7 +416,8 @@ function HolidaysList({
                         sx={{
                           textTransform: 'capitalize',
                           opacity: 1,
-                          backgroundColor: rowStyle.backgroundColor, paddingTop: '2.5px', paddingBottom: '2.5px'
+                          backgroundColor: rowStyle.backgroundColor, 
+                          paddingTop: '2.5px', paddingBottom: '2.5px'
 
                         }}
                         align="center"
@@ -430,7 +431,7 @@ function HolidaysList({
                              '&:hover': {
                               color:'red',
                             backgroundColor: red[100]
-                            }}}  
+                            }}}   
                   
                             // sx={{ color: 'white',
                             //   cursor: 'pointer',
