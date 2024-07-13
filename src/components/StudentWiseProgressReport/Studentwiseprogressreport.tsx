@@ -376,29 +376,38 @@ const Studentwiseprogressreport = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-
             <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-              {StudentAssignment.length > 0 &&
-                (() => {
-                  const item = StudentAssignment.find(item => item.ShowDeleteButton !== 0);
-                  return item ? (
-                    <Tooltip key={item.Id} title={"Delete"}>
-                      <DeleteForeverIcon
-                        onClick={() => clickDeleteAlll(item.Id)}
-                        sx={{
-                          color: '#223354',
-                          '&:hover': {
-                            color: 'red',
-                            backgroundColor: red[100]
-                          }
-                        }}
-                      />
-                    </Tooltip>
-                  ) : null;
-                })()
-              }
-            </Box>
+  {StudentAssignment.length > 0 &&
+    (() => {
+      const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
+      if (item) {
+        const isClickable = item.ShowProgressReport !== "Y";
+        return (
+          <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
+            <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
+              <DeleteForeverIcon
+                onClick={isClickable ? () => clickDeleteAlll(item.Id) : undefined}
+                sx={{
+                  color: isClickable ? '#223354' : 'gray',
+                  '&:hover': {
+                    color: isClickable ? 'red' : 'gray',
+                    backgroundColor: isClickable ? red[100] : 'transparent'
+                  }
+                }}
+              />
+            </span>
+          </Tooltip>
+        );
+      }
+      return null;
+    })()
+  }
+</Box>
 
+
+
+
+            
             {PublishStatu.AllowPublish === false && PublishStatu.AllowUnpublish === false ? (
               <span></span>
             ) : (
