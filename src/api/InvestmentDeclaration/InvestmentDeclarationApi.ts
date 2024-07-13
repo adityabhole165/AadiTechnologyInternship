@@ -1,4 +1,4 @@
-import { IGetInvestmentDetailsBody, IGetInvestmentDetailsResult, IGetRegimeDetailsDropdownBody, IGetRegimeDetailsDropdownResult } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
+import { IGetInvestmentDetailsBody, IGetInvestmentDetailsResult, IGetRegimeDetailsDropdownBody, IGetRegimeDetailsDropdownResult, SaveInvestmentDetailsBody, SaveInvestmentDetailsResult } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetInvestmentDetails = (data: IGetInvestmentDetailsBody) => {
@@ -6,12 +6,17 @@ const GetInvestmentDetails = (data: IGetInvestmentDetailsBody) => {
 };
 
 const GetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody) => {
-    return http.post<IGetRegimeDetailsDropdownResult[]>('Teacher/GetRegimeDetails')
+    return http.post<IGetRegimeDetailsDropdownResult[]>('Teacher/GetRegimeDetails', data);
+}
+
+const GetSaveInvestmentDeclaration = (data: SaveInvestmentDetailsBody) => {
+    return http.post<SaveInvestmentDetailsResult>('Teacher/SaveInvestmentDetails', data);
 }
 
 const InvestmentDeclarationApi = {
     GetInvestmentDetails,
-    GetRegimeDropdown
+    GetRegimeDropdown,
+    GetSaveInvestmentDeclaration
 
 }
 

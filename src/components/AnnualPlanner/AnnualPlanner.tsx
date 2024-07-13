@@ -551,14 +551,18 @@ function AnnualPlanner() {
             >
               Cancel
             </Button>
+            
             <Button
               onClick={clickSubmit}
               // color={'primary'}
               // variant={'contained'}
               sx={{
-                // backgroundColor: green[100],
-                color: 'green',
-                ':hover': { backgroundColor: green[100] }
+                color:'green',
+                //  backgroundColor: grey[500],
+                '&:hover': {
+                color:'green',
+                backgroundColor: green[100]}
+                                                
             }} 
             >
               Save

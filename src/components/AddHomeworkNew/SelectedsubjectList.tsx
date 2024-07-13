@@ -51,118 +51,125 @@ const SelectedsubjectList = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {ItemList.map((item, i) => (
-              <TableRow key={i}>
-                <TableCell sx={{ 
-                  textTransform: 'capitalize',
-                  height:'5px',
-                  padding:'15px'
+            {ItemList.map((item, i) => {
+              return (
+                <TableRow key={i}>
+                  <TableCell sx={{
+                    textTransform: 'capitalize',
+                    height: '5px',
+                    padding: '15px'
                   }}>
-                  {item.Text1}
-                </TableCell>
+                    {item.Text1}
+                  </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
-                    {item.Text2}
-                  </Link>
-                </TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
+                      {item.Text2}
+                    </Link>
+                  </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
-                  {item.Text3}
-                </TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    {item.Text3}
+                  </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
-                  {item.Text4}
-                </TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    {item.Text4}
+                  </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
-                  {item.Text5}
-                  {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
-                  
-                  </Link> */}
-                </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text9 == 0 ? null : (
-                    <VisibilityIcon
-                    //  style={{ color: 'black ', cursor: 'pointer' }}
-                    sx={{
-                      color:'#223354',
-                           //  backgroundColor: grey[500],
-                            '&:hover': {
-                            //  color:'red',
-                           backgroundColor: grey[200]
-                           }}}
-                      onClick={() => clickVisibilityIcon(item.Id)}
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    {item.Text5}
+                    {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
+            
+            </Link> */}
+                  </TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    {item.Text9 == 0 ? null : (
+
+                      // style={{ color: '#223354', cursor: 'pointer' }}
+                      <IconButton
+                        sx={{
+                          color: '#223354',
+                          //  backgroundColor: grey[500],
+                          '&:hover': {
+                            color: '#223354',
+                            // backgroundColor: [100],
+                            cursor: 'pointer'
+                          }
+                        }}>
+                        <VisibilityIcon
+
+                          onClick={() => clickVisibilityIcon(item.Id)} />
+                      </IconButton>
+                    )}
+                  </TableCell>
+
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    <ButtonPrimary
+                      style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500] }}
+                      onClick={() => {
+                        clickpublish(item.Id, item.Text3);
+                      } } sx={{ minWidth: '10px', marginLeft: '40px' }}
+                    >
+                      {item.IsPublished === 'False' ?
+                        <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+                    </ButtonPrimary>
+                  </TableCell>
+
+                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                    {item.Text7 == 'False' ? (
+                      <Tooltip title="Edit">
+                        <IconButton>
+                          <EditTwoTone
+                            style={{ color: '#223354', cursor: 'pointer' }}
+                            onClick={() => clickEdit(item.Id)} />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
+                  </TableCell>
+
+                  {/* <TableCell
+            sx={{ textTransform: 'capitalize' }} >
+              {item.Text7 == 'False' ? (
+                <Tooltip title="Delete">
+                  <IconButton>
+                    <DeleteForeverIcon
+                      sx={{
+                        color:'#223354',
+                             //  backgroundColor: grey[500],
+                              '&:hover': {
+                               color:'red',
+                             backgroundColor: red[100]
+                             }}}
+                      onClick={() => clickDelete(item.Id)}
                     />
-                  )}
-                </TableCell>
-
-                <TableCell sx={{ textTransform: 'capitalize' }}>
-                  <ButtonPrimary 
-                    style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500]}}
-                    onClick={() => {
-                      clickpublish(item.Id, item.Text3);
-                    }} sx={{ minWidth: '10px', marginLeft:'40px' }}
+                  </IconButton>
+                </ Tooltip>
+              ) : null}
+            </TableCell> */}
+                  <TableCell
+                    sx={{ textTransform: 'capitalize' }}
                   >
-                    {item.IsPublished === 'False' ?
-                     <PublishedWithChangesIcon/> : <UnpublishedIcon/>
-                     }
-                  </ButtonPrimary>
-                </TableCell>
-
-                <TableCell sx={{ textTransform: 'capitalize' }} >
-                  {item.Text7 == 'False' ? (
-                    <Tooltip title="Edit">
-                      <IconButton>
-                        <EditTwoTone
-                         style={{ color: '#223354', cursor: 'pointer'}}
-                          onClick={() => clickEdit(item.Id)}
-                        />
-                      </IconButton>
-                    </ Tooltip>
-                  ) : null}
-                </TableCell>
-
-                {/* <TableCell 
-                sx={{ textTransform: 'capitalize' }} >
-                  {item.Text7 == 'False' ? (
-                    <Tooltip title="Delete">
-                      <IconButton>
-                        <DeleteForeverIcon
+                    {item.Text7 == 'False' ? (
+                      <Tooltip title="Delete">
+                        <IconButton
                           sx={{
-                            color:'#223354',
-                                 //  backgroundColor: grey[500],
-                                  '&:hover': {
-                                   color:'red',
-                                 backgroundColor: red[100]
-                                 }}}
-                          onClick={() => clickDelete(item.Id)}
-                        />
-                      </IconButton>
-                    </ Tooltip>
-                  ) : null}
-                </TableCell> */}
-                <TableCell 
-                sx={{ textTransform: 'capitalize' }} >
-                  {item.Text7 == 'False' ? (
-                    <Tooltip title="Delete">
-                      <IconButton>
-                        <DeleteForeverIcon
-                          sx={{
-                            color:'#223354',
-                                 //  backgroundColor: grey[500],
-                                  '&:hover': {
-                                   color:'red',
-                                 backgroundColor: red[100]
-                                 }}}
-                          onClick={() => clickDelete(item.Id)}
-                        />
-                      </IconButton>
-                    </ Tooltip>
-                  ) : null}
-                </TableCell>
-              </TableRow>
-            ))}
+                            color: '#223354',
+                            //  backgroundColor: grey[500],
+                            '&:hover': {
+                              color: 'red',
+                              backgroundColor: red[100]
+                            }
+                          }}>
+                          <DeleteForeverIcon
+
+                            onClick={() => clickDelete(item.Id)} />
+                        </IconButton>
+                      </Tooltip>
+                    ) : null}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

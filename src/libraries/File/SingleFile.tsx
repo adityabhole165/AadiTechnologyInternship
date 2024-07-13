@@ -10,6 +10,9 @@ import {
   CheckFileValidationAdhar
 } from 'src/components/Common/Util';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import Visibility from '@mui/icons-material/Visibility';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { red } from '@mui/material/colors';
 const SingleFile = ({
   ValidFileTypes,
   MaxfileSize,
@@ -126,19 +129,23 @@ const SingleFile = ({
           <Stack direction="row" spacing={-1}>
             {deleteIcon &&
               <IconButton
-                sx={{ marginRight: 1 }}
-                color={'error'}
+                // sx={{ marginRight: 1 }}
+                // color={'error'}
+                sx={{ marginLeft: 1, 
+                    '&:hover': {
+                  color:'red',
+                   backgroundColor: red[100]
+                    }}}
                 onClick={clickDelete}
               >
-                <DeleteIcon style={{ fontSize: 32 }} />
+                <DeleteForeverIcon style={{ fontSize: 30 }} />
               </IconButton>
             }
             {viewIcon && <IconButton
-              sx={{ marginLeft: 1 }}
               color={'primary'}
               onClick={clickFileName}
             >
-              <VisibilityTwoToneIcon style={{ fontSize: 32 }} />
+              <Visibility style={{ fontSize: 30 }} />
             </IconButton>
             }
           </Stack>

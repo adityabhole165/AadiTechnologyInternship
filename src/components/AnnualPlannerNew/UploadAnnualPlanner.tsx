@@ -7,6 +7,8 @@ import {
   DialogTitle,
   Typography
 } from '@mui/material';
+import { green } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -103,7 +105,10 @@ const UploadAnnualPlanner = ({
       //localStorage.getItemItem("SiteURL", window.location.pathname)
     }
   };
-
+  
+  const handleClose = (value) => {
+    setOpen(false)
+  }
 
   return (
     <>
@@ -123,6 +128,12 @@ const UploadAnnualPlanner = ({
         ></DialogTitle>
         <DialogContent dividers>
           <Box>
+          <ClearIcon onClick={handleClose} 
+        sx={{ color: 'red', 
+          position: 'absolute', 
+          top: '1px', right: '4px', 
+          cursor: 'pointer',
+         marginTop:'20px' }} />
             <Typography variant={'h3'}>Upload Annual Planner</Typography>
             <Box sx={{ mt: 2 }}>
               {/* while file is not selected */}
@@ -182,8 +193,16 @@ const UploadAnnualPlanner = ({
               fileName.length !== 0 && base64URL.length !== 0 ? false : true
             }
             onClick={clickSubmit}
-            color={'success'}
-            variant={'contained'}>
+            // color={'success'}
+            // variant={'contained'}
+            sx={{
+              color:'green',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'green',
+               backgroundColor: green[100]
+                }}}>
+
             Save
           </Button>
         </DialogActions>
@@ -193,3 +212,7 @@ const UploadAnnualPlanner = ({
 };
 
 export default UploadAnnualPlanner;
+function setOpen(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+
