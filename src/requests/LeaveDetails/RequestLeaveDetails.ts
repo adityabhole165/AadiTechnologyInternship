@@ -20,12 +20,15 @@ const LeaveDetailsslice = createSlice({
     },
     reducers: {
         getAcademicYear(state, action) {
+            state.Loading = false;
             state.AcademicYearDropdown = action.payload;
         },
         CategoryList(state, action) {
+            state.Loading = false;
             state.CategoryDropdownList = action.payload;
         },
         StatusDropdownList(state, action) {
+            state.Loading = false;
             state.StatusList = action.payload;
         },
 
