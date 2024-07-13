@@ -7,7 +7,7 @@ import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typo
 import { RootState } from "src/store";
 import DataTable, { Column } from "./Datatable";
 
-const InvestmentSection = () => {
+const InvestmentSection = ({ refreshData }) => {
     const dispatch = useDispatch();
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -57,8 +57,23 @@ const InvestmentSection = () => {
     }, [USListInvestmentDetails])
 
 
+    const getAmount = (value, Id) => {
+        let returnVal = ""
+        value.map((Item) => {
+            if (Item.Id == Id)
+                returnVal = Item.Amount
+        })
+        return returnVal
+    }
     const changeText = (value) => {
-        console.log(value, "----aa---");
+        setListInvestmentDetails(
+            ListInvestmentDetails.map((Item) => {
+                return { ...Item, Amount: getAmount(value, Item.Id) }
+            })
+        )
+        refreshData(ListInvestmentDetails.map((Item) => {
+            return { ...Item, Amount: getAmount(value, Item.Id) }
+        }))
     }
 
     const renderDataTables = () => {

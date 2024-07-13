@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
-import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
+import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentSection from "./InvestmentSection";
@@ -67,31 +67,36 @@ const InvestmentDeclaration = () => {
     const GetRegimeDropdown: IGetRegimeDetailsDropdownBody = {
         asSchoolId: 18
     }
+    const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
 
-    const SaveInvestmentDeclaration: SaveInvestmentDetailsBody = {
-        asSchoolId: asSchoolId,
-        asFinancialYearId: 10,
-        asUpdatedById: asUserId,
-        asUserId: asUserId,
-        asDeclarationXML: getXML(),
-        asRegimeId: regimeId
+    const clickSave = () => {
+
+        const SaveInvestmentDeclaration: SaveInvestmentDetailsBody = {
+            asSchoolId: asSchoolId,
+            asFinancialYearId: 10,
+            asUpdatedById: asUserId,
+            asUserId: asUserId,
+            asDeclarationXML: getXML(),
+            asRegimeId: regimeId
+        }
+        dispatch(CDAGetSaveInvestment(SaveInvestmentDeclaration))
     }
 
     function getXML() {
         let asSaveInvestmentXML = "\r\n<ArrayOfInvestmentDeclaration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n >";
-        // exampleSaveInvestment.map((Item) =>{
-        //     asSaveInvestmentXML  += "<InvestmentDeclaration>" +
-        //     "<Id>0</Id>" +
-        //     "<InvestmentMethodId>"+ Item.Id+"</InvestmentMethodId>"
-        //       "<UserId>" + asUserId + "</UserId>"   
-        //         "<Amount>" + Item.Amount + "</Amount>"                           
-        //       "<IsDocSubmitted>" + Item.IsSubmitted + "</IsDocSubmitted>" 
-        //        "<SectionId>" + Item.SectionId + "</SectionId>"   
-        //        "<SortOrder>" + 0 + "</SortOrder>"  
-        //          "<DocumentCount>" + Item.DocumentCount + "</DocumentCount>"    
-        //          "<RegimId>" + Item.Id + "</RegimId>" 
-        //          "</InvestmentDeclaration>"
-        // });
+        ListInvestmentDetails.map((Item) => {
+            asSaveInvestmentXML += "<InvestmentDeclaration>" +
+                "<Id>0</Id>" +
+                "<InvestmentMethodId>" + Item.Id + "</InvestmentMethodId>" +
+                "<UserId>" + asUserId + "</UserId>" +
+                "<Amount>" + Item.Amount + "</Amount>" +
+                "<IsDocSubmitted>" + Item.IsSubmitted + "</IsDocSubmitted>" +
+                "<SectionId>" + Item.SectionId + "</SectionId>" +
+                "<SortOrder>" + 0 + "</SortOrder>" +
+                "<DocumentCount>" + Item.DocumentCount + "</DocumentCount>" +
+                "<RegimId>" + Item.Id + "</RegimId>" +
+                "</InvestmentDeclaration>"
+        });
         return asSaveInvestmentXML
     }
 
@@ -123,7 +128,6 @@ const InvestmentDeclaration = () => {
 
     console.log(USListInvestmentDetails, "matchingDetailsData1");
 
-    const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
     useEffect(() => {
         if (USListInvestmentDetails.length > 0)
             setListInvestmentDetails(USListInvestmentDetails)
@@ -132,8 +136,9 @@ const InvestmentDeclaration = () => {
     const clickRegimeDropDown = (value) => {
         setRegimeId(value)
     }
-
-
+    const refreshData = (value) => {
+        setListInvestmentDetails(value)
+    }
 
     return (
         <>
@@ -286,7 +291,8 @@ const InvestmentDeclaration = () => {
                         </Grid>
                         {USListInvestmentDetails.length > 0 &&
                             <Grid container>
-                                <InvestmentSection></InvestmentSection>
+                                <InvestmentSection
+                                    refreshData={refreshData}></InvestmentSection>
                             </Grid>}
 
                     </Container>
@@ -312,7 +318,8 @@ const InvestmentDeclaration = () => {
 
                             <Grid item>
                                 <Button variant="contained" color="success"
-                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                    onClick={clickSave}
+                                // disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
                                 >
                                     {/* // disabled={USISlistInvestmentEmpDetails[0].IsSubmitted}> */}
                                     SAVE
