@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -385,7 +386,9 @@ const LeaveDetailsBaseScreen = () => {
                     </Box>
                 }
             />
-
+            {Loading &&
+                <SuspenseLoader />
+            }
             <Box sx={{ background: 'white', p: 2 }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
