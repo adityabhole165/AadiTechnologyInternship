@@ -24,9 +24,7 @@ const SettingsDropdown = () => {
         sessionStorage.getItem('ScreensAccessPermission')
     );
     const AcademicYear = useSelector((state: RootState) => state.getSchoolSettings.AllAcademicYears);
-    console.log("AcademicYear", AcademicYear)
     const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
-    console.log("UserDetail", UserDetail)
     // const handleClick = (event) => {
     //     setAnchorEl(event.currentTarget);
     // };
@@ -143,11 +141,11 @@ const SettingsDropdown = () => {
                             }}
                         >
                             <Box p={2} width="50" sx={{ minheight: '100px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}> {/* Fixed height for consistency */}
-                                
-                                    <Box style={{ color: 'red', fontStyle: 'italic', fontWeight: 'bold',visibility: AcademicYearName !== currentAcademicYear ? 'visible' : 'hidden' }}>
-                                        You are viewing data of old academic year ({AcademicYearName}). Please do not modify any data.
-                                    </Box>
-                                
+
+                                <Box style={{ color: 'red', fontStyle: 'italic', fontWeight: 'bold', visibility: AcademicYearName !== currentAcademicYear ? 'visible' : 'hidden' }}>
+                                    You are viewing data of old academic year ({AcademicYearName}). Please do not modify any data.
+                                </Box>
+
                                 <br></br>
                                 <SearchableDropdown
                                     sx={{ minWidth: '100%' }}

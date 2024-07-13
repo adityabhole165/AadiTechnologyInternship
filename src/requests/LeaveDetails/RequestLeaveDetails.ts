@@ -62,7 +62,6 @@ const LeaveDetailsslice = createSlice({
 export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => async (dispatch) => {
     dispatch(LeaveDetailsslice.actions.getLoading(true));
     const response = await LeaveDetailsAPI.GetLeaveDetailsList(data);
-    console.log(response, "response---");
 
     const responseData = response.data.map((Item, i) => {
         return {
@@ -88,7 +87,6 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
 export const getAllReportingUsers = (data: IGetAllReportingUsersBody): AppThunk => async (dispatch) => {
     dispatch(LeaveDetailsslice.actions.getLoading(true));
     const response = await LeaveDetailsAPI.GetAllReportingUsers(data);
-    console.log(response, "response---");
 
     const responseData = response.data.map((Item, i) => {
         return {
@@ -123,7 +121,6 @@ export const AcademicYearDropdown =
         async (dispatch) => {
             const response = await LeaveDetailsAPI.GetAcademicYearDropdown(data);
             let abc = [{ Id: '0', Name: '-- Select --', Value: '0' }];
-            console.log(response, 'response')
             response.data.map((item, i) => {
                 abc.push({
                     Id: item.Academic_Year_ID,
@@ -131,7 +128,6 @@ export const AcademicYearDropdown =
                     Value: item.Academic_Year_ID
                 });
             });
-            // console.log(academicYear, 'academicYear')
             dispatch(LeaveDetailsslice.actions.getAcademicYear(abc));
 
         };
