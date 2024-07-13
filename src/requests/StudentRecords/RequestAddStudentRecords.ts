@@ -8,16 +8,20 @@ const AddStudentRecordsSlice = createSlice({
     initialState: {
         listGeneralDetails: [],
         listSiblingsDetails: [],
-        listFamilyDetails: []
+        listFamilyDetails: [],
+        Loading: true
     },
     reducers: {
         GeneralDetails(state, action) {
+            state.Loading = false;
             state.listGeneralDetails = action.payload;
         },
         SiblingsDetails(state, action) {
+            state.Loading = false;
             state.listSiblingsDetails = action.payload;
         },
         FamilyDetails(state, action) {
+            state.Loading = false;
             state.listFamilyDetails = action.payload;
         },
 

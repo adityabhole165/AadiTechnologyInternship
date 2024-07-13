@@ -11,16 +11,20 @@ const StudentRecordsSlice = createSlice({
   initialState: {
     ClassTeachers: [],
     StudentStatus: [],
-    GetAssociatedTeacher: []
+    GetAssociatedTeacher: [],
+    Loading: true
   },
   reducers: {
     TeacherList(state, action) {
+      state.Loading = false;
       state.ClassTeachers = action.payload;
     },
     GetAssociatedTeacherList(state, action) {
+      state.Loading = false;
       state.GetAssociatedTeacher = action.payload;
     },
     GetStudentStatus(state, action) {
+      state.Loading = false;
       state.StudentStatus = action.payload;
     }
   }
