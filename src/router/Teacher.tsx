@@ -94,7 +94,9 @@ const StudentRecords = Loader(
 const AddStudentRecord = Loader(
   lazy(() => import('src/components/StudentRecords/AddStudentRecord'))
 );
-
+const StudentRecordComment = Loader(
+  lazy(() => import('src/components/StudentRecords/StudentRecordComment'))
+);
 
 const FinalResultToppers = Loader(
   lazy(() => import('src/components/FinalResult/FinalResultToppers'))
@@ -401,6 +403,10 @@ const teacherRoutes = [
   {
     path: 'AddStudentRecord',
     element: <AddStudentRecord />
+  },
+  {
+    path: 'AddStudentRecord/:StudentRecordComment',
+    element: <StudentRecordComment />
   },
 
   {

@@ -3,13 +3,17 @@ import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { GetStudentRecordData } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import StudentRecordComment from './StudentRecordComment';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [Open, setOpen] = useState(false);
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
     const listGeneralDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listGeneralDetails
@@ -28,12 +32,17 @@ const AddStudentRecord = () => {
 
     }
 
+    const ClickOpenDialogbox = () => {
+        setOpen(true);
+    };
+    const ClickCloseDialogbox = () => {
+        setOpen(false);
+    };
     const onClickSave = () => {
     };
     const onClickSubmit = () => {
     };
-    const onClickAddComment = () => {
-    };
+
 
     const onClickSubmitComment = () => {
     };
@@ -124,7 +133,7 @@ const AddStudentRecord = () => {
                                             backgroundColor: blue[600]
                                         }
                                     }}
-                                    onClick={onClickAddComment}
+                                    onClick={ClickOpenDialogbox}
                                 >
                                     <AddComment />
                                 </IconButton>
@@ -156,6 +165,15 @@ const AddStudentRecord = () => {
                 <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
                     General Information
                 </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
+                {Open && (
+                    <StudentRecordComment
+                        open={Open}
+                        setOpen={setOpen}
+                        ClickCloseDialogbox={ClickCloseDialogbox} 
+                    />
+                )}
             </Box>
         </Box>
     )
