@@ -314,7 +314,7 @@ const LeaveDetailsBaseScreen = () => {
 
     useEffect(() => {
         dispatch(getLeaveDetailList(body));
-    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus, GetAcademicYear]);
+    }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus]);
 
 
 
