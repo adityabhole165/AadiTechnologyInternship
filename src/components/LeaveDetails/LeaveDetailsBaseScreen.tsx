@@ -290,7 +290,7 @@ const LeaveDetailsBaseScreen = () => {
     const clickStatusDropdown = (value) => {
         setStatus(value);
     };
-   
+
     useEffect(() => {
         if (GetLeaveList) {
             setPagedLeave(GetLeaveList);
@@ -304,11 +304,8 @@ const LeaveDetailsBaseScreen = () => {
 
     useEffect(() => {
         dispatch(AcademicYearDropdown(AcademicYearBody));
-    }, []);
-
-    useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
-    }, [selectAcademicYear]);
+    }, []);
 
     useEffect(() => {
         dispatch(StatusDropdown(StatusBody));
