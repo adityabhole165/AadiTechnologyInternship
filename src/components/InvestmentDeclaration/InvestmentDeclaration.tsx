@@ -1,7 +1,7 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
+import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
@@ -68,18 +68,31 @@ const InvestmentDeclaration = () => {
         asSchoolId: 18
     }
 
-    // const SaveInvestmentDeclaration: SaveInvestmentDetailsBody = {
-    //     asSchoolId: asSchoolId,
-    //     asFinancialYearId: 10,
-    //     asUpdatedById: asUserId,
-    //     asUserId: asUserId,
-    //     asDeclarationXML: getXML(),
-    //     asRegimeId: regimeId
-    // }
+    const SaveInvestmentDeclaration: SaveInvestmentDetailsBody = {
+        asSchoolId: asSchoolId,
+        asFinancialYearId: 10,
+        asUpdatedById: asUserId,
+        asUserId: asUserId,
+        asDeclarationXML: getXML(),
+        asRegimeId: regimeId
+    }
 
     function getXML() {
         let asSaveInvestmentXML = "\r\n<ArrayOfInvestmentDeclaration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n >";
-
+        // exampleSaveInvestment.map((Item) =>{
+        //     asSaveInvestmentXML  += "<InvestmentDeclaration>" +
+        //     "<Id>0</Id>" +
+        //     "<InvestmentMethodId>"+ Item.Id+"</InvestmentMethodId>"
+        //       "<UserId>" + asUserId + "</UserId>"   
+        //         "<Amount>" + Item.Amount + "</Amount>"                           
+        //       "<IsDocSubmitted>" + Item.IsSubmitted + "</IsDocSubmitted>" 
+        //        "<SectionId>" + Item.SectionId + "</SectionId>"   
+        //        "<SortOrder>" + 0 + "</SortOrder>"  
+        //          "<DocumentCount>" + Item.DocumentCount + "</DocumentCount>"    
+        //          "<RegimId>" + Item.Id + "</RegimId>" 
+        //          "</InvestmentDeclaration>"
+        // });
+        return asSaveInvestmentXML
     }
 
 
