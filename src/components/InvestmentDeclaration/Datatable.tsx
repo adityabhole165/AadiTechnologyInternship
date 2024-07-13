@@ -50,10 +50,14 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    const handleTextFieldChange = (e, row) => {
+    const handleTextFieldChange = (e, row, rowIndex) => {
         changeText(
-            data.map((row) => {
-                return { ...row, Amount: e.target.value }
+            data.map((row, Index) => {
+                return {
+                    ...row, Amount:
+                        Index == rowIndex ?
+                            e.target.value : row.Amount
+                }
             })
         );
     };
@@ -101,7 +105,9 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
                                             <TableCell {...column.cellProps} key={column.id}>{column.renderCell(row)}</TableCell>
                                         ))}
                                         <TableCell>
-                                            <TextField onChange={(e) => handleTextFieldChange(e.target.value, row)}></TextField>
+                                            <TextField
+                                                onChange={(e) => handleTextFieldChange(e, row, rowIndex)}
+                                            ></TextField>
                                         </TableCell>
                                     </TableRow>
                                 ))
