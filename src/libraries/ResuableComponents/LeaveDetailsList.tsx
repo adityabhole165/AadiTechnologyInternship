@@ -71,7 +71,7 @@ function LeaveList({
                                     const formattedItemDate = formatDate(new Date(item.Text2));
 
                                     return (
-                                        <TableRow key={item.Id} >
+                                        <TableRow key={index} >
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize', width: '250px'
