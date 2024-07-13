@@ -19,8 +19,7 @@ import {
   IGetAssessmentDropdownBody,
   IGetPagedStudentsForMarkAssignmentBody,
   IGetPublishStatusBody,
-  IPublishUnpublishXseedResultBody,
-  IoneDeleteStudentTestMarksBody,
+  IoneDeleteStudentTestMarksBody
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
@@ -33,8 +32,8 @@ import {
   GetStudentResultList, PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
   PublishresetMessageNewAll,
-  oneDeleteStudentTest,deleteresetMessage,deleteresetMessageAll
-  } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
+  oneDeleteStudentTest
+} from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -80,7 +79,7 @@ const Studentwiseprogressreport = () => {
   const rowsPerPageOptions = [20, 50, 100, 200];
   const [page, setPage] = useState(1);
   const { showAlert, closeAlert } = useContext(AlertContext);
-
+  const [isVisible, setIsVisible] = useState(false);
   const GetClassTeacher = () => {
     let returnVal = false
     PrimaryTeacher.map((item) => {
@@ -149,17 +148,25 @@ const Studentwiseprogressreport = () => {
     asAssessmentId: Number(Assessment),
   }
 
+  useEffect(() => {
+    if (PublishStatu.AllowPublish === true || PublishStatu.AllowUnpublish === true) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  }, [PublishStatu]);
+
+
   const ClickPublishUnpublish = () => {
-    const PublishUnpublishXseedResultBody: IPublishUnpublishXseedResultBody = {
+    const PublishUnpublishXseedResultBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId),
       asStandardDivisionId: Number(StandradID),
       asAssessmentId: Number(Assessment),
-      asMode: asMode,
+      asMode: PublishStatu.AllowPublish ? 'Publish' : 'Unpublish',
       asInsertedById: Number(SelectTeacher)
-    }
+    };
     dispatch(PublishUnpublishXseed(PublishUnpublishXseedResultBody));
-
   };
 
   useEffect(() => {
@@ -245,12 +252,12 @@ const Studentwiseprogressreport = () => {
 
 
   useEffect(() => {
- 
-      toast.success(oneDeleteStud);
-     // dispatch(deleteresetMessage());
-      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
 
-    
+    toast.success(oneDeleteStud);
+    // dispatch(deleteresetMessage());
+    dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+
+
   }, [oneDeleteStud]);
 
 
@@ -286,9 +293,9 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     toast.success(DeleteAllStud);
-//dispatch(deleteresetMessageAll());
- dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-}, [DeleteAllStud]);
+    //dispatch(deleteresetMessageAll());
+    dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+  }, [DeleteAllStud]);
 
   const clickEdit = (value) => {
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
@@ -377,45 +384,47 @@ const Studentwiseprogressreport = () => {
               </Tooltip>
             </Box>
             <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
-  {StudentAssignment.length > 0 &&
-    (() => {
-      const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
-      if (item) {
-        const isClickable = item.ShowProgressReport !== "Y";
-        return (
-          <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
-            <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
-              <DeleteForeverIcon
-                onClick={isClickable ? () => clickDeleteAlll(item.Id) : undefined}
-                sx={{
-                  color: isClickable ? '#223354' : 'gray',
-                  '&:hover': {
-                    color: isClickable ? 'red' : 'gray',
-                    backgroundColor: isClickable ? red[100] : 'transparent'
+              {StudentAssignment.length > 0 &&
+                (() => {
+                  const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
+                  if (item) {
+                    const isClickable = item.ShowProgressReport !== "Y";
+                    return (
+                      <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
+                        <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
+                          <DeleteForeverIcon
+                            onClick={isClickable ? () => clickDeleteAlll(item.Id) : undefined}
+                            sx={{
+                              color: isClickable ? '#223354' : 'gray',
+                              '&:hover': {
+                                color: isClickable ? 'red' : 'gray',
+                                backgroundColor: isClickable ? red[100] : 'transparent'
+                              }
+                            }}
+                          />
+                        </span>
+                      </Tooltip>
+                    );
                   }
-                }}
-              />
-            </span>
-          </Tooltip>
-        );
-      }
-      return null;
-    })()
-  }
-</Box>
+                  return null;
+                })()
+              }
+            </Box>
 
 
 
 
-            
-            {PublishStatu.AllowPublish === false && PublishStatu.AllowUnpublish === false ? (
-              <span></span>
-            ) : (
-              <ButtonPrimary style={{ backgroundColor: PublishStatu.AllowPublish === true ? green[500] : red[500] }} onClick={ClickPublishUnpublish}>
-                {/* {asMode} */}
-                {PublishStatu.AllowPublish === true ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
-              </ButtonPrimary>
-            )}
+
+            {
+              isVisible && (
+                <ButtonPrimary
+                  style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
+                  onClick={ClickPublishUnpublish}
+                >
+                  {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+                </ButtonPrimary>
+              )
+            }
           </>
         } />
 
