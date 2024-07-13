@@ -78,7 +78,7 @@ function SubjectList1({
                 <TableCell 
                 sx={{textTransform: 'capitalize',
                   height:'5px',
-                  padding:'6px'}}>
+                  padding:'3px'}}>
                   <Checkbox
                     checked={item.IsActive}
                     onChange={() => {

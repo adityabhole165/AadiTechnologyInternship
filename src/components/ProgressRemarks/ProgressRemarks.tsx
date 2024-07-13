@@ -2,7 +2,7 @@ import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import { Box, Button, Grid, IconButton, Modal, Paper, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
-import { grey, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -808,6 +808,15 @@ const ProgressRemarks = () => {
         <ProgressRemarksNotes />
       </Paper>
       <Box sx={{ background: 'white', p: 2 }}>
+      <Grid item xs={12}>
+            <Typography fontWeight={"bold"} variant='h4' mb={1}>
+              Legend
+            </Typography>
+            <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
+              <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
+              <Box>Left Students</Box>
+            </Typography>
+          </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper>
@@ -835,7 +844,7 @@ const ProgressRemarks = () => {
 
 
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
+                <Box sx={{ margin: '3px' }} style={{ display: 'flex', justifyContent: 'end' }}>
                   <TablePagination
                     component="div"
                     count={Itemlist.length}
@@ -852,15 +861,7 @@ const ProgressRemarks = () => {
               )}
             </Paper>
           </Grid>
-          <Grid item xs={12}>
-            <Typography fontWeight={"bold"} variant='h4' mb={1}>
-              Legend
-            </Typography>
-            <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
-              <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
-              <Box>Left Students</Box>
-            </Typography>
-          </Grid>
+         
         </Grid>
       </Box>
       <Modal
@@ -880,7 +881,7 @@ const ProgressRemarks = () => {
                 fullWidth
                 label={"Student Name"}
                 value={studentName}
-                sx={{ bgcolor: '#f0e68c', minWidth: '230px' }}
+                sx={{ bgcolor: '#F0F0F0	', minWidth: '230px' }}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -924,33 +925,51 @@ const ProgressRemarks = () => {
 
 
             <Box sx={{ mt: "15px" }}>
-              <Button
-                variant="contained"
+            <Button
+                // variant="contained"
+                // style={{
+                //   backgroundColor: '#de554b',
+                //   color: 'White',
+                  
+                // }}
                 sx={{
-                  backgroundColor: remarkTemplates.length === 0 ? '#c8e6c9' : '#5ec479',
-                  color: 'white',
                   marginRight: '10px',
-                  '&:disabled': {
-                    backgroundColor: '#c8e6c9',
-                    color: 'white',
-                  },
-                }}
+                  color:'red',
+                   //  backgroundColor: grey[500],
+                    '&:hover': {
+                  color:'red',
+                   backgroundColor: red[100]
+                    }}}
+           
+                onClick={() => setOpen(!open)}
+              >
+                Cancle
+              </Button>
+              <Button
+                // variant="contained"
+                // sx={{
+                //   backgroundColor: remarkTemplates.length === 0 ? '#c8e6c9' : '#5ec479',
+                //   color: 'white',
+                //   marginRight: '10px',
+                //   '&:disabled': {
+                //     backgroundColor: '#c8e6c9',
+                //     color: 'white',
+                //   }
+                // }}
+                sx={{
+                  marginRight: '10px',
+                  color:'green',
+                   //  backgroundColor: grey[500],
+                    '&:hover': {
+                  color:'green',
+                   backgroundColor: green[100]
+                    }}}
                 onClick={SelectClick}
                 disabled={remarkTemplates.length === 0}
               >
-                SELECT
+                Selete Progress
               </Button>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: '#de554b',
-                  color: 'White',
-                  marginRight: '10px'
-                }}
-                onClick={() => setOpen(!open)}
-              >
-                CLOSE
-              </Button>
+              
             </Box>
           </Box>
         </Box>

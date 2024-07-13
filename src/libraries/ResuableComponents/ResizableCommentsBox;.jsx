@@ -172,7 +172,7 @@ function ResizableCommentsBox({
           <TableHead >
             <TableRow>
               {HeaderArray.map((item, i) => (
-                <TableCell align={item.Header.includes('Name') ? 'left' : 'center'}
+                <TableCell align={item.Header.includes('Name') ? 'left' : 'left'}
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
@@ -203,7 +203,7 @@ function ResizableCommentsBox({
                 )}
 
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="center" key={j} sx={{ padding: '10px'}}>
+                  <TableCell align="left" key={j} sx={{ padding: '15px'}}>
                     <TextareaAutosize
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
@@ -213,7 +213,7 @@ function ResizableCommentsBox({
                       }}
                       maxRows={1}
                       maxLength={TermId.maxRemarkLength}
-                      style={{ width: '200px',minHeight:'30px'}}
+                      style={{ width: '200px',minHeight:'35px'}}
                     />
                     <IconButton onClick={() => NoteClick(item.Id, j)}>
                       <MoreVertIcon />
