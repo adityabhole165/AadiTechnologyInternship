@@ -14,7 +14,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetAllReportingUsersBody, IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
+import { IGetDeleteLeaveBody, IGetLeaveDetailsListBody, IGetStatusDropdownBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import LeaveList from 'src/libraries/ResuableComponents/LeaveDetailsList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -54,9 +54,6 @@ const LeaveDetailsBaseScreen = () => {
     const GetLeaveList = useSelector(
         (state: RootState) => state.LeaveDetails.LeaveDetailsList
     );
-    const AllReportingUser = useSelector(
-        (state: RootState) => state.LeaveDetails.AllReportingUsers
-    );
     const deleteLeavedetailsMsg = useSelector(
         (state: RootState) => state.LeaveDetails.DeleteLeaveMsg
     );
@@ -93,14 +90,11 @@ const LeaveDetailsBaseScreen = () => {
         }
     }, [GetAcademicYear]);
 
-
-
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
         }
     }, [GetCategoryDropdownList]);
-
 
     useEffect(() => {
         if (GetStatusDropdown.length > 0) {
@@ -119,14 +113,6 @@ const LeaveDetailsBaseScreen = () => {
         asShowOnlyNonUpdated: false,
         asAcademicYearId: Number(selectAcademicYear)
     };
-
-
-
-
-    const AllReportingUsersbody: IGetAllReportingUsersBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(selectAcademicYear)
-    }
 
     const deleteRow = (Id) => {
         const DeleteLeaveBody: IGetDeleteLeaveBody = {
@@ -304,10 +290,7 @@ const LeaveDetailsBaseScreen = () => {
     const clickStatusDropdown = (value) => {
         setStatus(value);
     };
-    const handleCheckboxChange = (value) => {
-        setshowNonupdatedrecords(value);
-    };
-
+   
     useEffect(() => {
         if (GetLeaveList) {
             setPagedLeave(GetLeaveList);
@@ -325,7 +308,7 @@ const LeaveDetailsBaseScreen = () => {
 
     useEffect(() => {
         dispatch(CategoryDropdown(CategoryDropdownBody));
-    }, []);
+    }, [selectAcademicYear]);
 
     useEffect(() => {
         dispatch(StatusDropdown(StatusBody));
