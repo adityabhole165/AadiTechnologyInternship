@@ -896,7 +896,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 </Tooltip>
               </Box>
 
-              <Box>
+              {/* <Box>
                 <Tooltip title={`Cancel`}>
                   <IconButton
                     sx={{
@@ -927,7 +927,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                     <SaveIcon />
                   </IconButton>
                 </Tooltip>
-              </Box>
+              </Box> */}
 
               <Box>
                 <Tooltip title={
@@ -1257,7 +1257,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             </Typography>
             <TextField
               multiline
-              rows={3}
+              rows={2}
               type="text"
               value={text}
               onChange={Detailschnage}
@@ -1270,7 +1270,17 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button onClick={ClickOk} variant={'contained'} >
+            <Button 
+            onClick={ClickOk} 
+            // variant={'contained'}
+            sx={{
+              color:'green',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'green',
+               backgroundColor: green[100]
+                }}}
+        >
               Confirm
             </Button>
           </DialogActions>
@@ -1365,12 +1375,36 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
           <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-            <ButtonPrimary style={{ backgroundColor: green[500] }} onClick={publishAll}>
-              PUBLISH ALL
-            </ButtonPrimary>
-            <ButtonPrimary style={{ backgroundColor: red[500] }} onClick={ClickOpenDialogbox}>
-              UNPUBLISH ALL
-            </ButtonPrimary>
+            
+            
+            <Button
+            //  style={{ backgroundColor: red[500] }} 
+            sx={{
+              color:'red',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'red',
+               backgroundColor: red[100]
+                }}}
+             onClick={ClickOpenDialogbox}
+             >
+             Unpublish All
+            </Button>
+            
+            <Button
+            sx={{
+              color:'green',
+               //  backgroundColor: grey[500],
+                '&:hover': {
+              color:'green',
+               backgroundColor: green[100]
+                }}}
+       
+            // style={{ backgroundColor: green[500] }}
+             onClick={publishAll}>
+              Publish All
+            </Button>
+            
           </Box>
         )}
 
