@@ -2,6 +2,7 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
+import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
@@ -13,7 +14,13 @@ const InvestmentDeclaration = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
 
+    const [exampleSaveInvestment, setexampleSaveInvestment] = useState([])
+
+    // const [dropdown, setDropdown] = useState('0');
+
     const [newFilter, setnewFilter] = useState('');
+
+    const [regimeId, setRegimeId] = useState();
 
     const USListInvestmentDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentDetails
@@ -58,14 +65,36 @@ const InvestmentDeclaration = () => {
     }
 
     const GetRegimeDropdown: IGetRegimeDetailsDropdownBody = {
-        asSchoolId: asSchoolId
+        asSchoolId: 18
     }
+
+    // const SaveInvestmentDeclaration: SaveInvestmentDetailsBody = {
+    //     asSchoolId: asSchoolId,
+    //     asFinancialYearId: 10,
+    //     asUpdatedById: asUserId,
+    //     asUserId: asUserId,
+    //     asDeclarationXML: getXML(),
+    //     asRegimeId: regimeId
+    // }
+
+    function getXML() {
+        let asSaveInvestmentXML = "\r\n<ArrayOfInvestmentDeclaration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n >";
+
+    }
+
+
 
 
 
     useEffect(() => {
         dispatch(CDAGetRegimeDropdown(GetRegimeDropdown))
     }, [])
+
+    useEffect(() => {
+        if (USGetRegimeDropdown.length > 0) {
+            setRegimeId(USGetRegimeDropdown[0].Value);
+        }
+    }, [USGetRegimeDropdown])
 
     useEffect(() => {
         dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
@@ -87,6 +116,9 @@ const InvestmentDeclaration = () => {
             setListInvestmentDetails(USListInvestmentDetails)
     }, [USListInvestmentDetails])
 
+    const clickRegimeDropDown = (value) => {
+        setRegimeId(value)
+    }
 
 
 
@@ -222,6 +254,19 @@ const InvestmentDeclaration = () => {
                                         </Box>
 
                                     </Box>
+                                    <SearchableDropdown
+                                        sx={{
+                                            minWidth: '300px'
+
+                                        }}
+                                        ItemList={USGetRegimeDropdown}
+                                        onChange={clickRegimeDropDown}
+                                        label={'Regime Dropdown'}
+                                        defaultValue={regimeId}
+                                        mandatory
+                                        size={"small"}
+
+                                    />
                                 </Grid>
 
                             ))}

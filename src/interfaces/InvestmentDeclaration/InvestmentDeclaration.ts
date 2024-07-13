@@ -69,6 +69,15 @@ export interface IGetRegimeDetailsDropdownResult {
     Name: string
 }
 
-// export default ISaveInvestmentDetailsBody {
+export interface SaveInvestmentDetailsBody {
+    asSchoolId: number,
+    asFinancialYearId: number,
+    asUpdatedById: number,
+    asUserId: number,
+    asDeclarationXML: string,
+    asRegimeId: number
+}
 
-// }
+export interface SaveInvestmentDetailsResult {
+    string
+}

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import InvestmentDeclarationApi from 'src/api/InvestmentDeclaration/InvestmentDeclarationApi';
-import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
+import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
 import { AppThunk } from 'src/store';
 
 const InvestmentDeclarationSlice = createSlice({
@@ -11,7 +11,8 @@ const InvestmentDeclarationSlice = createSlice({
         ISlistInvestmentEmpDetails: [],
         ISlistInvestmentAmountDetails: [],
         ISNewGetInvestmentDetails: [],
-        ISGetRegimeDropdown: []
+        ISGetRegimeDropdown: [],
+        ISSaveInvestment: ''
 
     },
     reducers: {
@@ -31,7 +32,11 @@ const InvestmentDeclarationSlice = createSlice({
         },
         RGetRegimeDropdown(state, action) {
             state.ISGetRegimeDropdown = action.payload
+        },
+        RGetSaveInvestment(state, action) {
+            state.ISSaveInvestment = action.payload
         }
+
 
     }
 
@@ -105,19 +110,35 @@ export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThu
 export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetRegimeDropdown(data)
-        let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
 
-        dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(response.data));
+        let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
+        // dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(response.data));
+
         response.data.map((item, i) => {
             abc.push({
                 Id: item.Id,
                 Name: item.Name,
                 Value: item.Name
-            })
-        })
-    }
+            });
+        });
+        dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(abc));
 
+        console.log(response, "dropdown");
+    };
+//     export const SaveLessonPlan =
+//   (data: ISaveLessonPlanBody): AppThunk =>
+//     async (dispatch) => {
+//       dispatch(AddLessonPlanSlice.actions.getLoading(true));
+//       const response = await AddLessonPlanApi.SaveLessonPlanapi(data);
+//       dispatch(AddLessonPlanSlice.actions.saveLessonPlan(response.data));
 
+//     }; 
 
+export const CDAGetSaveInvestment =
+    (data: SaveInvestmentDetailsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await InvestmentDeclarationApi.GetSaveInvestmentDeclaration(data);
+            dispatch(InvestmentDeclarationSlice.actions.RGetSaveInvestment(response.data));
+        }
 
 export default InvestmentDeclarationSlice.reducer;
