@@ -3,9 +3,9 @@ import { CardDetailA, CardDetailR } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg';
 
 const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
-  console.log("Item:", Item);
+
   const date = Item.joinDate;
-  console.log("date:", date);
+
   // const Day = new Date(date).getDate();
   // const Month = new Date(date).toLocaleString('default', { month: 'short' });
   // const Year = new Date(date).getFullYear();
@@ -16,9 +16,9 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
 
   const joinDate = new Date(Year, Month - 1, Day);
 
-  console.log("Join Date:", joinDate);
+
   //const joinDate = `new Date(Year, Month - 1, Day)`;
-  console.log("Join Date:", joinDate);
+
   // const userJoinDate = new Date(Item.joinDate);
   // const selectedDate = new Date(assignedDate);
   const joinDateParts = Item.joinDate.split(/[- :]/);
@@ -27,19 +27,17 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
   // const userJoinDate = new Date(Item.joinDate);
   const selectedDate = new Date(assignedDate);
 
-  console.log("User Join Date:", userJoinDate); // Log userJoinDate to verify its value
-  console.log("Selected Date:", selectedDate);
+
   // const color = userJoinDate > selectedDate ? '#787876' : '';
   const color = userJoinDate > selectedDate ? '#e1bee7' : '';
   const fontWeight = userJoinDate > selectedDate ? 'bold' : 'normal';
-  console.log("Item.text1:", Item.text1);
-  console.log("Item.text2:", Item.text2);
+
 
   //const color = userJoinDate == selectedDate ? '#787876' : '';
   const theme = useTheme();
 
   if ((Item.text1 === "49") && (Item.text2 === "Master Soham Bhagade") && userJoinDate > selectedDate) {
-    console.log("Student Data:", Item);
+
   }
   return (
     <>

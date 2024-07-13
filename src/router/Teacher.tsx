@@ -254,10 +254,10 @@ const teacherRoutes = [
     path: 'smscenter',
     element: <SmsCenter />
   },
-  {
-    path: 'TAttendance/:AssignedDate/:StandardId',
-    element: <TAttendance />
-  },
+  // {
+  //   path: 'TAttendance/:AssignedDate/:StandardId',
+  //   element: <TAttendance />
+  // },
   {
     path: 'TAttendance/:AssignedDate',
     element: <TAttendance />
@@ -283,9 +283,10 @@ const teacherRoutes = [
     element: <MonthwiseAttandance />
   },
   {
-    path: 'TAttendance/:selectClasstecahernew/:AssignedDate',
+    path: 'TAttendance/:SelectClasstecahernew/:AssignedDate',
     element: <TAttendance />
   },
+
   {
     path: 'MonthwiseAttendance',
     element: <MonthwiseAttandance />
