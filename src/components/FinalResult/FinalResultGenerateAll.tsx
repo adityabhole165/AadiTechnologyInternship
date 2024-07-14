@@ -197,34 +197,6 @@ const GenerateAll = ({ }) => {
                                             })}
                                         </TableBody>
                                     </Table>
-
-                                    <Box sx={{ overflowX: 'auto' }}>
-                                        <Table>
-                                            <TableBody>
-                                                {MarkDetailsList.map((Item) => {
-                                                    return (
-                                                        <TableRow sx={{ bgcolor: '#b3e5fc' }}>
-                                                            <TableCell >
-                                                                {Item.TestName}
-                                                            </TableCell>
-                                                            {Item.MarksArr.map((MarkItem) => {
-                                                                return (<TableCell >
-                                                                    {
-                                                                        MarkItem.IsAbsent == "N" ?
-                                                                            MarkItem.MarksScored + "/" + MarkItem.TotalMarks :
-                                                                            MarkItem.IsAbsent == "Y" ?
-                                                                                <TextField></TextField>
-                                                                                :
-                                                                                getListDisplayName(MarkItem.IsAbsent)}
-                                                                </TableCell>)
-                                                            })
-
-                                                            }
-                                                        </TableRow>)
-                                                })}
-                                            </TableBody>
-                                        </Table>
-                                    </Box>
                                     <Box sx={{ overflowX: 'auto' }}>
                                         <Table>
                                             <TableHead>
@@ -254,12 +226,22 @@ const GenerateAll = ({ }) => {
                                                     ))}
                                                 </TableRow>
                                             </TableHead>
-                                            {ExamDetails.map((testItem, i) => (
+                                            {MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i}>
                                                     <TableRow>
-                                                        <TableRow>{testItem.Name}</TableRow>
-                                                        {TestMarksDetails.map((subjectItem) => (
-                                                            <TableCell>{subjectItem.Name}</TableCell>
+                                                        <TableRow>
+                                                            {testItem.TestName}
+                                                        </TableRow>
+                                                        {testItem.MarksArr.map((MarkItem) => (
+                                                            <TableCell>
+                                                                {
+                                                                    MarkItem.IsAbsent == "N" ?
+                                                                        MarkItem.MarksScored + "/" + MarkItem.TotalMarks :
+                                                                        MarkItem.IsAbsent == "Y" ?
+                                                                            <TextField></TextField>
+                                                                            :
+                                                                            getListDisplayName(MarkItem.IsAbsent)}
+                                                            </TableCell>
                                                         ))}
                                                     </TableRow>
                                                 </TableBody>
