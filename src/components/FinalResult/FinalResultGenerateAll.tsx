@@ -33,6 +33,8 @@ const GenerateAll = ({ }) => {
     const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
     // console.log(SubjectDetails, 'SubjectDetails');
     const MarkDetailsList = useSelector((state: RootState) => state.FinalResultGenerateAll.MarkDetailsList);
+    const HeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.HeaderArray);
+    const SubHeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.SubHeaderArray);
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
     const ListDisplayNameDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.ListDisplayNameDetails);
     console.log(ListDisplayNameDetails, "rows");
@@ -208,24 +210,27 @@ const GenerateAll = ({ }) => {
                                                         <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
                                                             &#9660; Exam
                                                         </Typography></TableCell>
-                                                    {SubjectDetails.map((item) => (
+                                                    {/* {SubjectDetails.map((item) => ( */}
+                                                    {HeaderArray.map((item) => (
                                                         // <TableCell><b>{item.Name}</b></TableCell>
-                                                        <TableCell>
+                                                        <TableCell colSpan={item.colSpan}>
                                                             <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                                <b style={{ marginRight: "9px" }}>{item.Name}</b>
+                                                                <b style={{ marginRight: "9px" }}>{item.SubjectName}</b>
                                                             </Typography></TableCell>
                                                     ))}
                                                 </TableRow>
                                                 <TableRow>
-                                                    {ShortenTestDetails.map((item) => (
+                                                    {/* {ShortenTestDetails.map((item) => ( */}
+                                                    {SubHeaderArray.map((item) => (
                                                         <TableCell >
                                                             <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                                <b style={{ marginRight: "9px" }}>{item.Name}</b>
+                                                                <b style={{ marginRight: "9px" }}>{item.TestTypeName}</b>
                                                             </Typography>
                                                         </TableCell>
                                                     ))}
                                                 </TableRow>
                                             </TableHead>
+
                                             {MarkDetailsList.map((testItem, i) => (
                                                 <TableBody key={i}>
                                                     <TableRow>
@@ -236,7 +241,7 @@ const GenerateAll = ({ }) => {
                                                             <TableCell>
                                                                 {
                                                                     MarkItem.IsAbsent == "N" ?
-                                                                        MarkItem.MarksScored + "/" + MarkItem.TotalMarks :
+                                                                        MarkItem.MarksScored + " / " + MarkItem.TotalMarks :
                                                                         MarkItem.IsAbsent == "Y" ?
                                                                             <TextField></TextField>
                                                                             :

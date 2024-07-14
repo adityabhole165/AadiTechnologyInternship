@@ -23,6 +23,8 @@ const FinalResultGenerateAllSlice = createSlice({
         MarkDetailsList: [],
         UpdateStudentTestMarks: '',
         ListDisplayNameDetails: [],
+        HeaderArray: [],
+        SubHeaderArray: [],
         Loading: true
     },
 
@@ -34,6 +36,14 @@ const FinalResultGenerateAllSlice = createSlice({
         ShowData(state, action) {
             state.Loading = false;
             state.MarkDetailsList = action.payload;
+        },
+        ShowHeader(state, action) {
+            state.Loading = false;
+            state.HeaderArray = action.payload;
+        },
+        ShowSubHeader(state, action) {
+            state.Loading = false;
+            state.SubHeaderArray = action.payload;
         },
         getListDisplayNameDetails(state, action) {
             state.Loading = false;
@@ -112,13 +122,23 @@ export const StudentDetailsGA =
                 })
                 return returnVal
             }
-            response.data.listTestDetails.map((Test) => {
+            let HeaderArray = []
+            let SubHeaderArray = []
+            let HeaderCount = 0
+            response.data.listTestDetails.map((Test, TestIndex) => {
                 let columns = []
                 response.data.listSubjectsDetails.map((Subject) => {
-
+                    HeaderCount = 0
                     response.data.ListSubjectidDetails
                         .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
                         .map((TestType) => {
+                            HeaderCount += 1
+                            if (TestIndex == 0) {
+
+                                SubHeaderArray.push({
+                                    TestTypeName: TestType.ShortenTestType_Name,
+                                })
+                            }
                             let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
                             columns.push({
                                 MarksScored: cell ? cell.Marks_Scored : "-",
@@ -127,6 +147,12 @@ export const StudentDetailsGA =
                             })
 
                         })
+                    if (TestIndex == 0) {
+                        HeaderArray.push({
+                            SubjectName: Subject.Subject_Name,
+                            colSpan: HeaderCount
+                        })
+                    }
                 })
 
                 rows.push({
@@ -134,10 +160,17 @@ export const StudentDetailsGA =
                     MarksArr: columns
                 })
             })
+            console.log(HeaderArray, "HeaderArray", SubHeaderArray, "SubHeaderArray");
+
+            dispatch(FinalResultGenerateAllSlice.actions.ShowHeader(HeaderArray));
+            dispatch(FinalResultGenerateAllSlice.actions.ShowSubHeader(SubHeaderArray));
             dispatch(FinalResultGenerateAllSlice.actions.ShowData(rows));
             dispatch(FinalResultGenerateAllSlice.actions.getListDisplayNameDetails(response.data.ListDisplayNameDetails));
 
 
+            response.data.ListSubjectidDetails.map((Item) => {
+
+            })
 
             let abc = response.data.listStudentsDetails.map((item, i) => {
                 return {
