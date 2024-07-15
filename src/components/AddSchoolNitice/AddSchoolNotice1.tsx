@@ -36,10 +36,18 @@ const AddSchoolNotice1: React.FC = () => {
     const [text, setText] = useState<string>('');
     const [formData, SetformData] = useState<any>('');
 
-    const { state } = useLocation();
-    console.log(state);
+    const location = useLocation();
+    const { state } = location;
+    // const { state, userRoleId } = useParams()
+    // useEffect(() => {
+    //     if (state || userRoleId) {
+
+    //         console.log("bbbbbbbbbbbbbbbbbbbbbbbb=>", state, userRoleId);
+    //     }
+    // }, [])
+
+
     const dispatch = useDispatch();
-    // console.log('DDDDDDDDDDDDDDDDDDDDD', formData);
 
     const [applicableTo, setApplicableTo] = useState({
         admin: false,
@@ -255,7 +263,7 @@ const AddSchoolNotice1: React.FC = () => {
                         <>
 
                             <Box>
-                                <Tooltip title={`These events may change due to unavoidable reasons without prior notice.`}>
+                                <Tooltip title={`Select the notices from the list to be displayed on School web site under School Notices.`}>
                                     <IconButton
                                         sx={{
                                             color: 'white',
@@ -272,7 +280,7 @@ const AddSchoolNotice1: React.FC = () => {
 
                             <Box>
                                 <Tooltip
-                                    title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+                                    title={`Displays all uploaded school notices.`}
                                 >
                                     <IconButton
                                         sx={{
@@ -303,7 +311,7 @@ const AddSchoolNotice1: React.FC = () => {
                                 </Tooltip>
                             </Box>
                             <Box>
-                                <Tooltip title={`Save HomeWork`}>
+                                <Tooltip title={`Save`}>
                                     <IconButton
                                         type='submit'
                                         sx={{

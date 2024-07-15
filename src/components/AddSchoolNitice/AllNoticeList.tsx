@@ -36,12 +36,13 @@ interface Column {
   label: string;
   minWidth?: number;
   align?: 'right';
+  align1?: 'left';
   format?: (value: number) => string;
 }
 
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'Link Name', minWidth: 150 },
+  { id: 'name', label: 'Link Name', minWidth: 150, align1: 'left' },
   { id: 'Display_Location', label: 'Display Location', minWidth: 150 },
   {
     id: 'StartDateTime',
@@ -103,7 +104,7 @@ const AllNoticeList = () => {
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const [deleteRow, setDeleteRow] = useState<any>([]);
   const { showAlert, closeAlert } = useContext(AlertContext);
-
+  const [userRole, setUserRole] = useState();
 
   const SchoolId = localStorage.getItem('localSchoolId');
   const asUpdatedById = localStorage.getItem('Id');
@@ -160,10 +161,19 @@ const AllNoticeList = () => {
   console.log('USGetUserRolesForSelectedNoticeId...............', USGetUserRolesForSelectedNoticeId);
   console.log('USGetStandardDivisionsForSelectedNoticeId...............', USGetStandardDivisionsForSelectedNoticeId);
 
+  useEffect(() => {
+    if (USGetUserRolesForSelectedNoticeId) {
+      setUserRole(USGetUserRolesForSelectedNoticeId)
+      console.log("USGetUserRolesForSelectedNoticeId\\\\\\\\\\\\\\\\\\\\", USGetUserRolesForSelectedNoticeId);
+
+    }
+  }, [USGetUserRolesForSelectedNoticeId])
+
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
 
   const GetAllNoticeListBody: IGetAllNoticeListBody =
   {
-    "asSchoolId": 18,
+    "asSchoolId": asSchoolId,
     "asDisplayLocation": selectValue,
     "asShowAllNotices": value === 'AllFile',
     "asText": false,
@@ -173,23 +183,23 @@ const AllNoticeList = () => {
   };
 
   const UpdateSelectNotice: IUpdateSelectSchoolNoticeBody = {
-    "asSchoolId": SchoolId,
+    "asSchoolId": asSchoolId,
     "asNoticeXml": selectedRows.outSortOrder
 
   };
 
   const DeleteSchoolNotice: IDeleteSchooNoticeBody = {
-    "asSchoolId": SchoolId,
+    "asSchoolId": asSchoolId,
     "asNoticeId": deleteRow,
     "asUpdatedById": asUpdatedById
   };
 
   const GetUserRolesForSelectedNoticeId: IGetUserRolesForSelectedNoticeIdBody = {
-    "asSchoolId": 18,
+    "asSchoolId": asSchoolId,
     "asNoticeId": 507
   }
   const GetStandardDivisionsForSelectedNoticeId: IGetStandardDivisionsForSelectedNoticeIdBody = {
-    "asSchoolId": 18,
+    "asSchoolId": asSchoolId,
     "asNoticeId": 507
   }
 
@@ -220,7 +230,7 @@ const AllNoticeList = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Are you sure you want to delete this holiday?  ',
+        'Are you sure you want to delete this Notice?  ',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
@@ -297,7 +307,7 @@ const AllNoticeList = () => {
                 />
               </Box>
               <Box>
-                <Tooltip title={`These events may change due to unavoidable reasons without prior notice.`}>
+                <Tooltip title={`Select the notices from the list to be displayed on School web site under School Notices.`}>
                   <IconButton
                     sx={{
                       color: 'white',
@@ -314,7 +324,7 @@ const AllNoticeList = () => {
 
               <Box>
                 <Tooltip
-                  title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+                  title={`Displays all uploaded school notices.`}
                 >
                   <IconButton
                     sx={{
@@ -410,12 +420,12 @@ const AllNoticeList = () => {
                       .map((itemList) => {
                         return (
                           <TableRow hover role="checkbox">
-                            <TableCell align='center'>{itemList.NoticeName}</TableCell>
-                            <TableCell align='center'>{itemList.DisplayLocation}</TableCell>
+                            <TableCell>{itemList.NoticeName}</TableCell>
+                            <TableCell>{itemList.DisplayLocation}</TableCell>
                             <TableCell align='center'>{moment(itemList.StartDate).format('DD MMM YYYY   h:mm a')}</TableCell>
                             <TableCell align='center'>{moment(itemList.EndDate).format('DD MMM YYYY   h:mm a')}</TableCell>
                             <TableCell align='center'>{itemList.dbSortOrder}</TableCell>
-                            <TableCell align='center' sx={{ color: "#0000EE" }}>{itemList.FileName}</TableCell>
+                            <TableCell sx={{ color: "#0000EE" }}>{itemList.FileName}</TableCell>
                             <TableCell align="center">
                               {/* Checkbox for row selection */}
                               <input
