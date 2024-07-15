@@ -32,6 +32,12 @@ function StudentRecordList({
         ClickHeader(updatedHeaderArray);
     }
     const asUserId = Number(localStorage.getItem('UserId'));
+    const cellStyle = {
+        padding: '0.2em 1.5em', // Adjust these values to reduce the height
+    };
+    const rowStyle = {
+        height: '0.5em 1.5em', // Ensure auto height to adjust based on content
+    };
 
     return (
         <div >
@@ -47,7 +53,7 @@ function StudentRecordList({
                     <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                         <Table aria-label="simple table">
                             <TableHead>
-                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, ...rowStyle }}>
                                     {HeaderArray.slice(0, 6).map((item, i) => (
                                         <TableCell
                                             key={i}
@@ -64,7 +70,7 @@ function StudentRecordList({
                                     ))}
                                     {HeaderArray.slice(6).map((item, i) => (
                                         <TableCell key={i + 6} sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center', ...cellStyle }}>
                                                 <b>{item.Header}</b>
                                             </div>
                                         </TableCell>
@@ -75,13 +81,13 @@ function StudentRecordList({
                             <TableBody>
                                 {ItemList.map((item, i) => (
                                     <TableRow key={i}>
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text1}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text2}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text3}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.Text4}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Text5}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text1}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text2}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text3}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'left' }}>{item.Text4}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text5}</TableCell>
 
-                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }} align="center">
+                                        <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', ...cellStyle }} align="center">
                                             {item.IsRecordFound === false ? (
                                                 <Tooltip title={"Add"}>
                                                     <EditTwoTone onClick={() => clickEdit(item.Id)}
