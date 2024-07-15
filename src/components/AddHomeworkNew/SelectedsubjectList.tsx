@@ -57,7 +57,7 @@ const SelectedsubjectList = ({
                   <TableCell sx={{
                     textTransform: 'capitalize',
                     height: '5px',
-                    padding: '15px'
+                    padding: '3px'
                   }}>
                     {item.Text1}
                   </TableCell>

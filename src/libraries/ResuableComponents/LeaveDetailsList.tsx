@@ -28,8 +28,6 @@ function LeaveList({
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate);
 
-    console.log(formattedDate);  // Output: 29-May-2024
-
     return (
         <div >
             {ItemList.length === 0 ? (
@@ -61,9 +59,7 @@ function LeaveList({
                                         >
                                             <b>{item.Header}</b>
                                         </TableCell>
-
-                                    ))}
-                                    <TableCell sx={{ background: (theme) => theme.palette.secondary.main }}></TableCell>
+                                    ))} <span></span>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -74,7 +70,7 @@ function LeaveList({
                                         <TableRow key={index} >
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '250px'
+                                                    textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -82,7 +78,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word'
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -90,7 +86,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word'
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -98,7 +94,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '250px', wordWrap: 'break-word'
+                                                    textTransform: 'capitalize', width: '250px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -106,7 +102,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -114,7 +110,7 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize'
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -122,13 +118,15 @@ function LeaveList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize',
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
                                                 {item.Text7}
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell align="center" sx={{
+                                                paddingTop: '2.5px', paddingBottom: '2.5px'
+                                            }}>
                                                 <Tooltip title={"View"}>
                                                     <IconButton
                                                         onClick={() => clickView(item.Id)}
@@ -146,7 +144,7 @@ function LeaveList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    opacity: 1,
+                                                    opacity: 1, paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
