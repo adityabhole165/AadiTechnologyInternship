@@ -60,7 +60,7 @@ function StudentRecordList({
                                             sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
                                             onClick={() => clickHeader(item.Id)}
                                         >
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start' : 'center' }}>
+                                            <div style={{ display: 'flex', gap: 1, justifyContent: (item.Id === 4 || item.Header.includes('Remark Template')) ? 'left' : 'center' }}>
                                                 <b>{item.Header}</b>
                                                 {i < 4 && item.SortOrder !== null && (
                                                     item.SortOrder === "DESC" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
