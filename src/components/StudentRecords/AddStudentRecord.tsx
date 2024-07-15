@@ -3,17 +3,20 @@ import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typogr
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import { GetStudentRecordData } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import AddStudentRAccordionList from './AddStudentRAccordionList';
 import StudentRecordComment from './StudentRecordComment';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { Action } = useParams()
     const [Open, setOpen] = useState(false);
+    const [exampleLessonDetails, setExampleLessonDetails] = useState([])
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
     const listGeneralDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listGeneralDetails
@@ -46,7 +49,12 @@ const AddStudentRecord = () => {
     };
     const onClickSubmit = () => {
     };
+    const onTextChange = (value) => {
+        setExampleLessonDetails(value)
 
+    }
+    const IsEditingAllowed = () => {
+    }
 
     const onClickSubmitComment = () => {
     };
@@ -201,6 +209,9 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
+            <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
+                onTextChange={onTextChange} Action={Action}
+                IsEditingAllowed={IsEditingAllowed()} />
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
                 {Open && (
                     <StudentRecordComment
