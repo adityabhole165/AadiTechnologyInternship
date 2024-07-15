@@ -28,6 +28,7 @@ export interface IGetAllHomeworkDailyLogsResult {
   Date: string;
   AttchmentName: string;
   IsPublished: string;
+  TotalRows:string
 }
 
 export interface IGetHomeworkDailyLogBody {

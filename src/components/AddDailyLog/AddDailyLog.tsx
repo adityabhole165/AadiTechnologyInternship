@@ -1,7 +1,5 @@
-import Close from '@mui/icons-material/Close';
-import Add from "@mui/icons-material/Add"
+import Add from "@mui/icons-material/Add";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
@@ -13,14 +11,13 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  Modal,
-  Pagination,
   TextField,
   Tooltip,
   Typography
 } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
-import { useCallback, useEffect, useState } from 'react';
+import { green, grey } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -35,6 +32,7 @@ import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import {
   deletedailylog,
   getalldailylog,
@@ -48,7 +46,7 @@ import {
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { ClearIcon } from '@mui/x-date-pickers';
+import { AlertContext } from 'src/contexts/AlertContext';
 
 
 const AddDailyLog = () => {
@@ -64,8 +62,8 @@ const AddDailyLog = () => {
   const [base64URL, setbase64URL] = useState('');
   const [LogId, setLogId] = useState(0);
   const [page, setPage] = useState(1);
-
-
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
   const MaxfileSize = 5000000;
   const startIndex = (page - 1) * 20;
   const endIndex = startIndex + 20;
@@ -76,6 +74,7 @@ const AddDailyLog = () => {
   const SiteURL = localStorage.getItem('SiteURL');
   let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
   const [isPublish, setIsPublish] = useState(true);
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   //useSelector
   const SaveDailyLog = useSelector(
@@ -84,6 +83,8 @@ const AddDailyLog = () => {
   const GetAllHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.GetAllHomework
   );
+  const totalRowsArray = GetAllHomeworkDailyLogs.map(item => item.TotalRows);
+
   const GetHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.GetHomeworkDailyLog
   );
@@ -229,9 +230,6 @@ const AddDailyLog = () => {
   //   }
   // }, [PublishUnpublishHomeworkDailylog]);
 
-
-
-
   let d = '';
   useEffect(() => {
     console.log(GetHomeworkDailyLogs, 'GetStudentDetail');
@@ -251,21 +249,56 @@ const AddDailyLog = () => {
       asAcademicYearId: Number(asAcademicYearId),
       aId: value
     };
+
+    setOpen(true)
     dispatch(getdailylog(GetHomeworkDailyLogsBody));
   };
 
+  // const clickDelete = (value) => {
+  //   if (confirm('Are you sure you want to delete this record?')) {
+  //     const DeleteLog: IDeleteHomeworkDailyLogBody = {
+  //       asSchoolId: Number(asSchoolId),
+  //       asAcademicYearId: Number(asAcademicYearId),
+  //       asId: value,
+  //       asUpdatedById: TeacherId
+  //     };
+  //     dispatch(deletedailylog(DeleteLog));
+  //   }
+
+  // };
+
+
   const clickDelete = (value) => {
-    if (confirm('Are you sure you want to delete this record?')) {
-      const DeleteLog: IDeleteHomeworkDailyLogBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asId: value,
-        asUpdatedById: TeacherId
-      };
-      dispatch(deletedailylog(DeleteLog));
-    }
+
+    const DeleteLog: IDeleteHomeworkDailyLogBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asId: value,
+      asUpdatedById: TeacherId
+    };
+
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this record?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(deletedailylog(DeleteLog));
+
+        closeAlert();
+      }
+    });
+
+
+
 
   };
+  
 
   useEffect(() => {
     if (DeleteHomeworkDailyLogs !== '') {
@@ -364,13 +397,7 @@ const AddDailyLog = () => {
       }
 
     }
-    // const selectedDay = new Date(dateState).getDay();
-    // if (selectedDay === 0 || selectedDay === 6) {
-    //   setDateError('Weekend dates are not allowed.');
-    //   isError = true;
-    // } else {
-    //   setDateError('');
-    // }
+   
 
     if (!fileName || fileName === '') {
       setFileNameError('Please select file to upload.');
@@ -413,10 +440,7 @@ const AddDailyLog = () => {
     getCurrentDateTime();
   }, []);
 
-  //   const formatDateAsDDMMMYYYY = (date) => {
-  //     const options = { day: '2-digit', month: 'short', year: 'numeric' };
-  //     return new Date(date).toLocaleDateString('en-GB', options);
-  // };
+ 
   const isFutureDate = (selectedDate) => {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set to the beginning of the day
@@ -433,18 +457,7 @@ const AddDailyLog = () => {
     }
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   };
-  // const onClickSearch = () => {
-
-  //   const currentDate = new Date();
-  //   const selectedDateObj = new Date(dateSearch);
-
-  //   if (selectedDateObj > currentDate) {
-  //     setDateSearchError('Future dates are disabled.');
-  //   } else {
-  //     setDateSearchError('');
-  //     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-  //   }
-  // };
+  
 
   const ClickHeader = (value) => {
     setHeaderPublish(value)
@@ -456,10 +469,24 @@ const AddDailyLog = () => {
   }
   const handleClose = (value) => {
     setOpen(false)
+    setFileName('')
+    setDateState('')
+    setLogId(0)
   }
-  
 
-  
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, totalRowsArray[0]);
+  const pagecount = Math.ceil(totalRowsArray[0] / rowsPerPage);
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
+
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -487,49 +514,12 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            {/* <Box>
-              <Tooltip
-                title={
-                  'Cancel'
-                }
-              >
+            
+            <Box>
+              <Tooltip title={
+                'Add Daily Log'
+              }>
                 <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: red[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: red[600] }
-                  }}
-                  onClick={onClickCancel}
-                >
-                  <Close />
-                </IconButton>
-              </Tooltip>
-            </Box> */}
-            {/* <Box>
-              <Tooltip
-                title={
-                  LogId > 0 ? 'Update' : 'Save'
-                }
-              >
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}
-                  onClick={onClickSave}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-              </Box> */}
-              <Box>
-              <Tooltip  title={
-                  'Add Daily Log'
-                }>
-             <IconButton
                   sx={{
                     color: 'white',
                     backgroundColor: green[500],
@@ -538,94 +528,108 @@ const AddDailyLog = () => {
                   }}
                   onClick={ClickAppropriate}
                 >
-                   <Add />
+                  <Add />
                 </IconButton>
-             </Tooltip>
-             
+              </Tooltip>
+
             </Box>
           </>}
         />
 
 
-      <Dialog
-        open={open}
-        maxWidth={'md'}
-        fullWidth
-        onClose={handleClose}
-      >
-        <DialogTitle
-          sx={{
-            py: 1,
-            backgroundColor: (theme) => theme.colors.primary.main,
-            color: (theme) => theme.palette.common.white
-          }}
-        ></DialogTitle>
-        <DialogContent dividers>
-        <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' ,background: 'white' }}>
-      <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
-      <Grid container spacing={0} alignItems="center">
-        <Grid item xs={4}>
-          <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
-        </Grid>
-        <Grid item xs={4}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
-            <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
-            {dateError && (
-              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
-                <ErrorMessage1 Error={dateError}></ErrorMessage1>
-              </Box>
-            )}
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes}
-              MaxfileSize={MaxfileSize}
-              ChangeFile={ChangeFile}
-              errorMessage={''}
-              FileName={fileName}
-              height='52.5px'
-            />
-            {fileNameError && (
-              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
-                <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
-              </Box>
-            )}
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
-        </DialogContent>
-        <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button
-            color={'error'}
-            onClick={() => {
-              setOpen(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            disabled={
-              fileName.length !== 0 && base64URL.length !== 0 ? false : true
-            }
-            onClick={onClickSave}
-            // color={'success'}
-            // variant={'contained'}
+        <Dialog
+          open={open}
+          maxWidth={'md'}
+          fullWidth
+          onClose={handleClose}
+        >
+          <DialogTitle
             sx={{
-              color:'green',
-                   //  backgroundColor: grey[500],
-                    '&:hover': {
-                     color:'green',
-                   backgroundColor: green[100]
-                   }}}
+              py: 1,
+              backgroundColor: (theme) => theme.colors.primary.main,
+              color: (theme) => theme.palette.common.white
+            }}
+          ></DialogTitle>
+          <DialogContent dividers>
+
+            <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+
+              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
+              <CommonPageHeader
+                navLinks={[
+                  LogId ?
+                    {
+                      title: 'Edit Daily Log',
+                      path: '',
+                    } :
+                    {
+                      title: 'Add Daily Log',
+                      path: '',
+                    }, ,
+                ]}
+              />
+              <Grid container spacing={0} alignItems="center">
+                <Grid item xs={4}>
+                  <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
+                </Grid>
+                <Grid item xs={4}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
+                    <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
+                    {dateError && (
+                      <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                        <ErrorMessage1 Error={dateError}></ErrorMessage1>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={4}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
+                    <SingleFile
+                      ValidFileTypes={ValidFileTypes}
+                      MaxfileSize={MaxfileSize}
+                      ChangeFile={ChangeFile}
+                      errorMessage={''}
+                      FileName={fileName}
+                      height='52.5px'
+                    />
+                    {fileNameError && (
+                      <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                        <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button
+              color={'error'}
+              onClick={handleClose}
             >
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-{/* <Modal open={open} onClose={ClickAppropriate}>
+              Cancel
+            </Button>
+            <Button
+              disabled={
+                fileName.length !== 0 && base64URL.length !== 0 ? false : true
+              }
+              onClick={onClickSave}
+              // color={'success'}
+              // variant={'contained'}
+              sx={{
+                color: 'green',
+                //  backgroundColor: grey[500],
+                '&:hover': {
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+            >
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* <Modal open={open} onClose={ClickAppropriate}>
   <Box sx={style}>
     <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' ,background: 'white' }}>
       <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
@@ -700,9 +704,10 @@ const AddDailyLog = () => {
             </Grid>
           </Grid>
         </Box> */}
-        
+  
+    
 
-        <Box sx={{ mt: 2, backgroundColor: 'white', p: 2 }}>
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
           <Grid
             container
             spacing={1}
@@ -710,6 +715,7 @@ const AddDailyLog = () => {
             alignItems="center"
           >
             <Grid item xs={12}>
+
               <Box
                 sx={{
                   display: 'flex',
@@ -728,24 +734,7 @@ const AddDailyLog = () => {
                     size={"small"}
 
                   />
-                  {/* <DatePicker
-                    value={new Date(dateSearch)}
-                    onChange={(date) => {
-                      onSelectDate(date);
-                    }}
-                    sx={{
-                      width: '180px',
-                      backgroundColor: 'white',
-                      '& .MuiInputBase-input': {
-                        fontWeight: 'bold'
-                      }
-                    }}
-                    slotProps={{
-                      textField: {
-                        size: 'small',
-                      }
-                    }}
-                  /> */}
+                 
                 </Box>
                 <Box>
 
@@ -760,7 +749,31 @@ const AddDailyLog = () => {
                 </Box>
               </Box>
             </Grid>
+
+
+
             <Grid item xs={12}  >
+            {
+          GetAllHomeworkDailyLogs.length > 0 ? (
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                <Box component="span" fontWeight="fontWeightBold">
+                  {startRecord} to {endRecord}
+                </Box>
+                {' '}out of{' '}
+                <Box component="span" fontWeight="fontWeightBold">
+                  { totalRowsArray[0]}
+                </Box>{' '}
+                { totalRowsArray[0] === 1 ? 'record' : 'records'}
+              </Typography>
+            </div>
+
+          ) : (
+            <span></span>
+
+          )
+        }
+
               {GetAllHomeworkDailyLogs.length > 0 ? (
                 <>
                   <Adddailyloglist
@@ -773,40 +786,27 @@ const AddDailyLog = () => {
                     clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
                   />
 
+                    {
+                      totalRowsArray[0] > rowsPerPage ? (
 
-
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', mt: 2 }}>
-                    {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
-                    Select a page:
-                    <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                      <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-                      <Button value={"3"} onClick={() => handlePageChange("3")}>3</Button>
-                      <Button value={"4"} onClick={() => handlePageChange("4")}>4</Button>
-                    </ButtonGroup>
-                  </Box> */}
-                    {/* Refer this documentation to make it functional: https://mui.com/material-ui/react-pagination/ */}
-                    <Pagination
-                      count={5}
-                      variant={"outlined"}
-                      shape='rounded' showFirstButton
-                      showLastButton
-                      onChange={(event, value) => {
-                        handlePageChange(value);
-                      }}
-                    />
-                  </Box>
+                        <ButtonGroupComponent
+                          rowsPerPage={rowsPerPage}
+                          ChangeRowsPerPage={ChangeRowsPerPage}
+                          rowsPerPageOptions={rowsPerPageOptions}
+                          PageChange={PageChange}
+                          pagecount={pagecount}
+                        />
+                      ) : (
+                        <span></span>
+                      )
+                    }
+                  
                 </>
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                   <b>No record found.</b>
                 </Typography>
 
-              )}
-              {GetAllHomeworkDailyLogs.length > 0 && (
-                <Box sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right', textAlign: 'right' }}>
-                  Page {page} of 5
-                </Box>
               )}
             </Grid>
           </Grid>
