@@ -321,12 +321,12 @@ const Holidays = (props: Props) => {
                 />
                 <br />
                 {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
-                    PageChange={PageChange}
-                    numberOfButtons={pagecount}
                     rowsPerPage={rowsPerPage}
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions}
-                    buttonsPerPage = {pagecount > 1 ? 5 : 0 }
+                    PageChange={PageChange}
+                    pagecount={pagecount}
+
                 /> : <span> </span>}
 
 
