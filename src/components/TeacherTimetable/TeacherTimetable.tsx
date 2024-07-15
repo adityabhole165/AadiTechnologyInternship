@@ -189,7 +189,7 @@ const TeacherTimetable = () => {
         {isEmpty &&
           <Box sx={{ background: 'white', p: 2 }}>
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>Timetable not yet Configured.</b>
+              <b>Timetable not yet configured.</b>
             </Typography>
           </Box>
         }
@@ -290,7 +290,7 @@ const TeacherTimetable = () => {
             <Divider sx={{ my: 2 }} />
             <Stack direction={"row"} gap={2}>
               <Box sx={{ flex: 1 }}>
-                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 2 }}>Class-Subject Lecture Count</Typography>
+                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography>
                 <TableContainer sx={{ width: '100%' }}>
                   <Table>
                     <TableHead>
@@ -320,14 +320,14 @@ const TeacherTimetable = () => {
               </Box>
               <Box sx={{ flex: 1 }}>
 
-                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 2 }}>
+                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>
                   Additional Lectures
                 </Typography>
                 {/* WeekDay	Lecture Number	Class	Subject */}
                 {AdditionalClasses.length === 0 &&
 
                   <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 30, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                    <b>No Additional Lectures Assigned.</b>
+                    <b>No additional lectures assigned.</b>
                   </Typography>
                 }
 
