@@ -64,7 +64,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [text, setText] = useState('');
   const [textall, setTextall] = useState('');
-  const [HomeworkId, setHomeworkId] = useState('');
+  const [HomeworkId, setHomeworkId] = useState(0);
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
@@ -819,7 +819,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   }
   const handleClose = (value) => {
     setOpen(false)
-    setHomeworkId('')
+    setHomeworkId(0)
   }
 
   return (
@@ -943,7 +943,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           <DialogContent dividers >
             <Box>
               <h1>
-                {HomeworkId === '' ? 'Add Homework' : 'Edit Homework'}
+                {HomeworkId == 0 ? 'Add Homework' : 'Edit Homework'}
               </h1>
 
               <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}>
