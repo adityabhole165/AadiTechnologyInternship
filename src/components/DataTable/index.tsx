@@ -1,4 +1,4 @@
-import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TablePagination, TableRow, styled } from '@mui/material';
+import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow, styled } from '@mui/material';
 import React, { useState } from 'react';
 
 export type Column = {
@@ -38,7 +38,7 @@ export const StyledTableCell = styled(TableCell)(
 
 const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagination = true }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -97,7 +97,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
           </TableBody>
         </Table>
       </TableContainer>
-      {isPagination && (
+      {/* {isPagination && (
         <TablePagination
         // rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -107,7 +107,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      )}
+      )} */}
     </Paper>
   );
 };
