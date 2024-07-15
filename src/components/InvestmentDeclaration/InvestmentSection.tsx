@@ -76,6 +76,11 @@ const InvestmentSection = ({ refreshData }) => {
         }))
     }
 
+
+
+    const CountClick = (rowData) => {
+        console.log(rowData, "rowData");
+    };
     const renderDataTables = () => {
         return listInvestmentSectionDetails.map((section) => {
             const filteredData = ListInvestmentDetails.filter((detail) => detail.SectionId === section.Id);
@@ -94,7 +99,13 @@ const InvestmentSection = ({ refreshData }) => {
                 {
                     id: 'AttachmentCount',
                     label: 'Attachment Count',
-                    renderCell: (rowData) => rowData.DocumentCount,
+                    renderCell: (rowData) => (
+                        <span
+                            onClick={() => CountClick(rowData)}
+                        >
+                            {rowData.DocumentCount}
+                        </span>
+                    ),
                 },
                 {
                     id: 'MaximumLimit',
