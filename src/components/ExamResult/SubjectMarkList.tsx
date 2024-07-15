@@ -235,9 +235,9 @@ const SubjectMarkList = () => {
 
                     sx={{
                       color: 'white',
-                      backgroundColor: grey[500],
+                      backgroundColor: yellow[700],
                       '&:hover': {
-                        backgroundColor: grey[500]
+                        backgroundColor: yellow[800]
                       }
                     }}
                   >
@@ -251,9 +251,9 @@ const SubjectMarkList = () => {
 
                     sx={{
                       color: 'white',
-                      backgroundColor: yellow[700],
+                      backgroundColor: grey[500],
                       '&:hover': {
-                        backgroundColor: yellow[800]
+                        backgroundColor: grey[500]
                       }
                     }}
                   >
