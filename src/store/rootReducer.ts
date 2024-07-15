@@ -117,7 +117,7 @@ import ReqGetUserRolesForSelectedNoticeId from 'src/requests/AddSchoolNotice/Req
 import ReqSaveUpdateSchoolNotices from 'src/requests/AddSchoolNotice/ReqSaveUpdateSchoolNotices';
 import ReqEditSchoolNoticeDetails from 'src/requests/AddSchoolNotice/ReqEditSchoolNoticeDetails';
 import ReqGetStandardDivisionsForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetStandardDivisionsForSelectedNoticeId';
-
+import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
@@ -238,7 +238,8 @@ const rootReducer = combineReducers({
     GetUserRolesForSelectedNoticeId: ReqGetUserRolesForSelectedNoticeId,
     SaveUpdateSchoolNotice: ReqSaveUpdateSchoolNotices,
     EditSchoolNoticeDetails: ReqEditSchoolNoticeDetails,
-    GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId
+    GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
+    StudentRecordCommentPopup : StudentRecordCommentslice
 });
 
 export default rootReducer;
