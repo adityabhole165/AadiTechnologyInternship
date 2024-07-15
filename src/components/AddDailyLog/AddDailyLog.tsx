@@ -572,26 +572,47 @@ const AddDailyLog = () => {
           maxWidth={'md'}
           fullWidth
           onClose={handleClose}
+          PaperProps={{
+            sx: {
+              borderRadius: "15px",
+            }
+          }}
         >
           <DialogTitle
             sx={{
-              py: 1,
-              backgroundColor: (theme) => theme.colors.primary.main,
-              color: (theme) => theme.palette.common.white
+              bgcolor:'#223354',
+              // backgroundColor: (theme) => theme.colors.primary.main,
+               color: (theme) => theme.palette.common.white
             }}
-          ></DialogTitle>
+          >
+            <ClearIcon onClick={handleClose}
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                  //  backgroundColor: red[100]
+
+                }
+              }} />
+          </DialogTitle>
           <DialogContent dividers>
 
             <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative', background: 'white' }}>
 
-              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
+              {/* <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} /> */}
               <h1>
                 {LogId == 0 ? 'Add Daily Log' : 'Edit Daily Log'}
               </h1>
 
               <Grid container spacing={0} alignItems="center">
                 <Grid item xs={4}>
-                  <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
+                  <TextField fullWidth label={'Class'} sx={{ bgcolor: '  #F0F0F0', width: '90%' }} value={ClassName} />
                 </Grid>
                 <Grid item xs={4}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
