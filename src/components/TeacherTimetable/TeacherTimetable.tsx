@@ -31,9 +31,9 @@ const FooterStyledCell = styled(TableCell)(({ theme }) => ({
 }))
 
 const StyledCell = styled(TableCell)(({ theme }) => ({
-  paddingTop: theme.spacing(1.5),
-  paddingBottom: theme.spacing(1.5),
-  height: '60px',
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+  // height: '60px',
   textAlign: 'center',
   border: '1px solid rgba(224, 224, 224, 1)',
 }))
@@ -212,7 +212,7 @@ const TeacherTimetable = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box
                       sx={{
-                        width: 30,
+                        width: 50,
                         height: 30,
                         display: 'flex',
                         justifyContent: 'center',
@@ -220,12 +220,12 @@ const TeacherTimetable = () => {
                         border: '1px solid black',
                         fontWeight: 'bold',
                         mr: 1,
-                        backgroundColor: grey[300],
+                        // backgroundColor: grey[300],
                         borderRadius: '4px',
                         padding: '4px'
                       }}
                     >
-                      N/C
+                      N / C
                     </Box>
                     <Typography>Not Configured</Typography>
                   </Box>
@@ -251,6 +251,7 @@ const TeacherTimetable = () => {
                           <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
                           <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
                           <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
+
                         </TableRow>
                         :
                         <TableRow>
@@ -325,8 +326,8 @@ const TeacherTimetable = () => {
                 {/* WeekDay	Lecture Number	Class	Subject */}
                 {AdditionalClasses.length === 0 &&
 
-                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 42, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                    <b>No record found.</b>
+                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 30, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                    <b>No Additional Lectures Assigned.</b>
                   </Typography>
                 }
 

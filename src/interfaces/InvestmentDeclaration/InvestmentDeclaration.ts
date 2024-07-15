@@ -81,3 +81,14 @@ export interface SaveInvestmentDetailsBody {
 export interface SaveInvestmentDetailsResult {
     string
 }
+
+export interface SubmitInvestmentDetailsBody {
+    asSchoolId: number,
+    asFinancialYearId: number,
+    asUserId: number,
+    asUpdatedById: number
+}
+
+export interface SubmitInvestmentDetailsResult {
+    string
+} 

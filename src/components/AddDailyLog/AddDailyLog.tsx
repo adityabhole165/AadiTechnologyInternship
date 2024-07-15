@@ -21,6 +21,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IDeleteHomeworkDailyLogBody,
   IGetAllHomeworkDailyLogsBody,
@@ -46,7 +47,6 @@ import {
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { AlertContext } from 'src/contexts/AlertContext';
 
 
 const AddDailyLog = () => {
@@ -195,11 +195,11 @@ const AddDailyLog = () => {
       asUpdatedById: TeacherId,
       asIsPublished: isPublish === 'False' ? true : false
     };
-  
+
     const confirmationMessage = isPublish === 'False'
       ? 'Are you sure you want to Publish Record?'
       : 'Are you sure you want to Unpublish Record?';
-  
+
     showAlert({
       title: 'Please Confirm',
       message: confirmationMessage,
@@ -215,7 +215,7 @@ const AddDailyLog = () => {
       }
     });
   };
-  
+
 
 
 
@@ -328,7 +328,7 @@ const AddDailyLog = () => {
 
 
   };
-  
+
 
   useEffect(() => {
     if (DeleteHomeworkDailyLogs !== '') {
@@ -427,7 +427,7 @@ const AddDailyLog = () => {
       }
 
     }
-   
+
 
     if (!fileName || fileName === '') {
       setFileNameError('Please select file to upload.');
@@ -470,7 +470,7 @@ const AddDailyLog = () => {
     getCurrentDateTime();
   }, []);
 
- 
+
   const isFutureDate = (selectedDate) => {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set to the beginning of the day
@@ -487,7 +487,7 @@ const AddDailyLog = () => {
     }
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   };
-  
+
 
   const ClickHeader = (value) => {
     setHeaderPublish(value)
@@ -544,7 +544,7 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            
+
             <Box>
               <Tooltip title={
                 'Add Daily Log'
@@ -585,19 +585,10 @@ const AddDailyLog = () => {
             <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative', background: 'white' }}>
 
               <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
-              <CommonPageHeader
-                navLinks={[
-                  LogId ?
-                    {
-                      title: 'Edit Daily Log',
-                      path: '',
-                    } :
-                    {
-                      title: 'Add Daily Log',
-                      path: '',
-                    }, ,
-                ]}
-              />
+              <h1>
+                {LogId == 0 ? 'Add Daily Log' : 'Edit Daily Log'}
+              </h1>
+
               <Grid container spacing={0} alignItems="center">
                 <Grid item xs={4}>
                   <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
@@ -659,7 +650,7 @@ const AddDailyLog = () => {
             </Button>
           </DialogActions>
         </Dialog>
-      
+
 
 
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
@@ -689,7 +680,7 @@ const AddDailyLog = () => {
                     size={"small"}
 
                   />
-                 
+
                 </Box>
                 <Box>
 
@@ -708,26 +699,26 @@ const AddDailyLog = () => {
 
 
             <Grid item xs={12}  >
-            {
-          GetAllHomeworkDailyLogs.length > 0 ? (
-            <div style={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                <Box component="span" fontWeight="fontWeightBold">
-                  {startRecord} to {endRecord}
-                </Box>
-                {' '}out of{' '}
-                <Box component="span" fontWeight="fontWeightBold">
-                  { totalRowsArray[0]}
-                </Box>{' '}
-                { totalRowsArray[0] === 1 ? 'record' : 'records'}
-              </Typography>
-            </div>
+              {
+                GetAllHomeworkDailyLogs.length > 0 ? (
+                  <div style={{ flex: 1, textAlign: 'center' }}>
+                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                      <Box component="span" fontWeight="fontWeightBold">
+                        {startRecord} to {endRecord}
+                      </Box>
+                      {' '}out of{' '}
+                      <Box component="span" fontWeight="fontWeightBold">
+                        {totalRowsArray[0]}
+                      </Box>{' '}
+                      {totalRowsArray[0] === 1 ? 'record' : 'records'}
+                    </Typography>
+                  </div>
 
-          ) : (
-            <span></span>
+                ) : (
+                  <span></span>
 
-          )
-        }
+                )
+              }
 
               {GetAllHomeworkDailyLogs.length > 0 ? (
                 <>
@@ -741,21 +732,21 @@ const AddDailyLog = () => {
                     clickpublish={(value, isPublish) => changeStatus(value, isPublish)}
                   />
 
-                    {
-                      totalRowsArray[0] > rowsPerPage ? (
+                  {
+                    totalRowsArray[0] > rowsPerPage ? (
 
-                        <ButtonGroupComponent
-                          rowsPerPage={rowsPerPage}
-                          ChangeRowsPerPage={ChangeRowsPerPage}
-                          rowsPerPageOptions={rowsPerPageOptions}
-                          PageChange={PageChange}
-                          pagecount={pagecount}
-                        />
-                      ) : (
-                        <span></span>
-                      )
-                    }
-                  
+                      <ButtonGroupComponent
+                        rowsPerPage={rowsPerPage}
+                        ChangeRowsPerPage={ChangeRowsPerPage}
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        PageChange={PageChange}
+                        pagecount={pagecount}
+                      />
+                    ) : (
+                      <span></span>
+                    )
+                  }
+
                 </>
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
