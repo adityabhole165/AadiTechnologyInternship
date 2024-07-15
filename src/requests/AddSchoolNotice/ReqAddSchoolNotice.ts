@@ -7,7 +7,6 @@ const AddSchoolNotice = createSlice({
   name: 'School Notice',
   initialState: {
     ISGetAllNoticeList: [],
-    ISGetUserRolesForSelectedNoticeId: [],
 
   },
 
