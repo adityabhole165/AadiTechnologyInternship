@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import TableRow from '@mui/material/TableRow';
+import { red } from '@mui/material/colors';
 // ... (your other imports)
 
 function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
@@ -37,7 +38,17 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
-                  <DeleteForeverIcon onClick={() => clickDelete(item.Id)} color='error' />
+                  <DeleteForeverIcon 
+                  onClick={() => clickDelete(item.Id)} 
+                  // color='error'
+                  sx={{
+                    color:'#223354',
+                     //  backgroundColor: grey[500],
+                      '&:hover': {
+                    color:'red',
+                     backgroundColor: red[100]
+                      }}}
+                   />
                 </TableCell>
 
               </TableRow>
