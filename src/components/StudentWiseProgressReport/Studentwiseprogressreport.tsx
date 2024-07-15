@@ -415,17 +415,18 @@ const Studentwiseprogressreport = () => {
 
 
 
-
-            {
-              isVisible && (
-                <ButtonPrimary
-                  style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
-                  onClick={ClickPublishUnpublish}
-                >
-                  {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
-                </ButtonPrimary>
-              )
+            {PublishStatu.AllowPublish== false &&  PublishStatu.AllowUnPublish==false?
+            <span></span> :
+             isVisible && (
+              <ButtonPrimary
+                style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
+                onClick={ClickPublishUnpublish}
+              >
+                {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+              </ButtonPrimary>
+            )
             }
+           
           </>
         } />
 

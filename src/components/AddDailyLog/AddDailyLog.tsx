@@ -164,28 +164,58 @@ const AddDailyLog = () => {
 
   };
 
-  const Changestaus = (value, isPublish) => {
-    const handleAction = () => {
-      const PublishUnpublishHomeworkDailylogBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asLogId: value,
-        asUpdatedById: TeacherId,
-        asIsPublished: isPublish === 'False' ? true : false
-      };
+  // const Changestaus = (value, isPublish) => {
+  //   const handleAction = () => {
+  //     const PublishUnpublishHomeworkDailylogBody = {
+  //       asSchoolId: Number(asSchoolId),
+  //       asAcademicYearId: Number(asAcademicYearId),
+  //       asLogId: value,
+  //       asUpdatedById: TeacherId,
+  //       asIsPublished: isPublish === 'False' ? true : false
+  //     };
 
-      dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
+  //     dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
+  //   };
+
+
+  //   const confirmationMessage = isPublish === 'False'
+  //     ? 'Are you sure you want to Publish Record?'
+  //     : 'Are you sure you want to Unpublish Record?';
+
+  //   if (window.confirm(confirmationMessage)) {
+  //     handleAction();
+  //   }
+  // };
+
+  const changeStatus = (value, isPublish) => {
+    const PublishUnpublishHomeworkDailylogBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asLogId: value,
+      asUpdatedById: TeacherId,
+      asIsPublished: isPublish === 'False' ? true : false
     };
-
-
+  
     const confirmationMessage = isPublish === 'False'
       ? 'Are you sure you want to Publish Record?'
       : 'Are you sure you want to Unpublish Record?';
-
-    if (window.confirm(confirmationMessage)) {
-      handleAction();
-    }
+  
+    showAlert({
+      title: 'Please Confirm',
+      message: confirmationMessage,
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
+        closeAlert();
+      }
+    });
   };
+  
 
 
 
@@ -629,83 +659,8 @@ const AddDailyLog = () => {
             </Button>
           </DialogActions>
         </Dialog>
-        {/* <Modal open={open} onClose={ClickAppropriate}>
-  <Box sx={style}>
-    <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative' ,background: 'white' }}>
-      <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} />
-      <Grid container spacing={0} alignItems="center">
-        <Grid item xs={4}>
-          <TextField fullWidth label={'Class'} sx={{ bgcolor: '#D3D3D3', width: '90%' }} value={ClassName} />
-        </Grid>
-        <Grid item xs={4}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)', position: 'relative' }}>
-            <Datepicker DateValue={dateState} onDateChange={handleDateChange} label={'Date'} size={"medium"} />
-            {dateError && (
-              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
-                <ErrorMessage1 Error={dateError}></ErrorMessage1>
-              </Box>
-            )}
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes}
-              MaxfileSize={MaxfileSize}
-              ChangeFile={ChangeFile}
-              errorMessage={''}
-              FileName={fileName}
-              height='52.5px'
-            />
-            {fileNameError && (
-              <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
-                <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
-              </Box>
-            )}
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
-  </Box>
-</Modal> */}
-        {/* <Box sx={{ p: 2, backgroundColor: 'white', width: '50%', margin: '0 auto' }}>
+      
 
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={4}>
-              <TextField fullWidth label={'Class'} sx={{ bgcolor: '#f0e68c', width: '90%' }} value={ClassName} />
-            </Grid>
-            <Grid item xs={4}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', ml: -1, width: 'calc(90% + 1px)' }}>
-                <Datepicker
-                  DateValue={dateState}
-                  onDateChange={handleDateChange}
-                  label={'Date'}
-                  size={"medium"}
-
-                />
-                {dateError && (
-                  <Box sx={{ mt: 1, marginLeft: '40px' }}>
-                    <ErrorMessage1 Error={dateError}></ErrorMessage1>
-                  </Box>
-                )}
-              </Box>
-            </Grid>
-            <Grid item xs={4} >
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)' }}>
-                <SingleFile
-                  ValidFileTypes={ValidFileTypes}
-                  MaxfileSize={MaxfileSize}
-                  ChangeFile={ChangeFile}
-                  errorMessage={fileNameError}
-                  FileName={fileName}
-                  height='52.5px'
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box> */}
-  
-    
 
         <Box sx={{ backgroundColor: 'white', p: 2 }}>
           <Grid
@@ -783,7 +738,7 @@ const AddDailyLog = () => {
                     ClickHeader={ClickHeader}
                     clickEdit={clickEdit1}
                     clickDelete={clickDelete}
-                    clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
+                    clickpublish={(value, isPublish) => changeStatus(value, isPublish)}
                   />
 
                     {

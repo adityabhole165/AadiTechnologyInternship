@@ -217,7 +217,7 @@ const StudentRecords = () => {
                   sx={{ minWidth: '25vw' }}
                   ItemList={GetTeachers}
                   onChange={clickTeacherDropdown}
-                  label={'Class(s) :'}
+                  label={'Class(s) '}
                   defaultValue={SelectTeacher}
                   size={"small"}
                 />
@@ -226,7 +226,7 @@ const StudentRecords = () => {
             <TextField
               sx={{ width: '15vw' }}
               fullWidth
-              label="Registration Number / Name :"
+              label="Registration Number / Name "
               value={regNoOrName}
               variant={'outlined'}
               size={"small"}
