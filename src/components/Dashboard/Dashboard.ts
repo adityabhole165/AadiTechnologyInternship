@@ -608,6 +608,15 @@ const DashboardData = {
         Icon: AssignmentIcon,
         Link: 'Teacher/Requisition',
         index: 29
+      },
+      {
+        Text1: 'Add School Notice ',
+        Text2: '',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/AddSchoolNotice',
+        index: 29
       }
     ]
   },
