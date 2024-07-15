@@ -109,6 +109,7 @@ import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudent
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
+import StudentRecordCommentslice from 'src/requests/StudentRecords/RequestStudentRecordComment';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -222,7 +223,8 @@ const rootReducer = combineReducers({
   Studentwiseprogress: Studentwiseprogressslice,
   AddSchoolNotice: AddSchoolNotice,
   AddLeaveDetails: AddLeaveDetailsslice,
-  AddStudentRecords: AddStudentRecordsSlice
+  AddStudentRecords: AddStudentRecordsSlice,
+  StudentRecordCommentPopup:StudentRecordCommentslice
 });
 
 export default rootReducer;
