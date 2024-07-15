@@ -317,7 +317,7 @@ ClickItem={ClickItem} IconList={IconList}/> */}
           clickView={clickView}
         />
         {
-          StudentList.length > 19 ? (
+          endRecord > 19 ? (
             <ButtonGroupComponent
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}
