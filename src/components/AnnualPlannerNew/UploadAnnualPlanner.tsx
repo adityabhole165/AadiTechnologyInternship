@@ -17,6 +17,7 @@ import SingleFile from 'src/libraries/File/SingleFile';
 import { DeleteFile, GetFile, addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { RootState } from 'src/store';
 
+
 const UploadAnnualPlanner = ({
   openAnnualPlannerDialog,
   setOpenAnnualPlannerDialog
@@ -118,22 +119,32 @@ const UploadAnnualPlanner = ({
         maxWidth={'sm'}
         fullWidth
         onClose={() => setOpenAnnualPlannerDialog(false)}
-      >
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+        >
         <DialogTitle
-          sx={{
-            py: 1,
-            backgroundColor: (theme) => theme.colors.primary.main,
+          sx={{bgcolor: '#223354',
+            // py: 1,
+            // backgroundColor: (theme) => theme.colors.primary.main,
             color: (theme) => theme.palette.common.white
           }}
-        ></DialogTitle>
+        >
+           <ClearIcon onClick={handleClose} 
+        sx={{ color: 'White', 
+          borderRadius: '7px',
+          position: 'absolute', 
+          top: '5px', right: '5px', 
+          cursor: 'pointer',
+          '&:hover': {
+                  color: 'red',}
+         }} />
+        </DialogTitle>
         <DialogContent dividers>
           <Box>
-          <ClearIcon onClick={handleClose} 
-        sx={{ color: 'red', 
-          position: 'absolute', 
-          top: '1px', right: '4px', 
-          cursor: 'pointer',
-         marginTop:'20px' }} />
+         
             <Typography variant={'h3'}>Upload Annual Planner</Typography>
             <Box sx={{ mt: 2 }}>
               {/* while file is not selected */}
