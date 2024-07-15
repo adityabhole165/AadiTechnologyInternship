@@ -1,7 +1,7 @@
 import { AddComment, Check, QuestionMark, Save, Send } from '@mui/icons-material';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
@@ -56,6 +56,12 @@ const AddStudentRecord = () => {
             return;
         }
     }
+    const cellStyle = {
+        padding: '0.2em 1.5em', // Adjust these values to reduce the height
+    };
+    const rowStyle = {
+        height: '0.5em 1.5em', // Ensure auto height to adjust based on content
+    };
 
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -169,6 +175,31 @@ const AddStudentRecord = () => {
                 <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
                     General Information
                 </Typography>
+            </Box>
+            <Box mb={1} sx={{ p: 1, background: 'white' }}>
+                <Table>
+                    <TableBody>
+                        {listGeneralDetailsUS.map((item, i) => (
+                            <React.Fragment key={i}>
+                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableCell><b>Name of the student:</b> {item.Text1}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Date of Birth:</b> {item.Text2}</TableCell>
+                                </TableRow>
+                                <TableRow sx={rowStyle}>
+                                    <TableCell sx={cellStyle} colSpan={2}><b>Family Details</b></TableCell>
+                                </TableRow>
+                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableCell sx={cellStyle}><b>Mother Name:</b> {item.Text3}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Mother Occupation:</b> {item.Text6}</TableCell>
+                                </TableRow>
+                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableCell sx={cellStyle}><b>Father Name:</b> {item.Text4}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Father Occupation:</b> {item.Text5}</TableCell>
+                                </TableRow>
+                            </React.Fragment>
+                        ))}
+                    </TableBody>
+                </Table>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
                 {Open && (
