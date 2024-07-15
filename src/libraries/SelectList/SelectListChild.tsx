@@ -1,101 +1,140 @@
 import { Box, Checkbox, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IGetAllClassesAndDivisionsBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
+import { CDAGetAllClassesAndDivisions } from 'src/requests/AddSchoolNotice/ReqAllClassesAndDivisions';
+import { RootState } from 'src/store';
 
 const SelectListChild = () => {
-    // Simulated data
-    const [ParentList, setParentList] = useState([
-        { Id: 1, Name: 'Parent 1' },
-        { Id: 2, Name: 'Parent 2' },
-    ]);
 
-    const [ItemList, setItemList] = useState([
-        { Id: 1, Name: 'Child 1', ParentId: 1, IsActive: false },
-        { Id: 2, Name: 'Child 2', ParentId: 1, IsActive: false },
-        { Id: 3, Name: 'Child 3', ParentId: 2, IsActive: false },
-    ]);
+    const [parentList, setParentList] = useState(null);
+    const [isAssociateActive, setIsAssociateActive] = useState(false);
+    const [itemList, SetItemList] = useState(null);
+    const [divisionIDs, SetDivisionIDsd] = useState([]);
+    const [, forceUpdate] = React.useState(0);
+    // let divisionIDs = [];
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const GetAllClasseAndDivision: IGetAllClassesAndDivisionsBody = {
+        "asSchoolId": 18,
+        "asAcademicYearId": 54
+    }
 
-    // State to manage checked status
-    const [checkedState, setCheckedState] = useState({});
+    const USGetAllCalssesAndDivision: any = useSelector((state: RootState) => state.GetAllClassesAndDivisions.ISGetAllClassesAndDevision);
+    const USGetAllCalssesAndDivisionNewData = JSON.parse(JSON.stringify(USGetAllCalssesAndDivision));
+    var itemListData = [];
+
+    if (USGetAllCalssesAndDivisionNewData.length) {
+        var Standard_IdArr = [];
+        for (let index = 0; index < USGetAllCalssesAndDivisionNewData.length; index++) {
+            Standard_IdArr.push(USGetAllCalssesAndDivisionNewData[index].Standard_Id);
+        }
+        var uniqueElement = [...new Set(Standard_IdArr)];
+        for (let index = 0; index < uniqueElement.length; index++) {
+            const findArr = USGetAllCalssesAndDivisionNewData.filter(item => item.Standard_Id === uniqueElement[index]).map(filteredItem => filteredItem && { ...filteredItem, isActive: false });
+            if (findArr.length) {
+                itemListData.push({ Standard_Id: findArr[0].Standard_Id, Standard_Name: findArr[0].Standard_Name, isActive: false, Division_Id: findArr[0].Division_Id, arr: findArr })
+            }
+        }
+    }
+
+    let newData = useMemo(() => itemListData, []);
+    console.log({ newData })
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        // Initialize checked state based on ItemList
-        const initialCheckedState = {};
-        ItemList.forEach((item) => {
-            initialCheckedState[item.Id] = item.IsActive;
-        });
-        setCheckedState(initialCheckedState);
-    }, [ItemList]);
+        dispatch(CDAGetAllClassesAndDivisions(GetAllClasseAndDivision))
 
-    const getIsParentCheckedAll = () => {
-        // Check if all items are checked
-        return ItemList.every((item) => item.IsActive);
-    };
+    }, []);
 
-    const getIsCheckedAll = (parentId) => {
-        // Check if all children of a parent are checked
-        return ItemList.filter((item) => item.ParentId === parentId).every((item) => item.IsActive);
-    };
 
-    const CheckParentAll = (checked) => {
-        // Set all items to checked or unchecked
-        const updatedItemList = ItemList.map((item) => ({ ...item, IsActive: checked }));
-        setItemList(updatedItemList);
-    };
+    let updatedArr = null;
 
-    const ClickParentCheckbox = (parentId) => {
-        // Toggle all children of a parent
-        const updatedItemList = ItemList.map((item) => {
-            if (item.ParentId === parentId) {
-                return { ...item, IsActive: !getIsCheckedAll(parentId) };
+    const getIsCheckedAll = () => {
+        // setIsAssociateActive(!isAssociateActive);
+
+        updatedArr = applyCheckedToAllArray(newData, !isAssociateActive);
+        if (updatedArr.length) {
+            for (let index = 0; index < updatedArr.length; index++) {
+                updatedArr[index].arr = applyCheckedToAllArray(updatedArr[index].arr, !isAssociateActive);
             }
-            return item;
-        });
-        setItemList(updatedItemList);
+        }
+        newData = updatedArr;
+        SetItemList(newData)
+        forceUpdate(n => !n);
+
+        console.log("updatedArr 58", updatedArr);
     };
 
-    const ClickChildCheckbox = (itemId) => {
-        // Toggle individual item
-        const updatedItemList = ItemList.map((item) => {
-            if (item.Id === itemId) {
-                return { ...item, IsActive: !item.IsActive };
-            }
-            return item;
-        });
-        setItemList(updatedItemList);
-    };
+    const applyCheckedToAllArray = (arr, isActive = false) => {
+        arr.map((item) => (
+            item.isActive = isActive
+        ));
+        return arr;
+    }
+
+    const selecIndividualCheckedAll = (obj) => {
+        console.log("isAssociateActive 58", obj);
+        // divisionIDs.push()
+
+        SetDivisionIDsd(oldArray => [obj.Division_Id, ...oldArray]);
+        const individualCheckedObj = newData.findIndex(item => item.Standard_Id === obj.Standard_Id);
+        newData[individualCheckedObj].isActive = !newData[individualCheckedObj].isActive;
+        if (newData[individualCheckedObj]) {
+            newData[individualCheckedObj].arr = applyCheckedToAllArray(newData[individualCheckedObj].arr, newData[individualCheckedObj].isActive);
+        }
+        SetItemList(newData);
+        console.log("isAssociateActive 58", itemList);
+        forceUpdate(n => !n);
+    }
+
+    const selecNestedIndividualCheckedAll = (obj, div) => {
+        console.log("isAssociateActive 58", obj, div);
+        // divisionIDs.push(div.Division_Id)
+        SetDivisionIDsd(oldArray => [div.Division_Id, ...oldArray]);
+
+        const individualCheckedObj = newData.findIndex(item => item.Standard_Id === obj.Standard_Id);
+        const individualCheckedNestedObj = newData[individualCheckedObj].arr.findIndex(item => item.Division_Id === div.Division_Id);
+        if (individualCheckedObj > -1 && individualCheckedNestedObj > -1) {
+            newData[individualCheckedObj].arr[individualCheckedNestedObj].isActive = !newData[individualCheckedObj].arr[individualCheckedNestedObj].isActive;
+        }
+        SetItemList(newData);
+        forceUpdate(n => !n);
+        console.log("divisionIDs", divisionIDs);
+    }
+
 
     return (
         <>
             <Box sx={{ backgroundColor: 'lightgrey' }}>
                 <Checkbox
-                    checked={getIsParentCheckedAll()}
-                    onChange={(e) => {
-                        CheckParentAll(e.target.checked);
-                    }}
+                    checked={isAssociateActive}
+                    onChange={() => { setIsAssociateActive(!isAssociateActive); getIsCheckedAll(); forceUpdate(n => !n) }}
                 />
                 Associated Class(es)
             </Box>
             <Stack direction={'row'} gap={1} flexWrap={'wrap'}>
-                {ParentList.map((ParentItem, index) => (
+                {newData && newData.map((item, index) => (
                     <Box key={index}>
                         <Box sx={{ borderBottom: `1px solid grey`, fontWeight: 'bold' }}>
-                            <Checkbox
-                                checked={getIsCheckedAll(ParentItem.Id)}
+                            <Checkbox checked={item?.isActive}
                                 onChange={() => {
-                                    ClickParentCheckbox(ParentItem.Id);
+                                    selecIndividualCheckedAll(item);
                                 }}
                             ></Checkbox>
-                            {ParentItem.Name}
+                            {/* {item && JSON.stringify(item.isActive)} */}
+                            {item.Standard_Name}
                         </Box>
-                        {ItemList.filter((obj) => obj.ParentId === ParentItem.Id).map((item, index) => (
+                        {item.arr.map((subItem, index) => (
                             <Box key={index}>
                                 <Checkbox
-                                    checked={item.IsActive}
+                                    checked={subItem.isActive}
                                     onChange={() => {
-                                        ClickChildCheckbox(item.Id);
+                                        selecNestedIndividualCheckedAll(item, subItem);
                                     }}
                                 ></Checkbox>
-                                {item.Name}
+                                {subItem.Division_Name}
                             </Box>
                         ))}
                     </Box>

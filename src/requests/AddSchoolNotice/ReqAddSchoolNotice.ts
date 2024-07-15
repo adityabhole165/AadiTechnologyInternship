@@ -1,20 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
+import AddSchoolNoticApi from 'src/api/AddSchoolNotic/ApiAddSchoolNotice';
 import { IGetAllNoticeListBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
 import { AppThunk } from 'src/store';
-import AddSchoolNoticApi from 'src/api/AddSchoolNotic/ApiAddSchoolNotice';
 
 const AddSchoolNotice = createSlice({
   name: 'School Notice',
   initialState: {
     ISGetAllNoticeList: [],
-    
+    ISGetUserRolesForSelectedNoticeId: [],
+
   },
 
   reducers: {
     RGetAllNoticeList(state, action) {
       state.ISGetAllNoticeList = action.payload;
     },
-   
+
   }
 });
 

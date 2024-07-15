@@ -1,5 +1,6 @@
 
 import { Suspense, lazy } from 'react';
+import AddSchoolNotice1 from 'src/components/AddSchoolNitice/AddSchoolNotice1';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 import AddLeaveDetails from 'src/components/LeaveDetails/AddLeaveDetails';
 import LeaveDetailsBaseScreen from 'src/components/LeaveDetails/LeaveDetailsBaseScreen';
@@ -195,7 +196,9 @@ const Studentwiseprogressreport = Loader(
 const AllNoticeList = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AllNoticeList'))
 )
-
+const AddSchoolNotice = Loader(
+  lazy(() => import('src/components/AddSchoolNitice/AddSchoolNotice1'))
+);
 
 
 
@@ -575,9 +578,11 @@ const teacherRoutes = [
   {
     path: 'AllNoticeList',
     element: <AllNoticeList />
-
-  }
-
+  },
+  {
+    path: 'AddSchoolNotice',
+    element: <AddSchoolNotice />
+  },
 
 
 ];

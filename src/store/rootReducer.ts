@@ -109,6 +109,14 @@ import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudent
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
+import ReqUpdateSelectNotice from 'src/requests/AddSchoolNotice/ReqUpdateSelectNotice';
+import ReqDeleteSchoolNotice from 'src/requests/AddSchoolNotice/ReqDeleteSchoolNotice';
+import ReqAddNotice from 'src/requests/AddSchoolNotice/ReqAddNotice';
+import ReqAllClassesAndDivisions from 'src/requests/AddSchoolNotice/ReqAllClassesAndDivisions';
+import ReqGetUserRolesForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetUserRolesForSelectedNoticeId';
+import ReqSaveUpdateSchoolNotices from 'src/requests/AddSchoolNotice/ReqSaveUpdateSchoolNotices';
+import ReqEditSchoolNoticeDetails from 'src/requests/AddSchoolNotice/ReqEditSchoolNoticeDetails';
+import ReqGetStandardDivisionsForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetStandardDivisionsForSelectedNoticeId';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -222,7 +230,15 @@ const rootReducer = combineReducers({
   Studentwiseprogress: Studentwiseprogressslice,
   AddSchoolNotice: AddSchoolNotice,
   AddLeaveDetails: AddLeaveDetailsslice,
-  AddStudentRecords: AddStudentRecordsSlice
+  AddStudentRecords: AddStudentRecordsSlice,
+    UpdateSelectNotice: ReqUpdateSelectNotice,
+    DeleteSchoolNotice: ReqDeleteSchoolNotice,
+    AddNotice: ReqAddNotice,
+    GetAllClassesAndDivisions: ReqAllClassesAndDivisions,
+    GetUserRolesForSelectedNoticeId: ReqGetUserRolesForSelectedNoticeId,
+    SaveUpdateSchoolNotice: ReqSaveUpdateSchoolNotices,
+    EditSchoolNoticeDetails: ReqEditSchoolNoticeDetails,
+    GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId
 });
 
 export default rootReducer;
