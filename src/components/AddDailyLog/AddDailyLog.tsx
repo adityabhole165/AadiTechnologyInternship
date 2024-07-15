@@ -610,9 +610,9 @@ const AddDailyLog = () => {
               Cancel
             </Button>
             <Button
-              disabled={
-                fileName.length !== 0 && base64URL.length !== 0 ? false : true
-              }
+              // disabled={
+              //   fileName.length !== 0 && base64URL.length !== 0 ? false : true
+              // }
               onClick={onClickSave}
               // color={'success'}
               // variant={'contained'}
