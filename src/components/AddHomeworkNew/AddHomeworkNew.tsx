@@ -916,13 +916,30 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           maxWidth={'md'}
           fullWidth
           onClose={handleClose}
-          sx={{ height:'100%', width: '100%' }} >
-          <DialogTitle  sx={{bgcolor:'#223354'}}
-          ></DialogTitle>
+          PaperProps={{sx:{ borderRadius: "15px",
+          }}}
+           >
+          <DialogTitle  sx={{bgcolor:'#223354'}}>
+                        <ClearIcon onClick={handleClose}
+                         sx={{ color: 'white',
+                          // background:'white',
+                           borderRadius: '7px',
+                           position: 'absolute', 
+                           top: '5px', 
+                           right: '5px',
+                            cursor: 'pointer',
+                            '&:hover': {
+                            color:'red',
+                          //  backgroundColor: red[100]
+
+                          }}} />
+
+          </DialogTitle>
+          
           <DialogContent dividers >
             <Box>
-              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '7px', cursor: 'pointer', marginTop:'33px' }} />
-              <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}>
+            <h1>Add HomeWrok</h1>
+              <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}> 
                 <Grid container spacing={2}>
                   <Grid item xs={3}>
                     <TextField fullWidth label={'Class'} value={ClassName}
