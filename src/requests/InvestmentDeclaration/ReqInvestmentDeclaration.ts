@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import InvestmentDeclarationApi from 'src/api/InvestmentDeclaration/InvestmentDeclarationApi';
-import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
+import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody, SubmitInvestmentDetailsBody } from 'src/interfaces/InvestmentDeclaration/InvestmentDeclaration';
 import { AppThunk } from 'src/store';
 
 const InvestmentDeclarationSlice = createSlice({
@@ -12,7 +12,8 @@ const InvestmentDeclarationSlice = createSlice({
         ISlistInvestmentAmountDetails: [],
         ISNewGetInvestmentDetails: [],
         ISGetRegimeDropdown: [],
-        ISSaveInvestment: ''
+        ISSaveInvestment: '',
+        ISSubmitInvestmentDeclaration: '',
 
     },
     reducers: {
@@ -35,6 +36,9 @@ const InvestmentDeclarationSlice = createSlice({
         },
         RGetSaveInvestment(state, action) {
             state.ISSaveInvestment = action.payload
+        },
+        RGetSubmitInvestment(state, action) {
+            state.ISSubmitInvestmentDeclaration = action.payload
         }
 
 
@@ -139,6 +143,13 @@ export const CDAGetSaveInvestment =
         async (dispatch) => {
             const response = await InvestmentDeclarationApi.GetSaveInvestmentDeclaration(data);
             dispatch(InvestmentDeclarationSlice.actions.RGetSaveInvestment(response.data));
+        }
+
+export const CDAGetSubmitInvestment =
+    (data: SubmitInvestmentDetailsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await InvestmentDeclarationApi.GetSubmitInvestmentDeclaration(data);
+            dispatch(InvestmentDeclarationSlice.actions.RGetSubmitInvestment(response.data));
         }
 
 export default InvestmentDeclarationSlice.reducer;

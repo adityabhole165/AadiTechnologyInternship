@@ -321,6 +321,8 @@ const DashboardData = {
         ScreenPermission: 'HolidaysManagement'
       },
 
+
+
       {
         Text1: 'Photo    ',
         Text2: 'Gallery',
@@ -617,6 +619,15 @@ const DashboardData = {
         Icon: AssignmentIcon,
         Link: 'Teacher/AddSchoolNotice',
         index: 29
+      },
+      {
+        Text1: 'Investment Declaration',
+        Text2: '',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/InvestmentDeclaration',
+        index: 30
       }
     ]
   },
