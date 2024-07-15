@@ -289,7 +289,7 @@ const TeacherTimetable = () => {
             <Divider sx={{ my: 2 }} />
             <Stack direction={"row"} gap={2}>
               <Box sx={{ flex: 1 }}>
-                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 2 }}>Class-Subject Lecture Count</Typography>
+                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0 }}>Class-Subject Lecture Count</Typography>
                 <TableContainer sx={{ width: '100%' }}>
                   <Table>
                     <TableHead>
@@ -319,7 +319,7 @@ const TeacherTimetable = () => {
               </Box>
               <Box sx={{ flex: 1 }}>
 
-                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 2 }}>
+                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0 }}>
                   Additional Lectures
                 </Typography>
                 {/* WeekDay	Lecture Number	Class	Subject */}
