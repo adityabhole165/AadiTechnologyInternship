@@ -19,9 +19,9 @@ const Studentwiseprogressslice = createSlice({
         ISAssessmentDropdown: [],
         StudentsAssignment: [],
         StudentsAssignmentGrade: [],
-        oneDeleteStudent: [],
-        DeleteAllStudent: [],
-        ISAllStudentRecordCount:"",
+        oneDeleteStudent: "",
+        DeleteAllStudent: "",
+        ISAllStudentRecordCount: "",
         PublishStatus: [],
         PublishUnpublishXseed: "",
         Loading: true
@@ -46,6 +46,13 @@ const Studentwiseprogressslice = createSlice({
         DeleteAll(state, action) {
             state.DeleteAllStudent = action.payload;
         },
+        rdeleteresetMessage(state) {
+            state.oneDeleteStudent = '';
+        },
+
+        rdeleteresetMessageAll(state) {
+            state.DeleteAllStudent = "";
+        },
         PublishStat(state, action) {
             state.PublishStatus = action.payload;
         },
@@ -57,19 +64,13 @@ const Studentwiseprogressslice = createSlice({
         },
         RPublishresetMessageAll(state) {
             state.PublishUnpublishXseed = '';
-          },
+        },
 
 
-          AllStudentRecordCount(state, action) {
+        AllStudentRecordCount(state, action) {
             state.ISAllStudentRecordCount = action.payload;
         },
-        rdeleteresetMessage(state) {
-            state.oneDeleteStudent = [];
-          },
-          
-          rdeleteresetMessageAll(state) {
-            state.DeleteAllStudent = [];
-          },
+
     }
 });
 
@@ -124,10 +125,10 @@ export const PageStudentsAssignment =
             });
             console.log(StudentsAssignment, "StudentsAssignment");
 
-           
+
 
             dispatch(Studentwiseprogressslice.actions.StudentsAssign(StudentsAssignment));
-          dispatch(Studentwiseprogressslice.actions.AllStudentRecordCount(response.data.GetAllStudentRecordCount));
+            dispatch(Studentwiseprogressslice.actions.AllStudentRecordCount(response.data.GetAllStudentRecordCount));
 
 
         };
@@ -166,18 +167,18 @@ export const PublishUnpublishXseed =
             dispatch(Studentwiseprogressslice.actions.PublishUnXseed(response.data));
         };
 
-        export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
-            dispatch(Studentwiseprogressslice.actions.RPublishresetMessageAll());
-          };
+export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
+    dispatch(Studentwiseprogressslice.actions.RPublishresetMessageAll());
+};
 
 
-          export const  deleteresetMessage = (): AppThunk => async (dispatch) => {
-            dispatch(Studentwiseprogressslice.actions.rdeleteresetMessage());
-          };
-         
-          export const  deleteresetMessageAll = (): AppThunk => async (dispatch) => {
-            dispatch(Studentwiseprogressslice.actions.rdeleteresetMessageAll());
-          };
-          
+export const deleteresetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(Studentwiseprogressslice.actions.rdeleteresetMessage());
+};
+
+export const deleteresetMessageAll = (): AppThunk => async (dispatch) => {
+    dispatch(Studentwiseprogressslice.actions.rdeleteresetMessageAll());
+};
+
 
 export default Studentwiseprogressslice.reducer;

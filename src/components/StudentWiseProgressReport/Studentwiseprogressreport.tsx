@@ -32,6 +32,7 @@ import {
   GetStudentResultList, PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
   PublishresetMessageNewAll,
+  deleteresetMessage,
   oneDeleteStudentTest
 } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
@@ -254,7 +255,7 @@ const Studentwiseprogressreport = () => {
   useEffect(() => {
 
     toast.success(oneDeleteStud);
-    // dispatch(deleteresetMessage());
+     dispatch(deleteresetMessage());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
 
 
