@@ -150,7 +150,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                     </Grid>
                 </Grid>
                 <Grid container justifyContent="space-between" alignItems="center">
-                    <Typography variant={"h4"} sx={{ mb: 1 }}>
+                    <Typography variant={"h4"} sx={{ mb: 1, mt: 1 }}>
                         Comment :
                     </Typography>
                 </Grid>
@@ -167,7 +167,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         />
                     </Grid>
                 </Grid>
-                <Typography variant={"h4"} sx={{ mb: 1 }}>
+                <Typography variant={"h4"} sx={{ mb: 1, mt: 1 }}>
                     Lecture Name :
                 </Typography>
                 <Grid container spacing={1} alignItems="center">
@@ -185,10 +185,10 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                 </Grid>
             </DialogContent>
             <DialogActions sx={{ py: 2, px: 3 }}>
-                <Button onClick={ClickOk} color={'error'} variant={'contained'}>
+                <Button onClick={ClickOk} color={'success'} variant={'contained'}>
                     Save
                 </Button>
-                <Button onClick={ClickOk} color={'error'} variant={'contained'}>
+                <Button onClick={ClickOk} color={'success'} variant={'contained'}>
                     Save and Submit
                 </Button>
                 <Button onClick={deleteComment} color={'error'} variant={'contained'}>

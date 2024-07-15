@@ -19,6 +19,10 @@ const AddStudentRecord = () => {
         (state: RootState) => state.AddStudentRecords.listGeneralDetails
     );
     console.log(listGeneralDetailsUS, "listGeneralDetails");
+    const listSiblingsDetailsUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.listSiblingsDetails
+    )
+    console.log(listSiblingsDetailsUS, "listSiblingsDetails");
 
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
@@ -171,7 +175,7 @@ const AddStudentRecord = () => {
                     <StudentRecordComment
                         open={Open}
                         setOpen={setOpen}
-                        ClickCloseDialogbox={ClickCloseDialogbox} 
+                        ClickCloseDialogbox={ClickCloseDialogbox}
                     />
                 )}
             </Box>
