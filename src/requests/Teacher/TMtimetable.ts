@@ -125,7 +125,7 @@ export const GetTeacherTimeTableResult =
           let res = x
 
           if (x === 'N/A') {
-            res = 'N/C'
+            res = 'N / C'
           }
           return res
         }
