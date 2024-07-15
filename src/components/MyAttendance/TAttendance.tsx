@@ -50,7 +50,7 @@ import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
-  const { paramsselectClasstecaher, paramsassignedDate } = useParams();
+
   const [isDirty, setIsDirty] = useState(false);
   const HeaderArray = [
     { Id: 1, Header: '' },
@@ -73,7 +73,12 @@ const TAttendance = () => {
   const navigate = useNavigate();
   const classes = Styles();
   const { showAlert, closeAlert } = useContext(AlertContext);
-  const { AssignedDate, StandardId } = useParams();
+  // const { AssignedDate, StandardId } = useParams();
+  // console.log("AssignedDate", AssignedDate)
+  // console.log("StandardId", StandardId)
+  const { SelectClasstecahernew, AssignedDate } = useParams();
+  console.log("SelectClasstecahernew", SelectClasstecahernew)
+  console.log("AssignedDate", AssignedDate)
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   let [asTeacherId, setasTeacherId] = useState('0');
@@ -86,7 +91,7 @@ const TAttendance = () => {
 
   const [Standardid, setStandardid] = useState<string>();
   const [MarksError, setMarksError] = useState('')
-  const [assignedDate, setAssignedDate] = useState<string>(paramsassignedDate);
+  const [assignedDate, setAssignedDate] = useState<string>(AssignedDate);
 
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
   const [singleStdName, setSingleStdName] = useState('');
@@ -96,7 +101,7 @@ const TAttendance = () => {
   );
   const [asUserId, SetUserId] = useState();
 
-  const [selectClasstecahernew, setselectClasstecahernew] = useState(paramsselectClasstecaher);
+  const [selectClasstecahernew, setselectClasstecahernew] = useState(SelectClasstecahernew);
   // const [selectClasstecahernew, setselectClasstecahernew] = useState(
   //   paramsselectClasstecaher !== undefined
   //     ? paramsselectClasstecaher.toString()
@@ -231,7 +236,7 @@ const TAttendance = () => {
       asAcadmicYearId: Number(asAcademicYearId),
       asTeacher_id: GetScreenPermission() === 'Y'
         ? 0
-        : (getTeacherId() ? Number(getTeacherId()) : (paramsselectClasstecaher != null ? Number(paramsselectClasstecaher) : Number(selectClasstecahernew)))
+        : (getTeacherId() ? Number(getTeacherId()) : (SelectClasstecahernew != null ? Number(SelectClasstecahernew) : Number(selectClasstecahernew)))
 
     }
     // dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
@@ -247,7 +252,7 @@ const TAttendance = () => {
 
   useEffect(() => {
     if (ClassTeacherDropdownnew && ClassTeacherDropdownnew.length > 0) {
-      if (paramsselectClasstecaher == undefined && paramsassignedDate == undefined) {
+      if (SelectClasstecahernew == undefined && AssignedDate == undefined) {
         if (GetScreenPermission() === 'Y') {
           setselectClasstecahernew(ClassTeacherDropdownnew[0].Value);
           console.log(GetScreenPermission(), "ClassTeachers 2", ClassTeacherDropdownnew[0].Value)
@@ -255,7 +260,7 @@ const TAttendance = () => {
           const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
           if (teacherIdFromSession !== null) {
             setselectClasstecahernew(teacherIdFromSession);
-            console.log(teacherIdFromSession, "ClassTeachers 1")
+
           }
         }
       }
@@ -289,17 +294,17 @@ const TAttendance = () => {
       asTeacherId: asTeacherId
     };
     dispatch(getStandard(body));
-    getCurrentDate(new Date());
-    if (AssignedDate != undefined || StandardId != undefined) {
-      setStandardid(StandardId);
-      setAssignedDate(AssignedDate);
-      setOnlySelectedClass('');
-    }
+    // getCurrentDate(new Date());
+    // if (AssignedDate != undefined || StandardId != undefined) {
+    //   setStandardid(StandardId);
+    //   setAssignedDate(AssignedDate);
+    //   setOnlySelectedClass('');
+    // }
 
     getCurrentDates(new Date());
-    if (paramsassignedDate != undefined || paramsselectClasstecaher != undefined) {
+    if (AssignedDate != undefined || SelectClasstecahernew != undefined) {
       setselectClasstecahernew(selectClasstecahernew);
-      setAssignedDate(paramsassignedDate);
+      setAssignedDate(AssignedDate);
       setOnlySelectedClass('');
     }
   }, []);
@@ -462,8 +467,8 @@ const TAttendance = () => {
 
 
   const SaveMsg = () => {
-   // if (!SaveIsActive) return;
-    if (!SaveIsActive || !isDirty) return; 
+    // if (!SaveIsActive) return;
+    if (!SaveIsActive || !isDirty) return;
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
     let confirmationMessage = '';
 
@@ -506,7 +511,7 @@ const TAttendance = () => {
               onConfirm: () => {
                 SaveAttendance();
                 closeAlert();
-                setIsDirty(false); 
+                setIsDirty(false);
               }
             });
           } else if (asAllPresentOrAllAbsent === 'N') {
@@ -523,12 +528,12 @@ const TAttendance = () => {
               onConfirm: () => {
                 SaveAttendance();
                 closeAlert();
-                setIsDirty(false); 
+                setIsDirty(false);
               }
             });
           } else {
             SaveAttendance(); // Execute the API call after the second alert
-            setIsDirty(false); 
+            setIsDirty(false);
           }
         }
       });
@@ -549,14 +554,14 @@ const TAttendance = () => {
           onConfirm: () => {
             SaveAttendance();
             closeAlert();
-            setIsDirty(false); 
+            setIsDirty(false);
           }
         });
       } else {
         setAbsentRollNos('');
         SaveAttendance();
         closeAlert();
-        setIsDirty(false); 
+        setIsDirty(false);
       }
     }
     return;
@@ -583,7 +588,7 @@ const TAttendance = () => {
 
   const ClickItem = (value) => {
     setIsDirty(true);
-   setAssignedDate(value);
+    setAssignedDate(value);
   };
 
   const clickClassTechernew = (value) => {

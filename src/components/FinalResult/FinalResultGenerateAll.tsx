@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,13 +32,27 @@ const GenerateAll = ({ }) => {
     const TestMarksDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getTestMarksGA);
     const SubjectDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetails);
     // console.log(SubjectDetails, 'SubjectDetails');
+    const MarkDetailsList = useSelector((state: RootState) => state.FinalResultGenerateAll.MarkDetailsList);
+    const HeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.HeaderArray);
+    const SubHeaderArray = useSelector((state: RootState) => state.FinalResultGenerateAll.SubHeaderArray);
     const ShortenTestDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.getShortenTestDetails);
+    const ListDisplayNameDetails = useSelector((state: RootState) => state.FinalResultGenerateAll.ListDisplayNameDetails);
+    console.log(ListDisplayNameDetails, "rows");
 
     const ViewProgress = useSelector((state: RootState) => state.FinalResultGenerateAll.getViewResult);
     const MarkDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getMarkDetailsView);
     const SubjectDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getSubjectDetailsView);
     const GradesDetailsView = useSelector((state: RootState) => state.FinalResultGenerateAll.getGradesDetailsView);
 
+    const getListDisplayName = (ShortName) => {
+        let returnVal = ""
+        ListDisplayNameDetails.map((Item) => {
+            if (Item.ShortName == ShortName)
+                returnVal = Item.DisplayName
+        })
+        return returnVal
+
+    }
     useEffect(() => {
         const GetStudentPrrogressReportBody: IGetStudentPrrogressReportBody = {
             asSchoolId: Number(asSchoolId),
@@ -173,9 +187,9 @@ const GenerateAll = ({ }) => {
                                     <Typography variant={"h4"} mb={1}>Student Details</Typography>
                                     <Table>
                                         <TableBody>
-                                            {StudentDetailsUS.map((item) => {
+                                            {StudentDetailsUS.map((item, i) => {
                                                 return (
-                                                    <TableRow sx={{ bgcolor: 'grey.200' }} key={item.Text1}>
+                                                    <TableRow sx={{ bgcolor: 'grey.200' }} key={i}>
                                                         <TableCell><b>Roll No:</b>{item.Text2}</TableCell>
                                                         <TableCell><b>Name:</b>{item.Text1}</TableCell>
                                                         <TableCell><b>Class:</b>{item.Text3} - {item.Text4}</TableCell>
@@ -196,30 +210,43 @@ const GenerateAll = ({ }) => {
                                                         <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
                                                             &#9660; Exam
                                                         </Typography></TableCell>
-                                                    {SubjectDetails.map((item) => (
+                                                    {/* {SubjectDetails.map((item) => ( */}
+                                                    {HeaderArray.map((item) => (
                                                         // <TableCell><b>{item.Name}</b></TableCell>
-                                                        <TableCell>
+                                                        <TableCell colSpan={item.colSpan}>
                                                             <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                                <b style={{ marginRight: "9px" }}>{item.Name}</b>
+                                                                <b style={{ marginRight: "9px" }}>{item.SubjectName}</b>
                                                             </Typography></TableCell>
                                                     ))}
                                                 </TableRow>
                                                 <TableRow>
-                                                    {ShortenTestDetails.map((item) => (
+                                                    {/* {ShortenTestDetails.map((item) => ( */}
+                                                    {SubHeaderArray.map((item) => (
                                                         <TableCell >
                                                             <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                                <b style={{ marginRight: "9px" }}>{item.Name}</b>
+                                                                <b style={{ marginRight: "9px" }}>{item.TestTypeName}</b>
                                                             </Typography>
                                                         </TableCell>
                                                     ))}
                                                 </TableRow>
                                             </TableHead>
-                                            {ExamDetails.map((testItem) => (
-                                                <TableBody key={testItem.Id}>
+
+                                            {MarkDetailsList.map((testItem, i) => (
+                                                <TableBody key={i}>
                                                     <TableRow>
-                                                        <TableRow>{testItem.Name}</TableRow>
-                                                        {TestMarksDetails.map((subjectItem) => (
-                                                            <TableCell>{subjectItem.Name}</TableCell>
+                                                        <TableRow>
+                                                            {testItem.TestName}
+                                                        </TableRow>
+                                                        {testItem.MarksArr.map((MarkItem) => (
+                                                            <TableCell>
+                                                                {
+                                                                    MarkItem.IsAbsent == "N" ?
+                                                                        MarkItem.MarksScored + " / " + MarkItem.TotalMarks :
+                                                                        MarkItem.IsAbsent == "Y" ?
+                                                                            <TextField></TextField>
+                                                                            :
+                                                                            getListDisplayName(MarkItem.IsAbsent)}
+                                                            </TableCell>
                                                         ))}
                                                     </TableRow>
                                                 </TableBody>
@@ -259,9 +286,9 @@ const GenerateAll = ({ }) => {
                                 <Typography variant={"h4"} mb={1}>Student Details</Typography>
                                 <Table>
                                     <TableBody>
-                                        {ViewProgress.map((item) => {
+                                        {ViewProgress.map((item, i) => {
                                             return (
-                                                <TableRow sx={{ bgcolor: 'grey.200' }} key={item.Text1}>
+                                                <TableRow sx={{ bgcolor: 'grey.200' }} key={i}>
                                                     <TableCell><b>Roll No:</b>{item.Text2}</TableCell>
                                                     <TableCell><b>Name:</b>{item.Text1}</TableCell>
                                                     <TableCell><b>Class:</b>{item.Text3} - {item.Text4}</TableCell>
@@ -279,18 +306,18 @@ const GenerateAll = ({ }) => {
                                                 <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={3} ml={2}>
                                                     Subjects
                                                 </Typography>
-                                                {SubjectDetailsView.map((subject) => (
-                                                    <TableCell key={subject.Name}><b>{subject.Name}</b></TableCell>
+                                                {SubjectDetailsView.map((subject, i) => (
+                                                    <TableCell key={i}><b>{subject.Name}</b></TableCell>
                                                 ))}
                                             </TableRow>
                                             <TableRow>
-                                                {MarkDetailsView.map((subject) => (
-                                                    <TableCell key={subject.Name} align="center">  {subject.IsAbsent === '1' ? '-' : subject.Name}</TableCell>
+                                                {MarkDetailsView.map((subject, i) => (
+                                                    <TableCell key={i} align="center">  {subject.IsAbsent === '1' ? '-' : subject.Name}</TableCell>
                                                 ))}
                                             </TableRow>
                                             <TableRow>
-                                                {GradesDetailsView.map((Grade) => (
-                                                    <TableCell key={Grade.Name} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
+                                                {GradesDetailsView.map((Grade, i) => (
+                                                    <TableCell key={i} align="center"> {Grade.IsAbsent === '1' ? '-' : Grade.Name}</TableCell>
                                                 ))}
                                             </TableRow>
                                         </TableBody>
@@ -300,18 +327,21 @@ const GenerateAll = ({ }) => {
                         </Box>
                     )}
                 </div>
-            )}
+            )
+            }
 
-            {!StudentDetailsUS && (
-                <Box>
-                    {StudentDetailsUS.map((item) => (
-                        <Typography key={item.Text1}>
-                            Progress Report is not available for the student:{item.Text2} {item.Text1}
-                        </Typography>
-                    ))}
-                </Box>
-            )}
-        </Box>
+            {
+                !StudentDetailsUS && (
+                    <Box>
+                        {StudentDetailsUS.map((item, i) => (
+                            <Typography key={i}>
+                                Progress Report is not available for the student:{item.Text2} {item.Text1}
+                            </Typography>
+                        ))}
+                    </Box>
+                )
+            }
+        </Box >
 
     );
 };

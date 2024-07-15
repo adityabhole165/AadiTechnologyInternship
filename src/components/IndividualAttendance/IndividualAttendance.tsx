@@ -41,6 +41,7 @@ import CommonPageHeader from '../CommonPageHeader';
 
 const IndividualAttendance = () => {
   const { selectClasstecahernew, AssignedDate } = useParams();
+  // console.log("Assigneddate", AssignedDate)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -360,6 +361,7 @@ const IndividualAttendance = () => {
     };
     dispatch(SaveStudentAttendance(SaveAttendance));
   };
+  
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -373,7 +375,9 @@ const IndividualAttendance = () => {
             title: 'Individual Attendance',
             path: '/extended-sidebar/Teacher/TAttendance/IndividualAttendance'
           }
+
         ]}
+
         rightActions={
           <>
             <Box sx={{ background: 'white' }}>

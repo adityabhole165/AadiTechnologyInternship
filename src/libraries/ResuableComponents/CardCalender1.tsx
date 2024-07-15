@@ -47,8 +47,7 @@ function CardCalender1({
 
     ClickItem(returnVal);
   };
-  console.log('Formatted Date:', formattedDate);
-  console.log('ItemList:', ItemList);
+
 
   const updatedItemList = ItemList.map((item) => {
     const itemDate = new Date(item.Value);
@@ -59,13 +58,6 @@ function CardCalender1({
 
     const isCurrentMonth = itemDate.getMonth() === formattedMonth && itemDate.getFullYear() === formattedYear;
 
-    console.log(`Item ${item.Name}:`, {
-      item,
-      isCurrentMonth,
-      itemDate,
-      formattedMonth,
-      formattedYear,
-    });
 
     return {
       ...item,

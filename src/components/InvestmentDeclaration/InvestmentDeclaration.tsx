@@ -88,15 +88,16 @@ const InvestmentDeclaration = () => {
             asSaveInvestmentXML += "<InvestmentDeclaration>" +
                 "<Id>0</Id>" +
                 "<InvestmentMethodId>" + Item.Id + "</InvestmentMethodId>" +
-                "<UserId>" + asUserId + "</UserId>" +
+                "<UserId>0</UserId>" +
                 "<Amount>" + Item.Amount + "</Amount>" +
-                "<IsDocSubmitted>" + Item.IsSubmitted + "</IsDocSubmitted>" +
-                "<SectionId>" + Item.SectionId + "</SectionId>" +
-                "<SortOrder>" + 0 + "</SortOrder>" +
-                "<DocumentCount>" + Item.DocumentCount + "</DocumentCount>" +
-                "<RegimId>" + Item.Id + "</RegimId>" +
+                "<IsDocSubmitted>false</IsDocSubmitted>" +
+                "<SectionId>0</SectionId>" +
+                "<SortOrder>0</SortOrder>" +
+                "<DocumentCount>0</DocumentCount>" +
+                "<RegimId>0</RegimId>" +
                 "</InvestmentDeclaration>"
         });
+        asSaveInvestmentXML += "\r\n</ArrayOfInvestmentDeclaration>";
         return asSaveInvestmentXML
     }
 

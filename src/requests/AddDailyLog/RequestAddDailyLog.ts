@@ -75,7 +75,8 @@ export const getalldailylog =
           Id: item.Id,
           Text1: getDateMonthYearFormatted(item.Date),
           Text2: item.AttchmentName,
-          Text3: item.IsPublished
+          Text3: item.IsPublished,
+          TotalRows:item.TotalRows
         };
       });
 
@@ -88,6 +89,7 @@ export const getalldailylog =
 
       dispatch(DailyLogSlice.actions.getalldailylog(responseData));
       dispatch(DailyLogSlice.actions.RGetfile(GetFile));
+
     };
 
 export const getdailylog =
