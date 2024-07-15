@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IGetInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import { GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { RootState } from "src/store";
 import DataTable, { Column } from "./Datatable";
 
@@ -16,6 +16,10 @@ const InvestmentSection = ({ refreshData }) => {
     const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
 
     const [ListInvestmentDetails1, setListInvestmentDetails1] = useState([])
+
+
+    const [grandTotalAmount, setGrandTotalAmount] = useState(0);
+
 
     const USListInvestmentDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentDetails
@@ -56,6 +60,20 @@ const InvestmentSection = ({ refreshData }) => {
         setListInvestmentDetails1(USListInvestmentDetails)
     }, [USListInvestmentDetails])
 
+    // const calculateTotals = () => {
+    //     let totalAmounts = listInvestmentSectionDetails.map(section => {
+    //         const filteredData = ListInvestmentDetails.filter(detail => detail.SectionId === section.Id);
+    //         return filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+    //     });
+    //     return totalAmounts;
+    // };
+
+    // useEffect(() => {
+    //     const totals = calculateTotals();
+    //     setGrandTotalAmount(totals.reduce((acc, total) => acc + total, 0));
+    // }, [ListInvestmentDetails, listInvestmentSectionDetails]);
+
+
 
     const getAmount = (value, Id) => {
         let returnVal = ""
@@ -65,23 +83,46 @@ const InvestmentSection = ({ refreshData }) => {
         })
         return returnVal
     }
-    const changeText = (value) => {
-        setListInvestmentDetails(
-            ListInvestmentDetails.map((Item) => {
-                return { ...Item, Amount: getAmount(value, Item.Id) }
-            })
-        )
-        refreshData(ListInvestmentDetails.map((Item) => {
-            return { ...Item, Amount: getAmount(value, Item.Id) }
-        }))
-    }
+    const changeText = (updatedSectionData, sectionId) => {
+        setListInvestmentDetails((prevDetails) => {
+            return prevDetails.map((item) => {
+                if (item.SectionId === sectionId) {
+                    const updatedItem = updatedSectionData.find(
+                        (updatedItem) => updatedItem.Id === item.Id
+                    );
+                    if (updatedItem) {
+                        return { ...item, Amount: updatedItem.Amount };
+                    }
+                }
+                return item;
+            });
+        });
 
-
-
-    const CountClick = (rowData) => {
-        console.log(rowData, "rowData");
+        refreshData((prevDetails) => {
+            return prevDetails.map((item) => {
+                if (item.SectionId === sectionId) {
+                    const updatedItem = updatedSectionData.find(
+                        (updatedItem) => updatedItem.Id === item.Id
+                    );
+                    if (updatedItem) {
+                        return { ...item, Amount: updatedItem.Amount };
+                    }
+                }
+                return item;
+            });
+        });
     };
+
     const renderDataTables = () => {
+
+        const totalAmounts = listInvestmentSectionDetails.map(section => {
+            const filteredData = ListInvestmentDetails.filter(detail => detail.SectionId === section.Id);
+            return filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+        });
+
+        const grandTotalAmount = totalAmounts.reduce((acc, total) => acc + total, 0);
+
+        // let grandTotalRowRendered = false;
         return listInvestmentSectionDetails.map((section) => {
             const filteredData = ListInvestmentDetails.filter((detail) => detail.SectionId === section.Id);
 
@@ -90,6 +131,8 @@ const InvestmentSection = ({ refreshData }) => {
             }
 
             const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+
+
             const columns: Column[] = [
                 {
                     id: 'Name',
@@ -99,13 +142,7 @@ const InvestmentSection = ({ refreshData }) => {
                 {
                     id: 'AttachmentCount',
                     label: 'Attachment Count',
-                    renderCell: (rowData) => (
-                        <span
-                            onClick={() => CountClick(rowData)}
-                        >
-                            {rowData.DocumentCount}
-                        </span>
-                    ),
+                    renderCell: (rowData) => rowData.DocumentCount,
                 },
                 {
                     id: 'MaximumLimit',
@@ -114,36 +151,40 @@ const InvestmentSection = ({ refreshData }) => {
                 }
             ];
 
-            return (
-                <Box key={section.Id} sx={{ background: 'white', p: 2, mb: 2 }}>
-                    <DataTable
-                        columns={columns}
-                        data={filteredData}
-                        isLoading={false}
-                        isPagination={false}
-                        changeText={changeText}
-                    />
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan={columns.length} align="right">
-                                        <Typography variant="h6">Total Amount</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant="h6">{totalAmount}</Typography>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+            // if (index === listInvestmentSectionDetails.length - 1 && !grandTotalRowRendered) {
+            //     grandTotalRowRendered = true;
 
-                </Box>
+            return (
+                <>
+                    <Box key={section.Id} sx={{ background: 'white', p: 2, mb: 2 }}>
+                        <DataTable
+                            columns={columns}
+                            data={filteredData}
+                            isLoading={false}
+                            isPagination={false}
+                            changeText={(updatedSectionData) => changeText(updatedSectionData, section.Id)}
+                        />
+
+                    </Box>
+
+
+                    {/* <Box key="grand-total" sx={{ background: 'white', p: 2, mb: 2 }}>
+                        <Typography variant="h6">Grand Total: {grandTotalAmount}</Typography>
+                    </Box> */}
+                </>
+
             );
+
+
         });
+
+
     };
 
+
     return (
+
+
         <Box sx={{ px: 2 }}>
             {renderDataTables()}
         </Box>

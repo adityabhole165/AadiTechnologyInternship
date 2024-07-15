@@ -1,6 +1,5 @@
 
 import { Suspense, lazy } from 'react';
-import AddSchoolNotice1 from 'src/components/AddSchoolNitice/AddSchoolNotice1';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 import AddLeaveDetails from 'src/components/LeaveDetails/AddLeaveDetails';
 import LeaveDetailsBaseScreen from 'src/components/LeaveDetails/LeaveDetailsBaseScreen';
@@ -200,6 +199,9 @@ const AddSchoolNotice = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AddSchoolNotice1'))
 );
 
+const InvestmentDeclaration = Loader(
+  lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
+)
 
 
 const teacherRoutes = [
@@ -232,6 +234,11 @@ const teacherRoutes = [
     path: 'TAttendance',
     element: <TAttendance />
   },
+  {
+    path: 'InvestmentDeclaration',
+    element: <InvestmentDeclaration />
+  },
+
   {
     path: 'AddUnpublish1/:Id',
     element: <AddUnpublish1 />
