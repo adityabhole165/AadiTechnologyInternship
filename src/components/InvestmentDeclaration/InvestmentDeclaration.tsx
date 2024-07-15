@@ -9,7 +9,7 @@ import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CD
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentSection from "./InvestmentSection";
-
+import IsSubmit from './IsSubmit';
 const InvestmentDeclaration = () => {
     const dispatch = useDispatch();
 
@@ -34,23 +34,19 @@ const InvestmentDeclaration = () => {
     const USISlistInvestmentEmpDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
-    console.log(USISlistInvestmentEmpDetails, "USISlistInvestmentEmpDetails");
-
+    const isSubmittedArray = USISlistInvestmentEmpDetails.map(item => item.IsSubmitted);
 
     const USListInvestmentSectionDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
     )
 
-    console.log(USListInvestmentSectionDetails, "USListInvestmentSectionDetail12345");
 
     const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
 
-    console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
     const USGetRegimeDropdown: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISGetRegimeDropdown
     )
-    console.log(USGetRegimeDropdown, "USGetRegimeDropdown")
 
     const USSaveInvestmentDeclaration: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISSaveInvestment
@@ -164,7 +160,6 @@ const InvestmentDeclaration = () => {
     const userName = USISlistInvestmentEmpDetails[0]?.UserName || 'Employee';
 
 
-    console.log(USListInvestmentDetails, "matchingDetailsData1");
 
     useEffect(() => {
         if (USListInvestmentDetails.length > 0)
@@ -350,8 +345,12 @@ const InvestmentDeclaration = () => {
                         </Grid>
                         {USListInvestmentDetails.length > 0 &&
                             <Grid container>
+                                <IsSubmit.Provider value={isSubmittedArray}>
                                 <InvestmentSection
                                     refreshData={refreshData}></InvestmentSection>
+
+                                </IsSubmit.Provider>
+                                
                             </Grid>}
 
                     </Container>

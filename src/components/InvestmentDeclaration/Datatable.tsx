@@ -1,6 +1,6 @@
 import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography, styled } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
+import IsSubmit from './IsSubmit';
 export type Column = {
     id: string;
     label: string;
@@ -70,6 +70,8 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
     };
 
     const totalAmount = tableData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+    let Data = useContext(IsSubmit)
+  
     return (
         <Paper>
             <TableContainer>
@@ -107,6 +109,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
                                         <TextField
                                             value={row.Amount}
                                             onChange={(e) => handleTextFieldChange(e, rowIndex)}
+                                            disabled={Data == 'True'}
                                         />
                                     </TableCell>
                                 </TableRow>
