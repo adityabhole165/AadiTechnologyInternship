@@ -57,6 +57,10 @@ const AddHomeworkSlice = createSlice({
     resetMessage(state) {
       state.ISSubmitMarksRest = '';
     },
+    
+    resetgethomeworkdetail(state) {
+      state.GetHomeworkDetail = null;
+    },
     resetFilepath(state) {
       state.FilePath = '';
     },
@@ -220,6 +224,10 @@ export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
   dispatch(AddHomeworkSlice.actions.RPublishresetMessageAll());
 };
 
+export const CDAresetgethomeworkdetail = (): AppThunk => async (dispatch) => {
+  dispatch(AddHomeworkSlice.actions.resetgethomeworkdetail());
+};
+ 
 
 
 export default AddHomeworkSlice.reducer;

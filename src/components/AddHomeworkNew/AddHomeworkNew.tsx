@@ -16,7 +16,7 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import MultipleFile from 'src/libraries/File/MultipleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
+import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework , CDAresetgethomeworkdetail} from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
@@ -57,7 +57,7 @@ const AddHomeworkNew = () => {
   const [Errorbase64URL, setErrorbase64URL] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
   const [SubjectCheckID, setSubjectCheckID] = useState(SubjectId);
-
+  const [open, setOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredHomeworkList, setFilteredHomeworkList] = useState([]);
   const [publishId, setPublishId] = useState();
@@ -217,6 +217,9 @@ const AddHomeworkNew = () => {
     dispatch(GetHomeworkDetails(GetHomeworkDetailBody));
   };
 
+  useEffect(() => {
+    dispatch(CDAresetgethomeworkdetail());
+  }, []);
 
   useEffect(() => {
     if (HomeworkDetail != null) {
@@ -228,8 +231,11 @@ const AddHomeworkNew = () => {
 
     }
   }, [HomeworkDetail]);
+  
 
+ 
 
+ 
 
 
   // const ClickSaveHomework = () => {
@@ -812,14 +818,19 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     setAssignedDate1(date); // Update AssignedDate1 with selected date object
   };
 
-  const [open, setOpen] = useState(false);
 
   const ClickAppropriate = (value) => {
     setOpen(true)
+    dispatch(CDAresetgethomeworkdetail());
+
   }
   const handleClose = (value) => {
     setOpen(false)
     setHomeworkId(0)
+    dispatch(CDAresetgethomeworkdetail());
+   
+
+
   }
 
   return (
