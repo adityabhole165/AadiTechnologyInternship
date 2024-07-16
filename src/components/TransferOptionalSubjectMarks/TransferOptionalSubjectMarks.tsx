@@ -592,7 +592,7 @@ const TransferOptionalSubjectMarks = () => {
 
                 {
                     countArray > rowsPerPage ? (
-                        <TransferOptionalSubjectMarks
+                        <ButtonGroupComponent
                             rowsPerPage={rowsPerPage}
                             ChangeRowsPerPage={ChangeRowsPerPage}
                             rowsPerPageOptions={rowsPerPageOptions}
