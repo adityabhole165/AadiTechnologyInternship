@@ -93,8 +93,8 @@ const InvestmentDeclaration = () => {
 
 
     const clickSubmit = () => {
-        confirm("After submission you will not be able to update any details. Do you want to continue?")
-        toast.success("Investment details submitted successfully.")
+        if (window.confirm("After submission you will not be able to update any details. Do you want to continue?"))
+            toast.success("Investment details submitted successfully.")
         const SubmitInvestmentDeclaration: SubmitInvestmentDetailsBody = {
             asSchoolId: asSchoolId,
             asFinancialYearId: 10,
@@ -346,11 +346,11 @@ const InvestmentDeclaration = () => {
                         {USListInvestmentDetails.length > 0 &&
                             <Grid container>
                                 <IsSubmit.Provider value={isSubmittedArray}>
-                                <InvestmentSection
-                                    refreshData={refreshData}></InvestmentSection>
+                                    <InvestmentSection
+                                        refreshData={refreshData}></InvestmentSection>
 
                                 </IsSubmit.Provider>
-                                
+
                             </Grid>}
 
                     </Container>
