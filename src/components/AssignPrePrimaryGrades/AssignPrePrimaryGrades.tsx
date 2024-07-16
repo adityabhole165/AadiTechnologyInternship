@@ -258,7 +258,7 @@ const AssignPrePrimaryGrades = () => {
                 text2={'Grades entry partially done'}
                 text3={'Submit exam grades to the class teacher'}
                 text4={'Grades entry completed'}
-                text5={'Unsubmit exam grades to the class teacher'} />
+                text5={'Unsubmit exam grades '} />
 
             </Box>
           </Box>

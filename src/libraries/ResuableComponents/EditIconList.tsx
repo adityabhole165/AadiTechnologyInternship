@@ -87,7 +87,7 @@ function EditIconList({
                     </IconButton>
                   ) : item.Text4 === '3' ? (
                     <IconButton>
-                      <Tooltip title="Unsubmit exam grades to the class teacher">
+                      <Tooltip title="Unsubmit exam grades">
                         <EventBusyIcon onClick={() =>
                           clickUnSubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
                         } sx={{ cursor: 'pointer', color: 'black' }} />
