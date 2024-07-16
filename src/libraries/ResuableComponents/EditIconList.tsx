@@ -74,7 +74,6 @@ function EditIconList({
                     </IconButton>
                   )}
                 </TableCell>
-
                 <TableCell sx={{ textTransform: 'none', ...cellStyle }} align="center">
                   {item.Text4 === '2' ? (
                     <IconButton>
@@ -88,7 +87,7 @@ function EditIconList({
                     </IconButton>
                   ) : item.Text4 === '3' ? (
                     <IconButton>
-                      <Tooltip title="Unsubmit exam marks">
+                      <Tooltip title="Unsubmit exam marks to the class teacher">
                         <EventBusyIcon onClick={() =>
                           clickUnSubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
                         } sx={{ cursor: 'pointer', color: 'black' }} />
