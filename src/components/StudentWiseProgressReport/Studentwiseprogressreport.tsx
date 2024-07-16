@@ -33,6 +33,7 @@ import {
   PublishStatus, PublishUnpublishXseed,
   PublishresetMessageNewAll,
   deleteresetMessage,
+  deleteresetMessageAll,
   oneDeleteStudentTest
 } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
@@ -231,7 +232,6 @@ const Studentwiseprogressreport = () => {
       asStudentId: Id,
       asUpdatedById: Number(SelectTeacher)
     }
-
     showAlert({
       title: 'Delete',
       message: Id.ShowDeleteButton !== 'N' ? 'Are you sure you want to delete grades of selected assessment of selected student? ' :
@@ -250,27 +250,18 @@ const Studentwiseprogressreport = () => {
 
   };
 
-
-
   useEffect(() => {
-
     toast.success(oneDeleteStud);
-     dispatch(deleteresetMessage());
+    dispatch(deleteresetMessage());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-
-
   }, [oneDeleteStud]);
 
-
-
-
-  const clickDeleteAlll = (Id) => {
-
+  const clickDeleteAlll = (ID) => {
     const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
       asAcademicYearId: Number(asAcademicYearId),
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Assessment,
-      asStandardDivId: Id,
+      asStandardDivId: ID,
       asUpdatedById: Number(SelectTeacher)
     };
 
@@ -294,7 +285,7 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     toast.success(DeleteAllStud);
-    //dispatch(deleteresetMessageAll());
+    dispatch(deleteresetMessageAll());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
   }, [DeleteAllStud]);
 
@@ -342,8 +333,8 @@ const Studentwiseprogressreport = () => {
             <Box>
               <SearchableDropdown
                 sx={{
-                  minWidth: '18vw',
-                  bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
+                  minWidth: '20vw'
+                  , bgcolor: GetScreenPermission() === 'N' ? '#D3D3D3' : 'inherit'
                 }}
                 ItemList={PrimaryTeacher}
                 onChange={clickSelectClass}
@@ -411,22 +402,17 @@ const Studentwiseprogressreport = () => {
                 })()
               }
             </Box>
-
-
-
-
-            {PublishStatu.AllowPublish== false &&  PublishStatu.AllowUnPublish==false?
-            <span></span> :
-             isVisible && (
-              <ButtonPrimary
-                style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
-                onClick={ClickPublishUnpublish}
-              >
-                {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
-              </ButtonPrimary>
-            )
+            {PublishStatu.AllowPublish == false && PublishStatu.AllowUnPublish == false ?
+              <span></span> :
+              isVisible && (
+                <ButtonPrimary
+                  style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
+                  onClick={ClickPublishUnpublish}
+                >
+                  {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+                </ButtonPrimary>
+              )
             }
-           
           </>
         } />
 
@@ -472,19 +458,17 @@ const Studentwiseprogressreport = () => {
           clickDelete={ClickDelete}
         />
       </Box>
-
-      {
-        StudentRecordCount.Count > rowsPerPage ? (
-          <ButtonGroupComponent
-            rowsPerPage={rowsPerPage}
-            ChangeRowsPerPage={ChangeRowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-            PageChange={PageChange}
-            pagecount={pagecount}
-          />
-        ) : (
-          <span></span>
-        )
+      {StudentRecordCount.Count > rowsPerPage ? (
+        <ButtonGroupComponent
+          rowsPerPage={rowsPerPage}
+          ChangeRowsPerPage={ChangeRowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          PageChange={PageChange}
+          pagecount={pagecount}
+        />
+      ) : (
+        <span></span>
+      )
       }
     </Box>
   );
