@@ -20,12 +20,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IDeleteSchooNoticeBody, IGetAllNoticeListBody, IGetStandardDivisionsForSelectedNoticeIdBody, IGetUserRolesForSelectedNoticeIdBody, IUpdateSelectSchoolNoticeBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
+import { IDeleteSchooNoticeBody, IGetAllNoticeListBody, IUpdateSelectSchoolNoticeBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetAllNoticeList } from 'src/requests/AddSchoolNotice/ReqAddSchoolNotice';
 import { CDADeleteSchoolNotice } from 'src/requests/AddSchoolNotice/ReqDeleteSchoolNotice';
-import { CDAGetStandardDivisionsForSelectedNoticeId } from 'src/requests/AddSchoolNotice/ReqGetStandardDivisionsForSelectedNoticeId';
-import { CDAGetUserRolesForSelectedNoticeId } from 'src/requests/AddSchoolNotice/ReqGetUserRolesForSelectedNoticeId';
 import { CDAUpdatSelectNotice } from 'src/requests/AddSchoolNotice/ReqUpdateSelectNotice';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -194,23 +192,11 @@ const AllNoticeList = () => {
     "asUpdatedById": asUpdatedById
   };
 
-  const GetUserRolesForSelectedNoticeId: IGetUserRolesForSelectedNoticeIdBody = {
-    "asSchoolId": asSchoolId,
-    "asNoticeId": 507
-  }
-  const GetStandardDivisionsForSelectedNoticeId: IGetStandardDivisionsForSelectedNoticeIdBody = {
-    "asSchoolId": asSchoolId,
-    "asNoticeId": 507
-  }
 
 
   useEffect(() => {
     dispatch(CDAGetAllNoticeList(GetAllNoticeListBody));
   }, [value, rowsPerPage, selectValue]);
-  useEffect(() => {
-    dispatch(CDAGetUserRolesForSelectedNoticeId(GetUserRolesForSelectedNoticeId));
-    dispatch(CDAGetStandardDivisionsForSelectedNoticeId(GetStandardDivisionsForSelectedNoticeId));
-  }, []);
 
   useEffect(() => {
     if (USGetAllNoticeList) {

@@ -12,12 +12,14 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
-import { IEditSchoolNoticeDetailsBody, IGetAllClassesAndDivisionsBody, ISaveUpdateSchoolNoticeBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
+import { IEditSchoolNoticeDetailsBody, IGetAllClassesAndDivisionsBody, IGetStandardDivisionsForSelectedNoticeIdBody, IGetUserRolesForSelectedNoticeIdBody, ISaveUpdateSchoolNoticeBody } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
 import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SelectListChild from 'src/libraries/SelectList/SelectListChild';
 import { CDAGetAllClassesAndDivisions } from 'src/requests/AddSchoolNotice/ReqAllClassesAndDivisions';
 import { CDAEditSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/ReqEditSchoolNoticeDetails';
+import { CDAGetStandardDivisionsForSelectedNoticeId } from 'src/requests/AddSchoolNotice/ReqGetStandardDivisionsForSelectedNoticeId';
+import { CDAGetUserRolesForSelectedNoticeId } from 'src/requests/AddSchoolNotice/ReqGetUserRolesForSelectedNoticeId';
 import { CDASaveUpdateSchoolNotice } from 'src/requests/AddSchoolNotice/ReqSaveUpdateSchoolNotices';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -38,6 +40,9 @@ const AddSchoolNotice1: React.FC = () => {
 
     const location = useLocation();
     const { state } = location;
+    const ISGetUserRolesForSelectedNoticeId: any = useSelector((state: RootState) => state.GetUserRolesForSelectedNoticeId.ISGetUserRolesForSelectedNoticeId);
+    const ISGetStandardDivisionsForSelectedNoticeId: any = useSelector((state: RootState) => state.GetStandardDivisionsForSelectedNoticeId.ISGetStandardDivisionsForSelectedNoticeId);
+
     // const { state, userRoleId } = useParams()
     // useEffect(() => {
     //     if (state || userRoleId) {
@@ -235,9 +240,48 @@ const AddSchoolNotice1: React.FC = () => {
         alert("Hello............................!")
     }
 
+    let NoticeId = 507
+    const GetUserRolesForSelectedNoticeId: IGetUserRolesForSelectedNoticeIdBody = {
+        "asSchoolId": asSchoolId,
+        "asNoticeId": NoticeId
+    }
+    const GetStandardDivisionsForSelectedNoticeId: IGetStandardDivisionsForSelectedNoticeIdBody = {
+        "asSchoolId": asSchoolId,
+        "asNoticeId": NoticeId
+    }
+
+    useEffect(() => {
+        if (NoticeId != undefined) {
+            dispatch(CDAGetUserRolesForSelectedNoticeId(GetUserRolesForSelectedNoticeId));
+        }
+    }, []);
+    const IsRoleSelect = (RoleId) => {
+        let returnVal = false
+        ISGetUserRolesForSelectedNoticeId.map((item) => {
+            if (item.UserRoleId == RoleId) {
+                returnVal = true
+            }
+        })
+        return returnVal
+    }
+    useEffect(() => {
+        if (ISGetUserRolesForSelectedNoticeId.length > 0) {
+            if (IsRoleSelect("3")) {
+                dispatch(CDAGetStandardDivisionsForSelectedNoticeId(GetStandardDivisionsForSelectedNoticeId));
+            }
+            setApplicableTo({
+                ...applicableTo,
+                admin: IsRoleSelect("1"),
+                teacher: IsRoleSelect("2"),
+                student: IsRoleSelect("3"),
+                adminStaff: IsRoleSelect("4"),
+                otherStaff: IsRoleSelect("5"),
+            });
+        }
+    }, [ISGetUserRolesForSelectedNoticeId])
+
     useEffect(() => {
         dispatch(CDAGetAllClassesAndDivisions(GetAllClasseAndDivision))
-
     }, []);
 
 
@@ -601,7 +645,7 @@ const AddSchoolNotice1: React.FC = () => {
                     {
                         (Object.values(applicableTo).every(Boolean) || applicableTo.student) &&
                         <Grid item xs={8} md={8}>
-                            <SelectListChild />
+                            <SelectListChild ISGetStandardDivisionsForSelectedNoticeId={ISGetStandardDivisionsForSelectedNoticeId} />
                         </Grid>
                     }
                     {radioBtn === '1' ? null

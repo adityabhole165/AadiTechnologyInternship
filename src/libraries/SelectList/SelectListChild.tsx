@@ -5,7 +5,7 @@ import { IGetAllClassesAndDivisionsBody } from 'src/interfaces/AddSchoolNotic/IA
 import { CDAGetAllClassesAndDivisions } from 'src/requests/AddSchoolNotice/ReqAllClassesAndDivisions';
 import { RootState } from 'src/store';
 
-const SelectListChild = () => {
+const SelectListChild = ({ ISGetStandardDivisionsForSelectedNoticeId }) => {
 
     const [parentList, setParentList] = useState(null);
     const [isAssociateActive, setIsAssociateActive] = useState(false);
