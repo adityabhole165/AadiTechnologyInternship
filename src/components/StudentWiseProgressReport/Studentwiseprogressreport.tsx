@@ -45,6 +45,8 @@ const Studentwiseprogressreport = () => {
   const navigate = useNavigate();
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asUpdatedById = Number(sessionStorage.getItem('Id'));
+
   const asUserId = Number(localStorage.getItem('UserId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
@@ -230,7 +232,8 @@ const Studentwiseprogressreport = () => {
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Assessment,
       asStudentId: Id,
-      asUpdatedById: Number(SelectTeacher)
+      asUpdatedById: Number(asUpdatedById)
+
     }
     showAlert({
       title: 'Delete',
@@ -262,7 +265,7 @@ const Studentwiseprogressreport = () => {
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Assessment,
       asStandardDivId: ID,
-      asUpdatedById: Number(SelectTeacher)
+      asUpdatedById: Number(asUpdatedById)
     };
 
     showAlert({
