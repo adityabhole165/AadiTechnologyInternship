@@ -4,9 +4,9 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordDataBody, ISubmitStudentRecordBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
-import { GetStudentRecordData } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetStudentRecordData, GetSubmitStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import AddStudentRAccordionList from './AddStudentRAccordionList';
@@ -30,6 +30,19 @@ const AddStudentRecord = () => {
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
+
+    useEffect(() => {
+        dispatch(GetSubmitStudentRecord(Getsubmitstudentrecord))
+    }, []);
+
+    const Getsubmitstudentrecord: ISubmitStudentRecordBody = {
+        asSchoolId: 18,
+        asUpdatedById: 3799,
+        asSchoolwiseStudentId: 6130,
+        asCommentId: 0,
+        asSubmitAllComments: "false",
+        asAcademicYearId: 54
+    }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: 18,
         asSchoolwiseStudentId: 5392,

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentRecordDataAPI from 'src/api/StudentRecords/ApiAddStudentRecords';
-import { IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordDataBody, ISubmitStudentRecordBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import { AppThunk } from 'src/store';
 
 const AddStudentRecordsSlice = createSlice({
@@ -10,6 +10,7 @@ const AddStudentRecordsSlice = createSlice({
         listSiblingsDetails: [],
         listFamilyDetails: [],
         listBehaviorDetails: [],
+        submitStudentRecordmsg: '',
         Loading: true
     },
     reducers: {
@@ -28,6 +29,18 @@ const AddStudentRecordsSlice = createSlice({
         BehaviorDetails(state, action) {
             state.Loading = false;
             state.listBehaviorDetails = action.payload;
+        },
+        getSubmitStudentRecord(state, action) {
+            state.Loading = false;
+            state.submitStudentRecordmsg = action.payload;
+        },
+        resetSubmitStudentRecord(state) {
+            state.Loading = false;
+            state.submitStudentRecordmsg = "";
+        },
+        getLoading(state, action) {
+            state.Loading = true;
+
         }
 
     }
@@ -91,4 +104,19 @@ export const GetStudentRecordData =
             dispatch(AddStudentRecordsSlice.actions.BehaviorDetails(behaviordetails));
             console.log(behaviordetails)
         }
+
+export const GetSubmitStudentRecord =
+    (data: ISubmitStudentRecordBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.getLoading(true));
+            const response = await GetStudentRecordDataAPI.SubmitStudentRecord(data);
+            dispatch(AddStudentRecordsSlice.actions.getSubmitStudentRecord(response.data));
+            console.log(response, "response");
+
+        };
+export const resetGetSubmitStudentRecord =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.resetSubmitStudentRecord());
+        };
 export default AddStudentRecordsSlice.reducer;

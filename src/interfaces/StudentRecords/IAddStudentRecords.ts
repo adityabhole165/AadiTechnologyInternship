@@ -36,3 +36,11 @@ export interface IGetStudentRecordDataResult {
     listParameterDetails: [];
     listCommentDetails: []
 }
+export interface ISubmitStudentRecordBody {
+    asSchoolId: number
+    asUpdatedById: number
+    asSchoolwiseStudentId: number
+    asCommentId: number
+    asSubmitAllComments: string
+    asAcademicYearId: number
+}
