@@ -1,11 +1,12 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, TextField, Typography } from '@mui/material';
+import { green, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import Datepicker1 from 'src/components/StudentRecords/DateField';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetDeleteCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { DeleteCommentDetails, resetDeleteHolidayDetails } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
@@ -28,7 +29,6 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
     const [Time, setTime] = useState(currentTime);
     const [TimeError, setTimeError] = useState('');
     const { showAlert, closeAlert } = useContext(AlertContext);
-
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -37,6 +37,27 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
         (state: RootState) => state.StudentRecordCommentPopup.DeleteCommentMsg
     );
 
+    const Savecomment = useSelector(
+        (state: RootState) => state.StudentRecordCommentPopup.SaveComment
+    );
+
+    const ClickCancel = () => {
+
+    }
+
+    const SaveCommentBody: IGetSaveCommentBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asSchoolwiseStudentId: Number(asUserId),
+        asCommentId: Number(asUserId),
+        asDate: StartDate,
+        asComment: Comment,
+        asLectureName: LectureNm,
+        asUpdatedById: Number(asUserId),
+        asIsDeleteAction: false,
+        asAllowSubmit: false,
+        asStdDivId: Number(asUserId),
+    };
     const deleteComment = () => {
         const DeleteCommentBody: IGetDeleteCommentBody = {
             asSchoolId: Number(asSchoolId),
@@ -136,7 +157,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             <DialogContent dividers sx={{ px: 4 }}>
                 <Grid container spacing={1} alignItems="center">
                     <Grid item xs={12} md={6}>
-                        <Datepicker
+                        <Datepicker1
                             DateValue={StartDate}
                             onDateChange={onSelectSrDate}
                             label={'Date'}
@@ -149,55 +170,72 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
                     </Grid>
                 </Grid>
-                <Grid container justifyContent="space-between" alignItems="center">
-                    <Typography variant={"h4"} sx={{ mb: 1, mt: 1 }}>
-                        Comment :
-                    </Typography>
-                </Grid>
-                <Grid container spacing={1} alignItems="center">
+                <Box sx={{ pt: 2, background: 'white' }}>
+
                     <Grid item xs={12}>
                         <TextField
-                            multiline
                             rows={3}
                             value={Comment}
+                            label={<>
+                                Commment <span style={{ color: 'red' }}>*</span>
+                            </>}
                             onChange={(e) => setComment(e.target.value)}
                             sx={{ width: '100%' }}
                             error={CommentError !== ''}
                             helperText={CommentError}
+                            inputProps={{ maxLength: 100 }}
                         />
+
                     </Grid>
-                </Grid>
-                <Typography variant={"h4"} sx={{ mb: 1, mt: 1 }}>
-                    Lecture Name :
-                </Typography>
-                <Grid container spacing={1} alignItems="center">
-                    <Grid item xs={12}>
+
+                    <Grid item xs={12} sx={{ pt: 2, }} >
                         <TextField
-                            multiline
                             rows={1}
                             value={LectureNm}
+                            label={<>
+                                Lecture Name <span style={{ color: 'red' }}>*</span>
+                            </>}
                             onChange={(e) => setLectureNm(e.target.value)}
                             sx={{ width: '100%' }}
                             error={LectureNmError !== ''}
                             helperText={LectureNmError}
+                            inputProps={{ maxLength: 50 }}
                         />
                     </Grid>
-                </Grid>
+
+                </Box>
             </DialogContent>
             <DialogActions sx={{ py: 2, px: 3 }}>
-                <Button onClick={ClickOk} color={'success'} variant={'contained'}>
-                    Save
-                </Button>
-                <Button onClick={ClickOk} color={'success'} variant={'contained'}>
-                    Save and Submit
-                </Button>
-                <Button onClick={deleteComment} color={'error'} variant={'contained'}>
-                    Delete
-                </Button>
-                <Button onClick={() => setOpen(false)} color={'error'}>
-                    Cancel
-                </Button>
+                <Grid item xs={12} md={12}>
+                    <Stack direction={"row"} gap={2} alignItems={"center"}>
+                        <Button sx={{
+                            color: 'green',
+                            ':hover': { backgroundColor: green[100] }
+                        }} onClick={ClickOk}>
+                            Save
+                        </Button>
+                        <Button sx={{
+                            color: 'green',
+                            ':hover': { backgroundColor: green[100] }
+                        }} onClick={ClickOk}>
+                            Save and Submit
+                        </Button>
+                        <Button sx={{
+                            color: 'red',
+                            ':hover': { backgroundColor: red[100] }
+                        }} onClick={deleteComment}>
+                            Delete
+                        </Button>
+                        <Button sx={{
+                            color: 'red',
+                            ':hover': { backgroundColor: red[100] }
+                        }} onClick={ClickCancel}>
+                            Cancel
+                        </Button>
+                    </Stack>
+                </Grid>
             </DialogActions>
+
         </Dialog>
     );
 };
