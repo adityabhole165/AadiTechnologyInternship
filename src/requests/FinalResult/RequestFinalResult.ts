@@ -143,7 +143,8 @@ export const GetStudentResultList =
           Text5: item.Grade_Name == '' ? 'N/A' : item.Grade_Name,
           Text6: item.Result == '' ? 'N/A' : item.Result,
           Text7: item.Is_ResultGenrated == '' ? 'N' : item.Is_ResultGenrated,
-          CanShowVisibility: item.Result === 'Pass' && item.Is_ResultGenrated === 'Y'
+          CanShowVisibility: item.Result === 'Pass' && item.Is_ResultGenrated === 'Y',
+          TotalRows: item.TotalRows
           // Grade_Name: item.Grade_Name == '' ? 'N' : item.Grade_Name,
         };
       });

@@ -195,8 +195,13 @@ const Studentwiseprogressreport = Loader(
 const AllNoticeList = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AllNoticeList'))
 )
+const AddSchoolNotice = Loader(
+  lazy(() => import('src/components/AddSchoolNitice/AddSchoolNotice1'))
+);
 
-
+const InvestmentDeclaration = Loader(
+  lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
+)
 
 
 const teacherRoutes = [
@@ -229,6 +234,11 @@ const teacherRoutes = [
     path: 'TAttendance',
     element: <TAttendance />
   },
+  {
+    path: 'InvestmentDeclaration',
+    element: <InvestmentDeclaration />
+  },
+
   {
     path: 'AddUnpublish1/:Id',
     element: <AddUnpublish1 />
@@ -575,9 +585,11 @@ const teacherRoutes = [
   {
     path: 'AllNoticeList',
     element: <AllNoticeList />
-
-  }
-
+  },
+  {
+    path: 'AddSchoolNotice',
+    element: <AddSchoolNotice />
+  },
 
 
 ];

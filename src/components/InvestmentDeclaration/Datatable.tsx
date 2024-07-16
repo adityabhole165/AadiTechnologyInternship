@@ -1,6 +1,6 @@
-import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TablePagination, TableRow, TextField, styled } from '@mui/material';
-import React, { useState } from 'react';
-
+import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography, styled } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import IsSubmit from './IsSubmit';
 export type Column = {
     id: string;
     label: string;
@@ -20,6 +20,7 @@ type Props = {
     changeText: ([]) => void,
     isLoading?: boolean;
     isPagination?: boolean;
+
 };
 
 
@@ -40,28 +41,37 @@ export const StyledTableCell = styled(TableCell)(
 const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = false, isPagination = true }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
+    // const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
+
+    const [tableData, setTableData] = useState(data);
+
+    useEffect(() => {
+        setTableData(data.map(row => ({
+            ...row,
+            Amount: row.Amount || 0,
+        })));
+    }, [data]);
 
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    const handleTextFieldChange = (e, row, rowIndex) => {
-        changeText(
-            data.map((row, Index) => {
-                return {
-                    ...row, Amount:
-                        Index == rowIndex ?
-                            e.target.value : row.Amount
-                }
-            })
-        );
+    const handleTextFieldChange = (e, rowIndex) => {
+        const newValue = parseFloat(e.target.value) || 0;
+        const updatedData = tableData.map((row, index) => (
+            index === rowIndex ? { ...row, Amount: newValue } : row
+        ));
+        setTableData(updatedData);
+        changeText(updatedData);
     };
 
+    const totalAmount = tableData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+    let Data = useContext(IsSubmit)
+  
     return (
         <Paper>
             <TableContainer>
@@ -73,54 +83,53 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
                                     {column.renderHeader ? column.renderHeader() : column.label}
                                 </StyledTableCell>
                             ))}
-                            <StyledTableCell >Amount</StyledTableCell>
+                            <StyledTableCell>Amount</StyledTableCell>
                         </StyledTableRow>
                     </TableHead>
                     <TableBody>
                         {isLoading ? (
                             <TableRow>
-                                <TableCell colSpan={columns.length} align="center">
+                                <TableCell colSpan={columns.length + 1} align="center">
                                     <CircularProgress />
                                 </TableCell>
                             </TableRow>
-                        ) : data.length === 0 ? (
+                        ) : tableData.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={columns.length} align="center">
+                                <TableCell colSpan={columns.length + 1} align="center">
                                     No data available
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            isPagination ? (
-                                data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
-                                    <TableRow key={rowIndex}>
-                                        {columns.map((column) => (
-                                            <TableCell {...column.cellProps} key={column.id}>{column.renderCell(row)}</TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))
-                            ) : (
-                                data.map((row, rowIndex) => (
-                                    <TableRow key={rowIndex}>
-                                        {columns.map((column) => (
-                                            <TableCell {...column.cellProps} key={column.id}>{column.renderCell(row)}</TableCell>
-                                        ))}
-                                        <TableCell>
-                                            <TextField
-                                                onChange={(e) => handleTextFieldChange(e, row, rowIndex)}
-                                            ></TextField>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            )
+                            (isPagination ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : tableData).map((row, rowIndex) => (
+                                <TableRow key={rowIndex}>
+                                    {columns.map((column) => (
+                                        <TableCell {...column.cellProps} key={column.id}>{column.renderCell ? column.renderCell(row) : row[column.id]}</TableCell>
+                                    ))}
+                                    <TableCell>
+                                        <TextField
+                                            value={row.Amount}
+                                            onChange={(e) => handleTextFieldChange(e, rowIndex)}
+                                            disabled={Data == 'True'}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            ))
                         )}
+                        <TableRow>
+                            <TableCell colSpan={columns.length} align="right">
+                                <Typography variant="h6">Total Amount</Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="h6">{totalAmount}</Typography>
+                            </TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
             {isPagination && (
                 <TablePagination
-                    // rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={data.length}
+                    count={tableData.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

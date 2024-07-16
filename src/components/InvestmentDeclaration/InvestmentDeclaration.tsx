@@ -1,13 +1,15 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { QuestionMark } from "@mui/icons-material";
+import { Box, Button, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
+import { toast } from "react-toastify";
+import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody, SubmitInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
-import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
+import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CDAGetSubmitInvestment, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentSection from "./InvestmentSection";
-
+import IsSubmit from './IsSubmit';
 const InvestmentDeclaration = () => {
     const dispatch = useDispatch();
 
@@ -32,23 +34,23 @@ const InvestmentDeclaration = () => {
     const USISlistInvestmentEmpDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
-    console.log(USISlistInvestmentEmpDetails, "USISlistInvestmentEmpDetails");
-
+    const isSubmittedArray = USISlistInvestmentEmpDetails.map(item => item.IsSubmitted);
 
     const USListInvestmentSectionDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
     )
 
-    console.log(USListInvestmentSectionDetails, "USListInvestmentSectionDetail12345");
 
     const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
 
-    console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
     const USGetRegimeDropdown: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISGetRegimeDropdown
     )
-    console.log(USGetRegimeDropdown, "USGetRegimeDropdown")
+
+    const USSaveInvestmentDeclaration: any = useSelector(
+        (state: RootState) => state.InvestmentDeclaration.ISSaveInvestment
+    )
 
     // console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
@@ -82,24 +84,55 @@ const InvestmentDeclaration = () => {
         dispatch(CDAGetSaveInvestment(SaveInvestmentDeclaration))
     }
 
+    useEffect(() => {
+        if (USSaveInvestmentDeclaration != "") {
+            toast.success("Investment details saved successfully.")
+        }
+    }, [USSaveInvestmentDeclaration])
+
+
+
+    const clickSubmit = () => {
+        if (window.confirm("After submission you will not be able to update any details. Do you want to continue?"))
+            toast.success("Investment details submitted successfully.")
+        const SubmitInvestmentDeclaration: SubmitInvestmentDetailsBody = {
+            asSchoolId: asSchoolId,
+            asFinancialYearId: 10,
+            asUserId: asUserId,
+            asUpdatedById: asUserId
+        }
+        dispatch(CDAGetSubmitInvestment(SubmitInvestmentDeclaration))
+    }
+
     function getXML() {
         let asSaveInvestmentXML = "\r\n<ArrayOfInvestmentDeclaration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n >";
         ListInvestmentDetails.map((Item) => {
-            asSaveInvestmentXML += "<InvestmentDeclaration>" +
-                "<Id>0</Id>" +
-                "<InvestmentMethodId>" + Item.Id + "</InvestmentMethodId>" +
-                "<UserId>0</UserId>" +
-                "<Amount>" + Item.Amount + "</Amount>" +
-                "<IsDocSubmitted>false</IsDocSubmitted>" +
-                "<SectionId>0</SectionId>" +
-                "<SortOrder>0</SortOrder>" +
-                "<DocumentCount>0</DocumentCount>" +
-                "<RegimId>0</RegimId>" +
-                "</InvestmentDeclaration>"
+            if (Item.Amount != "") {
+                asSaveInvestmentXML += "<InvestmentDeclaration>" +
+                    "<Id>0</Id>" +
+                    "<InvestmentMethodId>" + Item.Id + "</InvestmentMethodId>" +
+                    "<UserId>0</UserId>" +
+                    "<Amount>" + Item.Amount + "</Amount>" +
+                    "<IsDocSubmitted>false</IsDocSubmitted>" +
+                    "<SectionId>0</SectionId>" +
+                    "<SortOrder>0</SortOrder>" +
+                    "<DocumentCount>0</DocumentCount>" +
+                    "<RegimId>0</RegimId>" +
+                    "</InvestmentDeclaration>"
+            }
         });
         asSaveInvestmentXML += "\r\n</ArrayOfInvestmentDeclaration>";
         return asSaveInvestmentXML
     }
+
+
+
+    const totalAmounts = listInvestmentSectionDetails.map(section => {
+        const filteredData = ListInvestmentDetails.filter(detail => detail.SectionId === section.Id);
+        return filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+    });
+
+    const grandTotalAmount = totalAmounts.reduce((acc, total) => acc + total, 0);
 
 
 
@@ -127,7 +160,6 @@ const InvestmentDeclaration = () => {
     const userName = USISlistInvestmentEmpDetails[0]?.UserName || 'Employee';
 
 
-    console.log(USListInvestmentDetails, "matchingDetailsData1");
 
     useEffect(() => {
         if (USListInvestmentDetails.length > 0)
@@ -141,6 +173,8 @@ const InvestmentDeclaration = () => {
         setListInvestmentDetails(value)
     }
 
+
+
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -151,7 +185,26 @@ const InvestmentDeclaration = () => {
                             path: '/extended-sidebar/common/InvestmentDeclaration'
                         }
                     ]}
+
+                    rightActions={<>
+                        <Box>
+                            <Tooltip title={"Submit investment details for income tax calculation"}>
+                                <IconButton sx={{
+                                    bgcolor: 'grey.500',
+                                    color: 'white',
+                                    '&:hover': {
+                                        bgcolor: 'grey.600'
+                                    }
+                                }}>
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+
+
+                    </>}
                 />
+
 
                 <Box sx={{ p: 2, background: 'white' }}>
 
@@ -292,11 +345,19 @@ const InvestmentDeclaration = () => {
                         </Grid>
                         {USListInvestmentDetails.length > 0 &&
                             <Grid container>
-                                <InvestmentSection
-                                    refreshData={refreshData}></InvestmentSection>
+                                <IsSubmit.Provider value={isSubmittedArray}>
+                                    <InvestmentSection
+                                        refreshData={refreshData}></InvestmentSection>
+
+                                </IsSubmit.Provider>
+
                             </Grid>}
 
                     </Container>
+
+                    <Box sx={{ background: 'white', p: 2, mb: 2, textAlign: 'right', pr: 6 }}>
+                        <Typography variant="h6">Grand Total: {grandTotalAmount}</Typography>
+                    </Box>
 
 
 
@@ -320,7 +381,7 @@ const InvestmentDeclaration = () => {
                             <Grid item>
                                 <Button variant="contained" color="success"
                                     onClick={clickSave}
-                                // disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
                                 >
                                     {/* // disabled={USISlistInvestmentEmpDetails[0].IsSubmitted}> */}
                                     SAVE
@@ -329,7 +390,8 @@ const InvestmentDeclaration = () => {
 
                             <Grid item>
                                 <Button variant="contained" color="success"
-                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                    onClick={clickSubmit}
+                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
                                 >
                                     SUBMIT
                                 </Button>
@@ -343,4 +405,4 @@ const InvestmentDeclaration = () => {
 
 };
 
-export default InvestmentDeclaration;
+export default InvestmentDeclaration; 

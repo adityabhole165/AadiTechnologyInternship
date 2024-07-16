@@ -30,6 +30,7 @@ import {
   isTestPublishedBody
 } from 'src/interfaces/FinalResult/IFinalResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ClassTechersList,
@@ -92,6 +93,10 @@ const FinalResult = () => {
   const [asStudentId, setasStudentId] = useState();
   const [asInsertedById, setasInsertedById] = useState();
   const [asWithGrace, setasWithGrace] = useState();
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const [page, setPage] = useState(1);
+
   const Exam = ['Final Result'];
 
 
@@ -271,6 +276,14 @@ const FinalResult = () => {
 
   const Usunpublishedexam: any = useSelector((state: RootState) => state.FinalResult.unpublishexam);
 
+  const filteredList = GetStudentLists.filter((item) => item.TotalRows !== undefined);
+  const TotalCount = filteredList.map((item) => item.TotalRows);
+  const uniqueTotalCount = [...new Set(TotalCount)];
+  const singleTotalCount = uniqueTotalCount[0];
+
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+  const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
   useEffect(() => {
     dispatch(ClassTechersList(ClassTeachersBody));
@@ -341,8 +354,8 @@ const FinalResult = () => {
     asAcademicyearId: asAcademicYearId.toString(),
     asStandardDivisionId: StandardDivisionId,
     SortExp: 'ORDER BY Roll_No',
-    prm_StartIndex: 0,
-    PageSize: 20
+    prm_StartIndex: (page - 1) * rowsPerPage,
+    PageSize: page * rowsPerPage,
   };
 
   const ViewResultBody: IViewBody = {
@@ -448,6 +461,13 @@ const FinalResult = () => {
   const ClickCloseDialogbox = () => {
     setOpen(false);
   };
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1); // Reset to the first page when changing rows per page
+  };
   const onClickUnpublish = (unPublish, Reason = '') => {
 
     if (asUnPublishReason !== '') {
@@ -514,7 +534,7 @@ const FinalResult = () => {
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
-  }, [UnpublishResult])
+  }, [page, rowsPerPage, UnpublishResult])
 
   useEffect(() => {
     if (GenerateAll !== '') {
@@ -524,7 +544,7 @@ const FinalResult = () => {
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
-  }, [GenerateAll])
+  }, [page, rowsPerPage, GenerateAll])
 
   useEffect(() => {
     if (PublishResult !== '') {
@@ -532,7 +552,7 @@ const FinalResult = () => {
       dispatch(resetPublishResult())
       dispatch(GetStudentResultList(PagedStudentBody))
     }
-  }, [PublishResult])
+  }, [page, rowsPerPage, PublishResult])
 
   useEffect(() => {
     if (StandardDivisionId != '0') {
@@ -543,7 +563,7 @@ const FinalResult = () => {
       dispatch(getunpublishedexam(unpublishexam));
       dispatch(GetStudentResultList(PagedStudentBody));
     }
-  }, [StandardDivisionId])
+  }, [page, rowsPerPage, StandardDivisionId])
 
   // useEffect(() => {
   //   dispatch(GetStudentResultList(PagedStudentBody))
@@ -733,15 +753,28 @@ const FinalResult = () => {
         )}
       </Typography>
 
+      <Box sx={{ background: 'white', p: 2 }}>
+        {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <Box component="span" fontWeight="fontWeightBold">
+              {startRecord} to {endRecord}
+            </Box>
+            {' '}out of{' '}
+            <Box component="span" fontWeight="fontWeightBold">
+              {singleTotalCount}
+            </Box>{' '}
+            {singleTotalCount === 1 ? 'record' : 'records'}
+          </Typography>
+        </div> : <span> </span>}
 
-      {GetStudentLists && GetStudentLists.length > 0 && (
-        <DataTable
-          columns={columns}
-          data={GetStudentLists}
-        />
-      )}
+        {GetStudentLists && GetStudentLists.length > 0 && (
+          <DataTable
+            columns={columns}
+            data={GetStudentLists}
+          />
+        )}
 
-      {/* {GetStudentLists != undefined && (
+        {/* {GetStudentLists != undefined && (
           <DynamicList2
             HeaderList={HeaderList}
             ItemList={GetStudentLists}
@@ -749,17 +782,33 @@ const FinalResult = () => {
             ClickItem={ClickItem}
           />
         )} */}
+        {
+          endRecord > 19 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
 
-      {Open && (
-        <FinalResultUnpublish
-          open={Open}
-          setOpen={setOpen}
-          ClickCloseDialogBox={ClickCloseDialogbox}
-          onClickUnpublish={onClickUnpublish}
-          ExamName={Exam}
-          TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
-        />
-      )}
+          ) : (
+            <span></span>
+
+          )
+        }
+
+        {Open && (
+          <FinalResultUnpublish
+            open={Open}
+            setOpen={setOpen}
+            ClickCloseDialogBox={ClickCloseDialogbox}
+            onClickUnpublish={onClickUnpublish}
+            ExamName={Exam}
+            TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
+          />
+        )}
+      </Box>
     </Box>
   )
 

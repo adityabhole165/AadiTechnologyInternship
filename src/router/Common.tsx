@@ -58,9 +58,7 @@ const EventManagement = Loader(
   lazy(() => import('src/components/EventManagementNew/EventManagement'))
 );
 
-const InvestmentDeclaration = Loader(
-  lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
-)
+
 
 const List = Loader(
   lazy(() => import('src/components/InvestmentDeclaration/List'))
@@ -162,10 +160,7 @@ const commonRoutes = [
     element: <StaffBirthday />
   },
 
-  {
-    path: 'InvestmentDeclaration',
-    element: <InvestmentDeclaration />
-  },
+
   {
     path: 'List',
     element: <List />

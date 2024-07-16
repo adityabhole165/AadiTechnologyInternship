@@ -10,7 +10,7 @@ import {
   IGetTestwiseTermBody,
   ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
-import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
+import DotLegends from 'src/libraries/ResuableComponents/DotLegends3';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
@@ -231,12 +231,11 @@ const AssignPrePrimaryGrades = () => {
             <Box sx={{ display: 'flex', gap: '20px' }}>
               <DotLegends
                 color="secondary"
-
+                text={undefined}
                 text1={'Marks entry not started'}
                 text2={'Marks entry partially done'}
                 text3={'Submit exam marks to the class teacher'}
-
-                text5={'Marks entry completed	'} text={undefined} text4={undefined} />
+                text4={'Marks entry completed'} />
             </Box>
           </Box>
         </Box>

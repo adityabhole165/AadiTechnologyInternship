@@ -9,6 +9,7 @@ const AddStudentRecordsSlice = createSlice({
         listGeneralDetails: [],
         listSiblingsDetails: [],
         listFamilyDetails: [],
+        listBehaviorDetails: [],
         Loading: true
     },
     reducers: {
@@ -24,6 +25,10 @@ const AddStudentRecordsSlice = createSlice({
             state.Loading = false;
             state.listFamilyDetails = action.payload;
         },
+        BehaviorDetails(state, action) {
+            state.Loading = false;
+            state.listBehaviorDetails = action.payload;
+        }
 
     }
 });
@@ -58,5 +63,32 @@ export const GetStudentRecordData =
             });
             dispatch(AddStudentRecordsSlice.actions.SiblingsDetails(siblingsdetails));
             console.log(siblingsdetails)
+
+            let familydetails = [];
+            response.data.listFamilyDetails.map((item, i) => {
+                familydetails.push({
+
+                    Id: item.Id,
+                    Name: item.Name,
+                    DisplayOnScreen: item.DisplayOnScreen,
+                    SortOrder: item.SortOrder
+                });
+            });
+            dispatch(AddStudentRecordsSlice.actions.FamilyDetails(familydetails));
+            console.log(familydetails)
+
+            let behaviordetails = [];
+            response.data.listBehaviorDetails.map((item, i) => {
+                behaviordetails.push({
+
+                    Id: item.Id,
+                    BDName: item.Name,
+                    SectionId: item.SectionId,
+                    BDSortOrder: item.SortOrder,
+                    ControlId: item.ControlId
+                });
+            });
+            dispatch(AddStudentRecordsSlice.actions.BehaviorDetails(behaviordetails));
+            console.log(behaviordetails)
         }
 export default AddStudentRecordsSlice.reducer;

@@ -1,9 +1,7 @@
 import Add from "@mui/icons-material/Add";
-import Close from '@mui/icons-material/Close';
 import { AlertContext } from 'src/contexts/AlertContext';
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import SaveIcon from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
@@ -18,7 +16,6 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import MultipleFile from 'src/libraries/File/MultipleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
@@ -67,7 +64,7 @@ const AddHomeworkNew = () => {
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [text, setText] = useState('');
   const [textall, setTextall] = useState('');
-  const [HomeworkId, setHomeworkId] = useState('');
+  const [HomeworkId, setHomeworkId] = useState(0);
   const [openPublishDialogall, setOpenPublishDialogall] = useState(false);
   const [SearchTittle, setSearchTittle] = useState([]);
   const [SearchTittle1, setSearchTittle1] = useState([]);
@@ -209,6 +206,7 @@ const AddHomeworkNew = () => {
 
   const handleEditClick = (Id) => {
     setHomeworkId(Id);
+    setOpen(true)
 
 
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
@@ -756,7 +754,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   const [SearchText, setSearchText] = useState('');
 
 
- 
+
   const changeSearchText = () => {
     const searchTextLowerCase = SearchText.toLowerCase().trim();
 
@@ -821,6 +819,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   }
   const handleClose = (value) => {
     setOpen(false)
+    setHomeworkId(0)
   }
 
   return (
@@ -916,12 +915,37 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           maxWidth={'md'}
           fullWidth
           onClose={handleClose}
-          sx={{ height:'100%', width: '100%' }} >
-          <DialogTitle  sx={{bgcolor:'#223354'}}
-          ></DialogTitle>
+          PaperProps={{
+            sx: {
+              borderRadius: "15px",
+            }
+          }}
+        >
+          <DialogTitle sx={{ bgcolor: '#223354' }}>
+            <ClearIcon onClick={handleClose}
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                  //  backgroundColor: red[100]
+
+                }
+              }} />
+
+          </DialogTitle>
+
           <DialogContent dividers >
             <Box>
-              <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '7px', cursor: 'pointer', marginTop:'33px' }} />
+              <h1>
+                {HomeworkId == 0 ? 'Add Homework' : 'Edit Homework'}
+              </h1>
+
               <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={3}>
@@ -1113,9 +1137,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
               color={'error'}
-              onClick={() => {
-                setOpen(false);
-              }}
+              onClick={handleClose}
             >
               Cancel
             </Button>
@@ -1124,14 +1146,15 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               onClick={ClickSaveHomework}
               // color={'success'}
               // variant={'contained'}
-                  sx={{
-                    color:'green',
-                     //  backgroundColor: grey[500],
-                      '&:hover': {
-                       color:'green',
-                     backgroundColor: green[100]
-                     }}}
-              >
+              sx={{
+                color: 'green',
+                //  backgroundColor: grey[500],
+                '&:hover': {
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+            >
               Save
             </Button>
           </DialogActions>
@@ -1228,17 +1251,18 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             }} color={'error'}>
               Cancel
             </Button>
-            <Button 
-            onClick={ClickOk} 
-            // variant={'contained'}
-            sx={{
-              color:'green',
-               //  backgroundColor: grey[500],
+            <Button
+              onClick={ClickOk}
+              // variant={'contained'}
+              sx={{
+                color: 'green',
+                //  backgroundColor: grey[500],
                 '&:hover': {
-              color:'green',
-               backgroundColor: green[100]
-                }}}
-        >
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+            >
               Confirm
             </Button>
           </DialogActions>
@@ -1333,36 +1357,38 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
         {Subjectlistsforteacher.length > 0 && SearchTittle1.length > 0 && (
           <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-            
-            
+
+
             <Button
-            //  style={{ backgroundColor: red[500] }} 
-            sx={{
-              color:'red',
-               //  backgroundColor: grey[500],
+              //  style={{ backgroundColor: red[500] }} 
+              sx={{
+                color: 'red',
+                //  backgroundColor: grey[500],
                 '&:hover': {
-              color:'red',
-               backgroundColor: red[100]
-                }}}
-             onClick={ClickOpenDialogbox}
-             >
-             Unpublish All
+                  color: 'red',
+                  backgroundColor: red[100]
+                }
+              }}
+              onClick={ClickOpenDialogbox}
+            >
+              Unpublish All
             </Button>
-            
+
             <Button
-            sx={{
-              color:'green',
-               //  backgroundColor: grey[500],
+              sx={{
+                color: 'green',
+                //  backgroundColor: grey[500],
                 '&:hover': {
-              color:'green',
-               backgroundColor: green[100]
-                }}}
-       
-            // style={{ backgroundColor: green[500] }}
-             onClick={publishAll}>
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+
+              // style={{ backgroundColor: green[500] }}
+              onClick={publishAll}>
               Publish All
             </Button>
-            
+
           </Box>
         )}
 
