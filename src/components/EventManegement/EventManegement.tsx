@@ -15,10 +15,11 @@ import {
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import { green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   DeleteEventImageBody,
   IAllClassesAndDivisionsBody,
@@ -73,7 +74,7 @@ const EventsManagement = () => {
   const [EventEndDate, setEventEndDate] = useState('');
   const [ErrorEventEndDate, setErrorEventEndDate] = useState('');
   const [HomeworkId, setHomeworkId] = useState('');
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const [ItemList, setitemList] = useState([]);
   const [ErrorIteamList, setErrorIteamList] = useState('');
   const [EList, setEList] = useState(0);
@@ -310,18 +311,39 @@ const EventsManagement = () => {
     Navigate('/extended-sidebar/Teacher/EventManegement/' + '/' + Id);
   };
 
+  // const clickeventDelete = (Id) => {
+  //   alert(Id);
+  //   if (confirm('Are You Sure you want to delete The List')) {
+  //     const DeleteEventBody: IDeleteEventBody = {
+  //       asSchoolId: asSchoolId,
+  //       asEventId: Number(Id),
+  //       asUserId: Number(TeacherId)
+  //     };
+  //     dispatch(GetDeleteEvent(DeleteEventBody));
+  //   }
+  // };
   const clickeventDelete = (Id) => {
-    alert(Id);
-    if (confirm('Are You Sure you want to delete The List')) {
-      const DeleteEventBody: IDeleteEventBody = {
-        asSchoolId: asSchoolId,
-        asEventId: Number(Id),
-        asUserId: Number(TeacherId)
-      };
-      dispatch(GetDeleteEvent(DeleteEventBody));
-    }
+    const DeleteEventBody: IDeleteEventBody = {
+      asSchoolId: asSchoolId,
+      asEventId: Number(Id),
+      asUserId: Number(TeacherId)
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are You Sure you want to delete the List?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(GetDeleteEvent(DeleteEventBody));
+        closeAlert();
+      }
+    });
   };
-
   const ClickChild = (value) => {
     setitemList(value);
   };
@@ -531,26 +553,26 @@ const EventsManagement = () => {
           </Grid>
 
           <Stack spacing={2} direction="row" justifyContent={'center'}>
-            <Button 
-            // variant={'contained'}
-            //  color="primary" 
-             onClick={CancelEvent}>
-             sx={{
-              // backgroundColor: green[100],
-              color: 'red',
-              ':hover': { backgroundColor: red[100] }
-          }}
-          
+            <Button
+              // variant={'contained'}
+              //  color="primary" 
+              onClick={CancelEvent}>
+              sx={{
+                // backgroundColor: green[100],
+                color: 'red',
+                ':hover': { backgroundColor: red[100] }
+              }}
+
               Cancel
             </Button>
-            <Button 
-            // variant={'contained'} color="success" 
-            onClick={ClickSave}
-             sx={{
-              // backgroundColor: green[100],
-              color: 'green',
-              ':hover': { backgroundColor: green[100] }
-          }} >
+            <Button
+              // variant={'contained'} color="success" 
+              onClick={ClickSave}
+              sx={{
+                // backgroundColor: green[100],
+                color: 'green',
+                ':hover': { backgroundColor: green[100] }
+              }} >
               Save
             </Button>
             {/* <Button
