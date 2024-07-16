@@ -193,6 +193,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
     },
+    {
+      title: 'Timetable',
+      icon: <FactCheck />,
+      link: '/extended-sidebar/Teacher/TeacherTimeTable'
+
+    },
 
     {
       title: 'Student Records',
