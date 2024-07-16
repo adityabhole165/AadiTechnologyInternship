@@ -6,19 +6,19 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   IGetClassTeachersBody,
+  IGetSubmitUnsubmitExamMarksStatusBody,
   IGetTeacherXseedSubjectsBody,
-  IGetTestwiseTermBody,
-  ISubmitExamMarksStatusBody
+  IGetTestwiseTermBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends3';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  CDAGetSubmitUnsubmitExamMarksStatus,
   CDAGetTeacherDropdown,
   CDAGetTeacherXseedSubjects,
   CDAGetTestwiseTerm,
-  CDASubmitExamMarksStatus,
-  resetMessage
+  resetSubmitUnSubmitGradeMsg
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
 import { GetIsPrePrimaryTeacher, GetScreenPermission } from '../Common/Util';
@@ -51,6 +51,10 @@ const AssignPrePrimaryGrades = () => {
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTeacherDropdown
   );
 
+  const SubmitUnsubmitToastMsg: any = useSelector(
+    (state: RootState) => state.AssignPrePrimaryGrades.ISGetSubmitUnsubmitExamMarksStatusMsg
+  );
+
   const USGetTeacherXseedSubjects: any = useSelector(
     (state: RootState) =>
       state.AssignPrePrimaryGrades.ISGetTeacherXseedSubjectsBody
@@ -79,29 +83,47 @@ const AssignPrePrimaryGrades = () => {
 
   const ClickSubmit = (value, StandardDivisionID, pending) => {
     console.log(pending)
-    const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = {
-      asStandard_Division_Id: StandardDivisionID,
-      asAssessmentId: SelectTerm,
+
+    const SubmitExamMarksStatusBody: IGetSubmitUnsubmitExamMarksStatusBody = {
+      asStandard_Division_Id: Number(StandardDivisionID),
+      asAssessmentId: Number(SelectTerm),
       asSubjectId: Number(value),
-      asAcademicYearId: asAcademicYearId,
-      asSchoolId: asSchoolId,
-      asInserted_By_id: Number(selectTeacher),
-      asInsertDate: String(dateState)
+      IsSubmitted: true,
+      asAcademicYearId: Number(asAcademicYearId),
+      asSchoolId: Number(asSchoolId),
+      asInserted_By_id: Number(selectTeacher)
     };
-    if (confirm(`Roll no.(s) Grades not entered for : ${pending} \nAre you sure you want to continue?`)) {
-      if (confirm(`Once you submit the result to the Class-teacher, you can not modify the grades. Are you sure you want to continue?`)) {
-        dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    if (confirm(`Roll no.(s) Grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?`)) {
+      if (confirm(' Once you submit the result to the class-teacher, you can not modify the marks/grades. \nAre you sure you want to continue?')) {
+        dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
       }
     }
   };
 
+  const ClickUnSubmit = (value, StandardDivisionID, pending) => {
+    const SubmitExamMarksStatusBody: IGetSubmitUnsubmitExamMarksStatusBody = {
+      asStandard_Division_Id: Number(StandardDivisionID),
+      asAssessmentId: Number(SelectTerm),
+      asSubjectId: Number(value),
+      IsSubmitted: false,
+      asAcademicYearId: Number(asAcademicYearId),
+      asSchoolId: Number(asSchoolId),
+      asInserted_By_id: Number(selectTeacher)
+    };
+    console.log("Submit and unsubmit body-->>>>>>>>", SubmitExamMarksStatusBody)
+    if (confirm(`Are you sure you want to Unsubmit grades?`)) {
+      dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    }
+  }
+
   useEffect(() => {
-    if (USSubmitExamMarksStatus != '') {
-      toast.success(USSubmitExamMarksStatus);
-      dispatch(resetMessage());
+    if (SubmitUnsubmitToastMsg != '') {
+      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Marks submitted successfully") : toast.success("Grades Unsubmitted Successfully")
+
+      dispatch(resetSubmitUnSubmitGradeMsg());
       dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
     }
-  }, [USSubmitExamMarksStatus]);
+  }, [SubmitUnsubmitToastMsg]);
 
   useEffect(() => {
     const getCurrentDateTime = () => {
@@ -235,7 +257,9 @@ const AssignPrePrimaryGrades = () => {
                 text1={'Marks entry not started'}
                 text2={'Marks entry partially done'}
                 text3={'Submit exam marks to the class teacher'}
-                text4={'Marks entry completed'} />
+                text4={'Marks entry completed'}
+                text5={'Unsubmit exam marks to the class teacher'} />
+
             </Box>
           </Box>
         </Box>
@@ -250,6 +274,7 @@ const AssignPrePrimaryGrades = () => {
                 clickEdit={clickEdit}
                 HeaderArray={HeaderPublish}
                 clicksubmit={ClickSubmit}
+                clickUnSubmit={ClickUnSubmit}
               />
             </div>
           ) : (

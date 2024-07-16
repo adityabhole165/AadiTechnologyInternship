@@ -1,7 +1,7 @@
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, Grid, IconButton, Modal, Paper, TablePagination, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,7 @@ import {
   IStudentswiseRemarkDetailsToExportBody,
   IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -54,21 +55,8 @@ const ProgressRemarks = () => {
   const [open, setOpen] = useState(false);
   const [Itemlist, setItemlist] = useState([]);
   const [IsDirty, setIsDirty] = useState(false);
-
   const [page1, setPage1] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10); // Show 20 records by default
   const asStandardId = sessionStorage.getItem('StandardId');
-
-  const handleChangePage = (event, newPage) => {
-    setPage1(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage1(0); // Reset to the first page
-  };
-
-  const paginatedItems = Itemlist.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
@@ -76,10 +64,8 @@ const ProgressRemarks = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
-  const itemsPerPage = 20;
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
 
   const { StandardDivisionId, TestId } = useParams();
 
@@ -165,6 +151,9 @@ const ProgressRemarks = () => {
     (state: RootState) =>
       state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
   );
+
+  const countArray = USGetAllStudentsForProgressRemark.map((item: any) => item.TotalRows);
+  console.log(countArray[0], "countArray");
 
 
   const USRemarkDetailsHeaderList: any = useSelector(
@@ -340,6 +329,9 @@ const ProgressRemarks = () => {
     asTerm_Id: SelectTerm
   };
 
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
   const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsNewBody =
   {
     asSchoolId: asSchoolId,
@@ -348,8 +340,8 @@ const ProgressRemarks = () => {
     asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
     TeacherId: Number(selectTeacher),
-    asStartIndex: page1 * rowsPerPage,
-    asEndIndex: (page1 + 1) * rowsPerPage
+    asStartIndex: startIndex,
+    asEndIndex: endIndex
   };
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
@@ -513,11 +505,14 @@ const ProgressRemarks = () => {
 
         if (confirmed) {
           SetselectTeacher(value);
-
+          setRowsPerPage(20)
+          setPage(1)
         }
       }
       else
         SetselectTeacher(value);
+        setRowsPerPage(20)
+        setPage(1)
 
     }
   };
@@ -599,17 +594,24 @@ const ProgressRemarks = () => {
     setPage(pageNumber);
   };
 
+
+
+
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, countArray[0]);
+  const pagecount = Math.ceil(countArray[0] / rowsPerPage);
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
   useEffect(() => {
-
-    const AllStudentsForProgressBody: IGetAllStudentswiseRemarkDetailsNewBody = {
-      ...GetAllStudentswiseRemarkDetailsBody,
-      asStartIndex: startIndex,
-      asEndIndex: endIndex
-
-    };
-
-    dispatch(CDAGetAllStudentswiseRemarkDetails(AllStudentsForProgressBody));
-  }, [page, selectTeacher, SelectTerm]);
+    dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
+  }, [page, selectTeacher, SelectTerm,rowsPerPage]);
 
 
   const Changevalue = (value) => {
@@ -808,16 +810,38 @@ const ProgressRemarks = () => {
         <ProgressRemarksNotes />
       </Paper>
       <Box sx={{ background: 'white', p: 2 }}>
-      <Grid item xs={12}>
-            <Typography fontWeight={"bold"} variant='h4' mb={1}>
-              Legend
-            </Typography>
-            <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
-              <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
-              <Box>Left Students</Box>
-            </Typography>
-          </Grid>
+        <Grid item xs={12}>
+          <Typography fontWeight={"bold"} variant='h4' mb={1}>
+            Legend
+          </Typography>
+          <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
+            <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
+            <Box>Left Students</Box>
+          </Typography>
+        </Grid>
         <Grid container spacing={2}>
+
+        {
+          USGetAllStudentswiseRemarkDetails.length > 0 ? (
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                <Box component="span" fontWeight="fontWeightBold">
+                  {startRecord} to {endRecord}
+                </Box>
+                {' '}out of{' '}
+                <Box component="span" fontWeight="fontWeightBold">
+                  {countArray[0]}
+                </Box>{' '}
+                {countArray[0] === 1 ? 'record' : 'records'}
+              </Typography>
+            </div>
+
+          ) : (
+            <span></span>
+
+          )
+        }
+        
           <Grid item xs={12}>
             <Paper>
 
@@ -827,6 +851,8 @@ const ProgressRemarks = () => {
                 </Typography>
 
               )}
+
+
 
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
                 <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm }}>
@@ -843,27 +869,25 @@ const ProgressRemarks = () => {
               )}
 
 
-              {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                <Box sx={{ margin: '3px' }} style={{ display: 'flex', justifyContent: 'end' }}>
-                  <TablePagination
-                    component="div"
-                    count={Itemlist.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page1}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
 
-                  />
-                </Box>
-              ) : (
-                <span> </span>
-
-              )}
             </Paper>
           </Grid>
-         
+
         </Grid>
       </Box>
+      {countArray[0] > rowsPerPage ? (
+        <ButtonGroupComponent
+          rowsPerPage={rowsPerPage}
+          ChangeRowsPerPage={ChangeRowsPerPage}
+          rowsPerPageOptions={rowsPerPageOptions}
+          PageChange={PageChange}
+          pagecount={pagecount}
+        />
+
+      ) : (
+        <span> </span>
+
+      )}
       <Modal
         open={open}
         onClose={ClickAppropriate}
@@ -925,22 +949,23 @@ const ProgressRemarks = () => {
 
 
             <Box sx={{ mt: "15px" }}>
-            <Button
+              <Button
                 // variant="contained"
                 // style={{
                 //   backgroundColor: '#de554b',
                 //   color: 'White',
-                  
+
                 // }}
                 sx={{
                   marginRight: '10px',
-                  color:'red',
-                   //  backgroundColor: grey[500],
-                    '&:hover': {
-                  color:'red',
-                   backgroundColor: red[100]
-                    }}}
-           
+                  color: 'red',
+                  //  backgroundColor: grey[500],
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
+
                 onClick={() => setOpen(!open)}
               >
                 Cancle
@@ -958,18 +983,19 @@ const ProgressRemarks = () => {
                 // }}
                 sx={{
                   marginRight: '10px',
-                  color:'green',
-                   //  backgroundColor: grey[500],
-                    '&:hover': {
-                  color:'green',
-                   backgroundColor: green[100]
-                    }}}
+                  color: 'green',
+                  //  backgroundColor: grey[500],
+                  '&:hover': {
+                    color: 'green',
+                    backgroundColor: green[100]
+                  }
+                }}
                 onClick={SelectClick}
                 disabled={remarkTemplates.length === 0}
               >
                 Selete Progress
               </Button>
-              
+
             </Box>
           </Box>
         </Box>

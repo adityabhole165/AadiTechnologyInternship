@@ -3,6 +3,7 @@ import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignP
 import {
   IGetGetStudentsForNonXseedSubjects,
   IGetStudentsForStdDevMasters,
+  IGetSubmitUnsubmitExamMarksStatusBody,
   IGetTeacherDropdownBody,
   IGetTeacherXseedSubjectsBody,
   IGetTestwiseTermBody,
@@ -26,6 +27,7 @@ const AssignPrePrimaryGradesSlice = createSlice({
     IGetSaveNonXseedSubGradesMsg: '',
     ISGetNonXseedStudentsObs: [],
     ISGetTeacherDropdown: [],
+    ISGetSubmitUnsubmitExamMarksStatusMsg: '',
   },
   reducers: {
     RGetTestwiseTerm(state, action) {
@@ -70,7 +72,14 @@ const AssignPrePrimaryGradesSlice = createSlice({
 
     RGetTeacherDropdown(state, action) {
       state.ISGetTeacherDropdown = action.payload;
-    }
+    },
+
+    RGetSubmitUnsubmitExamMarksStatusMsg(state, action) {
+      state.ISGetSubmitUnsubmitExamMarksStatusMsg = action.payload;
+    },
+    ResetGetSubmitUnsubmitExamMarksStatusMsg(state) {
+      state.ISGetSubmitUnsubmitExamMarksStatusMsg = ''
+    },
   }
 });
 
@@ -267,6 +276,24 @@ export const CDASaveNonXseedSubGrades =
 
 export const resetSavenonXseedMsg = (): AppThunk => async (dispatch) => {
   dispatch(AssignPrePrimaryGradesSlice.actions.ResetSaveNonXseedSubGradesMsg());
+};
+
+
+export const CDAGetSubmitUnsubmitExamMarksStatus =
+  (data: IGetSubmitUnsubmitExamMarksStatusBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetSubmitUnsubmitExamMarksStatus(
+        data
+      );
+      console.log(response, 'response----------');
+      dispatch(
+        AssignPrePrimaryGradesSlice.actions.RGetSubmitUnsubmitExamMarksStatusMsg(response.data)
+      );
+    };
+
+
+export const resetSubmitUnSubmitGradeMsg = (): AppThunk => async (dispatch) => {
+  dispatch(AssignPrePrimaryGradesSlice.actions.ResetGetSubmitUnsubmitExamMarksStatusMsg());
 };
 
 
