@@ -162,3 +162,13 @@ export interface IGetNonXseedStudentsObs {
   Observation: string,
   GradeId: Number
 }
+
+export interface IGetSubmitUnsubmitExamMarksStatusBody {
+  asStandard_Division_Id: Number,
+  asAssessmentId: Number,
+  asSubjectId: Number,
+  IsSubmitted: boolean,
+  asAcademicYearId: Number,
+  asSchoolId: Number,
+  asInserted_By_id: Number
+}

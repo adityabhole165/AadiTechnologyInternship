@@ -2,6 +2,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,7 +15,8 @@ function EditIconList({
   ItemList,
   clickEdit,
   HeaderArray,
-  clicksubmit
+  clicksubmit,
+  clickUnSubmit,
 }) {
   console.log(ItemList, 'ItemList');
   const cellStyle = {
@@ -76,7 +78,7 @@ function EditIconList({
                 <TableCell sx={{ textTransform: 'none', ...cellStyle }} align="center">
                   {item.Text4 === '2' ? (
                     <IconButton>
-                      <Tooltip title="Submit Marks To Class Teacher">
+                      <Tooltip title="Submit exam marks to the class teacher">
                         <EventAvailableIcon
                           onClick={() =>
                             clicksubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
@@ -85,7 +87,13 @@ function EditIconList({
                       </Tooltip>
                     </IconButton>
                   ) : item.Text4 === '3' ? (
-                    <span>Marks already submitted.</span>
+                    <IconButton>
+                      <Tooltip title="Unsubmit exam marks">
+                        <EventBusyIcon onClick={() =>
+                          clickUnSubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
+                        } sx={{ cursor: 'pointer', color: 'black' }} />
+                      </Tooltip>
+                    </IconButton>
                   ) : (
                     <span>Mark cannot be submitted.</span>
                   )}

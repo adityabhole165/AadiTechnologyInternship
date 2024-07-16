@@ -6,6 +6,7 @@ import {
   IGetNonXseedStudentsObs,
   IGetStudentsForStdDevMasters,
   IGetStudentsForStdDevMastersBody,
+  IGetSubmitUnsubmitExamMarksStatusBody,
   IGetTeacherDropdownBody,
   IGetTeacherDropdownResult,
   IGetTeacherXseedSubjectsBody,
@@ -75,6 +76,12 @@ const IGetSaveNonXseedSubGrades = (
   return http.post<''>('Teacher/SaveNonXseedSubGrades', data);
 };
 
+
+const GetSubmitUnsubmitExamMarksStatus = (data: IGetSubmitUnsubmitExamMarksStatusBody) => {
+  return http.post<string>('Teacher/SubmitUnsubmitExamMarksStatus', data);
+}
+
+
 const ApiAssignPrePrimaryGrades = {
   GetTestwiseTermA,
   GetClassTeachers,
@@ -84,6 +91,7 @@ const ApiAssignPrePrimaryGrades = {
   GetStudentsForNonXseedSubjects,
   IGetSaveNonXseedSubGrades,
   GetStudentsForNonXseedSubjectWithObs,
+  GetSubmitUnsubmitExamMarksStatus,
   GetTeacherDropdown
 };
 export default ApiAssignPrePrimaryGrades;
