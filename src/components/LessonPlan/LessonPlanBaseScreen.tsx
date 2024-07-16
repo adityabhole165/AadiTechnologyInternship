@@ -284,7 +284,7 @@ const LessonPlanBaseScreen = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Are you sure you want to delete this leave?  ',
+        'Are you sure you want to delete this record?  ',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
