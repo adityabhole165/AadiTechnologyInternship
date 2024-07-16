@@ -257,6 +257,7 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     asStartIndex: data.asStartIndex,
     asEndIndex: data.asEndIndex,
     asSortExp: "Roll_No"
+   
   }
 
   const response2 = await ApiProgressRemark.GetAllStudentsForProgressRemark(NewBody);
@@ -269,8 +270,8 @@ export const CDAGetAllStudentswiseRemarkDetails = (
     Text5: item.SchoolWise_Standard_Division_Id,
     
     Value: item.Student_Id,
-    Name: item.Student_Name
-
+    Name: item.Student_Name,
+    TotalRows:item.TotalRows
    
 
 

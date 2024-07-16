@@ -225,6 +225,7 @@ export interface IGetAllStudentsForProgressRemarkResult {
   SchoolLeft_Date: string
   Joining_Date: string
   Teacher_Id: string
+  TotalRows:string
 }
 
 
