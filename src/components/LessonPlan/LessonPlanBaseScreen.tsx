@@ -4,7 +4,7 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -38,6 +38,7 @@ import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import IsHighliteStaus from './LessonPlanContext';
+import { AlertContext } from 'src/contexts/AlertContext';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const LessonPlanBaseScreen = () => {
 
   let CanEdit = getSchoolConfigurations(233)
   const [rowsPerPage, setRowsPerPage] = useState(20);
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
@@ -256,21 +257,46 @@ const LessonPlanBaseScreen = () => {
 
 
 
-  const clickDelete = (sStartDate, sEndDate) => {
-    if (confirm('Are you sure you want to delete this record?')) {
-      const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asUpdatedById: Number(selectClasstecahernew),
-        asUserId: Number(selectClasstecahernew),
-        asStartDate: sStartDate,
-        asEndDate: sEndDate,
-      };
-      dispatch(deletelessonplan(DeleteLessonPlanBody));
-      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+  // const clickDelete = (sStartDate, sEndDate) => {
+  //   if (confirm('Are you sure you want to delete this record?')) {
+  //     const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
+  //       asSchoolId: asSchoolId,
+  //       asAcademicYearId: asAcademicYearId,
+  //       asUpdatedById: Number(selectClasstecahernew),
+  //       asUserId: Number(selectClasstecahernew),
+  //       asStartDate: sStartDate,
+  //       asEndDate: sEndDate,
+  //     };
+  //     dispatch(deletelessonplan(DeleteLessonPlanBody));
+  //     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
 
-    }
-  }
+  //   }
+  // }
+  const clickDelete = (sStartDate, sEndDate) => {
+    const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUpdatedById: Number(selectClasstecahernew),
+      asUserId: Number(selectClasstecahernew),
+      asStartDate: sStartDate,
+      asEndDate: sEndDate,
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this leave?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(deletelessonplan(DeleteLessonPlanBody));
+        closeAlert();
+      }
+    });
+  };
 
   useEffect(() => {
     if (DeleteLessonPlan !== '' && !isDeleteEffectTriggered) {

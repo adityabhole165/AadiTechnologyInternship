@@ -56,19 +56,19 @@ function EditIconList({
                 <TableCell sx={{ textTransform: 'capitalize', ...cellStyle }} align="center">
                   {item.Text3 === '3' ? (
                     <IconButton>
-                      <Tooltip title="Marks entry completed">
+                      <Tooltip title="Grades entry completed">
                         <CheckIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#07bc0c' }} />
                       </Tooltip>
                     </IconButton>
                   ) : item.Text3 === '2' ? (
                     <IconButton>
-                      <Tooltip title="Marks entry partially done">
+                      <Tooltip title="Grades entry partially done">
                         <DesignServicesIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: 'orange' }} />
                       </Tooltip>
                     </IconButton>
                   ) : (
                     <IconButton>
-                      <Tooltip title="Marks entry not started">
+                      <Tooltip title="Grades entry not started">
                         <EditOffIcon onClick={() => clickEdit(item.Text3, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#f44336' }} />
                       </Tooltip>
                     </IconButton>
@@ -77,7 +77,7 @@ function EditIconList({
                 <TableCell sx={{ textTransform: 'none', ...cellStyle }} align="center">
                   {item.Text4 === '2' ? (
                     <IconButton>
-                      <Tooltip title="Submit exam marks to the class teacher">
+                      <Tooltip title="Submit exam grades to the class teacher">
                         <EventAvailableIcon
                           onClick={() =>
                             clicksubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
@@ -87,14 +87,14 @@ function EditIconList({
                     </IconButton>
                   ) : item.Text4 === '3' ? (
                     <IconButton>
-                      <Tooltip title="Unsubmit exam marks to the class teacher">
+                      <Tooltip title="Unsubmit exam grades">
                         <EventBusyIcon onClick={() =>
                           clickUnSubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
                         } sx={{ cursor: 'pointer', color: 'black' }} />
                       </Tooltip>
                     </IconButton>
                   ) : (
-                    <span>Mark cannot be submitted.</span>
+                    <span>Grades cannot be submitted.</span>
                   )}
 
                 </TableCell>

@@ -93,7 +93,7 @@ const AssignPrePrimaryGrades = () => {
       asSchoolId: Number(asSchoolId),
       asInserted_By_id: Number(selectTeacher)
     };
-    if (confirm(`Roll no.(s) Grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?`)) {
+    if (confirm(`Roll no.(s) grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?`)) {
       if (confirm(' Once you submit the result to the class-teacher, you can not modify the marks/grades. \nAre you sure you want to continue?')) {
         dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
       }
@@ -111,14 +111,14 @@ const AssignPrePrimaryGrades = () => {
       asInserted_By_id: Number(selectTeacher)
     };
     console.log("Submit and unsubmit body-->>>>>>>>", SubmitExamMarksStatusBody)
-    if (confirm(`Are you sure you want to Unsubmit grades?`)) {
+    if (confirm(`Are you sure you want to unsubmit grades?`)) {
       dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
     }
   }
 
   useEffect(() => {
     if (SubmitUnsubmitToastMsg != '') {
-      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Marks submitted successfully") : toast.success("Grades Unsubmitted Successfully")
+      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Grades submitted successfully") : toast.success("Grades unsubmitted successfully")
 
       dispatch(resetSubmitUnSubmitGradeMsg());
       dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
@@ -230,7 +230,7 @@ const AssignPrePrimaryGrades = () => {
                 />
               }
               <Box>
-                <Tooltip title={`View all subjects assigned with the current status of grades given to students.Once grades for all 
+                <Tooltip title={`View all subjects assigned with the current status of grades given to students. Once grades for all 
                   the students are allotted you have to submit these grades to the class-teacher by clicking on 'submit' button.`}>
                   <IconButton sx={{
                     bgcolor: 'grey.500',
@@ -254,11 +254,11 @@ const AssignPrePrimaryGrades = () => {
               <DotLegends
                 color="secondary"
                 text={undefined}
-                text1={'Marks entry not started'}
-                text2={'Marks entry partially done'}
-                text3={'Submit exam marks to the class teacher'}
-                text4={'Marks entry completed'}
-                text5={'Unsubmit exam marks to the class teacher'} />
+                text1={'Grades entry not started'}
+                text2={'Grades entry partially done'}
+                text3={'Submit exam grades to the class teacher'}
+                text4={'Grades entry completed'}
+                text5={'Unsubmit exam grades '} />
 
             </Box>
           </Box>

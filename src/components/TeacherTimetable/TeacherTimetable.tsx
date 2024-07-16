@@ -62,7 +62,8 @@ const TeacherTimetable = () => {
         asTeacher_Id: Number(sessionStorage.getItem('TeacherId')),
         asConsiderAssembly: ApplicablesData[0].Assemble,
         asConsiderMPT: ApplicablesData[0].MPT,
-        asConsiderStayback: ApplicablesData[0].Stayback,
+        asConsiderStayback: "Y",
+        asConsiderWeeklyTest: "Y"
       }
       console.log("teacher count ", LectureCountsForTeachers)
       dispatch(GetLectureCountsForTeachers(GetLectureCountsForTeachersBody))

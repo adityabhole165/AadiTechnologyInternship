@@ -111,7 +111,7 @@ export const CDAlessonplanlist =
           UserId: item.UserId,
           IsSuggisionAdded: item.IsSuggisionAdded,
           IsSuggisitionRead: item.IsSuggisitionRead,
-
+          RecordCount: item.RecordCount
         };
       });
 
