@@ -18,6 +18,7 @@ export interface IGetLessonPlanListResult {
     Remarks: string
     IsSuggisionAdded: string
     IsSuggisitionRead: string
+    RecordCount: string,
     SubmitedByReportingUser: string
   }];
   listResult2nd: [{
