@@ -2,13 +2,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IGetClassTeachersBody, IGetOptionalSubjectsForMarksTransferBody, IGetStudentsToTransferMarksBody, ITransferOptionalSubjectMarksBody } from 'src/interfaces/TransferOptionalSubjectMarks/ITransferOptionalSubjectMarks';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
@@ -45,6 +46,7 @@ const TransferOptionalSubjectMarks = () => {
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
     const USStudentsToTransferMarks1: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks1);
+    const countArray = USStudentsToTransferMarks1.map((item: any) => item.Count);
     const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
     const [StudentsList, setStudentsList] = useState([]);
@@ -52,7 +54,9 @@ const TransferOptionalSubjectMarks = () => {
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [OptionalSubjects, setOptionalSubjects] = useState([])
     const [defaultSubjects, setdefaultSubjects] = useState([])
-
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
+    const [page, setPage] = useState(1);
 
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
@@ -93,14 +97,15 @@ const TransferOptionalSubjectMarks = () => {
         asAcademicYearId: asAcademicYearId,
         asTeacherId: Number(selectClasstecaher)
     };
-
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
     const GetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asStandardDivisionId: Number(selectClasstecaher),
         asName: SearchText,
-        asEndIndex: 20,
-        asStartRowIndex: 0
+        asEndIndex: endIndex,
+        asStartRowIndex: startIndex
     };
 
     const GetOptionalSubjectsForMarksTransferBody: IGetOptionalSubjectsForMarksTransferBody = {
@@ -206,40 +211,61 @@ const TransferOptionalSubjectMarks = () => {
                 if (confirmed) {
                     setselectClasstecaher(value);
                     setPage(1)
+                    setRowsPerPage(20)
                 }
             }
             else
                 setselectClasstecaher(value);
             setPage(1)
+            setRowsPerPage(20)
+
         } else {
             setselectClasstecaher(value);
             setPage(1)
+            setRowsPerPage(20)
+
         }
     };
-    const [page, setPage] = useState(1);
 
 
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
     };
-    const itemsPerPage = 20;
+    // const itemsPerPage = 20;
 
-    const startIndex = (page - 1) * itemsPerPage + 1;
-    const endIndex = startIndex + itemsPerPage - 1;
+    // const startIndex = (page - 1) * itemsPerPage + 1;
+    // const endIndex = startIndex + itemsPerPage - 1;
+    // useEffect(() => {
+    //     const startIndex = (page - 1) * itemsPerPage;
+    //     const endIndex = startIndex + itemsPerPage;
+
+    //     const newGetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
+    //         ...GetStudentsToTransferMarksBody,
+    //         asStartRowIndex: startIndex,
+    //         asEndIndex: endIndex
+    //     };
+
+    //     dispatch(CDAStudentsToTransferMarks(newGetStudentsToTransferMarksBody));
+    // }, [page, selectClasstecaher]);
+
+
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, countArray);
+    const pagecount = Math.ceil(countArray / rowsPerPage);
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
+
+
     useEffect(() => {
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-
-        const newGetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
-            ...GetStudentsToTransferMarksBody,
-            asStartRowIndex: startIndex,
-            asEndIndex: endIndex
-        };
-
-        dispatch(CDAStudentsToTransferMarks(newGetStudentsToTransferMarksBody));
-    }, [page, selectClasstecaher]);
-
-
+        dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
+    }, [page, selectClasstecaher, rowsPerPage]);
 
 
     const changeSearchText = () => {
@@ -362,10 +388,10 @@ const TransferOptionalSubjectMarks = () => {
                                 label="Student Name / Reg.No. :"
                                 value={SearchText}
                                 onKeyDown={(e) => {
-                                    if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                                    if (e.key === 'Enter' || e.key === 'Tab') {
                                         changeSearchText();
                                     }
-                                  }}
+                                }}
                                 variant={'outlined'}
                                 size={"small"}
                                 onChange={(e) => {
@@ -420,7 +446,6 @@ const TransferOptionalSubjectMarks = () => {
                         </>
                     }
                 />
-
 
 
                 {StudentsList.length > 0 && (
@@ -486,8 +511,10 @@ const TransferOptionalSubjectMarks = () => {
                                 }
                             </AccordionDetails>
                         </Accordion>
+
                     </Paper>
                 )} <br />
+
 
                 {errorMessage && (
                     <>
@@ -498,6 +525,26 @@ const TransferOptionalSubjectMarks = () => {
                         </Typography>
                     </>
                 )}
+                {
+                    StudentsList.length > 0 ? (
+                        <div style={{ flex: 1, textAlign: 'center' }}>
+                            <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                <Box component="span" fontWeight="fontWeightBold">
+                                    {startRecord} to {endRecord}
+                                </Box>
+                                {' '}out of{' '}
+                                <Box component="span" fontWeight="fontWeightBold">
+                                    {countArray}
+                                </Box>{' '}
+                                {countArray === 1 ? 'record' : 'records'}
+                            </Typography>
+                        </div>
+
+                    ) : (
+                        <span></span>
+
+                    )
+                }
 
                 <Box sx={{ display: 'flex', flexDirection: 'row', height: "800" }}>
 
@@ -530,29 +577,34 @@ const TransferOptionalSubjectMarks = () => {
                         </Accordion>
                     </Paper>
                 )}
+
+
                 {selectClasstecaher !== '0' ? (
                     StudentsList.length > 0 ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
-                            <Box sx={{ textAlign: 'center' }}>
-                                {`${startIndex} To ${endIndex} Out Of 39 Records`}
-                            </Box>
-                            Select a page:
-                            <Pagination
-                                count={5}
-                                variant={"outlined"}
-                                shape='rounded' showFirstButton
-                                showLastButton
-                                onChange={(event, value) => {
-                                    handlePageChange(value);
-                                }}
-                            />
-                        </Box>
+                        <span></span>
                     ) : (
                         <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                             <b>No Record Found.</b>
                         </Typography>
                     )
                 ) : null}
+
+
+                {
+                    countArray > rowsPerPage ? (
+                        <TransferOptionalSubjectMarks
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+                    ) : <span> </span>
+
+                }
+
+
+
             </Box >
         </>
     );
