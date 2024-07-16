@@ -137,7 +137,7 @@ const AssignPrePrimaryGrades = () => {
 
   useEffect(() => {
     if (SubmitUnsubmitToastMsg != '') {
-      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Grades submitted successfully") : toast.success("Grades unsubmitted successfully")
+      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Marks submitted successfully") : toast.success("Marks unsubmitted successfully")
 
       dispatch(resetSubmitUnSubmitGradeMsg());
       dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
@@ -273,11 +273,11 @@ const AssignPrePrimaryGrades = () => {
               <DotLegends
                 color="secondary"
                 text={undefined}
-                text1={'Grades entry not started'}
-                text2={'Grades entry partially done'}
-                text3={'Submit exam grades to the class teacher'}
-                text4={'Grades entry completed'}
-                text5={'Unsubmit exam grades '} />
+                text1={'Marks entry not started'}
+                text2={'Marks entry partially done'}
+                text3={'Submit exam marks to the class teacher'}
+                text4={'Marks entry completed'}
+                text5={'Unsubmit exam marks '} />
 
             </Box>
           </Box>
