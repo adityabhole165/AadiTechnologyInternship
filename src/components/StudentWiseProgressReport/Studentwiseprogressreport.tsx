@@ -2,6 +2,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import {
   Box,
   IconButton,
@@ -388,18 +389,19 @@ const Studentwiseprogressreport = () => {
                   if (item) {
                     const isClickable = item.ShowProgressReport !== "Y";
                     return (
-                      <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
+                      <Tooltip key={item.Id} title={isClickable ? "Delete All" : "Delete Disabled"}>
                         <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
-                          <DeleteForeverIcon
-                            onClick={isClickable ? () => clickDeleteAlll() : undefined}
-                            sx={{
-                              color: isClickable ? '#223354' : 'gray',
-                              '&:hover': {
-                                color: isClickable ? 'red' : 'gray',
-                                backgroundColor: isClickable ? red[100] : 'transparent'
-                              }
-                            }}
-                          />
+                        <IconButton
+                          sx={{
+                            color:'#223354',
+                                 //  backgroundColor: grey[500],
+                                  '&:hover': {
+                                   color:'red',
+                                 backgroundColor: red[100]
+                                 }}}
+                                    >
+                          <DeleteSweepIcon  onClick={isClickable ? () => clickDeleteAlll() : undefined}/>
+                          </IconButton>
                         </span>
                       </Tooltip>
                     );

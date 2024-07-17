@@ -202,18 +202,18 @@ export const CDAGetItemCategory =
   (data: IGetRequisitionDetailsBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiAddRequisition.GetRequisitionDetailsApi(data);    
-    let listGetRequisitionItemDetails = response.data.listGetRequisitionItemDetails.map((item, i) => {
-      return {
+    // let listGetRequisitionItemDetails = response.data.listGetRequisitionItemDetails.map((item, i) => {
+    //   return {
       
-        ItemID: item.ItemID,
-        ItemCode:item.ItemCode,
-        ItemName:item.ItemStatus,
+    //     ItemID: item.ItemID,
+    //     ItemCode:item.ItemCode,
+    //     ItemName:item.RequisitionName,
        
 
-      };
-    });
+    //   };
+    // });
       
-    dispatch(SliceAddRequisition.actions.RGetRequisitionDetails(listGetRequisitionItemDetails));
+    dispatch(SliceAddRequisition.actions.RGetRequisitionDetails(response.data));
 
   };
 

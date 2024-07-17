@@ -208,7 +208,7 @@ const AddRequisition = () => {
 
 
     useEffect(() => {
-        CDAGetRequisitionDetails(GetRequisitionDetailsBodynew)
+        dispatch(CDAGetRequisitionDetails(GetRequisitionDetailsBodynew));
     }, []);
 
     const GEtSalutation = () => {
