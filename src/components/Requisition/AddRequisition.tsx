@@ -22,6 +22,7 @@ import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+import Requisioneditlist from './Requisioneditlist';
 
 
 const AddRequisition = () => {
@@ -70,9 +71,10 @@ const AddRequisition = () => {
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
     const CountAddReq: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCountRequisitionList);
-    const USGetRequisitionDetails111: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
+    const USGetRequisitionDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
+    const listGetRequisitionTeacherDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails1);
 
-  console.log(USGetRequisitionDetails111,"USGetRequisitionDetails-----");
+  console.log(listGetRequisitionTeacherDetails,"listGetRequisitionTeacherDetails-----");
   
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
@@ -126,6 +128,14 @@ const AddRequisition = () => {
         // { Id: 6, Header: 'Returned Qty' },
         // { Id: 7, Header: 'Cancelled Qty' },
         { Id: 8, Header: 'Delete' },
+
+    ];
+
+    const HeaderPublish1 = [
+        { Id: 1, Header: 'Status Changed by' },
+        { Id: 2, Header: 'Request Status' },
+        { Id: 3, Header: 'Date' },
+       
 
     ];
 
@@ -199,9 +209,9 @@ const AddRequisition = () => {
 
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
-        asSchoolId: 18,
-        asRequisitionId: 2928,
-        asMode: "view"
+        asSchoolId: asSchoolId,
+        asRequisitionId: Number(asRequisitionId),
+        asMode: "Edit"
 
 
     };
@@ -209,7 +219,7 @@ const AddRequisition = () => {
 
     useEffect(() => {
         dispatch(CDAGetRequisitionDetails(GetRequisitionDetailsBodynew));
-    }, []);
+    }, [asRequisitionId]);
 
     const GEtSalutation = () => {
         let classStudentNames = [];
@@ -549,8 +559,24 @@ const AddRequisition = () => {
 
     }, [ItemNewID, USGetAddItemList, errorMessage]);
 
+   
+    useEffect(() => {
+        if (USGetRequisitionDetails != '' ) {
+            const firstDetail = USGetRequisitionDetails[0];
+            if (firstDetail) {
+                setTextall(firstDetail.RequisitionName);
+                setTextall1(firstDetail.RequisitionDescription);
+            }
+        }
+    }, [USGetRequisitionDetails]);
 
-
+  
+    useEffect(() => {
+            if (asRequisitionId) {
+                setAddItemlistNew(USGetRequisitionDetails)
+            }
+    }, [asRequisitionId]);
+    
     useEffect(() => {
         SetItemNewID(undefined)
     }, [ItemNewID]);
@@ -796,7 +822,7 @@ const AddRequisition = () => {
 
 
 
-            {Itemlist.length > 0 && AddItemlistNew.length > 0 ?
+            { AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
                     <AddRequisitionlist
@@ -838,6 +864,22 @@ const AddRequisition = () => {
                         />
                     </Grid>
                 </Box> : null}
+                
+                    
+                {asRequisitionId !== ''  && USGetRequisitionDetails != ''?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}> 
+                <Requisioneditlist
+                ItemList={listGetRequisitionTeacherDetails}
+                 HeaderArray={HeaderPublish1}
+               
+               /> 
+                </Box> 
+               : <span></span>
+                
+                }
+                    
+                
+                
 
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' }}>
