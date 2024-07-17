@@ -113,6 +113,24 @@ const StudentRecords = () => {
   };
 
   const isDifferentClassId = checkClassIdDifference();
+  const getstandardDiviId = () => {
+    let returnVal = false
+    GetTeachers.map((item) => {
+      if (item.Value == SelectTeacher) {
+        returnVal = item.StdDivId
+      }
+    })
+    return returnVal
+  }
+  console.log(getstandardDiviId(), "getstandardDiviId()");
+  const getSchoolWiseStudentId = (value) => {
+    let getSchoolWiseStudentId = false
+    GetStatusStudents.map((Item) => {
+      if (Item.Value == value)
+        getSchoolWiseStudentId = true
+    })
+    return getSchoolWiseStudentId
+  }
 
   useEffect(() => {
     dispatch(GetTeachersList(TeachersBody));
@@ -189,8 +207,9 @@ const StudentRecords = () => {
   const handleCheckboxChange = (value) => {
     setShowRiseAndShine(value);
   };
-  const clickEdit = () => {
-    navigate('/extended-sidebar/Teacher/AddStudentRecord');
+  const clickEdit = (value) => {
+    navigate('/extended-sidebar/Teacher/AddStudentRecord/' + SelectTeacher +
+      '/' + value.SchoolWiseStudentId);
   };
   const clickView = () => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord');
