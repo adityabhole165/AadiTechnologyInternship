@@ -254,17 +254,18 @@ const Studentwiseprogressreport = () => {
   };
 
   useEffect(() => {
-    toast.success(oneDeleteStud);
+    toast.success(oneDeleteStud !== '');
     dispatch(deleteresetMessage());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
   }, [oneDeleteStud]);
 
-  const clickDeleteAlll = (Id) => {
+  const clickDeleteAlll = () => {
+    
     const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
       asAcademicYearId: Number(asAcademicYearId),
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Number(Assessment),
-      asStandardDivId: Number(Id),
+      asStandardDivId:  Number(StandradID),
       asUpdatedById: Number(asUpdatedById)
     };
 
@@ -287,7 +288,7 @@ const Studentwiseprogressreport = () => {
   }
 
   useEffect(() => {
-    toast.success(DeleteAllStud);
+    toast.success(DeleteAllStud ! == '');
     dispatch(deleteresetMessageAll());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
   }, [DeleteAllStud]);
@@ -388,7 +389,7 @@ const Studentwiseprogressreport = () => {
                       <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
                         <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
                           <DeleteForeverIcon
-                            onClick={isClickable ? () => clickDeleteAlll(item.Id) : undefined}
+                            onClick={isClickable ? () => clickDeleteAlll() : undefined}
                             sx={{
                               color: isClickable ? '#223354' : 'gray',
                               '&:hover': {
