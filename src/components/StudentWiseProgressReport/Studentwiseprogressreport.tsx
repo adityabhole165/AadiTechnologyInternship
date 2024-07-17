@@ -378,38 +378,33 @@ const Studentwiseprogressreport = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            const clickDeleteAlll = (Id) => {
-    const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
-      asAcademicYearId: Number(asAcademicYearId),
-      asSchoolId: Number(asSchoolId),
-      asAssessmentId: Number(Assessment),
-      asStandardDivId: Number(Id),
-      asUpdatedById: Number(asUpdatedById)
-    };
-
-    showAlert({
-      title: 'Please Confirm',
-      message:
-        'Are you sure you want to delete grades of selected assessment of all students.?  ',
-      variant: 'warning',
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      onCancel: () => {
-        closeAlert();
-      },
-      onConfirm: () => {
-        dispatch(DeleteAllStudentTest(DeleteAllStudentTestMarksBody));
-
-        closeAlert();
-      }
-    });
-  }
-
-  useEffect(() => {
-    toast.success(DeleteAllStud);
-    dispatch(deleteresetMessageAll());
-    dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-  }, [DeleteAllStud]);
+            <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              {StudentAssignment.length > 0 &&
+                (() => {
+                  const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
+                  if (item) {
+                    const isClickable = item.ShowProgressReport !== "Y";
+                    return (
+                      <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
+                        <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
+                          <DeleteForeverIcon
+                            onClick={isClickable ? () => clickDeleteAlll(item.Id) : undefined}
+                            sx={{
+                              color: isClickable ? '#223354' : 'gray',
+                              '&:hover': {
+                                color: isClickable ? 'red' : 'gray',
+                                backgroundColor: isClickable ? red[100] : 'transparent'
+                              }
+                            }}
+                          />
+                        </span>
+                      </Tooltip>
+                    );
+                  }
+                  return null;
+                })()
+              }
+            </Box>
             {PublishStatu.AllowPublish == false && PublishStatu.AllowUnPublish == false ?
               <span></span> :
               isVisible && (
