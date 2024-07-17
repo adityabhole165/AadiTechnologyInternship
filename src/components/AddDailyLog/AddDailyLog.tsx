@@ -592,7 +592,7 @@ const AddDailyLog = () => {
                 borderRadius: '7px',
                 position: 'absolute',
                 top: '5px',
-                right: '5px',
+                right: '7px',
                 cursor: 'pointer',
                 '&:hover': {
                   color: 'red',
@@ -601,9 +601,9 @@ const AddDailyLog = () => {
                 }
               }} />
           </DialogTitle>
-          <DialogContent dividers>
+          <DialogContent >
 
-            <Box sx={{ padding: 4, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+            <Box sx={{ pt: 1, marginBottom: '10px', maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
 
               {/* <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} /> */}
               <h1>
