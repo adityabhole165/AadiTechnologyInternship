@@ -100,23 +100,37 @@ const AssignPrePrimaryGrades = () => {
       title: 'Submit',
       message: value.asIsSubmitted !== 'N' ?
         //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-        'Once you submit the result to the class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        `Roll no.(s) grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?` :
         'Are you sure, Do you want to unsubmit marks/grades?',
       variant: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
-        dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+        showAlert({
+          title: 'Submit',
+          message: value.asIsSubmitted !== 'N' ?
+            //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+            'Once you submit the result to the class-teacher, you cannot modify the marks/grades. \nAre you sure you want to continue?' :
+            'Are you sure, Do you want to unsubmit marks/grades?',
+          variant: 'warning',
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          onConfirm: () => {
+            closeAlert();
+            dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+          },
+          onCancel: closeAlert
+        });
       },
       onCancel: closeAlert
     });
 
-    if (confirm(`Roll no.(s) grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?`)) {
-      if (confirm(' Once you submit the result to the class-teacher, you can not modify the marks/grades. \nAre you sure you want to continue?')) {
-        dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
-      }
-    }
+    // if (confirm(`Roll no.(s) grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?`)) {
+    //   if (confirm(' Once you submit the result to the class-teacher, you can not modify the marks/grades. \nAre you sure you want to continue?')) {
+    //     dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    //   }
+    // }
   };
 
   const ClickUnSubmit = (value, StandardDivisionID, pending) => {
@@ -130,9 +144,24 @@ const AssignPrePrimaryGrades = () => {
       asInserted_By_id: Number(selectTeacher)
     };
     console.log("Submit and unsubmit body-->>>>>>>>", SubmitExamMarksStatusBody)
-    if (confirm(`Are you sure you want to unsubmit grades?`)) {
-      dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
-    }
+    showAlert({
+      title: 'Unsubmit',
+      message: value.asIsSubmitted !== 'N' ?
+        //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        'Are you sure you want to unsubmit grades?' :
+        'Are you sure, Do you want to unsubmit marks/grades?',
+      variant: 'warning',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      onConfirm: () => {
+        closeAlert();
+        dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+      },
+      onCancel: closeAlert
+    });
+    // if (confirm(`Are you sure you want to unsubmit grades?`)) {
+    //   dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+    // }
   }
 
   useEffect(() => {
