@@ -1,9 +1,10 @@
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IDeleteHomeworkBody,
   IGetAllHomeworkDocumentsBody,
@@ -43,7 +44,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
   const { Id } = useParams();
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
     { Id: 2, Header: ' 	Title' },
@@ -165,20 +166,40 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
     }
   }, [PublishUnpublishHomework]);
 
-
-
-
+  // const clickDelete = (Id) => {
+  //   // alert(Id)
+  //   if (confirm('Are You Sure you want to delete The List')) {
+  //     const DeleteHomeworkBody: IDeleteHomeworkBody = {
+  //       asSchoolId: asSchoolId,
+  //       asAcademicYearId: asAcademicYearId,
+  //       asHomeworkId: Id,
+  //       asUpdatedById: Number(asUpdatedById)
+  //     };
+  //     dispatch(HomeworkDelete(DeleteHomeworkBody));
+  //   }
+  // };
   const clickDelete = (Id) => {
-    // alert(Id)
-    if (confirm('Are You Sure you want to delete The List')) {
-      const DeleteHomeworkBody: IDeleteHomeworkBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asHomeworkId: Id,
-        asUpdatedById: Number(asUpdatedById)
-      };
-      dispatch(HomeworkDelete(DeleteHomeworkBody));
-    }
+    const DeleteHomeworkBody: IDeleteHomeworkBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asHomeworkId: Id,
+      asUpdatedById: Number(asUpdatedById)
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are You Sure you want to delete The List? ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(HomeworkDelete(DeleteHomeworkBody));
+        closeAlert();
+      }
+    });
   };
 
   useEffect(() => {
