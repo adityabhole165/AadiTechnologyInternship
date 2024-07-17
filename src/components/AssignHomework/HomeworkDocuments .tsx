@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -15,6 +15,7 @@ import {
 } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { AlertContext } from 'src/contexts/AlertContext';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const HomeworkDocuments = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asTeacherId = sessionStorage.getItem('TeacherId');
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const HeaderList = [
     { Id: 1, Header: 'File Name' },
     { Id: 2, Header: 'Delete', align: "center" },
@@ -49,19 +50,40 @@ const HomeworkDocuments = () => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
   }, []);
 
+  // const ClickDelete = (Id) => {
+  //   if (confirm('Are you sure you want to delete this record?')) {
+  //     const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
+  //       asSchoolId: asSchoolId,
+  //       asUpdatedById: Number(asTeacherId),
+  //       asHomeworkId: Number(Id),
+  //       asAcademicYearId: asAcademicYearId
+  //     };
+
+  //     dispatch(DeleteDocument(DeleteHomeworkDocumentBody))
+  //   }
+  // };
   const ClickDelete = (Id) => {
-    if (confirm('Are you sure you want to delete this record?')) {
-      const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
-        asSchoolId: asSchoolId,
-        asUpdatedById: Number(asTeacherId),
-        asHomeworkId: Number(Id),
-        asAcademicYearId: asAcademicYearId
-      };
-
-      dispatch(DeleteDocument(DeleteHomeworkDocumentBody))
-      
-
-    }
+    const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
+      asSchoolId: asSchoolId,
+      asUpdatedById: Number(asTeacherId),
+      asHomeworkId: Number(Id),
+      asAcademicYearId: asAcademicYearId
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this record? ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(DeleteDocument(DeleteHomeworkDocumentBody))
+        closeAlert();
+      }
+    });
   };
 
 
