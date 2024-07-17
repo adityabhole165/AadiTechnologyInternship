@@ -28,17 +28,18 @@ import {
   CDAUpdateReadSuggestion,
   CDAlessonplanlist,
   GetLessonPlanreport,
+  LessonPlanCount,
   deletelessonplan,
   resetdeleteplan
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
+import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import IsHighliteStaus from './LessonPlanContext';
-import { AlertContext } from 'src/contexts/AlertContext';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,17 +51,11 @@ const LessonPlanBaseScreen = () => {
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  const [page, setPage] = useState(1);
-  // const [rowsPerPage, setRowsPerPage] = useState(5);
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
 
   let CanEdit = getSchoolConfigurations(233)
-  const [rowsPerPage, setRowsPerPage] = useState(20);
   const { showAlert, closeAlert } = useContext(AlertContext);
-  const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-
   const LessonPlanList1: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISLessonList1
   );
@@ -74,7 +69,9 @@ const LessonPlanBaseScreen = () => {
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
     localStorage.getItem('UserId')
   );
-
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const [page, setPage] = useState(1);
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -101,8 +98,6 @@ const LessonPlanBaseScreen = () => {
   const USGetLessonPlanRecordCount: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetLessonPlanRecordCount
   );
-
-
   const LessonPlanReport: any = useSelector(
     (state: RootState) => state.LessonPlanBase.LessonReport
   );
@@ -110,14 +105,19 @@ const LessonPlanBaseScreen = () => {
   const USAddOrEditLessonPlanDetails: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISAddOrEditLessonPlanDetails
   );
-
-
+  const LessonPlanListCount = useSelector(
+    (state: RootState) => state.LessonPlanBase.LessonListCount1
+  )
 
   const USGetAllTeachersOfLessonPlan: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllTeachersOfLessonPlan
   );
 
 
+  const filteredList = LessonPlanListCount.filter((item) => item.RecordCount !== undefined);
+  const TotalCount = filteredList.map((item) => item.RecordCount);
+  const uniqueTotalCount = [...new Set(TotalCount)];
+  const singleTotalCount = uniqueTotalCount[0];
 
 
   const HeaderList1 = [
@@ -131,18 +131,14 @@ const LessonPlanBaseScreen = () => {
     { Id: 8, Header: 'Status', align: 'center' }
   ];
 
-  const rowsPerPageOptions = [20, 50, 100, 200];
-  const startRecord = (page - 1) * rowsPerPage + 1;
-  const endRecord = Math.min(page * rowsPerPage, LessonPlanList.TotalCount);
-
 
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
     asUserId: Number(selectClasstecahernew),
     asReportingUserId: asUserId,
-    asStartIndex: startIndex,
-    asEndIndex: endIndex,
+    asStartIndex: (page - 1) * rowsPerPage,
+    asEndIndex: page * rowsPerPage,
     asRecordCount: false,
     asStartDate: StartDate,
     asEndDate: EndDate
@@ -152,6 +148,21 @@ const LessonPlanBaseScreen = () => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
   }, [StartDate, EndDate, selectClasstecahernew]);
 
+  const GetLessonPlanlistCountBody: IGetLessonPlanListBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asUserId: Number(selectClasstecahernew),
+    asReportingUserId: asUserId,
+    asStartIndex: (page - 1) * rowsPerPage,
+    asEndIndex: page * rowsPerPage,
+    asRecordCount: true,
+    asStartDate: StartDate,
+    asEndDate: EndDate
+
+  };
+  useEffect(() => {
+    dispatch(LessonPlanCount(GetLessonPlanlistCountBody));
+  }, []);
 
 
   const GetAllLessonPlanReportingConfigsBody: IGetAllLessonPlanReportingConfigsBody = {
@@ -189,17 +200,11 @@ const LessonPlanBaseScreen = () => {
     asAcadmicYearId: asAcademicYearId,
     asUserId: asUserId,
     asReportingUserId: asUserId,
-    asStartIndex: startIndex,
-    asEndIndex: endIndex,
+    asStartIndex: (page - 1) * rowsPerPage,
+    asEndIndex: page * rowsPerPage,
     asStartDate: null,
     asEndDate: null
   }
-
-  useEffect(() => {
-    dispatch(CDAGetLessonPlanRecordCount(GetLessonPlanRecordCountBody));
-  }, []);
-
-
 
   useEffect(() => {
     const GetAllTeachersOfLessonBody: IGetAllTeachersOfLessonPlanBody = {
@@ -463,9 +468,10 @@ const LessonPlanBaseScreen = () => {
   const paginatedItems = LessonPlanList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   const totalRecords = LessonPlanList.length;
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+  const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-
-  const pagecount = Math.ceil(LessonPlanList.TotalCount / rowsPerPage);
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
   };
@@ -588,22 +594,20 @@ const LessonPlanBaseScreen = () => {
         <Box>
           {LessonPlanList.length > 0 ? (
             <>
-              <Typography variant="subtitle1" sx={{ marginTop: '2px', marginBottom: '2px', textAlign: 'center' }}>
-                {PagedLessonPlanList.length > 0 && (
-                  <div style={{ flex: 1, textAlign: 'center' }}>
-                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                      <Box component="span" fontWeight="fontWeightBold">
-                        {startRecord} to {endRecord}
-                      </Box> out of <Box component="span" fontWeight="fontWeightBold">
-                        {LessonPlanList.TotalCount}
-                      </Box> {LessonPlanList.TotalCount === 1 ? 'record' : 'records'}
-                    </Typography>
-                  </div>
-                )}
-
-
-              </Typography>
-
+              <Box sx={{ background: 'white', p: 2 }}>
+                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                  <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                    <Box component="span" fontWeight="fontWeightBold">
+                      {startRecord} to {endRecord}
+                    </Box>
+                    {' '}out of{' '}
+                    <Box component="span" fontWeight="fontWeightBold">
+                      {singleTotalCount}
+                    </Box>{' '}
+                    {singleTotalCount === 1 ? 'record' : 'records'}
+                  </Typography>
+                </div> : <span> </span>}
+              </Box>
               <IsHighliteStaus.Provider value={USAddOrEditLessonPlanDetails}>
                 <ListIcon
                   HeaderArray={HeaderList1}
@@ -620,7 +624,7 @@ const LessonPlanBaseScreen = () => {
                   ShowEdit={localStorage.getItem("UserId") === selectClasstecahernew}
                 />
               </IsHighliteStaus.Provider>
-              {LessonPlanList.TotalCount > 19 && (
+              {LessonPlanListCount[0].RecordCount > rowsPerPage && (
                 <ButtonGroupComponent
                   rowsPerPage={rowsPerPage}
                   ChangeRowsPerPage={ChangeRowsPerPage}
@@ -680,8 +684,10 @@ const LessonPlanBaseScreen = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
     </>
   );
+
 };
 
 export default LessonPlanBaseScreen;

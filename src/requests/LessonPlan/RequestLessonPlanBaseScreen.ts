@@ -18,6 +18,7 @@ const LessonPlanBaseScreenSlice = createSlice({
   initialState: {
     ISLessonList: [],
     ISLessonList1: [],
+    LessonListCount1: [],
     DeletePlan: '',
     ISUpdateReadSuggestion: '',
     LessonReport: [],
@@ -34,7 +35,9 @@ const LessonPlanBaseScreenSlice = createSlice({
     Rlessonplanlist1(state, action) {
       state.ISLessonList1 = action.payload;
     },
-
+    CountLessonList(state, action) {
+      state.LessonListCount1 = action.payload;
+    },
 
     deletelessonplan(state, action) {
       state.DeletePlan = action.payload;
@@ -92,26 +95,25 @@ export const CDAlessonplanlist =
         const regex = /<b>(.*?)<\/b><br\/>(.*?)<br\/>/g;
         let matches;
         const parsedText3 = [];
-      
+
         while ((matches = regex.exec(text3Content)) !== null) {
           parsedText3.push({
             name: matches[1],
             description: matches[2],
           });
         }
-        
+
         return {
           StartDate: getDateMonthYearFormatted(item.StartDate),
           EndDate: getDateMonthYearFormatted(item.EndDate),
           Text3: parsedText3,
-          
+
           IsSubmitted: item.IsSubmitted,
           SubmitedByReportingUser: item.SubmitedByReportingUser,
           Text2: item.IsSubmitted,
           UserId: item.UserId,
           IsSuggisionAdded: item.IsSuggisionAdded,
-          IsSuggisitionRead: item.IsSuggisitionRead,
-          RecordCount: item.RecordCount
+          IsSuggisitionRead: item.IsSuggisitionRead
         };
       });
 
@@ -126,7 +128,6 @@ export const CDAlessonplanlist =
       })).sort((a, b) => Number(a.Text8) - Number(b.Text8));
 
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(listResult1st));
-      console.log(listResult1st,"abc")
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist1(listResult2nd));
     };
 
@@ -222,10 +223,20 @@ export const CDAGetLessonPlanRecordCount =
     async (dispatch) => {
       const response = await LessonPlanApi.GetLessonPlanRecordCount(data);
       dispatch(LessonPlanBaseScreenSlice.actions.RGetLessonPlanRecordCount(response.data));
-
-
     };
 
+
+export const LessonPlanCount =
+  (data: IGetLessonPlanListBody): AppThunk =>
+    async (dispatch) => {
+      const response = await LessonPlanApi.LessonPlanList(data);
+      let abc = response.data.listResult1st.map((item, i) => {
+        return {
+          RecordCount: item.RecordCount
+        };
+      });
+      dispatch(LessonPlanBaseScreenSlice.actions.CountLessonList(abc));
+    };
 
 
 export default LessonPlanBaseScreenSlice.reducer;
