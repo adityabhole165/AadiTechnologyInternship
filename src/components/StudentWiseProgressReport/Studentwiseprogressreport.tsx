@@ -116,6 +116,8 @@ const Studentwiseprogressreport = () => {
   const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
   const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
   const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
+  console.log(DeleteAllStud,"DeleteAllStud");
+  
   const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
   const PublishUnpublish: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
@@ -288,7 +290,7 @@ const Studentwiseprogressreport = () => {
   }
 
   useEffect(() => {
-    toast.success(DeleteAllStud ! == '');
+    toast.success(DeleteAllStud !== '');
     dispatch(deleteresetMessageAll());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
   }, [DeleteAllStud]);
