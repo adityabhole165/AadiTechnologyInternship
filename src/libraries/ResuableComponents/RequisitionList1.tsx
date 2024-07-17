@@ -49,7 +49,10 @@ function RequisitionList1({
                                     sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
                                     onClick={item.Id !== 3 ? () => clickHeader(item.Id) : null}
                                 >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
+                                    <div style={{
+                                        display: 'flex', alignItems: 'left', gap: 2,
+                                        justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'left'
+                                    }}>
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== null && item.Id !== 3 ?
                                             item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
@@ -60,8 +63,12 @@ function RequisitionList1({
 
                             ))}
                             {HeaderArray.slice(6).map((item, i) => (
-                                <TableCell key={i + 6} sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
+                                <TableCell key={i + 6} sx={{
+                                    textTransform: 'capitalize',
+                                    color: (theme) => theme.palette.common.white,
+                                    py: 1
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'left', gap: 1, justifyContent: item.Header.includes('Remark Template') ? 'flex-start ' : 'center' }}>
                                         <b>{item.Header}</b>
                                     </div>
                                 </TableCell>
@@ -69,52 +76,53 @@ function RequisitionList1({
 
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.RequisitionCode}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.RequisitionName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.StatusName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.CreaterName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.Created_Date}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>{item.ExpiryDate}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left'}}>{item.RequisitionCode}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.RequisitionName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.StatusName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.CreaterName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.Created_Date}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.ExpiryDate}</TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center',}} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', }} align="center">
                                     {item.Editble === '1' ? (
                                         <Tooltip title={"Edit"}>
-                                            <EditTwoTone onClick={() => clickEdit(item.Id)} 
+                                            <EditTwoTone onClick={() => clickEdit(item.Id)}
                                                 sx={{
                                                     color: '#223354',
                                                     '&:hover': {
-                                                      bgcolor: 'grey.300'
+                                                        bgcolor: 'grey.300'
                                                     }
-                                                  }}
-                                                />
+                                                }}
+                                            />
 
                                         </Tooltip>
                                     ) : (
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => clickView(item.Id)}
-                                               sx={{
-                                                color: '#223354',
-                                                '&:hover': {
-                                                  bgcolor: 'grey.300'
-                                                }
-                                              }} />
+                                                sx={{
+                                                    color: '#223354',
+                                                    '&:hover': {
+                                                        bgcolor: 'grey.300'
+                                                    }
+                                                }} />
                                         </Tooltip>
                                     )}
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                                     {item.IsDelete === "True" ? (
                                         <Tooltip title={"Delete"}>
-                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)} 
-                                            sx={{
-                                                color:'#223354',
-                                                //  backgroundColor: grey[500],
-                                                 '&:hover': {
-                                                  color:'red',
-                                                backgroundColor: red[100]
-                                                }}}
+                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)}
+                                                sx={{
+                                                    color: '#223354',
+                                                    //  backgroundColor: grey[500],
+                                                    '&:hover': {
+                                                        color: 'red',
+                                                        backgroundColor: red[100]
+                                                    }
+                                                }}
                                             />
                                         </Tooltip>
                                     ) : <span></span>
@@ -122,9 +130,9 @@ function RequisitionList1({
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                                     {((item.StatusID == "3" || item.StatusID == "8") && (item.CreatedId != asUserId)) ? (
-                                       
-                                            <Link onClick={() => clickCancel(item.Id)} sx={{ color: 'blue' }}>Cancel</Link>
-                                      
+
+                                        <Link onClick={() => clickCancel(item.Id)} sx={{ color: 'blue' }}>Cancel</Link>
+
                                     ) : null}
 
 
