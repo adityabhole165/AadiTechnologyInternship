@@ -44,3 +44,9 @@ export interface ISubmitStudentRecordBody {
     asSubmitAllComments: string
     asAcademicYearId: number
 }
+export interface IMarkRecordAsReadBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asUserId: number
+    asSchoolwiseStudentId: number
+}
