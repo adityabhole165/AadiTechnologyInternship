@@ -22,6 +22,7 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import { PaddingOutlined } from "@mui/icons-material";
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
     useParams();
@@ -940,7 +941,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 borderRadius: '7px',
                 position: 'absolute',
                 top: '5px',
-                right: '5px',
+                right: '8px',
                 cursor: 'pointer',
                 '&:hover': {
                   color: 'red',
@@ -951,13 +952,13 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
           </DialogTitle>
 
-          <DialogContent dividers >
+          <DialogContent  >
             <Box>
               <h1>
                 {HomeworkId == 0 ? 'Add Homework' : 'Edit Homework'}
               </h1>
 
-              <Box sx={{ background: 'white', p: 4, top: '1px', mr: 4 }}>
+              <Box sx={{ background: 'white', p: 1, top: '1px' }}>
                 <Grid container spacing={2}>
                   <Grid item xs={3}>
                     <TextField fullWidth label={'Class'} value={ClassName}
@@ -1129,7 +1130,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                         </span>
                       }
                       multiline
-                      rows={1}
+                      rows={3}
                       value={Details}
                       onChange={(e) => {
                         setDetails(e.target.value);
