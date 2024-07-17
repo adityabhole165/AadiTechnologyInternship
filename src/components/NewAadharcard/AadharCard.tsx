@@ -3,10 +3,11 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
@@ -40,6 +41,7 @@ const AadharCard = () => {
   const [error1, setError1] = useState(false);
   const [error2, setError2] = useState(false);
   const aRef = useRef(null);
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const [NamePerAadharCard, setNamePerAadharcard] = useState('')
   const validFiles = ['PDF', 'JPG', 'JPEG', 'PNG', 'BMP'];
   const maxfileSize = 3000000;
@@ -122,7 +124,7 @@ const AadharCard = () => {
   };
   useEffect(() => {
     if (GetUserDetailsForAadharCardNoUS != null) {
-     // setAadharCardNumber(GetUserDetailsForAadharCardNoUS.AadharCardNo)
+      // setAadharCardNumber(GetUserDetailsForAadharCardNoUS.AadharCardNo)
       setAadharCardNumber('')
     }
   }, [GetUserDetailsForAadharCardNoUS])
@@ -157,18 +159,43 @@ const AadharCard = () => {
     setOpenDialog(false);
   };
 
-  const DeleteAadhar = () => {
-    if (confirm('Are you sure you want to delete uploaded image?')) {
-      const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
-        asUserId: Number(UserId),
-        asSchoolId: Number(asSchoolId),
-        asUpdatedById: Number(UserId)
-      }
-      dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
-      dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
+  // const DeleteAadhar = () => {
+  //   if (confirm('Are you sure you want to delete uploaded image?')) {
+  //     const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
+  //       asUserId: Number(UserId),
+  //       asSchoolId: Number(asSchoolId),
+  //       asUpdatedById: Number(UserId)
+  //     }
+  //     dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
+  //     dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
 
+  //   }
+  // }
+
+  const DeleteAadhar = () => {
+    const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
+      asUserId: Number(UserId),
+      asSchoolId: Number(asSchoolId),
+      asUpdatedById: Number(UserId)
     }
-  }
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete uploaded image?  ',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
+        dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
+
+        closeAlert();
+      }
+    });
+  };
 
   const GetUserDetailsForAadharCardNoBody: IGetUserDetailsForAadharCardNoBody = {
     asUserId: Number(UserId),

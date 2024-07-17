@@ -1,9 +1,10 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IGetClassTeachersBody,
   IGetSubmitUnsubmitExamMarksStatusBody,
@@ -27,6 +28,7 @@ import CommonPageHeader from '../CommonPageHeader';
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showAlert, closeAlert } = useContext(AlertContext);
   let Teacher_ID = sessionStorage.getItem("TeacherId")
   let AssignPrePrimaryGradesAccess = GetScreenPermission(" Assign Pre-Primary Grades");
   const [selectTeacher, SetselectTeacher] = useState(AssignPrePrimaryGradesAccess === "N" ? Teacher_ID : "0");
@@ -93,6 +95,23 @@ const AssignPrePrimaryGrades = () => {
       asSchoolId: Number(asSchoolId),
       asInserted_By_id: Number(selectTeacher)
     };
+
+    showAlert({
+      title: 'Submit',
+      message: value.asIsSubmitted !== 'N' ?
+        //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        'Once you submit the result to the class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
+        'Are you sure, Do you want to unsubmit marks/grades?',
+      variant: 'warning',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      onConfirm: () => {
+        closeAlert();
+        dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
+      },
+      onCancel: closeAlert
+    });
+
     if (confirm(`Roll no.(s) grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?`)) {
       if (confirm(' Once you submit the result to the class-teacher, you can not modify the marks/grades. \nAre you sure you want to continue?')) {
         dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
@@ -118,7 +137,7 @@ const AssignPrePrimaryGrades = () => {
 
   useEffect(() => {
     if (SubmitUnsubmitToastMsg != '') {
-      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Grades submitted successfully") : toast.success("Grades unsubmitted successfully")
+      SubmitUnsubmitToastMsg === 'Marks already submitted' ? toast.success("Marks submitted successfully") : toast.success("Marks unsubmitted successfully")
 
       dispatch(resetSubmitUnSubmitGradeMsg());
       dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
@@ -254,11 +273,11 @@ const AssignPrePrimaryGrades = () => {
               <DotLegends
                 color="secondary"
                 text={undefined}
-                text1={'Grades entry not started'}
-                text2={'Grades entry partially done'}
-                text3={'Submit exam grades to the class teacher'}
-                text4={'Grades entry completed'}
-                text5={'Unsubmit exam grades '} />
+                text1={'Marks entry not started'}
+                text2={'Marks entry partially done'}
+                text3={'Submit exam marks to the class teacher'}
+                text4={'Marks entry completed'}
+                text5={'Unsubmit exam marks '} />
 
             </Box>
           </Box>
@@ -266,8 +285,9 @@ const AssignPrePrimaryGrades = () => {
         <br></br>
 
 
-        <Box sx={{ backgroundColor: 'white', p: 2 }}>
-          {USGetTeacherXseedSubjects.length > 0 ? (
+
+        {USGetTeacherXseedSubjects.length > 0 ? (
+          <Box sx={{ backgroundColor: 'white', p: 2 }}>
             <div>
               < EditIconList
                 ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
@@ -277,16 +297,17 @@ const AssignPrePrimaryGrades = () => {
                 clickUnSubmit={ClickUnSubmit}
               />
             </div>
-          ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No record found.</b>
-            </Typography>
-          )
-          }
+          </Box>
+        ) : (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No record found.</b>
+          </Typography>
+        )
+        }
 
 
 
-        </Box>
+
       </Box>
     </>
   );
