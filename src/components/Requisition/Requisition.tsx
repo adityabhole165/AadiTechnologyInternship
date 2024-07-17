@@ -198,9 +198,17 @@ const StatusRequisition = () => {
     navigate('/extended-sidebar/Teacher/AddRequisition');
   };
 
-  const clickEdit = () => {
-    navigate('/extended-sidebar/Teacher/AddRequisition');
+  // const clickEdit = (Value) => {
+  //   setasRequisitionId(Value)
+  //   navigate('/extended-sidebar/Teacher/AddRequisition');
+
+  // };
+
+
+  const clickEdit = (asRequisitionId) => {
+    navigate('/extended-sidebar/Teacher/AddRequisition/' + asRequisitionId);
   };
+
   const clickReset = () => {
     setPagedRequisition(GetPagedRequisition);
     setRegNoOrName('');

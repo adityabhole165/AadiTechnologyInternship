@@ -520,6 +520,10 @@ const teacherRoutes = [
     path: 'AddRequisition',
     element: <AddRequisition />
   },
+  {
+    path: 'AddRequisition/:asRequisitionId',
+    element: <AddRequisition />
+  },
 
   {
     path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',

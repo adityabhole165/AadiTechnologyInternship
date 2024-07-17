@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
-import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody,IGetNewRequisitionValidateItemQuantityBody, ICanCreateGenralRequisitionBody,ICanSendRequisitionbody} from 'src/interfaces/Requisition/IAddRequisition';
+import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody,IGetNewRequisitionValidateItemQuantityBody, ICanCreateGenralRequisitionBody,ICanSendRequisitionbody,IGetRequisitionDetailsBody} from 'src/interfaces/Requisition/IAddRequisition';
 import { AppThunk } from 'src/store';
 
 const SliceAddRequisition = createSlice({
@@ -11,6 +11,7 @@ const SliceAddRequisition = createSlice({
     ISGetItemCategory: [],
     IsGetAddItemList :[],
     ISCountRequisitionList :[],
+    ISGetRequisitionDetails:[],
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
     ISGetNewRequisitionValidateItemQuantity:{},
@@ -40,6 +41,9 @@ const SliceAddRequisition = createSlice({
     RlistGetRequisitionName(state, action) {
       state.ISlistGetRequisitionName = action.payload;
     },
+    RGetRequisitionDetails(state, action) {
+      state.ISGetRequisitionDetails = action.payload;
+    },
 
     RGetNewRequisitionValidateItemQuantity(state, action) {
       state.ISGetNewRequisitionValidateItemQuantity = action.payload;
@@ -52,14 +56,9 @@ const SliceAddRequisition = createSlice({
       state.ISCanSendRequisition = action.payload;
     },
 
-    
-
-
     RGetItemImage(state, action) {
       state.ISGetItemImage.ImageUrls = action.payload;
     },
-
-   
   }
 });
 
@@ -198,6 +197,26 @@ export const CDAGetItemCategory =
     const response = await ApiAddRequisition.CanSendRequisition(data);     
     dispatch(SliceAddRequisition.actions.RCanSendRequisition(response.data));
   };
+
+  export const CDAGetRequisitionDetails =
+  (data: IGetRequisitionDetailsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAddRequisition.GetRequisitionDetailsApi(data);    
+    let listGetRequisitionItemDetails = response.data.listGetRequisitionItemDetails.map((item, i) => {
+      return {
+      
+        ItemID: item.ItemID,
+        ItemCode:item.ItemCode,
+        ItemName:item.ItemStatus,
+       
+
+      };
+    });
+      
+    dispatch(SliceAddRequisition.actions.RGetRequisitionDetails(listGetRequisitionItemDetails));
+
+  };
+
 
 
 

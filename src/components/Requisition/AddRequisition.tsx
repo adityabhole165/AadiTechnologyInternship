@@ -11,14 +11,14 @@ import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate,useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, IGetRequisitionDetailsBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
+import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList, CDAGetItemCategory, CDAGetItemImage, CDAGetNewRequisitionValidateItemQuantity, CDAGetRequisitionDetails, CDASaveRequisition } from 'src/requests/Requisition/RequestAddRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
@@ -27,6 +27,10 @@ import DataTable from '../DataTable';
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const {asRequisitionId } =useParams();
+    console.log(asRequisitionId,"asRequisitionId");
+    
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -66,8 +70,10 @@ const AddRequisition = () => {
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
     const CountAddReq: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCountRequisitionList);
+    const USGetRequisitionDetails111: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
 
-
+  console.log(USGetRequisitionDetails111,"USGetRequisitionDetails-----");
+  
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
@@ -190,6 +196,20 @@ const AddRequisition = () => {
 
 
     };
+
+
+    const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
+        asSchoolId: 18,
+        asRequisitionId: 2928,
+        asMode: "view"
+
+
+    };
+
+
+    useEffect(() => {
+        CDAGetRequisitionDetails(GetRequisitionDetailsBodynew)
+    }, []);
 
     const GEtSalutation = () => {
         let classStudentNames = [];
@@ -546,7 +566,7 @@ const AddRequisition = () => {
     };
     const PageChange = (pageNumber) => {
         setPage(pageNumber);
-      };
+    };
     const ChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1); // Reset to the first page when changing rows per page
@@ -554,7 +574,6 @@ const AddRequisition = () => {
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, CountAddReq.TotalCount);
     const pagecount = Math.ceil(CountAddReq.TotalCount / rowsPerPage);
-    console.log(pagecount, "pagecount", CountAddReq)
     return (
         <Box sx={{ px: 2 }}>
 
@@ -588,10 +607,10 @@ const AddRequisition = () => {
                             variant={'outlined'}
                             size={"small"}
                             onKeyDown={(e) => {
-                                if (e.key === 'Enter' ||e.key === 'Tab'  ) {
+                                if (e.key === 'Enter' || e.key === 'Tab') {
                                     clickSearch();
                                 }
-                              }}
+                            }}
                             disabled={Itemlist.length > 0}
                             onChange={(e) => handleRegNoOrNameChange(e.target.value)}
                             InputProps={{
@@ -612,7 +631,7 @@ const AddRequisition = () => {
 
                         <IconButton
                             onClick={clickSearch}
-                          
+
                             disabled={Itemlist.length > 0}
                             sx={{
                                 background: (theme) => theme.palette.primary.main,
@@ -746,18 +765,18 @@ const AddRequisition = () => {
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <DataTable columns={Columns} data={Itemlist} isPagination={false} />
                     <br></br>
-                    {CountAddReq.TotalCount >  rowsPerPage ? 
-                    <ButtonGroupComponent
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    PageChange={PageChange}
-                    pagecount={pagecount}
-                  />
-                     :<span></span>
+                    {CountAddReq.TotalCount > rowsPerPage ?
+                        <ButtonGroupComponent
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+                        : <span></span>
 
                     }
-                
+
                 </Box> : (
                     isSearchEmpty && (
                         <Typography

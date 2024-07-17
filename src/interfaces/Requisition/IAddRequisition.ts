@@ -17,7 +17,7 @@ export interface IGetAddItemListBody {
     asStartIndex: number
     asEndIndex: number
     asSortExp: string
-    asItemCategoryId:number
+    asItemCategoryId: number
 }
 
 
@@ -52,10 +52,10 @@ export interface IGetAddItemListResult {
     CountRowsOfItems: [
         {
             TotalCount: string;
-           
+
         }
-    ],  
-  }
+    ],
+}
 
 
 export interface ISaveRequisitionBody {
@@ -66,7 +66,7 @@ export interface ISaveRequisitionBody {
     asRequisitionDesc: string
     asAction: string
     asRequisitionItemDetailsXml: string
-    asIsGeneral: boolean 
+    asIsGeneral: boolean
 }
 
 
@@ -133,24 +133,75 @@ export interface IGetNewRequisitionValidateItemQuantityBody {
 
 export interface IGetNewRequisitionValidateItemQuantityResult {
 
-  Codes: string
+    Codes: string
 
 }
 
 export interface ICanCreateGenralRequisitionBody {
-    asSchoolId:number
-    asUserId:number
-  
-  }
+    asSchoolId: number
+    asUserId: number
 
-  export interface ICanSendRequisitionbody {
-    asSchoolId:number
-    asUserId:number
-    asAcademicYearId:number
-  
-  }
+}
+
+export interface ICanSendRequisitionbody {
+    asSchoolId: number
+    asUserId: number
+    asAcademicYearId: number
+
+}
 
 
-  
+export interface IGetRequisitionDetailsBody {
+    asSchoolId: number;
+    asRequisitionId: number;
+    asMode: string;
+}
+
+
+
+export interface IGetRequisitionDetailsResult {
+    listGetRequisitionItemDetails: [
+        {
+            ItemID: string;
+            ItemCode: string;
+            ItemName: string;
+            CurrentStock: string;
+            ItemQty: string;
+            ItemStatus: string;
+            IssueQty: string;
+            ReturnQty: string;
+            RequisitionDetailsID: string;
+            RequisitionID: string;
+            UOMUnit: string;
+            RequisitionDescription: string;
+            CanEdit: string;
+            ActionComment: string;
+            RequisitionName: string;
+            RequisitionCode: string;
+            ItemOrgQty: string;
+            ConsiderUnitQuantity: string;
+            UOMPieceCount: string;
+            CancelQty: string;
+        }
+    ],
+    listGetRequisitionTeacherDetails: [
+        {
+            CreaterName: string;
+            Action: string;
+            User_Role_Id: string;
+            User_Id: string;
+            RequisitionID: string;
+            Date: string;
+        }
+    ],
+    listGetRequisitionPrincipalUserId: [
+        {
+            Is_General: Boolean;
+            PrincipalUserId: string;
+
+        }
+    ],
+}
+
 
 
