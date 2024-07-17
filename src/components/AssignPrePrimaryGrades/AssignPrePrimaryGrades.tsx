@@ -101,7 +101,7 @@ const AssignPrePrimaryGrades = () => {
       message: value.asIsSubmitted !== 'N' ?
         //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
         `Roll no.(s) grades not entered for : ${pending !== '' ? pending : "N/A"} \nAre you sure you want to continue?` :
-        'Are you sure, Do you want to unsubmit marks/grades?',
+        'Are you sure, Do you want to unsubmit marks / grades?',
       variant: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
@@ -111,7 +111,7 @@ const AssignPrePrimaryGrades = () => {
           title: 'Submit',
           message: value.asIsSubmitted !== 'N' ?
             //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
-            'Once you submit the result to the class-teacher, you cannot modify the marks/grades. \nAre you sure you want to continue?' :
+            'Once you submit the result to the class-teacher, you cannot modify the marks / grades. \nAre you sure you want to continue?' :
             'Are you sure, Do you want to unsubmit marks/grades?',
           variant: 'warning',
           confirmButtonText: 'OK',
@@ -311,12 +311,12 @@ const AssignPrePrimaryGrades = () => {
             </Box>
           </Box>
         </Box>
-        <br></br>
+
 
 
 
         {USGetTeacherXseedSubjects.length > 0 ? (
-          <Box sx={{ backgroundColor: 'white', p: 2 }}>
+          <Box sx={{ backgroundColor: 'white', p: 2, marginTop: 2 }}>
             <div>
               < EditIconList
                 ItemList={SelectTerm !== '' ? USGetTeacherXseedSubjects : []}
@@ -328,7 +328,7 @@ const AssignPrePrimaryGrades = () => {
             </div>
           </Box>
         ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No record found.</b>
           </Typography>
         )
@@ -337,7 +337,7 @@ const AssignPrePrimaryGrades = () => {
 
 
 
-      </Box>
+      </Box >
     </>
   );
 };
