@@ -1,5 +1,5 @@
 import { AddComment, Check, QuestionMark, Save, Send } from '@mui/icons-material';
-import { Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,10 +14,13 @@ import StudentRecordComment from './StudentRecordComment';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { Action } = useParams()
+    const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
     const [exampleLessonDetails, setExampleLessonDetails] = useState([])
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
     const listGeneralDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listGeneralDetails
     );
@@ -38,10 +41,10 @@ const AddStudentRecord = () => {
         dispatch(GetMarkRecordAsRead(GetMarkRecordAsReadResult))
     }, []);
     const GetMarkRecordAsReadResult: IMarkRecordAsReadBody = {
-        asSchoolId: 18,
-        asAcademicYearId: 54,
-        asUserId: 3799,
-        asSchoolwiseStudentId: 5050
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: asUserId,
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam)
     }
 
     const Getsubmitstudentrecord: ISubmitStudentRecordBody = {
@@ -53,11 +56,11 @@ const AddStudentRecord = () => {
         asAcademicYearId: 54
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
-        asSchoolId: 18,
+        asSchoolId: asSchoolId,
         asSchoolwiseStudentId: 5392,
-        asAcademicYearId: 54,
+        asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
-        asUserId: 3799
+        asUserId: asUserId
 
     }
 
@@ -226,8 +229,34 @@ const AddStudentRecord = () => {
                                     <TableCell sx={cellStyle}><b>Father Name:</b> {item.Text4}</TableCell>
                                     <TableCell sx={cellStyle}><b>Father Occupation:</b> {item.Text5}</TableCell>
                                 </TableRow>
+                                <TableRow sx={rowStyle}>
+                                    <TableCell sx={cellStyle} colSpan={2}><b>Please list all siblings</b></TableCell>
+                                </TableRow>
                             </React.Fragment>
                         ))}
+
+                        <Table sx={{ minWidth: 500, width: '70%', height: 'auto' }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow sx={{ ...rowStyle, backgroundColor: '#324b84' }}>
+                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Name</TableCell>
+                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Sex</TableCell>
+                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Age</TableCell>
+                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Grade</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {listSiblingsDetailsUS.map((item, i) => (
+                                    <TableRow>
+                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text1}</TableCell>
+                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text2}</TableCell>
+                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text3}</TableCell>
+                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text4}</TableCell>
+
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </TableBody>
                 </Table>
             </Box>
