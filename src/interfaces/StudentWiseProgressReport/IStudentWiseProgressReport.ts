@@ -61,7 +61,7 @@ export interface IGetPagedStudentsForMarkAssignmentResult {
 };
 
 export interface IoneDeleteStudentTestMarksBody {
-    asAcadmicYearId: Number,
+    asAcademicYearId: Number,
     asSchoolId: Number,
     asAssessmentId: Number,
     asStudentId: Number,
@@ -75,8 +75,8 @@ export interface IoneDeleteStudentTestMarksResult {
 export interface IDeleteAllStudentTestMarksBody {
     asSchoolId: Number,
     asAcademicYearId: Number,
-      asAssessmentId: Number,
-      asStandardDivId: Number,
+    asAssessmentId: Number,
+    asStandardDivId: Number,
     asUpdatedById: Number
 
 

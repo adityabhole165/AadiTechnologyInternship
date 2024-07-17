@@ -228,10 +228,10 @@ const Studentwiseprogressreport = () => {
 
   const ClickDelete = (Id) => {
     const oneDeleteStudentTestMarks_Body: IoneDeleteStudentTestMarksBody = {
-      asAcadmicYearId: Number(asAcademicYearId),
+      asAcademicYearId: Number(asAcademicYearId),
       asSchoolId: Number(asSchoolId),
-      asAssessmentId: Assessment,
-      asStudentId: Id,
+      asAssessmentId: Number(Assessment),
+      asStudentId: Number(Id),
       asUpdatedById: Number(asUpdatedById)
 
     }
