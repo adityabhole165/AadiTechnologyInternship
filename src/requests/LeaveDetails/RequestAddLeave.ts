@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import AddLeaveDetailsAPI from 'src/api/LeaveDetails/ApiAddLeave';
-import { IGetLeaveBalanceBody, IGetLeaveTypeDropdownBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
+import { IGetIsValidateLeaveDateBody, IGetLeaveBalanceBody, IGetLeaveTypeDropdownBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { AppThunk } from 'src/store';
 
 
@@ -12,6 +12,7 @@ const AddLeaveDetailsslice = createSlice({
         LeaveBalanceNote: [],
         LeaveTypeDropdown: [],
         SubmitLeave: '',
+        StartDateEndDateValidations: undefined,
         Loading: true
     },
     reducers: {
@@ -26,10 +27,13 @@ const AddLeaveDetailsslice = createSlice({
             state.Loading = false;
             state.SubmitLeave = action.payload;
         },
-
         resetSubmitLeave(state) {
             state.SubmitLeave = '';
         },
+        GetStartDateEndDateLeaveValidation(state, action) {
+            state.StartDateEndDateValidations = action.payload;
+        },
+
         getLoading(state, action) {
             state.Loading = true;
         }
@@ -74,11 +78,18 @@ export const getSubmitLeave =
             const response = await AddLeaveDetailsAPI.SubmitLeave(data);
             dispatch(AddLeaveDetailsslice.actions.getSubmitLeave(response.data))
         }
-
 export const resetSubmitLeave =
     (): AppThunk =>
         async (dispatch) => {
             dispatch(AddLeaveDetailsslice.actions.resetSubmitLeave())
+        }
+
+export const StartDateEndDateValidations =
+    (data: IGetIsValidateLeaveDateBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddLeaveDetailsslice.actions.getLoading(true));
+            const response = await AddLeaveDetailsAPI.GetStartDateEndDateValidation(data);
+            dispatch(AddLeaveDetailsslice.actions.GetStartDateEndDateLeaveValidation(response.data))
         }
 
 export default AddLeaveDetailsslice.reducer;
