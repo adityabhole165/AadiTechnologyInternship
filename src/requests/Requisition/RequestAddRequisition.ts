@@ -14,6 +14,7 @@ const SliceAddRequisition = createSlice({
     ISCountRequisitionList :[],
     ISGetRequisitionDetails:[],
     ISGetRequisitionDetails1:[],
+    ISGetRequisitionDetails2:[],
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
     ISGetNewRequisitionValidateItemQuantity:{},
@@ -48,6 +49,9 @@ const SliceAddRequisition = createSlice({
     },
      RGetRequisitionDetails1(state, action) {
       state.ISGetRequisitionDetails1 = action.payload;
+    },
+    RGetRequisitionDetails2(state, action) {
+      state.ISGetRequisitionDetails2 = action.payload;
     },
 
     RGetNewRequisitionValidateItemQuantity(state, action) {
@@ -229,7 +233,7 @@ export const CDAGetItemCategory =
           ConsiderUnitQuantity: item.ConsiderUnitQuantity,
           UOMPieceCount: item.UOMPieceCount,
           CancelQty:  item.CancelQty,
-          Text3 : 0,
+          Text3 : item.ItemQty,
          
           // ItemID: item.ItemID,
           // ItemCode:item.ItemCode,
@@ -244,6 +248,8 @@ export const CDAGetItemCategory =
 
       };
     });
+
+   
 
     let listGetRequisitionTeacherDetails = response.data.listGetRequisitionTeacherDetails.map((item, i) => {
       return {
@@ -260,9 +266,18 @@ export const CDAGetItemCategory =
 
       };
     });
-      
+
+    let listGetRequisitionPrincipalUserId = response.data.listGetRequisitionPrincipalUserId.map((item, i) => {
+      return {
+         
+           Is_General: item.Is_General,
+           PrincipalUserId: item.PrincipalUserId,
+
+      };
+    });
     dispatch(SliceAddRequisition.actions.RGetRequisitionDetails(listGetRequisitionItemDetails));
     dispatch(SliceAddRequisition.actions.RGetRequisitionDetails1(listGetRequisitionTeacherDetails));
+    dispatch(SliceAddRequisition.actions.RGetRequisitionDetails2(listGetRequisitionPrincipalUserId));
 
   };
 
