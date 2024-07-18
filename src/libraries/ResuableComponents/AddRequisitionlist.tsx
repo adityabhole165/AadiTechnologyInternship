@@ -11,7 +11,7 @@ function AddRequisitionlist({
   const handleText3Change = (e, item) => {
     const numericValue = e.target.value.replace(/[^0-9.]/g, '');
     const updatedItemList = ItemList.map((listItem) =>
-      listItem.ItemID === item.ItemID ? { ...listItem, Text3: numericValue } : listItem
+      listItem.ItemID === item.ItemID ? { ...listItem, Text3: numericValue } :  listItem
     );
     onTextChange2(updatedItemList);
   };
