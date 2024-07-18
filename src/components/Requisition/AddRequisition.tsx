@@ -869,7 +869,7 @@ const AddRequisition = () => {
                 </Box> : null}
                 
                     
-                {asRequisitionId !== ''  && USGetRequisitionDetails != ''?
+                {listGetRequisitionTeacherDetails != ''?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}> 
                 <Requisioneditlist
                 ItemList={listGetRequisitionTeacherDetails}
