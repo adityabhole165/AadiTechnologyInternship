@@ -30,7 +30,6 @@ const AddRequisition = () => {
     const navigate = useNavigate();
 
     const {asRequisitionId } =useParams();
-    console.log(asRequisitionId,"asRequisitionId");
     
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -74,7 +73,7 @@ const AddRequisition = () => {
     const USGetRequisitionDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
     const listGetRequisitionTeacherDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails1);
     const listGetRequisitionPrincipalUserId: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails2);
-  const GetRequisitionPrincipal = listGetRequisitionPrincipalUserId[0];
+    const assignIs_General = listGetRequisitionPrincipalUserId.length > 0 ? listGetRequisitionPrincipalUserId[0].Is_General : null;
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
@@ -760,7 +759,7 @@ const AddRequisition = () => {
                     disabled
                 />
 
-                {USCanCreateGenralRequisition == "Y" ? <Checkbox
+                {USCanCreateGenralRequisition == "Y" || assignIs_General == true ? <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     sx={{
