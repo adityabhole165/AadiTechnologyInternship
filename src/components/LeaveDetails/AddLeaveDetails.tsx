@@ -237,6 +237,25 @@ const AddLeaveDetails = () => {
                 ]}
                 rightActions={rightActions}
             />
+            <Box sx={{ p: 0.5, background: 'white' }}>
+                <Grid item xs={12}>
+                    <Accordion defaultExpanded>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+                        </AccordionSummary>
+                        <Grid item xs={12}>
+                            <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
+                                <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                            </Alert>
+                            <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                        </Grid>
+                    </Accordion>
+                </Grid>
+            </Box>
             <Box sx={{ p: 2, background: 'white' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
@@ -310,23 +329,6 @@ const AddLeaveDetails = () => {
                             error={DescriptionError !== ''}
                             helperText={DescriptionError}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Accordion defaultExpanded>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
-                            </AccordionSummary>
-                            <Grid item xs={12}>
-                                <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
-                                    <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
-                                </Alert>
-                                <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
-                            </Grid>
-                        </Accordion>
                     </Grid>
                     {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
                         <Grid item xs={12} >
