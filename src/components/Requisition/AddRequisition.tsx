@@ -760,7 +760,7 @@ const AddRequisition = () => {
                     disabled
                 />
 
-                {USCanCreateGenralRequisition == "Y"  ||  GetRequisitionPrincipal.Is_General == true? <Checkbox
+                {USCanCreateGenralRequisition == "Y" ? <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     sx={{
