@@ -247,7 +247,7 @@ const AssignHomework = () => {
         ]}
         rightActions={<>
           <SearchableDropdown
-            sx={{ minWidth: '25vw',  bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit' }}
+            sx={{ minWidth: '25vw',  bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit' }}
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
             label={'Select Teacher'}
