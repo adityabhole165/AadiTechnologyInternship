@@ -32,9 +32,9 @@ function AddRequisitionlist({
               >
                 <div style={{
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'left',
                   gap: 1,
-                  justifyContent: headerItem.Header.includes('Remark Template') ? 'flex-start' : 'center'
+                  justifyContent: headerItem.Header.includes('Remark Template') ? 'flex-start' : 'left'
                 }}>
                   <b>{headerItem.Header}</b>
                 </div>
@@ -45,16 +45,16 @@ function AddRequisitionlist({
         <TableBody>
           {ItemList.map((item) => (
             <TableRow key={item.ItemID}>
-              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
                 {item.ItemCode}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
                 {item.ItemName}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
                 {item.CurrentStock}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
                 <TextField
                 label={
                   <span>
@@ -74,13 +74,14 @@ function AddRequisitionlist({
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }} align="center">
+              <TableCell sx={{ textTransform: 'capitalize', py: 1, textAlign: 'left' }} align="left">
                 <DeleteForeverIcon onClick={() => clickDelete(item.ItemID)} 
                 // sx={{
                 //   cursor: 'pointer',
                 //   '&:hover': { backgroundColor: 'lightgrey' }
                 // }} 
                 sx={{
+                  ml:1,
                   color:'#223354',
                   //  backgroundColor: grey[500],
                    '&:hover': {

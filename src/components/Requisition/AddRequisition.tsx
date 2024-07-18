@@ -677,7 +677,7 @@ const AddRequisition = () => {
                         </IconButton>
 
 
-                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition.'}>
+                        <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
