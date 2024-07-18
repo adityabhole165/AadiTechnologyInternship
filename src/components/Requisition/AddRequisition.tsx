@@ -11,7 +11,7 @@ import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate,useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, IGetRequisitionDetailsBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -29,8 +29,8 @@ const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const {asRequisitionId } =useParams();
-    
+    const { asRequisitionId } = useParams();
+
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -133,7 +133,7 @@ const AddRequisition = () => {
         { Id: 1, Header: 'Status Changed by' },
         { Id: 2, Header: 'Request Status' },
         { Id: 3, Header: 'Date' },
-       
+
 
     ];
 
@@ -426,9 +426,11 @@ const AddRequisition = () => {
             selector: row => row.ImageCount,
             renderCell: row => (
                 row.ImageCount > 0 ? (
-                    <IconButton onClick={() => Setimageid((row.ItemID))} sx={{padding:'3px 8px', margin:'0px 15px'}} >
-                        <VisibilityIcon onClick={Openimage} sx={{ color: "#223354", display: 'flex',
-                  alignItems: 'Center' }}/>
+                    <IconButton onClick={() => Setimageid((row.ItemID))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
+                        <VisibilityIcon onClick={Openimage} sx={{
+                            color: "#223354", display: 'flex',
+                            alignItems: 'Center'
+                        }} />
                     </IconButton>
 
                 ) : <div> </div>
@@ -440,10 +442,12 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <Tooltip title="Add">
-                    <IconButton onClick={() => handleClick(row.ItemID)} sx={{padding:'3px 8px', margin:'0px 12px'}} >
-                    
-                        <AddCircleIcon sx={{ color: "#223354", display: 'flex',
-                  alignItems: 'Center' }} />
+                    <IconButton onClick={() => handleClick(row.ItemID)} sx={{ padding: '3px 8px', margin: '0px 12px' }} >
+
+                        <AddCircleIcon sx={{
+                            color: "#223354", display: 'flex',
+                            alignItems: 'Center'
+                        }} />
                     </IconButton>
                 </Tooltip>
             )
@@ -473,7 +477,6 @@ const AddRequisition = () => {
         setIsSearchEmpty(false);
 
     }
-
 
 
 
@@ -560,9 +563,9 @@ const AddRequisition = () => {
 
     }, [ItemNewID, USGetAddItemList, errorMessage]);
 
-   
+
     useEffect(() => {
-        if (USGetRequisitionDetails != '' ) {
+        if (USGetRequisitionDetails != '') {
             const firstDetail = USGetRequisitionDetails[0];
             if (firstDetail) {
                 setTextall(firstDetail.RequisitionName);
@@ -571,15 +574,15 @@ const AddRequisition = () => {
         }
     }, [USGetRequisitionDetails]);
 
-  
+
     useEffect(() => {
-            if (asRequisitionId) {
-                setAddItemlistNew(USGetRequisitionDetails)
-            }
+        if (asRequisitionId) {
+            setAddItemlistNew(USGetRequisitionDetails)
+        }
     }, [asRequisitionId]);
 
-    
-    
+
+
     useEffect(() => {
         SetItemNewID(undefined)
     }, [ItemNewID]);
@@ -825,7 +828,7 @@ const AddRequisition = () => {
 
 
 
-            { AddItemlistNew.length > 0 ?
+            {AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
                     <AddRequisitionlist
@@ -867,22 +870,22 @@ const AddRequisition = () => {
                         />
                     </Grid>
                 </Box> : null}
-                
-                    
-                {listGetRequisitionTeacherDetails != ''?
-                <Box mb={1} sx={{ p: 2, background: 'white' }}> 
-                <Requisioneditlist
-                ItemList={listGetRequisitionTeacherDetails}
-                 HeaderArray={HeaderPublish1}
-               
-               /> 
-                </Box> 
-               : <span></span>
-                
-                }
-                    
-                
-                
+
+
+            {listGetRequisitionTeacherDetails != '' ?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                    <Requisioneditlist
+                        ItemList={listGetRequisitionTeacherDetails}
+                        HeaderArray={HeaderPublish1}
+
+                    />
+                </Box>
+                : <span></span>
+
+            }
+
+
+
 
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' }}>
