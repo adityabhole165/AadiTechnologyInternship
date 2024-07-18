@@ -73,8 +73,9 @@ const AddRequisition = () => {
     const CountAddReq: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCountRequisitionList);
     const USGetRequisitionDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
     const listGetRequisitionTeacherDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails1);
+    const listGetRequisitionPrincipalUserId: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails2);
 
-  console.log(listGetRequisitionTeacherDetails,"listGetRequisitionTeacherDetails-----");
+  console.log(USGetRequisitionDetails,"USGetRequisitionDetails-----",listGetRequisitionPrincipalUserId);
   
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
@@ -576,6 +577,8 @@ const AddRequisition = () => {
                 setAddItemlistNew(USGetRequisitionDetails)
             }
     }, [asRequisitionId]);
+
+    
     
     useEffect(() => {
         SetItemNewID(undefined)
