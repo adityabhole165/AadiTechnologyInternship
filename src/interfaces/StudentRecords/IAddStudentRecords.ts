@@ -33,8 +33,25 @@ export interface IGetStudentRecordDataResult {
         SortOrder: string
         ControlId: string
     }];
-    listParameterDetails: [];
-    listCommentDetails: []
+    listParameterDetails: [{
+        Id: string
+        ParameterId: string
+        Answer: string
+    }];
+    listCommentDetails: [{
+        Id: string
+        Date: string
+        Comment: string
+        LectureName: string
+        IsDefaultComment: string
+        IsSubmitted: string
+        IsCommentReadByConsellor: string
+        IsCommentReadByPrincipal: string
+        IsCommentReadByClassTeacher: string
+        LoginUserDesignation: string
+        InsertedById: string
+        UserName: string
+    }]
 }
 export interface ISubmitStudentRecordBody {
     asSchoolId: number
