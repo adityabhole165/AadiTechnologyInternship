@@ -719,7 +719,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '20vw', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '20vw', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
