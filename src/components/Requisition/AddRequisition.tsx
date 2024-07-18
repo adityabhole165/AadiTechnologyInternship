@@ -11,7 +11,7 @@ import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate,useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, IGetRequisitionDetailsBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -22,15 +22,15 @@ import { CDACanCreateGenralRequisition, CDACanSendRequisition, CDAGetAddItemList
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
+import Requisioneditlist from './Requisioneditlist';
 
 
 const AddRequisition = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const {asRequisitionId } =useParams();
-    console.log(asRequisitionId,"asRequisitionId");
-    
+    const { asRequisitionId } = useParams();
+
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -70,10 +70,10 @@ const AddRequisition = () => {
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
     const CountAddReq: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCountRequisitionList);
-    const USGetRequisitionDetails111: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
-
-  console.log(USGetRequisitionDetails111,"USGetRequisitionDetails-----");
-  
+    const USGetRequisitionDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
+    const listGetRequisitionTeacherDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails1);
+    const listGetRequisitionPrincipalUserId: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails2);
+    const assignIs_General = listGetRequisitionPrincipalUserId.length > 0 ? listGetRequisitionPrincipalUserId[0].Is_General : null;
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
@@ -126,6 +126,14 @@ const AddRequisition = () => {
         // { Id: 6, Header: 'Returned Qty' },
         // { Id: 7, Header: 'Cancelled Qty' },
         { Id: 8, Header: 'Delete' },
+
+    ];
+
+    const HeaderPublish1 = [
+        { Id: 1, Header: 'Status Changed by' },
+        { Id: 2, Header: 'Request Status' },
+        { Id: 3, Header: 'Date' },
+
 
     ];
 
@@ -199,17 +207,17 @@ const AddRequisition = () => {
 
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
-        asSchoolId: 18,
-        asRequisitionId: 2928,
-        asMode: "view"
+        asSchoolId: asSchoolId,
+        asRequisitionId: Number(asRequisitionId),
+        asMode: "Edit"
 
 
     };
 
 
     useEffect(() => {
-        CDAGetRequisitionDetails(GetRequisitionDetailsBodynew)
-    }, []);
+        dispatch(CDAGetRequisitionDetails(GetRequisitionDetailsBodynew));
+    }, [asRequisitionId]);
 
     const GEtSalutation = () => {
         let classStudentNames = [];
@@ -418,8 +426,11 @@ const AddRequisition = () => {
             selector: row => row.ImageCount,
             renderCell: row => (
                 row.ImageCount > 0 ? (
-                    <IconButton onClick={() => Setimageid((row.ItemID))} >
-                        <VisibilityIcon onClick={Openimage} />
+                    <IconButton onClick={() => Setimageid((row.ItemID))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
+                        <VisibilityIcon onClick={Openimage} sx={{
+                            color: "#223354", display: 'flex',
+                            alignItems: 'Center'
+                        }} />
                     </IconButton>
 
                 ) : <div> </div>
@@ -431,8 +442,12 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <Tooltip title="Add">
-                    <IconButton onClick={() => handleClick(row.ItemID)}>
-                        <AddCircleIcon sx={{ color: "#29b6f6" }} />
+                    <IconButton onClick={() => handleClick(row.ItemID)} sx={{ padding: '3px 8px', margin: '0px 12px' }} >
+
+                        <AddCircleIcon sx={{
+                            color: "#223354", display: 'flex',
+                            alignItems: 'Center'
+                        }} />
                     </IconButton>
                 </Tooltip>
             )
@@ -462,7 +477,6 @@ const AddRequisition = () => {
         setIsSearchEmpty(false);
 
     }
-
 
 
 
@@ -548,6 +562,24 @@ const AddRequisition = () => {
         }
 
     }, [ItemNewID, USGetAddItemList, errorMessage]);
+
+
+    useEffect(() => {
+        if (USGetRequisitionDetails != '') {
+            const firstDetail = USGetRequisitionDetails[0];
+            if (firstDetail) {
+                setTextall(firstDetail.RequisitionName);
+                setTextall1(firstDetail.RequisitionDescription);
+            }
+        }
+    }, [USGetRequisitionDetails]);
+
+
+    useEffect(() => {
+        if (asRequisitionId) {
+            setAddItemlistNew(USGetRequisitionDetails)
+        }
+    }, [asRequisitionId]);
 
 
 
@@ -648,7 +680,7 @@ const AddRequisition = () => {
                         </IconButton>
 
 
-                        <Tooltip title={'Here you can create/modify/view/approve/denied requisition.'}>
+                        <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -733,7 +765,7 @@ const AddRequisition = () => {
                     disabled
                 />
 
-                {USCanCreateGenralRequisition == "Y" ? <Checkbox
+                {USCanCreateGenralRequisition == "Y" || assignIs_General == true ? <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     sx={{
@@ -796,7 +828,7 @@ const AddRequisition = () => {
 
 
 
-            {Itemlist.length > 0 && AddItemlistNew.length > 0 ?
+            {AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
                     <AddRequisitionlist
@@ -838,6 +870,22 @@ const AddRequisition = () => {
                         />
                     </Grid>
                 </Box> : null}
+
+
+            {listGetRequisitionTeacherDetails != '' ?
+                <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                    <Requisioneditlist
+                        ItemList={listGetRequisitionTeacherDetails}
+                        HeaderArray={HeaderPublish1}
+
+                    />
+                </Box>
+                : <span></span>
+
+            }
+
+
+
 
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, minHeight: 'auto', minWidth: '300px' }}>

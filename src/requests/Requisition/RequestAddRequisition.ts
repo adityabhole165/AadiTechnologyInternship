@@ -2,6 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAddRequisition from 'src/api/Requisition/ApiAddRequisition';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import { IGetItemCategoryBody,IGetAddItemListBody ,ISaveRequisitionBody,GetItemImageBody,IGetNewRequisitionValidateItemQuantityBody, ICanCreateGenralRequisitionBody,ICanSendRequisitionbody,IGetRequisitionDetailsBody} from 'src/interfaces/Requisition/IAddRequisition';
 import { AppThunk } from 'src/store';
 
@@ -12,6 +13,8 @@ const SliceAddRequisition = createSlice({
     IsGetAddItemList :[],
     ISCountRequisitionList :[],
     ISGetRequisitionDetails:[],
+    ISGetRequisitionDetails1:[],
+    ISGetRequisitionDetails2:[],
     ISSaveRequisition:[],
     ISlistGetRequisitionName:{},
     ISGetNewRequisitionValidateItemQuantity:{},
@@ -43,6 +46,12 @@ const SliceAddRequisition = createSlice({
     },
     RGetRequisitionDetails(state, action) {
       state.ISGetRequisitionDetails = action.payload;
+    },
+     RGetRequisitionDetails1(state, action) {
+      state.ISGetRequisitionDetails1 = action.payload;
+    },
+    RGetRequisitionDetails2(state, action) {
+      state.ISGetRequisitionDetails2 = action.payload;
     },
 
     RGetNewRequisitionValidateItemQuantity(state, action) {
@@ -204,16 +213,71 @@ export const CDAGetItemCategory =
     const response = await ApiAddRequisition.GetRequisitionDetailsApi(data);    
     let listGetRequisitionItemDetails = response.data.listGetRequisitionItemDetails.map((item, i) => {
       return {
-      
-        ItemID: item.ItemID,
-        ItemCode:item.ItemCode,
-        ItemName:item.ItemStatus,
-       
+          ItemID:item.ItemID,
+          ItemCode: item.ItemCode,
+          ItemName: item.ItemName,
+          CurrentStock: item.CurrentStock,
+          ItemQty: item.ItemQty,
+          ItemStatus: item.ItemStatus,
+          IssueQty: item.IssueQty,
+          ReturnQty: item.ReturnQty,
+          RequisitionDetailsID: item.RequisitionDetailsID,
+          RequisitionID: item.RequisitionID,
+          UOMUnit:item.UOMUnit,
+          RequisitionDescription: item.RequisitionDescription,
+          CanEdit: item.CanEdit,
+          ActionComment: item.ActionComment,
+          RequisitionName: item.RequisitionName,
+          RequisitionCode: item.RequisitionCode,
+          ItemOrgQty: item.ItemOrgQty,
+          ConsiderUnitQuantity: item.ConsiderUnitQuantity,
+          UOMPieceCount: item.UOMPieceCount,
+          CancelQty:  item.CancelQty,
+          Text3 : item.ItemQty,
+         
+          // ItemID: item.ItemID,
+          // ItemCode:item.ItemCode,
+          // ItemName:item.ItemName,
+          // ItemQty:item.ItemQty,
+          // CurrentStock:item.CurrentStock,
+          // ConsiderUnitQuantity:item.ConsiderUnitQuantity,
+          // UOMUnit:item.UOMUnit,
+          // Text3 : 0,
+  
+
 
       };
     });
-      
+
+   
+
+    let listGetRequisitionTeacherDetails = response.data.listGetRequisitionTeacherDetails.map((item, i) => {
+      return {
+         
+         
+        CreaterName: item.CreaterName,
+           Action: item.Action,
+           User_Role_Id: item.User_Role_Id,
+           User_Id: item.User_Id,
+           RequisitionID: item.RequisitionID,
+           Date: item.Date ? getDateMonthYearFormatted(item.Date) : "",
+  
+
+
+      };
+    });
+
+    let listGetRequisitionPrincipalUserId = response.data.listGetRequisitionPrincipalUserId.map((item, i) => {
+      return {
+         
+           Is_General: item.Is_General,
+           PrincipalUserId: item.PrincipalUserId,
+
+      };
+    });
     dispatch(SliceAddRequisition.actions.RGetRequisitionDetails(listGetRequisitionItemDetails));
+    dispatch(SliceAddRequisition.actions.RGetRequisitionDetails1(listGetRequisitionTeacherDetails));
+    dispatch(SliceAddRequisition.actions.RGetRequisitionDetails2(listGetRequisitionPrincipalUserId));
 
   };
 

@@ -32,3 +32,40 @@ export interface  IGetLeaveTypeDropdownResult {
     ExcludeFromDeduction: string,
     AllowZeroBalance: string
 }
+
+export interface IGetSubmitLeaveBody {
+    asId: number;
+    asUserId: number;
+    asLeaveId: number;
+    asStartDate: string;
+    asEndDate: string;
+    asTotalDays: number;
+    asChargeHandoverTo: number;
+    asDescription: string;
+    asSchoolId: number;
+    asInsertedById: number;
+    asAcademicYearId: number;
+}
+
+
+export interface IGetSubmitLeaveBody {
+    asId: number;
+    asUserId: number;
+    asLeaveId: number;
+    asStartDate: string;
+    asEndDate: string;
+    asTotalDays: number;
+    asChargeHandoverTo: number;
+    asDescription: string;
+    asSchoolId: number;
+    asInsertedById: number;
+    asAcademicYearId: number;
+}
+
+export interface IGetIsValidateLeaveDateBody {
+    asSchoolId: number;
+    aasStartDate: string;
+    aasEndDate: string;
+    asUserId: number;
+    asLeaveConfigId: number;
+}

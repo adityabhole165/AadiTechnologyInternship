@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import AddLeaveDetailsAPI from 'src/api/LeaveDetails/ApiAddLeave';
-import { IGetLeaveBalanceBody, IGetLeaveTypeDropdownBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
+import { IGetIsValidateLeaveDateBody, IGetLeaveBalanceBody, IGetLeaveTypeDropdownBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { AppThunk } from 'src/store';
 
 
@@ -11,6 +11,8 @@ const AddLeaveDetailsslice = createSlice({
     initialState: {
         LeaveBalanceNote: [],
         LeaveTypeDropdown: [],
+        SubmitLeave: '',
+        StartDateEndDateValidations: undefined,
         Loading: true
     },
     reducers: {
@@ -20,6 +22,18 @@ const AddLeaveDetailsslice = createSlice({
         getLeaveType(state, action) {
             state.LeaveTypeDropdown = action.payload;
         },
+
+        getSubmitLeave(state, action) {
+            state.Loading = false;
+            state.SubmitLeave = action.payload;
+        },
+        resetSubmitLeave(state) {
+            state.SubmitLeave = '';
+        },
+        GetStartDateEndDateLeaveValidation(state, action) {
+            state.StartDateEndDateValidations = action.payload;
+        },
+
         getLoading(state, action) {
             state.Loading = true;
         }
@@ -40,8 +54,6 @@ export const getLeaveBalance = (data: IGetLeaveBalanceBody): AppThunk => async (
     });
     dispatch(AddLeaveDetailsslice.actions.getLeaveBalance(LeavebalanceNt));
 };
-
-
 export const LeaveTypeDropdown =
     (data: IGetLeaveTypeDropdownBody): AppThunk =>
         async (dispatch) => {
@@ -55,8 +67,29 @@ export const LeaveTypeDropdown =
                     Value: item.LeaveId
                 });
             });
-            // console.log(academicYear, 'academicYear')
             dispatch(AddLeaveDetailsslice.actions.getLeaveType(abc));
 
         };
+
+export const getSubmitLeave =
+    (data: IGetSubmitLeaveBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddLeaveDetailsslice.actions.getLoading(true));
+            const response = await AddLeaveDetailsAPI.SubmitLeave(data);
+            dispatch(AddLeaveDetailsslice.actions.getSubmitLeave(response.data))
+        }
+export const resetSubmitLeave =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddLeaveDetailsslice.actions.resetSubmitLeave())
+        }
+
+export const StartDateEndDateValidations =
+    (data: IGetIsValidateLeaveDateBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddLeaveDetailsslice.actions.getLoading(true));
+            const response = await AddLeaveDetailsAPI.GetStartDateEndDateValidation(data);
+            dispatch(AddLeaveDetailsslice.actions.GetStartDateEndDateLeaveValidation(response.data))
+        }
+
 export default AddLeaveDetailsslice.reducer;

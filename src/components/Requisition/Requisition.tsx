@@ -1,9 +1,8 @@
 import AddTwoTone from '@mui/icons-material/AddTwoTone';
-import CloseTwoTone from "@mui/icons-material/CloseTwoTone";
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 
+import { ClearIcon } from '@mui/x-date-pickers';
 import {
   IGetCancelRequisitionBody,
   IGetDeleteRequisitionBody,
@@ -241,7 +241,7 @@ const StatusRequisition = () => {
   const AddRequisition = (value) => {
     navigate('/extended-sidebar/Teacher/AddRequisition');
   };
-  
+
   useEffect(() => {
     if (GetPagedRequisition) {
       setPagedRequisition(GetPagedRequisition);
@@ -284,13 +284,13 @@ const StatusRequisition = () => {
   const pagecount = Math.ceil(CountGetPagedRequisition.TotalCount / rowsPerPage);
   const ChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1); 
+    setPage(1);
   };
 
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
   };
- 
+
   useEffect(() => {
     dispatch(RequisitionListt(RequisitionList));
   }, [page, SelectResult, sortExpression, rowsPerPage]);
@@ -386,99 +386,135 @@ const StatusRequisition = () => {
         </>}
       />
 
-      <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
-        maxWidth={'sm'}>
-        <DialogTitle sx={{ fontSize: '20px !important', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          Cancel Approved Requisition
-          <IconButton
-            onClick={ClickClose}
-            color="error">
-            <CloseTwoTone />
-          </IconButton>
+
+
+      <Dialog
+        open={openPublishDialogall}
+        maxWidth={'md'}
+        fullWidth
+        onClose={() => setOpenPublishDialogall(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <ClearIcon onClick={ClickClose}
+            sx={{
+              color: 'white',
+              // background:'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+                //  backgroundColor: red[100]
+
+              }
+            }} />
+
         </DialogTitle>
 
-        <DialogContent dividers sx={{ px: 4 }}>
-          <Grid container spacing={1} alignItems="center">
+        <DialogContent  >
 
-            <Grid item xs={2}>
-              <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Requisition Code'}
-                variant="outlined"
-                size={"small"}
-                value={RequisitionCode()}
-                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
-              />
+          <h1>
+            Cancel Approved Requisition
+          </h1>
+
+          <Box sx={{ background: 'white', p: 1, top: '1px' }}>
+            <Grid container spacing={1} alignItems="center">
+
+              <Grid item xs={2}>
+                <TextField
+                  sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                  label={'Requisition Code'}
+                  variant="outlined"
+                 
+                  value={RequisitionCode()}
+                  inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <br></br>
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs={2}>
-              <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Requisition Name'}
-                size={"small"}
-                value={RequisitionName()}
-                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+            <br></br>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item xs={2}>
+                <TextField
+                  sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                  label={'Requisition Name'}
+                 
+                  value={RequisitionName()}
+                  inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
-              />
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <br></br>
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs={2}>
-              <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Requisition Status'}
-                size={"small"}
-                value={StatusName()}
-                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+            <br></br>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item xs={2}>
+                <TextField
+                  sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                  label={'Requisition Status'}
+                
+                  value={StatusName()}
+                  inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
-              />
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <br></br>
+            <br></br>
 
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs={2}>
-              <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Requester'}
-                size={"small"}
-                value={CreaterName()}
-                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+            <Grid container spacing={1} alignItems="center">
+              <Grid item xs={2}>
+                <TextField
+                  sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                  label={'Requester'}
+                 
+                  value={CreaterName()}
+                  inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
-              />
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <br></br>
-          <Typography variant="h4" sx={{ mb: 1 }}>
-            Reason to cancel   <Typography component="span" sx={{ color: red[500] }}>*</Typography>
-          </Typography>
-          <TextField
-            multiline
-            rows={1}
-            type="text"
-            value={textall}
-            onChange={Detailschnageall}
-            sx={{ width: '100%' }}
-          />
+            <br></br>
+            <Typography variant="h4" sx={{ mb: 1 }}>
+              Reason to cancel   <Typography component="span" sx={{ color: red[500] }}>*</Typography>
+            </Typography>
+            <TextField
+             multiline
+             rows={3}
+              type="text"
+              value={textall}
+              onChange={Detailschnageall}
+              sx={{ width: '100%' }}
+            />
+
+          </Box>
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button onClick={() => {
-            setOpenPublishDialogall(false)
-          }} color={'error'}>
+          <Button
+            color={'error'}
+            onClick={  ClickClose}
+          >
             Cancel
           </Button>
-          <Button onClick={clickcancel}
-            //  variant={'contained'}
+          <Button
+
+            onClick={clickcancel}
+            // color={'success'}
+            // variant={'contained'}
             sx={{
-              // backgroundColor: green[100],
               color: 'green',
-              ':hover': { backgroundColor: green[100] }
+              //  backgroundColor: grey[500],
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
             }}
           >
-            Confirm
+            Save
           </Button>
 
         </DialogActions>
@@ -523,7 +559,7 @@ const StatusRequisition = () => {
 
         {
           CountGetPagedRequisition.TotalCount > rowsPerPage ? (
-          
+
             <ButtonGroupComponent
               rowsPerPage={rowsPerPage}
               ChangeRowsPerPage={ChangeRowsPerPage}

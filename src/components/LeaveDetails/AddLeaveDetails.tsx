@@ -1,4 +1,4 @@
-import { Close, Save } from '@mui/icons-material';
+import { Check, Close } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Accordion, AccordionSummary, Alert, Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
@@ -6,13 +6,16 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { IGetIsValidateLeaveDateBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { getLeaveBalance, LeaveTypeDropdown } from 'src/requests/LeaveDetails/RequestAddLeave';
+import { getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AddLeaveDetails = () => {
@@ -21,12 +24,15 @@ const AddLeaveDetails = () => {
     const { LeaveDId } = useParams();
     console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSenderName = sessionStorage.getItem('StudentName');
     const [asUserId, setasUserId] = useState(Number(localStorage.getItem('UserId')));
-    const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asUserId);
+    const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asSenderName);
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
     const [SelectLeaveType, setLeaveType] = useState("0");
+    const [ErrorLeaveType, setErrorLeaveType] = useState("0");
     const [Description, setDescription] = useState('');
     const [Remark, setRemark] = useState('');
     const [Remark1, setRemarkError] = useState('');
@@ -43,14 +49,14 @@ const AddLeaveDetails = () => {
     const GetViewLeave = useSelector(
         (state: RootState) => state.LeaveDetails.ViewLeaveDetails
     );
-    console.log(GetViewLeave, "GetViewLeave");
     const GetLeaveTypeDropdown = useSelector(
         (state: RootState) => state.AddLeaveDetails.LeaveTypeDropdown
     );
     const GetLeaveBalance = useSelector(
         (state: RootState) => state.AddLeaveDetails.LeaveBalanceNote
     );
-    console.log(GetLeaveBalance, "GetLeaveBalance");
+    const SubmitLeaveDetails = useSelector((state: RootState) => state.AddLeaveDetails.SubmitLeave);
+    const StartDateEndDateValidation = useSelector((state: RootState) => state.AddLeaveDetails.StartDateEndDateValidations);
 
     const Note2 = [
         ' If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.'
@@ -108,15 +114,45 @@ const AddLeaveDetails = () => {
         }
     }, [asUserId]);
 
+    const SubmitLeaveBody: IGetSubmitLeaveBody = {
+        asId: 0,
+        asUserId: asUserId,
+        asLeaveId: Number(SelectLeaveType),
+        asStartDate: StartDate,
+        asEndDate: EndDate,
+        asTotalDays: TotalDays,
+        asChargeHandoverTo: 0,
+        asDescription: Description,
+        asSchoolId: asSchoolId,
+        asInsertedById: asUserId,
+        asAcademicYearId: Number(asAcademicYearId)
+    }
+
+    useEffect(() => {
+        const StartDateValidationBody: IGetIsValidateLeaveDateBody = {
+            asSchoolId: asSchoolId,
+            aasStartDate: StartDate,
+            aasEndDate: EndDate,
+            asUserId: asUserId,
+            asLeaveConfigId: 0,
+
+        }
+        dispatch(StartDateEndDateValidations(StartDateValidationBody));
+
+    }, [StartDate, EndDate])
+
     const onSelectStartDate = (value) => {
-        setStartDate(value);
+        setStartDate(getCalendarDateFormatDateNew(value));
     };
 
     const onSelectEndDate = (value) => {
-        setEndDate(value);
+        setEndDate(getCalendarDateFormatDateNew(value));
     };
+
     const clickLeaveTypeDropdown = (value) => {
+        console.log(value, "setLeaveType")
         setLeaveType(value);
+        console.log(value, "setLeaveType")
     };
     const clear = () => {
         setStartDate(new Date().toISOString().split('T')[0]);
@@ -125,18 +161,108 @@ const AddLeaveDetails = () => {
         setDescription('')
     };
 
-    useEffect(() => {
-        if (StartDate === null || EndDate === null) {
-            setTotalDays(0);
-        }
-    }, [StartDate, EndDate])
-
     const resetForm = () => {
         clear();
         //navigate('/extended-sidebar/Teacher/LeaveDetails');
     };
 
 
+    const ClickSubmit = () => {
+        let isError = false;
+        let dateError = false;
+
+        if (StartDate === '') {
+            setErrorStartDate2('Please choose a valid start date.');
+            dateError = true
+            isError = true;
+        } else setErrorStartDate2('')
+        if (StartDate === null) {
+            setErrorStartDateblank('Start Date should not be blank.');
+
+            dateError = true
+            isError = true;
+        } else setErrorStartDateblank('')
+        if (EndDate == '') {
+            setErrorEndDate('Please choose a valid End date.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDate('')
+
+        if (EndDate == null) {
+            setErrorEndDateblank('End Date should not be blank.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDateblank('')
+        console.log(isError, "dateError")
+        if (dateError == false) {
+            if (isOutsideAcademicYear(StartDate)) {
+                setErrorStartDate('Leave start date must be within current academic year (i.e between ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
+                isError = true;
+            } else setErrorStartDate('')
+
+            if (isOutsideAcademicYear(EndDate)) {
+                setErrorEndDate('Leave end date must be within current academic year (i.e between ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' and ' +
+                    formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ').');
+                dateError = true
+                isError = true;
+            } else {
+                setErrorEndDate('')
+            }
+
+        }
+        if (isLessThanDate(EndDate, StartDate)) {
+            setErrorEndDate1('End date should not be less than start date.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDate1('')
+        if (StartDateEndDateValidation == false) {
+            setErrorEndDate2('Date should not be overlapped.');
+            isError = true;
+        } else setErrorEndDate2('')
+        if (SelectLeaveType == '') {
+            setErrorLeaveType('Leave Type should be selected.');
+            isError = true;
+        } else setErrorLeaveType('')
+        console.log(isError, "Description")
+        if (Description.length > 200 || Description == '') {
+            setDescriptionError('Description should be less than 200 characters.');
+            isError = true;
+            console.log(Description, DescriptionError, "Description, DescriptionError");
+
+        } else setDescriptionError('')
+        // console.log(isError, "Remark")
+        // if (Remark.length > 200 || Remark == '') {
+        //     setRemarkError('Remark should be less than 200 characters.');
+        //     isError = true;
+        // } else setRemarkError('')
+        console.log(isError, "getSubmitLeavegetSubmitLeave")
+        if (!isError) {
+            console.log("getSubmitLeavegetSubmitLeave")
+            dispatch(getSubmitLeave(SubmitLeaveBody));
+        }
+
+    };
+    useEffect(() => {
+        if (SubmitLeaveDetails != "") {
+
+            if (LeaveDId) {
+                toast.success("Leave details updated successfully.", { toastId: "success1" });
+            } else {
+                toast.success("Leave details saved successfully.", { toastId: "success1" });
+            }
+            dispatch(resetSubmitLeave());
+            navigate('/extended-sidebar/Teacher/LeaveDetails');
+        }
+    }, [SubmitLeaveDetails])
+    useEffect(() => {
+        if (StartDate === null || EndDate === null) {
+            setTotalDays(0);
+        }
+    }, [StartDate, EndDate])
 
     const rightActions = (
         <>
@@ -165,7 +291,7 @@ const AddLeaveDetails = () => {
                                 height: '36px !important',
                                 ':hover': { backgroundColor: red[600] }
                             }}
-                            onClick={undefined}
+                            onClick={resetForm}
                         >
                             <Close />
                         </IconButton>
@@ -173,16 +299,16 @@ const AddLeaveDetails = () => {
 
                     <Tooltip title={'Submit'}>
                         <IconButton
-                            onClick={undefined}
+                            onClick={ClickSubmit}
                             sx={{
-                                background: green[500],
+                                backgroundColor: green[500],
                                 color: 'white',
                                 '&:hover': {
                                     backgroundColor: green[600]
                                 }
                             }}
                         >
-                            <Save />
+                            <Check />
                         </IconButton>
                     </Tooltip></>) : null}
             {/* <>
@@ -237,6 +363,25 @@ const AddLeaveDetails = () => {
                 ]}
                 rightActions={rightActions}
             />
+            <Box sx={{ p: 0.5, background: 'white' }}>
+                <Grid item xs={12}>
+                    <Accordion defaultExpanded>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+                        </AccordionSummary>
+                        <Grid item xs={12}>
+                            <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
+                                <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                            </Alert>
+                            <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                        </Grid>
+                    </Accordion>
+                </Grid>
+            </Box>
             <Box sx={{ p: 2, background: 'white' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
@@ -296,6 +441,7 @@ const AddLeaveDetails = () => {
                             onChange={clickLeaveTypeDropdown}
                             label='Leave Type'
                         />
+                        <ErrorMessage1 Error={setErrorLeaveType}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -307,28 +453,11 @@ const AddLeaveDetails = () => {
                             value={Description}
                             onChange={(e) => setDescription(e.target.value)}
                             fullWidth
-                            error={DescriptionError !== ''}
+                            error={DescriptionError != ''}
                             helperText={DescriptionError}
                         />
                     </Grid>
-                    <Grid item xs={12}>
-                        <Accordion defaultExpanded>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
-                            </AccordionSummary>
-                            <Grid item xs={12}>
-                                <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
-                                    <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
-                                </Alert>
-                                <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
-                            </Grid>
-                        </Accordion>
-                    </Grid>
-                    {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
+                    {/* {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
                         <Grid item xs={12} >
                             <TextField
                                 label={<>
@@ -345,7 +474,7 @@ const AddLeaveDetails = () => {
                                 helperText={Remark1}
                             >
                             </TextField>
-                        </Grid>) : null}
+                        </Grid>) : null} */}
                 </Grid >
             </Box>
         </Box >

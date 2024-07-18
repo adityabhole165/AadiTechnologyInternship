@@ -65,7 +65,6 @@ const LeaveDetailsslice = createSlice({
 export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => async (dispatch) => {
     dispatch(LeaveDetailsslice.actions.getLoading(true));
     const response = await LeaveDetailsAPI.GetLeaveDetailsList(data);
-
     const responseData = response.data.map((Item, i) => {
         return {
             Id: Item.Id,
@@ -81,7 +80,6 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
             IsApprovedByApprover: Item.IsApprovedByApprover,
             Status: Item.Status,
             TotalRows: Item.TotalRows
-
         };
     });
     dispatch(LeaveDetailsslice.actions.getLeaveDetailsList(responseData));
@@ -90,7 +88,6 @@ export const getLeaveDetailList = (data: IGetLeaveDetailsListBody): AppThunk => 
 export const getAllReportingUsers = (data: IGetAllReportingUsersBody): AppThunk => async (dispatch) => {
     dispatch(LeaveDetailsslice.actions.getLoading(true));
     const response = await LeaveDetailsAPI.GetAllReportingUsers(data);
-
     const responseData = response.data.map((Item, i) => {
         return {
             Id: Item.UserId,

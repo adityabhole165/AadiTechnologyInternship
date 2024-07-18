@@ -719,7 +719,7 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '20vw', backgroundColor: GetScreenPermission() == 'N' ? '#f0e68c' : '', }}
+            sx={{ pl: 0, minWidth: '20vw', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
@@ -809,12 +809,11 @@ const ProgressRemarks = () => {
       <Paper sx={{ mb: '10px' }}>
         <ProgressRemarksNotes />
       </Paper>
-      <Box sx={{ background: 'white', p: 2 }}>
+      <Box sx={{ background: 'white', p: 1 }}>
         <Grid item xs={12}>
-          <Typography fontWeight={"bold"} variant='h4' mb={1}>
-            Legend
-          </Typography>
+        
           <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
+            <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
             <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
             <Box>Left Students</Box>
           </Typography>
@@ -824,7 +823,7 @@ const ProgressRemarks = () => {
         {
           USGetAllStudentswiseRemarkDetails.length > 0 ? (
             <div style={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center' }}>
                 <Box component="span" fontWeight="fontWeightBold">
                   {startRecord} to {endRecord}
                 </Box>

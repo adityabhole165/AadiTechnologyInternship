@@ -419,7 +419,10 @@ const teacherRoutes = [
     path: 'AddStudentRecord/:StudentRecordComment',
     element: <StudentRecordComment />
   },
-
+  {
+    path: 'AddStudentRecord/:SelectTeacher/:SchoolWiseStudentIdparam',
+    element: <AddStudentRecord />
+  },
   {
     path: 'AddDailyLog/:Id/:ClassName',
     element: <AddDailyLog />

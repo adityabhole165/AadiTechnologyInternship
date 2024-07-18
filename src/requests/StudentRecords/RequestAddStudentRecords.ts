@@ -10,6 +10,8 @@ const AddStudentRecordsSlice = createSlice({
         listSiblingsDetails: [],
         listFamilyDetails: [],
         listBehaviorDetails: [],
+        listParameterDetails: [],
+        listCommentDetails: [],
         submitStudentRecordmsg: '',
         markrecordAsreadmsg: '',
         Loading: true
@@ -30,6 +32,14 @@ const AddStudentRecordsSlice = createSlice({
         BehaviorDetails(state, action) {
             state.Loading = false;
             state.listBehaviorDetails = action.payload;
+        },
+        ParameterDetails(state, action) {
+            state.Loading = false;
+            state.listParameterDetails = action.payload;
+        },
+        CommentDetails(state, action) {
+            state.Loading = false;
+            state.listCommentDetails = action.payload;
         },
         getSubmitStudentRecord(state, action) {
             state.Loading = false;
@@ -84,7 +94,7 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.SiblingsDetails(siblingsdetails));
-            console.log(siblingsdetails)
+            // console.log(siblingsdetails)
 
             let familydetails = [];
             response.data.listFamilyDetails.map((item, i) => {
@@ -97,7 +107,7 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.FamilyDetails(familydetails));
-            console.log(familydetails)
+            // console.log(familydetails)
 
             let behaviordetails = [];
             response.data.listBehaviorDetails.map((item, i) => {
@@ -111,7 +121,39 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.BehaviorDetails(behaviordetails));
-            console.log(behaviordetails)
+            // console.log(behaviordetails)
+
+            let parameterdetails = [];
+            response.data.listParameterDetails.map((item, i) => {
+                parameterdetails.push({
+
+                    Id: item.Id,
+                    ParameterId: item.ParameterId,
+                    Answer: item.Answer
+                });
+            });
+            dispatch(AddStudentRecordsSlice.actions.ParameterDetails(parameterdetails));
+            console.log(parameterdetails)
+
+            let commentdetails = [];
+            response.data.listCommentDetails.map((item, i) => {
+                commentdetails.push({
+                    Id: item.Id,
+                    Date: item.Date,
+                    Comment: item.Comment,
+                    LectureName: item.LectureName,
+                    IsDefaultComment: item.IsDefaultComment,
+                    IsSubmitted: item.IsSubmitted,
+                    IsCommentReadByConsellor: item.IsCommentReadByConsellor,
+                    IsCommentReadByPrincipal: item.IsCommentReadByPrincipal,
+                    IsCommentReadByClassTeacher: item.IsCommentReadByClassTeacher,
+                    LoginUserDesignation: item.LoginUserDesignation,
+                    InsertedById: item.InsertedById,
+                    UserName: item.UserName
+                });
+            });
+            dispatch(AddStudentRecordsSlice.actions.CommentDetails(commentdetails));
+            console.log(commentdetails)
         }
 
 export const GetSubmitStudentRecord =

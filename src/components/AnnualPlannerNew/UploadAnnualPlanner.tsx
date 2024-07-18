@@ -132,7 +132,9 @@ const UploadAnnualPlanner = ({
             color: (theme) => theme.palette.common.white
           }}
         >
-           <ClearIcon onClick={handleClose} 
+           <ClearIcon  onClick={() => {
+              setOpenAnnualPlannerDialog(false);
+            }}
         sx={{ color: 'White', 
           borderRadius: '7px',
           position: 'absolute', 

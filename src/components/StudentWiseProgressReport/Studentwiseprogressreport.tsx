@@ -2,6 +2,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import {
   Box,
   IconButton,
@@ -116,6 +117,8 @@ const Studentwiseprogressreport = () => {
   const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
   const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
   const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
+  console.log(DeleteAllStud,"DeleteAllStud");
+  
   const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
   const PublishUnpublish: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
@@ -288,7 +291,7 @@ const Studentwiseprogressreport = () => {
   }
 
   useEffect(() => {
-    toast.success(DeleteAllStud ! == '');
+    toast.success(DeleteAllStud !== '');
     dispatch(deleteresetMessageAll());
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
   }, [DeleteAllStud]);
@@ -386,18 +389,19 @@ const Studentwiseprogressreport = () => {
                   if (item) {
                     const isClickable = item.ShowProgressReport !== "Y";
                     return (
-                      <Tooltip key={item.Id} title={isClickable ? "Delete" : "Delete Disabled"}>
+                      <Tooltip key={item.Id} title={isClickable ? "Delete All" : "Delete Disabled"}>
                         <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
-                          <DeleteForeverIcon
-                            onClick={isClickable ? () => clickDeleteAlll() : undefined}
-                            sx={{
-                              color: isClickable ? '#223354' : 'gray',
-                              '&:hover': {
-                                color: isClickable ? 'red' : 'gray',
-                                backgroundColor: isClickable ? red[100] : 'transparent'
-                              }
-                            }}
-                          />
+                        <IconButton
+                          sx={{
+                            color:'#223354',
+                                 //  backgroundColor: grey[500],
+                                  '&:hover': {
+                                   color:'red',
+                                 backgroundColor: red[100]
+                                 }}}
+                                    >
+                          <DeleteSweepIcon  onClick={isClickable ? () => clickDeleteAlll() : undefined}/>
+                          </IconButton>
                         </span>
                       </Tooltip>
                     );
