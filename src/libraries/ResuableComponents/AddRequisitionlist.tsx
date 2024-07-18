@@ -45,27 +45,32 @@ function AddRequisitionlist({
         <TableBody>
           {ItemList.map((item) => (
             <TableRow key={item.ItemID}>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                 {item.ItemCode}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                 {item.ItemName}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                 {item.CurrentStock}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
                 <TextField
+                label={
+                  <span>
+                      <span style={{ color: 'red' }}>*</span>
+                  </span>
+              }
                   size="small"
                   id="outlined-basic"
                   value={item.Text3}
                   variant="outlined"
                   onChange={(e) => handleText3Change(e, item)}
-                  sx={{ width: '100px', height: '10px' }}>
+                  sx={{ width: '100px', height: '10px', padding:'1px' }}>
                   </TextField>
                 
                 &nbsp; &nbsp; &nbsp;
-                <Select value={item.UOMUnit} sx={{ width: '100px', height: '35px' }} disabled>
+                <Select value={item.UOMUnit} sx={{ width: '100px', height: '30px' }} disabled>
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>

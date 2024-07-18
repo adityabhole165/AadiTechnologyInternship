@@ -22,9 +22,9 @@ const Requisioneditlist = ({ ItemList, HeaderArray }) => {
               >
                 <div style={{
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'left',
                   gap: 1,
-                  justifyContent: headerItem.Header.includes('Remark Template') ? 'flex-start' : 'center'
+                  justifyContent: headerItem.Header.includes('Remark Template') ? 'flex-start' : 'left'
                 }}>
                   <b>{headerItem.Header}</b>
                 </div>
@@ -35,13 +35,13 @@ const Requisioneditlist = ({ ItemList, HeaderArray }) => {
         <TableBody>
           {ItemList.map((item) => (
             <TableRow key={item.ItemID}>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize',  }}>
                 {item.CreaterName}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize',  }}>
                 {item.Action}
               </TableCell>
-              <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px', textAlign: 'center' }}>
+              <TableCell sx={{ textTransform: 'capitalize', }}>
                 {item.Date}
               </TableCell>
             </TableRow>
