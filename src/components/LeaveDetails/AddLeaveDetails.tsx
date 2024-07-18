@@ -1,4 +1,4 @@
-import { Close, Save } from '@mui/icons-material';
+import { Check, Close } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Accordion, AccordionSummary, Alert, Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
@@ -175,14 +175,14 @@ const AddLeaveDetails = () => {
                         <IconButton
                             onClick={undefined}
                             sx={{
-                                background: green[500],
+                                backgroundColor: green[500],
                                 color: 'white',
                                 '&:hover': {
                                     backgroundColor: green[600]
                                 }
                             }}
                         >
-                            <Save />
+                            <Check />
                         </IconButton>
                     </Tooltip></>) : null}
             {/* <>
