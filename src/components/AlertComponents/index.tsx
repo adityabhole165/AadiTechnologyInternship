@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { green } from '@mui/material/colors';
 import CheckIcon from '@mui/icons-material/Check';
+import { ClearIcon } from '@mui/x-date-pickers';
 
 export type AlertProps = {
   variant: 'success' | 'error' | 'warning' | 'info';
@@ -34,13 +35,31 @@ const AlertDialog = ({
   onCancel
 }: AlertProps) => {
   return (
-    <Dialog open={true} fullWidth maxWidth={'sm'}>
+    <Dialog open={true} fullWidth maxWidth={'sm'}   PaperProps={{
+      sx: {
+        borderRadius: "15px",
+      }
+    }} >
       <DialogTitle
         sx={{
           backgroundColor: '#23527C',
-          py: 1
+          py: 1.5
         }}
-      ></DialogTitle>
+      ><ClearIcon 
+        sx={{color: 'white',
+        // background:'white',
+        borderRadius: '7px',
+        position: 'absolute',
+        top: '2px',
+        right: '8px',
+        cursor: 'pointer',
+        '&:hover': {
+          color: 'red',
+          //  backgroundColor: red[100]
+
+        }
+      }} />
+      </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Grid container spacing={2}>
           <Grid item xs={2}>
