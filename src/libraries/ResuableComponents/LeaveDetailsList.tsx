@@ -133,9 +133,10 @@ function LeaveList({
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
-                                                                bgcolor: 'grey.300'
+                                                              color: '#223354',
+                                                              cursor: 'pointer'
                                                             }
-                                                        }}
+                                                          }}
                                                     >
                                                         <Visibility />
                                                     </IconButton>
