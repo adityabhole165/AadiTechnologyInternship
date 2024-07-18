@@ -426,8 +426,9 @@ const AddRequisition = () => {
             selector: row => row.ImageCount,
             renderCell: row => (
                 row.ImageCount > 0 ? (
-                    <IconButton onClick={() => Setimageid((row.ItemID))} >
-                        <VisibilityIcon onClick={Openimage} />
+                    <IconButton onClick={() => Setimageid((row.ItemID))} sx={{padding:'3px 8px', margin:'0px 15px'}} >
+                        <VisibilityIcon onClick={Openimage} sx={{ color: "#223354", display: 'flex',
+                  alignItems: 'Center' }}/>
                     </IconButton>
 
                 ) : <div> </div>
@@ -439,8 +440,10 @@ const AddRequisition = () => {
             label: 'Add Item',
             renderCell: row => (
                 <Tooltip title="Add">
-                    <IconButton onClick={() => handleClick(row.ItemID)}>
-                        <AddCircleIcon sx={{ color: "#29b6f6" }} />
+                    <IconButton onClick={() => handleClick(row.ItemID)} sx={{padding:'3px 8px', margin:'0px 12px'}} >
+                    
+                        <AddCircleIcon sx={{ color: "#223354", display: 'flex',
+                  alignItems: 'Center' }} />
                     </IconButton>
                 </Tooltip>
             )
