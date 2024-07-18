@@ -25,8 +25,11 @@ const AddLeaveDetails = () => {
     console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asSenderName = sessionStorage.getItem('StudentName');
+    const asDesignationName = sessionStorage.getItem('DesignationName');
     const [asUserId, setasUserId] = useState(Number(localStorage.getItem('UserId')));
-    const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asUserId);
+    const combinedValue = `${asSenderName ?? ''} ${asDesignationName ?? ''}`.trim();
+    const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : combinedValue);
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
