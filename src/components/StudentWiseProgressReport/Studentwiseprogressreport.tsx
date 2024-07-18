@@ -2,7 +2,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
-import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import {
   Box,
   IconButton,
@@ -117,8 +116,6 @@ const Studentwiseprogressreport = () => {
   const StudentGrade = useSelector((state: RootState) => state.Studentwiseprogress.StudentsAssignmentGrade);
   const oneDeleteStud = useSelector((state: RootState) => state.Studentwiseprogress.oneDeleteStudent);
   const DeleteAllStud = useSelector((state: RootState) => state.Studentwiseprogress.DeleteAllStudent);
-  console.log(DeleteAllStud,"DeleteAllStud");
-  
   const PublishStatu: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishStatus);
   const PublishUnpublish: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
@@ -243,32 +240,37 @@ const Studentwiseprogressreport = () => {
       message: Id.ShowDeleteButton !== 'N' ? 'Are you sure you want to delete grades of selected assessment of selected student? ' :
         '',
       variant: 'warning',
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
         dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));
         dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-
       },
       onCancel: closeAlert
     });
-
   };
 
+
+
+
   useEffect(() => {
-    toast.success(oneDeleteStud !== '');
-    dispatch(deleteresetMessage());
-    dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+    if (oneDeleteStud != '') {
+      toast.success(oneDeleteStud);
+      dispatch(deleteresetMessage());
+      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+    }
   }, [oneDeleteStud]);
 
+
+
   const clickDeleteAlll = () => {
-    
+
     const DeleteAllStudentTestMarksBody: IDeleteAllStudentTestMarksBody = {
       asAcademicYearId: Number(asAcademicYearId),
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Number(Assessment),
-      asStandardDivId:  Number(StandradID),
+      asStandardDivId: Number(StandradID),
       asUpdatedById: Number(asUpdatedById)
     };
 
@@ -284,16 +286,18 @@ const Studentwiseprogressreport = () => {
       },
       onConfirm: () => {
         dispatch(DeleteAllStudentTest(DeleteAllStudentTestMarksBody));
-
         closeAlert();
       }
     });
   }
 
+
   useEffect(() => {
-    toast.success(DeleteAllStud !== '');
-    dispatch(deleteresetMessageAll());
-    dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+    if (DeleteAllStud != '') {
+      toast.success(DeleteAllStud);
+      dispatch(deleteresetMessageAll());
+      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+    }
   }, [DeleteAllStud]);
 
   const clickEdit = (value) => {
@@ -333,7 +337,7 @@ const Studentwiseprogressreport = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Student wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' }
+          { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' }
         ]}
         rightActions={
           <>
@@ -382,6 +386,33 @@ const Studentwiseprogressreport = () => {
                 </IconButton>
               </Tooltip>
             </Box>
+            {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+              {StudentAssignment.length > 0 &&
+                (() => {
+                  const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
+                  if (item) {
+                    const isClickable = item.ShowProgressReport !== "Y";
+                    return (
+                      <Tooltip key={item.Id} title={isClickable ? "Delete All " : "Delete Disabled"}>
+                        <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
+                                                    <DeleteForeverIcon
+                            onClick={isClickable ? () => clickDeleteAlll() : undefined}
+                                                       sx={{
+                              color: 'red',
+                              '&:hover': {
+                                color: isClickable ? 'red' : 'gray',
+                                backgroundColor: isClickable ? red[100] : 'transparent'
+                              }}}
+                          />
+                        </span>
+                      </Tooltip>
+                    );
+                  }
+                  return null;
+                })()
+              }
+            </Box> */}
+
             <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
               {StudentAssignment.length > 0 &&
                 (() => {
@@ -391,17 +422,29 @@ const Studentwiseprogressreport = () => {
                     return (
                       <Tooltip key={item.Id} title={isClickable ? "Delete All" : "Delete Disabled"}>
                         <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
-                        <IconButton
-                          sx={{
-                            color:'#223354',
-                                 //  backgroundColor: grey[500],
-                                  '&:hover': {
-                                   color:'red',
-                                 backgroundColor: red[100]
-                                 }}}
-                                    >
-                          <DeleteSweepIcon  onClick={isClickable ? () => clickDeleteAlll() : undefined}/>
-                          </IconButton>
+                          <Box
+                            sx={{
+                              display: 'inline-flex',
+                              width: 36,
+                              height: 36,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              border: '1px solid #ccc',
+                              borderRadius: 2,
+                              backgroundColor: 'transparent'
+                            }}
+                          >
+                            <DeleteForeverIcon
+                              onClick={isClickable ? () => clickDeleteAlll() : undefined}
+                              sx={{
+                                color: isClickable ? 'red' : 'gray',
+                                '&:hover': {
+                                  color: isClickable ? 'red' : 'gray',
+                                  backgroundColor: 'transparent'
+                                }
+                              }}
+                            />
+                          </Box>
                         </span>
                       </Tooltip>
                     );
@@ -410,6 +453,7 @@ const Studentwiseprogressreport = () => {
                 })()
               }
             </Box>
+
             {PublishStatu.AllowPublish == false && PublishStatu.AllowUnPublish == false ?
               <span></span> :
               isVisible && (
