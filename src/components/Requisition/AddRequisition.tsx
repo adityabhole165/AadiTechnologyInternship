@@ -74,9 +74,7 @@ const AddRequisition = () => {
     const USGetRequisitionDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails);
     const listGetRequisitionTeacherDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails1);
     const listGetRequisitionPrincipalUserId: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails2);
-
-  console.log(USGetRequisitionDetails,"USGetRequisitionDetails-----",listGetRequisitionPrincipalUserId);
-  
+  const GetRequisitionPrincipal = listGetRequisitionPrincipalUserId[0];
 
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
@@ -762,7 +760,7 @@ const AddRequisition = () => {
                     disabled
                 />
 
-                {USCanCreateGenralRequisition == "Y" ? <Checkbox
+                {USCanCreateGenralRequisition == "Y"  ||  GetRequisitionPrincipal.Is_General == true? <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                     sx={{
