@@ -66,11 +66,11 @@ function AddRequisitionlist({
                   value={item.Text3}
                   variant="outlined"
                   onChange={(e) => handleText3Change(e, item)}
-                  sx={{ width: '100px', height: '10px', padding:'1px' }}>
+                  sx={{ width: '100px', height:'1px'}}>
                   </TextField>
                 
                 &nbsp; &nbsp; &nbsp;
-                <Select value={item.UOMUnit} sx={{ width: '100px', height: '30px' }} disabled>
+                <Select value={item.UOMUnit} sx={{ width: '100px', height: '37px' }} disabled>
                   <MenuItem value={item.UOMUnit}>{item.UOMUnit}</MenuItem>
                 </Select>
               </TableCell>
