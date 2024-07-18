@@ -30,6 +30,14 @@ import SliceAadharCardDetails from 'src/requests/AadharCardDetails/RequestAadhar
 import AnnualPlanerBaseScreenSlice from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import AddAnnualPlannerSlice from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import DailyLogSlice from 'src/requests/AddDailyLog/RequestAddDailyLog';
+import ReqAddNotice from 'src/requests/AddSchoolNotice/ReqAddNotice';
+import ReqAllClassesAndDivisions from 'src/requests/AddSchoolNotice/ReqAllClassesAndDivisions';
+import ReqDeleteSchoolNotice from 'src/requests/AddSchoolNotice/ReqDeleteSchoolNotice';
+import ReqEditSchoolNoticeDetails from 'src/requests/AddSchoolNotice/ReqEditSchoolNoticeDetails';
+import ReqGetStandardDivisionsForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetStandardDivisionsForSelectedNoticeId';
+import ReqGetUserRolesForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetUserRolesForSelectedNoticeId';
+import ReqSaveUpdateSchoolNotices from 'src/requests/AddSchoolNotice/ReqSaveUpdateSchoolNotices';
+import ReqUpdateSelectNotice from 'src/requests/AddSchoolNotice/ReqUpdateSelectNotice';
 import AComposeSMSSlice from 'src/requests/AdminSMSCenter/AComposeSMS';
 import AReceiveSMSSlice from 'src/requests/AdminSMSCenter/AReceiveSMS';
 import AScheduledSMSSlice from 'src/requests/AdminSMSCenter/AScheduledSMS';
@@ -106,22 +114,17 @@ import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
+import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
-import ReqUpdateSelectNotice from 'src/requests/AddSchoolNotice/ReqUpdateSelectNotice';
-import ReqDeleteSchoolNotice from 'src/requests/AddSchoolNotice/ReqDeleteSchoolNotice';
-import ReqAddNotice from 'src/requests/AddSchoolNotice/ReqAddNotice';
-import ReqAllClassesAndDivisions from 'src/requests/AddSchoolNotice/ReqAllClassesAndDivisions';
-import ReqGetUserRolesForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetUserRolesForSelectedNoticeId';
-import ReqSaveUpdateSchoolNotices from 'src/requests/AddSchoolNotice/ReqSaveUpdateSchoolNotices';
-import ReqEditSchoolNoticeDetails from 'src/requests/AddSchoolNotice/ReqEditSchoolNoticeDetails';
-import ReqGetStandardDivisionsForSelectedNoticeId from 'src/requests/AddSchoolNotice/ReqGetStandardDivisionsForSelectedNoticeId';
-import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
+import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
+
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Support: SliceSupport,
   Holidays: Holidaysslice,
+  WeeklyTimetable: WeeklyTimeTableSlice,
   Notification: Notificationslice,
   staffBirthday: staffBirthdayslice,
   Timetable: Timetableslice,
@@ -231,15 +234,15 @@ const rootReducer = combineReducers({
   AddSchoolNotice: AddSchoolNotice,
   AddLeaveDetails: AddLeaveDetailsslice,
   AddStudentRecords: AddStudentRecordsSlice,
-    UpdateSelectNotice: ReqUpdateSelectNotice,
-    DeleteSchoolNotice: ReqDeleteSchoolNotice,
-    AddNotice: ReqAddNotice,
-    GetAllClassesAndDivisions: ReqAllClassesAndDivisions,
-    GetUserRolesForSelectedNoticeId: ReqGetUserRolesForSelectedNoticeId,
-    SaveUpdateSchoolNotice: ReqSaveUpdateSchoolNotices,
-    EditSchoolNoticeDetails: ReqEditSchoolNoticeDetails,
-    GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
-    StudentRecordCommentPopup : StudentRecordCommentslice
+  UpdateSelectNotice: ReqUpdateSelectNotice,
+  DeleteSchoolNotice: ReqDeleteSchoolNotice,
+  AddNotice: ReqAddNotice,
+  GetAllClassesAndDivisions: ReqAllClassesAndDivisions,
+  GetUserRolesForSelectedNoticeId: ReqGetUserRolesForSelectedNoticeId,
+  SaveUpdateSchoolNotice: ReqSaveUpdateSchoolNotices,
+  EditSchoolNoticeDetails: ReqEditSchoolNoticeDetails,
+  GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
+  StudentRecordCommentPopup: StudentRecordCommentslice
 });
 
 export default rootReducer;

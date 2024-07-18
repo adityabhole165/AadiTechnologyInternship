@@ -4,8 +4,12 @@ import Save from "@mui/icons-material/Save"
 import Settings from "@mui/icons-material/Settings"
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, FormGroup, IconButton, MenuItem, Popover, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from "@mui/material"
 import { green, grey, red } from "@mui/material/colors"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { IGetTeacherAndStandardForTimeTableBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
+import { CDAGetTeachersList } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
 type Props = {}
@@ -34,9 +38,21 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
 }))
 
 const WeeklyTimetable = (props: Props) => {
+    const dispatch = useDispatch();
     const [teacherSettingsAnchorEL, setTeacherSettingsAnchorEL] = useState<HTMLButtonElement | null>(null);
     const [filterBy, setFilterBy] = useState<string>('Teacher')
-    const [showAddAdditionalLectures, setShowAddAdditionalLectures] = useState<boolean>(false)
+    const [showAddAdditionalLectures, setShowAddAdditionalLectures] = useState<boolean>(false);
+    const [teacher, setTeacher] = useState<string>('');
+    const TeachersList = useSelector((state: RootState) => state.WeeklyTimetable.ISTeachersList);
+
+    useEffect(() => {
+        const CDAGetTeachersListBody: IGetTeacherAndStandardForTimeTableBody = {
+            asSchoolId: Number(localStorage.getItem('SchoolId')),
+            asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+            asTeacher_id: 0
+        }
+        dispatch(CDAGetTeachersList(CDAGetTeachersListBody))
+    }, [])
 
     const handleTeacherSettingsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setTeacherSettingsAnchorEL(event.currentTarget);
@@ -120,8 +136,9 @@ const WeeklyTimetable = (props: Props) => {
                                 <>
                                     <Box>
                                         <SearchableDropdown
-                                            onChange={(value) => { }}
-                                            ItemList={[]}
+                                            onChange={(value) => { setTeacher(value) }}
+                                            ItemList={TeachersList}
+                                            defaultValue={teacher}
                                             label="Teacher"
                                             sx={{ minWidth: 250 }}
                                             size={"small"}
