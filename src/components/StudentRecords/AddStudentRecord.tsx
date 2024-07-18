@@ -1,11 +1,12 @@
 import { AddComment, Check, QuestionMark, Save, Send } from '@mui/icons-material';
-import { Box, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { GetMarkRecordAsRead, GetStudentRecordData, GetSubmitStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -16,8 +17,10 @@ const AddStudentRecord = () => {
     const navigate = useNavigate();
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
+    const [errorMessage, seterrorMessage] = useState('')
     const [exampleLessonDetails, setExampleLessonDetails] = useState([])
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
+    const [dateError, setDateError] = useState('');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -84,11 +87,30 @@ const AddStudentRecord = () => {
     const onClickSubmitComment = () => {
     };
     const handleDateChange = (selectedDate: string) => {
-        if (!selectedDate) {
-            setADate(''); // Reset AssignedDate state if needed
-            return;
+        let isError = false;
+        // if (!selectedDate) {
+        //     setADate(''); // Reset AssignedDate state if needed
+        //     return;
+        setADate(selectedDate);
+        // Update dateState with selectedDate
+        if (selectedDate && dateError !== '') {
+            setDateError('');
+        } else {
+            const selectedDate = new Date(ADate);
+            const currentDate = new Date();
+
+            if (selectedDate > currentDate) {
+                setDateError('Future date is not allowed.');
+                isError = true;
+            } else {
+                setDateError('');
+                console.log('Saving data...', ADate);
+            }
+
         }
-    }
+
+    };
+
     const cellStyle = {
         padding: '0.2em 1.5em', // Adjust these values to reduce the height
     };
@@ -200,7 +222,17 @@ const AddStudentRecord = () => {
                         </Box>
                     </>
                 }
-            /><Box mb={1} sx={{ p: 1, color: 'red', background: 'white', fontWeight: 'bold' }}>
+            />
+            <Grid item xs={12}>
+                <Typography variant={"h5"} sx={{ color: 'red' }}>
+                    {dateError && (
+                        <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                            <ErrorMessage1 Error={dateError}></ErrorMessage1>
+                        </Box>
+                    )}
+                </Typography>
+            </Grid>
+            <Box mb={1} sx={{ p: 1, color: 'red', background: 'white', fontWeight: 'bold' }}>
                 The following information is for professional use and will be handled confidentially. This information will assist the counsellor for the child's evaluation.<br></br>
                 Please complete the following questions as fully and accurately as possible. If you are unable to complete a question you may consult other subject teachers for the better understanding of the child.
             </Box>
