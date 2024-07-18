@@ -127,7 +127,7 @@ const AssignProgressReportSubject = () => {
             const studentId = student.Text1;
             const grade = grades[studentId];
             const observation = observations[studentId];
-            if (grades !== "0") {
+            if (grade !== "0") {
                 sXML +=
                     "<NonXseedSubjectGrades>" +
                     "<YearwiseStudentId>" + YearwiseId + "</YearwiseStudentId>" +
@@ -247,7 +247,7 @@ const AssignProgressReportSubject = () => {
                         <TableBody>
                             {StudentList.length !== 0 && StudentList.map((item, i) => (
                                 <TableRow key={i}>
-                                    <TableCell align="center">{item.Id}</TableCell>
+                                    <TableCell align="center">{item.Text1.split(' - ')[0]}</TableCell>
                                     <TableCell>{item.Text1.split(' - ')[1]}</TableCell>
                                     <TableCell>
                                         <SearchableDropdown
