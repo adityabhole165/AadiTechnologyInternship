@@ -17,6 +17,7 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 function StudentwiseProgressreportList({
     ItemList,
@@ -35,8 +36,8 @@ function StudentwiseProgressreportList({
     }
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
-            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, maxWidth: 700 }}>
+        <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%', background: 'white' }}>
+            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, maxWidth: 900 }}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
@@ -46,7 +47,7 @@ function StudentwiseProgressreportList({
                                     sx={{
                                         textTransform: 'capitalize',
                                         fontWeight: 'bold',
-                                        py: 0.5,  // Reduce padding for header cells
+                                        py: 1,  // Reduce padding for header cells
                                         textAlign: item.Header === 'Roll No' || item.Header === 'Student Name' ? 'left' : 'center',
                                         paddingLeft: item.Header === 'Roll No' ? 2 : 0, // Adjust padding for Roll No header
                                         backgroundColor: 'inherit',
@@ -54,8 +55,8 @@ function StudentwiseProgressreportList({
                                         whiteSpace: 'nowrap',
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
-                                        minWidth: 40, // Reduce minWidth for narrower columns
-                                        maxWidth: 100 // Reduce maxWidth for narrower columns
+                                        minWidth: 30, // Reduce minWidth for narrower columns
+                                        maxWidth: 50 // Reduce maxWidth for narrower columns
                                     }}
                                     onClick={() => clickHeader(item.Id)}
                                 >
@@ -127,8 +128,13 @@ function StudentwiseProgressreportList({
                                             <DeleteForeverIcon
                                                 onClick={() => clickDelete(item.Id)}
                                                 sx={{
-                                                    color: 'red',
-                                                }}
+                                                    color:'#223354',
+                                                     //  backgroundColor: grey[500],
+                                                      '&:hover': {
+                                                    color:'red',
+                                                     backgroundColor: red[100]
+                                                      }}}
+                                             
                                             />
                                         </Tooltip>
                                     )}
