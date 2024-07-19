@@ -1,4 +1,4 @@
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
@@ -441,19 +441,13 @@ const Studentwiseprogressreport = () => {
                               justifyContent: 'center',
                               border: '1px solid #ccc',
                               borderRadius: 2,
-                              backgroundColor: 'transparent'
+                               color: 'white',
+                              backgroundColor: red[500]
                             }}
                           >
-                            <DeleteForeverIcon
+                            <DeleteSweepIcon
                               onClick={isClickable ? () => clickDeleteAlll() : undefined}
-                              sx={{
-                                color: '#223354',
-                                //  backgroundColor: grey[500],
-                                '&:hover': {
-                                  color: 'red',
-                                  backgroundColor: red[100]
-                                }
-                              }}
+                              
 
                             />
                           </Box>
@@ -470,7 +464,15 @@ const Studentwiseprogressreport = () => {
               <span></span> :
               isVisible && (
                 <ButtonPrimary
-                  style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
+                  sx={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500],
+                     height: '36px !important', 
+                     display: 'inline-flex',
+                     width: 36,
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     border: '1px solid #ccc',
+                     borderRadius: 2,
+                    }}
                   onClick={ClickPublishUnpublish}
                 >
                   {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
