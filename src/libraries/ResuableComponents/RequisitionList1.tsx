@@ -123,16 +123,18 @@ function RequisitionList1({
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                     {item.IsDelete === "True" ? (
                                         <Tooltip title={"Delete"}>
-                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)}
+                                            <IconButton
+                                                onClick={() => clickDelete(item.Id)}
                                                 sx={{
                                                     color: '#223354',
-                                                    //  backgroundColor: grey[500],
                                                     '&:hover': {
                                                         color: 'red',
                                                         backgroundColor: red[100]
                                                     }
                                                 }}
-                                            />
+                                            >
+                                                <DeleteForeverIcon />
+                                            </IconButton>
                                         </Tooltip>
                                     ) : <span></span>
                                     }
