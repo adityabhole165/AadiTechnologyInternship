@@ -252,7 +252,7 @@ const InvestmentDeclaration = () => {
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{ backgroundColor: '#ffffff', textAlign: 'center', marginBottom: 2, padding: 2 }}>
+                                    <Box sx={{ backgroundColor: '#ffffff', textAlign: 'center', marginBottom: 2, paddingTop: 1 }}>
                                         <hr />
                                         <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
 
@@ -273,7 +273,7 @@ const InvestmentDeclaration = () => {
                                         </Typography>
                                         <hr />
                                     </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4}}>
+                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4,marginTop:0.1}}>
                                         <Box>
                                             <Typography variant="h6">
                                                 <Box
@@ -389,7 +389,7 @@ const InvestmentDeclaration = () => {
                                     /> */}
                                 </Grid>
 
-                            ))}
+                            ))}                            
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={USGetRegimeDropdown}
