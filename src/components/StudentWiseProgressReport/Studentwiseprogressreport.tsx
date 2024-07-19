@@ -66,7 +66,9 @@ const Studentwiseprogressreport = () => {
   const { ClassTecherid, ClassId, TestId } =
     useParams();
   let CanEdit = getSchoolConfigurations(74)
+  
   const [SelectTeacher, setSelectTeacher] = useState(TeacherId);
+
   console.log(SelectTeacher, "SelectTeacher---");
   const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
@@ -134,11 +136,13 @@ const Studentwiseprogressreport = () => {
   };
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
+
   const StandradID = StandardDivisionId()
+  
   const GetPagedStudentsForMarkAssignment_Body: IGetPagedStudentsForMarkAssignmentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivId: Number(StandradID),
+    asStandardDivId: Number(StandardDivisionId()),
     asAssessmentId: Number(Assessment),
     asStartIndex: startIndex,
     asEndIndex: endIndex,
@@ -148,7 +152,7 @@ const Studentwiseprogressreport = () => {
   const GetPublishStatusBody: IGetPublishStatusBody = {
     asAcademicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
-    asStandardDivId: Number(StandradID),
+    asStandardDivId: Number(StandardDivisionId()),
     asAssessmentId: Number(Assessment),
   }
 
@@ -165,7 +169,7 @@ const Studentwiseprogressreport = () => {
     const PublishUnpublishXseedResultBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId),
-      asStandardDivisionId: Number(StandradID),
+      asStandardDivisionId: Number(StandardDivisionId()),
       asAssessmentId: Number(Assessment),
       asMode: PublishStatu.AllowPublish ? 'Publish' : 'Unpublish',
       asInsertedById: Number(SelectTeacher)
@@ -201,7 +205,7 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(PublishStatus(GetPublishStatusBody));
-  }, [StandradID, Assessment]);
+  }, [StandardDivisionId(), Assessment]);
 
   useEffect(() => {
     if (PublishUnpublish != '') {
@@ -211,7 +215,7 @@ const Studentwiseprogressreport = () => {
       dispatch(PublishStatus(GetPublishStatusBody));
 
     }
-  }, [PublishUnpublish, StandradID, Assessment, SelectTeacher]);
+  }, [PublishUnpublish, StandardDivisionId(), Assessment, SelectTeacher]);
 
   const clickSelectClass = (value) => {
     setSelectTeacher(value);
@@ -270,7 +274,7 @@ const Studentwiseprogressreport = () => {
       asAcademicYearId: Number(asAcademicYearId),
       asSchoolId: Number(asSchoolId),
       asAssessmentId: Number(Assessment),
-      asStandardDivId: Number(StandradID),
+      asStandardDivId: Number(StandardDivisionId()),
       asUpdatedById: Number(asUpdatedById)
     };
 
