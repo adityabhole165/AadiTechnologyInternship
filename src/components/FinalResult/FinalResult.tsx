@@ -756,7 +756,7 @@ const FinalResult = () => {
       </Typography>
 
       <Box sx={{ background: 'white', p: 2 }}>
-        {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+        {GetStudentLists.length > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
           <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
             <Box component="span" fontWeight="fontWeightBold">
               {startRecord} to {endRecord}
