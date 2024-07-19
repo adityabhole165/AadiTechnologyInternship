@@ -395,7 +395,7 @@ const InvestmentDeclaration = () => {
 
                             ))}
                             <SearchableDropdown
-                               sx={{ minWidth: '15vw', ml:3}}
+                                sx={{ minWidth: '15vw', ml: 3 }}
                                 ItemList={USGetRegimeDropdown}
                                 onChange={clickRegimeDropDown}
                                 label={'Regime'}
@@ -404,20 +404,19 @@ const InvestmentDeclaration = () => {
 
                             />
                         </Grid>
-                        {USListInvestmentDetails.length > 0 &&
-                            <Grid container>
-                                <IsSubmit.Provider value={isSubmittedArray}>
-                                    <InvestmentSection
-                                        refreshData={refreshData}></InvestmentSection>
+                            {USListInvestmentDetails.length > 0 &&
+                                <Grid container >
+                                    <IsSubmit.Provider value={isSubmittedArray}>
+                                        <InvestmentSection
+                                            refreshData={refreshData}></InvestmentSection>
 
-                                </IsSubmit.Provider>
+                                    </IsSubmit.Provider>
 
-                            </Grid>}
-
+                                </Grid>}
                     </Container>
 
-                    <Box sx={{ background: 'white', p: 2, mb: 2, textAlign: 'right', pr: 6 }}>
-                        <Typography variant="h6">Grand Total: {grandTotalAmount}</Typography>
+                    <Box sx={{ background: 'white', textAlign: 'center', pl:21}}>
+                        <Typography variant="h6">Grand Total :  {grandTotalAmount}</Typography>
                     </Box>
 
 
