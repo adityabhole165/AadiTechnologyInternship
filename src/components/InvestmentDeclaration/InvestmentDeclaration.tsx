@@ -57,13 +57,13 @@ const InvestmentDeclaration = () => {
 
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
-        asFinancialYearId: 10,
+        asFinancialYearId: 1,
         asUserId: asUserId
     }
 
     const GetInvestmentDeclarationBodyNew: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
-        asFinancialYearId: 10,
+        asFinancialYearId: 1,
         asUserId: asUserId
     }
 
@@ -76,7 +76,7 @@ const InvestmentDeclaration = () => {
 
         const SaveInvestmentDeclaration: SaveInvestmentDetailsBody = {
             asSchoolId: asSchoolId,
-            asFinancialYearId: 10,
+            asFinancialYearId: 1,
             asUpdatedById: asUserId,
             asUserId: asUserId,
             asDeclarationXML: getXML(),
@@ -98,7 +98,7 @@ const InvestmentDeclaration = () => {
             toast.success("Investment details submitted successfully.")
         const SubmitInvestmentDeclaration: SubmitInvestmentDetailsBody = {
             asSchoolId: asSchoolId,
-            asFinancialYearId: 10,
+            asFinancialYearId: 1,
             asUserId: asUserId,
             asUpdatedById: asUserId
         }

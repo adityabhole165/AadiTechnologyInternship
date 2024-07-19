@@ -41,7 +41,7 @@ const InvestmentSection = ({ refreshData }) => {
 
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
-        asFinancialYearId: 10,
+        asFinancialYearId: 1,
         asUserId: asUserId
     }
 
