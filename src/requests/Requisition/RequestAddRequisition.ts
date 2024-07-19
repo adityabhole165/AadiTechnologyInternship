@@ -16,6 +16,7 @@ const SliceAddRequisition = createSlice({
     ISGetRequisitionDetails1:[],
     ISGetRequisitionDetails2:[],
     ISSaveRequisition:[],
+    Loading: true,
     ISlistGetRequisitionName:{},
     ISGetNewRequisitionValidateItemQuantity:{},
     ISCanCreateGenralRequisition:'',
@@ -31,6 +32,7 @@ const SliceAddRequisition = createSlice({
     },
 
     RGetAddItemList(state, action) {
+      state.Loading = false;
       state.IsGetAddItemList = action.payload;
     },
     CountRequisitionList(state, action) {
@@ -42,15 +44,19 @@ const SliceAddRequisition = createSlice({
     },
 
     RlistGetRequisitionName(state, action) {
+      state.Loading = false;
       state.ISlistGetRequisitionName = action.payload;
     },
     RGetRequisitionDetails(state, action) {
+      state.Loading = false;
       state.ISGetRequisitionDetails = action.payload;
     },
      RGetRequisitionDetails1(state, action) {
+      state.Loading = false;
       state.ISGetRequisitionDetails1 = action.payload;
     },
     RGetRequisitionDetails2(state, action) {
+      state.Loading = false;
       state.ISGetRequisitionDetails2 = action.payload;
     },
 
@@ -68,6 +74,10 @@ const SliceAddRequisition = createSlice({
     RGetItemImage(state, action) {
       state.ISGetItemImage.ImageUrls = action.payload;
     },
+    getLoading(state, action) {
+      state.Loading = true;
+      state.ISGetRequisitionDetails = [];
+    }
   }
 });
 
@@ -210,7 +220,9 @@ export const CDAGetItemCategory =
   export const CDAGetRequisitionDetails =
   (data: IGetRequisitionDetailsBody): AppThunk =>
   async (dispatch) => {
-    const response = await ApiAddRequisition.GetRequisitionDetailsApi(data);    
+    dispatch(SliceAddRequisition.actions.getLoading(true));    
+
+    const response = await ApiAddRequisition.GetRequisitionDetailsApi(data);
     let listGetRequisitionItemDetails = response.data.listGetRequisitionItemDetails.map((item, i) => {
       return {
           ItemID:item.ItemID,

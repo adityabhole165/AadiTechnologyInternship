@@ -23,6 +23,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 import Requisioneditlist from './Requisioneditlist';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 
 const AddRequisition = () => {
@@ -74,7 +75,7 @@ const AddRequisition = () => {
     const listGetRequisitionTeacherDetails: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails1);
     const listGetRequisitionPrincipalUserId: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetRequisitionDetails2);
     const assignIs_General = listGetRequisitionPrincipalUserId.length > 0 ? listGetRequisitionPrincipalUserId[0].Is_General : null;
-
+    const Loading: any = useSelector((state: RootState) => state.SliceAddRequisition.Loading);
     // const USGetItemImage: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage);
     // const filteredItems1 = USGetItemImage.filter(item => item.ImageUrl);
     // const result1 = filteredItems1.length > 0 ? filteredItems1[0] : null;
@@ -579,7 +580,7 @@ const AddRequisition = () => {
         if (asRequisitionId) {
             setAddItemlistNew(USGetRequisitionDetails)
         }
-    }, [asRequisitionId]);
+    }, [asRequisitionId,USGetRequisitionDetails]);
 
 
 
@@ -830,7 +831,9 @@ const AddRequisition = () => {
 
             {AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
-
+                   {Loading &&
+                        <SuspenseLoader />
+                    }
                     <AddRequisitionlist
                         ItemList={AddItemlistNew}
                         HeaderArray={HeaderPublish}
