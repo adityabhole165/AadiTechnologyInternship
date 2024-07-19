@@ -203,7 +203,7 @@ const Studentwiseprogressreport = () => {
 
   useEffect(() => {
     dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-  }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage]);
+  }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage, StandardDivisionId()]);
 
   useEffect(() => {
     dispatch(PublishStatus(GetPublishStatusBody));
