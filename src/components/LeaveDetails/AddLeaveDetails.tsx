@@ -1,7 +1,7 @@
 import { Check, Close } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Accordion, AccordionSummary, Alert, Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Grid, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,7 @@ const AddLeaveDetails = () => {
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [TotalDays, setTotalDays] = useState(1);
     const [SelectLeaveType, setLeaveType] = useState("0");
-    const [ErrorLeaveType, setErrorLeaveType] = useState("0");
+    const [ErrorLeaveType, setErrorLeaveType] = useState(" ");
     const [Description, setDescription] = useState('');
     const [Remark, setRemark] = useState('');
     const [Remark1, setRemarkError] = useState('');
@@ -223,7 +223,7 @@ const AddLeaveDetails = () => {
             setErrorEndDate2('Date should not be overlapped.');
             isError = true;
         } else setErrorEndDate2('')
-        if (SelectLeaveType == '') {
+        if (SelectLeaveType == '0') {
             setErrorLeaveType('Leave Type should be selected.');
             isError = true;
         } else setErrorLeaveType('')
@@ -363,25 +363,23 @@ const AddLeaveDetails = () => {
                 ]}
                 rightActions={rightActions}
             />
-            <Box sx={{ p: 0.5, background: 'white' }}>
-                <Grid item xs={12}>
-                    <Accordion defaultExpanded>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
-                        >
-                            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
-                        </AccordionSummary>
-                        <Grid item xs={12}>
-                            <Alert variant="filled" severity="info" sx={{ mb: 1 }}>
-                                <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
-                            </Alert>
-                            <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
-                        </Grid>
-                    </Accordion>
-                </Grid>
-            </Box>
+            <Paper sx={{ mb: '10px'}}>
+                <Accordion defaultExpanded>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                    >
+                        <Typography style={{ fontWeight: 'bold', fontSize: '20px'}}>Important Notes</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}>
+                    <Alert variant="filled" severity="info" sx={{ mb: 1, mt:'0.1px' }}>
+                        <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                    </Alert>
+                    <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                    </AccordionDetails>
+                </Accordion>
+            </Paper>
             <Box sx={{ p: 2, background: 'white' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
@@ -441,7 +439,7 @@ const AddLeaveDetails = () => {
                             onChange={clickLeaveTypeDropdown}
                             label='Leave Type'
                         />
-                        <ErrorMessage1 Error={setErrorLeaveType}></ErrorMessage1>
+                        <ErrorMessage1 Error={ErrorLeaveType}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
