@@ -624,7 +624,7 @@ const LessonPlanBaseScreen = () => {
                   ShowEdit={localStorage.getItem("UserId") === selectClasstecahernew}
                 />
               </IsHighliteStaus.Provider>
-              {LessonPlanListCount[0].RecordCount > rowsPerPage && (
+              {LessonPlanListCount[0].RecordCount > 19 && (
                 <ButtonGroupComponent
                   rowsPerPage={rowsPerPage}
                   ChangeRowsPerPage={ChangeRowsPerPage}
