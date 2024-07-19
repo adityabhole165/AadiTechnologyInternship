@@ -177,9 +177,11 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <AssignmentIcon onClick={() => {
+        <IconButton onClick={() => {
           navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false)
-        }} />
+        }}>
+          <AssignmentIcon />
+        </IconButton>
       </>
     },
     {
@@ -193,9 +195,9 @@ const FinalResult = () => {
       },
       renderCell: (row) => (
         row.CanShowVisibility ? (
-          <VisibilityIcon onClick={() => {
+          <IconButton onClick={() => {
             navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true)
-          }} />
+          }} ><VisibilityIcon /></IconButton>
         ) : null
       )
     },
@@ -673,7 +675,7 @@ const FinalResult = () => {
             </Tooltip>
           </Box>
 
-            <Box>
+          <Box>
             <Tooltip title={"Toppers"}>
               <IconButton
                 onClick={Toppers}
@@ -692,7 +694,7 @@ const FinalResult = () => {
             <Tooltip title={"Generate All"}>
               <IconButton
                 onClick={onClickGenerateAll}
-                disabled={GetTestPublished == false ||GetResultGenerated == true  ||  buttonsDisabled}
+                disabled={GetTestPublished == false || GetResultGenerated == true || buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: GetResultGenerated ? blue[200] : blue[500],
@@ -755,11 +757,11 @@ const FinalResult = () => {
                 <CheckCircle />
               </IconButton>
             </Tooltip>
-          </Box> 
- 
-        
+          </Box>
+
+
         </>
-      }
+        }
 
 
 
@@ -770,49 +772,49 @@ const FinalResult = () => {
         <SuspenseLoader />
       } */}
 
-       {GetTestPublished == false  ? 
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+      {GetTestPublished == false ?
+        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
           <b>No exam of this class has been published for the current academic year.</b>
         </Typography>
-           : null}
+        : null}
 
-         
-          {GetStudentLists.length > 0  && GetTestPublished == true  ? <Box sx={{ background: 'white', p: 2 }}>
-    <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
-              {Usisconfigred.IsConfiged == 0 ? (
-                <div>
-                  {Usunpublishedexam.length > 0 && (
-                    <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
-                      <b style={{ color: 'blue' }}> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
-                    </Alert>
-                  )}
-                </div>
-              ) : (
-                <span> </span>
+
+      {GetStudentLists.length > 0 && GetTestPublished == true ? <Box sx={{ background: 'white', p: 2 }}>
+        <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+          {Usisconfigred.IsConfiged == 0 ? (
+            <div>
+              {Usunpublishedexam.length > 0 && (
+                <Alert variant={"filled"} color='info' sx={{ mb: 2 }} icon={<InfoOutlined />}>
+                  <b style={{ color: 'blue' }}> All configured exams are not published - {Usunpublishedexam.map((item) => item.SchoolWise_Test_Name).join(', ')}</b>
+                </Alert>
               )}
-            </Typography>
-            
-              {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
-                <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {startRecord} to {endRecord}
-                  </Box>
-                  {' '}out of{' '}
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {singleTotalCount}
-                  </Box>{' '}
-                  {singleTotalCount === 1 ? 'record' : 'records'}
-                </Typography>
-              </div> : <span> </span>}
+            </div>
+          ) : (
+            <span> </span>
+          )}
+        </Typography>
 
-              {GetStudentLists && GetStudentLists.length > 0 && (
-                <DataTable
-                  columns={columns}
-                  data={GetStudentLists}
-                />
-              )}
+        {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <Box component="span" fontWeight="fontWeightBold">
+              {startRecord} to {endRecord}
+            </Box>
+            {' '}out of{' '}
+            <Box component="span" fontWeight="fontWeightBold">
+              {singleTotalCount}
+            </Box>{' '}
+            {singleTotalCount === 1 ? 'record' : 'records'}
+          </Typography>
+        </div> : <span> </span>}
 
-              {/* {GetStudentLists != undefined && (
+        {GetStudentLists && GetStudentLists.length > 0 && (
+          <DataTable
+            columns={columns}
+            data={GetStudentLists}
+          />
+        )}
+
+        {/* {GetStudentLists != undefined && (
           <DynamicList2
             HeaderList={HeaderList}
             ItemList={GetStudentLists}
@@ -820,34 +822,34 @@ const FinalResult = () => {
             ClickItem={ClickItem}
           />
         )} */}
-              {
-                endRecord > 19 ? (
-                  <ButtonGroupComponent
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    PageChange={PageChange}
-                    pagecount={pagecount}
-                  />
+        {
+          endRecord > 19 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
 
-                ) : (
-                  <span></span>
+          ) : (
+            <span></span>
 
-                )
-              }
+          )
+        }
 
-              {Open && (
-                <FinalResultUnpublish
-                  open={Open}
-                  setOpen={setOpen}
-                  ClickCloseDialogBox={ClickCloseDialogbox}
-                  onClickUnpublish={onClickUnpublish}
-                  ExamName={Exam}
-                  TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
-                />
-              )}
-            </Box>
-             : <span></span>}
+        {Open && (
+          <FinalResultUnpublish
+            open={Open}
+            setOpen={setOpen}
+            ClickCloseDialogBox={ClickCloseDialogbox}
+            onClickUnpublish={onClickUnpublish}
+            ExamName={Exam}
+            TeacherName={getDropdownName(GetClassTeachers, StandardDivisionId)}
+          />
+        )}
+      </Box>
+        : <span></span>}
 
 
 

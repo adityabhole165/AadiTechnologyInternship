@@ -36,8 +36,8 @@ function StudentwiseProgressreportList({
     }
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%', background: 'white' }}>
-            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, maxWidth: 900 }}>
+        <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%'}}>
+            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, background: 'white'}}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
@@ -49,7 +49,7 @@ function StudentwiseProgressreportList({
                                         fontWeight: 'bold',
                                         py: 1,  // Reduce padding for header cells
                                         textAlign: item.Header === 'Roll No' || item.Header === 'Student Name' ? 'left' : 'center',
-                                        paddingLeft: item.Header === 'Roll No' ? 2 : 0, // Adjust padding for Roll No header
+                                        paddingLeft: item.Header === 'Roll No' ? 2 : 1, // Adjust padding for Roll No header
                                         backgroundColor: 'inherit',
                                         color: 'inherit',
                                         whiteSpace: 'nowrap',
@@ -74,15 +74,15 @@ function StudentwiseProgressreportList({
                         {ItemList.map((item, i) => (
                             <TableRow key={i} sx={{ height: '36px' }}
                             >
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100, pl: 3, pr: 1 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100, pl: 2, pr: 1 }}>
                                     {item.RollNo}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.3, minWidth: 20, maxWidth: 80, pl: 0.1, pr: 0.2 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.3, minWidth: 20, maxWidth: 80, pl: 1, pr: 0.2 }}>
                                     <Typography noWrap>{item.StudentName}</Typography>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5 , minWidth: 40, maxWidth: 100 }}>
                                     {item.EditStatus === "1" ? (
                                         <Tooltip title="Marks entry not started">
                                             <EditOffIcon
