@@ -71,7 +71,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
               </TableRow>
             ) : data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length} align="center"  sx={{ paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                <TableCell colSpan={columns.length} align="center" sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                   No data available
                 </TableCell>
               </TableRow>
@@ -80,7 +80,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
                 data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
                     {columns.map((column) => (
-                      <TableCell {...column.cellProps} key={column.id}>{column.renderCell(row)}</TableCell>
+                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{column.renderCell(row)}</TableCell>
                     ))}
                   </TableRow>
                 ))
@@ -88,7 +88,7 @@ const DataTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagina
                 data.map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
                     {columns.map((column) => (
-                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px'}}>{column.renderCell(row)}</TableCell>
+                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{column.renderCell(row)}</TableCell>
                     ))}
                   </TableRow>
                 ))
