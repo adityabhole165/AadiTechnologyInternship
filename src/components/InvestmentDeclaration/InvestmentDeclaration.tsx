@@ -256,7 +256,7 @@ const InvestmentDeclaration = () => {
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{ backgroundColor: '#ffffff', textAlign: 'center', marginBottom: 2, paddingTop: 1 }}>
+                                    <Box sx={{ backgroundColor: '#f0f0f0', textAlign: 'center', marginBottom: 2, paddingTop: 1 }}>
                                         <hr />
                                         <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
 
@@ -395,7 +395,7 @@ const InvestmentDeclaration = () => {
 
                             ))}
                             <SearchableDropdown
-                                sx={{ minWidth: '20vw' }}
+                               sx={{ minWidth: '15vw', ml:3}}
                                 ItemList={USGetRegimeDropdown}
                                 onChange={clickRegimeDropDown}
                                 label={'Regime'}
