@@ -17,6 +17,7 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 function StudentwiseProgressreportList({
     ItemList,
@@ -127,8 +128,13 @@ function StudentwiseProgressreportList({
                                             <DeleteForeverIcon
                                                 onClick={() => clickDelete(item.Id)}
                                                 sx={{
-                                                    color: 'red',
-                                                }}
+                                                    color:'#223354',
+                                                     //  backgroundColor: grey[500],
+                                                      '&:hover': {
+                                                    color:'red',
+                                                     backgroundColor: red[100]
+                                                      }}}
+                                             
                                             />
                                         </Tooltip>
                                     )}
