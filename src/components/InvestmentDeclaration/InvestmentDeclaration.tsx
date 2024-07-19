@@ -273,7 +273,7 @@ const InvestmentDeclaration = () => {
                                         </Typography>
                                         <hr />
                                     </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2, padding: 2 }}>
+                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4}}>
                                         <Box>
                                             <Typography variant="h6">
                                                 <Box
@@ -281,13 +281,15 @@ const InvestmentDeclaration = () => {
                                                     border={1}
                                                     borderRadius={40}
                                                     px={8}
-                                                    py={1}
                                                     mr={1}
+                                                    mt={0.5}
                                                     component="span"
                                                 >
                                                     Name
                                                 </Box>
-                                                : {detail.UserName}
+                                                <Typography variant="h5" component="span">
+                                                    : {detail.UserName}
+                                                </Typography>
                                             </Typography>
                                             <Typography variant="body1">
                                                 <Box
@@ -295,13 +297,15 @@ const InvestmentDeclaration = () => {
                                                     border={1}
                                                     borderRadius={4}
                                                     px={5.4}
-                                                    py={1}
                                                     mr={1}
                                                     component="span"
+                                                    mt={0.5}
                                                 >
                                                     Employee No
                                                 </Box>
-                                                : {detail.EmployeeNo}
+                                                <Typography variant="h5" component="span">
+                                                    : {detail.EmployeeNo}
+                                                </Typography>
                                             </Typography>
                                             <Typography variant="body1">
                                                 <Box
@@ -309,13 +313,15 @@ const InvestmentDeclaration = () => {
                                                     border={1}
                                                     borderRadius={4}
                                                     px={7.1}
-                                                    py={1}
                                                     mr={1}
+                                                    mt={0.5}
                                                     component="span"
                                                 >
                                                     Address
                                                 </Box>
-                                                : {detail.Address}
+                                                <Typography variant="h5" component="span">
+                                                    : {detail.Address}
+                                                </Typography>
                                             </Typography>
                                         </Box>
                                         <Box>
@@ -325,13 +331,15 @@ const InvestmentDeclaration = () => {
                                                     border={1}
                                                     borderRadius={4}
                                                     px={5.8}
-                                                    py={1}
                                                     mr={1}
+                                                    mt={0.5}
                                                     component="span"
                                                 >
                                                     Designation
                                                 </Box>
-                                                : {detail.Designation}
+                                                <Typography variant="h5" component="span">
+                                                    : {detail.Designation}
+                                                </Typography>
                                             </Typography>
                                             <Typography variant="body1">
                                                 <Box
@@ -339,13 +347,15 @@ const InvestmentDeclaration = () => {
                                                     border={1}
                                                     borderRadius={4}
                                                     px={7.2}
-                                                    py={1}
                                                     mr={1}
+                                                    mt={0.5}
                                                     component="span"
                                                 >
                                                     PAN No
                                                 </Box>
-                                                : {detail.PanNo}
+                                                <Typography variant="h5" component="span">
+                                                    : {detail.PanNo}
+                                                </Typography>
                                             </Typography>
                                             <Typography variant="body1">
                                                 <Box
@@ -353,13 +363,15 @@ const InvestmentDeclaration = () => {
                                                     border={1}
                                                     borderRadius={4}
                                                     px={7.4}
-                                                    py={1}
                                                     mr={1}
+                                                    mt={0.5}
                                                     component="span"
                                                 >
                                                     Gender
                                                 </Box>
-                                                : {detail.Gender}
+                                                <Typography variant="h5" component="span">
+                                                    : {detail.Gender}
+                                                </Typography>
                                             </Typography>
 
 
