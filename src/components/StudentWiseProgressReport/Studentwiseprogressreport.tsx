@@ -29,7 +29,8 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   CDAAssessmentDropdown,
   DeleteAllStudentTest,
-  GetStudentResultList, PageStudentsAssignment,
+  GetPrimaryTeacher,
+  PageStudentsAssignment,
   PublishStatus, PublishUnpublishXseed,
   PublishresetMessageNewAll,
   deleteresetMessage,
@@ -66,7 +67,7 @@ const Studentwiseprogressreport = () => {
   const { ClassTecherid, ClassId, TestId } =
     useParams();
   let CanEdit = getSchoolConfigurations(74)
-  
+
   const [SelectTeacher, setSelectTeacher] = useState(TeacherId);
 
   console.log(SelectTeacher, "SelectTeacher---");
@@ -138,7 +139,7 @@ const Studentwiseprogressreport = () => {
   const endIndex = startIndex + rowsPerPage;
 
   const StandradID = StandardDivisionId()
-  
+
   const GetPagedStudentsForMarkAssignment_Body: IGetPagedStudentsForMarkAssignmentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -178,18 +179,19 @@ const Studentwiseprogressreport = () => {
   };
 
   useEffect(() => {
-    dispatch(GetStudentResultList(getPrimaryTeacher_body));
-  }, [SelectTeacher]);
-
-  useEffect(() => {
     dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
   }, []);
+
 
   useEffect(() => {
     if (GetScreenPermission() !== 'Y' && PrimaryTeacher.length > 0) {
       setSelectTeacher(PrimaryTeacher[0].Value);
     }
   }, [PrimaryTeacher]);
+
+  useEffect(() => {
+    dispatch(GetPrimaryTeacher(getPrimaryTeacher_body));
+  }, []);
 
 
   useEffect(() => {
@@ -441,13 +443,14 @@ const Studentwiseprogressreport = () => {
                             <DeleteForeverIcon
                               onClick={isClickable ? () => clickDeleteAlll() : undefined}
                               sx={{
-                                color:'#223354',
-                                 //  backgroundColor: grey[500],
-                                  '&:hover': {
-                                color:'red',
-                                 backgroundColor: red[100]
-                                  }}}
-                         
+                                color: '#223354',
+                                //  backgroundColor: grey[500],
+                                '&:hover': {
+                                  color: 'red',
+                                  backgroundColor: red[100]
+                                }
+                              }}
+
                             />
                           </Box>
                         </span>
@@ -473,7 +476,7 @@ const Studentwiseprogressreport = () => {
           </>
         } />
 
-      <Box sx={{ background: 'white', pb: 4, pt:1, pr:1 }}>
+      <Box sx={{ background: 'white', pb: 4, pt: 1, pr: 1 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>

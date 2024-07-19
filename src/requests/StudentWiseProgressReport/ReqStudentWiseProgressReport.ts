@@ -76,7 +76,7 @@ const Studentwiseprogressslice = createSlice({
 
 
 
-export const GetStudentResultList =
+export const GetPrimaryTeacher =
     (data: IGetAllPrimaryClassTeachersBody): AppThunk =>
         async (dispatch) => {
             const response = await GetStudentwiseReportApi.AllPrimaryClassTeacher(data);
