@@ -3,7 +3,7 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Link, Tooltip } from '@mui/material';
+import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -79,7 +79,7 @@ function RequisitionList1({
                     <TableBody >
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left'}}>{item.RequisitionCode}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.RequisitionCode}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.RequisitionName}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.StatusName}</TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.CreaterName}</TableCell>
@@ -89,25 +89,34 @@ function RequisitionList1({
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', }} align="center">
                                     {item.Editble === '1' ? (
                                         <Tooltip title={"Edit"}>
-                                            <EditTwoTone onClick={() => clickEdit(item.Id)}
-                                                sx={{
-                                                    color: '#223354',
-                                                    '&:hover': {
-                                                        bgcolor: 'grey.300'
-                                                    }
-                                                }}
-                                            />
+                                              <IconButton
+                                                        onClick={() => clickEdit(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                              color: '#223354',
+                                                              cursor: 'pointer'
+                                                            }
+                                                          }}
+                                                    >
+                                                        <EditTwoTone />
+                                                    </IconButton>
 
                                         </Tooltip>
                                     ) : (
                                         <Tooltip title={"View"}>
-                                            <Visibility onClick={() => clickView(item.Id)}
-                                                sx={{
-                                                    color: '#223354',
-                                                    '&:hover': {
-                                                        bgcolor: 'grey.300'
-                                                    }
-                                                }} />
+                                                 <IconButton
+                                                        onClick={() => clickView(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                              color: '#223354',
+                                                              cursor: 'pointer'
+                                                            }
+                                                          }}
+                                                    >
+                                                        <Visibility />
+                                                    </IconButton>
                                         </Tooltip>
                                     )}
                                 </TableCell>
