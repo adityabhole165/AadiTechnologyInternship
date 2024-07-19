@@ -180,7 +180,8 @@ export interface isResultPublishedResult {
 export interface isAtleastOneResultGeneratedBody {
   asSchoolId: number,
   asAcadmicYearId: number,
-  asStdDivId: number                                    // View result all 
+  asStdDivId: number
+  asStandardId: number                                   // View result all 
 }
 
 export interface isAtleastOneResultGeneratedResult {
