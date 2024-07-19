@@ -1,5 +1,5 @@
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Checkbox, Grow, Tooltip } from '@mui/material';
+import { Checkbox, Grow, IconButton, Tooltip } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,7 +18,7 @@ const DynamicList = ({
   ClickLink = undefined,
   Data = undefined,
 }) => {
- 
+
 
   const clickCheckbox = (value) => {
     let arr = [];
@@ -92,13 +92,13 @@ const DynamicList = ({
         >
           <TableBody>
             {ItemList.map((item, index) => {
-             
+
 
               return (
                 <TableRow key={index} style={{
                   // backgroundColor: Data[index]?.IsGrey ? '#A9A9A9' : ''
                   //  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#A9A9A9' : ''
-                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : '',...rowStyle
+                  backgroundColor: Data && Data[index] && Data[index].IsGrey ? '#D3D3D3' : '', ...rowStyle
                 }}>
                   {item.length > 0 && item.map((obj, i) => {
                     return (
@@ -146,7 +146,7 @@ const DynamicList = ({
 
                   {item.Text1 != undefined && (
                     <TableCell
-                      align="center"style={cellStyle}
+                      align="center" style={cellStyle}
                     >
                       <Tooltip title={item.MoueOverText1 != undefined ? item.MoueOverText1 : ""} key={index}>
                         <span>{item.Text1}</span>
@@ -155,20 +155,20 @@ const DynamicList = ({
                     </TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text2)}</TableCell>
+                    <TableCell align="center" style={cellStyle}>{parseInt(item.Text2)}</TableCell>
 
                   )}
                   {item.Text3 !== undefined && (
-                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text3)}</TableCell>
+                    <TableCell align="center" style={cellStyle}>{parseInt(item.Text3)}</TableCell>
                   )}
                   {item.Text4 != undefined && (
-                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text4)}</TableCell>
+                    <TableCell align="center" style={cellStyle}>{parseInt(item.Text4)}</TableCell>
                   )}
                   {item.Text5 != undefined && (
-                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text5)}</TableCell>
+                    <TableCell align="center" style={cellStyle}>{parseInt(item.Text5)}</TableCell>
                   )}
                   {item.Text6 != undefined && (
-                    <TableCell align="center"style={cellStyle}>{parseInt(item.Text6)}</TableCell>
+                    <TableCell align="center" style={cellStyle}>{parseInt(item.Text6)}</TableCell>
                   )}
                   {/* {IconList?.map((obj, i) => {
                     return (
@@ -203,13 +203,21 @@ const DynamicList = ({
                 </TableRow> */}
                   {IconList &&
                     IconList.map((obj, i) => (
-                      <TableCell align="center"style={cellStyle} key={i}>
+                      <TableCell align="center" style={cellStyle} key={i}>
                         {Data[index] && !Data[index].IsGrey ? (
                           <Tooltip title="Edit">
-                            <EditTwoTone
-                              sx={{ color: 'black', cursor: 'pointer' }}
-                              onClick={() => ClickItem({Id: i, Action: obj.Action, Index: index})}
-                            />
+                            <IconButton
+                              onClick={() => ClickItem({ Id: i, Action: obj.Action, Index: index })}
+                              sx={{
+                                color: '#223354',
+                                '&:hover': {
+                                  color: '#223354',
+                                  cursor: 'pointer'
+                                }
+                              }}
+                            >
+                              <EditTwoTone />
+                            </IconButton>
                           </Tooltip>
                         ) : (
                           "-"
