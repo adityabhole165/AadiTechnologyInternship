@@ -205,6 +205,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/StudentRecords'
     },
+    {
+      title: 'Investment Declaration',
+      icon: <FactCheck />,
+      link: '/extended-sidebar/Teacher/InvestmentDeclaration'
+
+    }
 
   ];
 
