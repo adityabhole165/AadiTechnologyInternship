@@ -1,4 +1,7 @@
-import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+
+
+
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
@@ -124,6 +127,9 @@ const Studentwiseprogressreport = () => {
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
 
   const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
+  const Data = StudentAssignment.map(item => item.ShowDeleteButton)
+  const Data1 = StudentAssignment.map(item => item.ShowProgressReport)
+  console.log(Data[0],"StudentAssignment",Data1[0]);
 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
@@ -166,6 +172,8 @@ const Studentwiseprogressreport = () => {
   }, [PublishStatu]);
 
 
+
+
   const ClickPublishUnpublish = () => {
     const PublishUnpublishXseedResultBody = {
       asSchoolId: Number(asSchoolId),
@@ -175,8 +183,31 @@ const Studentwiseprogressreport = () => {
       asMode: PublishStatu.AllowPublish ? 'Publish' : 'Unpublish',
       asInsertedById: Number(SelectTeacher)
     };
-    dispatch(PublishUnpublishXseed(PublishUnpublishXseedResultBody));
+  
+    const confirmationMessage = PublishStatu.AllowPublish
+      ? 'Are you sure you want to publish progress report of all students?'
+      : 'Are you sure you want to unpublish progress report of all students?';
+  
+    showAlert({
+      title: 'Please Confirm',
+      message: confirmationMessage,
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(PublishUnpublishXseed(PublishUnpublishXseedResultBody));
+        closeAlert();
+      }
+    });
   };
+  
+
+
+
+
 
   useEffect(() => {
     dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
@@ -241,7 +272,7 @@ const Studentwiseprogressreport = () => {
       asUpdatedById: Number(asUpdatedById)
 
     }
-  
+
     showAlert({
       title: 'Delete',
       message: Id.ShowDeleteButton !== 'N' ? 'Are you sure you want to delete grades of selected assessment of selected student? ' :
@@ -423,12 +454,40 @@ const Studentwiseprogressreport = () => {
               }
             </Box> */}
 
-            <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+            { Data[0] == 1 && Data1[0]== 'Y' ? 
+               <span></span> : <Box
+               sx={{
+                 display: 'inline-flex',
+                 width: 36,
+                 height: 36,
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 border: '1px solid #ccc',
+                 borderRadius: 2,
+                 backgroundColor: 'transparent'
+               }}
+             >
+               <DeleteForeverIcon
+                 onClick={clickDeleteAlll }
+                 sx={{
+                   color: '#223354',
+                   '&:hover': {
+                     color: 'red',
+                     backgroundColor: red[100]
+                   }
+                 }}
+               />
+             </Box>
+               }
+                           
+
+
+            {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
               {StudentAssignment.length > 0 &&
                 (() => {
-                  const item = StudentAssignment.find(item => item.ShowDeleteButton === "1");
+                  const item = StudentAssignment.find(item => item.ShowDeleteButton == "1");
                   if (item) {
-                    const isClickable = item.ShowProgressReport !== "Y";
+                    const isClickable = item.ShowProgressReport !== "Y"; // Updated condition based on your requirements
                     return (
                       <Tooltip key={item.Id} title={isClickable ? "Delete All" : "Delete Disabled"}>
                         <span style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}>
@@ -441,14 +500,18 @@ const Studentwiseprogressreport = () => {
                               justifyContent: 'center',
                               border: '1px solid #ccc',
                               borderRadius: 2,
-                               color: 'white',
-                              backgroundColor: red[500]
+                              backgroundColor: 'transparent'
                             }}
                           >
-                            <DeleteSweepIcon
-                              onClick={isClickable ? () => clickDeleteAlll() : undefined}
-                              
-
+                            <DeleteForeverIcon
+                              onClick={isClickable ? clickDeleteAlll : undefined}
+                              sx={{
+                                color: '#223354',
+                                '&:hover': {
+                                  color: 'red',
+                                  backgroundColor: red[100]
+                                }
+                              }}
                             />
                           </Box>
                         </span>
@@ -458,31 +521,21 @@ const Studentwiseprogressreport = () => {
                   return null;
                 })()
               }
-            </Box>
+            </Box> */}
 
-            {PublishStatu.AllowPublish == false && PublishStatu.AllowUnPublish == false ?
-              <span></span> :
-              isVisible && (
-                <ButtonPrimary
-                  sx={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500],
-                     height: '36px !important', 
-                     display: 'inline-flex',
-                     width: 36,
-                     alignItems: 'center',
-                     justifyContent: 'center',
-                     border: '1px solid #ccc',
-                     borderRadius: 2,
-                    }}
-                  onClick={ClickPublishUnpublish}
-                >
-                  {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
-                </ButtonPrimary>
-              )
-            }
+
+            <ButtonPrimary
+              style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
+              onClick={ClickPublishUnpublish}
+            >
+              {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+            </ButtonPrimary>
+
+
           </>
         } />
 
-      <Box sx={{ background: 'white', pl: 2, p: 2}}>
+      <Box sx={{ background: 'white', pl: 2, p: 2 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>

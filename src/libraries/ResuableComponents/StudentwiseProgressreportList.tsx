@@ -123,21 +123,25 @@ function StudentwiseProgressreportList({
                                     }
                                 </TableCell>
                                 <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
-                                    {item.EditStatus !== "1" && item.ShowProgressReport !== "Y" && (
-                                        <Tooltip title="Delete">
-                                            <DeleteForeverIcon
-                                                onClick={() => clickDelete(item.Id)}
-                                                sx={{
-                                                    color:'#223354',
-                                                     //  backgroundColor: grey[500],
-                                                      '&:hover': {
-                                                    color:'red',
-                                                     backgroundColor: red[100]
-                                                      }}}
-                                             
-                                            />
-                                        </Tooltip>
-                                    )}
+                                     {item.EditStatus !== "1" && item.ShowProgressReport !== "Y"  ?
+                                      
+                                       <Tooltip title="Delete">
+                                       <DeleteForeverIcon
+                                           onClick={() => clickDelete(item.Id)}
+                                           sx={{
+                                               color:'#223354',
+                                                //  backgroundColor: grey[500],
+                                                 '&:hover': {
+                                               color:'red',
+                                                backgroundColor: red[100]
+                                                 }}}
+                                        
+                                       />
+                                   </Tooltip>
+                                       :  <span></span>
+
+                                     }
+
                                 </TableCell>
                             </TableRow>
                         ))}
