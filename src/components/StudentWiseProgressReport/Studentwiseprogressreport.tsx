@@ -345,7 +345,7 @@ const Studentwiseprogressreport = () => {
               <SearchableDropdown
                 sx={{
                   minWidth: '20vw'
-                  , bgcolor: GetScreenPermission() === 'N' ? '#D3D3D3' : 'inherit'
+                  , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
                 }}
                 ItemList={PrimaryTeacher}
                 onChange={clickSelectClass}
@@ -437,12 +437,13 @@ const Studentwiseprogressreport = () => {
                             <DeleteForeverIcon
                               onClick={isClickable ? () => clickDeleteAlll() : undefined}
                               sx={{
-                                color: isClickable ? 'red' : 'gray',
-                                '&:hover': {
-                                  color: isClickable ? 'red' : 'gray',
-                                  backgroundColor: 'transparent'
-                                }
-                              }}
+                                color:'#223354',
+                                 //  backgroundColor: grey[500],
+                                  '&:hover': {
+                                color:'red',
+                                 backgroundColor: red[100]
+                                  }}}
+                         
                             />
                           </Box>
                         </span>
@@ -468,7 +469,7 @@ const Studentwiseprogressreport = () => {
           </>
         } />
 
-      <Box sx={{ background: 'white', p: 1 }}>
+      <Box sx={{ background: 'white', pb: 4, pt:1, pr:1 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
