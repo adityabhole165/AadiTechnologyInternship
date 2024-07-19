@@ -204,36 +204,40 @@ const InvestmentDeclaration = () => {
                         </Box>
                         < Box >
                             <Tooltip title={'Save'}>
-                                <IconButton
-                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
-                                    sx={{
-                                        backgroundColor: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                    onClick={clickSave}
-                                >
-                                    <Save />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                        sx={{
+                                            backgroundColor: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={clickSave}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         </Box>
                         <Box>
                             <Tooltip title={'Submit'}>
-                                <IconButton
-                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
-                                    sx={{
-                                        backgroundColor: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                    onClick={clickSubmit}
-                                >
-                                    <Check />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                        sx={{
+                                            backgroundColor: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={clickSubmit}
+                                    >
+                                        <Check />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         </Box>
 
