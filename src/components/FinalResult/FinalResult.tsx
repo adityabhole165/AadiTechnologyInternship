@@ -178,9 +178,11 @@ const FinalResult = () => {
         align: 'center'
       },
       renderCell: (row) => <>
-        <AssignmentIcon onClick={() => {
+        <IconButton onClick={() => {
           navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false)
-        }} />
+        }}>
+          <AssignmentIcon />
+        </IconButton>
       </>
     },
     {
@@ -194,9 +196,9 @@ const FinalResult = () => {
       },
       renderCell: (row) => (
         row.CanShowVisibility ? (
-          <VisibilityIcon onClick={() => {
+          <IconButton onClick={() => {
             navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true)
-          }} />
+          }}><VisibilityIcon /> </IconButton>
         ) : null
       )
     },
