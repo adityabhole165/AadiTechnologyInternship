@@ -241,6 +241,7 @@ const Studentwiseprogressreport = () => {
       asUpdatedById: Number(asUpdatedById)
 
     }
+  
     showAlert({
       title: 'Delete',
       message: Id.ShowDeleteButton !== 'N' ? 'Are you sure you want to delete grades of selected assessment of selected student? ' :
@@ -248,12 +249,15 @@ const Studentwiseprogressreport = () => {
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
-      onConfirm: () => {
+      onCancel: () => {
         closeAlert();
+      },
+      onConfirm: () => {
         dispatch(oneDeleteStudentTest(oneDeleteStudentTestMarks_Body));
         dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
-      },
-      onCancel: closeAlert
+
+        closeAlert();
+      }
     });
   };
 

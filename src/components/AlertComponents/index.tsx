@@ -45,7 +45,8 @@ const AlertDialog = ({
           backgroundColor: '#23527C',
           py: 1.5
         }}
-      ><ClearIcon 
+      >
+        {/* <ClearIcon 
         sx={{color: 'white',
         // background:'white',
         borderRadius: '7px',
@@ -58,7 +59,7 @@ const AlertDialog = ({
           //  backgroundColor: red[100]
 
         }
-      }} />
+      }} /> */}
       </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Grid container spacing={2}>
