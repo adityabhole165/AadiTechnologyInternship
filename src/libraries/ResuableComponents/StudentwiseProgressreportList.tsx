@@ -4,6 +4,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOffIcon from '@mui/icons-material/EditOff';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+
 import {
     Box,
     Table,
@@ -107,7 +109,7 @@ function StudentwiseProgressreportList({
                                     ) :
                                         item.EditStatus === "3" ? (
                                             <Tooltip title='Marks entry completed'>
-                                                <CheckIcon style={{ color: '#07bc0c', cursor: 'pointer' }}
+                                                 <EventAvailableIcon style={{ color: '#25e67b', cursor: 'pointer' }}
                                                     onClick={() => clickEdit(item.Id)}
                                                     sx={{
                                                         color: '#ff9800',
