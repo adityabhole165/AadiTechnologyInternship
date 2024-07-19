@@ -657,9 +657,6 @@ const FinalResult = () => {
 
             />
           </Box>
-
-
-
           <Box>
             <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
               <IconButton
@@ -675,8 +672,8 @@ const FinalResult = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          {GetTestPublished == true ? <Box>
 
+            <Box>
             <Tooltip title={"Toppers"}>
               <IconButton
                 onClick={Toppers}
@@ -692,12 +689,10 @@ const FinalResult = () => {
                 <MilitaryTech />
               </IconButton>
             </Tooltip>
-
-
             <Tooltip title={"Generate All"}>
               <IconButton
                 onClick={onClickGenerateAll}
-                disabled={GetResultGenerated || buttonsDisabled}
+                disabled={GetTestPublished == false ||GetResultGenerated == true  ||  buttonsDisabled}
                 sx={{
                   color: 'white',
                   backgroundColor: GetResultGenerated ? blue[200] : blue[500],
@@ -711,9 +706,6 @@ const FinalResult = () => {
                 <Autorenew />
               </IconButton>
             </Tooltip>
-
-
-
             <Tooltip title={"View All Results"}>
               <IconButton
                 onClick={() => {
@@ -733,8 +725,6 @@ const FinalResult = () => {
                 <TextSnippet />
               </IconButton>
             </Tooltip>
-
-
             <Tooltip title={"Unpublish"}>
               <IconButton
                 onClick={ClickOpenDialogbox}
@@ -750,8 +740,6 @@ const FinalResult = () => {
                 <Unpublished />
               </IconButton>
             </Tooltip>
-
-
             <Tooltip title={"Publish"}>
               <IconButton
                 onClick={() => onClickPublish(true)}
@@ -767,7 +755,30 @@ const FinalResult = () => {
                 <CheckCircle />
               </IconButton>
             </Tooltip>
-            <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+          </Box> 
+ 
+        
+        </>
+      }
+
+
+
+
+      />
+      {/* {
+        Loading &&
+        <SuspenseLoader />
+      } */}
+
+       {GetTestPublished == false  ? 
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+          <b>No exam of this class has been published for the current academic year.</b>
+        </Typography>
+           : null}
+
+         
+          {GetStudentLists.length > 0  && GetTestPublished == true  ? <Box sx={{ background: 'white', p: 2 }}>
+    <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
               {Usisconfigred.IsConfiged == 0 ? (
                 <div>
                   {Usunpublishedexam.length > 0 && (
@@ -780,8 +791,7 @@ const FinalResult = () => {
                 <span> </span>
               )}
             </Typography>
-
-            <Box sx={{ background: 'white', p: 2 }}>
+            
               {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                 <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                   <Box component="span" fontWeight="fontWeightBold">
@@ -837,15 +847,8 @@ const FinalResult = () => {
                 />
               )}
             </Box>
-          </Box> : <span>No exam of this class has been published for the current academic year.</span>}
+             : <span></span>}
 
-
-        </>}
-      />
-      {/* {
-        Loading &&
-        <SuspenseLoader />
-      } */}
 
 
     </Box>
