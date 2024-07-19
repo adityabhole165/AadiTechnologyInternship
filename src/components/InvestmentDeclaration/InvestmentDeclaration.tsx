@@ -416,7 +416,7 @@ const InvestmentDeclaration = () => {
                                 I hereby declare that Information as stated above is true and correct. I also authorize the School to recover tax (TDS) from my salary based on the declaration/documents submitted by me. I am personally liable to Income Tax proceedings for any misstatements in the declaration or proofs submitted herewith if they are inconsistent with the requirement of Income Tax Act, 1961.
                             </Typography>
                             <Typography variant="body1">
-                                I {userName} solemnly declare that to the best of my knowledge and belief the information given above is correct and complete.
+                                I<b> {userName} </b>solemnly declare that to the best of my knowledge and belief the information given above is correct and complete.
                             </Typography>
                         </Box>
                     </Container>
@@ -429,9 +429,9 @@ const InvestmentDeclaration = () => {
                                     disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
                                 >
                                     {/* // disabled={USISlistInvestmentEmpDetails[0].IsSubmitted}> */}
-                        SAVE
+                        {/* SAVE */}
                         {/* </Button>
-                            </Grid> */} */
+                            </Grid> */}
 
                         {/* <Grid item>
                                 <Button variant="contained" color="success"
