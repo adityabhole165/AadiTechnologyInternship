@@ -83,6 +83,7 @@ const InvestmentDeclaration = () => {
             asRegimeId: regimeId
         }
         dispatch(CDAGetSaveInvestment(SaveInvestmentDeclaration))
+        dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
     }
 
     useEffect(() => {
@@ -103,6 +104,8 @@ const InvestmentDeclaration = () => {
             asUpdatedById: asUserId
         }
         dispatch(CDAGetSubmitInvestment(SubmitInvestmentDeclaration))
+        dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
+
     }
 
     function getXML() {
@@ -173,7 +176,7 @@ const InvestmentDeclaration = () => {
     const refreshData = (value) => {
         setListInvestmentDetails(value)
     }
-
+    console.log(USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSubmitted")
 
 
     return (
@@ -206,7 +209,7 @@ const InvestmentDeclaration = () => {
                             <Tooltip title={'Save'}>
                                 <span>
                                     <IconButton
-                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+
                                         sx={{
                                             backgroundColor: green[500],
                                             color: 'white',
@@ -215,6 +218,7 @@ const InvestmentDeclaration = () => {
                                             }
                                         }}
                                         onClick={clickSave}
+                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted == true}
                                     >
                                         <Save />
                                     </IconButton>
@@ -225,7 +229,7 @@ const InvestmentDeclaration = () => {
                             <Tooltip title={'Submit'}>
                                 <span>
                                     <IconButton
-                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSaved == false && USISlistInvestmentEmpDetails[0]?.IsSubmitted == true}
                                         sx={{
                                             backgroundColor: green[500],
                                             color: 'white',
@@ -273,7 +277,7 @@ const InvestmentDeclaration = () => {
                                         </Typography>
                                         <hr />
                                     </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4,marginTop:0.1}}>
+                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4, marginTop: 0.1 }}>
                                         <Box>
                                             <Typography variant="h6">
                                                 <Box
@@ -389,7 +393,7 @@ const InvestmentDeclaration = () => {
                                     /> */}
                                 </Grid>
 
-                            ))}                            
+                            ))}
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={USGetRegimeDropdown}
