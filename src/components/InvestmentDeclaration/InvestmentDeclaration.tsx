@@ -1,5 +1,6 @@
-import { QuestionMark } from "@mui/icons-material";
-import { Box, Button, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Check, QuestionMark, Save } from "@mui/icons-material";
+import { Box, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { green } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -187,6 +188,7 @@ const InvestmentDeclaration = () => {
                     ]}
 
                     rightActions={<>
+
                         <Box>
                             <Tooltip title={"Submit investment details for income tax calculation"}>
                                 <IconButton sx={{
@@ -197,6 +199,40 @@ const InvestmentDeclaration = () => {
                                     }
                                 }}>
                                     <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        < Box >
+                            <Tooltip title={'Save'}>
+                                <IconButton
+                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                    sx={{
+                                        backgroundColor: green[500],
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                    onClick={clickSave}
+                                >
+                                    <Save />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box>
+                            <Tooltip title={'Submit'}>
+                                <IconButton
+                                    disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
+                                    sx={{
+                                        backgroundColor: green[500],
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                    onClick={clickSubmit}
+                                >
+                                    <Check />
                                 </IconButton>
                             </Tooltip>
                         </Box>
@@ -326,22 +362,27 @@ const InvestmentDeclaration = () => {
                                         </Box>
 
                                     </Box>
-                                    <SearchableDropdown
-                                        sx={{
-                                            minWidth: '300px'
-
-                                        }}
+                                    {/* <SearchableDropdown
+                                        sx={{ minWidth: '20vw' }}
                                         ItemList={USGetRegimeDropdown}
                                         onChange={clickRegimeDropDown}
-                                        label={'Regime Dropdown'}
+                                        label={'Regime'}
                                         defaultValue={regimeId}
-                                        mandatory
                                         size={"small"}
 
-                                    />
+                                    /> */}
                                 </Grid>
 
                             ))}
+                            <SearchableDropdown
+                                sx={{ minWidth: '20vw' }}
+                                ItemList={USGetRegimeDropdown}
+                                onChange={clickRegimeDropDown}
+                                label={'Regime'}
+                                defaultValue={regimeId}
+                                size={"small"}
+
+                            />
                         </Grid>
                         {USListInvestmentDetails.length > 0 &&
                             <Grid container>
@@ -376,7 +417,7 @@ const InvestmentDeclaration = () => {
                         </Box>
                     </Container>
                     <Container>
-                        <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
+                        {/* <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
 
                             <Grid item>
                                 <Button variant="contained" color="success"
@@ -384,11 +425,11 @@ const InvestmentDeclaration = () => {
                                     disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
                                 >
                                     {/* // disabled={USISlistInvestmentEmpDetails[0].IsSubmitted}> */}
-                                    SAVE
-                                </Button>
-                            </Grid>
+                        SAVE
+                        {/* </Button>
+                            </Grid> */} */
 
-                            <Grid item>
+                        {/* <Grid item>
                                 <Button variant="contained" color="success"
                                     onClick={clickSubmit}
                                     disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
@@ -396,7 +437,7 @@ const InvestmentDeclaration = () => {
                                     SUBMIT
                                 </Button>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                     </Container>
                 </Box>
             </Box>

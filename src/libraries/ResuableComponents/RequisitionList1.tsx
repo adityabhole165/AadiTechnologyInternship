@@ -3,7 +3,7 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Link, Tooltip } from '@mui/material';
+import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -79,51 +79,62 @@ function RequisitionList1({
                     <TableBody >
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left'}}>{item.RequisitionCode}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.RequisitionName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.StatusName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.CreaterName}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.Created_Date}</TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.ExpiryDate}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.RequisitionCode}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.RequisitionName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.StatusName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.CreaterName}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.Created_Date}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', paddingTop: '2.5px', paddingBottom: '2.5px' }}>{item.ExpiryDate}</TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="center">
                                     {item.Editble === '1' ? (
                                         <Tooltip title={"Edit"}>
-                                            <EditTwoTone onClick={() => clickEdit(item.Id)}
+                                            <IconButton
+                                                onClick={() => clickEdit(item.Id)}
                                                 sx={{
                                                     color: '#223354',
                                                     '&:hover': {
-                                                        bgcolor: 'grey.300'
+                                                        color: '#223354',
+                                                        cursor: 'pointer'
                                                     }
                                                 }}
-                                            />
+                                            >
+                                                <EditTwoTone />
+                                            </IconButton>
 
                                         </Tooltip>
                                     ) : (
                                         <Tooltip title={"View"}>
-                                            <Visibility onClick={() => clickView(item.Id)}
+                                            <IconButton
+                                                onClick={() => clickView(item.Id)}
                                                 sx={{
                                                     color: '#223354',
                                                     '&:hover': {
-                                                        bgcolor: 'grey.300'
+                                                        color: '#223354',
+                                                        cursor: 'pointer'
                                                     }
-                                                }} />
+                                                }}
+                                            >
+                                                <Visibility />
+                                            </IconButton>
                                         </Tooltip>
                                     )}
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                     {item.IsDelete === "True" ? (
                                         <Tooltip title={"Delete"}>
-                                            <DeleteForeverIcon onClick={() => clickDelete(item.Id)}
+                                            <IconButton
+                                                onClick={() => clickDelete(item.Id)}
                                                 sx={{
                                                     color: '#223354',
-                                                    //  backgroundColor: grey[500],
                                                     '&:hover': {
                                                         color: 'red',
                                                         backgroundColor: red[100]
                                                     }
                                                 }}
-                                            />
+                                            >
+                                                <DeleteForeverIcon />
+                                            </IconButton>
                                         </Tooltip>
                                     ) : <span></span>
                                     }

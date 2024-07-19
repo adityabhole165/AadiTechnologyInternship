@@ -32,7 +32,7 @@ const FinalResultSlice = createSlice({
     GetConfiguredTestPublished: [],
     iscofigred: {},
     unpublishexam: [],
-    GetResultPublishd: false,
+    ISGetResultPublishd: false,
     GetAtleastOneResultGenerated: {},
     GetTestPublished: true,
     Loading: true
@@ -78,7 +78,7 @@ const FinalResultSlice = createSlice({
     },
     getResultPublished(state, action) {
       state.Loading = false;
-      state.GetResultPublishd = action.payload
+      state.ISGetResultPublishd = action.payload
     },
     getAtleastOneResultGenerated(state, action) {
       state.Loading = false;
@@ -108,7 +108,6 @@ export const getConfiguredTestPublished =
     async (dispatch) => {
       const response = await FinalResultApi.GetConfiguredTestPublished(data);
       dispatch(FinalResultSlice.actions.GetConfiguredTestPublishedd(response.data))
-      console.log("response", response)
     };
 
 export const ClassTechersList =
@@ -144,12 +143,12 @@ export const GetStudentResultList =
           Text6: item.Result == '' ? 'N/A' : item.Result,
           Text7: item.Is_ResultGenrated == '' ? 'N' : item.Is_ResultGenrated,
           CanShowVisibility: item.Result === 'Pass' && item.Is_ResultGenrated === 'Y',
-          TotalRows: item.TotalRows
+          TotalRows: item.TotalRows,
+          Is_ResultGenrated: item.Is_ResultGenrated
           // Grade_Name: item.Grade_Name == '' ? 'N' : item.Grade_Name,
         };
       });
       dispatch(FinalResultSlice.actions.PageStudentList(StudentList));
-      console.log(StudentList, 'StudentList');
     };
 
 export const GetPublishResult = (data: IPublishBody): AppThunk =>
@@ -209,7 +208,6 @@ export const GetResultPublishd = (data: isResultPublishedBody): AppThunk =>
   async (dispatch) => {
     dispatch(FinalResultSlice.actions.getLoading(true));
     const response = await FinalResultApi.GetResultPublished(data);
-    console.log(response.data, "GetResultPublishd");
 
     dispatch(FinalResultSlice.actions.getResultPublished(response.data));
   };
@@ -234,7 +232,6 @@ export const getiscofigred =
       dispatch(FinalResultSlice.actions.getLoading(true));
       let res = await FinalResultApi.Getisconfigred(data);
       dispatch(FinalResultSlice.actions.isconfiexam(res.data));
-      console.log(res.data, "configurationnnnnnnn");
 
     };
 export const getunpublishedexam =
@@ -251,7 +248,6 @@ export const getunpublishedexam =
         };
       })
       dispatch(FinalResultSlice.actions.UnpublishexamName(response.data));
-      console.log(response, "unpublished");
 
     };
 
