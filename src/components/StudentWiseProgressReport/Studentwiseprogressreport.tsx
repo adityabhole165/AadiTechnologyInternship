@@ -234,10 +234,10 @@ const Studentwiseprogressreport = () => {
   }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage, StandardDivisionId()]);
 
   useEffect(() => {
-    if (Assessment != null) {
+    if (Assessment != null && PrimaryTeacher.length > 0) {
       dispatch(PublishStatus(GetPublishStatusBody));
     }
-  }, [StandardDivisionId(), Assessment]);
+  }, [PrimaryTeacher, Assessment]);
 
   useEffect(() => {
     if (PublishUnpublish != '') {
