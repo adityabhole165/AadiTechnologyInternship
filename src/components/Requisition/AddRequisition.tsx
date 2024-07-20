@@ -867,7 +867,7 @@ const AddRequisition = () => {
                 </Box> : null}
 
 
-            {listGetRequisitionTeacherDetails != '' ?
+            {listGetRequisitionTeacherDetails != ''&& asRequisitionId !== undefined ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <Requisioneditlist
                         ItemList={listGetRequisitionTeacherDetails}
