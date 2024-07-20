@@ -555,7 +555,7 @@ function SelectSchool() {
                 >
                   Login
                 </ButtonPrimary>
-                <CardDetail11 onClick={forgotPassword}>
+                <CardDetail11 onClick={forgotPassword} style={{ cursor: 'pointer' }}>
                   {' '}
                   Forgot Password{' '}
                 </CardDetail11>
