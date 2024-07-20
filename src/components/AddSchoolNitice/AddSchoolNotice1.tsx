@@ -602,7 +602,7 @@ const AddSchoolNotice1: React.FC = () => {
                             }}
                         />
                     </Grid>
-                    <Grid md={4} item>
+                    <Grid md={3} item>
                         <FormGroup row>
                             <Grid md={12} bgcolor={'lightgrey'} px={1} >
                                 <FormControlLabel
@@ -626,7 +626,7 @@ const AddSchoolNotice1: React.FC = () => {
                                 />
                             </Grid>
                             {['admin', 'teacher', 'student', 'adminStaff', 'otherStaff'].map((role) => (
-                                <Grid md={4} item px={1}>
+                                <Grid md={5} item px={1}>
                                     <FormControlLabel
                                         key={role}
                                         control={
@@ -644,7 +644,7 @@ const AddSchoolNotice1: React.FC = () => {
                     </Grid>
                     {
                         (Object.values(applicableTo).every(Boolean) || applicableTo.student) &&
-                        <Grid item xs={8} md={8}>
+                        <Grid item xs={9} md={9}>
                             <SelectListChild ISGetStandardDivisionsForSelectedNoticeId={ISGetStandardDivisionsForSelectedNoticeId} />
                         </Grid>
                     }
