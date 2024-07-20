@@ -54,7 +54,7 @@ const SettingsDropdown = () => {
 
     useEffect(() => {
         if (UserDetail)
-            localStorage.setItem("FinancialYearId", UserDetail.FinancialYearId)
+            sessionStorage.setItem("FinancialYearId", UserDetail.FinancialYearId)
     }, [UserDetail])
 
     useEffect(() => {
