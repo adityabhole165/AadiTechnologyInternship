@@ -1,6 +1,3 @@
-
-
-
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
@@ -10,6 +7,7 @@ import {
   IconButton,
   Tooltip, Typography
 } from '@mui/material';
+// import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import { green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,7 +41,7 @@ import {
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-
+// import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 const Studentwiseprogressreport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -461,21 +459,24 @@ const Studentwiseprogressreport = () => {
                   height: 36,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: '1px solid #ccc',
+                  border: '1px solid #ccc', 
                   borderRadius: 2,
                   backgroundColor: 'transparent'
                 }}
               >
-                <DeleteForeverIcon
+                 <DeleteForeverIcon
                   onClick={clickDeleteAlll}
                   sx={{
-                    color: '#223354',
-                    '&:hover': {
-                      color: 'red',
-                      backgroundColor: red[100]
-                    }
-                  }}
-                />
+                    display: 'inline-flex',
+                    color: 'white',
+                    padding:'4px',
+                    width:'36px',
+                    backgroundColor: red[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: red[600] },
+                    marginLeft: '0px',     
+                          }}
+                /> 
               </Box>
             }
 
@@ -523,12 +524,19 @@ const Studentwiseprogressreport = () => {
             </Box> */}
 
 
-            <ButtonPrimary
-              style={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500] }}
+            <IconButton
+              sx={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500], 
+                display: 'inline-flex',
+                color: 'white',
+                padding:'6px',
+                width:'36px',
+                height: '36px !important',               
+                marginLeft: '1px',     
+                       }}
               onClick={ClickPublishUnpublish}
             >
               {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
-            </ButtonPrimary>
+            </IconButton>
 
 
           </>
