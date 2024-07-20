@@ -129,7 +129,6 @@ const Studentwiseprogressreport = () => {
   const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
   const Data = StudentAssignment.map(item => item.ShowDeleteButton)
   const Data1 = StudentAssignment.map(item => item.ShowProgressReport)
-  console.log(Data[0],"StudentAssignment",Data1[0]);
 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
@@ -183,11 +182,11 @@ const Studentwiseprogressreport = () => {
       asMode: PublishStatu.AllowPublish ? 'Publish' : 'Unpublish',
       asInsertedById: Number(SelectTeacher)
     };
-  
+
     const confirmationMessage = PublishStatu.AllowPublish
       ? 'Are you sure you want to publish pre-primary progress report grade details of all students?'
       : 'Are you sure you want to unpublish pre-primary progress report grade details of all students?';
-  
+
     showAlert({
       title: 'Please Confirm',
       message: confirmationMessage,
@@ -203,7 +202,7 @@ const Studentwiseprogressreport = () => {
       }
     });
   };
-  
+
 
   useEffect(() => {
     dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
@@ -229,11 +228,15 @@ const Studentwiseprogressreport = () => {
 
 
   useEffect(() => {
-    dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+    if (Assessment != null) {
+      dispatch(PageStudentsAssignment(GetPagedStudentsForMarkAssignment_Body));
+    }
   }, [SelectTeacher, Assessment, HeaderPublish, page, rowsPerPage, StandardDivisionId()]);
 
   useEffect(() => {
-    dispatch(PublishStatus(GetPublishStatusBody));
+    if (Assessment != null) {
+      dispatch(PublishStatus(GetPublishStatusBody));
+    }
   }, [StandardDivisionId(), Assessment]);
 
   useEffect(() => {
@@ -450,32 +453,32 @@ const Studentwiseprogressreport = () => {
               }
             </Box> */}
 
-            { Data[0] == 1 && Data1[0]== 'Y' ? 
-               <span></span> : <Box
-               sx={{
-                 display: 'inline-flex',
-                 width: 36,
-                 height: 36,
-                 alignItems: 'center',
-                 justifyContent: 'center',
-                 border: '1px solid #ccc',
-                 borderRadius: 2,
-                 backgroundColor: 'transparent'
-               }}
-             >
-               <DeleteForeverIcon
-                 onClick={clickDeleteAlll }
-                 sx={{
-                   color: '#223354',
-                   '&:hover': {
-                     color: 'red',
-                     backgroundColor: red[100]
-                   }
-                 }}
-               />
-             </Box>
-               }
-                           
+            {Data[0] == 1 && Data1[0] == 'Y' ?
+              <span></span> : <Box
+                sx={{
+                  display: 'inline-flex',
+                  width: 36,
+                  height: 36,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid #ccc',
+                  borderRadius: 2,
+                  backgroundColor: 'transparent'
+                }}
+              >
+                <DeleteForeverIcon
+                  onClick={clickDeleteAlll}
+                  sx={{
+                    color: '#223354',
+                    '&:hover': {
+                      color: 'red',
+                      backgroundColor: red[100]
+                    }
+                  }}
+                />
+              </Box>
+            }
+
 
 
             {/* <Box sx={{ textTransform: 'capitalize', textAlign: 'center' }}>
