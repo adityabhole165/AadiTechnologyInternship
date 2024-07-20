@@ -31,7 +31,8 @@ const AddRequisition = () => {
     const navigate = useNavigate();
 
     const { asRequisitionId } = useParams();
-
+  console.log(asRequisitionId,"asRequisitionId--");
+  
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -178,6 +179,8 @@ const AddRequisition = () => {
         setXmlString1(xml);
 
     }, [AddItemlistNew]);
+     console.log(xmlString1, "--",ItemNewID);
+     
 
     useEffect(() => {
         const getXML1 = () => {
@@ -236,7 +239,7 @@ const AddRequisition = () => {
 
         const SaveRequisitionBodyNew: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
-            asRequisitionId: 0,
+            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) :0,
             asUserId: asUserId,
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
@@ -291,7 +294,7 @@ const AddRequisition = () => {
         let errorMessages = [];
         const SaveRequisitionBodysend: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
-            asRequisitionId: 0,
+            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) :0,
             asUserId: asUserId,
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
@@ -590,10 +593,18 @@ const AddRequisition = () => {
     }, [asRequisitionId,USGetRequisitionDetails]);
    
 
-
     useEffect(() => {
-        SetItemNewID(undefined)
-    }, [ItemNewID]);
+        if (asRequisitionId == undefined  ) {
+            setAddItemlistNew([])
+            setTextall('')
+            setTextall('')
+        }
+    }, [asRequisitionId]);
+
+
+    // useEffect(() => {
+    //     SetItemNewID(undefined)
+    // }, [ItemNewID]);
 
     const clickDelete = (ItemNewID) => {
         setAddItemlistNew(AddItemlistNew.filter(item => item.ItemID !== ItemNewID));
