@@ -14,7 +14,7 @@ const ButtonGroupComponent = ({
 }) => {
   
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',  backgroundColor:'white', p:3}}>
     <FormControl variant="outlined" style={{ minWidth: 100 }} size="small">
       <InputLabel>Rows per page</InputLabel>
       <Select value={rowsPerPage} onChange={ChangeRowsPerPage} label="Rows per page">
