@@ -1,4 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
@@ -464,7 +465,7 @@ const Studentwiseprogressreport = () => {
                   backgroundColor: 'transparent'
                 }}
               >
-                 <DeleteForeverIcon
+                 <DeleteSweepIcon
                   onClick={clickDeleteAlll}
                   sx={{
                     display: 'inline-flex',
