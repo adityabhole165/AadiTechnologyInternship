@@ -549,7 +549,7 @@ const Studentwiseprogressreport = () => {
           </>
         } />
 
-      <Box sx={{ background: 'white', pl: 2, p: 2 }}>
+      <Box sx={{ background: 'white', pl: 2, p:2  }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -563,12 +563,12 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-      <Box>
-
+      <Box sx={{bgcolor:'white'}}>
+        <Box >
         {
           StudentAssignment.length > 0 ? (
-            <p style={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <p style={{ flex: 1, textAlign: 'center', }}>
+              <Typography variant="subtitle1" sx={{textAlign: 'center', pt:2 }}>
                 <Box component="span" fontWeight="fontWeightBold">
                   {startRecord} to {endRecord}
                 </Box>
@@ -582,6 +582,8 @@ const Studentwiseprogressreport = () => {
           ) : (
             <span></span>
           )}
+        </Box>
+        
 
         <StudentwiseProgressreportList
           ItemList={StudentAssignment}
