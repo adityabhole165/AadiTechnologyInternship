@@ -272,7 +272,7 @@ const InvestmentDeclaration = () => {
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{ backgroundColor: '#f0f0f0', textAlign: 'center', marginBottom: 2, paddingTop: 1 }}>
+                                    <Box sx={{ backgroundColor: '#f0f0f0', textAlign: 'center', marginBottom: 2 }}>
                                         <hr />
                                         <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
 
@@ -293,16 +293,17 @@ const InvestmentDeclaration = () => {
                                         </Typography>
                                         <hr />
                                     </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4, marginTop: 0.1 }}>
+                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                                         <Box>
                                             <Typography variant="h6">
                                                 <Box
                                                     display="inline-block"
                                                     border={1}
                                                     borderRadius={40}
-                                                    px={8}
+                                                    pl={1}
+                                                    pr={7.3}
                                                     mr={1}
-                                                    mt={0.5}
+                                                    mt={0}
                                                     component="span"
                                                 >
                                                     Name
@@ -316,7 +317,8 @@ const InvestmentDeclaration = () => {
                                                     display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    px={5.4}
+                                                    pl={1}
+                                                    pr={2}
                                                     mr={1}
                                                     component="span"
                                                     mt={0.5}
@@ -332,7 +334,8 @@ const InvestmentDeclaration = () => {
                                                     display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    px={7.1}
+                                                    pl={1}
+                                                    pr={5.5}
                                                     mr={1}
                                                     mt={0.5}
                                                     component="span"
@@ -350,9 +353,10 @@ const InvestmentDeclaration = () => {
                                                     display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    px={5.8}
+                                                    pl={1}
+                                                    pr={2}
                                                     mr={1}
-                                                    mt={0.5}
+                                                    mt={0}
                                                     component="span"
                                                 >
                                                     Designation
@@ -366,7 +370,8 @@ const InvestmentDeclaration = () => {
                                                     display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    px={7.2}
+                                                    pl={1}
+                                                    pr={5}
                                                     mr={1}
                                                     mt={0.5}
                                                     component="span"
@@ -382,7 +387,8 @@ const InvestmentDeclaration = () => {
                                                     display="inline-block"
                                                     border={1}
                                                     borderRadius={4}
-                                                    px={7.4}
+                                                    pl={1}
+                                                    pr={5.5}
                                                     mr={1}
                                                     mt={0.5}
                                                     component="span"
@@ -421,7 +427,7 @@ const InvestmentDeclaration = () => {
                             />
                         </Grid>
                         {USListInvestmentDetails.length > 0 &&
-                            <Grid container >
+                            <Grid container sx={{maxWidth:'100%'}} >
                                 <IsSubmit.Provider value={isSubmittedArray}>
                                     <InvestmentSection
                                         refreshData={refreshData}></InvestmentSection>
