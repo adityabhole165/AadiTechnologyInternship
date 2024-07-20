@@ -567,7 +567,7 @@ const Studentwiseprogressreport = () => {
           {
             StudentAssignment.length > 0 ? (
               <p style={{ flex: 1, textAlign: 'center', }}>
-                <Typography variant="subtitle1" sx={{ textAlign: 'center', pt: 2 }}>
+                <Typography variant="subtitle1" sx={{ textAlign: 'center'}}>
                   <Box component="span" fontWeight="fontWeightBold">
                     {startRecord} to {endRecord}
                   </Box>
