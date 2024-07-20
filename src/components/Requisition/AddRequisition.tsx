@@ -139,24 +139,6 @@ const AddRequisition = () => {
 
     ];
 
-
-    // const getXML = () => {
-    //     let sXML = '<RequisitionItems>';
-    //     AddItemlistNew.map((Item) => {
-    //         if( Item.ItemID ==  ItemNewID) {
-    //             sXML +=
-    //                 '<RequisitionItems ' +
-    //                 'ItemID="' + Item.ItemID + '" ' +
-    //                 'UOM="0" ' +
-    //                 'ItemQty=" ' + Item.Text3 + ' " ' +
-    //                 'ItemOrgQty=" '+ Item.Text3 + ' " />';
-    //         }
-    //     });
-    //     return sXML;
-    // };
-
-
-
     useEffect(() => {
         const getXML = () => {
             let sXML = '<RequisitionItems>';
@@ -177,10 +159,7 @@ const AddRequisition = () => {
         };
         const xml = getXML();
         setXmlString1(xml);
-
     }, [AddItemlistNew]);
-    console.log(xmlString1, "--", ItemNewID);
-
 
     useEffect(() => {
         const getXML1 = () => {
@@ -199,25 +178,18 @@ const AddRequisition = () => {
         };
         const xml = getXML1();
         setXmlString(xml);
-
     }, [AddItemlistNew]);
 
     const GetNewRequisitionValidateItemQuantityBody: IGetNewRequisitionValidateItemQuantityBody = {
         asSchoolId: asSchoolId,
         asQuantityDetailsXML: xmlString
-
-
     };
-
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
         asSchoolId: asSchoolId,
         asRequisitionId: Number(asRequisitionId),
         asMode: "Edit"
-
-
     };
-
 
     useEffect(() => {
         dispatch(CDAGetRequisitionDetails(GetRequisitionDetailsBodynew));
@@ -528,9 +500,9 @@ const AddRequisition = () => {
     }, []);
 
     useEffect(() => {
-        if (xmlString != "")
+        if (AddItemlistNew.length > 0)
             dispatch(CDAGetNewRequisitionValidateItemQuantity(GetNewRequisitionValidateItemQuantityBody));
-    }, [xmlString]);
+    }, [AddItemlistNew]);
 
     useEffect(() => {
         dispatch(CDACanCreateGenralRequisition(CanCreateGenralRequisitionBody));
