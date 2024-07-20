@@ -83,8 +83,8 @@ const AddRequisition = () => {
     const imageUrls: string[] = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
     const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
 
-
-
+ const ItemQty = USGetRequisitionDetails.map(item => item.Text3)
+  
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
     };
@@ -160,10 +160,10 @@ const AddRequisition = () => {
         const getXML = () => {
             let sXML = '<RequisitionItems>';
             AddItemlistNew.map((Item) => {
-                if (Item.ItemID == ItemNewID) {
+                if (Item.ItemID == ItemNewID ||  asRequisitionId) {
                     sXML +=
                         '<RequisitionItems ' +
-                        'ItemID="' + Item.ItemID + '" ' +
+                        'ItemID="' + Item.ItemID  + '" ' +
                         'UOM="0" ' +
                         'ItemQty=" ' + Item.Text3 + ' " ' +
                         'ItemOrgQty=" ' + Item.Text3 + ' " />';
@@ -245,7 +245,7 @@ const AddRequisition = () => {
             asIsGeneral: isChecked
         };
 
-        if (text3 == undefined || text3 == '') {
+        if (text3 == undefined || text3 == '' ) {
             setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}.`);
             isError = true;
         } else setErrorQuantity('')
@@ -492,6 +492,7 @@ const AddRequisition = () => {
     };
 
     const Detailschnageall = (value) => {
+       
         setAddItemlistNew(value);
         settext3(value.map(item => item.Text3))
 
@@ -582,6 +583,12 @@ const AddRequisition = () => {
         }
     }, [asRequisitionId,USGetRequisitionDetails]);
 
+    useEffect(() => {
+        if (asRequisitionId) {
+            settext3(ItemQty)
+        }
+    }, [asRequisitionId,USGetRequisitionDetails]);
+   
 
 
     useEffect(() => {
