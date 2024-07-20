@@ -180,20 +180,19 @@ const GenerateAll = ({ }) => {
                                         PAWAR PUBLIC SCHOOL
                                     </Typography>
                                     <hr />
-                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
                                         Progress Report
                                     </Typography>
                                     <hr />
-                                    <Typography variant={"h4"} mb={1}>Student Details</Typography>
                                     <Table>
                                         <TableBody>
                                             {StudentDetailsUS.map((item, i) => {
                                                 return (
                                                     <TableRow sx={{ bgcolor: 'grey.200' }} key={i}>
-                                                        <TableCell><b>Roll No:</b>{item.Text2}</TableCell>
-                                                        <TableCell><b>Name:</b>{item.Text1}</TableCell>
-                                                        <TableCell><b>Class:</b>{item.Text3} - {item.Text4}</TableCell>
-                                                        <TableCell><b>Year:</b>{item.Text5}</TableCell>
+                                                        <TableCell>Roll No: <b>{item.Text2}</b></TableCell>
+                                                        <TableCell>Name: <b>{item.Text1}</b></TableCell>
+                                                        <TableCell>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                        <TableCell>Year: <b>{item.Text5}</b></TableCell>
                                                     </TableRow>
                                                 );
                                             })}
@@ -271,28 +270,27 @@ const GenerateAll = ({ }) => {
                         <Box sx={{ mt: 1, background: 'white' }}>
                             <Box>
                                 <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
                                     Pawar Public Charitable Trust's
                                 </Typography>
                                 <hr />
-                                <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
+                                <Typography variant={"h3"} textAlign={'center'} color={"primary"} >
                                     PAWAR PUBLIC SCHOOL
                                 </Typography>
                                 <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                <Typography variant={"h4"} textAlign={'center'} color={"primary"} >
                                     Final Result
                                 </Typography>
                                 <hr />
-                                <Typography variant={"h4"} mb={1}>Student Details</Typography>
                                 <Table>
                                     <TableBody>
                                         {ViewProgress.map((item, i) => {
                                             return (
                                                 <TableRow sx={{ bgcolor: 'grey.200' }} key={i}>
-                                                    <TableCell><b>Roll No:</b>{item.Text2}</TableCell>
-                                                    <TableCell><b>Name:</b>{item.Text1}</TableCell>
-                                                    <TableCell><b>Class:</b>{item.Text3} - {item.Text4}</TableCell>
-                                                    <TableCell><b>Year:</b>{item.Text5}</TableCell>
+                                                    <TableCell>Roll No: <b>{item.Text2}</b></TableCell>
+                                                    <TableCell>Name: <b>{item.Text1}</b></TableCell>
+                                                    <TableCell>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                    <TableCell>Year: <b>{item.Text5}</b></TableCell>
                                                 </TableRow>
                                             );
                                         })}
