@@ -12,6 +12,7 @@ const InvestmentSection = ({ refreshData }) => {
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
+    const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
 
     const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
 
