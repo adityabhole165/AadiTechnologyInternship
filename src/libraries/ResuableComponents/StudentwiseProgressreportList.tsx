@@ -36,7 +36,7 @@ function StudentwiseProgressreportList({
     }
 
     return (
-        <Card sx={{ backgroundcolor: 'white', pl: 2, pr: 2, pt:2 }}>
+        <Card sx={{ backgroundcolor: 'white' }}>
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
                 <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, background: 'white' }}>
                     <Table aria-label="simple table">

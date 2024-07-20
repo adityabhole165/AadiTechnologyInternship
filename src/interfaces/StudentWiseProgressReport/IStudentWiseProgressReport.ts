@@ -58,6 +58,12 @@ export interface IGetPagedStudentsForMarkAssignmentResult {
     [{
         Count: string
     }],
+    GetAllRecordSubmitted: [
+        {
+            AllSubmitted: Boolean;
+
+        }
+    ]
 };
 
 export interface IoneDeleteStudentTestMarksBody {

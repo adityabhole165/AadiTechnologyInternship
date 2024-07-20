@@ -22,6 +22,7 @@ const Studentwiseprogressslice = createSlice({
         oneDeleteStudent: "",
         DeleteAllStudent: "",
         ISAllStudentRecordCount: "",
+        ISGetAllRecordSubmitted:[],
         PublishStatus: [],
         PublishUnpublishXseed: "",
         Loading: true
@@ -70,7 +71,10 @@ const Studentwiseprogressslice = createSlice({
         AllStudentRecordCount(state, action) {
             state.ISAllStudentRecordCount = action.payload;
         },
-
+        GetAllRecordSubmitted(state, action) {
+            state.ISGetAllRecordSubmitted = action.payload;
+          },
+      
     }
 });
 
@@ -130,6 +134,7 @@ export const PageStudentsAssignment =
 
             dispatch(Studentwiseprogressslice.actions.StudentsAssign(StudentsAssignment));
             dispatch(Studentwiseprogressslice.actions.AllStudentRecordCount(response.data.GetAllStudentRecordCount));
+            dispatch(Studentwiseprogressslice.actions.GetAllRecordSubmitted(response.data.GetAllRecordSubmitted));
 
 
         };

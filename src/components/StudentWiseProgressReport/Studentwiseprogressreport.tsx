@@ -127,6 +127,8 @@ const Studentwiseprogressreport = () => {
   const ShowDeleteButton = StudentAssignment.map(item => item.ShowDeleteButton)
   const ShowProgressReport = StudentAssignment.map(item => item.ShowProgressReport)
 
+  const GetAllRecordSubmitted: any = useSelector((state: RootState) => state.Studentwiseprogress.ISGetAllRecordSubmitted);
+ 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(asAcademicYearId),
@@ -526,7 +528,7 @@ const Studentwiseprogressreport = () => {
                 })()
               }
             </Box> */}
-            {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true ? <IconButton
+            {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true && GetAllRecordSubmitted.AllSubmitted == true ? <IconButton
               sx={{
                 backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500],
                 display: 'inline-flex',
@@ -562,12 +564,12 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ bgcolor: 'white' }}>
-        <Box >
+      <Box mb={1} sx={{p:2, background: 'white' }}>
+        <Box>
           {
             StudentAssignment.length > 0 ? (
               <p style={{ flex: 1, textAlign: 'center', }}>
-                <Typography variant="subtitle1" sx={{ textAlign: 'center', pt: 2 }}>
+                <Typography variant="subtitle1" sx={{ textAlign: 'center'}}>
                   <Box component="span" fontWeight="fontWeightBold">
                     {startRecord} to {endRecord}
                   </Box>
@@ -591,7 +593,7 @@ const Studentwiseprogressreport = () => {
           clickEdit={ClicEdit}
           clickDelete={ClickDelete}
         />
-      </Box>
+      
       {StudentRecordCount.Count > rowsPerPage ? (
         <ButtonGroupComponent
           rowsPerPage={rowsPerPage}
@@ -604,6 +606,7 @@ const Studentwiseprogressreport = () => {
         <span></span>
       )
       }
+      </Box>
     </Box>
   );
 };
