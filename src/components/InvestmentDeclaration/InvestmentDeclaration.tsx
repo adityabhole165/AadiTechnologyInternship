@@ -16,6 +16,7 @@ const InvestmentDeclaration = () => {
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
+    const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
 
     const [exampleSaveInvestment, setexampleSaveInvestment] = useState([])
 
@@ -23,7 +24,6 @@ const InvestmentDeclaration = () => {
 
     const [newFilter, setnewFilter] = useState('');
 
-    const [regimeId, setRegimeId] = useState();
 
     const USListInvestmentDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentDetails
@@ -36,6 +36,11 @@ const InvestmentDeclaration = () => {
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
     const isSubmittedArray = USISlistInvestmentEmpDetails.map(item => item.IsSubmitted);
+    console.log(isSubmittedArray, "isSubmittedArray");
+    const data = USISlistInvestmentEmpDetails.map((item) => item.RegimeId)
+    const [regimeId, setRegimeId] = useState(isSubmittedArray ? data : "");
+    console.log(regimeId, "reg");
+
 
     const USListInvestmentSectionDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISNewGetInvestmentDetails
@@ -80,7 +85,7 @@ const InvestmentDeclaration = () => {
             asUpdatedById: asUserId,
             asUserId: asUserId,
             asDeclarationXML: getXML(),
-            asRegimeId: regimeId
+            asRegimeId: Number(regimeId)
         }
         dispatch(CDAGetSaveInvestment(SaveInvestmentDeclaration))
         dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
@@ -176,9 +181,20 @@ const InvestmentDeclaration = () => {
     const refreshData = (value) => {
         setListInvestmentDetails(value)
     }
-    console.log(USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSubmitted")
+    // console.log(USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSubmitted")
+    // console.log(USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted");
+    const Isregime = () => {
+        let returnVal = ""
+        if (isSubmittedArray ? USISlistInvestmentEmpDetails.map((item) => item.RegimeId) : null) {
+            returnVal == USISlistInvestmentEmpDetails.RegimeId
 
+            return returnVal;
+        }
+    }
 
+    // console.log(Isregime(), "USISlistInvestmentEmpDetails.RegimeId", USISlistInvestmentEmpDetails.map((item) => item.RegimeId));
+
+    console.log(regimeId, "--", data[0], "---", isSubmittedArray ? data[0] : "", USGetRegimeDropdown, " --", USISlistInvestmentEmpDetails, "--", isSubmittedArray, "--");
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -218,7 +234,7 @@ const InvestmentDeclaration = () => {
                                             }
                                         }}
                                         onClick={clickSave}
-                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted == true}
+                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted == "True"}
                                     >
                                         <Save />
                                     </IconButton>
@@ -229,7 +245,7 @@ const InvestmentDeclaration = () => {
                             <Tooltip title={'Submit'}>
                                 <span>
                                     <IconButton
-                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSaved == false && USISlistInvestmentEmpDetails[0]?.IsSubmitted == true}
+                                        disabled={!(USISlistInvestmentEmpDetails[0]?.IsSaved == "True" && USISlistInvestmentEmpDetails[0]?.IsSubmitted == "False")}
                                         sx={{
                                             backgroundColor: green[500],
                                             color: 'white',
@@ -404,18 +420,18 @@ const InvestmentDeclaration = () => {
 
                             />
                         </Grid>
-                            {USListInvestmentDetails.length > 0 &&
-                                <Grid container >
-                                    <IsSubmit.Provider value={isSubmittedArray}>
-                                        <InvestmentSection
-                                            refreshData={refreshData}></InvestmentSection>
+                        {USListInvestmentDetails.length > 0 &&
+                            <Grid container >
+                                <IsSubmit.Provider value={isSubmittedArray}>
+                                    <InvestmentSection
+                                        refreshData={refreshData}></InvestmentSection>
 
-                                    </IsSubmit.Provider>
+                                </IsSubmit.Provider>
 
-                                </Grid>}
+                            </Grid>}
                     </Container>
 
-                    <Box sx={{ background: 'white', textAlign: 'center', pl:21}}>
+                    <Box sx={{ background: 'white', textAlign: 'center', pl: 21 }}>
                         <Typography variant="h6">Grand Total :  {grandTotalAmount}</Typography>
                     </Box>
 

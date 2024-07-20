@@ -30,6 +30,7 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { Padding } from '@mui/icons-material';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -390,7 +391,7 @@ const StatusRequisition = () => {
 
       <Dialog
         open={openPublishDialogall}
-        maxWidth={'md'}
+        maxWidth={'sm'}
         fullWidth
         onClose={() => setOpenPublishDialogall(false)}
         PaperProps={{
@@ -424,7 +425,7 @@ const StatusRequisition = () => {
             Cancel Approved Requisition
           </h1>
 
-          <Box sx={{ background: 'white', p: 1, top: '1px' }}>
+          <Box sx={{ background: 'white', pl: 4.6, top: '1px' }}>
             <Grid container spacing={1} alignItems="center">
 
               <Grid item xs={2}>
@@ -488,7 +489,7 @@ const StatusRequisition = () => {
               type="text"
               value={textall}
               onChange={Detailschnageall}
-              sx={{ width: '100%' }}
+              sx={{ width: '90%' }}
             />
 
           </Box>

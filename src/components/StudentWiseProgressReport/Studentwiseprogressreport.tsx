@@ -1,4 +1,5 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
@@ -453,6 +454,7 @@ const Studentwiseprogressreport = () => {
 
             {Data[0] == 1 && Data1[0] == 'Y' ?
               <span></span> : <Box
+              
                 sx={{
                   display: 'inline-flex',
                   width: 36,
@@ -464,7 +466,10 @@ const Studentwiseprogressreport = () => {
                   backgroundColor: 'transparent'
                 }}
               >
-                 <DeleteForeverIcon
+                <Tooltip
+                title={`Delete All`}
+              >
+                 <DeleteSweepIcon
                   onClick={clickDeleteAlll}
                   sx={{
                     display: 'inline-flex',
@@ -477,6 +482,7 @@ const Studentwiseprogressreport = () => {
                     marginLeft: '0px',     
                           }}
                 /> 
+                </Tooltip>
               </Box>
             }
 
@@ -531,7 +537,8 @@ const Studentwiseprogressreport = () => {
                 padding:'6px',
                 width:'36px',
                 height: '36px !important',               
-                marginLeft: '1px',     
+                marginLeft: '1px',
+                ':hover': { backgroundColor:  PublishStatu.AllowPublish ? green[600] : red[600] }     
                        }}
               onClick={ClickPublishUnpublish}
             >
@@ -542,7 +549,7 @@ const Studentwiseprogressreport = () => {
           </>
         } />
 
-      <Box sx={{ background: 'white', pl: 2, p: 2 }}>
+      <Box sx={{ background: 'white', pl: 2, p:2  }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -556,12 +563,12 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-      <Box>
-
+      <Box sx={{bgcolor:'white'}}>
+        <Box >
         {
           StudentAssignment.length > 0 ? (
-            <p style={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <p style={{ flex: 1, textAlign: 'center', }}>
+              <Typography variant="subtitle1" sx={{textAlign: 'center', pt:2 }}>
                 <Box component="span" fontWeight="fontWeightBold">
                   {startRecord} to {endRecord}
                 </Box>
@@ -575,6 +582,8 @@ const Studentwiseprogressreport = () => {
           ) : (
             <span></span>
           )}
+        </Box>
+        
 
         <StudentwiseProgressreportList
           ItemList={StudentAssignment}

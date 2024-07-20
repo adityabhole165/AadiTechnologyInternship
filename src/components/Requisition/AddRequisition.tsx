@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { GetItemImageBody, ICanCreateGenralRequisitionBody, ICanSendRequisitionbody, IGetAddItemListBody, IGetItemCategoryBody, IGetNewRequisitionValidateItemQuantityBody, IGetRequisitionDetailsBody, ISaveRequisitionBody } from 'src/interfaces/Requisition/IAddRequisition';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import AddRequisitionlist from 'src/libraries/ResuableComponents/AddRequisitionlist';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
@@ -23,7 +24,6 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 import Requisioneditlist from './Requisioneditlist';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 
 const AddRequisition = () => {
@@ -31,8 +31,8 @@ const AddRequisition = () => {
     const navigate = useNavigate();
 
     const { asRequisitionId } = useParams();
-  console.log(asRequisitionId,"asRequisitionId--");
-  
+    console.log(asRequisitionId, "asRequisitionId--");
+
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -84,8 +84,8 @@ const AddRequisition = () => {
     const imageUrls: string[] = useSelector((state: RootState) => state.SliceAddRequisition.ISGetItemImage.ImageUrls);
     const itemNames = [...new Set(USSaveRequisition.map(item => item.ItemName))];
 
- const ItemQty = USGetRequisitionDetails.map(item => item.Text3)
-  
+    const ItemQty = USGetRequisitionDetails.map(item => item.Text3)
+
     const GetItemCategoryBody: IGetItemCategoryBody = {
         asSchoolId: asSchoolId
     };
@@ -139,32 +139,14 @@ const AddRequisition = () => {
 
     ];
 
-
-    // const getXML = () => {
-    //     let sXML = '<RequisitionItems>';
-    //     AddItemlistNew.map((Item) => {
-    //         if( Item.ItemID ==  ItemNewID) {
-    //             sXML +=
-    //                 '<RequisitionItems ' +
-    //                 'ItemID="' + Item.ItemID + '" ' +
-    //                 'UOM="0" ' +
-    //                 'ItemQty=" ' + Item.Text3 + ' " ' +
-    //                 'ItemOrgQty=" '+ Item.Text3 + ' " />';
-    //         }
-    //     });
-    //     return sXML;
-    // };
-
-
-
     useEffect(() => {
         const getXML = () => {
             let sXML = '<RequisitionItems>';
             AddItemlistNew.map((Item) => {
-                if (Item.ItemID == ItemNewID ||  asRequisitionId) {
+                if (Item.ItemID == ItemNewID || asRequisitionId) {
                     sXML +=
                         '<RequisitionItems ' +
-                        'ItemID="' + Item.ItemID  + '" ' +
+                        'ItemID="' + Item.ItemID + '" ' +
                         'UOM="0" ' +
                         'ItemQty=" ' + Item.Text3 + ' " ' +
                         'ItemOrgQty=" ' + Item.Text3 + ' " />';
@@ -177,10 +159,7 @@ const AddRequisition = () => {
         };
         const xml = getXML();
         setXmlString1(xml);
-
     }, [AddItemlistNew]);
-     console.log(xmlString1, "--",ItemNewID);
-     
 
     useEffect(() => {
         const getXML1 = () => {
@@ -199,25 +178,18 @@ const AddRequisition = () => {
         };
         const xml = getXML1();
         setXmlString(xml);
-
     }, [AddItemlistNew]);
 
     const GetNewRequisitionValidateItemQuantityBody: IGetNewRequisitionValidateItemQuantityBody = {
         asSchoolId: asSchoolId,
         asQuantityDetailsXML: xmlString
-
-
     };
-
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
         asSchoolId: asSchoolId,
         asRequisitionId: Number(asRequisitionId),
         asMode: "Edit"
-
-
     };
-
 
     useEffect(() => {
         dispatch(CDAGetRequisitionDetails(GetRequisitionDetailsBodynew));
@@ -239,7 +211,7 @@ const AddRequisition = () => {
 
         const SaveRequisitionBodyNew: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
-            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) :0,
+            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) : 0,
             asUserId: asUserId,
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
@@ -248,7 +220,7 @@ const AddRequisition = () => {
             asIsGeneral: isChecked
         };
 
-        if (text3 == undefined || text3 == '' ) {
+        if (text3 == undefined || text3 == '') {
             setErrorQuantity(`Quantity should be greater than zero for item ${ItemName}.`);
             isError = true;
         } else setErrorQuantity('')
@@ -294,7 +266,7 @@ const AddRequisition = () => {
         let errorMessages = [];
         const SaveRequisitionBodysend: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
-            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) :0,
+            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) : 0,
             asUserId: asUserId,
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
@@ -495,7 +467,7 @@ const AddRequisition = () => {
     };
 
     const Detailschnageall = (value) => {
-       
+
         setAddItemlistNew(value);
         settext3(value.map(item => item.Text3))
 
@@ -528,8 +500,9 @@ const AddRequisition = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(CDAGetNewRequisitionValidateItemQuantity(GetNewRequisitionValidateItemQuantityBody));
-    }, [xmlString]);
+        if (AddItemlistNew.length > 0)
+            dispatch(CDAGetNewRequisitionValidateItemQuantity(GetNewRequisitionValidateItemQuantityBody));
+    }, [AddItemlistNew]);
 
     useEffect(() => {
         dispatch(CDACanCreateGenralRequisition(CanCreateGenralRequisitionBody));
@@ -542,7 +515,8 @@ const AddRequisition = () => {
 
 
     useEffect(() => {
-        dispatch(CDAGetAddItemList(GetAddItemListBody));
+        if (ItemCategory != undefined)
+            dispatch(CDAGetAddItemList(GetAddItemListBody));
     }, [ItemCategory, page, rowsPerPage, regNoOrName]);
 
     useEffect(() => {
@@ -584,17 +558,17 @@ const AddRequisition = () => {
         if (asRequisitionId) {
             setAddItemlistNew(USGetRequisitionDetails)
         }
-    }, [asRequisitionId,USGetRequisitionDetails]);
+    }, [asRequisitionId, USGetRequisitionDetails]);
 
     useEffect(() => {
         if (asRequisitionId) {
             settext3(ItemQty)
         }
-    }, [asRequisitionId,USGetRequisitionDetails]);
-   
+    }, [asRequisitionId, USGetRequisitionDetails]);
+
 
     useEffect(() => {
-        if (asRequisitionId == undefined  ) {
+        if (asRequisitionId == undefined) {
             setAddItemlistNew([])
             setTextall('')
             setTextall('')
@@ -849,7 +823,7 @@ const AddRequisition = () => {
 
             {AddItemlistNew.length > 0 ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                   {Loading &&
+                    {Loading &&
                         <SuspenseLoader />
                     }
                     <AddRequisitionlist
@@ -893,7 +867,7 @@ const AddRequisition = () => {
                 </Box> : null}
 
 
-            {listGetRequisitionTeacherDetails != '' ?
+            {listGetRequisitionTeacherDetails != ''&& asRequisitionId !== undefined ?
                 <Box mb={1} sx={{ p: 2, background: 'white' }}>
                     <Requisioneditlist
                         ItemList={listGetRequisitionTeacherDetails}
