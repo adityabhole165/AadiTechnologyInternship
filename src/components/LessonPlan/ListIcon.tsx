@@ -4,6 +4,7 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, IconButton, Link, Tooltip } from '@mui/material';
+import { red } from '@mui/material/colors';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,7 +13,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useContext } from 'react';
 import IsHighliteStaus from './LessonPlanContext';
-import { red } from '@mui/material/colors';
 
 function ListIcon({
     HeaderArray,
@@ -108,9 +108,9 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell sx={{ ...cellStyle,color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit',padding: '8px' }}>{item.StartDate}</TableCell>
+                                <TableCell sx={{ ...cellStyle, color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit', padding: '8px' }}>{item.StartDate}</TableCell>
 
-                                <TableCell sx={{ ...cellStyle,color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' ,padding: '8px'}}>{item.EndDate}</TableCell>
+                                <TableCell sx={{ ...cellStyle, color: IsHighlight() != false && item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit', padding: '8px' }}>{item.EndDate}</TableCell>
 
                                 {/* <TableCell align="center">
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
@@ -123,7 +123,7 @@ function ListIcon({
                                         "-"
                                     }
                                 </TableCell> */}
-                                <TableCell align="center"sx={{ ...cellStyle }}>
+                                <TableCell align="center" sx={{ ...cellStyle }}>
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ? (
                                         <Tooltip title={"View Remarks"}>
                                             <IconButton
@@ -131,8 +131,11 @@ function ListIcon({
                                                     clickView(item.Id, item.Text3, item.StartDate, item.EndDate, item.UserId)
                                                 }
                                                 sx={{
-                                                    cursor: 'pointer',
-                                                    '&:hover': { backgroundColor: 'lightgrey' }
+                                                    color: '#223354',
+                                                    '&:hover': {
+                                                        color: '#223354',
+                                                        cursor: 'pointer'
+                                                    }
                                                 }}
                                             >
                                                 <Visibility />
@@ -152,14 +155,17 @@ function ListIcon({
                                     </TableCell>
                                 } */}
                                 {ShowEdit && (
-                                    <TableCell align="center"sx={{ ...cellStyle }}>
+                                    <TableCell align="center" sx={{ ...cellStyle }}>
                                         <Tooltip title={"Edit"}>
                                             <Box sx={{ padding: '8px' }}>
                                                 <IconButton
                                                     onClick={() => clickEdit({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })}
                                                     sx={{
-                                                        cursor: 'pointer',
-                                                        '&:hover': { backgroundColor: '' }
+                                                        color: '#223354',
+                                                        '&:hover': {
+                                                            color: '#223354',
+                                                            cursor: 'pointer'
+                                                        }
                                                     }}
                                                 >
                                                     <EditTwoTone />
@@ -176,20 +182,21 @@ function ListIcon({
                                         </Tooltip>
                                     )}
                                 </TableCell> */}
-                                <TableCell align="center"sx={{ ...cellStyle }}>
+                                <TableCell align="center" sx={{ ...cellStyle }}>
                                     {item.SubmitedByReportingUser === "0" && (
                                         <Tooltip title={"Delete"}>
                                             <Box sx={{ padding: '8px' }}>
                                                 <IconButton
                                                     onClick={() => clickDelete(item.StartDate, item.EndDate)}
                                                     sx={{
-                                                        color:'#223354',
-                                                             //  backgroundColor: grey[500],
-                                                              '&:hover': {
-                                                               color:'red',
-                                                             backgroundColor: red[100]
-                                                             }}}
-             
+                                                        color: '#223354',
+                                                        //  backgroundColor: grey[500],
+                                                        '&:hover': {
+                                                            color: 'red',
+                                                            backgroundColor: red[100]
+                                                        }
+                                                    }}
+
                                                 >
                                                     <DeleteForeverRoundedIcon />
                                                 </IconButton>
@@ -199,17 +206,23 @@ function ListIcon({
                                 </TableCell>
 
                                 {(!ShowEdit) && (
-                                    <TableCell align="center"sx={{ ...cellStyle }}>
+                                    <TableCell align="center" sx={{ ...cellStyle }}>
                                         <Tooltip title={"View"}>
-                                            <Visibility onClick={() => {
+                                            <IconButton onClick={() => {
                                                 clicknav({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })
-                                            }} sx={{ cursor: 'pointer' }} />
+                                            }} sx={{
+                                                color: '#223354',
+                                                '&:hover': {
+                                                    color: '#223354',
+                                                    cursor: 'pointer'
+                                                }
+                                            }}>  <Visibility /></IconButton>
                                         </Tooltip>
                                     </TableCell>
                                 )}
 
 
-                                <TableCell align="center"sx={{ ...cellStyle }}>
+                                <TableCell align="center" sx={{ ...cellStyle }}>
                                     {item.Text5}
                                     {item.IsSubmitted === "True" && (
                                         <Link
@@ -224,7 +237,7 @@ function ListIcon({
                                     )}
                                 </TableCell>
 
-                                <TableCell align="center"sx={{ ...cellStyle }} >
+                                <TableCell align="center" sx={{ ...cellStyle }} >
                                     {ReportingConfigs.map((config, i) => {
                                         if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
                                             return (<Tooltip title={config.ReportingUserName} key={i}  >
