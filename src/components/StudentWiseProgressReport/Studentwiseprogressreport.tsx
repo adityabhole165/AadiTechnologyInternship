@@ -562,8 +562,8 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ bgcolor: 'white' }}>
-        <Box >
+      <Box mb={1} sx={{p:2, background: 'white' }}>
+        <Box>
           {
             StudentAssignment.length > 0 ? (
               <p style={{ flex: 1, textAlign: 'center', }}>
@@ -591,7 +591,7 @@ const Studentwiseprogressreport = () => {
           clickEdit={ClicEdit}
           clickDelete={ClickDelete}
         />
-      </Box>
+      
       {StudentRecordCount.Count > rowsPerPage ? (
         <ButtonGroupComponent
           rowsPerPage={rowsPerPage}
@@ -604,6 +604,7 @@ const Studentwiseprogressreport = () => {
         <span></span>
       )
       }
+      </Box>
     </Box>
   );
 };
