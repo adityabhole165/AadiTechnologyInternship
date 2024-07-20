@@ -560,11 +560,11 @@ const AddRequisition = () => {
         }
     }, [asRequisitionId, USGetRequisitionDetails]);
 
-    useEffect(() => {
-        if (asRequisitionId) {
-            settext3(ItemQty)
-        }
-    }, [asRequisitionId, USGetRequisitionDetails]);
+    // useEffect(() => {
+    //     if (asRequisitionId) {
+    //         settext3(ItemQty)
+    //     }
+    // }, [asRequisitionId, USGetRequisitionDetails]);
 
 
     useEffect(() => {
