@@ -181,8 +181,8 @@ const InvestmentDeclaration = () => {
     const refreshData = (value) => {
         setListInvestmentDetails(value)
     }
-    console.log(USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSubmitted")
-    console.log(USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted");
+    // console.log(USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSubmitted")
+    // console.log(USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted");
     const Isregime = () => {
         let returnVal = ""
         if (isSubmittedArray ? USISlistInvestmentEmpDetails.map((item) => item.RegimeId) : null) {
@@ -192,9 +192,9 @@ const InvestmentDeclaration = () => {
         }
     }
 
-    console.log(Isregime(), "USISlistInvestmentEmpDetails.RegimeId", USISlistInvestmentEmpDetails.map((item) => item.RegimeId));
+    // console.log(Isregime(), "USISlistInvestmentEmpDetails.RegimeId", USISlistInvestmentEmpDetails.map((item) => item.RegimeId));
 
-
+    console.log(regimeId, "--", data[0], "---", isSubmittedArray ? data[0] : "", USGetRegimeDropdown, " --", USISlistInvestmentEmpDetails, "--", isSubmittedArray, "--");
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -245,7 +245,7 @@ const InvestmentDeclaration = () => {
                             <Tooltip title={'Submit'}>
                                 <span>
                                     <IconButton
-                                        disabled={USISlistInvestmentEmpDetails[0]?.IsSaved == "True" && USISlistInvestmentEmpDetails[0]?.IsSubmitted == "True"}
+                                        disabled={!(USISlistInvestmentEmpDetails[0]?.IsSaved == "True" && USISlistInvestmentEmpDetails[0]?.IsSubmitted == "False")}
                                         sx={{
                                             backgroundColor: green[500],
                                             color: 'white',
