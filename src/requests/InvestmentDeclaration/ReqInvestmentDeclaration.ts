@@ -47,10 +47,19 @@ const InvestmentDeclarationSlice = createSlice({
 });
 
 
-
 export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
+
+        const getAmount = (Id) => {
+            let returnVal = "0"
+            response.data.listInvestmentAmountDetails.map((Item) => {
+                if (Item.InvestmentMethodId == Id)
+                    returnVal = Item.Amount
+
+            })
+            return returnVal
+        }
         let listInvestmentDetails = response.data.listInvestmentDetails
             .filter((obj) => { return obj.SectionId })
             .map((item, i) => {
@@ -61,7 +70,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
                     AssociatedEarnDeductId: item.AssociatedEarnDeductId,
                     MaxAmount: item.MaxAmount,
                     DocumentCount: item.DocumentCount,
-                    Amount: ""
+                    Amount: Number(getAmount(item.Id))
                 };
             });
 
@@ -106,7 +115,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
 export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        console.log(response, "response");
+        console.log(response.data.listInvestmentSectionDetails.sort((a, b) => Number(a.SortOrder) - Number(b.SortOrder)), "response");
         dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
 
     };

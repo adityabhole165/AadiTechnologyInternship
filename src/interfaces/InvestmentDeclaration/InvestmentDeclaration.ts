@@ -35,7 +35,7 @@ export interface IGetInvestmentDetailsResult {
         }
     ],
 
-    listInvestmentSectionDetail: [
+    listInvestmentSectionDetails: [
         {
             Id: string,
             Name: string,
