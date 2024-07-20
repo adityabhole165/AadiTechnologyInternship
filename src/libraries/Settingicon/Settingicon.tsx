@@ -51,6 +51,12 @@ const SettingsDropdown = () => {
         dispatch(getUserDetailss(UserDetailBody));
     }, [userId, RoleId]);
 
+
+    useEffect(() => {
+        if (UserDetail)
+            localStorage.setItem("FinancialYearId", UserDetail.FinancialYearId)
+    }, [UserDetail])
+
     useEffect(() => {
         const selectedYearData = AcademicYear.find(year => year.Value === academicYear);
         if (selectedYearData) {
