@@ -454,6 +454,7 @@ const Studentwiseprogressreport = () => {
 
             {Data[0] == 1 && Data1[0] == 'Y' ?
               <span></span> : <Box
+              
                 sx={{
                   display: 'inline-flex',
                   width: 36,
@@ -464,6 +465,9 @@ const Studentwiseprogressreport = () => {
                   borderRadius: 2,
                   backgroundColor: 'transparent'
                 }}
+              >
+                <Tooltip
+                title={`Delete All`}
               >
                  <DeleteSweepIcon
                   onClick={clickDeleteAlll}
@@ -478,6 +482,7 @@ const Studentwiseprogressreport = () => {
                     marginLeft: '0px',     
                           }}
                 /> 
+                </Tooltip>
               </Box>
             }
 
@@ -532,7 +537,8 @@ const Studentwiseprogressreport = () => {
                 padding:'6px',
                 width:'36px',
                 height: '36px !important',               
-                marginLeft: '1px',     
+                marginLeft: '1px',
+                ':hover': { backgroundColor:  PublishStatu.AllowPublish ? green[600] : red[600] }     
                        }}
               onClick={ClickPublishUnpublish}
             >
