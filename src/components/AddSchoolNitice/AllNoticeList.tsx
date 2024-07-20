@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/EditOutlined';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, FormControl, FormControlLabel, Grid, IconButton, Radio, RadioGroup, Tooltip, Typography } from '@mui/material';
+import { Box, FormControl, FormControlLabel, Grid, IconButton, Radio, RadioGroup, Tooltip, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { green, grey, yellow } from '@mui/material/colors';
+import { green, grey, red, yellow } from '@mui/material/colors';
 import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -420,8 +420,8 @@ const AllNoticeList = () => {
                                 onChange={() => toggleRowSelection(itemList.NoticeName)}
                               />
                             </TableCell>
-                            <TableCell align='center'><Tooltip title='Edit'><Button style={{ border: '0px', }} onClick={() => navigate('/extended-sidebar/Teacher/AddSchoolNotice', { state: itemList })}><EditIcon /></Button></Tooltip></TableCell>
-                            <TableCell align='center'><Tooltip title='Delete'><Button sx={{ ':hover': { color: "red", } }} onClick={() => deleteHandle(itemList)} ><DeleteForeverIcon /></Button></Tooltip></TableCell>
+                            <TableCell align='center'><Tooltip title='Edit'><IconButton sx={{ color: '#223354', '&:hover': { color: '#223354', cursor: 'pointer' } }} onClick={() => navigate('/extended-sidebar/Teacher/AddSchoolNotice', { state: itemList })}><EditIcon /></IconButton></Tooltip></TableCell>
+                            <TableCell align='center'><Tooltip title='Delete'><IconButton sx={{ color: '#223354', '&:hover': { color: 'red', backgroundColor: red[100] } }} onClick={() => deleteHandle(itemList)} ><DeleteForeverIcon /></IconButton></Tooltip></TableCell>
                           </TableRow>
                         );
                       })
