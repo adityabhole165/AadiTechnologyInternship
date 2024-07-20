@@ -127,6 +127,8 @@ const Studentwiseprogressreport = () => {
   const ShowDeleteButton = StudentAssignment.map(item => item.ShowDeleteButton)
   const ShowProgressReport = StudentAssignment.map(item => item.ShowProgressReport)
 
+  const GetAllRecordSubmitted: any = useSelector((state: RootState) => state.Studentwiseprogress.ISGetAllRecordSubmitted);
+ 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(asAcademicYearId),
@@ -526,7 +528,7 @@ const Studentwiseprogressreport = () => {
                 })()
               }
             </Box> */}
-            {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true ? <IconButton
+            {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true && GetAllRecordSubmitted.AllSubmitted == true ? <IconButton
               sx={{
                 backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500],
                 display: 'inline-flex',
