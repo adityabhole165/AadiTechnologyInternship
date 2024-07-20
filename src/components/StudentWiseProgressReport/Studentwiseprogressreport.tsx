@@ -185,8 +185,8 @@ const Studentwiseprogressreport = () => {
     };
   
     const confirmationMessage = PublishStatu.AllowPublish
-      ? 'Are you sure you want to publish progress report of all students?'
-      : 'Are you sure you want to unpublish progress report of all students?';
+      ? 'Are you sure you want to publish pre-primary progress report grade details of all students?'
+      : 'Are you sure you want to unpublish pre-primary progress report grade details of all students?';
   
     showAlert({
       title: 'Please Confirm',
@@ -204,10 +204,6 @@ const Studentwiseprogressreport = () => {
     });
   };
   
-
-
-
-
 
   useEffect(() => {
     dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
