@@ -1,4 +1,3 @@
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
@@ -27,7 +26,6 @@ import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupCo
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import StudentwiseProgressreportList from 'src/libraries/ResuableComponents/StudentwiseProgressreportList';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   CDAAssessmentDropdown,
   DeleteAllStudentTest,
@@ -126,8 +124,8 @@ const Studentwiseprogressreport = () => {
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
 
   const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
-  const Data = StudentAssignment.map(item => item.ShowDeleteButton)
-  const Data1 = StudentAssignment.map(item => item.ShowProgressReport)
+  const ShowDeleteButton = StudentAssignment.map(item => item.ShowDeleteButton)
+  const ShowProgressReport = StudentAssignment.map(item => item.ShowProgressReport)
 
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
@@ -452,38 +450,38 @@ const Studentwiseprogressreport = () => {
               }
             </Box> */}
 
-            {Data[0] == 1 && Data1[0] == 'Y' ?
-              <span></span> : <Box
-              
-                sx={{
-                  display: 'inline-flex',
-                  width: 36,
-                  height: 36,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid #ccc', 
-                  borderRadius: 2,
-                  backgroundColor: 'transparent'
-                }}
-              >
-                <Tooltip
+            {ShowDeleteButton[0] == 1 && ShowProgressReport[0] == 'N' ? <Box
+
+              sx={{
+                display: 'inline-flex',
+                width: 36,
+                height: 36,
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid #ccc',
+                borderRadius: 2,
+                backgroundColor: 'transparent'
+              }}
+            >
+              <Tooltip
                 title={`Delete All`}
               >
-                 <DeleteSweepIcon
+                <DeleteSweepIcon
                   onClick={clickDeleteAlll}
                   sx={{
                     display: 'inline-flex',
                     color: 'white',
-                    padding:'4px',
-                    width:'36px',
+                    padding: '4px',
+                    width: '36px',
                     backgroundColor: red[500],
                     height: '36px !important',
                     ':hover': { backgroundColor: red[600] },
-                    marginLeft: '0px',     
-                          }}
-                /> 
-                </Tooltip>
-              </Box>
+                    marginLeft: '0px',
+                  }}
+                />
+              </Tooltip>
+            </Box> :
+              <span></span>
             }
 
 
@@ -528,28 +526,29 @@ const Studentwiseprogressreport = () => {
                 })()
               }
             </Box> */}
-
-
-            <IconButton
-              sx={{ backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500], 
+            {PublishStatu.AllowPublish == true || PublishStatu.AllowUnpublish == true ? <IconButton
+              sx={{
+                backgroundColor: PublishStatu.AllowPublish ? green[500] : red[500],
                 display: 'inline-flex',
                 color: 'white',
-                padding:'6px',
-                width:'36px',
-                height: '36px !important',               
+                padding: '6px',
+                width: '36px',
+                height: '36px !important',
                 marginLeft: '1px',
-                ':hover': { backgroundColor:  PublishStatu.AllowPublish ? green[600] : red[600] }     
-                       }}
+                ':hover': { backgroundColor: PublishStatu.AllowPublish ? green[600] : red[600] }
+              }}
               onClick={ClickPublishUnpublish}
             >
               {PublishStatu.AllowPublish ? <PublishedWithChangesIcon /> : <UnpublishedIcon />}
-            </IconButton>
+            </IconButton> : <span> </span>}
+
+
 
 
           </>
         } />
 
-      <Box sx={{ background: 'white', pl: 2, p:2  }}>
+      <Box sx={{ background: 'white', pl: 2, p: 2 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -563,27 +562,27 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{bgcolor:'white'}}>
+      <Box sx={{ bgcolor: 'white' }}>
         <Box >
-        {
-          StudentAssignment.length > 0 ? (
-            <p style={{ flex: 1, textAlign: 'center', }}>
-              <Typography variant="subtitle1" sx={{textAlign: 'center', pt:2 }}>
-                <Box component="span" fontWeight="fontWeightBold">
-                  {startRecord} to {endRecord}
-                </Box>
-                {' '}out of{' '}
-                <Box component="span" fontWeight="fontWeightBold">
-                  {StudentRecordCount.Count}
-                </Box>{' '}
-                {StudentRecordCount.Count === 1 ? 'record' : 'records'}
-              </Typography>
-            </p>
-          ) : (
-            <span></span>
-          )}
+          {
+            StudentAssignment.length > 0 ? (
+              <p style={{ flex: 1, textAlign: 'center', }}>
+                <Typography variant="subtitle1" sx={{ textAlign: 'center', pt: 2 }}>
+                  <Box component="span" fontWeight="fontWeightBold">
+                    {startRecord} to {endRecord}
+                  </Box>
+                  {' '}out of{' '}
+                  <Box component="span" fontWeight="fontWeightBold">
+                    {StudentRecordCount.Count}
+                  </Box>{' '}
+                  {StudentRecordCount.Count === 1 ? 'record' : 'records'}
+                </Typography>
+              </p>
+            ) : (
+              <span></span>
+            )}
         </Box>
-        
+
 
         <StudentwiseProgressreportList
           ItemList={StudentAssignment}
