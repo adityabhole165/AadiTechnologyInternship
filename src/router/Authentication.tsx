@@ -4,11 +4,11 @@ import { Navigate } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 // Dashboards
 //const SchoolList = Loader(lazy(() => import('src/RITeSchool/authentication/schoolList/schoolList')));
@@ -41,10 +41,18 @@ const SchoolList = Loader(
   lazy(() => import('src/components/Authentication/Login/Login'))
 );
 
+const NoPage = Loader(
+  lazy(() => import('src/components/NoPageError/NoPage'))
+);
+
 const AuthenticationRoute = [
   {
     path: '/',
     element: <Navigate to="schoolList" replace />
+  },
+  {
+    path: '*',
+    element: <NoPage />
   },
   {
     path: 'NewRelease',
