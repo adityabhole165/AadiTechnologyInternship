@@ -122,9 +122,9 @@ function Adddailyloglist({
                     <IconButton
                       onClick={() => clickDelete(item.Id)}
                       sx={{
-                        color: '#223354',
+                        color: '#223354', 
                         //  backgroundColor: grey[500],
-                        '&:hover': {
+                        '&:hover':{
                           color: 'red',
                           backgroundColor: red[100]
                         }

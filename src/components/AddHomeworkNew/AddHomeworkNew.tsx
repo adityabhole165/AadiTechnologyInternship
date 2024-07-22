@@ -1241,21 +1241,44 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             </IconButton>
           </Stack>
         </Box>
-        <Dialog open={openPublishDialog} onClose={() => setOpenPublishDialog(false)} fullWidth
-          maxWidth={'sm'}>
+        <Dialog open={openPublishDialog} 
+        onClose={() => setOpenPublishDialog(false)}
+         fullWidth
+          maxWidth={'sm'}
+          PaperProps={{
+            sx: {
+              borderRadius: "15px",
+            }
+          }}>
           <DialogTitle
             sx={{
-              backgroundColor: (theme) => theme.palette.primary.main,
-              py: 1
+              backgroundColor: '#223354',
+              // py: 1
             }}
-          ></DialogTitle>
-          <DialogContent dividers sx={{ px: 4 }}>
-            <Typography variant={"h4"} sx={{ mb: 1 }}>
+          >
+            <ClearIcon onClick={handleClose}
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                  //  backgroundColor: red[100]
+
+                }
+              }} />
+          </DialogTitle>
+          <DialogContent dividers sx={{ px: 4}}>
+            <Typography variant={"h4"} sx={{ mb: 1}}>
               Unpublish Reason
             </Typography>
             <TextField
               multiline
-              rows={2}
+              rows={3}
               type="text"
               value={text}
               onChange={Detailschnage}
@@ -1330,20 +1353,43 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
         </Box>
 
         <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
-          maxWidth={'sm'}>
+          maxWidth={'sm'}
+          PaperProps={{
+            sx: {
+              borderRadius: "15px",
+            }
+          }}
+>
           <DialogTitle
             sx={{
               backgroundColor: (theme) => theme.palette.primary.main,
-              py: 1
+              
             }}
-          ></DialogTitle>
+          >
+            <ClearIcon onClick={handleClose}
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                  //  backgroundColor: red[100]
+
+                }
+              }} />
+
+          </DialogTitle>
           <DialogContent dividers sx={{ px: 4 }}>
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
             <TextField
               multiline
-              rows={1}
+              rows={3}
               type="text"
               value={textall}
               onChange={Detailschnageall}
