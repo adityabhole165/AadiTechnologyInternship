@@ -318,7 +318,7 @@ const TermwiseHeightWeight = () => {
           )}
         </>}
       />
-      <Box sx={{ background: 'white', p: 2 }}>
+      <Box sx={{ background: 'white', pl:2, pr:2, pt:1 }}>
         {/* New Table */}
         {/* <DataTable
           columns={
@@ -377,6 +377,20 @@ const TermwiseHeightWeight = () => {
           }
         /> */}
         {/* New Table End */}
+
+        <Stack direction={'row'} gap={1} alignItems={'center'}  m={0} pb={2}>
+          <Typography variant={'h4'} mb={0}>
+            Legend:
+          </Typography>
+          <DotLegend1 sx={{ alignItems: 'center', display: 'flex', mt:'0px' }}>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+            Left Students
+          </DotLegend1>
+        </Stack>
+
         {StudentList.length > 0 ? (
           <>
             <TermwiseHeightWeightList
@@ -392,18 +406,7 @@ const TermwiseHeightWeight = () => {
             <b>No Record Found.</b>
           </Typography>
         )}
-        <Stack direction={'row'} gap={1} alignItems={'center'} mt={1}>
-          <Typography variant={'h4'} mb={0}>
-            Legend:
-          </Typography>
-          <DotLegend1 sx={{ alignItems: 'center', display: 'flex', mb: 0 }}>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'red' }}
-            />
-            Left Students
-          </DotLegend1>
-        </Stack>
+        
       </Box>
     </Box >
   );
