@@ -591,7 +591,7 @@ const LessonPlanBaseScreen = () => {
             />
           </Box>
         </Box>
-        <Box sx={{ background: 'white', pt:1}}>
+        <Box sx={{ background: 'white', pt:1, pl:2, pr:2, pb:2}}>
           {LessonPlanList.length > 0 ? (
             <>
               <Box sx={{ background: 'white',}}>

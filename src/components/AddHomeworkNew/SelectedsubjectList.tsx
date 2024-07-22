@@ -104,6 +104,7 @@ const SelectedsubjectList = ({
                   </TableCell>
 
                   <TableCell sx={{ textTransform: 'capitalize' }}>
+                    
                     <ButtonPrimary
                       style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500] }}
                       onClick={() => {
@@ -111,7 +112,14 @@ const SelectedsubjectList = ({
                       } } sx={{ minWidth: '10px', marginLeft: '40px' }}
                     >
                       {item.IsPublished === 'False' ?
-                        <PublishedWithChangesIcon /> : <UnpublishedIcon />}
+                      <Tooltip title={'Publish'}>
+                        <PublishedWithChangesIcon /> 
+                      </Tooltip>
+                        : 
+                        <Tooltip title={'UnPublish'}>
+                        <UnpublishedIcon /> 
+                      </Tooltip>
+                        }
                     </ButtonPrimary>
                   </TableCell>
 

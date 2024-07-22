@@ -330,8 +330,7 @@ const ProgressRemarks = () => {
   };
 
   const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-
+ 
   const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsNewBody =
   {
     asSchoolId: asSchoolId,
@@ -341,7 +340,7 @@ const ProgressRemarks = () => {
     asTermId: Number(SelectTerm),
     TeacherId: Number(selectTeacher),
     asStartIndex: startIndex,
-    asEndIndex: endIndex
+    asEndIndex: Number(20),
   };
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
@@ -511,8 +510,8 @@ const ProgressRemarks = () => {
       }
       else
         SetselectTeacher(value);
-        setRowsPerPage(20)
-        setPage(1)
+      setRowsPerPage(20)
+      setPage(1)
 
     }
   };
@@ -611,7 +610,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
-  }, [page, selectTeacher, SelectTerm,rowsPerPage]);
+  }, [page, selectTeacher, SelectTerm, rowsPerPage]);
 
 
   const Changevalue = (value) => {
@@ -809,9 +808,9 @@ const ProgressRemarks = () => {
       <Paper sx={{ mb: '10px' }}>
         <ProgressRemarksNotes />
       </Paper>
-      <Box sx={{ background: 'white', pl: 2, pt:2, p:2 }}>
+      <Box sx={{ background: 'white', pl: 2, pt: 2, p: 2 }}>
         <Grid item xs={12}>
-        
+
           <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
             <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
             <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
@@ -820,27 +819,27 @@ const ProgressRemarks = () => {
         </Grid>
         <Grid container spacing={2}>
 
-        {
-          USGetAllStudentswiseRemarkDetails.length > 0 ? (
-            <div style={{ flex: 1, textAlign: 'center'  }}>
-              <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center', pt:2 }}>
-                <Box component="span" fontWeight="fontWeightBold">
-                  {startRecord} to {endRecord}
-                </Box>
-                {' '}out of{' '}
-                <Box component="span" fontWeight="fontWeightBold">
-                  {countArray[0]}
-                </Box>{' '}
-                {countArray[0] === 1 ? 'record' : 'records'}
-              </Typography>
-            </div>
+          {
+            USGetAllStudentswiseRemarkDetails.length > 0 ? (
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center', pt: 2 }}>
+                  <Box component="span" fontWeight="fontWeightBold">
+                    {startRecord} to {endRecord}
+                  </Box>
+                  {' '}out of{' '}
+                  <Box component="span" fontWeight="fontWeightBold">
+                    {countArray[0]}
+                  </Box>{' '}
+                  {countArray[0] === 1 ? 'record' : 'records'}
+                </Typography>
+              </div>
 
-          ) : (
-            <span></span>
+            ) : (
+              <span></span>
 
-          )
-        }
-        
+            )
+          }
+
           <Grid item xs={12}>
             <Paper>
 
@@ -872,22 +871,22 @@ const ProgressRemarks = () => {
             </Paper>
           </Grid>
 
-           </Grid>
-         {countArray[0] > rowsPerPage ? (
-         <ButtonGroupComponent
-          rowsPerPage={rowsPerPage}
-          ChangeRowsPerPage={ChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-          PageChange={PageChange}
-          pagecount={pagecount}
-         />
+        </Grid>
+        {countArray[0] > rowsPerPage ? (
+          <ButtonGroupComponent
+            rowsPerPage={rowsPerPage}
+            ChangeRowsPerPage={ChangeRowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+            PageChange={PageChange}
+            pagecount={pagecount}
+          />
 
-         ) : (
-         <span> </span>
+        ) : (
+          <span> </span>
 
-         )}
-        </Box>
-      
+        )}
+      </Box>
+
       <Modal
         open={open}
         onClose={ClickAppropriate}
@@ -993,7 +992,7 @@ const ProgressRemarks = () => {
                 onClick={SelectClick}
                 disabled={remarkTemplates.length === 0}
               >
-                Selete 
+                Selete
               </Button>
 
             </Box>
