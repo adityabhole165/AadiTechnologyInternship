@@ -1,5 +1,5 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, Grid, Stack, Typography, alpha } from '@mui/material';
 
 function TabulerCard({ item, clickEdit, clickDelete }) {
@@ -21,12 +21,18 @@ function TabulerCard({ item, clickEdit, clickDelete }) {
           <Grid item xs={2} md={2}></Grid>
 
           <Stack direction={'row'} gap={1}>
-            <EditIcon
-              style={{ color: 'black ' }}
+            <EditOutlinedIcon
+              style={{ color: '#223354 ' }}
               onClick={() => clickEdit(item.Id)}
             />
-            <DeleteIcon
-              style={{ color: 'Red ' }}
+            <DeleteForeverIcon
+              sx={{
+                color:'#223354',
+                 //  backgroundColor: grey[500],
+                  '&:hover': {
+                color:'red',
+                 backgroundColor: red[100]
+                  }}}
               onClick={() => clickDelete(item.Id)}
             />
           </Stack>

@@ -195,8 +195,8 @@ const StatusRequisition = () => {
     setPage(1);
   };
 
-  const clickView = () => {
-    navigate('/extended-sidebar/Teacher/AddRequisition');
+  const clickView = (ViewId) => {
+    navigate('/extended-sidebar/Teacher/RequistionView/' +ViewId);
   };
 
   // const clickEdit = (Value) => {
