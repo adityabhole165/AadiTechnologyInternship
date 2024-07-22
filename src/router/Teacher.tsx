@@ -531,7 +531,7 @@ const teacherRoutes = [
     element: <RequistionView />
   },
   {
-    path: 'AddRequisition/:asRequisitionId/:ViewId',
+    path: 'AddRequisition/:asRequisitionId',
     element: <AddRequisition />
   },
 
