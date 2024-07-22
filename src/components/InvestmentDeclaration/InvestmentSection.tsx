@@ -32,20 +32,7 @@ const InvestmentSection = ({ refreshData }) => {
     )
 
 
-    let listInvestmentSectionDetails = []
-    useEffect(() => {
-        if (
-            USListInvestmentSectionDetails?.listInvestmentSectionDetails !== undefined
-        ) {
-            console.log(USListInvestmentSectionDetails?.listInvestmentSectionDetails
-                // .sort((a, b) => a.SortOrder > b.SortOrder ? 1 : -1)
-                .sort((a, b) => a.SortOrder - b.SortOrder)
-                , "ajit");
-            // listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails
-            //     .sort((a, b) => Number(a.SortOrder) - Number(b.SortOrder))
-
-        }
-    }, [USListInvestmentSectionDetails])
+    const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
 
     // || [];
 
@@ -138,63 +125,59 @@ const InvestmentSection = ({ refreshData }) => {
         const grandTotalAmount = totalAmounts.reduce((acc, total) => acc + total, 0);
 
         // let grandTotalRowRendered = false;
-        return listInvestmentSectionDetails
-            // .sort((a, b) => Number(a.SortOrder) - Number(b.SortOrder))
-            // .sort((a, b) => a.SortOrder > b.SortOrder ? 1 : -1)
-            .map((section) => {
-                const filteredData = ListInvestmentDetails.filter((detail) => detail.SectionId === section.Id);
+        return listInvestmentSectionDetails.map((section) => {
+            const filteredData = ListInvestmentDetails.filter((detail) => detail.SectionId === section.Id);
 
-                if (filteredData.length === 0) {
-                    return null; // Skip rendering this section if there's no data
+            if (filteredData.length === 0) {
+                return null; // Skip rendering this section if there's no data
+            }
+            const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+
+
+            const columns: Column[] = [
+                {
+                    id: 'Name',
+                    label: section.Name,
+                    renderCell: (rowData) => rowData.Name,
+                },
+                {
+                    id: 'AttachmentCount',
+                    label: 'Attachment Count',
+                    renderCell: (rowData) => rowData.DocumentCount,
+                },
+                {
+                    id: 'MaximumLimit',
+                    label: 'Maximum Limit Rs.',
+                    renderCell: (rowData) => rowData.MaxAmount,
                 }
+            ];
 
-                const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+            // if (index === listInvestmentSectionDetails.length - 1 && !grandTotalRowRendered) {
+            //     grandTotalRowRendered = true;
 
+            return (
+                <>
+                    <Box key={section.Id} sx={{ background: 'white', p: 2, mb: 2 }}>
+                        <DataTable
+                            columns={columns}
+                            data={filteredData}
+                            isLoading={false}
+                            isPagination={false}
+                            changeText={(updatedSectionData) => changeText(updatedSectionData, section.Id)}
+                        />
 
-                const columns: Column[] = [
-                    {
-                        id: 'Name',
-                        label: section.Name,
-                        renderCell: (rowData) => rowData.Name,
-                    },
-                    {
-                        id: 'AttachmentCount',
-                        label: 'Attachment Count',
-                        renderCell: (rowData) => rowData.DocumentCount,
-                    },
-                    {
-                        id: 'MaximumLimit',
-                        label: 'Maximum Limit Rs.',
-                        renderCell: (rowData) => rowData.MaxAmount,
-                    }
-                ];
-
-                // if (index === listInvestmentSectionDetails.length - 1 && !grandTotalRowRendered) {
-                //     grandTotalRowRendered = true;
-
-                return (
-                    <>
-                        <Box key={section.Id} sx={{ background: 'white', p: 2, mb: 2 }}>
-                            <DataTable
-                                columns={columns}
-                                data={filteredData}
-                                isLoading={false}
-                                isPagination={false}
-                                changeText={(updatedSectionData) => changeText(updatedSectionData, section.Id)}
-                            />
-
-                        </Box>
+                    </Box>
 
 
-                        {/* <Box key="grand-total" sx={{ background: 'white', p: 2, mb: 2 }}>
+                    {/* <Box key="grand-total" sx={{ background: 'white', p: 2, mb: 2 }}>
                         <Typography variant="h6">Grand Total: {grandTotalAmount}</Typography>
                     </Box> */}
-                    </>
+                </>
 
-                );
+            );
 
 
-            });
+        });
 
 
     };
