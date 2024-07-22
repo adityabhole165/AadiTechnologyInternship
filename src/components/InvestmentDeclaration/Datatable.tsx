@@ -20,6 +20,7 @@ type Props = {
     changeText: ([]) => void,
     isLoading?: boolean;
     isPagination?: boolean;
+    GroupAmount: Number
 
 };
 
@@ -38,7 +39,7 @@ export const StyledTableCell = styled(TableCell)(
 );
 
 
-const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = false, isPagination = true }) => {
+const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0, isLoading = false, isPagination = true }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     // const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
@@ -71,7 +72,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
 
     const totalAmount = tableData.reduce((acc, item) => acc + (item.Amount || 0), 0);
     let Data = useContext(IsSubmit)
-  
+
     return (
         <Paper>
             <TableContainer>
@@ -102,9 +103,26 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, isLoading = fal
                         ) : (
                             (isPagination ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : tableData).map((row, rowIndex) => (
                                 <TableRow key={rowIndex}>
-                                    {columns.map((column) => (
-                                        <TableCell {...column.cellProps} key={column.id}>{column.renderCell ? column.renderCell(row) : row[column.id]}</TableCell>
+                                    {columns.map((column, i) => (<>{(GroupAmount == 0) ?
+
+                                        < TableCell  {...column.cellProps} key={column.id}>
+                                            {column.renderCell ? column.renderCell(row) : row[column.id]}
+                                        </TableCell >
+                                        : <>{(i != 2) &&
+                                            < TableCell  {...column.cellProps} key={column.id}>
+                                                {column.renderCell ? column.renderCell(row) : row[column.id]}
+                                            </TableCell >}</>
+                                    }
+                                    </>
                                     ))}
+                                    {GroupAmount != 0 &&
+                                        < TableCell >
+                                            {GroupAmount}
+                                        </TableCell >
+                                    }
+
+
+
                                     <TableCell>
                                         <TextField
                                             value={row.Amount}
