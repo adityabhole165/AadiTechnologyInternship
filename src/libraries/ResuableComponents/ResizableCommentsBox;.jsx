@@ -164,7 +164,7 @@ function ResizableCommentsBox({
         maxHeight: '800px',
         overflowY: 'auto',
         scrollBehavior: 'smooth',
-        border: '2px'
+         border: '2px'
       }}
     >
       <TableContainer component={Card}>
@@ -177,7 +177,8 @@ function ResizableCommentsBox({
                   sx={{
                     textTransform: 'capitalize',
                     backgroundColor: (theme) => theme.palette.secondary.main,
-                    color: 'white'
+                    color: 'white',
+                   
                   }}
                  
                 >
@@ -186,24 +187,24 @@ function ResizableCommentsBox({
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody >
             {ItemList.map((item, i) => (
               <TableRow
                 key={i}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 },  }}
 
               >
-                <TableCell align="center" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text1}</TableCell>
-                <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit' }}>{item.Text2}</TableCell>
+                <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit'}}>{item.Text1}</TableCell>
+                <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit'}}>{item.Text2}</TableCell>
 
                 {TermId.SelectTerm == 2 && (
-                  <TableCell align="center">
+                  <TableCell align="center" >
                     <TextareaAutosize value={item.Text4} />
                   </TableCell>
                 )}
 
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="left" key={j} sx={{ padding: '15px'}}>
+                  <TableCell align="left " key={j} sx={{ p:1}}>
                     <TextareaAutosize
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
@@ -213,12 +214,13 @@ function ResizableCommentsBox({
                       }}
                       maxRows={1}
                       maxLength={TermId.maxRemarkLength}
-                      style={{ width: '200px',minHeight:'35px'}}
+                      style={{ width: '200px',minHeight:'30px'}}
                     />
-                    <IconButton onClick={() => NoteClick(item.Id, j)}>
+                    <IconButton 
+                    onClick={() => NoteClick(item.Id, j)}>
                       <MoreVertIcon />
                     </IconButton>
-                    <Typography variant="caption" color="textSecondary">
+                    <Typography variant="caption" color="textSecondary" >
                       ({TermId.maxRemarkLength- RemarksItem.Text3.length})
                     </Typography>
                   </TableCell>
