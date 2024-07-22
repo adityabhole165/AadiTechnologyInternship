@@ -36,10 +36,8 @@ const InvestmentDeclaration = () => {
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
     const isSubmittedArray = USISlistInvestmentEmpDetails.map(item => item.IsSubmitted);
-    console.log(isSubmittedArray, "isSubmittedArray");
     const data = USISlistInvestmentEmpDetails.map((item) => item.RegimeId)
     const [regimeId, setRegimeId] = useState(isSubmittedArray ? data : "");
-    console.log(regimeId, "reg");
 
 
     const USListInvestmentSectionDetails: any = useSelector(
@@ -47,7 +45,7 @@ const InvestmentDeclaration = () => {
     )
 
 
-    const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
+    const listInvestmentSectionDetails = USListInvestmentSectionDetails || [];
 
 
     const USGetRegimeDropdown: any = useSelector(
@@ -58,7 +56,6 @@ const InvestmentDeclaration = () => {
         (state: RootState) => state.InvestmentDeclaration.ISSaveInvestment
     )
 
-    // console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
 
     const GetInvestmentDeclarationBody: IGetInvestmentDetailsBody = {
         asSchoolId: asSchoolId,
@@ -181,8 +178,6 @@ const InvestmentDeclaration = () => {
     const refreshData = (value) => {
         setListInvestmentDetails(value)
     }
-    // console.log(USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSubmitted")
-    // console.log(USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted, "USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted");
     const Isregime = () => {
         let returnVal = ""
         if (isSubmittedArray ? USISlistInvestmentEmpDetails.map((item) => item.RegimeId) : null) {
@@ -192,9 +187,7 @@ const InvestmentDeclaration = () => {
         }
     }
 
-    // console.log(Isregime(), "USISlistInvestmentEmpDetails.RegimeId", USISlistInvestmentEmpDetails.map((item) => item.RegimeId));
 
-    console.log(regimeId, "--", data[0], "---", isSubmittedArray ? data[0] : "", USGetRegimeDropdown, " --", USISlistInvestmentEmpDetails, "--", isSubmittedArray, "--");
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -427,7 +420,7 @@ const InvestmentDeclaration = () => {
                             />
                         </Grid>
                         {USListInvestmentDetails.length > 0 &&
-                            <Grid container sx={{maxWidth:'100%'}} >
+                            <Grid container sx={{ maxWidth: '100%' }} >
                                 <IsSubmit.Provider value={isSubmittedArray}>
                                     <InvestmentSection
                                         refreshData={refreshData}></InvestmentSection>

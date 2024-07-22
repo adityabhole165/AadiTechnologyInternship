@@ -115,8 +115,9 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
 export const CDAGetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetInvestmentDetails(data)
-        console.log(response.data.listInvestmentSectionDetails.sort((a, b) => Number(a.SortOrder) - Number(b.SortOrder)), "response");
-        dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data));
+        dispatch(InvestmentDeclarationSlice.actions.NewGetInvestmentDetails(response.data
+            .listInvestmentSectionDetails.sort((a, b) => Number(a.SortOrder) - Number(b.SortOrder))
+        ));
 
     };
 
@@ -136,7 +137,6 @@ export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppTh
         });
         dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(abc));
 
-        console.log(response, "dropdown");
     };
 //     export const SaveLessonPlan =
 //   (data: ISaveLessonPlanBody): AppThunk =>

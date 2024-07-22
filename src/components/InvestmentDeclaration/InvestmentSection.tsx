@@ -32,12 +32,9 @@ const InvestmentSection = ({ refreshData }) => {
     )
 
 
-    const listInvestmentSectionDetails = USListInvestmentSectionDetails?.listInvestmentSectionDetails || [];
+    const listInvestmentSectionDetails = USListInvestmentSectionDetails || [];
 
     // || [];
-
-    console.log(listInvestmentSectionDetails, "listInvestmentSectionDetails");
-
 
 
 
