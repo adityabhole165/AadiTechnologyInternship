@@ -197,8 +197,8 @@ const AddDailyLog = () => {
     };
 
     const confirmationMessage = isPublish === 'False'
-      ? 'Are you sure you want to Publish Record?'
-      : 'Are you sure you want to Unpublish Record?';
+      ? 'Are you sure you want to publish record?'
+      : 'Are you sure you want to unpublish record?';
 
     showAlert({
       title: 'Please Confirm',
