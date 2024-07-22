@@ -1,6 +1,6 @@
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, Link } from '@mui/material';
+import { Box, IconButton, Link } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,9 +11,9 @@ import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
-import { green, red } from '@mui/material/colors';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import { green, red } from '@mui/material/colors';
 function Adddailyloglist({
   ItemList,
   clickView,
@@ -77,7 +77,7 @@ function Adddailyloglist({
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
                 <TableCell
-                  sx={{ textTransform: 'capitalize', py: 0.5 }}
+                  sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}
 
                 >
 
@@ -85,7 +85,7 @@ function Adddailyloglist({
                 </TableCell>
 
                 <TableCell
-                  sx={{ textTransform: 'capitalize', py: 0.5 }}
+                  sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}
 
                 >
                   <Link href={''} onClick={() => clickView(item.Text2)}>
@@ -94,41 +94,41 @@ function Adddailyloglist({
                 </TableCell>
 
                 <TableCell
-                  sx={{ textTransform: 'capitalize', py: 0.5 }}
+                  sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}
 
                 >
                   <ButtonPrimary
                     style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
-                    onClick={() => clickpublish(item.Id, item.Text3)}sx={{ minWidth: '10px', marginLeft:'40px' }}>
-                    {item.Text3 === 'False' ? <PublishedWithChangesIcon/> : <UnpublishedIcon/>
-                     }
+                    onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '10px', marginLeft: '40px' }}>
+                    {item.Text3 === 'False' ? <PublishedWithChangesIcon /> : <UnpublishedIcon />
+                    }
                   </ButtonPrimary>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="center">
                   {item.Text3 === 'False' ? (
-                    <EditTwoTone
-                      onClick={() =>clickEdit(item.Id)}
+                    <IconButton
+                      onClick={() => clickEdit(item.Id)}
                       sx={{
                         cursor: 'pointer',
                         '&:hover': { backgroundColor: 'lightgrey' }
-                    }}
-                      />
+                      }}
+                    ><EditTwoTone /></IconButton>
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="center">
                   {item.Text3 === 'False' ? (
-                    <DeleteForeverRoundedIcon 
-                    onClick={() => clickDelete(item.Id)} 
-                    sx={{
-                      color:'#223354',
-                           //  backgroundColor: grey[500],
-                            '&:hover': {
-                             color:'red',
-                           backgroundColor: red[100]
-                           }
-                  }} />
+                    <IconButton
+                      onClick={() => clickDelete(item.Id)}
+                      sx={{
+                        color: '#223354',
+                        //  backgroundColor: grey[500],
+                        '&:hover': {
+                          color: 'red',
+                          backgroundColor: red[100]
+                        }
+                      }}>   <DeleteForeverIcon /> </IconButton>
                   ) : null}
                 </TableCell>
               </TableRow>

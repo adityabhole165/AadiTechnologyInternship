@@ -318,6 +318,7 @@ const AddHomeworkNew = () => {
     if (SaveHomework != '') {
       dispatch(resetHomework());
       toast.success(SaveHomework);
+      setOpen(false) 
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
     }
@@ -828,6 +829,10 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
   const handleClose = (value) => {
     setOpen(false)
     setHomeworkId(0)
+    setDetails('')
+    setTitle('')
+    setCompleteDate(null)
+    setMultipleFiles([])
     dispatch(CDAresetgethomeworkdetail());
    
 

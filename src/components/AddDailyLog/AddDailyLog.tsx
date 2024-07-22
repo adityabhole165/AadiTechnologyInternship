@@ -603,7 +603,7 @@ const AddDailyLog = () => {
           </DialogTitle>
           <DialogContent >
 
-            <Box sx={{ pt: 1, marginBottom: '10px', maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+            <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
 
               {/* <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} /> */}
               <h1>
@@ -652,12 +652,7 @@ const AddDailyLog = () => {
               Cancel
             </Button>
             <Button
-              // disabled={
-              //   fileName.length !== 0 && base64URL.length !== 0 ? false : true
-              // }
               onClick={onClickSave}
-              // color={'success'}
-              // variant={'contained'}
               sx={{
                 color: 'green',
                 //  backgroundColor: grey[500],
