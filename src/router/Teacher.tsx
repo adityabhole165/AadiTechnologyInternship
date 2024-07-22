@@ -201,6 +201,9 @@ const AddSchoolNotice = Loader(
 
 const InvestmentDeclaration = Loader(
   lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
+);
+const RequistionView = Loader(
+  lazy(() => import('src/components/Requisition/RequistionView'))
 )
 
 
@@ -522,9 +525,13 @@ const teacherRoutes = [
   {
     path: 'AddRequisition',
     element: <AddRequisition />
+  },  
+  {
+    path: 'RequistionView/:ViewId',
+    element: <RequistionView />
   },
   {
-    path: 'AddRequisition/:asRequisitionId',
+    path: 'AddRequisition/:asRequisitionId/:ViewId',
     element: <AddRequisition />
   },
 
