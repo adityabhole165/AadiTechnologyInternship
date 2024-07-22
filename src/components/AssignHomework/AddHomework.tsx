@@ -119,7 +119,7 @@ const AddHomework = () => {
   );
   //console.log(ClassSubject, "ClassSubject....")
   const AllPublishUnPublishHomework = useSelector(
-    (state: RootState) => state.AddHomework.AllPublishUnpublishHomeworkT
+    (state: RootState) => state.AddHomework.AllPublishUnpublishHomework
   );
   const HomeworkDetail: any = useSelector(
     (state: RootState) => state.AddHomework.GetHomeworkDetail
@@ -200,7 +200,8 @@ const AddHomework = () => {
     asSaveFeature: 'Homework',
     asFolderName: 'PPSN Website',
     asBase64String: base64URL,
-    additionalAttachmentFile: [{ FileName: File1, Base64URL: base64URL1 }]
+    additionalAttachmentFile: [{ FileName: File1, Base64URL: base64URL1 }],
+    AsId: 0
   };
 
 
@@ -358,7 +359,7 @@ const AddHomework = () => {
             <>
               <Box>
                 <Tooltip
-                  title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+                  title={`Users can Add,Edit,Delete,Publish and Unpublish homework. And displays homework added by other teachers.`}
                 >
                   <IconButton
                     sx={{
