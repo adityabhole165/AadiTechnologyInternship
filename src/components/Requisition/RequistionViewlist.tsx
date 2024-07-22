@@ -49,7 +49,7 @@ function RequistionViewlist({
               </TableCell>
 
               <TableCell sx={{ textTransform: 'capitalize' }}>
-                {item.ItemQty} {'Pieces'}
+                {item.ItemQty} {item.UOMUnit} 
               </TableCell>
 
               
