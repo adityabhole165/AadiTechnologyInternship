@@ -1,4 +1,6 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography, } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@mui/material';
+import { red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -43,76 +45,83 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
       }}
       fullWidth
       maxWidth={'sm'}
+      PaperProps={{
+        sx: {
+          borderRadius: "15px",
+        }
+      }}
     >
       <DialogTitle
         sx={{
-          // backgroundColor: (theme) => theme.palette.error.main,
-          backgroundColor: '#324b84',
-          py: 1,
+          bgcolor: '#223354',
+          // backgroundColor: (theme) => theme.colors.primary.main,
+          color: (theme) => theme.palette.common.white
         }}
       >
-        <Typography variant={"h4"} sx={{ mb: 1, color: 'white' }}>
-          Enter Reason For Unpublish
-        </Typography>
+        <ClearIcon onClick={() => {
+          setOpen(false)
+        }}
+          sx={{
+            color: 'white',
+            // background:'white',
+            borderRadius: '7px',
+            position: 'absolute',
+            top: '5px',
+            right: '7px',
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'red',
+              //  backgroundColor: red[100]
+
+            }
+          }} />
       </DialogTitle>
-      <DialogContent dividers sx={{ px: 4 }}>
-        <Grid container justifyContent="space-between" alignItems="center">
+      <DialogContent>
 
-          <Typography variant={"h4"} sx={{ mb: 1 }}>
-            Exam :
-          </Typography>
-          {/* <Typography variant="body2" color="error">
-            * Mandatory Fields
-          </Typography> */}
-        </Grid>
-        <Grid container spacing={1} alignItems="center">
-
-          <Grid item xs={2}>
-            <TextField
-              sx={{ minWidth: '400px', bgcolor: '#f0e68c' }}
-              // label={'Exam'}
-              size={"small"}
-              value={ExamName}
-            />
+        <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+          <h1>
+            Enter Reason For Unpublish
+          </h1>
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={6}>
+              <TextField fullWidth label={'Exam'}
+                sx={{ width: '95%', bgcolor: '#f0f0f0' }}
+                value={ExamName}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField fullWidth label={'Class Teacher Name :'}
+                sx={{ width: '100%', bgcolor: '#f0f0f0' }}
+                value={TeacherName} />
+            </Grid>
+            <br></br>
+            <Grid item xs={12} marginTop={2}>
+              <TextField fullWidth label={'Unpublish Reason :'}
+                multiline
+                rows={3}
+                value={Reason}
+                onChange={(e) => {
+                  setReason(e.target.value);
+                }}
+                sx={{ width: '100%' }}
+                error={ReasonError !== ''}
+                helperText={ReasonError}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-        <br></br>
-        <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Class Teacher Name :
-        </Typography>
-        <Grid container spacing={1} alignItems="center">
-          <Grid item >
-            <TextField
-              sx={{ minWidth: '400px', bgcolor: '#f0e68c' }}
-              // label={'Class Teacher Name'}
-              size={"small"}
-              value={TeacherName} />
-          </Grid>
-        </Grid>
-        <br></br>
-        <Typography variant={"h4"} sx={{ mb: 1 }}>
-          Unpublish Reason :
-          {/* <span style={{ color: 'red' }}>*</span> */}
-        </Typography>
-        <TextField
-          multiline
-          rows={3}
-          value={Reason}
-          onChange={(e) => {
-            setReason(e.target.value);
-          }}
-          sx={{ width: '100%' }}
-          error={ReasonError !== ''}
-          helperText={ReasonError}
-        />
+        </Box>
       </DialogContent>
-      <DialogActions sx={{ py: 2, px: 3 }}>
+      <DialogActions sx={{ py: 1, px: 3 }}>
         <Button onClick={() => {
           setOpen(false)
         }} color={'error'}>
           Cancel
         </Button>
-        <Button onClick={() => { ClickOk() }} color={'error'} variant={'contained'}>
+        <Button onClick={() => { ClickOk() }} color={'error'} sx={{
+          '&:hover': {
+            backgroundColor: red[100]
+          }
+        }}>
           Unpublish
         </Button>
 

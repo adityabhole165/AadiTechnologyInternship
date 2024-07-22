@@ -145,7 +145,7 @@ const InvestmentSection = ({ refreshData }) => {
                 {
                     id: 'MaximumLimit',
                     label: 'Maximum Limit Rs.',
-                    renderCell: (rowData) => rowData.MaxAmount,
+                    renderCell: (rowData) => section.GroupMaxAmount == 0 ? rowData.MaxAmount : section.GroupMaxAmount,
                 }
             ];
 
@@ -160,6 +160,7 @@ const InvestmentSection = ({ refreshData }) => {
                             data={filteredData}
                             isLoading={false}
                             isPagination={false}
+                            GroupAmount={section.GroupMaxAmount}
                             changeText={(updatedSectionData) => changeText(updatedSectionData, section.Id)}
                         />
 

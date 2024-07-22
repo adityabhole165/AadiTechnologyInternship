@@ -277,9 +277,9 @@ const TermwiseHeightWeight = () => {
             <IconButton
               sx={{
                 color: 'white',
-                backgroundColor: grey[500],
+                backgroundColor: '#fbc02d',
                 '&:hover': {
-                  backgroundColor: grey[500]
+                  backgroundColor: '#e1ac28'
                 }
               }}
             >
@@ -292,7 +292,7 @@ const TermwiseHeightWeight = () => {
                 color: 'white',
                 backgroundColor: grey[500],
                 '&:hover': {
-                  backgroundColor: grey[500]
+                  backgroundColor: grey[600]
                 }
               }}
             >
