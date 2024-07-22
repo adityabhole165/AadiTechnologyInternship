@@ -1,8 +1,9 @@
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -69,10 +70,7 @@ const ProgressRemarks = () => {
 
   const { StandardDivisionId, TestId } = useParams();
 
-  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
-
-
-
+  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -330,7 +328,7 @@ const ProgressRemarks = () => {
   };
 
   const startIndex = (page - 1) * rowsPerPage;
- 
+
   const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsNewBody =
   {
     asSchoolId: asSchoolId,
@@ -890,14 +888,40 @@ const ProgressRemarks = () => {
       <Modal
         open={open}
         onClose={ClickAppropriate}
+
       >
         <Box sx={style}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <DialogTitle
+            sx={{
+              bgcolor: '#223354',
+              color: (theme) => theme.palette.common.white,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTopLeftRadius: '15px',
+              borderTopRightRadius: '15px',
+            }}
+          >
+            <ClearIcon onClick={() => setOpen(!open)}
+              sx={{
+                color: 'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '7px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                }
+              }} />
+          </DialogTitle>
+          <Box sx={{ color: '#223354', position: 'relative', flexDirection: 'column', margin: '18px' }}>
 
+            <h1>
+              Select Appropriate Template
+            </h1>
 
-            <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
 
               <TextField
                 size={"small"}
@@ -928,7 +952,7 @@ const ProgressRemarks = () => {
 
             </Box>
 
-            <Box sx={{ padding: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
+            <Box sx={{ pt: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
               {remarkTemplates.length > 0 ? (
                 <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
 
@@ -946,57 +970,39 @@ const ProgressRemarks = () => {
               )}
             </Box>
 
-
-            <Box sx={{ mt: "15px" }}>
-              <Button
-                // variant="contained"
-                // style={{
-                //   backgroundColor: '#de554b',
-                //   color: 'White',
-
-                // }}
-                sx={{
-                  marginRight: '10px',
-                  color: 'red',
-                  //  backgroundColor: grey[500],
-                  '&:hover': {
-                    color: 'red',
-                    backgroundColor: red[100]
-                  }
-                }}
-
-                onClick={() => setOpen(!open)}
-              >
-                Cancle
-              </Button>
-              <Button
-                // variant="contained"
-                // sx={{
-                //   backgroundColor: remarkTemplates.length === 0 ? '#c8e6c9' : '#5ec479',
-                //   color: 'white',
-                //   marginRight: '10px',
-                //   '&:disabled': {
-                //     backgroundColor: '#c8e6c9',
-                //     color: 'white',
-                //   }
-                // }}
-                sx={{
-                  marginRight: '10px',
-                  color: 'green',
-                  //  backgroundColor: grey[500],
-                  '&:hover': {
-                    color: 'green',
-                    backgroundColor: green[100]
-                  }
-                }}
-                onClick={SelectClick}
-                disabled={remarkTemplates.length === 0}
-              >
-                Selete
-              </Button>
-
-            </Box>
           </Box>
+          <Box sx={{ marginLeft: 70 }}>
+            <Button
+              sx={{
+                mt: 2,
+                color: 'red',
+                '&:hover': {
+                  color: 'red',
+                  backgroundColor: red[100]
+                }
+              }}
+
+              onClick={() => setOpen(!open)}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                mt: 2,
+                color: 'green',
+                '&:hover': {
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+              onClick={SelectClick}
+              disabled={remarkTemplates.length === 0}
+            >
+              Select
+            </Button>
+
+          </Box>
+
         </Box>
       </Modal>
 
@@ -1006,17 +1012,25 @@ const ProgressRemarks = () => {
 
 export default ProgressRemarks;
 
+// const style = {
+//   position: 'absolute' as 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)',
+//   width: 800,
+//   height: 500,
+//   bgcolor: '#EAF1F5',
+//   border: '2px solid #000',
+// };
+
+
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 800,
-  height: 500,
-  bgcolor: '#EAF1F5',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 2,
+  height: 550,
+  bgcolor: 'white',
+  borderRadius: "15px",
 };
-
-
