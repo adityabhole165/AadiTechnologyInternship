@@ -68,7 +68,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
                     SectionId: item.SectionId,
                     Name: item.Name,
                     AssociatedEarnDeductId: item.AssociatedEarnDeductId,
-                    MaxAmount: item.MaxAmount,
+                    MaxAmount: Math.round(Number(item.MaxAmount)),
                     DocumentCount: item.DocumentCount,
                     Amount: Number(getAmount(item.Id))
                 };
