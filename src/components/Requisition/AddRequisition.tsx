@@ -310,7 +310,7 @@ const AddRequisition = () => {
 
         if (!isError) {
             dispatch(CDASaveRequisition(SaveRequisitionBodysend));
-            toast.success("Requisition is send successfully.");
+            toast.success("Requisition is sent successfully.");
             navigate('/extended-sidebar/Teacher/Requisition')
             setItemlist([]);
             setAddItemlistNew([]);
