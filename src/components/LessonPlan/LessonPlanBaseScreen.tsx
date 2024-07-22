@@ -577,7 +577,7 @@ const LessonPlanBaseScreen = () => {
             </>
           }
         />
-        <Box sx={{ background: 'white', pl: 2, pt:2}}>
+        <Box sx={{ background: 'white', p:2, mb:2}}>
           <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
             <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
             <DotLegends2
@@ -591,10 +591,10 @@ const LessonPlanBaseScreen = () => {
             />
           </Box>
         </Box>
-        <Box sx={{ background: 'white', p: 2  }}>
+        <Box sx={{ background: 'white', pt:1}}>
           {LessonPlanList.length > 0 ? (
             <>
-              <Box sx={{ background: 'white'}}>
+              <Box sx={{ background: 'white',}}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                   <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                     <Box component="span" fontWeight="fontWeightBold">
