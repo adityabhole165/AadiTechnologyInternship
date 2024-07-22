@@ -1,9 +1,10 @@
 import { Check, QuestionMark, Save } from "@mui/icons-material";
 import { Box, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { AlertContext } from "src/contexts/AlertContext";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody, SubmitInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CDAGetSubmitInvestment, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
@@ -11,9 +12,10 @@ import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentSection from "./InvestmentSection";
 import IsSubmit from './IsSubmit';
+
 const InvestmentDeclaration = () => {
     const dispatch = useDispatch();
-
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -31,6 +33,7 @@ const InvestmentDeclaration = () => {
     const USISlistInvestmentAmountDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentAmountDetails
     )
+    const USSubmitInvestmentDeclaration: any = useSelector((state: RootState) => state.InvestmentDeclaration.ISSubmitInvestmentDeclaration)
 
     const USISlistInvestmentEmpDetails: any = useSelector(
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
@@ -96,19 +99,50 @@ const InvestmentDeclaration = () => {
 
 
 
+    // const clickSubmit = () => {
+    //     if (window.confirm("After submission you will not be able to update any details. Do you want to continue?"))
+    //         toast.success("Investment details submitted successfully.")
+    //     const SubmitInvestmentDeclaration: SubmitInvestmentDetailsBody = {
+    //         asSchoolId: asSchoolId,
+    //         asFinancialYearId: 1,
+    //         asUserId: asUserId,
+    //         asUpdatedById: asUserId
+    //     }
+    //     dispatch(CDAGetSubmitInvestment(SubmitInvestmentDeclaration))
+    //     dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
+
+    // }
+
     const clickSubmit = () => {
-        if (window.confirm("After submission you will not be able to update any details. Do you want to continue?"))
-            toast.success("Investment details submitted successfully.")
+        // if (window.confirm("After submission you will not be able to update any details. Do you want to continue?"))
+        //     toast.success("Investment details submitted successfully.")
         const SubmitInvestmentDeclaration: SubmitInvestmentDetailsBody = {
             asSchoolId: asSchoolId,
             asFinancialYearId: 1,
             asUserId: asUserId,
             asUpdatedById: asUserId
-        }
-        dispatch(CDAGetSubmitInvestment(SubmitInvestmentDeclaration))
-        dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
-
+        };
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'After submission you will not be able to update any details. Do you want to continue? ',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onConfirm: () => {
+                closeAlert();
+                dispatch(CDAGetSubmitInvestment(SubmitInvestmentDeclaration))
+            },
+            onCancel: closeAlert
+        });
     }
+    useEffect(() => {
+        if (USSubmitInvestmentDeclaration != '') {
+            toast.success(USSubmitInvestmentDeclaration)
+
+            dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
+        }
+    }, [USSubmitInvestmentDeclaration])
 
     function getXML() {
         let asSaveInvestmentXML = "\r\n<ArrayOfInvestmentDeclaration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n >";

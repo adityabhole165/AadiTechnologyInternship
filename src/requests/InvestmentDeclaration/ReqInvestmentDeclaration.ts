@@ -43,6 +43,9 @@ const InvestmentDeclarationSlice = createSlice({
         },
         RlistInvestmentSectionDetails(state, action) {
             state.ISlistInvestmentSectionDetails = action.payload
+        },
+        resetMessage(state) {
+            state.ISSubmitInvestmentDeclaration = '';
         }
 
 
@@ -186,5 +189,8 @@ export const CDAGetSubmitInvestment =
             const response = await InvestmentDeclarationApi.GetSubmitInvestmentDeclaration(data);
             dispatch(InvestmentDeclarationSlice.actions.RGetSubmitInvestment(response.data));
         }
+export const resetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(InvestmentDeclarationSlice.actions.resetMessage());
+};
 
 export default InvestmentDeclarationSlice.reducer;
