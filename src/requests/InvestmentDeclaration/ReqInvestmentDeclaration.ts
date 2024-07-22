@@ -14,6 +14,7 @@ const InvestmentDeclarationSlice = createSlice({
         ISGetRegimeDropdown: [],
         ISSaveInvestment: '',
         ISSubmitInvestmentDeclaration: '',
+        ISlistInvestmentSectionDetails: []
 
     },
     reducers: {
@@ -39,6 +40,9 @@ const InvestmentDeclarationSlice = createSlice({
         },
         RGetSubmitInvestment(state, action) {
             state.ISSubmitInvestmentDeclaration = action.payload
+        },
+        RlistInvestmentSectionDetails(state, action) {
+            state.ISlistInvestmentSectionDetails = action.payload
         }
 
 
@@ -60,6 +64,16 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
             })
             return returnVal
         }
+        const getGroupMaxAmount = (SectionId) => {
+            let returnVal = 0
+            response.data.listInvestmentSectionDetails.map((Item) => {
+                if (Item.Id == SectionId)
+                    returnVal = Number(Item.GroupMaxAmount)
+            })
+            return returnVal
+        }
+        console.log("getGroupMaxAmount", getGroupMaxAmount('46'));
+
         let listInvestmentDetails = response.data.listInvestmentDetails
             .filter((obj) => { return obj.SectionId })
             .map((item, i) => {
@@ -103,12 +117,24 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
 
             }
         });
+        let listInvestmentSectionDetails = response.data.listInvestmentSectionDetails.map((item, i) => {
+            return {
+                Id: item.Id,
+                Name: item.Name,
+                SectionGroupId: item.SectionGroupId,
+                GroupMaxAmount: getGroupMaxAmount(item.Id),
+                CategoryId: item.CategoryId,
+                SortOrder: item.SortOrder
+
+            }
+        });
 
 
         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentDetails(listInvestmentDetails));
         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentEmpDetails(listInvestmentEmpDetails));
 
         dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentAmountDetails(listInvestmentAmountDetails));
+        dispatch(InvestmentDeclarationSlice.actions.RlistInvestmentSectionDetails(listInvestmentSectionDetails))
 
     };
 
