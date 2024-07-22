@@ -1,4 +1,5 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -116,7 +117,11 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         }} color={'error'}>
           Cancel
         </Button>
-        <Button onClick={() => { ClickOk() }} color={'error'}>
+        <Button onClick={() => { ClickOk() }} color={'error'} sx={{
+          '&:hover': {
+            backgroundColor: red[100]
+          }
+        }}>
           Unpublish
         </Button>
 
