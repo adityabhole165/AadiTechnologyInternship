@@ -15,6 +15,7 @@ import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { Padding } from '@mui/icons-material';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -467,10 +468,10 @@ const TransferOptionalSubjectMarks = () => {
                 )}
 
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ p: 1 }}>
+                    <Box sx={{p:1 }}>
                         {StudentsList.length > 0 && (
-                            <Paper sx={{ marginTop: '10px' }}>
-                                <Accordion >
+                            <Paper sx={{ mt:1}}>
+                                <Accordion>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1-content"
@@ -478,7 +479,7 @@ const TransferOptionalSubjectMarks = () => {
                                     >
                                         <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Optional Subjects</Typography>
                                     </AccordionSummary>
-                                    <AccordionDetails sx={{ display: 'flex', flexDirection: 'column', p:1 }}>
+                                    <AccordionDetails sx={{ display: 'flex', flexDirection: 'column' }}>
                                         {StudentsList.length > 0 && (
                                             <Box sx={{ display: 'flex', flexDirection: 'column', width: "250px", height: 'auto' }}>
 
@@ -489,7 +490,7 @@ const TransferOptionalSubjectMarks = () => {
                                                                 {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
                                                             </AccordionSummary>
                                                             <AccordionDetails>
-                                                                <ul >
+                                                                <ul>
                                                                     {OptionalSubjects
                                                                         .filter((objParent) => {
                                                                             return (objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId
@@ -547,6 +548,7 @@ const TransferOptionalSubjectMarks = () => {
                         )}
                     </Box >
                     <Box sx={{ backgroundColor: 'white', p: 2, mt: 2, width: '100% ' }}>
+                        <Box sx={{pt:-1}}>
 
                         {
                             StudentsList.length > 0 ? (
@@ -568,7 +570,7 @@ const TransferOptionalSubjectMarks = () => {
 
                             )
                         }
-
+                          </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
                             {StudentsList.length > 0 && (
@@ -589,7 +591,7 @@ const TransferOptionalSubjectMarks = () => {
                                 <span></span>
                             ) : (
                                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                                    <b>No Record Found.</b>
+                                    <b>No record found.</b>
                                 </Typography>
                             )
                         ) : null}

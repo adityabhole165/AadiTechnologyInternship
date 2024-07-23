@@ -47,8 +47,8 @@ function SubjectMarkList({
                         <TableRow
                             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
                         >
-                            <TableCell sx={{ textTransform: 'capitalize', padding:'12px' }} >
-                                <Checkbox sx={{ p: 0 }} checked={IsCheckAll()}
+                            <TableCell sx={{ textTransform: 'capitalize', padding:'15px' }} >
+                                <Checkbox sx={{ p: 1 }} checked={IsCheckAll()}
                                     onClick={clickAll}
                                 ></Checkbox>
 
