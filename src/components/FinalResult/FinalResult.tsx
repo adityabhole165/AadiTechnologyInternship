@@ -640,11 +640,10 @@ const FinalResult = () => {
               variant={"outlined"}
               size={"small"}
             /> */}
-
             <SearchableDropdown
               sx={{
                 minWidth: '300px'
-                , bgcolor: FinalResultFullAccess === 'N' ? '#f0e68c' : 'inherit'
+                , bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit'
               }}
 
               ItemList={GetClassTeachers}
@@ -676,87 +675,118 @@ const FinalResult = () => {
           </Box>
 
           <Box>
-            <Tooltip title={"Toppers"}>
-              <IconButton
-                onClick={Toppers}
-                disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-              >
-                <MilitaryTech />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Generate All"}>
-              <IconButton
-                onClick={onClickGenerateAll}
-                disabled={GetTestPublished == false || GetResultGenerated == true || buttonsDisabled}
-                sx={{
-                  color: 'white',
-                  backgroundColor: GetResultGenerated ? blue[200] : blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
 
-                }
-                }
-              >
-                <Autorenew />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"View All Results"}>
-              <IconButton
-                onClick={() => {
-                  navigate('/extended-sidebar/Teacher/ViewResultAll')
+          <Tooltip title={"Generate All"} disableHoverListener={false} disableFocusListener={false}>
+  <span>
+    <IconButton
+      onClick={onClickGenerateAll}
+      disabled={GetTestPublished == false || GetResultGenerated == true || buttonsDisabled}
+      sx={{
+        color: 'white',
+        backgroundColor: GetResultGenerated ? blue[200] : blue[500],
+        '&:hover': {
+          backgroundColor: blue[600]
+        },
+        ...(GetTestPublished == false || GetResultGenerated == true || buttonsDisabled) && {
+          pointerEvents: 'none'
+        }
+      }}
+    >
+      <Autorenew />
+    </IconButton>
+  </span>
+</Tooltip>
+&nbsp;
+<Tooltip title={"View Result All"} disableHoverListener={false} disableFocusListener={false}>
+  <span>
+    <IconButton
+      onClick={() => {
+        navigate('/extended-sidebar/Teacher/ViewResultAll')
+      }}
+      disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
+      sx={{
+        color: 'white',
+        backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
+        '&:hover': {
+          backgroundColor: blue[600]
+        },
+        ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
+          pointerEvents: 'none'
+        }
+      }}
+    >
+      <TextSnippet />
+    </IconButton>
+  </span>
+</Tooltip>
+&nbsp;
+<Tooltip title={"Publish"} disableHoverListener={false} disableFocusListener={false}>
+  <span>
+    <IconButton
+      onClick={() => onClickPublish(true)}
+      disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
+      sx={{
+        color: 'white',
+        backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? green[200] : green[500],
+        '&:hover': {
+          backgroundColor: green[600]
+        },
+        ...(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) && {
+          pointerEvents: 'none'
+        }
+      }}
+    >
+      <CheckCircle />
+    </IconButton>
+  </span>
+</Tooltip>
+&nbsp;
+<Tooltip title={"Unpublish"} disableHoverListener={false} disableFocusListener={false}>
+  <span>
+    <IconButton
+      onClick={ClickOpenDialogbox}
+      disabled={!GetResultGenerated || buttonsDisabled}
+      sx={{
+        color: 'white',
+        backgroundColor: !GetResultGenerated ? red[200] : red[500],
+        '&:hover': {
+          backgroundColor: red[600]
+        },
+        ...(!GetResultGenerated || buttonsDisabled) && {
+          pointerEvents: 'none'
+        }
+      }}
+    >
+      <Unpublished />
+    </IconButton>
+  </span>
+</Tooltip>
+&nbsp;
+<Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
+  <span>
+    <IconButton
+      onClick={Toppers}
+      disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
+      sx={{
+        color: 'white',
+        backgroundColor: blue[500],
+        '&:hover': {
+          backgroundColor: blue[600]
+        },
+        ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
+          pointerEvents: 'none'
+        }
+      }}
+    >
+      <MilitaryTech />
+    </IconButton>
+  </span>
+</Tooltip>
 
-                }
-                }
-                disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
-                sx={{
-                  color: 'white',
-                  backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-              >
-                <TextSnippet />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Unpublish"}>
-              <IconButton
-                onClick={ClickOpenDialogbox}
-                disabled={!GetResultGenerated || buttonsDisabled}
-                sx={{
-                  color: 'white',
-                  backgroundColor: !GetResultGenerated ? red[200] : red[500],
-                  '&:hover': {
-                    backgroundColor: red[600]
-                  }
-                }}
-              >
-                <Unpublished />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Publish"}>
-              <IconButton
-                onClick={() => onClickPublish(true)}
-                disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
-                sx={{
-                  color: 'white',
-                  backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? green[200] : green[500],
-                  '&:hover': {
-                    backgroundColor: green[600]
-                  }
-                }}
-              >
-                <CheckCircle />
-              </IconButton>
-            </Tooltip>
+            
+            
+           
+            
           </Box>
 
 
