@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add'
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import Save from "@mui/icons-material/Save"
@@ -6,9 +7,13 @@ import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitl
 import { green, grey, red } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { IGetTeacherAndStandardForTimeTableBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { toast } from 'react-toastify'
+import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody } from "src/interfaces/Teacher/ITeacherTimeTable"
+import { IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
-import { CDAGetTeachersList } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
+import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
+import { CDAGetDataForAdditionalClasses, CDAGetResetTimetableMsgClear, CDAGetTeachersList, CDAResetTimetable } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
@@ -42,8 +47,17 @@ const WeeklyTimetable = (props: Props) => {
     const [teacherSettingsAnchorEL, setTeacherSettingsAnchorEL] = useState<HTMLButtonElement | null>(null);
     const [filterBy, setFilterBy] = useState<string>('Teacher')
     const [showAddAdditionalLectures, setShowAddAdditionalLectures] = useState<boolean>(false);
-    const [teacher, setTeacher] = useState<string>('');
+    const [teacher, setTeacher] = useState<string>('0');
     const TeachersList = useSelector((state: RootState) => state.WeeklyTimetable.ISTeachersList);
+    const [teacherName, setTeacherName] = useState<string>('');
+
+    const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
+    const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
+    const AddLecWeekDays = useSelector((state: RootState) => state.WeeklyTimetable.ISAddClassesWeekDay);
+    const AddLecLectureNumber = useSelector((state: RootState) => state.WeeklyTimetable.ISAddClassesLectureNumber);
+    const AddLecSubjectName = useSelector((state: RootState) => state.WeeklyTimetable.ISAddClassesSubjectName);
+    const ResetTimetableMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISResetTimetableMsg);
+
 
     useEffect(() => {
         const CDAGetTeachersListBody: IGetTeacherAndStandardForTimeTableBody = {
@@ -54,6 +68,52 @@ const WeeklyTimetable = (props: Props) => {
         dispatch(CDAGetTeachersList(CDAGetTeachersListBody))
     }, [])
 
+    useEffect(() => {
+        if (ResetTimetableMsg !== '') {
+            toast.success(ResetTimetableMsg)
+        }
+        dispatch(CDAGetResetTimetableMsgClear())
+    }, [ResetTimetableMsg])
+
+    useEffect(() => {
+
+        const GetLectureCountsForTeachersBody: IGetLectureCountsForTeachersBody = {
+            asSchoolId: Number(localStorage.getItem('localSchoolId')),
+            asTeacher_Id: Number(teacher),
+            asConsiderAssembly: "Y",
+            asConsiderMPT: "Y",
+            asConsiderStayback: "Y",
+            asConsiderWeeklyTest: "Y"
+        }
+        console.log("teacher count ", LectureCountsForTeachers)
+        if (teacher !== '0') {
+            dispatch(GetLectureCountsForTeachers(GetLectureCountsForTeachersBody))
+        }
+    }, [teacher])
+
+    useEffect(() => {
+        const AdditionalLectureBody: IGetDataForAdditionalClassesBody = {
+            asSchoolId: Number(localStorage.getItem('localSchoolId')),
+            asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
+            asTeacher_Id: Number(teacher),
+            asStandardDivision_Id: 0
+        }
+        if (teacher !== '0') {
+            dispatch(GetDataForAdditionalClasses(AdditionalLectureBody))
+        }
+    }, [teacher])
+
+    const ClickAdditionalLecture = () => {
+        setShowAddAdditionalLectures(true);
+        const AdditionalLecutresBody: IGetDataForAdditionalClassesBody = {
+            asSchoolId: Number(localStorage.getItem('localSchoolId')),
+            asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
+            asTeacher_Id: Number(teacher),
+            asStandardDivision_Id: 0
+        }
+        dispatch(CDAGetDataForAdditionalClasses(AdditionalLecutresBody));
+    }
+
     const handleTeacherSettingsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setTeacherSettingsAnchorEL(event.currentTarget);
     };
@@ -61,6 +121,16 @@ const WeeklyTimetable = (props: Props) => {
     const handleTeacherSettingsClose = () => {
         setTeacherSettingsAnchorEL(null);
     };
+
+    const resetTimetable = () => {
+        const ResetWeeklyTimetableBody: IGetResetTimetableBody = {
+            asSchoolId: Number(localStorage.getItem('localSchoolId')),
+            asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+            asTeacher_id: Number(teacher),
+            asStandardDivision_Id: 0
+        }
+        dispatch(CDAResetTimetable(ResetWeeklyTimetableBody));
+    }
 
     const open = Boolean(teacherSettingsAnchorEL);
     const id = open ? 'teacher-settings-popover' : undefined;
@@ -87,38 +157,55 @@ const WeeklyTimetable = (props: Props) => {
                                     <QuestionMark />
                                 </IconButton>
                             </Tooltip>
-                            <Tooltip title={'Reset'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        '&:hover': {
-                                            backgroundColor: red[600]
-                                        }
-                                    }}
-                                >
-                                    <RestartAltIcon />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title={'Save'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: green[500],
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                >
-                                    <Save />
-                                </IconButton>
-                            </Tooltip>
+                            {teacher !== '0' && <>
+                                <Tooltip title={'Reset'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            '&:hover': {
+                                                backgroundColor: red[600]
+                                            }
+                                        }}
+                                        onClick={resetTimetable}
+                                    >
+                                        <RestartAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={'Save'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={'Additional Lectures'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={ClickAdditionalLecture}
+                                    >
+                                        <AddIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>}
                         </>
                     }
                 />
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
-                        <Typography variant={"h4"}>Weekly Timetable for Mr. Devendra Kumar</Typography>
+                        <Typography variant={"h4"}>Weekly Timetable for {teacher !== '0' ? teacherName : 'Teacher/Class Name'}</Typography>
                         <Stack direction={"row"} gap={1} alignItems={"center"}>
                             <Box>
                                 <TextField
@@ -135,8 +222,11 @@ const WeeklyTimetable = (props: Props) => {
                             {filterBy === 'Teacher' && (
                                 <>
                                     <Box>
-                                        <SearchableDropdown
-                                            onChange={(value) => { setTeacher(value) }}
+                                        <SearchableDropdown1
+                                            onChange={(value) => {
+                                                setTeacher(value.Value)
+                                                setTeacherName(value.Name)
+                                            }}
                                             ItemList={TeachersList}
                                             defaultValue={teacher}
                                             label="Teacher"
@@ -145,20 +235,22 @@ const WeeklyTimetable = (props: Props) => {
                                         />
                                     </Box>
                                     <Box>
-                                        <Tooltip title={'Teacher Settings'}>
-                                            <IconButton
-                                                onClick={handleTeacherSettingsClick}
-                                                sx={{
-                                                    color: 'white',
-                                                    backgroundColor: grey[500],
-                                                    '&:hover': {
-                                                        backgroundColor: grey[600]
-                                                    }
-                                                }}
-                                            >
-                                                <Settings />
-                                            </IconButton>
-                                        </Tooltip>
+                                        {teacher !== '0' &&
+                                            <Tooltip title={'Teacher Settings'}>
+                                                <IconButton
+                                                    onClick={handleTeacherSettingsClick}
+                                                    sx={{
+                                                        color: 'white',
+                                                        backgroundColor: grey[500],
+                                                        '&:hover': {
+                                                            backgroundColor: grey[600]
+                                                        }
+                                                    }}
+                                                >
+                                                    <Settings />
+                                                </IconButton>
+                                            </Tooltip>
+                                        }
                                         <Popover
                                             id={id}
                                             open={open}
@@ -203,11 +295,11 @@ const WeeklyTimetable = (props: Props) => {
                                     </Box>
                                 </>
                             )}
-                            <Box>
+                            {/* <Box>
                                 <Button variant={"contained"}>
                                     Change Input
                                 </Button>
-                            </Box>
+                            </Box> */}
                         </Stack>
                     </Stack>
                     <Box sx={{ mt: 2 }}>
@@ -289,62 +381,80 @@ const WeeklyTimetable = (props: Props) => {
                     <Divider sx={{ my: 2 }} />
                     <Stack direction={"row"} gap={2}>
                         <Box sx={{ flex: 1 }}>
-                            <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography>
-                            <TableContainer sx={{ width: '100%' }}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <HeaderStyledCell>Class Subjects</HeaderStyledCell>
-                                            <HeaderStyledCell>Lecture Count</HeaderStyledCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {/* Loopable content */}
-                                        <TableRow>
-                                            <StyledCell>6-A Library	</StyledCell>
-                                            <StyledCell>2</StyledCell>
-                                        </TableRow>
-                                        {/* Fixed Footer */}
-                                        <TableRow>
-                                            <FooterStyledCell>Total Weekly Lectures	</FooterStyledCell>
-                                            <FooterStyledCell>0</FooterStyledCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            {/* <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography> */}
+                            <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>Class-Subject Lecture Count</Typography>
+
+                            {teacher !== '0' &&
+                                <TableContainer sx={{ width: '100%' }}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <HeaderStyledCell>Class Subjects</HeaderStyledCell>
+                                                <HeaderStyledCell>Lecture Count</HeaderStyledCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {/* Loopable content */}
+                                            {LectureCountsForTeachers?.map((item, i) => (
+                                                item.Text2 === 'Total Weekly Lectures' ?
+                                                    <TableRow>
+                                                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                                                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                                                    </TableRow>
+                                                    :
+                                                    <TableRow>
+                                                        <StyledCell>{item.Text2}</StyledCell>
+                                                        <StyledCell>{item.Text3}</StyledCell>
+                                                    </TableRow>
+                                            ))}
+
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>}
                         </Box>
+
                         <Box sx={{ flex: 1 }}>
-                            <Typography variant={"h4"} mb={1} sx={{ display: "flex", justifyContent: 'space-between', alignItems: 'center' }}>
+                            {/* <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography> */}
+
+                            <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>
                                 Additional Lectures
-                                <Button
-                                    variant={"contained"}
-                                    onClick={() => setShowAddAdditionalLectures(true)}
-                                >
-                                    Add Additional Lectures
-                                </Button>
+
                             </Typography>
-                            <TableContainer sx={{ width: '100%' }}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <HeaderStyledCell>Class Subjects</HeaderStyledCell>
-                                            <HeaderStyledCell>Lecture Count</HeaderStyledCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {/* Loopable content */}
-                                        <TableRow>
-                                            <StyledCell>6-A Library	</StyledCell>
-                                            <StyledCell>2</StyledCell>
-                                        </TableRow>
-                                        {/* Fixed Footer */}
-                                        <TableRow>
-                                            <FooterStyledCell>Total Weekly Lectures	</FooterStyledCell>
-                                            <FooterStyledCell>0</FooterStyledCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            {AdditionalClasses.length === 0 && teacher !== '0' &&
+
+                                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 10, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                    <b>No additional lectures assigned.</b>
+                                </Typography>
+                            }
+                            {AdditionalClasses.length > 0 &&
+                                <TableContainer sx={{ width: '100%' }}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <HeaderStyledCell>WeekDay</HeaderStyledCell>
+                                                <HeaderStyledCell>Lecture Number</HeaderStyledCell>
+                                                <HeaderStyledCell>Class</HeaderStyledCell>
+                                                <HeaderStyledCell>Subject </HeaderStyledCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {/* Loopable content */}
+                                            {AdditionalClasses.map((item, i) => (
+                                                <TableRow>
+                                                    <StyledCell>{item.Text1}</StyledCell>
+                                                    <StyledCell>{item.Text2}</StyledCell>
+                                                    <StyledCell>{item.Text3}</StyledCell>
+                                                    <StyledCell>{item.Text4}</StyledCell>
+                                                </TableRow>
+                                            ))}
+
+                                            {/* Fixed Footer */}
+
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            }
+
                         </Box>
                     </Stack>
                 </Box>
@@ -370,16 +480,18 @@ const WeeklyTimetable = (props: Props) => {
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown
                                     onChange={(value) => { }}
-                                    ItemList={[]}
+                                    ItemList={TeachersList}
+                                    defaultValue={teacher}
                                     label="Teacher"
                                     sx={{ minWidth: '100%' }}
                                     size={"small"}
+                                    disabled={true}
                                 />
                             </Box>
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown
                                     onChange={(value) => { }}
-                                    ItemList={[]}
+                                    ItemList={AddLecWeekDays}
                                     label="Week Day"
                                     sx={{ minWidth: '100%' }}
                                     size={"small"}
@@ -388,7 +500,7 @@ const WeeklyTimetable = (props: Props) => {
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown
                                     onChange={(value) => { }}
-                                    ItemList={[]}
+                                    ItemList={AddLecLectureNumber}
                                     label="Lecture Name"
                                     sx={{ minWidth: '100%' }}
                                     size={"small"}
@@ -397,7 +509,7 @@ const WeeklyTimetable = (props: Props) => {
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown
                                     onChange={(value) => { }}
-                                    ItemList={[]}
+                                    ItemList={AddLecSubjectName}
                                     label="Class Subjects"
                                     sx={{ minWidth: '100%' }}
                                     size={"small"}
