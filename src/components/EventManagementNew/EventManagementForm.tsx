@@ -4,12 +4,12 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { DeleteEventImageBody, IAllClassesAndDivisionsBody, IEventDetailsBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import { AlertContext } from 'src/contexts/AlertContext';
 
 import {
     GetAllClassAndDivision,
@@ -233,7 +233,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
         return returnVal;
     }
 
-    
+
     const ClickSave = () => {
         let isError = false;
         if (EventTitle == '') {
@@ -289,23 +289,23 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
 
 
     const ClickSave1 = () => {
-          showAlert({
+        showAlert({
             title: 'Please Confirm',
             message: 'Are you sure you want to save event ?',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
             onCancel: () => {
-              closeAlert();
+                closeAlert();
             },
             onConfirm: () => {
                 ClickSave()
-              closeAlert();
+                closeAlert();
             }
-          });
-        
-      };
-      
+        });
+
+    };
+
 
 
     const debouncedFetch = useCallback(debounce((body) => {
@@ -495,7 +495,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                                 color: 'red',
                                 ':hover': { backgroundColor: red[100] }
                             }}>
-                            Cancle
+                            Cancel
                         </Button>
                         <Button
                             //  variant={'contained'} 
