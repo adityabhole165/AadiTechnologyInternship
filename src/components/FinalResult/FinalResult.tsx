@@ -7,6 +7,8 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import TextSnippet from '@mui/icons-material/TextSnippet';
 import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import Person from '@mui/icons-material/Person';
+
 import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useEffect, useMemo, useState } from 'react';
@@ -778,7 +780,8 @@ const FinalResult = () => {
         }
       }}
     >
-      <MilitaryTech />
+     
+       <Person />
     </IconButton>
   </span>
 </Tooltip>
