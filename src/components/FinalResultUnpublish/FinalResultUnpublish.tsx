@@ -80,26 +80,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
             }} />
 
 
-          <Tooltip title="Enter the reason for exam unpublish." arrow>
-            <IconButton
-              sx={{
-                borderRadius: '2px',
-                position: 'absolute',
-                top: '4px',
-                right: '33px',
-                color: 'white',
-                backgroundColor: grey[500],
-                width: '25px', // Adjust width
-                height: '25px', // Adjust height
-                padding: '4px', // Adjust padding
-                '&:hover': {
-                  backgroundColor: grey[600],
-                },
-              }}
-            >
-              <QuestionMark />
-            </IconButton>
-          </Tooltip>
+        
 
 
         </DialogTitle>

@@ -11,7 +11,7 @@ import Person from '@mui/icons-material/Person';
 
 import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -33,6 +33,8 @@ import {
 } from 'src/interfaces/FinalResult/IFinalResult';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { AlertContext } from 'src/contexts/AlertContext';
+
 import {
   ClassTechersList,
   GetAtleastOneResultGeneratedss,
@@ -63,7 +65,7 @@ const FinalResult = () => {
   const [Open, setOpen] = useState(false);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
     ;
   const asUpdatedById = localStorage.getItem('Id');
@@ -535,26 +537,55 @@ const FinalResult = () => {
 
   };
 
+  // const onClickPublish = (publish) => {
+  //   if (publish) {
+  //     if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
+  //       return;
+  //     }
+  //     const PublishBody: IPublishBody = {
+  //       asSchoolId: asSchoolId,
+  //       asAcademicYrId: 55,
+  //       asStandardDivision_Id: Number(StandardDivisionId),
+  //       asInsertedById: asUserId,
+  //       // asPublishById: 0
+  //     }
+  //     dispatch(GetPublishResult(PublishBody))
+  //     dispatch(GetResultPublishd(ResultPublishedBody))
+
+  //     // dispatch(GetUnpublishResult(UnpublishResultBody))
+
+  //   };
+
+  // }
+
   const onClickPublish = (publish) => {
     if (publish) {
-      if (!window.confirm("Once you publish the result it will be visible to parents/students. Are you sure you want to continue?")) {
-        return;
-      }
-      const PublishBody: IPublishBody = {
+      const PublishBody = {
         asSchoolId: asSchoolId,
         asAcademicYrId: 55,
         asStandardDivision_Id: Number(StandardDivisionId),
         asInsertedById: asUserId,
         // asPublishById: 0
-      }
-      dispatch(GetPublishResult(PublishBody))
-      dispatch(GetResultPublishd(ResultPublishedBody))
+      };
 
-      // dispatch(GetUnpublishResult(UnpublishResultBody))
-
-    };
-
-  }
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          dispatch(GetPublishResult(PublishBody));
+          dispatch(GetResultPublishd(ResultPublishedBody));
+          closeAlert();
+        }
+      });
+    }
+  };
+  
 
 
   useEffect(() => {

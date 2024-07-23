@@ -909,15 +909,14 @@ const publishAll = (Id) => {
   }
   const handleClose = (value) => {
     setOpen(false)
+  }
+  const handleClose1 = (value) => {
     setHomeworkId(0)
     setDetails('')
     setTitle('')
     setCompleteDate(null)
     setMultipleFiles([])
     dispatch(CDAresetgethomeworkdetail());
-
-
-
   }
 
   return (
@@ -1238,6 +1237,13 @@ const publishAll = (Id) => {
               onClick={handleClose}
             >
               Cancel
+            </Button>
+
+            <Button
+              color={'error'}
+              onClick={handleClose1}
+            >
+              Clear
             </Button>
 
             
