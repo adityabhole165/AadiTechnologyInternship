@@ -806,17 +806,20 @@ const ProgressRemarks = () => {
       <Paper sx={{ mb: '10px' }}>
         <ProgressRemarksNotes />
       </Paper>
-      <Box sx={{ background: 'white', pl: 2, pt: 2, p: 2 }}>
+      
+      <Box sx={{  mb: 2 }}>
+        <Box sx={{ background: 'white', mb: 2, p: 2 }}>
         <Grid item xs={12}>
-
           <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
             <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
             <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
             <Box>Left Students</Box>
           </Typography>
         </Grid>
+        </Box>
+        <Box sx={{ background: 'white', p:2 }}>
         <Grid container spacing={2}>
-
+        
           {
             USGetAllStudentswiseRemarkDetails.length > 0 ? (
               <div style={{ flex: 1, textAlign: 'center' }}>
@@ -883,6 +886,7 @@ const ProgressRemarks = () => {
           <span> </span>
 
         )}
+        </Box>
       </Box>
 
       <Modal
