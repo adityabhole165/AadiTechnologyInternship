@@ -478,7 +478,7 @@ const TransferOptionalSubjectMarks = () => {
                                     >
                                         <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Optional Subjects</Typography>
                                     </AccordionSummary>
-                                    <AccordionDetails sx={{ display: 'flex', flexDirection: 'column' }}>
+                                    <AccordionDetails sx={{ display: 'flex', flexDirection: 'column', p:1 }}>
                                         {StudentsList.length > 0 && (
                                             <Box sx={{ display: 'flex', flexDirection: 'column', width: "250px", height: 'auto' }}>
 
