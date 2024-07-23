@@ -1,6 +1,8 @@
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -9,10 +11,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { green, grey, red } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
-import UnpublishedIcon from '@mui/icons-material/Unpublished';
 
 const SelectedsubjectList = ({
   ItemList,
@@ -41,8 +41,9 @@ const SelectedsubjectList = ({
                   sx={{
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white,
-                    height:'10px'
-                    
+                    py: 1,
+                    width: item?.width ? item?.width : 'auto',
+
                   }}
                 >
                   <b>{item.Header}</b>
@@ -56,7 +57,7 @@ const SelectedsubjectList = ({
                 <TableRow key={i}>
                   <TableCell sx={{
                     textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px',
-                    
+
                   }}>
                     {item.Text1}
                   </TableCell>
@@ -67,21 +68,21 @@ const SelectedsubjectList = ({
                     </Link>
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                     {item.Text3}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                     {item.Text4}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                     {item.Text5}
                     {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
             
             </Link> */}
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                     {item.Text9 == 0 ? null : (
 
                       // style={{ color: '#223354', cursor: 'pointer' }}
@@ -102,27 +103,27 @@ const SelectedsubjectList = ({
                     )}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
-                    
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+
                     <ButtonPrimary
                       style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500] }}
                       onClick={() => {
                         clickpublish(item.Id, item.Text3);
-                      } } sx={{ minWidth: '10px', marginLeft: '40px' }}
+                      }} sx={{ minWidth: '10px', marginLeft: '40px' }}
                     >
                       {item.IsPublished === 'False' ?
-                      <Tooltip title={'Publish'}>
-                        <PublishedWithChangesIcon /> 
-                      </Tooltip>
-                        : 
+                        <Tooltip title={'Publish'}>
+                          <PublishedWithChangesIcon />
+                        </Tooltip>
+                        :
                         <Tooltip title={'Unpublish'}>
-                        <UnpublishedIcon /> 
-                      </Tooltip>
-                        }
+                          <UnpublishedIcon />
+                        </Tooltip>
+                      }
                     </ButtonPrimary>
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                     {item.Text7 == 'False' ? (
                       <Tooltip title="Edit">
                         <IconButton>
