@@ -32,7 +32,7 @@ const EventManagement = () => {
                         <EventManagementList clickEventEdit={clickEventEdit}
                             SelectedDate={SelectedDate} StandardId={StandardId}
                             DivisionId={DivisionId} />
-                        <EventManagementForm EventId={EventId} SelectedDate={SelectedDate}
+                        <EventManagementForm EventId={EventId}
                             AddNewEventClicked={AddNewEventClicked}
                             SaveClicked={SaveClicked} />
                     </Box>
