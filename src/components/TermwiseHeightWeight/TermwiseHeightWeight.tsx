@@ -319,8 +319,8 @@ const TermwiseHeightWeight = () => {
         </>}
       />
 
-       <Box  sx={{backgroundColor:'white', mb:2, p:1}}>
-        <Stack direction={'row'} gap={1} alignItems={'center'}  mb={0} pb={2}>
+       <Box  sx={{backgroundColor:'white', mb:2, p:2}}>
+        <Stack direction={'row'} gap={1} alignItems={'center'}  mb={0} >
           <Typography variant={'h4'} mb={0}>
             Legend:
           </Typography>
