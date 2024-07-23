@@ -8,6 +8,7 @@ import { AlertContext } from "src/contexts/AlertContext";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody, SubmitInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CDAGetSubmitInvestment, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
+import { resetMessage } from "src/requests/Library/Library";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentSection from "./InvestmentSection";
@@ -39,8 +40,7 @@ const InvestmentDeclaration = () => {
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
     const isSubmittedArray = USISlistInvestmentEmpDetails.map(item => item.IsSubmitted);
-    const data = USISlistInvestmentEmpDetails.map((item) => item.RegimeId)
-    const [regimeId, setRegimeId] = useState(isSubmittedArray ? data : "");
+    const [regimeId, setRegimeId] = useState("0");
 
 
     const USListInvestmentSectionDetails: any = useSelector(
@@ -139,7 +139,7 @@ const InvestmentDeclaration = () => {
     useEffect(() => {
         if (USSubmitInvestmentDeclaration != '') {
             toast.success(USSubmitInvestmentDeclaration)
-
+            dispatch(resetMessage());
             dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
         }
     }, [USSubmitInvestmentDeclaration])
@@ -183,10 +183,13 @@ const InvestmentDeclaration = () => {
     }, [])
 
     useEffect(() => {
-        if (USGetRegimeDropdown.length > 0) {
-            setRegimeId(USGetRegimeDropdown[0].Value);
+        if (USGetRegimeDropdown.length > 0 && USISlistInvestmentEmpDetails.length > 0) {
+            if (USISlistInvestmentEmpDetails[0].IsSubmitted == "True")
+                setRegimeId(USISlistInvestmentEmpDetails[0].RegimeId);
+            else
+                setRegimeId(USGetRegimeDropdown[0].Value);
         }
-    }, [USGetRegimeDropdown])
+    }, [USGetRegimeDropdown, USISlistInvestmentEmpDetails])
 
     useEffect(() => {
         dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
@@ -212,15 +215,6 @@ const InvestmentDeclaration = () => {
     const refreshData = (value) => {
         setListInvestmentDetails(value)
     }
-    const Isregime = () => {
-        let returnVal = ""
-        if (isSubmittedArray ? USISlistInvestmentEmpDetails.map((item) => item.RegimeId) : null) {
-            returnVal == USISlistInvestmentEmpDetails.RegimeId
-
-            return returnVal;
-        }
-    }
-
 
     return (
         <>

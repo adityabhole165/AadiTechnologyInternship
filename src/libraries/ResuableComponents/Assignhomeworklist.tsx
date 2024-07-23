@@ -1,5 +1,5 @@
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -59,13 +59,13 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray, MySubject }) {
                   align="center"
                 >
                   <Tooltip title={'Add Homework'}>
-                    <EditTwoTone
+                    <IconButton
                       sx={{
                         color: '#223354',
                         '&:hover': {
                           bgcolor: 'grey.300'
                         }
-                      }} 
+                      }}
                       onClick={() => {
                         clickAssign(
                           {
@@ -76,7 +76,7 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray, MySubject }) {
                           },
                           MySubject);
                       }}
-                    />
+                    ><EditTwoTone /></IconButton>
                   </Tooltip>
                 </TableCell>
               </TableRow>

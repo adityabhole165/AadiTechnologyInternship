@@ -647,39 +647,87 @@ const AddHomeworkNew = () => {
     return arr.toString()
   }
 
-  const publishAll = (Id) => {
-    const selectedHomeworkIds = getSelectHomeworkId();
-    if (selectedHomeworkIds === "") {
-      toast.error("At least one subject should be selected to publish.");
-      return;
+//   const publishAll = (Id) => {
+//     const selectedHomeworkIds = getSelectHomeworkId();
+//     if (selectedHomeworkIds === "") {
+//       toast.error("At least one subject should be selected to publish.");
+//       return;
+//     }
+//     let publishList = getPublishErrorList();
+//     if (publishList.length > 0) {
+//       const publishListString = publishList;
+//       toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+//       return;
+//     }
+//     const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
+//     if (!confirmPublish) return;
+
+//     const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
+
+// SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
+//     const isSMSSent = confirmSendSMS ? 1 : 0;
+
+//     const AllPublishUnpublishAddHomeworkBody = {
+//       asSchoolId: String(asSchoolId),
+//       asAcademicYearId: String(asAcademicYearId),
+//       asHomeWorkLogId: selectedHomeworkIds,
+//       asUnpublishReason: textall,
+//       asUpdatedById: asTeacherId,
+//       IsPublished: 1,
+//       IsSMSSent: isSMSSent,
+//     };
+
+//     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+//   };
+const publishAll = (Id) => {
+  const selectedHomeworkIds = getSelectHomeworkId();
+  if (selectedHomeworkIds === "") {
+    toast.error("At least one subject should be selected to publish.");
+    return;
+  }
+  let publishList = getPublishErrorList();
+  if (publishList.length > 0) {
+    const publishListString = publishList;
+    toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+    return;
+  }
+
+  showAlert({
+    title: 'Please Confirm',
+    message: 'Are you sure you want to publish selected homework(s)?',
+    variant: 'warning',
+    confirmButtonText: 'Confirm',
+    cancelButtonText: 'Cancel',
+    onCancel: () => {
+      closeAlert();
+    },
+    onConfirm: () => {
+      showAlert({
+        title: 'Send SMS',
+        message: `Do you want to send SMS about Homework assignment? \n\nSMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`,
+        variant: 'info',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+          const AllPublishUnpublishAddHomeworkBody = {
+            asSchoolId: String(asSchoolId),
+            asAcademicYearId: String(asAcademicYearId),
+            asHomeWorkLogId: selectedHomeworkIds,
+            asUnpublishReason: textall,
+            asUpdatedById: asTeacherId,
+            IsPublished: 1,
+            IsSMSSent: 1,
+          };
+          dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+        }
+      });
     }
-    let publishList = getPublishErrorList();
-    if (publishList.length > 0) {
-      const publishListString = publishList;
-      toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
-      return;
-    }
-    const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
-    if (!confirmPublish) return;
-
-    const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
-
-SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
-    const isSMSSent = confirmSendSMS ? 1 : 0;
-
-    const AllPublishUnpublishAddHomeworkBody = {
-      asSchoolId: String(asSchoolId),
-      asAcademicYearId: String(asAcademicYearId),
-      asHomeWorkLogId: selectedHomeworkIds,
-      asUnpublishReason: textall,
-      asUpdatedById: asTeacherId,
-      IsPublished: 1,
-      IsSMSSent: isSMSSent,
-    };
-
-    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-  };
-
+  });
+};
 
   const unpublishAll = () => {
 

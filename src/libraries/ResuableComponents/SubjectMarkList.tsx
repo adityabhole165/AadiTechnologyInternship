@@ -47,8 +47,8 @@ function SubjectMarkList({
                         <TableRow
                             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
                         >
-                            <TableCell sx={{ textTransform: 'capitalize' }} >
-                                <Checkbox sx={{ p: 0 }} checked={IsCheckAll()}
+                            <TableCell sx={{ textTransform: 'capitalize', padding:'15px' }} >
+                                <Checkbox sx={{ p: 1 }} checked={IsCheckAll()}
                                     onClick={clickAll}
                                 ></Checkbox>
 
@@ -59,7 +59,10 @@ function SubjectMarkList({
                                     key={i}
                                     sx={{
                                         textTransform: 'capitalize',
-                                        color: (theme) => 'white'
+                                        color: (theme) => 'white',
+                                        paddingTop: '2.5px', paddingBottom: '2.5px'
+
+   
                                     }}
                                     align={item.align ? item.align : 'left'}
                                 >
@@ -71,8 +74,10 @@ function SubjectMarkList({
                     <TableBody>
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell>
-                                    <Checkbox sx={{ p: 0 }}
+                                <TableCell 
+                                sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}
+                                >
+                                    <Checkbox sx={{  }}
                                         checked={item.IsActive}
                                         onChange={() => {
                                             onClick(item.Text1);

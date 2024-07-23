@@ -63,7 +63,8 @@ function SubjectList1({
                   key={i}
                   sx={{
                     textTransform: 'capitalize',
-                    color: (theme) => theme.palette.common.white
+                    color: (theme) => theme.palette.common.white ,py: 1,
+                    width: item?.width ? item?.width : 'auto',
                   }}
                   align={item.align ? item.align : 'left'}
                 >
