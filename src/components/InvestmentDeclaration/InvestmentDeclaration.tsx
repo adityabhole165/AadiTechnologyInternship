@@ -454,14 +454,27 @@ const InvestmentDeclaration = () => {
                        
                     </Container>
 
-                    <Box sx={{ background: 'white', textAlign: 'center', pl: 45 }}>
-                        <Typography variant="h6">Grand Total : {grandTotalAmount}</Typography>
-                    </Box>
+                    
 
 
 
 
                     <Container>
+                    <Box  sx={{ 
+                        
+                        textAlign:'right',
+                         
+                        ml:81,
+                         display:'flex'}}>
+                        <Typography variant="h6" 
+                        sx={{color:'white', backgroundColor:"#223354",p:0.5, ml:2}}>
+                        Grand Total
+                        </Typography>
+                        <Typography  sx={{backgroundColor:"#223354",color:'white',p:0.5,ml:5}}> {grandTotalAmount}</Typography>
+                    </Box>
+                        
+
+
                         <Box sx={{ backgroundColor: '#ffffff', marginTop: 4 }}>
                             <Typography variant="body1" paragraph>
                                 I further undertake to provide all documentary proofs of payment made by me before 25th January, 2012 and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
