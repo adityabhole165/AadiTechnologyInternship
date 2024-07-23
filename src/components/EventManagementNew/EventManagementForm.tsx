@@ -1,6 +1,6 @@
 import { Button, Checkbox, debounce, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,6 +9,8 @@ import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
+import { AlertContext } from 'src/contexts/AlertContext';
+
 import {
     GetAllClassAndDivision,
     GetDeleteEventImagee,
@@ -30,7 +32,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     const asFolderName = localStorage.getItem('FolderName');
     const TeacherId = Number(sessionStorage.getItem('Id'));
     const UserId = localStorage.getItem('TeacherId');
-
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const ValidFileTypes = ['JPG', 'PNG', 'BMP', 'JPEG'];
     const MaxfileSize = 1000000;
 
@@ -98,7 +100,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     }, [AddNewEventClicked]);
     useEffect(() => {
         if (SaveClicked > 0)
-            ClickSave();
+            ClickSave1();
     }, [SaveClicked]);
 
     useEffect(() => {
@@ -230,6 +232,8 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
         })
         return returnVal;
     }
+
+    
     const ClickSave = () => {
         let isError = false;
         if (EventTitle == '') {
@@ -281,6 +285,29 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
             // navigate('/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId)
         }
     };
+
+
+
+    const ClickSave1 = () => {
+          showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to save event ?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+              closeAlert();
+            },
+            onConfirm: () => {
+                ClickSave()
+              closeAlert();
+            }
+          });
+        
+      };
+      
+
+
     const debouncedFetch = useCallback(debounce((body) => {
         dispatch(GetupdateEvent(body));
     }, 500), [dispatch]);
@@ -473,7 +500,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         <Button
                             //  variant={'contained'} 
                             //  color="success" 
-                            onClick={ClickSave}
+                            onClick={ClickSave1}
                             sx={{
                                 // backgroundColor: green[100],
                                 color: 'green',

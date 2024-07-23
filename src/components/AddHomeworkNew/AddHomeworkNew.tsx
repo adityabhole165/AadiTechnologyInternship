@@ -536,6 +536,8 @@ const AddHomeworkNew = () => {
       return;
     }
 
+    
+
     if (IsPublish) {
       showAlert({
         title: 'Please Confirm',
@@ -1189,6 +1191,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             >
               Cancel
             </Button>
+
+            
             <Button
 
               onClick={ClickSaveHomework}
@@ -1287,7 +1291,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               // py: 1
             }}
           >
-            <ClearIcon onClick={handleClose}
+            <ClearIcon onClick={() => {
+              setOpenPublishDialog(false)
+            }}
               sx={{
                 color: 'white',
                 // background:'white',
@@ -1397,7 +1403,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
 
             }}
           >
-            <ClearIcon onClick={handleClose}
+            <ClearIcon onClick={() => {
+              setOpenPublishDialogall(false)
+            }}
               sx={{
                 color: 'white',
                 // background:'white',
