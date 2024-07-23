@@ -154,7 +154,7 @@ const InvestmentSection = ({ refreshData }) => {
 
             return (
                 <>
-                    <Box key={section.Id} sx={{ background: 'white', p: 2, mb: 2 }}>
+                    <Box key={section.Id} sx={{ background: 'white',pt:2, pb:2, }}>
                         <DataTable
                             columns={columns}
                             data={filteredData}
@@ -184,7 +184,7 @@ const InvestmentSection = ({ refreshData }) => {
     return (
 
 
-        <Box sx={{ px: 2 }}>
+        <Box sx={{width:1}}>
             {renderDataTables()}
         </Box>
     );

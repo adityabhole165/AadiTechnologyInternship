@@ -287,7 +287,7 @@ const InvestmentDeclaration = () => {
                 />
 
 
-                <Box sx={{ p: 2, background: 'white' }}>
+                <Box sx={{ p: 3, background: 'white' }}>
 
                     <Container>
                         <Grid container spacing={3}>
@@ -425,29 +425,18 @@ const InvestmentDeclaration = () => {
                                         </Box>
 
                                     </Box>
-                                    {/* <SearchableDropdown
-                                        sx={{ minWidth: '20vw' }}
-                                        ItemList={USGetRegimeDropdown}
-                                        onChange={clickRegimeDropDown}
-                                        label={'Regime'}
-                                        defaultValue={regimeId}
-                                        size={"small"}
-
-                                    /> */}
-                                </Grid>
-
-                            ))}
-                            <SearchableDropdown
-                                sx={{ minWidth: '15vw', ml: 3 }}
+                                   <Box>
+                                   <SearchableDropdown
+                                sx={{ minWidth: '15vh' }}
                                 ItemList={USGetRegimeDropdown}
                                 onChange={clickRegimeDropDown}
                                 label={'Regime'}
                                 defaultValue={regimeId}
-                                size={"small"}
+                                size={"small"}/>
+                                   </Box>
 
-                            />
-                        </Grid>
-                        {USListInvestmentDetails.length > 0 &&
+                                   <Box>
+                                   {USListInvestmentDetails.length > 0 &&
                             <Grid container sx={{ maxWidth: '100%' }} >
                                 <IsSubmit.Provider value={isSubmittedArray}>
                                     <InvestmentSection
@@ -456,10 +445,17 @@ const InvestmentDeclaration = () => {
                                 </IsSubmit.Provider>
 
                             </Grid>}
+                                   </Box>
+                                </Grid>
+
+                            ))}
+                            
+                        </Grid>
+                       
                     </Container>
 
-                    <Box sx={{ background: 'white', textAlign: 'center', pl: 21 }}>
-                        <Typography variant="h6">Grand Total :  {grandTotalAmount}</Typography>
+                    <Box sx={{ background: 'white', textAlign: 'center', pl: 45 }}>
+                        <Typography variant="h6">Grand Total : {grandTotalAmount}</Typography>
                     </Box>
 
 
