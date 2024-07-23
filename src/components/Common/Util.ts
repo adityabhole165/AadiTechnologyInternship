@@ -56,6 +56,15 @@ export function isGreaterDate(date1, date2) {
 }
 
 
+export function isGreaterOrEqualDate(date1) {
+
+  return (
+    new Date(date1.toDateString()) >=
+    new Date((new Date()).toDateString())
+  );
+}
+
+
 export const formatDateAsDDMMMYYYY = (date) => {
   const Day = new Date(date).getDate().toString().padStart(2, '0');
   const Month = monthNames[new Date(date).getMonth()];
@@ -68,6 +77,8 @@ export function isFutureDateTime(date) {
   return new Date(date) > new Date();
 }
 export function isPastDateTime(date) {
+  console.log(new Date(date), "-", new Date());
+
   return new Date(date) < new Date();
 }
 export function getMonthYear() {

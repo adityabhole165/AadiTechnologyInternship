@@ -19,7 +19,7 @@ import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
 import { CDAresetgethomeworkdetail, GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
 const AddHomeworkNew = () => {
@@ -528,20 +528,60 @@ const AddHomeworkNew = () => {
 
 
 
+  // const clickPublishUnpublish = (Id, Text3) => {
+  //   let IsPublish = getIsPublish(Id);
+  //   const currentDate = new Date().toISOString().split('T')[0];
+  //   if (IsPublish && isFutureDate1(new Date(Text3))) {
+  //     alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
+  //     return;
+  //   }
+
+
+
+  //   if (IsPublish) {
+  //     showAlert({
+  //       title: 'Please Confirm',
+  //       message: 'Are you sure you want to publish the homework?',
+  //       variant: 'warning',
+  //       confirmButtonText: 'Confirm',
+  //       cancelButtonText: 'Cancel',
+  //       onCancel: () => {
+  //         closeAlert();
+  //       },
+  //       onConfirm: () => {
+  //         PublishUnpublish(Id);
+  //         closeAlert();
+  //       }
+  //     });
+  //   } else {
+  //     setOpenPublishDialog(true);
+  //     setPublishId(Id);
+  //   }
+  // };
+
+
   const clickPublishUnpublish = (Id, Text3) => {
     let IsPublish = getIsPublish(Id);
-    const currentDate = new Date().toISOString().split('T')[0];
-    if (IsPublish && isFutureDate1(new Date(Text3))) {
-      alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
-      return;
-    }
+    const assignedDate = new Date(Text3);
 
-    
-
-    if (IsPublish) {
+    if (IsPublish == true && !isGreaterOrEqualDate(assignedDate)) {
       showAlert({
         title: 'Please Confirm',
-        message: 'Are you sure you want to publish the homework?',
+        message: 'Homework for past assigned dates cannot be published. Please change the assigned date of the homework.',
+        variant: 'warning',
+        cancelButtonText: 'Cancel',
+        hideConfirm: true,
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          closeAlert();
+        }
+      });
+    } else if (IsPublish) {
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Do you want to publish this homework?',
         variant: 'warning',
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
@@ -558,7 +598,8 @@ const AddHomeworkNew = () => {
       setPublishId(Id);
     }
   };
-  
+
+
 
 
 
@@ -647,87 +688,87 @@ const AddHomeworkNew = () => {
     return arr.toString()
   }
 
-//   const publishAll = (Id) => {
-//     const selectedHomeworkIds = getSelectHomeworkId();
-//     if (selectedHomeworkIds === "") {
-//       toast.error("At least one subject should be selected to publish.");
-//       return;
-//     }
-//     let publishList = getPublishErrorList();
-//     if (publishList.length > 0) {
-//       const publishListString = publishList;
-//       toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
-//       return;
-//     }
-//     const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
-//     if (!confirmPublish) return;
+  //   const publishAll = (Id) => {
+  //     const selectedHomeworkIds = getSelectHomeworkId();
+  //     if (selectedHomeworkIds === "") {
+  //       toast.error("At least one subject should be selected to publish.");
+  //       return;
+  //     }
+  //     let publishList = getPublishErrorList();
+  //     if (publishList.length > 0) {
+  //       const publishListString = publishList;
+  //       toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+  //       return;
+  //     }
+  //     const confirmPublish = window.confirm('Are you sure you want to publish selected homework(s)?');
+  //     if (!confirmPublish) return;
 
-//     const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
+  //     const confirmSendSMS = window.confirm(`Do you want to send SMS about Homework assignment?  
 
-// SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
-//     const isSMSSent = confirmSendSMS ? 1 : 0;
+  // SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`);
+  //     const isSMSSent = confirmSendSMS ? 1 : 0;
 
-//     const AllPublishUnpublishAddHomeworkBody = {
-//       asSchoolId: String(asSchoolId),
-//       asAcademicYearId: String(asAcademicYearId),
-//       asHomeWorkLogId: selectedHomeworkIds,
-//       asUnpublishReason: textall,
-//       asUpdatedById: asTeacherId,
-//       IsPublished: 1,
-//       IsSMSSent: isSMSSent,
-//     };
+  //     const AllPublishUnpublishAddHomeworkBody = {
+  //       asSchoolId: String(asSchoolId),
+  //       asAcademicYearId: String(asAcademicYearId),
+  //       asHomeWorkLogId: selectedHomeworkIds,
+  //       asUnpublishReason: textall,
+  //       asUpdatedById: asTeacherId,
+  //       IsPublished: 1,
+  //       IsSMSSent: isSMSSent,
+  //     };
 
-//     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-//   };
-const publishAll = (Id) => {
-  const selectedHomeworkIds = getSelectHomeworkId();
-  if (selectedHomeworkIds === "") {
-    toast.error("At least one subject should be selected to publish.");
-    return;
-  }
-  let publishList = getPublishErrorList();
-  if (publishList.length > 0) {
-    const publishListString = publishList;
-    toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
-    return;
-  }
-
-  showAlert({
-    title: 'Please Confirm',
-    message: 'Are you sure you want to publish selected homework(s)?',
-    variant: 'warning',
-    confirmButtonText: 'Confirm',
-    cancelButtonText: 'Cancel',
-    onCancel: () => {
-      closeAlert();
-    },
-    onConfirm: () => {
-      showAlert({
-        title: 'Send SMS',
-        message: `Do you want to send SMS about Homework assignment? \n\nSMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`,
-        variant: 'info',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        onCancel: () => {
-          closeAlert();
-        },
-        onConfirm: () => {
-          closeAlert();
-          const AllPublishUnpublishAddHomeworkBody = {
-            asSchoolId: String(asSchoolId),
-            asAcademicYearId: String(asAcademicYearId),
-            asHomeWorkLogId: selectedHomeworkIds,
-            asUnpublishReason: textall,
-            asUpdatedById: asTeacherId,
-            IsPublished: 1,
-            IsSMSSent: 1,
-          };
-          dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-        }
-      });
+  //     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+  //   };
+  const publishAll = (Id) => {
+    const selectedHomeworkIds = getSelectHomeworkId();
+    if (selectedHomeworkIds === "") {
+      toast.error("At least one subject should be selected to publish.");
+      return;
     }
-  });
-};
+    let publishList = getPublishErrorList();
+    if (publishList.length > 0) {
+      const publishListString = publishList;
+      toast.error(`Homework is already in published state for Sr. No. : ${publishListString}. Please remove selection.`);
+      return;
+    }
+
+    showAlert({
+      title: 'Please Confirm',
+      message: 'Are you sure you want to publish selected homework(s)?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        showAlert({
+          title: 'Send SMS',
+          message: `Do you want to send SMS about Homework assignment? \n\nSMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDate} ${SchoolName}`,
+          variant: 'info',
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            closeAlert();
+            const AllPublishUnpublishAddHomeworkBody = {
+              asSchoolId: String(asSchoolId),
+              asAcademicYearId: String(asAcademicYearId),
+              asHomeWorkLogId: selectedHomeworkIds,
+              asUnpublishReason: textall,
+              asUpdatedById: asTeacherId,
+              IsPublished: 1,
+              IsSMSSent: 1,
+            };
+            dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+          }
+        });
+      }
+    });
+  };
 
   const unpublishAll = () => {
 
@@ -1246,7 +1287,7 @@ const publishAll = (Id) => {
               Clear
             </Button>
 
-            
+
             <Button
 
               onClick={ClickSaveHomework}
