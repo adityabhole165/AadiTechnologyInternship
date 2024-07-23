@@ -161,7 +161,7 @@ export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppTh
             abc.push({
                 Id: item.Id,
                 Name: item.Name,
-                Value: item.Name
+                Value: item.Id
             });
         });
         dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(abc));
