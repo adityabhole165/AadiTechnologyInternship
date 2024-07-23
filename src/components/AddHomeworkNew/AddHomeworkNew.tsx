@@ -16,13 +16,12 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import MultipleFile from 'src/libraries/File/MultipleFile';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import { GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework , CDAresetgethomeworkdetail} from 'src/requests/AssignHomework/requestAddHomework';
+import { CDAresetgethomeworkdetail, GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isFutureDate1 } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import { PaddingOutlined } from "@mui/icons-material";
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
     useParams();
@@ -232,11 +231,11 @@ const AddHomeworkNew = () => {
 
     }
   }, [HomeworkDetail]);
-  
 
- 
 
- 
+
+
+
 
 
   // const ClickSaveHomework = () => {
@@ -318,7 +317,7 @@ const AddHomeworkNew = () => {
     if (SaveHomework != '') {
       dispatch(resetHomework());
       toast.success(SaveHomework);
-      setOpen(false) 
+      setOpen(false)
       dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
     }
@@ -510,22 +509,54 @@ const AddHomeworkNew = () => {
   }
 
 
+  // const clickPublishUnpublish = (Id, Text3) => {
+  //   let IsPublish = getIsPublish(Id);
+  //   const currentDate = new Date().toISOString().split('T')[0];
+
+  //   if (IsPublish == true && isFutureDate1(new Date(Text3))) {
+
+  //     alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
+  //     return;
+  //   }
+  //   if (IsPublish == true && (confirm('Are you sure you want to publish the homework?'))) {
+  //     PublishUnpublish(Id);
+  //   } else if (IsPublish != true) {
+  //     setOpenPublishDialog(true);
+  //     setPublishId(Id);
+  //   }
+  // };
+
+
+
   const clickPublishUnpublish = (Id, Text3) => {
     let IsPublish = getIsPublish(Id);
     const currentDate = new Date().toISOString().split('T')[0];
-
-    if (IsPublish == true && isFutureDate1(new Date(Text3))) {
-
+    if (IsPublish && isFutureDate1(new Date(Text3))) {
       alert('Homework for past assigned dates cannot be published. Please change the assigned date of the homework.');
       return;
     }
-    if (IsPublish == true && (confirm('Are you sure you want to publish the homework?'))) {
-      PublishUnpublish(Id);
-    } else if (IsPublish != true) {
+
+    if (IsPublish) {
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Are you sure you want to publish the homework?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          PublishUnpublish(Id);
+          closeAlert();
+        }
+      });
+    } else {
       setOpenPublishDialog(true);
       setPublishId(Id);
     }
   };
+  
 
 
 
@@ -834,7 +865,7 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
     setCompleteDate(null)
     setMultipleFiles([])
     dispatch(CDAresetgethomeworkdetail());
-   
+
 
 
   }
@@ -1241,9 +1272,9 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
             </IconButton>
           </Stack>
         </Box>
-        <Dialog open={openPublishDialog} 
-        onClose={() => setOpenPublishDialog(false)}
-         fullWidth
+        <Dialog open={openPublishDialog}
+          onClose={() => setOpenPublishDialog(false)}
+          fullWidth
           maxWidth={'sm'}
           PaperProps={{
             sx: {
@@ -1272,8 +1303,8 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
                 }
               }} />
           </DialogTitle>
-          <DialogContent dividers sx={{ px: 4}}>
-            <Typography variant={"h4"} sx={{ mb: 1}}>
+          <DialogContent dividers sx={{ px: 4 }}>
+            <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
             <TextField
@@ -1359,11 +1390,11 @@ SMS Text - Homework is assigned for class ${ClassName} for the day ${AssignedDat
               borderRadius: "15px",
             }
           }}
->
+        >
           <DialogTitle
             sx={{
               backgroundColor: (theme) => theme.palette.primary.main,
-              
+
             }}
           >
             <ClearIcon onClick={handleClose}
