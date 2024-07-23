@@ -55,34 +55,33 @@ const SelectedsubjectList = ({
               return (
                 <TableRow key={i}>
                   <TableCell sx={{
-                    textTransform: 'capitalize',
-                    height: '5px',
-                    padding: '3px'
+                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px',
+                    
                   }}>
                     {item.Text1}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                     <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
                       {item.Text2}
                     </Link>
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                     {item.Text3}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                     {item.Text4}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                     {item.Text5}
                     {/* <Link href={''} onClick={() => clickAttachment(item.Text5)} >
             
             </Link> */}
                   </TableCell>
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                     {item.Text9 == 0 ? null : (
 
                       // style={{ color: '#223354', cursor: 'pointer' }}
@@ -103,7 +102,7 @@ const SelectedsubjectList = ({
                     )}
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                     
                     <ButtonPrimary
                       style={{ backgroundColor: item.IsPublished === 'False' ? green[500] : red[500] }}
@@ -123,7 +122,7 @@ const SelectedsubjectList = ({
                     </ButtonPrimary>
                   </TableCell>
 
-                  <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                     {item.Text7 == 'False' ? (
                       <Tooltip title="Edit">
                         <IconButton>
@@ -155,7 +154,7 @@ const SelectedsubjectList = ({
               ) : null}
             </TableCell> */}
                   <TableCell
-                    sx={{ textTransform: 'capitalize' }}
+                    sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}
                   >
                     {item.Text7 == 'False' ? (
                       <Tooltip title="Delete">
