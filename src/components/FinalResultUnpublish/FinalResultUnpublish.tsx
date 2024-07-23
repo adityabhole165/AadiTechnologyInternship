@@ -1,6 +1,7 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
+import { QuestionMark } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -29,7 +30,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
   // };
   const ClickOk = () => {
     if (Reason === '') {
-      setReasonError('Please fix the following error(s): Reason for Unpublish should not be blank.');
+      setReasonError( "Reason for Unpublish should not be blank.");
     } else {
       setReasonError('');
       onClickUnpublish(false, Reason);
@@ -42,37 +43,55 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
 
       <Dialog
         open={open}
+        maxWidth={'md'}
+        fullWidth
         onClose={() => {
           setOpen(false);
         }}
-        fullWidth
-        maxWidth={'sm'}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
       >
-
-
         <DialogTitle
           sx={{
-            backgroundColor: (theme) => theme.palette.error.main,
-            py: 1,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            position: 'relative'
+            bgcolor: '#223354',
+            // backgroundColor: (theme) => theme.colors.primary.main,
+            color: (theme) => theme.palette.common.white
           }}
         >
+          <ClearIcon onClick={() => {
+            setOpen(false)
+          }}
+            sx={{
+              color: 'white',
+              // background:'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '7px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+                //  backgroundColor: red[100]
 
-          <Typography variant="h6">
-            Enter reason for unpublish
+              }
+            }} />
 
-          </Typography>
+
           <Tooltip title="Enter the reason for exam unpublish." arrow>
             <IconButton
               sx={{
+                borderRadius: '2px',
                 position: 'absolute',
-                top: '3px', // Adjust this value to fine-tune the positioning
-                right: '0px', // Adjust this value to fine-tune the positioning
+                top: '4px',
+                right: '33px',
                 color: 'white',
                 backgroundColor: grey[500],
+                width: '25px', // Adjust width
+                height: '25px', // Adjust height
+                padding: '4px', // Adjust padding
                 '&:hover': {
                   backgroundColor: grey[600],
                 },
@@ -83,37 +102,29 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
           </Tooltip>
 
 
-
         </DialogTitle>
+        <DialogContent >
 
-        <DialogContent dividers sx={{ px: 4 }}>
-          <Grid container justifyContent="space-between" alignItems="center">
-
-            <Typography variant={"h4"} sx={{ mb: 1 }}>
-              Exam :
-            </Typography>
-            <Typography variant="body2" color="error">
-              * Mandatory Fields
-            </Typography>
-          </Grid>
+          <h1>
+            {'Enter reason for unpublish'}
+          </h1>
           <Grid container spacing={1} alignItems="center">
-
-            <Grid item xs={2}>
+            <Grid item >
               <TextField
-                sx={{ minWidth: '400px' }}
+              sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Exam'}
                 size={"small"}
                 value={ExamName} />
             </Grid>
           </Grid>
+
+
           <br></br>
-          <Typography variant={"h4"} sx={{ mb: 1 }}>
-            Class Teacher Name :
-          </Typography>
+
           <Grid container spacing={1} alignItems="center">
             <Grid item >
               <TextField
-                sx={{ minWidth: '400px' }}
+               sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Class Teacher Name'}
                 size={"small"}
                 value={TeacherName} />
@@ -134,18 +145,35 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
             error={ReasonError !== ''}
             helperText={ReasonError}
           />
+
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button onClick={() => { ClickOk() }} variant={'contained'}>
-            Unpublish
-          </Button>
-          <Button onClick={() => {
-            setOpen(false)
-          }} color={'error'}>
+          <Button
+            color={'error'}
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
             Close
+          </Button>
+          <Button
+
+            onClick={() => { ClickOk() }}
+            sx={{
+              color: 'green',
+              //  backgroundColor: grey[500],
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}
+          >
+            Unpublish
           </Button>
         </DialogActions>
       </Dialog>
+
+
     </>
   );
 };
