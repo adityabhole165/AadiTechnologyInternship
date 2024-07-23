@@ -660,8 +660,10 @@ const FinalResult = () => {
 
             />
           </Box>
+         
+
           <Box>
-            <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
+          <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -674,9 +676,7 @@ const FinalResult = () => {
                 <QuestionMark />
               </IconButton>
             </Tooltip>
-          </Box>
-
-          <Box>
+            &nbsp;
 
           <Tooltip title={"Generate All"} disableHoverListener={false} disableFocusListener={false}>
   <span>
