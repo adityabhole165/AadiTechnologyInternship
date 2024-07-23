@@ -223,7 +223,7 @@ const InvestmentDeclaration = () => {
                     navLinks={[
                         {
                             title: 'Investment Declaration',
-                            path: '/extended-sidebar/common/InvestmentDeclaration'
+                            path: '/extended-sidebar/Teacher/InvestmentDeclaration'
                         }
                     ]}
 
@@ -425,54 +425,55 @@ const InvestmentDeclaration = () => {
                                         </Box>
 
                                     </Box>
-                                   <Box>
-                                   <SearchableDropdown
-                                sx={{ minWidth: '15vh' }}
-                                ItemList={USGetRegimeDropdown}
-                                onChange={clickRegimeDropDown}
-                                label={'Regime'}
-                                defaultValue={regimeId}
-                                size={"small"}/>
-                                   </Box>
+                                    <Box>
+                                        <SearchableDropdown
+                                            sx={{ minWidth: '15vh' }}
+                                            ItemList={USGetRegimeDropdown}
+                                            onChange={clickRegimeDropDown}
+                                            label={'Regime'}
+                                            defaultValue={regimeId}
+                                            size={"small"} />
+                                    </Box>
 
-                                   <Box>
-                                   {USListInvestmentDetails.length > 0 &&
-                            <Grid container sx={{ maxWidth: '100%' }} >
-                                <IsSubmit.Provider value={isSubmittedArray}>
-                                    <InvestmentSection
-                                        refreshData={refreshData}></InvestmentSection>
+                                    <Box>
+                                        {USListInvestmentDetails.length > 0 &&
+                                            <Grid container sx={{ maxWidth: '100%' }} >
+                                                <IsSubmit.Provider value={isSubmittedArray}>
+                                                    <InvestmentSection
+                                                        refreshData={refreshData}></InvestmentSection>
 
-                                </IsSubmit.Provider>
+                                                </IsSubmit.Provider>
 
-                            </Grid>}
-                                   </Box>
+                                            </Grid>}
+                                    </Box>
                                 </Grid>
 
                             ))}
-                            
+
                         </Grid>
-                       
+
                     </Container>
 
-                    
+
 
 
 
 
                     <Container>
-                    <Box  sx={{ 
-                        
-                        textAlign:'right',
-                         
-                        ml:81,
-                         display:'flex'}}>
-                        <Typography variant="h6" 
-                        sx={{color:'white', backgroundColor:"#223354",p:0.5, ml:2}}>
-                        Grand Total
-                        </Typography>
-                        <Typography  sx={{backgroundColor:"#223354",color:'white',p:0.5,ml:5}}> {grandTotalAmount}</Typography>
-                    </Box>
-                        
+                        <Box sx={{
+
+                            textAlign: 'right',
+
+                            ml: 81,
+                            display: 'flex'
+                        }}>
+                            <Typography variant="h6"
+                                sx={{ color: 'white', backgroundColor: "#223354", p: 0.5, ml: 2 }}>
+                                Grand Total
+                            </Typography>
+                            <Typography sx={{ backgroundColor: "#223354", color: 'white', p: 0.5, ml: 5 }}> {grandTotalAmount}</Typography>
+                        </Box>
+
 
 
                         <Box sx={{ backgroundColor: '#ffffff', marginTop: 4 }}>
