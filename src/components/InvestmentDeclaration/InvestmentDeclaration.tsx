@@ -293,21 +293,23 @@ const InvestmentDeclaration = () => {
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{ backgroundColor: '#b3ffff', textAlign: 'center', marginBottom: 2 }}>
+                                    <Box sx={{ 
+                                        backgroundColor: '#38548a', 
+                                        textAlign: 'center', marginBottom: 2 }}>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={""} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"white"} mb={1}>
 
                                             {detail.SchoolName}
 
                                         </Typography>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={""} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"white"} mb={1} >
 
                                             {detail.SchoolAddress}
 
                                         </Typography>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={""} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"white"} mb={1}>
 
                                             INVESTMENT DECLARATION FORM FOR FINANCIAL YEAR {detail.FinancialYear}
 
@@ -468,10 +470,10 @@ const InvestmentDeclaration = () => {
                             display: 'flex'
                         }}>
                             <Typography variant="h6"
-                                sx={{ color: 'white', backgroundColor: "#223354", p: 0.5, ml: 2 }}>
+                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, ml: 2 }}>
                                 Grand Total
                             </Typography>
-                            <Typography sx={{ backgroundColor: "#223354", color: 'white', p: 0.5, ml: 5 }}> {grandTotalAmount}</Typography>
+                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 5 }}> {grandTotalAmount}</Typography>
                         </Box>
 
 

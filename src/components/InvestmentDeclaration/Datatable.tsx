@@ -137,10 +137,10 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                         <TableRow sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
 }}>
                             <TableCell colSpan={columns.length} align="right">
-                                <Typography variant="h6" sx={{backgroundColor:"#223354", ml:81, p:0.5, color:'white', width:'auto'}}>Total Amount </Typography>
+                                <Typography variant="h6" sx={{backgroundColor:"#324b84", ml:81, p:0.5, color:'white', width:'auto'}}>Total Amount </Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6" sx={{backgroundColor:"#223354", p:0.5,  mr:10, color:'white'}}>{totalAmount}</Typography>
+                                <Typography variant="h6" sx={{backgroundColor:"#324b84", p:0.5,  mr:10, color:'white'}}>{totalAmount}</Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
