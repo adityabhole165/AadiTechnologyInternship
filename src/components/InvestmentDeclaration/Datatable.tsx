@@ -34,7 +34,7 @@ export const StyledTableRow = styled(TableRow)(
 export const StyledTableCell = styled(TableCell)(
     ({ theme }) => `
   color: white;
-  font-weight: bold;
+font-weight: bold;
  `
 );
 
@@ -76,7 +76,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
     return (
         <Paper>
             <TableContainer>
-                <Table>
+                <Table >
                     <TableHead>
                         <StyledTableRow>
                             {columns.map((column) => (
@@ -116,15 +116,16 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                     </>
                                     ))}
                                     {GroupAmount != 0 &&
-                                        < TableCell >
+                                        < TableCell>
                                             {GroupAmount}
                                         </TableCell >
                                     }
 
 
 
-                                    <TableCell>
+                                    <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>
                                         <TextField
+                                             size='small'
                                             value={row.Amount}
                                             onChange={(e) => handleTextFieldChange(e, rowIndex)}
                                             disabled={Data == 'True'}
@@ -133,12 +134,13 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                 </TableRow>
                             ))
                         )}
-                        <TableRow>
+                        <TableRow sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
+}}>
                             <TableCell colSpan={columns.length} align="right">
-                                <Typography variant="h6">Total Amount</Typography>
+                                <Typography variant="h6" sx={{backgroundColor:"#324b84", ml:81, p:0.5, color:'white', width:'auto'}}>Total Amount </Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">{totalAmount}</Typography>
+                                <Typography variant="h6" sx={{backgroundColor:"#324b84", p:0.5,  mr:10, color:'white'}}>{totalAmount}</Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>

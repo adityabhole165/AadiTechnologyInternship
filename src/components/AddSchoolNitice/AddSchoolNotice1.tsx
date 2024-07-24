@@ -53,7 +53,6 @@ const AddSchoolNotice1: React.FC = () => {
 
 
     const dispatch = useDispatch();
-
     const [applicableTo, setApplicableTo] = useState({
         admin: false,
         teacher: false,
@@ -61,8 +60,6 @@ const AddSchoolNotice1: React.FC = () => {
         adminStaff: false,
         otherStaff: false,
     });
-
-
     const RadioListCT = [
         { Value: '1', Name: 'File' },
         { Value: '2', Name: 'Text' }
@@ -76,56 +73,41 @@ const AddSchoolNotice1: React.FC = () => {
         setFileName1(value.Name);
         setbase64URL(value.Value);
     };
-
     {
         state ?
             useEffect(() => {
-
                 setFileName1(state.FileName);
                 setFileName2(state.NoticeImage)
-
             }, [fileName1, FileName2]) :
             null
     }
-
     // console.log('First file ===>', fileName1);
     // console.log('First URl ===>', base64URL);
-
     const ChangeFile2 = (value) => {
         setFileName2(value.Name);
         setbase64URL2(value.Value);
     };
     // console.log('First file2 ===>', FileName2);
     // console.log('First URl2 ===>', base64URL2);
-
     const navigate = useNavigate();
-
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setApplicableTo({
             ...applicableTo,
             [event.target.name]: event.target.checked,
         });
     };
-
     console.log("Set Application Values", applicableTo);
-
-
     const ClickRadio = (value) => {
         setRadioBtn(value);
     };
-
     const [selectedValue, setSelectedValue] = useState('');
-
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
-
-
     // MS Word ToolBox
     const handleTextChange = (value: string) => {
         setText(value);
     };
-
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -136,7 +118,6 @@ const AddSchoolNotice1: React.FC = () => {
             ['clean']
         ],
     };
-
     const formats = [
         'header', 'font', 'size',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
@@ -175,27 +156,18 @@ const AddSchoolNotice1: React.FC = () => {
         }
     });
     // validation
-
     // API Calling
-
     // console.log('KKKKKKKKKKKKKK....', ItemList);
     const ClickChild = (value) => {
         setItemList(value);
     };
-
     const USSaveUpdateSchoolNotice: any = useSelector((state: RootState) => state.SaveUpdateSchoolNotice.ISSaveUpdateSchoolNotice);
     const USEditUpdateSchoolNotice: any = useSelector((state: RootState) => state.EditSchoolNoticeDetails.ISEditSchoolNoticeDetails);
     console.log("USSaveUpdateSchoolNotice======> ", USSaveUpdateSchoolNotice);
     console.log("USEditUpdateSchoolNotice======> ", USEditUpdateSchoolNotice);
-
-
-
     // API Calling
-
     console.log("Formik....", formik);
-
     const SaveUpdateSchoolNotice: ISaveUpdateSchoolNoticeBody = {
-
         "asUserRoleIds": "1,2,3",
         "asClassIds": "1298,1315,1319,1320,1322,1330,1306",
         "asSaveFeature": "School Notices",
@@ -217,12 +189,9 @@ const AddSchoolNotice1: React.FC = () => {
         "InertedById": 4463,
         "NoticeDescription": "hsdhsdha",
         "NoticeImage": "pqr.jpg"
-
     }
-
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-
     const EditSchoolNoticeDetails: IEditSchoolNoticeDetailsBody = {
         "asSchoolId": asSchoolId,
         "asNoticeId": state ? state.NoticeId : null
@@ -231,15 +200,11 @@ const AddSchoolNotice1: React.FC = () => {
         "asSchoolId": asSchoolId,
         "asAcademicYearId": asAcademicYearId
     }
-
-
     const handleSave = () => {
         dispatch(CDASaveUpdateSchoolNotice(SaveUpdateSchoolNotice))
         dispatch(CDAEditSchoolNoticeDetails(EditSchoolNoticeDetails))
-
         alert("Hello............................!")
     }
-
     let NoticeId = 507
     const GetUserRolesForSelectedNoticeId: IGetUserRolesForSelectedNoticeIdBody = {
         "asSchoolId": asSchoolId,
@@ -249,7 +214,6 @@ const AddSchoolNotice1: React.FC = () => {
         "asSchoolId": asSchoolId,
         "asNoticeId": NoticeId
     }
-
     useEffect(() => {
         if (NoticeId != undefined) {
             dispatch(CDAGetUserRolesForSelectedNoticeId(GetUserRolesForSelectedNoticeId));
@@ -279,12 +243,9 @@ const AddSchoolNotice1: React.FC = () => {
             });
         }
     }, [ISGetUserRolesForSelectedNoticeId])
-
     useEffect(() => {
         dispatch(CDAGetAllClassesAndDivisions(GetAllClasseAndDivision))
     }, []);
-
-
     return (
         <>
             <Box sx={{ px: 2 }}
@@ -301,7 +262,6 @@ const AddSchoolNotice1: React.FC = () => {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
                             path: '/extended-sidebar/Teacher/AddSchoolNotce1'
                         }
-
                     ]}
                     rightActions={
                         <>
@@ -338,7 +298,6 @@ const AddSchoolNotice1: React.FC = () => {
                                     </IconButton>
                                 </Tooltip>
                             </Box>
-
                             <Box>
                                 <Tooltip title={`Cancel`}>
                                     <IconButton
@@ -364,9 +323,7 @@ const AddSchoolNotice1: React.FC = () => {
                                             height: '36px !important',
                                             ':hover': { backgroundColor: green[600] }
                                         }}
-
                                         onClick={handleSave}
-
                                     >
                                         <SaveIcon />
                                     </IconButton>
@@ -375,7 +332,6 @@ const AddSchoolNotice1: React.FC = () => {
                         </>
                     }
                 />
-
             </Box>
             <Box sx={{ px: 2, pt: 1, background: 'white' }} m={2}>
                 <Box sx={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
@@ -462,9 +418,7 @@ const AddSchoolNotice1: React.FC = () => {
                                 <span>
                                     Start Date <span style={{ color: 'red' }}></span>
                                 </span>
-                            }
-                            sx={{ width: "100%" }}
-
+                            } sx={{ width: "100%" }}
                         />
                         {formik.touched.startDate && formik.errors.startDate && (
                             <Typography sx={{ color: 'red', margin: '5px' }}>
@@ -486,9 +440,7 @@ const AddSchoolNotice1: React.FC = () => {
                                 </span>
                             }
                             sx={{ width: "100%" }}
-
                         />
-
                     </Grid>
                     <Grid item xs={3} md={4}>
                         <TimePicker
@@ -520,7 +472,6 @@ const AddSchoolNotice1: React.FC = () => {
                             }
                             sx={{ width: "100%" }}
                         />
-
                     </Grid>
                     {radioBtn === '1' ?
                         <Grid item xs={3} md={4}>
@@ -620,8 +571,7 @@ const AddSchoolNotice1: React.FC = () => {
                                                 });
                                             }}
                                             indeterminate={!Object.values(applicableTo).every(Boolean) && Object.values(applicableTo).some(Boolean)}
-                                        />
-                                    }
+                                        />}
                                     label="Applicable to : Select All"
                                 />
                             </Grid>
@@ -657,13 +607,9 @@ const AddSchoolNotice1: React.FC = () => {
                             </Box>
                         </Grid>
                     }
-
-
                 </Grid>
-
             </Box>
         </>
     )
 }
-
 export default AddSchoolNotice1;

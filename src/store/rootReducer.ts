@@ -106,6 +106,7 @@ import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList'
 import ToppersSlice from '../requests/ExamResult/RequestToppers';
 import ViewProgressReportslice from '../requests/ExamResult/RequestViewProgressReport';
 import FinalResultGenerateAllSlice from '../requests/FinalResult/RequestFinalResultGenerateAll';
+import AddInvestmentDetailsDocumentSlice from '../requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import InvestmentDeclarationSlice from '../requests/InvestmentDeclaration/ReqInvestmentDeclaration';
 import LeaveDetailsslice from '../requests/LeaveDetails/RequestLeaveDetails';
 import MissingattendanceAleartSlice from '../requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -229,6 +230,7 @@ const rootReducer = combineReducers({
   MissingAttendanceAleart: MissingattendanceAleartSlice,
   Toppers: ToppersSlice,
   InvestmentDeclaration: InvestmentDeclarationSlice,
+  AddInvestmentDetailsDoc: AddInvestmentDetailsDocumentSlice,
   LeaveDetails: LeaveDetailsslice,
   Studentwiseprogress: Studentwiseprogressslice,
   AddSchoolNotice: AddSchoolNotice,

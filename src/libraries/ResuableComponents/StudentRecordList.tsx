@@ -60,7 +60,7 @@ function StudentRecordList({
                                             sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white, py: 1 }}
                                             onClick={() => clickHeader(item.Id)}
                                         >
-                                            <div style={{ display: 'flex', gap: 1, justifyContent: (item.Id === 4 || item.Header.includes('Remark Template')) ? 'left' : 'center' }}>
+                                            <div style={{ display: 'flex', gap: 1, justifyContent: (item.Id === 1 || item.Id === 2 || item.Id === 3) ? 'left' : (item.Id === 4 || item.Header.includes('Remark Template')) ? 'left' : 'center' }}>
                                                 <b>{item.Header}</b>
                                                 {i < 4 && item.SortOrder !== null && (
                                                     item.SortOrder === "DESC" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
@@ -81,9 +81,9 @@ function StudentRecordList({
                             <TableBody>
                                 {ItemList.map((item, i) => (
                                     <TableRow key={i}>
-                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text1}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text2}</TableCell>
-                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text3}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'left' }}>{item.Text1}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'left' }}>{item.Text2}</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'left' }}>{item.Text3}</TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'left' }}>{item.Text4}</TableCell>
                                         <TableCell sx={{ textTransform: 'capitalize', ...cellStyle, textAlign: 'center' }}>{item.Text5}</TableCell>
 

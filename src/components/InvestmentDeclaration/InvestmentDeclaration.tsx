@@ -223,7 +223,7 @@ const InvestmentDeclaration = () => {
                     navLinks={[
                         {
                             title: 'Investment Declaration',
-                            path: '/extended-sidebar/common/InvestmentDeclaration'
+                            path: '/extended-sidebar/Teacher/InvestmentDeclaration'
                         }
                     ]}
 
@@ -293,28 +293,30 @@ const InvestmentDeclaration = () => {
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{ backgroundColor: '#f0f0f0', textAlign: 'center', marginBottom: 2 }}>
+                                    <Box sx={{ 
+                                        backgroundColor: '#F0F0F0', 
+                                        textAlign: 'center', marginBottom: 2 }}>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
                                             {detail.SchoolName}
 
                                         </Typography>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
 
                                             {detail.SchoolAddress}
 
                                         </Typography>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
                                             INVESTMENT DECLARATION FORM FOR FINANCIAL YEAR {detail.FinancialYear}
 
                                         </Typography>
                                         <hr />
                                     </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
                                         <Box>
                                             <Typography variant="h6">
                                                 <Box
@@ -425,43 +427,57 @@ const InvestmentDeclaration = () => {
                                         </Box>
 
                                     </Box>
-                                   <Box>
-                                   <SearchableDropdown
-                                sx={{ minWidth: '15vh' }}
-                                ItemList={USGetRegimeDropdown}
-                                onChange={clickRegimeDropDown}
-                                label={'Regime'}
-                                defaultValue={regimeId}
-                                size={"small"}/>
-                                   </Box>
+                                    <Box >
+                                        <SearchableDropdown
+                                            sx={{ maxWidth: '35vh' }}
+                                            ItemList={USGetRegimeDropdown}
+                                            onChange={clickRegimeDropDown}
+                                            label={'Regime'}
+                                            defaultValue={regimeId}
+                                            size={"small"} />
+                                    </Box>
 
-                                   <Box>
-                                   {USListInvestmentDetails.length > 0 &&
-                            <Grid container sx={{ maxWidth: '100%' }} >
-                                <IsSubmit.Provider value={isSubmittedArray}>
-                                    <InvestmentSection
-                                        refreshData={refreshData}></InvestmentSection>
+                                    <Box>
+                                        {USListInvestmentDetails.length > 0 &&
+                                            <Grid container sx={{ maxWidth: '100%' }} >
+                                                <IsSubmit.Provider value={isSubmittedArray}>
+                                                    <InvestmentSection
+                                                        refreshData={refreshData}></InvestmentSection>
 
-                                </IsSubmit.Provider>
+                                                </IsSubmit.Provider>
 
-                            </Grid>}
-                                   </Box>
+                                            </Grid>}
+                                    </Box>
                                 </Grid>
 
                             ))}
-                            
+
                         </Grid>
-                       
+
                     </Container>
 
-                    <Box sx={{ background: 'white', textAlign: 'center', pl: 45 }}>
-                        <Typography variant="h6">Grand Total : {grandTotalAmount}</Typography>
-                    </Box>
+
 
 
 
 
                     <Container>
+                        <Box sx={{
+
+                            textAlign: 'right',
+
+                            ml: 81,
+                            display: 'flex'
+                        }}>
+                            <Typography variant="h6"
+                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, ml: 2 }}>
+                                Grand Total
+                            </Typography>
+                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 5 }}> {grandTotalAmount}</Typography>
+                        </Box>
+
+
+
                         <Box sx={{ backgroundColor: '#ffffff', marginTop: 4 }}>
                             <Typography variant="body1" paragraph>
                                 I further undertake to provide all documentary proofs of payment made by me before 25th January, 2012 and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
