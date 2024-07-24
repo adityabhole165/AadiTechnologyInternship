@@ -453,6 +453,11 @@ const AddRequisition = () => {
         setErrorQuantity('')
         SetTextSearch(false)
         setIsSearchEmpty(false);
+        const firstDetail = USGetRequisitionDetails[0];
+        if (firstDetail) {
+            setTextall(firstDetail.RequisitionName);
+            setTextall1(firstDetail.RequisitionDescription);
+        }
 
     }
 
