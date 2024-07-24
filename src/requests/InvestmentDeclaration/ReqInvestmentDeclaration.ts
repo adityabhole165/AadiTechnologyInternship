@@ -154,7 +154,7 @@ export const CDAGetRegimeDropdown = (data: IGetRegimeDetailsDropdownBody): AppTh
     async (dispatch) => {
         const response = await InvestmentDeclarationApi.GetRegimeDropdown(data)
 
-        let abc = [{ Id: '0', Name: '--Select--', Value: '0' }];
+        let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
         // dispatch(InvestmentDeclarationSlice.actions.RGetRegimeDropdown(response.data));
 
         response.data.map((item, i) => {
