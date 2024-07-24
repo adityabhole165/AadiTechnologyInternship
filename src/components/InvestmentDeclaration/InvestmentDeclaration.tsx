@@ -294,29 +294,29 @@ const InvestmentDeclaration = () => {
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
                                     <Box sx={{ 
-                                        backgroundColor: '#38548a', 
+                                        backgroundColor: '#F0F0F0', 
                                         textAlign: 'center', marginBottom: 2 }}>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"white"} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
                                             {detail.SchoolName}
 
                                         </Typography>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"white"} mb={1} >
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
 
                                             {detail.SchoolAddress}
 
                                         </Typography>
                                         <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"white"} mb={1}>
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
                                             INVESTMENT DECLARATION FORM FOR FINANCIAL YEAR {detail.FinancialYear}
 
                                         </Typography>
                                         <hr />
                                     </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
                                         <Box>
                                             <Typography variant="h6">
                                                 <Box
@@ -427,9 +427,9 @@ const InvestmentDeclaration = () => {
                                         </Box>
 
                                     </Box>
-                                    <Box>
+                                    <Box >
                                         <SearchableDropdown
-                                            sx={{ minWidth: '15vh' }}
+                                            sx={{ maxWidth: '35vh' }}
                                             ItemList={USGetRegimeDropdown}
                                             onChange={clickRegimeDropDown}
                                             label={'Regime'}
