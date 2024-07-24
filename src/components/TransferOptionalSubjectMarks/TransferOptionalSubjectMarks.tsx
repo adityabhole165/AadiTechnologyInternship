@@ -476,20 +476,21 @@ const TransferOptionalSubjectMarks = () => {
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1-content"
                                         id="panel1-header"
+                                      
                                     >
                                         <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Optional Subjects</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails sx={{ display: 'flex', flexDirection: 'column' }}>
                                         {StudentsList.length > 0 && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', width: "250px", height: 'auto' }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', width: "250px", height: 'auto',mt:-2 }}>
 
                                                 {ParentOptionalSubjects
                                                     .map((subject, index) => (
                                                         <Accordion key={index}>
-                                                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                                            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{p:-1, m:-1}}>
                                                                 {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
                                                             </AccordionSummary>
-                                                            <AccordionDetails>
+                                                            <AccordionDetails sx={{p:-1, m:-2}}>
                                                                 <ul>
                                                                     {OptionalSubjects
                                                                         .filter((objParent) => {
