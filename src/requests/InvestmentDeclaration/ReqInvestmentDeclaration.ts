@@ -14,7 +14,8 @@ const InvestmentDeclarationSlice = createSlice({
         ISGetRegimeDropdown: [],
         ISSaveInvestment: '',
         ISSubmitInvestmentDeclaration: '',
-        ISlistInvestmentSectionDetails: []
+        ISlistInvestmentSectionDetails: [],
+        Loading: true,
 
     },
     reducers: {
@@ -37,6 +38,10 @@ const InvestmentDeclarationSlice = createSlice({
         },
         RGetSaveInvestment(state, action) {
             state.ISSaveInvestment = action.payload
+        },
+        resetSaveInvestment(state) {
+            state.Loading = false;
+            state.ISSaveInvestment = "";
         },
         RGetSubmitInvestment(state, action) {
             state.ISSubmitInvestmentDeclaration = action.payload
@@ -182,6 +187,13 @@ export const CDAGetSaveInvestment =
             const response = await InvestmentDeclarationApi.GetSaveInvestmentDeclaration(data);
             dispatch(InvestmentDeclarationSlice.actions.RGetSaveInvestment(response.data));
         }
+
+export const resetSaveInvestment =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(InvestmentDeclarationSlice.actions.resetSaveInvestment());
+        };
+
 
 export const CDAGetSubmitInvestment =
     (data: SubmitInvestmentDetailsBody): AppThunk =>

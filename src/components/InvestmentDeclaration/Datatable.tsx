@@ -52,7 +52,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
     useEffect(() => {
         setTableData(data.map(row => ({
             ...row,
-            Amount: row.Amount || 0,
+            Amount: row.Amount || "",
         })));
     }, [data]);
 
@@ -66,7 +66,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
         if (newValue.length > 7) {
             newValue = newValue.slice(0, 7);
         }
-        newValue = parseFloat(newValue) || 0;
+        newValue = parseFloat(newValue) || "";
 
         const updatedData = tableData.map((row, index) => (
             index === rowIndex ? { ...row, Amount: newValue } : row
