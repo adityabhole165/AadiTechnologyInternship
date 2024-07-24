@@ -1,17 +1,55 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, TextField, Tooltip } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ICheckPublishUnpublishDocumentBody, IGetUserInvestmentMethodDetailsBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import MultipleFile from 'src/libraries/File/MultipleFile';
+import { getCheckPublishUnpublishDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 
 const InvestmentDeclaration = () => {
+    const dispatch = useDispatch();
     const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
     const MaxfileSize = 3000000;
     const [MultipleFiles, setMultipleFiles] = useState([]);
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const USCheckPublishUnpublishDocument: any = useSelector(
+        (state: RootState) => state.AddInvestmentDetailsDoc.ISCheckPublishUnpublishDocument
+    );
+    const USGetUserInvestmentMethodDetails: any = useSelector(
+        (state: RootState) => state.AddInvestmentDetailsDoc.ISGetUserInvestmentMethodDetails
+    );
+
+    console.log(USCheckPublishUnpublishDocument, "USCheckPublishUnpublishDocument");
+
+    const GetCheckPublishUnpublishDocumentBody: ICheckPublishUnpublishDocumentBody = {
+        asSchoolId: asSchoolId,
+        asFinancialYearId: 1,
+        asUserId: asUserId
+    }
+    const GetUserInvestmentMethodDetailsBody: IGetUserInvestmentMethodDetailsBody = {
+        asSchoolId: asSchoolId,
+        asFinancialYearId: 1,
+        asUserId: asUserId,
+        asDocumentId: 81,
+        asDocumentTypeId: 1
+    }
+
+    useEffect(() => {
+        dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
+    }, [])
+    useEffect(() => {
+        dispatch(getUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody))
+    }, [])
+
     const handleFileChange = (files) => {
         setMultipleFiles(files);
     };
+
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
             <CommonPageHeader
@@ -57,6 +95,18 @@ const InvestmentDeclaration = () => {
                                 }}
                             />
                         </Box>
+                        <Box>
+                            <MultipleFile
+                                ValidFileTypes={ValidFileTypes}
+                                MaxfileSize={MaxfileSize}
+                                ChangeFile={handleFileChange}
+                                FileLabel={'Upload Document'}
+                                width={'100%'}
+                                height={'52px'}
+                                isMandatory={false}
+
+                            />
+                        </Box>
                         <Tooltip title={"Upload/Delete Document(s)."}>
                             <IconButton sx={{
                                 color: 'White',
@@ -70,18 +120,6 @@ const InvestmentDeclaration = () => {
                             </IconButton>
 
                         </Tooltip>
-                        <Box>
-                            <MultipleFile
-                                ValidFileTypes={ValidFileTypes}
-                                MaxfileSize={MaxfileSize}
-                                ChangeFile={handleFileChange}
-                                FileLabel={'Attachments'}
-                                width={'100%'}
-                                height={'52px'}
-                                isMandatory={false}
-
-                            />
-                        </Box>
                     </>
 
                 }
