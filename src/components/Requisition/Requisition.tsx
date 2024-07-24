@@ -378,7 +378,7 @@ const StatusRequisition = () => {
                 backgroundColor: green[500],
                 height: '36px !important',
                 ':hover': { backgroundColor: green[600] },
-                marginLeft: '-4px',
+                
               }}
             >
               <AddTwoTone />
