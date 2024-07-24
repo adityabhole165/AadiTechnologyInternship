@@ -68,6 +68,7 @@ const AddRequisition = () => {
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
+    const RequisitionID = UsSlistGetRequisitionName?.length > 0 ? UsSlistGetRequisitionName.map(req => req.RequisitionID) : 0;    
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
@@ -266,7 +267,7 @@ const AddRequisition = () => {
         let errorMessages = [];
         const SaveRequisitionBodysend: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
-            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) : 0,
+            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) : RequisitionID,
             asUserId: asUserId,
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
@@ -440,6 +441,7 @@ const AddRequisition = () => {
     const ClickRestItemLIst = () => {
         setItemlist([]);
         setAddItemlistNew([]);
+        setAddItemlistNew(USGetRequisitionDetails)
         setError('')
         setError1('')
         setError2('')
@@ -685,6 +687,7 @@ const AddRequisition = () => {
                                 <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
+
                         <Tooltip title={'Reset'}>
                             {Itemlist.length > 0 ?
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -713,12 +716,13 @@ const AddRequisition = () => {
                                     backgroundColor: green[500],
                                     height: '36px !important',
                                     ':hover': { backgroundColor: green[600] },
-                                    marginLeft: '-4px',
+                                    marginLeft: '4px',
                                 }}
                             >
                                 <Save />
                             </IconButton>
                         </Tooltip> : <span> </span>}
+                        
                         {AddItemlistNew.length > 0 ? <Tooltip title={'Send Requisition'}>
                             <IconButton
                                 onClick={clickSend}
@@ -736,7 +740,8 @@ const AddRequisition = () => {
 
 
 
-                    </>}
+                    </>  
+                    }
             />
 
 

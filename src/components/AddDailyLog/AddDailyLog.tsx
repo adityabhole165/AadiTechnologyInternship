@@ -501,6 +501,7 @@ const AddDailyLog = () => {
     setOpen(false)
     setFileName('')
     setDateState('')
+    setDateError('')
     setLogId(0)
   }
 
@@ -603,7 +604,7 @@ const AddDailyLog = () => {
           </DialogTitle>
           <DialogContent >
 
-            <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+            <Box sx={{ maxHeight: '300px', position: 'relative', background: 'white' }}>
 
               {/* <ClearIcon onClick={handleClose} sx={{ color: 'red', position: 'absolute', top: '1px', right: '1px', cursor: 'pointer' }} /> */}
               <h1>
