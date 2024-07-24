@@ -1,4 +1,4 @@
-import { IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -15,11 +15,15 @@ const GetResetTimetableApi = (data: IGetResetTimetableBody) => {
     return http.post<string>('Teacher/ResetTimetable', data);
 };
 
+const GetDivisionForStdDropdownApi = (data: IGetDivisionForStdDropdownBody) => {
+    return http.post<IGetDivisionForStdDropdownResult[]>('Teacher/GetAllDivisionsForStandardDropDown', data)
+}
 
 const WeeklyTimeTableApi = {
     GetTeacherAndStandardForTimeTableApi,
     GetDataForAdditionalClassesApi,
-    GetResetTimetableApi
+    GetResetTimetableApi,
+    GetDivisionForStdDropdownApi
 };
 
 export default WeeklyTimeTableApi;

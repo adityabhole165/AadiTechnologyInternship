@@ -21,9 +21,38 @@ export interface IGetTeacherAndStandardForTimeTableResult {
         DesignationSortOrder: string,
         Teacher_Middle_Name: string,
         Teacher_Last_Name: string
-    }]
+    }],
+    listStandardNameDetiles: [
+        {
+            Standard_Id: string,
+            Standard_Name: string,
+            maxStdLecturesInWeek: string,
+            Original_Standard_Id: string
+        }]
+}
+export interface IGetDivisionForStdDropdownResult {
+    listStandardDivision: [
+        {
+            Standard_Division_Id: string,
+            Standard_Division_Name: string,
+            Standard_Id: string,
+            Original_Standard_Id: string,
+            Original_Division_Id: string
+        }
+    ]
 }
 
+export interface IGetDivisionForStdDropdownBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asStandardId: Number
+}
+
+export interface IGetDivisionForStdDropdownResult {
+    SchoolWise_Standard_Division_Id: string,
+    division_id: string,
+    division_name: string
+}
 export interface IGetDataForAdditionalClassesBody {
     asSchoolId: Number,
     asAcademicYearID: Number,
