@@ -152,9 +152,9 @@ const SingleFile = ({
         )}
       </Grid>
       {FileError && (
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center',mt: 1 }}>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-          <Typography mt={2}>
+          <Typography >
             {/* {FileError && <Errormessage Error={FileError} />} */}
           </Typography>
         </Grid>
