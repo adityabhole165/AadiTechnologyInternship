@@ -22,6 +22,8 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+
+
 const AddHomeworkNew = () => {
   const { TeacherName, ClassName, SubjectName, SubjectId, MySubject, TeacherId, SelectClass, StandardDivision } =
     useParams();
@@ -1410,14 +1412,15 @@ const AddHomeworkNew = () => {
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
-            <TextField
-              multiline
-              rows={3}
-              type="text"
-              value={text}
-              onChange={Detailschnage}
-              sx={{ width: '100%' }}
-            />
+            <textarea
+              // multiline
+               aria-label="minimum height"
+              rows={4}
+              // type="text"
+               value={textall}
+              onChange={Detailschnageall}
+              style={{width: '545px', }}
+            />      
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button onClick={() => {
@@ -1523,13 +1526,14 @@ const AddHomeworkNew = () => {
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
-            <TextField
-              multiline
-              rows={3}
-              type="text"
-              value={textall}
+            <textarea
+              // multiline
+               aria-label="minimum height"
+              rows={4}
+              // type="text"
+               value={textall}
               onChange={Detailschnageall}
-              sx={{ width: '100%' }}
+              style={{width: '545px', }}
             />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
