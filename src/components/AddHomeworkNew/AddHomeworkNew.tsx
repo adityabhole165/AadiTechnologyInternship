@@ -569,6 +569,7 @@ const AddHomeworkNew = () => {
         title: 'Please Confirm',
         message: 'Homework for past assigned dates cannot be published. Please change the assigned date of the homework.',
         variant: 'warning',
+        confirmButtonText: 'Ok',
         cancelButtonText: 'Cancel',
         hideConfirm: true,
         onCancel: () => {
@@ -1273,20 +1274,21 @@ const AddHomeworkNew = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-            <Button
-              color={'error'}
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-
-            <Button
+            
+          <Button
               color={'error'}
               onClick={handleClose1}
             >
               Clear
             </Button>
 
+
+            <Button
+              color={'error'}
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
 
             <Button
 
