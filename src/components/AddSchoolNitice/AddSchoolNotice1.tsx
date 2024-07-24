@@ -52,6 +52,7 @@ const AddSchoolNotice1: React.FC = () => {
     // }, [])
 
 
+
     const dispatch = useDispatch();
     const [applicableTo, setApplicableTo] = useState({
         admin: false,
@@ -64,10 +65,11 @@ const AddSchoolNotice1: React.FC = () => {
         { Value: '1', Name: 'File' },
         { Value: '2', Name: 'Text' }
     ];
-    const ValidFileTypes1 = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
-    const MaxfileSize1 = 3000000;
+    const ValidFileTypes1 = ['PDF', 'PNG',
+        'JPEG', 'JPG', 'BMP'];
+    const MaxfileSize1 = 10000000;
     const ValidFileTypes2 = ['JPG', 'PNG', 'BMP', 'JPEG'];
-    const MaxfileSize2 = 1000000;
+    const MaxfileSize2 = 10000000;
 
     const ChangeFile1 = (value) => {
         setFileName1(value.Name);
@@ -103,6 +105,11 @@ const AddSchoolNotice1: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState('');
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
+    };
+
+    const handleCancel = () => {
+        formik.resetForm(); // Reset all form fields
+        //navigate('/extended-sidebar/Teacher/AllNoticeList'); // Navigate to the desired path
     };
     // MS Word ToolBox
     const handleTextChange = (value: string) => {
@@ -246,6 +253,7 @@ const AddSchoolNotice1: React.FC = () => {
     useEffect(() => {
         dispatch(CDAGetAllClassesAndDivisions(GetAllClasseAndDivision))
     }, []);
+
     return (
         <>
             <Box sx={{ px: 2 }}
@@ -307,7 +315,8 @@ const AddSchoolNotice1: React.FC = () => {
                                             height: '36px !important',
                                             ':hover': { backgroundColor: red[600] }
                                         }}
-                                        onClick={() => navigate('/extended-sidebar/Teacher/AllNoticeList')}
+                                        //onClick={() => navigate('/extended-sidebar/Teacher/AllNoticeList')}
+                                        onClick={handleCancel}
                                     >
                                         <Close />
                                     </IconButton>
@@ -413,7 +422,7 @@ const AddSchoolNotice1: React.FC = () => {
                             name='startDate'
                             value={formik.values.startDate}
                             onChange={(value) => formik.setFieldValue('startDate', value)}
-                            format="dd MMM yyyy"
+                            format="dd-MM-yyyy"
                             label={
                                 <span>
                                     Start Date <span style={{ color: 'red' }}></span>
@@ -433,7 +442,7 @@ const AddSchoolNotice1: React.FC = () => {
                             name='endDate'
                             value={formik.values.endDate}
                             onChange={(value) => formik.setFieldValue('endDate', value)}
-                            format="dd MMM yyyy"
+                            format="dd-MM-yyyy"
                             label={
                                 <span>
                                     End Date <span style={{ color: 'red' }}></span>
@@ -475,6 +484,9 @@ const AddSchoolNotice1: React.FC = () => {
                     </Grid>
                     {radioBtn === '1' ?
                         <Grid item xs={3} md={4}>
+                            <Typography variant="body2" sx={{ marginBottom: '8px' }}>
+                                Notice File
+                            </Typography>
                             <SingleFile
                                 ValidFileTypes={ValidFileTypes1}
                                 MaxfileSize={MaxfileSize1}
@@ -484,6 +496,7 @@ const AddSchoolNotice1: React.FC = () => {
                                 // setFieldValue={formik.setFieldValue}
                                 width={'100%'}
                                 height={"52px"}
+
                             />
                             {formik.touched.noticeFile && formik.errors.noticeFile && (
                                 <Typography sx={{ color: 'red', margin: '5px' }}>
@@ -602,7 +615,6 @@ const AddSchoolNotice1: React.FC = () => {
                         :
                         <Grid item md={12}>
                             <Box>
-
                                 <ReactQuill value={text} onChange={handleTextChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
                             </Box>
                         </Grid>
