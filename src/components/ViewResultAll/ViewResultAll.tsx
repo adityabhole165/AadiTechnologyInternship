@@ -183,7 +183,7 @@ const ViewResultAll = (props: Props) => {
             <SearchableDropdown
               sx={{
                 minWidth: '20vw'
-                , bgcolor: GetScreenPermission() === 'N' ? '#f0e68c' : 'inherit'
+                , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
               }}
               ItemList={USClassTeachers}
               onChange={clickSelectClass}
@@ -277,11 +277,11 @@ const ViewResultAll = (props: Props) => {
                 <Table>
                   <TableBody>
                     {USSStudentsingleResult.map((item) => (
-                      <TableRow key={item.id} sx={{ bgcolor: 'grey.200' }}>
-                        <TableCell><b>Roll No : </b> {item.Text2} </TableCell>
-                        <TableCell><b>Name : </b> {item.Text1}</TableCell>
-                        <TableCell><b>Class : </b> {item.Text3} - {item.Text4}</TableCell>
-                        <TableCell><b>Year : </b> {item.Text5}</TableCell>
+                      <TableRow key={item.id} sx={{ bgcolor: 'grey.300' }}>
+                        <TableCell><b>Roll No :  {item.Text2} </b></TableCell>
+                        <TableCell><b>Name :  {item.Text1} </b></TableCell>
+                        <TableCell><b>Class :  {item.Text3} - {item.Text4} </b></TableCell>
+                        <TableCell><b>Year :  {item.Text5} </b></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -309,7 +309,7 @@ const ViewResultAll = (props: Props) => {
                   <Table>
                     <TableBody>
                       <TableRow>
-                        <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
                           Subjects
                         </Typography>
                         {SubjectDetailsView.map((subject) => (
@@ -327,7 +327,7 @@ const ViewResultAll = (props: Props) => {
                       <TableRow>
                         {!showOnlyGrades && (
                           <>
-                            <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
                               Marks
                             </Typography>
 
@@ -338,7 +338,7 @@ const ViewResultAll = (props: Props) => {
                         )}
                       </TableRow>
                       <TableRow>
-                        <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={4}>
+                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
                           Subject Grade
                         </Typography>
                         {GradesDetailsView.map((Grade) => (
