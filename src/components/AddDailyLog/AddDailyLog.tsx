@@ -524,7 +524,7 @@ const AddDailyLog = () => {
         <CommonPageHeader
           navLinks={[
             { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
-            { title: 'Add Daily Log', path: '' }
+            { title: 'Manage Daily Log', path: '' }
           ]}
           rightActions={<>
             <Box>
