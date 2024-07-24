@@ -9,11 +9,11 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify'
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody } from "src/interfaces/Teacher/ITeacherTimeTable"
-import { IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAGetDataForAdditionalClasses, CDAGetResetTimetableMsgClear, CDAGetTeachersList, CDAResetTimetable } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAResetTimetable } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
@@ -50,6 +50,10 @@ const WeeklyTimetable = (props: Props) => {
     const [teacher, setTeacher] = useState<string>('0');
     const TeachersList = useSelector((state: RootState) => state.WeeklyTimetable.ISTeachersList);
     const [teacherName, setTeacherName] = useState<string>('');
+    const [standard, setStandard] = useState<string>('0');
+    const [division, setDivision] = useState<string>('0');
+    const [standardName, setStandardName] = useState('');
+    const [divisionName, setDivisionName] = useState('')
 
     const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
     const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
@@ -57,6 +61,8 @@ const WeeklyTimetable = (props: Props) => {
     const AddLecLectureNumber = useSelector((state: RootState) => state.WeeklyTimetable.ISAddClassesLectureNumber);
     const AddLecSubjectName = useSelector((state: RootState) => state.WeeklyTimetable.ISAddClassesSubjectName);
     const ResetTimetableMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISResetTimetableMsg);
+    const StandardNameList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetStandardName);
+    const DivisionNameList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetDivisionName);
 
 
     useEffect(() => {
@@ -65,8 +71,26 @@ const WeeklyTimetable = (props: Props) => {
             asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
             asTeacher_id: 0
         }
+
         dispatch(CDAGetTeachersList(CDAGetTeachersListBody))
+        dispatch(CDAGetStandardNameList(CDAGetTeachersListBody))
     }, [])
+
+    useEffect(() => {
+
+        const DivisionDropdownBody: IGetDivisionForStdDropdownBody = {
+            asSchoolId: Number(localStorage.getItem('SchoolId')),
+            asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+            asStandardId: Number(standard)
+        }
+
+        if (standard !== '0') {
+            dispatch(CDAGetDivisionName(DivisionDropdownBody))
+            console.log(`standard was not 0`, standard, DivisionDropdownBody)
+        }
+    }, [standard])
+
+
 
     useEffect(() => {
         if (ResetTimetableMsg !== '') {
@@ -76,7 +100,6 @@ const WeeklyTimetable = (props: Props) => {
     }, [ResetTimetableMsg])
 
     useEffect(() => {
-
         const GetLectureCountsForTeachersBody: IGetLectureCountsForTeachersBody = {
             asSchoolId: Number(localStorage.getItem('localSchoolId')),
             asTeacher_Id: Number(teacher),
@@ -95,23 +118,26 @@ const WeeklyTimetable = (props: Props) => {
         const AdditionalLectureBody: IGetDataForAdditionalClassesBody = {
             asSchoolId: Number(localStorage.getItem('localSchoolId')),
             asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
-            asTeacher_Id: Number(teacher),
-            asStandardDivision_Id: 0
+            asTeacher_Id: filterBy === 'Teacher' ? Number(teacher) : 0,
+            asStandardDivision_Id: filterBy === 'Teacher' ? 0 : Number(standard)
         }
         if (teacher !== '0') {
             dispatch(GetDataForAdditionalClasses(AdditionalLectureBody))
         }
-    }, [teacher])
+        if (standard !== '0' && division !== '0') {
+            dispatch(GetDataForAdditionalClasses(AdditionalLectureBody))
+        }
+    }, [teacher, standard, division])
 
     const ClickAdditionalLecture = () => {
         setShowAddAdditionalLectures(true);
-        const AdditionalLecutresBody: IGetDataForAdditionalClassesBody = {
+        const AdditionalLecturesBody: IGetDataForAdditionalClassesBody = {
             asSchoolId: Number(localStorage.getItem('localSchoolId')),
             asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
             asTeacher_Id: Number(teacher),
             asStandardDivision_Id: 0
         }
-        dispatch(CDAGetDataForAdditionalClasses(AdditionalLecutresBody));
+        dispatch(CDAGetDataForAdditionalClasses(AdditionalLecturesBody));
     }
 
     const handleTeacherSettingsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -126,8 +152,8 @@ const WeeklyTimetable = (props: Props) => {
         const ResetWeeklyTimetableBody: IGetResetTimetableBody = {
             asSchoolId: Number(localStorage.getItem('localSchoolId')),
             asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-            asTeacher_id: Number(teacher),
-            asStandardDivision_Id: 0
+            asTeacher_id: filterBy === 'Teacher' ? Number(teacher) : 0,
+            asStandardDivision_Id: filterBy === 'Teacher' ? 0 : Number(standard)
         }
         dispatch(CDAResetTimetable(ResetWeeklyTimetableBody));
     }
@@ -157,7 +183,7 @@ const WeeklyTimetable = (props: Props) => {
                                     <QuestionMark />
                                 </IconButton>
                             </Tooltip>
-                            {teacher !== '0' && <>
+                            {filterBy === 'Teacher' && teacher !== '0' && <>
                                 <Tooltip title={'Reset'}>
                                     <IconButton
                                         sx={{
@@ -200,12 +226,56 @@ const WeeklyTimetable = (props: Props) => {
                                     </IconButton>
                                 </Tooltip>
                             </>}
+                            {filterBy === 'Class' && standard !== '0' && division !== '0' && <>
+                                <Tooltip title={'Reset'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            '&:hover': {
+                                                backgroundColor: red[600]
+                                            }
+                                        }}
+                                        onClick={resetTimetable}
+                                    >
+                                        <RestartAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={'Save'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={'Optional Subject Lectures'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={ClickAdditionalLecture}
+                                    >
+                                        <AddIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>}
                         </>
                     }
                 />
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
-                        <Typography variant={"h4"}>Weekly Timetable for {teacher !== '0' ? teacherName : 'Teacher/Class Name'}</Typography>
+                        {filterBy === 'Teacher' ? <Typography variant={"h4"}>Weekly Timetable for {teacher !== '0' ? teacherName : 'Teacher/Class Name'}</Typography> :
+                            <Typography variant={"h4"}>Weekly Timetable for {standard !== '0' && division !== '0' ? `Class ${standardName} - ${divisionName}` : 'Teacher/Class Name'}</Typography>}
                         <Stack direction={"row"} gap={1} alignItems={"center"}>
                             <Box>
                                 <TextField
@@ -213,7 +283,15 @@ const WeeklyTimetable = (props: Props) => {
                                     size={"small"}
                                     select
                                     value={filterBy}
-                                    onChange={(e) => setFilterBy(e.target.value)}
+                                    onChange={(e) => {
+                                        setFilterBy(e.target.value)
+                                        if (filterBy === 'Teacher') {
+                                            setTeacher('0')
+                                        } else if (filterBy === 'Class') {
+                                            setDivision('0')
+                                            setStandard('0')
+                                        }
+                                    }}
                                 >
                                     <MenuItem value={"Teacher"}>Teacher</MenuItem>
                                     <MenuItem value={"Class"}>Class Info</MenuItem>
@@ -276,19 +354,28 @@ const WeeklyTimetable = (props: Props) => {
                             {filterBy === 'Class' && (
                                 <>
                                     <Box>
-                                        <SearchableDropdown
-                                            onChange={(value) => { }}
-                                            ItemList={[]}
+                                        <SearchableDropdown1
+                                            onChange={(value) => {
+                                                setStandard(value.Value)
+                                                setDivision('0')
+                                                setStandardName(value.Name)
+                                            }}
+                                            ItemList={StandardNameList}
                                             label="Standard"
+                                            defaultValue={standard}
                                             sx={{ minWidth: 150 }}
                                             size={"small"}
                                         />
                                     </Box>
                                     <Box>
-                                        <SearchableDropdown
-                                            onChange={(value) => { }}
-                                            ItemList={[]}
+                                        <SearchableDropdown1
+                                            onChange={(value) => {
+                                                setDivision(value.Value)
+                                                setDivisionName(value.Name)
+                                            }}
+                                            ItemList={standard !== '0' ? DivisionNameList : []}
                                             label="Division"
+                                            defaultValue={division}
                                             sx={{ minWidth: 150 }}
                                             size={"small"}
                                         />
@@ -380,82 +467,128 @@ const WeeklyTimetable = (props: Props) => {
                     </Box>
                     <Divider sx={{ my: 2 }} />
                     <Stack direction={"row"} gap={2}>
-                        <Box sx={{ flex: 1 }}>
-                            {/* <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography> */}
-                            <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>Class-Subject Lecture Count</Typography>
+                        {filterBy === 'Class' &&
+                            <>
+                                <Box sx={{ flex: 1 }}>
+                                    <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>
+                                        Additional / Optional Subject Lectures
+                                    </Typography>
+                                    {AdditionalClasses.length === 0 && standard !== '0' && division !== '0' &&
 
-                            {teacher !== '0' &&
-                                <TableContainer sx={{ width: '100%' }}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <HeaderStyledCell>Class Subjects</HeaderStyledCell>
-                                                <HeaderStyledCell>Lecture Count</HeaderStyledCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {/* Loopable content */}
-                                            {LectureCountsForTeachers?.map((item, i) => (
-                                                item.Text2 === 'Total Weekly Lectures' ?
+                                        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 5, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                            <b>No additional lectures assigned.</b>
+                                        </Typography>
+                                    }
+                                    {AdditionalClasses.length > 0 &&
+                                        <TableContainer sx={{ width: '100%' }}>
+                                            <Table>
+                                                <TableHead>
                                                     <TableRow>
-                                                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                                                        <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                                                        <HeaderStyledCell>WeekDay</HeaderStyledCell>
+                                                        <HeaderStyledCell>Lecture Number</HeaderStyledCell>
+                                                        <HeaderStyledCell>Class</HeaderStyledCell>
+                                                        <HeaderStyledCell>Subject </HeaderStyledCell>
                                                     </TableRow>
-                                                    :
+                                                </TableHead>
+                                                <TableBody>
+                                                    {/* Loopable content */}
+                                                    {AdditionalClasses.map((item, i) => (
+                                                        <TableRow>
+                                                            <StyledCell>{item.Text1}</StyledCell>
+                                                            <StyledCell>{item.Text2}</StyledCell>
+                                                            <StyledCell>{item.Text3}</StyledCell>
+                                                            <StyledCell>{item.Text4}</StyledCell>
+                                                        </TableRow>
+                                                    ))}
+
+                                                    {/* Fixed Footer */}
+
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    }
+
+                                </Box>
+                            </>}
+                        {filterBy === 'Teacher' &&
+                            <Box sx={{ flex: 1 }}>
+                                {/* <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography> */}
+                                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>Class-Subject Lecture Count</Typography>
+
+                                {teacher !== '0' &&
+                                    <TableContainer sx={{ width: '100%' }}>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <HeaderStyledCell>Class Subjects</HeaderStyledCell>
+                                                    <HeaderStyledCell>Lecture Count</HeaderStyledCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {/* Loopable content */}
+                                                {LectureCountsForTeachers?.map((item, i) => (
+                                                    item.Text2 === 'Total Weekly Lectures' ?
+                                                        <TableRow>
+                                                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                                                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                                                        </TableRow>
+                                                        :
+                                                        <TableRow>
+                                                            <StyledCell>{item.Text2}</StyledCell>
+                                                            <StyledCell>{item.Text3}</StyledCell>
+                                                        </TableRow>
+                                                ))}
+
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>}
+                            </Box>
+                        }
+                        {filterBy === 'Teacher' &&
+                            <Box sx={{ flex: 1 }}>
+                                {/* <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography> */}
+
+                                <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>
+                                    Additional Lectures
+
+                                </Typography>
+                                {AdditionalClasses.length === 0 && teacher !== '0' &&
+
+                                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 10, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                        <b>No additional lectures assigned.</b>
+                                    </Typography>
+                                }
+                                {AdditionalClasses.length > 0 &&
+                                    <TableContainer sx={{ width: '100%' }}>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <HeaderStyledCell>WeekDay</HeaderStyledCell>
+                                                    <HeaderStyledCell>Lecture Number</HeaderStyledCell>
+                                                    <HeaderStyledCell>Class</HeaderStyledCell>
+                                                    <HeaderStyledCell>Subject </HeaderStyledCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {/* Loopable content */}
+                                                {AdditionalClasses.map((item, i) => (
                                                     <TableRow>
+                                                        <StyledCell>{item.Text1}</StyledCell>
                                                         <StyledCell>{item.Text2}</StyledCell>
                                                         <StyledCell>{item.Text3}</StyledCell>
+                                                        <StyledCell>{item.Text4}</StyledCell>
                                                     </TableRow>
-                                            ))}
+                                                ))}
 
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>}
-                        </Box>
+                                                {/* Fixed Footer */}
 
-                        <Box sx={{ flex: 1 }}>
-                            {/* <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography> */}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                }
 
-                            <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>
-                                Additional Lectures
-
-                            </Typography>
-                            {AdditionalClasses.length === 0 && teacher !== '0' &&
-
-                                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 10, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                                    <b>No additional lectures assigned.</b>
-                                </Typography>
-                            }
-                            {AdditionalClasses.length > 0 &&
-                                <TableContainer sx={{ width: '100%' }}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <HeaderStyledCell>WeekDay</HeaderStyledCell>
-                                                <HeaderStyledCell>Lecture Number</HeaderStyledCell>
-                                                <HeaderStyledCell>Class</HeaderStyledCell>
-                                                <HeaderStyledCell>Subject </HeaderStyledCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {/* Loopable content */}
-                                            {AdditionalClasses.map((item, i) => (
-                                                <TableRow>
-                                                    <StyledCell>{item.Text1}</StyledCell>
-                                                    <StyledCell>{item.Text2}</StyledCell>
-                                                    <StyledCell>{item.Text3}</StyledCell>
-                                                    <StyledCell>{item.Text4}</StyledCell>
-                                                </TableRow>
-                                            ))}
-
-                                            {/* Fixed Footer */}
-
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            }
-
-                        </Box>
+                            </Box>
+                        }
                     </Stack>
                 </Box>
             </Box>
@@ -475,14 +608,15 @@ const WeeklyTimetable = (props: Props) => {
                 ></DialogTitle>
                 <DialogContent dividers>
                     <Box>
-                        <Typography variant={"h4"}>Assign Additional Lectures to Teacher</Typography>
+                        <Typography variant={"h4"}>{filterBy === 'Teacher' ? `Assign Additional Lectures to Teacher` :
+                            `Assign Optional Subject Lectures to Class`}</Typography>
                         <Stack gap={2} mt={2}>
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown
                                     onChange={(value) => { }}
-                                    ItemList={TeachersList}
-                                    defaultValue={teacher}
-                                    label="Teacher"
+                                    ItemList={filterBy === 'Teacher' ? TeachersList : [{ Id: '0', Name: `${standardName} - ${divisionName}`, Value: '0' }]}
+                                    defaultValue={filterBy === 'Teacher' ? teacher : "0"}
+                                    label={filterBy === 'Teacher' ? 'Teacher' : 'Class'}
                                     sx={{ minWidth: '100%' }}
                                     size={"small"}
                                     disabled={true}
