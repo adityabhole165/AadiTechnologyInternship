@@ -13,7 +13,7 @@ import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate ,useParams} from 'react-router';
 import { toast } from 'react-toastify';
 import FinalResultUnpublish from 'src/components/FinalResultUnpublish/FinalResultUnpublish';
 import {
@@ -61,7 +61,8 @@ const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
+  const { StandardDivisionId1 } =useParams();
+  
   const [Open, setOpen] = useState(false);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -88,7 +89,8 @@ const FinalResult = () => {
   }
 
   const [StandardDivisionId, setStandardDivisionId] = useState('0');
-
+ 
+  
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -734,7 +736,7 @@ const FinalResult = () => {
   <span>
     <IconButton
       onClick={() => {
-        navigate('/extended-sidebar/Teacher/ViewResultAll')
+        navigate('/extended-sidebar/Teacher/ViewResultAll/ ' + StandardDivisionId)
       }}
       disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
       sx={{

@@ -414,6 +414,10 @@ const teacherRoutes = [
     element: <FinalResult />
   },
   {
+    path: 'FinalResult/:StandardDivisionId1',
+    element: <FinalResult />
+  },
+  {
     path: 'StudentProgressReport/:asUserId/:asStudentId',
     element: <StudentProgressReport />
   },
@@ -589,6 +593,10 @@ const teacherRoutes = [
   },
   {
     path: 'ViewResultAll',
+    element: <ViewResultAll />
+  },
+  {
+    path: 'ViewResultAll/:StandardDivisionId',
     element: <ViewResultAll />
   },
   {

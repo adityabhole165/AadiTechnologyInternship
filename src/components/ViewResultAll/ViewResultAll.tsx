@@ -5,7 +5,7 @@ import { Alert, Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip,
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate ,useParams} from 'react-router';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -33,6 +33,7 @@ type Props = {};
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { StandardDivisionId } =useParams();    
   const TeacherId = (sessionStorage.getItem('TeacherId'));
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
   const [open, setOpen] = useState(false);
@@ -170,7 +171,7 @@ const ViewResultAll = (props: Props) => {
         navLinks={[
           {
             title: 'Final Result',
-            path: '/extended-sidebar/Teacher/FinalResult',
+            path: '/extended-sidebar/Teacher/FinalResult/' + StandardDivisionId,
           },
           {
             title: 'View Result All',
