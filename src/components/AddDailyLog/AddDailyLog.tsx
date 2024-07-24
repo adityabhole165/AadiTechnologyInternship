@@ -502,6 +502,7 @@ const AddDailyLog = () => {
     setFileName('')
     setDateState('')
     setDateError('')
+    setFileNameError('')
     setLogId(0)
   }
 
