@@ -1,17 +1,22 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ICheckPublishUnpublishDocumentBody, IGetAllDocumentsListBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { getAllDocumentsList, getCheckPublishUnpublishDocument, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { deleteresetMessage } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentDocumentList from './InvestmentDocumentList';
 
 const InvestmentDeclaration = () => {
     const dispatch = useDispatch();
+    const { Id } = useParams();
     const HeaderList = [
         { Id: 1, Header: 'File Name' },
         { Id: 2, Header: 'View', align: "center" },
@@ -21,6 +26,7 @@ const InvestmentDeclaration = () => {
     const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
     const MaxfileSize = 3000000;
     const [MultipleFiles, setMultipleFiles] = useState([]);
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
     const [File, setFile] = useState('');
     const [base64URL, setbase64URL] = useState('');
@@ -42,6 +48,9 @@ const InvestmentDeclaration = () => {
     );
     const USGetAllDocumentsList: any = useSelector(
         (state: RootState) => state.AddInvestmentDetailsDoc.ISGetAllDocumentsList
+    );
+    const USDeleteInvestmentDocument: any = useSelector(
+        (state: RootState) => state.AddInvestmentDetailsDoc.ISDeleteInvestmentDocument
     );
 
 
@@ -83,7 +92,6 @@ const InvestmentDeclaration = () => {
         asReportingUserId: 0,
         asLoginUserId: asUserId
     }
-
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
     }, [])
@@ -96,7 +104,6 @@ const InvestmentDeclaration = () => {
     useEffect(() => {
         dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
     }, [])
-
     const onClickUsername = (value) => {
         setUsername(value)
     }
@@ -109,7 +116,36 @@ const InvestmentDeclaration = () => {
         setFileName(value.Name);
     };
     const ClickDelete = (Id) => {
-    }
+        const DeleteInvestmentDocumentBody: IDeleteInvestmentDocumentBody = {
+            asSchoolId: asSchoolId,
+            asFinancialYearId: 1,
+            asUpdatedById: asUserId,
+            asDocumentId: Number(Id),
+            asDocumnetTypeId: 1
+        };
+        showAlert({
+            title: 'Please Confirm',
+            message:
+                'Are you sure you want to delete this record?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(getDeleteInvestmentDocument(DeleteInvestmentDocumentBody))
+                closeAlert();
+            }
+        });
+    };
+    useEffect(() => {
+        if (USDeleteInvestmentDocument !== '') {
+            toast.success(USDeleteInvestmentDocument);
+            dispatch(deleteresetMessage());
+            dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+        }
+    }, [USDeleteInvestmentDocument]);
     const ClickView = (Id) => {
     }
     return (
