@@ -68,7 +68,7 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
                   {column.renderHeader ? column.renderHeader() : column.label}
                   {column.label === sortby &&
                     (
-                      sortAsc == "Asc" ? <ArrowCircleUpIcon /> :
+                      sortAsc == "Desc" ? <ArrowCircleUpIcon /> :
                         <ArrowCircleDown />)
                   }
                 </StyledTableCell>
