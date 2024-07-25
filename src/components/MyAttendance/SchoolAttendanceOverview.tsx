@@ -150,10 +150,10 @@ const SchoolAttendanceOverview = () => {
           </>
         }
       /><br></br>
-       <Box sx={{ display: 'flex' }}>
-        <Typography>Legend :</Typography>
+       <Box sx={{ display: 'flex', backgroundColor:'white', p:2, mb:2 }}>
+        <Typography><b>Legend : </b></Typography>
         <ClearIcon sx={{ color: 'red' }} />{' '}
-        <Typography>Attendance Not Marked</Typography>
+        <Typography><b>Attendance Not Marked </b></Typography>
       </Box>
       {ISWeekendStatusList !== '' ? (
         <Typography variant="h6" sx={{ color: 'red' }}>
