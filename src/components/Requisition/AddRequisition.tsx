@@ -705,6 +705,7 @@ const AddRequisition = () => {
                                         sx={{
                                             color: 'white',
                                             backgroundColor: blue[500],
+                                            ml:1,
                                             '&:hover': {
                                                 backgroundColor: blue[600]
                                             }
