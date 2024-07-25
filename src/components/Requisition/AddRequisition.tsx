@@ -687,7 +687,7 @@ const AddRequisition = () => {
                                 sx={{
                                     color: 'white',
                                     backgroundColor: grey[500],
-                                    
+                                    mr:-1,
                                     height: '36px !important',
                                     ':hover': { backgroundColor: grey[600] }
                                 }}
