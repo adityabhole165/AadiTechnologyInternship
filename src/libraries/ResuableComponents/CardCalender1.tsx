@@ -1,4 +1,4 @@
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
   Box,
   Grid,
@@ -11,7 +11,7 @@ import {
 import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
-import { teal } from '@mui/material/colors';
+import { red, teal } from '@mui/material/colors';
 import React, { useRef } from 'react';
 import { getCalendarDateFormatDateNew, getDateFormatted, stripHtml } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
@@ -183,14 +183,23 @@ function CardCalender1({
           {getAssignedDateStatus() == 'Done' && (
             <Tooltip title="Delete">
               <IconButton
+                // sx={{
+                //   Color:'#223354',
+                //   backgroundColor: (theme) =>
+                //     alpha(theme.palette.error.main, 0.2)
+                // }}
                 sx={{
-                  backgroundColor: (theme) =>
-                    alpha(theme.palette.error.main, 0.2)
-                }}
-                color="error"
+                  color:'#223354',
+                   //  backgroundColor: grey[500],
+                    '&:hover': {
+                  color:'red',
+                   backgroundColor: red[100]
+                    }}}
+           
+                // color="error"
                 onClick={() => ClickDeleteAttendance()}
               >
-                <DeleteTwoToneIcon />
+                <DeleteForeverIcon />
               </IconButton>
             </Tooltip>
           )}
