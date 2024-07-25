@@ -310,7 +310,7 @@ const ViewResultAll = (props: Props) => {
                     <TableBody>
                       <TableRow>
                         <TableCell>
-                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
+                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
                           Subjects
                         </Typography></TableCell>
                         {SubjectDetailsView.map((subject) => (
