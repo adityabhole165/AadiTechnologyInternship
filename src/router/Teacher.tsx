@@ -391,7 +391,7 @@ const teacherRoutes = [
   },
 
   {
-    path: 'AssignPrePrimaryGrades',
+    path: 'AssignPrePrimaryGrades/:TermId/:TeacherId',
     element: <AssignPrePrimaryGrades />
   },
 
@@ -584,7 +584,7 @@ const teacherRoutes = [
     element: <AssignProgressReportSubject />
   },
   {
-    path: 'AssignProgressReportSubject/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId',
+    path: 'AssignProgressReportSubject/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher',
     element: <AssignProgressReportSubject />
   },
   {
