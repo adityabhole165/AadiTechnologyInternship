@@ -1,6 +1,7 @@
+import { UploadFile } from '@mui/icons-material';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { blue, grey } from "@mui/material/colors";
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -141,7 +142,7 @@ const InvestmentDeclaration = () => {
     };
     useEffect(() => {
         if (USDeleteInvestmentDocument !== '') {
-            toast.success(USDeleteInvestmentDocument);
+            toast.success("Document deleted successfully.");
             dispatch(deleteresetMessage());
             dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
         }
@@ -205,6 +206,17 @@ const InvestmentDeclaration = () => {
                                 isMandatory={false}
                             />
                         </Box>
+                        <Tooltip title={"Upload"}>
+                            <IconButton sx={{
+                                color: 'white',
+                                backgroundColor: blue[500],
+                                '&:hover': {
+                                    backgroundColor: blue[500]
+                                }
+                            }}>
+                                <UploadFile />
+                            </IconButton>
+                        </Tooltip>
                         <Tooltip title={"Upload / Delete Document(s)."}>
                             <IconButton sx={{
                                 color: 'White',
