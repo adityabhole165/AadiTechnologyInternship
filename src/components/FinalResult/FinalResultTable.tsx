@@ -1,6 +1,7 @@
+import { ArrowCircleDown } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow, styled } from '@mui/material';
 import React, { useState } from 'react';
-
 export type Column = {
   id: string;
   label: string;
@@ -8,6 +9,7 @@ export type Column = {
   renderHeader?: () => React.ReactNode;
   cellProps?: TableCellProps;
   headerCellProps?: TableCellProps;
+
 };
 
 export type RowData = {
@@ -19,6 +21,9 @@ type Props = {
   data: RowData[];
   isLoading?: boolean;
   isPagination?: boolean;
+  clickHeader: (value) => void
+  sortby: string;
+  sortAsc: string;
 };
 
 
@@ -36,7 +41,8 @@ export const StyledTableCell = styled(TableCell)(
 );
 
 
-const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagination = true }) => {
+const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
+  isPagination = true, clickHeader = undefined, sortby = "Roll No.", sortAsc }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
@@ -56,8 +62,15 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, i
           <TableHead>
             <StyledTableRow>
               {columns.map((column) => (
-                <StyledTableCell {...column.headerCellProps} key={column.id}>
+                <StyledTableCell {...column.headerCellProps} key={column.id}
+                  onClick={() => { clickHeader(column.label) }}>
+
                   {column.renderHeader ? column.renderHeader() : column.label}
+                  {column.label === sortby &&
+                    (
+                      sortAsc == "Asc" ? <ArrowCircleUpIcon /> :
+                        <ArrowCircleDown />)
+                  }
                 </StyledTableCell>
               ))}
             </StyledTableRow>
