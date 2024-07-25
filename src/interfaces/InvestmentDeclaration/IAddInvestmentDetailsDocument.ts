@@ -44,10 +44,10 @@ export interface IGetAllDocumentsListBody {
     asLoginUserId: number
 };
 export interface IGetAllDocumentsListResult {
-    any: [{
-        Id: string
-        FileName: string
-    }]
+
+    Id: string
+    FileName: string
+
 };
 export interface IGetInvestmentDocumentFileBody {
     asSchoolId: number

@@ -2,6 +2,7 @@ import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow, styled } from '@mui/material';
 import React, { useState } from 'react';
+
 export type Column = {
   id: string;
   label: string;
@@ -9,7 +10,6 @@ export type Column = {
   renderHeader?: () => React.ReactNode;
   cellProps?: TableCellProps;
   headerCellProps?: TableCellProps;
-
 };
 
 export type RowData = {
@@ -21,11 +21,10 @@ type Props = {
   data: RowData[];
   isLoading?: boolean;
   isPagination?: boolean;
-  clickHeader: (value) => void
+  clickHeader: (value: string) => void;
   sortby: string;
   sortAsc: string;
 };
-
 
 export const StyledTableRow = styled(TableRow)(
   ({ theme }) => `
@@ -40,9 +39,7 @@ export const StyledTableCell = styled(TableCell)(
  `
 );
 
-
-const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
-  isPagination = true, clickHeader = undefined, sortby = "Roll No.", sortAsc }) => {
+const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagination = true, clickHeader, sortby, sortAsc }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
@@ -61,16 +58,21 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
         <Table>
           <TableHead>
             <StyledTableRow>
-              {columns.map((column) => (
-                <StyledTableCell {...column.headerCellProps} key={column.id}
-                  onClick={() => { clickHeader(column.label) }}>
-
+              {columns.map((column, index) => (
+                <StyledTableCell
+                  {...column.headerCellProps}
+                  key={column.id}
+                  onClick={() => {
+                    if (index < columns.length - 3) {
+                      clickHeader(column.label);
+                    }
+                  }}
+                  style={{ cursor: index < columns.length - 3 ? 'pointer' : 'default' }}
+                >
                   {column.renderHeader ? column.renderHeader() : column.label}
-                  {column.label === sortby &&
-                    (
-                      sortAsc == "Asc" ? <ArrowCircleUpIcon /> :
-                        <ArrowCircleDown />)
-                  }
+                  {column.label === sortby && (
+                    sortAsc === 'Desc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
+                  )}
                 </StyledTableCell>
               ))}
             </StyledTableRow>
@@ -93,7 +95,9 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
                 data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
                     {columns.map((column) => (
-                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{column.renderCell(row)}</TableCell>
+                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                        {column.renderCell(row)}
+                      </TableCell>
                     ))}
                   </TableRow>
                 ))
@@ -101,7 +105,9 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
                 data.map((row, rowIndex) => (
                   <TableRow key={rowIndex}>
                     {columns.map((column) => (
-                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{column.renderCell(row)}</TableCell>
+                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                        {column.renderCell(row)}
+                      </TableCell>
                     ))}
                   </TableRow>
                 ))
@@ -112,7 +118,6 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false,
       </TableContainer>
       {/* {isPagination && (
         <TablePagination
-        // rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}

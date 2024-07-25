@@ -354,26 +354,37 @@ const FinalResult = () => {
     return TeacherId;
   };
   const [sortby, setSortBy] = useState('Roll No.');
-  const [sortAsc, setSortAsc] = useState('Asc');
+  const [sortAsc, setSortAsc] = useState('Desc');
+  
   const ClickHeader = (value) => {
-    setSortBy(value)
-    if (value == sortby)
-      setSortAsc(sortAsc == 'Asc' ? 'Desc' : 'Asc')
-    else
-      setSortAsc('Asc')
+    setSortBy(value);
+    if (value === sortby) {
+      setSortAsc(sortAsc === 'Asc' ? 'Desc' : 'Asc');
+    } 
+  
+    const sortDirection = sortAsc === 'Desc' ? ' Desc' : '';
+  
+    const sortField = 
+      value === "Roll No." ? "Roll_No" :
+      value === "Student Name" ? "Name" : 
+      value === "Total" ? "Marks" :
+      value === "%" ? "Percentage" :
+      value === "Grade" ? "Grade_Name" :
+      value === "Result" ? "Result" : "";
+  
     const PagedStudentBody = {
       asSchoolId: asSchoolId.toString(),
       asAcademicyearId: asAcademicYearId.toString(),
       asStandardDivisionId: StandardDivisionId,
-      SortExp: 'ORDER BY ' +
-        (value == "Roll No." ? "Roll_No" :
-          value == "Student Name" ? "StudentName" : ""),
+      SortExp: `ORDER BY ${sortField}${sortDirection}`,
       prm_StartIndex: (page - 1) * rowsPerPage,
       PageSize: page * rowsPerPage,
     };
-    dispatch(GetStudentResultList(PagedStudentBody))
-
-  }
+  
+    dispatch(GetStudentResultList(PagedStudentBody));
+  };
+  
+  
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,

@@ -31,6 +31,9 @@ const AddInvestmentDetailsDocumentSlice = createSlice({
         RDeleteInvestmentDocument(state, action) {
             state.ISDeleteInvestmentDocument = action.payload
         },
+        rdeleteresetMessage(state) {
+            state.ISDeleteInvestmentDocument = '';
+        },
     }
 });
 export const getCheckPublishUnpublishDocument = (data: ICheckPublishUnpublishDocumentBody): AppThunk =>
@@ -56,7 +59,15 @@ export const getSaveInvestmentDocument = (data: ISaveInvestmentDocumentBody): Ap
 export const getAllDocumentsList = (data: IGetAllDocumentsListBody): AppThunk =>
     async (dispatch) => {
         const response = await AddInvestmentDetailsDocumentApi.GetAllDocumentsListapi(data)
-        dispatch(AddInvestmentDetailsDocumentSlice.actions.RGetAllDocumentsList(response.data));
+        let DocumentList = response.data.map((item) => {
+            return {
+                Id: item.Id,
+                Text1: item.FileName
+
+            };
+        });
+
+        dispatch(AddInvestmentDetailsDocumentSlice.actions.RGetAllDocumentsList(DocumentList));
 
     };
 export const getInvestmentDocumentFile = (data: IGetInvestmentDocumentFileBody): AppThunk =>
@@ -71,6 +82,10 @@ export const getDeleteInvestmentDocument = (data: IDeleteInvestmentDocumentBody)
         dispatch(AddInvestmentDetailsDocumentSlice.actions.RDeleteInvestmentDocument(response.data));
 
     };
+export const deleteresetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(AddInvestmentDetailsDocumentSlice.actions.rdeleteresetMessage());
+};
+
 
 
 export default AddInvestmentDetailsDocumentSlice.reducer;

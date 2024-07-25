@@ -4,12 +4,13 @@ import { IGetInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/
 import { GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 
 import { Box } from "@mui/material";
+import { useNavigate } from "react-router";
 import { RootState } from "src/store";
 import DataTable, { Column } from "./Datatable";
 
 const InvestmentSection = ({ refreshData }) => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -129,7 +130,12 @@ const InvestmentSection = ({ refreshData }) => {
                 return null; // Skip rendering this section if there's no data
             }
             const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
+            const clickDocument = (value) => {
+                navigate(
+                    '/extended-sidebar/Teacher/InvestmentDetailsDocument')
+                console.log(value, "clickDocument");
 
+            }
 
             const columns: Column[] = [
                 {
@@ -140,7 +146,13 @@ const InvestmentSection = ({ refreshData }) => {
                 {
                     id: 'AttachmentCount',
                     label: 'Attachment Count',
-                    renderCell: (rowData) => rowData.DocumentCount,
+                    // renderCell: (rowData) => rowData.DocumentCount,
+                    renderCell: (rowData) => (
+                        // <IconButton onClick={() => clickDocument((rowData))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
+                        <div onClick={() => clickDocument((rowData))} > {rowData.DocumentCount}</div>
+                        // </IconButton>
+
+                    )
                 },
                 {
                     id: 'MaximumLimit',
@@ -154,7 +166,7 @@ const InvestmentSection = ({ refreshData }) => {
 
             return (
                 <>
-                    <Box key={section.Id} sx={{ background: 'white',pt:2, pb:2, }}>
+                    <Box key={section.Id} sx={{ background: 'white', pt: 2, pb: 2, }}>
                         <DataTable
                             columns={columns}
                             data={filteredData}
@@ -184,7 +196,7 @@ const InvestmentSection = ({ refreshData }) => {
     return (
 
 
-        <Box sx={{width:1}}>
+        <Box sx={{ width: 1 }}>
             {renderDataTables()}
         </Box>
     );
