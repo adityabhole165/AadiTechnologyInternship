@@ -68,7 +68,9 @@ const AddRequisition = () => {
     const USGetAddItemList: any = useSelector((state: RootState) => state.SliceAddRequisition.IsGetAddItemList);
     const USSaveRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISSaveRequisition);
     const UsSlistGetRequisitionName: any = useSelector((state: RootState) => state.SliceAddRequisition.ISlistGetRequisitionName);
-    const RequisitionID = UsSlistGetRequisitionName?.length > 0 ? UsSlistGetRequisitionName.map(req => req.RequisitionID) : 0;    
+    const RequisitionID = UsSlistGetRequisitionName?.length > 0 ? UsSlistGetRequisitionName.map(req => req.RequisitionID) : 0;  
+    console.log(RequisitionID,"RequisitionID");
+      
     const USGetNewRequisitionValidateItemQuantity: any = useSelector((state: RootState) => state.SliceAddRequisition.ISGetNewRequisitionValidateItemQuantity);
     const USCanCreateGenralRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanCreateGenralRequisition);
     const USCanSendRequisition: any = useSelector((state: RootState) => state.SliceAddRequisition.ISCanSendRequisition);
@@ -267,7 +269,7 @@ const AddRequisition = () => {
         let errorMessages = [];
         const SaveRequisitionBodysend: ISaveRequisitionBody = {
             asSchoolId: asSchoolId,
-            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) : RequisitionID,
+            asRequisitionId: Number(asRequisitionId) ? Number(asRequisitionId) : RequisitionID.toString(),
             asUserId: asUserId,
             asRequisitionName: textall,
             asRequisitionDesc: textall1,
