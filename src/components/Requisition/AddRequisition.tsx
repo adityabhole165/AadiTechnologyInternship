@@ -551,14 +551,14 @@ const AddRequisition = () => {
 
 
     useEffect(() => {
-        if (USGetRequisitionDetails != '') {
+        if (USGetRequisitionDetails != '' && asRequisitionId) {
             const firstDetail = USGetRequisitionDetails[0];
             if (firstDetail) {
                 setTextall(firstDetail.RequisitionName);
                 setTextall1(firstDetail.RequisitionDescription);
             }
         }
-    }, [USGetRequisitionDetails]);
+    }, [USGetRequisitionDetails,asRequisitionId]);
 
 
     useEffect(() => {
