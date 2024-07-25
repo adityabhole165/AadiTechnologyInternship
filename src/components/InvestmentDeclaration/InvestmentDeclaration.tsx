@@ -186,7 +186,7 @@ const InvestmentDeclaration = () => {
 
     useEffect(() => {
         if (USGetRegimeDropdown.length > 0 && USISlistInvestmentEmpDetails.length > 0) {
-            if (USISlistInvestmentEmpDetails[0].IsSubmitted == "True")
+            if (USISlistInvestmentEmpDetails[0].RegimeId !== "0")
                 setRegimeId(USISlistInvestmentEmpDetails[0].RegimeId);
             else
                 setRegimeId(USGetRegimeDropdown[0].Value);
