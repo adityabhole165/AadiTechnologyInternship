@@ -141,8 +141,8 @@ const AssignProgressReportSubject = () => {
                     "</NonXseedSubjectGrades>";
             }
         });
-
-        console.log("Generated XML:", sXML); // Add this line to log the XML data
+        sXML = `<ArrayOfNonXseedSubjectGrades xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">
+        ${sXML}</ArrayOfNonXseedSubjectGrades>`
         return sXML;
     };
 
