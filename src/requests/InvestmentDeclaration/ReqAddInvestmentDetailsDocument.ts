@@ -56,7 +56,15 @@ export const getSaveInvestmentDocument = (data: ISaveInvestmentDocumentBody): Ap
 export const getAllDocumentsList = (data: IGetAllDocumentsListBody): AppThunk =>
     async (dispatch) => {
         const response = await AddInvestmentDetailsDocumentApi.GetAllDocumentsListapi(data)
-        dispatch(AddInvestmentDetailsDocumentSlice.actions.RGetAllDocumentsList(response.data));
+        let DocumentList = response.data.map((item) => {
+            return {
+                Id: item.Id,
+                Text1: item.FileName
+
+            };
+        });
+
+        dispatch(AddInvestmentDetailsDocumentSlice.actions.RGetAllDocumentsList(DocumentList));
 
     };
 export const getInvestmentDocumentFile = (data: IGetInvestmentDocumentFileBody): AppThunk =>
