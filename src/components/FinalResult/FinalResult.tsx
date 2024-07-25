@@ -57,12 +57,13 @@ import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable, { Column } from '../DataTable';
+import FinalResultTable from './FinalResultTable';
 const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { StandardDivisionId1 } =useParams();
-  
+    
   const [Open, setOpen] = useState(false);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -88,7 +89,7 @@ const FinalResult = () => {
     setShowProgressReport(!showProgressReport); // Toggle visibility
   }
 
-  const [StandardDivisionId, setStandardDivisionId] = useState('0');
+  const [StandardDivisionId, setStandardDivisionId] = useState( StandardDivisionId1 ? StandardDivisionId1 : '0');
  
   
   const [asStdDivId, setasStdDivId] = useState();
@@ -310,11 +311,11 @@ const FinalResult = () => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
 
-  useEffect(() => {
-    if (GetClassTeachers.length > 0) {
-      setStandardDivisionId(GetClassTeachers[0].Value);
-    }
-  }, [GetClassTeachers])
+  // useEffect(() => {
+  //   if (GetClassTeachers.length > 0 && StandardDivisionId == undefined) {
+  //     setStandardDivisionId(GetClassTeachers[0].Value);
+  //   }
+  // }, [GetClassTeachers])
 
   // useEffect(() => {
   //   dispatch(GetPublishResult(PublishResultBody));
@@ -452,7 +453,7 @@ const FinalResult = () => {
   const buttonsDisabled = StandardDivisionId === '0';
 
   useEffect(() => {
-    if (GetClassTeachers && GetClassTeachers.length > 0) {
+    if (GetClassTeachers && GetClassTeachers.length > 0 && StandardDivisionId == undefined ) {
       if (FinalResultFullAccess === 'Y') {
         setStandardDivisionId(GetClassTeachers[0].Value);
       } else {
@@ -736,7 +737,7 @@ const FinalResult = () => {
   <span>
     <IconButton
       onClick={() => {
-        navigate('/extended-sidebar/Teacher/ViewResultAll/ ' + StandardDivisionId)
+        navigate('/extended-sidebar/Teacher/ViewResultAll/'+ StandardDivisionId)
       }}
       disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
       sx={{
@@ -874,7 +875,7 @@ const FinalResult = () => {
         </div> : <span> </span>}
 
         {GetStudentLists && GetStudentLists.length > 0 && (
-          <DataTable
+          <FinalResultTable
             columns={columns}
             data={GetStudentLists}
           />
