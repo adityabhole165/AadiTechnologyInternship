@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { AlertContext } from "src/contexts/AlertContext";
 import { IGetInvestmentDetailsBody, IGetRegimeDetailsDropdownBody, SaveInvestmentDetailsBody, SubmitInvestmentDetailsBody } from "src/interfaces/InvestmentDeclaration/InvestmentDeclaration";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
-import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CDAGetSubmitInvestment, GetInvestmentDetails } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
+import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CDAGetSubmitInvestment, GetInvestmentDetails, resetSaveInvestment } from "src/requests/InvestmentDeclaration/ReqInvestmentDeclaration";
 import { resetMessage } from "src/requests/Library/Library";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
@@ -73,7 +73,7 @@ const InvestmentDeclaration = () => {
     }
 
     const GetRegimeDropdown: IGetRegimeDetailsDropdownBody = {
-        asSchoolId: 18
+        asSchoolId: asSchoolId
     }
     const [ListInvestmentDetails, setListInvestmentDetails] = useState([])
 
@@ -93,7 +93,9 @@ const InvestmentDeclaration = () => {
 
     useEffect(() => {
         if (USSaveInvestmentDeclaration != "") {
-            toast.success("Investment details saved successfully.")
+            toast.success(USSaveInvestmentDeclaration)
+            dispatch(resetSaveInvestment());
+            dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
         }
     }, [USSaveInvestmentDeclaration])
 
@@ -293,9 +295,10 @@ const InvestmentDeclaration = () => {
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{ 
-                                        backgroundColor: '#F0F0F0', 
-                                        textAlign: 'center', marginBottom: 2 }}>
+                                    <Box sx={{
+                                        backgroundColor: '#F0F0F0',
+                                        textAlign: 'center', marginBottom: 2
+                                    }}>
                                         <hr />
                                         <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 

@@ -52,7 +52,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
     useEffect(() => {
         setTableData(data.map(row => ({
             ...row,
-            Amount: row.Amount || 0,
+            Amount: row.Amount || "",
         })));
     }, [data]);
 
@@ -62,7 +62,12 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
         setPage(0);
     };
     const handleTextFieldChange = (e, rowIndex) => {
-        const newValue = parseFloat(e.target.value) || 0;
+        let newValue = e.target.value;
+        if (newValue.length > 7) {
+            newValue = newValue.slice(0, 7);
+        }
+        newValue = parseFloat(newValue) || "";
+
         const updatedData = tableData.map((row, index) => (
             index === rowIndex ? { ...row, Amount: newValue } : row
         ));
@@ -123,9 +128,9 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
 
 
 
-                                    <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>
+                                    <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         <TextField
-                                             size='small'
+                                            size='small'
                                             value={row.Amount}
                                             onChange={(e) => handleTextFieldChange(e, rowIndex)}
                                             disabled={Data == 'True'}
@@ -134,13 +139,14 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                 </TableRow>
                             ))
                         )}
-                        <TableRow sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
-}}>
+                        <TableRow sx={{
+                            paddingTop: '2.5px', paddingBottom: '2.5px'
+                        }}>
                             <TableCell colSpan={columns.length} align="right">
-                                <Typography variant="h6" sx={{backgroundColor:"#324b84", ml:81, p:0.5, color:'white', width:'auto'}}>Total Amount </Typography>
+                                <Typography variant="h6" sx={{ backgroundColor: "#324b84", ml: 81, p: 0.5, color: 'white', width: 'auto' }}>Total Amount </Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6" sx={{backgroundColor:"#324b84", p:0.5,  mr:10, color:'white'}}>{totalAmount}</Typography>
+                                <Typography variant="h6" sx={{ backgroundColor: "#324b84", p: 0.5, mr: 10, color: 'white' }}>{totalAmount}</Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
