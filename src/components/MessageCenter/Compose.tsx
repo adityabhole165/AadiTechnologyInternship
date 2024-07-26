@@ -1,12 +1,22 @@
-import PageHeader from 'src/libraries/heading/PageHeader';
+// import PageHeader from 'src/libraries/heading/PageHeader';
+import { Box } from '@mui/material';
+import CommonPageHeader from '../CommonPageHeader';
 import Form13 from './Composee';
 
 export const Composee = () => {
   return (
-    <div>
-      <PageHeader heading={'Compose Message'} subheading={''} />
+    <Box sx={{ px: 2 }}>
+      <CommonPageHeader navLinks={[
+        {
+          title: 'Compose Message',
+          path: ''
+        }
+      ]}
+        rightActions={''}
+      />
+      {/* <PageHeader heading={'Compose Message'} subheading={''} /> */}
       <Form13 />
-    </div>
+    </Box>
   );
 };
 export default Composee;

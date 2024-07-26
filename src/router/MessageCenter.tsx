@@ -3,11 +3,11 @@ import { PartialRouteObject } from 'react-router';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 const Trash = Loader(lazy(() => import('src/components/MessageCenter/Trash')));
 const Composee = Loader(
