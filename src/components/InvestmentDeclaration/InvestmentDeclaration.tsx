@@ -291,7 +291,7 @@ const InvestmentDeclaration = () => {
                 />
 
 
-                <Box border={1} sx={{ p: 3, background: 'white' }}>
+                <Box border={1} sx={{ p: 2, background: 'white' }}>
 
 
                     <Grid container spacing={3}>
@@ -321,7 +321,7 @@ const InvestmentDeclaration = () => {
                                     </Typography>
                                     <hr />
                                 </Box>
-                                <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
+                                <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2,pr:14 }}>
                                     <Box>
                                         <Typography variant="h6">
                                             <Box
@@ -337,7 +337,7 @@ const InvestmentDeclaration = () => {
                                                 Name
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                : {detail.UserName}
+                                                 {detail.UserName}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -354,7 +354,7 @@ const InvestmentDeclaration = () => {
                                                 Employee No
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                : {detail.EmployeeNo}
+                                                 {detail.EmployeeNo}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -371,7 +371,7 @@ const InvestmentDeclaration = () => {
                                                 Address
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                : {detail.Address}
+                                                 {detail.Address}
                                             </Typography>
                                         </Typography>
                                     </Box>
@@ -390,7 +390,7 @@ const InvestmentDeclaration = () => {
                                                 Designation
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                : {detail.Designation}
+                                                 {detail.Designation}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -407,7 +407,7 @@ const InvestmentDeclaration = () => {
                                                 PAN No
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                : {detail.PanNo}
+                                                 {detail.PanNo}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -424,7 +424,7 @@ const InvestmentDeclaration = () => {
                                                 Gender
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                : {detail.Gender}
+                                                {detail.Gender}
                                             </Typography>
                                         </Typography>
 
@@ -462,15 +462,14 @@ const InvestmentDeclaration = () => {
                         <Box sx={{
 
                             textAlign: 'right',
-
-                            ml: 81,
+                             pl: 100,
                             display: 'flex'
                         }}>
                             <Typography variant="h6"
-                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, ml: 2 }}>
+                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, textAlign:'center' }}>
                                 Grand Total
                             </Typography>
-                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 5 }}> {grandTotalAmount}</Typography>
+                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 2, textAlign:'center' }}> {grandTotalAmount}</Typography>
                         </Box>
 
 
