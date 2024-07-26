@@ -1,6 +1,7 @@
 import { Check, QuestionMark, Save } from "@mui/icons-material";
-import { Box, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
+import { ClearIcon } from "@mui/x-date-pickers";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -11,6 +12,7 @@ import { CDAGetInvestmentDetails, CDAGetRegimeDropdown, CDAGetSaveInvestment, CD
 import { resetMessage } from "src/requests/Library/Library";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
+import InvestmentDeatailsDocument from "./InvestmentDetailsDocument";
 import InvestmentSection from "./InvestmentSection";
 import IsSubmit from './IsSubmit';
 
@@ -219,7 +221,15 @@ const InvestmentDeclaration = () => {
     const refreshData = (value) => {
         setListInvestmentDetails(value)
     }
-
+    const [open, setOpen] = useState(false)
+    const [investmentData, setinvestmentData] = useState(null)
+    const ClickAppropriate = (value) => {
+        setinvestmentData(value)
+        setOpen(true)
+    }
+    const handleClose = (value) => {
+        setOpen(false)
+    }
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -290,6 +300,58 @@ const InvestmentDeclaration = () => {
                     </>}
                 />
 
+                <Dialog
+                    open={open}
+                    maxWidth={'md'}
+                    fullWidth
+                    onClose={handleClose}
+                    PaperProps={{
+                        sx: {
+                            borderRadius: "15px",
+                        }
+                    }}
+                >
+                    <DialogTitle sx={{ bgcolor: '#223354' }}>
+                        <ClearIcon onClick={handleClose}
+                            sx={{
+                                color: 'white',
+                                // background:'white',
+                                borderRadius: '7px',
+                                position: 'absolute',
+                                top: '5px',
+                                right: '8px',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    color: 'red',
+                                    //  backgroundColor: red[100]
+
+                                }
+                            }} />
+
+                    </DialogTitle>
+
+                    <DialogContent  >
+                        <Box>
+
+
+                            <InvestmentDeatailsDocument Id={investmentData} />
+
+                        </Box>
+                    </DialogContent>
+                    <DialogActions sx={{ py: 2, px: 3 }}>
+
+
+
+
+                        <Button
+                            color={'error'}
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </Button>
+
+                    </DialogActions>
+                </Dialog>
 
                 <Box border={1} sx={{ p: 2, background: 'white' }}>
 
@@ -321,7 +383,7 @@ const InvestmentDeclaration = () => {
                                     </Typography>
                                     <hr />
                                 </Box>
-                                <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2,pr:14 }}>
+                                <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2, pr: 14 }}>
                                     <Box>
                                         <Typography variant="h6">
                                             <Box
@@ -337,7 +399,7 @@ const InvestmentDeclaration = () => {
                                                 Name
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                 {detail.UserName}
+                                                {detail.UserName}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -354,7 +416,7 @@ const InvestmentDeclaration = () => {
                                                 Employee No
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                 {detail.EmployeeNo}
+                                                {detail.EmployeeNo}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -371,7 +433,7 @@ const InvestmentDeclaration = () => {
                                                 Address
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                 {detail.Address}
+                                                {detail.Address}
                                             </Typography>
                                         </Typography>
                                     </Box>
@@ -390,7 +452,7 @@ const InvestmentDeclaration = () => {
                                                 Designation
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                 {detail.Designation}
+                                                {detail.Designation}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -407,7 +469,7 @@ const InvestmentDeclaration = () => {
                                                 PAN No
                                             </Box>
                                             <Typography variant="h5" component="span">
-                                                 {detail.PanNo}
+                                                {detail.PanNo}
                                             </Typography>
                                         </Typography>
                                         <Typography variant="body1">
@@ -446,7 +508,7 @@ const InvestmentDeclaration = () => {
                                     {USListInvestmentDetails.length > 0 &&
                                         <Grid container sx={{ maxWidth: '100%' }} >
                                             <IsSubmit.Provider value={isSubmittedArray.length > 0 ? isSubmittedArray[0] : ""}>
-                                                <InvestmentSection
+                                                <InvestmentSection clickDocumentDetails={ClickAppropriate}
                                                     refreshData={refreshData}></InvestmentSection>
 
                                             </IsSubmit.Provider>
@@ -459,18 +521,18 @@ const InvestmentDeclaration = () => {
 
                     </Grid>
                     <Container>
-                         <Box sx={{
-                             mt:2,
+                        <Box sx={{
+                            mt: 2,
                             textAlign: 'right',
-                             pl: 100,
+                            pl: 100,
                             display: 'flex'
                         }}>
                             <Typography variant="h6"
-                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, textAlign:'center' }}>
+                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, textAlign: 'center' }}>
                                 Grand Total
                             </Typography>
-                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 2, textAlign:'center' }}> {grandTotalAmount}</Typography>
-                        </Box> 
+                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 2, textAlign: 'center' }}> {grandTotalAmount}</Typography>
+                        </Box>
 
 
 
@@ -510,7 +572,7 @@ const InvestmentDeclaration = () => {
                         </Grid> */}
                     </Container>
                 </Box>
-            </Box>
+            </Box >
         </>
     );
 
