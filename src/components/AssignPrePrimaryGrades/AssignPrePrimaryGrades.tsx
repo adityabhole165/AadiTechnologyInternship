@@ -33,7 +33,7 @@ const AssignPrePrimaryGrades = () => {
   let Teacher_ID = sessionStorage.getItem("TeacherId")
   let AssignPrePrimaryGradesAccess = GetScreenPermission(" Assign Pre-Primary Grades");
   const [selectTeacher, SetselectTeacher] = useState(AssignPrePrimaryGradesAccess === "N" ? Teacher_ID : "0");
-  const [SelectTerm, SetSelectTerm] = useState('0');
+  const [SelectTerm, SetSelectTerm] = useState("0");
   const [dateState, setDateState] = useState('');
   const [Subjectid, setSubjectid] = useState('');
 
@@ -43,6 +43,14 @@ const AssignPrePrimaryGrades = () => {
   useEffect(() => {
     if (TermId !== '' && TeacherId !== '') {
       console.log(TermId, TeacherId)
+    }
+  }, [TeacherId, TermId])
+  useEffect(() => {
+    if (TeacherId && TermId) {
+      if (TeacherId.length > 0 && TermId.length > 0) {
+        SetSelectTerm(TermId)
+        SetselectTeacher(TeacherId)
+      }
     }
   }, [TeacherId, TermId])
   const StandardDivisionId = Number(
@@ -203,11 +211,11 @@ const AssignPrePrimaryGrades = () => {
     { Id: 4, Header: 'Submit' }
   ];
 
-  useEffect(() => {
-    if (USGetTestwiseTerm.length > 0) {
-      SetSelectTerm(USGetTestwiseTerm[0].Value);
-    }
-  }, [USGetTestwiseTerm]);
+  // useEffect(() => {
+  //   if (USGetTestwiseTerm.length > 0) {
+  //     SetSelectTerm(USGetTestwiseTerm[0].Value);
+  //   }
+  // }, [USGetTestwiseTerm]);
 
 
 

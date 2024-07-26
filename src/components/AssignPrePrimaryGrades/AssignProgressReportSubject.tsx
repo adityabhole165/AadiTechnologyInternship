@@ -152,20 +152,17 @@ const AssignProgressReportSubject = () => {
         ${sXML}</ArrayOfNonXseedSubjectGrades>`
         return sXML;
     };
+    const [isEmpty, setIsEmpty] = useState(false);
+    // useEffect(() => {
+    //     if (isEmpty) {
+    //         toast.warning("Empty Submission not Allowed. Please enter student grade and observation.")
+    //     }
+    // }, [isEmpty])
 
     const SaveNonXseedGrades = () => {
         const emptyObservationRows = Object.keys(grades).filter(studentId => grades[studentId] !== "0" && !observations[studentId]);
-
-        if (emptyObservationRows.length > 0) {
-            // <Alert severity="warning">{`Observation should not be blank for row(s): ${emptyObservationRows}`}</Alert>
-            // toast with more width with css
-            const options = {
-                style: { width: '30vw' }
-            }
-            console.log(emptyObservationRows)
-            toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`, options);
-            return;
-        }
+        const emptySubmissionRows = Object.keys(grades).filter(studentId => grades[studentId] == "0" && !observations[studentId]);
+        setIsEmpty(emptySubmissionRows.length > 0 ? true : false);
 
         const SaveNonXseedGradesBody: ISaveNonXseedSubGrades = {
             asXseedGradesXML: getXML(),
@@ -177,7 +174,21 @@ const AssignProgressReportSubject = () => {
             asInsertedById: 4186,
             asUpdatedById: 0
         };
-        dispatch(CDASaveNonXseedSubGrades(SaveNonXseedGradesBody))
+        if (emptyObservationRows.length > 0) {
+            // <Alert severity="warning">{`Observation should not be blank for row(s): ${emptyObservationRows}`}</Alert>
+            // toast with more width with css
+            const options = {
+                style: { width: '30vw' }
+            }
+            console.log(emptyObservationRows)
+            toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`, options);
+            return;
+        } else if (emptySubmissionRows.length === NonXseedStudentswithObs.length) {
+            toast.warning("Empty Submission not Allowed. ")
+        } else {
+            dispatch(CDASaveNonXseedSubGrades(SaveNonXseedGradesBody))
+        }
+
         console.log(SaveNonXseedGradesBody)
     }
 
