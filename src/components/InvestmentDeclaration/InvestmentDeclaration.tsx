@@ -289,9 +289,9 @@ const InvestmentDeclaration = () => {
                 />
 
 
-                <Box sx={{ p: 3, background: 'white' }}>
+                <Box border={1} sx={{ p: 3, background: 'white' }}>
 
-                    <Container>
+                   
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
@@ -457,7 +457,6 @@ const InvestmentDeclaration = () => {
 
                         </Grid>
 
-                    </Container>
 
 
 
