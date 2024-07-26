@@ -472,7 +472,7 @@ const Studentwiseprogressreport = () => {
               }
             </Box> */}
 
-            {ShowDeleteButton[0] == 1 && ShowProgressReport[0] == 'N' || IsPublished == 'N' ? <Box
+            {ShowDeleteButton[0] == 1 && IsPublished == 'N' ? <Box
 
               sx={{
                 display: 'inline-flex',
