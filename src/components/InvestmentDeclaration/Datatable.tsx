@@ -79,6 +79,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
     const totalAmount = tableData.reduce((acc, item) => acc + (item.Amount || 0), 0);
     let Data = useContext(IsSubmit)
 
+
     return (
         <Paper>
             <TableContainer>
@@ -137,6 +138,9 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                             value={row.Amount}
                                             onChange={(e) => handleTextFieldChange(e, rowIndex)}
                                             disabled={Data == 'True'}
+                                            sx={{
+                                                backgroundColor: Data === 'True' ? '#F4F6F6   ' : 'white',
+                                            }}
                                         />
                                     </TableCell>
                                 </TableRow>
