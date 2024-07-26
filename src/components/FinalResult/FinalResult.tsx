@@ -86,10 +86,16 @@ const FinalResult = () => {
   const handleVisibilityClick = () => {
     setShowProgressReport(!showProgressReport); // Toggle visibility
   }
+  const StandardDivisionIdse = (
+    sessionStorage.getItem('StandardDivisionId')
+  );
+   console.log(StandardDivisionIdse,"");
+   
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(StandardDivisionId1 ? StandardDivisionId1 : '0');
+  const FinalResultFullAccess = GetScreenPermission('Final Result');
 
-
+  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse);
+  
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -114,7 +120,6 @@ const FinalResult = () => {
   };
 
 
-  const FinalResultFullAccess = GetScreenPermission('Final Result');
 
   const AssignmentClickIcon = (value) => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
@@ -356,6 +361,18 @@ const FinalResult = () => {
   const [sortby, setSortBy] = useState('Roll No.');
   const [sortAsc, setSortAsc] = useState('Desc');
   
+
+  const sortField = 
+  sortby === "Roll No." ? "Roll_No" :
+  sortby === "Student Name" ? "Name" : 
+  sortby === "Total" ? "Marks" :
+  sortby === "%" ? "Percentage" :
+  sortby === "Grade" ? "Grade_Name" :
+  sortby === "Result" ? "Result" : "";
+
+  const sortDirection = sortAsc === 'Desc' ? ' Desc' : '';
+
+
   const ClickHeader = (value) => {
     setSortBy(value);
     if (value === sortby) {
