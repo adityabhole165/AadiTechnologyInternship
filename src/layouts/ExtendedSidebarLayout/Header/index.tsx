@@ -761,6 +761,7 @@ function Header() {
                 </ListItem>
               )}
             </List>
+            {/* Set '!==' to '===' | Currently set !== just for testing on Web App */}
             {window.localStorage.getItem('deviceType') !== 'android' ||
               localStorage.getItem('deviceType') !== 'ios' ? (
               <Box m={1}>
@@ -814,14 +815,8 @@ function Header() {
                   setValue(newValue);
                 }} size="large"
               />
-
-
             </Grid>
             <Stack spacing={4} direction="row">
-
-
-
-
               <Button
                 variant="contained"
                 color="primary"
@@ -845,9 +840,6 @@ function Header() {
                 Not now.
               </Button>
             </Stack>
-
-
-
           </Grid>
         </Dialog>
       </>

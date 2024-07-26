@@ -2,6 +2,8 @@ import { Button, Dialog, Grid, Stack, Typography } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import React from 'react';
 
+// The Following Component is Add if in future one wants to make a reusable component for this rating feature.
+
 const AppRating = () => {
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState('');
