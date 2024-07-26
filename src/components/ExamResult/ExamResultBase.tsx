@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+
 import {
   IGenerateTestTotalMarksBody,
   IGetAllStudentsByGivenStdDivsBody,
@@ -704,7 +706,7 @@ const ExamResultBase = () => {
                   !ClassPassFailDetailsForButton?.ToppersGenerated}
 
               >
-                <Person />
+                  <WorkspacePremiumIcon /> 
               </IconButton>
             </span>
           </Tooltip>
