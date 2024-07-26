@@ -49,6 +49,7 @@ import SelectList3Col from '../../libraries/list/SelectList3Col';
 import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -676,12 +677,12 @@ const MessageList = () => {
                     )}
                   </div>
                 )}
-
+            {/* <Box>
                 <Avatar
                   sx={{
                     display: displayMoveToTop,
                     position: 'fixed',
-                    bottom: '95px',
+                    bottom: '150px',
                     zIndex: '4',
                     left: '15px',
                     p: '2px',
@@ -696,8 +697,57 @@ const MessageList = () => {
                   <KeyboardArrowUpRoundedIcon
                     fontSize="large"
                     color="success"
-                  />
-                </Avatar>
+                  /></Avatar>
+                  <Avatar sx={{
+                    display: displayMoveToTop,
+                    position: 'fixed',
+                    bottom: '95px',
+                    zIndex: '4',
+                    left: '15px',
+                    p: '2px',
+                    width: 50,
+                    height: 50,
+                    backgroundColor: 'white',
+                    boxShadow:
+                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                  }}>
+                  <KeyboardArrowDownIcon  fontSize="large"
+                  color="success"></KeyboardArrowDownIcon>
+                  </Avatar>
+                
+                </Box> */}
+                <Box
+                   sx={{
+                    isplay: displayMoveToTop,
+                    position: 'fixed',
+                    bottom: '95px',
+                    zIndex: '1',
+                    left: '15px',
+                    p: '1px',
+                    width: 50,
+                    height: 80,
+                    m:2,
+                    textAlign:'center',
+                    boxShadow:'5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 1) !important',
+                    borderRadius:'15px'
+                    // boxShadow:
+                      // '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                  }}>
+                    
+                    <KeyboardArrowUpRoundedIcon fontSize="large"
+                    color="success"
+                    onClick={MoveToTop} // Close function
+                
+                    ></KeyboardArrowUpRoundedIcon>
+                    
+                    <KeyboardArrowDownIcon
+                     fontSize="large"
+                    color="success"
+                    
+                    ></KeyboardArrowDownIcon>
+                  
+                </Box>
+
                 <span
                   style={{
                     width: '95px',
