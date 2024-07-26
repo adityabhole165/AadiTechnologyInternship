@@ -186,7 +186,7 @@ const InvestmentDeclaration = () => {
 
     useEffect(() => {
         if (USGetRegimeDropdown.length > 0 && USISlistInvestmentEmpDetails.length > 0) {
-            if (USISlistInvestmentEmpDetails[0].IsSubmitted == "True")
+            if (USISlistInvestmentEmpDetails[0].RegimeId !== "0")
                 setRegimeId(USISlistInvestmentEmpDetails[0].RegimeId);
             else
                 setRegimeId(USGetRegimeDropdown[0].Value);
@@ -289,9 +289,9 @@ const InvestmentDeclaration = () => {
                 />
 
 
-                <Box sx={{ p: 3, background: 'white' }}>
+                <Box border={1} sx={{ p: 3, background: 'white' }}>
 
-                    <Container>
+                   
                         <Grid container spacing={3}>
                             {USISlistInvestmentEmpDetails.map((detail) => (
                                 <Grid item xs={12} key={detail.UserId}>
@@ -457,7 +457,6 @@ const InvestmentDeclaration = () => {
 
                         </Grid>
 
-                    </Container>
 
 
 

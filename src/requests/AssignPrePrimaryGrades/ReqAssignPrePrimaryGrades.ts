@@ -92,11 +92,11 @@ export const CDAGetNonXseedStudentsObs =
 
       let NonXseedStudentsObs = response.data.map((item, i) => {
         return {
-          Id: item.Roll_No,
-          Text1: item.StudentName,
-          Text2: item.GradeId.toString(),
-          Text3: item.Observation,
-          Text4: item.YearwiseStudentId
+          Text1: item.Roll_No,
+          Text2: item.StudentName,
+          Text3: item.GradeId.toString(),
+          Text4: item.Observation,
+          Text5: item.YearwiseStudentId
         };
       })
       console.log(response, 'NonXseedObservation >> ');
@@ -135,7 +135,7 @@ export const GetStudentsForStdDevMasters =
       //   };
       // }) : [];
 
-      let GradesList = [{ Id: 0, Name: '--Select--', Value: "0" }];
+      let GradesList = [{ Id: 0, Name: 'Select', Value: "0" }];
       response.data.listGradesDetails.map((item, i) => {
         GradesList.push({
           Id: item.GradeId,
