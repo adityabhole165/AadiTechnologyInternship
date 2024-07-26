@@ -4,6 +4,9 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { useContext } from 'react';
+import IsPublishstatus from 'src/components/StudentWiseProgressReport/IsPublishstatus';
+
 
 import {
     Box,
@@ -35,6 +38,7 @@ function StudentwiseProgressreportList({
         }
     }
 
+    let Publishstatus = useContext(IsPublishstatus)
     return (
         <Card sx={{ backgroundcolor: 'white' }}>
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
@@ -124,7 +128,7 @@ function StudentwiseProgressreportList({
                                         }
                                     </TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
-                                        {item.EditStatus == "1" || item.ShowProgressReport == "Y" ?
+                                        {item.EditStatus == "1" || item.ShowProgressReport == "Y" || Publishstatus == 'Y' ?
 
                                                <span></span>
                                             :  <Tooltip title="Delete">

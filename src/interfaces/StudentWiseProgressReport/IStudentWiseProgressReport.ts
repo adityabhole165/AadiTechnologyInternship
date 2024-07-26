@@ -124,3 +124,38 @@ export interface IPublishUnpublishXseedResultResult {
     asMode: string,
     asInsertedById: Number
 };
+
+
+export interface GetClassTeacherXseedSubjectsBody {
+    asSchoolId: number
+    asAcadmeicYearId: number
+    asStdDivId: number
+    asAssessmentId: number
+  }
+  
+
+
+export interface GetClassTeacherXseedSubjectsResult {
+    listStandrdDetails: [
+        {
+            RollNo: string,
+            StudentName: string,
+            YearwiseStudentId: string,
+            ProgresSheetID: string,
+            Standard_Division_Id: string,
+            StandardId: string,
+            ProgressReportType: string,
+            ShowProgressReport: string,
+            RowNo: string,
+            EditStatus: string,
+            ShowDeleteButton: string
+        }
+    ],
+    listpublishstatusDetails:
+    [{
+        StandardDivisionId: string
+        PublishStatus: string
+        IsPublished: string
+    }],
+   
+};

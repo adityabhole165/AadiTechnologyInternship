@@ -7,7 +7,8 @@ import {
     IGetPagedStudentsForMarkAssignmentBody,
     IGetPublishStatusBody,
     IPublishUnpublishXseedResultBody,
-    IoneDeleteStudentTestMarksBody
+    IoneDeleteStudentTestMarksBody,
+    GetClassTeacherXseedSubjectsBody
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import { AppThunk } from 'src/store';
 const Studentwiseprogressslice = createSlice({
@@ -18,6 +19,7 @@ const Studentwiseprogressslice = createSlice({
         PrimaryClassTeacher: [],
         ISAssessmentDropdown: [],
         StudentsAssignment: [],
+        ISClassTeacherXseedSubjects:[],
         StudentsAssignmentGrade: [],
         oneDeleteStudent: "",
         DeleteAllStudent: "",
@@ -56,6 +58,9 @@ const Studentwiseprogressslice = createSlice({
         },
         PublishStat(state, action) {
             state.PublishStatus = action.payload;
+        },
+        RClassTeacherXseedSubjects(state, action) {
+            state.ISClassTeacherXseedSubjects = action.payload;
         },
         PublishUnXseed(state, action) {
             state.PublishUnpublishXseed = action.payload;
@@ -172,6 +177,26 @@ export const PublishUnpublishXseed =
             const response = await GetStudentwiseReportApi.PublishUnpublishXseedResult(data);
             dispatch(Studentwiseprogressslice.actions.PublishUnXseed(response.data));
         };
+
+
+        export const CDAClassTeacherXseedSubjects =
+    (data: GetClassTeacherXseedSubjectsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetStudentwiseReportApi.GetClassTeacherXseedSubjects(data);
+            let listpublishstatusDetails = response.data.listpublishstatusDetails.map((item) => {
+                return {
+                    Id: item.StandardDivisionId,
+                    PublishStatus: item.PublishStatus,
+                    IsPublished: item.IsPublished,
+                };
+            });
+            
+            dispatch(Studentwiseprogressslice.actions.RClassTeacherXseedSubjects(listpublishstatusDetails));
+        };
+
+
+
+
 
 export const PublishresetMessageNewAll = (): AppThunk => async (dispatch) => {
     dispatch(Studentwiseprogressslice.actions.RPublishresetMessageAll());

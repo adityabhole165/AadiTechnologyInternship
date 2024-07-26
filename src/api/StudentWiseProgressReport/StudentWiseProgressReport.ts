@@ -12,7 +12,9 @@ import {
     IPublishUnpublishXseedResultBody,
     IPublishUnpublishXseedResultResult,
     IoneDeleteStudentTestMarksBody,
-    IoneDeleteStudentTestMarksResult
+    IoneDeleteStudentTestMarksResult,
+    GetClassTeacherXseedSubjectsResult,
+    GetClassTeacherXseedSubjectsBody
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 
 import http from '../../requests/SchoolService/schoolServices';
@@ -42,6 +44,11 @@ const PublishUnpublishXseedResult = (data: IPublishUnpublishXseedResultBody) => 
     return http.post<IPublishUnpublishXseedResultResult>('Teacher/PublishUnpublishXseedResult', data);
 };
 
+const GetClassTeacherXseedSubjects = (data: GetClassTeacherXseedSubjectsBody) => {
+    return http.post<GetClassTeacherXseedSubjectsResult>('Teacher/GetClassTeacherXseedSubjects', data);
+};
+
+
 const GetStudentwiseReportApi = {
 
     AllPrimaryClassTeacher,
@@ -50,7 +57,8 @@ const GetStudentwiseReportApi = {
     oneDeleteStudentTestMark,
     DeleteAllStudentTestMarks,
     PublishStatus,
-    PublishUnpublishXseedResult
+    PublishUnpublishXseedResult,
+    GetClassTeacherXseedSubjects
 }
 export default GetStudentwiseReportApi;
 
