@@ -160,9 +160,9 @@ const SchoolAttendanceOverview = () => {
           {ISWeekendStatusList}
         </Typography>
       ) : (
-        <>
+        <Box  sx={{backgroundColor:'white', p:2}}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} >
               <TableUsingArray
                 ItemList={ISAttendanceOverviewGridData}
                 HeaderArray={HeaderArray}
@@ -171,7 +171,7 @@ const SchoolAttendanceOverview = () => {
             <div className=""></div>
           </Grid>
           <br></br>
-        </>
+        </Box>
       )}
      
     </Box>

@@ -79,6 +79,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
     const totalAmount = tableData.reduce((acc, item) => acc + (item.Amount || 0), 0);
     let Data = useContext(IsSubmit)
 
+
     return (
         <Paper>
             <TableContainer>
@@ -137,6 +138,9 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                             value={row.Amount}
                                             onChange={(e) => handleTextFieldChange(e, rowIndex)}
                                             disabled={Data == 'True'}
+                                            sx={{
+                                                backgroundColor: Data === 'True' ? '#F4F6F6   ' : 'white',
+                                            }}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -145,8 +149,8 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                         <TableRow sx={{
                             paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}>
-                            <TableCell colSpan={columns.length + 1} align="right">
-                                <Typography variant="h6" sx={{ backgroundColor: "#324b84", ml: 81, p: 0.5, color: 'white', width: 'auto' }}>Total Amount </Typography>
+                            <TableCell colSpan={columns.length + 1} sx={{textAlign:'right'}}>
+                                <Typography variant="h6" sx={{ backgroundColor: "#324b84", ml: 120, p: 0.5, color: 'white', textAlign:'center' }}>Total Amount </Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6" sx={{ backgroundColor: "#324b84", p: 0.5, mr: 10, color: 'white' }}>{totalAmount}</Typography>

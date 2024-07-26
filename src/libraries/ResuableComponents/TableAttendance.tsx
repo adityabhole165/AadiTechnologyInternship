@@ -46,11 +46,12 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
         </>
       ) : (
         <>
-          <Box sx={{ backgroundColor: 'white' }}>
+          <Box sx={{ backgroundColor: 'white' , p:2}}>
             <Table
-              className="font-roboto"
-              sx={{ fontFamily: 'inherit', padding: '300px' }}
-              aria-label="simple table"
+              // className="font-roboto"
+              // sx={{ fontFamily: 'inherit', padding: '300px' }}
+              // aria-label="simple table"
+              aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
             >
               <TableHead>
                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
@@ -167,11 +168,11 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                             sx={{ fontWeight: 'bold', py: 1 }}
                           ></TableCell>
 
-                          <TableCell
+                          {/* <TableCell
                             align="center"
                             dangerouslySetInnerHTML={{ __html: item.Text18 }}
                             sx={{ fontWeight: 'bold', py: 1 }}
-                          ></TableCell>
+                          ></TableCell> */}
                         </>
                       ) : (
                         <>

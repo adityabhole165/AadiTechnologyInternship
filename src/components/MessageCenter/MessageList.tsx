@@ -6,9 +6,10 @@ import {
   Avatar,
   Box,
   Card,
-  Dialog,
   Grid,
-  Hidden
+  Hidden,
+  IconButton,
+  Tooltip
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
@@ -25,7 +26,6 @@ import { IGetAllMonths, Iyears } from 'src/interfaces/MessageCenter/Search';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MCForm from 'src/libraries/form/MCForm';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import {
@@ -46,9 +46,9 @@ import {
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
+import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
-import EmailSettings from './EmailSetting';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -487,18 +487,43 @@ const MessageList = () => {
   return (
     <>
       <Box sx={{ px: 2 }}>
-        <PageHeader heading="Message Center" subheading=""></PageHeader>
-        <Hidden smUp>
-          <Box sx={{ float: 'right', mt: '-45px' }}>
-            <SettingsIcon onClick={clickSetting} fontSize="medium" />
-            <RefreshIcon
-              onClick={() => {
-                setIsRefresh(!isRefresh);
-              }}
-              fontSize="medium"
-            />
-          </Box>
-        </Hidden>
+        <CommonPageHeader navLinks={[
+          {
+            title: 'Message Center',
+            path: ''
+          }
+        ]}
+          rightActions={
+            <>
+              <Hidden >
+                <Tooltip title="Setting"><IconButton><SettingsIcon onClick={clickSetting} fontSize="medium" />
+                </IconButton>
+                </Tooltip>
+                <Tooltip title="Refresh"><IconButton>
+                  <RefreshIcon
+                    onClick={() => {
+                      setIsRefresh(!isRefresh);
+                    }}
+                    fontSize="medium"
+                  />
+                </IconButton>
+                </Tooltip>
+              </Hidden>
+            </>
+
+          }
+        />
+        {/* <Hidden smUp> */}
+        {/* <Box sx={{ float: 'right' }}>
+          <SettingsIcon onClick={clickSetting} fontSize="medium" />
+          <RefreshIcon
+            onClick={() => {
+              setIsRefresh(!isRefresh);
+            }}
+            fontSize="medium"
+          />
+        </Box> */}
+        {/* </Hidden> */}
         <Grid container columnGap={1}>
           <Grid item sm={2} xs={12} spacing={1}>
             <Hidden smDown>
@@ -550,7 +575,7 @@ const MessageList = () => {
                     CloseSearchBar={closeSearchBar}
                   />
                 </Grid>
-                <Grid item sm={3} md={2}>
+                {/* <Grid item sm={3} md={2}>
                   <Hidden smDown>
                     <Box sx={{ mt: '15px' }}>
                       <ButtonPrimary
@@ -580,7 +605,7 @@ const MessageList = () => {
                       <EmailSettings />
                     </Dialog>
                   </Hidden>
-                </Grid>
+                </Grid> */}
               </>
             )}
             <Grid item xs={12}>

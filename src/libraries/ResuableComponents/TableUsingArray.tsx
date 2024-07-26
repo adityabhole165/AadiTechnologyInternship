@@ -68,7 +68,7 @@ function TableUsingArray({ ItemList, HeaderArray }) {
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer component={Paper} square>
-        <Table stickyHeader aria-label="sticky table">
+        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead
             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
           >
