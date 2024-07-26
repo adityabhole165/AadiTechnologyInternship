@@ -28,10 +28,12 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ISGetNonXseedStudentsObs: [],
     ISGetTeacherDropdown: [],
     ISGetSubmitUnsubmitExamMarksStatusMsg: '',
+    Loading: true
   },
   reducers: {
     RGetTestwiseTerm(state, action) {
       state.ISGetTestwiseTerm = action.payload;
+      state.Loading = false;
     },
 
     RGetClassTeachers(state, action) {
@@ -68,6 +70,7 @@ const AssignPrePrimaryGradesSlice = createSlice({
     },
     RGetNonXseedStudentsObs(state, action) {
       state.ISGetNonXseedStudentsObs = action.payload;
+      state.Loading = false;
     },
 
     RGetTeacherDropdown(state, action) {
@@ -80,12 +83,16 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ResetGetSubmitUnsubmitExamMarksStatusMsg(state) {
       state.ISGetSubmitUnsubmitExamMarksStatusMsg = ''
     },
+    getLoading(state, action) {
+      state.Loading = true;
+    },
   }
 });
 
 export const CDAGetNonXseedStudentsObs =
   (data: IGetGetStudentsForNonXseedSubjects): AppThunk =>
     async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
       const response = await ApiAssignPrePrimaryGrades.GetStudentsForNonXseedSubjectWithObs(
         data
       );
@@ -109,6 +116,7 @@ export const CDAGetNonXseedStudentsObs =
 export const CDAGetTestwiseTerm =
   (data: IGetTestwiseTermBody): AppThunk =>
     async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
       const response = await ApiAssignPrePrimaryGrades.GetTestwiseTermA(data);
       let TestwiseTerm = response.data.map((item, i) => {
         return {
@@ -167,6 +175,7 @@ export const GetStudentsForStdDevMasters =
 export const CDAGetTeacherDropdown =
   (data: IGetTeacherDropdownBody): AppThunk =>
     async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
       const response = await ApiAssignPrePrimaryGrades.GetTeacherDropdown(data);
       // Removing the Class Name and Division from Data through Regex
       function extractTeacherName(str) {
