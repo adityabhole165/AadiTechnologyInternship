@@ -1,9 +1,7 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ReplyIcon from '@mui/icons-material/Reply';
-import TimePicker from '@mui/lab/TimePicker';
 import {
   Box,
   Checkbox,
@@ -11,7 +9,6 @@ import {
   Fab,
   FormHelperText,
   Grid,
-  InputAdornment,
   TextField,
   Tooltip,
   Typography,
@@ -750,7 +747,7 @@ function Form13() {
                 </>
               )}
               {/* </FormControl> */}
-              <Grid xs={12} pl={1}>
+              <Grid item xs={12} pl={1}>
                 <TextField
                   fullWidth
                   margin="normal"
@@ -931,7 +928,8 @@ function Form13() {
                 lg={2}
                 sx={{ display: scheduleMessage, mt: '2px' }}
               >
-                <TimePicker
+                //to be made working for release
+                {/* <TimePicker
                   value={value}
                   onChange={clickTime}
                   renderInput={(params) => (
@@ -950,7 +948,7 @@ function Form13() {
                       fullWidth
                     />
                   )}
-                />
+                /> */}
               </Grid>
 
               <Grid item xs={12} sx={{ mt: '-10px', mb: '6px', ml: '5px' }}>

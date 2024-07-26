@@ -31,7 +31,7 @@ const CheckboxCard = ({ Item, onClick }) => {
           <ItemSize>{Item.Name}</ItemSize>
         ) : (
           <>
-            <Grid container xs={12}>
+            <Grid item container xs={12}>
               <ClickAwayListener onClickAway={handleClickAway}>
                 <Tooltip
                   PopperProps={{ disablePortal: true }}
