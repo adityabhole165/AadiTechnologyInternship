@@ -459,8 +459,8 @@ const InvestmentDeclaration = () => {
 
                     </Grid>
                     <Container>
-                        <Box sx={{
-
+                         <Box sx={{
+                             mt:2,
                             textAlign: 'right',
                              pl: 100,
                             display: 'flex'
@@ -470,7 +470,7 @@ const InvestmentDeclaration = () => {
                                 Grand Total
                             </Typography>
                             <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 2, textAlign:'center' }}> {grandTotalAmount}</Typography>
-                        </Box>
+                        </Box> 
 
 
 
