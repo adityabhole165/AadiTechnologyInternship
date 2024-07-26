@@ -15,7 +15,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentDocumentList from './InvestmentDocumentList';
 
-const InvestmentDeclaration = () => {
+const InvestmentDeatailsDocument = () => {
     const dispatch = useDispatch();
     const { Id } = useParams();
     const HeaderList = [
@@ -253,4 +253,4 @@ const InvestmentDeclaration = () => {
         </Box>
     );
 }
-export default InvestmentDeclaration;
+export default InvestmentDeatailsDocument;
