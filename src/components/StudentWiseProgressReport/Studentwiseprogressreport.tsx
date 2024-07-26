@@ -346,7 +346,7 @@ const Studentwiseprogressreport = () => {
     asAcadmeicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
     asAssessmentId: Number(Assessment),
-    asStdDivId: Number(StandardDivisionId())
+    asStdDivId:  Number(StandardDivisionId())
    
 
   }
@@ -355,7 +355,7 @@ const Studentwiseprogressreport = () => {
     dispatch(CDAClassTeacherXseedSubjects(ClassTeacherXseedSubjectsBodyNew));
 
     
-  }, []);
+  }, [Assessment ,StandardDivisionId()]);
 
   
 
