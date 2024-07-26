@@ -17,6 +17,7 @@ import {
 import IconButton from '@mui/material/IconButton';
 import { useFormik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -53,7 +54,7 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, isFutureDateTime } from '../Common/Util';
+import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -619,6 +620,7 @@ function Form13() {
   }, [SaveDraftM]);
   return (
     <>
+
       <Box sx={{ px: 2 }}>
         <span
           onClick={() => {
@@ -639,13 +641,12 @@ function Form13() {
         </span>
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} sx={{ height: '60vh' }}>
               <Grid item xs={12}>
                 <FormHelperText>To</FormHelperText>
               </Grid>
-              <Grid item xs={12} sm={8} md={10} sx={{ mt: '-5px' }}>
+              <Grid item xs={12} sm={8} md={10} >
                 {/* <FormControl fullWidth> */}
-
                 <TextField
                   multiline
                   id=""
@@ -701,7 +702,7 @@ function Form13() {
                   <Grid item xs={12}>
                     <FormHelperText sx={{}}>Cc</FormHelperText>
                   </Grid>
-                  <Grid item xs={12} sm={12} sx={{ ml: '-10px', mt: '-5px' }}>
+                  <Grid item xs={12} sm={12} sx={{ ml: '-10px' }}>
                     <TextField
                       multiline
                       id=""
@@ -758,7 +759,7 @@ function Form13() {
                   variant="standard"
                   value={formik.values.Subject}
                   onChange={formik.handleChange}
-                  sx={{ mt: '5px' }}
+                  sx={{ mt: '-5px' }}
                 />
                 <Errormessages Error={subjecterror} />
                 <Box mb={0.4}>
@@ -957,7 +958,11 @@ function Form13() {
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <TextField
+                <ReactQuill value={formik.values.Content} modules={toolbarOptions}
+                  onChange={formik.handleChange} theme='snow'
+                  onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
+
+                {/* <TextField
                   fullWidth
                   multiline
                   rows={4}
@@ -969,7 +974,7 @@ function Form13() {
                   sx={{ mt: '30px' }}
                   value={formik.values.Content}
                   onChange={formik.handleChange}
-                />
+                /> */}
                 <Errormessages Error={contenterror} />
                 {/* {isMobile  ? 
                  <TextField fullWidth multiline rows={4}
@@ -1001,24 +1006,31 @@ function Form13() {
                     </BoxContent>
                   </>
                 ) : null}
+                <Grid item xs={6} sm={2} md={1}>
+
+                </Grid>
               </Grid>
-              <Grid item xs={6} sm={2} sx={{ mt: '-5px' }}>
-                <ButtonPrimary
-                  color="primary"
-                  type="submit"
-                  fullWidth
-                  onClick={formik.handleChange}
-                  disabled={disabledStateOfSend}
-                >
-                  Send
-                </ButtonPrimary>
-              </Grid>
-              <Grid item xs={6} sm={2} sx={{ mt: '-5px' }}>
-                <ButtonPrimary color="primary" fullWidth onClick={SaveDraft}>
-                  Save as Draft
-                </ButtonPrimary>
+
+              <Grid container spacing={1} sx={{ ml: '.5vw', mt: '3.5vh' }}>
+                <Grid item xs={6} sm={2} >
+                  <ButtonPrimary
+                    color="primary"
+                    type="submit"
+                    fullWidth
+                    onClick={formik.handleChange}
+                    disabled={disabledStateOfSend}
+                  >
+                    Send
+                  </ButtonPrimary>
+                </Grid>
+                <Grid item xs={6} sm={2} >
+                  <ButtonPrimary color="primary" fullWidth onClick={SaveDraft}>
+                    Save as Draft
+                  </ButtonPrimary>
+                </Grid>
               </Grid>
             </Grid>
+
           </form>
         </ListStyle>
       </Box>
