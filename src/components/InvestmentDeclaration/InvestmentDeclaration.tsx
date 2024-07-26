@@ -40,6 +40,8 @@ const InvestmentDeclaration = () => {
         (state: RootState) => state.InvestmentDeclaration.ISlistInvestmentEmpDetails
     )
     const isSubmittedArray = USISlistInvestmentEmpDetails.map(item => item.IsSubmitted);
+    console.log(isSubmittedArray, "isSubmittedArray");
+
     const [regimeId, setRegimeId] = useState("0");
 
 
@@ -186,7 +188,7 @@ const InvestmentDeclaration = () => {
 
     useEffect(() => {
         if (USGetRegimeDropdown.length > 0 && USISlistInvestmentEmpDetails.length > 0) {
-            if (USISlistInvestmentEmpDetails[0].IsSubmitted == "True")
+            if (USISlistInvestmentEmpDetails[0].RegimeId !== "0")
                 setRegimeId(USISlistInvestmentEmpDetails[0].RegimeId);
             else
                 setRegimeId(USGetRegimeDropdown[0].Value);
@@ -289,181 +291,173 @@ const InvestmentDeclaration = () => {
                 />
 
 
-                <Box sx={{ p: 3, background: 'white' }}>
-
-                    <Container>
-                        <Grid container spacing={3}>
-                            {USISlistInvestmentEmpDetails.map((detail) => (
-                                <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{
-                                        backgroundColor: '#F0F0F0',
-                                        textAlign: 'center', marginBottom: 2
-                                    }}>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-
-                                            {detail.SchoolName}
-
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
-
-                                            {detail.SchoolAddress}
-
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-
-                                            INVESTMENT DECLARATION FORM FOR FINANCIAL YEAR {detail.FinancialYear}
-
-                                        </Typography>
-                                        <hr />
-                                    </Box>
-                                    <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
-                                        <Box>
-                                            <Typography variant="h6">
-                                                <Box
-                                                    display="inline-block"
-                                                    border={1}
-                                                    borderRadius={40}
-                                                    pl={1}
-                                                    pr={7.3}
-                                                    mr={1}
-                                                    mt={0}
-                                                    component="span"
-                                                >
-                                                    Name
-                                                </Box>
-                                                <Typography variant="h5" component="span">
-                                                    : {detail.UserName}
-                                                </Typography>
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                <Box
-                                                    display="inline-block"
-                                                    border={1}
-                                                    borderRadius={4}
-                                                    pl={1}
-                                                    pr={2}
-                                                    mr={1}
-                                                    component="span"
-                                                    mt={0.5}
-                                                >
-                                                    Employee No
-                                                </Box>
-                                                <Typography variant="h5" component="span">
-                                                    : {detail.EmployeeNo}
-                                                </Typography>
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                <Box
-                                                    display="inline-block"
-                                                    border={1}
-                                                    borderRadius={4}
-                                                    pl={1}
-                                                    pr={5.5}
-                                                    mr={1}
-                                                    mt={0.5}
-                                                    component="span"
-                                                >
-                                                    Address
-                                                </Box>
-                                                <Typography variant="h5" component="span">
-                                                    : {detail.Address}
-                                                </Typography>
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="body1">
-                                                <Box
-                                                    display="inline-block"
-                                                    border={1}
-                                                    borderRadius={4}
-                                                    pl={1}
-                                                    pr={2}
-                                                    mr={1}
-                                                    mt={0}
-                                                    component="span"
-                                                >
-                                                    Designation
-                                                </Box>
-                                                <Typography variant="h5" component="span">
-                                                    : {detail.Designation}
-                                                </Typography>
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                <Box
-                                                    display="inline-block"
-                                                    border={1}
-                                                    borderRadius={4}
-                                                    pl={1}
-                                                    pr={5}
-                                                    mr={1}
-                                                    mt={0.5}
-                                                    component="span"
-                                                >
-                                                    PAN No
-                                                </Box>
-                                                <Typography variant="h5" component="span">
-                                                    : {detail.PanNo}
-                                                </Typography>
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                <Box
-                                                    display="inline-block"
-                                                    border={1}
-                                                    borderRadius={4}
-                                                    pl={1}
-                                                    pr={5.5}
-                                                    mr={1}
-                                                    mt={0.5}
-                                                    component="span"
-                                                >
-                                                    Gender
-                                                </Box>
-                                                <Typography variant="h5" component="span">
-                                                    : {detail.Gender}
-                                                </Typography>
-                                            </Typography>
+                <Box border={1} sx={{ p: 3, background: 'white' }}>
 
 
-                                        </Box>
+                    <Grid container spacing={3}>
+                        {USISlistInvestmentEmpDetails.map((detail) => (
+                            <Grid item xs={12} key={detail.UserId}>
+                                <Box sx={{
+                                    backgroundColor: '#F0F0F0',
+                                    textAlign: 'center', marginBottom: 2
+                                }}>
+                                    <hr />
+                                    <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
-                                    </Box>
-                                    <Box >
-                                        <SearchableDropdown
-                                            sx={{ maxWidth: '35vh' }}
-                                            ItemList={USGetRegimeDropdown}
-                                            onChange={clickRegimeDropDown}
-                                            label={'Regime'}
-                                            defaultValue={regimeId}
-                                            size={"small"} />
-                                    </Box>
+                                        {detail.SchoolName}
 
+                                    </Typography>
+                                    <hr />
+                                    <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
+
+                                        {detail.SchoolAddress}
+
+                                    </Typography>
+                                    <hr />
+                                    <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+
+                                        INVESTMENT DECLARATION FORM FOR FINANCIAL YEAR {detail.FinancialYear}
+
+                                    </Typography>
+                                    <hr />
+                                </Box>
+                                <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
                                     <Box>
-                                        {USListInvestmentDetails.length > 0 &&
-                                            <Grid container sx={{ maxWidth: '100%' }} >
-                                                <IsSubmit.Provider value={isSubmittedArray}>
-                                                    <InvestmentSection
-                                                        refreshData={refreshData}></InvestmentSection>
-
-                                                </IsSubmit.Provider>
-
-                                            </Grid>}
+                                        <Typography variant="h6">
+                                            <Box
+                                                display="inline-block"
+                                                border={1}
+                                                borderRadius={40}
+                                                pl={1}
+                                                pr={7.3}
+                                                mr={1}
+                                                mt={0}
+                                                component="span"
+                                            >
+                                                Name
+                                            </Box>
+                                            <Typography variant="h5" component="span">
+                                                : {detail.UserName}
+                                            </Typography>
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            <Box
+                                                display="inline-block"
+                                                border={1}
+                                                borderRadius={4}
+                                                pl={1}
+                                                pr={2}
+                                                mr={1}
+                                                component="span"
+                                                mt={0.5}
+                                            >
+                                                Employee No
+                                            </Box>
+                                            <Typography variant="h5" component="span">
+                                                : {detail.EmployeeNo}
+                                            </Typography>
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            <Box
+                                                display="inline-block"
+                                                border={1}
+                                                borderRadius={4}
+                                                pl={1}
+                                                pr={5.5}
+                                                mr={1}
+                                                mt={0.5}
+                                                component="span"
+                                            >
+                                                Address
+                                            </Box>
+                                            <Typography variant="h5" component="span">
+                                                : {detail.Address}
+                                            </Typography>
+                                        </Typography>
                                     </Box>
-                                </Grid>
+                                    <Box>
+                                        <Typography variant="body1">
+                                            <Box
+                                                display="inline-block"
+                                                border={1}
+                                                borderRadius={4}
+                                                pl={1}
+                                                pr={2}
+                                                mr={1}
+                                                mt={0}
+                                                component="span"
+                                            >
+                                                Designation
+                                            </Box>
+                                            <Typography variant="h5" component="span">
+                                                : {detail.Designation}
+                                            </Typography>
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            <Box
+                                                display="inline-block"
+                                                border={1}
+                                                borderRadius={4}
+                                                pl={1}
+                                                pr={5}
+                                                mr={1}
+                                                mt={0.5}
+                                                component="span"
+                                            >
+                                                PAN No
+                                            </Box>
+                                            <Typography variant="h5" component="span">
+                                                : {detail.PanNo}
+                                            </Typography>
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            <Box
+                                                display="inline-block"
+                                                border={1}
+                                                borderRadius={4}
+                                                pl={1}
+                                                pr={5.5}
+                                                mr={1}
+                                                mt={0.5}
+                                                component="span"
+                                            >
+                                                Gender
+                                            </Box>
+                                            <Typography variant="h5" component="span">
+                                                : {detail.Gender}
+                                            </Typography>
+                                        </Typography>
 
-                            ))}
 
-                        </Grid>
+                                    </Box>
 
-                    </Container>
+                                </Box>
+                                <Box >
+                                    <SearchableDropdown
+                                        sx={{ maxWidth: '35vh' }}
+                                        ItemList={USGetRegimeDropdown}
+                                        onChange={clickRegimeDropDown}
+                                        label={'Regime'}
+                                        defaultValue={regimeId}
+                                        size={"small"} />
+                                </Box>
 
+                                <Box>
+                                    {USListInvestmentDetails.length > 0 &&
+                                        <Grid container sx={{ maxWidth: '100%' }} >
+                                            <IsSubmit.Provider value={isSubmittedArray.length > 0 ? isSubmittedArray[0] : ""}>
+                                                <InvestmentSection
+                                                    refreshData={refreshData}></InvestmentSection>
 
+                                            </IsSubmit.Provider>
 
+                                        </Grid>}
+                                </Box>
+                            </Grid>
 
+                        ))}
 
-
+                    </Grid>
                     <Container>
                         <Box sx={{
 

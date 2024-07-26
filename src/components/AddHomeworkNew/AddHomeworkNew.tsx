@@ -3,7 +3,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, TextareaAutosize, Tooltip, Typography, debounce } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -1413,7 +1413,6 @@ const AddHomeworkNew = () => {
               Unpublish Reason
             </Typography>
             <textarea
-              // multiline
                aria-label="minimum height"
               rows={4}
               // type="text"
@@ -1489,7 +1488,8 @@ const AddHomeworkNew = () => {
           </Box>
         </Box>
 
-        <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} fullWidth
+        <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} 
+          fullWidth
           maxWidth={'sm'}
           PaperProps={{
             sx: {
@@ -1527,13 +1527,11 @@ const AddHomeworkNew = () => {
               Unpublish Reason
             </Typography>
             <textarea
-              // multiline
                aria-label="minimum height"
               rows={4}
-              // type="text"
-               value={textall}
+              value={textall}
               onChange={Detailschnageall}
-              style={{width: '545px', }}
+              style={{width: '536px', height:'auto'}}
             />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>

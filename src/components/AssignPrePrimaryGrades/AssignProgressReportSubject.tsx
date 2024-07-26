@@ -1,5 +1,5 @@
 import Save from "@mui/icons-material/Save";
-import { Box, Card, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from "@mui/material";
+import { Box, Card, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ISaveNonXseedSubGrades } from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
-import { CDASaveNonXseedSubGrades, GetStudentsForStdDevMasters, resetSavenonXseedMsg } from "src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades";
+import { CDAGetNonXseedStudentsObs, CDASaveNonXseedSubGrades, GetStudentsForStdDevMasters, resetSavenonXseedMsg } from "src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 
@@ -17,7 +17,7 @@ const AssignProgressReportSubject = () => {
     const StudentList = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISGetNonXseedStudentsName);
     const SaveNonXseedMsg = useSelector((state: RootState) => state.AssignPrePrimaryGrades.IGetSaveNonXseedSubGradesMsg)
 
-    const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId } = useParams();
+    const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
 
     const [headerGrade, setHeaderGrade] = useState("0");
     const [grades, setGrades] = useState({});
@@ -34,31 +34,37 @@ const AssignProgressReportSubject = () => {
         dispatch(resetSavenonXseedMsg())
     }, [SaveNonXseedMsg])
 
+    const NonXseedStudentswithObs = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISGetNonXseedStudentsObs)
+
     useEffect(() => {
-        if (StudentList.length) {
-            const initialGrades = StudentList.reduce((acc, student) => {
-                acc[student.Text1] = "0";
+        dispatch(CDAGetNonXseedStudentsObs(GetStudentsForStdDevMastersBody))
+    }, [])
+
+    useEffect(() => {
+        if (NonXseedStudentswithObs.length > 0) {
+            const initialGrades = NonXseedStudentswithObs.reduce((acc, student) => {
+                acc[student.Text1] = student.Text3;
                 return acc;
             }, {});
-            const initialObservations = StudentList.reduce((acc, student) => {
-                acc[student.Text1] = "";
+            const initialObservations = NonXseedStudentswithObs.reduce((acc, student) => {
+                acc[student.Text1] = student.Text4;
                 return acc;
             }, {});
             setGrades(initialGrades);
             setObservations(initialObservations);
         }
-    }, [StudentList]);
+    }, [NonXseedStudentswithObs]);
 
     const clickHeaderGrade = (value) => {
         setHeaderGrade(value);
-        const updatedGrades = StudentList.reduce((acc, student) => {
+        const updatedGrades = NonXseedStudentswithObs.reduce((acc, student) => {
             acc[student.Text1] = value;
             return acc;
         }, {});
         setGrades(updatedGrades);
 
         if (value === "0") {
-            const clearedObservations = StudentList.reduce((acc, student) => {
+            const clearedObservations = NonXseedStudentswithObs.reduce((acc, student) => {
                 acc[student.Text1] = "";
                 return acc;
             }, {});
@@ -102,6 +108,7 @@ const AssignProgressReportSubject = () => {
                 ItemList={GradesList}
                 onChange={clickHeaderGrade}
                 label={''}
+                disabled={EditStatusId === '3' ? true : false}
                 defaultValue={headerGrade}
                 size={"small"}
                 DisableClearable={true}
@@ -121,9 +128,9 @@ const AssignProgressReportSubject = () => {
     const getXML = () => {
         let sXML = "";
 
-        StudentList.forEach((student) => {
+        NonXseedStudentswithObs.forEach((student) => {
 
-            const YearwiseId = student.Id;
+            const YearwiseId = student.Text5;
             const studentId = student.Text1;
             const grade = grades[studentId];
             const observation = observations[studentId];
@@ -141,8 +148,8 @@ const AssignProgressReportSubject = () => {
                     "</NonXseedSubjectGrades>";
             }
         });
-
-        console.log("Generated XML:", sXML); // Add this line to log the XML data
+        sXML = `<ArrayOfNonXseedSubjectGrades xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">
+        ${sXML}</ArrayOfNonXseedSubjectGrades>`
         return sXML;
     };
 
@@ -150,7 +157,13 @@ const AssignProgressReportSubject = () => {
         const emptyObservationRows = Object.keys(grades).filter(studentId => grades[studentId] !== "0" && !observations[studentId]);
 
         if (emptyObservationRows.length > 0) {
-            toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.length}`);
+            // <Alert severity="warning">{`Observation should not be blank for row(s): ${emptyObservationRows}`}</Alert>
+            // toast with more width with css
+            const options = {
+                style: { width: '30vw' }
+            }
+            console.log(emptyObservationRows)
+            toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`, options);
             return;
         }
 
@@ -176,7 +189,7 @@ const AssignProgressReportSubject = () => {
                     navLinks={[
                         {
                             title: 'Assign Pre-Primary Grades',
-                            path: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
+                            path: '/extended-sidebar/Teacher/AssignPrePrimaryGrades' + '/' + SelectTerm + '/' + selectTeacher
                         },
                         {
                             title: 'Assign Subject Grades',
@@ -209,23 +222,32 @@ const AssignProgressReportSubject = () => {
                                 disabled
                                 inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                             />
-                            <Tooltip title={'Save'}>
-                                <IconButton
-                                    onClick={SaveNonXseedGrades}
-                                    sx={{
-                                        background: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                >
-                                    <Save />
-                                </IconButton>
-                            </Tooltip>
+                            {EditStatusId !== '3' &&
+                                <Tooltip title={'Save'}>
+                                    <IconButton
+                                        onClick={SaveNonXseedGrades}
+                                        sx={{
+                                            background: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                            }
                         </Stack>
                     }
                 />
+                {/* <Alert icon={<CheckIcon fontSize="inherit" sx={{ color: 'white' }} />} severity="success" sx={{ px: '40%', backgroundColor: '#324b84', fontWeight: '700', color: 'white' }}>
+                    Student grades are already submitted.
+                </Alert> */}
+                {EditStatusId === '3' &&
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                        <b>Student grades are already submitted.</b>
+                    </Typography>}
                 <TableContainer component={Card}>
                     <Table aria-label="simple table">
                         <TableHead >
@@ -245,16 +267,17 @@ const AssignProgressReportSubject = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {StudentList.length !== 0 && StudentList.map((item, i) => (
+                            {NonXseedStudentswithObs.length !== 0 && NonXseedStudentswithObs.map((item, i) => (
                                 <TableRow key={i}>
-                                    <TableCell align="center">{item.Text1.split(' - ')[0]}</TableCell>
-                                    <TableCell>{item.Text1.split(' - ')[1]}</TableCell>
+                                    <TableCell align="center">{item.Text1}</TableCell>
+                                    <TableCell>{item.Text2}</TableCell>
                                     <TableCell>
                                         <SearchableDropdown
                                             sx={{ backgroundColor: 'white' }}
                                             ItemList={GradesList}
                                             onChange={(value) => clickBodyGrade(item.Text1, value)}
                                             label={''}
+                                            disabled={EditStatusId === '3' ? true : false}
                                             defaultValue={grades[item.Text1]}
                                             DisableClearable={true}
                                             size={"small"}
@@ -264,7 +287,7 @@ const AssignProgressReportSubject = () => {
                                         <textarea
                                             rows={2}
                                             cols={50}
-                                            disabled={grades[item.Text1] === "0"}
+                                            disabled={EditStatusId === '3' ? true : grades[item.Text1] === "0"}
                                             value={observations[item.Text1]}
                                             onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
                                         ></textarea>

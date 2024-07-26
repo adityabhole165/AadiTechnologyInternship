@@ -2,27 +2,26 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import Autorenew from '@mui/icons-material/Autorenew';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
-import MilitaryTech from '@mui/icons-material/MilitaryTech';
+import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import TextSnippet from '@mui/icons-material/TextSnippet';
 import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Person from '@mui/icons-material/Person';
 
 import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate ,useParams} from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import FinalResultUnpublish from 'src/components/FinalResultUnpublish/FinalResultUnpublish';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IClassTeacherListBody,
   IConfiguredTestPublishedBody,
   IGenerateAllBody,
   IGenerateBody,
   IGetPagedStudentBody,
-  IPublishBody,
   IUnpublishBody,
   IUnpublishedTestexamBody,
   IViewBody,
@@ -33,7 +32,6 @@ import {
 } from 'src/interfaces/FinalResult/IFinalResult';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { AlertContext } from 'src/contexts/AlertContext';
 
 import {
   ClassTechersList,
@@ -56,13 +54,14 @@ import {
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import DataTable, { Column } from '../DataTable';
+import { Column } from '../DataTable';
+import FinalResultTable from './FinalResultTable';
 const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { StandardDivisionId1 } =useParams();
-  
+  const { StandardDivisionId1 } = useParams();
+
   const [Open, setOpen] = useState(false);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -87,9 +86,15 @@ const FinalResult = () => {
   const handleVisibilityClick = () => {
     setShowProgressReport(!showProgressReport); // Toggle visibility
   }
+  const StandardDivisionIdse = (
+    sessionStorage.getItem('StandardDivisionId')
+  );
+   console.log(StandardDivisionIdse,"");
+   
 
-  const [StandardDivisionId, setStandardDivisionId] = useState('0');
- 
+  const FinalResultFullAccess = GetScreenPermission('Final Result');
+
+  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse);
   
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
@@ -115,7 +120,6 @@ const FinalResult = () => {
   };
 
 
-  const FinalResultFullAccess = GetScreenPermission('Final Result');
 
   const AssignmentClickIcon = (value) => {
     navigate('/extended-sidebar/Teacher/StudentProgressReport/' + asUserId + '/' + asStudentId)
@@ -310,11 +314,11 @@ const FinalResult = () => {
     dispatch(ClassTechersList(ClassTeachersBody));
   }, []);
 
-  useEffect(() => {
-    if (GetClassTeachers.length > 0) {
-      setStandardDivisionId(GetClassTeachers[0].Value);
-    }
-  }, [GetClassTeachers])
+  // useEffect(() => {
+  //   if (GetClassTeachers.length > 0 && StandardDivisionId == undefined) {
+  //     setStandardDivisionId(GetClassTeachers[0].Value);
+  //   }
+  // }, [GetClassTeachers])
 
   // useEffect(() => {
   //   dispatch(GetPublishResult(PublishResultBody));
@@ -354,7 +358,50 @@ const FinalResult = () => {
     });
     return TeacherId;
   };
+  const [sortby, setSortBy] = useState('Roll No.');
+  const [sortAsc, setSortAsc] = useState('Desc');
+  
 
+  const sortField = 
+  sortby === "Roll No." ? "Roll_No" :
+  sortby === "Student Name" ? "Name" : 
+  sortby === "Total" ? "Marks" :
+  sortby === "%" ? "Percentage" :
+  sortby === "Grade" ? "Grade_Name" :
+  sortby === "Result" ? "Result" : "";
+
+  const sortDirection = sortAsc === 'Desc' ? ' Desc' : '';
+
+
+  const ClickHeader = (value) => {
+    setSortBy(value);
+    if (value === sortby) {
+      setSortAsc(sortAsc === 'Asc' ? 'Desc' : 'Asc');
+    } 
+  
+    const sortDirection = sortAsc === 'Desc' ? ' Desc' : '';
+  
+    const sortField = 
+      value === "Roll No." ? "Roll_No" :
+      value === "Student Name" ? "Name" : 
+      value === "Total" ? "Marks" :
+      value === "%" ? "Percentage" :
+      value === "Grade" ? "Grade_Name" :
+      value === "Result" ? "Result" : "";
+  
+    const PagedStudentBody = {
+      asSchoolId: asSchoolId.toString(),
+      asAcademicyearId: asAcademicYearId.toString(),
+      asStandardDivisionId: StandardDivisionId,
+      SortExp: `ORDER BY ${sortField}${sortDirection}`,
+      prm_StartIndex: (page - 1) * rowsPerPage,
+      PageSize: page * rowsPerPage,
+    };
+  
+    dispatch(GetStudentResultList(PagedStudentBody));
+  };
+  
+  
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -452,7 +499,7 @@ const FinalResult = () => {
   const buttonsDisabled = StandardDivisionId === '0';
 
   useEffect(() => {
-    if (GetClassTeachers && GetClassTeachers.length > 0) {
+    if (GetClassTeachers && GetClassTeachers.length > 0 && StandardDivisionId == undefined) {
       if (FinalResultFullAccess === 'Y') {
         setStandardDivisionId(GetClassTeachers[0].Value);
       } else {
@@ -587,7 +634,7 @@ const FinalResult = () => {
       });
     }
   };
-  
+
 
 
   useEffect(() => {
@@ -693,10 +740,10 @@ const FinalResult = () => {
 
             />
           </Box>
-         
+
 
           <Box>
-          <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
+            <Tooltip title={"Display student list for their result generation. Click on \"Generate All\" to generate final results for all the students in the selected class. Click on \"Publish\" to publish the final result of the selected class. Click on \"Publish All\" to publish the final results of all the classes in your school."}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -711,118 +758,118 @@ const FinalResult = () => {
             </Tooltip>
             &nbsp;
 
-          <Tooltip title={"Generate All"} disableHoverListener={false} disableFocusListener={false}>
-  <span>
-    <IconButton
-      onClick={onClickGenerateAll}
-      disabled={GetTestPublished == false || GetResultGenerated == true || buttonsDisabled}
-      sx={{
-        color: 'white',
-        backgroundColor: GetResultGenerated ? blue[200] : blue[500],
-        '&:hover': {
-          backgroundColor: blue[600]
-        },
-        ...(GetTestPublished == false || GetResultGenerated == true || buttonsDisabled) && {
-          pointerEvents: 'none'
-        }
-      }}
-    >
-      <Autorenew />
-    </IconButton>
-  </span>
-</Tooltip>
-&nbsp;
-<Tooltip title={"View Result All"} disableHoverListener={false} disableFocusListener={false}>
-  <span>
-    <IconButton
-      onClick={() => {
-        navigate('/extended-sidebar/Teacher/ViewResultAll/ ' + StandardDivisionId)
-      }}
-      disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
-      sx={{
-        color: 'white',
-        backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
-        '&:hover': {
-          backgroundColor: blue[600]
-        },
-        ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
-          pointerEvents: 'none'
-        }
-      }}
-    >
-      <TextSnippet />
-    </IconButton>
-  </span>
-</Tooltip>
-&nbsp;
-<Tooltip title={"Publish"} disableHoverListener={false} disableFocusListener={false}>
-  <span>
-    <IconButton
-      onClick={() => onClickPublish(true)}
-      disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
-      sx={{
-        color: 'white',
-        backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? green[200] : green[500],
-        '&:hover': {
-          backgroundColor: green[600]
-        },
-        ...(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) && {
-          pointerEvents: 'none'
-        }
-      }}
-    >
-      <CheckCircle />
-    </IconButton>
-  </span>
-</Tooltip>
-&nbsp;
-<Tooltip title={"Unpublish"} disableHoverListener={false} disableFocusListener={false}>
-  <span>
-    <IconButton
-      onClick={ClickOpenDialogbox}
-      disabled={!GetResultGenerated || buttonsDisabled}
-      sx={{
-        color: 'white',
-        backgroundColor: !GetResultGenerated ? red[200] : red[500],
-        '&:hover': {
-          backgroundColor: red[600]
-        },
-        ...(!GetResultGenerated || buttonsDisabled) && {
-          pointerEvents: 'none'
-        }
-      }}
-    >
-      <Unpublished />
-    </IconButton>
-  </span>
-</Tooltip>
-&nbsp;
-<Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
-  <span>
-    <IconButton
-      onClick={Toppers}
-      disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
-      sx={{
-        color: 'white',
-        backgroundColor: blue[500],
-        '&:hover': {
-          backgroundColor: blue[600]
-        },
-        ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
-          pointerEvents: 'none'
-        }
-      }}
-    >
-     
-       <Person />
-    </IconButton>
-  </span>
-</Tooltip>
+            <Tooltip title={"Generate All"} disableHoverListener={false} disableFocusListener={false}>
+              <span>
+                <IconButton
+                  onClick={onClickGenerateAll}
+                  disabled={GetTestPublished == false || GetResultGenerated == true || buttonsDisabled}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: GetResultGenerated ? blue[200] : blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    },
+                    ...(GetTestPublished == false || GetResultGenerated == true || buttonsDisabled) && {
+                      pointerEvents: 'none'
+                    }
+                  }}
+                >
+                  <Autorenew />
+                </IconButton>
+              </span>
+            </Tooltip>
+            &nbsp;
+            <Tooltip title={"View Result All"} disableHoverListener={false} disableFocusListener={false}>
+              <span>
+                <IconButton
+                  onClick={() => {
+                    navigate('/extended-sidebar/Teacher/ViewResultAll/' + StandardDivisionId)
+                  }}
+                  disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: GetAtleastOneResultGenerated?.AllowPublish == false ? blue[200] : blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    },
+                    ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
+                      pointerEvents: 'none'
+                    }
+                  }}
+                >
+                  <TextSnippet />
+                </IconButton>
+              </span>
+            </Tooltip>
+            &nbsp;
+            <Tooltip title={"Publish"} disableHoverListener={false} disableFocusListener={false}>
+              <span>
+                <IconButton
+                  onClick={() => onClickPublish(true)}
+                  disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? green[200] : green[500],
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    },
+                    ...(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) && {
+                      pointerEvents: 'none'
+                    }
+                  }}
+                >
+                  <CheckCircle />
+                </IconButton>
+              </span>
+            </Tooltip>
+            &nbsp;
+            <Tooltip title={"Unpublish"} disableHoverListener={false} disableFocusListener={false}>
+              <span>
+                <IconButton
+                  onClick={ClickOpenDialogbox}
+                  disabled={!GetResultGenerated || buttonsDisabled}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: !GetResultGenerated ? red[200] : red[500],
+                    '&:hover': {
+                      backgroundColor: red[600]
+                    },
+                    ...(!GetResultGenerated || buttonsDisabled) && {
+                      pointerEvents: 'none'
+                    }
+                  }}
+                >
+                  <Unpublished />
+                </IconButton>
+              </span>
+            </Tooltip>
+            &nbsp;
+            <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
+              <span>
+                <IconButton
+                  onClick={Toppers}
+                  disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    },
+                    ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
+                      pointerEvents: 'none'
+                    }
+                  }}
+                >
 
-            
-            
-           
-            
+                  <Person />
+                </IconButton>
+              </span>
+            </Tooltip>
+
+
+
+
+
           </Box>
 
 
@@ -874,9 +921,12 @@ const FinalResult = () => {
         </div> : <span> </span>}
 
         {GetStudentLists && GetStudentLists.length > 0 && (
-          <DataTable
+          <FinalResultTable
             columns={columns}
             data={GetStudentLists}
+            clickHeader={ClickHeader}
+            sortby={sortby}
+            sortAsc={sortAsc}
           />
         )}
 

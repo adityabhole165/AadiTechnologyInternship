@@ -2,7 +2,7 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
@@ -28,19 +28,23 @@ import CommonPageHeader from '../CommonPageHeader';
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { TermId, TeacherId } = useParams();
   const { showAlert, closeAlert } = useContext(AlertContext);
   let Teacher_ID = sessionStorage.getItem("TeacherId")
   let AssignPrePrimaryGradesAccess = GetScreenPermission(" Assign Pre-Primary Grades");
   const [selectTeacher, SetselectTeacher] = useState(AssignPrePrimaryGradesAccess === "N" ? Teacher_ID : "0");
-  const [SelectTerm, SetSelectTerm] = useState();
+  const [SelectTerm, SetSelectTerm] = useState('0');
   const [dateState, setDateState] = useState('');
   const [Subjectid, setSubjectid] = useState('');
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-
-
+  useEffect(() => {
+    if (TermId !== '' && TeacherId !== '') {
+      console.log(TermId, TeacherId)
+    }
+  }, [TeacherId, TermId])
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
@@ -97,25 +101,25 @@ const AssignPrePrimaryGrades = () => {
     };
 
     showAlert({
-      title: 'Submit',
+      title: 'Please Confirm',
       message: value.asIsSubmitted !== 'N' ?
         //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
         `${pending !== '' ? `Roll no.(s) grades not entered for : ${pending} \nAre you sure you want to continue?` : 'Once you submit the result to the class-teacher, you cannot modify the marks / grades. \nAre you sure you want to continue?'}` :
         'Are you sure, Do you want to unsubmit marks / grades?',
       variant: 'warning',
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
         pending == '' && dispatch(CDAGetSubmitUnsubmitExamMarksStatus(SubmitExamMarksStatusBody));
         pending !== '' && showAlert({
-          title: 'Submit',
+          title: 'Please Confirm',
           message: value.asIsSubmitted !== 'N' ?
             //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
             'Once you submit the result to the class-teacher, you cannot modify the marks / grades. \nAre you sure you want to continue?' :
             'Are you sure, Do you want to unsubmit marks/grades?',
           variant: 'warning',
-          confirmButtonText: 'OK',
+          confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
           onConfirm: () => {
             closeAlert();
@@ -146,13 +150,13 @@ const AssignPrePrimaryGrades = () => {
     };
     console.log("Submit and unsubmit body-->>>>>>>>", SubmitExamMarksStatusBody)
     showAlert({
-      title: 'Unsubmit',
+      title: 'Please Confirm',
       message: value.asIsSubmitted !== 'N' ?
         //'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?' :
         'Are you sure you want to unsubmit grades?' :
         'Are you sure, Do you want to unsubmit marks/grades?',
       variant: 'warning',
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       onConfirm: () => {
         closeAlert();
@@ -228,8 +232,8 @@ const AssignPrePrimaryGrades = () => {
     SetselectTeacher(value);
     console.log("Selected Teacher.............>> check number", selectTeacher)
   };
-  const clickEdit = (EditId, ClassName, SubjectName, SubjectId, StandardDivisionID) => {
-    let EditStatusId = EditId
+  const clickEdit = (SubmitStatusId, ClassName, SubjectName, SubjectId, StandardDivisionID) => {
+    let EditStatusId = SubmitStatusId
     let StandardDivisionId = StandardDivisionID
     let Assesment: string;
     USGetTestwiseTerm.forEach(AssesmentArray => {
@@ -237,12 +241,12 @@ const AssignPrePrimaryGrades = () => {
         Assesment = AssesmentArray.Name
       }
     })
-    if (EditId === "1") {
-      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
-    } else if (EditId === "2") {
-      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
-    } else if (EditId === "3") {
-      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/')
+    if (SubmitStatusId === "1") {
+      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
+    } else if (SubmitStatusId === "2") {
+      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
+    } else if (SubmitStatusId === "3") {
+      navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
     }
   };
   let a = GetIsPrePrimaryTeacher()

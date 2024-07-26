@@ -4,10 +4,11 @@ import IsSubmit from './IsSubmit';
 export type Column = {
     id: string;
     label: string;
-    renderCell?: (rowData: any) => React.ReactNode;
+    // renderCell?: (rowData: any) => React.ReactNode;
     renderHeader?: () => React.ReactNode;
     cellProps?: TableCellProps;
     headerCellProps?: TableCellProps;
+    renderCell?: (rowData: any, rowIndex?: number) => React.ReactNode;
 };
 
 export type RowData = {
@@ -78,12 +79,14 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
     const totalAmount = tableData.reduce((acc, item) => acc + (item.Amount || 0), 0);
     let Data = useContext(IsSubmit)
 
+
     return (
         <Paper>
             <TableContainer>
                 <Table >
                     <TableHead>
                         <StyledTableRow>
+                            <StyledTableCell>No.</StyledTableCell>
                             {columns.map((column) => (
                                 <StyledTableCell {...column.headerCellProps} key={column.id}>
                                     {column.renderHeader ? column.renderHeader() : column.label}
@@ -95,27 +98,28 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                     <TableBody>
                         {isLoading ? (
                             <TableRow>
-                                <TableCell colSpan={columns.length + 1} align="center">
+                                <TableCell colSpan={columns.length + 2} align="center">
                                     <CircularProgress />
                                 </TableCell>
                             </TableRow>
                         ) : tableData.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={columns.length + 1} align="center">
+                                <TableCell colSpan={columns.length + 2} align="center">
                                     No data available
                                 </TableCell>
                             </TableRow>
                         ) : (
                             (isPagination ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : tableData).map((row, rowIndex) => (
                                 <TableRow key={rowIndex}>
+                                    <TableCell>{page * rowsPerPage + rowIndex + 1}</TableCell>
                                     {columns.map((column, i) => (<>{(GroupAmount == 0) ?
 
                                         < TableCell  {...column.cellProps} key={column.id}>
-                                            {column.renderCell ? column.renderCell(row) : row[column.id]}
+                                            {column.renderCell ? column.renderCell(row, rowIndex) : row[column.id]}
                                         </TableCell >
                                         : <>{(i != 2) &&
                                             < TableCell  {...column.cellProps} key={column.id}>
-                                                {column.renderCell ? column.renderCell(row) : row[column.id]}
+                                                {column.renderCell ? column.renderCell(row, rowIndex) : row[column.id]}
                                             </TableCell >}</>
                                     }
                                     </>
@@ -134,6 +138,9 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                             value={row.Amount}
                                             onChange={(e) => handleTextFieldChange(e, rowIndex)}
                                             disabled={Data == 'True'}
+                                            sx={{
+                                                backgroundColor: Data === 'True' ? '#F4F6F6   ' : 'white',
+                                            }}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -142,7 +149,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                         <TableRow sx={{
                             paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}>
-                            <TableCell colSpan={columns.length} align="right">
+                            <TableCell colSpan={columns.length + 1} align="right">
                                 <Typography variant="h6" sx={{ backgroundColor: "#324b84", ml: 81, p: 0.5, color: 'white', width: 'auto' }}>Total Amount </Typography>
                             </TableCell>
                             <TableCell>

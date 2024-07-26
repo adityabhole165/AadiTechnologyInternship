@@ -278,10 +278,10 @@ const ViewResultAll = (props: Props) => {
                   <TableBody>
                     {USSStudentsingleResult.map((item) => (
                       <TableRow key={item.id} sx={{ bgcolor: 'grey.300' }}>
-                        <TableCell><b>Roll No :  {item.Text2} </b></TableCell>
-                        <TableCell><b>Name :  {item.Text1} </b></TableCell>
-                        <TableCell><b>Class :  {item.Text3} - {item.Text4} </b></TableCell>
-                        <TableCell><b>Year :  {item.Text5} </b></TableCell>
+                        <TableCell sx={{textAlign:'center'}}><b>Roll No :  {item.Text2} </b></TableCell>
+                        <TableCell sx={{textAlign:'center'}}><b>Name :  {item.Text1} </b></TableCell>
+                        <TableCell sx={{textAlign:'center'}}><b>Class :  {item.Text3} - {item.Text4} </b></TableCell>
+                        <TableCell sx={{textAlign:'center'}}><b>Year :  {item.Text5} </b></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -309,12 +309,13 @@ const ViewResultAll = (props: Props) => {
                   <Table>
                     <TableBody>
                       <TableRow>
-                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
+                        <TableCell>
+                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
                           Subjects
-                        </Typography>
+                        </Typography></TableCell>
                         {SubjectDetailsView.map((subject) => (
 
-                          <TableCell key={subject.Subject_Id}><b>{subject.Name}  </b>
+                          <TableCell key={subject.Subject_Id} sx={{textAlign:'center'}}><b>{subject.Name}  </b>
                             {/* {(totalconsidration == subject.Subject_Id) && <span style={{ color: 'red' }}>*</span>} */}
 
                             {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
@@ -327,22 +328,24 @@ const ViewResultAll = (props: Props) => {
                       <TableRow>
                         {!showOnlyGrades && (
                           <>
-                            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
+                          <TableCell>
+                            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
                               Marks
                             </Typography>
-
+                            </TableCell>
                             {MarkDetailsView.map((marks) => (
-                              <TableCell key={marks.Name}>{marks.Name}</TableCell>
+                              <TableCell key={marks.Name} sx={{textAlign:'center'}} >{marks.Name}</TableCell>
                             ))}
                           </>
                         )}
                       </TableRow>
                       <TableRow>
-                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={2}>
+                      <TableCell>
+                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
                           Subject Grade
-                        </Typography>
+                        </Typography></TableCell>
                         {GradesDetailsView.map((Grade) => (
-                          <TableCell>{Grade.Name}
+                          <TableCell sx={{textAlign:'center'}}>{Grade.Name}
                           </TableCell>
                         )
                         )}
@@ -351,8 +354,8 @@ const ViewResultAll = (props: Props) => {
                   </Table>
 
                 </Box>
-                <hr />
-                <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={2}>
+                
+                <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={0}>
                   {Usisconfigred.IsConfiged == 0 ? (
                     <div>
                       {Usunpublishedexam.length > 0 && (
