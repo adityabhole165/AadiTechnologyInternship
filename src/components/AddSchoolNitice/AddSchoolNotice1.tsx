@@ -38,11 +38,16 @@ const AddSchoolNotice1: React.FC = () => {
     const [text, setText] = useState<string>('');
     const [formData, SetformData] = useState<any>('');
 
+
+    const [isRoleError, setIsRoleError] = useState(false);
+    const [isClassError, setIsClassError] = useState(false);
+    
     const location = useLocation();
     const { state } = location;
     const ISGetUserRolesForSelectedNoticeId: any = useSelector((state: RootState) => state.GetUserRolesForSelectedNoticeId.ISGetUserRolesForSelectedNoticeId);
     const ISGetStandardDivisionsForSelectedNoticeId: any = useSelector((state: RootState) => state.GetStandardDivisionsForSelectedNoticeId.ISGetStandardDivisionsForSelectedNoticeId);
-
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogMessage, setDialogMessage] = useState('');
     // const { state, userRoleId } = useParams()
     // useEffect(() => {
     //     if (state || userRoleId) {
@@ -97,6 +102,7 @@ const AddSchoolNotice1: React.FC = () => {
             ...applicableTo,
             [event.target.name]: event.target.checked,
         });
+        setIsRoleError(false);
     };
     console.log("Set Application Values", applicableTo);
     const ClickRadio = (value) => {
@@ -135,18 +141,18 @@ const AddSchoolNotice1: React.FC = () => {
     // validation
     const formik = useFormik({
         initialValues: {
-            linkName: state ? state.NoticeName : '',
+            linkName: state ? state.linkName : '',
             NoticeName: state ? state.NoticeName : '',
             displayLocation: state ? state.DisplayLocation.trim() : null,
             // startDate: state ? moment(state.StartDate).format('dd MMM yyyy') : null,
-            startDate: state ? parse(state.StartDate, "dd-MM-yyyy HH:mm:ss", new Date()) : null,
-            endDate: state ? parse(state.EndDate, "dd-MM-yyyy HH:mm:ss", new Date()) : null,
-            startTime: state ? state.StartTime : null,
-            endTime: state ? state.EndTime : null,
+            startDate: state ? parse(state.startDate, "dd-MM-yyyy HH:mm:ss", new Date()) : null,
+            endDate: state ? parse(state.endDate, "dd-MM-yyyy HH:mm:ss", new Date()) : null,
+            startTime: state ? state.startTime : null,
+            endTime: state ? state.endTime : null,
             noticeFile: FileName2 ? FileName2 : null,
             imageFile: fileName1 ? fileName1 : null,
             description: state ? state.NoticeDescription : '',
-            sortOrder: state ? state.dbSortOrder : '',
+            sortOrder: state ? state.sortOrder : '',
             applicableTo: {
                 admin: false,
                 teacher: false,
@@ -210,7 +216,7 @@ const AddSchoolNotice1: React.FC = () => {
     const handleSave = () => {
         dispatch(CDASaveUpdateSchoolNotice(SaveUpdateSchoolNotice))
         dispatch(CDAEditSchoolNoticeDetails(EditSchoolNoticeDetails))
-        alert("Hello............................!")
+        alert("All the field is required.!")
     }
     let NoticeId = 507
     const GetUserRolesForSelectedNoticeId: IGetUserRolesForSelectedNoticeIdBody = {
@@ -425,7 +431,7 @@ const AddSchoolNotice1: React.FC = () => {
                             format="dd-MM-yyyy"
                             label={
                                 <span>
-                                    Start Date <span style={{ color: 'red' }}></span>
+                                    Start Date <span style={{ color: 'red' }}>*</span>
                                 </span>
                             } sx={{ width: "100%" }}
                         />
@@ -445,11 +451,16 @@ const AddSchoolNotice1: React.FC = () => {
                             format="dd-MM-yyyy"
                             label={
                                 <span>
-                                    End Date <span style={{ color: 'red' }}></span>
+                                    End Date <span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             sx={{ width: "100%" }}
                         />
+                        {formik.touched.endDate && formik.errors.endDate && (
+                            <Typography sx={{ color: 'red', margin: '5px' }}>
+                                {formik.errors.endDate}
+                            </Typography>
+                        )}
                     </Grid>
                     <Grid item xs={3} md={4}>
                         <TimePicker
@@ -477,16 +488,19 @@ const AddSchoolNotice1: React.FC = () => {
                             label={
                                 <span>
                                     End Time
+                                    <span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             sx={{ width: "100%" }}
                         />
+                        {formik.touched.endTime && formik.errors.endTime && (
+                            <Typography sx={{ color: 'red', margin: '5px' }}>
+                                {formik.errors.endTime}
+                            </Typography>
+                        )}
                     </Grid>
                     {radioBtn === '1' ?
                         <Grid item xs={3} md={4}>
-                            <Typography variant="body2" sx={{ marginBottom: '8px' }}>
-                                Notice File
-                            </Typography>
                             <SingleFile
                                 ValidFileTypes={ValidFileTypes1}
                                 MaxfileSize={MaxfileSize1}
@@ -501,6 +515,11 @@ const AddSchoolNotice1: React.FC = () => {
                             {formik.touched.noticeFile && formik.errors.noticeFile && (
                                 <Typography sx={{ color: 'red', margin: '5px' }}>
                                     {formik.errors.noticeFile}
+                                </Typography>
+                            )}
+                            {formik.touched.noticeFile && !formik.values.noticeFile && (
+                                <Typography sx={{ color: 'red', margin: '5px' }}>
+                                    Please upload a notice file.
                                 </Typography>
                             )}
                         </Grid> : null}
@@ -609,6 +628,7 @@ const AddSchoolNotice1: React.FC = () => {
                         (Object.values(applicableTo).every(Boolean) || applicableTo.student) &&
                         <Grid item xs={9} md={9}>
                             <SelectListChild ISGetStandardDivisionsForSelectedNoticeId={ISGetStandardDivisionsForSelectedNoticeId} />
+                        
                         </Grid>
                     }
                     {radioBtn === '1' ? null
