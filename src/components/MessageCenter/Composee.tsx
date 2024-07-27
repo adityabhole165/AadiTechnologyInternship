@@ -641,7 +641,7 @@ function Form13() {
         </span>
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1} sx={{ height: '60vh' }}>
+            <Grid container spacing={1} sx={{ height: '70vh' }}>
               <Grid item xs={12}>
                 <FormHelperText>To</FormHelperText>
               </Grid>
@@ -663,7 +663,7 @@ function Form13() {
                     borderRadius: '5.3px'
                   }}
                 />
-                <Box mt={0.5}>
+                <Box mt={-1}>
                   {RecipientsList.length == 0 ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
@@ -865,7 +865,7 @@ function Form13() {
                 </Typography>
               </Grid>
 
-              <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{ mt: '-10px' }}>
+              <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{ mt: '-15px' }}>
                 <Checkbox
                   onChange={scheduleMessageCheckBox}
                   onClick={() => setRequestSchedule(!requestSchedule)}
@@ -952,16 +952,17 @@ function Form13() {
                 /> */}
               </Grid>
 
-              <Grid item xs={6} sx={{ mt: '-10px', mb: '6px', ml: '5px', }}>
+              <Grid item xs={6} sx={{ mt: '-20px', mb: '6px', ml: '5px', }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
+                <Box sx={{p:0.5}}>
                 <ReactQuill value={formik.values.Content} modules={toolbarOptions}
                   onChange={formik.handleChange} theme='snow'
                   onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
-
+                </Box>
                 {/* <TextField
                   fullWidth
                   multiline
@@ -993,7 +994,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ mt: '-15px' }}>
+              <Grid item xs={12} sm={12} sx={{ mt: '-10px', p:0.5 }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>
@@ -1009,7 +1010,7 @@ function Form13() {
                 
               </Grid>
 
-              <Grid container spacing={1} sx={{ ml: '.5vw', mt: '3.5vh', pt:2 }}>
+              <Grid container spacing={1} sx={{ ml: '0.5vw', mt: '2.5vh', pt:0.5 }}>
                 <Grid item xs={6} sm={2} >
                   <ButtonPrimary
                     color="primary"
@@ -1032,7 +1033,7 @@ function Form13() {
           </form>
         </ListStyle>
       </Box>
-      <div style={{ display: displayOfRecipients }}>
+      <div style={{ display: displayOfRecipients, paddingTop:'15px' }}>
         <AddReciepents
           RecipientName={RecipientsObject.RecipientName}
           RecipientId={RecipientsObject.RecipientId}
