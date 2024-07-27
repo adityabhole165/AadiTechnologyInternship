@@ -348,7 +348,7 @@ const InvestmentDeclaration = () => {
                         <Box>
 
 
-                            <InvestmentDeatailsDocument Id={investmentData} UserName={getUserName} DocumentName={Documentname} />
+                            <InvestmentDeatailsDocument Id={investmentData} UserName={UserName} DocumentName={Documentname} />
 
                         </Box>
                     </DialogContent>

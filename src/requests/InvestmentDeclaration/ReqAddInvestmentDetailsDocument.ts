@@ -10,7 +10,8 @@ const AddInvestmentDetailsDocumentSlice = createSlice({
         ISSaveInvestmentDocument: '',
         ISGetAllDocumentsList: [],
         ISGetInvestmentDocumentFile: [],
-        ISDeleteInvestmentDocument: ''
+        ISDeleteInvestmentDocument: '',
+        Loading: true
     },
     reducers: {
         RCheckPublishUnpublishDocument(state, action) {
@@ -32,6 +33,7 @@ const AddInvestmentDetailsDocumentSlice = createSlice({
             state.ISDeleteInvestmentDocument = action.payload
         },
         rdeleteresetMessage(state) {
+            state.Loading = false;
             state.ISDeleteInvestmentDocument = '';
         },
     }
@@ -82,7 +84,7 @@ export const getDeleteInvestmentDocument = (data: IDeleteInvestmentDocumentBody)
         dispatch(AddInvestmentDetailsDocumentSlice.actions.RDeleteInvestmentDocument(response.data));
 
     };
-export const deleteresetMessage = (): AppThunk => async (dispatch) => {
+export const deleteresetInvestMessage = (): AppThunk => async (dispatch) => {
     dispatch(AddInvestmentDetailsDocumentSlice.actions.rdeleteresetMessage());
 };
 

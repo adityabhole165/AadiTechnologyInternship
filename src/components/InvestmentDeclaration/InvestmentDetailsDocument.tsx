@@ -5,8 +5,7 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
-import { deleteresetMessage } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
+import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentDocumentList from './InvestmentDocumentList';
@@ -72,7 +71,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
         asSchoolId: asSchoolId,
         asFinancialYearId: 1,
         asUserId: asUserId,
-        asDocumentId: Number(Id),
+        asDocumentId: 81,
         asDocumentTypeId: 1
     }
     const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
@@ -101,7 +100,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
     }
     const InvestmentDocumentFileBody: IGetInvestmentDocumentFileBody = {
         asSchoolId: asSchoolId,
-        asId: Number(Id),
+        asId: 2303,
     };
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
@@ -156,7 +155,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
     useEffect(() => {
         if (USDeleteInvestmentDocument !== '') {
             toast.success("Document deleted successfully.");
-            dispatch(deleteresetMessage());
+            dispatch(deleteresetInvestMessage());
             dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
         }
     }, [USDeleteInvestmentDocument]);
