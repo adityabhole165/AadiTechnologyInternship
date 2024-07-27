@@ -619,9 +619,9 @@ function Form13() {
     }
   }, [SaveDraftM]);
   return (
-    <>
+    < >
 
-      <Box sx={{ px: 2 }}>
+      <Box sx={{ px: 2 }} >
         <span
           onClick={() => {
             navigate(-1);
@@ -958,7 +958,7 @@ function Form13() {
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{p:2}}>
+                <Box sx={{p:1}}>
                 <ReactQuill value={formik.values.Content} modules={toolbarOptions}
                   onChange={formik.handleChange} theme='snow'
                   onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
