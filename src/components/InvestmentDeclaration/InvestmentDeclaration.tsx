@@ -1,7 +1,6 @@
 import { Check, QuestionMark, Save } from "@mui/icons-material";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
-import { ClearIcon } from "@mui/x-date-pickers";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -206,7 +205,8 @@ const InvestmentDeclaration = () => {
     }, [])
 
 
-    const userName = USISlistInvestmentEmpDetails[0]?.UserName || 'Employee';
+    // const userName = USISlistInvestmentEmpDetails[0]?.UserName || 'Employee';
+    const userName = sessionStorage.getItem('StudentName')
 
 
 
@@ -223,27 +223,32 @@ const InvestmentDeclaration = () => {
     }
     const [open, setOpen] = useState(false)
     const [investmentData, setinvestmentData] = useState(null)
-    const [UserName, setUserName] = useState('')
     const [Documentname, setDocumentName] = useState('')
     const ClickAppropriate = (value) => {
-        setinvestmentData(value)
-        setUserName(value)
-        setDocumentName(value)
+        console.log(value, "ClickAppropriate");
+
+        setinvestmentData(value.Id)
+        setDocumentName(value.Name)
         setOpen(true)
     }
     const handleClose = (value) => {
         setOpen(false)
     }
-    const ClickUpload = (value) => {
-
-    }
-    const getUserName = () => {
-        let UserName = '';
-        USISlistInvestmentEmpDetails.map((item) => {
-            UserName = item.UserName;
-        });
-        return UserName;
-    };
+    // const ClickUpload = (value) => {
+    //     if (!fileName || fileName === '') {
+    //         setFileNameError('Please select file to upload.');
+    //         isError = true; // Set isError to true for this condition
+    //     } else {
+    //         setFileNameError('');
+    //     }
+    // }
+    // const getUserName = () => {
+    //     let UserName = '';
+    //     USISlistInvestmentEmpDetails.map((item) => {
+    //         UserName = item.UserName;
+    //     });
+    //     return UserName;
+    // };
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -314,7 +319,7 @@ const InvestmentDeclaration = () => {
                     </>}
                 />
 
-                <Dialog
+                {/* <Dialog
                     open={open}
                     maxWidth={'md'}
                     fullWidth
@@ -345,12 +350,16 @@ const InvestmentDeclaration = () => {
                     </DialogTitle>
 
                     <DialogContent  >
-                        <Box>
+                        <Box> */}
 
 
-                            <InvestmentDeatailsDocument Id={investmentData} UserName={UserName} DocumentName={Documentname} />
+                <InvestmentDeatailsDocument Id={investmentData}
+                    UserName={USISlistInvestmentEmpDetails.length > 0 ?
+                        USISlistInvestmentEmpDetails[0].UserName : userName}
+                    DocumentName={Documentname}
+                    open={open} handleClose={handleClose} />
 
-                        </Box>
+                {/* </Box>
                     </DialogContent>
                     <DialogActions sx={{ py: 2, px: 3 }}>
                         <Button
@@ -378,7 +387,7 @@ const InvestmentDeclaration = () => {
                         </Button>
 
                     </DialogActions>
-                </Dialog>
+                </Dialog> */}
 
                 <Box border={1} sx={{ p: 2, background: 'white' }}>
 

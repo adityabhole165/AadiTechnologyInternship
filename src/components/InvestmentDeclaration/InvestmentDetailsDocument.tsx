@@ -1,15 +1,17 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { green } from "@mui/material/colors";
+import { ClearIcon } from "@mui/x-date-pickers";
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { RootState } from 'src/store';
 import InvestmentDocumentList from './InvestmentDocumentList';
 
-const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
+const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose }) => {
     console.log(Id, "wow");
     console.log(UserName, "UserName");
     console.log(DocumentName, "DocumentName");
@@ -104,12 +106,12 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
     }, [])
-    useEffect(() => {
-        dispatch(getUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody))
-    }, [])
-    useEffect(() => {
+    // useEffect(() => {
+    //     dispatch(getUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody))
+    // }, [])
+    const ClickUpload = () => {
         dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
-    }, [])
+    }
     useEffect(() => {
         dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
     }, [])
@@ -168,70 +170,89 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
         }
     }
     return (
-        <Box sx={{ px: 2 }} maxWidth="xl">
-            {/* <CommonPageHeader
-                navLinks={[
-                    {
-                        title: 'Investment Declaration',
-                        path: '/extended-sidebar/Teacher/InvestmentDeclaration'
-                    },
-                    {
-                        title: 'Documents',
-                        path: '/extended-sidebar/Teacher/InvestmentDetailsDocument'
-                    }
-                ]} */}
-            {/* rightActions={
-                    <> */}
-            <Box>
-                <Typography variant="h2">Documents</Typography>
-            </Box>
-            <Box sx={{
-                display: "flex", m: 2, p: 1
-            }}>
-                <Box sx={{ width: '250px' }}>
-                    <TextField
-                        fullWidth
-                        label={<>
-                            User Name <span style={{ color: 'red' }}>*</span>
-                        </>}
-                        InputLabelProps={{ shrink: true }}
-                        sx={{ bgcolor: '#F0F0F0' }}
-                        value={USGetUserInvestmentMethodDetails.UserName}
-                        size={"small"}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                    />
-                </Box>
-                <Box sx={{ width: '250px' }}>
-                    <TextField
-                        fullWidth
-                        label={<>
-                            Doucment Name  <span style={{ color: 'red' }}>*</span>
-                        </>}
-                        InputLabelProps={{ shrink: true }}
-                        sx={{ bgcolor: '#F0F0F0' }}
-                        value={USGetUserInvestmentMethodDetails.DocumentName}
-                        size={"small"}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                    />
-                </Box>
+        <Dialog
+            open={open}
+            maxWidth={'md'}
+            fullWidth
+            onClose={handleClose}
+            PaperProps={{
+                sx: {
+                    borderRadius: "15px",
+                }
+            }}
+        >
+            <DialogTitle sx={{ bgcolor: '#223354' }}>
+                <ClearIcon onClick={handleClose}
+                    sx={{
+                        color: 'white',
+                        // background:'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '8px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'red',
+                            //  backgroundColor: red[100]
+
+                        }
+                    }} />
+
+            </DialogTitle>
+
+            <DialogContent  >
                 <Box>
-                    <SingleFile
-                        ValidFileTypes={ValidFileTypes}
-                        MaxfileSize={MaxfileSize}
-                        FileName={fileName}
-                        ChangeFile={ChangeFile}
-                        FileLabel={'Upload Document '}
-                        width={'100%'}
-                        height={"52px"}
-                        isMandatory={false}
-                    />
-                </Box>
-            </Box>
-            {/* <Tooltip title={"Upload"}>
+                    <Box sx={{ px: 2 }} maxWidth="xl">
+                        <Box>
+                            <Typography variant="h2">Documents</Typography>
+                        </Box>
+                        <Box sx={{
+                            display: "flex", m: 2, p: 1
+                        }}>
+                            <Box sx={{ width: '250px' }}>
+                                <TextField
+                                    fullWidth
+                                    label={<>
+                                        User Name <span style={{ color: 'red' }}>*</span>
+                                    </>}
+                                    InputLabelProps={{ shrink: true }}
+                                    sx={{ bgcolor: '#F0F0F0' }}
+                                    value={UserName}
+                                    size={"small"}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Box>
+                            <Box sx={{ width: '250px' }}>
+                                <TextField
+                                    fullWidth
+                                    label={<>
+                                        Doucment Name  <span style={{ color: 'red' }}>*</span>
+                                    </>}
+                                    InputLabelProps={{ shrink: true }}
+                                    sx={{ bgcolor: '#F0F0F0' }}
+                                    value={DocumentName}
+                                    size={"small"}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Box>
+                            <Box>
+                                <SingleFile
+                                    ValidFileTypes={ValidFileTypes}
+                                    MaxfileSize={MaxfileSize}
+                                    FileName={fileName}
+                                    ChangeFile={ChangeFile}
+                                    FileLabel={'Upload Document '}
+                                    width={'100%'}
+                                    height={"52px"}
+                                    isMandatory={false}
+                                />
+                            </Box>
+                        </Box>
+                        {/* <Tooltip title={"Upload"}>
                             <IconButton sx={{
                                 color: 'white',
                                 backgroundColor: blue[500],
@@ -255,27 +276,51 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
                             </IconButton>
 
                         </Tooltip> */}
-            {/* </>
+                        <Box sx={{ backgroundColor: 'white', p: 2 }}>
+                            {USGetAllDocumentsList.length > 0 ? (
+                                <InvestmentDocumentList
+                                    HeaderArray={HeaderList}
+                                    ItemList={USGetAllDocumentsList}
+                                    clickDelete={ClickDelete}
+                                    clickView={ClickView}
+                                />
+                            ) : (
+                                <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                                    No record found.
+                                </Typography>
+                            )}
+                        </Box>
 
-                } */}
-            {/* > */}
-            {/* </CommonPageHeader> */}
-            <Box sx={{ backgroundColor: 'white', p: 2 }}>
-                {USGetAllDocumentsList.length > 0 ? (
-                    <InvestmentDocumentList
-                        HeaderArray={HeaderList}
-                        ItemList={USGetAllDocumentsList}
-                        clickDelete={ClickDelete}
-                        clickView={ClickView}
-                    />
-                ) : (
-                    <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No record found.
-                    </Typography>
-                )}
-            </Box>
+                    </Box>
+                </Box>
+            </DialogContent>
+            <DialogActions sx={{ py: 2, px: 3 }}>
+                <Button
+                    onClick={ClickUpload}
+                    // color={'success'}
+                    // variant={'contained'}
+                    sx={{
+                        color: 'green',
+                        //  backgroundColor: grey[500],
+                        '&:hover': {
+                            color: 'green',
+                            backgroundColor: green[100]
+                        }
+                    }}
+                >
+                    Upload
+                </Button>
 
-        </Box>
+
+                <Button
+                    color={'error'}
+                    onClick={handleClose}
+                >
+                    Cancel
+                </Button>
+
+            </DialogActions>
+        </Dialog>
     );
 }
 export default InvestmentDeatailsDocument;

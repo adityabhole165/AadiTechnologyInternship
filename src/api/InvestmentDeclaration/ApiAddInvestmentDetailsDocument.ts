@@ -15,7 +15,7 @@ const GetUserInvestmentMethodDetailsapi = (data: IGetUserInvestmentMethodDetails
     return http.post<IGetUserInvestmentMethodDetailsResult>('Teacher/GetUserInvestmentMethodDetails', data);
 };
 const SaveInvestmentDocumentapi = (data: ISaveInvestmentDocumentBody) => {
-    return http.post<string>('Teacher/CheckPublishUnpublishDocument', data);
+    return http.post<string>('Teacher/SaveInvestmentDocument', data);
 };
 const GetAllDocumentsListapi = (data: IGetAllDocumentsListBody) => {
     return http.post<IGetAllDocumentsListResult[]>('Teacher/GetAllDocumentsList', data);
