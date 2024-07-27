@@ -89,13 +89,17 @@ const FinalResult = () => {
   const StandardDivisionIdse = (
     sessionStorage.getItem('StandardDivisionId')
   );
-   console.log(StandardDivisionIdse,"");
+
    
 
   const FinalResultFullAccess = GetScreenPermission('Final Result');
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse);
+  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse );
   
+
+  console.log(FinalResultFullAccess , "--", StandardDivisionId,  "--" ,StandardDivisionIdse   );
+
+
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -236,7 +240,8 @@ const FinalResult = () => {
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
   );
-
+ console.log(GetClassTeachers,"GetClassTeachers");
+ 
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
@@ -294,7 +299,6 @@ const FinalResult = () => {
     (state: RootState) => state.FinalResult.ISGetResultPublishd
   );
 
-  console.log(GetResultGenerated, "GetResultGenerated");
 
 
   const Usisconfigred: any = useSelector((state: RootState) => state.FinalResult.iscofigred);
@@ -310,9 +314,7 @@ const FinalResult = () => {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
-  useEffect(() => {
-    dispatch(ClassTechersList(ClassTeachersBody));
-  }, []);
+ 
 
   // useEffect(() => {
   //   if (GetClassTeachers.length > 0 && StandardDivisionId == undefined) {
@@ -351,13 +353,18 @@ const FinalResult = () => {
   //   asStandardDivId: StandardDivisionId,
   //   asUnPublishReason: asUnPublishReason
   // }
+ 
+
   const getTeacherId = () => {
-    let TeacherId = '';
+    let returnVal = 0
     GetClassTeachers.map((item) => {
-      if (item.Value == StandardDivisionId) TeacherId = item.Id;
-    });
-    return TeacherId;
+      if (item.Value == StandardDivisionId) {
+        returnVal = item.Id
+      }
+    })
+    return returnVal
   };
+  
   const [sortby, setSortBy] = useState('Roll No.');
   const [sortAsc, setSortAsc] = useState('Desc');
   
@@ -414,7 +421,7 @@ const FinalResult = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     // asTeacherId: "2532"
-    asTeacherId: FinalResultFullAccess === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
+    asTeacherId: getTeacherId()
   };
 
   const PagedStudentBody: IGetPagedStudentBody = {
@@ -492,24 +499,20 @@ const FinalResult = () => {
     })
     return returnVal
   }
-
+  useEffect(() => {
+    dispatch(ClassTechersList(ClassTeachersBody));
+  }, [getTeacherId()]);
 
   const standardId = getstandardId();
 
   const buttonsDisabled = StandardDivisionId === '0';
 
   useEffect(() => {
-    if (GetClassTeachers && GetClassTeachers.length > 0 && StandardDivisionId == undefined) {
-      if (FinalResultFullAccess === 'Y') {
-        setStandardDivisionId(GetClassTeachers[0].Value);
-      } else {
-        const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
-        if (teacherIdFromSession !== null) {
-          setStandardDivisionId(teacherIdFromSession);
-        }
-      }
-    }
-  }, [GetClassTeachers, FinalResultFullAccess]);
+      if (StandardDivisionId1 !== undefined) 
+        setStandardDivisionId(StandardDivisionId1);
+  }, [GetClassTeachers]);
+
+  
 
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
