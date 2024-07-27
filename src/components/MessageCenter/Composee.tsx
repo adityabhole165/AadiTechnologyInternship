@@ -902,14 +902,14 @@ function Form13() {
                     <IconButton onClick={handleClickS}>
                       <InfoTwoToneIcon
                         type="button"
-                        sx={{ color: 'navy', fontSize: '20px', mt: '-8px' }}
+                        sx={{ color: 'navy', fontSize: '20px', mt: '-5px' }}
                       />
                     </IconButton>
                   </Tooltip>
                 </ClickAwayListener>
               </Grid>
 
-              <Grid item xs={6} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
+              <Grid item xs={16} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
                 <TextField
                   sx={{ display: scheduleMessage }}
                   type="date"
@@ -952,7 +952,7 @@ function Form13() {
                 /> */}
               </Grid>
 
-              <Grid item xs={12} sx={{ mt: '-10px', mb: '6px', ml: '5px' }}>
+              <Grid item xs={6} sx={{ mt: '-10px', mb: '6px', ml: '5px', }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
@@ -987,7 +987,7 @@ function Form13() {
                <ReactQuill value={formik.values.Content} onChange={formik.handleChange} modules={toolbarOptions} />
             } */}
 
-                <Box mb={0.4}>
+                <Box mb={0.5}>
                   {formik.touched.Content && formik.errors.Content ? (
                     <ErrorMessage1 Error={formik.errors.Content} />
                   ) : null}
@@ -1006,12 +1006,10 @@ function Form13() {
                     </BoxContent>
                   </>
                 ) : null}
-                <Grid item xs={6} sm={2} md={1}>
-
-                </Grid>
+                
               </Grid>
 
-              <Grid container spacing={1} sx={{ ml: '.5vw', mt: '3.5vh' }}>
+              <Grid container spacing={1} sx={{ ml: '.5vw', mt: '3.5vh', pt:2 }}>
                 <Grid item xs={6} sm={2} >
                   <ButtonPrimary
                     color="primary"
@@ -1025,7 +1023,7 @@ function Form13() {
                 </Grid>
                 <Grid item xs={6} sm={2} >
                   <ButtonPrimary color="primary" fullWidth onClick={SaveDraft}>
-                    Save as Draft
+                  Save as Draft
                   </ButtonPrimary>
                 </Grid>
               </Grid>
