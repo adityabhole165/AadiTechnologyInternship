@@ -627,7 +627,7 @@ function Form13() {
             navigate(-1);
           }}
         >
-          <Fab
+           <Fab
             className={classes.backArrow}
             sx={{
               position: 'absolute',
@@ -637,12 +637,12 @@ function Form13() {
             }}
           >
             <ReplyIcon />
-          </Fab>
+          </Fab> 
         </span>
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1} sx={{ height: '70vh' }}>
-              <Grid item xs={12}>
+            <Grid container spacing={1} sx={{ height: 'auto' }}>
+              <Grid item xs={12} >
                 <FormHelperText>To</FormHelperText>
               </Grid>
               <Grid item xs={12} sm={8} md={10} >
@@ -663,7 +663,7 @@ function Form13() {
                     borderRadius: '5.3px'
                   }}
                 />
-                <Box mt={-1}>
+                <Box mt={0.1}>
                   {RecipientsList.length == 0 ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
@@ -865,7 +865,7 @@ function Form13() {
                 </Typography>
               </Grid>
 
-              <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{ mt: '-15px' }}>
+              <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{ mt: '-10px' }}>
                 <Checkbox
                   onChange={scheduleMessageCheckBox}
                   onClick={() => setRequestSchedule(!requestSchedule)}
@@ -902,7 +902,7 @@ function Form13() {
                     <IconButton onClick={handleClickS}>
                       <InfoTwoToneIcon
                         type="button"
-                        sx={{ color: 'navy', fontSize: '20px', mt: '-5px' }}
+                        sx={{ color: 'navy', fontSize: '20px', mt: '-10px' }}
                       />
                     </IconButton>
                   </Tooltip>
@@ -952,13 +952,13 @@ function Form13() {
                 /> */}
               </Grid>
 
-              <Grid item xs={6} sx={{ mt: '-20px', mb: '6px', ml: '5px', }}>
+              <Grid item xs={6} sx={{ mt: '-1px', mb: '6px', ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{p:0.5}}>
+                <Box sx={{p:2}}>
                 <ReactQuill value={formik.values.Content} modules={toolbarOptions}
                   onChange={formik.handleChange} theme='snow'
                   onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
@@ -994,7 +994,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ mt: '-10px', p:0.5 }}>
+              <Grid item xs={12} sm={12} sx={{ mt: 2, p:2 }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>
@@ -1010,7 +1010,7 @@ function Form13() {
                 
               </Grid>
 
-              <Grid container spacing={1} sx={{ ml: '0.5vw', mt: '2.5vh', pt:0.5 }}>
+              <Grid container spacing={1} sx={{ m:0.5, pt:4 }}>
                 <Grid item xs={6} sm={2} >
                   <ButtonPrimary
                     color="primary"
