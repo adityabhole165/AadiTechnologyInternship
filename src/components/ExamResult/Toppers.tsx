@@ -431,7 +431,7 @@ const ExamResultToppers = () => {
 
     const FinalResultLink = {
         title: 'Final Result ',
-        path: '/extended-sidebar/Teacher/FinalResult/' + TeacherId
+        path: '/extended-sidebar/Teacher/FinalResult/' + StandardDivisionId
 
     };
 
