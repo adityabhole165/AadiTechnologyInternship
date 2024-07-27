@@ -94,12 +94,8 @@ const FinalResult = () => {
 
   const FinalResultFullAccess = GetScreenPermission('Final Result');
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse );
-  
-
+  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse )
   console.log(FinalResultFullAccess , "--", StandardDivisionId,  "--" ,StandardDivisionIdse   );
-
-
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -421,7 +417,7 @@ const FinalResult = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     // asTeacherId: "2532"
-    asTeacherId: getTeacherId()
+    asTeacherId:   FinalResultFullAccess == 'Y' ? '0' : getTeacherId()
   };
 
   const PagedStudentBody: IGetPagedStudentBody = {
