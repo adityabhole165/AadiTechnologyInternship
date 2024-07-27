@@ -1,6 +1,7 @@
+import { QuestionMark } from "@mui/icons-material";
 import Save from "@mui/icons-material/Save";
-import { Box, Card, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
-import { green } from "@mui/material/colors";
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
+import { green, grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -10,6 +11,9 @@ import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetNonXseedStudentsObs, CDASaveNonXseedSubGrades, GetStudentsForStdDevMasters, resetSavenonXseedMsg } from "src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
+const cellStyle = {
+    padding: '0.2em 1.5em', // Adjust these values to reduce the height
+};
 
 const AssignProgressReportSubject = () => {
     const dispatch = useDispatch();
@@ -96,26 +100,43 @@ const AssignProgressReportSubject = () => {
         { Id: 1, Header: 'Roll No.' },
         { Id: 2, Header: 'Student Name' },
         { Id: 3, Header: 'Grade' },
-        { Id: 4, Header: 'Observations' },
+        {
+            Id: 4, Header: <>
+
+                <SearchableDropdown
+                    sx={{ backgroundColor: 'white' }}
+                    ItemList={GradesList}
+                    onChange={clickHeaderGrade}
+                    label={''}
+                    disabled={EditStatusId === '3' ? true : false}
+                    defaultValue={headerGrade}
+                    size={"small"}
+                    DisableClearable={true}
+                />
+
+
+            </>,
+        },
+        { Id: 5, Header: 'Observations' },
     ];
 
-    const HeaderArray1 = [
-        { Id: 1, Header: '' },
-        { Id: 2, Header: '' },
-        {
-            Id: 3, Header: <SearchableDropdown
-                sx={{ backgroundColor: 'white', minWidth: '5vw' }}
-                ItemList={GradesList}
-                onChange={clickHeaderGrade}
-                label={''}
-                disabled={EditStatusId === '3' ? true : false}
-                defaultValue={headerGrade}
-                size={"small"}
-                DisableClearable={true}
-            />
-        },
-        { Id: 4, Header: '' },
-    ];
+    // const HeaderArray1 = [
+    //     { Id: 1, Header: '' },
+    //     { Id: 2, Header: '' },
+    //     {
+    //         Id: 3, Header: <SearchableDropdown
+    //             sx={{ backgroundColor: 'white', minWidth: '5vw' }}
+    //             ItemList={GradesList}
+    //             onChange={clickHeaderGrade}
+    //             label={''}
+    //             disabled={EditStatusId === '3' ? true : false}
+    //             defaultValue={headerGrade}
+    //             size={"small"}
+    //             DisableClearable={true}
+    //         />
+    //     },
+    //     { Id: 4, Header: '' },
+    // ];
 
     const GetStudentsForStdDevMastersBody = {
         asSchoolId: Number(localStorage.getItem('localSchoolId')),
@@ -208,29 +229,33 @@ const AssignProgressReportSubject = () => {
                         }
                     ]}
                     rightActions={
-                        <Stack direction={"row"} alignItems={"center"} sx={{ gap: 2 }}>
+                        // <Stack direction={"row"} alignItems={"center"} sx={{ gap: 2 }}>
+                        <>
                             <TextField
                                 fullWidth
                                 label={'Class'}
                                 value={ClassName}
-                                sx={{ bgcolor: '#f0e68c' }}
+                                sx={{ bgcolor: '#F0F0F0' }}
                                 disabled
+                                size="small"
                                 inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                             />
                             <TextField
                                 fullWidth
                                 label={'Assessment'}
                                 value={Assesment}
-                                sx={{ bgcolor: '#f0e68c' }}
+                                sx={{ bgcolor: '#F0F0F0' }}
                                 disabled
+                                size="small"
                                 inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                             />
                             <TextField
                                 fullWidth
                                 label={'Subject Name'}
                                 value={SubjectName}
-                                sx={{ bgcolor: '#f0e68c' }}
+                                sx={{ bgcolor: '#F0F0F0' }}
                                 disabled
+                                size="small"
                                 inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                             />
                             {EditStatusId !== '3' &&
@@ -249,65 +274,86 @@ const AssignProgressReportSubject = () => {
                                     </IconButton>
                                 </Tooltip>
                             }
-                        </Stack>
+
+                            <Tooltip title={`To be added...`}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] }
+                                    }}
+                                >
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+                        </>
+
                     }
                 />
                 {/* <Alert icon={<CheckIcon fontSize="inherit" sx={{ color: 'white' }} />} severity="success" sx={{ px: '40%', backgroundColor: '#324b84', fontWeight: '700', color: 'white' }}>
                     Student grades are already submitted.
                 </Alert> */}
+
                 {EditStatusId === '3' &&
                     <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                         <b>Student grades are already submitted.</b>
                     </Typography>}
-                <TableContainer component={Card}>
-                    <Table aria-label="simple table">
-                        <TableHead >
-                            <TableRow>
-                                {HeaderArray.map((item, i) => (
-                                    <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : 'center', pt: '10px', pb: '10px' }}>
-                                        <b>{item.Header}</b>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                            <TableRow>
-                                {HeaderArray1.map((item, i) => (
-                                    <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '3.5px', pb: '3.5px' }}>
-                                        <b>{item.Header}</b>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {NonXseedStudentswithObs.length !== 0 && NonXseedStudentswithObs.map((item, i) => (
-                                <TableRow key={i}>
-                                    <TableCell align="center">{item.Text1}</TableCell>
-                                    <TableCell>{item.Text2}</TableCell>
-                                    <TableCell>
-                                        <SearchableDropdown
-                                            sx={{ backgroundColor: 'white' }}
-                                            ItemList={GradesList}
-                                            onChange={(value) => clickBodyGrade(item.Text1, value)}
-                                            label={''}
-                                            disabled={EditStatusId === '3' ? true : false}
-                                            defaultValue={grades[item.Text1]}
-                                            DisableClearable={true}
-                                            size={"small"}
-                                        />
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <textarea
-                                            rows={2}
-                                            cols={50}
-                                            disabled={EditStatusId === '3' ? true : grades[item.Text1] === "0"}
-                                            value={observations[item.Text1]}
-                                            onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
-                                        ></textarea>
-                                    </TableCell>
+                <Box sx={{ background: 'white', p: 2 }}>
+                    <TableContainer component={Box}>
+                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                            <TableHead >
+                                <TableRow>
+                                    {HeaderArray.map((item, i) => (
+                                        <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : item.Header === 'Grade' ? 'right' : 'center', pt: '10px', pb: '10px' }}>
+                                            <b>{item.Header}</b>
+                                        </TableCell>
+                                    ))}
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                {/* <TableRow>
+                                    {HeaderArray1.map((item, i) => (
+                                        <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '3.5px', pb: '3.5px' }}>
+                                            <b>{item.Header}</b>
+                                        </TableCell>
+                                    ))}
+                                </TableRow> */}
+                            </TableHead>
+                            <TableBody>
+                                {NonXseedStudentswithObs.length !== 0 && NonXseedStudentswithObs.map((item, i) => (
+                                    <TableRow key={i}>
+                                        <TableCell align="center" sx={{ ...cellStyle }}>{item.Text1}</TableCell>
+                                        <TableCell sx={{ ...cellStyle }}>{item.Text2}</TableCell>
+                                        <TableCell align="right" sx={{ ...cellStyle }}></TableCell>
+
+                                        <TableCell sx={{ ...cellStyle }}>
+                                            <SearchableDropdown
+                                                sx={{ backgroundColor: 'white' }}
+                                                ItemList={GradesList}
+                                                onChange={(value) => clickBodyGrade(item.Text1, value)}
+                                                label={''}
+                                                disabled={EditStatusId === '3' ? true : false}
+                                                defaultValue={grades[item.Text1]}
+                                                DisableClearable={true}
+                                                size={"small"}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ ...cellStyle }}>
+                                            <textarea
+                                                rows={2}
+                                                cols={50}
+                                                style={{ backgroundColor: 'white' }}
+                                                disabled={EditStatusId === '3' ? true : grades[item.Text1] === "0"}
+                                                value={observations[item.Text1]}
+                                                onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
+                                                maxLength={500}
+                                            ></textarea>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
             </Box>
         </>
     );
