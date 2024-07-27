@@ -7,7 +7,6 @@ import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGet
 import SingleFile from 'src/libraries/File/SingleFile';
 import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { RootState } from 'src/store';
-import CommonPageHeader from "../CommonPageHeader";
 import InvestmentDocumentList from './InvestmentDocumentList';
 
 const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
@@ -79,7 +78,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
         asAcademicYearId: asAcademicYearId,
         asFinancialYearId: 1,
         asDocumentId: 81,
-        asFileName: "MCAResult123.pdf",
+        asFileName: fileName == '' ? null : fileName,
         asUserId: asUserId,
         asInsertedById: asUserId,
         asDocumnetTypeId: 1,
@@ -94,7 +93,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
         asFinancialYearId: 1,
         asDocumentTypeId: 1,
         asAcademicYearId: asAcademicYearId,
-        asDocumentId: Number(Id),
+        asDocumentId: 81,
         asReportingUserId: 0,
         asLoginUserId: asUserId
     }
@@ -170,7 +169,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
     }
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
-            <CommonPageHeader
+            {/* <CommonPageHeader
                 navLinks={[
                     {
                         title: 'Investment Declaration',
@@ -180,52 +179,59 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
                         title: 'Documents',
                         path: '/extended-sidebar/Teacher/InvestmentDetailsDocument'
                     }
-                ]}
-                rightActions={
-                    <>
-                        <Box sx={{ width: '250px' }}>
-                            <TextField
-                                fullWidth
-                                label={<>
-                                    User Name <span style={{ color: 'red' }}>*</span>
-                                </>}
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ bgcolor: '#D3D3D3' }}
-                                value={USGetUserInvestmentMethodDetails.UserName}
-                                size={"small"}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                        </Box>
-                        <Box sx={{ width: '250px' }}>
-                            <TextField
-                                fullWidth
-                                label={<>
-                                    Doucment Name  <span style={{ color: 'red' }}>*</span>
-                                </>}
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ bgcolor: '#D3D3D3' }}
-                                value={USGetUserInvestmentMethodDetails.DocumentName}
-                                size={"small"}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                        </Box>
-                        <Box>
-                            <SingleFile
-                                ValidFileTypes={ValidFileTypes}
-                                MaxfileSize={MaxfileSize}
-                                FileName={fileName}
-                                ChangeFile={ChangeFile}
-                                FileLabel={'Upload Document '}
-                                width={'100%'}
-                                height={"52px"}
-                                isMandatory={false}
-                            />
-                        </Box>
-                        {/* <Tooltip title={"Upload"}>
+                ]} */}
+            {/* rightActions={
+                    <> */}
+            <Box>
+                <Typography variant="h2">Documents</Typography>
+            </Box>
+            <Box sx={{
+                display: "flex", m: 2, p: 1
+            }}>
+                <Box sx={{ width: '250px' }}>
+                    <TextField
+                        fullWidth
+                        label={<>
+                            User Name <span style={{ color: 'red' }}>*</span>
+                        </>}
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ bgcolor: '#F0F0F0' }}
+                        value={USGetUserInvestmentMethodDetails.UserName}
+                        size={"small"}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                    />
+                </Box>
+                <Box sx={{ width: '250px' }}>
+                    <TextField
+                        fullWidth
+                        label={<>
+                            Doucment Name  <span style={{ color: 'red' }}>*</span>
+                        </>}
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ bgcolor: '#F0F0F0' }}
+                        value={USGetUserInvestmentMethodDetails.DocumentName}
+                        size={"small"}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                    />
+                </Box>
+                <Box>
+                    <SingleFile
+                        ValidFileTypes={ValidFileTypes}
+                        MaxfileSize={MaxfileSize}
+                        FileName={fileName}
+                        ChangeFile={ChangeFile}
+                        FileLabel={'Upload Document '}
+                        width={'100%'}
+                        height={"52px"}
+                        isMandatory={false}
+                    />
+                </Box>
+            </Box>
+            {/* <Tooltip title={"Upload"}>
                             <IconButton sx={{
                                 color: 'white',
                                 backgroundColor: blue[500],
@@ -249,11 +255,11 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
                             </IconButton>
 
                         </Tooltip> */}
-                    </>
+            {/* </>
 
-                }
-            >
-            </CommonPageHeader>
+                } */}
+            {/* > */}
+            {/* </CommonPageHeader> */}
             <Box sx={{ backgroundColor: 'white', p: 2 }}>
                 {USGetAllDocumentsList.length > 0 ? (
                     <InvestmentDocumentList
