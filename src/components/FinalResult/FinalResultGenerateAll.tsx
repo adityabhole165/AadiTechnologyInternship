@@ -128,8 +128,15 @@ const GenerateAll = ({ }) => {
         return returnVal
     }
     const Grade = getStudentGrade();
-    // console.log(Grade, 'getStudentGradeeeee');
 
+    const getstandardDivId = () => {
+
+        let returnVal = ''
+        StudentDetailsUS.map((item, i) => {
+            returnVal = item.standardDivId
+        })
+        return returnVal
+    }
 
     return (
         <Box px={2}>
@@ -137,7 +144,7 @@ const GenerateAll = ({ }) => {
                 navLinks={[
                     {
                         title: 'Final Result',
-                        path: '/extended-sidebar/Teacher/FinalResult'
+                        path: '/extended-sidebar/Teacher/FinalResult/' + getstandardDivId()
                     },
                     {
                         title: 'Generate/View Final Result',
