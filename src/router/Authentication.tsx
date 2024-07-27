@@ -44,7 +44,9 @@ const SchoolList = Loader(
 const NoPage = Loader(
   lazy(() => import('src/components/NoPageError/NoPage'))
 );
-
+const AppRating = Loader(
+  lazy(() => import('src/components/AppRating/AppRating'))
+)
 const AuthenticationRoute = [
   {
     path: '/',
@@ -53,6 +55,10 @@ const AuthenticationRoute = [
   {
     path: '*',
     element: <NoPage />
+  },
+  {
+    path: 'AppRating',
+    element: <AppRating />
   },
   {
     path: 'NewRelease',

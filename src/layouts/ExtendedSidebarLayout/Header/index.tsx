@@ -10,13 +10,14 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import {
   Avatar,
   Box,
-  Button,
-  Divider,
+  Button, Dialog, Divider,
+  Grid,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   Popover,
+  Rating,
   Stack,
   Tooltip,
   Typography,
@@ -26,6 +27,7 @@ import {
   useTheme
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -170,6 +172,7 @@ function Header() {
   const handleCloseApp = async (): Promise<void> => {
     try {
       handleClose();
+      handleClickOpen();
       App.exitApp();
     } catch (err) {
       console.error(err);
@@ -429,6 +432,29 @@ function Header() {
   };
   const LoginTo = RoleId === '3' ? 'Login To Staff' : 'Login To Child';
 
+  // UseState for rating
+  const [open, setOpen1] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState('');
+  const [value, setValue] = React.useState<number | null>(0);
+
+  const handleClickOpen = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = (value: string) => {
+    setOpen1(false);
+    setSelectedValue(value);
+  };
+
+  const openPlayStore = () => {
+    let url = `https://play.google.com/store/apps/details?id=www.riteschool.net`;
+    if (window.localStorage.getItem('deviceType') === 'android') {
+      url = `https://play.google.com/store/apps/details?id=www.riteschool.net&reviewId=0`
+    } else if (window.localStorage.getItem('deviceType') === 'ios') {
+      url = `https://apps.apple.com/us/app/riteshool/id1543493091`
+    }
+    window.open(url, '_blank');
+  };
   return (
     <>
       <HeaderWrapper
@@ -735,8 +761,9 @@ function Header() {
                 </ListItem>
               )}
             </List>
-            {window.localStorage.getItem('deviceType') === 'android' ||
-              localStorage.getItem('deviceType') === 'ios' ? (
+            {/* Set '!==' to '===' | Currently set !== just for testing on Web App */}
+            {window.localStorage.getItem('deviceType') !== 'android' ||
+              localStorage.getItem('deviceType') !== 'ios' ? (
               <Box m={1}>
                 <Button color="primary" fullWidth onClick={handleCloseApp}>
                   <PowerSettingsNewIcon
@@ -758,6 +785,65 @@ function Header() {
           {/* <ThemeSettings /> */}
         </Stack>
       </HeaderWrapper>
+
+      {/* The Following Code is for App Rating */}
+      <>
+        {/* <Button variant="contained" onClick={handleClickOpen}>
+          Exit App
+        </Button> */}
+        <Dialog onClose={handleClose} open={open} >
+          <Grid container spacing={2} sx={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            padding: '10px'
+          }}>
+            <Grid item xs={12} sx={{
+              textAlign: 'center',
+              backgroundColor: 'background.paper',
+              boxShadow: 3,
+              padding: ' 10px',
+
+            }}>
+              <Typography variant="h6" component="legend" sx={{ marginBottom: '1rem', fontWeight: 'bold' }}>
+                Rate the App!
+              </Typography>
+              <Rating
+                name="simple-controlled"
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }} size="large"
+              />
+            </Grid>
+            <Stack spacing={4} direction="row">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => openPlayStore()}
+                sx={{ borderRadius: '5px' }}
+              >
+                Submit
+              </Button>
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleClose1(selectedValue)
+                  App.exitApp();
+                }}
+                sx={{ borderRadius: '5px' }}
+
+
+              >
+                Not now.
+              </Button>
+            </Stack>
+          </Grid>
+        </Dialog>
+      </>
+
     </>
   );
 }

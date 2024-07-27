@@ -4,7 +4,6 @@ import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
 import { blue, grey } from "@mui/material/colors";
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
@@ -15,17 +14,18 @@ import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentDocumentList from './InvestmentDocumentList';
 
-const InvestmentDeatailsDocument = () => {
+const InvestmentDeatailsDocument = ({ Id }) => {
+    console.log(Id, "wow");
+
     const dispatch = useDispatch();
-    const { Id } = useParams();
     const HeaderList = [
         { Id: 1, Header: 'File Name' },
         { Id: 2, Header: 'View', align: "center" },
         { Id: 3, Header: 'Delete', align: "center" },
 
     ];
-    const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
-    const MaxfileSize = 3000000;
+    const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
+    const MaxfileSize = 5000000;
     const [MultipleFiles, setMultipleFiles] = useState([]);
     const { showAlert, closeAlert } = useContext(AlertContext);
     const [fileName, setFileName] = useState('');

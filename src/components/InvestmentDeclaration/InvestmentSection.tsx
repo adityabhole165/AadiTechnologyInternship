@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import { RootState } from "src/store";
 import DataTable, { Column } from "./Datatable";
 
-const InvestmentSection = ({ refreshData }) => {
+const InvestmentSection = ({ refreshData, clickDocumentDetails }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -131,10 +131,10 @@ const InvestmentSection = ({ refreshData }) => {
             }
             const totalAmount = filteredData.reduce((acc, item) => acc + (item.Amount || 0), 0);
             const clickDocument = (value) => {
-                navigate(
-                    '/extended-sidebar/Teacher/InvestmentDetailsDocument')
-                console.log(value, "clickDocument");
-
+                // navigate(
+                //     '/extended-sidebar/Teacher/InvestmentDetailsDocument')
+                // console.log(value, "clickDocument");
+                clickDocumentDetails(value)
             }
 
             const columns: Column[] = [
