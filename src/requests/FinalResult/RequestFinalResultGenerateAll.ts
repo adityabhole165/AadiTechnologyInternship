@@ -179,7 +179,8 @@ export const StudentDetailsGA =
                     Text2: item.Roll_No,
                     Text3: item.Standard_Name,
                     Text4: item.Division_Name,
-                    Text5: item.Academic_Year
+                    Text5: item.Academic_Year,
+                    standardDivId: item.Standard_Division_Id
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.StudentDetails(abc));
