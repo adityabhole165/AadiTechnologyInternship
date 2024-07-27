@@ -1,21 +1,22 @@
-import { UploadFile } from '@mui/icons-material';
-import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, IconButton, TextField, Tooltip, Typography } from "@mui/material";
-import { blue, grey } from "@mui/material/colors";
+import { Box, TextField, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
+import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, getUserInvestmentMethodDetails } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { deleteresetMessage } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from "../CommonPageHeader";
 import InvestmentDocumentList from './InvestmentDocumentList';
 
-const InvestmentDeatailsDocument = ({ Id }) => {
+const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName }) => {
     console.log(Id, "wow");
+    console.log(UserName, "UserName");
+    console.log(DocumentName, "DocumentName");
+
+
 
     const dispatch = useDispatch();
     const HeaderList = [
@@ -24,6 +25,8 @@ const InvestmentDeatailsDocument = ({ Id }) => {
         { Id: 3, Header: 'Delete', align: "center" },
 
     ];
+    const SiteURL = localStorage.getItem('SiteURL');
+    let aFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
     const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
     const MaxfileSize = 5000000;
     const [MultipleFiles, setMultipleFiles] = useState([]);
@@ -50,6 +53,9 @@ const InvestmentDeatailsDocument = ({ Id }) => {
     const USGetAllDocumentsList: any = useSelector(
         (state: RootState) => state.AddInvestmentDetailsDoc.ISGetAllDocumentsList
     );
+    const USInvestmentDocumentFile: any = useSelector(
+        (state: RootState) => state.AddInvestmentDetailsDoc.ISGetInvestmentDocumentFile
+    );
     const USDeleteInvestmentDocument: any = useSelector(
         (state: RootState) => state.AddInvestmentDetailsDoc.ISDeleteInvestmentDocument
     );
@@ -66,7 +72,7 @@ const InvestmentDeatailsDocument = ({ Id }) => {
         asSchoolId: asSchoolId,
         asFinancialYearId: 1,
         asUserId: asUserId,
-        asDocumentId: 81,
+        asDocumentId: Number(Id),
         asDocumentTypeId: 1
     }
     const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
@@ -76,7 +82,7 @@ const InvestmentDeatailsDocument = ({ Id }) => {
         asDocumentId: 81,
         asFileName: "MCAResult123.pdf",
         asUserId: asUserId,
-        asInsertedById: 4463,
+        asInsertedById: asUserId,
         asDocumnetTypeId: 1,
         asReportingUserId: 0,
         asSaveFeature: "Investment Declarations",
@@ -89,10 +95,14 @@ const InvestmentDeatailsDocument = ({ Id }) => {
         asFinancialYearId: 1,
         asDocumentTypeId: 1,
         asAcademicYearId: asAcademicYearId,
-        asDocumentId: 81,
+        asDocumentId: Number(Id),
         asReportingUserId: 0,
         asLoginUserId: asUserId
     }
+    const InvestmentDocumentFileBody: IGetInvestmentDocumentFileBody = {
+        asSchoolId: asSchoolId,
+        asId: Number(Id),
+    };
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
     }, [])
@@ -105,12 +115,15 @@ const InvestmentDeatailsDocument = ({ Id }) => {
     useEffect(() => {
         dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
     }, [])
+    useEffect(() => {
+        dispatch(getInvestmentDocumentFile(InvestmentDocumentFileBody))
+    }, [])
     const onClickUsername = (value) => {
         setUsername(value)
     }
-    const onClickDocumentname = (value) => {
-        setDocumentname(value)
-    }
+    // const onClickDocumentname = (value) => {
+    //     setDocumentname(value)
+    // }
     const ChangeFile = (value) => {
         setFile(value.Name);
         setbase64URL(value.Value);
@@ -148,6 +161,13 @@ const InvestmentDeatailsDocument = ({ Id }) => {
         }
     }, [USDeleteInvestmentDocument]);
     const ClickView = (Id) => {
+        if (USInvestmentDocumentFile !== '') {
+            window.open(
+                localStorage.getItem('SiteURL') +
+                '/RITeSchool/DOWNLOADS/InvestmentDeclaration/InvestmentDetailsDocument/' +
+                Id
+            );
+        }
     }
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -172,7 +192,7 @@ const InvestmentDeatailsDocument = ({ Id }) => {
                                 </>}
                                 InputLabelProps={{ shrink: true }}
                                 sx={{ bgcolor: '#D3D3D3' }}
-                                value={Username}
+                                value={USGetUserInvestmentMethodDetails.UserName}
                                 size={"small"}
                                 InputProps={{
                                     readOnly: true,
@@ -187,7 +207,7 @@ const InvestmentDeatailsDocument = ({ Id }) => {
                                 </>}
                                 InputLabelProps={{ shrink: true }}
                                 sx={{ bgcolor: '#D3D3D3' }}
-                                value={Documentname}
+                                value={USGetUserInvestmentMethodDetails.DocumentName}
                                 size={"small"}
                                 InputProps={{
                                     readOnly: true,
@@ -206,7 +226,7 @@ const InvestmentDeatailsDocument = ({ Id }) => {
                                 isMandatory={false}
                             />
                         </Box>
-                        <Tooltip title={"Upload"}>
+                        {/* <Tooltip title={"Upload"}>
                             <IconButton sx={{
                                 color: 'white',
                                 backgroundColor: blue[500],
@@ -229,7 +249,7 @@ const InvestmentDeatailsDocument = ({ Id }) => {
                                 <QuestionMark />
                             </IconButton>
 
-                        </Tooltip>
+                        </Tooltip> */}
                     </>
 
                 }

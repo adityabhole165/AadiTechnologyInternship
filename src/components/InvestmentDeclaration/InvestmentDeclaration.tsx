@@ -223,13 +223,27 @@ const InvestmentDeclaration = () => {
     }
     const [open, setOpen] = useState(false)
     const [investmentData, setinvestmentData] = useState(null)
+    const [UserName, setUserName] = useState('')
+    const [Documentname, setDocumentName] = useState('')
     const ClickAppropriate = (value) => {
         setinvestmentData(value)
+        setUserName(value)
+        setDocumentName(value)
         setOpen(true)
     }
     const handleClose = (value) => {
         setOpen(false)
     }
+    const ClickUpload = (value) => {
+
+    }
+    const getUserName = () => {
+        let UserName = '';
+        USISlistInvestmentEmpDetails.map((item) => {
+            UserName = item.UserName;
+        });
+        return UserName;
+    };
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -334,13 +348,26 @@ const InvestmentDeclaration = () => {
                         <Box>
 
 
-                            <InvestmentDeatailsDocument Id={investmentData} />
+                            <InvestmentDeatailsDocument Id={investmentData} UserName={getUserName} DocumentName={Documentname} />
 
                         </Box>
                     </DialogContent>
                     <DialogActions sx={{ py: 2, px: 3 }}>
-
-
+                        <Button
+                            onClick={ClickUpload}
+                            // color={'success'}
+                            // variant={'contained'}
+                            sx={{
+                                color: 'green',
+                                //  backgroundColor: grey[500],
+                                '&:hover': {
+                                    color: 'green',
+                                    backgroundColor: green[100]
+                                }
+                            }}
+                        >
+                            Upload
+                        </Button>
 
 
                         <Button
