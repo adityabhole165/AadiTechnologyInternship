@@ -1259,7 +1259,7 @@ const AddHomeworkNew = () => {
                         </span>
                       }
                       multiline
-                      rows={3}
+                      rows={5}
                       value={Details}
                       onChange={(e) => {
                         setDetails(e.target.value);
@@ -1412,10 +1412,10 @@ const AddHomeworkNew = () => {
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
-            <textarea
-               aria-label="minimum height"
-              rows={4}
-              // type="text"
+            <TextField
+              multiline
+              rows={5}
+              type="text"
                value={textall}
               onChange={Detailschnageall}
               style={{width: '545px', }}
@@ -1526,12 +1526,13 @@ const AddHomeworkNew = () => {
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
-            <textarea
-               aria-label="minimum height"
-              rows={4}
-              value={textall}
+            <TextField
+              multiline
+              rows={5}
+              type="text"
+               value={textall}
               onChange={Detailschnageall}
-              style={{width: '536px', height:'auto'}}
+              style={{width: '545px', }}
             />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
