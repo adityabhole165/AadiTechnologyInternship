@@ -1,4 +1,4 @@
-import { Box, Button, debounce, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { Box, Button, debounce, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { ClearIcon } from "@mui/x-date-pickers";
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ import SingleFile from 'src/libraries/File/SingleFile';
 import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { RootState } from 'src/store';
 import InvestmentDocumentList from './InvestmentDocumentList';
+
 
 const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose }) => {
     console.log(Id, "wow");
@@ -215,50 +216,42 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             </DialogTitle>
 
             <DialogContent  >
-                <Box>
-                    <Box sx={{ px: 2 }} maxWidth="xl">
-                        <Box>
-                            <Typography variant="h2">Documents</Typography>
-                        </Box>
-                        <Box sx={{
-                            display: "flex", m: 2, p: 1
-                        }}>
-                            <Box sx={{ width: '250px' }}>
-                                <TextField
-                                    fullWidth
-                                    label={<>
-                                        User Name <span style={{ color: 'red' }}>*</span>
-                                    </>}
-                                    InputLabelProps={{ shrink: true }}
-                                    sx={{ bgcolor: '#F0F0F0' }}
-                                    value={UserName}
-                                    size={"small"}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box sx={{ width: '250px' }}>
-                                <TextField
-                                    fullWidth
-                                    label={<>
-                                        Doucment Name  <span style={{ color: 'red' }}>*</span>
-                                    </>}
-                                    InputLabelProps={{ shrink: true }}
-                                    sx={{ bgcolor: '#F0F0F0' }}
-                                    value={DocumentName}
-                                    size={"small"}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Box>
-                            <Box>
-                                {/* {fileNameError && (
-                                    <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
-                                        <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
-                                    </Box>
-                                )} */}
+                <Box sx={{ maxHeight: '300px', position: 'relative', background: 'white' }}>
+
+                    <h1>Documents</h1>
+                    <Grid container spacing={0} alignItems="center">
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                label={<>
+                                    User Name <span style={{ color: 'red' }}>*</span>
+                                </>}
+                                InputLabelProps={{ shrink: true }}
+                                sx={{ bgcolor: '#F0F0F0' }}
+                                value={UserName}
+                                size={"small"}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField
+                                fullWidth
+                                label={<>
+                                    Doucment Name  <span style={{ color: 'red' }}>*</span>
+                                </>}
+                                InputLabelProps={{ shrink: true }}
+                                sx={{ bgcolor: '#F0F0F0' }}
+                                value={DocumentName}
+                                size={"small"}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
                                 <SingleFile
                                     ValidFileTypes={ValidFileTypes}
                                     MaxfileSize={MaxfileSize}
@@ -276,49 +269,25 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     </Box>
                                 )}
                             </Box>
-                        </Box>
-                        {/* <Tooltip title={"Upload"}>
-                            <IconButton sx={{
-                                color: 'white',
-                                backgroundColor: blue[500],
-                                '&:hover': {
-                                    backgroundColor: blue[500]
-                                }
-                            }}>
-                                <UploadFile />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={"Upload / Delete Document(s)."}>
-                            <IconButton sx={{
-                                color: 'White',
-                                backgroundColor: grey[500],
-                                '&:hover': {
-                                    backgroundColor: grey[500]
-                                }
-                            }}
-                            >
-                                <QuestionMark />
-                            </IconButton>
-
-                        </Tooltip> */}
-                        <Box sx={{ backgroundColor: 'white', p: 2 }}>
-                            {USGetAllDocumentsList.length > 0 ? (
-                                <InvestmentDocumentList
-                                    HeaderArray={HeaderList}
-                                    ItemList={USGetAllDocumentsList}
-                                    clickDelete={ClickDelete}
-                                    clickView={ClickView}
-                                />
-                            ) : (
-                                <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                                    No record found.
-                                </Typography>
-                            )}
-                        </Box>
-
-                    </Box>
+                        </Grid>
+                    </Grid>
                 </Box>
             </DialogContent>
+            <Box sx={{ backgroundColor: 'white', p: 2 }}>
+                {USGetAllDocumentsList.length > 0 ? (
+                    <InvestmentDocumentList
+                        HeaderArray={HeaderList}
+                        ItemList={USGetAllDocumentsList}
+                        clickDelete={ClickDelete}
+                        clickView={ClickView}
+                    />
+                ) : (
+                    <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                        No record found.
+                    </Typography>
+                )}
+            </Box>
+
             <DialogActions sx={{ py: 2, px: 3 }}>
                 <Button
                     onClick={ClickUpload}
@@ -345,7 +314,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                 </Button>
 
             </DialogActions>
-        </Dialog>
+        </Dialog >
     );
 }
 export default InvestmentDeatailsDocument;
