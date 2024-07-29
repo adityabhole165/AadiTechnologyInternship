@@ -558,7 +558,7 @@ const InvestmentDeclaration = () => {
                     </Grid>
                     <Box sx={{pl:2, Pr:2}} >
                         <Box sx={{
-                            mt: 1,
+                            mt: 0,
                             // textAlign: 'center',
                              pl: 122,
                             display: 'flex'
@@ -572,7 +572,7 @@ const InvestmentDeclaration = () => {
 
 
 
-                        <Box sx={{ backgroundColor: '#ffffff', marginTop: 4 }}>
+                        <Box sx={{ backgroundColor: '#ffffff', marginTop: 2}}>
                             <Typography variant="body1" paragraph>
                                 I further undertake to provide all documentary proofs of payment made by me before 25th January, 2012 and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
                             </Typography>
