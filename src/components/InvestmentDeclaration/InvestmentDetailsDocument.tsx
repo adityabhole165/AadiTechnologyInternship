@@ -216,10 +216,10 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             </DialogTitle>
 
             <DialogContent  >
-                <Box sx={{ maxHeight: '300px', position: 'relative', background: 'white' }}>
-
-                    <h1>Documents</h1>
-                    <Grid container spacing={0} alignItems="center">
+                <Box>
+                    <Typography variant="h2" sx={{pt:2, pl:1}}>Documents</Typography>
+                   <Box sx={{ background: 'white', top: '1px', alignItems:'center',pl:1, pr:2, pt:2 }}>
+                    <Grid container spacing={2} >
                         <Grid item xs={4}>
                             <TextField
                                 fullWidth
@@ -227,9 +227,9 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     User Name <span style={{ color: 'red' }}>*</span>
                                 </>}
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ bgcolor: '#F0F0F0' }}
+                                sx={{ bgcolor: '#F0F0F0', width:'100%' }}
                                 value={UserName}
-                                size={"small"}
+                                size={"medium"}
                                 InputProps={{
                                     readOnly: true,
                                 }}
@@ -242,16 +242,16 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     Doucment Name  <span style={{ color: 'red' }}>*</span>
                                 </>}
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ bgcolor: '#F0F0F0' }}
+                                sx={{ bgcolor: '#F0F0F0', width:'100%' }}
                                 value={DocumentName}
-                                size={"small"}
+                                size={"medium"}
                                 InputProps={{
                                     readOnly: true,
                                 }}
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', ml: -1.5, width: 'calc(100% + 1px)', position: 'relative' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
                                 <SingleFile
                                     ValidFileTypes={ValidFileTypes}
                                     MaxfileSize={MaxfileSize}
@@ -262,18 +262,20 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     height={"52px"}
                                     errorMessage={''}
                                     isMandatory={false}
+                                    
                                 />
                                 {fileNameError && (
-                                    <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                                    <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px',  }}>
                                         <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
                                     </Box>
                                 )}
                             </Box>
                         </Grid>
                     </Grid>
+                    </Box>
                 </Box>
             </DialogContent>
-            <Box sx={{ backgroundColor: 'white', p: 2 }}>
+            <Box sx={{ backgroundColor: 'white', pl: 2, pr:2 }}>
                 {USGetAllDocumentsList.length > 0 ? (
                     <InvestmentDocumentList
                         HeaderArray={HeaderList}
@@ -290,12 +292,15 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
 
             <DialogActions sx={{ py: 2, px: 3 }}>
                 <Button
+                    color={'error'}
+                    onClick={handleClose}
+                >
+                    Cancel
+                </Button>
+                <Button
                     onClick={ClickUpload}
-                    // color={'success'}
-                    // variant={'contained'}
                     sx={{
                         color: 'green',
-                        //  backgroundColor: grey[500],
                         '&:hover': {
                             color: 'green',
                             backgroundColor: green[100]
@@ -304,15 +309,6 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                 >
                     Upload
                 </Button>
-
-
-                <Button
-                    color={'error'}
-                    onClick={handleClose}
-                >
-                    Cancel
-                </Button>
-
             </DialogActions>
         </Dialog >
     );

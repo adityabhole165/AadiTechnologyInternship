@@ -33,20 +33,23 @@ function InvestmentDocumentList({ ItemList, clickView, clickDelete, HeaderArray 
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.Id}>
-                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>{item.Text1}</TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left',  paddingTop: '2.5px', paddingBottom: '2.5px'}}>{item.Text1}</TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
+                                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'}} align='center' >
                                     <Tooltip title={"View"}>
                                         <Visibility onClick={() => clickView(item.Id)}
                                             sx={{
                                                 color: '#223354',
                                                 '&:hover': {
+                                                    color: '#223354',
                                                     bgcolor: 'grey.300',
+                                                    cursor:'pointer'
+                                                    
                                                 }
                                             }} />
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
+                                <TableCell sx={{ textTransform: 'capitalize' , paddingTop: '2.5px', paddingBottom: '2.5px'}} align='center' >
                                     <IconButton
                                         sx={{
                                             color: '#223354',
