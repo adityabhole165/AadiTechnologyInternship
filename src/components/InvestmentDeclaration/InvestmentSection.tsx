@@ -149,7 +149,7 @@ const InvestmentSection = ({ refreshData, clickDocumentDetails }) => {
                     // renderCell: (rowData) => rowData.DocumentCount,
                     renderCell: (rowData) => (
                         // <IconButton onClick={() => clickDocument((rowData))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
-                        <div onClick={() => clickDocument((rowData))} > {rowData.DocumentCount}</div>
+                        <div onClick={() => clickDocument((rowData))} style={{ cursor: 'pointer' }}> {rowData.DocumentCount}</div>
                         // </IconButton>
 
                     )
