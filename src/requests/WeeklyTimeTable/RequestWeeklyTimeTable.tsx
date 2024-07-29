@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
-import { IGetDataForAdditionalClassesBody, IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetDataForAdditionalClassesBody, IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 const WeeklyTimeTableSlice = createSlice({
@@ -13,6 +13,11 @@ const WeeklyTimeTableSlice = createSlice({
         ISResetTimetableMsg: '',
         ISGetStandardName: [],
         ISGetDivisionName: [],
+        ISGetTeacherSubjectMaxLecForMon: [],
+        ISGetTeacherSubjectMaxLecForTue: [],
+        ISGetTeacherSubjectMaxLecForWed: [],
+        ISGetTeacherSubjectMaxLecForThu: [],
+        ISGetTeacherSubjectMaxLecForFri: [],
         Loading: true
     },
     reducers: {
@@ -48,6 +53,26 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RGetStandardName(state, action) {
             state.ISGetStandardName = action.payload;
+            state.Loading = false;
+        },
+        RGetTeacherSubjectMaxLecForMon(state, action) {
+            state.ISGetTeacherSubjectMaxLecForMon = action.payload;
+            state.Loading = false;
+        },
+        RGetTeacherSubjectMaxLecForTue(state, action) {
+            state.ISGetTeacherSubjectMaxLecForTue = action.payload;
+            state.Loading = false;
+        },
+        RGetTeacherSubjectMaxLecForWed(state, action) {
+            state.ISGetTeacherSubjectMaxLecForWed = action.payload;
+            state.Loading = false;
+        },
+        RGetTeacherSubjectMaxLecForThu(state, action) {
+            state.ISGetTeacherSubjectMaxLecForThu = action.payload;
+            state.Loading = false;
+        },
+        RGetTeacherSubjectMaxLecForFri(state, action) {
+            state.ISGetTeacherSubjectMaxLecForFri = action.payload;
             state.Loading = false;
         }
     }
@@ -165,6 +190,103 @@ export const CDAGetDivisionName =
             dispatch(WeeklyTimeTableSlice.actions.RGetDivisionName(responseData));
 
         }
+
+// For Monday 
+export const CDAGetTeacherSubjectMaxLecDetailsForMon =
+    (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
+            console.log('MONDAY DATA 0 >>>>>>>>>', response)
+            const MondayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
+                return (
+                    {
+                        Id: item.Standard_Division_Id,
+                        Name: item.classSubjectName,
+                        Value: item.Standard_Division_Id
+                    }
+                )
+            })
+            console.log('MONDAY DATA 1 >>>>>>>>>', MondayColData)
+            MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForMon(MondayColData))
+        }
+
+// For Tuesday
+export const CDAGetTeacherSubjectMaxLecDetailsForTue =
+    (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
+            const TuesdayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
+                return (
+                    {
+                        Id: item.Standard_Division_Id,
+                        Name: item.classSubjectName,
+                        Value: item.Standard_Division_Id
+                    }
+                )
+            })
+            TuesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForTue(TuesdayColData))
+        }
+// For Wednesday
+export const CDAGetTeacherSubjectMaxLecDetailsForWed =
+    (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
+            const WednesdayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
+                return (
+                    {
+                        Id: item.Standard_Division_Id,
+                        Name: item.classSubjectName,
+                        Value: item.Standard_Division_Id
+                    }
+                )
+            })
+            WednesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForWed(WednesdayColData))
+        }
+
+// For Thursday
+export const CDAGetTeacherSubjectMaxLecDetailsForThu =
+    (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
+            const ThursdayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
+                return (
+                    {
+                        Id: item.Standard_Division_Id,
+                        Name: item.classSubjectName,
+                        Value: item.Standard_Division_Id
+                    }
+                )
+            })
+            ThursdayColData.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForThu(ThursdayColData))
+        }
+
+// For Friday
+export const CDAGetTeacherSubjectMaxLecDetailsForFri =
+    (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
+            const FridayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
+                return (
+                    {
+                        Id: item.Standard_Division_Id,
+                        Name: item.classSubjectName,
+                        Value: item.Standard_Division_Id
+                    }
+                )
+            })
+            FridayColData.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForFri(FridayColData))
+        }
+
 
 
 export default WeeklyTimeTableSlice.reducer;

@@ -1,4 +1,4 @@
-import { IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -19,11 +19,16 @@ const GetDivisionForStdDropdownApi = (data: IGetDivisionForStdDropdownBody) => {
     return http.post<IGetDivisionForStdDropdownResult[]>('Teacher/GetAllDivisionsForStandardDropDown', data)
 }
 
+const GetTeacherSubjectMaxLecDetailsApi = (data: IGetTeacherSubjectMaxLecDetailsBody) => {
+    return http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data)
+}
+
 const WeeklyTimeTableApi = {
     GetTeacherAndStandardForTimeTableApi,
     GetDataForAdditionalClassesApi,
     GetResetTimetableApi,
-    GetDivisionForStdDropdownApi
+    GetDivisionForStdDropdownApi,
+    GetTeacherSubjectMaxLecDetailsApi
 };
 
 export default WeeklyTimeTableApi;

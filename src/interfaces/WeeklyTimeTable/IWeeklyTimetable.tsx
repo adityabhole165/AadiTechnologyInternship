@@ -104,3 +104,36 @@ export interface IGetResetTimetableBody {
     asStandardDivision_Id: Number
 }
 
+export interface IGetTeacherSubjectMaxLecDetailsBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asTeacherId: Number,
+    asStandardDivId: Number,
+    asWeekDayName: string
+}
+
+export interface IGetTeacherSubjectMaxLecDetailsResult {
+    TeacherSubjectMaxLecDetails: [
+        {
+            classSubjectName: string,
+            Standard_Id: string,
+            Standard_Name: string,
+            TeacherShortName: string,
+            Is_ClassTeacher: string,
+            Subject_Name: string,
+            Standard_Division_Id: string,
+            Teacher_Subject_Id: string,
+            Subject_Id: string,
+            Teacher_Id: string,
+            Teacher_Subject: string,
+            maxSubjectLecturesInWeek: string,
+            maxDaylectures: string,
+            WeekDay_Name: string,
+            Original_Standard_Id: string,
+            Original_Division_Id: string,
+            Original_Subject_Id: string,
+            WeekDay_Short_Name: string
+        }
+    ],
+    LectureNoAndStdDivId: any
+}
