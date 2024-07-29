@@ -556,18 +556,18 @@ const InvestmentDeclaration = () => {
                         ))}
 
                     </Grid>
-                    <Container>
+                    <Box sx={{pl:2, Pr:2}} >
                         <Box sx={{
-                            mt: 2,
-                            textAlign: 'right',
-                            pl: 100,
+                            mt: 1,
+                            // textAlign: 'center',
+                             pl: 122,
                             display: 'flex'
                         }}>
                             <Typography variant="h6"
-                                sx={{ color: 'white', backgroundColor: "#38548a", p: 0.5, textAlign: 'center' }}>
+                                sx={{ color: 'white', backgroundColor: "#38548a", p: 1,mr:1.5, textAlign: 'center' }}>
                                 Grand Total
                             </Typography>
-                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 0.5, ml: 2, textAlign: 'center' }}> {grandTotalAmount}</Typography>
+                            <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 1, ml: 2, textAlign: 'center' }}> {grandTotalAmount}</Typography>
                         </Box>
 
 
@@ -583,8 +583,8 @@ const InvestmentDeclaration = () => {
                                 I<b> {userName} </b>solemnly declare that to the best of my knowledge and belief the information given above is correct and complete.
                             </Typography>
                         </Box>
-                    </Container>
-                    <Container>
+                    </Box >
+                    
                         {/* <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
 
                             <Grid item>
@@ -606,7 +606,7 @@ const InvestmentDeclaration = () => {
                                 </Button>
                             </Grid>
                         </Grid> */}
-                    </Container>
+                    
                 </Box>
             </Box >
         </>
