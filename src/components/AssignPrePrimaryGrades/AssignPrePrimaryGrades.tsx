@@ -39,7 +39,19 @@ const AssignPrePrimaryGrades = () => {
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const GetTestwiseTermBody: IGetTestwiseTermBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId
+  };
 
+  const GetTeacherDropdownBody: IGetClassTeachersBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId
+  };
+  useEffect(() => {
+    dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
+    dispatch(CDAGetTeacherDropdown(GetTeacherDropdownBody));
+  }, []);
   useEffect(() => {
     if (TermId !== '' && TeacherId !== '') {
       console.log(TermId, TeacherId)
@@ -78,15 +90,7 @@ const AssignPrePrimaryGrades = () => {
     (state: RootState) => state.AssignPrePrimaryGrades.ISSubmitExamMarksStatus
   );
 
-  const GetTestwiseTermBody: IGetTestwiseTermBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId
-  };
 
-  const GetTeacherDropdownBody: IGetClassTeachersBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId
-  };
 
   const GetTeacherXseedSubjectsBody: IGetTeacherXseedSubjectsBody = {
     asSchoolId: Number(asSchoolId),
@@ -219,13 +223,8 @@ const AssignPrePrimaryGrades = () => {
 
 
 
-  useEffect(() => {
-    dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
-  }, []);
 
-  useEffect(() => {
-    dispatch(CDAGetTeacherDropdown(GetTeacherDropdownBody));
-  }, [selectTeacher]);
+
 
   useEffect(() => {
     dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
@@ -236,9 +235,7 @@ const AssignPrePrimaryGrades = () => {
   };
 
   const clickSelectClass = (value) => {
-
     SetselectTeacher(value);
-    console.log("Selected Teacher.............>> check number", selectTeacher)
   };
   const clickEdit = (SubmitStatusId, ClassName, SubjectName, SubjectId, StandardDivisionID) => {
     let EditStatusId = SubmitStatusId
