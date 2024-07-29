@@ -271,14 +271,10 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     FileLabel={'Upload Document '}
                                     width={'100%'}
                                     height={"52px"}
-<<<<<<< HEAD
                                     errorMessage={''}
                                     isMandatory={false}
-                                    
-=======
                                     errorMessage={fileNameError}
                                     isMandatory={true}
->>>>>>> 
                                 />
                                 {fileNameError && (
                                     <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px',  }}>
