@@ -1,8 +1,9 @@
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { default as DeleteIcon } from '@mui/icons-material/Delete';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, Button, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import {
@@ -10,9 +11,6 @@ import {
   CheckFileValidationAdhar
 } from 'src/components/Common/Util';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
-import Visibility from '@mui/icons-material/Visibility';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { red } from '@mui/material/colors';
 const SingleFile = ({
   ValidFileTypes,
   MaxfileSize,
@@ -29,12 +27,13 @@ const SingleFile = ({
   isMandatory = true,
   height = 'auto'
 }) => {
+
   const classes = Styles();
   const aRef = useRef(null);
   const [FileError, setFileError] = useState('');
-  useEffect(() => {
-    setFileError(errorMessage);
-  }, [errorMessage]);
+  // useEffect(() => {
+  //   setFileError(errorMessage);
+  // }, [errorMessage]);
   useEffect(() => {
     if (FileName == '') aRef.current.value = null;
   }, [FileName]);
@@ -50,20 +49,31 @@ const SingleFile = ({
       if (isValid == null) {
         base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
         setFileError('');
+        errorMessage = ''
         ChangeFile({
           Name: multipleFiles[i].name,
           Value: base64URL.slice(base64URL.indexOf(',') + 1),
-          FileExtension: multipleFiles[i].name.split('.').at(-1)
+          FileExtension: multipleFiles[i].name.split('.').at(-1),
+          ErrorMsg: ""
         });
       } else {
+        console.log(isValid, "isValid");
+
         setFileError(isValid);
+        errorMessage = ''
+        ChangeFile({
+          Name: "",
+          Value: "",
+          FileExtension: "",
+          ErrorMsg: isValid
+        });
         aRef.current.value = null;
       }
     }
   };
   return (
     <Grid container>
-      <Grid item xs={12} sx={{ display: 'flex', alignItems: FileError ? 'flex-start' : 'center', justifyContent: 'center', height:'auto' }}>
+      <Grid item xs={12} sx={{ display: 'flex', alignItems: FileError ? 'flex-start' : 'center', justifyContent: 'center', height: 'auto' }}>
         <Tooltip
           title={
             'Supports only ' +
@@ -131,11 +141,13 @@ const SingleFile = ({
               <IconButton
                 // sx={{ marginRight: 1 }}
                 // color={'error'}
-                sx={{ marginLeft: 1, 
-                    '&:hover': {
-                  color:'red',
-                   backgroundColor: red[100]
-                    }}}
+                sx={{
+                  marginLeft: 1,
+                  '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
                 onClick={clickDelete}
               >
                 <DeleteForeverIcon style={{ fontSize: 30 }} />
@@ -151,11 +163,11 @@ const SingleFile = ({
           </Stack>
         )}
       </Grid>
-      {FileError && (
+      {errorMessage && (
         <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
           <Typography >
-            {/* {FileError && <Errormessage Error={FileError} />} */}
+            {errorMessage && <Errormessage Error={errorMessage} />}
           </Typography>
         </Grid>
       )}

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
-import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SingleFile from 'src/libraries/File/SingleFile';
 import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { RootState } from 'src/store';
@@ -40,7 +39,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const { showAlert, closeAlert } = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
     const [fileNameError, setFileNameError] = useState('');
-    const [File, setFile] = useState('');
+    const [ValidFile, setValidFile] = useState('')
     const [base64URL, setbase64URL] = useState('');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asFolderName = Number(localStorage.getItem('FolderName'));
@@ -105,16 +104,25 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
 
     const ClickUpload = () => {
         let isError = false;
+        // const fileExtension = fileName.split('.').pop().toUpperCase();
+
+        // // Check for valid file type
+        // if (!ValidFileTypes.includes(fileExtension)) {
+        //     setValidFile('Please select a valid file type.');
+        //     isError = true;
+        // } else {
+        //     setValidFile('');
+        // }
         if (!fileName || fileName === '') {
             setFileNameError('Please select file to upload.');
-            isError = true; // Set isError to true for this condition
+            isError = true;
         } else {
             setFileNameError('');
         }
         if (!isError) {
-            // dispatch(Savedailylog(SaveDailylogBody));
             dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
             ResetForm();
+
         }
         // dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
     }
@@ -135,20 +143,12 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const ChangeFile = (value) => {
         setFileName(value.Name);
         setbase64URL(value.Value);
-        setFileNameError('');
+        console.log(value, "setFileNameError");
+
+        setFileNameError(value.ErrorMsg);
+
     };
-    // const ChangeFile = (value) => {
-    //     const fileExtension = value.Name.split('.').pop().toUpperCase();
-    //     if (!ValidFileTypes.includes(fileExtension)) {
-    //         setFileNameError('Please select a valid file type.');
-    //         setFileName('');
-    //         setbase64URL('');
-    //     } else {
-    //         setFileName(value.Name);
-    //         setbase64URL(value.Value);
-    //         setFileNameError('');
-    //     }
-    // };
+
     const ResetForm = () => {
         setFileName('');
         setbase64URL('');
@@ -228,66 +228,71 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
 
             <DialogContent  >
                 <Box>
-                    <Typography variant="h2" sx={{pt:2, pl:1}}>Documents</Typography>
-                   <Box sx={{ background: 'white', top: '1px', alignItems:'center',pl:1, pr:2, pt:2 }}>
-                    <Grid container spacing={2} >
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                label={<>
-                                    User Name <span style={{ color: 'red' }}>*</span>
-                                </>}
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ bgcolor: '#F0F0F0', width:'100%' }}
-                                value={UserName}
-                                size={"medium"}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField
-                                fullWidth
-                                label={<>
-                                    Doucment Name  <span style={{ color: 'red' }}>*</span>
-                                </>}
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ bgcolor: '#F0F0F0', width:'100%' }}
-                                value={DocumentName}
-                                size={"medium"}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
-                                <SingleFile
-                                    ValidFileTypes={ValidFileTypes}
-                                    MaxfileSize={MaxfileSize}
-                                    FileName={fileName}
-                                    ChangeFile={ChangeFile}
-                                    FileLabel={'Upload Document '}
-                                    width={'100%'}
-                                    height={"52px"}
-                                    errorMessage={''}
-                                    isMandatory={false}
-                                    errorMessage={fileNameError}
-                                    isMandatory={true}
+                    <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Documents</Typography>
+                    <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
+                        <Grid container spacing={2} >
+                            <Grid item xs={4}>
+                                <TextField
+                                    fullWidth
+                                    label={<>
+                                        User Name <span style={{ color: 'red' }}>*</span>
+                                    </>}
+                                    InputLabelProps={{ shrink: true }}
+                                    sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                                    value={UserName}
+                                    size={"medium"}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
                                 />
-                                {fileNameError && (
-                                    <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px',  }}>
-                                        <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
-                                    </Box>
-                                )}
-                            </Box>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField
+                                    fullWidth
+                                    label={<>
+                                        Doucment Name  <span style={{ color: 'red' }}>*</span>
+                                    </>}
+                                    InputLabelProps={{ shrink: true }}
+                                    sx={{ bgcolor: '#F0F0F0', width: '100%' }}
+                                    value={DocumentName}
+                                    size={"medium"}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
+                                    <SingleFile
+                                        ValidFileTypes={ValidFileTypes}
+                                        MaxfileSize={MaxfileSize}
+                                        FileName={fileName}
+                                        ChangeFile={ChangeFile}
+                                        FileLabel={'Upload Document '}
+                                        width={'100%'}
+                                        height={"52px"}
+                                        // errorMessage={''}
+                                        // isMandatory={false}
+                                        errorMessage={fileNameError}
+                                        isMandatory={true}
+                                    />
+                                    {/* {fileNameError && (
+                                        <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px', }}>
+                                            <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+                                        </Box>
+                                    )} */}
+                                    {/* {ValidFile && (
+                                        <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                                            <ErrorMessage1 Error={ValidFile}></ErrorMessage1>
+                                        </Box>
+                                    )} */}
+                                </Box>
+                            </Grid>
                         </Grid>
-                    </Grid>
                     </Box>
                 </Box>
             </DialogContent>
-            <Box sx={{ backgroundColor: 'white', pl: 3.8, pr:3.8 }}>
+            <Box sx={{ backgroundColor: 'white', pl: 3.8, pr: 3.8 }}>
                 {USGetAllDocumentsList.length > 0 ? (
                     <InvestmentDocumentList
                         HeaderArray={HeaderList}
