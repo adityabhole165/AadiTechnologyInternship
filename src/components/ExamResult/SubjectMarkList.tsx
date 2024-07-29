@@ -195,7 +195,7 @@ const SubjectMarkList = () => {
                   fullWidth
                   label={"Class"}
                   InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#F0F0F0' }}
                   value={getTeacherName}
                   size={"small"}
                   InputProps={{
@@ -208,7 +208,7 @@ const SubjectMarkList = () => {
                   fullWidth
                   label={"Subject Name"}
                   InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#F0F0F0' }}
                   value={getSubjectName}
                   size={"small"}
                   InputProps={{
@@ -221,7 +221,7 @@ const SubjectMarkList = () => {
                   fullWidth
                   label={"Exam "}
                   InputLabelProps={{ shrink: true }}
-                  sx={{ bgcolor: '#f0e68c' }}
+                  sx={{ bgcolor: '#F0F0F0' }}
                   value={getExamName}
                   size={"small"}
                   InputProps={{
@@ -265,26 +265,9 @@ const SubjectMarkList = () => {
             </>
           }
         />
-
-        <Box sx={{ p: 2, background: 'white' }}>
-          {/* New Table */}
-          <Grid container spacing={2}>
-            {arrPages.map((arrItem) => {
-              return (
-                <Grid item xs={gridIndex}>
-                  <DataTable
-                    columns={Columns}
-                    data={TestMarkListNew.filter((item) => { return (item.Index >= arrItem.startIndex && item.Index < arrItem.endIndex) })}
-                    isPagination={false}
-                  />
-                </Grid>
-              )
-            })}</Grid>
-
-          <Box mt={2}>
-            {/* <Typography variant={"h4"}>
-              Legends:
-            </Typography> */}
+        <Box >
+        <Box sx={{backgroundColor:'white', p:1,mb:2}}>
+            
             <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
               <Box>
                 <Typography variant='h5'>
@@ -356,6 +339,23 @@ const SubjectMarkList = () => {
               </Box>
             </Stack>
           </Box>
+        <Box sx={{ p: 2, background: 'white' }}>
+          {/* New Table */}
+          <Grid container spacing={2}>
+            {arrPages.map((arrItem) => {
+              return (
+                <Grid item xs={gridIndex}>
+                  <DataTable
+                    columns={Columns}
+                    data={TestMarkListNew.filter((item) => { return (item.Index >= arrItem.startIndex && item.Index < arrItem.endIndex) })}
+                    isPagination={false}
+                  />
+                </Grid>
+              )
+            })}</Grid>
+
+          
+        </Box>
         </Box>
         {/* New Table End */}
 

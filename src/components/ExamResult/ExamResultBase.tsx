@@ -569,7 +569,7 @@ const ExamResultBase = () => {
           <SearchableDropdown
             sx={{
               minWidth: '20vw'
-              , bgcolor: GetScreenPermission() === 'N' ? '#D3D3D3' : 'inherit'
+              , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
             }}
             ItemList={ClassTeachers}
             onChange={clickTeacher}
