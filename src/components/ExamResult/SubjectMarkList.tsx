@@ -1,7 +1,7 @@
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Divider, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { grey, yellow } from '@mui/material/colors';
+import { green, grey, yellow } from '@mui/material/colors';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -138,7 +138,7 @@ const SubjectMarkList = () => {
                   )
 
                   || rowData.Marks[i].theoryType === "-" && (
-                    <span style={{ color: 'green', fontWeight: 'bold', backgroundColor: '#FFB6C1', padding: '10px' }}>{rowData.Marks[i].theoryType}</span>
+                    <span style={{ color: 'green', fontWeight: 'bold', backgroundColor: green[100], margin:'0px', paddingLeft:'5px', paddingRight:'5px' }}>{rowData.Marks[i].theoryType}</span>
                   )
 
                   || rowData.Marks[i].theoryType === "Ab" && (
@@ -329,13 +329,13 @@ const SubjectMarkList = () => {
                 </Typography>
               </Box>
               <Box>
-                <img src={GoldMedal} alt="Gold Medal" width={20} />
+                <img src={GoldMedal} alt="Gold Medal" width={18} />
               </Box>
               <Box>
-                <img src={SilverMedal} alt="Silver Medal" width={20} />
+                <img src={SilverMedal} alt="Silver Medal" width={18} />
               </Box>
               <Box>
-                <img src={BronzeMedal} alt="Bronze Medal" width={20} />
+                <img src={BronzeMedal} alt="Bronze Medal" width={18} />
               </Box>
             </Stack>
           </Box>
