@@ -1124,7 +1124,7 @@ const TAttendance = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} >
 
           <Grid container justifyContent="center">
 
@@ -1154,6 +1154,7 @@ const TAttendance = () => {
                     fontSize: '16px',
                     marginTop: '12px',
                     marginLeft: '10px',
+                    marginRight: '10px',
                     color:
                       AttendanceStatus.includes('Attendance not yet marked.') ||
                         AttendanceStatus.includes('Attendance date should be within current academic year') ||
