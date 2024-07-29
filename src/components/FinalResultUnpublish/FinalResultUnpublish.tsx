@@ -117,7 +117,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
           </Typography>
           <TextField
             multiline
-            rows={3}
+            rows={5}
             value={Reason}
             onChange={(e) => {
               setReason(e.target.value);
