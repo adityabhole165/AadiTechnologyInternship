@@ -23,6 +23,10 @@ const AddInvestmentDetailsDocumentSlice = createSlice({
         RSaveInvestmentDocument(state, action) {
             state.ISSaveInvestmentDocument = action.payload
         },
+        rsaveInvestmentresetMessage(state) {
+            state.Loading = false;
+            state.ISSaveInvestmentDocument = '';
+        },
         RGetAllDocumentsList(state, action) {
             state.ISGetAllDocumentsList = action.payload
         },
@@ -58,6 +62,10 @@ export const getSaveInvestmentDocument = (data: ISaveInvestmentDocumentBody): Ap
         dispatch(AddInvestmentDetailsDocumentSlice.actions.RSaveInvestmentDocument(response.data));
 
     };
+export const resetSaveInvestmentMessage = (): AppThunk => async (dispatch) => {
+    dispatch(AddInvestmentDetailsDocumentSlice.actions.rsaveInvestmentresetMessage());
+};
+
 export const getAllDocumentsList = (data: IGetAllDocumentsListBody): AppThunk =>
     async (dispatch) => {
         const response = await AddInvestmentDetailsDocumentApi.GetAllDocumentsListapi(data)

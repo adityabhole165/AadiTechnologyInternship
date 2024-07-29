@@ -1,13 +1,14 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import { Box, Button, debounce, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { ClearIcon } from "@mui/x-date-pickers";
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, IGetUserInvestmentMethodDetailsBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
+import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
+import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SingleFile from 'src/libraries/File/SingleFile';
-import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { RootState } from 'src/store';
 import InvestmentDocumentList from './InvestmentDocumentList';
 
@@ -17,7 +18,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     console.log(DocumentName, "DocumentName");
 
 
-
+    const [ID, setID] = useState('')
     const dispatch = useDispatch();
     const HeaderList = [
         { Id: 1, Header: 'File Name' },
@@ -29,13 +30,17 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     let aFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
     const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
     const MaxfileSize = 5000000;
-    const [MultipleFiles, setMultipleFiles] = useState([]);
+    const debouncedFetch = useCallback(debounce((body) => {
+        dispatch(getSaveInvestmentDocument(body));
+    }, 500), [dispatch]);
+    console.log(debouncedFetch, "debouncedFetch");
+
+
     const { showAlert, closeAlert } = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
+    const [fileNameError, setFileNameError] = useState('');
     const [File, setFile] = useState('');
     const [base64URL, setbase64URL] = useState('');
-    const [Username, setUsername] = useState('');
-    const [Documentname, setDocumentname] = useState('');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asFolderName = Number(localStorage.getItem('FolderName'));
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -43,9 +48,6 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const asUserId = Number(localStorage.getItem('UserId'));
     const USCheckPublishUnpublishDocument: any = useSelector(
         (state: RootState) => state.AddInvestmentDetailsDoc.ISCheckPublishUnpublishDocument
-    );
-    const USGetUserInvestmentMethodDetails: any = useSelector(
-        (state: RootState) => state.AddInvestmentDetailsDoc.ISGetUserInvestmentMethodDetails
     );
     const USSaveInvestmentDocument: any = useSelector(
         (state: RootState) => state.AddInvestmentDetailsDoc.ISSaveInvestmentDocument
@@ -67,19 +69,12 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         asSchoolId: asSchoolId,
         asFinancialYearId: 1,
         asUserId: asUserId
-    }
-    const GetUserInvestmentMethodDetailsBody: IGetUserInvestmentMethodDetailsBody = {
-        asSchoolId: asSchoolId,
-        asFinancialYearId: 1,
-        asUserId: asUserId,
-        asDocumentId: 81,
-        asDocumentTypeId: 1
-    }
+    };
     const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asFinancialYearId: 1,
-        asDocumentId: 81,
+        asDocumentId: Number(Id),
         asFileName: fileName == '' ? null : fileName,
         asUserId: asUserId,
         asInsertedById: asUserId,
@@ -87,7 +82,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         asReportingUserId: 0,
         asSaveFeature: "Investment Declarations",
         asFolderName: asFolderName.toString(),
-        asBase64String: base64URL
+        asBase64String: base64URL == '' ? null : base64URL
     }
     const GetGetAllDocumentsListBody: IGetAllDocumentsListBody = {
         asSchoolId: asSchoolId,
@@ -95,7 +90,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         asFinancialYearId: 1,
         asDocumentTypeId: 1,
         asAcademicYearId: asAcademicYearId,
-        asDocumentId: 81,
+        asDocumentId: Number(Id),
         asReportingUserId: 0,
         asLoginUserId: asUserId
     }
@@ -106,28 +101,37 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
     }, [])
-    // useEffect(() => {
-    //     dispatch(getUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody))
-    // }, [])
+
     const ClickUpload = () => {
-        dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
+        let isError = false;
+        if (!fileName || fileName === '') {
+            setFileNameError('Please select file to upload.');
+            isError = true; // Set isError to true for this condition
+        } else {
+            setFileNameError('');
+        }
+        if (!isError) {
+            // dispatch(Savedailylog(SaveDailylogBody));
+            debouncedFetch(SaveInvestmentDocumentBody);
+            ResetForm();
+        }
+        // dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
     }
     useEffect(() => {
         dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
-    }, [])
+    }, [Id])
     useEffect(() => {
         dispatch(getInvestmentDocumentFile(InvestmentDocumentFileBody))
     }, [])
-    const onClickUsername = (value) => {
-        setUsername(value)
-    }
-    // const onClickDocumentname = (value) => {
-    //     setDocumentname(value)
-    // }
     const ChangeFile = (value) => {
         setFile(value.Name);
         setbase64URL(value.Value);
         setFileName(value.Name);
+    };
+    const ResetForm = () => {
+        setFileName('');
+        setbase64URL('');
+
     };
     const ClickDelete = (Id) => {
         const DeleteInvestmentDocumentBody: IDeleteInvestmentDocumentBody = {
@@ -153,6 +157,16 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             }
         });
     };
+
+
+    useEffect(() => {
+        if (USSaveInvestmentDocument != '') {
+            toast.success(USSaveInvestmentDocument);
+            dispatch(resetSaveInvestmentMessage());
+            dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+        }
+    }, [USSaveInvestmentDocument]);
+
     useEffect(() => {
         if (USDeleteInvestmentDocument !== '') {
             toast.success("Document deleted successfully.");
@@ -240,6 +254,11 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                 />
                             </Box>
                             <Box>
+                                {/* {fileNameError && (
+                                    <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                                        <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+                                    </Box>
+                                )} */}
                                 <SingleFile
                                     ValidFileTypes={ValidFileTypes}
                                     MaxfileSize={MaxfileSize}
@@ -248,8 +267,14 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     FileLabel={'Upload Document '}
                                     width={'100%'}
                                     height={"52px"}
+                                    errorMessage={''}
                                     isMandatory={false}
                                 />
+                                {fileNameError && (
+                                    <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px' }}>
+                                        <ErrorMessage1 Error={fileNameError}></ErrorMessage1>
+                                    </Box>
+                                )}
                             </Box>
                         </Box>
                         {/* <Tooltip title={"Upload"}>
