@@ -100,6 +100,7 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
+import AddNoticeslice from '../requests/AddSchoolNotice/ReqAddNotice';
 import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
@@ -244,7 +245,8 @@ const rootReducer = combineReducers({
   SaveUpdateSchoolNotice: ReqSaveUpdateSchoolNotices,
   EditSchoolNoticeDetails: ReqEditSchoolNoticeDetails,
   GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
-  StudentRecordCommentPopup: StudentRecordCommentslice
+  StudentRecordCommentPopup: StudentRecordCommentslice,
+  SchoolNotice: AddNoticeslice
 });
 
 export default rootReducer;
