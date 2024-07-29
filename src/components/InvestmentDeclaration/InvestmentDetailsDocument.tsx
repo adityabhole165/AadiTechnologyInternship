@@ -287,7 +287,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                     </Box>
                 </Box>
             </DialogContent>
-            <Box sx={{ backgroundColor: 'white', pl: 2, pr:2 }}>
+            <Box sx={{ backgroundColor: 'white', pl: 3.8, pr:3.8 }}>
                 {USGetAllDocumentsList.length > 0 ? (
                     <InvestmentDocumentList
                         HeaderArray={HeaderList}
