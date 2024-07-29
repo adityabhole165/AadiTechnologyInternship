@@ -1,6 +1,6 @@
 import { IGetClassTeachersBody, IGetClassTeachersResult, IGetPassedAcademicYearsResult } from "src/interfaces/ProgressReport/IprogressReport";
 import http from '../../requests/SchoolService/schoolServices';
-import { IGetStudentNameDropdownBody, IGetStudentNameDropdownResult,IStudentProgressReportBody ,IStudentProgressReportResult,IGetPassedAcademicYearsBody,IGetAllMarksGradeConfigurationResult,IGetAllMarksGradeConfigurationBody} from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetStudentNameDropdownBody, IsTestPublishedForStudentBody,IGetStudentNameDropdownResult,IStudentProgressReportBody ,IsTestPublishedForStdDivBody,IsGradingStandarBody,IStudentProgressReportResult,IGetPassedAcademicYearsBody,IGetAllMarksGradeConfigurationResult,IGetAllMarksGradeConfigurationBody} from "src/interfaces/ProgressReport/IprogressReport";
 
 const GetClassTeachers = (data: IGetClassTeachersBody ) => {
     return http.post<IGetClassTeachersResult[]>(
@@ -39,14 +39,44 @@ const GetClassTeachers = (data: IGetClassTeachersBody ) => {
     );
   };
 
+  const IsGradingStandard = (data: IsGradingStandarBody) => {
+    return http.post(
+      'Teacher/IsGradingStandard',
+      data
+    );
+  };
+  const IsTestPublishedForStdDiv = (data: IsTestPublishedForStdDivBody) => {
+    return http.post(
+      'Teacher/IsTestPublishedForStdDiv',
+      data
+    );
+  };
 
+
+
+  const IsTestPublishedForStudent = (data: IsTestPublishedForStudentBody) => {
+    return http.post(
+      'Teacher/IsTestPublishedForStudent',
+      data
+    );
+  };
+
+
+  
+  
+
+
+  
 
 const ApiProgressReport = {
     GetClassTeachers,
     GetStudentNameDropdown,
     StudentProgressReport,
     GetPassedAcademicYears,
-    GetAllMarksGradeConfiguration
+    GetAllMarksGradeConfiguration,
+    IsGradingStandard,
+    IsTestPublishedForStdDiv,
+    IsTestPublishedForStudent
    
   };
   export default ApiProgressReport;

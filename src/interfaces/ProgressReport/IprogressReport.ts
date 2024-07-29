@@ -235,3 +235,19 @@ export interface IGetPassedAcademicYearsBody {
     
 }
 
+export interface IsGradingStandarBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asStandardId: number
+  }
+  export interface IsTestPublishedForStdDivBody {
+    asSchoolId: number
+    asAcadmicYearId: number
+    asStdDivId: number
+  }
+  export interface IsTestPublishedForStudentBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asStandardDivId: number
+    asStudentId: number
+  }

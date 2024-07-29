@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetAllMarksGradeConfigurationBody,IsTestPublishedForStudentBody,IsTestPublishedForStdDivBody, IGetClassTeachersBody, IsGradingStandarBody,IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -23,11 +23,14 @@ const ProgressReportSlice = createSlice({
     ISListDisplayNameDetails: [],
     ISGetPassedAcademicYears: [],
     ISGetAllMarksGradeConfiguration: [],
-    ISGetAllMarksGradeConfiguration1: []
+    ISGetAllMarksGradeConfiguration1: [],
+    IsGradingStandarBodyIS:{},
+    IsTestPublishedForStdDivBodyIS:{},
+    RIsTestPublishedForStudentIS:{}
 
 
   },
-  reducers: {
+  reducers: {                                                                                   
     RGetClassTeachers(state, action) {
       state.ISGetClassTeachers = action.payload;
     },
@@ -84,12 +87,18 @@ const ProgressReportSlice = createSlice({
       state.ISGetAllMarksGradeConfiguration1 = action.payload;
     },
 
+    
+    RIsGradingStandard(state, action) {
+      state.IsGradingStandarBodyIS = action.payload;
+    },
+    RTestPublishedForStdDivBody(state, action) {
+      state.IsTestPublishedForStdDivBodyIS = action.payload;
+    },
+    RIsTestPublishedForStudent(state, action) {
+      state.RIsTestPublishedForStudentIS = action.payload;
+    },
 
-
-
-
-
-
+    
   }
 });
 
@@ -306,6 +315,27 @@ export const CDAGetAllMarksGradeConfiguration1 =
       dispatch(ProgressReportSlice.actions.RGetAllMarksGradeConfiguration1(listGradeDetailss));
     };
 
+    export const CDAIsGradingStandard =
+  (data: IsGradingStandarBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.IsGradingStandard(data);
+      dispatch(ProgressReportSlice.actions.RIsGradingStandard(response.data));
+    };     
+    export const CDAIsTestPublishedForStdDiv =
+    (data: IsTestPublishedForStdDivBody): AppThunk =>
+      async (dispatch) => {
+        const response = await ApiProgressReport.IsTestPublishedForStdDiv(data);
+        dispatch(ProgressReportSlice.actions.RTestPublishedForStdDivBody(response.data));
+      };
 
+      export const CDAIsTestPublishedForStudent =
+      (data: IsTestPublishedForStudentBody): AppThunk =>
+        async (dispatch) => {
+          const response = await ApiProgressReport.IsTestPublishedForStudent(data);
+          dispatch(ProgressReportSlice.actions.RIsTestPublishedForStudent(response.data));
+        };
+
+    
+      
 
 export default ProgressReportSlice.reducer;

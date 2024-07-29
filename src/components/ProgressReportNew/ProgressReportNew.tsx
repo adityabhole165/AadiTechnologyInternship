@@ -6,13 +6,13 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -73,10 +73,11 @@ const ProgressReportNew = () => {
   const Data = USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")
   const Data1 = USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")
   const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
-
   const legendText = 'Legend * : Subject marks not considered in total marks';
-
   const formattedText = legendText.replace('*', '<span style="color: red;">*</span>');
+  const USIsGradingStandard: any = useSelector((state: RootState) => state.ProgressReportNew.IsGradingStandarBodyIS);
+  const USIsTestPublishedForStdDiv: any = useSelector((state: RootState) => state.ProgressReportNew.IsTestPublishedForStdDivBodyIS);
+  const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -152,6 +153,29 @@ const ProgressReportNew = () => {
     asIsCoCurricular: true
   };
 
+  const IsGradingStandard: IsGradingStandarBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardId: Number(GetClassTeacher())
+
+  };
+
+  const IsTestPublishedForStdDiv: IsTestPublishedForStdDivBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcadmicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(GetClassTeacher())
+
+  };
+
+  const IsTestPublishedForStudent: IsTestPublishedForStudentBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivId: Number(GetClassTeacher()),
+    asStudentId: Number(StudentId)
+
+  };
+
+
 
   const clickSelectClass = (value) => {
     setOpen(false);
@@ -171,19 +195,35 @@ const ProgressReportNew = () => {
   const ClickShow = (value) => {
     if (selectTeacher === '0') {
       SetError('Class Teacher should be selected.');
-      return; 
+      return;
     }
-  
+
     setOpen(true);
     SetError('')
   }
-  
+
 
   useEffect(() => {
     if (USGetStudentNameDropdown.length > 0) {
       SetStudentId(USGetStudentNameDropdown[0].Value);
     }
   }, [USGetStudentNameDropdown]);
+
+  useEffect(() => {
+    dispatch(CDAIsGradingStandard(IsGradingStandard));
+
+  }, []);
+
+  useEffect(() => {
+    dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
+
+  }, []);
+
+  useEffect(() => {
+    dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
+
+  }, []);
+
 
   useEffect(() => {
     if (GetScreenPermission() == 'Y') {
@@ -195,6 +235,7 @@ const ProgressReportNew = () => {
   }, [USGetClassTeachers]);
 
 
+
   useEffect(() => {
     dispatch(CDAGetClassTeachers(GetClassTeachersBody));
 
@@ -202,7 +243,7 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
-  }, [selectTeacher,StandardDivisionId()]);
+  }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
     dispatch(CDAStudentProgressReport(StudentProgressReportBody));
@@ -296,7 +337,7 @@ const ProgressReportNew = () => {
         </>}
 
       />
-         <ErrorMessage1 Error={Error}></ErrorMessage1>
+      <ErrorMessage1 Error={Error}></ErrorMessage1>
       {StudentId == "0" ? (
         <span></span>
       ) : (
