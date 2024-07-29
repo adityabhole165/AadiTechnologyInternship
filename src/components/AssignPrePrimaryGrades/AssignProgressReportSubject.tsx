@@ -275,7 +275,7 @@ const AssignProgressReportSubject = () => {
                                 </Tooltip>
                             }
 
-                            <Tooltip title={`To be added...`}>
+                            <Tooltip title={`Assign grades to each student in the class for selected subject and click on " Save".`}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
