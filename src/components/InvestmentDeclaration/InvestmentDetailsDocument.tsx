@@ -1,7 +1,7 @@
-import { Box, Button, debounce, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { ClearIcon } from "@mui/x-date-pickers";
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
@@ -31,10 +31,10 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     let aFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
     const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PDF", "XLS", "XLSX"];
     const MaxfileSize = 5000000;
-    const debouncedFetch = useCallback(debounce((body) => {
-        dispatch(getSaveInvestmentDocument(body));
-    }, 500), [dispatch]);
-    console.log(debouncedFetch, "debouncedFetch");
+    // const debouncedFetch = useCallback(debounce((body) => {
+    //     dispatch(getSaveInvestmentDocument(body));
+    // }, 500), [dispatch]);
+    // console.log(debouncedFetch, "debouncedFetch");
 
 
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -113,11 +113,19 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         }
         if (!isError) {
             // dispatch(Savedailylog(SaveDailylogBody));
-            debouncedFetch(SaveInvestmentDocumentBody);
+            dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
             ResetForm();
         }
         // dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
     }
+    useEffect(() => {
+        if (USSaveInvestmentDocument != '') {
+            toast.success(USSaveInvestmentDocument);
+            dispatch(resetSaveInvestmentMessage());
+            dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+
+        }
+    }, [USSaveInvestmentDocument]);
     useEffect(() => {
         dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
     }, [Id])
@@ -125,10 +133,22 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         dispatch(getInvestmentDocumentFile(InvestmentDocumentFileBody))
     }, [])
     const ChangeFile = (value) => {
-        setFile(value.Name);
-        setbase64URL(value.Value);
         setFileName(value.Name);
+        setbase64URL(value.Value);
+        setFileNameError('');
     };
+    // const ChangeFile = (value) => {
+    //     const fileExtension = value.Name.split('.').pop().toUpperCase();
+    //     if (!ValidFileTypes.includes(fileExtension)) {
+    //         setFileNameError('Please select a valid file type.');
+    //         setFileName('');
+    //         setbase64URL('');
+    //     } else {
+    //         setFileName(value.Name);
+    //         setbase64URL(value.Value);
+    //         setFileNameError('');
+    //     }
+    // };
     const ResetForm = () => {
         setFileName('');
         setbase64URL('');
@@ -158,15 +178,6 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             }
         });
     };
-
-
-    useEffect(() => {
-        if (USSaveInvestmentDocument != '') {
-            toast.success(USSaveInvestmentDocument);
-            dispatch(resetSaveInvestmentMessage());
-            dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
-        }
-    }, [USSaveInvestmentDocument]);
 
     useEffect(() => {
         if (USDeleteInvestmentDocument !== '') {
@@ -260,9 +271,14 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                     FileLabel={'Upload Document '}
                                     width={'100%'}
                                     height={"52px"}
+<<<<<<< HEAD
                                     errorMessage={''}
                                     isMandatory={false}
                                     
+=======
+                                    errorMessage={fileNameError}
+                                    isMandatory={true}
+>>>>>>> 
                                 />
                                 {fileNameError && (
                                     <Box sx={{ mt: 1, position: 'absolute', bottom: '-25px',  }}>
