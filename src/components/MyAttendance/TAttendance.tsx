@@ -1124,11 +1124,11 @@ const TAttendance = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} md={6} >
+        <Grid item xs={12} md={6} sx={{ backgroundColor: 'white',mt:2 }} >
 
-          <Grid container justifyContent="center">
+          <Grid justifyContent="center" >
 
-            <Box sx={{ backgroundColor: 'white' }}>
+            <Box sx={{ backgroundColor: 'white' }} >
               {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
               {/* <div style={{ marginTop: '70px' }}> */}
               {MarksError ? (
