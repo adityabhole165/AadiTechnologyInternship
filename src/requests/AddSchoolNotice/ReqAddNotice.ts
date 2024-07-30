@@ -53,7 +53,7 @@ export const getSchoolNoticeList = (data: IGetAllNoticeListBody): AppThunk => as
             Text6: Item.FileName,
             Text7: Item.NoticeDescription,
             RowNo1: Item.RowNo1,
-            IsActive: false
+            IsActive: Item.IsSelected
         };
     });
     dispatch(AddNoticeslice.actions.getSchoolNoticeList(responseData));

@@ -197,9 +197,6 @@ const SchoolNoticeBaseScreen = () => {
         setPage(pageNumber);
     };
 
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setValue((event.target as HTMLInputElement).value);
-    // };
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1); // Reset to the first page when changing rows per page
@@ -223,10 +220,7 @@ const SchoolNoticeBaseScreen = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[{ title: 'School Notices', path: ' ' },
-                {
-                    title: `${radioBtn === '1' ? 'Show All Notices' : 'Show Active Notices'}`,
-                    path: '/extended-sidebar/Teacher/AddSchoolNotce1'
-                }
+
                 ]}
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
@@ -360,6 +354,7 @@ const SchoolNoticeBaseScreen = () => {
                         HeaderArray={HeaderSchoolNotice}
                         ItemList={schoolNoticeList}
                         clickDelete={deleteRow}
+                        clickView={undefined}
                         toggleRowSelection={toggleRowSelection}
                         clickEdit={EditSchoolNotice}
                     />

@@ -1,6 +1,6 @@
 import { EditTwoTone } from '@mui/icons-material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Link, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 function SchoolNoticeList({
     ItemList,
     clickEdit,
+    clickView,
     HeaderArray,
     toggleRowSelection,
     clickDelete,
@@ -64,7 +65,6 @@ function SchoolNoticeList({
                             </TableHead>
                             <TableBody>
                                 {ItemList.map((item, index) => {
-                                    const formattedItemDate = formatDate(new Date(item.Text2));
 
                                     return (
                                         <TableRow key={index} >
@@ -108,13 +108,10 @@ function SchoolNoticeList({
                                             >
                                                 {item.Text5}
                                             </TableCell>
-                                            <TableCell
-                                                sx={{
-                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
-                                                }}
-                                                align="left"
-                                            >
-                                                {item.Text6}
+                                            <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                                <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
+                                                    {item.Text6}
+                                                </Link>
                                             </TableCell>
                                             <TableCell
                                                 sx={{
