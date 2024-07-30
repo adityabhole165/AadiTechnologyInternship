@@ -1,4 +1,4 @@
-import { IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -23,12 +23,22 @@ const GetTeacherSubjectMaxLecDetailsApi = (data: IGetTeacherSubjectMaxLecDetails
     return http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data)
 }
 
+const GetTimeTableForTeacherApi = (data: IGetTimeTableForTeacherBody) => {
+    return http.post<IGetTimeTableForTeacherResult>('Teacher/GetTimeTableForTeacher', data)
+}
+
+const GetTimeTableForClassApi = (data: IGetClassTimeTableBody) => {
+    return http.post<IGetClassTimeTableResult>('Teacher/GetTimeTableForClass', data)
+}
+
 const WeeklyTimeTableApi = {
     GetTeacherAndStandardForTimeTableApi,
     GetDataForAdditionalClassesApi,
     GetResetTimetableApi,
     GetDivisionForStdDropdownApi,
-    GetTeacherSubjectMaxLecDetailsApi
+    GetTeacherSubjectMaxLecDetailsApi,
+    GetTimeTableForTeacherApi,
+    GetTimeTableForClassApi
 };
 
 export default WeeklyTimeTableApi;

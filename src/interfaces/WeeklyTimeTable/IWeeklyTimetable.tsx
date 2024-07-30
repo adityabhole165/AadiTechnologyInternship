@@ -137,3 +137,105 @@ export interface IGetTeacherSubjectMaxLecDetailsResult {
     ],
     LectureNoAndStdDivId: any
 }
+
+// FOR TEACHER TIMETABLE RETRIEVAL AND DISPLAY
+export interface IGetTimeTableForTeacherBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asTeacherID: Number
+}
+
+export interface IGetTimeTableForTeacherResult {
+    Lecture_No_WeekDay: [
+        {
+            Lecture_No: string,
+            Monday: string,
+            Tuesday: string,
+            Wednesday: string,
+            Thursday: string,
+            Friday: string
+        }],
+    WeekDayIds: [
+        {
+            Weekday_id: string
+        }
+    ],
+    Applicable: [
+        {
+            MPT_Applicable: string,
+            Assembly_Applicable: string,
+            Stayback_Applicable: string,
+            WeeklyTestApplicable: any
+        }
+    ],
+    Lecture_No_WeekDayStayback: any,
+    Lecture_No_WeekDayAssembly: any,
+    Lecture_No_WeekDayMPT: any,
+    TotalStayback: [
+        {
+            TotalStaybacks: string
+        }
+    ],
+    TotalAssemblys: [
+        {
+            TotalAssembly: string
+        }
+    ],
+    TotalMPTs: [
+        {
+            TotalMPT: string
+        }
+    ],
+    TimeTableDetails: [
+        {
+            TeacherId: string,
+            LectureNumber: string,
+            WeekDayName: string,
+            SubjectName: string,
+            ClassName: string,
+            SchoolTimeTableDetailId: string,
+            SubjectId: string,
+            WeekdayId: string,
+            TeacherSubjectId: string,
+            TeacherName: String,
+            ID: string
+        }
+    ],
+    Lecture_No_WeekDayWeeklyTest: any,
+    TotalWeeklyTests: [
+        {
+            TotalWeeklyTest: string
+        }
+    ]
+}
+
+// FOR CLASS TIMETABLE RETRIEVAL AND DISPLAY
+export interface IGetClassTimeTableBody {
+    asSchool_Id: Number,
+    asAcademicYear_ID: Number,
+    asStandardDivisionId: Number
+}
+
+export interface IGetClassTimeTableResult {
+    Lecture_No_WeekDayForClass: [
+        {
+            Lecture_No: string,
+            Monday: string,
+            Tuesday: string,
+            Wednesday: string,
+            Thursday: string,
+            Friday: string
+        }
+    ],
+    WeekDayIdsForClass: [
+        {
+            Weekday_id: string
+        }
+    ],
+    WeekDayDeatilsForClass: any,
+    AddtionalLecturesForClass: any,
+    LectureNumberForClass: any,
+    Lecture_No_WeekDayAssemblyForClass: any,
+    Lecture_No_WeekDayMPTForClass: any,
+    Lecture_No_WeekDayWeeklyTestForClass: any
+}
