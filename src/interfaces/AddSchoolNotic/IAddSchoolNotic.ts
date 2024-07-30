@@ -22,6 +22,7 @@ export interface IGetAllNoticeListResult {
   NoticeDescription: string,
   NoticeImage: string,
   RowNo1: string,
+  RecordCount: string;
 }
 
 export interface IUpdateSelectSchoolNoticeBody {

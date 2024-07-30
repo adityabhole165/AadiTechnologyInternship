@@ -79,9 +79,9 @@ const SchoolNoticeBaseScreen = () => {
         (state: RootState) => state.SchoolNotice.DeleteSchoolNoticeMsg
     );
     const filteredList = GetSchoolNoticeList.filter(
-        (item) => item.RowNo1 !== undefined
+        (item) => item.RecordCount !== undefined
     );
-    const TotalCount = filteredList.map((item) => item.RowNo1);
+    const TotalCount = filteredList.map((item) => item.RecordCount);
     const uniqueTotalCount = [...new Set(TotalCount)];
     const singleTotalCount = uniqueTotalCount[0];
 
@@ -223,7 +223,7 @@ const SchoolNoticeBaseScreen = () => {
 
     useEffect(() => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
-    }, [ShowAllNotices, selectDisplayType, selectDisplayLocation, sortExpression]);
+    }, [page, rowsPerPage,ShowAllNotices, selectDisplayType, selectDisplayLocation, sortExpression]);
 
     return (
         <Box sx={{ px: 2 }}>
