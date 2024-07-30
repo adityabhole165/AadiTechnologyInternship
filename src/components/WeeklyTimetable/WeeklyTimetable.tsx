@@ -9,11 +9,11 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify'
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody } from "src/interfaces/Teacher/ITeacherTimeTable"
-import { IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { IGetClassTimeTableBody, IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAResetTimetable } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAClassLecNoWeekday, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAResetTimetable } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
@@ -27,13 +27,13 @@ const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
     fontWeight: 'bold',
     border: '1px solid rgba(224, 224, 224, 1)',
 }))
-
 const FooterStyledCell = styled(TableCell)(({ theme }) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     backgroundColor: alpha(theme.palette.primary.main, 0.4),
     fontWeight: 'bold',
     border: '1px solid rgba(224, 224, 224, 1)',
+    textAlign: 'center'
 }))
 
 const StyledCell = styled(TableCell)(({ theme }) => ({
@@ -53,7 +53,11 @@ const WeeklyTimetable = (props: Props) => {
     const [standard, setStandard] = useState<string>('0');
     const [division, setDivision] = useState<string>('0');
     const [standardName, setStandardName] = useState('');
-    const [divisionName, setDivisionName] = useState('')
+    const [divisionName, setDivisionName] = useState('');
+    const [assembly, setAssembly] = useState<boolean>(false);
+    const [mpt, setMPT] = useState<boolean>(false);
+    const [stayback, setStayback] = useState<boolean>(false);
+    const [weeklytest, setWeekly] = useState<boolean>(false);
 
     const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
     const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
@@ -68,8 +72,9 @@ const WeeklyTimetable = (props: Props) => {
     const WednesdayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForWed);
     const ThursdayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForThu);
     const FridayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForFri);
-
-    const LectureNoCount = [1, 2, 3, 4, 5, 6, 7, 8];
+    const TeacherTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetLectureNoWeekday);
+    const ApplicablesToggleData = useSelector((state: RootState) => state.WeeklyTimetable.ISGetApplicables)
+    const ClassTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetClassLecNoWeekday)
 
     useEffect(() => {
         const CDAGetTeachersListBody: IGetTeacherAndStandardForTimeTableBody = {
@@ -83,7 +88,6 @@ const WeeklyTimetable = (props: Props) => {
     }, [])
 
     useEffect(() => {
-
         const DivisionDropdownBody: IGetDivisionForStdDropdownBody = {
             asSchoolId: Number(localStorage.getItem('SchoolId')),
             asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -92,7 +96,6 @@ const WeeklyTimetable = (props: Props) => {
 
         if (standard !== '0') {
             dispatch(CDAGetDivisionName(DivisionDropdownBody))
-            console.log(`standard was not 0`, standard, DivisionDropdownBody)
         }
     }, [standard])
 
@@ -100,36 +103,36 @@ const WeeklyTimetable = (props: Props) => {
     const IGetTeacherSubjectMaxLecForMon: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: Number(teacher),
-        asStandardDivId: 0,
+        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
         asWeekDayName: 'Monday'
     }
     const IGetTeacherSubjectMaxLecForTue: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: Number(teacher),
-        asStandardDivId: 0,
+        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
         asWeekDayName: 'Tuesday'
     }
     const IGetTeacherSubjectMaxLecForWed: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: Number(teacher),
-        asStandardDivId: 0,
+        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
         asWeekDayName: 'Wednesday'
     }
     const IGetTeacherSubjectMaxLecForThu: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: Number(teacher),
-        asStandardDivId: 0,
+        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
         asWeekDayName: 'Thursday'
     }
     const IGetTeacherSubjectMaxLecForFri: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: Number(teacher),
-        asStandardDivId: 0,
+        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
         asWeekDayName: 'Friday'
     }
     useEffect(() => {
@@ -139,12 +142,49 @@ const WeeklyTimetable = (props: Props) => {
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri));
-            console.log('monday dropdown list ', MondayColumnList)
         }
     }, [teacher]);
+    useEffect(() => {
+        if (ApplicablesToggleData.length > 0) {
+            ApplicablesToggleData.map((item, i) => {
+                setAssembly(item.Assembly === 'Y' ? true : false);
+                setMPT(item.MPT === 'Y' ? true : false);
+                setWeekly(item.Weekly === 'Y' ? true : false);
+                setStayback(item.Stayback === 'True' ? true : false);
+            })
+        }
+    }, [ApplicablesToggleData])
+    useEffect(() => {
+        if (teacher !== '0' && filterBy === 'Teacher') {
+            const WeekDayTeacherBody: IGetTimeTableForTeacherBody = {
+                asSchoolId: Number(localStorage.getItem('SchoolId')),
+                asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                asTeacherID: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0
+            }
+            dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
+        }
+    }, [teacher, filterBy])
 
+    useEffect(() => {
+        if (division !== '0' && filterBy === 'Class') {
+            const WeekDayClassBody: IGetClassTimeTableBody = {
+                asSchool_Id: Number(localStorage.getItem('SchoolId')),
+                asAcademicYear_ID: Number(sessionStorage.getItem('AcademicYearId')),
+                asStandardDivisionId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+            }
+            dispatch(CDAClassLecNoWeekday(WeekDayClassBody));
+        }
+    }, [division, filterBy])
 
-
+    useEffect(() => {
+        if (division !== '0') {
+            dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon));
+            dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue));
+            dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed));
+            dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu));
+            dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri));
+        }
+    }, [division]);
 
     useEffect(() => {
         if (ResetTimetableMsg !== '') {
@@ -162,7 +202,6 @@ const WeeklyTimetable = (props: Props) => {
             asConsiderStayback: "Y",
             asConsiderWeeklyTest: "Y"
         }
-        console.log("teacher count ", LectureCountsForTeachers)
         if (teacher !== '0') {
             dispatch(GetLectureCountsForTeachers(GetLectureCountsForTeachersBody))
         }
@@ -207,13 +246,26 @@ const WeeklyTimetable = (props: Props) => {
             asSchoolId: Number(localStorage.getItem('localSchoolId')),
             asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
             asTeacher_id: filterBy === 'Teacher' ? Number(teacher) : 0,
-            asStandardDivision_Id: filterBy === 'Teacher' ? 0 : Number(standard)
+            asStandardDivision_Id: filterBy === 'Teacher' ? 0 : Number(division)
         }
         dispatch(CDAResetTimetable(ResetWeeklyTimetableBody));
     }
 
     const open = Boolean(teacherSettingsAnchorEL);
     const id = open ? 'teacher-settings-popover' : undefined;
+
+    const handleMpt = (event: React.ChangeEvent<HTMLInputElement>) => {
+        mpt === false ? setMPT(event.target.checked) : setMPT(false);
+    };
+    const handleStayback = (event: React.ChangeEvent<HTMLInputElement>) => {
+        stayback === false ? setStayback(event.target.checked) : setStayback(false);
+    };
+    const handleAssembly = (event: React.ChangeEvent<HTMLInputElement>) => {
+        assembly === false ? setAssembly(event.target.checked) : setAssembly(false);
+    };
+    const handleWeeklytest = (event: React.ChangeEvent<HTMLInputElement>) => {
+        weeklytest === false ? setWeekly(event.target.checked) : setWeekly(false);
+    };
 
     return (
         <>
@@ -395,10 +447,10 @@ const WeeklyTimetable = (props: Props) => {
                                         >
                                             <Box sx={{ p: 2 }}>
                                                 <FormGroup>
-                                                    <FormControlLabel control={<Checkbox />} label="Is Assembly Applicable?" />
-                                                    <FormControlLabel control={<Checkbox />} label="Is M.P.T. Applicable?" />
-                                                    <FormControlLabel control={<Checkbox />} label="Is StayBack Applicable?" />
-                                                    <FormControlLabel control={<Checkbox />} label="Is Weekly Test Applicable?" />
+                                                    <FormControlLabel control={<Checkbox checked={assembly} onChange={handleAssembly} />} label="Is Assembly Applicable?" />
+                                                    <FormControlLabel control={<Checkbox checked={mpt} onChange={handleMpt} />} label="Is M.P.T. Applicable?" />
+                                                    <FormControlLabel control={<Checkbox checked={stayback} onChange={handleStayback} />} label="Is StayBack Applicable?" />
+                                                    <FormControlLabel control={<Checkbox checked={weeklytest} onChange={handleWeeklytest} />} label="Is Weekly Test Applicable?" />
                                                 </FormGroup>
                                             </Box>
                                         </Popover>
@@ -443,7 +495,7 @@ const WeeklyTimetable = (props: Props) => {
                             </Box> */}
                         </Stack>
                     </Stack>
-                    {teacher !== '0' && filterBy === 'Teacher' &&
+                    {teacher !== '0' || division !== '0' ?
                         <Box sx={{ mt: 2 }}>
                             <TableContainer>
                                 <Table>
@@ -459,70 +511,150 @@ const WeeklyTimetable = (props: Props) => {
                                     </TableHead>
                                     <TableBody>
                                         {/* Loopable content */}
-                                        {LectureNoCount.map((item, i) => {
-                                            return (
-                                                <>
-                                                    <TableRow>
-                                                        <StyledCell sx={{ textAlign: 'center' }}>{item}</StyledCell>
-                                                        <StyledCell>
-                                                            <SearchableDropdown
-                                                                onChange={(value) => { }}
-                                                                ItemList={MondayColumnList}
-                                                                sx={{ minWidth: 200 }}
-                                                                size={"small"}
-                                                                defaultValue={'0'}
-                                                            />
-                                                        </StyledCell>
-                                                        <StyledCell>
-                                                            <SearchableDropdown
-                                                                onChange={(value) => { }}
-                                                                ItemList={TuesdayColumnList}
-                                                                sx={{ minWidth: 200 }}
-                                                                size={"small"}
-                                                                defaultValue={'0'}
-                                                            />
-                                                        </StyledCell>
-                                                        <StyledCell>
-                                                            <SearchableDropdown
-                                                                onChange={(value) => { }}
-                                                                ItemList={WednesdayColumnList}
-                                                                sx={{ minWidth: 200 }}
-                                                                size={"small"}
-                                                                defaultValue={'0'}
-                                                            />
-                                                        </StyledCell>
-                                                        <StyledCell>
-                                                            <SearchableDropdown
-                                                                onChange={(value) => { }}
-                                                                ItemList={ThursdayColumnList}
-                                                                sx={{ minWidth: 200 }}
-                                                                size={"small"}
-                                                                defaultValue={'0'}
-                                                            />
-                                                        </StyledCell>
-                                                        <StyledCell>
-                                                            <SearchableDropdown
-                                                                onChange={(value) => { }}
-                                                                ItemList={FridayColumnList}
-                                                                sx={{ minWidth: 200 }}
-                                                                size={"small"}
-                                                                defaultValue={'0'}
-                                                            />
-                                                        </StyledCell>
-                                                    </TableRow>
-                                                </>
-                                            )
-                                        })}
+                                        {filterBy === 'Teacher' && teacher !== '0' &&
+                                            TeacherTimetableCellValues.map((item, i) => {
+                                                return (
+                                                    <>
+                                                        {item.Text1 !== '99' ?
+                                                            <TableRow>
+                                                                <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={MondayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text2}
+                                                                    />
+                                                                </StyledCell>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={TuesdayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text3}
+                                                                    />
+                                                                </StyledCell>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={WednesdayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text4}
+                                                                    />
+                                                                </StyledCell>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={ThursdayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text5}
+                                                                    />
+                                                                </StyledCell>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={FridayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text6}
+                                                                    />
+                                                                </StyledCell>
+                                                            </TableRow>
+                                                            :
+                                                            <TableRow>
+                                                                <>
+                                                                    <FooterStyledCell>{'Total Lectures'}</FooterStyledCell>
+                                                                    <FooterStyledCell>{item.Text2}</FooterStyledCell>
+                                                                    <FooterStyledCell>{item.Text3}</FooterStyledCell>
+                                                                    <FooterStyledCell>{item.Text4}</FooterStyledCell>
+                                                                    <FooterStyledCell>{item.Text5}</FooterStyledCell>
+                                                                    <FooterStyledCell>{item.Text6}</FooterStyledCell>
+                                                                </>
+                                                            </TableRow>
+                                                        }
+                                                    </>
+                                                )
+                                            })}
+
+                                        {filterBy === 'Class' && division !== '0' &&
+                                            ClassTimetableCellValues.map((item, i) => {
+                                                return (
+                                                    <>
+                                                        <TableRow>
+                                                            <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
+                                                            <StyledCell>
+                                                                <SearchableDropdown
+                                                                    onChange={(value) => { }}
+                                                                    ItemList={MondayColumnList}
+                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
+                                                                    size={"small"}
+                                                                    defaultValue={item.Text2}
+                                                                />
+                                                            </StyledCell>
+                                                            <StyledCell>
+                                                                <SearchableDropdown
+                                                                    onChange={(value) => { }}
+                                                                    ItemList={TuesdayColumnList}
+                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
+                                                                    size={"small"}
+                                                                    defaultValue={item.Text3}
+                                                                />
+                                                            </StyledCell>
+                                                            <StyledCell>
+                                                                <SearchableDropdown
+                                                                    onChange={(value) => { }}
+                                                                    ItemList={WednesdayColumnList}
+                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
+                                                                    size={"small"}
+                                                                    defaultValue={item.Text4}
+                                                                />
+                                                            </StyledCell>
+                                                            <StyledCell>
+                                                                <SearchableDropdown
+                                                                    onChange={(value) => { }}
+                                                                    ItemList={ThursdayColumnList}
+                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
+                                                                    size={"small"}
+                                                                    defaultValue={item.Text5}
+                                                                />
+                                                            </StyledCell>
+                                                            <StyledCell>
+                                                                <SearchableDropdown
+                                                                    onChange={(value) => { }}
+                                                                    ItemList={FridayColumnList}
+                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
+                                                                    size={"small"}
+                                                                    defaultValue={item.Text6}
+                                                                />
+                                                            </StyledCell>
+                                                        </TableRow>
+                                                    </>
+                                                )
+                                            })}
 
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Box>
 
-                    }
+                        : ''}
                     <Divider sx={{ my: 2 }} />
+                    {filterBy === 'Teacher' && teacher === '0' &&
+                        <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                            <b>No record found.</b>
+                        </Typography>
+                    }
+                    {filterBy === 'Class' && division === '0' &&
+                        <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                            <b>No record found.</b>
+                        </Typography>
+                    }
                     <Stack direction={"row"} gap={2}>
-                        {filterBy === 'Class' &&
+                        {filterBy === 'Class' && division !== '0' &&
                             <>
                                 <Box sx={{ flex: 1 }}>
                                     <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>
@@ -565,7 +697,7 @@ const WeeklyTimetable = (props: Props) => {
 
                                 </Box>
                             </>}
-                        {filterBy === 'Teacher' &&
+                        {filterBy === 'Teacher' && teacher !== '0' &&
                             <Box sx={{ flex: 1 }}>
                                 {/* <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography> */}
                                 <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>Class-Subject Lecture Count</Typography>
@@ -599,7 +731,8 @@ const WeeklyTimetable = (props: Props) => {
                                     </TableContainer>}
                             </Box>
                         }
-                        {filterBy === 'Teacher' &&
+
+                        {filterBy === 'Teacher' && teacher !== '0' &&
                             <Box sx={{ flex: 1 }}>
                                 {/* <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography> */}
 
