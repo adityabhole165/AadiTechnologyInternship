@@ -125,7 +125,8 @@ function SchoolNoticeList({
                                                 <input
                                                     type="checkbox"
                                                     style={{ height: '18px', width: '18px' }}
-                                                    onChange={() => toggleRowSelection(ItemList.NoticeName)}
+                                                    checked={item.IsActive}
+                                                    onChange={() => toggleRowSelection(item.Id)}
                                                 />
                                             </TableCell>
                                             <TableCell align="center" sx={{

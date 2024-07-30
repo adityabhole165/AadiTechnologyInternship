@@ -52,7 +52,8 @@ export const getSchoolNoticeList = (data: IGetAllNoticeListBody): AppThunk => as
             Text5: Item.dbSortOrder,
             Text6: Item.FileName,
             Text7: Item.NoticeDescription,
-            RowNo1: Item.RowNo1
+            RowNo1: Item.RowNo1,
+            IsActive: false
         };
     });
     dispatch(AddNoticeslice.actions.getSchoolNoticeList(responseData));

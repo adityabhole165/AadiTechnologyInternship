@@ -69,6 +69,12 @@ const SchoolNoticeBaseScreen = () => {
     const GetSchoolNoticeList = useSelector(
         (state: RootState) => state.SchoolNotice.SchoolNoticeList
     );
+    const [schoolNoticeList, setSchoolNoticeList] = useState([]);
+    useEffect(() => {
+        console.log(GetSchoolNoticeList, "schoolNoticeList");
+
+        setSchoolNoticeList(GetSchoolNoticeList)
+    }, [GetSchoolNoticeList]);
     const deleteSchoolNoticeMsg = useSelector(
         (state: RootState) => state.SchoolNotice.DeleteSchoolNoticeMsg
     );
@@ -147,17 +153,10 @@ const SchoolNoticeBaseScreen = () => {
     //     );
     // }, [selectDisplayType]);
 
-    const toggleRowSelection = (id: string) => {
-        const currentIndex = selectedRows.indexOf(id);
-        const newSelectedRows = [...selectedRows];
-
-        if (currentIndex === -1) {
-            newSelectedRows.push(id);
-        } else {
-            newSelectedRows.splice(currentIndex, 1);
-        }
-
-        setSelectedRows(newSelectedRows);
+    const toggleRowSelection = (id) => {
+        setSchoolNoticeList(schoolNoticeList.map((item) => {
+            return { ...item, IsActive: (item.Id === id ? !item.IsActive : item.IsActive) }
+        }))
     };
 
     const EditSchoolNotice = (Id: number) => {
@@ -356,14 +355,15 @@ const SchoolNoticeBaseScreen = () => {
                 ) : (
                     <span> </span>
                 )}
-
-                <SchoolNoticeList
-                    HeaderArray={HeaderSchoolNotice}
-                    ItemList={GetSchoolNoticeList}
-                    clickDelete={deleteRow}
-                    toggleRowSelection={toggleRowSelection}
-                    clickEdit={EditSchoolNotice}
-                />
+                {schoolNoticeList.length > 0 &&
+                    < SchoolNoticeList
+                        HeaderArray={HeaderSchoolNotice}
+                        ItemList={schoolNoticeList}
+                        clickDelete={deleteRow}
+                        toggleRowSelection={toggleRowSelection}
+                        clickEdit={EditSchoolNotice}
+                    />
+                }
                 <br />
                 {endRecord > 19 ? (
                     <ButtonGroupComponent
