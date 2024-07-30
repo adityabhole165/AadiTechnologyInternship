@@ -12,7 +12,7 @@ import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { getapproveorreject, getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
+import { getapproveorreject, getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetapproveorreject, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from '../Common/Util';
@@ -25,6 +25,7 @@ const AddLeaveDetails = () => {
     console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const aUserId = Number(localStorage.getItem('UserId'));
     const asSenderName = sessionStorage.getItem('StudentName');
     const [asUserId, setasUserId] = useState(Number(localStorage.getItem('UserId')));
     const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asSenderName);
@@ -132,18 +133,18 @@ const AddLeaveDetails = () => {
         asInsertedById: asUserId,
         asAcademicYearId: Number(asAcademicYearId)
     }
-    const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
-        asId: 0,
-        asUserLeaveDetailsId: 2142,
-        asReportingUserId: asUserId,
-        asRemark: Remark,
-        /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-        asstatusId: 3,
-        asSchoolId: asSchoolId,
-        asAcademicYearId: Number(asAcademicYearId),
-        asInsertedById: asUserId
+    // const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
+    //     asId: 0,
+    //     asUserLeaveDetailsId: 2142,
+    //     asReportingUserId: asUserId,
+    //     asRemark: Remark,
+    //     /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+    //     asstatusId: 3,
+    //     asSchoolId: asSchoolId,
+    //     asAcademicYearId: Number(asAcademicYearId),
+    //     asInsertedById: asUserId
 
-    }
+    // }
 
     useEffect(() => {
         const StartDateValidationBody: IGetIsValidateLeaveDateBody = {
@@ -157,9 +158,6 @@ const AddLeaveDetails = () => {
         dispatch(StartDateEndDateValidations(StartDateValidationBody));
 
     }, [StartDate, EndDate])
-    useEffect(() => {
-        dispatch(getapproveorreject(ApproveOrRejectBody))
-    }, [])
 
     const onSelectStartDate = (value) => {
         setStartDate(getCalendarDateFormatDateNew(value));
@@ -283,7 +281,44 @@ const AddLeaveDetails = () => {
             setTotalDays(0);
         }
     }, [StartDate, EndDate])
+    useEffect(() => {
+        if (USApproveorRejectLeaveDetails !== '') {
+            toast.success(USApproveorRejectLeaveDetails)
+            dispatch(resetapproveorreject())
+            // dispatch(getLeaveDetailList());
 
+        }
+    }, [USApproveorRejectLeaveDetails])
+    const onClickApprove = () => {
+        const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
+            asId: 0,
+            asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
+            asReportingUserId: aUserId,
+            asRemark: Remark,
+            /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+            asstatusId: 3,
+            asSchoolId: asSchoolId,
+            asAcademicYearId: Number(asAcademicYearId),
+            asInsertedById: aUserId
+
+        }
+        dispatch(getapproveorreject(ApproveOrRejectBody))
+    }
+    const onClickReject = () => {
+        const RejectBody: IGetApproveOrRejectLeaveBody = {
+            asId: 0,
+            asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
+            asReportingUserId: aUserId,
+            asRemark: Remark,
+            /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+            asstatusId: 4,
+            asSchoolId: asSchoolId,
+            asAcademicYearId: Number(asAcademicYearId),
+            asInsertedById: aUserId
+
+        }
+        dispatch(getapproveorreject(RejectBody))
+    }
     const rightActions = (
         <>
             <Tooltip title={'Here you can Apply for, Approve, or Reject leave requests.'}>
@@ -341,7 +376,7 @@ const AddLeaveDetails = () => {
                                 backgroundColor: red[600]
                             }
                         }}
-                        onClick={undefined}
+                        onClick={onClickReject}
                     >
                         <PersonRemove />
                     </IconButton>
@@ -355,7 +390,7 @@ const AddLeaveDetails = () => {
                                 backgroundColor: green[600]
                             }
                         }}
-                        onClick={undefined}
+                        onClick={onClickApprove}
                     >
                         <HowToReg />
                     </IconButton>
@@ -476,7 +511,7 @@ const AddLeaveDetails = () => {
                             helperText={DescriptionError}
                         />
                     </Grid>
-                    {/* {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
+                    {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
                         <Grid item xs={12} >
                             <TextField
                                 label={<>
@@ -493,7 +528,7 @@ const AddLeaveDetails = () => {
                                 helperText={Remark1}
                             >
                             </TextField>
-                        </Grid>) : null} */}
+                        </Grid>) : null}
                 </Grid >
             </Box>
         </Box >

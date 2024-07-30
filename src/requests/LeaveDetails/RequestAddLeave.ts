@@ -37,6 +37,9 @@ const AddLeaveDetailsslice = createSlice({
         getApproveorReject(state, action) {
             state.ApproveorReject = action.payload;
         },
+        resetgetapproveorreject(state) {
+            state.ApproveorReject = '';
+        },
 
         getLoading(state, action) {
             state.Loading = true;
@@ -102,5 +105,10 @@ export const getapproveorreject =
             const response = await AddLeaveDetailsAPI.ApproveOrRejectLeave(data);
             dispatch(AddLeaveDetailsslice.actions.getApproveorReject(response.data))
         }
+export const resetapproveorreject =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddLeaveDetailsslice.actions.resetgetapproveorreject());
+        };
 
 export default AddLeaveDetailsslice.reducer;
