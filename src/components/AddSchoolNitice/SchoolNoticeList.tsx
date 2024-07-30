@@ -1,4 +1,6 @@
 import { EditTwoTone } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box, IconButton, Link, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
@@ -15,6 +17,7 @@ function SchoolNoticeList({
     clickView,
     HeaderArray,
     toggleRowSelection,
+    ClickHeader,
     clickDelete,
 }) {
 
@@ -25,10 +28,23 @@ function SchoolNoticeList({
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
     }
-
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate);
 
+    const clickHeader = (id) => {
+        const updatedHeaderArray = HeaderArray.map((item) => {
+            if (item.Id === id) {
+                return {
+                    ...item,
+                    SortOrder: item.SortOrder === 'desc' ? 'asc' : 'desc'
+                };
+            } else {
+
+                return { ...item, SortOrder: null };
+            }
+        });
+        ClickHeader(updatedHeaderArray);
+    }
     return (
         <div >
             {ItemList.length === 0 ? (
@@ -52,13 +68,17 @@ function SchoolNoticeList({
                                         <TableCell
                                             key={i}
                                             sx={{
-                                                // textTransform: 'capitalize',
                                                 color: (theme) => theme.palette.common.white,
                                                 textAlign: i === 1 || i === 2 ? 'left' : 'left'
                                             }}
+                                            onClick={item.Id == 3 ? () => clickHeader(item.Id) : null}
                                             align="center"
                                         >
                                             <b>{item.Header}</b>
+                                            {item.SortOrder !== null && item.Id == 3 ?
+                                                item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                : null
+                                            }
                                         </TableCell>
                                     ))} <span></span>
                                 </TableRow>
@@ -78,7 +98,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '150px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -86,7 +106,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '300px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -94,7 +114,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '250px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '300px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -102,13 +122,13 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '100px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
                                                 {item.Text5}
                                             </TableCell>
-                                            <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                            <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                                 <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
                                                     {item.Text6}
                                                 </Link>

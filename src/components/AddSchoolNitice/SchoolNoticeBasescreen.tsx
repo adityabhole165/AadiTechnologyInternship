@@ -52,7 +52,7 @@ const SchoolNoticeBaseScreen = () => {
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
     const { showAlert, closeAlert } = useContext(AlertContext);
-
+    const [sortExpression, setSortExpression] = useState('StartDate desc');
     const DisplayType = [
         { Id: 1, Name: 'File', Value: 'false' },
         { Id: 2, Name: 'Text', Value: 'true' },
@@ -90,7 +90,7 @@ const SchoolNoticeBaseScreen = () => {
         asDisplayLocation: selectDisplayLocation,
         asShowAllNotices: ShowAllNotices == "true",
         asText: Text,
-        asSortExpression: 'StartDate desc',
+        asSortExpression: sortExpression,
         StartRowIndex: (page - 1) * rowsPerPage,
         MaximumRows: page * rowsPerPage,
     };
@@ -128,7 +128,7 @@ const SchoolNoticeBaseScreen = () => {
     const [HeaderSchoolNotice, setHeaderSchoolNotice] = useState([
         { Id: 1, Header: 'Link Name' },
         { Id: 2, Header: 'Display Location' },
-        { Id: 3, Header: 'Start Date & Time' },
+        { Id: 3, Header: 'Start Date & Time', SortOrder: 'desc', sortKey: 'StartDate' },
         { Id: 4, Header: 'End Date & Time' },
         { Id: 5, Header: 'Sort Order' },
         { Id: 6, Header: 'File Name' },
@@ -136,6 +136,15 @@ const SchoolNoticeBaseScreen = () => {
         { Id: 8, Header: 'Edit' },
         { Id: 9, Header: 'Delete' },
     ]);
+
+
+    const handleHeaderClick = (updatedHeaderArray) => {
+        setHeaderSchoolNotice(updatedHeaderArray);
+        const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+        const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
+        setSortExpression(newSortExpression);
+    };
+
     const [Header, setHeader] = useState(HeaderSchoolNotice)
     useEffect(() => {
 
@@ -214,7 +223,7 @@ const SchoolNoticeBaseScreen = () => {
 
     useEffect(() => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
-    }, [ShowAllNotices, selectDisplayType, selectDisplayLocation]);
+    }, [ShowAllNotices, selectDisplayType, selectDisplayLocation, sortExpression]);
 
     return (
         <Box sx={{ px: 2 }}>
@@ -354,6 +363,7 @@ const SchoolNoticeBaseScreen = () => {
                         HeaderArray={HeaderSchoolNotice}
                         ItemList={schoolNoticeList}
                         clickDelete={deleteRow}
+                        ClickHeader={handleHeaderClick}
                         clickView={undefined}
                         toggleRowSelection={toggleRowSelection}
                         clickEdit={EditSchoolNotice}
