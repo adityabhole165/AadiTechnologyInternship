@@ -12,7 +12,7 @@ import { RootState } from 'src/store';
 import InvestmentDocumentList from './InvestmentDocumentList';
 
 
-const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose }) => {
+const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose, RefreshList }) => {
     console.log(Id, "wow");
     console.log(UserName, "UserName");
     console.log(DocumentName, "DocumentName");
@@ -123,6 +123,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
             ResetForm();
 
+
         }
         // dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody))
     }
@@ -131,6 +132,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             toast.success(USSaveInvestmentDocument);
             dispatch(resetSaveInvestmentMessage());
             dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+            RefreshList()
 
         }
     }, [USSaveInvestmentDocument]);
@@ -184,14 +186,16 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             toast.success("Document deleted successfully.");
             dispatch(deleteresetInvestMessage());
             dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+            RefreshList()
+
         }
     }, [USDeleteInvestmentDocument]);
-    const ClickView = (Id) => {
+    const ClickView = (value) => {
         if (USInvestmentDocumentFile !== '') {
             window.open(
                 localStorage.getItem('SiteURL') +
                 '/RITeSchool/DOWNLOADS/InvestmentDeclaration/InvestmentDetailsDocument/' +
-                Id
+                value
             );
         }
     }

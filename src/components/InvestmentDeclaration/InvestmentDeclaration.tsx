@@ -1,5 +1,5 @@
 import { Check, QuestionMark, Save } from "@mui/icons-material";
-import { Box, Container, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -231,6 +231,10 @@ const InvestmentDeclaration = () => {
         setDocumentName(value.Name)
         setOpen(true)
     }
+
+    const RefreshList = () => {
+        dispatch(GetInvestmentDetails(GetInvestmentDeclarationBody))
+    }
     const handleClose = (value) => {
         setOpen(false)
     }
@@ -357,7 +361,8 @@ const InvestmentDeclaration = () => {
                     UserName={USISlistInvestmentEmpDetails.length > 0 ?
                         USISlistInvestmentEmpDetails[0].UserName : userName}
                     DocumentName={Documentname}
-                    open={open} handleClose={handleClose} />
+                    open={open} handleClose={handleClose}
+                    RefreshList={RefreshList} />
 
                 {/* </Box>
                     </DialogContent>
@@ -556,15 +561,15 @@ const InvestmentDeclaration = () => {
                         ))}
 
                     </Grid>
-                    <Box sx={{pl:2, Pr:2}} >
+                    <Box sx={{ pl: 2, Pr: 2 }} >
                         <Box sx={{
                             mt: 0,
                             // textAlign: 'center',
-                             pl: 122,
+                            pl: 122,
                             display: 'flex'
                         }}>
                             <Typography variant="h6"
-                                sx={{ color: 'white', backgroundColor: "#38548a", p: 1,mr:1.5, textAlign: 'center' }}>
+                                sx={{ color: 'white', backgroundColor: "#38548a", p: 1, mr: 1.5, textAlign: 'center' }}>
                                 Grand Total
                             </Typography>
                             <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 1, ml: 2, textAlign: 'center' }}> {grandTotalAmount}</Typography>
@@ -572,7 +577,7 @@ const InvestmentDeclaration = () => {
 
 
 
-                        <Box sx={{ backgroundColor: '#ffffff', marginTop: 2}}>
+                        <Box sx={{ backgroundColor: '#ffffff', marginTop: 2 }}>
                             <Typography variant="body1" paragraph>
                                 I further undertake to provide all documentary proofs of payment made by me before 25th January, 2012 and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
                             </Typography>
@@ -584,8 +589,8 @@ const InvestmentDeclaration = () => {
                             </Typography>
                         </Box>
                     </Box >
-                    
-                        {/* <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
+
+                    {/* <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
 
                             <Grid item>
                                 <Button variant="contained" color="success"
@@ -593,11 +598,11 @@ const InvestmentDeclaration = () => {
                                     disabled={USISlistInvestmentEmpDetails[0]?.IsSubmitted}
                                 >
                                     {/* // disabled={USISlistInvestmentEmpDetails[0].IsSubmitted}> */}
-                        {/* SAVE */}
-                        {/* </Button>
+                    {/* SAVE */}
+                    {/* </Button>
                             </Grid> */}
 
-                        {/* <Grid item>
+                    {/* <Grid item>
                                 <Button variant="contained" color="success"
                                     onClick={clickSubmit}
                                     disabled={USISlistInvestmentEmpDetails[0]?.IsSaved && USISlistInvestmentEmpDetails[0]?.IsSubmitted}
@@ -606,7 +611,7 @@ const InvestmentDeclaration = () => {
                                 </Button>
                             </Grid>
                         </Grid> */}
-                    
+
                 </Box>
             </Box >
         </>
