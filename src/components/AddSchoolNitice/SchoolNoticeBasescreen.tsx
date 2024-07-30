@@ -21,6 +21,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import {
     IDeleteSchooNoticeBody,
     IGetAllNoticeListBody,
+    IUpdateSelectSchoolNoticeBody,
 } from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
@@ -28,7 +29,9 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import {
     DeleteSchoolNotice,
     getSchoolNoticeList,
+    getSelectSchoolNotice,
     resetDeleteSchoolNotice,
+    resetSelectSchoolNotice,
 } from 'src/requests/AddSchoolNotice/ReqAddNotice';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -71,12 +74,13 @@ const SchoolNoticeBaseScreen = () => {
     );
     const [schoolNoticeList, setSchoolNoticeList] = useState([]);
     useEffect(() => {
-        console.log(GetSchoolNoticeList, "schoolNoticeList");
-
         setSchoolNoticeList(GetSchoolNoticeList)
     }, [GetSchoolNoticeList]);
     const deleteSchoolNoticeMsg = useSelector(
         (state: RootState) => state.SchoolNotice.DeleteSchoolNoticeMsg
+    );
+    const UpdateSelectedNotice = useSelector(
+        (state: RootState) => state.SchoolNotice.SelectSchoolNotice
     );
     const filteredList = GetSchoolNoticeList.filter(
         (item) => item.RecordCount !== undefined
@@ -94,6 +98,25 @@ const SchoolNoticeBaseScreen = () => {
         StartRowIndex: (page - 1) * rowsPerPage,
         MaximumRows: page * rowsPerPage,
     };
+
+    const clickSave = () => {
+        const UpdateSelectedNoticeBody: IUpdateSelectSchoolNoticeBody = {
+            asSchoolId: Number(asSchoolId),
+            asNoticeXml: getXML(),
+        };
+        dispatch(getSelectSchoolNotice(UpdateSelectedNoticeBody))
+        dispatch(getSchoolNoticeList(GetAllNoticeListBody));
+    }
+
+    
+    useEffect(() => {
+        if (UpdateSelectedNotice != "") {
+            toast.success(UpdateSelectedNotice)
+            dispatch(resetSelectSchoolNotice());
+            dispatch(getSchoolNoticeList(GetAllNoticeListBody));
+        }
+    }, [UpdateSelectedNotice])
+
 
     const deleteRow = (Id: number) => {
         const DeleteSchoolNoticeBody: IDeleteSchooNoticeBody = {
@@ -177,9 +200,7 @@ const SchoolNoticeBaseScreen = () => {
     };
 
     const clickDisplayTypeDropdown = (value) => {
-        //console.log(value, 'value');
         setDisplayType(value);
-        //console.log(selectDisplayType, 'setDisplayType');
         setRowsPerPage(20)
         setPage(1);
 
@@ -199,16 +220,13 @@ const SchoolNoticeBaseScreen = () => {
     const clickShowAllNotices = (value) => {
         setShowALlNotices(value);
     };
-    // const clickText= (value) => {
-    //     setText(value);
-    // };
     const PageChange = (pageNumber: number) => {
         setPage(pageNumber);
     };
 
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(1); // Reset to the first page when changing rows per page
+        setPage(1);
     };
 
     useEffect(() => {
@@ -217,13 +235,35 @@ const SchoolNoticeBaseScreen = () => {
         }
     }, [GetSchoolNoticeList]);
 
+    function getXML() {
+        let asSaveInvestmentXML = "\r\n<ArrayOfNoticeDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n";
+        GetSchoolNoticeList.map((Item) => {
+            if (Item.Amount != "") {
+                asSaveInvestmentXML += " <NoticeDetails>" +
+                    "<NoticeId> " + Item.Id + "</NoticeId> " +
+                    "<SortOrder>0</SortOrder>" +
+                    "<UserId>0</UserId>" +
+                    "<SortOrderLocationChanged>0</SortOrderLocationChanged>" +
+                    " <IsSelected>" + Item.IsActive + "</IsSelected>" +
+                    "<IsText>false</IsText>" +
+                    "<InertedById>5902</InertedById>" +
+                    "<SchoolId>0</SchoolId>" +
+                    "<AcademicYearId>0</AcademicYearId>" +
+                    " <StandardDivisionId>0</StandardDivisionId>" +
+                    " </NoticeDetails>"
+            }
+        });
+        asSaveInvestmentXML += "\r\n</ArrayOfNoticeDetails>";
+        return asSaveInvestmentXML
+    }
+
     const startRecord = (page - 1) * rowsPerPage + 1;
     const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
     const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
     useEffect(() => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
-    }, [page, rowsPerPage,ShowAllNotices, selectDisplayType, selectDisplayLocation, sortExpression]);
+    }, [page, rowsPerPage, ShowAllNotices, selectDisplayType, selectDisplayLocation, sortExpression]);
 
     return (
         <Box sx={{ px: 2 }}>
@@ -289,7 +329,7 @@ const SchoolNoticeBaseScreen = () => {
                                         height: '36px !important',
                                         ':hover': { backgroundColor: green[600] },
                                     }}
-                                    onClick={undefined}
+                                    onClick={clickSave}
                                 >
                                     <SaveIcon />
                                 </IconButton>
@@ -358,7 +398,7 @@ const SchoolNoticeBaseScreen = () => {
                 ) : (
                     <span> </span>
                 )}
-                {schoolNoticeList.length > 0 &&
+                {/* {schoolNoticeList.length > 0 && 
                     < SchoolNoticeList
                         HeaderArray={HeaderSchoolNotice}
                         ItemList={schoolNoticeList}
@@ -368,7 +408,28 @@ const SchoolNoticeBaseScreen = () => {
                         toggleRowSelection={toggleRowSelection}
                         clickEdit={EditSchoolNotice}
                     />
-                }
+                } */}
+                {schoolNoticeList && schoolNoticeList.length > 0 ? (
+                    <SchoolNoticeList
+                        HeaderArray={HeaderSchoolNotice}
+                        ItemList={schoolNoticeList}
+                        clickDelete={deleteRow}
+                        ClickHeader={handleHeaderClick}
+                        clickView={undefined}  // Make sure you have the clickView function defined
+                        toggleRowSelection={toggleRowSelection}
+                        clickEdit={EditSchoolNotice}
+                    />
+                ) : (
+                    <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                        <Typography
+                            variant="h6"
+                            align="center"
+                            sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+                        >
+                            No record found.
+                        </Typography>
+                    </Box>
+                )}
                 <br />
                 {endRecord > 19 ? (
                     <ButtonGroupComponent
