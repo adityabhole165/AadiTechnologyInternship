@@ -153,18 +153,19 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                         </StyledCell>
                                         {/* <StyledCell sx={{ p: 1 }}> */}
                                         {(Action == 'View' || !IsEditingAllowed) ?
-                                            <><Typography ><b>{plan.label}</b></Typography>
+                                            <><Typography><b>{plan.label}</b></Typography>
                                                 <Typography>{plan.value}</Typography></>
                                             :
                                             <TextField label={plan.label} value={plan.value}
                                                 fullWidth multiline
                                                 disabled={Action == "View"}
-                                                rows={Action == 'View' ? 1 : 4}
+                                                rows={Action == 'View' ? 1 : 3}
                                                 onChange={(e) => {
                                                     onChangeValue(lesson.StdId, lesson.DivisionId,
                                                         lesson.SubjectId, plan.Id, e.target.value
                                                     )
                                                 }}
+                                                sx={{mt:2}}
                                             />}
                                         {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
                                             plan.subPlanDetails.map((subPlan, subIndex) => (
@@ -184,7 +185,8 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                                 // disabled={!IsEditingAllowed()}
                                                                 fullWidth
                                                                 multiline
-                                                                rows={4}
+                                                                rows={3}
+                                                                sx={{mt:2}}
                                                                 onChange={(e) => {
                                                                     onSubChangeValue(
                                                                         lesson.StdId,
