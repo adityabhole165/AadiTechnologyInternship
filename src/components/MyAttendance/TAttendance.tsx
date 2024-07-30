@@ -1124,10 +1124,9 @@ const TAttendance = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} mt={1}>
-        <Grid item xs={12} md={6} sx={{ backgroundColor: 'white',mt:2 }} >
-
-          <Grid justifyContent="center" >
-
+        <Grid item xs={12} md={6}>
+          <Box sx={{ backgroundColor: 'white', pt:2 }}>
+          <Grid   justifyContent="center">
             <Box sx={{ backgroundColor: 'white' }} >
               {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
               {/* <div style={{ marginTop: '70px' }}> */}
@@ -1203,6 +1202,7 @@ const TAttendance = () => {
 
             </Box>
           </Grid>
+          </Box>
         </Grid>
         {SaveIsActive ? (
           <Grid item xs={12} md={6}>
