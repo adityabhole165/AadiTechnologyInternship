@@ -56,7 +56,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                                 <TextField sx={{
                                     width: '50px',
                                     background: (IsReadOnly) ?
-                                        "#f5f5f5" : "white"
+                                        "#F0F0F0" : "white"
                                 }} size={"small"}
                                     value={Item.Text2}
                                     onBlur={() => handleBlur(Item.Text2, Index)}

@@ -254,7 +254,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <TextField sx={{
                             width: '80px',
-                            background: "#f5f5f5"
+                            background: "#F0F0F0"
                           }} size={"small"}
                             disabled
                             value={Item.TotalMarks}
