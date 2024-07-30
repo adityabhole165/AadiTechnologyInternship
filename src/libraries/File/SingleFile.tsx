@@ -164,7 +164,7 @@ const SingleFile = ({
         )}
       </Grid>
       {errorMessage && (
-        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pt:2 }}>
 
           <Typography >
             {errorMessage && <Errormessage Error={errorMessage} />}
