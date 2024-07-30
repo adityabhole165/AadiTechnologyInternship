@@ -744,21 +744,21 @@ const SubjectExamMarks = () => {
             // <Typography variant="body2" color="textSecondary" style={{ backgroundColor: '#d3d3d3', color: '#000000' }}>
             //   <span style={{ fontWeight: 'bold' }}> Student marks are already submitted.</span>
             // </Typography>
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#F0F0F0', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>Student marks are already submitted.</b>
             </Typography>
           )
         }
         {
           examResultProp === 'true' && publish === 'true' && (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#F0F0F0', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>Results for this exam have been published. You need to unpublish the exam to update the marks.</b>
             </Typography>
           )
         }
         {
           TestName?.AllowDecimal == "True" && (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#F0F0F0', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>Note:	Marks assignment can be done in decimal numbers.</b>
             </Typography>)
         }
