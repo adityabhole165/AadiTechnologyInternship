@@ -108,7 +108,7 @@ const SchoolNoticeBaseScreen = () => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
     }
 
-    
+
     useEffect(() => {
         if (UpdateSelectedNotice != "") {
             toast.success(UpdateSelectedNotice)
@@ -398,24 +398,12 @@ const SchoolNoticeBaseScreen = () => {
                 ) : (
                     <span> </span>
                 )}
-                {/* {schoolNoticeList.length > 0 && 
-                    < SchoolNoticeList
-                        HeaderArray={HeaderSchoolNotice}
-                        ItemList={schoolNoticeList}
-                        clickDelete={deleteRow}
-                        ClickHeader={handleHeaderClick}
-                        clickView={undefined}
-                        toggleRowSelection={toggleRowSelection}
-                        clickEdit={EditSchoolNotice}
-                    />
-                } */}
                 {schoolNoticeList && schoolNoticeList.length > 0 ? (
                     <SchoolNoticeList
                         HeaderArray={HeaderSchoolNotice}
                         ItemList={schoolNoticeList}
                         clickDelete={deleteRow}
                         ClickHeader={handleHeaderClick}
-                        clickView={undefined}  // Make sure you have the clickView function defined
                         toggleRowSelection={toggleRowSelection}
                         clickEdit={EditSchoolNotice}
                     />

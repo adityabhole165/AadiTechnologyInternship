@@ -14,7 +14,6 @@ import TableRow from '@mui/material/TableRow';
 function SchoolNoticeList({
     ItemList,
     clickEdit,
-    clickView,
     HeaderArray,
     toggleRowSelection,
     ClickHeader,
@@ -45,6 +44,7 @@ function SchoolNoticeList({
         });
         ClickHeader(updatedHeaderArray);
     }
+    let url = localStorage.getItem("SiteURL") + "RITeSchool/downloads/School Notices/" 
     return (
         <div >
             {ItemList.length === 0 ? (
@@ -129,7 +129,7 @@ function SchoolNoticeList({
                                                 {item.Text5}
                                             </TableCell>
                                             <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
-                                                <Link href={''} onClick={() => clickView(item.Id)} style={{ textDecoration: 'underline' }}>
+                                                <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
                                                     {item.Text6}
                                                 </Link>
                                             </TableCell>

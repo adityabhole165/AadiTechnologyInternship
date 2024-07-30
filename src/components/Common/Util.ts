@@ -134,6 +134,14 @@ export const getDateMonthYearDayDash = (date) => {
 };
 
 
+export const getDateMonthYearTimeDayDash = (date) => {
+  let arrDate = date.split(' ')[0].split('-');
+  let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
+  let Weekday = new Date(dateFormatted).getDay()
+
+  return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} ${date.split(' ')[1].substring(0,5)}`;
+};
+
 
 export const getDateMonthYearFormatted = (date) => {
   let arrDate = date.split(' ')[0].split('-');
