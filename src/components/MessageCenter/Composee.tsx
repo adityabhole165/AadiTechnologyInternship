@@ -958,7 +958,7 @@ function Form13() {
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{p:1}}>
+                <Box sx={{p:0}}>
                 <ReactQuill value={formik.values.Content} modules={toolbarOptions}
                   onChange={formik.handleChange} theme='snow'
                   onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
@@ -994,7 +994,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ mt: 2, p:2 }}>
+              <Grid item xs={12} sm={12} sx={{ mt: 10, pl:2 }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>
