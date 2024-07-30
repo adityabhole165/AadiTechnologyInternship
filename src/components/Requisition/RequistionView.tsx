@@ -20,8 +20,19 @@ const RequistionView = () => {
 
     const { ViewId } = useParams();
     console.log(ViewId, "ViewId");
-
     const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
+
+    const calculateFutureDate = (start, daysToAdd) => {
+        const futureDate = new Date(start);
+        futureDate.setDate(start.getDate() + daysToAdd);
+        return getCalendarDateFormatDateNew(futureDate);
+      };
+      useEffect(() => {
+        const today = new Date();
+        const futureDate = calculateFutureDate(today, 10);
+        setStartDate(futureDate);
+      }, []);
+
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -49,6 +60,8 @@ const RequistionView = () => {
 
 
     ];
+
+    
 
 
     const GetRequisitionDetailsBodynew: IGetRequisitionDetailsBody = {
@@ -141,7 +154,7 @@ const RequistionView = () => {
                     onDateChange={''}
                     label={'Expiry Date'}
                     size={"small"}
-
+                 
                   />
 
                             

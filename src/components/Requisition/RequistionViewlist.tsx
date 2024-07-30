@@ -34,20 +34,23 @@ function RequistionViewlist({
                 <TableBody>
                     {ItemList.map((item) => (
                         <TableRow key={item.ItemID}>
-                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : 'inherit' }}>
+
 
                                 {item.ItemCode}
                             </TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : 'inherit' }}>
+
 
                                 {item.ItemName}
                             </TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
-                            {/* <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.IssueQty === "0" ? red[500] : 'inherit' }}> */}
+
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : 'inherit' }}>
 
                                 {item.CurrentStock}
                             </TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left' }}>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : 'inherit' }}>
+
                                 {item.ItemQty} {item.UOMUnit}
                             </TableCell>
                         </TableRow>
