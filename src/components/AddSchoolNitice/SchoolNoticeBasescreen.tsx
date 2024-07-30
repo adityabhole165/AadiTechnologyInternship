@@ -44,7 +44,7 @@ const SchoolNoticeBaseScreen = () => {
     const [selectDisplayType, setDisplayType] = useState('false');
     const [selectDisplayLocation, setDisplayLocation] = useState('All');
     const [selectedRows, setSelectedRows] = useState([]);
-    const [ShowAllNotices, setShowALlNotices] = useState(true);
+    const [ShowAllNotices, setShowALlNotices] = useState("true");
     const [Text, setText] = useState(false);
     const [PagedLeave, setPagedLeave] = useState([]);
     const [radioBtn, setRadioBtn] = useState('1');
@@ -82,7 +82,7 @@ const SchoolNoticeBaseScreen = () => {
     const GetAllNoticeListBody: IGetAllNoticeListBody = {
         asSchoolId: Number(asSchoolId),
         asDisplayLocation: selectDisplayLocation,
-        asShowAllNotices: ShowAllNotices,
+        asShowAllNotices: ShowAllNotices == "true",
         asText: Text,
         asSortExpression: 'StartDate desc',
         StartRowIndex: (page - 1) * rowsPerPage,
@@ -189,8 +189,7 @@ const SchoolNoticeBaseScreen = () => {
         setPage(1);
     };
     const clickShowAllNotices = (value) => {
-        console.log(value, 'value');
-        setShowALlNotices(Boolean (value));
+        setShowALlNotices(value);
     };
     // const clickText= (value) => {
     //     setText(value);
@@ -325,11 +324,11 @@ const SchoolNoticeBaseScreen = () => {
                                 row
                                 aria-label="options"
                                 name="options"
-                                value={value}
+                                value={ShowAllNotices}
                                 onChange={(e) => { clickShowAllNotices(e.target.defaultValue) }}
                             >
-                                <FormControlLabel value="1" control={<Radio />} label="Show All Notices" />
-                                <FormControlLabel value="0" control={<Radio />} label="Show Active Notices" />
+                                <FormControlLabel value="true" control={<Radio />} label="Show All Notices" />
+                                <FormControlLabel value="false" control={<Radio />} label="Show Active Notices" />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
