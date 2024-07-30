@@ -1,4 +1,4 @@
-import { IGetIsValidateLeaveDateBody, IGetLeaveBalanceBody, IGetLeaveBalanceResult, IGetLeaveTypeDropdownBody, IGetLeaveTypeDropdownResult, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
+import { IGetApproveOrRejectLeaveBody, IGetIsValidateLeaveDateBody, IGetLeaveBalanceBody, IGetLeaveBalanceResult, IGetLeaveTypeDropdownBody, IGetLeaveTypeDropdownResult, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -18,11 +18,15 @@ const GetStartDateEndDateValidation = (data: IGetIsValidateLeaveDateBody) => {
     return http.post<boolean>('Teacher/IsValidateLeaveDateOverlapping', data);
 
 };
+const ApproveOrRejectLeave = (data: IGetApproveOrRejectLeaveBody) => {
+    return http.post<string>('Teacher/ApproveOrRejectLeave', data);
+}
 const AddLeaveDetailsAPI = {
     GetLeaveBalanceNote,
     GetLeaveTypeDropdown,
     SubmitLeave,
-    GetStartDateEndDateValidation
+    GetStartDateEndDateValidation,
+    ApproveOrRejectLeave
 };
 
 

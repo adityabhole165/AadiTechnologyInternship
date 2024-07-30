@@ -1,4 +1,4 @@
-import { Check, Close } from '@mui/icons-material';
+import { Check, Close, HowToReg, PersonRemove } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Grid, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material';
@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { IGetIsValidateLeaveDateBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
+import { IGetApproveOrRejectLeaveBody, IGetIsValidateLeaveDateBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
+import { getapproveorreject, getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from '../Common/Util';
@@ -55,8 +55,13 @@ const AddLeaveDetails = () => {
     const GetLeaveBalance = useSelector(
         (state: RootState) => state.AddLeaveDetails.LeaveBalanceNote
     );
-    const SubmitLeaveDetails = useSelector((state: RootState) => state.AddLeaveDetails.SubmitLeave);
-    const StartDateEndDateValidation = useSelector((state: RootState) => state.AddLeaveDetails.StartDateEndDateValidations);
+    const SubmitLeaveDetails = useSelector(
+        (state: RootState) => state.AddLeaveDetails.SubmitLeave);
+    const StartDateEndDateValidation = useSelector(
+        (state: RootState) => state.AddLeaveDetails.StartDateEndDateValidations);
+    const USApproveorRejectLeaveDetails = useSelector(
+        (state: RootState) => state.AddLeaveDetails.ApproveorReject);
+    console.log(USApproveorRejectLeaveDetails, "USApproveorRejectLeaveDetails");
 
     const Note2 = [
         ' If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.'
@@ -127,6 +132,18 @@ const AddLeaveDetails = () => {
         asInsertedById: asUserId,
         asAcademicYearId: Number(asAcademicYearId)
     }
+    const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
+        asId: 0,
+        asUserLeaveDetailsId: 2142,
+        asReportingUserId: asUserId,
+        asRemark: Remark,
+        /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+        asstatusId: 3,
+        asSchoolId: asSchoolId,
+        asAcademicYearId: Number(asAcademicYearId),
+        asInsertedById: asUserId
+
+    }
 
     useEffect(() => {
         const StartDateValidationBody: IGetIsValidateLeaveDateBody = {
@@ -140,6 +157,9 @@ const AddLeaveDetails = () => {
         dispatch(StartDateEndDateValidations(StartDateValidationBody));
 
     }, [StartDate, EndDate])
+    useEffect(() => {
+        dispatch(getapproveorreject(ApproveOrRejectBody))
+    }, [])
 
     const onSelectStartDate = (value) => {
         setStartDate(getCalendarDateFormatDateNew(value));
@@ -311,35 +331,36 @@ const AddLeaveDetails = () => {
                             <Check />
                         </IconButton>
                     </Tooltip></>) : null}
-            {/* <>
-                    <Tooltip title={'Reject'}>
-                        <IconButton
-                            sx={{
-                                backgroundColor: red[500],
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: red[600]
-                                }
-                            }}
-                            onClick={undefined}
-                        >
-                            <PersonRemove />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={'Approve'}>
-                        <IconButton
-                            sx={{
-                                backgroundColor: green[500],
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: green[600]
-                                }
-                            }}
-                            onClick={undefined}
-                        >
-                            <HowToReg />
-                        </IconButton>
-                    </Tooltip></>} */}
+            <>
+                <Tooltip title={'Reject'}>
+                    <IconButton
+                        sx={{
+                            backgroundColor: red[500],
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: red[600]
+                            }
+                        }}
+                        onClick={undefined}
+                    >
+                        <PersonRemove />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={'Approve'}>
+                    <IconButton
+                        sx={{
+                            backgroundColor: green[500],
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: green[600]
+                            }
+                        }}
+                        onClick={undefined}
+                    >
+                        <HowToReg />
+                    </IconButton>
+                </Tooltip></>
+
         </>
     );
 
@@ -363,20 +384,20 @@ const AddLeaveDetails = () => {
                 ]}
                 rightActions={rightActions}
             />
-            <Paper sx={{ mb: '10px'}}>
+            <Paper sx={{ mb: '10px' }}>
                 <Accordion defaultExpanded>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1-content"
                         id="panel1-header"
                     >
-                        <Typography style={{ fontWeight: 'bold', fontSize: '20px'}}>Important Notes</Typography>
+                        <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
                     </AccordionSummary>
                     <AccordionDetails sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}>
-                    <Alert variant="filled" severity="info" sx={{ mb: 1, mt:'0.1px' }}>
-                        <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
-                    </Alert>
-                    <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
+                        <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
+                            <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                        </Alert>
+                        <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
                     </AccordionDetails>
                 </Accordion>
             </Paper>

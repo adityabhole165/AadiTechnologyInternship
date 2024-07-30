@@ -16,7 +16,7 @@ export interface IGetLeaveTypeDropdownBody {
     asSchoolId: number;
 }
 
-export interface  IGetLeaveTypeDropdownResult {
+export interface IGetLeaveTypeDropdownResult {
     SchoolId: string,
     OriginalLeaveId: string,
     LeaveId: string,
@@ -68,4 +68,17 @@ export interface IGetIsValidateLeaveDateBody {
     aasEndDate: string;
     asUserId: number;
     asLeaveConfigId: number;
+}
+export interface IGetApproveOrRejectLeaveBody {
+    asId: number
+    asUserLeaveDetailsId: number
+    asReportingUserId: number
+    asRemark: string
+    asstatusId: number
+    asSchoolId: number
+    asAcademicYearId: number
+    asInsertedById: number
+}
+export interface IGetApproveOrRejectLeaveResult {
+    string
 }

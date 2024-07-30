@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import AddLeaveDetailsAPI from 'src/api/LeaveDetails/ApiAddLeave';
-import { IGetIsValidateLeaveDateBody, IGetLeaveBalanceBody, IGetLeaveTypeDropdownBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
+import { IGetApproveOrRejectLeaveBody, IGetIsValidateLeaveDateBody, IGetLeaveBalanceBody, IGetLeaveTypeDropdownBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { AppThunk } from 'src/store';
 
 
@@ -13,6 +13,7 @@ const AddLeaveDetailsslice = createSlice({
         LeaveTypeDropdown: [],
         SubmitLeave: '',
         StartDateEndDateValidations: undefined,
+        ApproveorReject: '',
         Loading: true
     },
     reducers: {
@@ -32,6 +33,9 @@ const AddLeaveDetailsslice = createSlice({
         },
         GetStartDateEndDateLeaveValidation(state, action) {
             state.StartDateEndDateValidations = action.payload;
+        },
+        getApproveorReject(state, action) {
+            state.ApproveorReject = action.payload;
         },
 
         getLoading(state, action) {
@@ -90,6 +94,13 @@ export const StartDateEndDateValidations =
             dispatch(AddLeaveDetailsslice.actions.getLoading(true));
             const response = await AddLeaveDetailsAPI.GetStartDateEndDateValidation(data);
             dispatch(AddLeaveDetailsslice.actions.GetStartDateEndDateLeaveValidation(response.data))
+        }
+export const getapproveorreject =
+    (data: IGetApproveOrRejectLeaveBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddLeaveDetailsslice.actions.getLoading(true));
+            const response = await AddLeaveDetailsAPI.ApproveOrRejectLeave(data);
+            dispatch(AddLeaveDetailsslice.actions.getApproveorReject(response.data))
         }
 
 export default AddLeaveDetailsslice.reducer;
