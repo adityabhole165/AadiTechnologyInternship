@@ -1,0 +1,385 @@
+import AddTwoTone from '@mui/icons-material/AddTwoTone';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SaveIcon from '@mui/icons-material/Save';
+import {
+    Box,
+    FormControl,
+    FormControlLabel,
+    Grid,
+    IconButton,
+    Radio,
+    RadioGroup,
+    Tooltip,
+    Typography,
+} from '@mui/material';
+import { green, grey, yellow } from "@mui/material/colors";
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import { AlertContext } from 'src/contexts/AlertContext';
+import {
+    IDeleteSchooNoticeBody,
+    IGetAllNoticeListBody,
+} from 'src/interfaces/AddSchoolNotic/IAddSchoolNotic';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import {
+    DeleteSchoolNotice,
+    getSchoolNoticeList,
+    resetDeleteSchoolNotice,
+} from 'src/requests/AddSchoolNotice/ReqAddNotice';
+import { RootState, useDispatch, useSelector } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
+import SchoolNoticeList from './SchoolNoticeList';
+
+const SchoolNoticeBaseScreen = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const [value, setValue] = useState('AllFile');
+    const [selectDisplayType, setDisplayType] = useState('false');
+    const [selectDisplayLocation, setDisplayLocation] = useState('All');
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [ShowAllNotices, setShowALlNotices] = useState(true);
+    const [Text, setText] = useState(false);
+    const [PagedLeave, setPagedLeave] = useState([]);
+    const [radioBtn, setRadioBtn] = useState('1');
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
+    const [page, setPage] = useState(1);
+    const { showAlert, closeAlert } = useContext(AlertContext);
+
+    const DisplayType = [
+        { Id: 1, Name: 'File', Value: 'false' },
+        { Id: 2, Name: 'Text', Value: 'true' },
+    ]
+
+    const DisplayLocation = [
+        { Id: 1, Name: 'All', Value: 'All' },
+        { Id: 2, Name: 'Both', Value: 'Both' },
+        { Id: 3, Name: 'Control Panel', Value: 'Control Panel' },
+        { Id: 4, Name: 'Home Page', Value: 'Home Page' },
+    ]
+
+    const Loading = useSelector((state: RootState) => state.SchoolNotice.Loading);
+    const GetSchoolNoticeList = useSelector(
+        (state: RootState) => state.SchoolNotice.SchoolNoticeList
+    );
+    const deleteSchoolNoticeMsg = useSelector(
+        (state: RootState) => state.SchoolNotice.DeleteSchoolNoticeMsg
+    );
+    const filteredList = GetSchoolNoticeList.filter(
+        (item) => item.RowNo1 !== undefined
+    );
+    const TotalCount = filteredList.map((item) => item.RowNo1);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
+
+    const GetAllNoticeListBody: IGetAllNoticeListBody = {
+        asSchoolId: Number(asSchoolId),
+        asDisplayLocation: selectDisplayLocation,
+        asShowAllNotices: ShowAllNotices,
+        asText: Text,
+        asSortExpression: 'StartDate desc',
+        StartRowIndex: (page - 1) * rowsPerPage,
+        MaximumRows: page * rowsPerPage,
+    };
+
+    const deleteRow = (Id: number) => {
+        const DeleteSchoolNoticeBody: IDeleteSchooNoticeBody = {
+            asSchoolId: Number(asSchoolId),
+            asNoticeId: Number(Id),
+            asUpdatedById: Number(asUserId),
+        };
+        showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to delete this leave?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(DeleteSchoolNotice(DeleteSchoolNoticeBody));
+                closeAlert();
+            },
+        });
+    };
+
+    useEffect(() => {
+        if (deleteSchoolNoticeMsg !== '') {
+            toast.success(deleteSchoolNoticeMsg);
+            dispatch(resetDeleteSchoolNotice());
+            dispatch(getSchoolNoticeList(GetAllNoticeListBody));
+        }
+    }, [deleteSchoolNoticeMsg]);
+
+    const [HeaderSchoolNotice, setHeaderSchoolNotice] = useState([
+        { Id: 1, Header: 'Link Name' },
+        { Id: 2, Header: 'Display Location' },
+        { Id: 3, Header: 'Start Date & Time' },
+        { Id: 4, Header: 'End Date & Time' },
+        { Id: 5, Header: 'Sort Order' },
+        { Id: 6, Header: 'File Name' },
+        { Id: 7, Header: 'Select' },
+        { Id: 8, Header: 'Edit' },
+        { Id: 9, Header: 'Delete' },
+    ]);
+    const [Header, setHeader] = useState(HeaderSchoolNotice)
+    useEffect(() => {
+
+    }, [selectDisplayType])
+
+    // useEffect(() => {
+    //     console.log(selectDisplayType, 'selectDisplayType');
+
+    //     setHeaderSchoolNotice((prevHeaders) =>
+    //         selectDisplayType === 'true'
+    //             ? !prevHeaders.find((header) => header.Id === 6)
+    //                 ? [...prevHeaders, { Id: 6, Header: 'File Name' }]
+    //                 : prevHeaders
+    //             : prevHeaders.filter((header) => header.Id !== 6)
+    //     );
+    // }, [selectDisplayType]);
+
+    const toggleRowSelection = (id: string) => {
+        const currentIndex = selectedRows.indexOf(id);
+        const newSelectedRows = [...selectedRows];
+
+        if (currentIndex === -1) {
+            newSelectedRows.push(id);
+        } else {
+            newSelectedRows.splice(currentIndex, 1);
+        }
+
+        setSelectedRows(newSelectedRows);
+    };
+
+    const EditSchoolNotice = (Id: number) => {
+        navigate('../AddSchoolNotice/' + Id);
+    };
+
+    const AddSchoolNotice = () => {
+        navigate('../AddSchoolNotice');
+    };
+
+    const clickDisplayTypeDropdown = (value) => {
+        //console.log(value, 'value');
+        setDisplayType(value);
+        //console.log(selectDisplayType, 'setDisplayType');
+        setRowsPerPage(20)
+        setPage(1);
+
+        if (selectDisplayType == 'false') {
+            setText(true)
+        }
+        else {
+            setText(false)
+        }
+    };
+
+    const clickDisplayLocationDropdown = (value) => {
+        setDisplayLocation(value);
+        setRowsPerPage(20)
+        setPage(1);
+    };
+    const clickShowAllNotices = (value) => {
+        console.log(value, 'value');
+        setShowALlNotices(Boolean (value));
+    };
+    // const clickText= (value) => {
+    //     setText(value);
+    // };
+    const PageChange = (pageNumber: number) => {
+        setPage(pageNumber);
+    };
+
+    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setValue((event.target as HTMLInputElement).value);
+    // };
+    const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1); // Reset to the first page when changing rows per page
+    };
+
+    useEffect(() => {
+        if (GetSchoolNoticeList) {
+            setPagedLeave(GetSchoolNoticeList);
+        }
+    }, [GetSchoolNoticeList]);
+
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
+    useEffect(() => {
+        dispatch(getSchoolNoticeList(GetAllNoticeListBody));
+    }, [ShowAllNotices, selectDisplayType, selectDisplayLocation]);
+
+    return (
+        <Box sx={{ px: 2 }}>
+            <CommonPageHeader
+                navLinks={[{ title: 'School Notices', path: ' ' },
+                {
+                    title: `${radioBtn === '1' ? 'Show All Notices' : 'Show Active Notices'}`,
+                    path: '/extended-sidebar/Teacher/AddSchoolNotce1'
+                }
+                ]}
+                rightActions={
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <SearchableDropdown
+                            sx={{ minWidth: '20vw' }}
+                            ItemList={DisplayType}
+                            defaultValue={selectDisplayType}
+                            onChange={clickDisplayTypeDropdown}
+                            size={'small'}
+                            label={' Display Type'}
+                        />
+                        <SearchableDropdown
+                            sx={{ minWidth: '20vw' }}
+                            ItemList={DisplayLocation}
+                            defaultValue={selectDisplayLocation}
+                            onChange={clickDisplayLocationDropdown}
+                            size={'small'}
+                            label='Display Location'
+                        />
+                        <Box>
+                            <Tooltip
+                                title={`Select the notices from the list to be displayed on School web site under School Notices.`}
+                            >
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: yellow[600],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: yellow[700] },
+                                    }}
+                                >
+                                    <PriorityHighIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+
+                        <Box>
+                            <Tooltip title={`Displays all uploaded school notices.`}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] },
+                                    }}
+                                >
+                                    <QuestionMarkIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box>
+                            <Tooltip title={`Save Notice`}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: green[600] },
+                                    }}
+                                    onClick={undefined}
+                                >
+                                    <SaveIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box>
+                            <Tooltip title={'Add New Notice'}>
+                                <IconButton
+                                    onClick={() =>
+                                        navigate('/extended-sidebar/Teacher/AddSchoolNotice')
+                                    }
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        '&:hover': {
+                                            backgroundColor: green[600],
+                                        },
+                                    }}
+                                >
+                                    <AddTwoTone />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </Box>
+                }
+            />
+            {Loading && <SuspenseLoader />}
+
+            <Grid container>
+                <Grid sm={12} px={2} sx={{ display: 'flex', justifyItems: "center" }} >
+                    <Grid >
+                        <FormControl component="fieldset">
+                            <RadioGroup
+                                row
+                                aria-label="options"
+                                name="options"
+                                value={value}
+                                onChange={(e) => { clickShowAllNotices(e.target.defaultValue) }}
+                            >
+                                <FormControlLabel value="1" control={<Radio />} label="Show All Notices" />
+                                <FormControlLabel value="0" control={<Radio />} label="Show Active Notices" />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+
+                </Grid>
+            </Grid >
+
+            <Box sx={{ background: 'white', p: 2 }}>
+                {singleTotalCount > 0 ? (
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography
+                            variant='subtitle1'
+                            sx={{ margin: '16px 0', textAlign: 'center' }}
+                        >
+                            <Box component='span' fontWeight='fontWeightBold'>
+                                {startRecord} to {endRecord}
+                            </Box>{' '}
+                            out of{' '}
+                            <Box component='span' fontWeight='fontWeightBold'>
+                                {singleTotalCount}
+                            </Box>{' '}
+                            {singleTotalCount === 1 ? 'record' : 'records'}
+                        </Typography>
+                    </div>
+                ) : (
+                    <span> </span>
+                )}
+
+                <SchoolNoticeList
+                    HeaderArray={HeaderSchoolNotice}
+                    ItemList={GetSchoolNoticeList}
+                    clickDelete={deleteRow}
+                    toggleRowSelection={toggleRowSelection}
+                    clickEdit={EditSchoolNotice}
+                />
+                <br />
+                {endRecord > 19 ? (
+                    <ButtonGroupComponent
+                        rowsPerPage={rowsPerPage}
+                        ChangeRowsPerPage={ChangeRowsPerPage}
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        PageChange={PageChange}
+                        pagecount={pagecount}
+                    />
+                ) : (
+                    <span></span>
+                )}
+            </Box>
+        </Box>
+    );
+};
+
+export default SchoolNoticeBaseScreen;

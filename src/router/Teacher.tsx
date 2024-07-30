@@ -195,6 +195,9 @@ const Studentwiseprogressreport = Loader(
 const AllNoticeList = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AllNoticeList'))
 )
+const SchoolNoticeBasescreen = Loader(
+  lazy(() => import('src/components/AddSchoolNitice/SchoolNoticeBasescreen'))
+)
 const AddSchoolNotice = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AddSchoolNotice1'))
 );
@@ -614,6 +617,10 @@ const teacherRoutes = [
   {
     path: 'AllNoticeList',
     element: <AllNoticeList />
+  },
+  {
+    path: 'SchoolNoticeBasescreen',
+    element: <SchoolNoticeBasescreen />
   },
   {
     path: 'AddSchoolNotice',

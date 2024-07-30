@@ -39,7 +39,7 @@ const AddNoticeslice = createSlice({
     }
 });
 
-export const getLeaveDetailList = (data: IGetAllNoticeListBody): AppThunk => async (dispatch) => {
+export const getSchoolNoticeList = (data: IGetAllNoticeListBody): AppThunk => async (dispatch) => {
     dispatch(AddNoticeslice.actions.getLoading(true));
     const response = await AddSchoolNoticApi.GetAllNoticeList(data);
     const responseData = response.data.map((Item, i) => {
@@ -72,13 +72,13 @@ export const resetSelectSchoolNotice =
             dispatch(AddNoticeslice.actions.resetSelectSchoolNotice())
         }
 
-export const DeleteSchoolNoticeMsg = (data: IDeleteSchooNoticeBody): AppThunk => async (dispatch) => {
+export const DeleteSchoolNotice = (data: IDeleteSchooNoticeBody): AppThunk => async (dispatch) => {
     dispatch(AddNoticeslice.actions.getLoading(true));
     const response = await AddSchoolNoticApi.DeleteSchoolNotice(data);
     dispatch(AddNoticeslice.actions.getDeleteSchoolNoticeMsg(response.data));
 };
 
-export const resetDeleteSchoolNoticeMsg = (): AppThunk => async (dispatch) => {
+export const resetDeleteSchoolNotice = (): AppThunk => async (dispatch) => {
     dispatch(AddNoticeslice.actions.resetDeleteSchoolNoticeMsg());
 };
 

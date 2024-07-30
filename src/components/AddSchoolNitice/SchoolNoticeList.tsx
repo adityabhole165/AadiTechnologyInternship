@@ -1,0 +1,185 @@
+import { EditTwoTone } from '@mui/icons-material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { red } from '@mui/material/colors';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+function SchoolNoticeList({
+    ItemList,
+    clickEdit,
+    HeaderArray,
+    toggleRowSelection,
+    clickDelete,
+}) {
+
+    function formatDate(date) {
+        const day = date.getDate().toString().padStart(2, '0');
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
+
+    return (
+        <div >
+            {ItemList.length === 0 ? (
+                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+
+                    <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                        No record found.
+                    </Typography>
+                </Box>
+            ) : (
+
+                <>
+
+                    <TableContainer component={Box}>
+                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                            <TableHead>
+                                <TableRow
+                                    sx={{ background: (theme) => theme.palette.secondary.main }}
+                                >
+                                    {HeaderArray.map((item, i) => (
+                                        <TableCell
+                                            key={i}
+                                            sx={{
+                                                // textTransform: 'capitalize',
+                                                color: (theme) => theme.palette.common.white,
+                                                textAlign: i === 1 || i === 2 ? 'left' : 'left'
+                                            }}
+                                            align="center"
+                                        >
+                                            <b>{item.Header}</b>
+                                        </TableCell>
+                                    ))} <span></span>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {ItemList.map((item, index) => {
+                                    const formattedItemDate = formatDate(new Date(item.Text2));
+
+                                    return (
+                                        <TableRow key={index} >
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text1}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text4}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', width: '200px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text2}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', width: '250px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text3}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text5}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                {item.Text6}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="left"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    style={{ height: '18px', width: '18px' }}
+                                                    onChange={() => toggleRowSelection(ItemList.NoticeName)}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center" sx={{
+                                                paddingTop: '2.5px', paddingBottom: '2.5px'
+                                            }}>
+                                                <Tooltip title={"Edit"}>
+                                                    <IconButton
+                                                        onClick={() => clickEdit(item.Id)}
+                                                        sx={{
+                                                            color: '#223354',
+                                                            '&:hover': {
+                                                                color: '#223354',
+                                                                cursor: 'pointer'
+                                                            }
+                                                        }}
+                                                    >
+                                                        <EditTwoTone />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    textTransform: 'capitalize',
+                                                    opacity: 1, paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                }}
+                                                align="center"
+                                            >
+                                                <IconButton
+                                                    sx={{
+                                                        color: '#223354',
+                                                        '&:hover': {
+                                                            color: 'red',
+                                                            backgroundColor: red[100]
+                                                        }
+                                                    }}
+
+                                                    onClick={() => clickDelete(item.Id)}
+                                                >
+                                                    <Tooltip title="Delete" >
+                                                        <DeleteForeverIcon />
+                                                    </Tooltip>
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+            )
+            }
+        </div >
+    );
+}
+
+export default SchoolNoticeList;
