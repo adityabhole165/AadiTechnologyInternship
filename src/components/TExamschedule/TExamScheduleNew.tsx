@@ -225,9 +225,15 @@ const TExamScheduleNew = () => {
                                     {expandedCardIndex === index ? '-' : '+'}
                                 </Typography>
                             </Box>
-                            <Typography variant="h6" sx={{ color: '#654321', ml: 1 }}>
-                                <b>{exam.Text1}</b> <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
-                            </Typography>
+                            <Box sx={{display:'flex'}}>
+                            <Typography variant="h6" sx={{ color: 'red', ml: 1 }}>
+                                <b>{exam.Text1}</b> 
+                                 </Typography>
+                                <Typography variant="h6" sx={{ ml: 1 }}>
+                                <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
+                                </Typography>
+                           
+                            </Box>
                         </Box>
                     </Box>
 
