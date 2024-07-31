@@ -183,18 +183,6 @@ const SchoolNoticeBaseScreen = () => {
 
     }, [selectDisplayType])
 
-    // useEffect(() => {
-    //     console.log(selectDisplayType, 'selectDisplayType');
-
-    //     setHeaderSchoolNotice((prevHeaders) =>
-    //         selectDisplayType === 'true'
-    //             ? !prevHeaders.find((header) => header.Id === 6)
-    //                 ? [...prevHeaders, { Id: 6, Header: 'File Name' }]
-    //                 : prevHeaders
-    //             : prevHeaders.filter((header) => header.Id !== 6)
-    //     );
-    // }, [selectDisplayType]);
-
     const toggleRowSelection = (id) => {
         setSchoolNoticeList(schoolNoticeList.map((item) => {
             return { ...item, IsActive: (item.Id === id ? !item.IsActive : item.IsActive) }

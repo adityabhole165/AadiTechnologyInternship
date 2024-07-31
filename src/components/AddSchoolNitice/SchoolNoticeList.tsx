@@ -76,10 +76,10 @@ function SchoolNoticeList({
                                             key={i}
                                             sx={{
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: i === 1 || i === 2 ? 'left' : 'left'
+                                                textAlign: [1].includes(i) ? 'left' : [2,3, 4,6].includes(i) ? 'center' : 'left'
                                             }}
                                             onClick={item.Id == 3 ? () => clickHeader(item.Id) : null}
-                                            align="center"
+                                            
                                         >
                                             <b>{item.Header}</b>
                                             {item.SortOrder !== null && item.Id == 3 ?
@@ -115,7 +115,7 @@ function SchoolNoticeList({
                                                 sx={{
                                                     textTransform: 'capitalize', width: '300px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="left"
+                                                align="center"
                                             >
                                                 {moment(item.Text2).format('DD MMM YYYY   h:mm a')}
                                             </TableCell>
@@ -123,7 +123,7 @@ function SchoolNoticeList({
                                                 sx={{
                                                     textTransform: 'capitalize', width: '300px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="left"
+                                                align="center"
                                             >
                                                 {moment(item.Text3).format('DD MMM YYYY   h:mm a')}
                                             </TableCell>
@@ -131,13 +131,14 @@ function SchoolNoticeList({
                                                 sx={{
                                                     textTransform: 'capitalize', width: '100px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="left"
+                                                align="center"
                                             >
                                                 {item.Text5}
                                             </TableCell>
                                             {isFileType &&
 
-                                                <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                                <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="left">
+                                                    
                                                     <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
                                                         {item.Text6}
                                                     </Link>
@@ -147,7 +148,7 @@ function SchoolNoticeList({
                                                 sx={{
                                                     textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="left"
+                                                align="center"
                                             >
 
                                                 <input
