@@ -219,9 +219,9 @@ const TExamScheduleNew = () => {
                         }}
                         onClick={() => toggleAccordion(index)}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box sx={{ width: '10px', height: '10px',p:0.5, border: '1px solid red', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography sx={{ color: 'red', fontSize: '16px', fontWeight: 'bold', p:0.5}}>
+                        <Box sx={{ display: 'flex', alignItems: 'center',pl:0.5 }}>
+                            <Box sx={{ width: '10px', height: '10px', p:0.5, border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography sx={{ color: 'Black', fontSize: '16px', fontWeight: 'bold', p:1}}>
                                     {expandedCardIndex === index ? '-' : '+'}
                                 </Typography>
                             </Box>
@@ -244,11 +244,12 @@ const TExamScheduleNew = () => {
                             ) : (
                                 <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
                                     <Table sx={{ minWidth: 640 }}>
-                                        <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold',  } }}>
+                                        <TableHead sx={{ background: '#19bed4', '& > *': { color: 'white', fontWeight: 'bold'} }}>
                                             <TableRow sx={{
                                                 '& > *': {
                                                     borderBottom: '1px solid white',
-                                                    textAlign: 'center', // Center align headers
+                                                    // textAlign: 'center', // Center align headers
+                                                    color:'white'
                                                 },
                                                 '& > :not(:first-of-type)': {
                                                     borderLeft: '1px solid white',
