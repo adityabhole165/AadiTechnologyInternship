@@ -220,8 +220,8 @@ const TExamScheduleNew = () => {
                         onClick={() => toggleAccordion(index)}
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box sx={{ width: '10px', height: '10px', border: '1px solid brown', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography sx={{ color: 'brown', fontSize: '16px', fontWeight: 'bold' }}>
+                            <Box sx={{ width: '10px', height: '10px',p:0.5, border: '1px solid red', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography sx={{ color: 'red', fontSize: '16px', fontWeight: 'bold', p:0.5}}>
                                     {expandedCardIndex === index ? '-' : '+'}
                                 </Typography>
                             </Box>
