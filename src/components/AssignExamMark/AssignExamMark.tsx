@@ -344,7 +344,7 @@ const AssignExamMark = () => {
       />
       {/* <AssignExamMarkNew ItemList={ExamMarksStatusForClass} /> */}
       <Box sx={{ background: 'white', p: 1 }}>
-        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center',background: 'white',  }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
             <DotLegends

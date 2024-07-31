@@ -199,7 +199,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   return (
     <div>
       <Box>
-        <TableContainer component={Box} sx={{ mt: 2 }}>
+        <TableContainer component={Box} sx={{ mt: 2 , width:'auto'}}>
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <TableHead>
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
