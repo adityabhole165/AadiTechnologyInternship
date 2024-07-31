@@ -39,7 +39,7 @@ const FooterStyledCell = styled(TableCell)(({ theme }) => ({
 const StyledCell = styled(TableCell)(({ theme }) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    border: '1px solid rgba(224, 224, 224, 1)',
+    border: '1px solid rgba(224, 224, 224, 1)'
 }))
 
 const WeeklyTimetable = (props: Props) => {
@@ -58,6 +58,7 @@ const WeeklyTimetable = (props: Props) => {
     const [mpt, setMPT] = useState<boolean>(false);
     const [stayback, setStayback] = useState<boolean>(false);
     const [weeklytest, setWeekly] = useState<boolean>(false);
+    const [trackTeacherTimetable, setTrackTeacherTimetable] = useState({});
 
     const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
     const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
@@ -73,8 +74,9 @@ const WeeklyTimetable = (props: Props) => {
     const ThursdayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForThu);
     const FridayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForFri);
     const TeacherTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetLectureNoWeekday);
-    const ApplicablesToggleData = useSelector((state: RootState) => state.WeeklyTimetable.ISGetApplicables)
-    const ClassTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetClassLecNoWeekday)
+    const ApplicablesToggleData = useSelector((state: RootState) => state.WeeklyTimetable.ISGetApplicables);
+    const ClassTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetClassLecNoWeekday);
+    const WeekdayIds = useSelector((state: RootState) => state.WeeklyTimetable.ISWeekdayId);
 
     useEffect(() => {
         const CDAGetTeachersListBody: IGetTeacherAndStandardForTimeTableBody = {
@@ -488,11 +490,6 @@ const WeeklyTimetable = (props: Props) => {
                                     </Box>
                                 </>
                             )}
-                            {/* <Box>
-                                <Button variant={"contained"}>
-                                    Change Input
-                                </Button>
-                            </Box> */}
                         </Stack>
                     </Stack>
                     {teacher !== '0' || division !== '0' ?
@@ -518,51 +515,61 @@ const WeeklyTimetable = (props: Props) => {
                                                         {item.Text1 !== '99' ?
                                                             <TableRow>
                                                                 <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
-                                                                <StyledCell>
-                                                                    <SearchableDropdown
-                                                                        onChange={(value) => { }}
-                                                                        ItemList={MondayColumnList}
-                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
-                                                                        size={"small"}
-                                                                        defaultValue={item.Text2}
-                                                                    />
-                                                                </StyledCell>
-                                                                <StyledCell>
-                                                                    <SearchableDropdown
-                                                                        onChange={(value) => { }}
-                                                                        ItemList={TuesdayColumnList}
-                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
-                                                                        size={"small"}
-                                                                        defaultValue={item.Text3}
-                                                                    />
-                                                                </StyledCell>
-                                                                <StyledCell>
-                                                                    <SearchableDropdown
-                                                                        onChange={(value) => { }}
-                                                                        ItemList={WednesdayColumnList}
-                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
-                                                                        size={"small"}
-                                                                        defaultValue={item.Text4}
-                                                                    />
-                                                                </StyledCell>
-                                                                <StyledCell>
-                                                                    <SearchableDropdown
-                                                                        onChange={(value) => { }}
-                                                                        ItemList={ThursdayColumnList}
-                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
-                                                                        size={"small"}
-                                                                        defaultValue={item.Text5}
-                                                                    />
-                                                                </StyledCell>
-                                                                <StyledCell>
-                                                                    <SearchableDropdown
-                                                                        onChange={(value) => { }}
-                                                                        ItemList={FridayColumnList}
-                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
-                                                                        size={"small"}
-                                                                        defaultValue={item.Text6}
-                                                                    />
-                                                                </StyledCell>
+                                                                <Tooltip title={`For - Monday: ${item.Text1}`} arrow>
+                                                                    <StyledCell>
+                                                                        <SearchableDropdown
+                                                                            onChange={(value) => { }}
+                                                                            ItemList={MondayColumnList}
+                                                                            sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
+                                                                            size={"small"}
+                                                                            defaultValue={item.Text2}
+                                                                        />
+                                                                    </StyledCell>
+                                                                </Tooltip>
+                                                                <Tooltip title={`For - Tuesday: ${item.Text1}`} arrow>
+                                                                    <StyledCell>
+                                                                        <SearchableDropdown
+                                                                            onChange={(value) => { }}
+                                                                            ItemList={TuesdayColumnList}
+                                                                            sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
+                                                                            size={"small"}
+                                                                            defaultValue={item.Text3}
+                                                                        />
+                                                                    </StyledCell>
+                                                                </Tooltip>
+                                                                <Tooltip title={`For - Wednesday: ${item.Text1}`} arrow>
+                                                                    <StyledCell>
+                                                                        <SearchableDropdown
+                                                                            onChange={(value) => { }}
+                                                                            ItemList={WednesdayColumnList}
+                                                                            sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
+                                                                            size={"small"}
+                                                                            defaultValue={item.Text4}
+                                                                        />
+                                                                    </StyledCell>
+                                                                </Tooltip>
+                                                                <Tooltip title={`For - Thursday: ${item.Text1}`} arrow>
+                                                                    <StyledCell>
+                                                                        <SearchableDropdown
+                                                                            onChange={(value) => { }}
+                                                                            ItemList={ThursdayColumnList}
+                                                                            sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
+                                                                            size={"small"}
+                                                                            defaultValue={item.Text5}
+                                                                        />
+                                                                    </StyledCell>
+                                                                </Tooltip>
+                                                                <Tooltip title={`For - Friday: ${item.Text1}`} arrow>
+                                                                    <StyledCell>
+                                                                        <SearchableDropdown
+                                                                            onChange={(value) => { }}
+                                                                            ItemList={FridayColumnList}
+                                                                            sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
+                                                                            size={"small"}
+                                                                            defaultValue={item.Text6}
+                                                                        />
+                                                                    </StyledCell>
+                                                                </Tooltip>
                                                             </TableRow>
                                                             :
                                                             <TableRow>
@@ -578,7 +585,8 @@ const WeeklyTimetable = (props: Props) => {
                                                         }
                                                     </>
                                                 )
-                                            })}
+                                            })
+                                        }
 
                                         {filterBy === 'Class' && division !== '0' &&
                                             ClassTimetableCellValues.map((item, i) => {
@@ -586,56 +594,65 @@ const WeeklyTimetable = (props: Props) => {
                                                     <>
                                                         <TableRow>
                                                             <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
-                                                            <StyledCell>
-                                                                <SearchableDropdown
-                                                                    onChange={(value) => { }}
-                                                                    ItemList={MondayColumnList}
-                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
-                                                                    size={"small"}
-                                                                    defaultValue={item.Text2}
-                                                                />
-                                                            </StyledCell>
-                                                            <StyledCell>
-                                                                <SearchableDropdown
-                                                                    onChange={(value) => { }}
-                                                                    ItemList={TuesdayColumnList}
-                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
-                                                                    size={"small"}
-                                                                    defaultValue={item.Text3}
-                                                                />
-                                                            </StyledCell>
-                                                            <StyledCell>
-                                                                <SearchableDropdown
-                                                                    onChange={(value) => { }}
-                                                                    ItemList={WednesdayColumnList}
-                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
-                                                                    size={"small"}
-                                                                    defaultValue={item.Text4}
-                                                                />
-                                                            </StyledCell>
-                                                            <StyledCell>
-                                                                <SearchableDropdown
-                                                                    onChange={(value) => { }}
-                                                                    ItemList={ThursdayColumnList}
-                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
-                                                                    size={"small"}
-                                                                    defaultValue={item.Text5}
-                                                                />
-                                                            </StyledCell>
-                                                            <StyledCell>
-                                                                <SearchableDropdown
-                                                                    onChange={(value) => { }}
-                                                                    ItemList={FridayColumnList}
-                                                                    sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
-                                                                    size={"small"}
-                                                                    defaultValue={item.Text6}
-                                                                />
-                                                            </StyledCell>
+                                                            <Tooltip title={`For - Monday: ${item.Text1}`} arrow>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={MondayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text2}
+                                                                    />
+                                                                </StyledCell>
+                                                            </Tooltip>
+                                                            <Tooltip title={`For - Tuesday: ${item.Text1}`} arrow>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={TuesdayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text3}
+                                                                    />
+                                                                </StyledCell>
+                                                            </Tooltip>
+                                                            <Tooltip title={`For - Wednesday: ${item.Text1}`} arrow>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={WednesdayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text4}
+                                                                    />
+                                                                </StyledCell>
+                                                            </Tooltip>
+                                                            <Tooltip title={`For - Thursday: ${item.Text1}`} arrow>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={ThursdayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text5}
+                                                                    />
+                                                                </StyledCell>
+                                                            </Tooltip>
+                                                            <Tooltip title={`For - Friday: ${item.Text1}`} arrow>
+                                                                <StyledCell>
+                                                                    <SearchableDropdown
+                                                                        onChange={(value) => { }}
+                                                                        ItemList={FridayColumnList}
+                                                                        sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
+                                                                        size={"small"}
+                                                                        defaultValue={item.Text6}
+                                                                    />
+                                                                </StyledCell>
+                                                            </Tooltip>
                                                         </TableRow>
                                                     </>
                                                 )
                                             })}
-
                                     </TableBody>
                                 </Table>
                             </TableContainer>

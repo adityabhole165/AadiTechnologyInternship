@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
-import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -23,9 +23,26 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetLectureNoWeekday: [],
         ISGetApplicables: [],
         ISGetClassLecNoWeekday: [],
+        ISGetSaveTeacherTimetableMsg: '',
+        ISWeekdayId: [],
         Loading: true
     },
     reducers: {
+        getLoading(state, action) {
+            state.Loading = true;
+        },
+        RGetWeekdayId(state, action) {
+            state.ISWeekdayId = action.payload;
+            state.Loading = false;
+        },
+        RGetSaveTeacherTimetableMsg(state, action) {
+            state.ISGetSaveTeacherTimetableMsg = action.payload;
+            state.Loading = false;
+        },
+        ResetSaveTeacherTimetableMsg(state) {
+            state.ISGetSaveTeacherTimetableMsg = '';
+            state.Loading = false;
+        },
         RGetTeachersList(state, action) {
             state.ISTeachersList = action.payload;
             state.Loading = false;
@@ -52,9 +69,6 @@ const WeeklyTimeTableSlice = createSlice({
         RClearResetTimetableMsg(state) {
             state.ISResetTimetableMsg = '';
             state.Loading = false;
-        },
-        getLoading(state, action) {
-            state.Loading = true;
         },
         RGetStandardName(state, action) {
             state.ISGetStandardName = action.payload;
@@ -185,6 +199,21 @@ export const CDAGetResetTimetableMsgClear =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             dispatch(WeeklyTimeTableSlice.actions.RClearResetTimetableMsg());
+        }
+
+export const CDASaveTeacherTimetable =
+    (data: IGetSaveTeacherTimeTableBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetSaveTeacherTimeTableApi(data);
+            dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
+        }
+
+export const ResetSaveTeacherTimetableMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.ResetSaveTeacherTimetableMsg());
         }
 
 export const CDAGetDivisionName =
@@ -379,6 +408,14 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             })
+
+            const WeekDayId = response.data.WeekDayIds.map((item, i) => {
+                return (
+                    {
+                        WeekdayId: item.Weekday_id
+                    }
+                )
+            })
             const ApplicablesData = response.data.Applicable.map((item, i) => {
                 return (
                     {
@@ -392,6 +429,7 @@ export const CDAGetLectureNoWeekday =
             console.log('this was the data for the Weekday internal data -- ,', responseData)
             dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData))
             dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData))
+            dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId))
         }
 
 // The Following Dispatch is for the Weekday Lecture Retrieval | ON `Class` Selection ✅

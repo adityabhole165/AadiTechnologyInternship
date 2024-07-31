@@ -239,3 +239,15 @@ export interface IGetClassTimeTableResult {
     Lecture_No_WeekDayMPTForClass: any,
     Lecture_No_WeekDayWeeklyTestForClass: any
 }
+
+export interface IGetSaveTeacherTimeTableBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInsertedById: Number,
+    asTeacherID: Number,
+    asMasterXml: string,
+    asDetailXml: string
+    asTeacherXML: string,
+    IsAdditionalClass: Number,
+    asIncCnt: Number
+}
