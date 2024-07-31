@@ -13,7 +13,8 @@ import {
     TableBody,
     TableCell,
     TableHead,
-    TableRow
+    TableRow,
+    Typography
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +29,7 @@ import {
     MissingAttenDateAleart,
     MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
+import { ClearIcon } from "@mui/x-date-pickers";
 
 type Props = {
     open: boolean;
@@ -132,17 +134,34 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
             onClose={handleClose}
             fullWidth
             maxWidth="sm"
-        >
-            <DialogTitle sx={{ fontSize: '20px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                Missing Attendance Alert(s)
-                <IconButton
-                    onClick={handleClose}
-                    color="error"
-                >
-                    <CloseTwoTone />
-                </IconButton>
+            PaperProps={{
+                sx: {
+                  borderRadius: "15px",
+                }
+              }}
+        > 
+            <DialogTitle sx={{  bgcolor: '#223354'}}>
+            <ClearIcon onClick={handleClose}
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                  //  backgroundColor: red[100]
+
+                }
+              }} />
+
             </DialogTitle>
-            <DialogContent dividers>
+            <Typography variant="h3" sx={{pt:2,pl:2}}>               
+                 Missing Attendance Alert(s)
+            </Typography>
+            <DialogContent >
                 <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none' }}>
                     This is the class-wise missing attendance list till Yesterday. Click on the day count link under Missing Days to view missing attendance dates.
                 </Alert>
