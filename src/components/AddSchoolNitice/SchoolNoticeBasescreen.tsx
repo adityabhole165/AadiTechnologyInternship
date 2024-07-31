@@ -320,7 +320,7 @@ const SchoolNoticeBaseScreen = () => {
                             </Tooltip>
                         </Box>
                         <Box>
-                            <Tooltip title={`Save Notice`}>
+                            <Tooltip title={`Save`}>
                                 <IconButton
                                     sx={{
                                         color: 'white',

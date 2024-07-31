@@ -75,11 +75,11 @@ function SchoolNoticeList({
                                         <TableCell
                                             key={i}
                                             sx={{
-                                                color: (theme) => theme.palette.common.white, py:1,
-                                                textAlign: [1].includes(i) ? 'left' : [2,3, 4,6].includes(i) ? 'center' : 'left'
+                                                color: (theme) => theme.palette.common.white, py: 1,
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'center' : 'left'
                                             }}
                                             onClick={item.Id == 3 ? () => clickHeader(item.Id) : null}
-                                            
+
                                         >
                                             <b>{item.Header}</b>
                                             {item.SortOrder !== null && item.Id == 3 ?
@@ -138,7 +138,7 @@ function SchoolNoticeList({
                                             {isFileType &&
 
                                                 <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="left">
-                                                    
+
                                                     <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
                                                         {item.Text6}
                                                     </Link>
@@ -150,13 +150,13 @@ function SchoolNoticeList({
                                                 }}
                                                 align="center"
                                             >
-
-                                                <input
-                                                    type="checkbox"
-                                                    style={{ height: '18px', width: '18px' }}
-                                                    checked={item.IsActive}
-                                                    onChange={() => toggleRowSelection(item.Id)}
-                                                />
+                                                <Tooltip title="Select notice to display under School Notices.">
+                                                    <input
+                                                        type="checkbox"
+                                                        style={{ height: '18px', width: '18px' }}
+                                                        checked={item.IsActive}
+                                                        onChange={() => toggleRowSelection(item.Id)}
+                                                    /></Tooltip>
                                             </TableCell>
                                             <TableCell align="center" sx={{
                                                 paddingTop: '2.5px', paddingBottom: '2.5px'
