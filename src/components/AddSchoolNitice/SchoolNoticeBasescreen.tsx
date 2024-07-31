@@ -149,12 +149,12 @@ const SchoolNoticeBaseScreen = () => {
     }, [deleteSchoolNoticeMsg]);
 
     let HeaderList = [
-        { Id: 1, Header: 'Link Name' },
-        { Id: 2, Header: 'Display Location' },
+        { Id: 1, Header: 'Link Name', SortOrder: 'desc', sortKey: 'NoticeName' },
+        { Id: 2, Header: 'Display Location', SortOrder: 'desc', sortKey: 'DisplayLocation' },
         { Id: 3, Header: 'Start Date & Time', SortOrder: 'desc', sortKey: 'StartDate' },
-        { Id: 4, Header: 'End Date & Time' },
-        { Id: 5, Header: 'Sort Order' },
-        { Id: 6, Header: 'File Name' },
+        { Id: 4, Header: 'End Date & Time', SortOrder: 'desc', sortKey: 'EndDate' },
+        { Id: 5, Header: 'Sort Order', SortOrder: 'desc', sortKey: 'dbSortOrder' },
+        { Id: 6, Header: 'File Name' , SortOrder: 'desc', sortKey: 'FileName'},
         { Id: 7, Header: 'Select' },
         { Id: 8, Header: 'Edit' },
         { Id: 9, Header: 'Delete' },
