@@ -626,7 +626,10 @@ const teacherRoutes = [
     path: 'AddSchoolNotice',
     element: <AddSchoolNotice />
   },
-
+  {
+    path: 'AddSchoolNotice/:Id',
+    element: <AddSchoolNotice />
+  },
 
 ];
 

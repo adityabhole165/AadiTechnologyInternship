@@ -41,7 +41,7 @@ const AddSchoolNotice1: React.FC = () => {
 
     const [isRoleError, setIsRoleError] = useState(false);
     const [isClassError, setIsClassError] = useState(false);
-    
+
     const location = useLocation();
     const { state } = location;
     const ISGetUserRolesForSelectedNoticeId: any = useSelector((state: RootState) => state.GetUserRolesForSelectedNoticeId.ISGetUserRolesForSelectedNoticeId);
@@ -270,7 +270,7 @@ const AddSchoolNotice1: React.FC = () => {
                     navLinks={[
                         {
                             title: 'School Notice',
-                            path: '/extended-sidebar/Teacher/AllNoticeList'
+                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
                         },
                         {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
@@ -628,7 +628,7 @@ const AddSchoolNotice1: React.FC = () => {
                         (Object.values(applicableTo).every(Boolean) || applicableTo.student) &&
                         <Grid item xs={9} md={9}>
                             <SelectListChild ISGetStandardDivisionsForSelectedNoticeId={ISGetStandardDivisionsForSelectedNoticeId} />
-                        
+
                         </Grid>
                     }
                     {radioBtn === '1' ? null

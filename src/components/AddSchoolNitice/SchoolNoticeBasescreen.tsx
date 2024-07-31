@@ -245,26 +245,27 @@ const SchoolNoticeBaseScreen = () => {
         }
     }, [GetSchoolNoticeList]);
 
+
     function getXML() {
-        let asSaveInvestmentXML = "\r\n<ArrayOfNoticeDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n";
-        GetSchoolNoticeList.map((Item) => {
-            if (Item.Amount != "") {
-                asSaveInvestmentXML += " <NoticeDetails>" +
+        let asUpdateSelectXML = "<ArrayOfNoticeDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+        schoolNoticeList.map((Item) => {
+            {
+                asUpdateSelectXML += " <NoticeDetails>" +
                     "<NoticeId> " + Item.Id + "</NoticeId> " +
-                    "<SortOrder>0</SortOrder>" +
-                    "<UserId>0</UserId>" +
-                    "<SortOrderLocationChanged>0</SortOrderLocationChanged>" +
-                    " <IsSelected>" + Item.IsActive + "</IsSelected>" +
-                    "<IsText>false</IsText>" +
-                    "<InertedById>5902</InertedById>" +
-                    "<SchoolId>0</SchoolId>" +
-                    "<AcademicYearId>0</AcademicYearId>" +
-                    " <StandardDivisionId>0</StandardDivisionId>" +
+                    "<SortOrder>" + 0 + "</SortOrder>" +
+                    "<UserId>" + 0 + "</UserId>" +
+                    "<SortOrderLocationChanged>" + 0 + "</SortOrderLocationChanged>" +
+                    "<IsSelected>" + Item.IsActive + "</IsSelected>" +
+                    "<IsText>" + Text + "</IsText>" +
+                    "<InertedById>" + asUserId + "</InertedById>" +
+                    "<SchoolId>" + 0 + "</SchoolId>" +
+                    "<AcademicYearId>" + 0 + "</AcademicYearId>" +
+                    " <StandardDivisionId>" + 0 + "</StandardDivisionId>" +
                     " </NoticeDetails>"
             }
         });
-        asSaveInvestmentXML += "\r\n</ArrayOfNoticeDetails>";
-        return asSaveInvestmentXML
+        asUpdateSelectXML += "\r\n</ArrayOfNoticeDetails>";
+        return asUpdateSelectXML
     }
 
     const startRecord = (page - 1) * rowsPerPage + 1;
