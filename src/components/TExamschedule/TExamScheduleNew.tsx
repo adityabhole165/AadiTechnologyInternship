@@ -238,7 +238,7 @@ const TExamScheduleNew = () => {
                             ) : (
                                 <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
                                     <Table sx={{ minWidth: 640 }}>
-                                        <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold' } }}>
+                                        <TableHead sx={{ background: '#87CEEB', '& > *': { color: 'white', fontWeight: 'bold',  } }}>
                                             <TableRow sx={{
                                                 '& > *': {
                                                     borderBottom: '1px solid white',
@@ -248,14 +248,14 @@ const TExamScheduleNew = () => {
                                                     borderLeft: '1px solid white',
                                                 }
                                             }}>
-                                                <TableCell sx={{ width: '14%', textAlign: 'center' }}>Date</TableCell>
-                                                <TableCell sx={{ width: '8%', textAlign: 'center' }}>Time</TableCell>
-                                                <TableCell sx={{ width: '8%', textAlign: 'center' }}>Duration</TableCell>
+                                                <TableCell sx={{ width: '14%', textAlign: 'left', p:1 }}>Date</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Time</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
-                                                    <TableCell key={index} sx={{ textAlign: 'center' }}>{className}</TableCell>
+                                                    <TableCell key={index} sx={{ textAlign: 'center', p:1 }}>{className}</TableCell>
                                                 ))}
-                                                {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center' }}>Subject</TableCell>}
-                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center' }}>Description</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center',p:1}}>Subject</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center', p:1}}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
 
@@ -269,9 +269,9 @@ const TExamScheduleNew = () => {
 
                                                 return items.length > 0 ? (
                                                     <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center' } }}>
-                                                        <TableCell>{uniqueDates.has(date) ? '' : date}</TableCell>
-                                                        <TableCell>{getTime(startTime, endTime) || '-'}</TableCell>
-                                                        <TableCell>{getDuration(startTime, endTime) || '-'}</TableCell>
+                                                        <TableCell sx={{textAlign: 'left'}}>{uniqueDates.has(date) ? '' : date}</TableCell>
+                                                        <TableCell sx={{textAlign: 'left'}}>{getTime(startTime, endTime) || '-'}</TableCell>
+                                                        <TableCell sx={{textAlign: 'left'}}>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
 
