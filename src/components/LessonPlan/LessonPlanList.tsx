@@ -122,15 +122,17 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                 <Accordion
                     // defaultExpanded
                     key={index}
-                    sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
-                >
+                    sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}    >
                     <AccordionSummary expandIcon={<ExpandMore />}>
                         <Typography variant={"h4"}>
                             {index + 1}) {lesson?.lessonName}
                         </Typography>
                     </AccordionSummary>
-                    <AccordionDetails sx={{ p: 0 }}>
-                        <Table>
+                    <AccordionDetails 
+                    // sx={{ p: 0 }}
+                    aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
+                    >
+                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                             <TableHead>
                                 {/* <TableRow>
                                     <HeaderStyledCell width={10}></HeaderStyledCell>
@@ -151,7 +153,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                        {/* <StyledCell sx={{ p: 1 }}> */}
+                                         <StyledCell > 
                                         {(Action == 'View' || !IsEditingAllowed) ?
                                             <><Typography><b>{plan.label}</b></Typography>
                                                 <Typography>{plan.value}</Typography></>
@@ -165,16 +167,16 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                         lesson.SubjectId, plan.Id, e.target.value
                                                     )
                                                 }}
-                                                sx={{mt:2}}
+                                                // sx={{mt:2}}
                                             />}
                                         {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
                                             plan.subPlanDetails.map((subPlan, subIndex) => (
                                                 <Table key={subIndex}>
                                                     <TableRow >
-                                                        <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
+                                                        <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top',border:1 }}>
                                                             {index + 1}.{subIndex + 1}
                                                         </StyledCell>
-                                                        {/* <StyledCell sx={{ p: 1 }}> */}
+                                                         <StyledCell> 
                                                         {(Action == 'View' || !IsEditingAllowed) ?
                                                             <><Typography ><b>{subPlan.label}</b></Typography>
                                                                 <Typography>{subPlan.value}</Typography></>
@@ -186,7 +188,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                                 fullWidth
                                                                 multiline
                                                                 rows={3}
-                                                                sx={{mt:2}}
+                                                                // sx={{mt:2}}
                                                                 onChange={(e) => {
                                                                     onSubChangeValue(
                                                                         lesson.StdId,
@@ -196,11 +198,11 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                                                     )
                                                                 }}
                                                             />}
-                                                        {/* </StyledCell> */}
+                                                        </StyledCell> 
                                                     </TableRow>
                                                 </Table>
                                             ))}
-                                        {/* </StyledCell> */}
+                                         </StyledCell> 
                                     </TableRow>
                                 ))}
                             </TableBody>
