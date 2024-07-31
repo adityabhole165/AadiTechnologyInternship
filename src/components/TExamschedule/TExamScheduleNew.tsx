@@ -246,14 +246,16 @@ const TExamScheduleNew = () => {
                                     <Table sx={{ minWidth: 640 }}>
                                         <TableHead sx={{ background: '#19bed4', '& > *': { color: 'white', fontWeight: 'bold',                                                     textAlign: 'center', // Center align headers
 } }}>
-                                            <TableRow sx={{ 
+                                            <TableRow 
+                                            sx={{ 
                                                 '& > *': {
                                                     borderBottom: '1px solid white',
-                                                    textAlign: 'center', // Center align headers
+                                                    // textAlign: 'center', // Center align headers
                                                     color:'white'
                                                 },
                                                 '& > :not(:first-of-type)': {
                                                     borderLeft: '1px solid white',
+                                                     color:'white'
                                                 }
                                             }}>
                                                 <TableCell sx={{ width: '14%', textAlign: 'left', p:1 }}>Date</TableCell>
