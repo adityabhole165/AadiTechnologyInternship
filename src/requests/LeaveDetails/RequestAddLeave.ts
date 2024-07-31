@@ -65,7 +65,7 @@ export const LeaveTypeDropdown =
     (data: IGetLeaveTypeDropdownBody): AppThunk =>
         async (dispatch) => {
             const response = await AddLeaveDetailsAPI.GetLeaveTypeDropdown(data);
-            let abc = [{ Id: '0', Name: '-- Select --', Value: '0' }];
+            let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
             console.log(response, 'response')
             response.data.map((item, i) => {
                 abc.push({

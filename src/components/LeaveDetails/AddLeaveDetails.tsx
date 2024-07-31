@@ -314,7 +314,7 @@ const AddLeaveDetails = () => {
     // }
     const rightActions = (
         <>
-            <Tooltip title={'Here you can Apply for, Approve, or Reject leave requests.'}>
+            <Tooltip title={'Here you can apply for, approve, or reject leave requests.'}>
                 <IconButton
                     sx={{
                         bgcolor: grey[500],
@@ -487,11 +487,10 @@ const AddLeaveDetails = () => {
                         <SearchableDropdown
                             sx={{ minWidth: '20vw' }}
                             ItemList={GetLeaveTypeDropdown}
-                            defaultValue={SelectLeaveType}
                             onChange={clickLeaveTypeDropdown}
-                            label='Leave Type'
-                            mandatory
-                        />
+                            label={'Leave Type'}
+                            defaultValue={SelectLeaveType}
+                            mandatory />
                         <ErrorMessage1 Error={ErrorLeaveType}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12}>
