@@ -75,7 +75,7 @@ function SchoolNoticeList({
                                         <TableCell
                                             key={i}
                                             sx={{
-                                                color: (theme) => theme.palette.common.white,
+                                                color: (theme) => theme.palette.common.white, py:1,
                                                 textAlign: [1].includes(i) ? 'left' : [2,3, 4,6].includes(i) ? 'center' : 'left'
                                             }}
                                             onClick={item.Id == 3 ? () => clickHeader(item.Id) : null}
