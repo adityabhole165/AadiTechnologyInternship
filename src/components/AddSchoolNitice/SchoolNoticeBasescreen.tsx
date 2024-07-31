@@ -148,7 +148,7 @@ const SchoolNoticeBaseScreen = () => {
         }
     }, [deleteSchoolNoticeMsg]);
 
-    const [HeaderSchoolNotice, setHeaderSchoolNotice] = useState([
+    let HeaderList = [
         { Id: 1, Header: 'Link Name' },
         { Id: 2, Header: 'Display Location' },
         { Id: 3, Header: 'Start Date & Time', SortOrder: 'desc', sortKey: 'StartDate' },
@@ -158,7 +158,17 @@ const SchoolNoticeBaseScreen = () => {
         { Id: 7, Header: 'Select' },
         { Id: 8, Header: 'Edit' },
         { Id: 9, Header: 'Delete' },
-    ]);
+    ]
+    const [HeaderSchoolNotice, setHeaderSchoolNotice] = useState([]);
+    useEffect(() => {
+        let arrHeader = []
+        HeaderList.map(header => {
+
+            if (!(selectDisplayType == 'true' && header.Id == 6))
+                arrHeader.push(header)
+        })
+        setHeaderSchoolNotice(arrHeader)
+    }, [selectDisplayType])
 
 
     const handleHeaderClick = (updatedHeaderArray) => {

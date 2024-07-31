@@ -45,7 +45,13 @@ function SchoolNoticeList({
         });
         ClickHeader(updatedHeaderArray);
     }
-    let url = localStorage.getItem("SiteURL") + "RITeSchool/downloads/School Notices/" 
+    let url = localStorage.getItem("SiteURL") + "RITeSchool/downloads/School Notices/"
+    let isFileType = false
+    HeaderArray.map((item) => {
+        if (item.Id == 6) {
+            isFileType = true
+        }
+    })
     return (
         <div >
             {ItemList.length === 0 ? (
@@ -111,7 +117,7 @@ function SchoolNoticeList({
                                                 }}
                                                 align="left"
                                             >
-                                               {moment(item.Text2).format('DD MMM YYYY   h:mm a')}
+                                                {moment(item.Text2).format('DD MMM YYYY   h:mm a')}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
@@ -119,7 +125,7 @@ function SchoolNoticeList({
                                                 }}
                                                 align="left"
                                             >
-                                               {moment(item.Text3).format('DD MMM YYYY   h:mm a')}
+                                                {moment(item.Text3).format('DD MMM YYYY   h:mm a')}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
@@ -129,17 +135,21 @@ function SchoolNoticeList({
                                             >
                                                 {item.Text5}
                                             </TableCell>
-                                            <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
-                                                <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
-                                                    {item.Text6}
-                                                </Link>
-                                            </TableCell>
+                                            {isFileType &&
+
+                                                <TableCell sx={{ textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                                                    <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
+                                                        {item.Text6}
+                                                    </Link>
+                                                </TableCell>
+                                            }
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
+
                                                 <input
                                                     type="checkbox"
                                                     style={{ height: '18px', width: '18px' }}
