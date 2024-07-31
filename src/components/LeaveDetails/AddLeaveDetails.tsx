@@ -1,4 +1,4 @@
-import { Check, Close, HowToReg, PersonRemove } from '@mui/icons-material';
+import { Check, Close } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Grid, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material';
@@ -7,14 +7,15 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { IGetApproveOrRejectLeaveBody, IGetIsValidateLeaveDateBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
+import { IGetIsValidateLeaveDateBody, IGetSubmitLeaveBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
 import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { getapproveorreject, getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetapproveorreject, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
+import { getLeaveBalance, getSubmitLeave, LeaveTypeDropdown, resetSubmitLeave, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
 import { getViewLeaveDetails } from 'src/requests/LeaveDetails/RequestLeaveDetails';
 import { RootState } from 'src/store';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate, isOutsideAcademicYear } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -79,7 +80,6 @@ const AddLeaveDetails = () => {
             setDescription(ViewLeave.Text5)
             setasUserId(ViewLeave.UserId)
         }
-        console.log(SelectLeaveType, "SelectLeaveType")
     }, [GetViewLeave]);
 
     useEffect(() => {
@@ -168,9 +168,7 @@ const AddLeaveDetails = () => {
     };
 
     const clickLeaveTypeDropdown = (value) => {
-        console.log(value, "setLeaveType")
         setLeaveType(value);
-        console.log(value, "setLeaveType")
     };
     const clear = () => {
         setStartDate(new Date().toISOString().split('T')[0]);
@@ -211,7 +209,6 @@ const AddLeaveDetails = () => {
             dateError = true
             isError = true;
         } else setErrorEndDateblank('')
-        console.log(isError, "dateError")
         if (dateError == false) {
             if (isOutsideAcademicYear(StartDate)) {
                 setErrorStartDate('Leave start date must be within current academic year (i.e between ' +
@@ -245,21 +242,17 @@ const AddLeaveDetails = () => {
             setErrorLeaveType('Leave Type should be selected.');
             isError = true;
         } else setErrorLeaveType('')
-        console.log(isError, "Description")
         if (Description.length > 200 || Description == '') {
             setDescriptionError('Description should be less than 200 characters.');
+            setDescriptionError('Description should not blank.');
             isError = true;
-            console.log(Description, DescriptionError, "Description, DescriptionError");
-
         } else setDescriptionError('')
         // console.log(isError, "Remark")
         // if (Remark.length > 200 || Remark == '') {
         //     setRemarkError('Remark should be less than 200 characters.');
         //     isError = true;
         // } else setRemarkError('')
-        console.log(isError, "getSubmitLeavegetSubmitLeave")
         if (!isError) {
-            console.log("getSubmitLeavegetSubmitLeave")
             dispatch(getSubmitLeave(SubmitLeaveBody));
         }
 
@@ -281,44 +274,44 @@ const AddLeaveDetails = () => {
             setTotalDays(0);
         }
     }, [StartDate, EndDate])
-    useEffect(() => {
-        if (USApproveorRejectLeaveDetails !== '') {
-            toast.success(USApproveorRejectLeaveDetails)
-            dispatch(resetapproveorreject())
-            // dispatch(getLeaveDetailList());
+    // useEffect(() => {
+    //     if (USApproveorRejectLeaveDetails !== '') {
+    //         toast.success(USApproveorRejectLeaveDetails)
+    //         dispatch(resetapproveorreject())
+    //         // dispatch(getLeaveDetailList());
 
-        }
-    }, [USApproveorRejectLeaveDetails])
-    const onClickApprove = () => {
-        const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
-            asId: 0,
-            asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
-            asReportingUserId: aUserId,
-            asRemark: Remark,
-            /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-            asstatusId: 3,
-            asSchoolId: asSchoolId,
-            asAcademicYearId: Number(asAcademicYearId),
-            asInsertedById: aUserId
+    //     }
+    // }, [USApproveorRejectLeaveDetails])
+    // const onClickApprove = () => {
+    //     const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
+    //         asId: 0,
+    //         asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
+    //         asReportingUserId: aUserId,
+    //         asRemark: Remark,
+    //         /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+    //         asstatusId: 3,
+    //         asSchoolId: asSchoolId,
+    //         asAcademicYearId: Number(asAcademicYearId),
+    //         asInsertedById: aUserId
 
-        }
-        dispatch(getapproveorreject(ApproveOrRejectBody))
-    }
-    const onClickReject = () => {
-        const RejectBody: IGetApproveOrRejectLeaveBody = {
-            asId: 0,
-            asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
-            asReportingUserId: aUserId,
-            asRemark: Remark,
-            /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-            asstatusId: 4,
-            asSchoolId: asSchoolId,
-            asAcademicYearId: Number(asAcademicYearId),
-            asInsertedById: aUserId
+    //     }
+    //     dispatch(getapproveorreject(ApproveOrRejectBody))
+    // }
+    // const onClickReject = () => {
+    //     const RejectBody: IGetApproveOrRejectLeaveBody = {
+    //         asId: 0,
+    //         asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
+    //         asReportingUserId: aUserId,
+    //         asRemark: Remark,
+    //         /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+    //         asstatusId: 4,
+    //         asSchoolId: asSchoolId,
+    //         asAcademicYearId: Number(asAcademicYearId),
+    //         asInsertedById: aUserId
 
-        }
-        dispatch(getapproveorreject(RejectBody))
-    }
+    //     }
+    //     dispatch(getapproveorreject(RejectBody))
+    // }
     const rightActions = (
         <>
             <Tooltip title={'Here you can Apply for, Approve, or Reject leave requests.'}>
@@ -366,7 +359,7 @@ const AddLeaveDetails = () => {
                             <Check />
                         </IconButton>
                     </Tooltip></>) : null}
-            <>
+            {/* <>
                 <Tooltip title={'Reject'}>
                     <IconButton
                         sx={{
@@ -394,7 +387,7 @@ const AddLeaveDetails = () => {
                     >
                         <HowToReg />
                     </IconButton>
-                </Tooltip></>
+                </Tooltip></> */}
 
         </>
     );
@@ -443,7 +436,7 @@ const AddLeaveDetails = () => {
                             fullWidth
                             InputLabelProps={{ shrink: true }}
                             label={<>
-                                Teacher <span style={{ color: 'red' }}>*</span>
+                                Staff Name <span style={{ color: 'red' }}>*</span>
                             </>}
                             sx={{ bgcolor: '#D3D3D3' }}
                             InputProps={{
@@ -479,7 +472,10 @@ const AddLeaveDetails = () => {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <TextField
-                            label="Total Days"
+                            // label="Total Days"
+                            label={<>
+                                Total Days <span style={{ color: 'red' }}>*</span>
+                            </>}
                             value={TotalDays}
                             InputProps={{
                                 readOnly: true,
@@ -494,11 +490,12 @@ const AddLeaveDetails = () => {
                             defaultValue={SelectLeaveType}
                             onChange={clickLeaveTypeDropdown}
                             label='Leave Type'
+                            mandatory
                         />
                         <ErrorMessage1 Error={ErrorLeaveType}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
+                        <ResizableTextField
                             label={<>
                                 Description <span style={{ color: 'red' }}>*</span>
                             </>}
@@ -507,11 +504,12 @@ const AddLeaveDetails = () => {
                             value={Description}
                             onChange={(e) => setDescription(e.target.value)}
                             fullWidth
-                            error={DescriptionError != ''}
-                            helperText={DescriptionError}
+                        // error={DescriptionError != ''}
+                        // helperText={DescriptionError}
                         />
+                        <ErrorMessage1 Error={DescriptionError}></ErrorMessage1>
                     </Grid>
-                    {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
+                    {/* {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? (
                         <Grid item xs={12} >
                             <TextField
                                 label={<>
@@ -528,7 +526,7 @@ const AddLeaveDetails = () => {
                                 helperText={Remark1}
                             >
                             </TextField>
-                        </Grid>) : null}
+                        </Grid>) : null} */}
                 </Grid >
             </Box>
         </Box >

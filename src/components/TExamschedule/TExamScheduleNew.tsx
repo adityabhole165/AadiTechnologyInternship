@@ -244,8 +244,10 @@ const TExamScheduleNew = () => {
                             ) : (
                                 <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
                                     <Table sx={{ minWidth: 640 }}>
-                                        <TableHead sx={{ background: '#19bed4', '& > *': { color: 'white', fontWeight: 'bold'} }}>
-                                            <TableRow sx={{
+                                        <TableHead sx={{ background: '#19bed4', '& > *': { color: 'white', fontWeight: 'bold',                                                     textAlign: 'center', // Center align headers
+} }}>
+                                            <TableRow 
+                                            sx={{ 
                                                 '& > *': {
                                                     borderBottom: '1px solid white',
                                                     // textAlign: 'center', // Center align headers
@@ -253,6 +255,7 @@ const TExamScheduleNew = () => {
                                                 },
                                                 '& > :not(:first-of-type)': {
                                                     borderLeft: '1px solid white',
+                                                     color:'white'
                                                 }
                                             }}>
                                                 <TableCell sx={{ width: '14%', textAlign: 'left', p:1 }}>Date</TableCell>
@@ -265,9 +268,6 @@ const TExamScheduleNew = () => {
                                                 {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center', p:1}}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
-
-
-
                                         <TableBody>
                                             {Object.keys(groupedSubList).map((key, index) => {
                                                 const items = groupedSubList[key].filter(item => item.text1 === exam.Text2);
