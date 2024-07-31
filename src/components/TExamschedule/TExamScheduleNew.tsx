@@ -274,14 +274,15 @@ const TExamScheduleNew = () => {
                                                 const uniqueDates = new Set();
 
                                                 return items.length > 0 ? (
-                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center' } }}>
+                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center', pt:0,pb:0 } }}>
                                                         <TableCell sx={{textAlign: 'left'}}>{uniqueDates.has(date) ? '' : date}</TableCell>
                                                         <TableCell sx={{textAlign: 'left'}}>{getTime(startTime, endTime) || '-'}</TableCell>
                                                         <TableCell sx={{textAlign: 'left'}}>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
 
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', borderBottom: '1px solid grey', whiteSpace: 'pre-line' }}>
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', 
+                                                                 whiteSpace: 'pre-line', pt:0,pb:0 }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
                                                                         .map((item, idx, arr) => (
@@ -297,7 +298,7 @@ const TExamScheduleNew = () => {
                                                             ))
                                                         ) : (
                                                             <>
-                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
+                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey',  pt:0,pb:0 }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name)
                                                                         .map((item, idx, arr) => (
@@ -344,14 +345,14 @@ const TExamScheduleNew = () => {
                                                 {std === '0' ? (
                                                     classList.map((className) => (
                                                         <TableCell key={className} sx={{ textAlign: 'center' }}>
-                                                            <Typography sx={{ color: 'darkblue' }}>
+                                                            <Typography sx={{ color: '#223354' }}>
                                                                 {classInstructions[className] && classInstructions[className][exam.Text2] || '-'}
                                                             </Typography>
                                                         </TableCell>
                                                     ))
                                                 ) : (
                                                     <TableCell colSpan={3} sx={{ textAlign: 'center' }}>
-                                                        <Typography sx={{ color: 'darkblue' }}>
+                                                        <Typography sx={{ color: '#223354' }}>
                                                             {classInstructions[std] && classInstructions[std][exam.Text2]}
                                                         </Typography>
                                                     </TableCell>
