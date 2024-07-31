@@ -96,7 +96,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     }
     const InvestmentDocumentFileBody: IGetInvestmentDocumentFileBody = {
         asSchoolId: asSchoolId,
-        asId: 2303,
+        asId: Number(Id),    /*2303,*/
     };
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
@@ -190,15 +190,16 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
 
         }
     }, [USDeleteInvestmentDocument]);
-    const ClickView = (value) => {
-        if (USInvestmentDocumentFile !== '') {
-            window.open(
-                localStorage.getItem('SiteURL') +
-                '/RITeSchool/DOWNLOADS/InvestmentDeclaration/InvestmentDetailsDocument/' +
-                value
-            );
-        }
+    const ClickView = (fileName) => {
+        window.open(
+            localStorage.getItem('SiteURL') +
+            '/RITeSchool//downloads/Investment%20Declarations/' +
+            fileName
+
+        );
+
     }
+
     return (
         <Dialog
             open={open}
@@ -275,6 +276,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                         FileLabel={'Upload Document '}
                                         width={'100%'}
                                         height={"52px"}
+                                        FilePath={USGetAllDocumentsList.length > 0 ? USGetAllDocumentsList.FileName : ''}
                                         // errorMessage={''}
                                         // isMandatory={false}
                                         errorMessage={fileNameError}
