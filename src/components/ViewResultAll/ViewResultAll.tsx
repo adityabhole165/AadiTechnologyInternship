@@ -267,11 +267,11 @@ const ViewResultAll = (props: Props) => {
                   Pawar Public Charitable Trust's
                 </Typography>
                 <hr />
-                <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
+                <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
                   PAWAR PUBLIC SCHOOL
                 </Typography>
                 <hr />
-                <Typography variant={"h4"} textAlign={'center'} color={"primary"} pb={1}>
+                <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
                   Final Result
                 </Typography>
                 </Box>
