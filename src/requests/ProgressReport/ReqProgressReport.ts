@@ -11,6 +11,7 @@ const ProgressReportSlice = createSlice({
     ISGetStudentNameDropdown: [],
     ISStudentProgressReport: [],
     ISlistTestDetailsArr: [],
+    ISlistTestDetailsArr1: [],
     ISlistStudentsDetails: [],
     ISlistSubjectsDetails: [],
     ISlistTestDetails: [],
@@ -43,6 +44,9 @@ const ProgressReportSlice = createSlice({
 
     RlistTestDetailsArr(state, action) {
       state.ISlistTestDetailsArr = action.payload;
+    },
+     RlistTestDetailsArr1(state, action) {
+      state.ISlistTestDetailsArr1 = action.payload;
     },
     RlistStudentsDetails(state, action) {
       state.ISlistStudentsDetails = action.payload;
@@ -106,13 +110,14 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0',NewValue:'0' }];
+      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0',NewValue:'0',asStandardId:'0' }];
       response.data.map((item, i) => {
         ClassTeachersList.push({
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
           Value: item.Teacher_Id,
-          NewValue:item.Teacher_Id
+          NewValue:item.Teacher_Id,
+          asStandardId:item.Standard_Id
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
@@ -192,6 +197,29 @@ export const CDAStudentProgressReport =
           })
         });
 
+
+        let listTestDetailsArr1 = []
+        response.data.listTestDetails
+          .filter(item => Number(item.Test_Id) !== -1)
+          .map(Tests => {
+            let arr = []
+            response.data.listSubjectsDetails.map((Subjects, i) => {
+              let temp = response.data.listSubjectIdDetails
+                .filter(item => (item.Subject_Id == Subjects.Subject_Id &&
+                  item.Original_SchoolWise_Test_Id == Tests.Original_SchoolWise_Test_Id
+                ))
+                arr.push({
+                  SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
+                  Grade: temp.length > 0 ? `${temp[0].Marks_Scored } / ${temp[0].TestType_Total_Marks}` : "-"
+                })
+            });
+            listTestDetailsArr1.push({
+              Test_Id: Tests.Test_Id,
+              Test_Name: Tests.Test_Name,
+              subjectIdArr: arr
+            })
+          });
+
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
 
@@ -258,6 +286,8 @@ export const CDAStudentProgressReport =
       let listTestDetails = []
 
       dispatch(ProgressReportSlice.actions.RlistTestDetailsArr(listTestDetailsArr));
+      dispatch(ProgressReportSlice.actions.RlistTestDetailsArr1(listTestDetailsArr1));
+
       dispatch(ProgressReportSlice.actions.RlistStudentsDetails(listStudentsDetails));
       dispatch(ProgressReportSlice.actions.RlistSubjectsDetails(listSubjectsDetails));
       dispatch(ProgressReportSlice.actions.RlistTestDetails(listTestDetails));
