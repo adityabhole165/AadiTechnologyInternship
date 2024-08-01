@@ -63,6 +63,7 @@ const ProgressReportNew = () => {
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
   const USlistStudentsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails);
   const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
+  console.log(USlistSubjectsDetails, "USlistSubjectsDetails");
 
   const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
   const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
@@ -76,17 +77,14 @@ const ProgressReportNew = () => {
   const Data = USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")
   const Data1 = USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")
   const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
-  const legendText = 'Legend * : Subject marks not considered in total marks';
+  const legendText = 'Legend : * Subject marks not considered in total marks';
   const formattedText = legendText.replace('*', '<span style="color: red;">*</span>');
   const USIsGradingStandard: any = useSelector((state: RootState) => state.ProgressReportNew.IsGradingStandarBodyIS);
-  console.log(USIsGradingStandard, "USIsGradingStandard  ");
 
   const USIsTestPublishedForStdDiv: any = useSelector((state: RootState) => state.ProgressReportNew.IsTestPublishedForStdDivBodyIS);
   const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
-  console.log(USIsTestPublishedForStdDiv, "USIsTestPublishedForStdDiv");
-  console.log(USIsTestPublishedForStudentIS, "USIsTestPublishedForStudentIS");
 
-
+  const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -125,8 +123,17 @@ const ProgressReportNew = () => {
     return returnVal
   };
 
-  console.log(Standard_Id(), "-", selectTeacher), "=", USGetClassTeachers;
-  console.log(USGetClassTeachers), "-----";
+  const hasEmptyMarks = USlistSubjectIdDetails.some((item) => item.Marks_Scored === "");
+  const hasGrade = USlistSubjectIdDetails.some((item) => item.Grade === "");
+
+  console.log(hasEmptyMarks, "--", hasGrade);
+  const StudentName = () => {
+    let classStudentName = '';
+    USGetStudentNameDropdown.map((item) => {
+      if (item.Value == StudentId) classStudentName = item.Name;
+    });
+    return classStudentName;
+  };
 
 
 
@@ -237,17 +244,17 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [StudentId]);
+  }, [Standard_Id]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
 
-  }, [StudentId]);
+  }, [StandardDivisionId()]);
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
 
-  }, [StudentId]);
+  }, [StandardDivisionId()]);
 
 
   useEffect(() => {
@@ -459,16 +466,18 @@ const ProgressReportNew = () => {
                     </Table>
 
                   </Box>
+
                   <Typography
                     sx={{ bgcolor: 'white' }}
                     dangerouslySetInnerHTML={{ __html: formattedText }}
                   />
+
                   <Box sx={{ overflowX: 'auto' }}>
                     <Table>
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#b3e5fc' }}>
                           <TableCell rowSpan={2}>
-                            <Typography variant={"h4"} textAlign={'left'} color={"primary"} ml={9} >
+                            <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
                               Subjects &#9654;
                             </Typography>
                             <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
@@ -563,7 +572,7 @@ const ProgressReportNew = () => {
 
 
                   </Box>
-                  <Box sx={{ mt: 1, background: 'white' }}>
+                  <Box sx={{ mt: 1, background: '#b2ebf2' }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
                       <div key={index}>
@@ -584,11 +593,11 @@ const ProgressReportNew = () => {
                       <TableBody>
                         {USlistStudentsDetails.map((item) => {
                           return (
-                            <TableRow sx={{ bgcolor: '#38548A' }}>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No:</b>{item.Roll_No} </TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Name:</b> {item.Student_Name}	</TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Year:</b> {item.Academic_Year}	</TableCell>
+                            <TableRow sx={{ bgcolor: 'white' }}>
+                              <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
+                              <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
+                              <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
                             </TableRow>
                           )
                         })}
@@ -596,21 +605,21 @@ const ProgressReportNew = () => {
                     </Table>
 
                   </Box>
-                  
-                  <Typography
-                    sx={{ bgcolor: 'white', p:2}}
-                    dangerouslySetInnerHTML={{ __html: formattedText }}
-                  />
-                 
+                  {hasTotalConsiderationN && (
+                    <Typography
+                      sx={{ bgcolor: 'white' }}
+                      dangerouslySetInnerHTML={{ __html: 'Your formatted text here' }}
+                    />
+                  )}
                   <Box sx={{ overflowX: 'auto' }}>
                     <Table>
                       <TableHead>
-                        <TableRow sx={{ bgcolor: '#F0F0F0' }}>
+                        <TableRow sx={{ bgcolor: '#b3e5fc' }}>
                           <TableCell rowSpan={2}>
-                            <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
+                            <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
                               Subjects &#9654;
                             </Typography>
-                            <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                            <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
                               &#9660; Exam
                             </Typography></TableCell>
                           {USlistSubjectsDetails.map((item) => (
@@ -627,10 +636,10 @@ const ProgressReportNew = () => {
                             </TableCell>
                           ))}
                         </TableRow>
-                        <TableRow sx={{backgroundColor:'white'}}>
+                        <TableRow>
                           {USListSubjectidDetails.map((item) => (
                             <TableCell >
-                              <Typography color="#38548A" textAlign={'left'} mr={8}  >
+                              <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
                                 <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                               </Typography>
                             </TableCell>
@@ -639,8 +648,8 @@ const ProgressReportNew = () => {
                       </TableHead>
                       {USlistTestDetailsArr1.map((testItem) => (
                         <TableBody key={testItem.id}>
-                          <TableRow  sx={{backgroundColor:'white'}}>
-                            <TableCell sx={{backgroundColor:'#F0F0F0'}} >{testItem.Test_Name}</TableCell>
+                          <TableRow>
+                            <TableCell>{testItem.Test_Name}</TableCell>
                             {testItem.subjectIdArr.map((subjectItem) => (
                               <TableCell>{subjectItem.Grade}</TableCell>
                             ))}
@@ -677,7 +686,11 @@ const ProgressReportNew = () => {
         </div>
       )}
 
+      {/* {USIsGradingStandard === true && hasGrade == true ?
+        <h1>  massage   {StudentName()} </h1> : USIsGradingStandard === false && hasEmptyMarks == true ?
+          <h1>  massage   {StudentName()}  </h1> : null
 
+      } */}
 
 
     </Box>

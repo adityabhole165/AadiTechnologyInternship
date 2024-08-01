@@ -170,7 +170,7 @@ export const CDAStudentProgressReport =
             Total_Consideration: item.Total_Consideration
         };
     });
-    
+  
       // console.log(response.data.listTestDetails, "Tests",
       //   response.data.listSubjectsDetails, "Subjects",
       //   response.data.listSubjectIdDetails, "ID Details"
@@ -223,7 +223,7 @@ export const CDAStudentProgressReport =
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
 
-          SchoolWise_Test_Name: item.SchoolWise_Test_Name,
+          Marks_Scored: item.Marks_Scored,
           Grade: item.Grade
 
         };
