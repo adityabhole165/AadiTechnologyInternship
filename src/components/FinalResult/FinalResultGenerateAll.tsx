@@ -1,6 +1,6 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -173,7 +173,7 @@ const GenerateAll = ({ }) => {
             {StudentDetailsUS && (
 
                 //  {showProgressReport && (
-                <div>
+                <div >
                     {(IsView == 'false' && isGenerated) && (
                         <div>
                             <Box sx={{ background: 'white' }}>
@@ -183,45 +183,44 @@ const GenerateAll = ({ }) => {
                                         Pawar Public Charitable Trust's
                                     </Typography>
                                     <hr />
-                                    <Typography variant={"h3"} textAlign={'center'} color={"primary"} mb={1}>
+                                    <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
                                         PAWAR PUBLIC SCHOOL
                                     </Typography>
                                     <hr />
-                                    <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
+                                    <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
                                         Progress Report
                                     </Typography>
-                                    <hr />
                                     <Table>
                                         <TableBody>
                                             {StudentDetailsUS.map((item, i) => {
                                                 return (
-                                                    <TableRow sx={{ bgcolor: 'grey.200' }} key={i}>
-                                                        <TableCell>Roll No: <b>{item.Text2}</b></TableCell>
-                                                        <TableCell>Name: <b>{item.Text1}</b></TableCell>
-                                                        <TableCell>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                        <TableCell>Year: <b>{item.Text5}</b></TableCell>
+                                                    <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
+                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No: {item.Text2}</b></TableCell>
+                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Name: {item.Text1}</b></TableCell>
+                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Class: {item.Text3} - {item.Text4}</b></TableCell>
+                                                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Year: {item.Text5}</b></TableCell>
                                                     </TableRow>
                                                 );
                                             })}
                                         </TableBody>
                                     </Table>
-                                    <Box sx={{ overflowX: 'auto' }}>
+                                    <Box sx={{ overflowX: 'auto',border:1 }}>
                                         <Table>
                                             <TableHead>
-                                                <TableRow sx={{ bgcolor: '#b3e5fc' }}>
+                                                <TableRow sx={{ bgcolor: '#F0F0F0' }}>
                                                     <TableCell rowSpan={2}>
-                                                        <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
+                                                        <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                                                             Subjects &#9654;
                                                         </Typography>
-                                                        <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                                                        <Typography variant={"h3"} textAlign={'left'} color={"black"}>
                                                             &#9660; Exam
                                                         </Typography></TableCell>
                                                     {/* {SubjectDetails.map((item) => ( */}
                                                     {HeaderArray.map((item) => (
                                                         // <TableCell><b>{item.Name}</b></TableCell>
                                                         <TableCell colSpan={item.colSpan}>
-                                                            <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                                <b style={{ marginRight: "9px" }}>{item.SubjectName}</b>
+                                                            <Typography color="black" textAlign={'left'} mr={5}  >
+                                                                <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                                             </Typography></TableCell>
                                                     ))}
                                                 </TableRow>
@@ -229,8 +228,8 @@ const GenerateAll = ({ }) => {
                                                     {/* {ShortenTestDetails.map((item) => ( */}
                                                     {SubHeaderArray.map((item) => (
                                                         <TableCell >
-                                                            <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
-                                                                <b style={{ marginRight: "9px" }}>{item.TestTypeName}</b>
+                                                            <Typography color="#38548A" textAlign={'center'} mr={9}  >
+                                                                <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
                                                             </Typography>
                                                         </TableCell>
                                                     ))}
@@ -238,13 +237,14 @@ const GenerateAll = ({ }) => {
                                             </TableHead>
 
                                             {MarkDetailsList.map((testItem, i) => (
-                                                <TableBody key={i}>
+                                                <TableBody key={i} sx={{backgroundColor:'#F0F0F0',alignItems:'center' }}>
                                                     <TableRow>
-                                                        <TableRow>
-                                                            {testItem.TestName}
+                                                        <TableRow sx={{}}>
+                                                           <b> {testItem.TestName}</b>
                                                         </TableRow>
+                                                        
                                                         {testItem.MarksArr.map((MarkItem) => (
-                                                            <TableCell>
+                                                            <TableCell sx={{backgroundColor:'white'}}>
                                                                 {
                                                                     MarkItem.IsAbsent == "N" ?
                                                                         MarkItem.MarksScored + " / " + MarkItem.TotalMarks :
@@ -265,54 +265,61 @@ const GenerateAll = ({ }) => {
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
                                 <Button
                                     onClick={onSaveGenerate}
-                                    variant="contained"
-                                    color="error"
+                                    // variant="contained"
+                                    // color="error"
+                                    sx={{
+                                        color:'green',
+                                        //   backgroundColor: green[500],
+                                          '&:hover': {
+                                        color:'green',
+                                         backgroundColor: green[100]
+                                          }}}
                                 >
-                                    SAVE & GENERATE RESULT
+                                    Save & Generate Result
                                 </Button>
                             </Box>
                         </div>
                     )}
                     {(isResultGenerated || isGenerated == 'Y') && ( // Conditionally display the final result section
-                        <Box sx={{ mt: 1, background: 'white' }}>
+                        <Box sx={{ mt: 2, background: 'white' }}>
                             <Box>
                                 <hr />
                                 <Typography variant={"h4"} textAlign={'center'} color={"primary"}>
                                     Pawar Public Charitable Trust's
                                 </Typography>
                                 <hr />
-                                <Typography variant={"h3"} textAlign={'center'} color={"primary"} >
+                                <Typography variant={"h3"} textAlign={'center'} color={"black"} >
                                     PAWAR PUBLIC SCHOOL
                                 </Typography>
                                 <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"primary"} >
+                                <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
                                     Final Result
                                 </Typography>
-                                <hr />
+                                
                                 <Table>
                                     <TableBody>
                                         {ViewProgress.map((item, i) => {
                                             return (
-                                                <TableRow sx={{ bgcolor: 'grey.200' }} key={i}>
-                                                    <TableCell>Roll No: <b>{item.Text2}</b></TableCell>
-                                                    <TableCell>Name: <b>{item.Text1}</b></TableCell>
-                                                    <TableCell>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
-                                                    <TableCell>Year: <b>{item.Text5}</b></TableCell>
+                                                <TableRow sx={{ bgcolor: '#38548A' }} key={i}>
+                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Roll No: <b>{item.Text2}</b></TableCell>
+                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Name: <b>{item.Text1}</b></TableCell>
+                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Class: <b>{item.Text3} - {item.Text4}</b></TableCell>
+                                                    <TableCell sx={{textAlign:'center', color:'white'}}>Year: <b>{item.Text5}</b></TableCell>
                                                 </TableRow>
                                             );
                                         })}
                                     </TableBody>
                                 </Table>
 
-                                <Box sx={{ overflowX: 'auto' }}>
-                                    <Table>
-                                        <TableBody>
-                                            <TableRow>
-                                                <Typography variant={"h4"} textAlign={'left'} color={"primary"} mt={3} ml={2}>
+                                <Box sx={{ overflowX: 'auto',border:1}}>
+                                    <Table >
+                                        <TableBody >
+                                            <TableRow sx={{ bgcolor: '#F0F0F0' }}>
+                                                <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={2} ml={2}>
                                                     Subjects
                                                 </Typography>
                                                 {SubjectDetailsView.map((subject, i) => (
-                                                    <TableCell key={i}><b>{subject.Name}</b></TableCell>
+                                                    <TableCell key={i} sx={{color:'black'}}><b>{subject.Name}</b></TableCell>
                                                 ))}
                                             </TableRow>
                                             <TableRow>

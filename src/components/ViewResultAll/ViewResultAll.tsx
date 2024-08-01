@@ -311,7 +311,7 @@ const ViewResultAll = (props: Props) => {
                     <TableBody>
                       <TableRow sx={{backgroundColor:'#F0F0F0'}}>
                         <TableCell>
-                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
+                        <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={1} ml={1}>
                           Subjects
                         </Typography></TableCell>
                         {SubjectDetailsView.map((subject) => (
@@ -330,7 +330,7 @@ const ViewResultAll = (props: Props) => {
                         {!showOnlyGrades && (
                           <>
                           <TableCell sx={{backgroundColor:'#F0F0F0'}}>
-                            <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
+                            <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
                               Marks
                             </Typography>
                             </TableCell>
@@ -342,7 +342,7 @@ const ViewResultAll = (props: Props) => {
                       </TableRow>
                       <TableRow>
                       <TableCell sx={{backgroundColor:'#F0F0F0'}}>
-                        <Typography variant={"h4"} textAlign={'center'} color={"primary"} mt={0}>
+                        <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
                           Subject Grade
                         </Typography></TableCell>
                         {GradesDetailsView.map((Grade) => (

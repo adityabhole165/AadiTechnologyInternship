@@ -479,10 +479,10 @@ const ProgressReportNew = () => {
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#b3e5fc' }}>
                           <TableCell rowSpan={2}>
-                            <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
+                            <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                               Subjects &#9654;
                             </Typography>
-                            <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                            <Typography variant={"h3"} textAlign={'left'} color={"black"}>
                               &#9660; Exam
                             </Typography></TableCell>
                           {USlistSubjectsDetails.map((item) => (
