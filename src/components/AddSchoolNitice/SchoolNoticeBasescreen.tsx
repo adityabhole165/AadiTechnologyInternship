@@ -357,7 +357,7 @@ const SchoolNoticeBaseScreen = () => {
             />
             {Loading && <SuspenseLoader />}
 
-            <Grid container>
+            <Grid sx={{backgroundColor:'white', mb:2, p:2}}>
                 <Grid sm={12} px={2} sx={{ display: 'flex', justifyItems: "center" }} >
                     <Grid >
                         <FormControl component="fieldset">
@@ -377,7 +377,7 @@ const SchoolNoticeBaseScreen = () => {
                 </Grid>
             </Grid >
 
-            <Box sx={{ background: 'white', p: 2 }}>
+            <Box sx={{ background: 'white', pr: 2, pl:2, pt:1, pb:2 }}>
                 {singleTotalCount > 0 ? (
                     <div style={{ flex: 1, textAlign: 'center' }}>
                         <Typography
@@ -417,7 +417,7 @@ const SchoolNoticeBaseScreen = () => {
                         </Typography>
                     </Box>
                 )}
-                <br />
+                
                 {endRecord > 19 ? (
                     <ButtonGroupComponent
                         rowsPerPage={rowsPerPage}

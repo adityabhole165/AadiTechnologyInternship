@@ -67,7 +67,7 @@ function SchoolNoticeList({
 
                     <TableContainer component={Box}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-                            <TableHead>
+                            <TableHead sx={{overflow:'auto'}}>
                                 <TableRow
                                     sx={{ background: (theme) => theme.palette.secondary.main }}
                                 >
@@ -76,7 +76,8 @@ function SchoolNoticeList({
                                             key={i}
                                             sx={{
                                                 color: (theme) => theme.palette.common.white, py: 1,
-                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'center' : 'left'
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'center' : 'left', width:'auto', paddingTop: '2.5px', paddingBottom: '2.5px'
+
                                             }}
                                             onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
 
@@ -97,7 +98,7 @@ function SchoolNoticeList({
                                         <TableRow key={index} >
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: 'Auto', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
