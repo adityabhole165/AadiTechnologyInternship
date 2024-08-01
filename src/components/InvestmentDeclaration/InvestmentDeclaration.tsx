@@ -402,7 +402,8 @@ const InvestmentDeclaration = () => {
                             <Grid item xs={12} key={detail.UserId}>
                                 <Box sx={{
                                     backgroundColor: '#F0F0F0',
-                                    textAlign: 'center', marginBottom: 2
+                                    textAlign: 'center', marginBottom: 2,
+                                    
                                 }}>
                                     <hr />
                                     <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
@@ -432,7 +433,7 @@ const InvestmentDeclaration = () => {
                                                 border={1}
                                                 borderRadius={40}
                                                 pl={1}
-                                                pr={7.3}
+                                                pr={7.4}
                                                 mr={1}
                                                 mt={0}
                                                 component="span"
@@ -519,7 +520,7 @@ const InvestmentDeclaration = () => {
                                                 border={1}
                                                 borderRadius={4}
                                                 pl={1}
-                                                pr={5.5}
+                                                pr={5.4}
                                                 mr={1}
                                                 mt={0.5}
                                                 component="span"
