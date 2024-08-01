@@ -250,19 +250,20 @@ const TExamScheduleNew = () => {
                                             sx={{ 
                                                 '& > *': {
                                                     borderBottom: '1px solid white',
-                                                    // textAlign: 'center', // Center align headers
+                                                    textAlign: 'center', // Center align headers
                                                     color:'white'
                                                 },
                                                 '& > :not(:first-of-type)': {
                                                     borderLeft: '1px solid white',
-                                                     color:'white'
+                                                     color:'white',
+                                                     textAlign: 'center'
                                                 }
                                             }}>
-                                                <TableCell sx={{ width: '14%', textAlign: 'left', p:1 }}>Date</TableCell>
+                                                <TableCell sx={{ width: '14%', textAlign: 'left', p:1, color:'white' }}>Date</TableCell>
                                                 <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Time</TableCell>
                                                 <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
-                                                    <TableCell key={index} sx={{ textAlign: 'center', p:1 }}>{className}</TableCell>
+                                                    <TableCell key={index} sx={{ textAlign: 'left', p:1 }}>{className}</TableCell>
                                                 ))}
                                                 {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center',p:1}}>Subject</TableCell>}
                                                 {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center', p:1}}>Description</TableCell>}
@@ -275,21 +276,21 @@ const TExamScheduleNew = () => {
                                                 const uniqueDates = new Set();
 
                                                 return items.length > 0 ? (
-                                                    <TableRow key={index} sx={{ '& > *': { borderBottom: '1px solid grey', textAlign: 'center', pt:0,pb:0 } }}>
+                                                    <TableRow key={index} sx={{ '& > *': { textAlign: 'center', pl:0,pb:0 } }}>
                                                         <TableCell sx={{textAlign: 'left'}}>{uniqueDates.has(date) ? '' : date}</TableCell>
                                                         <TableCell sx={{textAlign: 'left'}}>{getTime(startTime, endTime) || '-'}</TableCell>
                                                         <TableCell sx={{textAlign: 'left'}}>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
 
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', 
-                                                                 whiteSpace: 'pre-line', pt:0,pb:0 }}>
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'left', 
+                                                                 whiteSpace: 'pre-line'}}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
                                                                         .map((item, idx, arr) => (
                                                                             <p key={idx}>
                                                                                 <div>{item.header || '-'}</div>
-                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px 0' }} />}
+                                                                                {idx !== arr.length - 1 && <div style={{ borderTop: '1px solid grey', margin: '4px ' }} />}
                                                                             </p>
                                                                         ))}
                                                                     {/* Display '-' if no items match the className */}
@@ -299,7 +300,7 @@ const TExamScheduleNew = () => {
                                                             ))
                                                         ) : (
                                                             <>
-                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey',  pt:0,pb:0 }}>
+                                                                <TableCell sx={{ textAlign: 'center'}}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name)
                                                                         .map((item, idx, arr) => (
@@ -309,7 +310,7 @@ const TExamScheduleNew = () => {
                                                                             </p>
                                                                         ))}
                                                                 </TableCell>
-                                                                <TableCell sx={{ textAlign: 'center', borderBottom: '1px solid grey' }}>
+                                                                <TableCell sx={{ textAlign: 'center'}}>
                                                                     {items.length > 0 ? (
                                                                         items.map((item, idx, arr) => (
                                                                             <p key={idx}>
