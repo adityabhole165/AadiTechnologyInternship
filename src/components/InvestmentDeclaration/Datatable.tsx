@@ -113,8 +113,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                 <TableRow key={rowIndex}>
                                     <TableCell>{page * rowsPerPage + rowIndex + 1}</TableCell>
                                     {columns.map((column, i) => (<>{(GroupAmount == 0) ?
-
-                                        < TableCell  {...column.cellProps} key={column.id}>
+                                        < TableCell  {...column.cellProps} key={column.id} >
                                             {column.renderCell ? column.renderCell(row, rowIndex) : row[column.id]}
                                         </TableCell >
                                         : <>{(i != 2) &&
@@ -124,13 +123,18 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                     }
                                     </>
                                     ))}
-                                    {GroupAmount != 0 &&
-                                        < TableCell>
+                                    
+                                    {GroupAmount != 0 && rowIndex % 12 ===0 &&(
+                                        < TableCell rowSpan={tableData.filter(r => r.GroupAmount === row.GroupAmount).length}  align='left' sx={{border: (theme) => `1px solid ${theme.palette.divider}`}}>
                                             {GroupAmount}
                                         </TableCell >
-                                    }
+                                    )}
 
-
+                                        {/* {GroupAmount !== 0 && isGroupAmountDifferent && (
+                                            <TableCell rowSpan={tableData.filter(r => r.GroupAmount === row.GroupAmount).length}>
+                                                {GroupAmount}
+                                            </TableCell>
+                                        )} */}
 
                                     <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                         <TextField
