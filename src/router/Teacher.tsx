@@ -211,7 +211,9 @@ const InvestmentDetailsDocument = Loader(
 const RequistionView = Loader(
   lazy(() => import('src/components/Requisition/RequistionView'))
 )
-
+const ViewLeaveDetails = Loader(
+  lazy(() => import('src/components/LeaveDetails/ViewLeaveDetails'))
+)
 
 const teacherRoutes = [
 
@@ -226,6 +228,10 @@ const teacherRoutes = [
   {
     path: 'AddLeaveDetails',
     element: <AddLeaveDetails />
+  },
+  {
+    path: 'ViewLeaveDetails/:LeaveDId/:ParamsUserId',
+    element: <ViewLeaveDetails />
   },
   {
     path: 'GenerateAll',

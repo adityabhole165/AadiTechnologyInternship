@@ -276,7 +276,7 @@ const LeaveDetailsBaseScreen = () => {
     const ViewLeave = (Id) => {
         console.log(Id, "value");
 
-        navigate("../AddLeaveDetails" + "/" + Id + "/" + asUserId)
+        navigate("../ViewLeaveDetails" + "/" + Id + "/" + asUserId)
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);
