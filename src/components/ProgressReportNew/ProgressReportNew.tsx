@@ -433,11 +433,11 @@ const ProgressReportNew = () => {
                   </Box>
 
 
-                  <Box sx={{ mt: 1, background: '#b2ebf2' }}>
+                  <Box sx={{ mt: 1, background: 'white' }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
                       <div key={index}>
-                        <Typography variant="h4" textAlign="center" color="black" mb={1}>
+                        <Typography variant="h4" textAlign="center" color="primary" mb={1}>
                           {subject.School_Orgn_Name}
                         </Typography>
                         <hr />
@@ -454,11 +454,11 @@ const ProgressReportNew = () => {
                       <TableBody>
                         {USlistStudentsDetails.map((item) => {
                           return (
-                            <TableRow sx={{ bgcolor: 'white' }}>
-                              <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
-                              <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
-                              <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
+                            <TableRow sx={{ bgcolor: '#38548A' }}>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No:</b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Name:</b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Year:</b> {item.Academic_Year}	</TableCell>
                             </TableRow>
                           )
                         })}
@@ -574,11 +574,11 @@ const ProgressReportNew = () => {
 
 
                   </Box>
-                  <Box sx={{ mt: 1, background: '#b2ebf2' }}>
+                  <Box sx={{ mt: 1, background: 'white', }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
                       <div key={index}>
-                        <Typography variant="h4" textAlign="center" color="black" mb={1}>
+                        <Typography variant="h4" textAlign="center" color="primary" mb={1}>
                           {subject.School_Orgn_Name}
                         </Typography>
                         <hr />
@@ -595,11 +595,11 @@ const ProgressReportNew = () => {
                       <TableBody>
                         {USlistStudentsDetails.map((item) => {
                           return (
-                            <TableRow sx={{ bgcolor: 'white' }}>
-                              <TableCell><b>Roll No:</b>{item.Roll_No} </TableCell>
-                              <TableCell><b>Name:</b> {item.Student_Name}	</TableCell>
-                              <TableCell><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell><b>Year:</b> {item.Academic_Year}	</TableCell>
+                            <TableRow sx={{ bgcolor: '#38548A' }}>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Name: </b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Year: </b> {item.Academic_Year}	</TableCell>
                             </TableRow>
                           )
                         })}
@@ -609,19 +609,19 @@ const ProgressReportNew = () => {
                   </Box>
                   {hasTotalConsiderationN && (
                     <Typography
-                      sx={{ bgcolor: 'white' }}
+                      sx={{ bgcolor: 'white', p:2 }}
                       dangerouslySetInnerHTML={{ __html: formattedText }}
                     />
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
                     <Table>
                       <TableHead>
-                        <TableRow sx={{ bgcolor: '#b3e5fc' }}>
+                        <TableRow sx={{ bgcolor: '#F0F0F0' }}>
                           <TableCell rowSpan={2}>
-                            <Typography variant={"h3"} textAlign={'left'} color={"primary"} ml={9} >
+                            <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                               Subjects &#9654;
                             </Typography>
-                            <Typography variant={"h3"} textAlign={'left'} color={"primary"}>
+                            <Typography variant={"h3"} textAlign={'left'} color={"black"}>
                               &#9660; Exam
                             </Typography></TableCell>
                           {USlistSubjectsDetails.map((item) => (
@@ -640,18 +640,19 @@ const ProgressReportNew = () => {
                         </TableRow>
                         <TableRow>
                           {USListSubjectidDetails.map((item) => (
-                            <TableCell >
-                              <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
+                            <TableCell sx={{backgroundColor:'white'}}>
+                              <Typography color="#38548A" textAlign={'left'} mr={8}  >
                                 <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                               </Typography>
                             </TableCell>
                           ))}
                         </TableRow>
                       </TableHead>
+                      
                       {USlistTestDetailsArr1.map((testItem) => (
                         <TableBody key={testItem.id}>
-                          <TableRow>
-                            <TableCell>{testItem.Test_Name}</TableCell>
+                          <TableRow sx={{backgroundColor:'white'}}>
+                            <TableCell sx={{backgroundColor:'#F0F0F0'}}>{testItem.Test_Name}</TableCell>
                             {testItem.subjectIdArr.map((subjectItem) => (
                               <TableCell>{subjectItem.Grade}</TableCell>
                             ))}
