@@ -467,10 +467,12 @@ const ProgressReportNew = () => {
 
                   </Box>
 
-                  <Typography
-                    sx={{ bgcolor: 'white' }}
-                    dangerouslySetInnerHTML={{ __html: formattedText }}
-                  />
+                  {hasTotalConsiderationN && (
+                    <Typography
+                      sx={{ bgcolor: 'white' }}
+                      dangerouslySetInnerHTML={{ __html: formattedText }}
+                    />
+                  )}
 
                   <Box sx={{ overflowX: 'auto' }}>
                     <Table>
@@ -608,7 +610,7 @@ const ProgressReportNew = () => {
                   {hasTotalConsiderationN && (
                     <Typography
                       sx={{ bgcolor: 'white' }}
-                      dangerouslySetInnerHTML={{ __html: 'Your formatted text here' }}
+                      dangerouslySetInnerHTML={{ __html: formattedText }}
                     />
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
