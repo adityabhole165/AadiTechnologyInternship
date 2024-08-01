@@ -210,8 +210,9 @@ export const CDAStudentProgressReport =
                 ))
                 arr.push({
                   SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
-                  Grade: temp.length > 0 ? `${temp[0].Marks_Scored } / ${temp[0].TestType_Total_Marks}` : "-"
-                })
+                  Grade: temp.length > 0 ? `${parseInt(temp[0].Marks_Scored)} / ${temp[0].TestType_Total_Marks}` : "-"
+                });
+                
             });
             listTestDetailsArr1.push({
               Test_Id: Tests.Test_Id,
