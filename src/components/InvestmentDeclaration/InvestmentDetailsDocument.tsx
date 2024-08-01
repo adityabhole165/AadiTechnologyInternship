@@ -199,13 +199,17 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         );
 
     }
+    const handleDialogClose = () => {
+        ResetForm();
+        handleClose();
+    }
 
     return (
         <Dialog
             open={open}
             maxWidth={'md'}
             fullWidth
-            onClose={handleClose}
+            onClose={handleDialogClose}
             PaperProps={{
                 sx: {
                     borderRadius: "15px",
@@ -213,7 +217,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             }}
         >
             <DialogTitle sx={{ bgcolor: '#223354' }}>
-                <ClearIcon onClick={handleClose}
+                <ClearIcon onClick={handleDialogClose}
                     sx={{
                         color: 'white',
                         // background:'white',
@@ -316,7 +320,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
             <DialogActions sx={{ py: 2, px: 3 }}>
                 <Button
                     color={'error'}
-                    onClick={handleClose}
+                    onClick={handleDialogClose}
                 >
                     Cancel
                 </Button>
