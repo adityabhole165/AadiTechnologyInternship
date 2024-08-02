@@ -357,8 +357,8 @@ const SchoolNoticeBaseScreen = () => {
             />
             {Loading && <SuspenseLoader />}
 
-            <Grid sx={{backgroundColor:'white', mb:2, p:2}}>
-                <Grid sm={12} px={2} sx={{ display: 'flex', justifyItems: "center" }} >
+            <Grid sx={{backgroundColor:'white', mb:2, p:1}}>
+                <Grid sm={12} px={0} sx={{ display: 'flex', justifyItems: "center" }} >
                     <Grid >
                         <FormControl component="fieldset">
                             <RadioGroup
