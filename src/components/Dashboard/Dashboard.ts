@@ -28,7 +28,7 @@ const DashboardData = {
         Color: '#81c784',
         iconColor: '#35abd9',
         Icon: AssignmentIcon,
-        Link: 'Common/SchoolNotice',
+        Link: 'Teacher/SchoolNoticeBasescreen',
         index: 1,
         ModulesPermission: 'EnableSchoolNotices'
       },
@@ -296,7 +296,7 @@ const DashboardData = {
         Color: '#81c784',
         iconColor: '#35abd9',
         Icon: AssignmentIcon,
-        Link: 'Common/SchoolNotice',
+        Link: 'Teacher/SchoolNoticeBasescreen',
         index: 1
       },
       {
@@ -612,15 +612,6 @@ const DashboardData = {
         index: 29
       },
       {
-        Text1: 'Add School Notice ',
-        Text2: '',
-        Color: '#81c784',
-        iconColor: '#35abd9',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/SchoolNoticeBasescreen',
-        index: 29
-      },
-      {
         Text1: 'Investment Declaration',
         Text2: '',
         Color: '#81c784',
@@ -639,7 +630,7 @@ const DashboardData = {
         Color: '#90a4ae',
         iconColor: '#35abd9',
 
-        Link: 'Common/schoolnotice',
+        Link: 'Teacher/SchoolNoticeBasescreen',
         index: 1,
         ScreenPermission: 'SchoolNotices'
       },
