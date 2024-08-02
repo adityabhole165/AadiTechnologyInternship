@@ -209,7 +209,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Investment Declaration',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration'
-
+    },
+    {
+      title: 'School Notices',
+      icon: <Assignment />,
+      link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
     }
 
   ];
