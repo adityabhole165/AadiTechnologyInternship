@@ -293,6 +293,7 @@ const WeeklyTimetable = (props: Props) => {
     }, [teacher, standard, division])
 
     const ClickAdditionalLecture = () => {
+        ClearAddLecForTeacherFields();
         setShowAddAdditionalLectures(true);
         setIsSubmitAdLecToTeacher(false);
         const AdditionalLecturesBody: IGetDataForAdditionalClassesBody = {
