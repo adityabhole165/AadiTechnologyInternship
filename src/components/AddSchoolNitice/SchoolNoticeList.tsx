@@ -76,7 +76,7 @@ function SchoolNoticeList({
                                             key={i}
                                             sx={{
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'left', pt:2, pb:2
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt:1.5, pb:1.5
 
                                             }}
                                             onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
