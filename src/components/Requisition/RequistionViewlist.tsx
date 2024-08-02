@@ -53,6 +53,25 @@ function RequistionViewlist({
 
                                 {item.ItemQty} {item.UOMUnit}
                             </TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : '' }}>
+
+                                {item.ItemOrgQty} {item.UOMUnit}
+                            </TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : '' }}>
+
+                                {item.IssueQty} {item.UOMUnit}
+                            </TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : '' }}>
+
+                                {item.ReturnQty} {item.UOMUnit}
+                            </TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', color: item.ItemStatus === "Denied" ? red[500] : '' }}>
+
+                                {item.CancelQty} {item.UOMUnit}
+                            </TableCell>
+
+
+
                         </TableRow>
                     ))}
                 </TableBody>

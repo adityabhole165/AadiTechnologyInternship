@@ -1,7 +1,7 @@
 
 
 
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -11,9 +11,10 @@ import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import Requisioneditlist from './Requisioneditlist';
-
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import RequistionViewlist from './RequistionViewlist';
 import Datepicker from './Datepicker';
+import { grey } from '@mui/material/colors';
 
 const RequistionView = () => {
     const dispatch = useDispatch();
@@ -51,6 +52,10 @@ const RequistionView = () => {
         { Id: 2, Header: 'Item Name' },
         { Id: 3, Header: 'Current Stock' },
         { Id: 4, Header: 'Item Quantity' },
+        { Id: 5, Header: 'Original Qty' },
+        { Id: 6, Header: 'Issued Qty' },
+        { Id: 7, Header: 'Returned Qty' },
+        { Id: 8, Header: 'Cancelled Qty' }
     ];
 
     const HeaderPublish1 = [
@@ -86,6 +91,19 @@ const RequistionView = () => {
 
                 rightActions={
                     <>
+                     <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: grey[500],
+                                    mr:-1,
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: grey[600] }
+                                }}
+                            >
+                                <QuestionMarkIcon />
+                            </IconButton>
+                        </Tooltip>
 
                     </>}
             />
