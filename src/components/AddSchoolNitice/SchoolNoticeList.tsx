@@ -82,11 +82,13 @@ function SchoolNoticeList({
                                             onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
 
                                         >
+                                            <Box sx={{display:'flex', gap:0.5}}>
                                             <b>{item.Header}</b>
                                             {item.SortOrder !== null && item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ?
-                                                item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                item.SortOrder === "desc" ? <ArrowDropDownCircleIcon/> : <ArrowCircleUpIcon />
                                                 : null
                                             }
+                                            </Box>
                                         </TableCell>
                                     ))} <span></span>
                                 </TableRow>
@@ -122,7 +124,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '300px', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
