@@ -117,7 +117,7 @@ const SchoolNoticeBaseScreen = () => {
         }
     }, [UpdateSelectedNotice])
 
-
+    //thank you
     const deleteRow = (Id: number) => {
         const DeleteSchoolNoticeBody: IDeleteSchooNoticeBody = {
             asSchoolId: Number(asSchoolId),
