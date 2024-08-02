@@ -331,7 +331,7 @@ const AddLeaveDetails = () => {
 
             {LeaveDId === undefined ? (
                 <>
-                    <Tooltip title={'Cancel'}>
+                    <Tooltip title={'Clear'}>
                         <IconButton
                             sx={{
                                 color: 'white',
@@ -436,7 +436,7 @@ const AddLeaveDetails = () => {
                             fullWidth
                             InputLabelProps={{ shrink: true }}
                             label={<>
-                                Staff Name <span style={{ color: 'red' }}>*</span>
+                                Staff Name
                             </>}
                             sx={{ bgcolor: '#D3D3D3' }}
                             InputProps={{
