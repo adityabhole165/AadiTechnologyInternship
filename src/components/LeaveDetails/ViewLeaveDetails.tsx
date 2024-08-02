@@ -9,7 +9,6 @@ import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { IGetApproveOrRejectLeaveBody, IGetIsValidateLeaveDateBody } from 'src/interfaces/LeaveDetails/IAddLeaveDetails';
 import { IGetViewLeaveBody } from 'src/interfaces/LeaveDetails/ILeaveDetails';
-import Datepicker from "src/libraries/DateSelector/Datepicker";
 import ErrorMessage1 from "src/libraries/ErrorMessages/ErrorMessage1";
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { getapproveorreject, getLeaveBalance, LeaveTypeDropdown, resetapproveorreject, StartDateEndDateValidations } from 'src/requests/LeaveDetails/RequestAddLeave';
@@ -18,11 +17,12 @@ import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import DatepickerLeave from './DatepickerLeave';
 
 const ViewLeaveDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { LeaveDId } = useParams();
+    const { LeaveDId, selectCategory } = useParams();
     console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -193,6 +193,30 @@ const ViewLeaveDetails = () => {
         }
         dispatch(getapproveorreject(RejectBody))
     }
+    const getButtonDisEnaRAR = (selectCategory, tblRemarkVisible, RemarkEnabled, btnApproveEnabled, btnRejectEnabled) => {
+        let returnVal = false;
+        if (selectCategory == '1') {
+            tblRemarkVisible = false;
+        } else if (selectCategory == '4') {
+            RemarkEnabled = false;
+            btnApproveEnabled = false;
+            btnRejectEnabled = false;
+        }
+        else {
+            tblRemarkVisible = true;
+            if (GetViewLeave[0].LeaveId != null && GetViewLeave[0].LeaveId != 0) {
+                if (GetViewLeave[0].ApproverRemark != '') {
+                    RemarkEnabled = GetViewLeave[0].ApproverRemark;
+                    RemarkEnabled = false;
+                    btnApproveEnabled = false;
+                    btnApproveEnabled = false;
+                }
+            }
+        }
+
+        return returnVal;
+    };
+
     const rightActions = (
         <>
             <Tooltip title={'Here you can apply for, approve, or reject leave requests.'}>
@@ -224,20 +248,26 @@ const ViewLeaveDetails = () => {
                         <PersonRemove />
                     </IconButton>
                 </Tooltip>
-                <Tooltip title={'Approve'}>
-                    <IconButton
-                        sx={{
-                            backgroundColor: green[500],
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: green[600]
-                            }
-                        }}
-                        onClick={onClickApprove}
-                    >
-                        <HowToReg />
-                    </IconButton>
-                </Tooltip></>
+                {/* {getButtonDisEnaRAR() && ( */}
+                <Box>
+                    <Tooltip title={'Approve'}>
+                        <IconButton
+                            sx={{
+                                backgroundColor: green[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: green[600]
+                                }
+                            }}
+                            onClick={onClickApprove}
+                        >
+                            <HowToReg />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+                {/* )} */}
+            </>
+
 
         </>
     );
@@ -296,11 +326,12 @@ const ViewLeaveDetails = () => {
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Datepicker
+                        <DatepickerLeave
                             DateValue={StartDate}
                             onDateChange={onSelectStartDate}
                             label={'Start Date'}
                             size={"medium"}
+                            disabled={true}
                         />
                         <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorStartDate2}></ErrorMessage1>
@@ -309,11 +340,12 @@ const ViewLeaveDetails = () => {
 
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Datepicker
+                        <DatepickerLeave
                             DateValue={EndDate}
                             onDateChange={onSelectEndDate}
                             label={'End Date'}
                             size={"medium"}
+                            disabled={true}
                         />
                         <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
                         <ErrorMessage1 Error={ErrorEndDate1}></ErrorMessage1>
