@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
-import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDivisionForStdDropdownBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -25,6 +25,7 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetClassLecNoWeekday: [],
         ISGetSaveTeacherTimetableMsg: '',
         ISWeekdayId: [],
+        ISGetManageClassTimeTableMsg: '',
         Loading: true
     },
     reducers: {
@@ -105,6 +106,14 @@ const WeeklyTimeTableSlice = createSlice({
         RGetClassLecNoWeekday(state, action) {
             state.ISGetClassLecNoWeekday = action.payload;
             state.Loading = false;
+        },
+        RGetManageClassTimeTableMsg(state, action) {
+            state.ISGetManageClassTimeTableMsg = action.payload;
+            state.Loading = false;
+        },
+        RClearManageClassTimeTableMsg(state) {
+            state.ISGetManageClassTimeTableMsg = '';
+            state.Loading = false;
         }
     }
 });
@@ -161,26 +170,36 @@ export const CDAGetDataForAdditionalClasses =
                     }
                 )
             })
+            WeekDayList.unshift({ Id: '0', Name: 'Select', Value: '0' })
 
             let LectureNumberList = response.data.listLectureNumber.map((item) => {
                 return (
                     {
                         Id: item.Lecture_Number,
                         Name: item.Lecture_Number,
-                        Value: item.Lecture_Number
+                        Value: item.Lecture_Number,
+                        WeekdayId: item.Weekday_Id
                     }
                 )
             })
-
-            let SubjectNameList = response.data.listclasssSubjectName.map((item) => {
+            LectureNumberList.unshift({ Id: '0', Name: 'Select', Value: '0', WeekdayId: '0' })
+            let FilterClassSubjectName = response.data.listClassName.map((item) => {
                 return (
                     {
-                        Id: item.Subject_Id,
-                        Name: item.classSubjectName,
-                        Value: item.Subject_Id
+                        stdDivId: item.Standard_Division_Id
                     }
                 )
-            })
+            });
+
+            let SubjectNameList = response.data.listclasssSubjectName.map((item) => {
+                return !FilterClassSubjectName.some(filterItem => filterItem.stdDivId === item.Standard_Division_Id) ? {
+                    Id: item.Subject_Id,
+                    Name: item.classSubjectName,
+                    Value: item.Subject_Id,
+                    StdDivId: item.Standard_Division_Id
+                } : null;
+            }).filter(item => item !== null); // Remove null values
+            SubjectNameList.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0' })
 
             dispatch(WeeklyTimeTableSlice.actions.RAddClassesLectureNumber(LectureNumberList));
             dispatch(WeeklyTimeTableSlice.actions.RAddClassesWeekDay(WeekDayList));
@@ -194,6 +213,22 @@ export const CDAResetTimetable =
             const response = await WeeklyTimeTableApi.GetResetTimetableApi(data);
             dispatch(WeeklyTimeTableSlice.actions.RGetResetTimetableMsg(response.data));
         }
+
+export const CDAManageClassTimeTable =
+    (data: IGetManageClassTimeTableBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetManageClassTimeTableApi(data);
+            dispatch(WeeklyTimeTableSlice.actions.RGetManageClassTimeTableMsg(response.data));
+        }
+
+export const CDAClearManageClassTimeTable =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.RClearManageClassTimeTableMsg());
+        }
+
 export const CDAGetResetTimetableMsgClear =
     (): AppThunk =>
         async (dispatch) => {

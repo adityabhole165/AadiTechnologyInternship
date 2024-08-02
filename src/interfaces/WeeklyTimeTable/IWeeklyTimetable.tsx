@@ -92,7 +92,16 @@ export interface IGetDataForAdditionalClassesResult {
             Weekday_Id: string
         }
     ],
-    listSubjectName: any,
+    listSubjectName: [
+        {
+            Standard_Division_Id: string,
+            Lecture_Number: string,
+            WeekDay_Name: string,
+            Subject_Name: string,
+            ClassName: string,
+            Weekday_Id: string
+        }
+    ],
     listLectureNO: any
 
 }
@@ -250,4 +259,16 @@ export interface IGetSaveTeacherTimeTableBody {
     asTeacherXML: string,
     IsAdditionalClass: Number,
     asIncCnt: Number
+}
+
+// Additional Lecture For Teacher | API Interface
+export interface IGetManageClassTimeTableBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInserted_By_id: Number,
+    asStandardDivId: Number,
+    asDayTimeTableMasterXml: string,
+    asDayTimeTableDetailsXml: string,
+    asIsAdditionalClass: boolean,
+    asIsCountInceased: Number
 }
