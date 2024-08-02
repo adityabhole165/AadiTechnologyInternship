@@ -75,8 +75,8 @@ function SchoolNoticeList({
                                         <TableCell
                                             key={i}
                                             sx={{
-                                                color: (theme) => theme.palette.common.white, py: 1,
-                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'center' : 'left', width:'auto', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                color: (theme) => theme.palette.common.white,
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'left', pt:2, pb:2
 
                                             }}
                                             onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
@@ -98,7 +98,7 @@ function SchoolNoticeList({
                                         <TableRow key={index} >
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: 'Auto', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '220px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -106,7 +106,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '150px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '200px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="left"
                                             >
@@ -114,23 +114,23 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '300px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '300px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {moment(item.Text2).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '300px', wordWrap: 'break-word', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '300px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
-                                                align="center"
+                                                align="left"
                                             >
                                                 {moment(item.Text3).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '100px', paddingTop: '2.5px', paddingBottom: '2.5px'
+                                                    textTransform: 'capitalize', width: '150px', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                 }}
                                                 align="center"
                                             >
