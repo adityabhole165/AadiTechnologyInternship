@@ -118,7 +118,7 @@ function SchoolNoticeList({
                                                 }}
                                                 align="center"
                                             >
-                                                {moment(item.Text2).format('DD MMM YYYY   h:mm a')}
+                                                {moment(item.Text2).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
@@ -126,7 +126,7 @@ function SchoolNoticeList({
                                                 }}
                                                 align="center"
                                             >
-                                                {moment(item.Text3).format('DD MMM YYYY   h:mm a')}
+                                                {moment(item.Text3).format('DD MMM YYYY   h:mm A')}
                                             </TableCell>
                                             <TableCell
                                                 sx={{
