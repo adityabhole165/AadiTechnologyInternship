@@ -149,12 +149,12 @@ const SchoolNoticeBaseScreen = () => {
     }, [deleteSchoolNoticeMsg]);
 
     let HeaderList = [
-        { Id: 1, Header: 'Link Name', SortOrder: 'desc', sortKey: 'NoticeName' },
-        { Id: 2, Header: 'Display Location', SortOrder: 'desc', sortKey: 'DisplayLocation' },
+        { Id: 1, Header: 'Link Name', SortOrder: null, sortKey: 'NoticeName' },
+        { Id: 2, Header: 'Display Location', SortOrder: null, sortKey: 'DisplayLocation' },
         { Id: 3, Header: 'Start Date & Time', SortOrder: 'desc', sortKey: 'StartDate' },
-        { Id: 4, Header: 'End Date & Time', SortOrder: 'desc', sortKey: 'EndDate' },
-        { Id: 5, Header: 'Sort Order', SortOrder: 'desc', sortKey: 'dbSortOrder' },
-        { Id: 6, Header: 'File Name' , SortOrder: 'desc', sortKey: 'FileName'},
+        { Id: 4, Header: 'End Date & Time', SortOrder: null, sortKey: 'EndDate' },
+        { Id: 5, Header: 'Sort Order', SortOrder: null, sortKey: 'dbSortOrder' },
+        { Id: 6, Header: 'File Name', SortOrder: null, sortKey: 'FileName' },
         { Id: 7, Header: 'Select' },
         { Id: 8, Header: 'Edit' },
         { Id: 9, Header: 'Delete' },
@@ -357,7 +357,7 @@ const SchoolNoticeBaseScreen = () => {
             />
             {Loading && <SuspenseLoader />}
 
-            <Grid sx={{backgroundColor:'white', mb:2, p:1}}>
+            <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
                 <Grid sm={12} px={0} sx={{ display: 'flex', justifyItems: "center" }} >
                     <Grid >
                         <FormControl component="fieldset">
@@ -377,7 +377,7 @@ const SchoolNoticeBaseScreen = () => {
                 </Grid>
             </Grid >
 
-            <Box sx={{ background: 'white', pr: 2, pl:2, pt:1, pb:2 }}>
+            <Box sx={{ background: 'white', pr: 2, pl: 2, pt: 1, pb: 2 }}>
                 {singleTotalCount > 0 ? (
                     <div style={{ flex: 1, textAlign: 'center' }}>
                         <Typography
@@ -417,7 +417,7 @@ const SchoolNoticeBaseScreen = () => {
                         </Typography>
                     </Box>
                 )}
-                
+
                 {endRecord > 19 ? (
                     <ButtonGroupComponent
                         rowsPerPage={rowsPerPage}
