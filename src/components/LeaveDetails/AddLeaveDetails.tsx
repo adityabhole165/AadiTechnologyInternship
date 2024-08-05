@@ -438,7 +438,7 @@ const AddLeaveDetails = () => {
                             label={<>
                                 Staff Name
                             </>}
-                            sx={{ bgcolor: '#D3D3D3' }}
+                            sx={{ bgcolor: '#F0F0F0' }}
                             InputProps={{
                                 readOnly: true,
                             }}
