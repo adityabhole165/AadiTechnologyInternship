@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const TimeField = ({ Item, ClickItem, label ,size}) => {
+const TimeField = ({ Item, ClickItem, label ,size , isMandatory = true}) => {
     const [currentTime, setCurrentTime] = useState("");
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const TimeField = ({ Item, ClickItem, label ,size}) => {
                 label={
                     label ? (
                         <>
-                            {label} {label && <span style={{ color: 'red' }}>*</span>}
+                            {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
                         </>
                     ) : (
                         "Select Time"
