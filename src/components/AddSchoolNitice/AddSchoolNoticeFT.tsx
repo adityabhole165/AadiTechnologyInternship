@@ -310,7 +310,7 @@ const AddSchoolNoticeFT = () => {
 
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"}  tooltipMessage="e.g. 04:00 PM"/>
+                            <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
                         {radioBtn === '1' ?
                             <Grid item xs={6} md={4}>
@@ -416,16 +416,18 @@ const AddSchoolNoticeFT = () => {
                                     </Box>
                                 </FormGroup>
                             </Grid>
-                            <Grid item xs={12} md={9} mt={2}>
-                                <Typography variant="h5">
-                                    Associated Classes
-                                </Typography>
-                                <SelectListHierarchy
-                                    ItemList={ItemList}
-                                    ParentList={ClassesAndDivisionss1}
-                                    ClickChild={ClickChild}
-                                ></SelectListHierarchy>
-                            </Grid>
+                            {applicableTo.student && (
+                                <Grid item xs={12} md={9} mt={2}>
+                                    <Typography variant="h5">
+                                        Associated Classes
+                                    </Typography>
+                                    <SelectListHierarchy
+                                        ItemList={ItemList}
+                                        ParentList={ClassesAndDivisionss1}
+                                        ClickChild={ClickChild}
+                                    />
+                                </Grid>
+                            )}
                         </Grid>
                     </Grid>
                 </Box>
