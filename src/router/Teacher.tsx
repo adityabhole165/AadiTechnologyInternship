@@ -201,6 +201,9 @@ const SchoolNoticeBasescreen = Loader(
 const AddSchoolNotice = Loader(
   lazy(() => import('src/components/AddSchoolNitice/AddSchoolNotice1'))
 );
+const AddSchoolNoticeFT = Loader(
+  lazy(() => import('src/components/AddSchoolNitice/AddSchoolNoticeFT'))
+);
 
 const InvestmentDeclaration = Loader(
   lazy(() => import('src/components/InvestmentDeclaration/InvestmentDeclaration'))
@@ -636,7 +639,10 @@ const teacherRoutes = [
     path: 'AddSchoolNotice/:Id',
     element: <AddSchoolNotice />
   },
-
+  {
+    path: 'AddSchoolNoticeFT',
+    element: <AddSchoolNoticeFT />
+  },
 ];
 
 export default teacherRoutes;
