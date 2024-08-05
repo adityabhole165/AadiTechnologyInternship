@@ -925,7 +925,7 @@ const WeeklyTimetable = (props: Props) => {
                                                     item.Text2 === 'Total Weekly Lectures' ?
                                                         <TableRow>
                                                             <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                                                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                                                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} sx={{ textAlign: 'left' }} />
                                                         </TableRow>
                                                         :
                                                         <TableRow>
@@ -1027,6 +1027,7 @@ const WeeklyTimetable = (props: Props) => {
                                     size={"small"}
                                     defaultValue={AddLecForTWeekDayId}
                                     mandatory={true}
+                                    DisableClearable={true}
                                 />
                                 {isSubmitAdLecToTeacher && AddLecForTWeekDayId === '0' && <span style={{ color: 'red' }}>Weekday should not be empty.</span>}
                             </Box>
@@ -1039,6 +1040,7 @@ const WeeklyTimetable = (props: Props) => {
                                     size={"small"}
                                     defaultValue={AddLecForTLecNo}
                                     mandatory={true}
+                                    DisableClearable={true}
                                 />
                                 {isSubmitAdLecToTeacher && AddLecForTLecNo === '0' && AddLecForTWeekDayId !== '0' && <span style={{ color: 'red' }}>Lecture number should not be empty.</span>}
                             </Box>
@@ -1054,6 +1056,7 @@ const WeeklyTimetable = (props: Props) => {
                                     size={"small"}
                                     defaultValue={AddLecForTSubjectNameId}
                                     mandatory={true}
+                                    DisableClearable={true}
                                 />
                                 {isSubmitAdLecToTeacher && AddLecForTSubjectNameId === '0' && AddLecForTLecNo !== '0' && AddLecForTWeekDayId !== '0' && <span style={{ color: 'red' }}>Class-Subject name should not be empty.</span>}
 
