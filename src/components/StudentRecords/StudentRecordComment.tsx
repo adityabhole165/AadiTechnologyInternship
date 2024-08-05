@@ -156,7 +156,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             </DialogTitle>
             <DialogContent dividers sx={{ px: 4 }}>
                 <Grid container spacing={1} alignItems="center">
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={6} md={4}>
                         <Datepicker1
                             DateValue={StartDate}
                             onDateChange={onSelectSrDate}
@@ -165,8 +165,8 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         />
                         <ErrorMessage1 Error={ErrorSrDateblank} />
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} />
+                    <Grid item xs={6} md={4}>
+                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={ 'medium'} />
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
                     </Grid>
                 </Grid>
