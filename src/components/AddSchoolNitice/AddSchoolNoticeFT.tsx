@@ -3,15 +3,19 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import { IGetAllClassesAndDivisionsBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
+import { GetAllClassAndDivision } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import TimeField from '../StudentRecords/TimeField';
@@ -65,6 +69,17 @@ const AddSchoolNoticeFT = () => {
     const MaxfileSize = 10000000;
     const ValidFileTypes2 = ['JPG', 'PNG', 'BMP', 'JPEG'];
     const MaxfileSize2 = 10000000;
+    const ClassesAndDivisionss = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss);
+    const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
+
+
+    useEffect(() => {
+        const AllClassesAndDivisionBody: IGetAllClassesAndDivisionsBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+        };
+        dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
+    }, [])
 
     const ClickRadio = (value) => {
         setRadioBtn(value);
@@ -98,18 +113,24 @@ const AddSchoolNoticeFT = () => {
         // Handle cancel action
     };
 
-    // const isClassSelected = () => {
-    //     let arr = []
-    //     ItemList.map(item => {
-    //         if (item.IsActive)
-    //             arr.push(item.Id)
-    //     })
-    //     return arr.toString()
-    // }
-    // const ClassSelected = isClassSelected()
-    // const ClickChild = (value) => {
-    //     setItemList(value);
-    // };
+    const isClassSelected = () => {
+        let arr = []
+        ItemList.map(item => {
+            if (item.IsActive)
+                arr.push(item.Id)
+        })
+        return arr.toString()
+    }
+    const ClassSelected = isClassSelected()
+
+
+    useEffect(() => {
+        setItemList(ClassesAndDivisionss);
+    }, [ClassesAndDivisionss]);
+
+    const ClickChild = (value) => {
+        setItemList(value);
+    };
     const clickStartTime = (value) => {
         setStartTime(value);
     };
@@ -359,48 +380,53 @@ const AddSchoolNoticeFT = () => {
                                 }}
                             />
                         </Grid>
-                        <Grid md={3} item>
-                            <FormGroup row>
-                                <Grid md={12} bgcolor={'lightgrey'} px={1} >
-                                    <FormControlLabel
-                                        control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
-                                        label={<Typography variant="h5">Applicable to : Select All</Typography>}
-                                    /> </Grid>
-                                <Box mt={1} ml={1}>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} name="admin" />}
-                                        label="Admin"
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
-                                        label="Teacher"
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} name="student" />}
-                                        label="Student"
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
-                                        label="Admin Staff"
-                                    />
-                                    <FormControlLabel
-                                        control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
-                                        label="Other Staff"
-                                    />
-                                </Box>
-                            </FormGroup>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={2.5} mt={2} ml={3}>
+                                <Typography variant="h5">
+                                    Applicable to : <span style={{ color: 'red' }}>*</span>
+                                </Typography>
+                                <FormGroup row>
+                                    <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
+                                        <FormControlLabel
+                                            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
+                                            label={<Typography variant="h5">Select All</Typography>}
+                                        />
+                                    </Grid>
+                                    <Box mt={1} ml={1}>
+                                        <FormControlLabel
+                                            control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} name="admin" />}
+                                            label="Admin"
+                                        />
+                                        <FormControlLabel
+                                            control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
+                                            label="Teacher"
+                                        />
+                                        <FormControlLabel
+                                            control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} name="student" />}
+                                            label="Student"
+                                        />
+                                        <FormControlLabel
+                                            control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
+                                            label="Admin Staff"
+                                        />
+                                        <FormControlLabel
+                                            control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
+                                            label="Other Staff"
+                                        />
+                                    </Box>
+                                </FormGroup>
+                            </Grid>
+                            <Grid item xs={12} md={9} mt={2}>
+                                <Typography variant="h5">
+                                    Associated Classes
+                                </Typography>
+                                <SelectListHierarchy
+                                    ItemList={ItemList}
+                                    ParentList={ClassesAndDivisionss1}
+                                    ClickChild={ClickChild}
+                                ></SelectListHierarchy>
+                            </Grid>
                         </Grid>
-                        {/* <Grid item xs={8} md={8.8} bgcolor={'lightgrey'} mt={-7} ml={2} >
-                            <Typography variant="h5">
-                                Associated Classes
-                            </Typography>
-                            <SelectListHierarchy
-                                ItemList={ItemList}
-                                ParentList={undefined}
-                                ClickChild={ClickChild}
-                            ></SelectListHierarchy>
-                        </Grid> */}
-
                     </Grid>
                 </Box>
             </Box >

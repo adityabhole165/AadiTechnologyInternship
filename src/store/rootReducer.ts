@@ -121,6 +121,7 @@ import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectEx
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
+import SchoolNoticeFormslice from '../requests/AddSchoolNotice/RequestSchoolNoticeForm';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -246,7 +247,8 @@ const rootReducer = combineReducers({
   EditSchoolNoticeDetails: ReqEditSchoolNoticeDetails,
   GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
   StudentRecordCommentPopup: StudentRecordCommentslice,
-  SchoolNotice: AddNoticeslice
+  SchoolNotice: AddNoticeslice,
+  SchoolNoticeForm:SchoolNoticeFormslice
 });
 
 export default rootReducer;

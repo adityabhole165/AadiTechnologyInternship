@@ -51,7 +51,7 @@ const SchoolNoticeFormslice = createSlice({
         getAllClassesAndDivisionss1(state, action) {
             state.Loading = false;
             state.AllClassesAndDivisionss1 = action.payload;
-          },
+        },
         getSelectedStandardAndDivisionCheckBoxx(state, action) {
             state.Loading = false;
             state.SelectedStandardAndDivisionCheckBoxx = action.payload;
@@ -115,48 +115,49 @@ export const resetDeleteSchoolNotice = (): AppThunk => async (dispatch) => {
 };
 
 export const GetSelectedStandardAndDivisionCheckBoxx =
-  (data: IGetEditUserRolesandStdDivForSelectedNoticeIdBody): AppThunk =>
-    async (dispatch) => {
-      const response = await SchoolNoticeFormApi.StandardDivSelectedclasses(data);
-      dispatch(SchoolNoticeFormslice.actions.getSelectedStandardAndDivisionCheckBoxx(response.data))
-    }
-    
+    (data: IGetEditUserRolesandStdDivForSelectedNoticeIdBody): AppThunk =>
+        async (dispatch) => {
+            const response = await SchoolNoticeFormApi.StandardDivSelectedclasses(data);
+            dispatch(SchoolNoticeFormslice.actions.getSelectedStandardAndDivisionCheckBoxx(response.data))
+        }
+
 export const GetUserRolesForSelectedNoticeId =
-(data: IGetEditUserRolesandStdDivForSelectedNoticeIdBody): AppThunk =>
-  async (dispatch) => {
-    const response = await SchoolNoticeFormApi.UserRolesDetails(data);
-    dispatch(SchoolNoticeFormslice.actions.getUserRoleSelected(response.data))
-  }
-
-    export const GetAllClassAndDivision =
-  (data: IGetAllClassesAndDivisionsBody): AppThunk =>
-    async (dispatch) => {
-      const response = await SchoolNoticeFormApi.AllStandardDivclasses(data);
-      let responseData = response.data.map((item, i) => {
-        return {
-          Id: item.SchoolWise_Standard_Division_Id,
-          Name: item.Division_Name,
-          Value: item.SchoolWise_Standard_Division_Id,
-          ParentId: item.Standard_Id,
+    (data: IGetEditUserRolesandStdDivForSelectedNoticeIdBody): AppThunk =>
+        async (dispatch) => {
+            const response = await SchoolNoticeFormApi.UserRolesDetails(data);
+            dispatch(SchoolNoticeFormslice.actions.getUserRoleSelected(response.data))
         }
-      })
 
-      let arr = []
-      let arrStd = []
-      response.data.map((item, i) => {
-        if (!arrStd.includes(item.Standard_Id)) {
+export const GetAllClassAndDivision =
+    (data: IGetAllClassesAndDivisionsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await SchoolNoticeFormApi.AllStandardDivclasses(data);
+            let responseData = response.data.map((item, i) => {
+                return {
+                    Id: item.SchoolWise_Standard_Division_Id,
+                    Name: item.Division_Name,
+                    Value: item.SchoolWise_Standard_Division_Id,
+                    ParentId: item.Standard_Id,
+                    IsActive: false
+                }
+            })
 
-          arrStd.push(item.Standard_Id)
-          arr.push({
-            Id: item.Standard_Id,
-            Name: item.Standard_Name,
-            Value: item.Standard_Id,
-            IsActive: true
-          })
+            let arr = []
+            let arrStd = []
+            response.data.map((item, i) => {
+                if (!arrStd.includes(item.Standard_Id)) {
+
+                    arrStd.push(item.Standard_Id)
+                    arr.push({
+                        Id: item.Standard_Id,
+                        Name: item.Standard_Name,
+                        Value: item.Standard_Id,
+                        IsActive: false
+                    })
+                }
+            })
+            dispatch(SchoolNoticeFormslice.actions.getAllClassesAndDivisionss(responseData))
+            dispatch(SchoolNoticeFormslice.actions.getAllClassesAndDivisionss1(arr))
         }
-      })    
-      dispatch(SchoolNoticeFormslice.actions.getAllClassesAndDivisionss(responseData))
-      dispatch(SchoolNoticeFormslice.actions.getAllClassesAndDivisionss1(arr))
-    }
 
 export default SchoolNoticeFormslice.reducer;
