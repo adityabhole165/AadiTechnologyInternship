@@ -1,6 +1,8 @@
 import Close from '@mui/icons-material/Close';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SaveIcon from '@mui/icons-material/Save';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -312,40 +314,6 @@ const AddSchoolNoticeFT = () => {
                         <Grid item xs={6} md={4}>
                             <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
-                        {radioBtn === '1' ?
-                            <Grid item xs={6} md={4}>
-                                <SingleFile
-                                    ValidFileTypes={ValidFileTypes}
-                                    MaxfileSize={MaxfileSize}
-                                    ChangeFile={ChangeFile}
-                                    errorMessage={''}
-                                    FileName={NoticeFile}
-                                    FileLabel={'Select File'}
-                                    width={'100%'}
-                                    height={"52px"}
-                                    isMandatory
-                                />
-                                {NoticeFileError && (
-                                    <Box sx={{ position: 'absolute', bottom: '-25px' }}>
-                                        <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
-                                    </Box>
-                                )}
-                            </Grid> : null}
-                        <Grid item xs={6} md={4}>
-                            <SingleFile
-                                ValidFileTypes={ValidFileTypes2}
-                                MaxfileSize={MaxfileSize2}
-                                ChangeFile={ChangeFile2}
-                                errorMessage={''}
-                                FileName={ImageFile}
-                                FileLabel={'Select Image'}
-                                width={'100%'}
-                                height={"52px"}
-                                isMandatory={false}
-                                viewIcon={true}
-                                deleteIcon={true}
-                            />
-                        </Grid>
                         <Grid item xs={4}>
                             <TextField
                                 fullWidth
@@ -365,6 +333,72 @@ const AddSchoolNoticeFT = () => {
                                 }}
                             />
                         </Grid>
+                        <Grid item xs={6} md={4}>
+                            <Box sx={{ position: 'relative' }}>
+                                <SingleFile
+                                    ValidFileTypes={ValidFileTypes}
+                                    MaxfileSize={MaxfileSize}
+                                    ChangeFile={ChangeFile}
+                                    errorMessage={''}
+                                    FileName={NoticeFile}
+                                    FileLabel={'Select File'}
+                                    width={'100%'}
+                                    height={"52px"}
+                                    isMandatory
+                                />
+                                {NoticeFileError && (
+                                    <Box sx={{ position: 'absolute', bottom: '-25px' }}>
+                                        <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
+                                    </Box>
+                                )}
+                            </Box>
+                        </Grid>
+
+                        {radioBtn === '1' ?
+                            <> <Grid item xs={6} md={3}>
+                                <SingleFile
+                                    ValidFileTypes={ValidFileTypes2}
+                                    MaxfileSize={MaxfileSize2}
+                                    ChangeFile={ChangeFile2}
+                                    errorMessage={''}
+                                    FileName={ImageFile}
+                                    FileLabel={'Select Image'}
+                                    width={'100%'}
+                                    height={"52px"}
+                                    isMandatory={false}
+                                />
+                            </Grid>
+                                <Grid item xs={1} md={1}>
+                                    <Tooltip title={"View"}>
+                                        <IconButton
+                                            onClick={undefined}
+                                            sx={{
+                                                color: '#223354',
+                                                '&:hover': {
+                                                    color: '#223354',
+                                                    cursor: 'pointer'
+                                                }
+                                            }}
+                                        >
+                                            <Visibility />
+                                        </IconButton>
+                                    </Tooltip> &nbsp;
+                                    <Tooltip title={"Delete"}>
+                                        <IconButton
+                                            onClick={undefined}
+                                            sx={{
+                                                color: '#223354',
+                                                '&:hover': {
+                                                    color: 'red',
+                                                    backgroundColor: red[100]
+                                                }
+                                            }}
+                                        >
+                                            <DeleteForeverIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Grid> </> : null}
+
                         <Grid item xs={12} >
                             <ResizableTextField
                                 label={<>
