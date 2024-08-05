@@ -24,8 +24,8 @@ const AddSchoolNoticeFT = () => {
     const [selectDisplayLocation, setDisplayLocation] = useState('Both');
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
-    const [StartTime, setStartTime] = useState('');
-    const [EndTime, setEndTime] = useState('');
+    const [StartTime, setStartTime] = useState('00:00');
+    const [EndTime, setEndTime] = useState('23:59');
     const [NoticeFile, setNoticeFile] = useState('');
     const [NoticeFileError, setNoticeFileError] = useState('');
     const [ImageFile, setImageFile] = useState('');
