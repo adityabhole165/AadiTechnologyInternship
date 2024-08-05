@@ -50,6 +50,7 @@ import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { blue, grey } from '@mui/material/colors';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -495,12 +496,32 @@ const MessageList = () => {
           }
         ]}
           rightActions={
-            <>
-              <Hidden >
-                <Tooltip title="Setting"><IconButton><SettingsIcon onClick={clickSetting} fontSize="medium" />
+            <Box>
+              <Hidden>
+                <Tooltip title="Setting">
+                  <IconButton
+                sx={{
+                  color: 'white',
+                  mr:1,
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}>
+                  <SettingsIcon onClick={clickSetting}
+                  
+                  fontSize="medium" />
                 </IconButton>
                 </Tooltip>
-                <Tooltip title="Refresh"><IconButton>
+                <Tooltip title="Refresh">
+                  <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}>
                   <RefreshIcon
                     onClick={() => {
                       setIsRefresh(!isRefresh);
@@ -510,7 +531,8 @@ const MessageList = () => {
                 </IconButton>
                 </Tooltip>
               </Hidden>
-            </>
+              
+            </Box>
 
           }
         />
