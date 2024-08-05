@@ -8,11 +8,14 @@ import 'react-quill/dist/quill.snow.css';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import TimeField from '../StudentRecords/TimeField';
+import { ResizableTextField } from './ResizableDescriptionBox';
 
 const AddSchoolNoticeFT = () => {
     const [radioBtn, setRadioBtn] = useState('1');
@@ -56,8 +59,8 @@ const AddSchoolNoticeFT = () => {
         { Id: 3, Name: 'Home Page', Value: 'Home Page' },
     ];
 
-    const ValidFileTypes1 = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
-    const MaxfileSize1 = 10000000;
+    const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
+    const MaxfileSize = 10000000;
     const ValidFileTypes2 = ['JPG', 'PNG', 'BMP', 'JPEG'];
     const MaxfileSize2 = 10000000;
 
@@ -77,7 +80,7 @@ const AddSchoolNoticeFT = () => {
         // Handle cancel action
     };
 
-    
+
     const clickStartTime = (value) => {
         setStartTime(value);
     };
@@ -97,7 +100,15 @@ const AddSchoolNoticeFT = () => {
     const onSelectEndDate = (value) => {
         setEndDate(getCalendarDateFormatDateNew(value));
     };
-
+    const ChangeFile = (value) => {
+        setNoticeFile(value.Name);
+        setbase64URL(value.Value);
+        setNoticeFileError('');
+    };
+    const ChangeFile2 = (value) => {
+        setImageFile(value.Name);
+        setbase64URL2(value.Value);
+    };
     const handleSave = () => {
         // Handle save action
     };
@@ -168,7 +179,7 @@ const AddSchoolNoticeFT = () => {
                         </>
                     }
                 />
-                <Box sx={{ p: 2,  background: 'white' }}>
+                <Box sx={{ p: 2, background: 'white' }}>
                     <Box sx={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
                         <Typography variant='h5'>Notice Display Type : </Typography>
                         <RadioButton1
@@ -178,12 +189,12 @@ const AddSchoolNoticeFT = () => {
                             Label={''}
                         />
                     </Box>
-               
-                <Grid container spacing={3} alignItems="center">
+
+                    <Grid container spacing={3} alignItems="center">
                         {radioBtn === '1' ? (
                             <Grid item xs={4}>
                                 <TextField
-                                   fullWidth
+                                    fullWidth
                                     label={
                                         <span>
                                             Link Name <span style={{ color: 'red' }}>*</span>
@@ -203,7 +214,7 @@ const AddSchoolNoticeFT = () => {
                         ) : (
                             <Grid item xs={4}>
                                 <TextField
-                                   fullWidth
+                                    fullWidth
                                     label={
                                         <span>
                                             Notice Name <span style={{ color: 'red' }}>*</span>
@@ -221,13 +232,13 @@ const AddSchoolNoticeFT = () => {
                                 />
                             </Grid>
                         )}
-                          <Grid item xs={6} md={4}>
+                        <Grid item xs={6} md={4}>
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={DisplayLocation}
                                 defaultValue={selectDisplayLocation}
                                 onChange={clickDisplayLocationDropdown}
-                               
+
                                 label='Display Location'
                             />
                         </Grid>
@@ -248,13 +259,80 @@ const AddSchoolNoticeFT = () => {
                             />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                        <TimeField Item={StartTime} label={'Time'} ClickItem={clickStartTime}  size={"medium"}/>
-                       
-                    </Grid>
-                    <Grid item xs={6} md={4}>
-                        <TimeField Item={EndTime} label={'Time'} ClickItem={clickEndTime}  size={"medium"}/>
-                       
-                    </Grid>
+                            <TimeField Item={StartTime} label={'Start Time'}  isMandatory = {false} ClickItem={clickStartTime} size={"medium"} />
+
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                            <TimeField Item={EndTime} label={'End Time'} isMandatory = {false} ClickItem={clickEndTime} size={"medium"} />
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                            <SingleFile
+                                ValidFileTypes={ValidFileTypes}
+                                MaxfileSize={MaxfileSize}
+                                ChangeFile={ChangeFile}
+                                errorMessage={''}
+                                FileName={NoticeFile}
+                                FileLabel={'Select File'}
+                                width={'100%'}
+                                height={"52px"}
+                                isMandatory
+                            />
+                            {NoticeFileError && (
+                                <Box sx={{ position: 'absolute', bottom: '-25px' }}>
+                                    <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
+                                </Box>
+                            )}
+
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                            <SingleFile
+                                ValidFileTypes={ValidFileTypes2}
+                                MaxfileSize={MaxfileSize2}
+                                ChangeFile={ChangeFile2}
+                                errorMessage={''}
+                                FileName={ImageFile}
+                                FileLabel={'Select Image'}
+                                width={'100%'}
+                                height={"52px"}
+                                isMandatory = {false}
+                                viewIcon={true}
+                                deleteIcon={true}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                                <TextField
+                                    fullWidth
+                                    label={
+                                        <span>
+                                            Sort Order <span style={{ color: 'red' }}>*</span>
+                                        </span>
+                                    }
+                                    multiline
+                                    rows={1}
+                                    value={SortOrder}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value.length <= 3) {
+                                            setSortOrder(value);
+                                        }
+                                    }}
+                                />
+                            </Grid>
+                        <Grid item xs={12} >
+                            <ResizableTextField
+                                label={<>
+                                    Description
+                                </>}                              
+                                  multiline
+                                  rows={3}
+                                value={Description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                fullWidth
+                                sx={{
+                                    resize: 'both'
+                                }}
+                            />
+                        </Grid>
                     </Grid>
                 </Box>
             </Box>
