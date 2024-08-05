@@ -318,7 +318,7 @@ const ViewLeaveDetails = () => {
                             label={<>
                                 Staff Name <span style={{ color: 'red' }}>*</span>
                             </>}
-                            sx={{ bgcolor: '#D3D3D3' }}
+                            sx={{ bgcolor: '#F0F0F0' }}
                             InputProps={{
                                 readOnly: true,
                             }}
