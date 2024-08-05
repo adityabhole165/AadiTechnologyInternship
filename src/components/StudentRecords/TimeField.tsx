@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const TimeField = ({ Item, ClickItem, label }) => {
+const TimeField = ({ Item, ClickItem, label ,size}) => {
     const [currentTime, setCurrentTime] = useState("");
 
     useEffect(() => {
@@ -32,7 +32,8 @@ const TimeField = ({ Item, ClickItem, label }) => {
                 type="time"
                 value={Item ? currentTime : null}
                 onChange={(e) => ClickItem(e.target.value)}
-
+                fullWidth
+                size={size || 'medium'}
             />
         </div>
     );
