@@ -15,6 +15,7 @@ import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDrop
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
 import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetTimetable } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
+import { GetScreenPermission } from '../Common/Util'
 import CommonPageHeader from "../CommonPageHeader"
 
 type Props = {}
@@ -44,11 +45,17 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
 
 const WeeklyTimetable = (props: Props) => {
     const dispatch = useDispatch();
+    const TeachersList = useSelector((state: RootState) => state.WeeklyTimetable.ISTeachersList);
+    // Full Access / Own access Permission Stuff
+    const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
+    const LoginTeacherId = sessionStorage.getItem('TeacherId');
+    const permissionwiseTeachersList = IsWeeklyTimetableFullAccess === 'N' ? TeachersList.filter((item) => item.Id === LoginTeacherId) : TeachersList;
+    permissionwiseTeachersList.unshift({ Id: '0', Name: 'Select', Value: '0' })
+
     const [teacherSettingsAnchorEL, setTeacherSettingsAnchorEL] = useState<HTMLButtonElement | null>(null);
     const [filterBy, setFilterBy] = useState<string>('Teacher')
     const [showAddAdditionalLectures, setShowAddAdditionalLectures] = useState<boolean>(false);
     const [teacher, setTeacher] = useState<string>('0');
-    const TeachersList = useSelector((state: RootState) => state.WeeklyTimetable.ISTeachersList);
     const [teacherName, setTeacherName] = useState<string>('');
     const [standard, setStandard] = useState<string>('0');
     const [division, setDivision] = useState<string>('0');
@@ -600,7 +607,7 @@ const WeeklyTimetable = (props: Props) => {
                                                 setTeacherName(value.Name)
                                                 setIsNewTeacherSelection(true)
                                             }}
-                                            ItemList={TeachersList}
+                                            ItemList={permissionwiseTeachersList}
                                             defaultValue={teacher}
                                             label="Teacher"
                                             sx={{ minWidth: 250 }}
