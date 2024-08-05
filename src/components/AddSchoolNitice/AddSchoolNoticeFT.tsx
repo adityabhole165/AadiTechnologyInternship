@@ -80,19 +80,27 @@ const AddSchoolNoticeFT = () => {
         // Handle cancel action
     };
 
-
+    // const isClassSelected = () => {
+    //     let arr = []
+    //     ItemList.map(item => {
+    //         if (item.IsActive)
+    //             arr.push(item.Id)
+    //     })
+    //     return arr.toString()
+    // }
+    // const ClassSelected = isClassSelected()
+    // const ClickChild = (value) => {
+    //     setItemList(value);
+    // };
     const clickStartTime = (value) => {
         setStartTime(value);
     };
-
     const clickEndTime = (value) => {
         setEndTime(value);
     };
-
     const clickDisplayLocationDropdown = (value) => {
         setDisplayLocation(value);
     };
-
     const onSelectStartDate = (value) => {
         setStartDate(getCalendarDateFormatDateNew(value));
     };
@@ -259,31 +267,31 @@ const AddSchoolNoticeFT = () => {
                             />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={StartTime} label={'Start Time'}  isMandatory = {false} ClickItem={clickStartTime} size={"medium"} />
+                            <TimeField Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} />
 
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={EndTime} label={'End Time'} isMandatory = {false} ClickItem={clickEndTime} size={"medium"} />
+                            <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} />
                         </Grid>
-                        <Grid item xs={6} md={4}>
-                            <SingleFile
-                                ValidFileTypes={ValidFileTypes}
-                                MaxfileSize={MaxfileSize}
-                                ChangeFile={ChangeFile}
-                                errorMessage={''}
-                                FileName={NoticeFile}
-                                FileLabel={'Select File'}
-                                width={'100%'}
-                                height={"52px"}
-                                isMandatory
-                            />
-                            {NoticeFileError && (
-                                <Box sx={{ position: 'absolute', bottom: '-25px' }}>
-                                    <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
-                                </Box>
-                            )}
-
-                        </Grid>
+                        {radioBtn === '1' ?
+                            <Grid item xs={6} md={4}>
+                                <SingleFile
+                                    ValidFileTypes={ValidFileTypes}
+                                    MaxfileSize={MaxfileSize}
+                                    ChangeFile={ChangeFile}
+                                    errorMessage={''}
+                                    FileName={NoticeFile}
+                                    FileLabel={'Select File'}
+                                    width={'100%'}
+                                    height={"52px"}
+                                    isMandatory
+                                />
+                                {NoticeFileError && (
+                                    <Box sx={{ position: 'absolute', bottom: '-25px' }}>
+                                        <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
+                                    </Box>
+                                )}
+                            </Grid> : null}
                         <Grid item xs={6} md={4}>
                             <SingleFile
                                 ValidFileTypes={ValidFileTypes2}
@@ -294,37 +302,37 @@ const AddSchoolNoticeFT = () => {
                                 FileLabel={'Select Image'}
                                 width={'100%'}
                                 height={"52px"}
-                                isMandatory = {false}
+                                isMandatory={false}
                                 viewIcon={true}
                                 deleteIcon={true}
                             />
                         </Grid>
                         <Grid item xs={4}>
-                                <TextField
-                                    fullWidth
-                                    label={
-                                        <span>
-                                            Sort Order <span style={{ color: 'red' }}>*</span>
-                                        </span>
+                            <TextField
+                                fullWidth
+                                label={
+                                    <span>
+                                        Sort Order <span style={{ color: 'red' }}>*</span>
+                                    </span>
+                                }
+                                multiline
+                                rows={1}
+                                value={SortOrder}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value.length <= 3) {
+                                        setSortOrder(value);
                                     }
-                                    multiline
-                                    rows={1}
-                                    value={SortOrder}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (value.length <= 3) {
-                                            setSortOrder(value);
-                                        }
-                                    }}
-                                />
-                            </Grid>
+                                }}
+                            />
+                        </Grid>
                         <Grid item xs={12} >
                             <ResizableTextField
                                 label={<>
                                     Description
-                                </>}                              
-                                  multiline
-                                  rows={3}
+                                </>}
+                                multiline
+                                rows={3}
                                 value={Description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 fullWidth
@@ -333,9 +341,30 @@ const AddSchoolNoticeFT = () => {
                                 }}
                             />
                         </Grid>
+                        <Grid md={3} item bgcolor={'lightgrey'} mt={2} ml={3} justifyContent="center">
+                            <Typography variant="h5">
+                                Applicable to : Select All
+                            </Typography>
+                            {/* <SelectListHierarchy
+                                ItemList={ItemList}
+                                ParentList={undefined}
+                                ClickChild={ClickChild}
+                            ></SelectListHierarchy> */}
+                        </Grid>
+                        <Grid item xs={8} md={8.5} bgcolor={'lightgrey'} mt={2} ml={3} justifyContent="center" >
+                            <Typography variant="h5">
+                                Associated Classes
+                            </Typography>
+                            {/* <SelectListHierarchy
+                                ItemList={ItemList}
+                                ParentList={undefined}
+                                ClickChild={ClickChild}
+                            ></SelectListHierarchy> */}
+                        </Grid>
+
                     </Grid>
                 </Box>
-            </Box>
+            </Box >
         </>
     );
 };
