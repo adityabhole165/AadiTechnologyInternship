@@ -163,35 +163,55 @@ const ViewLeaveDetails = () => {
 
         }
     }, [USApproveorRejectLeaveDetails])
-    const onClickApprove = () => {
-        const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
-            asId: 0,
-            asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
-            asReportingUserId: aUserId,
-            asRemark: Remark,
-            /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-            asstatusId: 3,
-            asSchoolId: asSchoolId,
-            asAcademicYearId: Number(asAcademicYearId),
-            asInsertedById: aUserId
 
+    const onClickApprove = () => {
+        let isError = false;
+        let dateError = false;
+        if (Remark === '') {
+            setRemarkError('Remark should not blank.');
+            dateError = true
+            isError = true;
+        } else setRemarkError('')
+        if (!isError) {
+
+            const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
+                asId: 0,
+                asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
+                asReportingUserId: aUserId,
+                asRemark: Remark,
+                /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+                asstatusId: 3,
+                asSchoolId: asSchoolId,
+                asAcademicYearId: Number(asAcademicYearId),
+                asInsertedById: aUserId
+
+            }
+            dispatch(getapproveorreject(ApproveOrRejectBody))
         }
-        dispatch(getapproveorreject(ApproveOrRejectBody))
     }
     const onClickReject = () => {
-        const RejectBody: IGetApproveOrRejectLeaveBody = {
-            asId: 0,
-            asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
-            asReportingUserId: aUserId,
-            asRemark: Remark,
-            /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-            asstatusId: 4,
-            asSchoolId: asSchoolId,
-            asAcademicYearId: Number(asAcademicYearId),
-            asInsertedById: aUserId
+        let isError = false;
+        let dateError = false;
+        if (Remark === '') {
+            setRemarkError('Remark should not blank.');
+            dateError = true
+            isError = true;
+        } else setRemarkError('')
+        if (!isError) {
+            const RejectBody: IGetApproveOrRejectLeaveBody = {
+                asId: 0,
+                asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
+                asReportingUserId: aUserId,
+                asRemark: Remark,
+                /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
+                asstatusId: 4,
+                asSchoolId: asSchoolId,
+                asAcademicYearId: Number(asAcademicYearId),
+                asInsertedById: aUserId
 
+            }
+            dispatch(getapproveorreject(RejectBody))
         }
-        dispatch(getapproveorreject(RejectBody))
     }
     const getButtonDisEnaRAR = (selectCategory, tblRemarkVisible, RemarkEnabled, btnApproveEnabled, btnRejectEnabled) => {
         let returnVal = false;
@@ -395,7 +415,7 @@ const ViewLeaveDetails = () => {
                     </Grid>
                     {/* {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? ( */}
                     <Grid item xs={12} >
-                        <TextField
+                        <ResizableTextField
                             label={<>
                                 Remark <span style={{ color: 'red' }}>*</span>
                             </>}
@@ -406,10 +426,11 @@ const ViewLeaveDetails = () => {
                                 setRemark(e.target.value);
                             }}
                             fullWidth
-                            error={Remark1 !== ''}
-                            helperText={Remark1}
+                        // error={Remark1 !== ''}
+                        // helperText={Remark1}
                         >
-                        </TextField>
+                        </ResizableTextField>
+                        <ErrorMessage1 Error={Remark1}></ErrorMessage1>
                     </Grid>
                     {/* ) : null} */}
                 </Grid >
