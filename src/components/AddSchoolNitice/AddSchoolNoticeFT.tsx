@@ -306,11 +306,11 @@ const AddSchoolNoticeFT = () => {
                             />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} />
+                            <TimeField Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
 
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} />
+                            <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"}  tooltipMessage="e.g. 04:00 PM"/>
                         </Grid>
                         {radioBtn === '1' ?
                             <Grid item xs={6} md={4}>

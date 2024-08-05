@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const TimeField = ({ Item, ClickItem, label ,size , isMandatory = true}) => {
+const TimeField = ({ Item, ClickItem, label, size, isMandatory = true, tooltipMessage }) => {
     const [currentTime, setCurrentTime] = useState("");
 
     useEffect(() => {
@@ -19,22 +19,24 @@ const TimeField = ({ Item, ClickItem, label ,size , isMandatory = true}) => {
 
     return (
         <div>
-            <TextField
-                label={
-                    label ? (
-                        <>
-                            {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
-                        </>
-                    ) : (
-                        "Select Time"
-                    )
-                }
-                type="time"
-                value={Item ? currentTime : null}
-                onChange={(e) => ClickItem(e.target.value)}
-                fullWidth
-                size={size || 'medium'}
-            />
+            <Tooltip title={tooltipMessage}>
+                <TextField
+                    label={
+                        label ? (
+                            <>
+                                {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
+                            </>
+                        ) : (
+                            "Select Time"
+                        )
+                    }
+                    type="time"
+                    value={Item ? currentTime : null}
+                    onChange={(e) => ClickItem(e.target.value)}
+                    fullWidth
+                    size={size || 'medium'}
+                />
+            </Tooltip>
         </div>
     );
 };
