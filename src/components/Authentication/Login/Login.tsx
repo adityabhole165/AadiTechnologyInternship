@@ -26,7 +26,7 @@ import LoginApi from 'src/api/Authentication/Login';
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from 'src/assets/style/student-style';
-import { logoURL } from 'src/components/Common/Util';
+import { formatDateAsDDMMMYYYY, logoURL } from 'src/components/Common/Util';
 import {
   IAuthenticateUser,
   IAuthenticateUserResult
@@ -181,8 +181,8 @@ function SelectSchool() {
       sessionStorage.setItem('Nationality', studentDetails.Nationality);
       sessionStorage.setItem('MotherTongue', studentDetails.MotherTongue);
       sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
-      sessionStorage.setItem('EndDate', studentDetails.EndDate);
-      sessionStorage.setItem('StartDate', studentDetails.StartDate);
+      sessionStorage.setItem('EndDate', formatDateAsDDMMMYYYY(studentDetails.EndDate));
+      sessionStorage.setItem('StartDate', formatDateAsDDMMMYYYY(studentDetails.StartDate));
       sessionStorage.setItem('Language', studentDetails.asLanguage);
       sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
       sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
