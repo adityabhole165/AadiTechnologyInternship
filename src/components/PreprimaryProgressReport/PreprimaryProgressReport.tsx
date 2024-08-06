@@ -6,9 +6,9 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody ,GetProgressReportDetailsBody} from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAAllPrimaryClassTeachers, CDAStudentDetailsDropdown } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { CDAAllPrimaryClassTeachers, CDAStudentDetailsDropdown,CDAProgressReportDetails} from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -30,7 +30,9 @@ const PreprimaryProgressReport = () => {
 
     const USlistStudentNameDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistStudentNameDetails);
     const USlistAssessmentDetailss: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistAssessmentDetailss);
-
+    const USProgressReportDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISProgressReportDetails);
+ console.log(USProgressReportDetails,"USProgressReportDetails");
+ 
 
     const HeaderPublish = [
         { Id: 1, Header: 'Item Code' },
@@ -58,8 +60,15 @@ const PreprimaryProgressReport = () => {
         asStandardDivId: PreprimaryFullAccess == 'Y' ? ClassTeacher : asStandardDivisionId,
 
     };
+    const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
+    {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: PreprimaryFullAccess == 'Y' ? ClassTeacher : asStandardDivisionId,
+        asYearwiseStudentId:StudentId,
+        asAssessmentId:AssessmentId
 
-
+    };
 
 
     const clickClassTeacher = (value) => {
@@ -90,6 +99,10 @@ const PreprimaryProgressReport = () => {
     useEffect(() => {
         dispatch(CDAStudentDetailsDropdown(StudentDetailsDropdownBody));
     }, []);
+    useEffect(() => {
+        dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
+    }, []);
+
 
     useEffect(() => {
         if (PrePrimaryClassTeacher.length > 0) {

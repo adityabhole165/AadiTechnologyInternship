@@ -1,4 +1,4 @@
-import { GetStudentDetailsDropdownResult, IGetAllPrimaryClassTeacherssBody, IGetAllPrimaryClassTeacherssResult,GetStudentDetailsDropdownBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { GetStudentDetailsDropdownResult, IGetAllPrimaryClassTeacherssBody, IGetAllPrimaryClassTeacherssResult,GetStudentDetailsDropdownBody, GetProgressReportDetailsResult, GetProgressReportDetailsBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import http from '../../requests/SchoolService/schoolServices';
 
 const AllPrimaryClassTeachers = (data: IGetAllPrimaryClassTeacherssBody) => {
@@ -14,9 +14,17 @@ const StudentDetailsDropdown = (data: GetStudentDetailsDropdownBody) => {
     );
   };
 
+  const ProgressReportDetails = (data: GetProgressReportDetailsBody) => {
+    return http.post<GetProgressReportDetailsResult>(
+      'Teacher/GetProgressReportDetails',
+      data
+    );
+  };
+
 const ApiPreprimaryProgressReport = {
     AllPrimaryClassTeachers,
-    StudentDetailsDropdown
+    StudentDetailsDropdown,
+    ProgressReportDetails
     
   };
   

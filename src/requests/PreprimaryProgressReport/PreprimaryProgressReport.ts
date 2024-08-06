@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiPreprimaryProgressReport from 'src/api/PreprimaryProgressReport/PreprimaryProgressReport';
-import { IGetAllPrimaryClassTeacherssBody,GetStudentDetailsDropdownBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { IGetAllPrimaryClassTeacherssBody,GetStudentDetailsDropdownBody ,GetProgressReportDetailsBody} from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 
 import { AppThunk } from 'src/store';
 
@@ -9,7 +9,8 @@ const SlicePreprimaryProgressReport = createSlice({
   initialState: {
     ISAllPrimaryClassTeacherss: [],
     ISlistStudentNameDetails:[],
-    ISlistAssessmentDetailss:[]
+    ISlistAssessmentDetailss:[],
+    ISProgressReportDetails:[]
     
   },
   reducers: {
@@ -22,8 +23,11 @@ const SlicePreprimaryProgressReport = createSlice({
       RAssessmentDropdown(state, action) {
         state.ISlistAssessmentDetailss = action.payload;
       },
+      RProgressReportDetails(state, action) {
+        state.ISProgressReportDetails = action.payload;
+      },
       
-    
+      
   }
 });
 
@@ -83,6 +87,19 @@ export const CDAAllPrimaryClassTeachers =
     dispatch(SlicePreprimaryProgressReport.actions.RAssessmentDropdown(Assessment));
 
   };
+
+
+
+  export const CDAProgressReportDetails =
+  (data: GetProgressReportDetailsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiPreprimaryProgressReport.ProgressReportDetails(data)
+
+    
+
+    dispatch(SlicePreprimaryProgressReport.actions.RProgressReportDetails(response.data));
+  };
+
 
 
 export default SlicePreprimaryProgressReport.reducer;
