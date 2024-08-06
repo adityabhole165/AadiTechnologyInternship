@@ -40,6 +40,7 @@ import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import IsHighliteStaus from './LessonPlanContext';
+import { ClearIcon } from '@mui/x-date-pickers';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -648,14 +649,30 @@ const LessonPlanBaseScreen = () => {
         onClose={() => setOpenViewRemarkDialog(false)}
         maxWidth="xs"
         fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+
       >
-        <DialogTitle
-          sx={{
-            py: 1,
-            backgroundColor: (theme) => theme.colors.primary.main,
-            color: (theme) => theme.palette.common.white,
-          }}
-        />
+        <DialogTitle  sx={{ bgcolor: '#223354' }}>
+           <ClearIcon onClick={() => setOpenViewRemarkDialog(false)}
+           sx={{
+             color: 'white',
+             // background:'white',
+             borderRadius: '7px',
+             position: 'absolute',
+             top: '5px',
+             right: '8px',
+             cursor: 'pointer',
+             '&:hover': {
+               color: 'red',
+               //  backgroundColor: red[100]
+
+             }
+           }} />
+        </DialogTitle>
         <DialogContent dividers>
           <Stack gap={1}>
             <Typography variant="h3" color="primary">View Remarks:</Typography>
