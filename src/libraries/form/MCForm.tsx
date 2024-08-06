@@ -81,8 +81,8 @@ const MCForm = ({
         </Avatar>
       </Box>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+      <Grid container spacing={2} sx={{pl:3}}>
+        <Grid item xs={11}>
           <TextField
             id="standard-basic"
             label="Name / Subject / Message Body :"
@@ -99,7 +99,7 @@ const MCForm = ({
             defaultValue={academicYear}
           />
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <Dropdown
             Array={MonthYearList}
             handleChange={clickMY}
@@ -108,7 +108,7 @@ const MCForm = ({
           />
         </Grid>
         <Grid item xs={5}>
-          <Box sx={{ width: '50px' }}>
+          <Box sx={{ width: '80px' }}>
             <Dropdown
               Array={operatorArray}
               handleChange={clickOperator}
@@ -116,7 +116,7 @@ const MCForm = ({
             />
           </Box>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           {/* <TextField
             type="date"
             id="outlined-required"
@@ -132,7 +132,7 @@ const MCForm = ({
 
                 />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={0}>
           <ArrowCircleRightRoundedIcon
             onClick={onClick}
             fontSize="large"

@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import InboxIcon from '@mui/icons-material/Inbox';
 import SendIcon from '@mui/icons-material/Send';
@@ -43,7 +43,7 @@ const MCButton = ({ ButtonType, clickTab, activeTab, MarkAsRead }) => {
         ) : ButtonType === 'Sent' ? (
           <SendIcon className={classes.IconSize} />
         ) : ButtonType === 'Trash' ? (
-          <DeleteIcon className={classes.IconSize} />
+          <DeleteForeverIcon className={classes.IconSize} />
         ) : ButtonType === 'Draft' ? (
           <DraftsIcon className={classes.IconSize} />
         ) : null}

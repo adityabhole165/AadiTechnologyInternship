@@ -488,7 +488,7 @@ const MessageList = () => {
 
   return (
     <>
-      <Box sx={{ px: 2 }}>
+      <Box sx={{ px: 2, }}>
         <CommonPageHeader navLinks={[
           {
             title: 'Message Center',
@@ -553,9 +553,10 @@ const MessageList = () => {
               <Card
                 sx={{
                   textAlign: 'center',
-                  height: '120px',
+                  height: '85px',
                   backgroundColor: '#599d92',
-                  mb: '7px'
+                  mb: '10px',
+                  borderRadius:'10px'
                 }}
               >
                 <RouterLink
@@ -565,7 +566,7 @@ const MessageList = () => {
                 >
                   <AddCircleIcon
                     onClick={clickClear}
-                    sx={{ mt: '30px', color: 'white' }}
+                    sx={{ mt: '10px', color: 'white' }}
                     className={classes.IconSize}
                   />
                   <br />
@@ -573,6 +574,7 @@ const MessageList = () => {
                 </RouterLink>
               </Card>
             </Hidden>
+            <Box>
             {!showSearch && (
               <CardMessage
                 activeTab={activeTab}
@@ -581,11 +583,12 @@ const MessageList = () => {
                 clickSearchIcon={clickSearchIcon}
               />
             )}
+            </Box>
           </Grid>
-          <Grid container sm={10} spacing={1}>
+          <Grid container sm={10} spacing={2}>
             {((showSearch && isMobile) || !isMobile) && (
               <>
-                <Grid item xs={12} sm={9} md={10}>
+                <Grid item xs={12} sm={9} md={12}>
                   <MCForm
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}
@@ -644,8 +647,10 @@ const MessageList = () => {
                       clickDelete={clickDelete}
                     />
                   </Box>
+                  <Box >
                   {activeTab == 'Inbox' && (
-                    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                    <Grid item 
+                     sx={MarkAsReadMessage}>
                       <ButtonPrimary
                         onClick={() => {
                           clickReadUnread('Unread');
@@ -665,6 +670,7 @@ const MessageList = () => {
                       </ButtonPrimary>
                     </Grid>
                   )}
+                  </Box>
                 </>
               )}
             </Grid>
