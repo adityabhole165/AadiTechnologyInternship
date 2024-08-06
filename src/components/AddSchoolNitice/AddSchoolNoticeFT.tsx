@@ -6,28 +6,29 @@ import Visibility from '@mui/icons-material/Visibility';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
+import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import { DeleteImage, GetAllClassAndDivision, getSaveSchoolNoticeDetails, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
-import ReactQuill from 'react-quill';
 
 const AddSchoolNoticeFT = () => {
     const { NoticeId } = useParams();
+    console.log(NoticeId, 'NoticeId')
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
@@ -39,7 +40,7 @@ const AddSchoolNoticeFT = () => {
     const [radioBtn, setRadioBtn] = useState('1');
     const [LinkName, setLinkName] = useState('');
     const [NoticeName, setNoticeName] = useState('');
-    const [selectDisplayLocation, setDisplayLocation] = useState('Both');
+    const [selectDisplayLocation, setDisplayLocation] = useState('B');
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
     const [StartTime, setStartTime] = useState('00:00');
@@ -53,6 +54,7 @@ const AddSchoolNoticeFT = () => {
     const [ItemList, setItemList] = useState([]);
     const [Description, setDescription] = useState('');
     const [SortOrder, setSortOrder] = useState('');
+    const [outSortOrder, setoutSortOrder] = useState('');
     const [Text, setText] = useState(false);
     const [LinkNameError, setLinkNameError] = useState('');
     const [NoticeNameError, setNoticeNameError] = useState('');
@@ -81,9 +83,9 @@ const AddSchoolNoticeFT = () => {
     ];
 
     const DisplayLocation = [
-        { Id: 1, Name: 'Both', Value: 'Both' },
-        { Id: 2, Name: 'Control Panel', Value: 'Control Panel' },
-        { Id: 3, Name: 'Home Page', Value: 'Home Page' },
+        { Id: 1, Name: 'Both', Value: 'B' },
+        { Id: 2, Name: 'Control Panel', Value: 'C' },
+        { Id: 3, Name: 'Home Page', Value: 'H' },
     ];
 
     const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
@@ -94,6 +96,7 @@ const AddSchoolNoticeFT = () => {
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
     const SaveNotice = useSelector((state: RootState) => state.SchoolNoticeForm.SaveSchoolNotice);
     const deleteNoticeImageMsg = useSelector((state: RootState) => state.SchoolNoticeForm.DeleteImageMsg);
+    const EditNotice = useSelector((state: RootState) => state.SchoolNoticeForm.EditSchoolNotice);
 
 
     useEffect(() => {
@@ -103,6 +106,35 @@ const AddSchoolNoticeFT = () => {
         };
         dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
     }, [])
+
+    useEffect(() => {
+        if (NoticeId != undefined && EditNotice.length > 0 && EditNotice[0] != null) {
+            const EditNoticee = EditNotice[0]
+            setNoticeName(EditNoticee.Text1);
+            setStartDate(EditNoticee.Text2)
+            setEndDate(EditNoticee.Text3)
+            console.log(EditNoticee.Text4, 'setDisplayLocation')
+            setDisplayLocation(EditNoticee.Text4)
+            console.log(EditNoticee.Text4, 'DisplayLocation')
+            setSortOrder(EditNoticee.Text5)
+            setNoticeFile(EditNoticee.Text6)
+            setDescription(EditNoticee.Text7)
+            setNoticeContent(EditNoticee.Text8)
+            setoutSortOrder(EditNoticee.Text9)
+            setText(EditNoticee.IsText)
+            setImageFile(EditNoticee.NoticeImage)
+        }
+    }, [EditNotice]);
+
+    useEffect(() => {
+        if (NoticeId) {
+            const GetEditNoticeBody: IGetEditUserRolesandStdDivForSelectedNoticeIdBody = {
+                asSchoolId: asSchoolId,
+                asNoticeId: Number(NoticeId)
+            }
+            dispatch(getEditSchoolNoticeDetails(GetEditNoticeBody))
+        }
+    }, [NoticeId]);
 
     const isClassSelected = () => {
         let arr = []
@@ -243,7 +275,7 @@ const AddSchoolNoticeFT = () => {
         }
     }, [SaveNotice])
 
-   
+
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -649,13 +681,13 @@ const AddSchoolNoticeFT = () => {
                             )}
                         </Grid>
                         {radioBtn === '1' ? null
-                        :
-                        <Grid item md={12}>
-                            <Box>
-                                <ReactQuill value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
-                            </Box>
-                        </Grid>
-                    }
+                            :
+                            <Grid item md={12}>
+                                <Box>
+                                    <ReactQuill value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                </Box>
+                            </Grid>
+                        }
                     </Grid>
                 </Box>
             </Box >

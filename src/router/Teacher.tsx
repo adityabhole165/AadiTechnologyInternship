@@ -649,6 +649,10 @@ const teacherRoutes = [
     element: <AddSchoolNoticeFT />
   },
   {
+    path: 'AddSchoolNoticeFT/:NoticeId',
+    element: <AddSchoolNoticeFT />
+  },
+  {
     path: 'PreprimaryProgressReport',
     element: <PreprimaryProgressReport />
   }
