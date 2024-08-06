@@ -556,7 +556,7 @@ const MessageList = () => {
                   height: '85px',
                   backgroundColor: '#599d92',
                   mb: '10px',
-                  borderRadius:'10px'
+                  borderRadius:'15px'
                 }}
               >
                 <RouterLink
@@ -780,8 +780,8 @@ const MessageList = () => {
                   style={{
                     width: '95px',
                     position: 'fixed',
-                    bottom: '80px',
-                    right: '20px'
+                    bottom: '70px',
+                    right: '60px'
                   }}
                 >
                   <RouterLink
@@ -790,7 +790,7 @@ const MessageList = () => {
                       }/MessageCenter/Compose`}
                   >
                     <Item
-                      sx={{ fontSize: '10px', marginLeft: '-7px', mb: '10px' }}
+                      sx={{ fontSize: '10px', mr:1, mb: '10px', borderRadius:'15px',  }}
                     >
                       <AddCircleIcon onClick={clickClear} />
                       <br />
