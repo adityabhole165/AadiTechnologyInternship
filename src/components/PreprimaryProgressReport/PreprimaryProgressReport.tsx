@@ -72,7 +72,7 @@ const PreprimaryProgressReport = () => {
     };
 
     const clickAssessmentId = (value) => {
-        AssessmentId(value);
+        setAssessmentId(value);
 
     };
 
@@ -102,7 +102,11 @@ const PreprimaryProgressReport = () => {
             setStudentId(USlistStudentNameDetails[0].Value);
         }
     }, [USlistStudentNameDetails]);
-
+    useEffect(() => {
+        if (USlistAssessmentDetailss.length > 0) {
+            setAssessmentId(USlistAssessmentDetailss[0].Value);
+        }
+    }, [USlistAssessmentDetailss]);
     return (
         <Box sx={{ px: 2 }}>
 
