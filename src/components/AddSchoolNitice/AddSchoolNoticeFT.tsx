@@ -5,24 +5,25 @@ import SaveIcon from '@mui/icons-material/Save';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { IGetAllClassesAndDivisionsBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
+import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import { GetAllClassAndDivision, getSaveSchoolNoticeDetails, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import { DeleteImage, GetAllClassAndDivision, getSaveSchoolNoticeDetails, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
+import { AlertContext } from 'src/contexts/AlertContext';
 
 const AddSchoolNoticeFT = () => {
     const { NoticeId } = useParams();
@@ -64,6 +65,7 @@ const AddSchoolNoticeFT = () => {
     const [selectedValue, setSelectedValue] = useState('');
     const [selectAll, setSelectAll] = useState(false);
     const [applicableRoleId, setapplicableRoleId] = useState('');
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const [applicableTo, setApplicableTo] = useState({
         admin: false,
         teacher: false,
@@ -89,7 +91,7 @@ const AddSchoolNoticeFT = () => {
     const ClassesAndDivisionss = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss);
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
     const SaveNotice = useSelector((state: RootState) => state.SchoolNoticeForm.SaveSchoolNotice);
-
+    const deleteNoticeImageMsg = useSelector((state: RootState) => state.SchoolNoticeForm.DeleteImageMsg);
 
 
     useEffect(() => {
@@ -109,6 +111,35 @@ const AddSchoolNoticeFT = () => {
         return arr.toString()
     }
     const ClassSelected = isClassSelected()
+
+    const deleteImage = (Id: number) => {
+        const DeleteSchoolNoticeBody: IGetDeleteSchoolNoticeImageBody = {
+            asSchoolId: Number(asSchoolId),
+            asNoticeId: Number(Id),
+            asIsText: 0,
+        };
+        showAlert({
+            title: 'Please Confirm',
+            message: 'Are you sure you want to delete the File?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(DeleteImage(DeleteSchoolNoticeBody));
+                closeAlert();
+            },
+        });
+    };
+
+    useEffect(() => {
+        if (deleteNoticeImageMsg !== '') {
+            toast.success(deleteNoticeImageMsg);
+            dispatch(resetDeleteSchoolNotice());
+        }
+    }, [deleteNoticeImageMsg]);
 
     const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
         NoticeId: 0,
