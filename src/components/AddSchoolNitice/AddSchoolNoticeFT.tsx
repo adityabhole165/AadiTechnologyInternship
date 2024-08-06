@@ -1,6 +1,6 @@
 import Close from '@mui/icons-material/Close';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
@@ -8,22 +8,32 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
-import { IGetAllClassesAndDivisionsBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { IGetAllClassesAndDivisionsBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import { GetAllClassAndDivision } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import { GetAllClassAndDivision, getSaveSchoolNoticeDetails, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import TimeField from '../StudentRecords/TimeField';
 import { ResizableTextField } from './ResizableDescriptionBox';
+import TimepickerTwofields from './TimepickerTwofields';
 
 const AddSchoolNoticeFT = () => {
+    const { NoticeId } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const { state } = location;
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const asFolderName = localStorage.getItem('FolderName');
     const [radioBtn, setRadioBtn] = useState('1');
     const [LinkName, setLinkName] = useState('');
     const [NoticeName, setNoticeName] = useState('');
@@ -40,15 +50,20 @@ const AddSchoolNoticeFT = () => {
     const [ItemList, setItemList] = useState([]);
     const [Description, setDescription] = useState('');
     const [SortOrder, setSortOrder] = useState('');
-    const [isRoleError, setIsRoleError] = useState(false);
-    const [isClassError, setIsClassError] = useState(false);
-    const location = useLocation();
-    const { state } = location;
+    const [Text, setText] = useState(false);
+    const [LinkNameError, setLinkNameError] = useState('');
+    const [NoticeNameError, setNoticeNameError] = useState('');
+    const [SortOrderError, setSortOrderError] = useState('');
+    const [ErrorStartDateblank, setErrorStartDateblank] = useState('');
+    const [ErrorEndDateblank, setErrorEndDateblank] = useState('');
+    const [ErrorStartDate, setErrorStartDate] = useState('');
+    const [ErrorEndDate, setErrorEndDate] = useState('');
+    const [ErrorUserRole, setErrorUserRole] = useState('');
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogMessage, setDialogMessage] = useState('');
-    const dispatch = useDispatch();
     const [selectedValue, setSelectedValue] = useState('');
     const [selectAll, setSelectAll] = useState(false);
+    const [applicableRoleId, setapplicableRoleId] = useState('');
     const [applicableTo, setApplicableTo] = useState({
         admin: false,
         teacher: false,
@@ -73,6 +88,8 @@ const AddSchoolNoticeFT = () => {
     const MaxfileSize2 = 10000000;
     const ClassesAndDivisionss = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss);
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
+    const SaveNotice = useSelector((state: RootState) => state.SchoolNoticeForm.SaveSchoolNotice);
+
 
 
     useEffect(() => {
@@ -83,15 +100,129 @@ const AddSchoolNoticeFT = () => {
         dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
     }, [])
 
+    const isClassSelected = () => {
+        let arr = []
+        ItemList.map(item => {
+            if (item.IsActive)
+                arr.push(item.Id)
+        })
+        return arr.toString()
+    }
+    const ClassSelected = isClassSelected()
+
+    const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
+        NoticeId: 0,
+        asUserRoleIds: applicableRoleId,
+        asClassIds: ClassSelected,
+        asSaveFeature: 'School Notices',
+        asFolderName: asFolderName,
+        asBase64String: base64URL,
+        asBase64String2: base64URL2,
+        NoticeName: NoticeName,
+        DisplayLocation: selectDisplayLocation,
+        StartDate: StartDate + ' ' + StartTime,
+        EndDate: EndDate + ' ' + EndTime,
+        SortOrder: Number(SortOrder),
+        FileName: NoticeFile,
+        IsSelected: true,
+        IsText: Text,
+        NoticeContent: null,
+        UserId: asUserId,
+        SchoolId: Number(asSchoolId),
+        InertedById: asUserId,
+        NoticeDescription: Description,
+        NoticeImage: ImageFile
+    }
+    const ClickSave = () => {
+        let isError = false;
+        let dateError = false;
+        if (radioBtn == '1') {
+            if (NoticeName == '') {
+                setLinkNameError('Link name should not be blank.');
+                isError = true;
+            } else setLinkNameError('')
+        }
+        if (radioBtn == '2') {
+            if (NoticeName == '') {
+                setNoticeNameError('Notice name should not be blank.');
+                isError = true;
+            } else setNoticeNameError('')
+        }
+
+        // if (!isClassSelected()) {
+        //     setErrorUserRole('At least one user role should be selected.');
+        //     isError = true;
+        // } else setErrorUserRole('')
+
+        if (StartDate === '') {
+            setErrorStartDate('Please choose a valid start date.');
+            dateError = true
+            isError = true;
+        } else setErrorStartDate('')
+
+        if (StartDate === null) {
+            setErrorStartDateblank('Start Date should not be blank.');
+
+            dateError = true
+            isError = true;
+        } else setErrorStartDateblank('')
+
+
+        if (EndDate == '') {
+            setErrorEndDate('End date should be greater than start date.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDate('')
+
+        if (EndDate == null) {
+            setErrorEndDateblank('End Date should not be blank.');
+            dateError = true
+            isError = true;
+        } else setErrorEndDateblank('')
+
+        if (NoticeFile == '') {
+            setNoticeFileError('Notice File to be uploaded should be selected.');
+            isError = true;
+        } else setNoticeFileError('')
+
+        if (SortOrder == '') {
+            setSortOrderError('Sort order should not be blank.');
+            isError = true;
+        } else setSortOrderError('')
+
+        if (!isError) {
+            console.log('SaveNoticeBody', SaveNoticeBody)
+            dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
+        }
+
+    };
+    useEffect(() => {
+        if (SaveNotice != "") {
+
+            if (NoticeId) {
+                toast.success("Notice updated successfully.", { toastId: "success1" });
+            } else {
+                toast.success("School notice added successfully.", { toastId: "success1" });
+            }
+            dispatch(resetSaveSchoolNoticeDetails());
+
+            navigate('/extended-sidebar/Teacher/SchoolNoticeBasescreen');
+        }
+    }, [SaveNotice])
+
     const ClickRadio = (value) => {
         setRadioBtn(value);
+        if (radioBtn == '1') {
+            setText(false)
+        }
+        else {
+            setText(true)
+        }
     };
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
 
-    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const handleSelectAll = (event) => {
         const { checked } = event.target;
         setSelectAll(checked);
@@ -115,17 +246,6 @@ const AddSchoolNoticeFT = () => {
         // Handle cancel action
     };
 
-    const isClassSelected = () => {
-        let arr = []
-        ItemList.map(item => {
-            if (item.IsActive)
-                arr.push(item.Id)
-        })
-        return arr.toString()
-    }
-    const ClassSelected = isClassSelected()
-
-
     useEffect(() => {
         setItemList(ClassesAndDivisionss);
     }, [ClassesAndDivisionss]);
@@ -145,7 +265,6 @@ const AddSchoolNoticeFT = () => {
     const onSelectStartDate = (value) => {
         setStartDate(getCalendarDateFormatDateNew(value));
     };
-
     const onSelectEndDate = (value) => {
         setEndDate(getCalendarDateFormatDateNew(value));
     };
@@ -157,9 +276,6 @@ const AddSchoolNoticeFT = () => {
     const ChangeFile2 = (value) => {
         setImageFile(value.Name);
         setbase64URL2(value.Value);
-    };
-    const handleSave = () => {
-        // Handle save action
     };
 
     return (
@@ -219,7 +335,7 @@ const AddSchoolNoticeFT = () => {
                                             height: '36px !important',
                                             ':hover': { backgroundColor: green[600] }
                                         }}
-                                        onClick={handleSave}
+                                        onClick={ClickSave}
                                     >
                                         <SaveIcon />
                                     </IconButton>
@@ -251,14 +367,15 @@ const AddSchoolNoticeFT = () => {
                                     }
                                     multiline
                                     rows={1}
-                                    value={LinkName}
+                                    value={NoticeName}
                                     onChange={(e) => {
                                         const value = e.target.value;
                                         if (value.length <= 50) {
-                                            setLinkName(value);
+                                            setNoticeName(value);
                                         }
                                     }}
                                 />
+                                <ErrorMessage1 Error={LinkNameError}></ErrorMessage1>
                             </Grid>
                         ) : (
                             <Grid item xs={4}>
@@ -279,6 +396,7 @@ const AddSchoolNoticeFT = () => {
                                         }
                                     }}
                                 />
+                                <ErrorMessage1 Error={NoticeNameError}></ErrorMessage1>
                             </Grid>
                         )}
                         <Grid item xs={6} md={4}>
@@ -298,6 +416,8 @@ const AddSchoolNoticeFT = () => {
                                 label={'Start Date'}
                                 size={"medium"}
                             />
+                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={6} md={4}>
                             <Datepicker
@@ -306,13 +426,15 @@ const AddSchoolNoticeFT = () => {
                                 label={'End Date'}
                                 size={"medium"}
                             />
+                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
+                            <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
 
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TimeField Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
+                            <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
@@ -332,6 +454,7 @@ const AddSchoolNoticeFT = () => {
                                     }
                                 }}
                             />
+                            <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={6} md={4}>
                             <Box sx={{ position: 'relative' }}>

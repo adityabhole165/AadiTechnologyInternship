@@ -190,11 +190,11 @@ const SchoolNoticeBaseScreen = () => {
     };
 
     const EditSchoolNotice = (Id: number) => {
-        navigate('../AddSchoolNotice/' + Id);
+        navigate('../AddSchoolNoticeFT/' + Id);
     };
 
     const AddSchoolNotice = () => {
-        navigate('../AddSchoolNotice');
+        navigate('../AddSchoolNoticeFT');
     };
 
     const clickDisplayTypeDropdown = (value) => {
@@ -338,7 +338,7 @@ const SchoolNoticeBaseScreen = () => {
                             <Tooltip title={'Add New Notice'}>
                                 <IconButton
                                     onClick={() =>
-                                        navigate('/extended-sidebar/Teacher/AddSchoolNotice')
+                                        navigate('/extended-sidebar/Teacher/AddSchoolNoticeFT')
                                     }
                                     sx={{
                                         color: 'white',
