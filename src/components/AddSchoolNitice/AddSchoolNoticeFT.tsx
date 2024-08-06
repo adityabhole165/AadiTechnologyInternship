@@ -10,6 +10,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -23,7 +24,7 @@ import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
-import { AlertContext } from 'src/contexts/AlertContext';
+import ReactQuill from 'react-quill';
 
 const AddSchoolNoticeFT = () => {
     const { NoticeId } = useParams();
@@ -44,6 +45,7 @@ const AddSchoolNoticeFT = () => {
     const [StartTime, setStartTime] = useState('00:00');
     const [EndTime, setEndTime] = useState('23:59');
     const [NoticeFile, setNoticeFile] = useState('');
+    const [NoticeContent, setNoticeContent] = useState('');
     const [NoticeFileError, setNoticeFileError] = useState('');
     const [ImageFile, setImageFile] = useState('');
     const [base64URL, setbase64URL] = useState('');
@@ -157,7 +159,7 @@ const AddSchoolNoticeFT = () => {
         FileName: NoticeFile,
         IsSelected: true,
         IsText: Text,
-        NoticeContent: null,
+        NoticeContent: NoticeContent,
         UserId: asUserId,
         SchoolId: Number(asSchoolId),
         InertedById: asUserId,
@@ -241,6 +243,27 @@ const AddSchoolNoticeFT = () => {
         }
     }, [SaveNotice])
 
+   
+    const modules = {
+        toolbar: [
+            [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+            [{ size: [] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'color': [] }, { 'background': [] }],
+            ['link', 'image', 'video'],
+            ['clean']
+        ],
+    };
+
+    const formats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent',
+        'color', 'background',
+        'link', 'image', 'video'
+    ];
+
     const ClickRadio = (value) => {
         setRadioBtn(value);
         if (radioBtn == '1') {
@@ -252,6 +275,10 @@ const AddSchoolNoticeFT = () => {
     };
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
+    };
+
+    const handleEditorChange = (value) => {
+        setNoticeContent(value);
     };
 
     const handleSelectAll = (event) => {
@@ -523,34 +550,38 @@ const AddSchoolNoticeFT = () => {
                                 />
                             </Grid>
                                 <Grid item xs={1} md={1}>
-                                    <Tooltip title={"View"}>
-                                        <IconButton
-                                            onClick={undefined}
-                                            sx={{
-                                                color: '#223354',
-                                                '&:hover': {
-                                                    color: '#223354',
-                                                    cursor: 'pointer'
-                                                }
-                                            }}
-                                        >
-                                            <Visibility />
-                                        </IconButton>
-                                    </Tooltip> &nbsp;
-                                    <Tooltip title={"Delete"}>
-                                        <IconButton
-                                            onClick={undefined}
-                                            sx={{
-                                                color: '#223354',
-                                                '&:hover': {
-                                                    color: 'red',
-                                                    backgroundColor: red[100]
-                                                }
-                                            }}
-                                        >
-                                            <DeleteForeverIcon />
-                                        </IconButton>
-                                    </Tooltip>
+                                    {radioBtn === '1' && (
+                                        <>
+                                            <Tooltip title={"View"}>
+                                                <IconButton
+                                                    onClick={undefined}
+                                                    sx={{
+                                                        color: '#223354',
+                                                        '&:hover': {
+                                                            color: '#223354',
+                                                            cursor: 'pointer'
+                                                        }
+                                                    }}
+                                                >
+                                                    <Visibility />
+                                                </IconButton>
+                                            </Tooltip> &nbsp;
+                                            <Tooltip title={"Delete"}>
+                                                <IconButton
+                                                    onClick={undefined}
+                                                    sx={{
+                                                        color: '#223354',
+                                                        '&:hover': {
+                                                            color: 'red',
+                                                            backgroundColor: red[100]
+                                                        }
+                                                    }}
+                                                >
+                                                    <DeleteForeverIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </>
+                                    )}
                                 </Grid> </> : null}
 
                         <Grid item xs={12} >
@@ -617,6 +648,14 @@ const AddSchoolNoticeFT = () => {
                                 </Grid>
                             )}
                         </Grid>
+                        {radioBtn === '1' ? null
+                        :
+                        <Grid item md={12}>
+                            <Box>
+                                <ReactQuill value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                            </Box>
+                        </Grid>
+                    }
                     </Grid>
                 </Box>
             </Box >
