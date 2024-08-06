@@ -1,26 +1,37 @@
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import PrintIcon from '@mui/icons-material/Print';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, IconButton, Tooltip } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
-import { CDAAllPrimaryClassTeachers } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
-import { RootState } from 'src/store';
-import CommonPageHeader from '../CommonPageHeader';
+import { GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { getSchoolConfigurations, GetScreenPermission } from '../Common/Util';
+import { CDAAllPrimaryClassTeachers, CDAStudentDetailsDropdown } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { RootState } from 'src/store';
+import { GetScreenPermission } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 
 const PreprimaryProgressReport = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState();
-    const  PreprimaryFullAccess = GetScreenPermission('Pre-Primary Progress Report');
+    const [StudentId, setStudentId]: any = useState();
+    const [AssessmentId, setAssessmentId]: any = useState();
+    const PreprimaryFullAccess = GetScreenPermission('Pre-Primary Progress Report');
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
-
+    const asStandardDivisionId = Number(
+        sessionStorage.getItem('StandardDivisionId')
+    );
     const USAllPrimaryClassTeacherssBody: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISAllPrimaryClassTeacherss);
     const PrePrimaryClassTeacher = USAllPrimaryClassTeacherssBody.filter((teacher: any) => teacher.Is_PrePrimary === 'Y');
+
+    const USlistStudentNameDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistStudentNameDetails);
+    const USlistAssessmentDetailss: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistAssessmentDetailss);
+
+
     const HeaderPublish = [
         { Id: 1, Header: 'Item Code' },
         { Id: 2, Header: 'Item Name' },
@@ -40,20 +51,57 @@ const PreprimaryProgressReport = () => {
         asTeacher_id: 0,
 
     };
+    const StudentDetailsDropdownBody: GetStudentDetailsDropdownBody =
+    {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivId: PreprimaryFullAccess == 'Y' ? ClassTeacher : asStandardDivisionId,
 
-     const clickClassTeacher = (value) => {
+    };
+
+
+
+
+    const clickClassTeacher = (value) => {
         setClassTeacher(value);
-       
+
+    };
+    const clickStudentId = (value) => {
+        setStudentId(value);
+
+    };
+
+    const clickAssessmentId = (value) => {
+        AssessmentId(value);
+
+    };
+
+    const ClickShow = (value) => {
+        
+    }
+
+    const clickPrint = () => {
+      window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
     };
 
     useEffect(() => {
         dispatch(CDAAllPrimaryClassTeachers(AllPrimaryClassTeachersBody));
     }, []);
     useEffect(() => {
+        dispatch(CDAStudentDetailsDropdown(StudentDetailsDropdownBody));
+    }, []);
+
+    useEffect(() => {
         if (PrePrimaryClassTeacher.length > 0) {
             setClassTeacher(PrePrimaryClassTeacher[0].Value);
         }
-      }, [PrePrimaryClassTeacher]);
+    }, [PrePrimaryClassTeacher]);
+
+    useEffect(() => {
+        if (USlistStudentNameDetails.length > 0) {
+            setStudentId(USlistStudentNameDetails[0].Value);
+        }
+    }, [USlistStudentNameDetails]);
 
     return (
         <Box sx={{ px: 2 }}>
@@ -71,9 +119,61 @@ const PreprimaryProgressReport = () => {
                             sx={{ minWidth: '250px' }}
                             onChange={clickClassTeacher}
                             defaultValue={ClassTeacher}
-                            label={'Class Teacher'}
+                            label={'Class Teacher '}
+                            size={"small"}
+                            mandatory
+                        />
+
+                        <SearchableDropdown
+                            ItemList={USlistStudentNameDetails}
+                            sx={{ minWidth: '250px' }}
+                            onChange={clickStudentId}
+                            defaultValue={StudentId}
+                            label={'Student '}
                             size={"small"}
                         />
+
+                        <SearchableDropdown
+                            ItemList={USlistAssessmentDetailss}
+                            sx={{ minWidth: '250px' }}
+                            onChange={clickAssessmentId}
+                            defaultValue={AssessmentId}
+                            label={'Assessment '}
+                            size={"small"}
+                            mandatory
+                        />
+
+
+                        <Box>
+                            <Tooltip title={'Show'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
+                                    }}
+                                    onClick={ClickShow}>
+                                    <VisibilityTwoToneIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box>
+                            <Tooltip title={'Print Preview'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: blue[500],
+                                        '&:hover': {
+                                            backgroundColor: blue[600]
+                                        }
+                                    }}
+                                    onClick={clickPrint}>
+                                    <PrintIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
                         <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
                             <IconButton
                                 sx={{

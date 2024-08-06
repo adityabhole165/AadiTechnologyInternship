@@ -15,3 +15,31 @@ export interface IGetAllPrimaryClassTeacherssBody {
     SchoolWise_Standard_Division_Id: string
     Is_PrePrimary: string
   }
+
+
+
+  export interface GetStudentDetailsDropdownBody {
+    asSchoolId: number
+    asAcademicYearId: number
+    asStandardDivId: number
+  }
+
+  export interface GetStudentDetailsDropdownResult {
+    listStudentNameDetails  : [
+        {
+          YearwiseStudentId : string
+          StudentName: string
+         
+        }
+    ],
+    listAssessmentDetailss: [
+        {
+          AssessmentId: string;
+          Name: string;   
+           
+        }
+    ],
+        
+  
+    
+  }
