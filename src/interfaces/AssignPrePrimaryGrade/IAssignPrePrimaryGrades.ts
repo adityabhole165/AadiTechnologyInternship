@@ -172,3 +172,48 @@ export interface IGetSubmitUnsubmitExamMarksStatusBody {
   asSchoolId: Number,
   asInserted_By_id: Number
 }
+
+export interface IGetXseedStudentsInfoBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asStandardDivisionId: Number,
+  asAssessmentId: Number,
+  asSubjectId: Number
+}
+
+export interface IGetXseedStudentsInfoResult {
+  listYearwiseStudentDetails: [
+    {
+      StudentName: string,
+      YearWise_Student_Id: Number,
+      SchoolWise_Standard_Division_Id: Number,
+      AssessmentId: Number,
+      SchoolLeft_Date: string,
+      StartDate: string
+    }
+  ],
+  SubjectSectionDetails: [
+    {
+      SubjectSectionConfigurationId: Number,
+      SubjectSectionName: string
+    }
+  ],
+  AssessmentSectionDetails: {
+    AssessmentId: Number,
+    Name: string
+  },
+  ClassAndSubjectDetails: {
+    ClassName: string,
+    Subject_Name: string
+  },
+  listGradesDetails: [
+    {
+      GradeId: Number,
+      GradeName: string,
+      ShortName: string,
+      ConsideredAsAbsent: Number,
+      ConsideredAsExempted: Number,
+      SortOrder: Number
+    }
+  ]
+}

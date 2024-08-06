@@ -13,6 +13,8 @@ import {
   IGetTeacherXseedSubjectsResult,
   IGetTestwiseTermBody,
   IGetTestwiseTermResult,
+  IGetXseedStudentsInfoBody,
+  IGetXseedStudentsInfoResult,
   ISaveNonXseedSubGrades,
   ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
@@ -51,6 +53,10 @@ const GetStudentsForStdDevMasters = (data: IGetStudentsForStdDevMasters) => {
     data
   );
 };
+
+const GetXseedStudentsDataApi = (data: IGetXseedStudentsInfoBody) => {
+  return http.post<IGetXseedStudentsInfoResult>('Teacher/GetStudentsForStdDevMasters', data)
+}
 
 const GetTeacherXseedSubjects = (data: IGetTeacherXseedSubjectsBody) => {
   return http.post<IGetTeacherXseedSubjectsResult[]>(
@@ -92,6 +98,7 @@ const ApiAssignPrePrimaryGrades = {
   IGetSaveNonXseedSubGrades,
   GetStudentsForNonXseedSubjectWithObs,
   GetSubmitUnsubmitExamMarksStatus,
-  GetTeacherDropdown
+  GetTeacherDropdown,
+  GetXseedStudentsDataApi
 };
 export default ApiAssignPrePrimaryGrades;

@@ -244,8 +244,14 @@ export interface IGetClassTimeTableResult {
     WeekDayDeatilsForClass: any,
     AddtionalLecturesForClass: any,
     LectureNumberForClass: any,
-    Lecture_No_WeekDayAssemblyForClass: any,
-    Lecture_No_WeekDayMPTForClass: any,
+    Lecture_No_WeekDayAssemblyForClass: {
+        WeekDay_Name: string,
+        Lecture_Number: string
+    },
+    Lecture_No_WeekDayMPTForClass: {
+        WeekDay_Name: string,
+        Lecture_Number: string
+    },
     Lecture_No_WeekDayWeeklyTestForClass: any
 }
 
@@ -271,4 +277,16 @@ export interface IGetManageClassTimeTableBody {
     asDayTimeTableDetailsXml: string,
     asIsAdditionalClass: boolean,
     asIsCountInceased: Number
+}
+
+// Delete Additional Lecture API Interface
+export interface IGetDeleteAdditionalLectureBody {
+    asSchoolId: Number,
+    asAcadmicYearId: Number,
+    asTeacherId: Number,
+    asStayBack: boolean,
+    asMPTweekday: string,
+    asMPTLectNo: Number,
+    asAssemblyDay: string,
+    asAssemblyLecNo: Number
 }

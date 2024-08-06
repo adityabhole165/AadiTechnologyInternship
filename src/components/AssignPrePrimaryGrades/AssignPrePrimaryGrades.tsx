@@ -237,21 +237,30 @@ const AssignPrePrimaryGrades = () => {
   const clickSelectClass = (value) => {
     SetselectTeacher(value);
   };
-  const clickEdit = (SubmitStatusId, ClassName, SubjectName, SubjectId, StandardDivisionID) => {
+  const clickEdit = (SubmitStatusId, ClassName, SubjectName, SubjectId, StandardDivisionID, IsXseed) => {
     let EditStatusId = SubmitStatusId
     let StandardDivisionId = StandardDivisionID
     let Assesment: string;
+    let isXseed = IsXseed;
     USGetTestwiseTerm.forEach(AssesmentArray => {
       if (AssesmentArray.Id === SelectTerm) {
         Assesment = AssesmentArray.Name
       }
     })
-    if (SubmitStatusId === "1") {
+    if (SubmitStatusId === "1" && isXseed === 'N') {
       navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
-    } else if (SubmitStatusId === "2") {
+    } else if (SubmitStatusId === "2" && isXseed === 'N') {
       navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
-    } else if (SubmitStatusId === "3") {
+    } else if (SubmitStatusId === "3" && isXseed === 'N') {
       navigate('/extended-sidebar/Teacher/AssignProgressReportSubject' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
+    }
+
+    if (SubmitStatusId === "1" && isXseed === 'Y') {
+      navigate('/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
+    } else if (SubmitStatusId === "2" && isXseed === 'Y') {
+      navigate('/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
+    } else if (SubmitStatusId === "3" && isXseed === 'Y') {
+      navigate('/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades' + '/' + EditStatusId + '/' + ClassName + '/' + Assesment + '/' + SelectTerm + '/' + SubjectName + '/' + SubjectId + '/' + StandardDivisionId + '/' + selectTeacher)
     }
   };
   let a = GetIsPrePrimaryTeacher()

@@ -1,4 +1,4 @@
-import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -34,6 +34,9 @@ const GetTimeTableForClassApi = (data: IGetClassTimeTableBody) => {
 const GetSaveTeacherTimeTableApi = (data: IGetSaveTeacherTimeTableBody) => {
     return http.post<string>('Teacher/SaveTeacherTimeTable', data)
 }
+const GetDeleteAdditionalLectureApi = (data: IGetDeleteAdditionalLectureBody) => {
+    return http.post<string>('Teacher/DeleteAdditionalLecture', data)
+}
 
 const GetManageClassTimeTableApi = (data: IGetManageClassTimeTableBody) => {
     return http.post<string>('Teacher/ManageClassTimeTable', data)
@@ -48,7 +51,8 @@ const WeeklyTimeTableApi = {
     GetTimeTableForTeacherApi,
     GetTimeTableForClassApi,
     GetSaveTeacherTimeTableApi,
-    GetManageClassTimeTableApi
+    GetManageClassTimeTableApi,
+    GetDeleteAdditionalLectureApi
 };
 
 export default WeeklyTimeTableApi;

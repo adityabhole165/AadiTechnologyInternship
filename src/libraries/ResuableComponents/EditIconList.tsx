@@ -57,19 +57,19 @@ function EditIconList({
                   {item.Text3 === '3' ? (
                     <IconButton>
                       <Tooltip title="Marks entry completed">
-                        <CheckIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#07bc0c' }} />
+                        <CheckIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed)} sx={{ cursor: 'pointer', color: '#07bc0c' }} />
                       </Tooltip>
                     </IconButton>
                   ) : item.Text3 === '2' ? (
                     <IconButton>
                       <Tooltip title="Marks entry partially done">
-                        <DesignServicesIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: 'orange' }} />
+                        <DesignServicesIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed)} sx={{ cursor: 'pointer', color: 'orange' }} />
                       </Tooltip>
                     </IconButton>
                   ) : (
                     <IconButton>
                       <Tooltip title="Marks entry not started">
-                        <EditOffIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID)} sx={{ cursor: 'pointer', color: '#f44336' }} />
+                        <EditOffIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed)} sx={{ cursor: 'pointer', color: '#f44336' }} />
                       </Tooltip>
                     </IconButton>
                   )}

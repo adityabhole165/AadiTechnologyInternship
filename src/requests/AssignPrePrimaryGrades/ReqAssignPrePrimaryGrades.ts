@@ -7,6 +7,7 @@ import {
   IGetTeacherDropdownBody,
   IGetTeacherXseedSubjectsBody,
   IGetTestwiseTermBody,
+  IGetXseedStudentsInfoBody,
   ISaveNonXseedSubGrades,
   ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
@@ -28,6 +29,8 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ISGetNonXseedStudentsObs: [],
     ISGetTeacherDropdown: [],
     ISGetSubmitUnsubmitExamMarksStatusMsg: '',
+    ISXseedStudentsList: [],
+    ISXseedSubjectSectionList: [],
     Loading: true
   },
   reducers: {
@@ -35,7 +38,14 @@ const AssignPrePrimaryGradesSlice = createSlice({
       state.ISGetTestwiseTerm = action.payload;
       state.Loading = false;
     },
-
+    RXseedStudentsList(state, action) {
+      state.ISXseedStudentsList = action.payload;
+      state.Loading = false;
+    },
+    RXseedSubjectSectionList(state, action) {
+      state.ISXseedSubjectSectionList = action.payload;
+      state.Loading = false;
+    },
     RGetClassTeachers(state, action) {
       state.ISGetClassTeachers = action.payload;
     },
@@ -88,6 +98,8 @@ const AssignPrePrimaryGradesSlice = createSlice({
     },
   }
 });
+
+
 
 export const CDAGetNonXseedStudentsObs =
   (data: IGetGetStudentsForNonXseedSubjects): AppThunk =>
@@ -211,6 +223,7 @@ export const CDAGetTeacherXseedSubjects =
           Id: i,
           SubjectId: item.SubjectId,
           StandardDivisionID: item.StandardDivisionID,
+          IsXseed: item.IsXseedSubject,
           Text1: item.StandardDivision,
           Text2: item.Subject_Name,
           Text3: item.EditStatus,
@@ -225,6 +238,34 @@ export const CDAGetTeacherXseedSubjects =
         )
       );
     };
+
+export const CDAXseedStudentsdata =
+  (data: IGetXseedStudentsInfoBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAssignPrePrimaryGrades.GetXseedStudentsDataApi(data);
+      const XseedStudentsList = response.data.listYearwiseStudentDetails.map((item, i) => {
+        return (
+          {
+            Id: item.YearWise_Student_Id.toString(),
+            Name: item.StudentName,
+            Value: item.YearWise_Student_Id.toString()
+          }
+        )
+      });
+      XseedStudentsList.unshift({ Id: '0', Name: 'Select', Value: '0' })
+      const XseedSubjectSectionList = response.data.SubjectSectionDetails.map((item, i) => {
+        return (
+          {
+            Id: item.SubjectSectionConfigurationId.toString(),
+            Name: item.SubjectSectionName,
+            Value: item.SubjectSectionConfigurationId.toString()
+          }
+        )
+      });
+      XseedSubjectSectionList.unshift({ Id: '0', Name: 'Select', Value: '0' })
+      dispatch(AssignPrePrimaryGradesSlice.actions.RXseedStudentsList(XseedStudentsList))
+      dispatch(AssignPrePrimaryGradesSlice.actions.RXseedSubjectSectionList(XseedSubjectSectionList))
+    }
 
 export const CDAGetStudentsForNonXseedSubjects =
   (data: IGetGetStudentsForNonXseedSubjects): AppThunk =>
