@@ -82,6 +82,7 @@ import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks
 import SliceAddRequisition from 'src/requests/Requisition/RequestAddRequisition';
 import SliceRequisition from 'src/requests/Requisition/RequestRequisition';
 import SchoolAttendanceOverviewSlice from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
+import SlicePreprimaryProgressReport from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import SliceSchoolNoticeBoard from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
 import MissingAttandenceSlice from 'src/requests/Student/MissingAttandenceSlice';
@@ -248,7 +249,8 @@ const rootReducer = combineReducers({
   GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
   StudentRecordCommentPopup: StudentRecordCommentslice,
   SchoolNotice: AddNoticeslice,
-  SchoolNoticeForm:SchoolNoticeFormslice
+  SchoolNoticeForm:SchoolNoticeFormslice,
+  PreprimaryProgressReport:SlicePreprimaryProgressReport
 });
 
 export default rootReducer;

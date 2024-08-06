@@ -218,6 +218,11 @@ const ViewLeaveDetails = Loader(
   lazy(() => import('src/components/LeaveDetails/ViewLeaveDetails'))
 )
 
+
+const PreprimaryProgressReport = Loader(
+  lazy(() => import('src/components/PreprimaryProgressReport/PreprimaryProgressReport'))
+)
+
 const teacherRoutes = [
 
   {
@@ -643,6 +648,10 @@ const teacherRoutes = [
     path: 'AddSchoolNoticeFT',
     element: <AddSchoolNoticeFT />
   },
+  {
+    path: 'PreprimaryProgressReport',
+    element: <PreprimaryProgressReport />
+  }
 ];
 
 export default teacherRoutes;

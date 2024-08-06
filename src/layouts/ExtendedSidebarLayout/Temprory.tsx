@@ -151,6 +151,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/ProgressRemarks'
     },
     {
+      title: 'Pre Primary Progress Report',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
+    },
+    {
       title: 'Progress Report',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ProgressReportNew'
