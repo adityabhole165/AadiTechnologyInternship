@@ -30,7 +30,6 @@ import {
 } from 'src/requests/Requisition/RequestRequisition';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { Padding } from '@mui/icons-material';
 
 const StatusRequisition = () => {
   const dispatch = useDispatch();
@@ -196,7 +195,7 @@ const StatusRequisition = () => {
   };
 
   const clickView = (ViewId) => {
-    navigate('/extended-sidebar/Teacher/RequistionView/' +ViewId);
+    navigate('/extended-sidebar/Teacher/RequistionView/' + ViewId);
   };
 
   // const clickEdit = (Value) => {
@@ -341,6 +340,21 @@ const StatusRequisition = () => {
           >
             <SearchTwoTone />
           </IconButton>
+
+
+          <Tooltip title={'Reset'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: blue[500],
+                '&:hover': {
+                  backgroundColor: blue[600]
+                }
+              }}
+              onClick={clickReset} >
+              <RestartAltIcon />
+            </IconButton>
+          </Tooltip>
           <Box>
             <Tooltip title={'Here you can see list of existing requisition according to status.'}>
               <IconButton
@@ -356,20 +370,6 @@ const StatusRequisition = () => {
               </IconButton>
             </Tooltip>
           </Box>
-
-          <Tooltip title={'Reset'}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: blue[500],
-                '&:hover': {
-                  backgroundColor: blue[600]
-                }
-              }}
-              onClick={clickReset} >
-              <RestartAltIcon />
-            </IconButton>
-          </Tooltip>
           <Tooltip title={'Add Requisition'}>
             <IconButton
               onClick={AddRequisition}
@@ -378,13 +378,16 @@ const StatusRequisition = () => {
                 backgroundColor: green[500],
                 height: '36px !important',
                 ':hover': { backgroundColor: green[600] },
-                
+
               }}
             >
               <AddTwoTone />
             </IconButton>
           </Tooltip>
-        </>}
+          
+
+
+                  </>}
       />
 
 
@@ -433,7 +436,7 @@ const StatusRequisition = () => {
                   sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                   label={'Requisition Code'}
                   variant="outlined"
-                 
+
                   value={RequisitionCode()}
                   inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                 />
@@ -445,7 +448,7 @@ const StatusRequisition = () => {
                 <TextField
                   sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                   label={'Requisition Name'}
-                 
+
                   value={RequisitionName()}
                   inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
@@ -458,7 +461,7 @@ const StatusRequisition = () => {
                 <TextField
                   sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                   label={'Requisition Status'}
-                
+
                   value={StatusName()}
                   inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
@@ -472,7 +475,7 @@ const StatusRequisition = () => {
                 <TextField
                   sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                   label={'Requester'}
-                 
+
                   value={CreaterName()}
                   inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
 
@@ -484,8 +487,8 @@ const StatusRequisition = () => {
               Reason to cancel   <Typography component="span" sx={{ color: red[500] }}>*</Typography>
             </Typography>
             <TextField
-             multiline
-             rows={3}
+              multiline
+              rows={3}
               type="text"
               value={textall}
               onChange={Detailschnageall}
@@ -497,7 +500,7 @@ const StatusRequisition = () => {
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button
             color={'error'}
-            onClick={  ClickClose}
+            onClick={ClickClose}
           >
             Cancel
           </Button>
