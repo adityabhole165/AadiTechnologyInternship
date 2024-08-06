@@ -615,3 +615,10 @@ export function GetIsPrePrimaryTeacher() {
   }
   return IsPrePrimaryCondition
 }
+
+export function extractTime(datetimeString) {
+  const timePart = datetimeString.split(' ')[1]; // Extracts the "02:00:00" part
+  const [hours, minutes, seconds] = timePart.split(':'); // Splits the time into hours, minutes, and seconds
+
+  return `${hours}:${minutes}`;
+}

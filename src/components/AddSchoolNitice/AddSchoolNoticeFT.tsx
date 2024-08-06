@@ -21,14 +21,13 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { extractTime, getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
 
 const AddSchoolNoticeFT = () => {
     const { NoticeId } = useParams();
-    console.log(NoticeId, 'NoticeId')
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
@@ -112,10 +111,10 @@ const AddSchoolNoticeFT = () => {
             const EditNoticee = EditNotice[0]
             setNoticeName(EditNoticee.Text1);
             setStartDate(EditNoticee.Text2)
+            setStartTime(extractTime(EditNoticee.Text2))
             setEndDate(EditNoticee.Text3)
-            console.log(EditNoticee.Text4, 'setDisplayLocation')
+            setEndTime(extractTime(EditNoticee.Text3))
             setDisplayLocation(EditNoticee.Text4)
-            console.log(EditNoticee.Text4, 'DisplayLocation')
             setSortOrder(EditNoticee.Text5)
             setNoticeFile(EditNoticee.Text6)
             setDescription(EditNoticee.Text7)
@@ -256,7 +255,6 @@ const AddSchoolNoticeFT = () => {
         } else setSortOrderError('')
 
         if (!isError) {
-            console.log('SaveNoticeBody', SaveNoticeBody)
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
         }
 
