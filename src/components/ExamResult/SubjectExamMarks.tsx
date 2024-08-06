@@ -564,9 +564,9 @@ const SubjectExamMarks = () => {
                       label={"Exam Date"}
                       size={"small"}
                     />
-                    <div style={{ color: 'red', marginLeft: '5px' }}>
+                    {/* <div style={{ color: 'red', marginLeft: '5px' }}>
                       *
-                    </div>
+                    </div> */}
                   </>
                 }
               </Box>
