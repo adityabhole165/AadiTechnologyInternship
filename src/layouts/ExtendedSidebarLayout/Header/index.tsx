@@ -35,7 +35,7 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoginApi from 'src/api/Authentication/Login';
 import { Styles } from 'src/assets/style/student-style';
-import { logoURL } from 'src/components/Common/Util';
+import { getYearFirstDateFormatted, logoURL } from 'src/components/Common/Util';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 import {
   IAuthenticateUser,
@@ -242,8 +242,8 @@ function Header() {
       sessionStorage.setItem('Nationality', studentDetails.Nationality);
       sessionStorage.setItem('MotherTongue', studentDetails.MotherTongue);
       sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
-      sessionStorage.setItem('EndDate', studentDetails.EndDate);
-      sessionStorage.setItem('StartDate', studentDetails.StartDate);
+      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(studentDetails.EndDate));
+      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(studentDetails.StartDate));
       sessionStorage.setItem('Language', studentDetails.asLanguage);
       sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
       sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
@@ -291,8 +291,8 @@ function Header() {
       );
       sessionStorage.setItem('ClassName', teacherDetails.ClassName);
       sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
-      sessionStorage.setItem('EndDate', teacherDetails.EndDate);
-      sessionStorage.setItem('StartDate', teacherDetails.StartDate);
+      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(teacherDetails.EndDate));
+      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(teacherDetails.StartDate));
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
       sessionStorage.setItem('DOB', teacherDetails.DOB);
       sessionStorage.setItem('MobileNumber', teacherDetails.MobileNumber);
@@ -302,8 +302,8 @@ function Header() {
       sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
       sessionStorage.setItem('Address', adminDetails.Address);
       sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
-      sessionStorage.setItem('EndDate', adminDetails.EndDate);
-      sessionStorage.setItem('StartDate', adminDetails.StartDate);
+      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(adminDetails.EndDate));
+      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(adminDetails.StartDate));
       sessionStorage.setItem('DOB', adminDetails.DOB);
       sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
       sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);

@@ -3,6 +3,7 @@ import { alpha, Box, Popover, Stack, Tooltip } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getYearFirstDateFormatted } from 'src/components/Common/Util';
 import { IGetAllAcademicYearForSchoolBody, IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getAllAcademicYears, getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
@@ -61,8 +62,8 @@ const SettingsDropdown = () => {
         const selectedYearData = AcademicYear.find(year => year.Value === academicYear);
         if (selectedYearData) {
             sessionStorage.setItem('AcademicYearId', selectedYearData.Value);
-            sessionStorage.setItem('StartDate', selectedYearData.Text2);
-            sessionStorage.setItem('EndDate', selectedYearData.Text3);
+            sessionStorage.setItem('StartDate', getYearFirstDateFormatted(selectedYearData.Text2));
+            sessionStorage.setItem('EndDate', getYearFirstDateFormatted(selectedYearData.Text3));
             localStorage.setItem('SchoolId', selectedYearData.Text1);
             sessionStorage.setItem('SchoolName', selectedYearData.Text4);
             setAcademicYearName(selectedYearData.Name);

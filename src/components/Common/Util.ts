@@ -138,21 +138,33 @@ export const getDateMonthYearTimeDayDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
   let dateFormatted = `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`
   let Weekday = new Date(dateFormatted).getDay()
+  let yearIndex = arrDate[0].length == 4 ? 0 : 2
+  let dateIndex = arrDate[0].length == 2 ? 0 : 2
 
-  return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]} ${date.split(' ')[1].substring(0,5)}`;
+  return `${arrDate[dateIndex]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[yearIndex]} ${date.split(' ')[1].substring(0, 5)}`;
 };
 
 
 export const getDateMonthYearFormatted = (date) => {
-  let arrDate = date.split(' ')[0].split('-');
-  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
+  let arrDate = date.split(' ')[0].split(separator);
+  let yearIndex = arrDate[0].length == 4 ? 0 : 2
+  let dateIndex = arrDate[0].length == 2 ? 0 : 2
+  return `${arrDate[dateIndex]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[yearIndex]}`;
 };
 export const getYearFirstDateFormatted = (date) => {
-  let arrDate = date.split(' ')[0].split('-');
-  return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
+  console.log(date, "getYearFirstDateFormatted");
+
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
+  let arrDate = date.split(' ')[0].split(separator);
+  let yearIndex = arrDate[0].length == 4 ? 0 : 2
+  let dateIndex = arrDate[0].length == 2 ? 0 : 2
+  return `${arrDate[dateIndex]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[yearIndex]}`;
 };
 export const getYearFirstDateDashFormatted = (date) => {
-  let arrDate = date.split('-')
+  let separator = date.indexOf('/') > 0 ? '/' : '-'
+
+  let arrDate = date.split(separator)
   return `${arrDate[2]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[0]}`;
 };
 export const getDateMonthSpace = (date) => {

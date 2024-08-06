@@ -26,7 +26,7 @@ import LoginApi from 'src/api/Authentication/Login';
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from 'src/assets/style/student-style';
-import { formatDateAsDDMMMYYYY, logoURL } from 'src/components/Common/Util';
+import { formatDateAsDDMMMYYYY, getYearFirstDateFormatted, logoURL } from 'src/components/Common/Util';
 import {
   IAuthenticateUser,
   IAuthenticateUserResult
@@ -176,20 +176,19 @@ function SelectSchool() {
         'CasteAndSubCaste',
         studentDetails.CasteAndSubCaste
       );
+      console.log(formatDateAsDDMMMYYYY(studentDetails.EndDate), "formatDateAsDDMMMYYYY(studentDetails.EndDate)");
+
       sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
       sessionStorage.setItem('BirthPlace', studentDetails.BirthPlace);
       sessionStorage.setItem('Nationality', studentDetails.Nationality);
       sessionStorage.setItem('MotherTongue', studentDetails.MotherTongue);
       sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
-      sessionStorage.setItem('EndDate', formatDateAsDDMMMYYYY(studentDetails.EndDate));
-      sessionStorage.setItem('StartDate', formatDateAsDDMMMYYYY(studentDetails.StartDate));
+      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(studentDetails.EndDate));
+      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(studentDetails.StartDate));
       sessionStorage.setItem('Language', studentDetails.asLanguage);
       sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
       sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
-      sessionStorage.setItem(
-        'SortRowIndexExpression',
-        studentDetails.asSortExpression
-      );
+      sessionStorage.setItem('SortRowIndexExpression', studentDetails.asSortExpression);
       sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
       sessionStorage.setItem('UserName', studentDetails.asUserName);
       sessionStorage.setItem('ExamID', studentDetails.asExamId);
@@ -227,8 +226,8 @@ function SelectSchool() {
       sessionStorage.setItem('StandardDivisionId', teacherDetails.StandardDivisionId);
       sessionStorage.setItem('ClassName', teacherDetails.ClassName);
       sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
-      sessionStorage.setItem('EndDate', teacherDetails.EndDate);
-      sessionStorage.setItem('StartDate', teacherDetails.StartDate);
+      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(teacherDetails.EndDate));
+      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(teacherDetails.StartDate));
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
       sessionStorage.setItem('DOB', teacherDetails.DOB);
       sessionStorage.setItem('MobileNumber', teacherDetails.MobileNumber);
@@ -240,8 +239,8 @@ function SelectSchool() {
       sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
       sessionStorage.setItem('Address', adminDetails.Address);
       sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
-      sessionStorage.setItem('EndDate', adminDetails.EndDate);
-      sessionStorage.setItem('StartDate', adminDetails.StartDate);
+      sessionStorage.setItem('EndDate', getYearFirstDateFormatted(adminDetails.EndDate));
+      sessionStorage.setItem('StartDate', getYearFirstDateFormatted(adminDetails.StartDate));
       sessionStorage.setItem('DOB', adminDetails.DOB);
       sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
       sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
