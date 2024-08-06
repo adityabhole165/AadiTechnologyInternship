@@ -250,7 +250,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPl
   const bg = legendColors.map(color => hexToRGBA(color, 0.2));
 
   const cardStyle = {
-    height: '15vh',
+    height: '10px',
     fontSize: '15px'
   };
 
@@ -285,7 +285,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPl
         >
           <Box
             sx={{
-              minHeight: '90px',
+              minHeight: '80px',
               height: '100%',
               display: 'flex',
               alignItems: 'center',
