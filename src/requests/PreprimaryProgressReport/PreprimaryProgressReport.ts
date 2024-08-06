@@ -21,15 +21,20 @@ const SlicePreprimaryProgressReport = createSlice({
 export const CDAAllPrimaryClassTeachers =
   (data: IGetAllPrimaryClassTeacherssBody): AppThunk =>
   async (dispatch) => {
-    const response = await ApiPreprimaryProgressReport.AllPrimaryClassTeachers(data);
-    let abc = response.data.map((item, i) => {
-      return {
+    const response = await ApiPreprimaryProgressReport.AllPrimaryClassTeachers(data)
+
+    let ClassTeachers = [{ Id: '0', Name: 'Select', Value: '0',Is_PrePrimary:'Y'}];
+    response.data.map((item, i) => {
+      ClassTeachers.push({
         Id: item.SchoolWise_Standard_Division_Id,
         Name: item.TeacherName,
-        Value: item.SchoolWise_Standard_Division_Id
-      };
+        Value: item.SchoolWise_Standard_Division_Id,
+        Is_PrePrimary: item.Is_PrePrimary,
+       
+      });
     });
-    dispatch(SlicePreprimaryProgressReport.actions.RAllPrimaryClassTeacherss(abc));
+
+    dispatch(SlicePreprimaryProgressReport.actions.RAllPrimaryClassTeacherss(ClassTeachers));
   };
 
 export default SlicePreprimaryProgressReport.reducer;
