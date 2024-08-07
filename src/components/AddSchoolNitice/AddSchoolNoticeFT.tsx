@@ -145,15 +145,15 @@ const AddSchoolNoticeFT = () => {
     }
     const ClassSelected = isClassSelected()
 
-    const deleteImage = (Id: number) => {
+    const deleteImage = (NoticeId: number) => {
         const DeleteSchoolNoticeBody: IGetDeleteSchoolNoticeImageBody = {
             asSchoolId: Number(asSchoolId),
-            asNoticeId: Number(Id),
+            asNoticeId: Number(NoticeId),
             asIsText: 0,
         };
         showAlert({
             title: 'Please Confirm',
-            message: 'Are you sure you want to delete the File?',
+            message: 'Are you sure you want to delete Event Image?',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
@@ -171,6 +171,7 @@ const AddSchoolNoticeFT = () => {
         if (deleteNoticeImageMsg !== '') {
             toast.success(deleteNoticeImageMsg);
             dispatch(resetDeleteSchoolNotice());
+            setImageFile('');
         }
     }, [deleteNoticeImageMsg]);
 
@@ -598,7 +599,7 @@ const AddSchoolNoticeFT = () => {
                                             </Tooltip> &nbsp;
                                             <Tooltip title={"Delete"}>
                                                 <IconButton
-                                                    onClick={undefined}
+                                                      onClick={() => deleteImage(Number(NoticeId))}
                                                     sx={{
                                                         color: '#223354',
                                                         '&:hover': {
