@@ -2,7 +2,7 @@
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +48,9 @@ const PreprimaryProgressReport = () => {
     const USFillStudentAttendance: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentAttendance);
     const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
     const IsPresent = USFillStudentAttendance.map(item => item.IsPresent);
+    const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
+    const USFillGradeDetailssortedData = [...USFillSubjectSections].sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
+    const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
 
     const HeaderPublish = [
         { Id: 1, Header: 'Item Code' },
@@ -85,6 +88,15 @@ const PreprimaryProgressReport = () => {
 
     };
 
+    let matchedOutcomes = [];
+    USFillSubjectSections.forEach(section => {
+        const matched = USFillStudentsLearningOutcomes.filter(
+            outcome => outcome.SubjectSectionConfigId === section.SubjectSectionConfigurationId
+        );
+        if (matched.length > 0) {
+            matchedOutcomes = matchedOutcomes.concat(matched);
+        }
+    });
 
     const clickClassTeacher = (value) => {
         setClassTeacher(value);
@@ -322,6 +334,65 @@ const PreprimaryProgressReport = () => {
                                     </Grid>
                                 ))}
                             </Box>
+                            <hr />
+                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+
+                                Key to Curricular and Co-Curricular
+
+                            </Typography>
+                            <TableContainer component={Paper}>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Grade Name</TableCell>
+                                            <TableCell>Description</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {GradeDetailsfilteredAndSortedData.map((row) => (
+                                            <TableRow key={row.GradeId}>
+                                                <TableCell>{row.GradeName}</TableCell>
+                                                <TableCell>{row.Description}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <hr />
+                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+
+                                Pre-Primary Curricular Subjects
+
+                            </Typography>
+
+                            <TableContainer component={Paper}>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">Sr. No.</TableCell>
+                                            <TableCell align="center">Learning Outcome</TableCell>
+                                            <TableCell align="center">Grade</TableCell>
+                                            <TableCell align="center">Facilitator's Observation</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+
+                                </Table>
+                            </TableContainer>
+
+                            <br />
+                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                                {USFillGradeDetailssortedData.length > 0 ? USFillGradeDetailssortedData[0].SubjectSectionName : 'No Data'}
+                            </Typography>
+
+                            <TableBody>
+                                {matchedOutcomes.map((row) => (
+                                    <TableRow key={row.LearningOutcomeConfigId}>
+
+                                        <TableCell>{row.LearningOutcome}</TableCell>
+                                        <TableCell>{row.ShortName}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
 
                         </Box> : <span> </span>
                 }

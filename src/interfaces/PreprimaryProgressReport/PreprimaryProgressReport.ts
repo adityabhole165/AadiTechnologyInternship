@@ -79,6 +79,18 @@ export interface GetProgressReportDetailsResult {
     }
   ],
   FillStudentsLearningOutcomes: [
+    {
+      YearwiseStudentId: string
+      LearningOutcomeConfigId: string
+      SubjectSectionConfigId: string
+      LearningOutcomeGradeId: string
+      LearningOutcome: string
+      GradeId: string
+      ShortName: string
+      SubjectSectionSortOrder: string
+      LearningOutcomeSortOrder: string
+    }
+    
 
   ],
 
