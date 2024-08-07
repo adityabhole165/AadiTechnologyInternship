@@ -80,18 +80,17 @@ const LeaveDetailsBaseScreen = () => {
 
     // useEffect(() => {
     //     if (GetAcademicYear.length > 0) {
-    //         setAcademicYear(GetAcademicYear.slice(0, 4)[1].Value);
+    //         setAcademicYear(GetAcademicYear[0].value);
     //     }
     // }, [GetAcademicYear])
+    const academic = 53;
+
     useEffect(() => {
         if (GetAcademicYear.length > 0) {
-            const initialYears = GetAcademicYear.slice(1, 5);
-            const currentYear = initialYears.find(year => year.Is_Current_Year === 'Y') || initialYears[1];
-            console.log(currentYear, "currentYear");
-            setAcademicYear(currentYear.Value);
+            const currentYear = GetAcademicYear.find(item => item.IsCurrentYear === 'Y');
+            setAcademicYear(currentYear ? currentYear.Value : GetAcademicYear[0]?.Value);
         }
     }, [GetAcademicYear]);
-
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
@@ -314,6 +313,8 @@ const LeaveDetailsBaseScreen = () => {
             dispatch(StatusDropdown(StatusBody));
     }, [selectAcademicYear, selectCategory]);
 
+
+
     useEffect(() => {
         if (selectAcademicYear != "0" && selectCategory != "0")
             dispatch(getLeaveDetailList(body));
@@ -336,7 +337,7 @@ const LeaveDetailsBaseScreen = () => {
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
                             sx={{ minWidth: '20vw' }}
-                            ItemList={GetAcademicYear.slice(0, 5)}
+                            ItemList={GetAcademicYear}
                             defaultValue={selectAcademicYear}
                             onChange={clickAcademicYearDropdown}
                             size={"small"}
