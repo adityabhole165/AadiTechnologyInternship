@@ -30,9 +30,9 @@ const AddLeaveDetails = () => {
     const asSenderName = sessionStorage.getItem('StudentName');
     const [asUserId, setasUserId] = useState(Number(localStorage.getItem('UserId')));
     const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asSenderName);
-    const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
-    const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
-    const [TotalDays, setTotalDays] = useState(1);
+    const [StartDate, setStartDate] = useState('');
+    const [EndDate, setEndDate] = useState('');
+    const [TotalDays, setTotalDays] = useState('');
     const [SelectLeaveType, setLeaveType] = useState("0");
     const [ErrorLeaveType, setErrorLeaveType] = useState(" ");
     const [Description, setDescription] = useState('');
@@ -82,16 +82,16 @@ const AddLeaveDetails = () => {
         }
     }, [GetViewLeave]);
 
-    useEffect(() => {
-        const start = new Date(StartDate);
-        const end = new Date(EndDate);
-        const timeDiff = end.getTime() - start.getTime();
-        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
-        if (daysDiff < 0) {
-            daysDiff = 0;
-        }
-        setTotalDays(daysDiff);
-    }, [StartDate, EndDate]);
+    // useEffect(() => {
+    //     const start = new Date(StartDate);
+    //     const end = new Date(EndDate);
+    //     const timeDiff = end.getTime() - start.getTime();
+    //     let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+    //     if (daysDiff < 0) {
+    //         daysDiff = 0;
+    //     }
+    //     setTotalDays(daysDiff);
+    // }, [StartDate, EndDate]);
 
     useEffect(() => {
         if (LeaveDId) {
@@ -126,25 +126,13 @@ const AddLeaveDetails = () => {
         asLeaveId: Number(SelectLeaveType),
         asStartDate: StartDate,
         asEndDate: EndDate,
-        asTotalDays: TotalDays,
+        asTotalDays: Number(TotalDays),
         asChargeHandoverTo: 0,
         asDescription: Description,
         asSchoolId: asSchoolId,
         asInsertedById: asUserId,
         asAcademicYearId: Number(asAcademicYearId)
     }
-    // const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
-    //     asId: 0,
-    //     asUserLeaveDetailsId: 2142,
-    //     asReportingUserId: asUserId,
-    //     asRemark: Remark,
-    //     /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-    //     asstatusId: 3,
-    //     asSchoolId: asSchoolId,
-    //     asAcademicYearId: Number(asAcademicYearId),
-    //     asInsertedById: asUserId
-
-    // }
 
     useEffect(() => {
         const StartDateValidationBody: IGetIsValidateLeaveDateBody = {
@@ -170,10 +158,13 @@ const AddLeaveDetails = () => {
     const clickLeaveTypeDropdown = (value) => {
         setLeaveType(value);
     };
+    // const onTotalDays = (value) => {
+    //     setTotalDays(value)
+    // }
     const clear = () => {
-        setStartDate(new Date().toISOString().split('T')[0]);
-        setEndDate(new Date().toISOString().split('T')[0]);
-        setTotalDays(1);
+        setStartDate('');
+        setEndDate('');
+        setTotalDays('');
         setDescription('')
     };
 
@@ -269,49 +260,11 @@ const AddLeaveDetails = () => {
             navigate('/extended-sidebar/Teacher/LeaveDetails');
         }
     }, [SubmitLeaveDetails])
-    useEffect(() => {
-        if (StartDate === null || EndDate === null) {
-            setTotalDays(0);
-        }
-    }, [StartDate, EndDate])
     // useEffect(() => {
-    //     if (USApproveorRejectLeaveDetails !== '') {
-    //         toast.success(USApproveorRejectLeaveDetails)
-    //         dispatch(resetapproveorreject())
-    //         // dispatch(getLeaveDetailList());
-
+    //     if (StartDate === null || EndDate === null) {
+    //         setTotalDays('');
     //     }
-    // }, [USApproveorRejectLeaveDetails])
-    // const onClickApprove = () => {
-    //     const ApproveOrRejectBody: IGetApproveOrRejectLeaveBody = {
-    //         asId: 0,
-    //         asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
-    //         asReportingUserId: aUserId,
-    //         asRemark: Remark,
-    //         /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-    //         asstatusId: 3,
-    //         asSchoolId: asSchoolId,
-    //         asAcademicYearId: Number(asAcademicYearId),
-    //         asInsertedById: aUserId
-
-    //     }
-    //     dispatch(getapproveorreject(ApproveOrRejectBody))
-    // }
-    // const onClickReject = () => {
-    //     const RejectBody: IGetApproveOrRejectLeaveBody = {
-    //         asId: 0,
-    //         asUserLeaveDetailsId: Number(LeaveDId), /*2142*/
-    //         asReportingUserId: aUserId,
-    //         asRemark: Remark,
-    //         /* use asstatusId = 3 for approve and asstatusId = 4 for reject  */
-    //         asstatusId: 4,
-    //         asSchoolId: asSchoolId,
-    //         asAcademicYearId: Number(asAcademicYearId),
-    //         asInsertedById: aUserId
-
-    //     }
-    //     dispatch(getapproveorreject(RejectBody))
-    // }
+    // }, [StartDate, EndDate])
     const rightActions = (
         <>
             <Tooltip title={'Here you can apply for, approve, or reject leave requests.'}>
@@ -359,35 +312,6 @@ const AddLeaveDetails = () => {
                             <Check />
                         </IconButton>
                     </Tooltip></>) : null}
-            {/* <>
-                <Tooltip title={'Reject'}>
-                    <IconButton
-                        sx={{
-                            backgroundColor: red[500],
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: red[600]
-                            }
-                        }}
-                        onClick={onClickReject}
-                    >
-                        <PersonRemove />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={'Approve'}>
-                    <IconButton
-                        sx={{
-                            backgroundColor: green[500],
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: green[600]
-                            }
-                        }}
-                        onClick={onClickApprove}
-                    >
-                        <HowToReg />
-                    </IconButton>
-                </Tooltip></> */}
 
         </>
     );
@@ -477,9 +401,7 @@ const AddLeaveDetails = () => {
                                 Total Days <span style={{ color: 'red' }}>*</span>
                             </>}
                             value={TotalDays}
-                            InputProps={{
-                                readOnly: true,
-                            }}
+                            onChange={(e) => setTotalDays(e.target.value)}
                             fullWidth
                         />
                     </Grid>
