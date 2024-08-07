@@ -27,7 +27,7 @@ import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
 
 const AddSchoolNoticeFT = () => {
-    const { NoticeId } = useParams();
+    const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
@@ -105,6 +105,15 @@ const AddSchoolNoticeFT = () => {
         };
         dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
     }, [])
+
+
+    useEffect(() => {
+        if (selectDisplayType == 'true') {
+            setRadioBtn('2');
+        } else {
+            setRadioBtn('1');
+        }
+    }, [selectDisplayType]);
 
     useEffect(() => {
         if (NoticeId != undefined && EditNotice.length > 0 && EditNotice[0] != null) {
@@ -366,6 +375,12 @@ const AddSchoolNoticeFT = () => {
         setImageFile(value.Name);
         setbase64URL2(value.Value);
     };
+    let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/School Notices/"
+
+    const viewImage = () => {
+        const fullImageUrl = `${url}${ImageFile}`;
+        window.open(fullImageUrl, '_blank');
+    };
 
     return (
         <>
@@ -585,7 +600,7 @@ const AddSchoolNoticeFT = () => {
                                         <>
                                             <Tooltip title={"View"}>
                                                 <IconButton
-                                                    onClick={undefined}
+                                                    onClick={viewImage}
                                                     sx={{
                                                         color: '#223354',
                                                         '&:hover': {
@@ -599,7 +614,7 @@ const AddSchoolNoticeFT = () => {
                                             </Tooltip> &nbsp;
                                             <Tooltip title={"Delete"}>
                                                 <IconButton
-                                                      onClick={() => deleteImage(Number(NoticeId))}
+                                                    onClick={() => deleteImage(Number(NoticeId))}
                                                     sx={{
                                                         color: '#223354',
                                                         '&:hover': {

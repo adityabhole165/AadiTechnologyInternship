@@ -190,7 +190,7 @@ const SchoolNoticeBaseScreen = () => {
     };
 
     const EditSchoolNotice = (Id: number) => {
-        navigate('../AddSchoolNoticeFT/' + Id);
+        navigate('../AddSchoolNoticeFT/' + Id + '/' + selectDisplayType);
     };
 
     const AddSchoolNotice = () => {

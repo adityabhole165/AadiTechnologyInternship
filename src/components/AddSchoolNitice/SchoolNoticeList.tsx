@@ -45,7 +45,7 @@ function SchoolNoticeList({
         });
         ClickHeader(updatedHeaderArray);
     }
-    let url = localStorage.getItem("SiteURL") + "RITeSchool/downloads/School Notices/"
+    let url = localStorage.getItem("SiteURL") + "/RITeSchool/downloads/School Notices/"
     let isFileType = false
     HeaderArray.map((item) => {
         if (item.Id == 6) {
