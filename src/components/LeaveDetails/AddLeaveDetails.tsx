@@ -167,6 +167,13 @@ const AddLeaveDetails = () => {
         setEndDate('');
         setTotalDays('');
         setDescription('')
+        setErrorStartDateblank('')
+        setErrorEndDateblank('')
+        setErrorEndDate2('')
+        setErrorLeaveType('')
+        setTotalDaysError('')
+        setDescriptionError('')
+
     };
 
     const resetForm = () => {
@@ -185,7 +192,7 @@ const AddLeaveDetails = () => {
         //     isError = true;
         // } else setErrorStartDate2('')
         if (StartDate === '') {
-            setErrorStartDateblank('Start Date should not be blank.');
+            setErrorStartDateblank('Start date should not be blank.');
 
             dateError = true
             isError = true;
@@ -197,7 +204,7 @@ const AddLeaveDetails = () => {
         // } else setErrorEndDate('')
 
         if (EndDate == '') {
-            setErrorEndDateblank('End Date should not be blank.');
+            setErrorEndDateblank('End date should not be blank.');
             dateError = true
             isError = true;
         } else setErrorEndDateblank('')
@@ -231,7 +238,7 @@ const AddLeaveDetails = () => {
             isError = true;
         } else setErrorEndDate2('')
         if (SelectLeaveType == '0') {
-            setErrorLeaveType('Leave Type should be selected.');
+            setErrorLeaveType('Leave type should be selected.');
             isError = true;
         } else setErrorLeaveType('')
         if (Description.length > 200 || Description == '') {
@@ -245,7 +252,7 @@ const AddLeaveDetails = () => {
         //     isError = true;
         // } else setRemarkError('')
         if (TotalDays == '') {
-            setTotalDaysError('Total Days should not be blank.');
+            setTotalDaysError('Total days should not be blank.');
             isError = true;
         } else setTotalDaysError('')
         if (!isError) {
