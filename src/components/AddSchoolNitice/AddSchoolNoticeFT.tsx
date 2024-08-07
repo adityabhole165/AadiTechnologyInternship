@@ -228,10 +228,22 @@ const AddSchoolNoticeFT = () => {
         }
     }, [deleteNoticeImageMsg]);
 
+    const getApplicableTo = () => {
+        let returnVal = ""
+        returnVal = applicableTo.admin ? "1," : ""
+        returnVal = returnVal + (applicableTo.teacher ? "2," : "")
+        returnVal = returnVal + (applicableTo.student ? "3," : "")
+        returnVal = returnVal + (applicableTo.adminStaff ? "6," : "")
+        returnVal = returnVal + (applicableTo.otherStaff ? "7," : "")
+
+        returnVal = returnVal == "" ? "" : returnVal.substring(0, returnVal.length - 1);
+        return returnVal
+    }
+
     const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
         NoticeId: 0,
-        asUserRoleIds: applicableRoleId,
-        asClassIds: ClassSelected,
+        asUserRoleIds: getApplicableTo(),
+        asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
         asFolderName: asFolderName,
         asBase64String: base64URL,
