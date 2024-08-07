@@ -18,6 +18,7 @@ const PreprimaryProgressReport = () => {
     const [ClassTeacher, setClassTeacher]: any = useState('0');
     const [StudentId, setStudentId]: any = useState();
     const [AssessmentId, setAssessmentId]: any = useState();
+    const [open, setOpen] = useState(false);
     const PreprimaryFullAccess = GetScreenPermission('Pre-Primary Progress Report');
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -95,7 +96,7 @@ const PreprimaryProgressReport = () => {
     };
 
     const ClickShow = (value) => {
-
+        setOpen(true)
     }
 
     const countDuplicates = (arr) => {
@@ -156,17 +157,22 @@ const PreprimaryProgressReport = () => {
                 ]}
 
                 rightActions={
-                    <>
+                    <>  
+                    {
+                        PreprimaryFullAccess == 'Y' ?
                         <SearchableDropdown
-                            ItemList={PrePrimaryClassTeacher}
-                            sx={{ minWidth: '250px' }}
-                            onChange={clickClassTeacher}
-                            defaultValue={ClassTeacher}
-                            label={'Class Teacher '}
-                            size={"small"}
-                            mandatory
-                        />
+                        ItemList={PrePrimaryClassTeacher}
+                        sx={{ minWidth: '250px' }}
+                        onChange={clickClassTeacher}
+                        defaultValue={ClassTeacher}
+                        label={'Class Teacher '}
+                        size={"small"}
+                        mandatory
+                    />
+                    : <span></span>
 
+                    }
+                        
                         <SearchableDropdown
                             ItemList={USlistStudentNameDetails}
                             sx={{ minWidth: '250px' }}
@@ -233,77 +239,84 @@ const PreprimaryProgressReport = () => {
 
                     </>}
             />
+             {open && ( <div>
 
-            <Box border={1} sx={{ p: 2, background: 'white' }}>
-                <Grid container spacing={3}>
-                    {USFillSchoolDetails.map((detail) => (
-                        <Grid item xs={12} key={detail.UserId}>
-                            <Box sx={{
-                                backgroundColor: '#F0F0F0',
-                                textAlign: 'center', marginBottom: 2,
+                {
+                USFillStudentDetails.length > 0 ?
+                    <Box border={1} sx={{ p: 2, background: 'white' }}>
+                        <Grid container spacing={3}>
+                            {USFillSchoolDetails.map((detail) => (
+                                <Grid item xs={12} key={detail.UserId}>
+                                    <Box sx={{
+                                        backgroundColor: '#F0F0F0',
+                                        textAlign: 'center', marginBottom: 2,
 
-                            }}>
-                                <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                                    }}>
+                                        <hr />
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
-                                    {detail.OrganizationName}
+                                            {detail.OrganizationName}
 
-                                </Typography>
-                                <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
+                                        </Typography>
+                                        <hr />
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
 
-                                    {detail.School_Name}
+                                            {detail.School_Name}
 
-                                </Typography>
-                                <hr />
-                                <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                                        </Typography>
+                                        <hr />
+                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
-                                    Progress Report
+                                            Progress Report
 
-                                </Typography>
-                                <hr />
-
-
-
-                            </Box>
+                                        </Typography>
+                                        <hr />
 
 
+
+                                    </Box>
+
+
+                                </Grid>
+
+
+                            ))}
                         </Grid>
 
+                        <Box sx={{ background: 'white', p: 1, top: '1px' }}>
+                            {USFillStudentDetails.map((detail) => (
+                                <Grid container spacing={2}>
 
-                    ))}
-                </Grid>
-
-                <Box sx={{ background: 'white', p: 1, top: '1px' }}>
-                    {USFillStudentDetails.map((detail) => (
-                        <Grid container spacing={2}>
-
-                            <Grid item xs={3} >
-                                <Typography  > Roll No -  {detail.RollNo}</Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Typography> Name - {detail.StudentName} </Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Typography>  Class  - {detail.Class}</Typography>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <Typography>  Year -  {detail.AcademicYear}</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography>  Assessment - {detail.Assessment}</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography>  Attendance {presentCount} / {totalCount} </Typography>
-                            </Grid>
+                                    <Grid item xs={3} >
+                                        <Typography  > Roll No -  {detail.RollNo}</Typography>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Typography> Name - {detail.StudentName} </Typography>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Typography>  Class  - {detail.Class}</Typography>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Typography>  Year -  {detail.AcademicYear}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography>  Assessment - {detail.Assessment}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography>  Attendance {presentCount} / {totalCount} </Typography>
+                                    </Grid>
 
 
 
-                        </Grid>
-                    ))}
-                </Box>
+                                </Grid>
+                            ))}
+                        </Box>
 
-            </Box>
+                    </Box> : <span></span>
+            }
+             </div>)}
+           
+
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
