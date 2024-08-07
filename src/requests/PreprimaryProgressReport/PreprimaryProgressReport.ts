@@ -10,7 +10,12 @@ const SlicePreprimaryProgressReport = createSlice({
     ISAllPrimaryClassTeacherss: [],
     ISlistStudentNameDetails:[],
     ISlistAssessmentDetailss:[],
-    ISProgressReportDetails:[]
+    ISAssessmentPublishStatus:[],
+    ISFillStandardwiseSubjects:[],
+    ISFillSubjectSections:[],
+    ISFillSchoolDetails:[],
+    ISFillGradeDetails:[],
+    ISFillXseedRemarks:[]
     
   },
   reducers: {
@@ -23,11 +28,27 @@ const SlicePreprimaryProgressReport = createSlice({
       RAssessmentDropdown(state, action) {
         state.ISlistAssessmentDetailss = action.payload;
       },
-      RProgressReportDetails(state, action) {
-        state.ISProgressReportDetails = action.payload;
+      RAssessmentPublishStatus(state, action) {
+        state.ISAssessmentPublishStatus = action.payload;
+      },
+      RFillStandardwiseSubjects(state, action) {
+        state.ISFillStandardwiseSubjects = action.payload;
+      },
+      RFillSubjectSections(state, action) {
+        state.ISFillSubjectSections = action.payload;
+      },
+      RFillSchoolDetails(state, action) {
+        state.ISFillSchoolDetails = action.payload;
+      },
+      RFillGradeDetails(state, action) {
+        state. ISFillGradeDetails = action.payload;
+      },
+      RFillXseedRemarks(state, action) {
+        state. ISFillXseedRemarks = action.payload;
       },
       
       
+     
   }
 });
 
@@ -94,10 +115,49 @@ export const CDAAllPrimaryClassTeachers =
   (data: GetProgressReportDetailsBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiPreprimaryProgressReport.ProgressReportDetails(data)
+    const AssessmentPublishStatus = response.data.GetAssessmentPublishStatus.map((item, i) => ({
+      AssessmentPublishStatus: item.AssessmentPublishStatus,
+      StudentWiseAssessmentPublishStatus: item.StudentWiseAssessmentPublishStatus,
+    }));
+    const FillStandardwiseSubjects = response.data.FillStandardwiseSubjects.map((item, i) => ({
+      SubjectName: item.SubjectName,
+      SortOrder: item.SortOrder,
+    }));
+    const FillSubjectSections = response.data.FillSubjectSections.map((item, i) => ({
+      SubjectSectionName: item.SubjectSectionName,
+      SortOrder: item.SortOrder,
+    }));
+    const FillSchoolDetails = response.data.FillSchoolDetails.map((item, i) => ({
+      OrganizationName: item.OrganizationName,
+      School_Name: item.School_Name,
+    }));
+    const FillGradeDetails = response.data.FillGradeDetails.map((item, i) => ({
+      GradeId: item.GradeId,
+      GradeName: item.GradeName,
 
+      Description: item.Description,
+      SortOrder: item.SortOrder,
+      ConsideredAsAbsent: item.ConsideredAsAbsent,
+      ConsideredAsExempted: item.ConsideredAsExempted,
+
+    }));
+    const FillXseedRemarks = response.data.FillXseedRemarks.map((item, i) => ({
+      YearwiseStudentId: item.YearwiseStudentId,
+      Remark: item.Remark,
+
+     
+
+    }));
     
+    
+    dispatch(SlicePreprimaryProgressReport.actions.RAssessmentPublishStatus(AssessmentPublishStatus));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillStandardwiseSubjects(FillStandardwiseSubjects));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillSubjectSections(FillSubjectSections));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillSchoolDetails(FillSchoolDetails));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillGradeDetails(FillGradeDetails));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillXseedRemarks(FillXseedRemarks));
 
-    dispatch(SlicePreprimaryProgressReport.actions.RProgressReportDetails(response.data));
+
   };
 
 
