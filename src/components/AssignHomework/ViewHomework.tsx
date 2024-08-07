@@ -157,18 +157,18 @@ const ViewHomework = () => {
         <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.AssignedDate)} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.AssignedDate)}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
 
 
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.CompleteByDate)} disabled inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.CompleteByDate)}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
 
             </Grid>
 
