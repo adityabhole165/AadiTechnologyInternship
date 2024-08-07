@@ -807,7 +807,7 @@ const ProgressRemarks = () => {
         <ProgressRemarksNotes />
       </Paper>
       
-      <Box sx={{  mb: 2 }}>
+      <Box sx={{  mb: 2, mt:2 }}>
         <Box sx={{ background: 'white', mb: 2, p: 2 }}>
         <Grid item xs={12}>
           <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
