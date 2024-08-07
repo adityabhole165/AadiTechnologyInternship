@@ -217,3 +217,51 @@ export interface IGetXseedStudentsInfoResult {
     }
   ]
 }
+
+export interface IGetLearningOutcomesForSubjectSectionBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asAssessmentId: Number,
+  asSubjectSectionConfigurationId: Number,
+  asYearwiseStudentId: Number,
+  asSubjectId: Number
+}
+
+export interface IGetLearningOutcomesForSubjectSectionResult {
+  listLearningOutcomeDetails: [
+    {
+      LearningOutcomeConfigId: string,
+      LearningOutcome: string,
+      IsSubmitted: string,
+      GradeId: string,
+      LearningOutcomeGradeId: string
+    }
+  ],
+  listObservationDetails: [
+    {
+      Observation: string,
+      LearningOutcomesObservationId: string,
+      SubjectRemark: string,
+      ShowSubjectRemark: string
+    }
+  ],
+  listPublishDetails: [
+    {
+      IsExamPublished: string
+    }
+  ]
+}
+
+export interface IGetInsertStudentGradesBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asYearwiseStudentId: Number,
+  asLearningOutcomeXML: string,
+  asInsertedById: Number,
+  asSubjectSectionConfigurationId: Number,
+  asObservation: string,
+  asAssessmentId: Number,
+  asLearningOutcomesObservationId: Number,
+  asSubjectRemark: string,
+  asSubjectId: Number
+}

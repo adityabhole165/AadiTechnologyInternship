@@ -3,6 +3,9 @@ import {
   IGetClassTeachersResult,
   IGetGetStudentsForNonXseedSubjects,
   IGetGetStudentsForNonXseedSubjectsBody,
+  IGetInsertStudentGradesBody,
+  IGetLearningOutcomesForSubjectSectionBody,
+  IGetLearningOutcomesForSubjectSectionResult,
   IGetNonXseedStudentsObs,
   IGetStudentsForStdDevMasters,
   IGetStudentsForStdDevMastersBody,
@@ -87,7 +90,13 @@ const GetSubmitUnsubmitExamMarksStatus = (data: IGetSubmitUnsubmitExamMarksStatu
   return http.post<string>('Teacher/SubmitUnsubmitExamMarksStatus', data);
 }
 
+const GetLearningOutcomesForSubjectSectionApi = (data: IGetLearningOutcomesForSubjectSectionBody) => {
+  return http.post<IGetLearningOutcomesForSubjectSectionResult>('Teacher/GetLearningOutcomesForSubjectSection', data)
+}
 
+const GetInsertStudentGradesApi = (data: IGetInsertStudentGradesBody) => {
+  return http.post<string>('Teacher/InsertStudentGrades', data)
+}
 const ApiAssignPrePrimaryGrades = {
   GetTestwiseTermA,
   GetClassTeachers,
@@ -99,6 +108,8 @@ const ApiAssignPrePrimaryGrades = {
   GetStudentsForNonXseedSubjectWithObs,
   GetSubmitUnsubmitExamMarksStatus,
   GetTeacherDropdown,
-  GetXseedStudentsDataApi
+  GetXseedStudentsDataApi,
+  GetLearningOutcomesForSubjectSectionApi,
+  GetInsertStudentGradesApi
 };
 export default ApiAssignPrePrimaryGrades;

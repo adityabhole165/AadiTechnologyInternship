@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignPrePrimaryGrades';
 import {
   IGetGetStudentsForNonXseedSubjects,
+  IGetInsertStudentGradesBody,
+  IGetLearningOutcomesForSubjectSectionBody,
   IGetStudentsForStdDevMasters,
   IGetSubmitUnsubmitExamMarksStatusBody,
   IGetTeacherDropdownBody,
@@ -31,9 +33,33 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ISGetSubmitUnsubmitExamMarksStatusMsg: '',
     ISXseedStudentsList: [],
     ISXseedSubjectSectionList: [],
+    ISXseedGradesList: [],
+    ISListLearningOutcomeDetails: [],
+    ISInsertStudentGradesMsg: '',
+    ISListObsDetails: [],
     Loading: true
   },
   reducers: {
+    RISListObsDetails(state, action) {
+      state.ISListObsDetails = action.payload;
+      state.Loading = false;
+    },
+    RInsertStudentGradesMsg(state, action) {
+      state.ISInsertStudentGradesMsg = action.payload;
+      state.Loading = false;
+    },
+    RClearInsertStudentGradesMsg(state) {
+      state.ISInsertStudentGradesMsg = '';
+      state.Loading = false;
+    },
+    RLearningOutcomesForSubjectSection(state, action) {
+      state.ISListLearningOutcomeDetails = action.payload;
+      state.Loading = false;
+    },
+    RXseedGradesList(state, action) {
+      state.ISXseedGradesList = action.payload;
+      state.Loading = false;
+    },
     RGetTestwiseTerm(state, action) {
       state.ISGetTestwiseTerm = action.payload;
       state.Loading = false;
@@ -184,6 +210,36 @@ export const GetStudentsForStdDevMasters =
       );
     };
 
+export const CDALearningOutcomesForSubjectSection =
+  (data: IGetLearningOutcomesForSubjectSectionBody): AppThunk =>
+    async (dispatch) => {
+      dispatch((AssignPrePrimaryGradesSlice.actions.getLoading(true)));
+      const response = await ApiAssignPrePrimaryGrades.GetLearningOutcomesForSubjectSectionApi(data);
+      let learningOutcomeforSubsection = response.data.listLearningOutcomeDetails.map((item, i) => {
+        return (
+          {
+            Text1: item.LearningOutcomeConfigId,
+            Text2: item.LearningOutcome,
+            Text3: item.IsSubmitted,
+            Text4: item.GradeId,
+            Text5: item.LearningOutcomeGradeId
+          }
+        )
+      });
+      let listObservationDetails = response.data.listObservationDetails.map((item, i) => {
+        return (
+          {
+            obs: item.Observation,
+            LearningOutcomeObsId: item.LearningOutcomesObservationId,
+            subRemark: item.SubjectRemark,
+            showSubRemark: item.ShowSubjectRemark
+          }
+        )
+      })
+      dispatch(AssignPrePrimaryGradesSlice.actions.RLearningOutcomesForSubjectSection(learningOutcomeforSubsection));
+      dispatch(AssignPrePrimaryGradesSlice.actions.RISListObsDetails(listObservationDetails));
+    }
+
 export const CDAGetTeacherDropdown =
   (data: IGetTeacherDropdownBody): AppThunk =>
     async (dispatch) => {
@@ -243,6 +299,16 @@ export const CDAXseedStudentsdata =
   (data: IGetXseedStudentsInfoBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAssignPrePrimaryGrades.GetXseedStudentsDataApi(data);
+      const XseedGradeDropdownList = response.data.listGradesDetails.map((item, i) => {
+        return (
+          {
+            Id: item.GradeId.toString(),
+            Name: item.GradeName,
+            Value: item.GradeId.toString()
+          }
+        )
+      })
+      XseedGradeDropdownList.unshift({ Id: '0', Name: 'Select', Value: '0' })
       const XseedStudentsList = response.data.listYearwiseStudentDetails.map((item, i) => {
         return (
           {
@@ -263,6 +329,7 @@ export const CDAXseedStudentsdata =
         )
       });
       XseedSubjectSectionList.unshift({ Id: '0', Name: 'Select', Value: '0' })
+      dispatch(AssignPrePrimaryGradesSlice.actions.RXseedGradesList(XseedGradeDropdownList))
       dispatch(AssignPrePrimaryGradesSlice.actions.RXseedStudentsList(XseedStudentsList))
       dispatch(AssignPrePrimaryGradesSlice.actions.RXseedSubjectSectionList(XseedSubjectSectionList))
     }
@@ -303,6 +370,21 @@ export const CDASubmitExamMarksStatus =
       dispatch(
         AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data)
       );
+    };
+
+export const CDAInsertStudentGrades =
+  (data: IGetInsertStudentGradesBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
+      const response = await ApiAssignPrePrimaryGrades.GetInsertStudentGradesApi(data);
+      dispatch(AssignPrePrimaryGradesSlice.actions.RInsertStudentGradesMsg(response.data));
+    };
+
+export const CDAClearInsertStudentGrades =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
+      dispatch(AssignPrePrimaryGradesSlice.actions.RClearInsertStudentGradesMsg());
     };
 
 export const resetMessage = (): AppThunk => async (dispatch) => {
