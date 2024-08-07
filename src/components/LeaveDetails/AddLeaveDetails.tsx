@@ -46,6 +46,7 @@ const AddLeaveDetails = () => {
     const [ErrorStartDate2, setErrorStartDate2] = useState('');
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
+    const [TotalDaysError, setTotalDaysError] = useState('')
 
 
     const GetViewLeave = useSelector(
@@ -178,24 +179,24 @@ const AddLeaveDetails = () => {
         let isError = false;
         let dateError = false;
 
+        // if (StartDate === '') {
+        //     setErrorStartDate2('Please choose a valid start date.');
+        //     dateError = true
+        //     isError = true;
+        // } else setErrorStartDate2('')
         if (StartDate === '') {
-            setErrorStartDate2('Please choose a valid start date.');
-            dateError = true
-            isError = true;
-        } else setErrorStartDate2('')
-        if (StartDate === null) {
             setErrorStartDateblank('Start Date should not be blank.');
 
             dateError = true
             isError = true;
         } else setErrorStartDateblank('')
-        if (EndDate == '') {
-            setErrorEndDate('Please choose a valid End date.');
-            dateError = true
-            isError = true;
-        } else setErrorEndDate('')
+        // if (EndDate == '') {
+        //     setErrorEndDate('Please choose a valid End date.');
+        //     dateError = true
+        //     isError = true;
+        // } else setErrorEndDate('')
 
-        if (EndDate == null) {
+        if (EndDate == '') {
             setErrorEndDateblank('End Date should not be blank.');
             dateError = true
             isError = true;
@@ -243,6 +244,10 @@ const AddLeaveDetails = () => {
         //     setRemarkError('Remark should be less than 200 characters.');
         //     isError = true;
         // } else setRemarkError('')
+        if (TotalDays == '') {
+            setTotalDaysError('Total Days should not be blank.');
+            isError = true;
+        } else setTotalDaysError('')
         if (!isError) {
             dispatch(getSubmitLeave(SubmitLeaveBody));
         }
@@ -404,6 +409,7 @@ const AddLeaveDetails = () => {
                             onChange={(e) => setTotalDays(e.target.value)}
                             fullWidth
                         />
+                        <ErrorMessage1 Error={TotalDaysError}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <SearchableDropdown
