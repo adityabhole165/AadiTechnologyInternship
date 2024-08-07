@@ -271,7 +271,7 @@ const WeeklyTimetable = (props: Props) => {
         if (ResetTimetableMsg !== '') {
             toast.success(ResetTimetableMsg)
             dispatch(CDAGetResetTimetableMsgClear());
-
+            dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
         }
 
     }, [ResetTimetableMsg])

@@ -164,6 +164,11 @@ const AssignProgressReportSubject = Loader(
     () => import('src/components/AssignPrePrimaryGrades/AssignProgressReportSubject')
   )
 );
+const AssignPrePrimarySubjectGrades = Loader(
+  lazy(
+    () => import('src/components/AssignPrePrimaryGrades/AssignPrePrimarySubjectGrades')
+  )
+);
 
 const Toppers = Loader(
   lazy(() => import('src/components/ExamResult/Toppers'))
@@ -232,6 +237,14 @@ const teacherRoutes = [
   {
     path: 'AddLeaveDetails/:LeaveDId/:ParamsUserId',
     element: <AddLeaveDetails />
+  },
+  {
+    path: 'AssignPrePrimarySubjectGrades',
+    element: <AssignPrePrimarySubjectGrades />
+  },
+  {
+    path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher',
+    element: <AssignPrePrimarySubjectGrades />
   },
   {
     path: 'AddLeaveDetails',

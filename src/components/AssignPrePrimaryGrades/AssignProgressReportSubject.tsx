@@ -15,6 +15,8 @@ const cellStyle = {
     padding: '0.2em 1.5em', // Adjust these values to reduce the height
 };
 
+// THIS PAGE IS FOR NON-XSEEED SUBJECT GRADES
+
 const AssignProgressReportSubject = () => {
     const dispatch = useDispatch();
     const GradesList = useSelector((state: RootState) => state.AssignPrePrimaryGrades.listGradesDetails);
