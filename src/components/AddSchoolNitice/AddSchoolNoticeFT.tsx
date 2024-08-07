@@ -19,13 +19,12 @@ import SingleFile from 'src/libraries/File/SingleFile';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, GetSelectedStandardAndDivisionCheckBoxx, GetUserRolesForSelectedNoticeId, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
 import { extractTime, getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
-
 const AddSchoolNoticeFT = () => {
     const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
@@ -96,7 +95,8 @@ const AddSchoolNoticeFT = () => {
     const SaveNotice = useSelector((state: RootState) => state.SchoolNoticeForm.SaveSchoolNotice);
     const deleteNoticeImageMsg = useSelector((state: RootState) => state.SchoolNoticeForm.DeleteImageMsg);
     const EditNotice = useSelector((state: RootState) => state.SchoolNoticeForm.EditSchoolNotice);
-
+    const UserRoleselected = useSelector((state: RootState) => state.SchoolNoticeForm.UserRoleselected);
+    const SelectedStandardAndDivisionCheckBoxx = useSelector((state: RootState) => state.SchoolNoticeForm.SelectedStandardAndDivisionCheckBoxx);
 
     useEffect(() => {
         const AllClassesAndDivisionBody: IGetAllClassesAndDivisionsBody = {
@@ -104,7 +104,50 @@ const AddSchoolNoticeFT = () => {
             asAcademicYearId: asAcademicYearId,
         };
         dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody));
+        const GetEditUserRolesandStdDivForSelectedNoticeIdBody: IGetEditUserRolesandStdDivForSelectedNoticeIdBody = {
+            asSchoolId: Number(asSchoolId),
+            asNoticeId: Number(NoticeId)
+        }
+        dispatch(GetUserRolesForSelectedNoticeId(GetEditUserRolesandStdDivForSelectedNoticeIdBody))
     }, [])
+    const IsRolePresent = (UserRoleId) => {
+        let returnVal = false
+        UserRoleselected.map((item) => {
+            if (item.UserRoleId == UserRoleId) {
+                returnVal = true
+            }
+        })
+        return returnVal
+    }
+    useEffect(() => {
+        if (UserRoleselected.length > 0) {
+            setApplicableTo({
+                admin: IsRolePresent("1"),
+                teacher: IsRolePresent("2"),
+                student: IsRolePresent("3"),
+                adminStaff: IsRolePresent("6"),
+                otherStaff: IsRolePresent("7"),
+            })
+        }
+    }, [UserRoleselected])
+    const IsDivPresent = (StandardDivisionId) => {
+        let returnVal = false
+        SelectedStandardAndDivisionCheckBoxx.map((item) => {
+            if (item.StandardDivisionId == StandardDivisionId) {
+                returnVal = true
+            }
+        })
+        return returnVal
+    }
+
+    useEffect(() => {
+        if (SelectedStandardAndDivisionCheckBoxx.length > 0) {
+            setItemList(ClassesAndDivisionss.map((item) => {
+                return { ...item, IsActive: IsDivPresent(item.Value) }
+            }
+            ));
+        }
+    }, [SelectedStandardAndDivisionCheckBoxx])
 
 
     useEffect(() => {
@@ -141,6 +184,7 @@ const AddSchoolNoticeFT = () => {
                 asNoticeId: Number(NoticeId)
             }
             dispatch(getEditSchoolNoticeDetails(GetEditNoticeBody))
+            dispatch(GetSelectedStandardAndDivisionCheckBoxx(GetEditNoticeBody))
         }
     }, [NoticeId]);
 
