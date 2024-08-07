@@ -645,11 +645,11 @@ const teacherRoutes = [
     element: <AddSchoolNotice />
   },
   {
-    path: 'AddSchoolNoticeFT',
+    path: 'AddSchoolNoticeFT/:selectDisplayType',
     element: <AddSchoolNoticeFT />
   },
   {
-    path: 'AddSchoolNoticeFT/:NoticeId',
+    path: 'AddSchoolNoticeFT/:NoticeId/:selectDisplayType',
     element: <AddSchoolNoticeFT />
   },
   {
