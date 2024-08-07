@@ -7,19 +7,24 @@ import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAAllPrimaryClassTeachers, CDAProgressReportDetails, CDAStudentDetailsDropdown } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-
 const PreprimaryProgressReport = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('0');
     const [StudentId, setStudentId]: any = useState();
     const [AssessmentId, setAssessmentId]: any = useState();
     const [open, setOpen] = useState(false);
+    const [Error, SetError] = useState('');
+
+
     const PreprimaryFullAccess = GetScreenPermission('Pre-Primary Progress Report');
+    console.log(PreprimaryFullAccess, "PreprimaryFullAccess");
+
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -83,20 +88,23 @@ const PreprimaryProgressReport = () => {
 
     const clickClassTeacher = (value) => {
         setClassTeacher(value);
-
+        setOpen(false);
     };
     const clickStudentId = (value) => {
         setStudentId(value);
-
+        setOpen(false);
     };
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
-
+        setOpen(false);
     };
 
     const ClickShow = (value) => {
         setOpen(true)
+        if (AssessmentId == '0') {
+            SetError('Assessment should be selected')
+        }
     }
 
     const countDuplicates = (arr) => {
@@ -157,22 +165,22 @@ const PreprimaryProgressReport = () => {
                 ]}
 
                 rightActions={
-                    <>  
-                    {
-                        PreprimaryFullAccess == 'Y' ?
-                        <SearchableDropdown
-                        ItemList={PrePrimaryClassTeacher}
-                        sx={{ minWidth: '250px' }}
-                        onChange={clickClassTeacher}
-                        defaultValue={ClassTeacher}
-                        label={'Class Teacher '}
-                        size={"small"}
-                        mandatory
-                    />
-                    : <span></span>
+                    <>
+                        {
+                            PreprimaryFullAccess == 'Y' ?
+                                <SearchableDropdown
+                                    ItemList={PrePrimaryClassTeacher}
+                                    sx={{ minWidth: '250px' }}
+                                    onChange={clickClassTeacher}
+                                    defaultValue={ClassTeacher}
+                                    label={'Class Teacher '}
+                                    size={"small"}
+                                    mandatory
+                                />
+                                : <span></span>
 
-                    }
-                        
+                        }
+
                         <SearchableDropdown
                             ItemList={USlistStudentNameDetails}
                             sx={{ minWidth: '250px' }}
@@ -239,83 +247,86 @@ const PreprimaryProgressReport = () => {
 
                     </>}
             />
-             {open && ( <div>
+
+            <ErrorMessage1 Error={Error}></ErrorMessage1>
+
+            {open && (<div>
 
                 {
-                USFillStudentDetails.length > 0 ?
-                    <Box border={1} sx={{ p: 2, background: 'white' }}>
-                        <Grid container spacing={3}>
-                            {USFillSchoolDetails.map((detail) => (
-                                <Grid item xs={12} key={detail.UserId}>
-                                    <Box sx={{
-                                        backgroundColor: '#F0F0F0',
-                                        textAlign: 'center', marginBottom: 2,
+                    USFillStudentDetails.length > 0 ?
+                        <Box border={1} sx={{ p: 2, background: 'white' }}>
+                            <Grid container spacing={3}>
+                                {USFillSchoolDetails.map((detail) => (
+                                    <Grid item xs={12} key={detail.UserId}>
+                                        <Box sx={{
+                                            backgroundColor: '#F0F0F0',
+                                            textAlign: 'center', marginBottom: 2,
 
-                                    }}>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                                        }}>
+                                            <hr />
+                                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
-                                            {detail.OrganizationName}
+                                                {detail.OrganizationName}
 
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
+                                            </Typography>
+                                            <hr />
+                                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
 
-                                            {detail.School_Name}
+                                                {detail.School_Name}
 
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                                            </Typography>
+                                            <hr />
+                                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
 
-                                            Progress Report
+                                                Progress Report
 
-                                        </Typography>
-                                        <hr />
-
-
-
-                                    </Box>
+                                            </Typography>
+                                            <hr />
 
 
-                                </Grid>
+
+                                        </Box>
 
 
-                            ))}
-                        </Grid>
-
-                        <Box sx={{ background: 'white', p: 1, top: '1px' }}>
-                            {USFillStudentDetails.map((detail) => (
-                                <Grid container spacing={2}>
-
-                                    <Grid item xs={3} >
-                                        <Typography  > Roll No -  {detail.RollNo}</Typography>
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <Typography> Name - {detail.StudentName} </Typography>
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <Typography>  Class  - {detail.Class}</Typography>
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <Typography>  Year -  {detail.AcademicYear}</Typography>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <Typography>  Assessment - {detail.Assessment}</Typography>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <Typography>  Attendance {presentCount} / {totalCount} </Typography>
                                     </Grid>
 
 
+                                ))}
+                            </Grid>
 
-                                </Grid>
-                            ))}
-                        </Box>
+                            <Box sx={{ background: 'white', p: 1, top: '1px' }}>
+                                {USFillStudentDetails.map((detail) => (
+                                    <Grid container spacing={2}>
 
-                    </Box> : <span></span>
-            }
-             </div>)}
-           
+                                        <Grid item xs={3} >
+                                            <Typography  > Roll No -  {detail.RollNo}</Typography>
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <Typography> Name - {detail.StudentName} </Typography>
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <Typography>  Class  - {detail.Class}</Typography>
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <Typography>  Year -  {detail.AcademicYear}</Typography>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Typography>  Assessment - {detail.Assessment}</Typography>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Typography>  Attendance {presentCount} / {totalCount} </Typography>
+                                        </Grid>
+
+
+
+                                    </Grid>
+                                ))}
+                            </Box>
+
+                        </Box> : <span> </span>
+                }
+            </div>)}
+
 
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
