@@ -2,7 +2,7 @@
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,10 +40,10 @@ const PreprimaryProgressReport = () => {
     const USFillGradeDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillGradeDetails);
 
     const USFillXseedRemarks: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillXseedRemarks);
-    
 
-    
-    
+
+
+
     const HeaderPublish = [
         { Id: 1, Header: 'Item Code' },
         { Id: 2, Header: 'Item Name' },
@@ -108,10 +108,10 @@ const PreprimaryProgressReport = () => {
     }, []);
     useEffect(() => {
         dispatch(CDAStudentDetailsDropdown(StudentDetailsDropdownBody));
-    }, []);
+    }, [ClassTeacher]);
     useEffect(() => {
         dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
-    }, [AssessmentId,StudentId,ClassTeacher,asStandardDivisionId]);
+    }, [AssessmentId, StudentId, ClassTeacher, asStandardDivisionId]);
 
 
 
@@ -214,11 +214,47 @@ const PreprimaryProgressReport = () => {
                     </>}
             />
 
-                   {
+            <Box border={1} sx={{ p: 2, background: 'white' }}>
+                <Grid container spacing={3}>
+                    {USFillSchoolDetails.map((detail) => (
+                        <Grid item xs={12} key={detail.UserId}>
+                            <Box sx={{
+                                backgroundColor: '#F0F0F0',
+                                textAlign: 'center', marginBottom: 2,
+
+                            }}>
+                                <hr />
+                                <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+
+                                    {detail.OrganizationName}
+
+                                </Typography>
+                                <hr />
+                                <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
+
+                                    {detail.School_Name}
+
+                                </Typography>
+                                <hr />
+                                <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+
+                                    Progress Report
+
+                                </Typography>
+                                <hr />
+                            </Box>
+
+
+                        </Grid>
+
+                    ))}
+                </Grid>
+            </Box>
+            {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                  <b>Assessment result is not available for this student.</b>
-                </Typography>
+                        <b>Assessment result is not available for this student.</b>
+                    </Typography>
                     :
                     <span> </span>
             }
