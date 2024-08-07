@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
-import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -27,13 +27,19 @@ const WeeklyTimeTableSlice = createSlice({
         ISWeekdayId: [],
         ISGetManageClassTimeTableMsg: '',
         ISGetDeleteAdditionalLectureMsg: '',
+        ISGetDeleteAdditionalLecturesMsg: '',
         ISAssemblyInfo: [],
         ISMPTinfo: [],
+        ISTimetableDetails: [],
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        RTimetableDetails(state, action) {
+            state.ISTimetableDetails = action.payload;
+            state.Loading = false;
         },
         RGetWeekdayId(state, action) {
             state.ISWeekdayId = action.payload;
@@ -61,6 +67,14 @@ const WeeklyTimeTableSlice = createSlice({
         },
         ResetDeleteAdditionalLectureMsg(state) {
             state.ISGetDeleteAdditionalLectureMsg = '';
+            state.Loading = false;
+        },
+        RGetDeleteAdditionalLecturesMsg(state, action) {
+            state.ISGetDeleteAdditionalLecturesMsg = action.payload;
+            state.Loading = false;
+        },
+        ResetDeleteAdditionalLecturesMsg(state) {
+            state.ISGetDeleteAdditionalLecturesMsg = '';
             state.Loading = false;
         },
         RGetTeachersList(state, action) {
@@ -241,11 +255,26 @@ export const CDADeleteAdditionalLecture =
             dispatch(WeeklyTimeTableSlice.actions.RGetDeleteAdditionalLectureMsg(response.data));
         }
 
+export const CDADeleteAdditionalLectures =
+    (data: IGetDeleteAdditionalLecturesBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetDeleteAdditionalLecturesApi(data);
+            dispatch(WeeklyTimeTableSlice.actions.RGetDeleteAdditionalLecturesMsg(response.data));
+        }
+
 export const CDAResetDeleteAdditionalLecture =
     (): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             dispatch(WeeklyTimeTableSlice.actions.ResetDeleteAdditionalLectureMsg());
+        }
+
+export const CDAResetDeleteAdditionalLectures =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.ResetDeleteAdditionalLecturesMsg());
         }
 
 export const CDAManageClassTimeTable =
@@ -300,7 +329,6 @@ export const CDAGetDivisionName =
                     }
                 )
             })
-            console.log(`this is division response after formatting`, responseData)
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetDivisionName(responseData));
 
@@ -522,12 +550,30 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             })
+            const TimetableDetails = response.data.TimeTableDetails.map((item, i) => {
+                return (
+                    {
+                        Id: item.TeacherId,
+                        Text1: item.LectureNumber,
+                        Text2: item.WeekDayName,
+                        Text3: item.SubjectName,
+                        Text4: item.ClassName,
+                        Text5: item.SchoolTimeTableDetailId,
+                        Text6: item.SubjectId,
+                        Text7: item.WeekdayId,
+                        Text8: item.TeacherSubjectId,
+                        Text9: item.TeacherName,
+                        Text10: item.ID
+                    }
+                )
+            })
             console.log('this was the data for the Weekday internal data -- ,', responseData)
             dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData))
             dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData))
             dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId))
             dispatch(WeeklyTimeTableSlice.actions.RMPTinfo(mptInfo))
             dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfo(assemblyInfo))
+            dispatch(WeeklyTimeTableSlice.actions.RTimetableDetails(TimetableDetails))
         }
 
 // The Following Dispatch is for the Weekday Lecture Retrieval | ON `Class` Selection ✅

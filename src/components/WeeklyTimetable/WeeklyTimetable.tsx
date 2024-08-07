@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify'
 import { AlertContext } from 'src/contexts/AlertContext'
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody } from "src/interfaces/Teacher/ITeacherTimeTable"
-import { IGetClassTimeTableBody, IGetDeleteAdditionalLectureBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { IGetClassTimeTableBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDADeleteAdditionalLecture, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetDeleteAdditionalLecture, CDAResetTimetable, CDASaveTeacherTimetable, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDADeleteAdditionalLectures, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveTeacherTimetable, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import { GetScreenPermission } from '../Common/Util'
 import CommonPageHeader from "../CommonPageHeader"
@@ -99,19 +99,38 @@ const WeeklyTimetable = (props: Props) => {
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
     const DeleteAddLecMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetDeleteAdditionalLectureMsg);
     const ManageTimeTableMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetManageClassTimeTableMsg);
+    const TimetableDetails = useSelector((state: RootState) => state.WeeklyTimetable.ISTimetableDetails);
+    const DeleteAddLecturesMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetDeleteAdditionalLecturesMsg);
     const filterLecNo = (value) => {
         return value.WeekdayId === AddLecForTWeekDayId
     }
     let filteredAddLecLectureNumber = AddLecLectureNumber.filter(filterLecNo);
     filteredAddLecLectureNumber.unshift({ Id: '0', Name: 'Select', Value: '0', WeekdayId: '0' })
 
+    const GetLectureCountsForTeachersBody: IGetLectureCountsForTeachersBody = {
+        asSchoolId: Number(localStorage.getItem('SchoolId')),
+        asTeacher_Id: Number(teacher),
+        asConsiderAssembly: "Y",
+        asConsiderMPT: "Y",
+        asConsiderStayback: "Y",
+        asConsiderWeeklyTest: "Y"
+    }
+
     useEffect(() => {
         if (SaveTeacherTimetableMsg !== '') {
             toast.success(SaveTeacherTimetableMsg);
             dispatch(ResetSaveTeacherTimetableMsg());
             dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
+            dispatch(GetLectureCountsForTeachers(GetLectureCountsForTeachersBody))
         }
     }, [SaveTeacherTimetableMsg])
+    useEffect(() => {
+        if (DeleteAddLecturesMsg !== '') {
+            toast.success(DeleteAddLecturesMsg)
+            dispatch(CDAResetDeleteAdditionalLectures())
+            dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
+        }
+    }, [DeleteAddLecturesMsg])
     useEffect(() => {
         const CDAGetTeachersListBody: IGetTeacherAndStandardForTimeTableBody = {
             asSchoolId: Number(localStorage.getItem('SchoolId')),
@@ -277,14 +296,6 @@ const WeeklyTimetable = (props: Props) => {
     }, [ResetTimetableMsg])
 
     useEffect(() => {
-        const GetLectureCountsForTeachersBody: IGetLectureCountsForTeachersBody = {
-            asSchoolId: Number(localStorage.getItem('SchoolId')),
-            asTeacher_Id: Number(teacher),
-            asConsiderAssembly: "Y",
-            asConsiderMPT: "Y",
-            asConsiderStayback: "Y",
-            asConsiderWeeklyTest: "Y"
-        }
         if (teacher !== '0') {
             dispatch(GetLectureCountsForTeachers(GetLectureCountsForTeachersBody))
         }
@@ -489,8 +500,12 @@ const WeeklyTimetable = (props: Props) => {
         asAssemblyDay: AssemblyWeekdayInfo.toString(),
         asAssemblyLecNo: Number(AssemblyLecNo.toString())
     }
-    function dltAddLecture() {
+    function dltAddLecture(schoolTimetableId) {
         // alert('Additional Lecture deleted successfully.')
+        const DeleteAddLecturesBody: IGetDeleteAdditionalLecturesBody = {
+            asSchoolId: Number(localStorage.getItem('SchoolId')),
+            asDetailID: Number(schoolTimetableId)
+        }
         console.log('Additional lecture body for delete functionality ', DeleteAddLecForTeacherBody)
         showAlert({
             title: 'Please Confirm',
@@ -500,7 +515,7 @@ const WeeklyTimetable = (props: Props) => {
             cancelButtonText: 'Cancel',
             onConfirm: () => {
                 closeAlert();
-                dispatch(CDADeleteAdditionalLecture(DeleteAddLecForTeacherBody))
+                dispatch(CDADeleteAdditionalLectures(DeleteAddLecturesBody))
             },
             onCancel: closeAlert
         });
@@ -749,9 +764,7 @@ const WeeklyTimetable = (props: Props) => {
                             )}
                         </Stack>
                     </Stack>
-                    {/* {loading ? <SuspenseLoader /> : */}
                     <>
-                        {/* {loading ? <SuspenseLoader /> : ''} */}
                         {teacher !== '0' || division !== '0' ?
                             <Box sx={{ mt: 2 }}>
                                 <TableContainer>
@@ -1024,7 +1037,6 @@ const WeeklyTimetable = (props: Props) => {
                                     </TableContainer>}
                             </Box>
                         }
-
                         {filterBy === 'Teacher' && teacher !== '0' && !loading &&
                             <Box sx={{ flex: 1 }}>
                                 {/* <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography> */}
@@ -1033,13 +1045,13 @@ const WeeklyTimetable = (props: Props) => {
                                     Additional Lectures
 
                                 </Typography>
-                                {AdditionalClasses.length === 0 && teacher !== '0' &&
+                                {TimetableDetails.length === 0 && teacher !== '0' &&
 
                                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 10, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                                         <b>No additional lectures assigned.</b>
                                     </Typography>
                                 }
-                                {AdditionalClasses.length > 0 &&
+                                {TimetableDetails.length > 0 &&
                                     <TableContainer sx={{ width: '100%' }}>
                                         <Table>
                                             <TableHead>
@@ -1053,22 +1065,19 @@ const WeeklyTimetable = (props: Props) => {
                                             </TableHead>
                                             <TableBody>
                                                 {/* Loopable content */}
-                                                {AdditionalClasses.map((item, i) => (
+                                                {TimetableDetails.map((item, i) => (
                                                     <TableRow>
-                                                        <StyledCell>{item.Text1}</StyledCell>
                                                         <StyledCell>{item.Text2}</StyledCell>
-                                                        <StyledCell>{item.Text3}</StyledCell>
+                                                        <StyledCell>{item.Text1}</StyledCell>
                                                         <StyledCell>{item.Text4}</StyledCell>
+                                                        <StyledCell>{item.Text3}</StyledCell>
                                                         <StyledCell sx={{ textAlign: 'center' }}><Tooltip title="Delete">
-                                                            <IconButton onClick={dltAddLecture}>
+                                                            <IconButton onClick={() => dltAddLecture(item.Text5)}>
                                                                 <DeleteIcon />
                                                             </IconButton>
                                                         </Tooltip></StyledCell>
                                                     </TableRow>
                                                 ))}
-
-                                                {/* Fixed Footer */}
-
                                             </TableBody>
                                         </Table>
                                     </TableContainer>

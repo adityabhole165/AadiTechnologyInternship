@@ -290,3 +290,8 @@ export interface IGetDeleteAdditionalLectureBody {
     asAssemblyDay: string,
     asAssemblyLecNo: Number
 }
+
+export interface IGetDeleteAdditionalLecturesBody {
+    asSchoolId: Number,
+    asDetailID: Number
+}

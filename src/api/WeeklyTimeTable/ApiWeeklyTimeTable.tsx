@@ -1,4 +1,4 @@
-import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -42,6 +42,13 @@ const GetManageClassTimeTableApi = (data: IGetManageClassTimeTableBody) => {
     return http.post<string>('Teacher/ManageClassTimeTable', data)
 }
 
+const GetDeleteAdditionalLecturesApi = (data: IGetDeleteAdditionalLecturesBody) => {
+    return http.post<string>('Teacher/DeleteAdditionalLectures', data)
+}
+
+// GetDeleteAdditionalLectureApi  | to be used before Saving Teacher Time Table
+// GetDeleteAdditionalLecturesApi (s) | to delete Add. Lectures after Saving Teacher Time Table
+
 const WeeklyTimeTableApi = {
     GetTeacherAndStandardForTimeTableApi,
     GetDataForAdditionalClassesApi,
@@ -52,7 +59,8 @@ const WeeklyTimeTableApi = {
     GetTimeTableForClassApi,
     GetSaveTeacherTimeTableApi,
     GetManageClassTimeTableApi,
-    GetDeleteAdditionalLectureApi
+    GetDeleteAdditionalLectureApi,
+    GetDeleteAdditionalLecturesApi
 };
 
 export default WeeklyTimeTableApi;
