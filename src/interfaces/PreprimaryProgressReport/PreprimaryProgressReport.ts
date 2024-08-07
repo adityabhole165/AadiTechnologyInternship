@@ -106,6 +106,14 @@ export interface GetProgressReportDetailsResult {
 
 
   FillStudentDetails: [
+    {
+      YearWiseStudentId: string
+      RollNo: string
+      StudentName: string
+      Class: string
+      AcademicYear: string
+      Assessment: string
+    }
 
   ],
 
@@ -123,6 +131,10 @@ export interface GetProgressReportDetailsResult {
     }
   ],
   FillStudentAttendance: [
+    {
+      YearwiseStudentId: string,
+      IsPresent: boolean,
+  }
 
   ],
   GetAssessmentPublishStatus: [

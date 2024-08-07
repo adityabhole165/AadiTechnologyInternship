@@ -36,13 +36,12 @@ const PreprimaryProgressReport = () => {
     const USFillStandardwiseSubjects: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStandardwiseSubjects);
     const USFillSubjectSections: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillSubjectSections);
     const USFillSchoolDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillSchoolDetails);
-
     const USFillGradeDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillGradeDetails);
-
     const USFillXseedRemarks: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillXseedRemarks);
-
-
-
+    const USFillStudentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentDetails);
+    const USFillStudentAttendance: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentAttendance);
+    const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
+    const IsPresent = USFillStudentAttendance.map(item => item.IsPresent);
 
     const HeaderPublish = [
         { Id: 1, Header: 'Item Code' },
@@ -99,6 +98,19 @@ const PreprimaryProgressReport = () => {
 
     }
 
+    const countDuplicates = (arr) => {
+        const counts = {};
+        arr.forEach((item) => {
+            counts[item] = (counts[item] || 0) + 1;
+        });
+        return counts;
+    };
+
+    const IsPresent1 = countDuplicates(IsPresent);
+    const TotalAttendance = countDuplicates(YearwiseStudentId1);
+    const presentCount = IsPresent1["true"] || '';
+    const totalCount = TotalAttendance["38639"] || '';
+
     const clickPrint = () => {
         window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
     };
@@ -126,6 +138,14 @@ const PreprimaryProgressReport = () => {
             setAssessmentId(USlistAssessmentDetailss[0].Value);
         }
     }, [USlistAssessmentDetailss]);
+
+
+    // useEffect(() => {
+    //     if (YearwiseStudentId == YearwiseStudentId1) {
+
+    //     }
+    // }, []);
+
     return (
         <Box sx={{ px: 2 }}>
 
@@ -242,13 +262,47 @@ const PreprimaryProgressReport = () => {
 
                                 </Typography>
                                 <hr />
+
+
+
                             </Box>
 
 
                         </Grid>
 
+
                     ))}
                 </Grid>
+
+                <Box sx={{ background: 'white', p: 1, top: '1px' }}>
+                    {USFillStudentDetails.map((detail) => (
+                        <Grid container spacing={2}>
+
+                            <Grid item xs={3} >
+                                <Typography  > Roll No -  {detail.RollNo}</Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Typography> Name - {detail.StudentName} </Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Typography>  Class  - {detail.Class}</Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Typography>  Year -  {detail.AcademicYear}</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography>  Assessment - {detail.Assessment}</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography>  Attendance {presentCount} / {totalCount} </Typography>
+                            </Grid>
+
+
+
+                        </Grid>
+                    ))}
+                </Box>
+
             </Box>
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?

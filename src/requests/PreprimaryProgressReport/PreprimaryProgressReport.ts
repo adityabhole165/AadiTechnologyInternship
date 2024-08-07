@@ -15,7 +15,9 @@ const SlicePreprimaryProgressReport = createSlice({
     ISFillSubjectSections:[],
     ISFillSchoolDetails:[],
     ISFillGradeDetails:[],
-    ISFillXseedRemarks:[]
+    ISFillXseedRemarks:[],
+    ISFillStudentDetails:[],
+    ISFillStudentAttendance:[]
     
   },
   reducers: {
@@ -46,7 +48,12 @@ const SlicePreprimaryProgressReport = createSlice({
       RFillXseedRemarks(state, action) {
         state. ISFillXseedRemarks = action.payload;
       },
-      
+      RFillStudentDetails(state, action) {
+        state. ISFillStudentDetails = action.payload;
+      },
+      RFillStudentAttendance(state, action) {
+        state. ISFillStudentAttendance = action.payload;
+      },
       
      
   }
@@ -148,6 +155,19 @@ export const CDAAllPrimaryClassTeachers =
      
 
     }));
+    const FillStudentDetails = response.data.FillStudentDetails.map((item, i) => ({
+      YearWiseStudentId: item.YearWiseStudentId,
+      RollNo: item.RollNo,
+      StudentName: item.StudentName,
+      Class: item.Class,
+      AcademicYear: item.AcademicYear,
+      Assessment: item.Assessment,
+    }));
+    const FillStudentAttendance = response.data.FillStudentAttendance.map((item, i) => ({
+      YearwiseStudentId: item.YearwiseStudentId,
+      IsPresent: item.IsPresent,
+      
+    }));
     
     
     dispatch(SlicePreprimaryProgressReport.actions.RAssessmentPublishStatus(AssessmentPublishStatus));
@@ -156,8 +176,10 @@ export const CDAAllPrimaryClassTeachers =
     dispatch(SlicePreprimaryProgressReport.actions.RFillSchoolDetails(FillSchoolDetails));
     dispatch(SlicePreprimaryProgressReport.actions.RFillGradeDetails(FillGradeDetails));
     dispatch(SlicePreprimaryProgressReport.actions.RFillXseedRemarks(FillXseedRemarks));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillStudentDetails(FillStudentDetails));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillStudentAttendance(FillStudentAttendance));
 
-
+    
   };
 
 
