@@ -21,7 +21,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, GetSelectedStandardAndDivisionCheckBoxx, GetUserRolesForSelectedNoticeId, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
-import { extractTime, getCalendarDateFormatDateNew } from '../Common/Util';
+import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
@@ -162,10 +162,12 @@ const AddSchoolNoticeFT = () => {
         if (NoticeId != undefined && EditNotice.length > 0 && EditNotice[0] != null) {
             const EditNoticee = EditNotice[0]
             setNoticeName(EditNoticee.Text1);
-            setStartDate(EditNoticee.Text2)
+            setStartDate(formatDateAsDDMMMYYYY(EditNoticee.Text2))
             setStartTime(extractTime(EditNoticee.Text2))
-            setEndDate(EditNoticee.Text3)
+            console.log(StartTime,'setStartTime')
+            setEndDate(formatDateAsDDMMMYYYY(EditNoticee.Text3))
             setEndTime(extractTime(EditNoticee.Text3))
+            console.log(EndTime,'setEndTime')
             setDisplayLocation(EditNoticee.Text4)
             setSortOrder(EditNoticee.Text5)
             setNoticeFile(EditNoticee.Text6)
@@ -241,7 +243,7 @@ const AddSchoolNoticeFT = () => {
     }
 
     const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
-        NoticeId: 0,
+        NoticeId: Number(NoticeId ? NoticeId : 0),
         asUserRoleIds: getApplicableTo(),
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
@@ -321,6 +323,7 @@ const AddSchoolNoticeFT = () => {
         } else setSortOrderError('')
 
         if (!isError) {
+            console.log(SaveNoticeBody,'SaveNoticeBody')
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
         }
 

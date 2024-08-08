@@ -120,7 +120,7 @@ const SchoolNoticeBaseScreen = () => {
     //thank you
     const deleteRow = (Id: number) => {
         const DeleteSchoolNoticeBody: IDeleteSchooNoticeBody = {
-            asSchoolId: Number(asSchoolId),
+            asSchoolId: asSchoolId,
             asNoticeId: Number(Id),
             asUpdatedById: Number(asUserId),
         };
@@ -358,7 +358,7 @@ const SchoolNoticeBaseScreen = () => {
             {Loading && <SuspenseLoader />}
 
             <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
-                <Grid sm={12} px={0} sx={{ display: 'flex', justifyItems: "center" }} >
+                <Grid item sm={12} px={0} sx={{ display: 'flex', justifyItems: "center" }} >
                     <Grid >
                         <FormControl component="fieldset">
                             <RadioGroup
