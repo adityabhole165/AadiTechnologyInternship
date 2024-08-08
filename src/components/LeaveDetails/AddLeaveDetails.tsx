@@ -47,6 +47,7 @@ const AddLeaveDetails = () => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
     const [TotalDaysError, setTotalDaysError] = useState('')
+    const [TotalDaysError1, setTotalDaysError1] = useState('')
 
 
     const GetViewLeave = useSelector(
@@ -82,17 +83,6 @@ const AddLeaveDetails = () => {
             setasUserId(ViewLeave.UserId)
         }
     }, [GetViewLeave]);
-
-    // useEffect(() => {
-    //     const start = new Date(StartDate);
-    //     const end = new Date(EndDate);
-    //     const timeDiff = end.getTime() - start.getTime();
-    //     let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
-    //     if (daysDiff < 0) {
-    //         daysDiff = 0;
-    //     }
-    //     setTotalDays(daysDiff);
-    // }, [StartDate, EndDate]);
 
     useEffect(() => {
         if (LeaveDId) {
@@ -167,11 +157,13 @@ const AddLeaveDetails = () => {
         setEndDate('');
         setTotalDays('');
         setDescription('')
+        setLeaveType('');
         setErrorStartDateblank('')
         setErrorEndDateblank('')
         setErrorEndDate2('')
         setErrorLeaveType('')
         setTotalDaysError('')
+        setTotalDaysError1('')
         setDescriptionError('')
 
     };
@@ -180,7 +172,20 @@ const AddLeaveDetails = () => {
         clear();
         //navigate('/extended-sidebar/Teacher/LeaveDetails');
     };
+    const calculateTotalDays = (startDate, endDate) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const timeDiff = end.getTime() - start.getTime();
+        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1); // +1 to include both start and end dates
+        return daysDiff < 0 ? 0 : daysDiff;
+    };
 
+    // useEffect(() => {
+    //     if (StartDate && EndDate) {
+    //         const daysDiff = calculateTotalDays(StartDate, EndDate);
+    //         setTotalDays(daysDiff.toString());
+    //     }
+    // }, [StartDate, EndDate]);
 
     const ClickSubmit = () => {
         let isError = false;
@@ -233,8 +238,8 @@ const AddLeaveDetails = () => {
             dateError = true
             isError = true;
         } else setErrorEndDate1('')
-        if (StartDateEndDateValidation == false) {
-            setErrorEndDate2('Date should not be overlapped.');
+        if (StartDateEndDateValidation == false && EndDate !== '') {
+            setErrorEndDate2("Leave dates should not overlap on another leave day's.");
             isError = true;
         } else setErrorEndDate2('')
         if (SelectLeaveType == '0') {
@@ -255,6 +260,14 @@ const AddLeaveDetails = () => {
             setTotalDaysError('Total days should not be blank.');
             isError = true;
         } else setTotalDaysError('')
+
+        const calculatedDays = calculateTotalDays(StartDate, EndDate);
+        if (TotalDays !== calculatedDays.toString() && TotalDays !== '') {
+            setTotalDaysError1('Total days should match with the given date range.');
+            isError = true;
+        } else {
+            setTotalDaysError1('');
+        }
         if (!isError) {
             dispatch(getSubmitLeave(SubmitLeaveBody));
         }
@@ -417,6 +430,7 @@ const AddLeaveDetails = () => {
                             fullWidth
                         />
                         <ErrorMessage1 Error={TotalDaysError}></ErrorMessage1>
+                        <ErrorMessage1 Error={TotalDaysError1}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <SearchableDropdown

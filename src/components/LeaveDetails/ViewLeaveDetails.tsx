@@ -79,6 +79,7 @@ const ViewLeaveDetails = () => {
             setLeaveType(ViewLeave.LeaveType)
             setDescription(ViewLeave.Text5)
             setasUserId(ViewLeave.UserId)
+            setRemark(ViewLeave.Text6)
         }
     }, [GetViewLeave]);
 
@@ -213,29 +214,44 @@ const ViewLeaveDetails = () => {
             dispatch(getapproveorreject(RejectBody))
         }
     }
-    const getButtonDisEnaRAR = (selectCategory, tblRemarkVisible, RemarkEnabled, btnApproveEnabled, btnRejectEnabled) => {
+    const getApproveRRBtnShow = () => {
         let returnVal = false;
-        if (selectCategory == '1') {
-            tblRemarkVisible = false;
-        } else if (selectCategory == '4') {
-            RemarkEnabled = false;
-            btnApproveEnabled = false;
-            btnRejectEnabled = false;
+        if (selectCategory === '2' || selectCategory === '3') {
+            returnVal = true;
         }
-        else {
-            tblRemarkVisible = true;
-            if (GetViewLeave[0].LeaveId != null && GetViewLeave[0].LeaveId != 0) {
-                if (GetViewLeave[0].ApproverRemark != '') {
-                    RemarkEnabled = GetViewLeave[0].ApproverRemark;
-                    RemarkEnabled = false;
-                    btnApproveEnabled = false;
-                    btnApproveEnabled = false;
-                }
-            }
-        }
-
         return returnVal;
     };
+    console.log(getApproveRRBtnShow(), "getApproveBtn");
+    const getLeaveId = () => {
+        let returnVal = false;
+        if (GetViewLeave.length > 0 && GetViewLeave[0].LeaveId != null && GetViewLeave[0].LeaveId != 0) {
+            returnVal = true;
+        }
+        return returnVal;
+    };
+
+    console.log(getLeaveId(), "getLeaveId");
+
+    const getTooltipTitle = () => {
+        if (GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True") {
+            return 'Final Approve';
+        } else {
+            return 'Approve';
+        }
+    };
+    // console.log(getTooltipTitle(), "getTooltipTitle", GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True");
+
+    // const getTooltipTitle = (item) => {
+    //     if (item.IsFinalApprover === "True") {
+    //         return "Final Approve";
+    //     }
+    //     else if (item.IsFinalApprover == "False") {
+    //         return "Approve";
+    //     } else {
+    //         return null;
+    //     }
+
+    // }
 
     const rightActions = (
         <>
@@ -252,41 +268,49 @@ const ViewLeaveDetails = () => {
                     <QuestionMark />
                 </IconButton>
             </Tooltip>
-
-            <>
-                <Tooltip title={'Reject'}>
-                    <IconButton
-                        sx={{
-                            backgroundColor: red[500],
-                            color: 'white',
-                            '&:hover': {
-                                backgroundColor: red[600]
-                            }
-                        }}
-                        onClick={onClickReject}
-                    >
-                        <PersonRemove />
-                    </IconButton>
-                </Tooltip>
-                {/* {getButtonDisEnaRAR() && ( */}
-                <Box>
-                    <Tooltip title={'Approve'}>
-                        <IconButton
-                            sx={{
-                                backgroundColor: green[500],
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: green[600]
-                                }
-                            }}
-                            onClick={onClickApprove}
-                        >
-                            <HowToReg />
-                        </IconButton>
+            {getApproveRRBtnShow() && getLeaveId && (
+                <>
+                    <Tooltip title={'Reject'}>
+                        <span>
+                            <IconButton
+                                disabled={(GetViewLeave.length > 0 &&
+                                    GetViewLeave[0].ApproverRemark != ' ')}
+                                sx={{
+                                    backgroundColor: red[500],
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: red[600]
+                                    }
+                                }}
+                                onClick={onClickReject}
+                            >
+                                <PersonRemove />
+                            </IconButton>
+                        </span>
                     </Tooltip>
-                </Box>
-                {/* )} */}
-            </>
+                    {/* {getButtonDisEnaRAR() && ( */}
+                    <Box>
+                        <Tooltip title={getTooltipTitle()}>
+                            <span>
+                                <IconButton
+                                    disabled={(GetViewLeave.length > 0 &&
+                                        GetViewLeave[0].ApproverRemark != ' ')}
+                                    sx={{
+                                        backgroundColor: green[500],
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                    onClick={onClickApprove}
+                                >
+                                    <HowToReg />
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                    </Box>
+                    {/* )} */}
+                </>)}
 
 
         </>
@@ -414,24 +438,27 @@ const ViewLeaveDetails = () => {
                         <ErrorMessage1 Error={DescriptionError}></ErrorMessage1>
                     </Grid>
                     {/* {(LeaveDId !== undefined && Number(LeaveDId) == asUserId) ? ( */}
-                    <Grid item xs={12} >
-                        <ResizableTextField
-                            label={<>
-                                Remark <span style={{ color: 'red' }}>*</span>
-                            </>}
-                            multiline
-                            rows={3}
-                            value={Remark}
-                            onChange={(e) => {
-                                setRemark(e.target.value);
-                            }}
-                            fullWidth
-                        // error={Remark1 !== ''}
-                        // helperText={Remark1}
-                        >
-                        </ResizableTextField>
-                        <ErrorMessage1 Error={Remark1}></ErrorMessage1>
-                    </Grid>
+                    {getApproveRRBtnShow() && (
+                        <Grid item xs={12} >
+                            <ResizableTextField
+                                label={<>
+                                    Remark <span style={{ color: 'red' }}>*</span>
+                                </>}
+                                disabled={(GetViewLeave.length > 0 &&
+                                    GetViewLeave[0].ApproverRemark != ' ')}
+                                multiline
+                                rows={3}
+                                value={Remark}
+                                onChange={(e) => {
+                                    setRemark(e.target.value);
+                                }}
+                                fullWidth
+                            // error={Remark1 !== ''}
+                            // helperText={Remark1}
+                            >
+                            </ResizableTextField>
+                            <ErrorMessage1 Error={Remark1}></ErrorMessage1>
+                        </Grid>)}
                     {/* ) : null} */}
                 </Grid >
             </Box>
