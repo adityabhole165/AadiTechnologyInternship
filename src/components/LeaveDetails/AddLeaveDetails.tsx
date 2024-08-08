@@ -47,6 +47,7 @@ const AddLeaveDetails = () => {
     const [ErrorEndDate, setErrorEndDate] = useState('');
     const [DescriptionError, setDescriptionError] = useState('');
     const [TotalDaysError, setTotalDaysError] = useState('')
+    const [TotalDaysError1, setTotalDaysError1] = useState('')
 
 
     const GetViewLeave = useSelector(
@@ -257,12 +258,13 @@ const AddLeaveDetails = () => {
             setTotalDaysError('Total days should not be blank.');
             isError = true;
         } else setTotalDaysError('')
+
         const calculatedDays = calculateTotalDays(StartDate, EndDate);
-        if (TotalDays !== calculatedDays.toString()) {
-            setTotalDaysError('Total days should match with the given date range.');
+        if (TotalDays !== calculatedDays.toString() && TotalDays !== '') {
+            setTotalDaysError1('Total days should match with the given date range.');
             isError = true;
         } else {
-            setTotalDaysError('');
+            setTotalDaysError1('');
         }
         if (!isError) {
             dispatch(getSubmitLeave(SubmitLeaveBody));
@@ -426,6 +428,7 @@ const AddLeaveDetails = () => {
                             fullWidth
                         />
                         <ErrorMessage1 Error={TotalDaysError}></ErrorMessage1>
+                        <ErrorMessage1 Error={TotalDaysError1}></ErrorMessage1>
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <SearchableDropdown
