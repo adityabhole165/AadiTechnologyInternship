@@ -47,7 +47,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                         {Item.Text4}
                     </TableCell>
 
-                    <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
+                    <TableCell sx={{ color: 'white', fontWeight: "bold", py: 0 }}>
                         {IsMark ? (
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 {Item.Text1}

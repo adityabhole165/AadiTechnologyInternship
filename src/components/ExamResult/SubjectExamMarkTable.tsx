@@ -203,7 +203,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <TableHead>
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
+              <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text1}
                 </TableCell>
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
@@ -233,8 +233,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
               {StudentsForMarksAssignment?.length > 0 &&
                 StudentsForMarksAssignment.map((Item, i) => {
                   return (<TableRow key={i}>
-                    <TableCell>{Item.Text1}</TableCell>
-                    <TableCell>{Item.Text2}</TableCell>
+                    <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text1}</TableCell>
+                    <TableCell sx={{width:'400px', paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text2}</TableCell>
 
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
@@ -250,7 +250,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
-                      <TableCell>
+                      <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
+                      }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <TextField sx={{
                             width: '80px',
