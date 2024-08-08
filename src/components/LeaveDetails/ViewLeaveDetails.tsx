@@ -253,6 +253,8 @@ const ViewLeaveDetails = () => {
 
     // }
 
+
+
     const rightActions = (
         <>
             <Tooltip title={'Here you can apply for, approve, or reject leave requests.'}>
@@ -274,7 +276,7 @@ const ViewLeaveDetails = () => {
                         <span>
                             <IconButton
                                 disabled={(GetViewLeave.length > 0 &&
-                                    GetViewLeave[0].ApproverRemark != ' ')}
+                                    GetViewLeave[0].Text6 != '')}
                                 sx={{
                                     backgroundColor: red[500],
                                     color: 'white',
@@ -293,8 +295,10 @@ const ViewLeaveDetails = () => {
                         <Tooltip title={getTooltipTitle()}>
                             <span>
                                 <IconButton
-                                    disabled={(GetViewLeave.length > 0 &&
-                                        GetViewLeave[0].ApproverRemark != ' ')}
+                                    disabled={
+                                        (GetViewLeave.length > 0 &&
+                                            GetViewLeave[0].Text6 != '')
+                                    }
                                     sx={{
                                         backgroundColor: green[500],
                                         color: 'white',
@@ -445,7 +449,7 @@ const ViewLeaveDetails = () => {
                                     Remark <span style={{ color: 'red' }}>*</span>
                                 </>}
                                 disabled={(GetViewLeave.length > 0 &&
-                                    GetViewLeave[0].ApproverRemark != ' ')}
+                                    GetViewLeave[0].Text6 != '')}
                                 multiline
                                 rows={3}
                                 value={Remark}
