@@ -164,10 +164,8 @@ const AddSchoolNoticeFT = () => {
             setNoticeName(EditNoticee.Text1);
             setStartDate(formatDateAsDDMMMYYYY(EditNoticee.Text2))
             setStartTime(extractTime(EditNoticee.Text2))
-            console.log(StartTime,'setStartTime')
             setEndDate(formatDateAsDDMMMYYYY(EditNoticee.Text3))
             setEndTime(extractTime(EditNoticee.Text3))
-            console.log(EndTime,'setEndTime')
             setDisplayLocation(EditNoticee.Text4)
             setSortOrder(EditNoticee.Text5)
             setNoticeFile(EditNoticee.Text6)
@@ -281,10 +279,10 @@ const AddSchoolNoticeFT = () => {
             } else setNoticeNameError('')
         }
 
-        // if (!isClassSelected()) {
-        //     setErrorUserRole('At least one user role should be selected.');
-        //     isError = true;
-        // } else setErrorUserRole('')
+        if (IsRolePresent(false)) {
+            setErrorUserRole('At least one user role should be selected.');
+            isError = true;
+        } else setErrorUserRole('')
 
         if (StartDate === '') {
             setErrorStartDate('Please choose a valid start date.');
@@ -323,7 +321,6 @@ const AddSchoolNoticeFT = () => {
         } else setSortOrderError('')
 
         if (!isError) {
-            console.log(SaveNoticeBody,'SaveNoticeBody')
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
         }
 
@@ -400,7 +397,21 @@ const AddSchoolNoticeFT = () => {
         }));
     };
     const handleCancel = () => {
-        // Handle cancel action
+        setNoticeName('');
+        setSortOrder('');
+        setNoticeFile('');
+        setDescription('');
+        setNoticeContent('');
+        setoutSortOrder('');
+        setImageFile('');
+        setSelectAll(false)
+        setApplicableTo({
+            admin: false,
+            teacher: false,
+            student: false,
+            adminStaff: false,
+            otherStaff: false,
+        }); // Reset all roles to false
     };
 
     useEffect(() => {
@@ -507,8 +518,8 @@ const AddSchoolNoticeFT = () => {
                         </>
                     }
                 />
-                <Box sx={{ p: 2, background: 'white' }}>
-                    <Box sx={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Typography variant='h5'>Notice Display Type : </Typography>
                         <RadioButton1
                             Array={RadioListCT}
@@ -517,7 +528,8 @@ const AddSchoolNoticeFT = () => {
                             Label={''}
                         />
                     </Box>
-
+               </Grid>
+                <Box sx={{ p: 2, background: 'white' }}>
                     <Grid container spacing={3} alignItems="center">
                         {radioBtn === '1' ? (
                             <Grid item xs={4}>
@@ -562,7 +574,7 @@ const AddSchoolNoticeFT = () => {
                                 <ErrorMessage1 Error={NoticeNameError}></ErrorMessage1>
                             </Grid>
                         )}
-                        <Grid item xs={6} md={4}>
+                        <Grid item xs={4} md={4}>
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={DisplayLocation}
@@ -572,7 +584,7 @@ const AddSchoolNoticeFT = () => {
                                 label='Display Location'
                             />
                         </Grid>
-                        <Grid item xs={6} md={4}>
+                        <Grid item xs={4} md={4} >
                             <Datepicker
                                 DateValue={StartDate}
                                 onDateChange={onSelectStartDate}
@@ -633,9 +645,9 @@ const AddSchoolNoticeFT = () => {
                                     isMandatory
                                 />
                                 {NoticeFileError && (
-                                    <Box sx={{ position: 'absolute', bottom: '-25px' }}>
-                                        <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
-                                    </Box>
+
+                                    <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
+
                                 )}
                             </Box>
                         </Grid>
@@ -709,6 +721,7 @@ const AddSchoolNoticeFT = () => {
                                 <Typography variant="h5">
                                     Applicable to : <span style={{ color: 'red' }}>*</span>
                                 </Typography>
+                                <ErrorMessage1 Error={ErrorUserRole} />
                                 <FormGroup row>
                                     <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
                                         <FormControlLabel
