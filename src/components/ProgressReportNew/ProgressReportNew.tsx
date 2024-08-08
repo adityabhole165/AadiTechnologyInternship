@@ -551,16 +551,41 @@ const ProgressReportNew = () => {
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
 
-                    <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
-                      <Box sx={{ backgroundColor: "#ede7f6" }}>
-                        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Dialog 
+                    open={open1}
+                     onClose={handleClose}
+                      maxWidth="md" 
+                      scroll="body"
+                      PaperProps={{
+                        sx: {
+                          borderRadius: "15px",
+                        }
+                      }}
+                       
+                       >
+                      <Box sx={{ backgroundColor: "#223354" }}>
+                        <DialogTitle
+                        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                          Grade Configuration Details
+                    <ClearIcon onClick={handleClose}
+                    sx={{
+                     color: 'white',
+                // background:'white',
+                   borderRadius: '7px',
+                   position: 'absolute',
+                    top: '5px',
+                    right: '8px',
+                    cursor: 'pointer',
+                '   &:hover': {
+                  color: 'red',
+                  //  backgroundColor: red[100]
 
-                          <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                }
+              }} />
                         </DialogTitle>
                       </Box>
                       <DialogContent>
+                      <Typography variant="h3">Grade Configuration Details</Typography>
                         <Typography variant="h4" my={1}>
                           Subjects :-
                         </Typography>
