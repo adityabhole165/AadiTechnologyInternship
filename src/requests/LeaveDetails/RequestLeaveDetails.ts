@@ -174,7 +174,9 @@ export const getViewLeaveDetails =
                     Text4: parseInt(Item.TotalDays),
                     Text5: Item.Description,
                     UserId: Item.UserId,
-                    LeaveType: Item.LeaveId
+                    LeaveType: Item.LeaveId,
+                    IsFinalApprove: Item.IsFinalApprover,
+                    Text6: Item.ApproverRemark
                 }
             })
             dispatch(LeaveDetailsslice.actions.getViewLeaveDetails(responseData))
