@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetAllMarksGradeConfigurationBody,IsTestPublishedForStudentBody,IsTestPublishedForStdDivBody, IGetClassTeachersBody, IsGradingStandarBody,IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetAllMarksGradeConfigurationBody,IsTestPublishedForStudentBody,GetSchoolSettingsBody,IsTestPublishedForStdDivBody, IGetClassTeachersBody, IsGradingStandarBody,IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -27,8 +27,8 @@ const ProgressReportSlice = createSlice({
     ISGetAllMarksGradeConfiguration1: [],
     IsGradingStandarBodyIS:{},
     IsTestPublishedForStdDivBodyIS:{},
-    RIsTestPublishedForStudentIS:{}
-
+    RIsTestPublishedForStudentIS:{},
+    IsGetSchoolSettings:{}
 
   },
   reducers: {                                                                                   
@@ -101,8 +101,10 @@ const ProgressReportSlice = createSlice({
     RIsTestPublishedForStudent(state, action) {
       state.RIsTestPublishedForStudentIS = action.payload;
     },
+    RGetSchoolSettings(state, action) {
+      state.IsGetSchoolSettings = action.payload;
+    },
 
-    
   }
 });
 
@@ -365,6 +367,16 @@ export const CDAGetAllMarksGradeConfiguration1 =
           const response = await ApiProgressReport.IsTestPublishedForStudent(data);
           dispatch(ProgressReportSlice.actions.RIsTestPublishedForStudent(response.data));
         };
+
+  export const CDAGetSchoolSettings =
+  (data: GetSchoolSettingsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.GetSchoolSettings(data)
+    
+      dispatch(ProgressReportSlice.actions.RGetSchoolSettings(response.data));
+
+
+    };
 
     
       
