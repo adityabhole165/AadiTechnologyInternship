@@ -14,6 +14,9 @@ import CommonPageHeader from "../CommonPageHeader";
 const cellStyle = {
     padding: '0.2em 1.5em', // Adjust these values to reduce the height
 };
+const cellStyleH = {
+    padding: '0.4em 1.5em', // Adjust these values to reduce the height
+};
 
 // THIS PAGE IS FOR NON-XSEEED SUBJECT GRADES
 
@@ -307,7 +310,7 @@ const AssignProgressReportSubject = () => {
                             <TableHead >
                                 <TableRow>
                                     {HeaderArray.map((item, i) => (
-                                        <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : item.Header === 'Grade' ? 'right' : 'center', pt: '10px', pb: '10px' }}>
+                                        <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : item.Header === 'Grade' ? 'right' : 'center', pt: '10px', pb: '10px', ...cellStyleH }}>
                                             <b>{item.Header}</b>
                                         </TableCell>
                                     ))}

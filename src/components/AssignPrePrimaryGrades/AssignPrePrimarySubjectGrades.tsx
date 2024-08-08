@@ -251,18 +251,18 @@ const AssignPrePrimarySubjectGrades = () => {
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                             <TableHead >
                                 <TableRow>
-                                    <TableCell align={'left'} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: 'left', pt: '10px', pb: '10px', minWidth: '60vw' }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px', minWidth: '60vw' }}>
                                         <b>Learning Outcome</b>
                                     </TableCell>
-                                    <TableCell align={'left'} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: 'right', pt: '10px', pb: '10px' }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                         <b>Grade</b>
                                     </TableCell>
-                                    <TableCell align={'left'} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: 'left', pt: '10px', pb: '10px' }}>
+                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                         <SearchableDropdown
                                             ItemList={XseedGradesList}
                                             defaultValue={headerGrade}
                                             label={''}
-                                            sx={{ maxWidth: '20vw', backgroundColor: 'white' }}
+                                            sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
                                             size={"small"}
                                             disabled={EditStatusId === '3' ? true : false}
                                             DisableClearable={true}
@@ -276,7 +276,7 @@ const AssignPrePrimarySubjectGrades = () => {
                                 {ListLearningOutcomeDetails.length > 0 &&
                                     ListLearningOutcomeDetails.map((item, i) => (
                                         <TableRow key={i} >
-                                            <TableCell sx={{ minWidth: '60vw', ...cellStyle }}>{item.Text2}</TableCell>
+                                            <TableCell sx={{ ...cellStyle }}>{item.Text2}</TableCell>
                                             <TableCell sx={{ ...cellStyle }} />
                                             <TableCell sx={{ ...cellStyle }} >
                                                 <SearchableDropdown
@@ -295,7 +295,8 @@ const AssignPrePrimarySubjectGrades = () => {
                                     ))}
                             </TableBody>
                         </Table>
-                    </TableContainer>  </Box>}
+                    </TableContainer>
+                </Box>}
         </Box>
 
     )
