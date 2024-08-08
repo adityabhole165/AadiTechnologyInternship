@@ -279,10 +279,10 @@ const AddSchoolNoticeFT = () => {
             } else setNoticeNameError('')
         }
 
-        if (!IsRolePresent(true)) {
-            setErrorUserRole('At least one user role should be selected.');
-            isError = true;
-        } else setErrorUserRole('')
+        // if (!IsRolePresent(false)) {
+        //     setErrorUserRole('At least one user role should be selected.');
+        //     isError = true;
+        // } else setErrorUserRole('')
 
         if (StartDate === '') {
             setErrorStartDate('Please choose a valid start date.');
@@ -721,7 +721,7 @@ const AddSchoolNoticeFT = () => {
                                 <Typography variant="h5">
                                     Applicable to : <span style={{ color: 'red' }}>*</span>
                                 </Typography>
-                                <ErrorMessage1 Error={ErrorUserRole} />
+                                {/* <ErrorMessage1 Error={ErrorUserRole} /> */}
                                 <FormGroup row>
                                     <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
                                         <FormControlLabel
