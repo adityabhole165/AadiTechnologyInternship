@@ -234,8 +234,11 @@ export const CDAStudentProgressReport =
 
       let ListSchoolWiseTestNameDetail = response.data.ListSchoolWiseTestNameDetail.map((item, i) => {
         return {
-          Id: item.Percentage,
-          Text1: item.Total_Marks_Scored,
+          Total: `${(item.Total_Marks_Scored)} / ${item.Subjects_Total_Marks}`,
+          Percentage: item.Percentage,
+          Grade_Name:item.Grade_Name,
+          SchoolWise_Test_Id: item.SchoolWise_Test_Id,
+          Header: ["Total", "%", "Grade"]
 
         };
       });

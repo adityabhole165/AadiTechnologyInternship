@@ -6,11 +6,11 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetAllMarksGradeConfigurationBody,GetSchoolSettingsBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers,CDAGetSchoolSettings, CDAGetPassedAcademicYears, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -63,16 +63,12 @@ const ProgressReportNew = () => {
   const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
   const USlistStudentsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails);
   const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
-  console.log(USlistSubjectsDetails, "USlistSubjectsDetails");
-
   const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
   const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
   const USListSchoolWiseTestNameDetail: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSchoolWiseTestNameDetail);
   const USListSubjectidDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSubjectidDetails);
   const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
-  console.log(USListMarkssDetails,"USListMarkssDetails");
-  
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
@@ -82,13 +78,13 @@ const ProgressReportNew = () => {
   const legendText = 'Legend : * Subject marks not considered in total marks';
   const formattedText = legendText.replace('*', '<span style="color: red;">*</span>');
   const USIsGradingStandard: any = useSelector((state: RootState) => state.ProgressReportNew.IsGradingStandarBodyIS);
-
   const USIsTestPublishedForStdDiv: any = useSelector((state: RootState) => state.ProgressReportNew.IsTestPublishedForStdDivBodyIS);
   const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
-  console.log(UsGetSchoolSettings,"IsGetSchoolSettings");
-  
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
+  const IsTotalConsiderForProgressReport = UsGetSchoolSettings?UsGetSchoolSettings.GetSchoolSettingsResult.IsTotalConsiderForProgressReport : '';
+
+
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -130,7 +126,6 @@ const ProgressReportNew = () => {
   const hasEmptyMarks = USlistSubjectIdDetails.some((item) => item.Marks_Scored === "");
   const hasGrade = USlistSubjectIdDetails.some((item) => item.Grade === "");
 
-  console.log(hasEmptyMarks, "--", hasGrade);
   const StudentName = () => {
     let classStudentName = '';
     USGetStudentNameDropdown.map((item) => {
@@ -176,7 +171,7 @@ const ProgressReportNew = () => {
   };
   const GetSchoolSettings: GetSchoolSettingsBody = {
     asSchoolId: Number(asSchoolId),
-    
+
 
 
   };
@@ -260,7 +255,7 @@ const ProgressReportNew = () => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
 
   }, []);
-  
+
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
@@ -471,10 +466,10 @@ const ProgressReportNew = () => {
                         {USlistStudentsDetails.map((item) => {
                           return (
                             <TableRow sx={{ bgcolor: '#38548A' }}>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No:</b>{item.Roll_No} </TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Name:</b> {item.Student_Name}	</TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Year:</b> {item.Academic_Year}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No:</b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name:</b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year:</b> {item.Academic_Year}	</TableCell>
                             </TableRow>
                           )
                         })}
@@ -612,10 +607,10 @@ const ProgressReportNew = () => {
                         {USlistStudentsDetails.map((item) => {
                           return (
                             <TableRow sx={{ bgcolor: '#38548A' }}>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No: </b>{item.Roll_No} </TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Name: </b> {item.Student_Name}	</TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell sx={{textAlign:'center', color:'white'}}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
                             </TableRow>
                           )
                         })}
@@ -625,7 +620,7 @@ const ProgressReportNew = () => {
                   </Box>
                   {hasTotalConsiderationN && (
                     <Typography
-                      sx={{ bgcolor: 'white', p:2 }}
+                      sx={{ bgcolor: 'white', p: 2 }}
                       dangerouslySetInnerHTML={{ __html: formattedText }}
                     />
                   )}
@@ -656,7 +651,7 @@ const ProgressReportNew = () => {
                         </TableRow>
                         <TableRow>
                           {USListSubjectidDetails.map((item) => (
-                            <TableCell sx={{backgroundColor:'white'}}>
+                            <TableCell sx={{ backgroundColor: 'white' }}>
                               <Typography color="#38548A" textAlign={'left'} mr={8}  >
                                 <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                               </Typography>
@@ -664,17 +659,44 @@ const ProgressReportNew = () => {
                           ))}
                         </TableRow>
                       </TableHead>
-                      
+
                       {USlistTestDetailsArr1.map((testItem) => (
                         <TableBody key={testItem.id}>
-                          <TableRow sx={{backgroundColor:'white'}}>
-                            <TableCell sx={{backgroundColor:'#F0F0F0'}}>{testItem.Test_Name}</TableCell>
+                          <TableRow sx={{ backgroundColor: 'white' }}>
+                            <TableCell sx={{ backgroundColor: '#F0F0F0' }}>{testItem.Test_Name}</TableCell>
                             {testItem.subjectIdArr.map((subjectItem) => (
                               <TableCell>{subjectItem.Grade}</TableCell>
                             ))}
                           </TableRow>
                         </TableBody>
                       ))}
+                      {
+                        IsTotalConsiderForProgressReport == "true" ?
+                          <span>
+
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Total</TableCell>
+                                <TableCell>%</TableCell>
+                                <TableCell>Grade</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {USListSchoolWiseTestNameDetail.map((row) => (
+                                <TableRow key={row.SchoolWise_Test_Id}>
+                                  <TableCell>{row.Total}</TableCell>
+
+                                  <TableCell>{row.Percentage}</TableCell>
+                                  <TableCell>{row.Grade_Name}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+
+
+                          </span> : <span></span>
+
+                      }
+
 
 
                       {/* {USlistTestDetails.map((testItem) => (
@@ -688,6 +710,12 @@ const ProgressReportNew = () => {
                     </TableBody>
                   ))} */}
                     </Table>
+
+
+                    {/* <Table>
+                      
+                    </Table> */}
+
                   </Box>
                 </>
 
