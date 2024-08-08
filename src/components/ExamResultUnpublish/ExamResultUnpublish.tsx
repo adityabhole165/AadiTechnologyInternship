@@ -90,13 +90,13 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Class Teacher Name :'}
+              <TextField fullWidth label={'Class Teacher :'}
                 sx={{ width: '100%', bgcolor: '#f0f0f0' }}
                 value={TeacherName} />
             </Grid>
             <br></br>
             <Grid item xs={12} marginTop={2}>
-              <TextField fullWidth label={'Unpublish Reason :'}
+              <TextField fullWidth label={'Reason For Unpublish  :'}
                 multiline
                 rows={3}
                 value={Reason}

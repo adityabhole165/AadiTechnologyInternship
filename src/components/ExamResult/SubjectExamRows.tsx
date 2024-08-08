@@ -34,7 +34,8 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
         <>
             {ExamMarks?.map((Item, Index) => {
                 return (
-                    <TableCell key={Index}>
+                    <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
+                    }}>
                         <Stack direction="row" alignItems="center" gap={2}>
                             <Dropdown
                                 size={"small"}
@@ -66,7 +67,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
                                                 background: (IsReadOnly || examResultProp && publish ||!(Item.ExamStatus == "N") ?
-                                                    "#f5f5f5" : "")
+                                                    "#f0F0F0" : "")
 
                                             }}
                                             disabled={IsReadOnly ||examResultProp && publish || !(Item.ExamStatus == "N")}
