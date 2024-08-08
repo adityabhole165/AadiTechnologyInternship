@@ -163,6 +163,7 @@ const AddLeaveDetails = () => {
         setErrorEndDate2('')
         setErrorLeaveType('')
         setTotalDaysError('')
+        setTotalDaysError1('')
         setDescriptionError('')
 
     };
