@@ -6,11 +6,11 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Tabl
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { IGetAllMarksGradeConfigurationBody,GetSchoolSettingsBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers,CDAGetSchoolSettings, CDAGetPassedAcademicYears, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -71,6 +71,8 @@ const ProgressReportNew = () => {
   const USListSubjectidDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSubjectidDetails);
   const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
+  console.log(USListMarkssDetails,"USListMarkssDetails");
+  
   const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
@@ -83,7 +85,9 @@ const ProgressReportNew = () => {
 
   const USIsTestPublishedForStdDiv: any = useSelector((state: RootState) => state.ProgressReportNew.IsTestPublishedForStdDivBodyIS);
   const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
-
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  console.log(UsGetSchoolSettings,"IsGetSchoolSettings");
+  
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -170,6 +174,12 @@ const ProgressReportNew = () => {
 
 
   };
+  const GetSchoolSettings: GetSchoolSettingsBody = {
+    asSchoolId: Number(asSchoolId),
+    
+
+
+  };
 
   const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
@@ -245,6 +255,12 @@ const ProgressReportNew = () => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
   }, [Standard_Id]);
+
+  useEffect(() => {
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+
+  }, []);
+  
 
   useEffect(() => {
     dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
