@@ -36,7 +36,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                 return (
                     <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
                     }}>
-                        <Stack direction="row" alignItems="center" gap={2} width="400px">
+                        <Stack direction="row" alignItems="center" gap={2}>
                             <Dropdown
                                 size={"small"}
                                 defaultValue={Item.ExamStatus}

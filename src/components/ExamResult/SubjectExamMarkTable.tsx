@@ -234,7 +234,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                 StudentsForMarksAssignment.map((Item, i) => {
                   return (<TableRow key={i}>
                     <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text1}</TableCell>
-                    <TableCell sx={{width:'400px', paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text2}</TableCell>
+                    <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text2}</TableCell>
 
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
