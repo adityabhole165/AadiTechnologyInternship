@@ -1071,15 +1071,17 @@ const WeeklyTimetable = (props: Props) => {
                                                 {/* Loopable content */}
                                                 {TimetableDetails.map((item, i) => (
                                                     <TableRow>
-                                                        <StyledCell>{item.Text2}</StyledCell>
-                                                        <StyledCell>{item.Text1}</StyledCell>
-                                                        <StyledCell>{item.Text4}</StyledCell>
-                                                        <StyledCell>{item.Text3}</StyledCell>
-                                                        <StyledCell sx={{ textAlign: 'center' }}><Tooltip title="Delete">
-                                                            <IconButton onClick={() => dltAddLecture(item.Text5)}>
-                                                                <DeleteIcon />
-                                                            </IconButton>
-                                                        </Tooltip></StyledCell>
+                                                        <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>{item.Text2}</TableCell>
+                                                        <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>{item.Text1}</TableCell>
+                                                        <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>{item.Text4}</TableCell>
+                                                        <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>{item.Text3}</TableCell>
+                                                        <TableCell sx={{ textAlign: 'center', border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>
+                                                            <Tooltip title="Delete">
+                                                                <IconButton onClick={() => dltAddLecture(item.Text5)} >
+                                                                    <DeleteIcon />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
