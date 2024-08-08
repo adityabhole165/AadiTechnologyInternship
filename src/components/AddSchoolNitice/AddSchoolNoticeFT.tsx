@@ -153,8 +153,10 @@ const AddSchoolNoticeFT = () => {
     useEffect(() => {
         if (selectDisplayType == 'true') {
             setRadioBtn('2');
+            setText(true);
         } else {
             setRadioBtn('1');
+            setText(false);
         }
     }, [selectDisplayType]);
 
@@ -310,10 +312,12 @@ const AddSchoolNoticeFT = () => {
             isError = true;
         } else setErrorEndDateblank('')
 
-        if (NoticeFile == '') {
-            setNoticeFileError('Notice File to be uploaded should be selected.');
-            isError = true;
-        } else setNoticeFileError('')
+        if (radioBtn == '1') {
+            if (NoticeFile == '') {
+                setNoticeFileError('Notice File to be uploaded should be selected.');
+                isError = true;
+            } else setNoticeFileError('')
+        }
 
         if (SortOrder == '') {
             setSortOrderError('Sort order should not be blank.');
@@ -528,7 +532,7 @@ const AddSchoolNoticeFT = () => {
                             Label={''}
                         />
                     </Box>
-               </Grid>
+                </Grid>
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Grid container spacing={3} alignItems="center">
                         {radioBtn === '1' ? (
@@ -631,75 +635,72 @@ const AddSchoolNoticeFT = () => {
                             />
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
-                        <Grid item xs={6} md={4}>
-                            <Box sx={{ position: 'relative' }}>
-                                <SingleFile
-                                    ValidFileTypes={ValidFileTypes}
-                                    MaxfileSize={MaxfileSize}
-                                    ChangeFile={ChangeFile}
-                                    errorMessage={''}
-                                    FileName={NoticeFile}
-                                    FileLabel={'Select File'}
-                                    width={'100%'}
-                                    height={"52px"}
-                                    isMandatory
-                                />
-                                {NoticeFileError && (
-
-                                    <ErrorMessage1 Error={NoticeFileError}></ErrorMessage1>
-
-                                )}
-                            </Box>
-                        </Grid>
-
-                        {radioBtn === '1' ?
-                            <> <Grid item xs={6} md={3}>
-                                <SingleFile
-                                    ValidFileTypes={ValidFileTypes2}
-                                    MaxfileSize={MaxfileSize2}
-                                    ChangeFile={ChangeFile2}
-                                    errorMessage={''}
-                                    FileName={ImageFile}
-                                    FileLabel={'Select Image'}
-                                    width={'100%'}
-                                    height={"52px"}
-                                    isMandatory={false}
-                                />
-                            </Grid>
-                                <Grid item xs={1} md={1}>
-                                    {radioBtn === '1' && (
-                                        <>
-                                            <Tooltip title={"View"}>
-                                                <IconButton
-                                                    onClick={viewImage}
-                                                    sx={{
-                                                        color: '#223354',
-                                                        '&:hover': {
-                                                            color: '#223354',
-                                                            cursor: 'pointer'
-                                                        }
-                                                    }}
-                                                >
-                                                    <Visibility />
-                                                </IconButton>
-                                            </Tooltip> &nbsp;
-                                            <Tooltip title={"Delete"}>
-                                                <IconButton
-                                                    onClick={() => deleteImage(Number(NoticeId))}
-                                                    sx={{
-                                                        color: '#223354',
-                                                        '&:hover': {
-                                                            color: 'red',
-                                                            backgroundColor: red[100]
-                                                        }
-                                                    }}
-                                                >
-                                                    <DeleteForeverIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </>
+                        {radioBtn === '1' && (
+                            <Grid item xs={6} md={4}>
+                                <Box sx={{ position: 'relative' }}>
+                                    <SingleFile
+                                        ValidFileTypes={ValidFileTypes}
+                                        MaxfileSize={MaxfileSize}
+                                        ChangeFile={ChangeFile}
+                                        errorMessage={''}
+                                        FileName={NoticeFile}
+                                        FileLabel={'Select File'}
+                                        width={'100%'}
+                                        height={"52px"}
+                                        isMandatory
+                                    />
+                                    {NoticeFileError && (
+                                        <ErrorMessage1 Error={NoticeFileError} />
                                     )}
-                                </Grid> </> : null}
+                                </Box>
+                            </Grid>
+                        )}
+
+                       <Grid item xs={6} md={3}>
+                            <SingleFile
+                                ValidFileTypes={ValidFileTypes2}
+                                MaxfileSize={MaxfileSize2}
+                                ChangeFile={ChangeFile2}
+                                errorMessage={''}
+                                FileName={ImageFile}
+                                FileLabel={'Select Image'}
+                                width={'100%'}
+                                height={"52px"}
+                                isMandatory={false}
+                            />
+                        </Grid>
+                            <Grid item xs={1} md={1}>
+                                <>
+                                    <Tooltip title={"View"}>
+                                        <IconButton
+                                            onClick={viewImage}
+                                            sx={{
+                                                color: '#223354',
+                                                '&:hover': {
+                                                    color: '#223354',
+                                                    cursor: 'pointer'
+                                                }
+                                            }}
+                                        >
+                                            <Visibility />
+                                        </IconButton>
+                                    </Tooltip> &nbsp;
+                                    <Tooltip title={"Delete"}>
+                                        <IconButton
+                                            onClick={() => deleteImage(Number(NoticeId))}
+                                            sx={{
+                                                color: '#223354',
+                                                '&:hover': {
+                                                    color: 'red',
+                                                    backgroundColor: red[100]
+                                                }
+                                            }}
+                                        >
+                                            <DeleteForeverIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </>
+                            </Grid> 
 
                         <Grid item xs={12} >
                             <ResizableTextField
