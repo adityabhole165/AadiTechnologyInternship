@@ -82,9 +82,7 @@ const ProgressReportNew = () => {
   const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
-  const IsTotalConsiderForProgressReport = UsGetSchoolSettings?UsGetSchoolSettings.GetSchoolSettingsResult.IsTotalConsiderForProgressReport : '';
-
-
+  const IsTotalConsiderForProgressReport = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport || '';
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
