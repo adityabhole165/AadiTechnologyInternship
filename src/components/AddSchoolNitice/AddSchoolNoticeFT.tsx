@@ -279,7 +279,7 @@ const AddSchoolNoticeFT = () => {
             } else setNoticeNameError('')
         }
 
-        if (IsRolePresent(false)) {
+        if (!IsRolePresent(true)) {
             setErrorUserRole('At least one user role should be selected.');
             isError = true;
         } else setErrorUserRole('')
