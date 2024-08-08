@@ -83,17 +83,6 @@ const AddLeaveDetails = () => {
         }
     }, [GetViewLeave]);
 
-    // useEffect(() => {
-    //     const start = new Date(StartDate);
-    //     const end = new Date(EndDate);
-    //     const timeDiff = end.getTime() - start.getTime();
-    //     let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
-    //     if (daysDiff < 0) {
-    //         daysDiff = 0;
-    //     }
-    //     setTotalDays(daysDiff);
-    // }, [StartDate, EndDate]);
-
     useEffect(() => {
         if (LeaveDId) {
             const GetViewLeaveBody: IGetViewLeaveBody = {
@@ -180,7 +169,20 @@ const AddLeaveDetails = () => {
         clear();
         //navigate('/extended-sidebar/Teacher/LeaveDetails');
     };
+    const calculateTotalDays = (startDate, endDate) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const timeDiff = end.getTime() - start.getTime();
+        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1); // +1 to include both start and end dates
+        return daysDiff < 0 ? 0 : daysDiff;
+    };
 
+    // useEffect(() => {
+    //     if (StartDate && EndDate) {
+    //         const daysDiff = calculateTotalDays(StartDate, EndDate);
+    //         setTotalDays(daysDiff.toString());
+    //     }
+    // }, [StartDate, EndDate]);
 
     const ClickSubmit = () => {
         let isError = false;
@@ -234,7 +236,7 @@ const AddLeaveDetails = () => {
             isError = true;
         } else setErrorEndDate1('')
         if (StartDateEndDateValidation == false) {
-            setErrorEndDate2('Date should not be overlapped.');
+            setErrorEndDate2("Leave dates should not overlap on another leave day's.");
             isError = true;
         } else setErrorEndDate2('')
         if (SelectLeaveType == '0') {
@@ -255,6 +257,13 @@ const AddLeaveDetails = () => {
             setTotalDaysError('Total days should not be blank.');
             isError = true;
         } else setTotalDaysError('')
+        const calculatedDays = calculateTotalDays(StartDate, EndDate);
+        if (TotalDays !== calculatedDays.toString()) {
+            setTotalDaysError('Total days should match with the given date range.');
+            isError = true;
+        } else {
+            setTotalDaysError('');
+        }
         if (!isError) {
             dispatch(getSubmitLeave(SubmitLeaveBody));
         }
