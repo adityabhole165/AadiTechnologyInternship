@@ -2,12 +2,18 @@
 import { DatePicker } from '@mui/x-date-pickers';
 
 const DatepickerLeave = ({ DateValue, onDateChange, label, size, disabled }) => {
+    const handleDateChange = (newDate) => {
+        if (!disabled) {
+            onDateChange(newDate);
+        }
+    };
     return (
         <>
             <DatePicker
                 //value={new Date(DateValue)}
                 value={DateValue ? new Date(DateValue) : null}
-                onChange={onDateChange}
+                onChange={!disabled ? onDateChange : () => { }}
+                // onChange={onDateChange}
                 format="dd MMM yyyy"
                 label={
                     label ? (
@@ -30,6 +36,7 @@ const DatepickerLeave = ({ DateValue, onDateChange, label, size, disabled }) => 
                         disabled: disabled || false
                     }
                 }}
+                disabled={disabled}
             // sx={{
             //     width: size?.small ? '12vw' : '10vw'
             // }}
