@@ -240,7 +240,7 @@ const AssignProgressReportSubject = () => {
                                 sx={{ bgcolor: '#F0F0F0' }}
                                 disabled
                                 size="small"
-                                inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                             />
                             <TextField
                                 fullWidth
@@ -249,7 +249,7 @@ const AssignProgressReportSubject = () => {
                                 sx={{ bgcolor: '#F0F0F0' }}
                                 disabled
                                 size="small"
-                                inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                             />
                             <TextField
                                 fullWidth
@@ -258,7 +258,7 @@ const AssignProgressReportSubject = () => {
                                 sx={{ bgcolor: '#F0F0F0' }}
                                 disabled
                                 size="small"
-                                inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                             />
                             {EditStatusId !== '3' &&
                                 <Tooltip title={'Save'}>
