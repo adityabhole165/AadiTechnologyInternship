@@ -157,6 +157,7 @@ const AddLeaveDetails = () => {
         setEndDate('');
         setTotalDays('');
         setDescription('')
+        setLeaveType('');
         setErrorStartDateblank('')
         setErrorEndDateblank('')
         setErrorEndDate2('')
@@ -236,7 +237,7 @@ const AddLeaveDetails = () => {
             dateError = true
             isError = true;
         } else setErrorEndDate1('')
-        if (StartDateEndDateValidation == false) {
+        if (StartDateEndDateValidation == false && EndDate !== '') {
             setErrorEndDate2("Leave dates should not overlap on another leave day's.");
             isError = true;
         } else setErrorEndDate2('')
