@@ -464,10 +464,10 @@ const ProgressReportNew = () => {
                         {USlistStudentsDetails.map((item) => {
                           return (
                             <TableRow sx={{ bgcolor: '#38548A' }}>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No:</b>{item.Roll_No} </TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name:</b> {item.Student_Name}	</TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class:</b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
-                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year:</b> {item.Academic_Year}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
                             </TableRow>
                           )
                         })}
@@ -478,15 +478,15 @@ const ProgressReportNew = () => {
 
                   {hasTotalConsiderationN && (
                     <Typography
-                      sx={{ bgcolor: 'white' }}
+                      sx={{ bgcolor: 'white', p:2 }}
                       dangerouslySetInnerHTML={{ __html: formattedText }}
                     />
                   )}
 
                   <Box sx={{ overflowX: 'auto' }}>
-                    <Table>
+                    <Table  aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
                       <TableHead>
-                        <TableRow sx={{ bgcolor: '#b3e5fc' }}>
+                        <TableRow sx={{ bgcolor: '#F0F0F0' }}>
                           <TableCell rowSpan={2}>
                             <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                               Subjects &#9654;
@@ -510,8 +510,8 @@ const ProgressReportNew = () => {
                         </TableRow>
                         <TableRow>
                           {USListSubjectidDetails.map((item) => (
-                            <TableCell >
-                              <Typography color="#42a5f5" textAlign={'left'} mr={8}  >
+                            <TableCell sx={{backgroundColor:'white'}}>
+                              <Typography color="#38548A" textAlign={'left'} mr={5}  >
                                 <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                               </Typography>
                             </TableCell>
@@ -520,8 +520,8 @@ const ProgressReportNew = () => {
                       </TableHead>
                       {USlistTestDetailsArr.map((testItem) => (
                         <TableBody key={testItem.id}>
-                          <TableRow>
-                            <TableCell>{testItem.Test_Name}</TableCell>
+                          <TableRow  sx={{backgroundColor:'white'}}>
+                            <TableCell sx={{backgroundColor:'#F0F0F0'}}>{testItem.Test_Name}</TableCell>
                             {testItem.subjectIdArr.map((subjectItem) => (
                               <TableCell>{subjectItem.Grade}</TableCell>
                             ))}
@@ -600,7 +600,7 @@ const ProgressReportNew = () => {
                         </Typography>
                       </div>
                     ))}
-                    <Table>
+                    <Table >
                       <TableBody>
                         {USlistStudentsDetails.map((item) => {
                           return (
@@ -623,7 +623,7 @@ const ProgressReportNew = () => {
                     />
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
-                    <Table>
+                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#F0F0F0' }}>
                           <TableCell rowSpan={2}>
