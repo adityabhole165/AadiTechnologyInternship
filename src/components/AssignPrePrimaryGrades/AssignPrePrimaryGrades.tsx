@@ -283,6 +283,7 @@ const AssignPrePrimaryGrades = () => {
                 label={'Assessment: '}
                 sx={{ minWidth: '10vw' }}
                 size={"small"}
+                DisableClearable={true}
                 mandatory
               />
               {AssignPrePrimaryGradesAccess === "Y" &&
@@ -330,11 +331,7 @@ const AssignPrePrimaryGrades = () => {
             </Box>
           </Box>
         </Box>
-
-
-
-
-        {USGetTeacherXseedSubjects.length > 0 ? (
+        {USGetTeacherXseedSubjects.length > 0 &&
           <Box sx={{ backgroundColor: 'white', p: 2, marginTop: 2 }}>
             <div>
               < EditIconList
@@ -346,13 +343,11 @@ const AssignPrePrimaryGrades = () => {
               />
             </div>
           </Box>
-        ) : (
+        }
+        {selectTeacher !== '0' && SelectTerm !== '0' && USGetTeacherXseedSubjects.length === 0 &&
           <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No record found.</b>
-          </Typography>
-        )
-        }
-
+          </Typography>}
 
 
 

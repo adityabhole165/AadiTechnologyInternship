@@ -114,7 +114,6 @@ const AssignPrePrimarySubjectGrades = () => {
             [learningOutcomeId]: `${value}-${gradeConfigId}`,
         }));
     }
-
     function saveLearningOutcomes() {
         const saveLearningOutcomeBody: IGetInsertStudentGradesBody = {
             asSchoolId: Number(asSchoolId),
@@ -139,7 +138,6 @@ const AssignPrePrimarySubjectGrades = () => {
             const gradeId = grades[learningOutcomeConfigId].split('-')[0];
             const learningOutcomeGradeId = grades[learningOutcomeConfigId].split('-')[1];
             sXML += `<LearningOutcomes GradeId='${gradeId}' LearningOutcomeConfigId='${learningOutcomeConfigId}' LearningOutcomeGradeId='${learningOutcomeGradeId}'/>`
-
         });
         sXML = `<LearningOutcomes>${sXML}</LearningOutcomes>`
         return sXML;
@@ -241,11 +239,11 @@ const AssignPrePrimarySubjectGrades = () => {
                 <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
                     <b>Student grades are already submitted.</b>
                 </Typography>}
-            {student === '0' || subjectSection === '0' ? EditStatusId !== '3' &&
-                <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, mt: 2, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            {student !== '0' && subjectSection !== '0' && ListLearningOutcomeDetails.length === 0 &&
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                     <b>No record found.</b>
-                </Typography>
-                :
+                </Typography>}
+            {student !== '0' && subjectSection !== '0' && ListLearningOutcomeDetails.length > 0 &&
                 <Box sx={{ background: 'white', p: 2, mt: 2 }}>
                     <TableContainer component={Box} >
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
@@ -298,9 +296,7 @@ const AssignPrePrimarySubjectGrades = () => {
                     </TableContainer>
                 </Box>}
         </Box>
-
     )
 }
-
 
 export default AssignPrePrimarySubjectGrades;

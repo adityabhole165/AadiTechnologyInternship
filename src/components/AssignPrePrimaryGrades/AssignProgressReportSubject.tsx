@@ -124,25 +124,6 @@ const AssignProgressReportSubject = () => {
         },
         { Id: 5, Header: 'Observations' },
     ];
-
-    // const HeaderArray1 = [
-    //     { Id: 1, Header: '' },
-    //     { Id: 2, Header: '' },
-    //     {
-    //         Id: 3, Header: <SearchableDropdown
-    //             sx={{ backgroundColor: 'white', minWidth: '5vw' }}
-    //             ItemList={GradesList}
-    //             onChange={clickHeaderGrade}
-    //             label={''}
-    //             disabled={EditStatusId === '3' ? true : false}
-    //             defaultValue={headerGrade}
-    //             size={"small"}
-    //             DisableClearable={true}
-    //         />
-    //     },
-    //     { Id: 4, Header: '' },
-    // ];
-
     const GetStudentsForStdDevMastersBody = {
         asSchoolId: Number(localStorage.getItem('localSchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -150,7 +131,6 @@ const AssignProgressReportSubject = () => {
         asAssessmentId: Number(SelectTerm),
         asSubjectId: Number(SubjectId),
     };
-    console.log('Param Data....>>>', GetStudentsForStdDevMastersBody)
     const getXML = () => {
         let sXML = "";
 
@@ -296,10 +276,6 @@ const AssignProgressReportSubject = () => {
 
                     }
                 />
-                {/* <Alert icon={<CheckIcon fontSize="inherit" sx={{ color: 'white' }} />} severity="success" sx={{ px: '40%', backgroundColor: '#324b84', fontWeight: '700', color: 'white' }}>
-                    Student grades are already submitted.
-                </Alert> */}
-
                 {EditStatusId === '3' &&
                     <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                         <b>Student grades are already submitted.</b>
@@ -315,13 +291,6 @@ const AssignProgressReportSubject = () => {
                                         </TableCell>
                                     ))}
                                 </TableRow>
-                                {/* <TableRow>
-                                    {HeaderArray1.map((item, i) => (
-                                        <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '3.5px', pb: '3.5px' }}>
-                                            <b>{item.Header}</b>
-                                        </TableCell>
-                                    ))}
-                                </TableRow> */}
                             </TableHead>
                             <TableBody>
                                 {NonXseedStudentswithObs.length !== 0 && NonXseedStudentswithObs.map((item, i) => (
