@@ -35,6 +35,9 @@ const AssignPrePrimarySubjectGrades = () => {
     const [LearningOutcomeObsId, setLearningOutcomeObsId] = useState('');
     const [subRemark, setSubRemark] = useState('')
     // useEffects() | Hooks
+    const cellStyle = {
+        padding: '0.2em 1.5em', // Adjust these values to reduce the height
+    };
 
     useEffect(() => {
         if (InsertStudentGradesMsg !== '') {
@@ -78,22 +81,6 @@ const AssignPrePrimarySubjectGrades = () => {
             console.log(`Hey there I'm here 😎`, ListLearningOutcomeDetails)
         }
     }, [ListLearningOutcomeDetails])
-
-    // Sample useEffect() to create a virtual Object for selective tracing of values for grades.
-    // useEffect(() => {
-    //     if (NonXseedStudentswithObs.length > 0) {
-    //         const initialGrades = NonXseedStudentswithObs.reduce((acc, student) => {
-    //             acc[student.Text1] = student.Text3;
-    //             return acc;
-    //         }, {});
-    //         const initialObservations = NonXseedStudentswithObs.reduce((acc, student) => {
-    //             acc[student.Text1] = student.Text4;
-    //             return acc;
-    //         }, {});
-    //         setGrades(initialGrades);
-    //         setObservations(initialObservations);
-    //     }
-    // }, [NonXseedStudentswithObs]);
 
     // Actual code | useEffect() for Grade Values tracking and pre-formatting
     useEffect(() => {
@@ -179,7 +166,7 @@ const AssignPrePrimarySubjectGrades = () => {
                             sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
                             disabled
                             size="small"
-                            inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                            inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                         />
                         <TextField
                             label={'Assessment'}
@@ -187,7 +174,7 @@ const AssignPrePrimarySubjectGrades = () => {
                             sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
                             disabled
                             size="small"
-                            inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                            inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                         />
                         <TextField
                             label={'Subject Name'}
@@ -195,7 +182,7 @@ const AssignPrePrimarySubjectGrades = () => {
                             sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
                             disabled
                             size="small"
-                            inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                            inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
                         />
                         {EditStatusId !== '3' && student !== '0' && subjectSection !== '0' &&
                             <Tooltip title={'Save'}>
@@ -289,9 +276,9 @@ const AssignPrePrimarySubjectGrades = () => {
                                 {ListLearningOutcomeDetails.length > 0 &&
                                     ListLearningOutcomeDetails.map((item, i) => (
                                         <TableRow key={i} >
-                                            <TableCell sx={{ minWidth: '60vw' }}>{item.Text2}</TableCell>
-                                            <TableCell />
-                                            <TableCell>
+                                            <TableCell sx={{ minWidth: '60vw', ...cellStyle }}>{item.Text2}</TableCell>
+                                            <TableCell sx={{ ...cellStyle }} />
+                                            <TableCell sx={{ ...cellStyle }} >
                                                 <SearchableDropdown
                                                     ItemList={XseedGradesList}
                                                     defaultValue={grades[item.Text1]?.split('-')[0]}

@@ -16,7 +16,7 @@ import { IGetClassTimeTableBody, IGetDeleteAdditionalLectureBody, IGetDeleteAddi
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDADeleteAdditionalLectures, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveTeacherTimetable, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveTeacherTimetable, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import { GetScreenPermission } from '../Common/Util'
 import CommonPageHeader from "../CommonPageHeader"
@@ -169,6 +169,8 @@ const WeeklyTimetable = (props: Props) => {
 
     useEffect(() => {
         if (teacher !== '0' && filterBy === 'Teacher') {
+            setTrackTeacherTimetable({})
+            dispatch(CDAClearWeeklyTeacherTimetableValues());
             dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
         }
     }, [teacher, filterBy])
@@ -764,6 +766,7 @@ const WeeklyTimetable = (props: Props) => {
                             )}
                         </Stack>
                     </Stack>
+                    {/* {loading && MondayColumnList.length === 0 && TuesdayColumnList.length === 0 && WednesdayColumnList.length === 0 && ThursdayColumnList.length === 0 && FridayColumnList.length === 0 ? <SuspenseLoader /> : */}
                     <>
                         {teacher !== '0' || division !== '0' ?
                             <Box sx={{ mt: 2 }}>
@@ -947,18 +950,19 @@ const WeeklyTimetable = (props: Props) => {
                             </Box>
 
                             : ''}
+                        <Divider sx={{ my: 2 }} />
+                        {filterBy === 'Teacher' && teacher === '0' &&
+                            <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                <b>No record found.</b>
+                            </Typography>
+                        }
+                        {filterBy === 'Class' && division === '0' &&
+                            <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                <b>No record found.</b>
+                            </Typography>
+                        }
                     </>
-                    <Divider sx={{ my: 2 }} />
-                    {filterBy === 'Teacher' && teacher === '0' &&
-                        <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                            <b>No record found.</b>
-                        </Typography>
-                    }
-                    {filterBy === 'Class' && division === '0' &&
-                        <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                            <b>No record found.</b>
-                        </Typography>
-                    }
+                    {/* } */}
                     <Stack direction={"row"} gap={2}>
                         {filterBy === 'Class' && division !== '0' &&
                             <>

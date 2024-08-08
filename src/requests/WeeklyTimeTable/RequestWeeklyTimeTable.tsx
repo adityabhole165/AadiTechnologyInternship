@@ -147,9 +147,18 @@ const WeeklyTimeTableSlice = createSlice({
         RClearManageClassTimeTableMsg(state) {
             state.ISGetManageClassTimeTableMsg = '';
             state.Loading = false;
+        },
+        RClearWeeklyTeacherTimetableValues(state) {
+            state.ISGetLectureNoWeekday = [];
+            state.Loading = false;
         }
     }
 });
+
+export const CDAClearWeeklyTeacherTimetableValues = (): AppThunk => async (dispatch) => {
+    dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+    dispatch(WeeklyTimeTableSlice.actions.RClearWeeklyTeacherTimetableValues());
+}
 
 export const CDAGetTeachersList =
     (data: IGetTeacherAndStandardForTimeTableBody): AppThunk =>
