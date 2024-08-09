@@ -384,7 +384,7 @@ const PreprimaryProgressReport = () => {
                                 </Table>
                             </TableContainer>
                            
-                           <Box>
+                          
                             <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
 
                                 Pre-Primary Curricular Subjects
@@ -395,37 +395,36 @@ const PreprimaryProgressReport = () => {
                                 <Table aria-label="simple table" >
                                     <TableHead>
                                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1}}>Sr. No.</TableCell>
-                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1}}>Learning Outcome</TableCell>
-                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1}}>Grade</TableCell>
-                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1}}>Facilitator's Observation</TableCell>
+                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py:1}}>Sr. No.</TableCell>
+                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white,  py:1}}>Learning Outcome</TableCell>
+                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white,  py:1}}>Grade</TableCell>
+                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white,  py:1, width:'200px' }}>Facilitator's Observation</TableCell>
                                         </TableRow>
                                     </TableHead>
 
-                          
                            {USFillGradeDetailssortedDatafiltered.map(subjectSection => {
                                     const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
                                     return ( 
                                         <TableBody key={subjectSection.SubjectSectionConfigurationId}>
-                                        <TableCell sx={{alignItems:'center'}} >{subjectSection.SubjectSectionName}</TableCell>      
-                                    <TableRow>
-                                    {outcomes.map((outcome, index) => (
-                                                <TableCell key={outcome.LearningOutcomeConfigId}>
-                                                    <TableCell >{`${index + 1}. ${outcome.LearningOutcome}`}</TableCell>
-                                                    <TableCell>{outcome.ShortName}</TableCell>
-                                                </TableCell>
+                                            <TableRow>
+                                        <TableCell sx={{alignItems:'right', pl:70}} colSpan={4} >{subjectSection.SubjectSectionName}</TableCell>     
+                                        </TableRow>
+                                        
+                                        <TableRow>
+                                            <Box>
+                                           {outcomes.map((outcome, index) => (
+                                                <Box key={outcome.LearningOutcomeConfigId}> 
+                                                    <TableCell >{`${index + 1} ${outcome.LearningOutcome}`}</TableCell>
+                                                   <TableCell>{outcome.ShortName}</TableCell>
+                                                    </Box>
                                             ))}  
+                                            </Box>
                             </TableRow>
                            </TableBody>
                            )
                            })}
                             </Table>
                             </TableContainer>
-                            </Box> 
                             </Box>
 
 
@@ -460,7 +459,7 @@ const PreprimaryProgressReport = () => {
                 }
             </div>)}
 
-          <Box sx={{backgroundColor:'white', p:2}}>
+        
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -469,7 +468,7 @@ const PreprimaryProgressReport = () => {
                     :
                     <span> </span>
             }
-             </Box> 
+             
         </Box>
         
 
