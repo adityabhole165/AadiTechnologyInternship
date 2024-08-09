@@ -88,15 +88,21 @@ const PreprimaryProgressReport = () => {
 
     };
 
-    let matchedOutcomes = [];
-    USFillSubjectSections.forEach(section => {
-        const matched = USFillStudentsLearningOutcomes.filter(
-            outcome => outcome.SubjectSectionConfigId === section.SubjectSectionConfigurationId
-        );
-        if (matched.length > 0) {
-            matchedOutcomes = matchedOutcomes.concat(matched);
-        }
-    });
+    // let matchedOutcomes = [];
+    // USFillSubjectSections.forEach(section => {
+    //     const matched = USFillStudentsLearningOutcomes.filter(
+    //         outcome => outcome.SubjectSectionConfigId === section.SubjectSectionConfigurationId
+    //     );
+    //     if (matched.length > 0) {
+    //         matchedOutcomes = matchedOutcomes.concat(matched);
+    //     }
+    // });
+
+    //  console.log();
+
+    const USFillGradeDetailssortedDatafiltered = USFillSubjectSections.filter(subjectSection =>
+        USFillStudentsLearningOutcomes.some(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId)
+    );
 
     const clickClassTeacher = (value) => {
         setClassTeacher(value);
@@ -166,6 +172,10 @@ const PreprimaryProgressReport = () => {
 
     //     }
     // }, []);
+
+
+
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -380,19 +390,38 @@ const PreprimaryProgressReport = () => {
                             </TableContainer>
 
                             <br />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-                                {USFillGradeDetailssortedData.length > 0 ? USFillGradeDetailssortedData[0].SubjectSectionName : 'No Data'}
-                            </Typography>
 
-                            <TableBody>
-                                {matchedOutcomes.map((row) => (
-                                    <TableRow key={row.LearningOutcomeConfigId}>
 
-                                        <TableCell>{row.LearningOutcome}</TableCell>
-                                        <TableCell>{row.ShortName}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+
+
+
+                            <div>
+                                {USFillGradeDetailssortedDatafiltered.map(subjectSection => {
+                                    const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
+
+                                    return (
+                                        <div key={subjectSection.SubjectSectionConfigurationId} style={{ marginBottom: '20px' }}>
+                                            <div style={{ fontWeight: 'bold', marginTop: '10px', textAlign: 'center' }}>{subjectSection.SubjectSectionName}</div>
+
+                                            {outcomes.map((outcome, index) => (
+                                                <div
+                                                    key={outcome.LearningOutcomeConfigId}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        paddingLeft: '10px',
+                                                        marginTop: '5px'
+                                                    }}
+                                                >
+                                                    <div style={{ textAlign: 'center' }}>{`${index + 1}. ${outcome.LearningOutcome}`}</div>
+                                                    <div>{outcome.ShortName}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
 
                         </Box> : <span> </span>
                 }

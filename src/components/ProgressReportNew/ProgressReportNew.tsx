@@ -83,6 +83,10 @@ const ProgressReportNew = () => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
   const IsTotalConsiderForProgressReport = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport || '';
+
+  console.log(IsTotalConsiderForProgressReport,"Total Consideration");
+  
+
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
     { Id: 2, Header: 'Grade Name' },
@@ -694,7 +698,7 @@ const ProgressReportNew = () => {
                         </TableBody>
                       ))}
                       {
-                        IsTotalConsiderForProgressReport == "true" ?
+                        IsTotalConsiderForProgressReport == "True" ?
                           <span>
 
                             <TableHead>
