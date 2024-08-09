@@ -710,7 +710,12 @@ const AddSchoolNoticeFT = () => {
                                 multiline
                                 rows={3}
                                 value={Description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value.length <= 255) {
+                                        setDescription(value);
+                                    }
+                                }}
                                 fullWidth
                                 sx={{
                                     resize: 'both'
