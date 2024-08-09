@@ -546,9 +546,9 @@ const AddSchoolNoticeFT = () => {
                     </Box>
                 </Grid>
                 <Box sx={{ p: 2, background: 'white' }}>
-                    <Grid container spacing={3} alignItems="center">
+                    <Grid container spacing={2}>
                         {radioBtn === '1' ? (
-                            <Grid item xs={4}>
+                            <Grid item xs={4} md={4}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -572,7 +572,7 @@ const AddSchoolNoticeFT = () => {
                                 
                             </Grid>
                         ) : (
-                            <Grid item xs={4}>
+                            <Grid item xs={4} md={4}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -627,7 +627,7 @@ const AddSchoolNoticeFT = () => {
                             <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
 
                         </Grid>
-                        <Grid item xs={6} md={4}>
+                        <Grid item  xs={12} md={4}>
                             <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
                         <Grid item xs={4}>
@@ -651,7 +651,7 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
                         {radioBtn === '1' && (
-                            <Grid item xs={6} md={4}>
+                            <Grid item  xs={12} md={4}>
                                 <Box sx={{ position: 'relative' }}>
                                     <SingleFile
                                         ValidFileTypes={ValidFileTypes}
