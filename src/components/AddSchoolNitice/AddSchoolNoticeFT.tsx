@@ -45,7 +45,9 @@ const AddSchoolNoticeFT = () => {
     const [EndTime, setEndTime] = useState('23:59');
     const [NoticeFile, setNoticeFile] = useState('');
     const [NoticeContent, setNoticeContent] = useState('');
+    const [NoticeContentError, setNoticeContentError] = useState('');
     const [NoticeFileError, setNoticeFileError] = useState('');
+    const [ClassSelectedError, setClassSelectedError] = useState('');
     const [ImageFile, setImageFile] = useState('');
     const [base64URL, setbase64URL] = useState('');
     const [base64URL2, setbase64URL2] = useState('');
@@ -286,6 +288,11 @@ const AddSchoolNoticeFT = () => {
         //     isError = true;
         // } else setErrorUserRole('')
 
+        if (!isClassSelected()) {
+            setClassSelectedError('At least one class should be selected.');
+            isError = true;
+        } else setClassSelectedError('')
+
         if (StartDate === '') {
             setErrorStartDate('Please choose a valid start date.');
             dateError = true
@@ -318,7 +325,12 @@ const AddSchoolNoticeFT = () => {
                 isError = true;
             } else setNoticeFileError('')
         }
-
+        if (radioBtn == '2') {
+            if (NoticeContent == '') {
+                setNoticeContentError('Notice content should not be blank.');
+                isError = true;
+            } else setNoticeContentError('')
+        }
         if (SortOrder == '') {
             setSortOrderError('Sort order should not be blank.');
             isError = true;
@@ -656,7 +668,7 @@ const AddSchoolNoticeFT = () => {
                             </Grid>
                         )}
 
-                       <Grid item xs={6} md={3}>
+                        <Grid item xs={6} md={3}>
                             <SingleFile
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
@@ -669,38 +681,38 @@ const AddSchoolNoticeFT = () => {
                                 isMandatory={false}
                             />
                         </Grid>
-                            <Grid item xs={1} md={1}>
-                                <>
-                                    <Tooltip title={"View"}>
-                                        <IconButton
-                                            onClick={viewImage}
-                                            sx={{
+                        <Grid item xs={1} md={1}>
+                            <>
+                                <Tooltip title={"View"}>
+                                    <IconButton
+                                        onClick={viewImage}
+                                        sx={{
+                                            color: '#223354',
+                                            '&:hover': {
                                                 color: '#223354',
-                                                '&:hover': {
-                                                    color: '#223354',
-                                                    cursor: 'pointer'
-                                                }
-                                            }}
-                                        >
-                                            <Visibility />
-                                        </IconButton>
-                                    </Tooltip> &nbsp;
-                                    <Tooltip title={"Delete"}>
-                                        <IconButton
-                                            onClick={() => deleteImage(Number(NoticeId))}
-                                            sx={{
-                                                color: '#223354',
-                                                '&:hover': {
-                                                    color: 'red',
-                                                    backgroundColor: red[100]
-                                                }
-                                            }}
-                                        >
-                                            <DeleteForeverIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </>
-                            </Grid> 
+                                                cursor: 'pointer'
+                                            }
+                                        }}
+                                    >
+                                        <Visibility />
+                                    </IconButton>
+                                </Tooltip> &nbsp;
+                                <Tooltip title={"Delete"}>
+                                    <IconButton
+                                        onClick={() => deleteImage(Number(NoticeId))}
+                                        sx={{
+                                            color: '#223354',
+                                            '&:hover': {
+                                                color: 'red',
+                                                backgroundColor: red[100]
+                                            }
+                                        }}
+                                    >
+                                        <DeleteForeverIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>
+                        </Grid>
 
                         <Grid item xs={12} >
                             <ResizableTextField
@@ -768,7 +780,7 @@ const AddSchoolNoticeFT = () => {
                                         ItemList={ItemList}
                                         ParentList={ClassesAndDivisionss1}
                                         ClickChild={ClickChild}
-                                    />
+                                    /><ErrorMessage1 Error={ClassSelectedError}></ErrorMessage1>
                                 </Grid>
                             )}
                         </Grid>
@@ -777,6 +789,7 @@ const AddSchoolNoticeFT = () => {
                             <Grid item md={12}>
                                 <Box>
                                     <ReactQuill value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                    <ErrorMessage1 Error={NoticeContentError}></ErrorMessage1>
                                 </Box>
                             </Grid>
                         }
