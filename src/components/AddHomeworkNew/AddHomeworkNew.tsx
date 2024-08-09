@@ -22,6 +22,7 @@ import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
+import { ResizableTextField } from "../AddSchoolNitice/ResizableDescriptionBox";
 
 
 const AddHomeworkNew = () => {
@@ -1251,7 +1252,7 @@ const AddHomeworkNew = () => {
           </Grid> */}
 
                   <Grid item xs={12}>
-                    <TextField
+                    <ResizableTextField
                       fullWidth
                       label={
                         <span>
@@ -1259,7 +1260,7 @@ const AddHomeworkNew = () => {
                         </span>
                       }
                       multiline
-                      rows={5}
+                      rows={3}
                       value={Details}
                       onChange={(e) => {
                         setDetails(e.target.value);
