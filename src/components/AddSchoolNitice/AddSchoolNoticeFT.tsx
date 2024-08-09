@@ -566,7 +566,10 @@ const AddSchoolNoticeFT = () => {
                                         }
                                     }}
                                 />
+                                <Box>
                                 <ErrorMessage1 Error={LinkNameError}></ErrorMessage1>
+                                </Box>
+                                
                             </Grid>
                         ) : (
                             <Grid item xs={4}>
@@ -752,18 +755,20 @@ const AddSchoolNoticeFT = () => {
                                             control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} name="admin" />}
                                             label="Admin"
                                         />
+                                        <Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
                                             label="Teacher"
-                                        />
+                                        /></Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} name="student" />}
                                             label="Student"
                                         />
+                                        <Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
                                             label="Admin Staff"
-                                        />
+                                        /></Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
                                             label="Other Staff"

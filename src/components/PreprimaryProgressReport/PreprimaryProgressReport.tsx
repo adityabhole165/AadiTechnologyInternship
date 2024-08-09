@@ -477,13 +477,14 @@ const PreprimaryProgressReport = () => {
                                 </TableContainer>
 
 
-                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={0}>
 
                                     {USFillXseedRemarks.map((row) => (
-                                        <div key={row.YearwiseStudentId}>
-                                            <Box>  Remark  {row.Remark}</Box>
+                                        <Box key={row.YearwiseStudentId} sx={{display:'flex', }}>
+                                            <Box border={1} sx={{width:'20%', p:1}} >  Remark</Box>
+                                            <Box border={1} sx={{width:'100%', p:1}}> {row.Remark}</Box>
 
-                                        </div>
+                                        </Box>
                                     ))}
                                 </Typography>
 
