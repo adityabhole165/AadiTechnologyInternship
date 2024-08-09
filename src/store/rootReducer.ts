@@ -123,6 +123,7 @@ import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubje
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
 import SchoolNoticeFormslice from '../requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -250,7 +251,8 @@ const rootReducer = combineReducers({
   StudentRecordCommentPopup: StudentRecordCommentslice,
   SchoolNotice: AddNoticeslice,
   SchoolNoticeForm:SchoolNoticeFormslice,
-  PreprimaryProgressReport:SlicePreprimaryProgressReport
+  PreprimaryProgressReport:SlicePreprimaryProgressReport,
+  SchoolNoticePopup : SchoolNoticePopupslice
 });
 
 export default rootReducer;
