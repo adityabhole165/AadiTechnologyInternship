@@ -22,7 +22,7 @@ import DatepickerLeave from './DatepickerLeave';
 const ViewLeaveDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { LeaveDId, selectCategory } = useParams();
+    const { LeaveDId, selectCategory, getSenderName } = useParams();
     console.log(LeaveDId, "LeaveDId");
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -32,7 +32,7 @@ const ViewLeaveDetails = () => {
     const [SenderName, setSenderName] = useState(asUserId == undefined ? "0" : asSenderName);
     const [StartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [EndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
-    const [TotalDays, setTotalDays] = useState(1);
+    const [TotalDays, setTotalDays] = useState('');
     const [SelectLeaveType, setLeaveType] = useState("0");
     const [ErrorLeaveType, setErrorLeaveType] = useState(" ");
     const [Description, setDescription] = useState('');
@@ -83,16 +83,16 @@ const ViewLeaveDetails = () => {
         }
     }, [GetViewLeave]);
 
-    useEffect(() => {
-        const start = new Date(StartDate);
-        const end = new Date(EndDate);
-        const timeDiff = end.getTime() - start.getTime();
-        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
-        if (daysDiff < 0) {
-            daysDiff = 0;
-        }
-        setTotalDays(daysDiff);
-    }, [StartDate, EndDate]);
+    // useEffect(() => {
+    //     const start = new Date(StartDate);
+    //     const end = new Date(EndDate);
+    //     const timeDiff = end.getTime() - start.getTime();
+    //     let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1);
+    //     if (daysDiff < 0) {
+    //         daysDiff = 0;
+    //     }
+    //     setTotalDays(daysDiff);
+    // }, [StartDate, EndDate]);
 
     useEffect(() => {
         if (LeaveDId) {
@@ -148,14 +148,14 @@ const ViewLeaveDetails = () => {
     const clear = () => {
         setStartDate(new Date().toISOString().split('T')[0]);
         setEndDate(new Date().toISOString().split('T')[0]);
-        setTotalDays(1);
+        setTotalDays('');
         setDescription('')
     };
-    useEffect(() => {
-        if (StartDate === null || EndDate === null) {
-            setTotalDays(0);
-        }
-    }, [StartDate, EndDate])
+    // useEffect(() => {
+    //     if (StartDate === null || EndDate === null) {
+    //         setTotalDays();
+    //     }
+    // }, [StartDate, EndDate])
     useEffect(() => {
         if (USApproveorRejectLeaveDetails !== '') {
             toast.success(USApproveorRejectLeaveDetails)
@@ -239,6 +239,8 @@ const ViewLeaveDetails = () => {
             return 'Approve';
         }
     };
+    console.log("--------", GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True");
+
     // console.log(getTooltipTitle(), "getTooltipTitle", GetViewLeave.length > 0 && GetViewLeave[0].IsFinalApprover === "True");
 
     // const getTooltipTitle = (item) => {
@@ -364,13 +366,13 @@ const ViewLeaveDetails = () => {
                             fullWidth
                             InputLabelProps={{ shrink: true }}
                             label={<>
-                                Staff Name <span style={{ color: 'red' }}>*</span>
+                                Staff Name
                             </>}
                             sx={{ bgcolor: '#F0F0F0' }}
                             InputProps={{
                                 readOnly: true,
                             }}
-                            value={SenderName}
+                            value={getSenderName}
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
@@ -410,6 +412,7 @@ const ViewLeaveDetails = () => {
                             InputProps={{
                                 readOnly: true,
                             }}
+                            onChange={(e) => setTotalDays(e.target.value)}
                             fullWidth
                             disabled
                         />

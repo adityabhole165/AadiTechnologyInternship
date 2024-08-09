@@ -273,10 +273,10 @@ const LeaveDetailsBaseScreen = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(1); // Reset to the first page when changing rows per page
     };
-    const ViewLeave = (Id) => {
+    const ViewLeave = (Id, value) => {
         console.log(Id, "value");
 
-        navigate("../ViewLeaveDetails" + "/" + Id + "/" + asUserId + "/" + selectCategory)
+        navigate("../ViewLeaveDetails" + "/" + Id + "/" + asUserId + "/" + selectCategory + "/" + getSenderName(value))
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);
@@ -321,8 +321,13 @@ const LeaveDetailsBaseScreen = () => {
     }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus]);
 
 
-
-
+    const getSenderName = (value) => {
+        let SenderName = '';
+        GetLeaveList.map((item) => {
+            if (item.Value == value) SenderName = item.Text1;
+        });
+        return SenderName;
+    };
 
     return (
         <Box sx={{ px: 2 }}>

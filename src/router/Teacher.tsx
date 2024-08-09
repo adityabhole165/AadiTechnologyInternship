@@ -251,7 +251,7 @@ const teacherRoutes = [
     element: <AddLeaveDetails />
   },
   {
-    path: 'ViewLeaveDetails/:LeaveDId/:ParamsUserId/:selectCategory',
+    path: 'ViewLeaveDetails/:LeaveDId/:ParamsUserId/:selectCategory/:getSenderName',
     element: <ViewLeaveDetails />
   },
   {
