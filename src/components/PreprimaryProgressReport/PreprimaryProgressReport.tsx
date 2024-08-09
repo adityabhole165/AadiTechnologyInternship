@@ -2,9 +2,9 @@
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody, IGetAllPrimaryClassTeacherssBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -44,6 +44,7 @@ const PreprimaryProgressReport = () => {
     const USFillSchoolDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillSchoolDetails);
     const USFillGradeDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillGradeDetails);
     const USFillXseedRemarks: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillXseedRemarks);
+    const USFillNonXseedSubjectGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillNonXseedSubjectGrades);
     const USFillStudentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentDetails);
     const USFillStudentAttendance: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentAttendance);
     const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
@@ -62,6 +63,7 @@ const PreprimaryProgressReport = () => {
         { Id: 7, Header: 'Returned Qty' },
         { Id: 8, Header: 'Cancelled Qty' }
     ];
+
 
 
     const AllPrimaryClassTeachersBody: IGetAllPrimaryClassTeacherssBody =
@@ -175,7 +177,14 @@ const PreprimaryProgressReport = () => {
 
 
 
+    const combinedData = USFillGradeDetailssortedDatafiltered.map(subjectSection => {
+        const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
 
+        return {
+            ...subjectSection,  // Include all properties of the subjectSection
+            outcomes            // Add the filtered outcomes as a new property
+        };
+    });
 
     return (
         <Box sx={{ px: 2 }}>
@@ -282,23 +291,23 @@ const PreprimaryProgressReport = () => {
                                     <Grid item xs={12} key={detail.UserId}>
                                         <Box sx={{
                                             backgroundColor: '#F0F0F0',
-                                            textAlign: 'center', 
+                                            textAlign: 'center',
                                         }}>
                                             <hr />
                                             <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-                                                
+
                                                 {detail.OrganizationName}
 
-                                             </Typography>
+                                            </Typography>
                                             <hr />
                                             <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
-                                               
+
                                                 {detail.School_Name}
 
                                             </Typography>
                                             <hr />
                                             <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0}>
-                                              
+
                                                 Progress Report
 
                                             </Typography>
@@ -311,22 +320,22 @@ const PreprimaryProgressReport = () => {
                                     </Grid>
                                 ))}
                             </Grid>
-                          
+
                             <Table>
                                 <TableBody>
-                                {USFillStudentDetails.map((detail) => (
-                                    <TableRow sx={{ bgcolor: '#38548A' }}>
-                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No :  {detail.RollNo} </b></TableCell> 
-                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Name:  {detail.StudentName} </b></TableCell>
-                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Class :  {detail.Class} </b></TableCell>
-                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Year :  {detail.AcademicYear} </b></TableCell>
-                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Assessment : {detail.Assessment} </b></TableCell>
-                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Attendance :  {presentCount} / {totalCount} </b></TableCell>
-                                    
-                                    </TableRow>
-                                     ))}
+                                    {USFillStudentDetails.map((detail) => (
+                                        <TableRow sx={{ bgcolor: '#38548A' }}>
+                                            <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No :  {detail.RollNo} </b></TableCell>
+                                            <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name:  {detail.StudentName} </b></TableCell>
+                                            <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class :  {detail.Class} </b></TableCell>
+                                            <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year :  {detail.AcademicYear} </b></TableCell>
+                                            <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Assessment : {detail.Assessment} </b></TableCell>
+                                            <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Attendance :  {presentCount} / {totalCount} </b></TableCell>
+
+                                        </TableRow>
+                                    ))}
                                 </TableBody>
-                              </Table>
+                            </Table>
 
                             {/* <Box sx={{ background: 'white', p: 1, top: '1px' }}>
                                 {USFillStudentDetails.map((detail) => (
@@ -356,75 +365,133 @@ const PreprimaryProgressReport = () => {
                                     </Grid>
                                 ))}
                             </Box> */}
-                            
+
                             <Box>
-                            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} my={2} pl={1}>
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} my={2} pl={1}>
 
-                                Key to Curricular and Co-Curricular
+                                    Key to Curricular and Co-Curricular
 
-                            </Typography>
-                            <TableContainer component={Box} >
-                                <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
-                                    <TableHead>
-                                        <TableRow  sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                            <TableCell sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1}}>Grade Name</TableCell>
-                                            <TableCell sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                            py: 1}}>Description</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {GradeDetailsfilteredAndSortedData.map((row) => (
-                                            <TableRow key={row.GradeId}>
-                                                <TableCell>{row.GradeName}</TableCell>
-                                                <TableCell>{row.Description}</TableCell>
+                                </Typography>
+                                <TableContainer component={Box} >
+                                    <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                                        <TableHead>
+                                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                    py: 1
+                                                }}>Grade Name</TableCell>
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                    py: 1
+                                                }}>Description</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                           
-                          
-                            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+                                        </TableHead>
+                                        <TableBody>
+                                            {GradeDetailsfilteredAndSortedData.map((row) => (
+                                                <TableRow key={row.GradeId}>
+                                                    <TableCell>{row.GradeName}</TableCell>
+                                                    <TableCell>{row.Description}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
 
-                                Pre-Primary Curricular Subjects
 
-                            </Typography>
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
 
-                            <TableContainer component={Box} sx={{ border: '1px solid lightgrey' }} >
-                                <Table aria-label="simple table" >
-                                    <TableHead>
-                                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py:1}}>Sr. No.</TableCell>
-                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white,  py:1}}>Learning Outcome</TableCell>
-                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white,  py:1}}>Grade</TableCell>
-                                            <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white,  py:1, width:'200px' }}>Facilitator's Observation</TableCell>
-                                        </TableRow>
-                                    </TableHead>
+                                    Pre-Primary Curricular Subjects
 
-                           {USFillGradeDetailssortedDatafiltered.map(subjectSection => {
-                                    const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
-                                    return ( 
-                                        <TableBody key={subjectSection.SubjectSectionConfigurationId}>
-                                            <TableRow>
-                                        <TableCell sx={{alignItems:'right', pl:70}} colSpan={4} >{subjectSection.SubjectSectionName}</TableCell>     
-                                        </TableRow>
-                                        
-                                        <TableRow>
-                                            <Box>
-                                           {outcomes.map((outcome, index) => (
-                                                <Box key={outcome.LearningOutcomeConfigId}> 
-                                                    <TableCell >{`${index + 1} ${outcome.LearningOutcome}`}</TableCell>
-                                                   <TableCell>{outcome.ShortName}</TableCell>
-                                                    </Box>
-                                            ))}  
-                                            </Box>
-                            </TableRow>
-                           </TableBody>
-                           )
-                           })}
-                            </Table>
-                            </TableContainer>
+                                </Typography>
+
+                                <TableContainer component={Box} sx={{ border: '1px solid lightgrey' }} >
+                                    <Table aria-label="simple table" >
+                                        <TableHead>
+                                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Sr. No.</TableCell>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Learning Outcome</TableCell>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Grade</TableCell>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1, width: '200px' }}>Facilitator's Observation</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+
+                                        <TableBody>
+                                            {combinedData.map(subjectSection => (
+                                                <React.Fragment key={subjectSection.SubjectSectionConfigurationId}>
+                                                    <TableRow>
+                                                        <TableCell sx={{ alignItems: 'right', pl: 70, fontWeight: 'bold' }} colSpan={4}>
+                                                            {subjectSection.SubjectSectionName}
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    {subjectSection.outcomes.map((outcome, index) => (
+                                                        <TableRow key={outcome.LearningOutcomeConfigId}>
+                                                            <TableCell>{index + 1}</TableCell>
+                                                            <TableCell>{outcome.LearningOutcome}</TableCell>
+
+                                                            <TableCell>{outcome.ShortName}</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </React.Fragment>
+                                            ))}
+                                        </TableBody>
+
+                                    </Table>
+                                </TableContainer>
+
+
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+
+                                    Co-CurricularSubjects
+                                </Typography>
+
+
+                                <TableContainer component={Box} >
+                                    <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                                        <TableHead>
+                                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                    py: 1
+                                                }}>Subject</TableCell>
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                    py: 1
+                                                }}>Grade</TableCell>
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                                    py: 1
+                                                }}>Facilitator's Observation</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {USFillNonXseedSubjectGrades.map((row) => (
+                                                <TableRow key={row.YearwiseStudentId}>
+                                                    <TableCell>{row.SubjectName}</TableCell>
+                                                    <TableCell>{row.ShortName}</TableCell>
+                                                    <TableCell>{row.Observation}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
+
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+
+                                    {USFillXseedRemarks.map((row) => (
+                                        <div key={row.YearwiseStudentId}>
+                                            <Box>  Remark  {row.Remark}</Box>
+
+                                        </div>
+                                    ))}
+                                </Typography>
+
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+                                    <Typography>   Note: </Typography>
+                                    <Typography> Ab - Absent </Typography>
+                                    <Typography>  Ex - Exempted </Typography>
+                                </Typography>
                             </Box>
 
 
@@ -454,12 +521,12 @@ const PreprimaryProgressReport = () => {
                                     );
                                 
                             </div> */}
-                            
+
                         </Box> : <span> </span>
                 }
             </div>)}
 
-        
+
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -468,9 +535,9 @@ const PreprimaryProgressReport = () => {
                     :
                     <span> </span>
             }
-             
+
         </Box>
-        
+
 
     );
 };

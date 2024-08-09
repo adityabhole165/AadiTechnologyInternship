@@ -101,6 +101,16 @@ export interface GetProgressReportDetailsResult {
 
 
   FillNonXseedSubjectGrades: [
+    {
+      YearwiseStudentId: string
+      AssessmentId: string
+      SubjectId: string
+      SubjectName: string
+      GradeId: string
+      ShortName: string
+      Observation: string
+      Is_CoCurricularActivity: string
+    }
 
   ],
 
