@@ -282,41 +282,53 @@ const PreprimaryProgressReport = () => {
                                     <Grid item xs={12} key={detail.UserId}>
                                         <Box sx={{
                                             backgroundColor: '#F0F0F0',
-                                            textAlign: 'center', marginBottom: 2,
-
+                                            textAlign: 'center', 
                                         }}>
                                             <hr />
                                             <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-
+                                                
                                                 {detail.OrganizationName}
 
-                                            </Typography>
+                                             </Typography>
                                             <hr />
                                             <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
-
+                                               
                                                 {detail.School_Name}
 
                                             </Typography>
                                             <hr />
-                                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-
+                                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0}>
+                                              
                                                 Progress Report
 
                                             </Typography>
                                             <hr />
 
 
-
                                         </Box>
 
 
                                     </Grid>
-
-
                                 ))}
                             </Grid>
+                          
+                            <Table>
+                                <TableBody>
+                                {USFillStudentDetails.map((detail) => (
+                                    <TableRow sx={{ bgcolor: '#38548A' }}>
+                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No :  {detail.RollNo} </b></TableCell> 
+                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Name:  {detail.StudentName} </b></TableCell>
+                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Class :  {detail.Class} </b></TableCell>
+                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Year :  {detail.AcademicYear} </b></TableCell>
+                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Assessment : {detail.Assessment} </b></TableCell>
+                                    <TableCell sx={{textAlign:'center', color:'white'}}><b>Attendance :  {presentCount} / {totalCount} </b></TableCell>
+                                    
+                                    </TableRow>
+                                     ))}
+                                </TableBody>
+                              </Table>
 
-                            <Box sx={{ background: 'white', p: 1, top: '1px' }}>
+                            {/* <Box sx={{ background: 'white', p: 1, top: '1px' }}>
                                 {USFillStudentDetails.map((detail) => (
                                     <Grid container spacing={2}>
 
@@ -343,19 +355,22 @@ const PreprimaryProgressReport = () => {
 
                                     </Grid>
                                 ))}
-                            </Box>
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                            </Box> */}
+                            
+                            <Box>
+                            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} my={2} pl={1}>
 
                                 Key to Curricular and Co-Curricular
 
                             </Typography>
-                            <TableContainer component={Paper}>
-                                <Table>
+                            <TableContainer component={Box} >
+                                <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
                                     <TableHead>
-                                        <TableRow>
-                                            <TableCell>Grade Name</TableCell>
-                                            <TableCell>Description</TableCell>
+                                        <TableRow  sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                            <TableCell sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1}}>Grade Name</TableCell>
+                                            <TableCell sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1}}>Description</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -368,34 +383,53 @@ const PreprimaryProgressReport = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                            <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                           
+                           <Box>
+                            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
 
                                 Pre-Primary Curricular Subjects
 
                             </Typography>
 
-                            <TableContainer component={Paper}>
-                                <Table>
+                            <TableContainer component={Box} sx={{ border: '1px solid lightgrey' }} >
+                                <Table aria-label="simple table" >
                                     <TableHead>
-                                        <TableRow>
-                                            <TableCell align="center">Sr. No.</TableCell>
-                                            <TableCell align="center">Learning Outcome</TableCell>
-                                            <TableCell align="center">Grade</TableCell>
-                                            <TableCell align="center">Facilitator's Observation</TableCell>
+                                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1}}>Sr. No.</TableCell>
+                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1}}>Learning Outcome</TableCell>
+                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1}}>Grade</TableCell>
+                                            <TableCell align="left" sx={{textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1}}>Facilitator's Observation</TableCell>
                                         </TableRow>
                                     </TableHead>
 
-                                </Table>
+                          
+                           {USFillGradeDetailssortedDatafiltered.map(subjectSection => {
+                                    const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
+                                    return ( 
+                                        <TableBody key={subjectSection.SubjectSectionConfigurationId}>
+                                        <TableCell sx={{alignItems:'center'}} >{subjectSection.SubjectSectionName}</TableCell>      
+                                    <TableRow>
+                                    {outcomes.map((outcome, index) => (
+                                                <TableCell key={outcome.LearningOutcomeConfigId}>
+                                                    <TableCell >{`${index + 1}. ${outcome.LearningOutcome}`}</TableCell>
+                                                    <TableCell>{outcome.ShortName}</TableCell>
+                                                </TableCell>
+                                            ))}  
+                            </TableRow>
+                           </TableBody>
+                           )
+                           })}
+                            </Table>
                             </TableContainer>
-
-                            <br />
-
-
+                            </Box> 
+                            </Box>
 
 
-
-                            <div>
+                            {/* <div>
                                 {USFillGradeDetailssortedDatafiltered.map(subjectSection => {
                                     const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
 
@@ -419,15 +453,14 @@ const PreprimaryProgressReport = () => {
                                             ))}
                                         </div>
                                     );
-                                })}
-                            </div>
-
-
+                                
+                            </div> */}
+                            
                         </Box> : <span> </span>
                 }
             </div>)}
 
-
+          <Box sx={{backgroundColor:'white', p:2}}>
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -436,8 +469,9 @@ const PreprimaryProgressReport = () => {
                     :
                     <span> </span>
             }
-
+             </Box> 
         </Box>
+        
 
     );
 };
