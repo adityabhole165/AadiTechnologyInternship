@@ -16,6 +16,7 @@ import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEd
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
@@ -25,7 +26,6 @@ import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLes
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
-import SingleFile2 from 'src/libraries/File/SingleFile2';
 const AddSchoolNoticeFT = () => {
     const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
@@ -332,10 +332,16 @@ const AddSchoolNoticeFT = () => {
                 isError = true;
             } else setNoticeContentError('')
         }
-        if (SortOrder == '') {
+
+        if (SortOrder === '') {
             setSortOrderError('Sort order should not be blank.');
             isError = true;
-        } else setSortOrderError('')
+        } else if (!/^\d+$/.test(SortOrder)) {
+            setSortOrderError('Sort order should only contain numbers.');
+            isError = true;
+        } else {
+            setSortOrderError('');
+        }
 
         if (!isError) {
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
