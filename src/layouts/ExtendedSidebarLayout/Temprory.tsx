@@ -51,7 +51,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const asUserId = Number(sessionStorage.getItem('Id'));
-
+  const asUserRoleId = sessionStorage.getItem('RoleId');
   const [opent, setopent] = useState(opend ? opend : 'false');
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false); // Set initial state to false
   const [imgsrc, setimgsrc] = useState(
@@ -150,7 +150,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ProgressRemarks'
     },
-    
+
     {
       title: 'Progress Report',
       icon: <TableChart />,
@@ -211,11 +211,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration'
     },
-    {
-      title: 'School Notices',
-      icon: <Assignment />,
-      link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
-    }
 
   ];
 
@@ -227,6 +222,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     });
   }
 
+  if (asUserRoleId === '2') {
+    sideList.push({
+      title: 'School Notices',
+      icon: <Assignment />,
+      link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
+    });
+  }
+
+  if (asUserRoleId === '3') {
+    sideList.push({
+      title: 'School Notices',
+      icon: <Assignment />,
+      link: '/extended-sidebar/Common/SchoolNotice'
+    });
+  }
   // Conditionally insert the "Assign Pre-Primary Grades" item at the 4th position (index 3)
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
@@ -242,7 +252,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
     });
   }
-  
+
   if (isPreprimary === true) {
     sideList.push({
       title: 'Student Wise Progress Report',
