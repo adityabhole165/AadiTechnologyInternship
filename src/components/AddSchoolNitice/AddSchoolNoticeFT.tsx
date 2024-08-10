@@ -21,10 +21,11 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, GetSelectedStandardAndDivisionCheckBoxx, GetUserRolesForSelectedNoticeId, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
-import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew } from '../Common/Util';
+import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 const AddSchoolNoticeFT = () => {
     const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
@@ -288,10 +289,10 @@ const AddSchoolNoticeFT = () => {
         //     isError = true;
         // } else setErrorUserRole('')
 
-        if (!isClassSelected()) {
-            setClassSelectedError('At least one class should be selected.');
-            isError = true;
-        } else setClassSelectedError('')
+        // if (!isClassSelected()  && applicableTo.student==true) {
+        //     setClassSelectedError('At least one class should be selected.');
+        //     isError = true;
+        // } else setClassSelectedError('')
 
         if (StartDate === '') {
             setErrorStartDate('Please choose a valid start date.');
@@ -307,7 +308,7 @@ const AddSchoolNoticeFT = () => {
         } else setErrorStartDateblank('')
 
 
-        if (EndDate == '') {
+        if (isLessThanDate(EndDate, StartDate)) {
             setErrorEndDate('End date should be greater than start date.');
             dateError = true
             isError = true;
@@ -567,9 +568,9 @@ const AddSchoolNoticeFT = () => {
                                     }}
                                 />
                                 <Box>
-                                <ErrorMessage1 Error={LinkNameError}></ErrorMessage1>
+                                    <ErrorMessage1 Error={LinkNameError}></ErrorMessage1>
                                 </Box>
-                                
+
                             </Grid>
                         ) : (
                             <Grid item xs={4} md={4}>
@@ -627,7 +628,7 @@ const AddSchoolNoticeFT = () => {
                             <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
 
                         </Grid>
-                        <Grid item  xs={12} md={4}>
+                        <Grid item xs={12} md={4}>
                             <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
                         <Grid item xs={4}>
@@ -651,9 +652,9 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
                         {radioBtn === '1' && (
-                            <Grid item  xs={12} md={4}>
+                            <Grid item xs={12} md={4}>
                                 <Box sx={{ position: 'relative' }}>
-                                    <SingleFile
+                                    <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
                                         MaxfileSize={MaxfileSize}
                                         ChangeFile={ChangeFile}
@@ -756,19 +757,19 @@ const AddSchoolNoticeFT = () => {
                                             label="Admin"
                                         />
                                         <Box>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
-                                            label="Teacher"
-                                        /></Box>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
+                                                label="Teacher"
+                                            /></Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} name="student" />}
                                             label="Student"
                                         />
                                         <Box>
-                                        <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
-                                            label="Admin Staff"
-                                        /></Box>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
+                                                label="Admin Staff"
+                                            /></Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
                                             label="Other Staff"
