@@ -11,7 +11,7 @@ import {
   CheckFileValidationAdhar
 } from 'src/components/Common/Util';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
-const SingleFile = ({
+const SingleFile2 = ({
   ValidFileTypes,
   MaxfileSize,
   ChangeFile,
@@ -78,7 +78,7 @@ const SingleFile = ({
           title={
             'Supports only ' +
             ValidFileTypes.join(', ') +
-            ' files types up to ' + (MaxfileSize / 1000000).toString() + ' MB.'
+            ' file type. File size should not exceed ' + (MaxfileSize / 1000000).toString() + 'MB.'
           }
         >
           <Button
@@ -175,4 +175,4 @@ const SingleFile = ({
   );
 };
 
-export default SingleFile;
+export default SingleFile2;
