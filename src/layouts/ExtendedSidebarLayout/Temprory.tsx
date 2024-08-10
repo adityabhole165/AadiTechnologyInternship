@@ -150,11 +150,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ProgressRemarks'
     },
-    {
-      title: 'Pre Primary Progress Report',
-      icon: <TableChart />,
-      link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
-    },
+    
     {
       title: 'Progress Report',
       icon: <TableChart />,
@@ -239,7 +235,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
     });
   }
-
+  if (isPreprimary === true) {
+    sideList.splice(6, 0, {
+      title: 'Pre Primary Progress Report',
+      icon: <FeaturedPlayList />,
+      link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
+    });
+  }
+  
   if (isPreprimary === true) {
     sideList.push({
       title: 'Student Wise Progress Report',
