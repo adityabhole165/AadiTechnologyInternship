@@ -67,8 +67,8 @@ function CardMessage({
       : '';
   return (
     <>
-      <Grid container alignItems={'center'} onClick={clickNav}>
-        <Grid item xs={11} sm={5} md={4}>
+      <Grid container alignItems={'center'} onClick={clickNav} pt={0.8}>
+        <Grid item xs={11} sm={6} md={4}>
           <Typography
             variant="h6"
             sx={{
@@ -115,7 +115,7 @@ function CardMessage({
                 <ScheduleIcon
                   fontSize="small"
                   color="primary"
-                  sx={{ mb: '-5px' }}
+                  sx={{ mb: '5px' }}
                 />
               )}
             </>
