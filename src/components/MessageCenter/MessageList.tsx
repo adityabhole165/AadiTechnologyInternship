@@ -5,6 +5,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Grid,
   Hidden,
@@ -50,7 +51,7 @@ import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { blue, grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -585,7 +586,7 @@ const MessageList = () => {
             )}
             </Box>
           </Grid>
-          <Grid container sm={10} spacing={2}>
+          <Grid container sm={10} spacing={1}>
             {((showSearch && isMobile) || !isMobile) && (
               <>
                 <Grid item xs={12} sm={9} md={12}>
@@ -634,10 +635,10 @@ const MessageList = () => {
                 </Grid> */}
               </>
             )}
-            <Grid item xs={12}>
+            <Grid item xs={12} >
               {inboxListData.some((obj) => obj.isActive === true) && (
                 <>
-                  <Box mb={2} sx={DeleteButton}>
+                  <Box mb={2} sx={DeleteButton} >
                     <CardMessDeleteButtons
                       activeTab={activeTab}
                       clickReset={clickReset}
@@ -650,24 +651,40 @@ const MessageList = () => {
                   <Box >
                   {activeTab == 'Inbox' && (
                     <Grid item 
-                     sx={MarkAsReadMessage}>
-                      <ButtonPrimary
+                     sx={MarkAsReadMessage} bgcolor={"white"} p={1} borderRadius={"10px"}>
+                      <Button
                         onClick={() => {
                           clickReadUnread('Unread');
                         }}
+                        sx={{
+                          color:'blue',
+                           //  backgroundColor: grey[500],
+                            '&:hover': {
+                          color:'blue',
+                          borderRadius:'5px',
+                           backgroundColor: blue[100]
+                            }}}
                       >
                         {' '}
                         Mark as Unread{' '}
-                      </ButtonPrimary>
-                      <ButtonPrimary
-                        sx={{ ml: '5px' }}
+                      </Button>
+                      <Button
+                       
                         onClick={() => {
                           clickReadUnread('Read');
                         }}
+                        sx={{
+                          color:'green',
+                           //  backgroundColor: grey[500],
+                            '&:hover': {
+                          color:'green',
+                          borderRadius:'5px',
+                           backgroundColor: green[100]
+                            }}}
                       >
                         {' '}
                         Mark as Read
-                      </ButtonPrimary>
+                      </Button>
                     </Grid>
                   )}
                   </Box>
@@ -692,7 +709,7 @@ const MessageList = () => {
                     }}
                   >
                     {InboxList?.length === 0 ? (
-                      <Grid item sm={9.5}>
+                      <Grid item sm={9}>
                         <ErrorMessages Error={'No records found'} />
                       </Grid>
                     ) : (

@@ -221,27 +221,30 @@ const AssignProgressReportSubject = () => {
                                 label={'Class'}
                                 value={ClassName}
                                 sx={{ bgcolor: '#F0F0F0' }}
-                                disabled
                                 size="small"
-                                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             <TextField
                                 fullWidth
                                 label={'Assessment'}
                                 value={Assesment}
                                 sx={{ bgcolor: '#F0F0F0' }}
-                                disabled
                                 size="small"
-                                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             <TextField
                                 fullWidth
                                 label={'Subject Name'}
                                 value={SubjectName}
                                 sx={{ bgcolor: '#F0F0F0' }}
-                                disabled
                                 size="small"
-                                inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
                             {EditStatusId !== '3' &&
                                 <Tooltip title={'Save'}>

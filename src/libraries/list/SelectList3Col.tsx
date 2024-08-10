@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import ListCard4ColSel from '../card/ListCard4ColSel';
 const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
   const clickSingle = (value) => {
@@ -8,7 +9,7 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
   };
 
   return (
-    <div>
+    <Box sx={{textAlign:'center'}}>
       {Itemlist.map((item, index) => (
         <ListCard4ColSel
           key={index}
@@ -18,7 +19,7 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
           DeleteDraft={DeleteDraft}
         />
       ))}
-    </div>
+    </Box>
   );
 };
 

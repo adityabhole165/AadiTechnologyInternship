@@ -162,25 +162,29 @@ const AssignPrePrimarySubjectGrades = () => {
                             label={'Class'}
                             value={ClassName}
                             sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
-                            disabled
                             size="small"
-                            inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+
                         />
                         <TextField
                             label={'Assessment'}
                             value={Assesment}
                             sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
-                            disabled
                             size="small"
-                            inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                            InputProps={{
+                                readOnly: true,
+                            }}
                         />
                         <TextField
                             label={'Subject Name'}
                             value={SubjectName}
                             sx={{ bgcolor: '#F0F0F0', minWidth: '10vw' }}
-                            disabled
                             size="small"
-                            inputProps={{ style: { color: 'rgb(0, 0, 0)' } }}
+                            InputProps={{
+                                readOnly: true,
+                            }}
                         />
                         {EditStatusId !== '3' && student !== '0' && subjectSection !== '0' &&
                             <Tooltip title={'Save'}>
