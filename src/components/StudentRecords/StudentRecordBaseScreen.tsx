@@ -209,7 +209,7 @@ const StudentRecords = () => {
   };
   const clickEdit = (value) => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord/' + SelectTeacher +
-      '/' + value.SchoolWiseStudentId);
+      '/' + value);
   };
   const clickView = () => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord');
