@@ -199,7 +199,7 @@ const AssignPrePrimarySubjectGrades = () => {
                             </Tooltip>
                         }
                         <Box>
-                            <Tooltip title={`Assign grades to each student in the class for the selected subject section and click on 'Save'.
+                            <Tooltip title={`Assign grades to each student in the class for the selected subject section and click on "Save".
                                 Once grades are submitted to class-teacher you can modify it from xseed results.`}>
                                 <IconButton sx={{
                                     bgcolor: 'grey.500',
