@@ -60,7 +60,7 @@ const AddStudentRecord = () => {
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
-        asSchoolwiseStudentId: 5392,
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
         asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
         asUserId: asUserId
@@ -292,7 +292,7 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
+            <AddStudentRAccordionList exampleStudentRDetails={exampleLessonDetails}
                 onTextChange={onTextChange} Action={Action}
                 IsEditingAllowed={IsEditingAllowed()} />
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>

@@ -90,7 +90,7 @@ function StudentRecordList({
                                         <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', ...cellStyle }} align="center">
                                             {item.IsRecordFound === false ? (
                                                 <Tooltip title={"Add"}>
-                                                    <EditTwoTone onClick={() => clickEdit(item.Id)}
+                                                    <EditTwoTone onClick={() => clickEdit(item.Id, item.Text4)}
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
