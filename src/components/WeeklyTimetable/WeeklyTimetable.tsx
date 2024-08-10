@@ -98,6 +98,8 @@ const WeeklyTimetable = (props: Props) => {
     const WeekdayIds = useSelector((state: RootState) => state.WeeklyTimetable.ISWeekdayId);
     const mptInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISMPTinfo);
     const AssemblyInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISAssemblyInfo);
+    const mptInfoClass = useSelector((state: RootState) => state.WeeklyTimetable.ISMPTinfoClass);
+    const AssemblyInfoClass = useSelector((state: RootState) => state.WeeklyTimetable.ISAssemblyInfoClass);
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
     const DeleteAddLecMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetDeleteAdditionalLectureMsg);
     const ManageTimeTableMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetManageClassTimeTableMsg);
@@ -519,6 +521,7 @@ const WeeklyTimetable = (props: Props) => {
 
     }
 
+    // Following Functions are to Check whether the current ` TEACHER ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
     function isMPTLecture(weekDay, lectureNo) {
         let isPresent = mptInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
         isPresent !== undefined ? true : false;
@@ -530,6 +533,19 @@ const WeeklyTimetable = (props: Props) => {
         isPresent !== undefined ? true : false;
         return isPresent;
     }
+
+    // Following Functions are to Check whether the current ` CLASS ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
+    function isMPTLectureClass(weekDay, lectureNo) {
+        let isPresent = mptInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
+        isPresent !== undefined ? true : false;
+        return isPresent;
+    }
+    function isAssemblyLectureClass(weekDay, lectureNo) {
+        let isPresent = AssemblyInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
+        isPresent !== undefined ? true : false;
+        return isPresent;
+    }
+
 
     return (
         <>
@@ -887,8 +903,8 @@ const WeeklyTimetable = (props: Props) => {
                                                         <>
                                                             <TableRow>
                                                                 <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
-                                                                <Tooltip title={`For - Monday: ${item.Text1}`} arrow>
-                                                                    <StyledCell>
+                                                                <Tooltip title={`For - Monday: ${item.Text1}`} arrow placement="top">
+                                                                    <StyledCell sx={{ backgroundColor: `${isMPTLectureClass('Monday', item.Text1) ? '#324B8466' : isAssemblyLectureClass('Monday', item.Text1) ? '#324B8466' : ''}` }}>
                                                                         <SearchableDropdown
                                                                             onChange={(value) => { }}
                                                                             ItemList={MondayColumnList}
@@ -898,8 +914,8 @@ const WeeklyTimetable = (props: Props) => {
                                                                         />
                                                                     </StyledCell>
                                                                 </Tooltip>
-                                                                <Tooltip title={`For - Tuesday: ${item.Text1}`} arrow>
-                                                                    <StyledCell>
+                                                                <Tooltip title={`For - Tuesday: ${item.Text1}`} arrow placement="top">
+                                                                    <StyledCell sx={{ backgroundColor: `${isMPTLectureClass('Tuesday', item.Text1) ? '#324B8466' : isAssemblyLectureClass('Tuesday', item.Text1) ? '#324B8466' : ''}` }}>
                                                                         <SearchableDropdown
                                                                             onChange={(value) => { }}
                                                                             ItemList={TuesdayColumnList}
@@ -909,8 +925,8 @@ const WeeklyTimetable = (props: Props) => {
                                                                         />
                                                                     </StyledCell>
                                                                 </Tooltip>
-                                                                <Tooltip title={`For - Wednesday: ${item.Text1}`} arrow>
-                                                                    <StyledCell>
+                                                                <Tooltip title={`For - Wednesday: ${item.Text1}`} arrow placement="top">
+                                                                    <StyledCell sx={{ backgroundColor: `${isMPTLectureClass('Wednesday', item.Text1) ? '#324B8466' : isAssemblyLectureClass('Wednesday', item.Text1) ? '#324B8466' : ''}` }}>
                                                                         <SearchableDropdown
                                                                             onChange={(value) => { }}
                                                                             ItemList={WednesdayColumnList}
@@ -920,8 +936,8 @@ const WeeklyTimetable = (props: Props) => {
                                                                         />
                                                                     </StyledCell>
                                                                 </Tooltip>
-                                                                <Tooltip title={`For - Thursday: ${item.Text1}`} arrow>
-                                                                    <StyledCell>
+                                                                <Tooltip title={`For - Thursday: ${item.Text1}`} arrow placement="top">
+                                                                    <StyledCell sx={{ backgroundColor: `${isMPTLectureClass('Thursday', item.Text1) ? '#324B8466' : isAssemblyLectureClass('Thursday', item.Text1) ? '#324B8466' : ''}` }}>
                                                                         <SearchableDropdown
                                                                             onChange={(value) => { }}
                                                                             ItemList={ThursdayColumnList}
@@ -931,8 +947,8 @@ const WeeklyTimetable = (props: Props) => {
                                                                         />
                                                                     </StyledCell>
                                                                 </Tooltip>
-                                                                <Tooltip title={`For - Friday: ${item.Text1}`} arrow>
-                                                                    <StyledCell>
+                                                                <Tooltip title={`For - Friday: ${item.Text1}`} arrow placement="top">
+                                                                    <StyledCell sx={{ backgroundColor: `${isMPTLectureClass('Friday', item.Text1) ? '#324B8466' : isAssemblyLectureClass('Friday', item.Text1) ? '#324B8466' : ''}` }}>
                                                                         <SearchableDropdown
                                                                             onChange={(value) => { }}
                                                                             ItemList={FridayColumnList}

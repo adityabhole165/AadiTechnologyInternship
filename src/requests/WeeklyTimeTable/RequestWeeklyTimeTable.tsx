@@ -31,6 +31,8 @@ const WeeklyTimeTableSlice = createSlice({
         ISAssemblyInfo: [],
         ISMPTinfo: [],
         ISTimetableDetails: [],
+        ISAssemblyInfoClass: [],
+        ISMPTinfoClass: [],
         Loading: true
     },
     reducers: {
@@ -51,6 +53,14 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RAssemblyInfo(state, action) {
             state.ISAssemblyInfo = action.payload;
+            state.Loading = false;
+        },
+        RMPTinfoClass(state, action) {
+            state.ISMPTinfoClass = action.payload;
+            state.Loading = false;
+        },
+        RAssemblyInfoClass(state, action) {
+            state.ISAssemblyInfoClass = action.payload;
             state.Loading = false;
         },
         RGetSaveTeacherTimetableMsg(state, action) {
@@ -591,7 +601,6 @@ export const CDAClassLecNoWeekday =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetTimeTableForClassApi(data);
-            console.log('this was the data for the Weekday internal data', response)
             const responseData = response.data.Lecture_No_WeekDayForClass.map((item, i) => {
                 return (
                     {
@@ -604,8 +613,29 @@ export const CDAClassLecNoWeekday =
                     }
                 )
             })
-            console.log('this was the data for the Weekday internal data for CLASSSSS.... -- ,', responseData)
+            const WeekDayAssemblyInfo = response.data.Lecture_No_WeekDayAssemblyForClass.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.WeekDays_Id,
+                        Text3: item.StandardDivision_Id,
+                        Text4: item.Lecture_Number
+                    }
+                )
+            })
+            const WeekDayMptInfo = response.data.Lecture_No_WeekDayMPTForClass.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.WeekDays_Id,
+                        Text3: item.StandardDivision_Id,
+                        Text4: item.Lecture_Number
+                    }
+                )
+            })
             dispatch(WeeklyTimeTableSlice.actions.RGetClassLecNoWeekday(responseData))
+            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfoClass(WeekDayAssemblyInfo))
+            dispatch(WeeklyTimeTableSlice.actions.RMPTinfoClass(WeekDayMptInfo))
         }
 
 export default WeeklyTimeTableSlice.reducer;

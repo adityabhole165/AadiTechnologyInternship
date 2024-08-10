@@ -1,3 +1,4 @@
+
 export interface IGetTeacherAndStandardForTimeTableBody {
     asSchoolId: Number,
     asAcadmicYearId: Number,
@@ -244,14 +245,22 @@ export interface IGetClassTimeTableResult {
     WeekDayDeatilsForClass: any,
     AddtionalLecturesForClass: any,
     LectureNumberForClass: any,
-    Lecture_No_WeekDayAssemblyForClass: {
-        WeekDay_Name: string,
-        Lecture_Number: string
-    },
-    Lecture_No_WeekDayMPTForClass: {
-        WeekDay_Name: string,
-        Lecture_Number: string
-    },
+    Lecture_No_WeekDayAssemblyForClass: [
+        {
+            WeekDay_Name: string,
+            WeekDays_Id: string,
+            StandardDivision_Id: string,
+            Lecture_Number: string
+        }
+    ],
+    Lecture_No_WeekDayMPTForClass: [
+        {
+            WeekDay_Name: string,
+            WeekDays_Id: string,
+            StandardDivision_Id: string,
+            Lecture_Number: string
+        }
+    ],
     Lecture_No_WeekDayWeeklyTestForClass: any
 }
 
