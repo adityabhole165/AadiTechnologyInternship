@@ -51,12 +51,12 @@ const AddStudentRecord = () => {
     }
 
     const Getsubmitstudentrecord: ISubmitStudentRecordBody = {
-        asSchoolId: 18,
-        asUpdatedById: 3799,
-        asSchoolwiseStudentId: 6130,
+        asSchoolId: asSchoolId,
+        asUpdatedById: asUserId,
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
         asCommentId: 0,
         asSubmitAllComments: "false",
-        asAcademicYearId: 54
+        asAcademicYearId: asAcademicYearId
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
@@ -261,34 +261,36 @@ const AddStudentRecord = () => {
                                     <TableCell sx={cellStyle}><b>Father Name:</b> {item.Text4}</TableCell>
                                     <TableCell sx={cellStyle}><b>Father Occupation:</b> {item.Text5}</TableCell>
                                 </TableRow>
-                                <TableRow sx={rowStyle}>
-                                    <TableCell sx={cellStyle} colSpan={2}><b>Please list all siblings</b></TableCell>
-                                </TableRow>
                             </React.Fragment>
                         ))}
+                        {(listSiblingsDetailsUS.length > 0) && (
+                            <TableRow sx={rowStyle}>
+                                <TableCell sx={cellStyle} colSpan={2}><b>Please list all siblings</b></TableCell>
+                            </TableRow>)}
+                        {(listSiblingsDetailsUS.length > 0) && (
+                            <Table sx={{ minWidth: 500, width: '70%', height: 'auto' }} aria-label="simple table">
 
-                        <Table sx={{ minWidth: 500, width: '70%', height: 'auto' }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow sx={{ ...rowStyle, backgroundColor: '#324b84' }}>
-                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Name</TableCell>
-                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Sex</TableCell>
-                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Age</TableCell>
-                                    <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Grade</TableCell>
-
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {listSiblingsDetailsUS.map((item, i) => (
-                                    <TableRow>
-                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text1}</TableCell>
-                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text2}</TableCell>
-                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text3}</TableCell>
-                                        <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text4}</TableCell>
+                                <TableHead>
+                                    <TableRow sx={{ ...rowStyle, backgroundColor: '#324b84' }}>
+                                        <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Name</TableCell>
+                                        <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Sex</TableCell>
+                                        <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Age</TableCell>
+                                        <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Grade</TableCell>
 
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHead>
+                                <TableBody>
+                                    {listSiblingsDetailsUS.map((item, i) => (
+                                        <TableRow>
+                                            <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text1}</TableCell>
+                                            <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text2}</TableCell>
+                                            <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text3}</TableCell>
+                                            <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text4}</TableCell>
+
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>)}
                     </TableBody>
                 </Table>
             </Box>
