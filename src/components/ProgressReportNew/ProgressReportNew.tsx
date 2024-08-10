@@ -13,6 +13,8 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ProgressReportMarkView from './ProgressReportMarkView';
+import ProgressReportGradeView from './ProgressReportGradeView';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
@@ -406,87 +408,22 @@ const ProgressReportNew = () => {
           </Button>
         </Box>
       )}
-      <Box>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-              <TableCell rowSpan={2}>
-                <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
-                  Subjects &#9654;
-                </Typography>
-                <Typography variant={"h3"} textAlign={'left'} color={"black"}>
-                  &#9660; Exam11
-                </Typography></TableCell>
-              {HeaderArray.map((item) => (
-                <TableCell colSpan={item.colSpan}>
-                  <Typography color="black" textAlign={'left'} mr={5}  >
-                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
-                  </Typography></TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              {SubHeaderArray.map((item) => (
-                <><TableCell >
-                  <Typography color="#38548A" textAlign={'center'} mr={9}  >
-                    <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
-                  </Typography>
-                </TableCell>
-                </>
-              ))}
-            </TableRow>
-          </TableHead>
-          {MarkDetailsList.map((testItem, i) => (
-            <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
-              <TableRow>
-                <TableCell sx={{}}>
-                  <b> {testItem.TestName}</b>
-                </TableCell>
-
-                {testItem.MarksArr.map((MarkItem) => (<>
-                  <TableCell sx={{ backgroundColor: 'white' }}>
-                    {
-                      MarkItem.IsAbsent == "N" ?
-                        MarkItem.MarksScored + (MarkItem.MarksScored == "-" ? "" : (" / " + MarkItem.TotalMarks)) :
-                        // MarkItem.MarksScored + (MarkItem.MarksScored == "" ? "" : (" / " + MarkItem.TotalMarks)) :
-                        MarkItem.IsAbsent == "Y" ?
-                          <TextField></TextField>
-                          :
-                          getListDisplayName(MarkItem.IsAbsent)}
-                  </TableCell>
-
-                </>))}
-                {/* <TableCell sx={{ backgroundColor: 'white' }}>
-                  Total
-                </TableCell> */}
-
-              </TableRow>
-            </TableBody>
-          ))}
-        </Table>
-      </Box>
+     
       {open && (
         <div>
 
           {USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true ?
             <>
-
-
               {USIsGradingStandard == true ?
                 <>
-
-
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
-
                     <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
                       <Box sx={{ backgroundColor: "#ede7f6" }}>
                         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-
                           Grade Configuration Details
-
                           <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
                         </DialogTitle>
                       </Box>
@@ -509,12 +446,7 @@ const ProgressReportNew = () => {
                         />
                       </DialogContent>
                     </Dialog>
-
-
-
                   </Box>
-
-
                   <Box sx={{ mt: 1, background: 'white' }}>
                     <hr />
                     {USlistStudentsDetails.map((subject, index) => (
@@ -546,74 +478,19 @@ const ProgressReportNew = () => {
                         })}
                       </TableBody>
                     </Table>
-
                   </Box>
-
                   {hasTotalConsiderationN && (
                     <Typography
                       sx={{ bgcolor: 'white', p: 2 }}
                       dangerouslySetInnerHTML={{ __html: formattedText }}
                     />
                   )}
-
                   <Box sx={{ overflowX: 'auto' }}>
-                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                      <TableHead>
-                        <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-                          <TableCell rowSpan={2}>
-                            <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
-                              Subjects &#9654;
-                            </Typography>
-                            <Typography variant={"h3"} textAlign={'left'} color={"black"}>
-                              &#9660; Exam
-                            </Typography></TableCell>
-                          {USlistSubjectsDetails.map((item) => (
-                            <TableCell key={item.id}>
-                              <b>
-                                {item.Total_Consideration === 'N' ? (
-                                  <span>
-                                    {item.Subject_Name} <span style={{ color: 'red' }}>*</span>
-                                  </span>
-                                ) : (
-                                  <span>{item.Subject_Name}</span>
-                                )}
-                              </b>
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                        <TableRow>
-                          {USListSubjectidDetails.map((item) => (
-                            <TableCell sx={{ backgroundColor: 'white' }}>
-                              <Typography color="#38548A" textAlign={'left'} mr={5}  >
-                                <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
-                              </Typography>
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      </TableHead>
-                      {USlistTestDetailsArr.map((testItem) => (
-                        <TableBody key={testItem.id}>
-                          <TableRow sx={{ backgroundColor: 'white' }}>
-                            <TableCell sx={{ backgroundColor: '#F0F0F0' }}>{testItem.Test_Name}</TableCell>
-                            {testItem.subjectIdArr.map((subjectItem) => (
-                              <TableCell>{subjectItem.Grade}</TableCell>
-                            ))}
-                          </TableRow>
-                        </TableBody>
-                      ))}
-
-
-                      {/* {USlistTestDetails.map((testItem) => (
-                    <TableBody key={testItem.id}>
-                      <TableRow>
-                        <TableCell>{testItem.Test_Name}</TableCell>
-                        {Data3.map((subjectItem) => (
-                          <TableCell>{subjectItem.Grade}</TableCell>
-                        ))}
-                      </TableRow>
-                    </TableBody>
-                  ))} */}
-                    </Table>
+                  <ProgressReportGradeView
+                  USlistSubjectsDetails={USlistSubjectsDetails}
+                  USListSubjectidDetails={USListSubjectidDetails}
+                  USlistTestDetailsArr={USlistTestDetailsArr}
+                  />
                   </Box>
                 </>
                 :
@@ -623,7 +500,6 @@ const ProgressReportNew = () => {
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
-
                     <Dialog
                       open={open1}
                       onClose={handleClose}
@@ -634,7 +510,6 @@ const ProgressReportNew = () => {
                           borderRadius: "15px",
                         }
                       }}
-
                     >
                       <Box sx={{ backgroundColor: "#223354" }}>
                         <DialogTitle
@@ -677,9 +552,6 @@ const ProgressReportNew = () => {
                         />
                       </DialogContent>
                     </Dialog>
-
-
-
                   </Box>
                   <Box sx={{ mt: 1, background: 'white', }}>
                     <hr />
@@ -712,7 +584,6 @@ const ProgressReportNew = () => {
                         })}
                       </TableBody>
                     </Table>
-
                   </Box>
                   {hasTotalConsiderationN && (
                     <Typography
@@ -721,105 +592,21 @@ const ProgressReportNew = () => {
                     />
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
-                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
-                      <TableHead>
-                        <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-                          <TableCell rowSpan={2}>
-                            <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
-                              Subjects &#9654;
-                            </Typography>
-                            <Typography variant={"h3"} textAlign={'left'} color={"black"}>
-                              &#9660; Exam
-                            </Typography></TableCell>
-                          {USlistSubjectsDetails.map((item) => (
-                            <TableCell key={item.id}>
-                              <b>
-                                {item.Total_Consideration === 'N' ? (
-                                  <span>
-                                    {item.Subject_Name} <span style={{ color: 'red' }}>*</span>
-                                  </span>
-                                ) : (
-                                  <span>{item.Subject_Name}</span>
-                                )}
-                              </b>
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                        <TableRow>
-                          {USListSubjectidDetails.map((item) => (
-                            <TableCell sx={{ backgroundColor: 'white' }}>
-                              <Typography color="#38548A" textAlign={'left'} mr={8}  >
-                                <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
-                              </Typography>
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      </TableHead>
-
-                      {USlistTestDetailsArr1.map((testItem) => (
-                        <TableBody key={testItem.id}>
-                          <TableRow sx={{ backgroundColor: 'white' }}>
-                            <TableCell sx={{ backgroundColor: '#F0F0F0' }}>{testItem.Test_Name}</TableCell>
-                            {testItem.subjectIdArr.map((subjectItem) => (
-                              <TableCell>{subjectItem.Grade}</TableCell>
-                            ))}
-                          </TableRow>
-                        </TableBody>
-                      ))}
-                      {
-                        IsTotalConsiderForProgressReport == "True" ?
-                          <span>
-
-                            <TableHead>
-                              <TableRow>
-                                <TableCell>Total</TableCell>
-                                <TableCell>%</TableCell>
-                                <TableCell>Grade</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {USListSchoolWiseTestNameDetail.map((row) => (
-                                <TableRow key={row.SchoolWise_Test_Id}>
-                                  <TableCell>{row.Total}</TableCell>
-
-                                  <TableCell>{row.Percentage}</TableCell>
-                                  <TableCell>{row.Grade_Name}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-
-
-                          </span> : <span></span>
-
-                      }
-
-
-
-                      {/* {USlistTestDetails.map((testItem) => (
-                    <TableBody key={testItem.id}>
-                      <TableRow>
-                        <TableCell>{testItem.Test_Name}</TableCell>
-                        {Data3.map((subjectItem) => (
-                          <TableCell>{subjectItem.Grade}</TableCell>
-                        ))}
-                      </TableRow>
-                    </TableBody>
-                  ))} */}
-                    </Table>
-
-
-                    {/* <Table>
-                      
-                    </Table> */}
-
+                  <ProgressReportMarkView
+                  HeaderArray={HeaderArray}
+                  SubHeaderArray={SubHeaderArray}
+                  MarkDetailsList={MarkDetailsList}
+                  ListDisplayNameDetails={ListDisplayNameDetails}
+                  IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                  USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                  />
+                  
                   </Box>
                 </>
 
               }
             </>
-
             :
-
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No exam of this class has been published for the current academic year.</b>
             </Typography>

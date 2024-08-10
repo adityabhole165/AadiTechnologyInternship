@@ -225,8 +225,8 @@ export const CDAStudentProgressReport =
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
               columns.push({
-                MarksScored: cell ? cell.Marks_Scored : "-",
-                TotalMarks: cell ? cell.TestType_Total_Marks : "-",
+                MarksScored: cell ? parseInt(cell.Marks_Scored) : "-",
+                TotalMarks: cell ? parseInt(cell.TestType_Total_Marks) : "-",
                 IsAbsent: cell ? cell.Is_Absent : "N"
               })
               if (TestIndex == 0) {
@@ -324,7 +324,7 @@ export const CDAStudentProgressReport =
 
       let ListSchoolWiseTestNameDetail = response.data.ListSchoolWiseTestNameDetail.map((item, i) => {
         return {
-          Total: `${(item.Total_Marks_Scored)} / ${item.Subjects_Total_Marks}`,
+          Total: `${parseInt(item.Total_Marks_Scored)} / ${item.Subjects_Total_Marks}`,
           Percentage: item.Percentage,
           Grade_Name: item.Grade_Name,
           SchoolWise_Test_Id: item.SchoolWise_Test_Id,
