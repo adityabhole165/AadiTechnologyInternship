@@ -19,19 +19,20 @@ import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import { GetIsPrePrimaryTeacher } from '../Common/Util';
 
 const isPreprimary = GetIsPrePrimaryTeacher();
+const asUserRoleId = sessionStorage.getItem('RoleId');
 const DashboardData = {
   Student: {
     items1: [
-      {
-        Text1: 'School ',
-        Text2: 'Notices',
-        Color: '#81c784',
-        iconColor: '#35abd9',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/SchoolNoticeBasescreen',
-        index: 1,
-        ModulesPermission: 'EnableSchoolNotices'
-      },
+      // {
+      //   Text1: 'School ',
+      //   Text2: 'Notices',
+      //   Color: '#81c784',
+      //   iconColor: '#35abd9',
+      //   Icon: AssignmentIcon,
+      //   Link: 'Teacher/SchoolNoticeBasescreen',
+      //   index: 1,
+      //   ModulesPermission: 'EnableSchoolNotices'
+      // },
       {
         Text1: ' Annual ',
         Text2: 'Planner',
@@ -290,15 +291,7 @@ const DashboardData = {
   },
   Teacher: {
     items1: [
-      {
-        Text1: 'School ',
-        Text2: 'Notices',
-        Color: '#81c784',
-        iconColor: '#35abd9',
-        Icon: AssignmentIcon,
-        Link: 'Teacher/SchoolNoticeBasescreen',
-        index: 1
-      },
+  
       {
         Text1: 'Annual  ',
         Text2: 'Planner',
@@ -625,16 +618,6 @@ const DashboardData = {
   Admin: {
     items1: [
       {
-        Text1: 'School  ',
-        Text2: 'Notices',
-        Color: '#90a4ae',
-        iconColor: '#35abd9',
-
-        Link: 'Teacher/SchoolNoticeBasescreen',
-        index: 1,
-        ScreenPermission: 'SchoolNotices'
-      },
-      {
         Text1: 'Annual  ',
         Text2: 'Planner',
         Color: '#ef5350',
@@ -749,5 +732,17 @@ if (isPreprimary === true) {
   });
 }
 
+if (asUserRoleId === '2') {
+  DashboardData.Teacher.items1.push({
+    Text1: 'School ',
+    Text2: 'Notices',
+    Color: '#90a4ae',
+    iconColor: '#35abd9',
+    Icon: EventNoteIcon,
+    Link: 'Teacher/SchoolNoticeBasescreen',
+    index: 1,
+    //ScreenPermission: 'SchoolNotices'
+  });
+}
 
 export default DashboardData;
