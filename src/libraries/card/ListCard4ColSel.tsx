@@ -35,7 +35,7 @@ const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
                 />
               )}
             </Grid>
-            <Grid item xs={11} sm={11.5}>
+            <Grid item xs={11} sm={11}>
               <CardMessage
                 header={Item.text1}
                 text1={Item.text2}

@@ -7,7 +7,7 @@ const MCButtons = ({ activeTab, clickTab, MarkAsRead }) => {
       <Grid
          spacing={{ xs: 1, sm: 0 }}
          direction={{ xs: 'row', sm: 'column' }}
-        
+            
       >
         <Grid item xs={3} sx={{ textAlign: 'center' }}>
           <MCButton

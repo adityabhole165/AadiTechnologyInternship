@@ -17,7 +17,7 @@ function CardMessDeleteButtons({
 }) {
   return (
     <div>
-      <Grid  gap={1} sx={{ p:2, display:'flex', backgroundColor:'white', borderRadius:'10px'}}>
+      <Grid  gap={1} sx={{ p:1, display:'flex', backgroundColor:'white', borderRadius:'10px'}}>
         {activeTab == 'Sent' ? (
          
          <Grid item xs={5.5} sm={6} md={3} lg={2}>
@@ -31,6 +31,7 @@ function CardMessDeleteButtons({
                 //  backgroundColor: red[100],
                   '&:hover': {
                 color:'red',
+                borderRadius:'5px',
                  backgroundColor: red[100]
                   }}}
             >
@@ -55,6 +56,7 @@ function CardMessDeleteButtons({
                 //   />
                 // }
                 fullWidth
+                sx={{  borderRadius:'5px'}}
               >
                 Un-Delete
               </Button>
@@ -66,7 +68,7 @@ function CardMessDeleteButtons({
           <Button
             fullWidth
             color={'error'}
-            onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}
+            onClick={activeTab == 'Trash' ? TrashDelete : clickDelete }
             endIcon={
             //   <Avatar
             //     sx={{
@@ -79,6 +81,7 @@ function CardMessDeleteButtons({
             //     src={'/imges/delete.png'}
             //   />
             <DeleteForeverIcon />}
+            sx={{  borderRadius:'5px'}}
            >
             Delete
             
@@ -90,6 +93,7 @@ function CardMessDeleteButtons({
             onClick={clickReset}
             endIcon={<RotateLeftIcon />}
             color="secondary"
+            sx={{  borderRadius:'5px'}}
           >
             Reset
           </Button>

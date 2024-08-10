@@ -619,7 +619,7 @@ function Form13() {
     }
   }, [SaveDraftM]);
   return (
-    < >
+    <>
 
       <Box sx={{ px: 2 }} >
         <span
@@ -643,7 +643,7 @@ function Form13() {
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={1} sx={{ height: 'auto' }}>
               <Grid item xs={12} >
-                <FormHelperText>To</FormHelperText>
+                <Typography variant='h4' pl={1}>To</Typography>
               </Grid>
               <Grid item xs={12} sm={8} md={10} >
                 {/* <FormControl fullWidth> */}
@@ -660,10 +660,10 @@ function Form13() {
                     height: '50px',
                     overflow: 'auto',
                     border: '0.1px solid #c4c5c5',
-                    borderRadius: '5.3px'
+                    borderRadius: '7px'
                   }}
                 />
-                <Box mt={0.1}>
+                <Box mt={0}>
                   {RecipientsList.length == 0 ? (
                     <ErrorMessage1 Error={formik.errors.To} />
                   ) : null}
@@ -700,7 +700,7 @@ function Form13() {
               {showCC && (
                 <>
                   <Grid item xs={12}>
-                    <FormHelperText sx={{}}>Cc</FormHelperText>
+                  <Typography variant='h4' pl={1}>Cc</Typography>
                   </Grid>
                   <Grid item xs={12} sm={12} sx={{ ml: '-10px' }}>
                     <TextField
@@ -994,7 +994,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ mt: 10, pl:2 }}>
+              <Grid item xs={12} sm={12} sx={{ mt: 2, pl:0 }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>
@@ -1010,7 +1010,7 @@ function Form13() {
                 
               </Grid>
 
-              <Grid container spacing={1} sx={{ m:0.5, pt:4 }}>
+              <Grid container spacing={1} sx={{ m:0.5, pt:2 }}>
                 <Grid item xs={6} sm={2} >
                   <ButtonPrimary
                     color="primary"

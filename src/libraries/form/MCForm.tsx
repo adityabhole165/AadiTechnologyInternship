@@ -1,10 +1,12 @@
-import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, Box, Grid, TextField } from '@mui/material';
+import { Avatar, Box, Button, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 import Dropdown from '../dropdown/Dropdown';
 import { ListStyle } from '../styled/CardStyle';
 import Datepicker from '../DateSelector/Datepicker';
+import { blue, red } from '@mui/material/colors';
+
 
 const MCForm = ({
   AcademicYearList,
@@ -116,7 +118,7 @@ const MCForm = ({
             />
           </Box>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           {/* <TextField
             type="date"
             id="outlined-required"
@@ -133,11 +135,27 @@ const MCForm = ({
                 />
         </Grid>
         <Grid item xs={0}>
-          <ArrowCircleRightRoundedIcon
+          {/* <Button>
+          <SearchIcon
             onClick={onClick}
-            fontSize="large"
+            
             color="success"
-          ></ArrowCircleRightRoundedIcon>
+          ></SearchIcon>
+          </Button> */}
+          <Button
+               onClick={onClick}
+               endIcon={<SearchIcon />}
+               fullWidth
+              sx={{
+                color:'blue',
+                  '&:hover': {
+                color:'blue',
+                borderRadius:'5px',
+                 backgroundColor: blue[100]
+                  }}}
+            >
+              Search
+            </Button>
         </Grid>
       </Grid>
     </ListStyle>
