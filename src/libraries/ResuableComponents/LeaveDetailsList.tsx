@@ -129,14 +129,14 @@ function LeaveList({
                                             }}>
                                                 <Tooltip title={"View"}>
                                                     <IconButton
-                                                        onClick={() => clickView(item.Id)}
+                                                        onClick={() => clickView(item.Id, item.Text1)}
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
-                                                              color: '#223354',
-                                                              cursor: 'pointer'
+                                                                color: '#223354',
+                                                                cursor: 'pointer'
                                                             }
-                                                          }}
+                                                        }}
                                                     >
                                                         <Visibility />
                                                     </IconButton>
