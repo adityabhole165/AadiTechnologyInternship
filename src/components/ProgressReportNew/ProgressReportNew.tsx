@@ -2,7 +2,7 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -69,7 +69,7 @@ const ProgressReportNew = () => {
   const USListSubjectidDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSubjectidDetails);
   const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
   const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
-  const USListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
+  const ListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
   const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
   const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
   const Data = USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")
@@ -83,9 +83,12 @@ const ProgressReportNew = () => {
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
   const IsTotalConsiderForProgressReport = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport || '';
+  const MarkDetailsList: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList);
+  const HeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray);
+  const SubHeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray);
 
-  console.log(IsTotalConsiderForProgressReport,"Total Consideration");
-  
+  console.log(IsTotalConsiderForProgressReport, "Total Consideration");
+
 
   let headerArray = [
     { Id: 1, Header: 'Percentage' },
@@ -318,7 +321,15 @@ const ProgressReportNew = () => {
   const handleClose = () => {
     setOpen1(false); // Close the dialog
   };
+  const getListDisplayName = (ShortName) => {
+    let returnVal = ""
+    ListDisplayNameDetails.map((Item) => {
+      if (Item.ShortName == ShortName)
+        returnVal = Item.DisplayName
+    })
+    return returnVal
 
+  }
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -395,6 +406,64 @@ const ProgressReportNew = () => {
           </Button>
         </Box>
       )}
+      <Box>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ bgcolor: '#F0F0F0' }}>
+              <TableCell rowSpan={2}>
+                <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
+                  Subjects &#9654;
+                </Typography>
+                <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                  &#9660; Exam11
+                </Typography></TableCell>
+              {HeaderArray.map((item) => (
+                <TableCell colSpan={item.colSpan}>
+                  <Typography color="black" textAlign={'left'} mr={5}  >
+                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                  </Typography></TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              {SubHeaderArray.map((item) => (
+                <><TableCell >
+                  <Typography color="#38548A" textAlign={'center'} mr={9}  >
+                    <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
+                  </Typography>
+                </TableCell>
+                </>
+              ))}
+            </TableRow>
+          </TableHead>
+          {MarkDetailsList.map((testItem, i) => (
+            <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
+              <TableRow>
+                <TableCell sx={{}}>
+                  <b> {testItem.TestName}</b>
+                </TableCell>
+
+                {testItem.MarksArr.map((MarkItem) => (<>
+                  <TableCell sx={{ backgroundColor: 'white' }}>
+                    {
+                      MarkItem.IsAbsent == "N" ?
+                        MarkItem.MarksScored + (MarkItem.MarksScored == "-" ? "" : (" / " + MarkItem.TotalMarks)) :
+                        // MarkItem.MarksScored + (MarkItem.MarksScored == "" ? "" : (" / " + MarkItem.TotalMarks)) :
+                        MarkItem.IsAbsent == "Y" ?
+                          <TextField></TextField>
+                          :
+                          getListDisplayName(MarkItem.IsAbsent)}
+                  </TableCell>
+
+                </>))}
+                {/* <TableCell sx={{ backgroundColor: 'white' }}>
+                  Total
+                </TableCell> */}
+
+              </TableRow>
+            </TableBody>
+          ))}
+        </Table>
+      </Box>
       {open && (
         <div>
 
@@ -482,13 +551,13 @@ const ProgressReportNew = () => {
 
                   {hasTotalConsiderationN && (
                     <Typography
-                      sx={{ bgcolor: 'white', p:2 }}
+                      sx={{ bgcolor: 'white', p: 2 }}
                       dangerouslySetInnerHTML={{ __html: formattedText }}
                     />
                   )}
 
                   <Box sx={{ overflowX: 'auto' }}>
-                    <Table  aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#F0F0F0' }}>
                           <TableCell rowSpan={2}>
@@ -514,7 +583,7 @@ const ProgressReportNew = () => {
                         </TableRow>
                         <TableRow>
                           {USListSubjectidDetails.map((item) => (
-                            <TableCell sx={{backgroundColor:'white'}}>
+                            <TableCell sx={{ backgroundColor: 'white' }}>
                               <Typography color="#38548A" textAlign={'left'} mr={5}  >
                                 <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                               </Typography>
@@ -524,8 +593,8 @@ const ProgressReportNew = () => {
                       </TableHead>
                       {USlistTestDetailsArr.map((testItem) => (
                         <TableBody key={testItem.id}>
-                          <TableRow  sx={{backgroundColor:'white'}}>
-                            <TableCell sx={{backgroundColor:'#F0F0F0'}}>{testItem.Test_Name}</TableCell>
+                          <TableRow sx={{ backgroundColor: 'white' }}>
+                            <TableCell sx={{ backgroundColor: '#F0F0F0' }}>{testItem.Test_Name}</TableCell>
                             {testItem.subjectIdArr.map((subjectItem) => (
                               <TableCell>{subjectItem.Grade}</TableCell>
                             ))}
@@ -555,41 +624,41 @@ const ProgressReportNew = () => {
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
 
-                    <Dialog 
-                    open={open1}
-                     onClose={handleClose}
-                      maxWidth="md" 
+                    <Dialog
+                      open={open1}
+                      onClose={handleClose}
+                      maxWidth="md"
                       scroll="body"
                       PaperProps={{
                         sx: {
                           borderRadius: "15px",
                         }
                       }}
-                       
-                       >
+
+                    >
                       <Box sx={{ backgroundColor: "#223354" }}>
                         <DialogTitle
-                        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                    <ClearIcon onClick={handleClose}
-                    sx={{
-                     color: 'white',
-                // background:'white',
-                   borderRadius: '7px',
-                   position: 'absolute',
-                    top: '5px',
-                    right: '8px',
-                    cursor: 'pointer',
-                '   &:hover': {
-                  color: 'red',
-                  //  backgroundColor: red[100]
+                          <ClearIcon onClick={handleClose}
+                            sx={{
+                              color: 'white',
+                              // background:'white',
+                              borderRadius: '7px',
+                              position: 'absolute',
+                              top: '5px',
+                              right: '8px',
+                              cursor: 'pointer',
+                              '   &:hover': {
+                                color: 'red',
+                                //  backgroundColor: red[100]
 
-                }
-              }} />
+                              }
+                            }} />
                         </DialogTitle>
                       </Box>
                       <DialogContent>
-                      <Typography variant="h3">Grade Configuration Details</Typography>
+                        <Typography variant="h3">Grade Configuration Details</Typography>
                         <Typography variant="h4" my={1}>
                           Subjects :-
                         </Typography>

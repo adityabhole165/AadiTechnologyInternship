@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiProgressReport from "src/api/ProgressReport/ApiProgressReport";
-import { IGetAllMarksGradeConfigurationBody,IsTestPublishedForStudentBody,GetSchoolSettingsBody,IsTestPublishedForStdDivBody, IGetClassTeachersBody, IsGradingStandarBody,IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
 
 import { AppThunk } from "src/store";
 
@@ -25,13 +25,29 @@ const ProgressReportSlice = createSlice({
     ISGetPassedAcademicYears: [],
     ISGetAllMarksGradeConfiguration: [],
     ISGetAllMarksGradeConfiguration1: [],
-    IsGradingStandarBodyIS:{},
-    IsTestPublishedForStdDivBodyIS:{},
-    RIsTestPublishedForStudentIS:{},
-    IsGetSchoolSettings:{}
-
+    IsGradingStandarBodyIS: {},
+    IsTestPublishedForStdDivBodyIS: {},
+    RIsTestPublishedForStudentIS: {},
+    IsGetSchoolSettings: {},
+    Loading: false,
+    MarkDetailsList: [],
+    HeaderArray: [],
+    SubHeaderArray: []
   },
-  reducers: {                                                                                   
+  reducers: {
+    ShowData(state, action) {
+      state.Loading = false;
+      state.MarkDetailsList = action.payload;
+    },
+    ShowHeader(state, action) {
+      state.Loading = false;
+      state.HeaderArray = action.payload;
+    },
+    ShowSubHeader(state, action) {
+      state.Loading = false;
+      state.SubHeaderArray = action.payload;
+    },
+
     RGetClassTeachers(state, action) {
       state.ISGetClassTeachers = action.payload;
     },
@@ -45,7 +61,7 @@ const ProgressReportSlice = createSlice({
     RlistTestDetailsArr(state, action) {
       state.ISlistTestDetailsArr = action.payload;
     },
-     RlistTestDetailsArr1(state, action) {
+    RlistTestDetailsArr1(state, action) {
       state.ISlistTestDetailsArr1 = action.payload;
     },
     RlistStudentsDetails(state, action) {
@@ -91,7 +107,7 @@ const ProgressReportSlice = createSlice({
       state.ISGetAllMarksGradeConfiguration1 = action.payload;
     },
 
-    
+
     RIsGradingStandard(state, action) {
       state.IsGradingStandarBodyIS = action.payload;
     },
@@ -112,14 +128,14 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetClassTeachers(data);
-      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0',NewValue:'0',asStandardId:'0' }];
+      let ClassTeachersList = [{ Id: '0', Name: 'Select', Value: '0', NewValue: '0', asStandardId: '0' }];
       response.data.map((item, i) => {
         ClassTeachersList.push({
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
           Value: item.Teacher_Id,
-          NewValue:item.Teacher_Id,
-          asStandardId:item.Standard_Id
+          NewValue: item.Teacher_Id,
+          asStandardId: item.Standard_Id
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
@@ -167,16 +183,90 @@ export const CDAStudentProgressReport =
       });
       let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
         return {
-            Subject_Id: item.Subject_Id,
-            Subject_Name: item.Subject_Name,
-            Total_Consideration: item.Total_Consideration
+          Subject_Id: item.Subject_Id,
+          Subject_Name: item.Subject_Name,
+          Total_Consideration: item.Total_Consideration
         };
-    });
-  
+      });
+
       // console.log(response.data.listTestDetails, "Tests",
       //   response.data.listSubjectsDetails, "Subjects",
       //   response.data.listSubjectIdDetails, "ID Details"
       // )
+      const getMatch = (TestId, SubjectId, TestTypeId) => {
+        let returnVal = null
+        response.data.listSubjectIdDetails.map((Item) => {
+          if (Item.Original_SchoolWise_Test_Id == TestId &&
+            Item.Subject_Id == SubjectId &&
+            Item.TestType_Id == TestTypeId
+
+          )
+            returnVal = Item
+        })
+        return returnVal
+      }
+      let rows = []
+      let HeaderArray = []
+      let SubHeaderArray = []
+      let HeaderCount = 0
+      response.data.listTestDetails
+        .filter(item => Number(item.Test_Id) !== -1)
+        .map((Test, TestIndex) => {
+          let columns = []
+          response.data.listSubjectsDetails.map((Subject) => {
+            HeaderCount = 0
+            let arrTemp = response.data.ListSubjectidDetails
+              .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
+            let TestTypeCount = arrTemp.length
+            let temp = ""
+            let totalMarks = null
+            arrTemp.map((TestType, TestTypeIndex) => {
+              HeaderCount += 1
+              let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
+
+              columns.push({
+                MarksScored: cell ? cell.Marks_Scored : "-",
+                TotalMarks: cell ? cell.TestType_Total_Marks : "-",
+                IsAbsent: cell ? cell.Is_Absent : "N"
+              })
+              if (TestIndex == 0) {
+                SubHeaderArray.push({ TestTypeName: TestType.ShortenTestType_Name })
+              }
+              console.log(Subject.Subject_Id, "--", Test.Test_Id, "==", TestTypeIndex);
+
+              if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
+                temp = Subject.Subject_Id + "--" + Test.Test_Id
+
+                totalMarks = {
+                  MarksScored: cell ? cell.Marks : "-",
+                  TotalMarks: cell ? cell.Subject_Total_Marks : "-",
+                  IsAbsent: cell ? cell.Is_Absent : "N"
+                }
+              }
+              if (TestTypeIndex == TestTypeCount - 1) {
+                columns.push(totalMarks)
+              }
+
+            })
+
+
+            if (TestIndex == 0) {
+              if (HeaderCount > 1) {
+                SubHeaderArray.push({ TestTypeName: "Total" })
+
+              }
+              HeaderArray.push({
+                SubjectName: Subject.Subject_Name,
+                colSpan: HeaderCount > 1 ? HeaderCount + 1 : HeaderCount
+              })
+            }
+          })
+
+          rows.push({
+            TestName: Test.Test_Name,
+            MarksArr: columns
+          })
+        })
       let listTestDetailsArr = []
       response.data.listTestDetails
         .filter(item => Number(item.Test_Id) !== -1)
@@ -200,28 +290,28 @@ export const CDAStudentProgressReport =
         });
 
 
-        let listTestDetailsArr1 = []
-        response.data.listTestDetails
-          .filter(item => Number(item.Test_Id) !== -1)
-          .map(Tests => {
-            let arr = []
-            response.data.listSubjectsDetails.map((Subjects, i) => {
-              let temp = response.data.listSubjectIdDetails
-                .filter(item => (item.Subject_Id == Subjects.Subject_Id &&
-                  item.Original_SchoolWise_Test_Id == Tests.Original_SchoolWise_Test_Id
-                ))
-                arr.push({
-                  SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
-                  Grade: temp.length > 0 ? `${parseInt(temp[0].Marks_Scored)} / ${temp[0].TestType_Total_Marks}` : "-"
-                });
-                
+      let listTestDetailsArr1 = []
+      response.data.listTestDetails
+        .filter(item => Number(item.Test_Id) !== -1)
+        .map(Tests => {
+          let arr = []
+          response.data.listSubjectsDetails.map((Subjects, i) => {
+            let temp = response.data.listSubjectIdDetails
+              .filter(item => (item.Subject_Id == Subjects.Subject_Id &&
+                item.Original_SchoolWise_Test_Id == Tests.Original_SchoolWise_Test_Id
+              ))
+            arr.push({
+              SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
+              Grade: temp.length > 0 ? `${parseInt(temp[0].Marks_Scored)} / ${temp[0].TestType_Total_Marks}` : "-"
             });
-            listTestDetailsArr1.push({
-              Test_Id: Tests.Test_Id,
-              Test_Name: Tests.Test_Name,
-              subjectIdArr: arr
-            })
+
           });
+          listTestDetailsArr1.push({
+            Test_Id: Tests.Test_Id,
+            Test_Name: Tests.Test_Name,
+            subjectIdArr: arr
+          })
+        });
 
       let listSubjectIdDetails = response.data.listSubjectIdDetails.map((item, i) => {
         return {
@@ -236,7 +326,7 @@ export const CDAStudentProgressReport =
         return {
           Total: `${(item.Total_Marks_Scored)} / ${item.Subjects_Total_Marks}`,
           Percentage: item.Percentage,
-          Grade_Name:item.Grade_Name,
+          Grade_Name: item.Grade_Name,
           SchoolWise_Test_Id: item.SchoolWise_Test_Id,
           Header: ["Total", "%", "Grade"]
 
@@ -290,6 +380,11 @@ export const CDAStudentProgressReport =
         };
       });
       let listTestDetails = []
+
+      dispatch(ProgressReportSlice.actions.ShowHeader(HeaderArray));
+      dispatch(ProgressReportSlice.actions.ShowSubHeader(SubHeaderArray));
+      dispatch(ProgressReportSlice.actions.ShowData(rows));
+
 
       dispatch(ProgressReportSlice.actions.RlistTestDetailsArr(listTestDetailsArr));
       dispatch(ProgressReportSlice.actions.RlistTestDetailsArr1(listTestDetailsArr1));
@@ -351,37 +446,37 @@ export const CDAGetAllMarksGradeConfiguration1 =
       dispatch(ProgressReportSlice.actions.RGetAllMarksGradeConfiguration1(listGradeDetailss));
     };
 
-    export const CDAIsGradingStandard =
+export const CDAIsGradingStandard =
   (data: IsGradingStandarBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.IsGradingStandard(data);
       dispatch(ProgressReportSlice.actions.RIsGradingStandard(response.data));
-    };     
-    export const CDAIsTestPublishedForStdDiv =
-    (data: IsTestPublishedForStdDivBody): AppThunk =>
-      async (dispatch) => {
-        const response = await ApiProgressReport.IsTestPublishedForStdDiv(data);
-        dispatch(ProgressReportSlice.actions.RTestPublishedForStdDivBody(response.data));
-      };
+    };
+export const CDAIsTestPublishedForStdDiv =
+  (data: IsTestPublishedForStdDivBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.IsTestPublishedForStdDiv(data);
+      dispatch(ProgressReportSlice.actions.RTestPublishedForStdDivBody(response.data));
+    };
 
-      export const CDAIsTestPublishedForStudent =
-      (data: IsTestPublishedForStudentBody): AppThunk =>
-        async (dispatch) => {
-          const response = await ApiProgressReport.IsTestPublishedForStudent(data);
-          dispatch(ProgressReportSlice.actions.RIsTestPublishedForStudent(response.data));
-        };
+export const CDAIsTestPublishedForStudent =
+  (data: IsTestPublishedForStudentBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiProgressReport.IsTestPublishedForStudent(data);
+      dispatch(ProgressReportSlice.actions.RIsTestPublishedForStudent(response.data));
+    };
 
-  export const CDAGetSchoolSettings =
+export const CDAGetSchoolSettings =
   (data: GetSchoolSettingsBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiProgressReport.GetSchoolSettings(data)
-    
+
       dispatch(ProgressReportSlice.actions.RGetSchoolSettings(response.data));
 
 
     };
 
-    
-      
+
+
 
 export default ProgressReportSlice.reducer;
