@@ -274,43 +274,43 @@ const ViewLeaveDetails = () => {
             </Tooltip>
             {getApproveRRBtnShow() && getLeaveId && (
                 <>
-                    <Tooltip title={'Reject'}>
+                    <Tooltip title={getTooltipTitle()}>
                         <span>
                             <IconButton
-                                disabled={(GetViewLeave.length > 0 &&
-                                    GetViewLeave[0].Text6 != '')}
+                                disabled={
+                                    (GetViewLeave.length > 0 &&
+                                        GetViewLeave[0].Text6 != '')
+                                }
                                 sx={{
-                                    backgroundColor: red[500],
+                                    backgroundColor: green[500],
                                     color: 'white',
                                     '&:hover': {
-                                        backgroundColor: red[600]
+                                        backgroundColor: green[600]
                                     }
                                 }}
-                                onClick={onClickReject}
+                                onClick={onClickApprove}
                             >
-                                <PersonRemove />
+                                <HowToReg />
                             </IconButton>
                         </span>
                     </Tooltip>
                     {/* {getButtonDisEnaRAR() && ( */}
                     <Box>
-                        <Tooltip title={getTooltipTitle()}>
+                        <Tooltip title={'Reject'}>
                             <span>
                                 <IconButton
-                                    disabled={
-                                        (GetViewLeave.length > 0 &&
-                                            GetViewLeave[0].Text6 != '')
-                                    }
+                                    disabled={(GetViewLeave.length > 0 &&
+                                        GetViewLeave[0].Text6 != '')}
                                     sx={{
-                                        backgroundColor: green[500],
+                                        backgroundColor: red[500],
                                         color: 'white',
                                         '&:hover': {
-                                            backgroundColor: green[600]
+                                            backgroundColor: red[600]
                                         }
                                     }}
-                                    onClick={onClickApprove}
+                                    onClick={onClickReject}
                                 >
-                                    <HowToReg />
+                                    <PersonRemove />
                                 </IconButton>
                             </span>
                         </Tooltip>
