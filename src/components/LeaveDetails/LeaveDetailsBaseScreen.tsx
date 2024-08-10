@@ -276,7 +276,7 @@ const LeaveDetailsBaseScreen = () => {
     const ViewLeave = (Id, value) => {
         console.log(Id, "value");
 
-        navigate("../ViewLeaveDetails" + "/" + Id + "/" + asUserId + "/" + selectCategory + "/" + getSenderName(value))
+        navigate("../ViewLeaveDetails" + "/" + Id + "/" + asUserId + "/" + selectCategory + "/" + value)
     };
     const clickAcademicYearDropdown = (value) => {
         setAcademicYear(value);
@@ -321,13 +321,13 @@ const LeaveDetailsBaseScreen = () => {
     }, [page, rowsPerPage, selectAcademicYear, selectCategory, selectStatus]);
 
 
-    const getSenderName = (value) => {
-        let SenderName = '';
-        GetLeaveList.map((item) => {
-            if (item.Value == value) SenderName = item.Text1;
-        });
-        return SenderName;
-    };
+    // const getSenderName = (value) => {
+    //     let SenderName = '';
+    //     GetLeaveList.map((item) => {
+    //         if (item.Value == value) SenderName = item.Text1;
+    //     });
+    //     return SenderName;
+    // };
 
     return (
         <Box sx={{ px: 2 }}>
