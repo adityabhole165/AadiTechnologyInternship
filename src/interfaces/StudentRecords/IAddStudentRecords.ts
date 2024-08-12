@@ -67,3 +67,21 @@ export interface IMarkRecordAsReadBody {
     asUserId: number
     asSchoolwiseStudentId: number
 }
+export interface ISubmitStudentRecordCommentBody {
+    asSchoolId: number
+    asUpdatedById: number
+    asSchoolwiseStudentId: number
+    asCommentId: number
+    asSubmitAllComments: number
+    asAcademicYearId: number
+}
+export interface IGetStudentRecordCommentBody {
+    asSchoolId: number
+    asSchoolwiseStudentId: number
+    asCommentId: number
+}
+export interface IGetStudentRecordCommentResult {
+    Date: string
+    Comment: string
+    LectureName: string
+}

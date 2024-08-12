@@ -4,10 +4,10 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetStudentRecordData, GetSubmitStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
@@ -17,6 +17,7 @@ const AddStudentRecord = () => {
     const navigate = useNavigate();
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
+    const [Comment, setComment] = useState('');
     const [errorMessage, seterrorMessage] = useState('')
     const [exampleLessonDetails, setExampleLessonDetails] = useState([])
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
@@ -31,8 +32,14 @@ const AddStudentRecord = () => {
     const listSiblingsDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listSiblingsDetails
     )
-    console.log(listSiblingsDetailsUS, "listSiblingsDetails");
 
+    console.log(listSiblingsDetailsUS, "listSiblingsDetails");
+    const SubmitStudentRecordCommentUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.submitStudentRecordCommentmsg
+    );
+    const GetStudentRecordCommentUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.getstudentrecordcomment
+    );
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
@@ -42,6 +49,12 @@ const AddStudentRecord = () => {
     }, []);
     useEffect(() => {
         dispatch(GetMarkRecordAsRead(GetMarkRecordAsReadResult))
+    }, []);
+    useEffect(() => {
+        dispatch(GetSubmitStudentRecordComment(SubmitStudentRecordCommentResult))
+    }, []);
+    useEffect(() => {
+        dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
     }, []);
     const GetMarkRecordAsReadResult: IMarkRecordAsReadBody = {
         asSchoolId: asSchoolId,
@@ -64,6 +77,20 @@ const AddStudentRecord = () => {
         asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
         asUserId: asUserId
+
+    }
+    const SubmitStudentRecordCommentResult: ISubmitStudentRecordCommentBody = {
+        asSchoolId: asSchoolId,
+        asUpdatedById: asUserId,     /*4463*/
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+        asCommentId: 0,
+        asSubmitAllComments: 1,
+        asAcademicYearId: asAcademicYearId
+    }
+    const GetStudentRecordCommentEditResult: IGetStudentRecordCommentBody = {
+        asSchoolId: asSchoolId,
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+        asCommentId: Number(Comment)    /* 3279*/
 
     }
 
