@@ -3,16 +3,17 @@ import {
     Dialog,
     DialogContent,
     DialogTitle,
+    Divider,
     Link,
     Typography
 } from "@mui/material";
+import { ClearIcon } from "@mui/x-date-pickers";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { IGetSchoolNoticePopupBody } from "src/interfaces/SchoolNoticePopup/ISchoolNoticePopup";
 import { SchoolNoticePopup } from "src/requests/SchoolNoticePopup/RequestSchoolNoticePopup";
 import { RootState, useSelector } from 'src/store';
-import { ClearIcon } from "@mui/x-date-pickers";
 
 type Props = {
     open: boolean;
@@ -30,7 +31,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
     useEffect(() => {
         const popupShown = sessionStorage.getItem('hasShownPopup');
         if (popupShown) {
-            setOpen(true); 
+            setOpen(true);
         }
     }, [setOpen]);
 
@@ -54,7 +55,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
 
     useEffect(() => {
         dispatch(SchoolNoticePopup(SchoolNoticePopupBody));
-    }, []);
+    }, [dispatch, SchoolNoticePopupBody]);
 
     let url = localStorage.getItem("SiteURL") + "RITeSchool/downloads/School Notices/"
 
@@ -70,11 +71,10 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                 }
             }}
         >
-            <DialogTitle sx={{ bgcolor: '#223354' }}>
+            <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
                 <ClearIcon onClick={handleClose}
                     sx={{
                         color: 'white',
-                        // background:'white',
                         borderRadius: '7px',
                         position: 'absolute',
                         top: '5px',
@@ -82,32 +82,33 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                         cursor: 'pointer',
                         '&:hover': {
                             color: 'red',
-                            //  backgroundColor: red[100]
-
                         }
                     }} />
             </DialogTitle>
             <Typography variant="h3" sx={{ pt: 2, pl: 2 }}>
                 School Notices
             </Typography>
-            <DialogContent>
-                {SchoolNoticePopupDashBoard.map((item, i) => (
-                    <Box key={i} mt={2} sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
-                        <Typography variant="body1" sx={{ color: 'black' }}>
-                            <Link href={url + item.Text6} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
-                                {item.Text1}
-                            </Link>
-                            {/* {item.Text7 && (
-                                <Typography variant="body2" sx={{ mt: 1 }}>
-                                    {item.Text7}
+            <DialogContent sx={{ maxHeight: '40vh', overflowY: 'auto' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    {SchoolNoticePopupDashBoard.map((item, i) => (
+                        <Box key={i} sx={{ mb: 2 }}>
+                            <Divider sx={{ mb: 1 }} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+                                <Typography variant="body1" sx={{ color: 'black' }}>
+                                    <Link href={url + item.Text6} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
+                                        {item.Text1}
+                                    </Link>
                                 </Typography>
-                            )} */}
-                        </Typography>
-                    </Box>
-                ))}
+                            </Box>
+                            <Divider sx={{ mt: 1 }} />
+                        </Box>
+                    ))}
+                </Box>
             </DialogContent>
         </Dialog>
     );
 }
 
 export default SchoolNoticePopupCom;
+
+
