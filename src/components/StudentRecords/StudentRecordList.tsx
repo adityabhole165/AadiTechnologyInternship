@@ -10,14 +10,14 @@ const AddStudentRecordList = () => {
                 {
                     Id: 1,
                     Question: "Is the child living with both the parents?",
-                    QueType: 2,
+                    QueType: 3,
                     Answer: "",
 
                 },
                 {
                     Id: 2,
                     Question: "Language spoken at home",
-                    QueType: 1,
+                    QueType: 2,
                     Answer: ""
                 }
             ]
@@ -27,18 +27,29 @@ const AddStudentRecordList = () => {
                 {
                     Id: 3,
                     Question: "Has the child had any prolonged absences from school? If yes, please state the reason for absence.",
-                    QueType: 1,
+                    QueType: 2,
                     Answer: "",
 
                 },
                 {
                     Id: 4,
                     Question: "Does the child have any medical record?",
-                    QueType: 1,
+                    QueType: 2,
                     Answer: ""
                 }
             ]
-        },]
+        }, {
+            Header: "Educational History",
+            QueAnsList: [
+                {
+                    Id: 5,
+                    Question: "How is the child doing academically?",
+                    QueType: 2,
+                    Answer: ""
+                }
+            ]
+        }
+        ]
     )
     const ChangeItem = (ItemList) => {
         setItemList(ItemList)

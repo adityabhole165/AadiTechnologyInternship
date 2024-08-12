@@ -113,6 +113,7 @@ const AddStudentRecord = () => {
         setOpen(false);
     };
     const onClickSave = () => {
+        dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
     };
     const onClickSubmit = () => {
     };
