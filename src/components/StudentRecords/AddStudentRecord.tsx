@@ -11,6 +11,7 @@ import { GetMarkRecordAsRead, GetStudentRecordCommentEdit, GetStudentRecordData,
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
+import AddStudentRecordList from './StudentRecordList';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
