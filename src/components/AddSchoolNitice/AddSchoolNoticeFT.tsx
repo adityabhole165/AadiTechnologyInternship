@@ -173,12 +173,12 @@ const AddSchoolNoticeFT = () => {
             setEndTime(extractTime(EditNoticee.Text3))
             setDisplayLocation(EditNoticee.Text4)
             setSortOrder(EditNoticee.Text5)
-            setNoticeFile(EditNoticee.Text6)
+           // setNoticeFile(EditNoticee.Text6)
             setDescription(EditNoticee.Text7)
             setNoticeContent(EditNoticee.Text8)
             setoutSortOrder(EditNoticee.Text9)
             setText(EditNoticee.IsText)
-            setImageFile(EditNoticee.NoticeImage)
+            //setImageFile(EditNoticee.NoticeImage)
         }
     }, [EditNotice]);
 
@@ -523,7 +523,7 @@ const AddSchoolNoticeFT = () => {
                                 </Tooltip>
                             </Box>
                             <Box>
-                                <Tooltip title={`Save`}>
+                                <Tooltip title={NoticeId != undefined ? 'Update' : 'Save'}>
                                     <IconButton
                                         type='submit'
                                         sx={{
