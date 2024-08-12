@@ -10,8 +10,8 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { GetMarkRecordAsRead, GetStudentRecordData, GetSubmitStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import AddStudentRAccordionList from './AddStudentRAccordionList';
 import StudentRecordComment from './StudentRecordComment';
+import StudentRecordList from './StudentRecordList';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -294,9 +294,10 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
+            <StudentRecordList />
+            {/* <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
                 onTextChange={onTextChange} Action={Action}
-                IsEditingAllowed={IsEditingAllowed()} />
+                IsEditingAllowed={IsEditingAllowed()} /> */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
                 {Open && (
                     <StudentRecordComment

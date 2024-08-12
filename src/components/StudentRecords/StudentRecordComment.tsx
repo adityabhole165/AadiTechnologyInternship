@@ -11,7 +11,6 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { DeleteCommentDetails, resetDeleteHolidayDetails } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
-import TimeField from './TimeField';
 
 const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
     const dispatch = useDispatch();
@@ -166,7 +165,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         <ErrorMessage1 Error={ErrorSrDateblank} />
                     </Grid>
                     <Grid item xs={6} md={4}>
-                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={ 'medium'} />
+                        {/* <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={ 'medium'} /> */}
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
                     </Grid>
                 </Grid>
