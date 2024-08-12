@@ -15,7 +15,6 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import SingleFile from 'src/libraries/File/SingleFile';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -173,7 +172,7 @@ const AddSchoolNoticeFT = () => {
             setEndTime(extractTime(EditNoticee.Text3))
             setDisplayLocation(EditNoticee.Text4)
             setSortOrder(EditNoticee.Text5)
-           // setNoticeFile(EditNoticee.Text6)
+            // setNoticeFile(EditNoticee.Text6)
             setDescription(EditNoticee.Text7)
             setNoticeContent(EditNoticee.Text8)
             setoutSortOrder(EditNoticee.Text9)
@@ -284,15 +283,15 @@ const AddSchoolNoticeFT = () => {
             } else setNoticeNameError('')
         }
 
-        // if (!IsRolePresent(false)) {
-        //     setErrorUserRole('At least one user role should be selected.');
-        //     isError = true;
-        // } else setErrorUserRole('')
+        if (!getApplicableTo()) {
+            setErrorUserRole('At least one user role should be selected.');
+            isError = true;
+        } else setErrorUserRole('')
 
-        // if (!isClassSelected()  && applicableTo.student==true) {
-        //     setClassSelectedError('At least one class should be selected.');
-        //     isError = true;
-        // } else setClassSelectedError('')
+        if (!isClassSelected() && applicableTo.student == true) {
+            setClassSelectedError('At least one class should be selected.');
+            isError = true;
+        } else setClassSelectedError('')
 
         if (StartDate === '') {
             setErrorStartDate('Please choose a valid start date.');
@@ -749,7 +748,7 @@ const AddSchoolNoticeFT = () => {
                                 <Typography variant="h5">
                                     Applicable to : <span style={{ color: 'red' }}>*</span>
                                 </Typography>
-                                {/* <ErrorMessage1 Error={ErrorUserRole} /> */}
+
                                 <FormGroup row>
                                     <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
                                         <FormControlLabel
@@ -780,7 +779,7 @@ const AddSchoolNoticeFT = () => {
                                             control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
                                             label="Other Staff"
                                         />
-                                    </Box>
+                                    </Box>  <ErrorMessage1 Error={ErrorUserRole} />
                                 </FormGroup>
                             </Grid>
                             {applicableTo.student && (
