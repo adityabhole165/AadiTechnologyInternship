@@ -88,9 +88,9 @@ const AddSchoolNoticeFT = () => {
         { Id: 3, Name: 'Home Page', Value: 'H' },
     ];
 
-    const ValidFileTypes = ['.PDF', '.PNG', '.JPEG', '.JPG', '.BMP'];
+    const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
     const MaxfileSize = 10000000;
-    const ValidFileTypes2 = ['.JPG', '.JPEG', '.PNG', '.BMP'];
+    const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
     const MaxfileSize2 = 10000000;
     const ClassesAndDivisionss = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss);
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
@@ -172,12 +172,12 @@ const AddSchoolNoticeFT = () => {
             setEndTime(extractTime(EditNoticee.Text3))
             setDisplayLocation(EditNoticee.Text4)
             setSortOrder(EditNoticee.Text5)
-            // setNoticeFile(EditNoticee.Text6)
+            setNoticeFile(EditNoticee.Text6)
             setDescription(EditNoticee.Text7)
             setNoticeContent(EditNoticee.Text8)
             setoutSortOrder(EditNoticee.Text9)
             setText(EditNoticee.IsText)
-            //setImageFile(EditNoticee.NoticeImage)
+            setImageFile(EditNoticee.NoticeImage)
         }
     }, [EditNotice]);
 
