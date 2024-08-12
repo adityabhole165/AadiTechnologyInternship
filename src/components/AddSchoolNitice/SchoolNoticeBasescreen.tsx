@@ -199,6 +199,7 @@ const SchoolNoticeBaseScreen = () => {
 
     const clickDisplayTypeDropdown = (value) => {
         setDisplayType(value);
+        setShowALlNotices('true')
         setRowsPerPage(20)
         setPage(1);
 
