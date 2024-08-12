@@ -155,6 +155,9 @@ const AddLeaveDetails = () => {
     const clear = () => {
         setStartDate('');
         setEndDate('');
+        setErrorStartDate('');
+        setErrorEndDate('');
+        setErrorEndDate1('');
         setTotalDays('');
         setDescription('')
         setLeaveType('0');
