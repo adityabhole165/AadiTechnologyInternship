@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentRecordDataAPI from 'src/api/StudentRecords/ApiAddStudentRecords';
-import { IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import { AppThunk } from 'src/store';
 
 const AddStudentRecordsSlice = createSlice({
@@ -14,6 +14,8 @@ const AddStudentRecordsSlice = createSlice({
         listCommentDetails: [],
         submitStudentRecordmsg: '',
         markrecordAsreadmsg: '',
+        submitStudentRecordCommentmsg: '',
+        getstudentrecordcomment: [],
         Loading: true
     },
     reducers: {
@@ -56,6 +58,14 @@ const AddStudentRecordsSlice = createSlice({
         resetMarkRecordAsRead(state) {
             state.Loading = false;
             state.markrecordAsreadmsg = "";
+        },
+        getSubmitStudentRecordComment(state, action) {
+            state.Loading = false;
+            state.submitStudentRecordCommentmsg = action.payload;
+        },
+        getGetStudentRecordComment(state, action) {
+            state.Loading = false;
+            state.getstudentrecordcomment = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -184,4 +194,23 @@ export const resetGetMarkRecordAsRead =
         async (dispatch) => {
             dispatch(AddStudentRecordsSlice.actions.resetMarkRecordAsRead());
         };
+export const GetSubmitStudentRecordComment =
+    (data: ISubmitStudentRecordCommentBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.getLoading(true));
+            const response = await GetStudentRecordDataAPI.SubmitStudentRecordComment(data);
+            dispatch(AddStudentRecordsSlice.actions.getSubmitStudentRecordComment(response.data));
+            console.log(response, "response");
+
+        };
+export const GetStudentRecordCommentEdit =
+    (data: IGetStudentRecordCommentBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.getLoading(true));
+            const response = await GetStudentRecordDataAPI.GetStudentRecordComment(data);
+            dispatch(AddStudentRecordsSlice.actions.getGetStudentRecordComment(response.data));
+            console.log(response, "response");
+
+        };
+
 export default AddStudentRecordsSlice.reducer;

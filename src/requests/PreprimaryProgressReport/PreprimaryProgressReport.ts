@@ -143,6 +143,7 @@ export const CDAAllPrimaryClassTeachers =
       StandardwiseSubjectId:item.StandardwiseSubjectId,
       SubjectSectionConfigurationId:item.SubjectSectionConfigurationId,
      
+     
     }));
     const FillSchoolDetails = response.data.FillSchoolDetails.map((item, i) => ({
       OrganizationName: item.OrganizationName,
