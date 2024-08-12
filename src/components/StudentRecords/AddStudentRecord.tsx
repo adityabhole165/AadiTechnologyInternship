@@ -294,7 +294,7 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <AddStudentRAccordionList exampleStudentRDetails={exampleLessonDetails}
+            <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
                 onTextChange={onTextChange} Action={Action}
                 IsEditingAllowed={IsEditingAllowed()} />
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
