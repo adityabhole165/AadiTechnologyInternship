@@ -51,11 +51,11 @@ const StudentRecordList = () => {
                     :
                     ItemList.map((Item, i) => {
                         return (
-                            <Accordion defaultExpanded
-                                sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                            <Accordion defaultExpanded 
+                                sx={{ border: (theme) => `1px solid ${theme.palette.divider}` ,p:2 }}>
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography variant={"h4"}>
-                                        {Item.Header}
+                                    {Item.Header}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ p: 0 }}>
