@@ -89,9 +89,9 @@ const AddSchoolNoticeFT = () => {
         { Id: 3, Name: 'Home Page', Value: 'H' },
     ];
 
-    const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
+    const ValidFileTypes = ['.PDF', '.PNG', '.JPEG', '.JPG', '.BMP'];
     const MaxfileSize = 10000000;
-    const ValidFileTypes2 = ['JPG', 'PNG', 'BMP', 'JPEG'];
+    const ValidFileTypes2 = ['.JPG', '.JPEG', '.PNG', '.BMP'];
     const MaxfileSize2 = 10000000;
     const ClassesAndDivisionss = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss);
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.SchoolNoticeForm.AllClassesAndDivisionss1);
@@ -679,7 +679,7 @@ const AddSchoolNoticeFT = () => {
                         )}
 
                         <Grid item xs={6} md={3}>
-                            <SingleFile
+                            <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
                                 ChangeFile={ChangeFile2}
