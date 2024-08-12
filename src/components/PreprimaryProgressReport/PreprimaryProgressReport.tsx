@@ -226,7 +226,7 @@ const PreprimaryProgressReport = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-                        <Tooltip title={'Here you can create, modify, view, approve, denied requisition.'}>
+                        <Tooltip title={'Displays xseed progress report of selected assessment.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
