@@ -1,7 +1,7 @@
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
-const AddStudentRAccordionList = ({ exampleLessonDetails, onTextChange, Action, IsEditingAllowed }) => {
+const AddStudentRAccordionList = ({ exampleStudentRDetails, onTextChange, Action, IsEditingAllowed }) => {
 
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
         paddingTop: theme.spacing(1),
