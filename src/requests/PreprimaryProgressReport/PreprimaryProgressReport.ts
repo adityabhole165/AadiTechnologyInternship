@@ -141,7 +141,8 @@ export const CDAAllPrimaryClassTeachers =
       SubjectSectionName: item.SubjectSectionName,
       SortOrder: item.SortOrder,
       StandardwiseSubjectId:item.StandardwiseSubjectId,
-      SubjectSectionConfigurationId:item.SubjectSectionConfigurationId
+      SubjectSectionConfigurationId:item.SubjectSectionConfigurationId,
+     
     }));
     const FillSchoolDetails = response.data.FillSchoolDetails.map((item, i) => ({
       OrganizationName: item.OrganizationName,
@@ -150,7 +151,6 @@ export const CDAAllPrimaryClassTeachers =
     const FillGradeDetails = response.data.FillGradeDetails.map((item, i) => ({
       GradeId: item.GradeId,
       GradeName: item.GradeName,
-
       Description: item.Description,
       SortOrder: item.SortOrder,
       ConsideredAsAbsent: item.ConsideredAsAbsent,
