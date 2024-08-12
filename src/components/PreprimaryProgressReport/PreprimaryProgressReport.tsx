@@ -27,6 +27,7 @@ const PreprimaryProgressReport = () => {
     const [AssessmentId, setAssessmentId]: any = useState();
     const [open, setOpen] = useState(false);
     const [Error, SetError] = useState('');
+    const [Error1, SetError1] = useState('');
     const PreprimaryFullAccess = GetScreenPermission('Pre-Primary Progress Report');
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -108,6 +109,14 @@ const PreprimaryProgressReport = () => {
         if (AssessmentId == '0') {
             SetError('Assessment should be selected')
         }
+        if (ClassTeacher == '0' && PreprimaryFullAccess == 'Y') {
+            SetError1(' Class Teacher should be selected.')
+        }
+        if (ClassTeacher !== '0' && PreprimaryFullAccess == 'Y') {
+            SetError1('')
+        }
+
+       
         if (AssessmentId !== '0') {
             SetError('')
         }
@@ -244,6 +253,8 @@ const PreprimaryProgressReport = () => {
             />
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
+            <ErrorMessage1 Error={Error1}></ErrorMessage1>
+
 
             {open && (<div>
 
