@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
-import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -24,7 +24,9 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetApplicables: [],
         ISGetClassLecNoWeekday: [],
         ISGetSaveTeacherTimetableMsg: '',
+        ISGetSaveClassTimetableMsg: '',
         ISWeekdayId: [],
+        ISClassWeekdayId: [],
         ISGetManageClassTimeTableMsg: '',
         ISGetDeleteAdditionalLectureMsg: '',
         ISGetDeleteAdditionalLecturesMsg: '',
@@ -33,11 +35,24 @@ const WeeklyTimeTableSlice = createSlice({
         ISTimetableDetails: [],
         ISAssemblyInfoClass: [],
         ISMPTinfoClass: [],
+        ISValidateTeacherData: [],
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        RClassWeekdayIds(state, action) {
+            state.ISClassWeekdayId = action.payload;
+            state.Loading = false;
+        },
+        RValidateTeacherData(state, action) {
+            state.ISValidateTeacherData = action.payload;
+            state.Loading = false;
+        },
+        RClearValidateTeacherData(state) {
+            state.ISValidateTeacherData = [];
+            state.Loading = false;
         },
         RTimetableDetails(state, action) {
             state.ISTimetableDetails = action.payload;
@@ -65,6 +80,14 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RGetSaveTeacherTimetableMsg(state, action) {
             state.ISGetSaveTeacherTimetableMsg = action.payload;
+            state.Loading = false;
+        },
+        RGetSaveClassTimeTableMsg(state, action) {
+            state.ISGetSaveClassTimetableMsg = action.payload;
+            state.Loading = false;
+        },
+        ResetSaveClassTimeTableMsg(state,) {
+            state.ISGetSaveClassTimetableMsg = '';
             state.Loading = false;
         },
         ResetSaveTeacherTimetableMsg(state) {
@@ -206,6 +229,32 @@ export const CDAGetStandardNameList =
             dispatch(WeeklyTimeTableSlice.actions.RGetStandardName(responseData));
         };
 
+export const CDAValidateTeacherData =
+    (data: IGetValidateTeacherDataBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetValidateTeacherDataApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.ErrMsgForWeeklyTeacherLectures,
+                        Text2: item.OverlapErrorMessage,
+                        Text3: item.ErrMsgForWeekDayTeacherLectures,
+                        Text4: item.ErrMsgForSubjectLectures,
+                        Text5: item.ErrMsgForAssociateSubjectLectures,
+                        Text6: item.ErrMsgForExternalLectures
+                    }
+                )
+            })
+            dispatch(WeeklyTimeTableSlice.actions.RValidateTeacherData(responseData));
+        }
+
+export const CDAClearValidateTeacherData =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.RClearValidateTeacherData());
+        }
 
 export const CDAGetDataForAdditionalClasses =
     (data: IGetDataForAdditionalClassesBody): AppThunk =>
@@ -320,10 +369,34 @@ export const CDAGetResetTimetableMsgClear =
 
 export const CDASaveTeacherTimetable =
     (data: IGetSaveTeacherTimeTableBody): AppThunk =>
+        async (dispatch, getState) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            // Clear validation messages first
+            await dispatch(CDAClearValidateTeacherData());
+            // Dispatch the validation action and wait for it to complete
+            await dispatch(CDAValidateTeacherData(data));
+            // Get the updated validation messages from the state
+            const { ISValidateTeacherData } = getState().WeeklyTimetable;
+            // Check if there are no validation error messages
+            if (ISValidateTeacherData.length === 0) {
+                const response = await WeeklyTimeTableApi.GetSaveTeacherTimeTableApi(data);
+                dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
+            }
+        }
+
+export const CDASaveClassTimetable =
+    (data: IGetSaveClassTimeTableBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
-            const response = await WeeklyTimeTableApi.GetSaveTeacherTimeTableApi(data);
-            dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
+            const response = await WeeklyTimeTableApi.GetSaveClassTimeTableApi(data);
+            dispatch(WeeklyTimeTableSlice.actions.RGetSaveClassTimeTableMsg(response.data));
+        }
+
+export const ResetSaveClassTimetableMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.ResetSaveClassTimeTableMsg());
         }
 
 export const ResetSaveTeacherTimetableMsg =
@@ -378,12 +451,13 @@ export const CDAGetTeacherSubjectMaxLecDetailsForMon =
                         Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
-                        SubId: item.Subject_Id
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id
                     }
                 )
             })
             console.log('MONDAY DATA 1 >>>>>>>>>', MondayColData)
-            MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0' });
+            MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForMon(MondayColData))
         }
 
@@ -411,11 +485,12 @@ export const CDAGetTeacherSubjectMaxLecDetailsForTue =
                         Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
-                        SubId: item.Subject_Id
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id
                     }
                 )
             })
-            TuesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0' });
+            TuesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForTue(TuesdayColData))
         }
 // For Wednesday
@@ -442,11 +517,12 @@ export const CDAGetTeacherSubjectMaxLecDetailsForWed =
                         Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
-                        SubId: item.Subject_Id
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id
                     }
                 )
             })
-            WednesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0' });
+            WednesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForWed(WednesdayColData))
         }
 
@@ -474,11 +550,12 @@ export const CDAGetTeacherSubjectMaxLecDetailsForThu =
                         Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
-                        SubId: item.Subject_Id
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id
                     }
                 )
             })
-            ThursdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0' });
+            ThursdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForThu(ThursdayColData))
         }
 
@@ -507,11 +584,12 @@ export const CDAGetTeacherSubjectMaxLecDetailsForFri =
                         Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
-                        SubId: item.Subject_Id
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id
                     }
                 )
             })
-            FridayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0' });
+            FridayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForFri(FridayColData))
         }
 
@@ -613,6 +691,14 @@ export const CDAClassLecNoWeekday =
                     }
                 )
             })
+
+            const WeekDayId = response.data.WeekDayIdsForClass.map((item, i) => {
+                return (
+                    {
+                        WeekdayId: item.Weekday_id
+                    }
+                )
+            })
             const WeekDayAssemblyInfo = response.data.Lecture_No_WeekDayAssemblyForClass.map((item, i) => {
                 return (
                     {
@@ -636,6 +722,7 @@ export const CDAClassLecNoWeekday =
             dispatch(WeeklyTimeTableSlice.actions.RGetClassLecNoWeekday(responseData))
             dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfoClass(WeekDayAssemblyInfo))
             dispatch(WeeklyTimeTableSlice.actions.RMPTinfoClass(WeekDayMptInfo))
+            dispatch(WeeklyTimeTableSlice.actions.RClassWeekdayIds(WeekDayId))
         }
 
 export default WeeklyTimeTableSlice.reducer;

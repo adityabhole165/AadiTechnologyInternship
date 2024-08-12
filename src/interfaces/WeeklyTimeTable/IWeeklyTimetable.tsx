@@ -304,3 +304,35 @@ export interface IGetDeleteAdditionalLecturesBody {
     asSchoolId: Number,
     asDetailID: Number
 }
+
+export interface IGetSaveClassTimeTableBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInsertedById: Number,
+    asStdDivId: Number,
+    asMasterXml: string,
+    asDetailXml: string,
+    asAdditionalLect: any,
+    IsAdditionalClass: boolean,
+    asIncCnt: Number
+}
+
+export interface IGetValidateTeacherDataBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInsertedById: Number,
+    asTeacherID: Number,
+    asMasterXml: string,
+    asDetailXml: string,
+    asTeacherXML: string,
+    asIncCnt: Number
+}
+
+export interface IGetValidateTeacherDataResult {
+    ErrMsgForWeeklyTeacherLectures: string,
+    OverlapErrorMessage: string,
+    ErrMsgForWeekDayTeacherLectures: string,
+    ErrMsgForSubjectLectures: string,
+    ErrMsgForAssociateSubjectLectures: string,
+    ErrMsgForExternalLectures: string
+}

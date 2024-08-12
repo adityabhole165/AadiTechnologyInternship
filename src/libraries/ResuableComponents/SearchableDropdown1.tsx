@@ -17,7 +17,7 @@ SearchableDropdown1.propTypes = {
 };
 
 function SearchableDropdown1({ ItemList, onChange, label, defaultValue = '',
-    mandatory = false, sx = null, size = "medium", DisableClearable = false, disabled = false }) {
+    mandatory = false, sx = null, size = "medium", DisableClearable = false, disabled = false, InputProps = null }) {
     const location = useLocation();
     const pathname = location.pathname;
     const pageName = pathname.replace('/extended-sidebar/Student/', '');
@@ -50,6 +50,7 @@ function SearchableDropdown1({ ItemList, onChange, label, defaultValue = '',
                         </span>
                     ) : ''}
                     onKeyDown={handleKeyDown}
+
                 />
             )}
         />
