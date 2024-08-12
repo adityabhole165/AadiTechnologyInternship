@@ -420,6 +420,10 @@ const AddSchoolNoticeFT = () => {
     };
     const handleCancel = () => {
         setNoticeName('');
+        setStartDate(new Date().toISOString().split('T')[0]);
+        setEndDate(new Date().toISOString().split('T')[0]);
+        setStartTime('00:00');
+        setEndTime('23:59');
         setSortOrder('');
         setNoticeFile('');
         setDescription('');
