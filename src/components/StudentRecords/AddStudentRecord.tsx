@@ -11,7 +11,6 @@ import { GetMarkRecordAsRead, GetStudentRecordCommentEdit, GetStudentRecordData,
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
-import StudentRecordList from './StudentRecordList';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -321,7 +320,7 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <StudentRecordList />
+            <AddStudentRecordList />
             {/* <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
                 onTextChange={onTextChange} Action={Action}
                 IsEditingAllowed={IsEditingAllowed()} /> */}
