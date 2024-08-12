@@ -49,8 +49,6 @@ const PreprimaryProgressReport = () => {
     const USFillNonXseedSubjectGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillNonXseedSubjectGrades);
     const USFillStudentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentDetails);
     const USFillStudentAttendance: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentAttendance);
-    const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
-    const IsPresent = USFillStudentAttendance.map(item => item.IsPresent);
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
 
@@ -122,7 +120,8 @@ const PreprimaryProgressReport = () => {
         });
         return counts;
     };
-
+    const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
+    const IsPresent = USFillStudentAttendance.map(item => item.IsPresent);
     const IsPresent1 = countDuplicates(IsPresent);
     const TotalAttendance = countDuplicates(YearwiseStudentId1);
     const presentCount = IsPresent1["true"] || '';
