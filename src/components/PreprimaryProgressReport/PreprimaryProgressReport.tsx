@@ -87,7 +87,7 @@ const PreprimaryProgressReport = () => {
 
     };
 
-    
+
 
     const clickClassTeacher = (value) => {
         setClassTeacher(value);
@@ -120,12 +120,7 @@ const PreprimaryProgressReport = () => {
         });
         return counts;
     };
-    const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
-    const IsPresent = USFillStudentAttendance.map(item => item.IsPresent);
-    const IsPresent1 = countDuplicates(IsPresent);
-    const TotalAttendance = countDuplicates(YearwiseStudentId1);
-    const presentCount = IsPresent1["true"] || '';
-    const totalCount = TotalAttendance[StudentId] || '';
+   
 
     const clickPrint = () => {
         window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
@@ -150,6 +145,9 @@ const PreprimaryProgressReport = () => {
             setAssessmentId(USlistAssessmentDetailss[0].Value);
         }
     }, [USlistAssessmentDetailss]);
+
+   
+
 
 
     return (
@@ -251,7 +249,7 @@ const PreprimaryProgressReport = () => {
 
                 {
                     USFillStudentDetails.length > 0 ?
-                    
+
                         USFillStudentDetails.map((detail) => (<>
                             <Box border={1} sx={{ p: 2, background: 'white' }}>
                                 <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
@@ -259,8 +257,14 @@ const PreprimaryProgressReport = () => {
                                     .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
 
                                 }
-                                presentCount={presentCount}
-                                totalCount={totalCount} />
+                                    presentCount={USFillStudentAttendance.filter(
+                                        (attendance) =>
+                                            attendance.YearwiseStudentId == detail.YearWiseStudentId &&
+                                            attendance.IsPresent === "true"
+                                    ).length}
+                                    totalCount={USFillStudentAttendance.filter(
+                                        (item) => item.YearwiseStudentId == detail.YearWiseStudentId
+                                    ).length} />
                                 <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
 
                                 <CurricularSubjects USFillStudentsLearningOutcomes={USFillStudentsLearningOutcomes
