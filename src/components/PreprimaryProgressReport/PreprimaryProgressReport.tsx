@@ -52,7 +52,6 @@ const PreprimaryProgressReport = () => {
     const YearwiseStudentId1 = USFillStudentAttendance.map(item => item.YearwiseStudentId);
     const IsPresent = USFillStudentAttendance.map(item => item.IsPresent);
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
-    const USFillGradeDetailssortedData = [...USFillSubjectSections].sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
 
     const HeaderPublish = [
@@ -90,9 +89,7 @@ const PreprimaryProgressReport = () => {
 
     };
 
-    const USFillGradeDetailssortedDatafiltered = USFillSubjectSections.filter(subjectSection =>
-        USFillStudentsLearningOutcomes.some(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId)
-    );
+    
 
     const clickClassTeacher = (value) => {
         setClassTeacher(value);
@@ -112,6 +109,9 @@ const PreprimaryProgressReport = () => {
         setOpen(true)
         if (AssessmentId == '0') {
             SetError('Assessment should be selected')
+        }
+        if (AssessmentId !== '0') {
+            SetError('')
         }
     }
 
@@ -152,16 +152,6 @@ const PreprimaryProgressReport = () => {
         }
     }, [USlistAssessmentDetailss]);
 
-
-    const combinedData = USFillGradeDetailssortedDatafiltered.map(subjectSection => {
-        const outcomes = USFillStudentsLearningOutcomes
-            .filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
-
-        return {
-            ...subjectSection,  // Include all properties of the subjectSection
-            outcomes            // Add the filtered outcomes as a new property
-        };
-    });
 
     return (
         <Box sx={{ px: 2 }}>
@@ -262,30 +252,25 @@ const PreprimaryProgressReport = () => {
 
                 {
                     USFillStudentDetails.length > 0 ?
-                        // <ProgresReport
-                        // USFillSchoolDetails={USFillSchoolDetails}
-                        // USFillStudentDetails={USFillStudentDetails}
-                        // presentCount={presentCount}
-                        // totalCount={totalCount}
-                        // GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData}
-                        // combinedData={combinedData}
-                        // USFillXseedRemarks={USFillXseedRemarks}
-                        // USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades}
-
-                        // />
-
-
+                    
                         USFillStudentDetails.map((detail) => (<>
                             <Box border={1} sx={{ p: 2, background: 'white' }}>
                                 <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
                                 <StudentDetails USFillStudentDetails={USFillStudentDetails
                                     .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
-                                } />
+
+                                }
+                                presentCount={presentCount}
+                                totalCount={totalCount} />
                                 <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
-                                <CurricularSubjects combinedData={combinedData} />
+
+                                <CurricularSubjects USFillStudentsLearningOutcomes={USFillStudentsLearningOutcomes
+                                    .filter((item) => item.YearwiseStudentId === detail.YearWiseStudentId)
+                                }
+                                    USFillSubjectSections={USFillSubjectSections} />
                                 <NonXseedSubjectGrades USFillNonXseedSubjectGrades=
                                     {USFillNonXseedSubjectGrades
-                                        .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
+                                        .filter((item) => item.YearwiseStudentId === detail.YearWiseStudentId)
                                     } />
                                 <XseedRemarks USFillXseedRemarks=
                                     {USFillXseedRemarks
@@ -298,27 +283,9 @@ const PreprimaryProgressReport = () => {
                                 </Typography>
                             </Box>
                         </>))
-
-                        // <Box border={1} sx={{ p: 2, background: 'white' }}>
-                        //     <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
-                        //     <StudentDetails USFillStudentDetails={USFillStudentDetails} />
-                        //     <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
-                        //     <CurricularSubjects combinedData={combinedData} />
-                        //     <NonXseedSubjectGrades USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades} />
-                        //     <XseedRemarks USFillXseedRemarks={USFillXseedRemarks} />
-                        //     <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
-                        //         <Typography>   Note: </Typography>
-                        //         <Typography> Ab - Absent </Typography>
-                        //         <Typography>  Ex - Exempted </Typography>
-                        //     </Typography>
-                        // </Box>
-
-
                         : <span> </span>
                 }
             </div>)}
-
-
             {
                 AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
                     <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
