@@ -85,3 +85,10 @@ export interface IGetStudentRecordCommentResult {
     Comment: string
     LectureName: string
 }
+export interface ISaveStudentRecordBody {
+    asSchoolId: number
+    asUpdatedById: number
+    asStudentId: number
+    asDataXML: string
+    Date: string
+}

@@ -1,4 +1,4 @@
-import { IGetStudentRecordCommentBody, IGetStudentRecordCommentResult, IGetStudentRecordDataBody, IGetStudentRecordDataResult, IMarkRecordAsReadBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordCommentBody, IGetStudentRecordCommentResult, IGetStudentRecordDataBody, IGetStudentRecordDataResult, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetStudentRecordDataApi = (data: IGetStudentRecordDataBody) => {
@@ -15,12 +15,16 @@ const SubmitStudentRecordComment = (data: ISubmitStudentRecordCommentBody) => {
 };
 const GetStudentRecordComment = (data: IGetStudentRecordCommentBody) => {
     return http.post<IGetStudentRecordCommentResult>('Teacher/GetStudentRecordComment', data);
-}
+};
+const SaveStudentRecord = (data: ISaveStudentRecordBody) => {
+    return http.post<string>('Teacher/SaveStudentRecord', data);
+};
 const GetStudentRecordDataAPI = {
     GetStudentRecordDataApi,
     SubmitStudentRecord,
     MarkRecordAsRead,
     SubmitStudentRecordComment,
-    GetStudentRecordComment
+    GetStudentRecordComment,
+    SaveStudentRecord
 };
 export default GetStudentRecordDataAPI;

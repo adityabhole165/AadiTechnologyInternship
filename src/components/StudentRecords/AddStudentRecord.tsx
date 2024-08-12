@@ -4,10 +4,10 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
@@ -40,6 +40,9 @@ const AddStudentRecord = () => {
     const GetStudentRecordCommentUS = useSelector(
         (state: RootState) => state.AddStudentRecords.getstudentrecordcomment
     );
+    const SaveStudentRecordUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.savestudentrecordmsg
+    );
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
@@ -55,6 +58,9 @@ const AddStudentRecord = () => {
     }, []);
     useEffect(() => {
         dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
+    }, []);
+    useEffect(() => {
+        dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
     }, []);
     const GetMarkRecordAsReadResult: IMarkRecordAsReadBody = {
         asSchoolId: asSchoolId,
@@ -93,7 +99,13 @@ const AddStudentRecord = () => {
         asCommentId: Number(Comment)    /* 3279*/
 
     }
-
+    const SaveStudentRecordResult: ISaveStudentRecordBody = {
+        asSchoolId: asSchoolId,
+        asUpdatedById: asUserId,
+        asStudentId: 6039,
+        asDataXML: "",
+        Date: "2011-05-21"
+    }
     const ClickOpenDialogbox = () => {
         setOpen(true);
     };

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import GetStudentRecordDataAPI from 'src/api/StudentRecords/ApiAddStudentRecords';
-import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import { AppThunk } from 'src/store';
 
 const AddStudentRecordsSlice = createSlice({
@@ -16,6 +16,7 @@ const AddStudentRecordsSlice = createSlice({
         markrecordAsreadmsg: '',
         submitStudentRecordCommentmsg: '',
         getstudentrecordcomment: [],
+        savestudentrecordmsg: '',
         Loading: true
     },
     reducers: {
@@ -66,6 +67,10 @@ const AddStudentRecordsSlice = createSlice({
         getGetStudentRecordComment(state, action) {
             state.Loading = false;
             state.getstudentrecordcomment = action.payload;
+        },
+        getSaveStudentRecord(state, action) {
+            state.Loading = false;
+            state.savestudentrecordmsg = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -172,7 +177,6 @@ export const GetSubmitStudentRecord =
             dispatch(AddStudentRecordsSlice.actions.getLoading(true));
             const response = await GetStudentRecordDataAPI.SubmitStudentRecord(data);
             dispatch(AddStudentRecordsSlice.actions.getSubmitStudentRecord(response.data));
-            console.log(response, "response");
 
         };
 export const resetGetSubmitStudentRecord =
@@ -186,8 +190,6 @@ export const GetMarkRecordAsRead =
             dispatch(AddStudentRecordsSlice.actions.getLoading(true));
             const response = await GetStudentRecordDataAPI.MarkRecordAsRead(data);
             dispatch(AddStudentRecordsSlice.actions.getMarkRecordAsRead(response.data));
-            console.log(response, "response");
-
         };
 export const resetGetMarkRecordAsRead =
     (): AppThunk =>
@@ -200,7 +202,6 @@ export const GetSubmitStudentRecordComment =
             dispatch(AddStudentRecordsSlice.actions.getLoading(true));
             const response = await GetStudentRecordDataAPI.SubmitStudentRecordComment(data);
             dispatch(AddStudentRecordsSlice.actions.getSubmitStudentRecordComment(response.data));
-            console.log(response, "response");
 
         };
 export const GetStudentRecordCommentEdit =
@@ -209,8 +210,15 @@ export const GetStudentRecordCommentEdit =
             dispatch(AddStudentRecordsSlice.actions.getLoading(true));
             const response = await GetStudentRecordDataAPI.GetStudentRecordComment(data);
             dispatch(AddStudentRecordsSlice.actions.getGetStudentRecordComment(response.data));
-            console.log(response, "response");
 
         };
 
+export const GetSaveStudentRecord =
+    (data: ISaveStudentRecordBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.getLoading(true));
+            const response = await GetStudentRecordDataAPI.SaveStudentRecord(data);
+            dispatch(AddStudentRecordsSlice.actions.getSaveStudentRecord(response.data));
+
+        };
 export default AddStudentRecordsSlice.reducer;
