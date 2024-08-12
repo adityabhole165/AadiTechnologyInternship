@@ -2,7 +2,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { useState } from 'react';
 import QueAnsList from './QueAnsList';
-const StudentRecordList = () => {
+const AddStudentRecordList = () => {
     const [ItemList, setItemList] = useState(
         [{
             Header: "Family Information",
@@ -51,11 +51,11 @@ const StudentRecordList = () => {
                     :
                     ItemList.map((Item, i) => {
                         return (
-                            <Accordion defaultExpanded 
+                            <Accordion defaultExpanded
                                 sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography variant={"h4"}>
-                                    {Item.Header}
+                                        {Item.Header}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ p: 0 }}>
@@ -70,4 +70,4 @@ const StudentRecordList = () => {
     )
 }
 
-export default StudentRecordList
+export default AddStudentRecordList
