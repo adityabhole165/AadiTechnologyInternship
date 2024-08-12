@@ -227,8 +227,15 @@ const ViewLeaveDetails = Loader(
 const PreprimaryProgressReport = Loader(
   lazy(() => import('src/components/PreprimaryProgressReport/PreprimaryProgressReport'))
 )
+const DashBoard = Loader(
+  lazy(() => import('src/componentsWeb/DashBoard/DashBoard'))
+);
 
 const teacherRoutes = [
+  {
+    path: 'WebDashBoard',
+    element: <DashBoard />
+  },
 
   {
     path: 'LeaveDetails',

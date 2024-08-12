@@ -8,6 +8,7 @@ import {
   ISaveUserLoginDetailsBody,
   ISaveUserLoginDetailsResult,
   IUnreadMessages,
+  IUnreadMessagesResult,
   IUpcomingEventsList
 } from '../../interfaces/Student/dashboard';
 import http from '../../requests/SchoolService/schoolServices';
@@ -15,7 +16,7 @@ import http from '../../requests/SchoolService/schoolServices';
 //Unread messages
 
 const GetUnreadMessageList = (data: IUnreadMessages) => {
-  return http.post<IUnreadMessages>('Dashboard/GetUnreadMessageList', data);
+  return http.post<IUnreadMessagesResult>('Dashboard/GetUnreadMessageList', data);
 };
 //Upcoming Events
 const GetUpcomingEventSList = (data: IUpcomingEventsList) => {

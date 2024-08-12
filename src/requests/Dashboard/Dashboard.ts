@@ -32,6 +32,7 @@ const Dashboardlice = createSlice({
     },
 
     getUnreadMessages(state, action) {
+      state.Loading = false;
       state.UnreadMessage = action.payload;
     },
 
@@ -65,36 +66,36 @@ const Dashboardlice = createSlice({
 
 export const getBirthdayList =
   (data: IBirthdays): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.BirthdayDetailsData(data);
-    dispatch(Dashboardlice.actions.getBirthdayList(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.BirthdayDetailsData(data);
+      dispatch(Dashboardlice.actions.getBirthdayList(response.data));
+    };
 
 export const getUnreadMessages =
   (data: IUnreadMessages): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.GetUnreadMessageList(data);
-    dispatch(Dashboardlice.actions.getUnreadMessages(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.GetUnreadMessageList(data);
+      dispatch(Dashboardlice.actions.getUnreadMessages(response.data.UnreadMessages));
+    };
 
 export const getEventsList =
   (data: IUpcomingEventsList): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.GetUpcomingEventSList(data);
-    dispatch(Dashboardlice.actions.getEventsList(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.GetUpcomingEventSList(data);
+      dispatch(Dashboardlice.actions.getEventsList(response.data));
+    };
 
 export const getPhotoAlbum =
   (data: IPhotoAlbum): AppThunk =>
-  async (dispatch) => {
-    dispatch(Dashboardlice.actions.getLoading(true));
+    async (dispatch) => {
+      dispatch(Dashboardlice.actions.getLoading(true));
 
-    const response = await DashboardApi.PhotoAlbumData(data);
+      const response = await DashboardApi.PhotoAlbumData(data);
 
-    const Data =
-      response.data[0].Name === null
-        ? []
-        : response.data.map((item, index) => {
+      const Data =
+        response.data[0].Name === null
+          ? []
+          : response.data.map((item, index) => {
             return {
               id: index,
               header: item.Name === null ? '' : item.Name,
@@ -104,33 +105,33 @@ export const getPhotoAlbum =
               FileName: ''
             };
           });
-    dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
-  };
+      dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
+    };
 
 export const getFeedback =
   (data: IFeedbackList): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.Feedback(data);
-    dispatch(Dashboardlice.actions.getFeedback(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.Feedback(data);
+      dispatch(Dashboardlice.actions.getFeedback(response.data));
+    };
 
 export const getmsgfrom =
   (data: IMsgfrom): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.GetMessageFromList(data);
-    dispatch(Dashboardlice.actions.getmsgfrom(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.GetMessageFromList(data);
+      dispatch(Dashboardlice.actions.getmsgfrom(response.data));
+    };
 export const getMessageCount =
   (data: INewMessageCount): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.GetMessagesCount(data);
-    dispatch(Dashboardlice.actions.getMessageCount(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.GetMessagesCount(data);
+      dispatch(Dashboardlice.actions.getMessageCount(response.data));
+    };
 export const getSaveUserLoginDetail =
   (data: ISaveUserLoginDetailsBody): AppThunk =>
-  async (dispatch) => {
-    const response = await DashboardApi.GetSaveUserLoginDetailsResult(data);
-    dispatch(Dashboardlice.actions.getUserLoginDetails(response.data));
-  };
+    async (dispatch) => {
+      const response = await DashboardApi.GetSaveUserLoginDetailsResult(data);
+      dispatch(Dashboardlice.actions.getUserLoginDetails(response.data));
+    };
 
 export default Dashboardlice.reducer;

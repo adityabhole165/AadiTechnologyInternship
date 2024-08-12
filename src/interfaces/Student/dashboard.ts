@@ -4,7 +4,19 @@ export interface IUnreadMessages {
   aiAcademicYrId: string;
   aiReceiverId: string;
   aiReceiverRoleId: string;
-  asProfilePicUpdDt: string;
+  asProfilePicUpdDt?: string;
+}
+export interface IUnreadMessagesResult {
+  UnreadMessages: [{
+    SenderUserId: string,
+    Subject: string,
+    UserName: string,
+    Date: string,
+    MessageCount: Number,
+    ReturnUrl: string,
+    MessageDetailsId: Number,
+    MessageReceiverDetailsId: Number
+  }]
 }
 
 //Upcoming Events
