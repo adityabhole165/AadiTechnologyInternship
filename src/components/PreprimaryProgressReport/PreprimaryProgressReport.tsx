@@ -154,7 +154,8 @@ const PreprimaryProgressReport = () => {
 
 
     const combinedData = USFillGradeDetailssortedDatafiltered.map(subjectSection => {
-        const outcomes = USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
+        const outcomes = USFillStudentsLearningOutcomes
+            .filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId);
 
         return {
             ...subjectSection,  // Include all properties of the subjectSection
@@ -272,19 +273,45 @@ const PreprimaryProgressReport = () => {
                         // USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades}
 
                         // />
-                        <Box border={1} sx={{ p: 2, background: 'white' }}>
-                            <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
-                            <StudentDetails USFillStudentDetails={USFillStudentDetails} />
-                            <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
-                            <CurricularSubjects combinedData={combinedData} />
-                            <NonXseedSubjectGrades USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades} />
-                            <XseedRemarks USFillXseedRemarks={USFillXseedRemarks} />
-                            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
-                                <Typography>   Note: </Typography>
-                                <Typography> Ab - Absent </Typography>
-                                <Typography>  Ex - Exempted </Typography>
-                            </Typography>
-                        </Box>
+
+
+                        USFillStudentDetails.map((detail) => (<>
+                            <Box border={1} sx={{ p: 2, background: 'white' }}>
+                                <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
+                                <StudentDetails USFillStudentDetails={USFillStudentDetails
+                                    .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
+                                } />
+                                <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
+                                <CurricularSubjects combinedData={combinedData} />
+                                <NonXseedSubjectGrades USFillNonXseedSubjectGrades=
+                                    {USFillNonXseedSubjectGrades
+                                        .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
+                                    } />
+                                <XseedRemarks USFillXseedRemarks=
+                                    {USFillXseedRemarks
+                                        .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
+                                    } />
+                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+                                    <Typography>   Note: </Typography>
+                                    <Typography> Ab - Absent </Typography>
+                                    <Typography>  Ex - Exempted </Typography>
+                                </Typography>
+                            </Box>
+                        </>))
+
+                        // <Box border={1} sx={{ p: 2, background: 'white' }}>
+                        //     <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
+                        //     <StudentDetails USFillStudentDetails={USFillStudentDetails} />
+                        //     <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
+                        //     <CurricularSubjects combinedData={combinedData} />
+                        //     <NonXseedSubjectGrades USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades} />
+                        //     <XseedRemarks USFillXseedRemarks={USFillXseedRemarks} />
+                        //     <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+                        //         <Typography>   Note: </Typography>
+                        //         <Typography> Ab - Absent </Typography>
+                        //         <Typography>  Ex - Exempted </Typography>
+                        //     </Typography>
+                        // </Box>
 
 
                         : <span> </span>
