@@ -555,7 +555,7 @@ const MessageList = () => {
                 sx={{
                   textAlign: 'center',
                   height: '85px',
-                  backgroundColor: '#599d92',
+                  backgroundColor: '#38548A',
                   mb: '10px',
                   borderRadius:'15px'
                 }}
@@ -761,7 +761,7 @@ const MessageList = () => {
                   </Avatar>
                 
                 </Box> */}
-                <Box
+                {/* <Box
                    sx={{
                     isplay: displayMoveToTop,
                     position: 'fixed',
@@ -791,7 +791,7 @@ const MessageList = () => {
                     
                     ></KeyboardArrowDownIcon>
                   
-                </Box>
+                </Box> */}
 
                 <span
                   style={{
@@ -807,7 +807,7 @@ const MessageList = () => {
                       }/MessageCenter/Compose`}
                   >
                     <Item
-                      sx={{ fontSize: '10px', mr:1, mb: '10px', borderRadius:'15px',  }}
+                      sx={{ fontSize: '10px', mr:1, mb: '10px', borderRadius:'15px', backgroundColor:'#38548A', color:'white' }}
                     >
                       <AddCircleIcon onClick={clickClear} />
                       <br />

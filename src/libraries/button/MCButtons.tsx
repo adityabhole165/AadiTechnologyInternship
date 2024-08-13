@@ -9,7 +9,7 @@ const MCButtons = ({ activeTab, clickTab, MarkAsRead }) => {
          direction={{ xs: 'row', sm: 'column' }}
             
       >
-        <Grid item xs={3} sx={{ textAlign: 'center' }}>
+        <Grid item xs={3} sx={{ textAlign: 'center', color:'#38548A' }}>
           <MCButton
             ButtonType="Inbox"
             clickTab={clickTab}
@@ -17,7 +17,7 @@ const MCButtons = ({ activeTab, clickTab, MarkAsRead }) => {
             MarkAsRead={MarkAsRead}
           ></MCButton>
         </Grid>
-        <Grid item xs={3} sx={{ textAlign: 'center' }}>
+        <Grid item xs={3} sx={{ textAlign: 'center', color:'#38548A' }}>
           <MCButton
             ButtonType="Sent"
             clickTab={clickTab}
@@ -25,7 +25,7 @@ const MCButtons = ({ activeTab, clickTab, MarkAsRead }) => {
             MarkAsRead={MarkAsRead}
           ></MCButton>
         </Grid>
-        <Grid item xs={3} sx={{ textAlign: 'center' }}>
+        <Grid item xs={3} sx={{ textAlign: 'center', color:'#38548A' }}>
           <MCButton
             ButtonType="Trash"
             clickTab={clickTab}
@@ -33,7 +33,7 @@ const MCButtons = ({ activeTab, clickTab, MarkAsRead }) => {
             MarkAsRead={MarkAsRead}
           ></MCButton>
         </Grid>
-        <Grid item xs={3} sx={{ textAlign: 'center' }}>
+        <Grid item xs={3} sx={{ textAlign: 'center', color:'#38548A' }}>
           <MCButton
             ButtonType="Draft"
             clickTab={clickTab}
