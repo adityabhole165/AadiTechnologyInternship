@@ -698,9 +698,11 @@ const AddSchoolNoticeFT = () => {
                             <>
                                 <Tooltip title={"View"}>
                                     <IconButton
+                                         
                                         onClick={viewImage}
                                         sx={{
                                             color: '#223354',
+                                            mt:0.7,
                                             '&:hover': {
                                                 color: '#223354',
                                                 cursor: 'pointer'
@@ -715,6 +717,7 @@ const AddSchoolNoticeFT = () => {
                                         onClick={() => deleteImage(Number(NoticeId))}
                                         sx={{
                                             color: '#223354',
+                                            mt:0.7,
                                             '&:hover': {
                                                 color: 'red',
                                                 backgroundColor: red[100]
