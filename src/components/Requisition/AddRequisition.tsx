@@ -24,6 +24,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import DataTable from '../DataTable';
 import Requisioneditlist from './Requisioneditlist';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 
 
 const AddRequisition = () => {
@@ -850,14 +851,14 @@ const AddRequisition = () => {
 
                     <br></br>
                     <Grid item xs={12}>
-                        <TextField
+                        <ResizableTextField
                             label={
                                 <span>
                                     Requisition Name <span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             multiline
-                            rows={3}
+                            // rows={3}
                             value={textall}
                             onChange={Detailschnageall3}
                             fullWidth
@@ -865,14 +866,14 @@ const AddRequisition = () => {
                     </Grid>
                     <br></br>
                     <Grid item xs={12}>
-                        <TextField
+                        <ResizableTextField
                             label={
                                 <span>
                                     Requisition Description <span style={{ color: 'red' }}>*</span>
                                 </span>
                             }
                             multiline
-                            rows={3}
+                            // rows={3}
                             value={textall1}
                             onChange={Detailschnageall2}
                             fullWidth
