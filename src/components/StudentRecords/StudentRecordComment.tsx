@@ -9,7 +9,7 @@ import TimeField from 'src/components/StudentRecords/TimeField';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { DeleteCommentDetails, resetDeleteHolidayDetails } from 'src/requests/StudentRecords/RequestStudentRecordComment';
+import { DeleteCommentDetails, getSaveComment, resetDeleteHolidayDetails, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
@@ -48,24 +48,25 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
     const SaveCommentBody: IGetSaveCommentBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asSchoolwiseStudentId: Number(asUserId),
-        asCommentId: Number(asUserId),
+        asSchoolwiseStudentId: 6039,
+        asCommentId: 0,
         asDate: StartDate,
         asComment: Comment,
         asLectureName: LectureNm,
         asUpdatedById: Number(asUserId),
         asIsDeleteAction: false,
-        asAllowSubmit: false,
-        asStdDivId: Number(asUserId),
+        asAllowSubmit: false, /*true - save and submit comment */
+        asStdDivId: 1344,
     };
     const deleteComment = () => {
         const DeleteCommentBody: IGetDeleteCommentBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcademicYearId),
-            asUpdatedById: Number(asUserId),
-            asUserId: Number(asUserId),
-            aasStartDate: StartDate,
-            aasEndDate: EndDate,
+            asSchoolwiseStudentId: 6039,
+            asCommentId: 3280,
+            asUpdatedById: Number(asUserId),  /*4463*/
+            asIsDeleteAction: false,
+            asAllowSubmit: true
         };
 
         showAlert({
@@ -94,6 +95,12 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             // dispatch(getHolidaysF(body));
         }
     }, [deleteCommentMsg])
+    useEffect(() => {
+        if (Savecomment != '') {
+            toast.success(Savecomment)
+            dispatch(resetSaveComment());
+        }
+    }, [Savecomment])
     const onSelectSrDate = (value) => {
         setStartDate(value);
     };
@@ -107,7 +114,10 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
         setLectureNm('');
         setTime(currentTime);
     };
-
+    const handleDialogClose = () => {
+        ResetForm();
+        ClickCloseDialogbox();
+    }
     const ClickOk = () => {
         let isError = false;
         if (Comment === '') {
@@ -124,17 +134,20 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             setLectureNmError('');
         }
 
-        const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
-        if (!timePattern.test(Time)) {
-            setTimeError('Time should be in HH:MM format (e.g., 10:00).');
-            isError = true;
-        } else {
-            setTimeError('');
+        // const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        // if (!timePattern.test(Time)) {
+        //     setTimeError('Time should be in HH:MM AM/PM format (e.g 10:00 AM).');
+        //     isError = true;
+        // } else {
+        //     setTimeError('');
+        // }
+        if (!isError) {
+            dispatch(getSaveComment(SaveCommentBody));
         }
-
         if (!isError) {
             setOpen(false);
         }
+
     };
 
     return (
@@ -230,7 +243,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         <Button sx={{
                             color: 'red',
                             ':hover': { backgroundColor: red[100] }
-                        }} onClick={ClickCancel}>
+                        }} onClick={handleDialogClose}>
                             Cancel
                         </Button>
                     </Stack>

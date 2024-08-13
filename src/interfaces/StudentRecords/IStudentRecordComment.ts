@@ -28,8 +28,9 @@ export interface IGetSaveandSubmitCommentBody {
 export interface IGetDeleteCommentBody {
     asSchoolId: number;
     asAcademicYearId: number;
+    asSchoolwiseStudentId: number;
+    asCommentId: number;
     asUpdatedById: number;
-    asUserId: number;
-    aasStartDate: string;
-    aasEndDate: string;
+    asIsDeleteAction: boolean;
+    asAllowSubmit: boolean
 }
