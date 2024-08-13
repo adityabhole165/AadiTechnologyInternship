@@ -25,6 +25,7 @@ import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLes
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
+import Datepicker2 from 'src/libraries/DateSelector/Datepicker2';
 const AddSchoolNoticeFT = () => {
     const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
@@ -338,6 +339,9 @@ const AddSchoolNoticeFT = () => {
         } else if (!/^\d+$/.test(SortOrder)) {
             setSortOrderError('Sort order should only contain numbers.');
             isError = true;
+        } else if (parseInt(SortOrder, 10) === 0) {
+            setSortOrderError('Sort order cannot be 0.');
+            isError = true;
         } else {
             setSortOrderError('');
         }
@@ -625,7 +629,7 @@ const AddSchoolNoticeFT = () => {
                             />
                         </Grid>
                         <Grid item xs={4} md={4} >
-                            <Datepicker
+                            <Datepicker2
                                 DateValue={StartDate}
                                 onDateChange={onSelectStartDate}
                                 label={'Start Date'}
@@ -635,7 +639,7 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <Datepicker
+                            <Datepicker2
                                 DateValue={EndDate}
                                 onDateChange={onSelectEndDate}
                                 label={'End Date'}
