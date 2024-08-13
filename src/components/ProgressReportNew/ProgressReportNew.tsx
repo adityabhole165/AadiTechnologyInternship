@@ -20,10 +20,12 @@ const ProgressReportNew = () => {
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const TeacherId = sessionStorage.getItem('TeacherId');
+  const TeacherIdsession = sessionStorage.getItem('TeacherId');
+  
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  const [selectTeacher, SetselectTeacher] = useState(TeacherId);
+  
+
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState('');
   const [open, setOpen] = useState(false);
@@ -42,6 +44,8 @@ const ProgressReportNew = () => {
     });
     return perm;
   };
+
+  const [selectTeacher, SetselectTeacher] = useState(GetScreenPermission() == 'N' ?  TeacherIdsession : '');
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -151,7 +155,7 @@ const ProgressReportNew = () => {
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : TeacherId)
+    asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : TeacherIdsession)
   };
 
   const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
@@ -312,9 +316,13 @@ const ProgressReportNew = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
+
+  }, [Standard_Id()]);
+
+  useEffect(() => {
     dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
 
-  }, [selectTeacher]);
+  }, [Standard_Id()]);
 
 
   const handleClick = (event) => {
