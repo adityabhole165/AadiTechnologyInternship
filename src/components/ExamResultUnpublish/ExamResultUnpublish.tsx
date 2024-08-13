@@ -4,6 +4,7 @@ import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -96,9 +97,9 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
             </Grid>
             <br></br>
             <Grid item xs={12} marginTop={2}>
-              <TextField fullWidth label={'Reason For Unpublish  :'}
+              <ResizableTextField fullWidth label={'Reason For Unpublish  :'}
                 multiline
-                rows={3}
+                // rows={3}
                 value={Reason}
                 onChange={(e) => {
                   setReason(e.target.value);
