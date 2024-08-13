@@ -434,7 +434,7 @@ const ProgressReportNew = () => {
                           Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={Data}
+                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -443,7 +443,7 @@ const ProgressReportNew = () => {
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={Data1}
+                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -540,7 +540,7 @@ const ProgressReportNew = () => {
                           Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={Data}
+                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -549,7 +549,7 @@ const ProgressReportNew = () => {
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={Data1}
+                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
