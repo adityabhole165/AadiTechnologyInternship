@@ -26,8 +26,8 @@ export const AlertProvider: FC = ({ children }) => {
     message: '',
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel',
-    onConfirm: () => {},
-    onCancel: () => {}
+    onConfirm: () => { },
+    onCancel: () => { }
   });
 
   const showAlert = (alertInfo) => {

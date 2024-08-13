@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
+import { GetScreenPermission } from 'src/components/Common/Util';
 import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
@@ -145,20 +146,40 @@ const WeeklyTimeTableSlice = createSlice({
             state.ISGetTeacherSubjectMaxLecForMon = action.payload;
             state.Loading = false;
         },
+        RClearTeacherSubjectMaxLecForMon(state) {
+            state.ISGetTeacherSubjectMaxLecForMon = [];
+            state.Loading = false;
+        },
         RGetTeacherSubjectMaxLecForTue(state, action) {
             state.ISGetTeacherSubjectMaxLecForTue = action.payload;
+            state.Loading = false;
+        },
+        RClearTeacherSubjectMaxLecForTue(state) {
+            state.ISGetTeacherSubjectMaxLecForTue = [];
             state.Loading = false;
         },
         RGetTeacherSubjectMaxLecForWed(state, action) {
             state.ISGetTeacherSubjectMaxLecForWed = action.payload;
             state.Loading = false;
         },
+        RClearTeacherSubjectMaxLecForWed(state) {
+            state.ISGetTeacherSubjectMaxLecForWed = [];
+            state.Loading = false;
+        },
         RGetTeacherSubjectMaxLecForThu(state, action) {
             state.ISGetTeacherSubjectMaxLecForThu = action.payload;
             state.Loading = false;
         },
+        RClearTeacherSubjectMaxLecForThu(state) {
+            state.ISGetTeacherSubjectMaxLecForThu = [];
+            state.Loading = false;
+        },
         RGetTeacherSubjectMaxLecForFri(state, action) {
             state.ISGetTeacherSubjectMaxLecForFri = action.payload;
+            state.Loading = false;
+        },
+        RClearTeacherSubjectMaxLecForFri(state) {
+            state.ISGetTeacherSubjectMaxLecForFri = [];
             state.Loading = false;
         },
         RGetLectureNoWeekday(state, action) {
@@ -198,7 +219,7 @@ export const CDAGetTeachersList =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetTeacherAndStandardForTimeTableApi(data);
-            const responseData = response.data.listTeacherNameDetiles.map((item) => {
+            let responseData = response.data.listTeacherNameDetiles.map((item) => {
                 return (
                     {
                         Id: item.Teacher_Id,
@@ -207,6 +228,11 @@ export const CDAGetTeachersList =
                     }
                 )
             })
+            let LoginTeacherId = sessionStorage.getItem('TeacherId');
+            const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
+            if (IsWeeklyTimetableFullAccess === 'Y') {
+                responseData = responseData.filter(item => item.Id === LoginTeacherId)
+            }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetTeachersList(responseData));
         };
@@ -261,7 +287,6 @@ export const CDAGetDataForAdditionalClasses =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetDataForAdditionalClassesApi(data);
-            console.log(response.data)
             let WeekDayList = response.data.listWeekDayName.map((item) => {
                 return (
                     {
@@ -377,11 +402,21 @@ export const CDASaveTeacherTimetable =
             await dispatch(CDAValidateTeacherData(data));
             // Get the updated validation messages from the state
             const { ISValidateTeacherData } = getState().WeeklyTimetable;
-            // Check if there are no validation error messages
+            // Check if there are no validation error messages and if so, proceed to save the data
             if (ISValidateTeacherData.length === 0) {
                 const response = await WeeklyTimeTableApi.GetSaveTeacherTimeTableApi(data);
                 dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
             }
+        }
+
+export const CDASaveTeacherTimetableWithIncr =
+    (data: IGetSaveTeacherTimeTableBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetSaveTeacherTimeTableApi(data);
+            // Clear validation messages first
+            await dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
+            await dispatch(CDAClearValidateTeacherData());
         }
 
 export const CDASaveClassTimetable =
@@ -411,7 +446,6 @@ export const CDAGetDivisionName =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetDivisionForStdDropdownApi(data);
-            console.log(`this is division response`, response)
             const responseData = response.data.map((item) => {
                 return (
                     {
@@ -431,8 +465,8 @@ export const CDAGetTeacherSubjectMaxLecDetailsForMon =
     (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForMon());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            console.log('MONDAY DATA 0 >>>>>>>>>', response);
             // Data Separator f() on Teacher / Class Selection
             function dataSeparator(x) {
                 let str = x;
@@ -456,7 +490,6 @@ export const CDAGetTeacherSubjectMaxLecDetailsForMon =
                     }
                 )
             })
-            console.log('MONDAY DATA 1 >>>>>>>>>', MondayColData)
             MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForMon(MondayColData))
         }
@@ -466,6 +499,7 @@ export const CDAGetTeacherSubjectMaxLecDetailsForTue =
     (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForTue());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
             // Data Separator f() on Teacher / Class Selection
             function dataSeparator(x) {
@@ -498,6 +532,7 @@ export const CDAGetTeacherSubjectMaxLecDetailsForWed =
     (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForWed());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
             // Data Separator f() on Teacher / Class Selection
             function dataSeparator(x) {
@@ -531,6 +566,7 @@ export const CDAGetTeacherSubjectMaxLecDetailsForThu =
     (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForThu());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
             // Data Separator f() on Teacher / Class Selection
             function dataSeparator(x) {
@@ -564,8 +600,8 @@ export const CDAGetTeacherSubjectMaxLecDetailsForFri =
     (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForFri());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            console.log('this was the data for the list of table dropdown,', data)
             // Data Separator f() on Teacher / Class Selection
             function dataSeparator(x) {
                 let str = x;
@@ -599,7 +635,6 @@ export const CDAGetLectureNoWeekday =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetTimeTableForTeacherApi(data);
-            console.log('this was the data for the Weekday internal data,', response)
             const responseData = response.data.Lecture_No_WeekDay.map((item, i) => {
                 return (
                     {
@@ -664,7 +699,6 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             })
-            console.log('this was the data for the Weekday internal data -- ,', responseData)
             dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData))
             dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData))
             dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId))

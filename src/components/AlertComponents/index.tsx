@@ -1,3 +1,4 @@
+import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleTwoTone from '@mui/icons-material/CheckCircleTwoTone';
 import ErrorTwoToneIcon from '@mui/icons-material/ErrorTwoTone';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -12,7 +13,6 @@ import {
   Typography
 } from '@mui/material';
 import { green } from '@mui/material/colors';
-import CheckIcon from '@mui/icons-material/Check';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 
@@ -44,7 +44,7 @@ const AlertDialog = ({
     }
   }
   return (
-    <Dialog open={true} fullWidth maxWidth={'sm'}   PaperProps={{
+    <Dialog open={true} fullWidth maxWidth={'sm'} PaperProps={{
       sx: {
         borderRadius: "15px",
       }
@@ -55,20 +55,21 @@ const AlertDialog = ({
           py: 1.5
         }}
       >
-        <ClearIcon  onClick={handleClose}
-        sx={{color: 'white',
-        // background:'white',
-        borderRadius: '7px',
-        position: 'absolute',
-        top: '2px',
-        right: '8px',
-        cursor: 'pointer',
-        '&:hover': {
-          color: 'red',
-          //  backgroundColor: red[100]
+        <ClearIcon onClick={handleClose}
+          sx={{
+            color: 'white',
+            // background:'white',
+            borderRadius: '7px',
+            position: 'absolute',
+            top: '2px',
+            right: '8px',
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'red',
+              //  backgroundColor: red[100]
 
-        }
-      }} />
+            }
+          }} />
       </DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
         <Grid container spacing={2}>
@@ -112,7 +113,7 @@ const AlertDialog = ({
             <Typography variant={'h3'} fontWeight={'normal'}>
               {title}
             </Typography>
-            <Typography variant={'body2'}>{message}</Typography>
+            <Typography variant={'body2'} dangerouslySetInnerHTML={{ __html: message }} />
           </Grid>
         </Grid>
       </DialogContent>
@@ -121,12 +122,12 @@ const AlertDialog = ({
           {cancelButtonText || 'Cancel'}
         </Button>
         <Button onClick={onConfirm}
-        //  variant={'contained'} 
-        sx={{
-          // backgroundColor: green[100],
-          color: 'green',
-          ':hover': { backgroundColor: green[100] }
-        }}>
+          //  variant={'contained'} 
+          sx={{
+            // backgroundColor: green[100],
+            color: 'green',
+            ':hover': { backgroundColor: green[100] }
+          }}>
           {confirmButtonText || 'Confirm'}
         </Button>
       </DialogActions>
@@ -186,7 +187,7 @@ export default AlertDialog;
 //           py: 1.5
 //         }}
 //       >
-//         {/* <ClearIcon 
+//         {/* <ClearIcon
 //         sx={{color: 'white',
 //         // background:'white',
 //         borderRadius: '7px',
@@ -252,7 +253,7 @@ export default AlertDialog;
 //           {cancelButtonText || 'Cancel'}
 //         </Button>
 //         <Button onClick={onConfirm}
-//         //  variant={'contained'} 
+//         //  variant={'contained'}
 //         sx={{
 //           // backgroundColor: green[100],
 //           color: 'green',
