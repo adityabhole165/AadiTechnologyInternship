@@ -84,8 +84,7 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                 {USListMarkssDetails.map((outcome) => (
                                     USListSchoolWiseTestNameDetail.filter(row => outcome.Marks_Grades_Configuration_Detail_ID === row.Grade_id)
                                         .map((row, index) => (
-                                            <TableRow key={row.YearwiseStudentId}>
-                                                <TableCell>{index + 1}</TableCell>
+                                            <TableRow >
                                                 <TableCell>{row.Total}</TableCell>
                                                 <TableCell>{row.Percentage}</TableCell>
                                                 <TableCell>{row.Grade_Name}{outcome.Remarks}</TableCell>
