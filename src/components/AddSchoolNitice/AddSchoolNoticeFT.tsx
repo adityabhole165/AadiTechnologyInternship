@@ -754,10 +754,7 @@ const AddSchoolNoticeFT = () => {
                                 rows={3}
                                 value={Description}
                                 onChange={(e) => {
-                                    const value = e.target.value;
-                                    if (value.length <= 255) {
-                                        setDescription(value);
-                                    }
+                                    setDescription(e.target.value);
                                 }}
                                 fullWidth
                                 sx={{
