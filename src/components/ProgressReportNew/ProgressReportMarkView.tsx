@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
 
-const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport }) => {
+const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
     const getListDisplayName = (ShortName) => {
         let returnVal = ""
         ListDisplayNameDetails.map((Item) => {
@@ -81,13 +81,17 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {USListSchoolWiseTestNameDetail.map((row) => (
-                                    <TableRow key={row.SchoolWise_Test_Id}>
-                                        <TableCell>{row.Total}</TableCell>
+                                {USListMarkssDetails.map((outcome) => (
+                                    USListSchoolWiseTestNameDetail.filter(row => outcome.Marks_Grades_Configuration_Detail_ID === row.Grade_id)
+                                        .map((row, index) => (
+                                            <TableRow key={row.YearwiseStudentId}>
+                                                <TableCell>{index + 1}</TableCell>
+                                                <TableCell>{row.Total}</TableCell>
+                                                <TableCell>{row.Percentage}</TableCell>
+                                                <TableCell>{row.Grade_Name}{outcome.Remarks}</TableCell>
 
-                                        <TableCell>{row.Percentage}</TableCell>
-                                        <TableCell>{row.Grade_Name}</TableCell>
-                                    </TableRow>
+                                            </TableRow>
+                                        ))
                                 ))}
                             </TableBody>
 

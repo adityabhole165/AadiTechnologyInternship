@@ -328,7 +328,7 @@ export const CDAStudentProgressReport =
           Percentage: item.Percentage,
           Grade_Name: item.Grade_Name,
           SchoolWise_Test_Id: item.SchoolWise_Test_Id,
-          Header: ["Total", "%", "Grade"]
+          Grade_id:item.Grade_id
 
         };
       });
@@ -363,9 +363,9 @@ export const CDAStudentProgressReport =
         return {
           Text1: '',
           Text2: item.Grade_Name,
-          Text3: item.Remarks,
-          IsForCoCurricularSubjects: item.IsForCoCurricularSubjects
-
+          Remarks: item.Remarks,
+          IsForCoCurricularSubjects: item.IsForCoCurricularSubjects,
+          Marks_Grades_Configuration_Detail_ID:item.Marks_Grades_Configuration_Detail_ID
         };
       });
 

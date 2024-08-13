@@ -599,6 +599,7 @@ const ProgressReportNew = () => {
                   ListDisplayNameDetails={ListDisplayNameDetails}
                   IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                   USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                  USListMarkssDetails={USListMarkssDetails}
                   />
                   
                   </Box>
