@@ -437,7 +437,18 @@ const AddSchoolNoticeFT = () => {
             student: false,
             adminStaff: false,
             otherStaff: false,
-        }); // Reset all roles to false
+        });
+        setLinkNameError('');
+        setNoticeNameError('');
+        setNoticeFileError('');
+        setErrorUserRole('');
+        setSortOrderError('');
+        setClassSelectedError('');
+        setErrorEndDate('');
+        setErrorEndDateblank('');
+        setErrorStartDate('');
+        setErrorStartDateblank('');
+        setNoticeContentError('');
     };
 
     useEffect(() => {
@@ -698,11 +709,11 @@ const AddSchoolNoticeFT = () => {
                             <>
                                 <Tooltip title={"View"}>
                                     <IconButton
-                                         
+
                                         onClick={viewImage}
                                         sx={{
                                             color: '#223354',
-                                            mt:0.7,
+                                            mt: 0.7,
                                             '&:hover': {
                                                 color: '#223354',
                                                 cursor: 'pointer'
@@ -717,7 +728,7 @@ const AddSchoolNoticeFT = () => {
                                         onClick={() => deleteImage(Number(NoticeId))}
                                         sx={{
                                             color: '#223354',
-                                            mt:0.7,
+                                            mt: 0.7,
                                             '&:hover': {
                                                 color: 'red',
                                                 backgroundColor: red[100]
