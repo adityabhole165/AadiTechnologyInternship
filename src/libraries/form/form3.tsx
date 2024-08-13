@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,7 @@ import { RootState } from 'src/store';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 import { ChangePasswordStyle } from '../styled/CommonStyle';
+import { green, red } from '@mui/material/colors';
 
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
@@ -142,7 +143,9 @@ function Form() {
   });
 
   return (
-    <Grid container>
+
+    
+    <Grid container >
       <Grid item md={3}></Grid>
       <Grid item xs={12} md={6}>
         <ListStyle sx={ChangePasswordStyle}>
@@ -152,29 +155,32 @@ function Form() {
             ) : (
               <Note NoteDetail={note2} />
             )}
-            <Box>
-              <Typography>User Name</Typography>
+            <Box gap={2} >
+              {/* <Typography>User Name</Typography> */}
               <TextField
                 disabled
                 fullWidth
+                label="User Name"
                 margin="normal"
                 name="username"
                 type="text"
-                variant="standard"
+                // variant="standard"
                 value={formik.values.UserLogin}
+                sx={{backgroundColor:'#F0F0F0'}}
               />
             </Box>
+            <Box >
             <TextField
               fullWidth
               margin="normal"
               label={'Old Password'}
               name="Oldpassword"
               type="password"
-              variant="standard"
+              // variant="standard"
               value={formik.values.Oldpassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
+              // sx={{ mt: '-0.3rem' }}
             />
 
             {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
@@ -187,11 +193,11 @@ function Form() {
               label={'New Password'}
               name="NewPassword"
               type="password"
-              variant="standard"
+              // variant="standard"
               value={formik.values.NewPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
+              // sx={{ mt: 2 }}
             />
 
             {formik.touched.NewPassword && formik.errors.NewPassword ? (
@@ -203,11 +209,11 @@ function Form() {
               label={'Confirm Password'}
               name="ConfirmPassword"
               type="password"
-              variant="standard"
+              // variant="standard"
               value={formik.values.ConfirmPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
+              // sx={{ my: 2 }}
             />
 
             {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
@@ -216,25 +222,48 @@ function Form() {
 
             <Note NoteDetail={note} />
 
-            <Grid container spacing={2} justifyContent={'center'}>
-              <Grid item xs={6} md={3}>
-                <ButtonPrimary
+            </Box>
+            <Grid container spacing={2} justifyContent={'right'}>
+              <Grid item
+              //  xs={2} md={1}
+               >
+
+              <Button
+                  onClick={getHomepage}
+                  fullWidth
+                  // color="secondary"
+                  sx={{
+                    color:'red',
+                    borderRadius:'7px',
+                      '&:hover': {
+                    color:'red',
+                    borderRadius:'7px',
+                     backgroundColor: red[100]
+                      }}}
+                >
+                  Cancel
+                </Button>
+                
+              </Grid>
+              <Grid item 
+              // xs={6} md={2}
+              >
+              <Button
                   onChange={formik.handleChange}
                   type="submit"
                   fullWidth
-                  color="primary"
+                  // color="primary"
+                  sx={{
+                    color:'green',
+                    borderRadius:'7px',
+                      '&:hover': {
+                    color:'green',
+                    borderRadius:'7px',
+                     backgroundColor: green[100]
+                      }}}
                 >
                   Save
-                </ButtonPrimary>
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <ButtonPrimary
-                  onClick={getHomepage}
-                  fullWidth
-                  color="secondary"
-                >
-                  Cancel
-                </ButtonPrimary>
+                </Button>
               </Grid>
             </Grid>
           </form>
