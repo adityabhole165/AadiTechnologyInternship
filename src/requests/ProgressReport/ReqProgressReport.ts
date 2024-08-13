@@ -139,8 +139,10 @@ export const CDAGetClassTeachers =
         });
       });
       dispatch(ProgressReportSlice.actions.RGetClassTeachers(ClassTeachersList));
-    };
 
+
+    };
+ 
 export const CDAGetStudentName =
   (data: IGetStudentNameDropdownBody): AppThunk =>
     async (dispatch) => {
