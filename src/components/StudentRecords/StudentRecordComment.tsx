@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import Datepicker1 from 'src/components/StudentRecords/DateField';
+import TimeField from 'src/components/StudentRecords/TimeField';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -165,7 +166,8 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         <ErrorMessage1 Error={ErrorSrDateblank} />
                     </Grid>
                     <Grid item xs={6} md={4}>
-                        {/* <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={ 'medium'} /> */}
+
+                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={'medium'} tooltipMessage={'Time'} />
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
                     </Grid>
                 </Grid>

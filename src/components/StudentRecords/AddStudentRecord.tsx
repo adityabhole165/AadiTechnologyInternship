@@ -4,10 +4,11 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetSaveStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
@@ -18,6 +19,7 @@ const AddStudentRecord = () => {
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
     const [Comment, setComment] = useState('');
+    const [Itemlist, setItemlist] = useState([]);
     const [errorMessage, seterrorMessage] = useState('')
     const [exampleLessonDetails, setExampleLessonDetails] = useState([])
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
@@ -59,9 +61,34 @@ const AddStudentRecord = () => {
     useEffect(() => {
         dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
     }, []);
+    // useEffect(() => {
+    //     dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
+    // }, []);
     useEffect(() => {
-        dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
-    }, []);
+        if (SaveStudentRecordUS !== '') {
+            toast.success(SaveStudentRecordUS, { toastId: 'success1' });
+            dispatch(resetGetSaveStudentRecord());
+        }
+    }, [SaveStudentRecordUS])
+    const getXML = () => {
+        console.log(Itemlist, '----');
+        let sXML =
+            "<ArrayOfKeyValue xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>";
+        Itemlist.map((Item) => {
+            sXML =
+                sXML +
+                '<KeyValue><Key>' +
+                1 +
+                '</Key><Value>' +
+                1 +
+                '</Value></KeyValue>';
+        });
+        sXML = sXML + '</ArrayOfKeyValue>';
+
+        console.log('XMLLLLLLLL', sXML);
+        return sXML;
+    };
+
     const GetMarkRecordAsReadResult: IMarkRecordAsReadBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -104,7 +131,7 @@ const AddStudentRecord = () => {
         asUpdatedById: asUserId,
         asStudentId: 6039,
         asDataXML: "",
-        Date: "2011-05-21"
+        Date: ADate    /*"2011-05-21"*/
     }
     const ClickOpenDialogbox = () => {
         setOpen(true);

@@ -72,6 +72,10 @@ const AddStudentRecordsSlice = createSlice({
             state.Loading = false;
             state.savestudentrecordmsg = action.payload;
         },
+        resetSaveStudentRecord(state) {
+            state.Loading = false;
+            state.savestudentrecordmsg = "";
+        },
         getLoading(state, action) {
             state.Loading = true;
 
@@ -220,5 +224,10 @@ export const GetSaveStudentRecord =
             const response = await GetStudentRecordDataAPI.SaveStudentRecord(data);
             dispatch(AddStudentRecordsSlice.actions.getSaveStudentRecord(response.data));
 
+        };
+export const resetGetSaveStudentRecord =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.resetSaveStudentRecord());
         };
 export default AddStudentRecordsSlice.reducer;
