@@ -82,6 +82,11 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                 onClose={handleClose}
                 fullWidth
                 maxWidth="sm"
+                PaperProps={{
+                    sx: {
+                        borderRadius: "15px",
+                    }
+                }}
             >
                 <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
                     <ClearIcon onClick={handleClose}
@@ -97,28 +102,26 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                             }
                         }} />
                 </DialogTitle>
-                <Typography variant="h3" sx={{ pt: 2, pl: 2 }}>
+                <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
                     School Notices
                 </Typography>
-                <DialogContent sx={{ maxHeight: '40vh', overflowY: 'auto' }}>
+                <DialogContent sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         {SchoolNoticePopupDashBoard.map((item, i) => (
-                            <Box key={i} sx={{ mb: 2 }}>
-                                <Divider sx={{ mb: 1 }} />
-                                <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
-                                    <Typography variant="body1" sx={{ color: 'black' }}>
-                                        <Link
-                                            href="#"
-                                            onClick={() => handleLinkClick(item)}
-                                            style={{ textDecoration: 'underline', cursor: 'pointer' }}
-                                        >
-                                            {item.Text1}
-                                        </Link>
-                                    </Typography>
+                            <Box key={i}>
+                                <Divider sx={{ mb: 0 }} />
+                                <Box sx={{ justifyContent: 'center', textAlign: 'center', fontWeight: 'bold', p: 1 }}>
+                                    <Link
+                                        href="#"
+                                        onClick={() => handleLinkClick(item)}
+                                        style={{ textDecoration: 'underline', cursor: 'pointer' }}
+                                    >
+                                        {item.Text1}
+                                    </Link>
                                 </Box>
-                                <Divider sx={{ mt: 1 }} />
                             </Box>
                         ))}
+                        <Divider />
                     </Box>
                 </DialogContent>
             </Dialog>
@@ -127,7 +130,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                 open={openDetailDialog}
                 onClose={() => setOpenDetailDialog(false)}
                 link={selectedLink}
-                contentType={contentType}  // Pass the content type to the dialog
+                contentType={contentType}
             />
         </>
     );
