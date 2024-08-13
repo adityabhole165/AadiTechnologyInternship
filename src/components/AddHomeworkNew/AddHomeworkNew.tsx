@@ -1260,7 +1260,6 @@ const AddHomeworkNew = () => {
                         </span>
                       }
                       multiline
-                      rows={3}
                       value={Details}
                       onChange={(e) => {
                         setDetails(e.target.value);
@@ -1413,9 +1412,9 @@ const AddHomeworkNew = () => {
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
-            <TextField
+            <ResizableTextField
               multiline
-              rows={5}
+              // rows={5}
               type="text"
                value={textall}
               onChange={Detailschnageall}
@@ -1527,9 +1526,9 @@ const AddHomeworkNew = () => {
             <Typography variant={"h4"} sx={{ mb: 1 }}>
               Unpublish Reason
             </Typography>
-            <TextField
+            <ResizableTextField
               multiline
-              rows={5}
+              // rows={5}
               type="text"
                value={textall}
               onChange={Detailschnageall}
