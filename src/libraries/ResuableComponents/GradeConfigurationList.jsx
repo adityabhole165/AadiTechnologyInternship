@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { GetScreenPermission, isFutureDateTime, isPastDateTime } from 'src/components/Common/Util';
 
 function GradeConfigurationList({
-  ItemList,
+  configurationList,
   HeaderArray,
 }) {
   
@@ -51,7 +51,7 @@ function GradeConfigurationList({
           </TableRow>
         </TableHead>
         <TableBody>
-          {ItemList.map((item, i) => (
+          {configurationList.map((item, i) => (
             <TableRow key={i}>
               <TableCell sx={{ textTransform: 'capitalize' }} >
                 {item.Text1}

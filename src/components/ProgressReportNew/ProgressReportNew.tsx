@@ -147,6 +147,7 @@ const ProgressReportNew = () => {
     StandardDivisionId()
     Standard_Id()
   }, [selectTeacher]);
+
   const GetClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -186,14 +187,14 @@ const ProgressReportNew = () => {
   const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(asAcademicYearId),
-    asStandardId: Number(GetClassTeacher()),
+    asStandardId: Number(Standard_Id()),
     asIsCoCurricular: false
   };
 
   const GetAllMarksGradeConfigurationBody1: IGetAllMarksGradeConfigurationBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYrId: Number(asAcademicYearId),
-    asStandardId: Number(GetClassTeacher()),
+    asStandardId: Number(Standard_Id()),
     asIsCoCurricular: true
   };
 
@@ -210,6 +211,7 @@ const ProgressReportNew = () => {
     asStdDivId: Number(StandardDivisionId())
 
   };
+  
 
   const IsTestPublishedForStudent: IsTestPublishedForStudentBody = {
     asSchoolId: Number(asSchoolId),
@@ -256,7 +258,7 @@ const ProgressReportNew = () => {
   useEffect(() => {
     dispatch(CDAIsGradingStandard(IsGradingStandard));
 
-  }, [Standard_Id]);
+  }, [Standard_Id()]);
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
@@ -432,7 +434,7 @@ const ProgressReportNew = () => {
                           Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          ItemList={Data}
+                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -441,7 +443,7 @@ const ProgressReportNew = () => {
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          ItemList={Data1}
+                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -538,7 +540,7 @@ const ProgressReportNew = () => {
                           Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          ItemList={Data}
+                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -547,7 +549,7 @@ const ProgressReportNew = () => {
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          ItemList={Data1}
+                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
