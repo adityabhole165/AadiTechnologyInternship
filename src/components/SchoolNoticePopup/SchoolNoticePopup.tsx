@@ -1,3 +1,4 @@
+import { Clear as ClearIcon } from "@mui/icons-material";
 import {
     Box,
     Dialog,
@@ -7,13 +8,13 @@ import {
     Link,
     Typography
 } from "@mui/material";
-import { ClearIcon } from "@mui/x-date-pickers";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { IGetSchoolNoticePopupBody } from "src/interfaces/SchoolNoticePopup/ISchoolNoticePopup";
 import { SchoolNoticePopup } from "src/requests/SchoolNoticePopup/RequestSchoolNoticePopup";
 import { RootState, useSelector } from 'src/store';
+import NoticeDetailDialog from "./NoticeDetailDialog";
 
 type Props = {
     open: boolean;
@@ -23,6 +24,7 @@ type Props = {
 const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const handleClose = () => {
         setOpen(false);
         sessionStorage.setItem('hasShownPopup', 'true');
@@ -35,7 +37,9 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
         }
     }, [setOpen]);
 
-    const [selectDisplayLocation, setDisplayLocation] = useState('B');
+    const [openDetailDialog, setOpenDetailDialog] = useState(false);
+    const [selectedLink, setSelectedLink] = useState('');
+    const [contentType, setContentType] = useState('');  // New state for content type
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const RoleId = sessionStorage.getItem('RoleId');
@@ -43,6 +47,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
     const SchoolNoticePopupDashBoard = useSelector(
         (state: RootState) => state.SchoolNoticePopup.SchoolNoticePopUP
     );
+
     const SchoolNoticePopupBody: IGetSchoolNoticePopupBody = {
         asSchoolId: asSchoolId,
         asDisplayLocation: 'C',
@@ -57,58 +62,76 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
         dispatch(SchoolNoticePopup(SchoolNoticePopupBody));
     }, [dispatch, SchoolNoticePopupBody]);
 
-    let url = localStorage.getItem("SiteURL") + "RITeSchool/downloads/School Notices/"
+    let url = localStorage.getItem("SiteURL") + "RITeSchool/DOWNLOADS/School Notices/";
+
+    const handleLinkClick = (item: any) => {
+        const link = item.Text6 ? url + item.Text6 : item.Text7;
+
+        if (link) {
+            setSelectedLink(link);
+            const isImage = /\.(pdf|jpg|jpeg|png|gif|bmp)$/i.test(link);
+            setContentType(isImage ? 'image' : 'text');
+            setOpenDetailDialog(true);
+        }
+    };
 
     return (
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            fullWidth
-            maxWidth="sm"
-            PaperProps={{
-                sx: {
-                    borderRadius: "15px",
-                }
-            }}
-        >
-            <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
-                <ClearIcon onClick={handleClose}
-                    sx={{
-                        color: 'white',
-                        borderRadius: '7px',
-                        position: 'absolute',
-                        top: '5px',
-                        right: '8px',
-                        cursor: 'pointer',
-                        '&:hover': {
-                            color: 'red',
-                        }
-                    }} />
-            </DialogTitle>
-            <Typography variant="h3" sx={{ pt: 2, pl: 2 }}>
-                School Notices
-            </Typography>
-            <DialogContent sx={{ maxHeight: '40vh', overflowY: 'auto' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    {SchoolNoticePopupDashBoard.map((item, i) => (
-                        <Box key={i} sx={{ mb: 2 }}>
-                            <Divider sx={{ mb: 1 }} />
-                            <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
-                                <Typography variant="body1" sx={{ color: 'black' }}>
-                                    <Link href={url + item.Text6} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
-                                        {item.Text1}
-                                    </Link>
-                                </Typography>
+        <>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                fullWidth
+                maxWidth="sm"
+            >
+                <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+                    <ClearIcon onClick={handleClose}
+                        sx={{
+                            color: 'white',
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            top: '5px',
+                            right: '8px',
+                            cursor: 'pointer',
+                            '&:hover': {
+                                color: 'red',
+                            }
+                        }} />
+                </DialogTitle>
+                <Typography variant="h3" sx={{ pt: 2, pl: 2 }}>
+                    School Notices
+                </Typography>
+                <DialogContent sx={{ maxHeight: '40vh', overflowY: 'auto' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        {SchoolNoticePopupDashBoard.map((item, i) => (
+                            <Box key={i} sx={{ mb: 2 }}>
+                                <Divider sx={{ mb: 1 }} />
+                                <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+                                    <Typography variant="body1" sx={{ color: 'black' }}>
+                                        <Link
+                                            href="#"
+                                            onClick={() => handleLinkClick(item)}
+                                            style={{ textDecoration: 'underline', cursor: 'pointer' }}
+                                        >
+                                            {item.Text1}
+                                        </Link>
+                                    </Typography>
+                                </Box>
+                                <Divider sx={{ mt: 1 }} />
                             </Box>
-                            <Divider sx={{ mt: 1 }} />
-                        </Box>
-                    ))}
-                </Box>
-            </DialogContent>
-        </Dialog>
+                        ))}
+                    </Box>
+                </DialogContent>
+            </Dialog>
+
+            <NoticeDetailDialog
+                open={openDetailDialog}
+                onClose={() => setOpenDetailDialog(false)}
+                link={selectedLink}
+                contentType={contentType}  // Pass the content type to the dialog
+            />
+        </>
     );
 }
 
 export default SchoolNoticePopupCom;
-
 
