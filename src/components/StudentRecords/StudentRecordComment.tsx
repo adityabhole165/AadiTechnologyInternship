@@ -1,5 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -119,6 +120,9 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
         ResetForm();
         ClickCloseDialogbox();
     }
+    const handleClose = () => {
+        setOpen(false);
+    };
     const ClickOk = () => {
         let isError = false;
         if (Comment === '') {
@@ -145,9 +149,9 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
         if (!isError) {
             dispatch(getSaveComment(SaveCommentBody));
         }
-        if (!isError) {
-            setOpen(false);
-        }
+        // if (!isError) {
+        //     setOpen(false);
+        // }
 
     };
 
@@ -157,18 +161,36 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             onClose={() => setOpen(false)}
             fullWidth
             maxWidth={'sm'}
+            PaperProps={{
+                sx: {
+                    borderRadius: "15px",
+                }
+            }}
         >
             <DialogTitle
                 sx={{
                     backgroundColor: '#324b84',
-                    py: 1,
+                    position: 'relative'
+
                 }}
             >
-                <Typography variant={"h4"} sx={{ mb: 1, color: 'white' }}>
-                    Student Record Comment
-                </Typography>
+                <ClearIcon onClick={handleClose}
+                    sx={{
+                        color: 'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '8px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'red',
+                        }
+                    }} />
             </DialogTitle>
-            <DialogContent dividers sx={{ px: 4 }}>
+            <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
+                Student Record Comment
+            </Typography>
+            <DialogContent >
                 <Grid container spacing={1} alignItems="center">
                     <Grid item xs={6} md={4}>
                         <Datepicker1
