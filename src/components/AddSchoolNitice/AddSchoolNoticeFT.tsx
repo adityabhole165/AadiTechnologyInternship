@@ -171,7 +171,7 @@ const AddSchoolNoticeFT = () => {
             setEndDate(formatDateAsDDMMMYYYY(EditNoticee.Text3))
             setEndTime(extractTime(EditNoticee.Text3))
             setDisplayLocation(EditNoticee.Text4)
-            setSortOrder(EditNoticee.Text9)
+            setSortOrder(EditNoticee.Text5)
             setNoticeFile(EditNoticee.Text6)
             setDescription(EditNoticee.Text7)
             setNoticeContent(EditNoticee.Text8)
