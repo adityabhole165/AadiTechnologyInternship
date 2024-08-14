@@ -469,6 +469,25 @@ const AddSchoolNoticeFT = () => {
     };
     const clickDisplayLocationDropdown = (value) => {
         setDisplayLocation(value);
+        if (value === 'H') {
+            setSelectAll(true);
+            setApplicableTo({
+                admin: true,
+                teacher: true,
+                student: true,
+                adminStaff: true,
+                otherStaff: true,
+            });
+        } else {
+            setSelectAll(false);
+            setApplicableTo({
+                admin: false,
+                teacher: false,
+                student: false,
+                adminStaff: false,
+                otherStaff: false,
+            });
+        }
     };
     const onSelectStartDate = (value) => {
         setStartDate(getCalendarDateFormatDateNew(value));
@@ -792,31 +811,31 @@ const AddSchoolNoticeFT = () => {
                                 <FormGroup row>
                                     <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
                                         <FormControlLabel
-                                            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
+                                            control={<Checkbox checked={selectAll} onChange={handleSelectAll} disabled={selectDisplayLocation === 'H'} />}
                                             label={<Typography variant="h5">Select All</Typography>}
                                         />
                                     </Grid>
                                     <Box mt={1} ml={1}>
                                         <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} name="admin" />}
+                                            control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="admin" />}
                                             label="Admin"
                                         />
                                         <Box>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
+                                                control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="teacher" />}
                                                 label="Teacher"
                                             /></Box>
                                         <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} name="student" />}
+                                            control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="student" />}
                                             label="Student"
                                         />
                                         <Box>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
+                                                control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="adminStaff" />}
                                                 label="Admin Staff"
                                             /></Box>
                                         <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
+                                            control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="otherStaff" />}
                                             label="Other Staff"
                                         />
                                     </Box>  <ErrorMessage1 Error={ErrorUserRole} />

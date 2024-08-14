@@ -26,8 +26,8 @@ const GradeDetails = ({GradeDetailsfilteredAndSortedData}) => {
         <TableBody>
             {GradeDetailsfilteredAndSortedData.map((row) => (
                 <TableRow key={row.GradeId}>
-                    <TableCell>{row.GradeName}</TableCell>
-                    <TableCell>{row.Description}</TableCell>
+                    <TableCell sx={{py:1}}>{row.GradeName}</TableCell>
+                    <TableCell sx={{py:1}}>{row.Description}</TableCell>
                 </TableRow>
             ))}
         </TableBody>
