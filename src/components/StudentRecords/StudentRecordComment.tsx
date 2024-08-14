@@ -135,13 +135,13 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             setLectureNmError('');
         }
 
-        // const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
-        // if (!timePattern.test(Time)) {
-        //     setTimeError('Time should be in HH:MM AM/PM format (e.g 10:00 AM).');
-        //     isError = true;
-        // } else {
-        //     setTimeError('');
-        // }
+        const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!timePattern.test(Time)) {
+            setTimeError('Time should be in HH:MM AM/PM format (e.g 10:00 AM).');
+            isError = true;
+        } else {
+            setTimeError('');
+        }
         if (!isError) {
             dispatch(getSaveComment(SaveCommentBody));
         }
