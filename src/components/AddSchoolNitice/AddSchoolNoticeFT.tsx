@@ -596,7 +596,7 @@ const AddSchoolNoticeFT = () => {
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Grid container spacing={2}>
                         {radioBtn === '1' ? (
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={4} md={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -620,7 +620,7 @@ const AddSchoolNoticeFT = () => {
 
                             </Grid>
                         ) : (
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={4} md={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -641,7 +641,7 @@ const AddSchoolNoticeFT = () => {
                                 <ErrorMessage1 Error={NoticeNameError}></ErrorMessage1>
                             </Grid>
                         )}
-                        <Grid item xs={4} md={4}>
+                        <Grid item xs={4} md={3}>
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={DisplayLocation}
@@ -651,34 +651,7 @@ const AddSchoolNoticeFT = () => {
                                 label='Display Location'
                             />
                         </Grid>
-                        <Grid item xs={4} md={4} >
-                            <Datepicker2
-                                DateValue={StartDate}
-                                onDateChange={onSelectStartDate}
-                                label={'Start Date'}
-                                size={"medium"}
-                            />
-                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
-                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
-                        </Grid>
-                        <Grid item xs={6} md={4}>
-                            <Datepicker2
-                                DateValue={EndDate}
-                                onDateChange={onSelectEndDate}
-                                label={'End Date'}
-                                size={"medium"}
-                            />
-                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
-                        </Grid>
-                        <Grid item xs={6} md={4}>
-                            <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
-
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
-                        </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <TextField
                                 fullWidth
                                 label={
@@ -698,9 +671,39 @@ const AddSchoolNoticeFT = () => {
                             />
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
+                        <Grid item xs={4} md={3} >
+                            <Datepicker2
+                                DateValue={StartDate}
+                                onDateChange={onSelectStartDate}
+                                label={'Start Date'}
+                                size={"medium"}
+                            />
+                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                            <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
+
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                            <Datepicker2
+                                DateValue={EndDate}
+                                onDateChange={onSelectEndDate}
+                                label={'End Date'}
+                                size={"medium"}
+                            />
+                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
+                        </Grid>
+                        
+                        <Grid item xs={12} md={3}>
+                            <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
+                        </Grid>
+                       
                         {radioBtn === '1' && (
-                            <Grid item xs={12} md={4}>
-                                <Box sx={{ position: 'relative' }}>
+                           
+                            <Grid item xs={6} md={3} sx={{display:'flex'}}>
+                                <Grid >
                                     <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
                                         MaxfileSize={MaxfileSize}
@@ -708,14 +711,15 @@ const AddSchoolNoticeFT = () => {
                                         errorMessage={''}
                                         FileName={NoticeFile}
                                         FileLabel={'Select File'}
-                                        width={'100%'}
+                                        width={'294px'}
                                         height={"52px"}
                                         isMandatory
                                     />
                                     {NoticeFileError && (
                                         <ErrorMessage1 Error={NoticeFileError} />
                                     )}
-                                </Box>
+                                </Grid>
+                                <Grid item xs={1} md={1} ml={2}>
                                 {NoticeId != undefined && (
                                     <Tooltip title={"View"}>
                                         <IconButton
@@ -733,10 +737,11 @@ const AddSchoolNoticeFT = () => {
                                         </IconButton>
                                     </Tooltip>
                                 )}
+                                </Grid>
                             </Grid>
                         )}
 
-                        <Grid item xs={6} md={3}>
+                        <Grid item xs={6} md={2.2}>
                             <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
