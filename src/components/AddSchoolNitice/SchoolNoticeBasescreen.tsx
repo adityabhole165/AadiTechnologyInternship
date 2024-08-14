@@ -117,7 +117,7 @@ const SchoolNoticeBaseScreen = () => {
         }
     }, [UpdateSelectedNotice])
 
-    //thank you
+
     const deleteRow = (Id: number) => {
         const DeleteSchoolNoticeBody: IDeleteSchooNoticeBody = {
             asSchoolId: asSchoolId,
@@ -126,7 +126,7 @@ const SchoolNoticeBaseScreen = () => {
         };
         showAlert({
             title: 'Please Confirm',
-            message: 'Are you sure you want to delete this leave?',
+            message: 'This is an active notice. Are you sure you want to delete this record?',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
