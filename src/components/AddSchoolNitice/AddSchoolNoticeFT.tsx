@@ -702,7 +702,7 @@ const AddSchoolNoticeFT = () => {
 
                         {radioBtn === '1' && (
 
-                            <Grid item xs={6} md={3} sx={{ display: 'flex' }}>
+                            <Grid item xs={3} md={2} sx={{ display: 'flex' }}>
                                 <Grid >
                                     <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
@@ -711,7 +711,7 @@ const AddSchoolNoticeFT = () => {
                                         errorMessage={''}
                                         FileName={NoticeFile}
                                         FileLabel={'Select File'}
-                                        width={'294px'}
+                                        width={'250px'}
                                         height={"52px"}
                                         isMandatory
                                     />
@@ -741,7 +741,7 @@ const AddSchoolNoticeFT = () => {
                             </Grid>
                         )}
 
-                        <Grid item xs={6} md={2.2}>
+                        <Grid item xs={9} md={2.1} ml={12}>
                             <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
