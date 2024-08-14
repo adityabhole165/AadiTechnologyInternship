@@ -712,7 +712,7 @@ const AddSchoolNoticeFT = () => {
                                         errorMessage={''}
                                         FileName={NoticeFile}
                                         FileLabel={'Select File'}
-                                        width={'250px'}
+                                        width={'292px'}
                                         height={"52px"}
                                         isMandatory
                                     />
