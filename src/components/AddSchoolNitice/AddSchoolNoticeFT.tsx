@@ -695,14 +695,14 @@ const AddSchoolNoticeFT = () => {
                             <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
                             <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
                         </Grid>
-                        
+
                         <Grid item xs={12} md={3}>
                             <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
                         </Grid>
-                       
+
                         {radioBtn === '1' && (
-                           
-                            <Grid item xs={6} md={3} sx={{display:'flex'}}>
+
+                            <Grid item xs={6} md={3} sx={{ display: 'flex' }}>
                                 <Grid >
                                     <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
@@ -720,7 +720,7 @@ const AddSchoolNoticeFT = () => {
                                     )}
                                 </Grid>
                                 <Grid item xs={1} md={1} ml={2}>
-                                {NoticeId != undefined && (
+
                                     <Tooltip title={"View"}>
                                         <IconButton
                                             onClick={viewNotice}
@@ -736,7 +736,7 @@ const AddSchoolNoticeFT = () => {
                                             <Visibility />
                                         </IconButton>
                                     </Tooltip>
-                                )}
+
                                 </Grid>
                             </Grid>
                         )}
@@ -849,7 +849,7 @@ const AddSchoolNoticeFT = () => {
                             {applicableTo.student && (
                                 <Grid item xs={12} md={9} mt={2}>
                                     <Typography variant="h5">
-                                        Associated Classes
+                                        Associated Classes  <span style={{ color: 'red' }}>*</span>
                                     </Typography>
                                     <SelectListHierarchy
                                         ItemList={ItemList}
