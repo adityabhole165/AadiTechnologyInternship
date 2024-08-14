@@ -13,7 +13,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Datepicker2 from 'src/libraries/DateSelector/Datepicker2';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
@@ -25,7 +25,6 @@ import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLes
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
-import Datepicker2 from 'src/libraries/DateSelector/Datepicker2';
 const AddSchoolNoticeFT = () => {
     const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
@@ -172,7 +171,7 @@ const AddSchoolNoticeFT = () => {
             setEndDate(formatDateAsDDMMMYYYY(EditNoticee.Text3))
             setEndTime(extractTime(EditNoticee.Text3))
             setDisplayLocation(EditNoticee.Text4)
-            setSortOrder(EditNoticee.Text5)
+            setSortOrder(EditNoticee.Text9)
             setNoticeFile(EditNoticee.Text6)
             setDescription(EditNoticee.Text7)
             setNoticeContent(EditNoticee.Text8)
@@ -493,6 +492,11 @@ const AddSchoolNoticeFT = () => {
         window.open(fullImageUrl, '_blank');
     };
 
+    const viewNotice = () => {
+        const fullImageUrl1 = `${url}${NoticeFile}`;
+        window.open(fullImageUrl1, '_blank');
+    };
+
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -693,6 +697,23 @@ const AddSchoolNoticeFT = () => {
                                         <ErrorMessage1 Error={NoticeFileError} />
                                     )}
                                 </Box>
+                                {NoticeId != undefined && (
+                                    <Tooltip title={"View"}>
+                                        <IconButton
+                                            onClick={viewNotice}
+                                            sx={{
+                                                color: '#223354',
+                                                mt: 0.7,
+                                                '&:hover': {
+                                                    color: '#223354',
+                                                    cursor: 'pointer'
+                                                }
+                                            }}
+                                        >
+                                            <Visibility />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
                             </Grid>
                         )}
 
