@@ -702,7 +702,8 @@ const AddSchoolNoticeFT = () => {
 
                         {radioBtn === '1' && (
 
-                            <Grid item xs={3} md={2} sx={{ display: 'flex' }}>
+                            <Grid item xs={12} md={3}>
+                                <Grid sx={{ display: 'flex' }}>
                                 <Grid >
                                     <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
@@ -738,10 +739,11 @@ const AddSchoolNoticeFT = () => {
                                     </Tooltip>
 
                                 </Grid>
+                                </Grid>
                             </Grid>
                         )}
 
-                        <Grid item xs={9} md={2.1} ml={12}>
+                        <Grid item xs={12} md={2.1} >
                             <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
