@@ -249,15 +249,15 @@ const AddSchoolNoticeFT = () => {
         asUserRoleIds: getApplicableTo(),
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
-        asFolderName: asFolderName,
-        asBase64String: base64URL,
-        asBase64String2: base64URL2,
+        asFolderName: 'PPSN Website',
+        asBase64String: base64URL == '' ? null : base64URL,
+        asBase64String2: base64URL2 == '' ? null : base64URL2,
         NoticeName: NoticeName,
         DisplayLocation: selectDisplayLocation,
         StartDate: StartDate + ' ' + StartTime,
         EndDate: EndDate + ' ' + EndTime,
         SortOrder: Number(SortOrder),
-        FileName: NoticeFile,
+        FileName: NoticeFile == '' ? null : NoticeFile,
         IsSelected: true,
         IsText: Text,
         NoticeContent: NoticeContent,
@@ -265,7 +265,7 @@ const AddSchoolNoticeFT = () => {
         SchoolId: Number(asSchoolId),
         InertedById: asUserId,
         NoticeDescription: Description,
-        NoticeImage: ImageFile
+        NoticeImage: ImageFile == '' ? null : ImageFile
     }
     const ClickSave = () => {
         let isError = false;
