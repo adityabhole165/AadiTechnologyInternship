@@ -19,7 +19,7 @@ import NonXseedSubjectGrades from './NonXseedSubjectGrades';
 import SchoolDetails from './SchoolDetails';
 import StudentDetails from './StudentDetails';
 import XseedRemarks from './XseedRemarks';
-
+import Visibility from '@mui/icons-material/Visibility';
 const PreprimaryProgressReport = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('0');
@@ -207,7 +207,7 @@ const PreprimaryProgressReport = () => {
                                         }
                                     }}
                                     onClick={ClickShow}>
-                                    <VisibilityTwoToneIcon />
+                                    <Visibility />
                                 </IconButton>
                             </Tooltip>
                         </Box>
