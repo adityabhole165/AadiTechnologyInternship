@@ -22,8 +22,8 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                     <TableBody>
                         {USFillSubjectSections.map(subjectSection => (
                             <React.Fragment key={subjectSection.SubjectSectionConfigurationId}>
-                                <TableRow sx={{backgroundColor:'#F0F0F0'}}>
-                                    <TableCell sx={{ alignItems: 'right', py: 1.5, fontWeight: 'bold', px:68 }} colSpan={4}>
+                                <TableRow sx={{backgroundColor:'#F0F0F0', alignItems:'center'}}>
+                                    <TableCell sx={{ py: 1.5, fontWeight: 'bold' ,pl:70 }} colSpan={4}>
                                         {subjectSection.SubjectSectionName}
                                     </TableCell>
                                 </TableRow>
