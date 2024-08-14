@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/Stude
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { DeleteCommentDetails, getSaveComment, resetDeleteHolidayDetails, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
@@ -180,18 +181,18 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                     </Grid>
                     <Grid item xs={6} md={4}>
 
-                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={'medium'} tooltipMessage={'Time'} />
+                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={'medium'} />
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
                     </Grid>
                 </Grid>
                 <Box sx={{ pt: 2, background: 'white' }}>
 
                     <Grid item xs={12}>
-                        <TextField
+                        <ResizableTextField
                             rows={3}
                             value={Comment}
                             label={<>
-                                Commment <span style={{ color: 'red' }}>*</span>
+                                Comment <span style={{ color: 'red' }}>*</span>
                             </>}
                             onChange={(e) => setComment(e.target.value)}
                             sx={{ width: '100%' }}
@@ -201,9 +202,8 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         />
 
                     </Grid>
-
                     <Grid item xs={12} sx={{ pt: 2, }} >
-                        <TextField
+                        <ResizableTextField
                             rows={1}
                             value={LectureNm}
                             label={<>
