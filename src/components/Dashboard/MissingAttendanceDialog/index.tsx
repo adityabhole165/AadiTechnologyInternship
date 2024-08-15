@@ -168,9 +168,9 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                 <Box mt={2} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Table aria-label="simple table" sx={{ width: '100%', textAlign: 'center' }}>
                         <TableHead>
-                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {missingAttendanceColumns.map((column, index) => (
-                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize' }} >
+                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize' , color:'white'}} >
                                         <b>{column.label}</b>
                                     </TableCell>
                                 ))}
