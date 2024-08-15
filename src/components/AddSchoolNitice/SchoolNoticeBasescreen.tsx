@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { green, grey, yellow } from "@mui/material/colors";
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
@@ -40,6 +40,8 @@ import SchoolNoticeList from './SchoolNoticeList';
 const SchoolNoticeBaseScreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { selectDisplayT } = useParams();
+    
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -108,6 +110,10 @@ const SchoolNoticeBaseScreen = () => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
     }
 
+    useEffect(() => {
+        if (selectDisplayT !== undefined) 
+            setDisplayType(selectDisplayT);
+    }, []);
 
     useEffect(() => {
         if (UpdateSelectedNotice != "") {

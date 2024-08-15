@@ -544,7 +544,7 @@ const AddSchoolNoticeFT = () => {
                     navLinks={[
                         {
                             title: 'School Notice',
-                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
+                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen/' + selectDisplayType
                         },
                         {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
