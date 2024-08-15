@@ -1,10 +1,9 @@
 import Close from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -250,8 +249,8 @@ const AddSchoolNoticeFT = () => {
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
         asFolderName: 'PPSN Website',
-        asBase64String: base64URL == '' ? null : base64URL,
-        asBase64String2: base64URL2 == '' ? null : base64URL2,
+        asBase64String: base64URL,
+        asBase64String2: base64URL2,
         NoticeName: NoticeName,
         DisplayLocation: selectDisplayLocation,
         StartDate: StartDate + ' ' + StartTime,
@@ -704,41 +703,41 @@ const AddSchoolNoticeFT = () => {
 
                             <Grid item xs={12} md={3}>
                                 <Grid sx={{ display: 'flex' }}>
-                                <Grid >
-                                    <SingleFile2
-                                        ValidFileTypes={ValidFileTypes}
-                                        MaxfileSize={MaxfileSize}
-                                        ChangeFile={ChangeFile}
-                                        errorMessage={''}
-                                        FileName={NoticeFile}
-                                        FileLabel={'Select File'}
-                                        width={'262px'}
-                                        height={"52px"}
-                                        isMandatory
-                                    />
-                                    {NoticeFileError && (
-                                        <ErrorMessage1 Error={NoticeFileError} />
-                                    )}
-                                </Grid>
-                                <Grid item xs={1} md={1} ml={1}>
+                                    <Grid >
+                                        <SingleFile2
+                                            ValidFileTypes={ValidFileTypes}
+                                            MaxfileSize={MaxfileSize}
+                                            ChangeFile={ChangeFile}
+                                            errorMessage={''}
+                                            FileName={NoticeFile}
+                                            FileLabel={'Select File'}
+                                            width={'262px'}
+                                            height={"52px"}
+                                            isMandatory
+                                        />
+                                        {NoticeFileError && (
+                                            <ErrorMessage1 Error={NoticeFileError} />
+                                        )}
+                                    </Grid>
+                                    <Grid item xs={1} md={1} ml={1}>
 
-                                    <Tooltip title={"View"}>
-                                        <IconButton
-                                            onClick={viewNotice}
-                                            sx={{
-                                                color: '#223354',
-                                                mt: 0.7,
-                                                '&:hover': {
+                                        <Tooltip title={"View"}>
+                                            <IconButton
+                                                onClick={viewNotice}
+                                                sx={{
                                                     color: '#223354',
-                                                    cursor: 'pointer'
-                                                }
-                                            }}
-                                        >
-                                            <Visibility />
-                                        </IconButton>
-                                    </Tooltip>
+                                                    mt: 0.7,
+                                                    '&:hover': {
+                                                        color: '#223354',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }}
+                                            >
+                                                <Visibility />
+                                            </IconButton>
+                                        </Tooltip>
 
-                                </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         )}
