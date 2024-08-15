@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import SchoolNoticeFormApi from 'src/api/AddSchoolNotic/APISchoolNoticeForm';
 import { getDateMonthYearTimeDayDash } from 'src/components/Common/Util';
-import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
+import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, IGetSchoolNoticeIdByNameBody, IGetSchoolNoticeIdByNameResult, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import { AppThunk } from 'src/store';
 
 const SchoolNoticeFormslice = createSlice({
@@ -14,6 +14,7 @@ const SchoolNoticeFormslice = createSlice({
         AllClassesAndDivisionss: [],
         AllClassesAndDivisionss1: [],
         SelectedStandardAndDivisionCheckBoxx: [],
+        getSchoolNoticeIdByName:'',
         Loading: true
     },
 
@@ -56,6 +57,9 @@ const SchoolNoticeFormslice = createSlice({
             state.Loading = false;
             state.SelectedStandardAndDivisionCheckBoxx = action.payload;
         },
+        getSchoolNoticeIdByName(state, action) {
+            state.getSchoolNoticeIdByName = action.payload;
+          },
         getLoading(state, action) {
             state.Loading = true;
         }
@@ -82,6 +86,12 @@ export const getEditSchoolNoticeDetails = (data: IGetEditUserRolesandStdDivForSe
         };
     });
     dispatch(SchoolNoticeFormslice.actions.getEditSchoolNoticeMsg(responseData));
+};
+
+export const getSchoolNoticeIdByName = (data: IGetSchoolNoticeIdByNameBody): AppThunk => async (dispatch) => {
+    dispatch(SchoolNoticeFormslice.actions.getLoading(true));
+    const response = await SchoolNoticeFormApi.GetSchoolNoticeIdByName(data);
+    dispatch(SchoolNoticeFormslice.actions.getSchoolNoticeIdByName(response.data.NoticeId));
 };
 
 export const resetEditSchoolNoticeDetails =
