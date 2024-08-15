@@ -98,7 +98,7 @@ const PreprimaryProgressReport = () => {
     const ClickShow = (value) => {
         setOpen(true)
         if (AssessmentId == '0') {
-            SetError('Assessment should be selected')
+            SetError('Assessment should be selected.')
         }
         if (ClassTeacher == '0' && PreprimaryFullAccess == 'Y') {
             SetError1(' Class Teacher should be selected.')
