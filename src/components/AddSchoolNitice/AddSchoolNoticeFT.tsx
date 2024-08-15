@@ -532,7 +532,7 @@ const AddSchoolNoticeFT = () => {
                     ]}
                     rightActions={
                         <>
-                            <Box>
+                            {/* <Box>
                                 <Tooltip
                                     title={`Displays all uploaded school notices.`}
                                 >
@@ -547,7 +547,7 @@ const AddSchoolNoticeFT = () => {
                                         <QuestionMarkIcon />
                                     </IconButton>
                                 </Tooltip>
-                            </Box>
+                            </Box> */}
                             <Box>
                                 <Tooltip title={`Cancel`}>
                                     <IconButton
@@ -712,7 +712,7 @@ const AddSchoolNoticeFT = () => {
                                         errorMessage={''}
                                         FileName={NoticeFile}
                                         FileLabel={'Select File'}
-                                        width={'292px'}
+                                        width={'262px'}
                                         height={"52px"}
                                         isMandatory
                                     />
@@ -720,7 +720,7 @@ const AddSchoolNoticeFT = () => {
                                         <ErrorMessage1 Error={NoticeFileError} />
                                     )}
                                 </Grid>
-                                <Grid item xs={1} md={1} ml={2}>
+                                <Grid item xs={1} md={1} ml={1}>
 
                                     <Tooltip title={"View"}>
                                         <IconButton
