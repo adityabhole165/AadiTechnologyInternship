@@ -166,7 +166,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
                     This is the class-wise missing attendance list till Yesterday. Click on the day count link under Missing Days to view missing attendance dates.
                 </Alert>
                 <Box mt={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Table aria-label="simple table" sx={{ width: '100%', textAlign: 'center' }}>
+                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` , width: '100%', textAlign: 'center'}}>
                         <TableHead>
                         <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {missingAttendanceColumns.map((column, index) => (
