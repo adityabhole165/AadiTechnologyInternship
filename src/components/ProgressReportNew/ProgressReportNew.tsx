@@ -471,7 +471,7 @@ const ProgressReportNew = () => {
                         />
                       </DialogContent>
                       <DialogContent>
-                        <Typography variant="h4" my={1}>
+                        <Typography variant="h4" >
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
