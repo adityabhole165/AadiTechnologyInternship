@@ -60,7 +60,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
 
     useEffect(() => {
         dispatch(SchoolNoticePopup(SchoolNoticePopupBody));
-    }, [dispatch, SchoolNoticePopupBody]);
+    }, []);
 
     let url = localStorage.getItem("SiteURL") + "RITeSchool/DOWNLOADS/School Notices/";
     const getWithoutHTML = (value) => {
