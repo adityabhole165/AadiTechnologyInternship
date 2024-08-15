@@ -1,5 +1,6 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -11,6 +12,7 @@ import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/Stude
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { DeleteCommentDetails, getSaveComment, resetDeleteHolidayDetails, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
@@ -118,6 +120,9 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
         ResetForm();
         ClickCloseDialogbox();
     }
+    const handleClose = () => {
+        setOpen(false);
+    };
     const ClickOk = () => {
         let isError = false;
         if (Comment === '') {
@@ -134,19 +139,19 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             setLectureNmError('');
         }
 
-        // const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
-        // if (!timePattern.test(Time)) {
-        //     setTimeError('Time should be in HH:MM AM/PM format (e.g 10:00 AM).');
-        //     isError = true;
-        // } else {
-        //     setTimeError('');
-        // }
+        const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!timePattern.test(Time)) {
+            setTimeError('Time should be in HH:MM AM/PM format (e.g 10:00 AM).');
+            isError = true;
+        } else {
+            setTimeError('');
+        }
         if (!isError) {
             dispatch(getSaveComment(SaveCommentBody));
         }
-        if (!isError) {
-            setOpen(false);
-        }
+        // if (!isError) {
+        //     setOpen(false);
+        // }
 
     };
 
@@ -156,18 +161,36 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
             onClose={() => setOpen(false)}
             fullWidth
             maxWidth={'sm'}
+            PaperProps={{
+                sx: {
+                    borderRadius: "15px",
+                }
+            }}
         >
             <DialogTitle
                 sx={{
                     backgroundColor: '#324b84',
-                    py: 1,
+                    position: 'relative'
+
                 }}
             >
-                <Typography variant={"h4"} sx={{ mb: 1, color: 'white' }}>
-                    Student Record Comment
-                </Typography>
+                <ClearIcon onClick={handleClose}
+                    sx={{
+                        color: 'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '8px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'red',
+                        }
+                    }} />
             </DialogTitle>
-            <DialogContent dividers sx={{ px: 4 }}>
+            <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
+                Student Record Comment
+            </Typography>
+            <DialogContent >
                 <Grid container spacing={1} alignItems="center">
                     <Grid item xs={6} md={4}>
                         <Datepicker1
@@ -180,18 +203,18 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                     </Grid>
                     <Grid item xs={6} md={4}>
 
-                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={'medium'} tooltipMessage={'Time'} />
+                        <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={'medium'} />
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
                     </Grid>
                 </Grid>
                 <Box sx={{ pt: 2, background: 'white' }}>
 
                     <Grid item xs={12}>
-                        <TextField
+                        <ResizableTextField
                             rows={3}
                             value={Comment}
                             label={<>
-                                Commment <span style={{ color: 'red' }}>*</span>
+                                Comment <span style={{ color: 'red' }}>*</span>
                             </>}
                             onChange={(e) => setComment(e.target.value)}
                             sx={{ width: '100%' }}
@@ -201,9 +224,8 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
                         />
 
                     </Grid>
-
                     <Grid item xs={12} sx={{ pt: 2, }} >
-                        <TextField
+                        <ResizableTextField
                             rows={1}
                             value={LectureNm}
                             label={<>

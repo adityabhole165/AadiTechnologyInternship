@@ -430,14 +430,38 @@ const ProgressReportNew = () => {
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
-                    <Dialog open={open1} onClose={handleClose} maxWidth="md" scroll="body" sx={{ minHeight: '400px' }}>
-                      <Box sx={{ backgroundColor: "#ede7f6" }}>
-                        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          Grade Configuration Details
-                          <ClearIcon onClick={handleClose} sx={{ color: 'red' }} />
+                    
+                    <Dialog 
+                    open={open1}
+                     onClose={handleClose} 
+                     maxWidth="md" scroll="body"
+                     sx={{ minHeight: '400px' }}
+                     PaperProps={{
+                      sx: {
+                        borderRadius: "15px",
+                      }
+                    }}>
+                        <DialogTitle sx={{ bgcolor: '#223354' }}>
+                          
+                          <ClearIcon onClick={handleClose} 
+                          sx={{
+                            color: 'white',
+                            // background:'white',
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            top: '5px',
+                            right: '8px',
+                            cursor: 'pointer',
+                            '&:hover': {
+                              color: 'red'
+                            }
+                          }} />
                         </DialogTitle>
-                      </Box>
+                      
                       <DialogContent>
+                      <Typography variant="h3" my={1}>
+                      Grade Configuration Details
+                        </Typography>
                         <Typography variant="h4" my={1}>
                           Subjects :-
                         </Typography>
@@ -447,7 +471,7 @@ const ProgressReportNew = () => {
                         />
                       </DialogContent>
                       <DialogContent>
-                        <Typography variant="h4" my={1}>
+                        <Typography variant="h4" >
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList

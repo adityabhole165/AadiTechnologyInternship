@@ -1,7 +1,7 @@
-import { TextField, Tooltip } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const TimeField = ({ Item, ClickItem, label, size, isMandatory = true, tooltipMessage }) => {
+const TimeField = ({ Item, ClickItem, label, size, isMandatory = true }) => {
     const [currentTime, setCurrentTime] = useState("");
 
     useEffect(() => {
@@ -12,31 +12,33 @@ const TimeField = ({ Item, ClickItem, label, size, isMandatory = true, tooltipMe
     }, []);
 
     useEffect(() => {
-        if (!Item) {
-            ClickItem(currentTime);
-        }
-    }, [currentTime, Item, ClickItem]);
+        ClickItem(currentTime);
+    }, [currentTime, ClickItem]);
+
+    const handleChange = (e) => {
+        setCurrentTime(e.target.value);
+    };
 
     return (
         <div>
-            <Tooltip title={tooltipMessage}>
-                <TextField
-                    label={
-                        label ? (
-                            <>
-                                {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
-                            </>
-                        ) : (
-                            "Select Time"
-                        )
-                    }
-                    type="time"
-                    value={Item ? currentTime : null}
-                    onChange={(e) => ClickItem(e.target.value)}
-                    fullWidth
-                    size={size || 'medium'}
-                />
-            </Tooltip>
+
+            <TextField
+                label={
+                    label ? (
+                        <>
+                            {label} {isMandatory && <span style={{ color: 'red' }}>*</span>}
+                        </>
+                    ) : (
+                        "Select Time"
+                    )
+                }
+                type="time"
+                value={currentTime}
+                onChange={handleChange}
+                fullWidth
+                size={size || 'medium'}
+            />
+
         </div>
     );
 };

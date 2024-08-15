@@ -22,8 +22,8 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                     <TableBody>
                         {USFillSubjectSections.map(subjectSection => (
                             <React.Fragment key={subjectSection.SubjectSectionConfigurationId}>
-                                <TableRow>
-                                    <TableCell sx={{ alignItems: 'right', pl: 70, fontWeight: 'bold' }} colSpan={4}>
+                                <TableRow sx={{backgroundColor:'#F0F0F0', alignItems:'center'}}>
+                                    <TableCell sx={{ py: 1.5, fontWeight: 'bold' ,pl:70 }} colSpan={4}>
                                         {subjectSection.SubjectSectionName}
                                     </TableCell>
                                 </TableRow>
@@ -31,9 +31,9 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                                 {USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId == subjectSection.SubjectSectionConfigurationId)
                                     .map((outcome, index) => (
                                         <TableRow key={outcome.YearwiseStudentId}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{outcome.LearningOutcome}</TableCell>
-                                            <TableCell>{outcome.ShortName}</TableCell>
+                                            <TableCell sx={{py: 1}}>{index + 1}</TableCell>
+                                            <TableCell sx={{py: 1}}>{outcome.LearningOutcome}</TableCell>
+                                            <TableCell sx={{py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
                                         </TableRow>
                                     ))}
                             </React.Fragment>

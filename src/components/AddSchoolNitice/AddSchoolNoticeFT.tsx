@@ -13,7 +13,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
+import Datepicker2 from 'src/libraries/DateSelector/Datepicker2';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
@@ -25,7 +25,6 @@ import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLes
 import CommonPageHeader from '../CommonPageHeader';
 import { ResizableTextField } from './ResizableDescriptionBox';
 import TimepickerTwofields from './TimepickerTwofields';
-import Datepicker2 from 'src/libraries/DateSelector/Datepicker2';
 const AddSchoolNoticeFT = () => {
     const { NoticeId, selectDisplayType } = useParams();
     const navigate = useNavigate();
@@ -250,15 +249,15 @@ const AddSchoolNoticeFT = () => {
         asUserRoleIds: getApplicableTo(),
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
-        asFolderName: asFolderName,
-        asBase64String: base64URL,
-        asBase64String2: base64URL2,
+        asFolderName: 'PPSN Website',
+        asBase64String: base64URL == '' ? null : base64URL,
+        asBase64String2: base64URL2 == '' ? null : base64URL2,
         NoticeName: NoticeName,
         DisplayLocation: selectDisplayLocation,
         StartDate: StartDate + ' ' + StartTime,
         EndDate: EndDate + ' ' + EndTime,
         SortOrder: Number(SortOrder),
-        FileName: NoticeFile,
+        FileName: NoticeFile == '' ? null : NoticeFile,
         IsSelected: true,
         IsText: Text,
         NoticeContent: NoticeContent,
@@ -266,7 +265,7 @@ const AddSchoolNoticeFT = () => {
         SchoolId: Number(asSchoolId),
         InertedById: asUserId,
         NoticeDescription: Description,
-        NoticeImage: ImageFile
+        NoticeImage: ImageFile == '' ? null : ImageFile
     }
     const ClickSave = () => {
         let isError = false;
@@ -470,6 +469,25 @@ const AddSchoolNoticeFT = () => {
     };
     const clickDisplayLocationDropdown = (value) => {
         setDisplayLocation(value);
+        if (value === 'H') {
+            setSelectAll(true);
+            setApplicableTo({
+                admin: true,
+                teacher: true,
+                student: true,
+                adminStaff: true,
+                otherStaff: true,
+            });
+        } else {
+            setSelectAll(false);
+            setApplicableTo({
+                admin: false,
+                teacher: false,
+                student: false,
+                adminStaff: false,
+                otherStaff: false,
+            });
+        }
     };
     const onSelectStartDate = (value) => {
         setStartDate(getCalendarDateFormatDateNew(value));
@@ -493,6 +511,11 @@ const AddSchoolNoticeFT = () => {
         window.open(fullImageUrl, '_blank');
     };
 
+    const viewNotice = () => {
+        const fullImageUrl1 = `${url}${NoticeFile}`;
+        window.open(fullImageUrl1, '_blank');
+    };
+
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -509,7 +532,7 @@ const AddSchoolNoticeFT = () => {
                     ]}
                     rightActions={
                         <>
-                            <Box>
+                            {/* <Box>
                                 <Tooltip
                                     title={`Displays all uploaded school notices.`}
                                 >
@@ -524,7 +547,7 @@ const AddSchoolNoticeFT = () => {
                                         <QuestionMarkIcon />
                                     </IconButton>
                                 </Tooltip>
-                            </Box>
+                            </Box> */}
                             <Box>
                                 <Tooltip title={`Cancel`}>
                                     <IconButton
@@ -573,7 +596,7 @@ const AddSchoolNoticeFT = () => {
                 <Box sx={{ p: 2, background: 'white' }}>
                     <Grid container spacing={2}>
                         {radioBtn === '1' ? (
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={4} md={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -597,7 +620,7 @@ const AddSchoolNoticeFT = () => {
 
                             </Grid>
                         ) : (
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={4} md={6}>
                                 <TextField
                                     fullWidth
                                     label={
@@ -618,7 +641,7 @@ const AddSchoolNoticeFT = () => {
                                 <ErrorMessage1 Error={NoticeNameError}></ErrorMessage1>
                             </Grid>
                         )}
-                        <Grid item xs={4} md={4}>
+                        <Grid item xs={4} md={3}>
                             <SearchableDropdown
                                 sx={{ minWidth: '20vw' }}
                                 ItemList={DisplayLocation}
@@ -628,34 +651,7 @@ const AddSchoolNoticeFT = () => {
                                 label='Display Location'
                             />
                         </Grid>
-                        <Grid item xs={4} md={4} >
-                            <Datepicker2
-                                DateValue={StartDate}
-                                onDateChange={onSelectStartDate}
-                                label={'Start Date'}
-                                size={"medium"}
-                            />
-                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
-                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
-                        </Grid>
-                        <Grid item xs={6} md={4}>
-                            <Datepicker2
-                                DateValue={EndDate}
-                                onDateChange={onSelectEndDate}
-                                label={'End Date'}
-                                size={"medium"}
-                            />
-                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
-                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
-                        </Grid>
-                        <Grid item xs={6} md={4}>
-                            <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
-
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
-                        </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <TextField
                                 fullWidth
                                 label={
@@ -675,9 +671,40 @@ const AddSchoolNoticeFT = () => {
                             />
                             <ErrorMessage1 Error={SortOrderError}></ErrorMessage1>
                         </Grid>
+                        <Grid item xs={4} md={3} >
+                            <Datepicker2
+                                DateValue={StartDate}
+                                onDateChange={onSelectStartDate}
+                                label={'Start Date'}
+                                size={"medium"}
+                            />
+                            <ErrorMessage1 Error={ErrorStartDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorStartDateblank}></ErrorMessage1>
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                            <TimepickerTwofields Item={StartTime} label={'Start Time'} isMandatory={false} ClickItem={clickStartTime} size={"medium"} tooltipMessage="e.g. 10:00 AM" />
+
+                        </Grid>
+                        <Grid item xs={6} md={3}>
+                            <Datepicker2
+                                DateValue={EndDate}
+                                onDateChange={onSelectEndDate}
+                                label={'End Date'}
+                                size={"medium"}
+                            />
+                            <ErrorMessage1 Error={ErrorEndDate}></ErrorMessage1>
+                            <ErrorMessage1 Error={ErrorEndDateblank}></ErrorMessage1>
+                        </Grid>
+
+                        <Grid item xs={12} md={3}>
+                            <TimepickerTwofields Item={EndTime} label={'End Time'} isMandatory={false} ClickItem={clickEndTime} size={"medium"} tooltipMessage="e.g. 04:00 PM" />
+                        </Grid>
+
                         {radioBtn === '1' && (
-                            <Grid item xs={12} md={4}>
-                                <Box sx={{ position: 'relative' }}>
+
+                            <Grid item xs={12} md={3}>
+                                <Grid sx={{ display: 'flex' }}>
+                                <Grid >
                                     <SingleFile2
                                         ValidFileTypes={ValidFileTypes}
                                         MaxfileSize={MaxfileSize}
@@ -685,18 +712,38 @@ const AddSchoolNoticeFT = () => {
                                         errorMessage={''}
                                         FileName={NoticeFile}
                                         FileLabel={'Select File'}
-                                        width={'100%'}
+                                        width={'262px'}
                                         height={"52px"}
                                         isMandatory
                                     />
                                     {NoticeFileError && (
                                         <ErrorMessage1 Error={NoticeFileError} />
                                     )}
-                                </Box>
+                                </Grid>
+                                <Grid item xs={1} md={1} ml={1}>
+
+                                    <Tooltip title={"View"}>
+                                        <IconButton
+                                            onClick={viewNotice}
+                                            sx={{
+                                                color: '#223354',
+                                                mt: 0.7,
+                                                '&:hover': {
+                                                    color: '#223354',
+                                                    cursor: 'pointer'
+                                                }
+                                            }}
+                                        >
+                                            <Visibility />
+                                        </IconButton>
+                                    </Tooltip>
+
+                                </Grid>
+                                </Grid>
                             </Grid>
                         )}
 
-                        <Grid item xs={6} md={3}>
+                        <Grid item xs={12} md={2.1} >
                             <SingleFile2
                                 ValidFileTypes={ValidFileTypes2}
                                 MaxfileSize={MaxfileSize2}
@@ -771,31 +818,31 @@ const AddSchoolNoticeFT = () => {
                                 <FormGroup row>
                                     <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
                                         <FormControlLabel
-                                            control={<Checkbox checked={selectAll} onChange={handleSelectAll} />}
+                                            control={<Checkbox checked={selectAll} onChange={handleSelectAll} disabled={selectDisplayLocation === 'H'} />}
                                             label={<Typography variant="h5">Select All</Typography>}
                                         />
                                     </Grid>
                                     <Box mt={1} ml={1}>
                                         <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} name="admin" />}
+                                            control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="admin" />}
                                             label="Admin"
                                         />
                                         <Box>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} name="teacher" />}
+                                                control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="teacher" />}
                                                 label="Teacher"
                                             /></Box>
                                         <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} name="student" />}
+                                            control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="student" />}
                                             label="Student"
                                         />
                                         <Box>
                                             <FormControlLabel
-                                                control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} name="adminStaff" />}
+                                                control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="adminStaff" />}
                                                 label="Admin Staff"
                                             /></Box>
                                         <FormControlLabel
-                                            control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} name="otherStaff" />}
+                                            control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="otherStaff" />}
                                             label="Other Staff"
                                         />
                                     </Box>  <ErrorMessage1 Error={ErrorUserRole} />
@@ -804,7 +851,7 @@ const AddSchoolNoticeFT = () => {
                             {applicableTo.student && (
                                 <Grid item xs={12} md={9} mt={2}>
                                     <Typography variant="h5">
-                                        Associated Classes
+                                        Associated Classes  <span style={{ color: 'red' }}>*</span>
                                     </Typography>
                                     <SelectListHierarchy
                                         ItemList={ItemList}

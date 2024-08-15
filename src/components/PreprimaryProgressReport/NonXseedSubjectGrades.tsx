@@ -28,9 +28,9 @@ const NonXseedSubjectGrades = ({USFillNonXseedSubjectGrades}) => {
                         <TableBody>
                             {USFillNonXseedSubjectGrades.map((row) => (
                                 <TableRow key={row.YearwiseStudentId}>
-                                    <TableCell>{row.SubjectName}</TableCell>
-                                    <TableCell>{row.ShortName}</TableCell>
-                                    <TableCell>{row.Observation}</TableCell>
+                                    <TableCell sx={{py: 1}}>{row.SubjectName}</TableCell>
+                                    <TableCell sx={{py: 1}}>{row.ShortName}</TableCell>
+                                    <TableCell sx={{py: 1}}>{row.Observation}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

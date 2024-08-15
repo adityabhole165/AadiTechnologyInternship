@@ -3,22 +3,22 @@ import React from 'react'
 
 const SchoolDetails = ({ USFillSchoolDetails }) => {
     return (
-        <Box border={1} sx={{ p: 2, background: 'white' }}>
+        <Box  sx={{ p: 1, background: 'white' }}>
             <Grid container spacing={3}>
                 {USFillSchoolDetails.map((detail) => (
                     <Grid item xs={12} key={detail.UserId}>
                         <Box sx={{
                             backgroundColor: '#F0F0F0',
-                            textAlign: 'center',
-                        }}>
+                            textAlign: 'center',     
+                        }} >
                             <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
+                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0}>
 
                                 {detail.OrganizationName}
 
                             </Typography>
                             <hr />
-                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
+                            <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0} >
 
                                 {detail.School_Name}
 

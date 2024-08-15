@@ -19,7 +19,7 @@ import NonXseedSubjectGrades from './NonXseedSubjectGrades';
 import SchoolDetails from './SchoolDetails';
 import StudentDetails from './StudentDetails';
 import XseedRemarks from './XseedRemarks';
-
+import Visibility from '@mui/icons-material/Visibility';
 const PreprimaryProgressReport = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('0');
@@ -98,7 +98,7 @@ const PreprimaryProgressReport = () => {
     const ClickShow = (value) => {
         setOpen(true)
         if (AssessmentId == '0') {
-            SetError('Assessment should be selected')
+            SetError('Assessment should be selected.')
         }
         if (ClassTeacher == '0' && PreprimaryFullAccess == 'Y') {
             SetError1(' Class Teacher should be selected.')
@@ -207,7 +207,7 @@ const PreprimaryProgressReport = () => {
                                         }
                                     }}
                                     onClick={ClickShow}>
-                                    <VisibilityTwoToneIcon />
+                                    <Visibility />
                                 </IconButton>
                             </Tooltip>
                         </Box>
@@ -253,7 +253,7 @@ const PreprimaryProgressReport = () => {
                     USFillStudentDetails.length > 0 ?
 
                         USFillStudentDetails.map((detail) => (<>
-                            <Box border={1} sx={{ p: 2, background: 'white' }}>
+                            <Box border={1} sx={{ px: 2, background: 'white' }}>
                                 <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
                                 <StudentDetails USFillStudentDetails={USFillStudentDetails
                                     .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
