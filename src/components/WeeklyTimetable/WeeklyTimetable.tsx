@@ -1,12 +1,12 @@
 import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import Save from "@mui/icons-material/Save"
 import Settings from "@mui/icons-material/Settings"
 import SquareIcon from '@mui/icons-material/Square'
 import { Alert, alpha, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, FormGroup, IconButton, MenuItem, Popover, Stack, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
-import { green, grey, red } from "@mui/material/colors"
+import { blue, green, grey, red } from "@mui/material/colors"
 import { useContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify'
@@ -248,14 +248,14 @@ const WeeklyTimetable = (props: Props) => {
         asWeekDayName: 'Friday'
     }
     useEffect(() => {
-        if (teacher !== '0') {
+        if (teacher !== '0' && isNewTeacherSelection === true) {
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri));
         }
-    }, [teacher]);
+    }, [teacher, isNewTeacherSelection]);
 
     // Additional / Optional Lecture Added Success Msg.
     useEffect(() => {
@@ -275,7 +275,8 @@ const WeeklyTimetable = (props: Props) => {
     // Split `-` Sequence is as follows [ SubTeacherId-WeekDayId-StdDivId-SubId-LecNo ]  | For Teacher's Timetable Case
     // Split `-` Sequence is as follows [ SubTeacherId-WeekDayId-TeacherId-SubId-LecNo ]  | For Class's Timetable Case
     useEffect(() => {
-        if (isNewTeacherSelection && TeacherTimetableCellValues.length > 0 && WeekdayIds.length > 0) {
+        if (isNewTeacherSelection && TeacherTimetableCellValues.length > 0 && WeekdayIds.length > 0 && MondayColumnList?.length > 0 && TuesdayColumnList?.length > 0 && WednesdayColumnList?.length > 0 && ThursdayColumnList?.length > 0 && FridayColumnList?.length > 0) {
+            setTrackTeacherTimetable({});
             const abc = {};
             const WeekDaydropdownList = [MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList];
             // Get weekday IDs
@@ -292,11 +293,12 @@ const WeeklyTimetable = (props: Props) => {
             });
             setTrackTeacherTimetable(abc);
         }
-    }, [TeacherTimetableCellValues, WeekdayIds, isNewTeacherSelection])
+    }, [TeacherTimetableCellValues, WeekdayIds, isNewTeacherSelection, MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList])
 
 
     useEffect(() => {
         if (isNewClassSelection && ClassTimetableCellValues.length > 0 && ClassWeeklyIds.length > 0) {
+            setTrackClassTimetable({});
             const abc = {};
             const WeekDaydropdownList = [MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList];
             // Get weekday IDs
@@ -576,7 +578,6 @@ const WeeklyTimetable = (props: Props) => {
                     confirmButtonText: 'Confirm',
                     cancelButtonText: 'Cancel',
                     onConfirm: () => {
-                        console.log(`Hey whats this .... ✨`, SaveTeacherTimetableBody1)
                         dispatch(CDASaveTeacherTimetableWithIncr(SaveTeacherTimetableBody1))
                         closeAlert();
                     },
@@ -723,6 +724,16 @@ const WeeklyTimetable = (props: Props) => {
         return isAdd;
     }
 
+    // Following f() is for Filtering array based on LecNo and WeekDayDropdown's max lec. No
+    function filterMaxDayLec(ArrayofWeekDayData, lecNo) {
+        // Convert lecNo to a number
+        const lecNumber = Number(lecNo);
+        // Filter the array based on the condition
+        let newAr = ArrayofWeekDayData.filter(item => lecNumber <= parseInt(item.MaxDayLec));
+        newAr.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+        return newAr;
+    }
+
     return (
         <>
             <Box sx={{ mb: 5, mx: 2 }}>
@@ -732,144 +743,9 @@ const WeeklyTimetable = (props: Props) => {
                     ]}
                     rightActions={
                         <>
-                            <Tooltip title={'Define timetable for the selected teacher/class.'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        '&:hover': {
-                                            backgroundColor: grey[600]
-                                        }
-                                    }}
-                                >
-                                    <QuestionMark />
-                                </IconButton>
-                            </Tooltip>
-                            {filterBy === 'Teacher' && teacher !== '0' && <>
-                                <Tooltip title={'Reset'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: grey[500],
-                                            '&:hover': {
-                                                backgroundColor: red[600]
-                                            }
-                                        }}
-                                        onClick={resetTimetable}
-                                    >
-                                        <RestartAltIcon />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title={'Save'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: green[500],
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={saveTeacherTimetable}
-                                    >
-                                        <Save />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title={'Additional Lectures'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: green[500],
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }} onClick={ClickAdditionalLecture}
-                                    >
-                                        <AddIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </>}
-                            {filterBy === 'Class' && standard !== '0' && division !== '0' && <>
-                                <Tooltip title={'Reset'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: grey[500],
-                                            '&:hover': {
-                                                backgroundColor: red[600]
-                                            }
-                                        }}
-                                        onClick={resetTimetable}
-                                    >
-                                        <RestartAltIcon />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title={'Save'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: green[500],
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }} onClick={saveClassTimetable}
-                                    >
-                                        <Save />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title={'Optional Subject Lectures'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: green[500],
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={ClickAdditionalLecture}
-                                    >
-                                        <AddIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </>}
-                        </>
-                    }
-                />
-                <Box sx={{ background: 'white', p: 1 }}>
-                    <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                        <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
-                        <Box sx={{ display: 'flex', gap: '20px' }}>
-                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <SquareIcon style={{ color: '#a5b4fc', fontSize: 25, position: 'relative', top: '-2px' }} />
-                                <Typography>Lecture Not Applicable</Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <SquareIcon style={{ color: '#ddd6fe', fontSize: 25, position: 'relative', top: '-2px' }} />
-                                <Typography>Associated With Additional / Optional Subject Lectures</Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
-                {ValidateTeacherDataMsg?.length > 0 && checkErrorMsgLength(ValidateTeacherDataMsg[0]) &&
-                    <Stack sx={{ width: '100%' }} spacing={1} mt={1}>
-                        {ValidateTeacherDataMsg.map((errorObj, index) => (
-                            Object.keys(errorObj).map((key) => {
-                                const message = errorObj[key].trim();
-                                if (message !== "") {
-                                    return <Alert key={`${index}-${key}`} severity="warning"> <span dangerouslySetInnerHTML={{ __html: message }} /> </Alert>;
-                                }
-                                return null;
-                            })
-                        ))}
-                    </Stack>
-                }
-                <Box sx={{ p: 2, background: 'white', mt: 1 }}>
-                    <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
-                        {filterBy === 'Teacher' ? <Typography variant={"h4"}>Weekly Timetable for {teacher !== '0' ? teacherName : 'Teacher/Class Name'}</Typography> :
-                            <Typography variant={"h4"}>Weekly Timetable for {standard !== '0' && division !== '0' ? `Class ${standardName} - ${divisionName}` : 'Teacher/Class Name'}</Typography>}
-                        <Stack direction={"row"} gap={1} alignItems={"center"}>
                             <Box>
                                 <TextField
-                                    label={"Filter By"}
+                                    label={"Select By"}
                                     size={"small"}
                                     select
                                     value={filterBy}
@@ -884,65 +760,59 @@ const WeeklyTimetable = (props: Props) => {
                                     }}
                                 >
                                     <MenuItem value={"Teacher"}>Teacher</MenuItem>
-                                    <MenuItem value={"Class"}>Class Info</MenuItem>
+                                    <MenuItem value={"Class"}>Class</MenuItem>
                                 </TextField>
                             </Box>
-                            {filterBy === 'Teacher' && (
-                                <>
-                                    <Box>
-                                        <SearchableDropdown1
-                                            onChange={(value) => {
-                                                setTeacher(value.Value)
-                                                setTeacherName(value.Name)
-                                                setIsNewTeacherSelection(true)
-                                                dispatch(CDAClearValidateTeacherData())
-                                            }}
-                                            ItemList={TeachersList}
-                                            defaultValue={teacher}
-                                            label="Teacher"
-                                            sx={{ minWidth: 250 }}
-                                            size={"small"}
-                                        />
-                                    </Box>
-                                    <Box>
-                                        {teacher !== '0' &&
-                                            <Tooltip title={'Teacher Settings'}>
-                                                <IconButton
-                                                    onClick={handleTeacherSettingsClick}
-                                                    sx={{
-                                                        color: 'white',
-                                                        backgroundColor: grey[500],
-                                                        '&:hover': {
-                                                            backgroundColor: grey[600]
-                                                        }
-                                                    }}
-                                                >
-                                                    <Settings />
-                                                </IconButton>
-                                            </Tooltip>
-                                        }
-                                        <Popover
-                                            id={id}
-                                            open={open}
-                                            anchorEl={teacherSettingsAnchorEL}
-                                            onClose={handleTeacherSettingsClose}
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right',
-                                            }}
-                                        >
-                                            <Box sx={{ p: 2 }}>
-                                                <FormGroup>
-                                                    <FormControlLabel control={<Checkbox checked={assembly} onChange={handleAssembly} />} label="Is Assembly Applicable?" />
-                                                    <FormControlLabel control={<Checkbox checked={mpt} onChange={handleMpt} />} label="Is M.P.T. Applicable?" />
-                                                    <FormControlLabel control={<Checkbox checked={stayback} onChange={handleStayback} />} label="Is StayBack Applicable?" />
-                                                    <FormControlLabel control={<Checkbox checked={weeklytest} onChange={handleWeeklytest} />} label="Is Weekly Test Applicable?" />
-                                                </FormGroup>
-                                            </Box>
-                                        </Popover>
-                                    </Box>
-                                </>
-                            )}
+                            {filterBy === 'Teacher' &&
+                                <SearchableDropdown1
+                                    onChange={(value) => {
+                                        setTeacher(value.Value)
+                                        setTeacherName(value.Name)
+                                        setIsNewTeacherSelection(true)
+                                        dispatch(CDAClearValidateTeacherData())
+                                    }}
+                                    ItemList={TeachersList}
+                                    defaultValue={teacher}
+                                    label="Teacher"
+                                    sx={{ minWidth: 250 }}
+                                    size={"small"}
+                                />
+                            }
+                            {teacher !== '0' &&
+                                <Tooltip title={'Teacher Settings'}>
+                                    <IconButton
+                                        onClick={handleTeacherSettingsClick}
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            '&:hover': {
+                                                backgroundColor: grey[600]
+                                            }
+                                        }}
+                                    >
+                                        <Settings />
+                                    </IconButton>
+                                </Tooltip>
+                            }
+                            <Popover
+                                id={id}
+                                open={open}
+                                anchorEl={teacherSettingsAnchorEL}
+                                onClose={handleTeacherSettingsClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                }}
+                            >
+                                <Box sx={{ p: 2 }}>
+                                    <FormGroup>
+                                        <FormControlLabel control={<Checkbox checked={assembly} onChange={handleAssembly} />} label="Is Assembly Applicable?" />
+                                        <FormControlLabel control={<Checkbox checked={mpt} onChange={handleMpt} />} label="Is M.P.T. Applicable?" />
+                                        <FormControlLabel control={<Checkbox checked={stayback} onChange={handleStayback} />} label="Is StayBack Applicable?" />
+                                        <FormControlLabel control={<Checkbox checked={weeklytest} onChange={handleWeeklytest} />} label="Is Weekly Test Applicable?" />
+                                    </FormGroup>
+                                </Box>
+                            </Popover>
                             {filterBy === 'Class' && (
                                 <>
                                     <Box>
@@ -978,12 +848,179 @@ const WeeklyTimetable = (props: Props) => {
                                     </Box>
                                 </>
                             )}
-                        </Stack>
+                            {filterBy === 'Teacher' && teacher !== '0' && <>
+                                <Tooltip title={'Reset'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={resetTimetable}
+                                    >
+                                        <RestartAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Box>
+                                    <Tooltip title={'Define timetable for the selected teacher / class.'}>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: grey[500],
+                                                '&:hover': {
+                                                    backgroundColor: grey[600]
+                                                }
+                                            }}
+                                        >
+                                            <QuestionMark />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                                <Tooltip title={'Save'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={saveTeacherTimetable}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={'Additional Lectures'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }} onClick={ClickAdditionalLecture}
+                                    >
+                                        <AddIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>}
+                            {filterBy === 'Class' && standard !== '0' && division !== '0' && <>
+                                <Tooltip title={'Reset'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={resetTimetable}
+                                    >
+                                        <RestartAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Box>
+                                    <Tooltip title={'Define timetable for the selected teacher / class.'}>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: grey[500],
+                                                '&:hover': {
+                                                    backgroundColor: grey[600]
+                                                }
+                                            }}
+                                        >
+                                            <QuestionMark />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                                <Tooltip title={'Save'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }} onClick={saveClassTimetable}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={'Optional Subject Lectures'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={ClickAdditionalLecture}
+                                    >
+                                        <AddIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>}
+                            {teacher === '0' ?
+                                <Box>
+                                    <Tooltip title={'Define timetable for the selected teacher / class.'}>
+                                        <IconButton
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: grey[500],
+                                                '&:hover': {
+                                                    backgroundColor: grey[600]
+                                                }
+                                            }}
+                                        >
+                                            <QuestionMark />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box> : ''}
+                        </>
+                    }
+                />
+                <Box sx={{ background: 'white', p: 1 }}>
+                    <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                        <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
+                        <Box sx={{ display: 'flex', gap: '20px' }}>
+                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                                <SquareIcon style={{ color: '#a5b4fc', fontSize: 25, position: 'relative', top: '-2px' }} />
+                                <Typography>Lecture Not Applicable</Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                                <SquareIcon style={{ color: '#ddd6fe', fontSize: 25, position: 'relative', top: '-2px' }} />
+                                <Typography>Associated With Additional / Optional Subject Lectures</Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Box>
+                {ValidateTeacherDataMsg?.length > 0 && checkErrorMsgLength(ValidateTeacherDataMsg[0]) &&
+                    <Stack sx={{ width: '100%' }} spacing={1} mt={1}>
+                        {ValidateTeacherDataMsg.map((errorObj, index) => (
+                            Object.keys(errorObj).map((key) => {
+                                const message = errorObj[key].trim();
+                                if (message !== "") {
+                                    return <Alert key={`${index}-${key}`} severity="warning"> <span dangerouslySetInnerHTML={{ __html: message }} /> </Alert>;
+                                }
+                                return null;
+                            })
+                        ))}
                     </Stack>
-                    {
-                        loading ? <SuspenseLoader /> :
-                            <>
-                                {filterBy === 'Teacher' && teacher !== '0' && teacher !== undefined && TeacherTimetableCellValues.length > 0 ?
+                }
+                <Box sx={{ p: 2, background: 'white', mt: 1 }}>
+                    <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
+                        {filterBy === 'Teacher' ? <Typography variant={"h4"}>Weekly Timetable for {teacher !== '0' ? teacherName : 'Teacher / Class Name'}</Typography> :
+                            <Typography variant={"h4"}>Weekly Timetable for {standard !== '0' && division !== '0' ? `Class ${standardName} - ${divisionName}` : 'Teacher / Class Name'}</Typography>}
+                    </Stack>
+                    {isNewTeacherSelection && Object.keys(trackTeacherTimetable).length === 0 && <SuspenseLoader />}
+                    {loading ? <SuspenseLoader /> :
+                        <>
+                            {filterBy === 'Teacher' && teacher !== '0' && teacher !== undefined && TeacherTimetableCellValues.length > 0 && Object.keys(trackTeacherTimetable).length > 0 ?
+                                <>
                                     <Box sx={{ mt: 2 }}>
                                         <TableContainer>
                                             <Table>
@@ -1001,109 +1038,119 @@ const WeeklyTimetable = (props: Props) => {
                                                     {TeacherTimetableCellValues.length > 0 && TeacherTimetableCellValues?.map((item, i) => {
                                                         return (
                                                             <>
-                                                                {WeekdayIds.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && item.Text1 !== '99' ?
+                                                                {WeekdayIds.length > 0 && item.Text1 !== '99' ?
                                                                     <TableRow>
                                                                         <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
                                                                         <Tooltip title={`For - Monday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Monday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Monday', item.Text1) ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Monday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Monday', item.Text1) ? '#324B8466' : filterMaxDayLec(MondayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
-                                                                                    <SearchableDropdown1
-                                                                                        onChange={(value) => clickTeacherMon(value, `${WeekdayIds[0].WeekdayId}-${item.Text1}`)}
-                                                                                        ItemList={MondayColumnList}
-                                                                                        sx={{
-                                                                                            minWidth: 200, backgroundColor: `${item.Text2 !== '0' && hasAddLect('Monday', item.Text1) ? '#ddd6fe' : item.Text2 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
-                                                                                                color: "inherit", // or any color you want
-                                                                                                WebkitTextFillColor: "inherit", // for Safari
-                                                                                                fontWeight: "bold", // for Safari
-                                                                                            }
-                                                                                        }} size={"small"}
-                                                                                        disabled={item.Text2 !== '0' && hasAddLect('Monday', item.Text1)}
-                                                                                        defaultValue={trackTeacherTimetable[`${WeekdayIds[0].WeekdayId}-${item.Text1}`]?.split('-')[0]}
-                                                                                    />}
+                                                                                    filterMaxDayLec(MondayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                        <b>Lecture Not Applicable</b></Typography> :
+                                                                                        <SearchableDropdown1
+                                                                                            onChange={(value) => clickTeacherMon(value, `${WeekdayIds[0].WeekdayId}-${item.Text1}`)}
+                                                                                            ItemList={filterMaxDayLec(MondayColumnList, item.Text1)}
+                                                                                            sx={{
+                                                                                                minWidth: 200, backgroundColor: `${item.Text2 !== '0' && hasAddLect('Monday', item.Text1) ? '#ddd6fe' : item.Text2 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
+                                                                                                    color: "inherit", // or any color you want
+                                                                                                    WebkitTextFillColor: "inherit", // for Safari
+                                                                                                    fontWeight: "bold", // for Safari
+                                                                                                }
+                                                                                            }} size={"small"}
+                                                                                            disabled={item.Text2 !== '0' && hasAddLect('Monday', item.Text1)}
+                                                                                            defaultValue={trackTeacherTimetable[`${WeekdayIds[0].WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        />}
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Tuesday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Tuesday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Tuesday', item.Text1) ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Tuesday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Tuesday', item.Text1) ? '#324B8466' : filterMaxDayLec(TuesdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
-                                                                                    <SearchableDropdown1
-                                                                                        onChange={(value) => clickTeacherTue(value, `${WeekdayIds[1].WeekdayId}-${item.Text1}`)}
-                                                                                        ItemList={TuesdayColumnList}
-                                                                                        sx={{
-                                                                                            minWidth: 200, backgroundColor: `${item.Text3 !== '0' && hasAddLect('Tuesday', item.Text1) ? '#ddd6fe' : item.Text3 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
-                                                                                                color: "inherit", // or any color you want
-                                                                                                WebkitTextFillColor: "inherit", // for Safari
-                                                                                                fontWeight: "bold", // for Safari
-                                                                                            }
-                                                                                        }}
-                                                                                        size={"small"}
-                                                                                        disabled={item.Text3 !== '0' && hasAddLect('Tuesday', item.Text1)}
-                                                                                        defaultValue={trackTeacherTimetable[`${WeekdayIds[1].WeekdayId}-${item.Text1}`]?.split('-')[0]}
-                                                                                    />}
+                                                                                    filterMaxDayLec(TuesdayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                        <b>Lecture Not Applicable</b></Typography> :
+                                                                                        <SearchableDropdown1
+                                                                                            onChange={(value) => clickTeacherTue(value, `${WeekdayIds[1]?.WeekdayId}-${item.Text1}`)}
+                                                                                            ItemList={filterMaxDayLec(TuesdayColumnList, item.Text1)}
+                                                                                            sx={{
+                                                                                                minWidth: 200, backgroundColor: `${item.Text3 !== '0' && hasAddLect('Tuesday', item.Text1) ? '#ddd6fe' : item.Text3 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
+                                                                                                    color: "inherit", // or any color you want
+                                                                                                    WebkitTextFillColor: "inherit", // for Safari
+                                                                                                    fontWeight: "bold", // for Safari
+                                                                                                }
+                                                                                            }}
+                                                                                            size={"small"}
+                                                                                            disabled={item.Text3 !== '0' && hasAddLect('Tuesday', item.Text1)}
+                                                                                            defaultValue={trackTeacherTimetable[`${WeekdayIds[1]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        />}
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Wednesday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Wednesday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Wednesday', item.Text1) ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Wednesday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Wednesday', item.Text1) ? '#324B8466' : filterMaxDayLec(WednesdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
-                                                                                    <SearchableDropdown1
-                                                                                        onChange={(value) => clickTeacherWed(value, `${WeekdayIds[2].WeekdayId}-${item.Text1}`)}
-                                                                                        ItemList={WednesdayColumnList}
-                                                                                        sx={{
-                                                                                            minWidth: 200, backgroundColor: `${item.Text4 !== '0' && hasAddLect('Wednesday', item.Text1) ? '#ddd6fe' : item.Text4 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
-                                                                                                color: "inherit", // or any color you want
-                                                                                                WebkitTextFillColor: "inherit", // for Safari
-                                                                                                fontWeight: "bold", // for Safari
-                                                                                            }
-                                                                                        }}
-                                                                                        disabled={item.Text4 !== '0' && hasAddLect('Wednesday', item.Text1)}
-                                                                                        size={"small"}
-                                                                                        defaultValue={trackTeacherTimetable[`${WeekdayIds[2].WeekdayId}-${item.Text1}`]?.split('-')[0]}
-                                                                                    />}
+                                                                                    filterMaxDayLec(WednesdayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                        <b>Lecture Not Applicable</b></Typography> :
+                                                                                        <SearchableDropdown1
+                                                                                            onChange={(value) => clickTeacherWed(value, `${WeekdayIds[2]?.WeekdayId}-${item.Text1}`)}
+                                                                                            ItemList={filterMaxDayLec(WednesdayColumnList, item.Text1)}
+                                                                                            sx={{
+                                                                                                minWidth: 200, backgroundColor: `${item.Text4 !== '0' && hasAddLect('Wednesday', item.Text1) ? '#ddd6fe' : item.Text4 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
+                                                                                                    color: "inherit", // or any color you want
+                                                                                                    WebkitTextFillColor: "inherit", // for Safari
+                                                                                                    fontWeight: "bold", // for Safari
+                                                                                                }
+                                                                                            }}
+                                                                                            disabled={item.Text4 !== '0' && hasAddLect('Wednesday', item.Text1)}
+                                                                                            size={"small"}
+                                                                                            defaultValue={trackTeacherTimetable[`${WeekdayIds[2]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        />}
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Thursday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Thursday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Thursday', item.Text1) ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Thursday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Thursday', item.Text1) ? '#324B8466' : filterMaxDayLec(ThursdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
-                                                                                    <SearchableDropdown1
-                                                                                        onChange={(value) => clickTeacherThu(value, `${WeekdayIds[3].WeekdayId}-${item.Text1}`)}
-                                                                                        ItemList={ThursdayColumnList}
-                                                                                        sx={{
-                                                                                            minWidth: 200, backgroundColor: `${item.Text5 !== '0' && hasAddLect('Thursday', item.Text1) ? '#ddd6fe' : item.Text5 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
-                                                                                                color: "inherit", // or any color you want
-                                                                                                WebkitTextFillColor: "inherit", // for Safari
-                                                                                                fontWeight: "bold", // for Safari
-                                                                                            }
-                                                                                        }} size={"small"}
-                                                                                        disabled={item.Text5 !== '0' && hasAddLect('Thursday', item.Text1)}
-                                                                                        defaultValue={trackTeacherTimetable[`${WeekdayIds[3].WeekdayId}-${item.Text1}`]?.split('-')[0]}
-                                                                                    />}
+                                                                                    filterMaxDayLec(ThursdayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                        <b>Lecture Not Applicable</b></Typography> :
+                                                                                        <SearchableDropdown1
+                                                                                            onChange={(value) => clickTeacherThu(value, `${WeekdayIds[3]?.WeekdayId}-${item.Text1}`)}
+                                                                                            ItemList={filterMaxDayLec(ThursdayColumnList, item.Text1)}
+                                                                                            sx={{
+                                                                                                minWidth: 200, backgroundColor: `${item.Text5 !== '0' && hasAddLect('Thursday', item.Text1) ? '#ddd6fe' : item.Text5 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
+                                                                                                    color: "inherit", // or any color you want
+                                                                                                    WebkitTextFillColor: "inherit", // for Safari
+                                                                                                    fontWeight: "bold", // for Safari
+                                                                                                }
+                                                                                            }} size={"small"}
+                                                                                            disabled={item.Text5 !== '0' && hasAddLect('Thursday', item.Text1)}
+                                                                                            defaultValue={trackTeacherTimetable[`${WeekdayIds[3]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        />}
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Friday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Friday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Friday', item.Text1) ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Friday', item.Text1) ? '#324B8466' : assembly && isAssemblyLecture('Friday', item.Text1) ? '#324B8466' : filterMaxDayLec(FridayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
-                                                                                    <SearchableDropdown1
-                                                                                        onChange={(value) => clickTeacherFri(value, `${WeekdayIds[4].WeekdayId}-${item.Text1}`)}
-                                                                                        ItemList={FridayColumnList}
-                                                                                        sx={{
-                                                                                            minWidth: 200, backgroundColor: `${item.Text6 !== '0' && hasAddLect('Friday', item.Text1) ? '#ddd6fe' : item.Text6 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
-                                                                                                color: "inherit", // or any color you want
-                                                                                                WebkitTextFillColor: "inherit", // for Safari
-                                                                                                fontWeight: "bold", // for Safari
-                                                                                            }
-                                                                                        }} size={"small"}
-                                                                                        disabled={item.Text6 !== '0' && hasAddLect('Friday', item.Text1)}
-                                                                                        defaultValue={trackTeacherTimetable[`${WeekdayIds[4].WeekdayId}-${item.Text1}`]?.split('-')[0]}
-                                                                                    />}
+                                                                                    filterMaxDayLec(FridayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                        <b>Lecture Not Applicable</b></Typography> :
+                                                                                        <SearchableDropdown1
+                                                                                            onChange={(value) => clickTeacherFri(value, `${WeekdayIds[4]?.WeekdayId}-${item.Text1}`)}
+                                                                                            ItemList={filterMaxDayLec(FridayColumnList, item.Text1)}
+                                                                                            sx={{
+                                                                                                minWidth: 200, backgroundColor: `${item.Text6 !== '0' && hasAddLect('Friday', item.Text1) ? '#ddd6fe' : item.Text6 !== '0' ? '#324B8466' : ''}`, "& .Mui-disabled": {
+                                                                                                    color: "inherit", // or any color you want
+                                                                                                    WebkitTextFillColor: "inherit", // for Safari
+                                                                                                    fontWeight: "bold", // for Safari
+                                                                                                }
+                                                                                            }} size={"small"}
+                                                                                            disabled={item.Text6 !== '0' && hasAddLect('Friday', item.Text1)}
+                                                                                            defaultValue={trackTeacherTimetable[`${WeekdayIds[4]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        />}
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                     </TableRow>
@@ -1127,10 +1174,13 @@ const WeeklyTimetable = (props: Props) => {
                                             </Table>
                                         </TableContainer>
                                     </Box>
-                                    : ''}
+                                    <Divider sx={{ my: 2 }} />
+                                </>
+                                : ''}
 
-                                {/* Class Content  */}
-                                {filterBy === 'Class' && division !== '0' ?
+                            {/* Class Content  */}
+                            {filterBy === 'Class' && division !== '0' ?
+                                <>
                                     <Box sx={{ mt: 2 }}>
                                         <TableContainer>
                                             <Table>
@@ -1157,11 +1207,11 @@ const WeeklyTimetable = (props: Props) => {
                                                                                     <b>M.P.T</b></Typography> : isAssemblyLectureClass('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
                                                                                     <SearchableDropdown1
-                                                                                        onChange={(value) => clickClassMon(value, `${WeekdayIds[0].WeekdayId}-${item.Text1}`)}
+                                                                                        onChange={(value) => clickClassMon(value, `${WeekdayIds[0]?.WeekdayId}-${item.Text1}`)}
                                                                                         ItemList={MondayColumnList}
                                                                                         sx={{ minWidth: 200, backgroundColor: `${item.Text2 !== '0' ? '#324B8466' : ''}` }}
                                                                                         size={"small"}
-                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[0].WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[0]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
                                                                                     />}
                                                                             </StyledCell>
                                                                         </Tooltip>
@@ -1171,11 +1221,11 @@ const WeeklyTimetable = (props: Props) => {
                                                                                     <b>M.P.T</b></Typography> : isAssemblyLectureClass('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
                                                                                     <SearchableDropdown1
-                                                                                        onChange={(value) => clickClassTue(value, `${WeekdayIds[1].WeekdayId}-${item.Text1}`)}
+                                                                                        onChange={(value) => clickClassTue(value, `${WeekdayIds[1]?.WeekdayId}-${item.Text1}`)}
                                                                                         ItemList={TuesdayColumnList}
                                                                                         sx={{ minWidth: 200, backgroundColor: `${item.Text3 !== '0' ? '#324B8466' : ''}` }}
                                                                                         size={"small"}
-                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[1].WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[1]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
                                                                                     />}
                                                                             </StyledCell>
                                                                         </Tooltip>
@@ -1185,11 +1235,11 @@ const WeeklyTimetable = (props: Props) => {
                                                                                     <b>M.P.T</b></Typography> : isAssemblyLectureClass('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
                                                                                     <SearchableDropdown1
-                                                                                        onChange={(value) => clickClassWed(value, `${WeekdayIds[2].WeekdayId}-${item.Text1}`)}
+                                                                                        onChange={(value) => clickClassWed(value, `${WeekdayIds[2]?.WeekdayId}-${item.Text1}`)}
                                                                                         ItemList={WednesdayColumnList}
                                                                                         sx={{ minWidth: 200, backgroundColor: `${item.Text4 !== '0' ? '#324B8466' : ''}` }}
                                                                                         size={"small"}
-                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[2].WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[2]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
                                                                                     />}
                                                                             </StyledCell>
                                                                         </Tooltip>
@@ -1199,11 +1249,11 @@ const WeeklyTimetable = (props: Props) => {
                                                                                     <b>M.P.T</b></Typography> : isAssemblyLectureClass('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
                                                                                     <SearchableDropdown1
-                                                                                        onChange={(value) => clickClassThu(value, `${WeekdayIds[3].WeekdayId}-${item.Text1}`)}
+                                                                                        onChange={(value) => clickClassThu(value, `${WeekdayIds[3]?.WeekdayId}-${item.Text1}`)}
                                                                                         ItemList={ThursdayColumnList}
                                                                                         sx={{ minWidth: 200, backgroundColor: `${item.Text5 !== '0' ? '#324B8466' : ''}` }}
                                                                                         size={"small"}
-                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[3].WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[3]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
                                                                                     />}
                                                                             </StyledCell>
                                                                         </Tooltip>
@@ -1213,11 +1263,11 @@ const WeeklyTimetable = (props: Props) => {
                                                                                     <b>M.P.T</b></Typography> : isAssemblyLectureClass('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
                                                                                     <SearchableDropdown1
-                                                                                        onChange={(value) => clickClassFri(value, `${WeekdayIds[4].WeekdayId}-${item.Text1}`)}
+                                                                                        onChange={(value) => clickClassFri(value, `${WeekdayIds[4]?.WeekdayId}-${item.Text1}`)}
                                                                                         ItemList={FridayColumnList}
                                                                                         sx={{ minWidth: 200, backgroundColor: `${item.Text6 !== '0' ? '#324B8466' : ''}` }}
                                                                                         size={"small"}
-                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[4].WeekdayId}-${item.Text1}`]?.split('-')[0]}
+                                                                                        defaultValue={trackClassTimetable[`${WeekdayIds[4]?.WeekdayId}-${item.Text1}`]?.split('-')[0]}
                                                                                     />}
                                                                             </StyledCell>
                                                                         </Tooltip>
@@ -1230,20 +1280,21 @@ const WeeklyTimetable = (props: Props) => {
                                             </Table>
                                         </TableContainer>
                                     </Box>
+                                    <Divider sx={{ my: 2 }} />
+                                </>
+                                : ''}
 
-                                    : ''}
-                                <Divider sx={{ my: 2 }} />
-                                {filterBy === 'Teacher' && teacher === '0' &&
-                                    <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                                        <b>No record found.</b>
-                                    </Typography>
-                                }
-                                {filterBy === 'Class' && division === '0' &&
-                                    <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                                        <b>No record found.</b>
-                                    </Typography>
-                                }
-                            </>}
+                            {filterBy === 'Teacher' && teacher === '0' &&
+                                <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
+                                    <b>No record found.</b>
+                                </Typography>
+                            }
+                            {filterBy === 'Class' && division === '0' &&
+                                <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
+                                    <b>No record found.</b>
+                                </Typography>
+                            }
+                        </>}
                     <Stack direction={"row"} gap={2}>
                         {filterBy === 'Class' && division !== '0' &&
                             <>
@@ -1288,7 +1339,7 @@ const WeeklyTimetable = (props: Props) => {
 
                                 </Box>
                             </>}
-                        {filterBy === 'Teacher' && teacher !== '0' && !loading &&
+                        {filterBy === 'Teacher' && teacher !== '0' && !loading && teacher !== undefined && TeacherTimetableCellValues.length > 0 && Object.keys(trackTeacherTimetable).length > 0 &&
                             <Box sx={{ flex: 1 }}>
                                 {/* <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography> */}
                                 <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>Class-Subject Lecture Count</Typography>
@@ -1321,7 +1372,7 @@ const WeeklyTimetable = (props: Props) => {
                                     </TableContainer>}
                             </Box>
                         }
-                        {filterBy === 'Teacher' && teacher !== '0' && !loading &&
+                        {filterBy === 'Teacher' && teacher !== '0' && !loading && teacher !== undefined && TeacherTimetableCellValues.length > 0 && Object.keys(trackTeacherTimetable).length > 0 &&
                             <Box sx={{ flex: 1 }}>
                                 {/* <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5 }}>Class-Subject Lecture Count</Typography> */}
 
@@ -1357,8 +1408,15 @@ const WeeklyTimetable = (props: Props) => {
                                                         <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>{item.Text3}</TableCell>
                                                         <TableCell sx={{ textAlign: 'center', border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>
                                                             <Tooltip title="Delete">
-                                                                <IconButton onClick={() => dltAddLecture(item.Text5)} >
-                                                                    <DeleteIcon />
+                                                                <IconButton onClick={() => dltAddLecture(item.Text5)}
+                                                                    sx={{
+                                                                        color: '#223354',
+                                                                        '&:hover': {
+                                                                            color: 'red',
+                                                                            backgroundColor: red[100]
+                                                                        }
+                                                                    }} >
+                                                                    <DeleteForeverIcon />
                                                                 </IconButton>
                                                             </Tooltip>
                                                         </TableCell>

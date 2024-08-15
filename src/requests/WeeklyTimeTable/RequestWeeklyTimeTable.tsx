@@ -467,30 +467,20 @@ export const CDAGetTeacherSubjectMaxLecDetailsForMon =
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForMon());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            // Data Separator f() on Teacher / Class Selection
-            function dataSeparator(x) {
-                let str = x;
-                if (data.asStandardDivId === 0) {
-                    str = str.split(':')[0]
-                }
-                if (data.asStandardDivId !== 0) {
-                    str = str.split(':')[1]
-                }
-                return str
-            }
             const MondayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
                 return (
                     {
                         Id: item.Teacher_Subject_Id,
-                        Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
                         SubId: item.Subject_Id,
-                        TeacherId: item.Teacher_Id
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
                     }
                 )
             })
-            MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
+            MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForMon(MondayColData))
         }
 
@@ -501,30 +491,20 @@ export const CDAGetTeacherSubjectMaxLecDetailsForTue =
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForTue());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            // Data Separator f() on Teacher / Class Selection
-            function dataSeparator(x) {
-                let str = x;
-                if (data.asStandardDivId === 0) {
-                    str = str.split(':')[0]
-                }
-                if (data.asStandardDivId !== 0) {
-                    str = str.split(':')[1]
-                }
-                return str
-            }
             const TuesdayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
                 return (
                     {
                         Id: item.Teacher_Subject_Id,
-                        Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
                         SubId: item.Subject_Id,
-                        TeacherId: item.Teacher_Id
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
                     }
                 )
             })
-            TuesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
+            TuesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForTue(TuesdayColData))
         }
 // For Wednesday
@@ -534,30 +514,20 @@ export const CDAGetTeacherSubjectMaxLecDetailsForWed =
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForWed());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            // Data Separator f() on Teacher / Class Selection
-            function dataSeparator(x) {
-                let str = x;
-                if (data.asStandardDivId === 0) {
-                    str = str.split(':')[0]
-                }
-                if (data.asStandardDivId !== 0) {
-                    str = str.split(':')[1]
-                }
-                return str
-            }
             const WednesdayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
                 return (
                     {
                         Id: item.Teacher_Subject_Id,
-                        Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
                         SubId: item.Subject_Id,
-                        TeacherId: item.Teacher_Id
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
                     }
                 )
             })
-            WednesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
+            WednesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForWed(WednesdayColData))
         }
 
@@ -568,30 +538,20 @@ export const CDAGetTeacherSubjectMaxLecDetailsForThu =
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForThu());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            // Data Separator f() on Teacher / Class Selection
-            function dataSeparator(x) {
-                let str = x;
-                if (data.asStandardDivId === 0) {
-                    str = str.split(':')[0]
-                }
-                if (data.asStandardDivId !== 0) {
-                    str = str.split(':')[1]
-                }
-                return str
-            }
             const ThursdayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
                 return (
                     {
                         Id: item.Teacher_Subject_Id,
-                        Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
                         SubId: item.Subject_Id,
-                        TeacherId: item.Teacher_Id
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
                     }
                 )
             })
-            ThursdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
+            ThursdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForThu(ThursdayColData))
         }
 
@@ -602,30 +562,20 @@ export const CDAGetTeacherSubjectMaxLecDetailsForFri =
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForFri());
             const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
-            // Data Separator f() on Teacher / Class Selection
-            function dataSeparator(x) {
-                let str = x;
-                if (data.asStandardDivId === 0) {
-                    str = str.split(':')[0]
-                }
-                if (data.asStandardDivId !== 0) {
-                    str = str.split(':')[1]
-                }
-                return str
-            }
             const FridayColData = response.data.TeacherSubjectMaxLecDetails.map((item, i) => {
                 return (
                     {
                         Id: item.Teacher_Subject_Id,
-                        Name: dataSeparator(`${item.classSubjectName}:${item.Teacher_Subject}`),
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
                         Value: item.Teacher_Subject_Id,
                         StdDivId: item.Standard_Division_Id,
                         SubId: item.Subject_Id,
-                        TeacherId: item.Teacher_Id
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
                     }
                 )
             })
-            FridayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0' });
+            FridayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
             dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForFri(FridayColData))
         }
 
