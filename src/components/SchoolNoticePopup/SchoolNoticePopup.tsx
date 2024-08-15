@@ -63,12 +63,18 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
     }, [dispatch, SchoolNoticePopupBody]);
 
     let url = localStorage.getItem("SiteURL") + "RITeSchool/DOWNLOADS/School Notices/";
-
+    const getWithoutHTML = (value) => {
+        var div = document.createElement('div');
+        div.innerHTML = value;
+        var text = div.textContent || div.innerText || '';
+        return text;
+    };
     const handleLinkClick = (item: any) => {
         const link = item.Text6 ? url + item.Text6 : item.Text7;
 
         if (link) {
-            setSelectedLink(link);
+
+            setSelectedLink(getWithoutHTML(link));
             const isImage = /\.(pdf|jpg|jpeg|png|gif|bmp)$/i.test(link);
             setContentType(isImage ? 'image' : 'text');
             setOpenDetailDialog(true);
