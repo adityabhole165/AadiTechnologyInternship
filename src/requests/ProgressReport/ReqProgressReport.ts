@@ -142,7 +142,7 @@ export const CDAGetClassTeachers =
 
 
     };
- 
+
 export const CDAGetStudentName =
   (data: IGetStudentNameDropdownBody): AppThunk =>
     async (dispatch) => {
@@ -190,11 +190,21 @@ export const CDAStudentProgressReport =
           Total_Consideration: item.Total_Consideration
         };
       });
+      const getListDisplayName = (cell) => {
+        let returnVal = ""
 
-      // console.log(response.data.listTestDetails, "Tests",
-      //   response.data.listSubjectsDetails, "Subjects",
-      //   response.data.listSubjectIdDetails, "ID Details"
-      // )
+        if (cell.Is_Absent == "N") {
+          returnVal = cell.Marks_Scored
+        }
+        else {
+          response.data.ListDisplayNameDetails.map((Item) => {
+            if (Item.ShortName == cell.Is_Absent)
+              returnVal = Item.DisplayName
+          })
+        }
+        return returnVal
+      }
+
       const getMatch = (TestId, SubjectId, TestTypeId) => {
         let returnVal = null
         response.data.listSubjectIdDetails.map((Item) => {
@@ -211,6 +221,7 @@ export const CDAStudentProgressReport =
       let HeaderArray = []
       let SubHeaderArray = []
       let HeaderCount = 0
+      let countOne = 0
       response.data.listTestDetails
         .filter(item => Number(item.Test_Id) !== -1)
         .map((Test, TestIndex) => {
@@ -219,28 +230,30 @@ export const CDAStudentProgressReport =
             HeaderCount = 0
             let arrTemp = response.data.ListSubjectidDetails
               .filter((obj) => { return obj.Subject_Id == Subject.Subject_Id })
+
             let TestTypeCount = arrTemp.length
             let temp = ""
             let totalMarks = null
             arrTemp.map((TestType, TestTypeIndex) => {
+              // if (TestType.Subject_Id == "2397")
+
               HeaderCount += 1
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
               columns.push({
-                MarksScored: cell ? parseInt(cell.Marks_Scored) : "-",
-                TotalMarks: cell ? parseInt(cell.TestType_Total_Marks) : "-",
+                MarksScored: cell ? getListDisplayName(cell) : "-",
+                TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
                 IsAbsent: cell ? cell.Is_Absent : "N"
               })
               if (TestIndex == 0) {
                 SubHeaderArray.push({ TestTypeName: TestType.ShortenTestType_Name })
               }
-              console.log(Subject.Subject_Id, "--", Test.Test_Id, "==", TestTypeIndex);
 
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
 
                 totalMarks = {
-                  MarksScored: cell ? cell.Marks : "-",
+                  MarksScored: cell ? parseInt(cell.Marks_Scored) : "-",
                   TotalMarks: cell ? cell.Subject_Total_Marks : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
@@ -263,32 +276,85 @@ export const CDAStudentProgressReport =
               })
             }
           })
+          //show grade column
+          if (true) {
+            response.data.ListSchoolWiseTestNameDetail.map((Item) => {
+              // let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
+              if (Item.SchoolWise_Test_Id == Test.Test_Id) {
 
+                //PE sports
+                columns.push({
+                  MarksScored: Item.Total_Marks_Scored,
+                  TotalMarks: Item.Subjects_Total_Marks,
+                  IsAbsent: "N"
+                })
+
+                columns.push({
+                  MarksScored: Item.Total_Marks_Scored,
+                  TotalMarks: Item.Subjects_Total_Marks,
+                  IsAbsent: "N"
+                })
+
+                columns.push({
+                  MarksScored: Item.Percentage + "%",
+                  TotalMarks: "-",
+                  IsAbsent: "N"
+                })
+                columns.push({
+                  MarksScored: Item.Grade_Name,
+                  TotalMarks: "-",
+                  IsAbsent: "N"
+                })
+              }
+            })
+          }
+          // }
           rows.push({
             TestName: Test.Test_Name,
             MarksArr: columns
           })
         })
+      //show grade column
+      if (true) {
+        SubHeaderArray.push({ TestTypeName: "Total" })
+        SubHeaderArray.push({ TestTypeName: "%" })
+        SubHeaderArray.push({ TestTypeName: "Grade" })
+      }
+      //Add subheader for PE Sports
+      SubHeaderArray.push({ TestTypeName: "Grade" })
+
       let listTestDetailsArr = []
       response.data.listTestDetails
         .filter(item => Number(item.Test_Id) !== -1)
-        .map(Tests => {
+        .map((Tests, TestIndex) => {
           let arr = []
           response.data.listSubjectsDetails.map((Subjects, i) => {
             let temp = response.data.listSubjectIdDetails
               .filter(item => (item.Subject_Id == Subjects.Subject_Id &&
                 item.Original_SchoolWise_Test_Id == Tests.Original_SchoolWise_Test_Id
               ))
+
             arr.push({
               SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
               Grade: temp.length > 0 ? temp[0].Grade : "-"
             })
+
           });
+          //show grade column
+          if (true) {
+            let tempGrade = response.data.ListSchoolWiseTestNameDetail
+              .filter(item => (item.SchoolWise_Test_Id == Tests.Test_Id))
+            arr.push({
+              SchoolWise_Test_Name: "-",
+              Grade: tempGrade.length > 0 ? tempGrade[0].Grade_Name : "-"
+            })
+          }
           listTestDetailsArr.push({
             Test_Id: Tests.Test_Id,
             Test_Name: Tests.Test_Name,
             subjectIdArr: arr
           })
+
         });
 
 
@@ -330,7 +396,7 @@ export const CDAStudentProgressReport =
           Percentage: item.Percentage,
           Grade_Name: item.Grade_Name,
           SchoolWise_Test_Id: item.SchoolWise_Test_Id,
-          Grade_id:item.Grade_id
+          Grade_id: item.Grade_id
 
         };
       });
@@ -351,8 +417,13 @@ export const CDAStudentProgressReport =
 
         };
       });
-
-
+      //show grade column
+      if (true) {
+        ListSubjectidDetails.push({
+          Subject_Id: "-1",
+          ShortenTestType_Name: "Grade",
+        })
+      }
       let ListTestTypeIdDetails = response.data.ListTestTypeIdDetails.map((item, i) => {
         return {
           Id: item.TestType_Name,
@@ -367,7 +438,7 @@ export const CDAStudentProgressReport =
           Text2: item.Grade_Name,
           Remarks: item.Remarks,
           IsForCoCurricularSubjects: item.IsForCoCurricularSubjects,
-          Marks_Grades_Configuration_Detail_ID:item.Marks_Grades_Configuration_Detail_ID
+          Marks_Grades_Configuration_Detail_ID: item.Marks_Grades_Configuration_Detail_ID
         };
       });
 

@@ -1,4 +1,4 @@
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
 
 const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
     const getListDisplayName = (ShortName) => {
@@ -49,14 +49,9 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
 
                             {testItem.MarksArr.map((MarkItem) => (<>
                                 <TableCell sx={{ backgroundColor: 'white' }}>
-                                    {
-                                        MarkItem.IsAbsent == "N" ?
-                                            MarkItem.MarksScored + (MarkItem.MarksScored == "-" ? "" : (" / " + MarkItem.TotalMarks)) :
-                                            // MarkItem.MarksScored + (MarkItem.MarksScored == "" ? "" : (" / " + MarkItem.TotalMarks)) :
-                                            MarkItem.IsAbsent == "Y" ?
-                                                <TextField></TextField>
-                                                :
-                                                getListDisplayName(MarkItem.IsAbsent)}
+                                    {MarkItem?.MarksScored +
+                                        (MarkItem?.TotalMarks == "-" ? "" :
+                                            (" / " + MarkItem?.TotalMarks))}
                                 </TableCell>
 
                             </>))}
