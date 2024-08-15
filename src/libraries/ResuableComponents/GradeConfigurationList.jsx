@@ -53,15 +53,15 @@ function GradeConfigurationList({
         <TableBody>
           {configurationList.map((item, i) => (
             <TableRow key={i}>
-              <TableCell sx={{ textTransform: 'capitalize' }} >
+              <TableCell sx={{ textTransform: 'capitalize', py:1 }} >
                 {item.Text1}
               </TableCell>
 
-              <TableCell sx={{ textTransform: 'capitalize',  textAlign: 'center',  }} >
+              <TableCell sx={{ textTransform: 'capitalize',  textAlign: 'center', py:1 }} >
                 {item.Text2}
               </TableCell>
 
-              <TableCell sx={{ textTransform: 'capitalize' }} >
+              <TableCell sx={{ textTransform: 'capitalize', py:1 }} >
                 {item.Text3}
               </TableCell>
 
