@@ -117,6 +117,7 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RGetDivisionName(state, action) {
             state.ISGetDivisionName = action.payload;
+            // state.Loading = false;
         },
         RAddClassesWeekDay(state, action) {
             state.ISAddClassesWeekDay = action.payload;
@@ -205,6 +206,10 @@ const WeeklyTimeTableSlice = createSlice({
         RClearWeeklyTeacherTimetableValues(state) {
             state.ISGetLectureNoWeekday = [];
             state.Loading = false;
+        },
+        RClearWeeklyClassTimetableValues(state) {
+            state.ISGetClassLecNoWeekday = [];
+            state.Loading = false;
         }
     }
 });
@@ -212,6 +217,10 @@ const WeeklyTimeTableSlice = createSlice({
 export const CDAClearWeeklyTeacherTimetableValues = (): AppThunk => async (dispatch) => {
     dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
     dispatch(WeeklyTimeTableSlice.actions.RClearWeeklyTeacherTimetableValues());
+}
+export const CDAClearWeeklyClassTimetableValues = (): AppThunk => async (dispatch) => {
+    dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+    dispatch(WeeklyTimeTableSlice.actions.RClearWeeklyClassTimetableValues());
 }
 
 export const CDAGetTeachersList =
@@ -439,7 +448,7 @@ export const ResetSaveTeacherTimetableMsg =
 export const CDAGetDivisionName =
     (data: IGetDivisionForStdDropdownBody): AppThunk =>
         async (dispatch) => {
-            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            // dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetDivisionForStdDropdownApi(data);
             let responseData = response.data.map((item) => {
                 return (

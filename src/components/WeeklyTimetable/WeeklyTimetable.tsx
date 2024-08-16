@@ -17,7 +17,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader'
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDAClearValidateTeacherData, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveClassTimetable, CDASaveTeacherTimetable, CDASaveTeacherTimetableWithIncr, ResetSaveClassTimetableMsg, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAClassLecNoWeekday, CDAClearManageClassTimeTable, CDAClearValidateTeacherData, CDAClearWeeklyClassTimetableValues, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAManageClassTimeTable, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveClassTimetable, CDASaveTeacherTimetable, CDASaveTeacherTimetableWithIncr, ResetSaveClassTimetableMsg, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import { GetScreenPermission } from '../Common/Util'
 import CommonPageHeader from "../CommonPageHeader"
@@ -174,6 +174,7 @@ const WeeklyTimetable = (props: Props) => {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacher_id: UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N' ? Number(SessionTeacherId) : 0
+        // asTeacher_id: 0
     }
     useEffect(() => {
         dispatch(CDAClearValidateTeacherData());
@@ -212,6 +213,13 @@ const WeeklyTimetable = (props: Props) => {
             dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
         }
     }, [teacher, filterBy])
+    useEffect(() => {
+        if (division !== '0' && filterBy === 'Class') {
+            setTrackClassTimetable({})
+            dispatch(CDAClearWeeklyClassTimetableValues());
+            dispatch(CDAClassLecNoWeekday(WeekDayClassBody));
+        }
+    }, [division, filterBy])
     const WeekDayClassBody: IGetClassTimeTableBody = {
         asSchool_Id: Number(localStorage.getItem('SchoolId')),
         asAcademicYear_ID: Number(sessionStorage.getItem('AcademicYearId')),
@@ -303,7 +311,7 @@ const WeeklyTimetable = (props: Props) => {
 
 
     useEffect(() => {
-        if (isNewClassSelection && ClassTimetableCellValues.length > 0 && ClassWeeklyIds.length > 0) {
+        if (ClassTimetableCellValues.length > 0 && ClassWeeklyIds.length > 0 && MondayColumnList.length > 0 && TuesdayColumnList.length > 0 && WednesdayColumnList.length > 0 && ThursdayColumnList.length > 0 && FridayColumnList.length > 0) {
             setTrackClassTimetable({});
             const abc = {};
             const WeekDaydropdownList = [MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList];
@@ -321,7 +329,7 @@ const WeeklyTimetable = (props: Props) => {
             });
             setTrackClassTimetable(abc);
         }
-    }, [ClassTimetableCellValues, ClassWeeklyIds, isNewClassSelection])
+    }, [ClassTimetableCellValues, ClassWeeklyIds, MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList])
 
 
     useEffect(() => {
@@ -334,11 +342,6 @@ const WeeklyTimetable = (props: Props) => {
             })
         }
     }, [ApplicablesToggleData])
-    useEffect(() => {
-        if (division !== '0' && filterBy === 'Class') {
-            dispatch(CDAClassLecNoWeekday(WeekDayClassBody));
-        }
-    }, [division, filterBy])
     useEffect(() => {
         if (division !== '0') {
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon));
@@ -411,7 +414,20 @@ const WeeklyTimetable = (props: Props) => {
             asTeacher_id: filterBy === 'Teacher' ? Number(teacher) : 0,
             asStandardDivision_Id: filterBy === 'Teacher' ? 0 : Number(division)
         }
-        dispatch(CDAResetTimetable(ResetWeeklyTimetableBody));
+        showAlert({
+            title: 'Please Confirm',
+            message: `Are you sure you want to reset this timetable?`,
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onConfirm: () => {
+                dispatch(CDAResetTimetable(ResetWeeklyTimetableBody));
+                closeAlert();
+            },
+            onCancel: () => {
+                closeAlert();
+            }
+        });
     }
 
     const open = Boolean(teacherSettingsAnchorEL);
@@ -648,6 +664,7 @@ const WeeklyTimetable = (props: Props) => {
         }
         if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && AddLecForTSubjectNameId !== '0') {
             dispatch(CDAManageClassTimeTable(AddLecForTeacherApiBody));
+            setShowAddAdditionalLectures(false)
             setIsSubmitAdLecToTeacher(false);
         } else {
             setIsSubmitAdLecToTeacher(true);
@@ -784,7 +801,7 @@ const WeeklyTimetable = (props: Props) => {
                                     size={"small"}
                                 />
                             }
-                            {teacher !== '0' &&
+                            {teacher !== '0' && teacher !== undefined &&
                                 <Tooltip title={'Teacher Settings'}>
                                     <IconButton
                                         onClick={handleTeacherSettingsClick}
@@ -827,7 +844,6 @@ const WeeklyTimetable = (props: Props) => {
                                                 setStandard(value.Value)
                                                 setDivision('0')
                                                 setStandardName(value.Name)
-                                                setIsNewClassSelection(false)
                                             }}
                                             ItemList={StandardNameList}
                                             label="Standard"
@@ -842,7 +858,6 @@ const WeeklyTimetable = (props: Props) => {
                                             onChange={(value) => {
                                                 setDivision(value.Value)
                                                 setDivisionName(value.Name)
-                                                setIsNewClassSelection(true)
                                             }}
                                             ItemList={standard !== '0' ? DivisionNameList : []}
                                             label="Division"
@@ -854,7 +869,7 @@ const WeeklyTimetable = (props: Props) => {
                                     </Box>
                                 </>
                             )}
-                            {filterBy === 'Teacher' && teacher !== '0' && <>
+                            {filterBy === 'Teacher' && teacher !== '0' && teacher !== undefined && <>
                                 <Tooltip title={'Reset'}>
                                     <IconButton
                                         sx={{
@@ -970,7 +985,7 @@ const WeeklyTimetable = (props: Props) => {
                                     </IconButton>
                                 </Tooltip>
                             </>}
-                            {teacher === '0' ?
+                            {teacher === '0' || teacher === undefined ?
                                 <Box>
                                     <Tooltip title={'Define timetable for the selected teacher / class.'}>
                                         <IconButton
@@ -1022,8 +1037,9 @@ const WeeklyTimetable = (props: Props) => {
                         {filterBy === 'Teacher' ? <Typography variant={"h4"}>Weekly Timetable for {teacher !== '0' ? teacherName : 'Teacher / Class Name'}</Typography> :
                             <Typography variant={"h4"}>Weekly Timetable for {standard !== '0' && division !== '0' ? `Class ${standardName} - ${divisionName}` : 'Teacher / Class Name'}</Typography>}
                     </Stack>
-                    {isNewTeacherSelection && Object.keys(trackTeacherTimetable).length === 0 && <SuspenseLoader />}
-                    {loading ? <SuspenseLoader /> :
+                    {teacher !== '0' && Object.keys(trackTeacherTimetable).length === 0 && <SuspenseLoader />}
+                    {division !== '0' && Object.keys(trackClassTimetable).length === 0 && <SuspenseLoader />}
+                    {loading || teacher !== '0' && Object.keys(trackTeacherTimetable).length === 0 ? <SuspenseLoader /> :
                         <>
                             {filterBy === 'Teacher' && teacher !== '0' && teacher !== undefined && TeacherTimetableCellValues.length > 0 && Object.keys(trackTeacherTimetable).length > 0 ?
                                 <>
@@ -1185,7 +1201,7 @@ const WeeklyTimetable = (props: Props) => {
                                 : ''}
 
                             {/* Class Content  */}
-                            {filterBy === 'Class' && division !== '0' ?
+                            {filterBy === 'Class' && division !== '0' && division !== undefined && ClassTimetableCellValues?.length > 0 && Object.keys(trackClassTimetable).length > 0 ?
                                 <>
                                     <Box sx={{ mt: 2 }}>
                                         <TableContainer>
@@ -1204,7 +1220,7 @@ const WeeklyTimetable = (props: Props) => {
                                                     {ClassTimetableCellValues?.length > 0 && ClassTimetableCellValues?.map((item, i) => {
                                                         return (
                                                             <>
-                                                                {ClassWeeklyIds?.length > 0 && Object.keys(trackClassTimetable).length > 0 && item.Text1 !== '99' &&
+                                                                {ClassWeeklyIds?.length > 0 && item.Text1 !== '99' &&
                                                                     <TableRow>
                                                                         <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
                                                                         <Tooltip title={`For - Monday: ${item.Text1}`} arrow placement="top">
@@ -1302,7 +1318,7 @@ const WeeklyTimetable = (props: Props) => {
                             }
                         </>}
                     <Stack direction={"row"} gap={2}>
-                        {filterBy === 'Class' && division !== '0' &&
+                        {filterBy === 'Class' && division !== '0' && Object.keys(trackClassTimetable).length > 0 &&
                             <>
                                 <Box sx={{ flex: 1 }}>
                                     <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>
@@ -1398,7 +1414,7 @@ const WeeklyTimetable = (props: Props) => {
                                             <TableHead>
                                                 <TableRow>
                                                     <HeaderStyledCell sx={{ textAlign: 'left' }} >WeekDay</HeaderStyledCell>
-                                                    <HeaderStyledCell sx={{ textAlign: 'center' }} >Lecture Number</HeaderStyledCell>
+                                                    <HeaderStyledCell sx={{ textAlign: 'center' }} >Lecture #</HeaderStyledCell>
                                                     <HeaderStyledCell>Class</HeaderStyledCell>
                                                     <HeaderStyledCell>Subject </HeaderStyledCell>
                                                     <HeaderStyledCell sx={{ textAlign: 'center' }}>Delete </HeaderStyledCell>
