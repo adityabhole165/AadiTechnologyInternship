@@ -34,7 +34,7 @@ import {
     resetSelectSchoolNotice,
 } from 'src/requests/AddSchoolNotice/ReqAddNotice';
 import { RootState, useDispatch, useSelector } from 'src/store';
-import { formatDateAsDDMMMYYYY } from '../Common/Util';
+import { isBetweenDates } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SchoolNoticeList from './SchoolNoticeList';
 
@@ -131,7 +131,7 @@ const SchoolNoticeBaseScreen = () => {
             asNoticeId: Number(Id),
             asUpdatedById: Number(asUserId),
         };
-        if (formatDateAsDDMMMYYYY(StartDate) == formatDateAsDDMMMYYYY(new Date().toISOString().split('T')[0]) || formatDateAsDDMMMYYYY(EndDate) == formatDateAsDDMMMYYYY(new Date().toISOString().split('T')[0])) {
+        if (isBetweenDates(StartDate, EndDate)) {
             showAlert({
                 title: 'Please Confirm',
                 message: 'This is an active notice. Are you sure you want to delete this record?',
@@ -146,7 +146,7 @@ const SchoolNoticeBaseScreen = () => {
                     closeAlert();
                 },
             });
-        }else{
+        } else {
             showAlert({
                 title: 'Please Confirm',
                 message: 'Are you sure you want to delete this record?',
