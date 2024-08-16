@@ -451,7 +451,7 @@ const AddLeaveDetails = () => {
                                 Description <span style={{ color: 'red' }}>*</span>
                             </>}
                             multiline
-                            rows={3}
+                            // rows={3}
                             value={Description}
                             onChange={(e) => setDescription(e.target.value)}
                             fullWidth

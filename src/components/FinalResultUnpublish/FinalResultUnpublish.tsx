@@ -5,6 +5,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogBox, onClickUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -115,9 +116,9 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
           <Typography variant={"h4"} sx={{ mb: 1 }}>
             Unpublish Reason<span style={{ color: 'red' }}>*</span>
           </Typography>
-          <TextField
+          <ResizableTextField
             multiline
-            rows={5}
+            // rows={5}
             value={Reason}
             onChange={(e) => {
               setReason(e.target.value);
