@@ -546,7 +546,7 @@ export function isBetweenDate(date, dayCount) {
 }
 
 export function isBetweenDates(date, date2) {
-  var compareDate = new Date(getDateFormatted(new Date()));
+  var compareDate = new Date();
   var fromDate = new Date(new Date(date));
   var toDate = new Date(new Date(date2));
   return compareDate >= fromDate && compareDate <= new Date(toDate);
