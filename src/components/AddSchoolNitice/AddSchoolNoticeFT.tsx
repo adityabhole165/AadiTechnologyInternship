@@ -438,6 +438,7 @@ const AddSchoolNoticeFT = () => {
         setNoticeContent(value);
     };
 
+
     const handleSelectAll = (event) => {
         const { checked } = event.target;
         setSelectAll(checked);
@@ -452,11 +453,19 @@ const AddSchoolNoticeFT = () => {
 
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
-        setApplicableTo((prev) => ({
-            ...prev,
-            [name]: checked,
-        }));
+        setApplicableTo((prev) => {
+            const updatedApplicableTo = {
+                ...prev,
+                [name]: checked,
+            };
+
+            const allChecked = Object.values(updatedApplicableTo).every(value => value);
+            setSelectAll(allChecked);
+
+            return updatedApplicableTo;
+        });
     };
+
     const handleCancel = () => {
         setNoticeName('');
         setStartDate(new Date().toISOString().split('T')[0]);
@@ -846,7 +855,7 @@ const AddSchoolNoticeFT = () => {
                                     Description
                                 </>}
                                 multiline
-                                // rows={3}
+                                rows={3}
                                 value={Description}
                                 onChange={(e) => {
                                     setDescription(e.target.value);
