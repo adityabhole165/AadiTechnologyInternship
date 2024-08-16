@@ -211,20 +211,22 @@ const AddSchoolNoticeFT = () => {
             asNoticeId: Number(NoticeId),
             asIsText: 0,
         };
-        showAlert({
-            title: 'Please Confirm',
-            message: 'Are you sure you want to delete Event Image?',
-            variant: 'warning',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
-            onCancel: () => {
-                closeAlert();
-            },
-            onConfirm: () => {
-                dispatch(DeleteImage(DeleteSchoolNoticeBody));
-                closeAlert();
-            },
-        });
+        if (ImageFile) {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'Are you sure you want to delete Event Image?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    dispatch(DeleteImage(DeleteSchoolNoticeBody));
+                    closeAlert();
+                },
+            });
+        }
     };
 
     useEffect(() => {
@@ -545,13 +547,17 @@ const AddSchoolNoticeFT = () => {
     let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/School Notices/"
 
     const viewImage = () => {
-        const fullImageUrl = `${url}${ImageFile}`;
-        window.open(fullImageUrl, '_blank');
+        if (ImageFile) {
+            const fullImageUrl = `${url}${ImageFile}`;
+            window.open(fullImageUrl, '_blank');
+        }
     };
 
     const viewNotice = () => {
-        const fullImageUrl1 = `${url}${NoticeFile}`;
-        window.open(fullImageUrl1, '_blank');
+        if (NoticeFile) {
+            const fullImageUrl1 = `${url}${NoticeFile}`;
+            window.open(fullImageUrl1, '_blank');
+        }
     };
 
     return (
