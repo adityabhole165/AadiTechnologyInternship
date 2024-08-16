@@ -1,7 +1,7 @@
 
 import PrintIcon from '@mui/icons-material/Print';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -19,12 +19,12 @@ import NonXseedSubjectGrades from './NonXseedSubjectGrades';
 import SchoolDetails from './SchoolDetails';
 import StudentDetails from './StudentDetails';
 import XseedRemarks from './XseedRemarks';
-import Visibility from '@mui/icons-material/Visibility';
 const PreprimaryProgressReport = () => {
     const dispatch = useDispatch();
     const [ClassTeacher, setClassTeacher]: any = useState('0');
     const [StudentId, setStudentId]: any = useState();
     const [AssessmentId, setAssessmentId]: any = useState();
+
     const [open, setOpen] = useState(false);
     const [Error, SetError] = useState('');
     const [Error1, SetError1] = useState('');
@@ -39,6 +39,8 @@ const PreprimaryProgressReport = () => {
     const PrePrimaryClassTeacher = USAllPrimaryClassTeacherssBody.filter((teacher: any) => teacher.Is_PrePrimary === 'Y');
     const USlistStudentNameDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistStudentNameDetails);
     const USlistAssessmentDetailss: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISlistAssessmentDetailss);
+    console.log(USlistAssessmentDetailss, "USlistAssessmentDetailss");
+
     const USAssessmentPublishStatus: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISAssessmentPublishStatus);
     const AssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.AssessmentPublishStatus);
     const StudentWiseAssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.StudentWiseAssessmentPublishStatus);
@@ -101,7 +103,7 @@ const PreprimaryProgressReport = () => {
             SetError('Assessment should be selected.')
         }
         if (ClassTeacher == '0' && PreprimaryFullAccess == 'Y') {
-            SetError1(' Class Teacher should be selected.')
+            SetError1('Class teacher should be selected.')
         }
         if (ClassTeacher !== '0' && PreprimaryFullAccess == 'Y') {
             SetError1('')
@@ -185,15 +187,41 @@ const PreprimaryProgressReport = () => {
                             size={"small"}
                         />
 
-                        <SearchableDropdown
-                            ItemList={USlistAssessmentDetailss}
-                            sx={{ minWidth: '250px' }}
-                            onChange={clickAssessmentId}
-                            defaultValue={AssessmentId}
-                            label={'Assessment '}
-                            size={"small"}
-                            mandatory
-                        />
+
+
+
+
+                        {
+                            PreprimaryFullAccess == 'Y' ?
+                                <SearchableDropdown
+                                    ItemList={USlistAssessmentDetailss}
+                                    sx={{ minWidth: '250px' }}
+                                    onChange={clickAssessmentId}
+                                    defaultValue={AssessmentId}
+                                    label={'Assessment '}
+                                    size={"small"}
+                                    mandatory
+                                />
+                                : <span></span>
+
+                        }
+
+                        {
+                            PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length > 1 ?
+                                <SearchableDropdown
+                                    ItemList={USlistAssessmentDetailss}
+                                    sx={{ minWidth: '250px' }}
+                                    onChange={clickAssessmentId}
+                                    defaultValue={AssessmentId}
+                                    label={'Assessment '}
+                                    size={"small"}
+                                    mandatory
+                                />
+                                : <span></span>
+
+                        }
+
+
 
 
                         <Box>
@@ -301,10 +329,17 @@ const PreprimaryProgressReport = () => {
                     }
                 </div>
                 }
-
-
             </div>)}
 
+
+            {PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length < 2 ?
+
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                    <b>Published assessments are not available.</b>
+                </Typography>
+
+                : <span></span>
+            }
 
 
         </Box>

@@ -286,3 +286,36 @@ export interface IsGradingStandarBody {
     WeeklyTestWeekDay: any
     IsTotalConsiderForProgressReport: string
   }
+
+
+//   export interface GetSchoolSettingsResult {
+//     GetSchoolSettingsResult: {
+//         IsMPTApplicable: string
+//         MPTLectNo: number
+//         MPTName: string
+//         MPTWeekday: string
+//         BlockProgressReportIfFeesArePending: string
+//         ProgressSheetNote: string
+//         IsAssemblyApplicable: string
+//         AssemblyLectNo: number
+//         AssemblyName: string
+//         AssemblyWeekday: string
+//         IsStaybackApplicable: string
+//         StaybackName: string
+//         ShowProgressSheetNote: string
+//         SiteName: any
+//         SendMail: any
+//         SendSMS: any
+//         SMSSenderUPwd: any
+//         SMSSenderUserName: string
+//         FromMailAddress: any
+//         SMSProvider: any
+//         IsWeeklyTestApplicable: any
+//         WeeklyTestName: any
+//         WeeklyTestLectNo: any
+//         WeeklyTestWeekDay: any
+//         IsTotalConsiderForProgressReport: string
+
+//     }
+
+// }
