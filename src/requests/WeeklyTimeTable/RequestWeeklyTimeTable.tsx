@@ -228,11 +228,6 @@ export const CDAGetTeachersList =
                     }
                 )
             })
-            let LoginTeacherId = sessionStorage.getItem('TeacherId');
-            const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
-            if (IsWeeklyTimetableFullAccess === 'Y') {
-                responseData = responseData.filter(item => item.Id === LoginTeacherId)
-            }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetTeachersList(responseData));
         };
@@ -446,7 +441,7 @@ export const CDAGetDivisionName =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetDivisionForStdDropdownApi(data);
-            const responseData = response.data.map((item) => {
+            let responseData = response.data.map((item) => {
                 return (
                     {
                         Id: item.SchoolWise_Standard_Division_Id,
@@ -454,7 +449,13 @@ export const CDAGetDivisionName =
                         Value: item.SchoolWise_Standard_Division_Id
                     }
                 )
-            })
+            });
+            const UserRoleId = sessionStorage.getItem('RoleId');
+            const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
+            let StdDivId = sessionStorage.getItem('StandardDivisionId');
+            if (UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N') {
+                responseData = responseData.filter(item => item.Id === StdDivId);
+            }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetDivisionName(responseData));
 
