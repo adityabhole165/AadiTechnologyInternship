@@ -1,57 +1,104 @@
 import ClearIcon from '@mui/icons-material/Clear';
-import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import MinimizeIcon from '@mui/icons-material/Minimize'; // Import the Minimize icon
+import { Box, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
+import { useState } from 'react';
 
-const NoticeDetailDialog = ({ open, onClose, link, contentType }) => (
-    <Dialog
-        open={open}
-        onClose={onClose}
-        maxWidth="xl"
-        PaperProps={{
-            sx: {
-                borderRadius: "15px",
-                zIndex: 1300,
-                overflow: 'auto',
-                width: '50%',
-                height: '70vh',
-                maxHeight: '70vh',
-            }
-        }}
-        sx={{
-            zIndex: 1300,
-        }}
-    >
-        <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
-            <ClearIcon onClick={onClose}
-                sx={{
-                    color: 'white',
-                    borderRadius: '7px',
-                    position: 'absolute',
-                    top: '5px',
-                    right: '8px',
-                    cursor: 'pointer',
-                    '&:hover': {
-                        color: 'red',
-                    }
-                }} />
-        </DialogTitle>
-        <DialogContent
+const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) => {
+    const [isMaximized, setIsMaximized] = useState(false);
+
+    const toggleMaximize = () => {
+        setIsMaximized(!isMaximized);
+    };
+
+    return (
+        <Dialog
+            open={open}
+            onClose={onClose}
+            maxWidth="xl"
+            PaperProps={{
+                sx: {
+                    borderRadius: "15px",
+                    zIndex: 1300,
+                    overflow: 'auto',
+                    width: isMaximized ? '100%' : '50%',
+                    height: isMaximized ? '100vh' : '70vh',
+                    maxHeight: isMaximized ? '100vh' : '70vh',
+                }
+            }}
             sx={{
-                maxWidth: '100%',
-                height: '100%',
-                p: 2,
-                alignItems: 'center',
-                margintop: '10px',
+                zIndex: 1300,
             }}
         >
-            <DialogContent>
-                {contentType === 'image' ? (
-                    <img src={link} alt="School Notice" style={{ width: '100%', height: 'auto' }} />
-                ) : (
-                    <Typography dangerouslySetInnerHTML={{ __html: link }}></Typography>
-                )}
+            <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+                <IconButton
+                    onClick={onMinimize}  // This will trigger the minimize action
+                    sx={{
+                        color: 'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '-6px',
+                        right: '65px',  // Position the MinimizeIcon
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'grey',
+                        }
+                    }}
+                >
+                    <MinimizeIcon />
+                </IconButton>
+                <IconButton
+                    onClick={toggleMaximize}
+                    sx={{
+                        color: 'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '0.1px',
+                        right: '35px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'grey',
+                        }
+                    }}
+                >
+                    {isMaximized ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                </IconButton>
+                <ClearIcon
+                    onClick={onClose}
+                    sx={{
+                        color: 'white',
+                        borderRadius: '7px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '8px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'red',
+                        }
+                    }} />
+            </DialogTitle>
+            <DialogContent
+                sx={{
+                    maxWidth: '100%',
+                    height: '100%',
+                    p: 2,
+                    alignItems: 'center',
+                    margintop: '10px',
+                }}
+            >
+                <DialogContent>
+                    {contentType === 'image' ? (
+                        <Box display="flex" justifyContent="center" alignItems="center">
+                            <img src={link} alt="School Notice" style={{ maxWidth: '100%', height: 'auto' }} />
+                        </Box>
+                    ) : (
+                        <Typography dangerouslySetInnerHTML={{ __html: link }}></Typography>
+                    )}
+                </DialogContent>
             </DialogContent>
-        </DialogContent>
-    </Dialog>
-);
+        </Dialog>
+    );
+};
 
 export default NoticeDetailDialog;
