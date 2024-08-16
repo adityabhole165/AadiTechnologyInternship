@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { green, grey, yellow } from "@mui/material/colors";
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
@@ -34,12 +34,15 @@ import {
     resetSelectSchoolNotice,
 } from 'src/requests/AddSchoolNotice/ReqAddNotice';
 import { RootState, useDispatch, useSelector } from 'src/store';
+import { isBetweenDates } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SchoolNoticeList from './SchoolNoticeList';
 
 const SchoolNoticeBaseScreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { selectDisplayT } = useParams();
+
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -108,6 +111,10 @@ const SchoolNoticeBaseScreen = () => {
         dispatch(getSchoolNoticeList(GetAllNoticeListBody));
     }
 
+    useEffect(() => {
+        if (selectDisplayT !== undefined)
+            setDisplayType(selectDisplayT);
+    }, []);
 
     useEffect(() => {
         if (UpdateSelectedNotice != "") {
@@ -118,26 +125,43 @@ const SchoolNoticeBaseScreen = () => {
     }, [UpdateSelectedNotice])
 
 
-    const deleteRow = (Id: number) => {
+    const deleteRow = (Id: number, StartDate: string, EndDate: string) => {
         const DeleteSchoolNoticeBody: IDeleteSchooNoticeBody = {
             asSchoolId: asSchoolId,
             asNoticeId: Number(Id),
             asUpdatedById: Number(asUserId),
         };
-        showAlert({
-            title: 'Please Confirm',
-            message: 'This is an active notice. Are you sure you want to delete this record?',
-            variant: 'warning',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
-            onCancel: () => {
-                closeAlert();
-            },
-            onConfirm: () => {
-                dispatch(DeleteSchoolNotice(DeleteSchoolNoticeBody));
-                closeAlert();
-            },
-        });
+        if (isBetweenDates(StartDate, EndDate)) {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'This is an active notice. Are you sure you want to delete this record?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    dispatch(DeleteSchoolNotice(DeleteSchoolNoticeBody));
+                    closeAlert();
+                },
+            });
+        } else {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'Are you sure you want to delete this record?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    dispatch(DeleteSchoolNotice(DeleteSchoolNoticeBody));
+                    closeAlert();
+                },
+            });
+        }
     };
 
     useEffect(() => {

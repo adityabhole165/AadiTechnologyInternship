@@ -195,7 +195,7 @@ function SchoolNoticeList({
                                                         }
                                                     }}
 
-                                                    onClick={() => clickDelete(item.Id)}
+                                                    onClick={() => clickDelete(item.Id,item.Text2,item.Text3)}
                                                 >
                                                     <Tooltip title="Delete" >
                                                         <DeleteForeverIcon />

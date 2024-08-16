@@ -11,14 +11,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
+import { IGetAllClassesAndDivisionsBody, IGetDeleteSchoolNoticeImageBody, IGetEditUserRolesandStdDivForSelectedNoticeIdBody, IGetSchoolNoticeIdByNameBody, ISaveUpdateSchoolNoticesBody } from 'src/interfaces/AddSchoolNotic/ISchoolNoticeForm';
 import Datepicker2 from 'src/libraries/DateSelector/Datepicker2';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, GetSelectedStandardAndDivisionCheckBoxx, GetUserRolesForSelectedNoticeId, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
+import { DeleteImage, GetAllClassAndDivision, getEditSchoolNoticeDetails, getSaveSchoolNoticeDetails, getSchoolNoticeIdByName, GetSelectedStandardAndDivisionCheckBoxx, GetUserRolesForSelectedNoticeId, resetDeleteSchoolNotice, resetSaveSchoolNoticeDetails } from 'src/requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import { RootState } from 'src/store';
 import { extractTime, formatDateAsDDMMMYYYY, getCalendarDateFormatDateNew, isLessThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -56,7 +56,9 @@ const AddSchoolNoticeFT = () => {
     const [outSortOrder, setoutSortOrder] = useState('');
     const [Text, setText] = useState(false);
     const [LinkNameError, setLinkNameError] = useState('');
+    const [LinkNameError1, setLinkNameError1] = useState('');
     const [NoticeNameError, setNoticeNameError] = useState('');
+    const [NoticeNameError1, setNoticeNameError1] = useState('');
     const [SortOrderError, setSortOrderError] = useState('');
     const [ErrorStartDateblank, setErrorStartDateblank] = useState('');
     const [ErrorEndDateblank, setErrorEndDateblank] = useState('');
@@ -98,7 +100,8 @@ const AddSchoolNoticeFT = () => {
     const EditNotice = useSelector((state: RootState) => state.SchoolNoticeForm.EditSchoolNotice);
     const UserRoleselected = useSelector((state: RootState) => state.SchoolNoticeForm.UserRoleselected);
     const SelectedStandardAndDivisionCheckBoxx = useSelector((state: RootState) => state.SchoolNoticeForm.SelectedStandardAndDivisionCheckBoxx);
-
+    const GetSchoolNoticeIdName: any = useSelector((state: RootState) => state.SchoolNoticeForm.getSchoolNoticeIdByName);
+    console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdName')
     useEffect(() => {
         const AllClassesAndDivisionBody: IGetAllClassesAndDivisionsBody = {
             asSchoolId: asSchoolId,
@@ -109,6 +112,7 @@ const AddSchoolNoticeFT = () => {
             asSchoolId: Number(asSchoolId),
             asNoticeId: Number(NoticeId)
         }
+
         dispatch(GetUserRolesForSelectedNoticeId(GetEditUserRolesandStdDivForSelectedNoticeIdBody))
     }, [])
     const IsRolePresent = (UserRoleId) => {
@@ -242,6 +246,16 @@ const AddSchoolNoticeFT = () => {
         returnVal = returnVal == "" ? "" : returnVal.substring(0, returnVal.length - 1);
         return returnVal
     }
+    useEffect(() => {
+        const GetSchoolNoticeIdNameBody: IGetSchoolNoticeIdByNameBody = {
+            asSchoolId: Number(asSchoolId),
+            asNoticeName: NoticeName,
+            asStartDate: StartDate + ' ' + StartTime,
+            asEndDate: EndDate + ' ' + EndTime,
+        }
+        dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
+    }, [NoticeName])
+
 
     const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
         NoticeId: Number(NoticeId ? NoticeId : 0),
@@ -249,8 +263,8 @@ const AddSchoolNoticeFT = () => {
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
         asFolderName: 'PPSN Website',
-        asBase64String: base64URL == '' ? null : base64URL,
-        asBase64String2: base64URL2 == '' ? null : base64URL2,
+        asBase64String: base64URL,
+        asBase64String2: base64URL2,
         NoticeName: NoticeName,
         DisplayLocation: selectDisplayLocation,
         StartDate: StartDate + ' ' + StartTime,
@@ -267,6 +281,7 @@ const AddSchoolNoticeFT = () => {
         NoticeImage: ImageFile == '' ? null : ImageFile
     }
     const ClickSave = () => {
+        // checkDuplicateName()
         let isError = false;
         let dateError = false;
         if (radioBtn == '1') {
@@ -344,11 +359,28 @@ const AddSchoolNoticeFT = () => {
             setSortOrderError('');
         }
 
+
+        if (radioBtn == '1') {
+            console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdNamennnnnnn')
+            if (GetSchoolNoticeIdName != null) {
+                setLinkNameError1('Link name already exists.');
+                isError = true;
+            } else setLinkNameError1('')
+        }
+        if (radioBtn == '2') {
+            if (GetSchoolNoticeIdName != null) {
+                setNoticeNameError1('Notice name already exists.');
+                isError = true;
+            } else setNoticeNameError1('')
+        }
         if (!isError) {
+            // dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
         }
 
     };
+
+
     useEffect(() => {
         if (SaveNotice != "") {
 
@@ -443,6 +475,8 @@ const AddSchoolNoticeFT = () => {
         });
         setLinkNameError('');
         setNoticeNameError('');
+        setLinkNameError1('');
+        setNoticeNameError1('');
         setNoticeFileError('');
         setErrorUserRole('');
         setSortOrderError('');
@@ -504,6 +538,9 @@ const AddSchoolNoticeFT = () => {
         setImageFile(value.Name);
         setbase64URL2(value.Value);
     };
+    // const checkDuplicateName = () => {
+    //     dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
+    // };
     let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/School Notices/"
 
     const viewImage = () => {
@@ -523,7 +560,7 @@ const AddSchoolNoticeFT = () => {
                     navLinks={[
                         {
                             title: 'School Notice',
-                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
+                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen/' + selectDisplayType
                         },
                         {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
@@ -613,9 +650,11 @@ const AddSchoolNoticeFT = () => {
                                             setNoticeName(value);
                                         }
                                     }}
+
                                 />
                                 <Box>
                                     <ErrorMessage1 Error={LinkNameError}></ErrorMessage1>
+                                    <ErrorMessage1 Error={LinkNameError1}></ErrorMessage1>
                                 </Box>
 
                             </Grid>
@@ -639,6 +678,7 @@ const AddSchoolNoticeFT = () => {
                                     }}
                                 />
                                 <ErrorMessage1 Error={NoticeNameError}></ErrorMessage1>
+                                <ErrorMessage1 Error={NoticeNameError1}></ErrorMessage1>
                             </Grid>
                         )}
                         <Grid item xs={4} md={3}>

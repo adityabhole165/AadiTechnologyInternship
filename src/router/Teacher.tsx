@@ -657,6 +657,10 @@ const teacherRoutes = [
     element: <SchoolNoticeBasescreen />
   },
   {
+    path: 'SchoolNoticeBasescreen/:selectDisplayT',
+    element: <SchoolNoticeBasescreen />
+  },
+  {
     path: 'AddSchoolNotice',
     element: <AddSchoolNotice />
   },

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,10 +18,13 @@ import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 import { ChangePasswordStyle } from '../styled/CommonStyle';
 import { green, red } from '@mui/material/colors';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const note = [
-  '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
-  '2) Password should be combination of at least one character, digit & special character.'
+  ' Capitalization Matters! Min 6 characters, Max 15 characters.',
+ 
+];
+const note3 = [
+   ' Password should be combination of at least one character, digit & special character.'
 ];
 const note1 = [
   'It seems you have not changed the system generated password. Please reset your password for security purpose.'
@@ -143,18 +146,34 @@ function Form() {
   });
 
   return (
-
-    
+<>
+     <Box mb={2}>
+     <Accordion defaultExpanded>
+             <AccordionSummary
+                 expandIcon={<ExpandMoreIcon />}
+                 aria-controls="panel1-content"
+                 id="panel1-header"
+             >
+                 <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+             </AccordionSummary>
+             <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
+                <Alert variant="filled" severity="info"><b>{note2}</b> </Alert>
+                <Alert variant="filled" severity="info"><b>{note1}</b> </Alert>
+                 <Alert variant="filled" severity="info"><b> NoteDetail:</b>  {note}  </Alert>
+                 <Alert variant="filled" severity="info"><b> NoteDetail:</b>  {note3}  </Alert>
+                 </AccordionDetails>
+                 </Accordion>
+                 </Box>
     <Grid container >
       <Grid item md={3}></Grid>
       <Grid item xs={12} md={6}>
         <ListStyle sx={ChangePasswordStyle}>
           <form onSubmit={formik.handleSubmit}>
-            {FirstTime == 'N' ? (
+            {/* {FirstTime == 'N' ? (
               <Note NoteDetail={note1} />
             ) : (
               <Note NoteDetail={note2} />
-            )}
+            )} */}
             <Box gap={2} >
               {/* <Typography>User Name</Typography> */}
               <TextField
@@ -220,7 +239,7 @@ function Form() {
               <Errormessage Error={formik.errors.ConfirmPassword} />
             ) : null}
 
-            <Note NoteDetail={note} />
+            {/* <Note NoteDetail={note} /> */}
 
             </Box>
             <Grid container spacing={2} justifyContent={'right'}>
@@ -270,6 +289,7 @@ function Form() {
         </ListStyle>
       </Grid>
     </Grid>
+    </>
   );
 }
 

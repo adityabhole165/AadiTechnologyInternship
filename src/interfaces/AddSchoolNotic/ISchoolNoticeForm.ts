@@ -68,3 +68,13 @@ export interface IGetStandardDivisionsForSelectedNoticeIdResult {
     StandardDivisionId: string;
 }
 
+export interface IGetSchoolNoticeIdByNameBody {
+    asSchoolId: number,
+    asNoticeName: string,
+    asStartDate: string;
+    asEndDate: string;
+}
+
+export interface IGetSchoolNoticeIdByNameResult {
+    NoticeId: string;
+}
