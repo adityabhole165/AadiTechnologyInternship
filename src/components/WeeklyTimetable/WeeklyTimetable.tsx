@@ -84,7 +84,9 @@ const WeeklyTimetable = (props: Props) => {
     const ClassWeeklyIds = useSelector((state: RootState) => state.WeeklyTimetable.ISClassWeekdayId);
     const mptInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISMPTinfo);
     const AssemblyInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISAssemblyInfo);
+    const StayBackInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISStayBackInfo);
     const mptInfoClass = useSelector((state: RootState) => state.WeeklyTimetable.ISMPTinfoClass);
+    const weeklyTestInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISWeeklytestInfo);
     const AssemblyInfoClass = useSelector((state: RootState) => state.WeeklyTimetable.ISAssemblyInfoClass);
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
     const DeleteAddLecMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetDeleteAdditionalLectureMsg);
@@ -173,8 +175,8 @@ const WeeklyTimetable = (props: Props) => {
     const CDAGetStandardListBody: IGetTeacherAndStandardForTimeTableBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacher_id: UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N' ? Number(SessionTeacherId) : 0
-        // asTeacher_id: 0
+        // asTeacher_id: UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N' ? Number(SessionTeacherId) : 0
+        asTeacher_id: 0
     }
     useEffect(() => {
         dispatch(CDAClearValidateTeacherData());
@@ -337,7 +339,7 @@ const WeeklyTimetable = (props: Props) => {
             ApplicablesToggleData.map((item, i) => {
                 setAssembly(item.Assembly === 'Y' ? true : false);
                 setMPT(item.MPT === 'Y' ? true : false);
-                setWeekly(item.Weekly === 'Y' ? true : false);
+                setWeekly(item.Weeklytest === 'Y' ? true : false);
                 setStayback(item.Stayback === 'True' ? true : false);
             })
         }
@@ -725,6 +727,18 @@ const WeeklyTimetable = (props: Props) => {
         return isPresent;
     }
 
+    function isStaybackLecture(weekDay, lectureNo) {
+        let isPresent = StayBackInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+        isPresent !== undefined ? true : false;
+        return isPresent;
+    }
+
+    function isWeeklyTestLecture(weekDay, lectureNo) {
+        let isPresent = weeklyTestInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+        isPresent !== undefined ? true : false;
+        return isPresent;
+    }
+
     // Following Functions are to Check whether the current ` CLASS ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
     function isMPTLectureClass(weekDay, lectureNo) {
         let isPresent = mptInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
@@ -1064,10 +1078,12 @@ const WeeklyTimetable = (props: Props) => {
                                                                     <TableRow>
                                                                         <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
                                                                         <Tooltip title={`For - Monday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Monday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Monday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(MondayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Monday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Monday', item.Text1) ? '#a5b4fc' : stayback && isStaybackLecture('Monday', item.Text1) ? '#a5b4fc' : weeklytest === true && isWeeklyTestLecture('Monday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(MondayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
-                                                                                        <b>Assembly</b></Typography> :
+                                                                                        <b>Assembly</b></Typography> : stayback === true && isStaybackLecture('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                            <b>Stay Back</b></Typography> : weeklytest === true && isWeeklyTestLecture('Monday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                                <b>Weekly Test</b></Typography> :
                                                                                     filterMaxDayLec(MondayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Lecture Not Applicable</b></Typography> :
                                                                                         <SearchableDropdown1
@@ -1086,12 +1102,14 @@ const WeeklyTimetable = (props: Props) => {
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Tuesday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Tuesday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Tuesday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(TuesdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Tuesday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Tuesday', item.Text1) ? '#a5b4fc' : stayback && isStaybackLecture('Tuesday', item.Text1) ? '#a5b4fc' : weeklytest === true && isWeeklyTestLecture('Tuesday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(TuesdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Assembly</b></Typography> :
                                                                                     filterMaxDayLec(TuesdayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
-                                                                                        <b>Lecture Not Applicable</b></Typography> :
+                                                                                        <b>Lecture Not Applicable</b></Typography> : stayback === true && isStaybackLecture('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                            <b>Stay Back</b></Typography> : weeklytest === true && isWeeklyTestLecture('Tuesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                                <b>Weekly Test</b></Typography> :
                                                                                         <SearchableDropdown1
                                                                                             onChange={(value) => clickTeacherTue(value, `${WeekdayIds[1]?.WeekdayId}-${item.Text1}`)}
                                                                                             ItemList={filterMaxDayLec(TuesdayColumnList, item.Text1)}
@@ -1109,10 +1127,12 @@ const WeeklyTimetable = (props: Props) => {
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Wednesday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Wednesday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Wednesday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(WednesdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Wednesday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Wednesday', item.Text1) ? '#a5b4fc' : stayback && isStaybackLecture('Wednesday', item.Text1) ? '#a5b4fc' : weeklytest === true && isWeeklyTestLecture('Wednesday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(WednesdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
-                                                                                        <b>Assembly</b></Typography> :
+                                                                                        <b>Assembly</b></Typography> : stayback === true && isStaybackLecture('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                            <b>Stay Back</b></Typography> : weeklytest === true && isWeeklyTestLecture('Wednesday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                                <b>Weekly Test</b></Typography> :
                                                                                     filterMaxDayLec(WednesdayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Lecture Not Applicable</b></Typography> :
                                                                                         <SearchableDropdown1
@@ -1132,10 +1152,12 @@ const WeeklyTimetable = (props: Props) => {
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Thursday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Thursday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Thursday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(ThursdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Thursday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Thursday', item.Text1) ? '#a5b4fc' : stayback && isStaybackLecture('Thursday', item.Text1) ? '#a5b4fc' : weeklytest === true && isWeeklyTestLecture('Thursday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(ThursdayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
-                                                                                        <b>Assembly</b></Typography> :
+                                                                                        <b>Assembly</b></Typography> : stayback === true && isStaybackLecture('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                            <b>Stay Back</b></Typography> : weeklytest === true && isWeeklyTestLecture('Thursday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                                <b>Weekly Test</b></Typography> :
                                                                                     filterMaxDayLec(ThursdayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Lecture Not Applicable</b></Typography> :
                                                                                         <SearchableDropdown1
@@ -1154,10 +1176,12 @@ const WeeklyTimetable = (props: Props) => {
                                                                             </StyledCell>
                                                                         </Tooltip>
                                                                         <Tooltip title={`For - Friday: ${item.Text1}`} arrow placement="top">
-                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Friday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Friday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(FridayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
+                                                                            <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Friday', item.Text1) ? '#a5b4fc' : assembly && isAssemblyLecture('Friday', item.Text1) ? '#a5b4fc' : stayback && isStaybackLecture('Friday', item.Text1) ? '#a5b4fc' : weeklytest === true && isWeeklyTestLecture('Friday', item.Text1) ? '#a5b4fc' : filterMaxDayLec(FridayColumnList, item.Text1).length === 1 ? '#324B8466' : ''}` }}>
                                                                                 {mpt === true && isMPTLecture('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                     <b>M.P.T</b></Typography> : assembly === true && isAssemblyLecture('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
-                                                                                        <b>Assembly</b></Typography> :
+                                                                                        <b>Assembly</b></Typography> : stayback === true && isStaybackLecture('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                            <b>Stay Back</b></Typography> : weeklytest === true && isWeeklyTestLecture('Friday', item.Text1) ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
+                                                                                                <b>Weekly Test</b></Typography> :
                                                                                     filterMaxDayLec(FridayColumnList, item.Text1).length === 1 ? <Typography variant="body2" sx={{ color: 'black', minWidth: 200, textAlign: 'center' }}>
                                                                                         <b>Lecture Not Applicable</b></Typography> :
                                                                                         <SearchableDropdown1

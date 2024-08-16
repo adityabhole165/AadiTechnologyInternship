@@ -33,6 +33,8 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetDeleteAdditionalLecturesMsg: '',
         ISAssemblyInfo: [],
         ISMPTinfo: [],
+        ISStayBackInfo: [],
+        ISWeeklytestInfo: [],
         ISTimetableDetails: [],
         ISAssemblyInfoClass: [],
         ISMPTinfoClass: [],
@@ -65,6 +67,14 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RMPTinfo(state, action) {
             state.ISMPTinfo = action.payload;
+            state.Loading = false;
+        },
+        RStayBackinfo(state, action) {
+            state.ISStayBackInfo = action.payload;
+            state.Loading = false;
+        },
+        RWeeklytestInfo(state, action) {
+            state.ISWeeklytestInfo = action.payload;
             state.Loading = false;
         },
         RAssemblyInfo(state, action) {
@@ -624,6 +634,23 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             });
+            const stayBackInfo = response.data.Lecture_No_WeekDayStayback.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.Lecture_Number
+                    }
+                )
+            });
+
+            const weeklyTestInfo = response.data.Lecture_No_WeekDayWeeklyTest.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.Lecture_Number
+                    }
+                )
+            });
 
             const WeekDayId = response.data.WeekDayIds.map((item, i) => {
                 return (
@@ -659,12 +686,14 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             })
-            dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData))
-            dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData))
-            dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId))
-            dispatch(WeeklyTimeTableSlice.actions.RMPTinfo(mptInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfo(assemblyInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RTimetableDetails(TimetableDetails))
+            dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData));
+            dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData));
+            dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId));
+            dispatch(WeeklyTimeTableSlice.actions.RMPTinfo(mptInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RStayBackinfo(stayBackInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RWeeklytestInfo(weeklyTestInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfo(assemblyInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RTimetableDetails(TimetableDetails));
         }
 
 // The Following Dispatch is for the Weekday Lecture Retrieval | ON `Class` Selection ✅
