@@ -175,8 +175,8 @@ const WeeklyTimetable = (props: Props) => {
     const CDAGetStandardListBody: IGetTeacherAndStandardForTimeTableBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcadmicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        // asTeacher_id: UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N' ? Number(SessionTeacherId) : 0
-        asTeacher_id: 0
+        asTeacher_id: UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N' ? Number(SessionTeacherId) : 0
+        // asTeacher_id: 0
     }
     useEffect(() => {
         dispatch(CDAClearValidateTeacherData());
