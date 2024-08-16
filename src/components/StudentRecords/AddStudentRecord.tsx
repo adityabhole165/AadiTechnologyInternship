@@ -68,6 +68,7 @@ const AddStudentRecord = () => {
         if (SaveStudentRecordUS !== '') {
             toast.success(SaveStudentRecordUS, { toastId: 'success1' });
             dispatch(resetGetSaveStudentRecord());
+            dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [SaveStudentRecordUS])
     const getXML = () => {
