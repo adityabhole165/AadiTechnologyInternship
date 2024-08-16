@@ -359,20 +359,21 @@ const AddSchoolNoticeFT = () => {
             setSortOrderError('');
         }
 
+        if (!NoticeId) {
+            if (radioBtn == '1') {
+                if (GetSchoolNoticeIdName != null) {
+                    setLinkNameError1('Link name already exists.');
+                    isError = true;
+                } else setLinkNameError1('')
+            }
+            if (radioBtn == '2') {
+                if (GetSchoolNoticeIdName != null) {
+                    setNoticeNameError1('Notice name already exists.');
+                    isError = true;
+                } else setNoticeNameError1('')
+            }
+        }
 
-        if (radioBtn == '1') {
-            console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdNamennnnnnn')
-            if (GetSchoolNoticeIdName != null) {
-                setLinkNameError1('Link name already exists.');
-                isError = true;
-            } else setLinkNameError1('')
-        }
-        if (radioBtn == '2') {
-            if (GetSchoolNoticeIdName != null) {
-                setNoticeNameError1('Notice name already exists.');
-                isError = true;
-            } else setNoticeNameError1('')
-        }
         if (!isError) {
             // dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
