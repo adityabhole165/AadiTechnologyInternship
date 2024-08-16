@@ -256,7 +256,7 @@ const AddSchoolNoticeFT = () => {
             asEndDate: EndDate + ' ' + EndTime,
         }
         dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
-    }, [NoticeName])
+    }, [NoticeName, StartDate, EndDate])
 
 
     const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
@@ -362,6 +362,7 @@ const AddSchoolNoticeFT = () => {
         }
 
         if (!NoticeId) {
+            console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdNameyyyy')
             if (radioBtn == '1') {
                 if (GetSchoolNoticeIdName != null) {
                     setLinkNameError1('Link name already exists.');
