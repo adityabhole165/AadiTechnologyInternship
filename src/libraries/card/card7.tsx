@@ -138,23 +138,23 @@ function Card7({
 
   return (
     <>
-      <Box sx={{ px: 2 }}>
-        <ListStyle>
-          <BoxWrapper>
+      <Box>
+        <ListStyle >
+          <BoxWrapper >
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
             <CardDetail2>{From}</CardDetail2>
-          </BoxWrapper>
+          </BoxWrapper><hr></hr>
           <BoxWrapper>
             <CardDetail1>Received Date</CardDetail1>
 
             <CardDetail2>{InsertDateInFormat} </CardDetail2>
-          </BoxWrapper>
+          </BoxWrapper><hr></hr>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.To}</CardDetail1>
 
             <CardDetail2>{To}</CardDetail2>
-          </BoxWrapper>
+          </BoxWrapper><hr></hr>
           {Cc !== '' && (
             <>
               {To === LoggedInUserNameForMessage ? null : (
@@ -169,7 +169,7 @@ function Card7({
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>
             <CardDetail2>{Text}</CardDetail2>
-          </BoxWrapper>
+          </BoxWrapper><hr></hr>
           <BoxWrapper>
             {attachmentObj.length > 0 && (
               <>

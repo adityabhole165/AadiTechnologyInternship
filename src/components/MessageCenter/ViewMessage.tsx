@@ -14,6 +14,10 @@ import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSet
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 import { compareStringWithoutSpace } from '../Common/Util';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import CommonPageHeader from '../CommonPageHeader';
+import { grey } from '@mui/material/colors';
+import { QuestionMark } from '@mui/icons-material';
 
 function ViewSms({}) {
   const dispatch = useDispatch();
@@ -131,11 +135,35 @@ function ViewSms({}) {
   };
 
   return (
-    <>
-      <PageHeader heading={'View Message'} subheading={''} />
+    
+    <Box sx={{px:2}}>
+    <CommonPageHeader
+        // <PageHeader heading="Message Center" subheading=""></PageHeader>
+          // <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
+        navLinks={[
+          { title: 'Message Center', path: 'extended-sidebar/MessageCenter/msgCenter' },
+          {title: 'View Message', path: 'extended-sidebar/MessageCenter/viewMSg '}
+        ]}
+       rightActions={
+            <>
+              <Box>
+                <Tooltip title={`View sent/received messages.`}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}>
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+              </Box>
 
-      <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
-
+            </>
+          }
+        />
+      
       <>
         {viewSent === undefined
           ? null
@@ -169,7 +197,8 @@ function ViewSms({}) {
               />
             )}
       </>
-    </>
+      </Box>
+    
   );
 }
 
