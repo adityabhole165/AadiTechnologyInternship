@@ -16,15 +16,15 @@ const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) =>
         <Dialog
             open={open}
             onClose={onClose}
-            maxWidth="xl"
+            maxWidth="md"
             PaperProps={{
                 sx: {
                     borderRadius: "15px",
                     zIndex: 1300,
                     overflow: 'auto',
-                    width: isMaximized ? '100%' : '50%',
-                    height: isMaximized ? '100vh' : '70vh',
-                    maxHeight: isMaximized ? '100vh' : '70vh',
+                    width: isMaximized ? '80%' : '50%',
+                    height: isMaximized ? '100vh' : '75vh',
+                    maxHeight: isMaximized ? '90vh' : '90vh',
                 }
             }}
             sx={{
@@ -82,15 +82,13 @@ const NoticeDetailDialog = ({ open, onClose, link, contentType, onMinimize }) =>
                 sx={{
                     maxWidth: '100%',
                     height: '100%',
-                    p: 2,
                     alignItems: 'center',
-                    margintop: '10px',
                 }}
             >
                 <DialogContent>
                     {contentType === 'image' ? (
-                        <Box display="flex" justifyContent="center" alignItems="center">
-                            <img src={link} alt="School Notice" style={{ maxWidth: '100%', height: 'auto' }} />
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{mt:4}}>
+                            <img src={link} alt="School Notice" style={{ maxWidth: '100%', height: 'fixed' }} />
                         </Box>
                     ) : (
                         <Typography dangerouslySetInnerHTML={{ __html: link }}></Typography>
