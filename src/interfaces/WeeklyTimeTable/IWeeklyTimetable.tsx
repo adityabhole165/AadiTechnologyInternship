@@ -336,3 +336,23 @@ export interface IGetValidateTeacherDataResult {
     ErrMsgForAssociateSubjectLectures: string,
     ErrMsgForExternalLectures: string
 }
+
+export interface IGetValidateDataForClassBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInsertedById: Number,
+    asStdDivId: Number,
+    asMasterXml: string,
+    asDetailXml: string,
+    asAdditionalLect: Boolean,
+    asIncCnt: Number
+}
+
+export interface IGetValidateDataForClassResult {
+    ErrMsgForWeeklyTeacherLectures: string,
+    OverlapErrorMessage: string,
+    ErrMsgForWeekDayTeacherLectures: string,
+    ErrMsgForSubjectLectures: string,
+    ErrMsgForAssociateSubjectLectures: string,
+    ErrMsgForExternalLectures: string
+}
