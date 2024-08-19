@@ -5,19 +5,19 @@ const QueAns = ({ Item, ChangeItem }) => {
     return (
         <div>
             <Grid container>
-                <Grid xs={12} p={1}>
+                <Grid item xs={12} p={1}>
                     <Typography pl={1}>{Item.Question}</Typography>
                 </Grid>
-                <Grid xs={12} pl={2}>
+                <Grid item xs={12} pl={2}>
                     {Item.QueType == 2 ?
-                        //    <TextField value={Item.Answer}
-                        //    onChange={(e) => { ChangeItem(Item, e.target.value) }}></TextField> 
-                        <Grid xs={12} md={12} m={1} pr={2}>
+                        <Grid item xs={12} md={12} m={1} pr={2}>
                             <ResizableTextField
                                 name='description'
                                 multiline
                                 rows={3}
                                 fullWidth
+                                value={Item.Answer}
+                                onChange={(e) => { ChangeItem(Item, e.target.value) }}
                                 sx={{
                                     resize: 'both'
                                 }}

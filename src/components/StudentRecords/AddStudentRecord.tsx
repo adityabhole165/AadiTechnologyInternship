@@ -16,6 +16,7 @@ import AddStudentRecordList from './StudentRecordList';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [ItemList, setItemList] = useState([]);
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
     const [Comment, setComment] = useState('');
@@ -30,12 +31,14 @@ const AddStudentRecord = () => {
     const listGeneralDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listGeneralDetails
     );
-    console.log(listGeneralDetailsUS, "listGeneralDetails");
+
+    const QueAnsList = useSelector(
+        (state: RootState) => state.AddStudentRecords.QueAnsList
+    );
     const listSiblingsDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listSiblingsDetails
     )
 
-    console.log(listSiblingsDetailsUS, "listSiblingsDetails");
     const SubmitStudentRecordCommentUS = useSelector(
         (state: RootState) => state.AddStudentRecords.submitStudentRecordCommentmsg
     );
@@ -45,6 +48,24 @@ const AddStudentRecord = () => {
     const SaveStudentRecordUS = useSelector(
         (state: RootState) => state.AddStudentRecords.savestudentrecordmsg
     );
+    useEffect(() => {
+        if (QueAnsList.length > 0) {
+            setItemList(QueAnsList)
+        }
+        else {
+            setItemList([])
+        }
+    }, [QueAnsList])
+    const ChangeItem = (value, QuestionId) => {
+        setItemList(ItemList.map((item, i) => {
+            return {
+                ...item,
+                QueAnsList: QuestionId == item.QuestionId ?
+                    value : item.QueAnsList
+
+            }
+        }))
+    }
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
@@ -71,7 +92,6 @@ const AddStudentRecord = () => {
         }
     }, [SaveStudentRecordUS])
     const getXML = () => {
-        console.log(Itemlist, '----');
         let sXML =
             "<ArrayOfKeyValue xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>";
         Itemlist.map((Item) => {
@@ -85,7 +105,6 @@ const AddStudentRecord = () => {
         });
         sXML = sXML + '</ArrayOfKeyValue>';
 
-        console.log('XMLLLLLLLL', sXML);
         return sXML;
     };
 
@@ -171,7 +190,6 @@ const AddStudentRecord = () => {
                 isError = true;
             } else {
                 setDateError('');
-                console.log('Saving data...', ADate);
             }
 
         }
@@ -348,7 +366,7 @@ const AddStudentRecord = () => {
                                 </TableHead>
                                 <TableBody>
                                     {listSiblingsDetailsUS.map((item, i) => (
-                                        <TableRow>
+                                        <TableRow key={i}>
                                             <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text1}</TableCell>
                                             <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text2}</TableCell>
                                             <TableCell align="center" style={{ border: '1px solid black', ...cellStyle }}>{item.Text3}</TableCell>
@@ -361,7 +379,8 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <AddStudentRecordList />
+            <AddStudentRecordList ItemList={ItemList}
+                ChangeItem={ChangeItem} />
             {/* <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
                 onTextChange={onTextChange} Action={Action}
                 IsEditingAllowed={IsEditingAllowed()} /> */}

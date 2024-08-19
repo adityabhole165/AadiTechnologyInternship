@@ -2,16 +2,17 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { useState } from 'react';
 import QueAnsList from './QueAnsList';
-const AddStudentRecordList = () => {
-    const [ItemList, setItemList] = useState(
+const AddStudentRecordList = ({ ItemList, ChangeItem }) => {
+    const [ItemList1, setItemList1] = useState(
         [{
+            QuestionId: 1,
             Header: "Family Information",
             QueAnsList: [
                 {
                     Id: 1,
                     Question: "Is the child living with both the parents?",
                     QueType: 3,
-                    Answer: "",
+                    Answer: ""
 
                 },
                 {
@@ -22,13 +23,14 @@ const AddStudentRecordList = () => {
                 }
             ]
         }, {
+            QuestionId: 2,
             Header: "Medical History",
             QueAnsList: [
                 {
                     Id: 3,
                     Question: "Has the child had any prolonged absences from school? If yes, please state the reason for absence.",
                     QueType: 2,
-                    Answer: "",
+                    Answer: ""
 
                 },
                 {
@@ -39,6 +41,7 @@ const AddStudentRecordList = () => {
                 }
             ]
         }, {
+            QuestionId: 3,
             Header: "Educational History",
             QueAnsList: [
                 {
@@ -51,9 +54,6 @@ const AddStudentRecordList = () => {
         }
         ]
     )
-    const ChangeItem = (ItemList) => {
-        setItemList(ItemList)
-    }
     return (
         <div>
             {
@@ -62,7 +62,7 @@ const AddStudentRecordList = () => {
                     :
                     ItemList.map((Item, i) => {
                         return (
-                            <Accordion defaultExpanded
+                            <Accordion defaultExpanded key={i}
                                 sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                                 <AccordionSummary expandIcon={<ExpandMore />}>
                                     <Typography variant={"h4"}>
@@ -70,7 +70,8 @@ const AddStudentRecordList = () => {
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ p: 0 }}>
-                                    <QueAnsList ItemList={Item.QueAnsList} ChangeItem={ChangeItem}></QueAnsList>
+                                    <QueAnsList ItemList={Item.QueAnsList}
+                                        QuestionId={Item.QuestionId} ChangeItem={ChangeItem}></QueAnsList>
                                 </AccordionDetails>
                             </Accordion >
                         )

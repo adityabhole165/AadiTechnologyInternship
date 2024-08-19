@@ -17,6 +17,7 @@ const AddStudentRecordsSlice = createSlice({
         submitStudentRecordCommentmsg: '',
         getstudentrecordcomment: [],
         savestudentrecordmsg: '',
+        QueAnsList: [],
         Loading: true
     },
     reducers: {
@@ -31,6 +32,11 @@ const AddStudentRecordsSlice = createSlice({
         FamilyDetails(state, action) {
             state.Loading = false;
             state.listFamilyDetails = action.payload;
+        },
+
+        getQueAnsList(state, action) {
+            state.Loading = false;
+            state.QueAnsList = action.payload;
         },
         BehaviorDetails(state, action) {
             state.Loading = false;
@@ -100,7 +106,6 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.GeneralDetails(abc));
-            console.log(abc)
 
             let siblingsdetails = [];
             response.data.listSiblingsDetails.map((item, i) => {
@@ -113,7 +118,6 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.SiblingsDetails(siblingsdetails));
-            // console.log(siblingsdetails)
 
             let familydetails = [];
             response.data.listFamilyDetails.map((item, i) => {
@@ -126,7 +130,6 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.FamilyDetails(familydetails));
-            // console.log(familydetails)
 
             let behaviordetails = [];
             response.data.listBehaviorDetails.map((item, i) => {
@@ -140,7 +143,28 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.BehaviorDetails(behaviordetails));
-            // console.log(behaviordetails)
+
+            const GetAnswerList = (Id) => {
+                let arr = []
+                response.data.listBehaviorDetails.map((item, i) => {
+                    if (item.SectionId == Id)
+                        arr.push({
+                            Id: item.Id,
+                            Question: item.Name,
+                            Answer: "",
+                            QueType: item.ControlId,
+                        })
+                })
+                return arr
+            }
+            let QueAnsList = response.data.listFamilyDetails.map((item, i) => {
+                return {
+                    QuestionId: item.Id,
+                    Header: item.Name,
+                    QueAnsList: GetAnswerList(item.Id)
+                }
+            })
+            dispatch(AddStudentRecordsSlice.actions.getQueAnsList(QueAnsList));
 
             let parameterdetails = [];
             response.data.listParameterDetails.map((item, i) => {
@@ -152,7 +176,6 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.ParameterDetails(parameterdetails));
-            console.log(parameterdetails)
 
             let commentdetails = [];
             response.data.listCommentDetails.map((item, i) => {
@@ -172,7 +195,6 @@ export const GetStudentRecordData =
                 });
             });
             dispatch(AddStudentRecordsSlice.actions.CommentDetails(commentdetails));
-            console.log(commentdetails)
         }
 
 export const GetSubmitStudentRecord =
