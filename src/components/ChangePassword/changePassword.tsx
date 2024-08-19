@@ -23,9 +23,7 @@ function ChangePassword() {
     <CommonPageHeader
         navLinks={[{ title: 'Change Password', path: ' ' }
         ]}/>
-       
-                     <Form />
-     
+      <Form />
     </Box>
   );
 }

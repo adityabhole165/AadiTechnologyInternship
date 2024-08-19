@@ -135,6 +135,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
             <NoticeDetailDialog
                 open={openDetailDialog}
                 onClose={() => setOpenDetailDialog(false)}
+                onMinimize={() => setOpenDetailDialog(false)}
                 link={selectedLink}
                 contentType={contentType}
             />

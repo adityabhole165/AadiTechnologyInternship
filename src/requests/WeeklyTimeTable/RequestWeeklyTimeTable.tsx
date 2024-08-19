@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
 import { GetScreenPermission } from 'src/components/Common/Util';
-import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateDataForClassBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -31,17 +31,30 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetManageClassTimeTableMsg: '',
         ISGetDeleteAdditionalLectureMsg: '',
         ISGetDeleteAdditionalLecturesMsg: '',
+        ISAddLecForClass: [],
         ISAssemblyInfo: [],
         ISMPTinfo: [],
+        ISStayBackInfo: [],
+        ISWeeklytestInfo: [],
         ISTimetableDetails: [],
         ISAssemblyInfoClass: [],
         ISMPTinfoClass: [],
+        ISWeeklytestClass: [],
         ISValidateTeacherData: [],
+        ISValidateClassData: [],
+        ISExtLectCount: '',
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        RAddLecForClass(state, action) {
+            state.ISAddLecForClass = action.payload;
+            state.Loading = false;
+        },
+        RExtLectCount(state, action) {
+            state.ISExtLectCount = action.payload;
         },
         RClassWeekdayIds(state, action) {
             state.ISClassWeekdayId = action.payload;
@@ -53,6 +66,14 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RClearValidateTeacherData(state) {
             state.ISValidateTeacherData = [];
+            state.Loading = false;
+        },
+        RValidateClassData(state, action) {
+            state.ISValidateClassData = action.payload;
+            state.Loading = false;
+        },
+        RClearValidateClassData(state) {
+            state.ISValidateClassData = [];
             state.Loading = false;
         },
         RTimetableDetails(state, action) {
@@ -67,12 +88,24 @@ const WeeklyTimeTableSlice = createSlice({
             state.ISMPTinfo = action.payload;
             state.Loading = false;
         },
+        RStayBackinfo(state, action) {
+            state.ISStayBackInfo = action.payload;
+            state.Loading = false;
+        },
+        RWeeklytestInfo(state, action) {
+            state.ISWeeklytestInfo = action.payload;
+            state.Loading = false;
+        },
         RAssemblyInfo(state, action) {
             state.ISAssemblyInfo = action.payload;
             state.Loading = false;
         },
         RMPTinfoClass(state, action) {
             state.ISMPTinfoClass = action.payload;
+            state.Loading = false;
+        },
+        RWeeklytestClass(state, action) {
+            state.ISWeeklytestClass = action.payload;
             state.Loading = false;
         },
         RAssemblyInfoClass(state, action) {
@@ -117,6 +150,7 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RGetDivisionName(state, action) {
             state.ISGetDivisionName = action.payload;
+            // state.Loading = false;
         },
         RAddClassesWeekDay(state, action) {
             state.ISAddClassesWeekDay = action.payload;
@@ -205,6 +239,10 @@ const WeeklyTimeTableSlice = createSlice({
         RClearWeeklyTeacherTimetableValues(state) {
             state.ISGetLectureNoWeekday = [];
             state.Loading = false;
+        },
+        RClearWeeklyClassTimetableValues(state) {
+            state.ISGetClassLecNoWeekday = [];
+            state.Loading = false;
         }
     }
 });
@@ -212,6 +250,10 @@ const WeeklyTimeTableSlice = createSlice({
 export const CDAClearWeeklyTeacherTimetableValues = (): AppThunk => async (dispatch) => {
     dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
     dispatch(WeeklyTimeTableSlice.actions.RClearWeeklyTeacherTimetableValues());
+}
+export const CDAClearWeeklyClassTimetableValues = (): AppThunk => async (dispatch) => {
+    dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+    dispatch(WeeklyTimeTableSlice.actions.RClearWeeklyClassTimetableValues());
 }
 
 export const CDAGetTeachersList =
@@ -228,11 +270,6 @@ export const CDAGetTeachersList =
                     }
                 )
             })
-            let LoginTeacherId = sessionStorage.getItem('TeacherId');
-            const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
-            if (IsWeeklyTimetableFullAccess === 'Y') {
-                responseData = responseData.filter(item => item.Id === LoginTeacherId)
-            }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetTeachersList(responseData));
         };
@@ -280,6 +317,33 @@ export const CDAClearValidateTeacherData =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             dispatch(WeeklyTimeTableSlice.actions.RClearValidateTeacherData());
+        }
+
+export const CDAValidateClassData =
+    (data: IGetValidateDataForClassBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetValidateClassDataApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.ErrMsgForWeeklyTeacherLectures,
+                        Text2: item.OverlapErrorMessage,
+                        Text3: item.ErrMsgForWeekDayTeacherLectures,
+                        Text4: item.ErrMsgForSubjectLectures,
+                        Text5: item.ErrMsgForAssociateSubjectLectures,
+                        Text6: item.ErrMsgForExternalLectures
+                    }
+                )
+            })
+            dispatch(WeeklyTimeTableSlice.actions.RValidateClassData(responseData));
+        }
+
+export const CDAClearValidateClassData =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.RClearValidateClassData());
         }
 
 export const CDAGetDataForAdditionalClasses =
@@ -356,6 +420,12 @@ export const CDADeleteAdditionalLectures =
             dispatch(WeeklyTimeTableSlice.actions.RGetDeleteAdditionalLecturesMsg(response.data));
         }
 
+export const CDAMutedDeleteAdditionalLectures =
+    (data: IGetDeleteAdditionalLecturesBody): AppThunk =>
+        async (dispatch) => {
+            const response = await WeeklyTimeTableApi.GetDeleteAdditionalLecturesApi(data);
+        }
+
 export const CDAResetDeleteAdditionalLecture =
     (): AppThunk =>
         async (dispatch) => {
@@ -419,12 +489,31 @@ export const CDASaveTeacherTimetableWithIncr =
             await dispatch(CDAClearValidateTeacherData());
         }
 
-export const CDASaveClassTimetable =
+export const CDASaveClassTimetableWithIncr =
     (data: IGetSaveClassTimeTableBody): AppThunk =>
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetSaveClassTimeTableApi(data);
-            dispatch(WeeklyTimeTableSlice.actions.RGetSaveClassTimeTableMsg(response.data));
+            // Clear validation messages first
+            await dispatch(WeeklyTimeTableSlice.actions.RGetSaveClassTimeTableMsg(response.data));
+            await dispatch(CDAClearValidateClassData());
+        }
+
+export const CDASaveClassTimetable =
+    (data: IGetSaveClassTimeTableBody): AppThunk =>
+        async (dispatch, getState) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            // Clear validation messages first
+            await dispatch(CDAClearValidateClassData());
+            // Dispatch the validation action and wait for it to complete
+            await dispatch(CDAValidateClassData(data));
+            // Get the updated validation messages from the state
+            const { ISValidateClassData } = getState().WeeklyTimetable;
+            // Check if there are no validation error messages and if so, proceed to save the data
+            if (ISValidateClassData.length === 0) {
+                const response = await WeeklyTimeTableApi.GetSaveClassTimeTableApi(data);
+                dispatch(WeeklyTimeTableSlice.actions.RGetSaveClassTimeTableMsg(response.data));
+            }
         }
 
 export const ResetSaveClassTimetableMsg =
@@ -444,9 +533,9 @@ export const ResetSaveTeacherTimetableMsg =
 export const CDAGetDivisionName =
     (data: IGetDivisionForStdDropdownBody): AppThunk =>
         async (dispatch) => {
-            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            // dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetDivisionForStdDropdownApi(data);
-            const responseData = response.data.map((item) => {
+            let responseData = response.data.map((item) => {
                 return (
                     {
                         Id: item.SchoolWise_Standard_Division_Id,
@@ -454,7 +543,14 @@ export const CDAGetDivisionName =
                         Value: item.SchoolWise_Standard_Division_Id
                     }
                 )
-            })
+            });
+            const UserRoleId = sessionStorage.getItem('RoleId');
+            const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
+            let StdDivId = sessionStorage.getItem('StandardDivisionId');
+            // 🙋‍♂️ TO BE UNCOMMENTED BEFORE FINAL TESTING ⚡
+            // if (UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N') {
+            //     responseData = responseData.filter(item => item.Id === StdDivId);
+            // }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetDivisionName(responseData));
 
@@ -614,6 +710,23 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             });
+            const stayBackInfo = response.data.Lecture_No_WeekDayStayback.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.Lecture_Number
+                    }
+                )
+            });
+
+            const weeklyTestInfo = response.data.Lecture_No_WeekDayWeeklyTest.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.Lecture_Number
+                    }
+                )
+            });
 
             const WeekDayId = response.data.WeekDayIds.map((item, i) => {
                 return (
@@ -649,12 +762,19 @@ export const CDAGetLectureNoWeekday =
                     }
                 )
             })
-            dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData))
-            dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData))
-            dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId))
-            dispatch(WeeklyTimeTableSlice.actions.RMPTinfo(mptInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfo(assemblyInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RTimetableDetails(TimetableDetails))
+            const mptCount = response.data.TotalMPTs[0].TotalMPT;
+            const staybackCount = response.data.TotalStayback[0].TotalStaybacks;
+            const assemblyCount = response.data.TotalAssemblys[0].TotalAssembly;
+            const weeklyTestCount = response.data.TotalWeeklyTests[0].TotalWeeklyTest;
+            dispatch(WeeklyTimeTableSlice.actions.RExtLectCount(`${mptCount}-${staybackCount}-${assemblyCount}-${weeklyTestCount}`));
+            dispatch(WeeklyTimeTableSlice.actions.RGetLectureNoWeekday(responseData));
+            dispatch(WeeklyTimeTableSlice.actions.RGetApplicables(ApplicablesData));
+            dispatch(WeeklyTimeTableSlice.actions.RGetWeekdayId(WeekDayId));
+            dispatch(WeeklyTimeTableSlice.actions.RMPTinfo(mptInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RStayBackinfo(stayBackInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RWeeklytestInfo(weeklyTestInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfo(assemblyInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RTimetableDetails(TimetableDetails));
         }
 
 // The Following Dispatch is for the Weekday Lecture Retrieval | ON `Class` Selection ✅
@@ -672,6 +792,23 @@ export const CDAClassLecNoWeekday =
                         Text4: item.Wednesday,
                         Text5: item.Thursday,
                         Text6: item.Friday
+                    }
+                )
+            })
+            const AddtionalLecturesForClass = response.data.AddtionalLecturesForClass.map((item, i) => {
+                return (
+                    {
+                        Text1: item.TeacherId,
+                        Text2: item.LectureNumber,
+                        Text3: item.WeekDayName,
+                        Text4: item.SubjectName,
+                        Text5: item.ClassName,
+                        Text6: item.SchoolTimeTableDetailId,
+                        Text7: item.SubjectId,
+                        Text8: item.WeekdayId,
+                        Text9: item.TeacherSubjectId,
+                        Text10: item.TeacherName,
+                        Text11: item.ID
                     }
                 )
             })
@@ -703,9 +840,21 @@ export const CDAClassLecNoWeekday =
                     }
                 )
             })
+            const WeeklyTestInfo = response.data.Lecture_No_WeekDayWeeklyTestForClass.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.WeekDays_Id,
+                        Text3: item.StandardDivision_Id,
+                        Text4: item.Lecture_Number
+                    }
+                )
+            })
             dispatch(WeeklyTimeTableSlice.actions.RGetClassLecNoWeekday(responseData))
+            dispatch(WeeklyTimeTableSlice.actions.RAddLecForClass(AddtionalLecturesForClass));
             dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfoClass(WeekDayAssemblyInfo))
             dispatch(WeeklyTimeTableSlice.actions.RMPTinfoClass(WeekDayMptInfo))
+            dispatch(WeeklyTimeTableSlice.actions.RWeeklytestClass(WeeklyTestInfo))
             dispatch(WeeklyTimeTableSlice.actions.RClassWeekdayIds(WeekDayId))
         }
 

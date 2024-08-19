@@ -1,4 +1,4 @@
-import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult, IGetValidateTeacherDataBody, IGetValidateTeacherDataResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult, IGetValidateDataForClassBody, IGetValidateDataForClassResult, IGetValidateTeacherDataBody, IGetValidateTeacherDataResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -64,6 +64,9 @@ const GetSaveClassTimeTableApi = (data: IGetSaveClassTimeTableBody) => {
 const GetValidateTeacherDataApi = (data: IGetValidateTeacherDataBody) => {
     return http.post<IGetValidateTeacherDataResult[]>('Teacher/ValidateDataForTeacher', data)
 }
+const GetValidateClassDataApi = (data: IGetValidateDataForClassBody) => {
+    return http.post<IGetValidateDataForClassResult[]>('Teacher/ValidateDataForClass', data)
+}
 const GetDeleteAdditionalLectureApi = (data: IGetDeleteAdditionalLectureBody) => {
     return http.post<string>('Teacher/DeleteAdditionalLecture', data)
 }
@@ -90,7 +93,8 @@ const WeeklyTimeTableApi = {
     GetManageClassTimeTableApi,
     GetDeleteAdditionalLectureApi,
     GetDeleteAdditionalLecturesApi,
-    GetValidateTeacherDataApi
+    GetValidateTeacherDataApi,
+    GetValidateClassDataApi
 };
 
 export default WeeklyTimeTableApi;

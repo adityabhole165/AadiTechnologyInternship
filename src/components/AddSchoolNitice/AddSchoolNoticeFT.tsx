@@ -211,20 +211,22 @@ const AddSchoolNoticeFT = () => {
             asNoticeId: Number(NoticeId),
             asIsText: 0,
         };
-        showAlert({
-            title: 'Please Confirm',
-            message: 'Are you sure you want to delete Event Image?',
-            variant: 'warning',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
-            onCancel: () => {
-                closeAlert();
-            },
-            onConfirm: () => {
-                dispatch(DeleteImage(DeleteSchoolNoticeBody));
-                closeAlert();
-            },
-        });
+        if (ImageFile) {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'Are you sure you want to delete Event Image?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    dispatch(DeleteImage(DeleteSchoolNoticeBody));
+                    closeAlert();
+                },
+            });
+        }
     };
 
     useEffect(() => {
@@ -254,7 +256,7 @@ const AddSchoolNoticeFT = () => {
             asEndDate: EndDate + ' ' + EndTime,
         }
         dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
-    }, [NoticeName])
+    }, [NoticeName, StartDate, EndDate])
 
 
     const SaveNoticeBody: ISaveUpdateSchoolNoticesBody = {
@@ -359,20 +361,22 @@ const AddSchoolNoticeFT = () => {
             setSortOrderError('');
         }
 
+        if (!NoticeId) {
+            console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdNameyyyy')
+            if (radioBtn == '1') {
+                if (GetSchoolNoticeIdName != null) {
+                    setLinkNameError1('Link name already exists.');
+                    isError = true;
+                } else setLinkNameError1('')
+            }
+            if (radioBtn == '2') {
+                if (GetSchoolNoticeIdName != null) {
+                    setNoticeNameError1('Notice name already exists.');
+                    isError = true;
+                } else setNoticeNameError1('')
+            }
+        }
 
-        if (radioBtn == '1') {
-            console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdNamennnnnnn')
-            if (GetSchoolNoticeIdName != null) {
-                setLinkNameError1('Link name already exists.');
-                isError = true;
-            } else setLinkNameError1('')
-        }
-        if (radioBtn == '2') {
-            if (GetSchoolNoticeIdName != null) {
-                setNoticeNameError1('Notice name already exists.');
-                isError = true;
-            } else setNoticeNameError1('')
-        }
         if (!isError) {
             // dispatch(getSchoolNoticeIdByName(GetSchoolNoticeIdNameBody))
             dispatch(getSaveSchoolNoticeDetails(SaveNoticeBody));
@@ -401,6 +405,7 @@ const AddSchoolNoticeFT = () => {
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
             [{ size: [] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript and Superscript
             [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
             [{ 'color': [] }, { 'background': [] }],
             ['link', 'image', 'video'],
@@ -413,7 +418,7 @@ const AddSchoolNoticeFT = () => {
         'bold', 'italic', 'underline', 'strike', 'blockquote',
         'list', 'bullet', 'indent',
         'color', 'background',
-        'link', 'image', 'video'
+        'link', 'image', 'video', 'script' // Includes both superscript and subscript
     ];
 
     const ClickRadio = (value) => {
@@ -433,6 +438,7 @@ const AddSchoolNoticeFT = () => {
         setNoticeContent(value);
     };
 
+
     const handleSelectAll = (event) => {
         const { checked } = event.target;
         setSelectAll(checked);
@@ -447,11 +453,19 @@ const AddSchoolNoticeFT = () => {
 
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
-        setApplicableTo((prev) => ({
-            ...prev,
-            [name]: checked,
-        }));
+        setApplicableTo((prev) => {
+            const updatedApplicableTo = {
+                ...prev,
+                [name]: checked,
+            };
+
+            const allChecked = Object.values(updatedApplicableTo).every(value => value);
+            setSelectAll(allChecked);
+
+            return updatedApplicableTo;
+        });
     };
+
     const handleCancel = () => {
         setNoticeName('');
         setStartDate(new Date().toISOString().split('T')[0]);
@@ -543,13 +557,17 @@ const AddSchoolNoticeFT = () => {
     let url = localStorage.getItem("SiteURL") + "/RITeSchool/DOWNLOADS/School Notices/"
 
     const viewImage = () => {
-        const fullImageUrl = `${url}${ImageFile}`;
-        window.open(fullImageUrl, '_blank');
+        if (ImageFile) {
+            const fullImageUrl = `${url}${ImageFile}`;
+            window.open(fullImageUrl, '_blank');
+        }
     };
 
     const viewNotice = () => {
-        const fullImageUrl1 = `${url}${NoticeFile}`;
-        window.open(fullImageUrl1, '_blank');
+        if (NoticeFile) {
+            const fullImageUrl1 = `${url}${NoticeFile}`;
+            window.open(fullImageUrl1, '_blank');
+        }
     };
 
     return (
@@ -837,7 +855,7 @@ const AddSchoolNoticeFT = () => {
                                     Description
                                 </>}
                                 multiline
-                                // rows={3}
+                                rows={3}
                                 value={Description}
                                 onChange={(e) => {
                                     setDescription(e.target.value);

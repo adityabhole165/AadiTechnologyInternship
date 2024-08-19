@@ -291,7 +291,7 @@ const DashboardData = {
   },
   Teacher: {
     items1: [
-  
+
       {
         Text1: 'Annual  ',
         Text2: 'Planner',
@@ -545,6 +545,16 @@ const DashboardData = {
         Link: 'Teacher/TeacherTimeTable',
         index: 7,
         ScreenPermission: 'TeacherTimeTable'
+      },
+      {
+        Text1: 'Weekly Timetable ',
+        Text2: '',
+        Color: '#ef5350',
+        iconColor: '#f0483e',
+        Icon: CalendarTodayIcon,
+        Link: 'Teacher/WeeklyTimetable',
+        index: 7,
+        ScreenPermission: 'Weekly Timetable'
       },
       {
         Text1: 'Staff   ',
