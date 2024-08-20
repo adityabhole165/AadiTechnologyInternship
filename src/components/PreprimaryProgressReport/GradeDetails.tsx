@@ -4,7 +4,7 @@ import React from 'react'
 const GradeDetails = ({GradeDetailsfilteredAndSortedData}) => {
   return (
     <>
-    <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} my={2} pl={1}>
+    <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2}>
 
     Key to Curricular and Co-Curricular
 

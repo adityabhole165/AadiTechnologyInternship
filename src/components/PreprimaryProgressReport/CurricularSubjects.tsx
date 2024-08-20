@@ -4,7 +4,7 @@ import React from 'react';
 const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSections }) => {
     return (
         <div>
-            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+            <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2}>
                 Pre-Primary Curricular Subjects
             </Typography>
 
@@ -23,7 +23,7 @@ const CurricularSubjects = ({ USFillStudentsLearningOutcomes, USFillSubjectSecti
                         {USFillSubjectSections.map(subjectSection => (
                             <React.Fragment key={subjectSection.SubjectSectionConfigurationId}>
                                 <TableRow sx={{backgroundColor:'#F0F0F0', alignItems:'center'}}>
-                                    <TableCell sx={{ py: 1.5, fontWeight: 'bold' ,pl:70 }} colSpan={4}>
+                                    <TableCell sx={{ py: 1.5, fontWeight: 'bold' }} colSpan={4}>
                                         {subjectSection.SubjectSectionName}
                                     </TableCell>
                                 </TableRow>
