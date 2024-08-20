@@ -137,10 +137,10 @@ function Form() {
     validate: (values) => {
       const errors: any = {};
       if (!values.Oldpassword) {
-        errors.Oldpassword = 'Old Password should not be blank.';
+        errors.Oldpassword = 'Old password should not be blank.';
       }
       if (!values.NewPassword) {
-        errors.NewPassword = 'New Password should not be blank.';
+        errors.NewPassword = 'New password should not be blank.';
       } else if (values.NewPassword.length < 6) {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
       } else if (!regularExpression.test(values.NewPassword)) {
@@ -150,10 +150,10 @@ function Form() {
         errors.NewPassword = 'Password must maximum 15 character';
       }
       if (!values.ConfirmPassword) {
-        errors.ConfirmPassword = 'Confirm Password should not be blank.';
+        errors.ConfirmPassword = 'Confirm password should not be blank.';
       } else if (values.ConfirmPassword != values.NewPassword) {
         errors.ConfirmPassword =
-          'New Password and Confirm Password should be same.';
+          'New password and confirm password should be same.';
       }
       return errors;
     }

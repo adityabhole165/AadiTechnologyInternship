@@ -78,11 +78,11 @@ import {
 } from 'src/requests/PhotoGallery/PhotoGallery';
 import SlicePrePrimaryResult from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 import UnpublishSlice from 'src/requests/PrePrimaryResult/RequestUnpublishPrePrimaryResult';
+import SlicePreprimaryProgressReport from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import SliceAddRequisition from 'src/requests/Requisition/RequestAddRequisition';
 import SliceRequisition from 'src/requests/Requisition/RequestRequisition';
 import SchoolAttendanceOverviewSlice from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
-import SlicePreprimaryProgressReport from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import SliceSchoolNoticeBoard from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
 import MissingAttandenceSlice from 'src/requests/Student/MissingAttandenceSlice';
@@ -101,8 +101,10 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
+import AbsentStudentDetailsslice from '../requests/AbsentStudentDetails/RequestAbsentStudent';
 import AddNoticeslice from '../requests/AddSchoolNotice/ReqAddNotice';
 import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
+import SchoolNoticeFormslice from '../requests/AddSchoolNotice/RequestSchoolNoticeForm';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 import SubjectMarkListSlice from '../requests/ExamResult/RequestSubjectMarkList';
 import ToppersSlice from '../requests/ExamResult/RequestToppers';
@@ -116,14 +118,14 @@ import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher
 import Notificationslice from '../requests/Notification/Notification';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
+import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
-import SchoolNoticeFormslice from '../requests/AddSchoolNotice/RequestSchoolNoticeForm';
-import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
+import AbsentStudentslice from '../requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -250,9 +252,11 @@ const rootReducer = combineReducers({
   GetStandardDivisionsForSelectedNoticeId: ReqGetStandardDivisionsForSelectedNoticeId,
   StudentRecordCommentPopup: StudentRecordCommentslice,
   SchoolNotice: AddNoticeslice,
-  SchoolNoticeForm:SchoolNoticeFormslice,
-  PreprimaryProgressReport:SlicePreprimaryProgressReport,
-  SchoolNoticePopup : SchoolNoticePopupslice
+  SchoolNoticeForm: SchoolNoticeFormslice,
+  PreprimaryProgressReport: SlicePreprimaryProgressReport,
+  SchoolNoticePopup: SchoolNoticePopupslice,
+  AbsentStudentDetail: AbsentStudentDetailsslice,
+  AbsentStudent: AbsentStudentslice
 });
 
 export default rootReducer;
