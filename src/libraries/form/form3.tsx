@@ -17,11 +17,12 @@ import { RootState } from 'src/store';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 import { ChangePasswordStyle } from '../styled/CommonStyle';
-import { green, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 
 const note = [
   ' Capitalization Matters! Min 6 characters, Max 15 characters.',
@@ -165,6 +166,19 @@ function Form() {
         navLinks={[{ title: 'Change Password', path: ' ' }
         ]}
           rightActions={<>
+           <Tooltip title={'Change your existing password. You will have to use the same while loging into the site.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark/>
+              </IconButton>
+            </Tooltip>
         <Tooltip title={'Cancle'}>
             <IconButton
               sx={{
