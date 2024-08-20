@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,10 @@ import { ListStyle } from '../styled/CardStyle';
 import { ChangePasswordStyle } from '../styled/CommonStyle';
 import { green, red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CommonPageHeader from 'src/components/CommonPageHeader';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 const note = [
   ' Capitalization Matters! Min 6 characters, Max 15 characters.',
  
@@ -30,6 +34,7 @@ const note1 = [
   'It seems you have not changed the system generated password. Please reset your password for security purpose.'
 ];
 const note2 = [' Please reset your password for security purpose.'];
+
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -89,7 +94,15 @@ function Form() {
       asSchoolId: asSchoolId,
       asUserId: asUserId
     };
-
+    const Note: string =
+    'Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.';
+    const note = [
+      '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
+      '2) Password should be combination of at least one character, digit & special character.'
+    ];
+    const note1 = [
+      'It seems you have not changed the system generated password. Please reset your password for security purpose.'
+    ];
     dispatch(getTermsAndCondition(TermsBody));
 
     http
@@ -148,6 +161,42 @@ function Form() {
   return (
 <>
      <Box mb={2}>
+     <CommonPageHeader
+        navLinks={[{ title: 'Change Password', path: ' ' }
+        ]}
+          rightActions={<>
+        <Tooltip title={'Cancle'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: red[500],
+                '&:hover': {
+                  backgroundColor: red[600]
+                }
+              }}
+              onClick={getHomepage}
+               >
+              <CancelIcon/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={'Save'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: green[500],
+                '&:hover': {
+                  backgroundColor: green[600]
+                }
+              }}
+               type="submit"
+              onChange={formik.handleChange} 
+              // onSubmit={formik.handleSubmit}
+              >
+              <SaveIcon />
+            </IconButton>
+          </Tooltip>
+          </>}
+      />
      <Accordion defaultExpanded>
              <AccordionSummary
                  expandIcon={<ExpandMoreIcon />}
@@ -159,8 +208,8 @@ function Form() {
              <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
                 <Alert variant="filled" severity="info"><b>{note2}</b> </Alert>
                 <Alert variant="filled" severity="info"><b>{note1}</b> </Alert>
-                 <Alert variant="filled" severity="info"><b> NoteDetail:</b>  {note}  </Alert>
-                 <Alert variant="filled" severity="info"><b> NoteDetail:</b>  {note3}  </Alert>
+                 <Alert variant="filled" severity="info"><b> {note}</b></Alert>
+                 <Alert variant="filled" severity="info"><b>{note3}</b></Alert>
                  </AccordionDetails>
                  </Accordion>
                  </Box>
@@ -242,7 +291,7 @@ function Form() {
             {/* <Note NoteDetail={note} /> */}
 
             </Box>
-            <Grid container spacing={2} justifyContent={'right'}>
+            {/* <Grid container spacing={2} justifyContent={'right'}>
               <Grid item
               //  xs={2} md={1}
                >
@@ -284,7 +333,7 @@ function Form() {
                   Save
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
           </form>
         </ListStyle>
       </Grid>
