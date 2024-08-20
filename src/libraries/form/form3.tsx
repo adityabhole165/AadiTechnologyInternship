@@ -255,7 +255,11 @@ function Form() {
             <TextField
               fullWidth
               margin="normal"
-              label={'Old Password'}
+              // label={'Old Password'}
+              label={
+                <span>
+                   Old Password <span style={{ color: 'red' }}>*</span>
+                </span>}
               name="Oldpassword"
               type="password"
               // variant="standard"
@@ -272,7 +276,11 @@ function Form() {
             <TextField
               fullWidth
               margin="normal"
-              label={'New Password'}
+              // label={'New Password'}
+              label={
+                <span>
+                   New Password <span style={{ color: 'red' }}>*</span>
+                </span>}
               name="NewPassword"
               type="password"
               // variant="standard"
@@ -288,7 +296,10 @@ function Form() {
             <TextField
               fullWidth
               margin="normal"
-              label={'Confirm Password'}
+              label={
+                <span>
+                   Confirm Password <span style={{ color: 'red' }}>*</span>
+                </span>}
               name="ConfirmPassword"
               type="password"
               // variant="standard"
