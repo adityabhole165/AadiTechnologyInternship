@@ -37,12 +37,15 @@ import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 
+import { IGetAbsentStudentBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import { IGetSchoolNoticePopupBody } from 'src/interfaces/SchoolNoticePopup/ISchoolNoticePopup';
+import { AbsentStudents } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
 import { SchoolNoticePopup } from 'src/requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import SchoolNoticePopupCom from '../SchoolNoticePopup/SchoolNoticePopup';
+import AbsentStudentDetailsPopup from './AbsentStudentDetails/AbsentStudentDetailsPopup';
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   Leftpadding: theme.spacing(1),
@@ -122,6 +125,8 @@ function Dashboard() {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const UserId = Number(localStorage.getItem('UserId'));
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const DOB = sessionStorage.getItem('DOB');
@@ -143,10 +148,29 @@ function Dashboard() {
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('UserLoginDetails1');
-    if (isLoggedIn &&  SchoolNoticePopupDashBoard.length > 0) {
+    if (isLoggedIn && SchoolNoticePopupDashBoard.length > 0) {
       setSchoolNoticeDialog(true);
     } else {
       setSchoolNoticeDialog(false);
+    }
+  }, []);
+
+  const ListAbsentStudentBody: IGetAbsentStudentBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(UserId),
+  };
+
+  useEffect(() => {
+    dispatch(AbsentStudents(ListAbsentStudentBody));
+  }, []);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('UserLoginDetails1');
+    if (isLoggedIn && !sessionStorage.getItem('hasShownAbsentStudentPopup')) {
+      setAbsentStudentDialog(true);
+    } else {
+      setAbsentStudentDialog(false);
     }
   }, []);
 
@@ -420,6 +444,10 @@ function Dashboard() {
 
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false);
   const [SchoolNoticeDialog, setSchoolNoticeDialog] = useState(false);
+  const [AbsentStudentDialog, setAbsentStudentDialog] = useState(false);
+  const LinkVisible = useSelector(
+    (state: RootState) => state.AbsentStudent.getlistLinkVisible
+  );
 
   const handleMissingAttendanceDialogClose = () => {
     setMissingAttendanceDialog(false);
@@ -430,7 +458,10 @@ function Dashboard() {
     setSchoolNoticeDialog(false);
     localStorage.getItem('AllActiveNotices');
   };
-
+  const handleAbsentStudentDialogClose = () => {
+    setAbsentStudentDialog(false);
+    sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
+  };
   return (
     <>
       <NewRelease />
@@ -478,6 +509,13 @@ function Dashboard() {
         <SchoolNoticePopupCom
           open={SchoolNoticeDialog}
           setOpen={handleSchoolNoticePopupDialogClose}
+        />
+      )}
+
+      {(AbsentStudentDialog && LinkVisible == 'True') && (
+        <AbsentStudentDetailsPopup
+          open={AbsentStudentDialog}
+          setOpen={handleAbsentStudentDialogClose}
         />
       )}
     </>

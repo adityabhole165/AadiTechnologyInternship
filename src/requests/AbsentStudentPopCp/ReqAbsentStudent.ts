@@ -7,7 +7,7 @@ const AbsentStudentslice = createSlice({
     name: 'AbsentStudent',
     initialState: {
         getlistAbsentStudentDetails: [],
-        getlistLinkVisible: []
+        getlistLinkVisible: ''
     },
     reducers: {
         listAbsentStudent(state, action) {
@@ -37,10 +37,8 @@ export const AbsentStudents = (data: IGetAbsentStudentBody): AppThunk => async (
 
     let linkVisible = response.data.listLinkVisible.map((item, i) => {
 
-        return {
-            IsLinkVisibel: item.IsLinkVisibel,
+        return item.IsLinkVisibel
 
-        }
     })
     dispatch(AbsentStudentslice.actions.listAbsentStudent(AbsentStudent));
     dispatch(AbsentStudentslice.actions.listLinkVisible(linkVisible));
