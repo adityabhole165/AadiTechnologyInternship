@@ -20,9 +20,8 @@ const AddStudentRecord = () => {
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
     const [Comment, setComment] = useState('');
-    const [Itemlist, setItemlist] = useState([]);
     const [errorMessage, seterrorMessage] = useState('')
-    const [exampleLessonDetails, setExampleLessonDetails] = useState([])
+    const [ParameterDetails, setParameterDetails] = useState([])
     const [ADate, setADate]: any = useState(new Date().toISOString().split('T')[0]);
     const [dateError, setDateError] = useState('');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -38,6 +37,10 @@ const AddStudentRecord = () => {
     const listSiblingsDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listSiblingsDetails
     )
+    const listParameterDetailsUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.listParameterDetails
+    )
+    console.log(listParameterDetailsUS, "listParameterDetailsUS");
 
     const SubmitStudentRecordCommentUS = useSelector(
         (state: RootState) => state.AddStudentRecords.submitStudentRecordCommentmsg
@@ -95,13 +98,13 @@ const AddStudentRecord = () => {
     const getXML = () => {
         let sXML =
             "<ArrayOfKeyValue xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>";
-        Itemlist.map((Item) => {
+        listParameterDetailsUS.map((Item) => {
             sXML =
                 sXML +
                 '<KeyValue><Key>' +
-                1 +
+                Item.ParameterId +
                 '</Key><Value>' +
-                1 +
+                Item.Answer +
                 '</Value></KeyValue>';
         });
         sXML = sXML + '</ArrayOfKeyValue>';
@@ -126,7 +129,7 @@ const AddStudentRecord = () => {
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
-        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam), /* Number(SchoolWiseStudentIdparam),*/
         asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
         asUserId: asUserId
@@ -149,8 +152,8 @@ const AddStudentRecord = () => {
     const SaveStudentRecordResult: ISaveStudentRecordBody = {
         asSchoolId: asSchoolId,
         asUpdatedById: asUserId,
-        asStudentId: 6039,
-        asDataXML: "",
+        asStudentId: Number(SchoolWiseStudentIdparam),
+        asDataXML: getXML(),
         Date: ADate    /*"2011-05-21"*/
     }
     const ClickOpenDialogbox = () => {
@@ -164,10 +167,10 @@ const AddStudentRecord = () => {
     };
     const onClickSubmit = () => {
     };
-    const onTextChange = (value) => {
-        setExampleLessonDetails(value)
+    // const onTextChange = (value) => {
+    //     setExampleLessonDetails(value)
 
-    }
+    // }
     const IsEditingAllowed = () => {
     }
 

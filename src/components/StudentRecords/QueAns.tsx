@@ -27,12 +27,13 @@ const QueAns = ({ Item, ChangeItem }) => {
                             <Checkbox checked={Item.Answer == "Yes"}
                                 onChange={(e) => {
                                     ChangeItem(Item, e.target.checked ? "Yes" : "")
-                                }} sx={{ pl: 1 }}>
+                                }} sx={{ pl: 1 }}
+                                value={Item.Answer}>
                             </Checkbox>Yes
                             <Checkbox checked={Item.Answer == "No"}
                                 onChange={(e) => {
                                     ChangeItem(Item, e.target.checked ? "No" : "")
-                                }}>
+                                }} value={Item.Answer}>
                             </Checkbox>No
                         </>
                     }

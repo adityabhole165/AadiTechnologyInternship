@@ -211,8 +211,9 @@ const StudentRecords = () => {
     navigate('/extended-sidebar/Teacher/AddStudentRecord/' + SelectTeacher +
       '/' + value);
   };
-  const clickView = () => {
-    navigate('/extended-sidebar/Teacher/AddStudentRecord');
+  const clickView = (value) => {
+    navigate('/extended-sidebar/Teacher/AddStudentRecord/' + SelectTeacher +
+      '/' + value);
   };
   const PageChange = (pageNumber) => {
     setPage(pageNumber);
