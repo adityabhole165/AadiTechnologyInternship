@@ -102,7 +102,7 @@ function StudentRecordList({
                                                 </Tooltip>
                                             ) : (
                                                 <Tooltip title={"View / Edit"}>
-                                                    <Visibility onClick={() => clickView(item.Id)}
+                                                    <Visibility onClick={() => clickView(item.Id, item.Text4)}
                                                         sx={{
                                                             color: '#223354',
                                                             '&:hover': {
