@@ -553,9 +553,9 @@ export const CDAGetDivisionName =
             const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
             let StdDivId = sessionStorage.getItem('StandardDivisionId');
             // 🙋‍♂️ TO BE UNCOMMENTED BEFORE FINAL TESTING ⚡
-            // if (UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N') {
-            //     responseData = responseData.filter(item => item.Id === StdDivId);
-            // }
+            if (UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N') {
+                responseData = responseData.filter(item => item.Id === StdDivId);
+            }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })
             dispatch(WeeklyTimeTableSlice.actions.RGetDivisionName(responseData));
 
