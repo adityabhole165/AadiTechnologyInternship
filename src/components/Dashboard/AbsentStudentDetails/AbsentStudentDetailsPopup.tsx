@@ -51,13 +51,6 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
         setOpen(false);
         sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
     };
-    // const rowData = {
-    //     Id: 1,
-    //     Name: '2291',
-    //     Class: '9-D',
-    //     RollNo: '5',
-    //     StudentName: 'Miss Sanjana Sanjay Dhiwar'
-    // };
 
     const absentStudentColumns = [
         {
@@ -118,12 +111,12 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                 <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none' }}>
                     This is the absent students list who is absent from last 2 working days.
                 </Alert>
-                <Box mt={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box mt={1} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, width: '100%', textAlign: 'center' }}>
                         <TableHead>
                             <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                 {absentStudentColumns.map((column, index) => (
-                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white' }} >
+                                    <TableCell key={column.id} sx={{ textTransform: 'capitalize', color: 'white', textAlign: 'left',whiteSpace: 'nowrap' }} >
                                         <b>{column.label}</b>
                                     </TableCell>
                                 ))}
@@ -134,7 +127,7 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                                 <React.Fragment key={rowData.Id}>
                                     <TableRow>
                                         {absentStudentColumns.map((column) => (
-                                            <TableCell key={column.id} sx={{ paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>
+                                            <TableCell key={column.id} sx={{ paddingTop: '10px', paddingBottom: '10px', textAlign: 'left' }}>
                                                 {column.renderCell(rowData)}
                                             </TableCell>
                                         ))}
