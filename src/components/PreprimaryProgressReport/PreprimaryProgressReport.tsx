@@ -239,6 +239,19 @@ const PreprimaryProgressReport = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
+                        <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: grey[500],
+
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: grey[600] }
+                                }}
+                            >
+                                <QuestionMarkIcon />
+                            </IconButton>
+                        </Tooltip>
                         <Box>
                             <Tooltip title={'Print Preview'}>
                                 <IconButton
@@ -254,19 +267,7 @@ const PreprimaryProgressReport = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-                        <Tooltip title={'Displays xseed progress report of selected assessment.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] }
-                                }}
-                            >
-                                <QuestionMarkIcon />
-                            </IconButton>
-                        </Tooltip>
+                        
 
                     </>}
             />

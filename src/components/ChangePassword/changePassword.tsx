@@ -1,9 +1,7 @@
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import Form from 'src/libraries/form/form3';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import CommonPageHeader from '../CommonPageHeader';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 function ChangePassword() {
   useEffect(() => {
@@ -20,9 +18,40 @@ function ChangePassword() {
     ];
     return (
     <Box sx={{ px: 2 }}>
-    <CommonPageHeader
+    {/* <CommonPageHeader
         navLinks={[{ title: 'Change Password', path: ' ' }
-        ]}/>
+        ]}
+          rightActions={<>
+        <Tooltip title={'Cancle'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: red[500],
+                '&:hover': {
+                  backgroundColor: red[600]
+                }
+              }}
+              // onClick={clickReset}
+               >
+              <CancelIcon/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={'Save'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: green[500],
+                '&:hover': {
+                  backgroundColor: green[600]
+                }
+              }}
+              // onClick={clickReset} 
+              >
+              <SaveIcon />
+            </IconButton>
+          </Tooltip>
+          </>}
+      /> */}
       <Form />
     </Box>
   );

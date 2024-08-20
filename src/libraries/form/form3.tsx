@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +17,13 @@ import { RootState } from 'src/store';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 import { ChangePasswordStyle } from '../styled/CommonStyle';
-import { green, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CommonPageHeader from 'src/components/CommonPageHeader';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+
 const note = [
   ' Capitalization Matters! Min 6 characters, Max 15 characters.',
  
@@ -30,6 +35,7 @@ const note1 = [
   'It seems you have not changed the system generated password. Please reset your password for security purpose.'
 ];
 const note2 = [' Please reset your password for security purpose.'];
+
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -89,7 +95,15 @@ function Form() {
       asSchoolId: asSchoolId,
       asUserId: asUserId
     };
-
+    const Note: string =
+    'Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.';
+    const note = [
+      '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
+      '2) Password should be combination of at least one character, digit & special character.'
+    ];
+    const note1 = [
+      'It seems you have not changed the system generated password. Please reset your password for security purpose.'
+    ];
     dispatch(getTermsAndCondition(TermsBody));
 
     http
@@ -123,10 +137,10 @@ function Form() {
     validate: (values) => {
       const errors: any = {};
       if (!values.Oldpassword) {
-        errors.Oldpassword = 'Old Password should not be blank.';
+        errors.Oldpassword = 'Old password should not be blank.';
       }
       if (!values.NewPassword) {
-        errors.NewPassword = 'New Password should not be blank.';
+        errors.NewPassword = 'New password should not be blank.';
       } else if (values.NewPassword.length < 6) {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
       } else if (!regularExpression.test(values.NewPassword)) {
@@ -136,10 +150,10 @@ function Form() {
         errors.NewPassword = 'Password must maximum 15 character';
       }
       if (!values.ConfirmPassword) {
-        errors.ConfirmPassword = 'Confirm Password should not be blank.';
+        errors.ConfirmPassword = 'Confirm password should not be blank.';
       } else if (values.ConfirmPassword != values.NewPassword) {
         errors.ConfirmPassword =
-          'New Password and Confirm Password should be same.';
+          'New password and confirm password should be same.';
       }
       return errors;
     }
@@ -148,6 +162,55 @@ function Form() {
   return (
 <>
      <Box mb={2}>
+     <CommonPageHeader
+        navLinks={[{ title: 'Change Password', path: ' ' }
+        ]}
+          rightActions={<>
+           <Tooltip title={'Change your existing password. You will have to use the same while loging into the site.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark/>
+              </IconButton>
+            </Tooltip>
+        <Tooltip title={'Cancle'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: red[500],
+                '&:hover': {
+                  backgroundColor: red[600]
+                }
+              }}
+              onClick={getHomepage}
+               >
+              <CancelIcon/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={'Save'}>
+            <IconButton
+              sx={{
+                color: 'white',
+                backgroundColor: green[500],
+                '&:hover': {
+                  backgroundColor: green[600]
+                }
+              }}
+               type="submit"
+              onChange={formik.handleChange} 
+              // onSubmit={formik.handleSubmit}
+              >
+              <SaveIcon />
+            </IconButton>
+          </Tooltip>
+          </>}
+      />
      <Accordion defaultExpanded>
              <AccordionSummary
                  expandIcon={<ExpandMoreIcon />}
@@ -159,8 +222,8 @@ function Form() {
              <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
                 <Alert variant="filled" severity="info"><b>{note2}</b> </Alert>
                 <Alert variant="filled" severity="info"><b>{note1}</b> </Alert>
-                 <Alert variant="filled" severity="info"><b> NoteDetail:</b>  {note}  </Alert>
-                 <Alert variant="filled" severity="info"><b> NoteDetail:</b>  {note3}  </Alert>
+                 <Alert variant="filled" severity="info"><b> {note}</b></Alert>
+                 <Alert variant="filled" severity="info"><b>{note3}</b></Alert>
                  </AccordionDetails>
                  </Accordion>
                  </Box>
@@ -192,7 +255,11 @@ function Form() {
             <TextField
               fullWidth
               margin="normal"
-              label={'Old Password'}
+              // label={'Old Password'}
+              label={
+                <span>
+                   Old Password <span style={{ color: 'red' }}>*</span>
+                </span>}
               name="Oldpassword"
               type="password"
               // variant="standard"
@@ -209,7 +276,11 @@ function Form() {
             <TextField
               fullWidth
               margin="normal"
-              label={'New Password'}
+              // label={'New Password'}
+              label={
+                <span>
+                   New Password <span style={{ color: 'red' }}>*</span>
+                </span>}
               name="NewPassword"
               type="password"
               // variant="standard"
@@ -225,7 +296,10 @@ function Form() {
             <TextField
               fullWidth
               margin="normal"
-              label={'Confirm Password'}
+              label={
+                <span>
+                   Confirm Password <span style={{ color: 'red' }}>*</span>
+                </span>}
               name="ConfirmPassword"
               type="password"
               // variant="standard"
@@ -242,7 +316,7 @@ function Form() {
             {/* <Note NoteDetail={note} /> */}
 
             </Box>
-            <Grid container spacing={2} justifyContent={'right'}>
+            {/* <Grid container spacing={2} justifyContent={'right'}>
               <Grid item
               //  xs={2} md={1}
                >
@@ -284,7 +358,7 @@ function Form() {
                   Save
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
           </form>
         </ListStyle>
       </Grid>
