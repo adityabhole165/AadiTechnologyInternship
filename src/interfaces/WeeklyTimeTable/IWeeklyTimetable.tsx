@@ -261,7 +261,8 @@ export interface IGetClassTimeTableResult {
             Lecture_Number: string
         }
     ],
-    Lecture_No_WeekDayWeeklyTestForClass: any
+    Lecture_No_WeekDayWeeklyTestForClass: any,
+    Lecture_No_WeekDayStaybackForClass: any
 }
 
 export interface IGetSaveTeacherTimeTableBody {

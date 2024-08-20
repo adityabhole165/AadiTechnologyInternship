@@ -39,6 +39,7 @@ const WeeklyTimeTableSlice = createSlice({
         ISTimetableDetails: [],
         ISAssemblyInfoClass: [],
         ISMPTinfoClass: [],
+        ISStaybackClass: [],
         ISWeeklytestClass: [],
         ISValidateTeacherData: [],
         ISValidateClassData: [],
@@ -102,6 +103,10 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RMPTinfoClass(state, action) {
             state.ISMPTinfoClass = action.payload;
+            state.Loading = false;
+        },
+        RStaybackinfoClass(state, action) {
+            state.ISStaybackClass = action.payload;
             state.Loading = false;
         },
         RWeeklytestClass(state, action) {
@@ -830,6 +835,16 @@ export const CDAClassLecNoWeekday =
                     }
                 )
             })
+            const WeekDayStaybackInfo = response.data.Lecture_No_WeekDayStaybackForClass.map((item, i) => {
+                return (
+                    {
+                        Text1: item.WeekDay_Name,
+                        Text2: item.WeekDays_Id,
+                        Text3: item.StandardDivision_Id,
+                        Text4: item.Lecture_Number
+                    }
+                )
+            })
             const WeekDayMptInfo = response.data.Lecture_No_WeekDayMPTForClass.map((item, i) => {
                 return (
                     {
@@ -850,12 +865,13 @@ export const CDAClassLecNoWeekday =
                     }
                 )
             })
-            dispatch(WeeklyTimeTableSlice.actions.RGetClassLecNoWeekday(responseData))
+            dispatch(WeeklyTimeTableSlice.actions.RGetClassLecNoWeekday(responseData));
             dispatch(WeeklyTimeTableSlice.actions.RAddLecForClass(AddtionalLecturesForClass));
-            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfoClass(WeekDayAssemblyInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RMPTinfoClass(WeekDayMptInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RWeeklytestClass(WeeklyTestInfo))
-            dispatch(WeeklyTimeTableSlice.actions.RClassWeekdayIds(WeekDayId))
+            dispatch(WeeklyTimeTableSlice.actions.RAssemblyInfoClass(WeekDayAssemblyInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RMPTinfoClass(WeekDayMptInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RStaybackinfoClass(WeekDayStaybackInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RWeeklytestClass(WeeklyTestInfo));
+            dispatch(WeeklyTimeTableSlice.actions.RClassWeekdayIds(WeekDayId));
         }
 
 export default WeeklyTimeTableSlice.reducer;
