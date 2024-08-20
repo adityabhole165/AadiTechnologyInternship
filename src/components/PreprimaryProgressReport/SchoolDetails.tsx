@@ -3,7 +3,7 @@ import React from 'react'
 
 const SchoolDetails = ({ USFillSchoolDetails }) => {
     return (
-        <Box  sx={{pt:1, background: 'white' }}>
+        <Box  sx={{pt:2, background: 'white' }}>
             <Grid container spacing={3}>
                 {USFillSchoolDetails.map((detail) => (
                     <Grid item xs={12} key={detail.UserId}>
