@@ -125,6 +125,7 @@ import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectEx
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
+import AbsentStudentslice from '../requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -254,7 +255,8 @@ const rootReducer = combineReducers({
   SchoolNoticeForm: SchoolNoticeFormslice,
   PreprimaryProgressReport: SlicePreprimaryProgressReport,
   SchoolNoticePopup: SchoolNoticePopupslice,
-  AbsentStudentDetail: AbsentStudentDetailsslice
+  AbsentStudentDetail: AbsentStudentDetailsslice,
+  AbsentStudent: AbsentStudentslice
 });
 
 export default rootReducer;
