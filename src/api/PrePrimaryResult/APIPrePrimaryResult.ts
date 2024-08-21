@@ -12,7 +12,7 @@ import http from '../../requests/SchoolService/schoolServices';
 
 const PrePrimaryResultApi = (data: IGetPrePrimaryResultBody) => {
   return http.post<IGetPrePrimaryResultResult[]>(
-    'Teacher/GetClassTeacherss',
+    'Teacher/GetAllPrimaryClassTeacherss',
     data
   );
 };

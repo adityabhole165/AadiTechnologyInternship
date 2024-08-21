@@ -10,7 +10,6 @@ import {
   IGetUnPublishResltBody
 } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
 
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   AssessmentList,
   PrePrimary,
@@ -64,6 +63,9 @@ const PrePrimaryResult = () => {
     (state: RootState) => state.PrePrimaryResult.PrePrimaryResult
   );
 
+
+  const PrePrimaryClassTeacher = PrePrimaryResultt.filter((teacher: any) => teacher.Is_PrePrimary == 'Y');
+  console.log(PrePrimaryResultt, "GetTeacherXseedSubjects",PrePrimaryClassTeacher);
   const Assessmentt = useSelector(
     (state: RootState) => state.PrePrimaryResult.Assessment
   );
@@ -71,7 +73,7 @@ const PrePrimaryResult = () => {
   const GetTeacherXseedSubjects = useSelector(
     (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects
   );
-  console.log(GetTeacherXseedSubjects, "GetTeacherXseedSubjects");
+
 
   const UnPublisheed = useSelector(
     (state: RootState) => state.PrePrimaryResult.Unpublish
@@ -83,7 +85,9 @@ const PrePrimaryResult = () => {
 
   const PrePrimaryResult: IGetPrePrimaryResultBody = {
     asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId
+    asAcadmicYearId: asAcademicYearId,
+    asTeacher_id:0
+
   };
 
 
@@ -168,7 +172,7 @@ const PrePrimaryResult = () => {
   const getClassName1 = () => {
     let className = '';
     PrePrimaryResultt.map((item) => {
-      if (item.Value == SelectTeacher) className = item.Name;
+      if (item.Value == (PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId)) className = item.Name;
     });
 
     return className;
@@ -181,7 +185,7 @@ const PrePrimaryResult = () => {
       setReasonError('');
       ClickUnpublish()
       setOpen(false);
-     
+
     }
   };
 
@@ -213,7 +217,7 @@ const PrePrimaryResult = () => {
     if (UnPublisheed != '') {
       toast.success(UnPublisheed);
       dispatch(UnPublishresetMessage());
-      
+
 
     }
   }, [UnPublisheed]);
@@ -242,7 +246,7 @@ const PrePrimaryResult = () => {
             {
               PreprimaryFullAccess == 'Y' ?
                 <SearchableDropdown
-                  ItemList={PrePrimaryResultt}
+                  ItemList={PrePrimaryClassTeacher}
                   sx={{ minWidth: '250px' }}
                   onChange={GetPrPriResultDropdown}
                   defaultValue={SelectTeacher}
@@ -298,13 +302,17 @@ const PrePrimaryResult = () => {
             </Tooltip>
           </>}
       />
+      {
+        AssessmentResult != '' ?
+          <PrePrimaryResultlist
+            HeaderArray={HeaderList}
+            ItemList={GetTeacherXseedSubjects}
+            clickEdit={ClickItem}
+          />
+          : <span></span>
+      }
 
 
-      <PrePrimaryResultlist
-        HeaderArray={HeaderList}
-        ItemList={GetTeacherXseedSubjects}
-        clickEdit={ClickItem}
-      />
       <Dialog
         open={open}
         maxWidth={'md'}

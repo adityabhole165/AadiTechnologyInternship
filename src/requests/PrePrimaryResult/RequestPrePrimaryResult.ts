@@ -55,7 +55,8 @@ export const PrePrimary =
       return {
         Id: item.SchoolWise_Standard_Division_Id,
         Name: item.TeacherName,
-        Value: item.SchoolWise_Standard_Division_Id
+        Value: item.SchoolWise_Standard_Division_Id,
+        Is_PrePrimary:item.Is_PrePrimary
       };
     });
     dispatch(SlicePrePrimaryResult.actions.PrePrimaryResults(abc));
