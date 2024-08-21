@@ -283,7 +283,7 @@ const PreprimaryProgressReport = () => {
                     USFillStudentDetails.length > 0 ?
 
                         USFillStudentDetails.map((detail) => (<>
-                            <Box border={1} mb={4} sx={{ px: 2, background: 'white' }}>
+                            <Box border={'1px solid grey'} mb={4} sx={{ px: 2, background: 'white' }}>
                                 <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
                                 <StudentDetails USFillStudentDetails={USFillStudentDetails
                                     .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
