@@ -1,3 +1,4 @@
+import { AddComment } from '@mui/icons-material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -46,11 +47,12 @@ import {
 } from 'src/requests/TAttendance/TAttendance';
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
+import AbsentStudentP from '../Attendance/AbsentStudentP';
 import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
-
+  const { StandardDivisionId1 } = useParams();
   const [isDirty, setIsDirty] = useState(false);
   const HeaderArray = [
     { Id: 1, Header: '' },
@@ -79,6 +81,9 @@ const TAttendance = () => {
   const { SelectClasstecahernew, AssignedDate } = useParams();
   console.log("SelectClasstecahernew", SelectClasstecahernew)
   console.log("AssignedDate", AssignedDate)
+  const StandardDivisionIdse = (
+    sessionStorage.getItem('StandardDivisionId')
+  );
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   let [asTeacherId, setasTeacherId] = useState('0');
@@ -88,11 +93,11 @@ const TAttendance = () => {
   const [search, setSearch] = useState(true);
   const [showSaveAttendanceAlert, setShowSaveAttendanceAlert] = useState(false);
   const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
-
+  const [StandardDivisionId, setStandardDivisionId] = useState(StandardDivisionIdse)
   const [Standardid, setStandardid] = useState<string>();
   const [MarksError, setMarksError] = useState('')
   const [assignedDate, setAssignedDate] = useState<string>(AssignedDate);
-
+  const [Open, setOpen] = useState(false);
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
   const [singleStdName, setSingleStdName] = useState('');
 
@@ -567,6 +572,13 @@ const TAttendance = () => {
     return;
   };
 
+  const ClickOpenDialogbox = () => {
+    setOpen(true);
+  };
+  const ClickCloseDialogbox = () => {
+    setOpen(false);
+  };
+
   const clickNav = (value) => {
     navigate(
       `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value
@@ -787,6 +799,23 @@ const TAttendance = () => {
                     <CalendarMonthIcon />
                   </IconButton>
                 </span>
+              </Tooltip>
+            </Box>
+
+            <Box>
+              <Tooltip title={'Absent Student Details'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: blue[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  onClick={ClickOpenDialogbox}
+                >
+                  <AddComment />
+                </IconButton>
               </Tooltip>
             </Box>
 
@@ -1125,83 +1154,83 @@ const TAttendance = () => {
       </Grid>
       <Grid container spacing={2} mt={1}>
         <Grid item xs={12} md={6}>
-          <Box sx={{ backgroundColor: 'white', pt:2 }}>
-          <Grid   justifyContent="center">
-            <Box sx={{ backgroundColor: 'white' }} >
-              {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
-              {/* <div style={{ marginTop: '70px' }}> */}
-              {MarksError ? (
-                <div style={{
-                  fontWeight: 'bold',
-                  fontSize: '16px',
-                  color: red[500],
-                  background: '#FFCCCC',
-                  marginTop: '12px',
-                  marginLeft: '10px',
-                  marginBottom: '0px',
-                  padding: '5px',
-                  border: MarksError ? '1px solid black' : 'none'
-                }}>
-                  {MarksError}
-
-                </div>
-              ) : null}
-              {!MarksError && AttendanceStatus && (
-                <div
-                  style={{
+          <Box sx={{ backgroundColor: 'white', pt: 2 }}>
+            <Grid justifyContent="center">
+              <Box sx={{ backgroundColor: 'white' }} >
+                {/* <Typography sx={{ color: 'red' }}>{MarksError}</Typography> */}
+                {/* <div style={{ marginTop: '70px' }}> */}
+                {MarksError ? (
+                  <div style={{
                     fontWeight: 'bold',
                     fontSize: '16px',
+                    color: red[500],
+                    background: '#FFCCCC',
                     marginTop: '12px',
                     marginLeft: '10px',
-                    marginRight: '10px',
-                    color:
-                      AttendanceStatus.includes('Attendance not yet marked.') ||
-                        AttendanceStatus.includes('Attendance date should be within current academic year') ||
-                        AttendanceStatus.includes('Term Start & End dates have not been configured')
-                        ? 'red'
-                        : AttendanceStatus.includes('Attendance is already marked')
-                          ? 'green'
-                          : 'red', // Set the text color based on the content of AttendanceStatus
-                    backgroundColor:
-                      AttendanceStatus.includes('Attendance not yet marked.') ||
-                        AttendanceStatus.includes('Attendance date should be within current academic year') ||
-                        AttendanceStatus.includes('Term Start & End dates have not been configured')
-                        ? '#FFCCCC' // Light red background color
-                        : AttendanceStatus.includes('Attendance is already marked')
-                          ? '#CCFFCC' // Light green background color
-                          : '#FFCCCC', // No background color for other messages
-                    border:
-                      AttendanceStatus.includes('Attendance not yet marked.') ||
-                        AttendanceStatus.includes('Attendance date should be within current academic year') ||
-                        AttendanceStatus.includes('Term Start & End dates have not been configured') ||
-                        AttendanceStatus.includes('Attendance is already marked')
-                        ? '1px solid black' // Add border for highlighted messages
-                        : '1px solid black', // No border for other messages
-                    padding: '5px', // Add padding for better spacing
-                  }}
-                >
-                  {AttendanceStatus}
-                </div>)}
-              {/* </div> */}
+                    marginBottom: '0px',
+                    padding: '5px',
+                    border: MarksError ? '1px solid black' : 'none'
+                  }}>
+                    {MarksError}
 
-              {/* <div style={{ marginTop: '5px' }}> */}
-              <CardCalender1
-                ItemList={listAttendanceCalender}
-                ClickItem={ClickItem}
-                formattedDate={getDateFormatted(assignedDate)}
-                DefaultValue
-                assignedDate={getDateFormatted(assignedDate)}
-                ArrayList={HeaderPublish}
-                ClickDeleteAttendance={ClickDeleteAttendance}
-                Standardid={Standardid}
-                // AttendanceStatus={AttendanceStatus}
+                  </div>
+                ) : null}
+                {!MarksError && AttendanceStatus && (
+                  <div
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: '16px',
+                      marginTop: '12px',
+                      marginLeft: '10px',
+                      marginRight: '10px',
+                      color:
+                        AttendanceStatus.includes('Attendance not yet marked.') ||
+                          AttendanceStatus.includes('Attendance date should be within current academic year') ||
+                          AttendanceStatus.includes('Term Start & End dates have not been configured')
+                          ? 'red'
+                          : AttendanceStatus.includes('Attendance is already marked')
+                            ? 'green'
+                            : 'red', // Set the text color based on the content of AttendanceStatus
+                      backgroundColor:
+                        AttendanceStatus.includes('Attendance not yet marked.') ||
+                          AttendanceStatus.includes('Attendance date should be within current academic year') ||
+                          AttendanceStatus.includes('Term Start & End dates have not been configured')
+                          ? '#FFCCCC' // Light red background color
+                          : AttendanceStatus.includes('Attendance is already marked')
+                            ? '#CCFFCC' // Light green background color
+                            : '#FFCCCC', // No background color for other messages
+                      border:
+                        AttendanceStatus.includes('Attendance not yet marked.') ||
+                          AttendanceStatus.includes('Attendance date should be within current academic year') ||
+                          AttendanceStatus.includes('Term Start & End dates have not been configured') ||
+                          AttendanceStatus.includes('Attendance is already marked')
+                          ? '1px solid black' // Add border for highlighted messages
+                          : '1px solid black', // No border for other messages
+                      padding: '5px', // Add padding for better spacing
+                    }}
+                  >
+                    {AttendanceStatus}
+                  </div>)}
+                {/* </div> */}
 
-                clickNav={clickNav}
-                getAssignedDateStatus={getAssignedDateStatus}
-              />
+                {/* <div style={{ marginTop: '5px' }}> */}
+                <CardCalender1
+                  ItemList={listAttendanceCalender}
+                  ClickItem={ClickItem}
+                  formattedDate={getDateFormatted(assignedDate)}
+                  DefaultValue
+                  assignedDate={getDateFormatted(assignedDate)}
+                  ArrayList={HeaderPublish}
+                  ClickDeleteAttendance={ClickDeleteAttendance}
+                  Standardid={Standardid}
+                  // AttendanceStatus={AttendanceStatus}
 
-            </Box>
-          </Grid>
+                  clickNav={clickNav}
+                  getAssignedDateStatus={getAssignedDateStatus}
+                />
+
+              </Box>
+            </Grid>
           </Box>
         </Grid>
         {SaveIsActive ? (
@@ -1269,6 +1298,14 @@ const TAttendance = () => {
         )}
 
       </Grid>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
+        {Open && (
+          <AbsentStudentP
+            open={Open}
+            setOpen={setOpen}
+            ClickCloseDialogbox={ClickCloseDialogbox} Classname={StandardDivisionId} />
+        )}
+      </Box>
     </Box >
   );
 };
