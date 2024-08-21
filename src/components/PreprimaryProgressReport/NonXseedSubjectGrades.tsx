@@ -4,7 +4,7 @@ import React from 'react'
 const NonXseedSubjectGrades = ({USFillNonXseedSubjectGrades}) => {
   return (
     <div>
-        <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+        <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2} >
                     Co-CurricularSubjects
                 </Typography>
                 <TableContainer component={Box} >

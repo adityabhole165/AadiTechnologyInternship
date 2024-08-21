@@ -9,7 +9,9 @@ const SchoolDetails = ({ USFillSchoolDetails }) => {
                     <Grid item xs={12} key={detail.UserId}>
                         <Box sx={{
                             backgroundColor: '#F0F0F0',
-                            textAlign: 'center',     
+                            textAlign: 'center',  
+                             borderLeft: '1px solid lightgrey', 
+                             borderRight: '1px solid lightgrey'   
                         }} >
                             <hr />
                             <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={0}>

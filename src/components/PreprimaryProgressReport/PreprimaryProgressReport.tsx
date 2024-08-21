@@ -276,13 +276,14 @@ const PreprimaryProgressReport = () => {
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
 
 
-            {open && (<div>
+            {open && (
+                <Box>
 
                 {
                     USFillStudentDetails.length > 0 ?
 
                         USFillStudentDetails.map((detail) => (<>
-                            <Box border={1} sx={{ px: 2, background: 'white' }}>
+                            <Box border={1} mb={4} sx={{ px: 2, background: 'white' }}>
                                 <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
                                 <StudentDetails USFillStudentDetails={USFillStudentDetails
                                     .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
@@ -310,11 +311,11 @@ const PreprimaryProgressReport = () => {
                                     {USFillXseedRemarks
                                         .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
                                     } />
-                                <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
+                                {/* <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
                                     <Typography>   Note: </Typography>
                                     <Typography> Ab - Absent </Typography>
                                     <Typography>  Ex - Exempted </Typography>
-                                </Typography>
+                                </Typography> */}
                             </Box>
                         </>))
                         : <span> </span>
@@ -330,7 +331,7 @@ const PreprimaryProgressReport = () => {
                     }
                 </div>
                 }
-            </div>)}
+            </Box>)}
 
 
             {PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length < 2 ?

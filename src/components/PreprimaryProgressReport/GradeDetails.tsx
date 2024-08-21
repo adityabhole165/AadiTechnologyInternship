@@ -21,18 +21,28 @@ const GradeDetails = ({GradeDetailsfilteredAndSortedData}) => {
                     textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                     py: 1
                 }}>Description</TableCell>
+              
             </TableRow>
         </TableHead>
         <TableBody>
             {GradeDetailsfilteredAndSortedData.map((row) => (
                 <TableRow key={row.GradeId}>
                     <TableCell sx={{py:1}}>{row.GradeName}</TableCell>
-                    <TableCell sx={{py:1}}>{row.Description}</TableCell>
+                    <TableCell sx={{py:1}}>{row.Description}</TableCell>  
                 </TableRow>
             ))}
-        </TableBody>
+        </TableBody> 
     </Table>
 </TableContainer>
+<Box mt={1}>
+<Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+    <TableBody>
+<TableRow sx={{ bgcolor: '#F0F0F0', border: '1px solid lightgrey' }}>
+<TableCell sx={{ textAlign: 'left', py:1, color:'black', p:1}}><b>Note :&nbsp; </b> Ab - Absent &nbsp; &nbsp; &nbsp;  Ex - Exempted </TableCell>
+</TableRow>
+</TableBody>
+</Table>
+</Box>
 </>
   )
 }
