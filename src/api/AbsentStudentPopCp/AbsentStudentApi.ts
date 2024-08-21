@@ -8,7 +8,7 @@ const GetAbsentStudentDetailsPopup = (data: IGetAbsentStudentBody) => {
 };
 
 const GetSchoolSettings = (data: ISchoolIdBody) => {
-    return http.post<IGetSchoolSettingsResult[]>('School/GetSchoolSettings', data);
+    return http.post<IGetSchoolSettingsResult>('School/GetSchoolSettings', data);
   };
   
 
