@@ -218,6 +218,14 @@ const TAttendance = () => {
     });
     return TeacherId;
   };
+
+  const setStandardDivName = () => {
+    let StandardDivision = '';
+    ClassTeacherDropdownnew.map((item) => {
+      if (item.Value == selectClasstecahernew) StandardDivision = item.StandardDivision;
+    });
+    return StandardDivision;
+  };
   // useEffect(() => {
   //   const ClassTeachernewBody: IGetClassTeachersBodynew = {
   //     asSchoolId: Number(asSchoolId),
@@ -1303,7 +1311,10 @@ const TAttendance = () => {
           <AbsentStudentP
             open={Open}
             setOpen={setOpen}
-            ClickCloseDialogbox={ClickCloseDialogbox} Classname={StandardDivisionId} />
+            ClickCloseDialogbox={ClickCloseDialogbox}
+            Classname={setStandardDivName()}
+            Date={assignedDate}
+            ClassId={selectClasstecahernew} />
         )}
       </Box>
     </Box >

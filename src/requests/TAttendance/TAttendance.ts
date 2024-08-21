@@ -4,8 +4,7 @@ import {
   getDateFromatDateTime,
   getDateMonthSpace,
   getDateMonthYearDayDash,
-  getDateMonthYearFormatted,
-  getDateMonthYearFormattedDash
+  getDateMonthYearFormatted
 } from 'src/components/Common/Util';
 import StandardAttendance, {
   IStudentsDetails
@@ -370,7 +369,8 @@ export const CDAGetTeacherNameList =
         return {
           Id: item.Teacher_Id,
           Name: item.TeacherName,
-          Value: item.SchoolWise_Standard_Division_Id
+          Value: item.SchoolWise_Standard_Division_Id,
+          StandardDivision: item.Standard_Name + '-' + item.Division_Name
         };
       });
       dispatch(TAttendanceSlice.actions.RTeacherNameList(abc));

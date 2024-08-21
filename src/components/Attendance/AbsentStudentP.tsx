@@ -3,20 +3,20 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import Datepicker1 from 'src/components/StudentRecords/DateField';
 import { IGetAbsentStudentDetailsBody } from 'src/interfaces/AbsentStudentDetails/IAbsentStudentPopup';
 import { ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import { AbsentStudentsandHalfday } from 'src/requests/AbsentStudentDetails/RequestAbsentStudent';
 import { GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDateNew } from '../Common/Util';
+import { getDateFormatted } from '../Common/Util';
 
-const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname }) => {
+const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, ClassId }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const [StartDate, setStartDate]: any = useState(getCalendarDateFormatDateNew(new Date()));
+    // const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const [date, setDate]: any = useState(getDateFormatted(Date));
+    const [classname, setClassname]: any = useState(Classname);
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -35,8 +35,8 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname }) => {
     const ListAbsentStudentBody: IGetAbsentStudentDetailsBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asStandardDivId: 1344,
-        asSelectedDate: "2024-08-21",
+        asStandardDivId: Number(ClassId),
+        asSelectedDate: getDateFormatted(Date),
         asMaxDaysLimit: Number(UsschoolSettings),
     };
 
@@ -53,9 +53,9 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname }) => {
         },
     ];
 
-    const onSelectSrDate = (value) => {
-        setStartDate(value);
-    };
+    // const onSelectSrDate = (value) => {
+    //     setStartDate(value);
+    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -103,17 +103,17 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname }) => {
                             sx={{ minWidth: '19vw', bgcolor: '#F0F0F0' }}
                             label={'Class Name'}
                             size={"small"}
-                            value={Classname} />
+                            value={classname} />
                     </Grid>
                     <Grid item xs={6} md={6}>
-                    <TextField
+                        <TextField
                             sx={{ minWidth: '19vw', bgcolor: '#F0F0F0' }}
                             label={'Date'}
                             size={"small"}
-                            value={Date} />
+                            value={date} />
                     </Grid>
                 </Grid>
-                <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none', mt:1 }}>
+                <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none', mt: 1 }}>
                     Student(s) is absent for {UsschoolSettings} or more working days.
                 </Alert>
                 {ListAbsentStudents && ListAbsentStudents.length > 0 ? (
