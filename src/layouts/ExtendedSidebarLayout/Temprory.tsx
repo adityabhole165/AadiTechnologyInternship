@@ -26,15 +26,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
-import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
 
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
-import { IGetAbsentStudentBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
-import { AbsentStudents } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 import {
   MissingAttenNameAleart
@@ -57,7 +54,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const asUserRoleId = sessionStorage.getItem('RoleId');
   const [opent, setopent] = useState(opend ? opend : 'false');
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false); // Set initial state to false
-  const [AbsentStudentDialog, setAbsentStudentDialog] = useState(false);
   const [imgsrc, setimgsrc] = useState(
     logoURL +
     localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
@@ -68,14 +64,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   });
   const [activeItem, setActiveItem] = useState(null);
 
-  const LinkVisible = useSelector(
-    (state: RootState) => state.AbsentStudent.getlistLinkVisible
-  );
 
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
   const MissingDays = MissingName.map(item => item.MissingDays);
   const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0);
-  const UserId = Number(localStorage.getItem('UserId'));
+
 
   const navigate = useNavigate();
 
@@ -228,13 +221,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: null // No link for this item
     });
   }
-  if (LinkVisible == 'True') {
-    sideList.push({
-      title: 'Absent Student Details',
-      icon: <FactCheck />,
-      link: null
-    });
-  }
+
   if (asUserRoleId === '2') {
     sideList.push({
       title: 'School Notices',
@@ -302,36 +289,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   };
 
-  const ListAbsentStudentBody: IGetAbsentStudentBody = {
-    asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
-    asUserId: Number(UserId),
-  };
-  const handleListItemClick1 = (text) => {
-    if (text.title === 'Absent Student Details') {
-      if (LinkVisible == 'True') {
-        setAbsentStudentDialog(true);
-      } else {
-        setAbsentStudentDialog(false);
-      }
-    } else {
-      navigate(text.link);
-    }
-    IconClick(text.title);
-  };
 
-  useEffect(() => {
-    dispatch(AbsentStudents(ListAbsentStudentBody));
-  }, []);
-
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('UserLoginDetails1');
-    if (isLoggedIn && !sessionStorage.getItem('hasShownAbsentStudentPopup')) {
-      setAbsentStudentDialog(true);
-    } else {
-      setAbsentStudentDialog(false);
-    }
-  }, []);
 
   const MissingNameBody: IMissingattendancealeartNameBody = {
     asSchoolId: Number(asSchoolId),
@@ -352,7 +310,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       navigate(text.link);
     }
     IconClick(text.title);
-
   };
 
   useEffect(() => {
@@ -371,7 +328,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   const list = (anchor: Anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 270 }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
       onClick={() => {
         toggleDrawer(anchor, false);
@@ -399,18 +356,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
             <ListItem
               key={index}
               sx={{
-                px: 0.5,
-                py: 0
+                px: 0,
+                py: 0.5
               }}
             >
               <ListItemButton
                 sx={text.title === activeItem ? activeStyle : buttonStyle}
                 onClick={() => handleListItemClick(text)}
               >
-                <ListItemButton
-                  sx={text.title === activeItem ? activeStyle : buttonStyle}
-                  onClick={() => handleListItemClick1(text)}
-                >
                 <ListItemIcon
                   sx={{
                     color: text.title === activeItem ? 'white' : 'black',
@@ -424,7 +377,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
                 >
                   {text.title}
                 </Typography>
-              </ListItemButton></ListItemButton>
+              </ListItemButton>
             </ListItem>
           ))}
         </List>
@@ -491,14 +444,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           setOpen={setMissingAttendanceDialog}
         />
       )}
-
-      {AbsentStudentDialog && (
-        <AbsentStudentDetailsPopup
-          open={AbsentStudentDialog}
-          setOpen={setAbsentStudentDialog}
-        />
-      )}
-
     </div>
   );
 }
