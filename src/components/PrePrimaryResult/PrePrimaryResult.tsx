@@ -182,9 +182,10 @@ const PrePrimaryResult = () => {
     if (Reason === '') {
       setReasonError("Reason for Unpublish should not be blank.");
     } else {
-      setReasonError('');
+     
       ClickUnpublish()
       setOpen(false);
+      setReasonError('')
 
     }
   };
@@ -203,22 +204,18 @@ const PrePrimaryResult = () => {
   }, []);
 
   useEffect(() => {
-
-    if (Publisheed != '') {
+    if (Publisheed !="") {
       toast.success(Publisheed);
       dispatch(PublishresetMessage());
-
-
     }
   }, [Publisheed]);
 
   useEffect(() => {
-
-    if (UnPublisheed != '') {
+    if (UnPublisheed !="") {
       toast.success(UnPublisheed);
       dispatch(UnPublishresetMessage());
-
-
+      setReasonError('')
+      setReason('')
     }
   }, [UnPublisheed]);
 
@@ -335,6 +332,8 @@ const PrePrimaryResult = () => {
         >
           <ClearIcon onClick={() => {
             setOpen(false)
+            setReasonError('')
+            setReason('')
           }}
             sx={{
               color: 'white',
@@ -405,6 +404,8 @@ const PrePrimaryResult = () => {
             color={'error'}
             onClick={() => {
               setOpen(false)
+              setReasonError('')
+              setReason('')
             }}
           >
             Close
