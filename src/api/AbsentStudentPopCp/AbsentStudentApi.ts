@@ -1,5 +1,5 @@
 
-import { IGetAbsentStudentBody, IGetAbsentStudentResult } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
+import { IGetAbsentStudentBody, IGetAbsentStudentResult, IGetSchoolSettingsResult, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetAbsentStudentDetailsPopup = (data: IGetAbsentStudentBody) => {
@@ -7,9 +7,14 @@ const GetAbsentStudentDetailsPopup = (data: IGetAbsentStudentBody) => {
 
 };
 
+const GetSchoolSettings = (data: ISchoolIdBody) => {
+    return http.post<IGetSchoolSettingsResult[]>('School/GetSchoolSettings', data);
+  };
+  
 
 const AbsentStudentapi = {
-    GetAbsentStudentDetailsPopup
+    GetAbsentStudentDetailsPopup,
+    GetSchoolSettings
 };
 
 export default AbsentStudentapi;

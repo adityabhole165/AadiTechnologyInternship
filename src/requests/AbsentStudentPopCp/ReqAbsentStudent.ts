@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import AbsentStudentapi from 'src/api/AbsentStudentPopCp/AbsentStudentApi';
-import { IGetAbsentStudentBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
+import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import { AppThunk } from 'src/store';
 
 const AbsentStudentslice = createSlice({
     name: 'AbsentStudent',
     initialState: {
         getlistAbsentStudentDetails: [],
-        getlistLinkVisible: ''
+        getlistLinkVisible: '',
+        IsGetSchoolSettings: {},
     },
     reducers: {
         listAbsentStudent(state, action) {
@@ -17,6 +18,11 @@ const AbsentStudentslice = createSlice({
         listLinkVisible(state, action) {
             state.getlistLinkVisible = action.payload;
         },
+
+        getSchoolSettings(state, action) {
+            state.IsGetSchoolSettings = action.payload;
+          },
+      
     }
 });
 
@@ -44,4 +50,13 @@ export const AbsentStudents = (data: IGetAbsentStudentBody): AppThunk => async (
     dispatch(AbsentStudentslice.actions.listLinkVisible(linkVisible));
 };
 
+
+export const GetSchoolSettings =
+  (data: ISchoolIdBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AbsentStudentapi.GetSchoolSettings(data)
+
+      dispatch(AbsentStudentslice.actions.getSchoolSettings(response.data));
+
+    };
 export default AbsentStudentslice.reducer;
