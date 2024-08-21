@@ -26,12 +26,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
+import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
 
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
+import { IGetAbsentStudentBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
+import { AbsentStudents } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 import {
   MissingAttenNameAleart
@@ -54,6 +57,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const asUserRoleId = sessionStorage.getItem('RoleId');
   const [opent, setopent] = useState(opend ? opend : 'false');
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false); // Set initial state to false
+  const [AbsentStudentDialog, setAbsentStudentDialog] = useState(false);
   const [imgsrc, setimgsrc] = useState(
     logoURL +
     localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
@@ -64,11 +68,18 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   });
   const [activeItem, setActiveItem] = useState(null);
 
+  const LinkVisible = useSelector(
+    (state: RootState) => state.AbsentStudent.getlistLinkVisible
+  );
 
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
   const MissingDays = MissingName.map(item => item.MissingDays);
   const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0);
+  const ListAbsentStudent = useSelector(
+    (state: RootState) => state.AbsentStudent.getlistAbsentStudentDetails
+  );
 
+  const UserId = Number(localStorage.getItem('UserId'));
 
   const navigate = useNavigate();
 
@@ -221,7 +232,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: null // No link for this item
     });
   }
-
+  if (LinkVisible == 'True' && ListAbsentStudent.length > 0) {
+    sideList.push({
+      title: 'Absent Student Details',
+      icon: <FactCheck />,
+      link: null
+    });
+  }
   if (asUserRoleId === '2') {
     sideList.push({
       title: 'School Notices',
@@ -289,7 +306,25 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   };
 
+  const ListAbsentStudentBody: IGetAbsentStudentBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(UserId),
+  };
 
+  useEffect(() => {
+    dispatch(AbsentStudents(ListAbsentStudentBody));
+  }, []);
+
+  useEffect(() => {
+    // const isLoggedIn = localStorage.getItem('UserLoginDetails1');
+    if (ListAbsentStudent.length > 0 && !sessionStorage.getItem('hasShownAbsentStudentPopup')) {
+      setAbsentStudentDialog(true);
+      sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
+    } else {
+      setAbsentStudentDialog(false);
+    }
+  }, []);
 
   const MissingNameBody: IMissingattendancealeartNameBody = {
     asSchoolId: Number(asSchoolId),
@@ -306,9 +341,17 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       } else {
         setMissingAttendanceDialog(false);
       }
+    } else if (text.title === 'Absent Student Details') {
+      if (ListAbsentStudent.length > 0 && LinkVisible === 'True') {
+        setAbsentStudentDialog(true);
+      } else {
+        setAbsentStudentDialog(false);
+      }
     } else {
       navigate(text.link);
     }
+
+    // Trigger icon click for all cases
     IconClick(text.title);
   };
 
@@ -357,7 +400,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
               key={index}
               sx={{
                 px: 0,
-                py: 0.5
+                py: 0
               }}
             >
               <ListItemButton
@@ -437,13 +480,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   return (
     <div>
-      <React.Fragment>{list('left')}</React.Fragment>
+      <React.Fragment>{list('left')}  </React.Fragment>
       {missingAttendanceDialog && (
         <MissingAttendanceDialog
           open={missingAttendanceDialog}
           setOpen={setMissingAttendanceDialog}
         />
       )}
+
+      {(AbsentStudentDialog && ListAbsentStudent.length > 0) && (
+        <AbsentStudentDetailsPopup
+          open={AbsentStudentDialog}
+          setOpen={setAbsentStudentDialog}
+        />
+      )}
+
     </div>
   );
 }

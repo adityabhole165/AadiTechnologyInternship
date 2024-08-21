@@ -73,9 +73,14 @@ function Dashboard() {
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
   const MissingDays = MissingName.map(item => item.MissingDays);
   const hasMissingDays = MissingDays.some(MissingDays => MissingDays !== 0);
-
+  const ListAbsentStudent = useSelector(
+    (state: RootState) => state.AbsentStudent.getlistAbsentStudentDetails
+  );
   const SchoolNoticePopupDashBoard = useSelector(
     (state: RootState) => state.SchoolNoticePopup.SchoolNoticePopUP
+  );
+  const LinkVisible = useSelector(
+    (state: RootState) => state.AbsentStudent.getlistLinkVisible
   );
 
   const ModulesPermission: any = useSelector(
@@ -166,9 +171,10 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('UserLoginDetails1');
-    if (isLoggedIn && !sessionStorage.getItem('hasShownAbsentStudentPopup')) {
+    // const isLoggedIn = localStorage.getItem('UserLoginDetails1');
+    if (ListAbsentStudent.length > 0 && !sessionStorage.getItem('hasShownAbsentStudentPopup')) {
       setAbsentStudentDialog(true);
+      sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
     } else {
       setAbsentStudentDialog(false);
     }
@@ -445,9 +451,6 @@ function Dashboard() {
   const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(false);
   const [SchoolNoticeDialog, setSchoolNoticeDialog] = useState(false);
   const [AbsentStudentDialog, setAbsentStudentDialog] = useState(false);
-  const LinkVisible = useSelector(
-    (state: RootState) => state.AbsentStudent.getlistLinkVisible
-  );
 
   const handleMissingAttendanceDialogClose = () => {
     setMissingAttendanceDialog(false);
@@ -512,7 +515,7 @@ function Dashboard() {
         />
       )}
 
-      {(AbsentStudentDialog && LinkVisible == 'True') && (
+      {(AbsentStudentDialog && ListAbsentStudent.length > 0) && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={handleAbsentStudentDialogClose}

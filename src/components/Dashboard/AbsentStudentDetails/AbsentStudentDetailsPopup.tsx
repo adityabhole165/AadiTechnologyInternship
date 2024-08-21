@@ -26,15 +26,17 @@ type Props = {
 
 const AbsentStudentDialog = ({ open, setOpen }: Props) => {
     const dispatch = useDispatch();
+    const handleClose = () => {
+        setOpen(false);
+        sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
+    };
+
     const asSchoolId = Number(localStorage.getItem('SchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const UserId = Number(localStorage.getItem('UserId'));
 
     const ListAbsentStudent = useSelector(
         (state: RootState) => state.AbsentStudent.getlistAbsentStudentDetails
-    );
-    const LinkVisible = useSelector(
-        (state: RootState) => state.AbsentStudent.getlistLinkVisible
     );
 
     const UsschoolSettings = useSelector(
@@ -53,12 +55,6 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
         dispatch(AbsentStudents(ListAbsentStudentBody));
         dispatch(GetSchoolSettings(AbsentStudentsBody));
     }, []);
-
-
-    const handleClose = () => {
-        setOpen(false);
-        sessionStorage.setItem('hasShownAbsentStudentPopup', 'true');
-    };
 
     const absentStudentColumns = [
         {
