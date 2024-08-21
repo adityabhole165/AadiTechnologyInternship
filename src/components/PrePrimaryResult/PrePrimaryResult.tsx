@@ -1,27 +1,38 @@
-import { Box, Grid, Typography } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   IGetAssessmentBody,
   IGetClassTeacherXseedSubjectsBody,
   IGetPrePrimaryResultBody,
-  IGetPublishResltBody
+  IGetPublishResltBody,
+  IGetUnPublishResltBody
 } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import DynamicList2 from 'src/libraries/list/DynamicList2';
+
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   AssessmentList,
   PrePrimary,
   Published,
-  TeacherXseedSubjects
+  PublishresetMessage,
+  TeacherXseedSubjects,
+  UnPublished,
+  UnPublishresetMessage
 } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
+
 import { RootState } from 'src/store';
 // import { Container } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import { CheckCircle, Unpublished } from '@mui/icons-material';
+import { blue, green, grey, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { getSchoolConfigurations } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
+import PrePrimaryResultlist from './PrePrimaryResultlist';
 
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
@@ -29,99 +40,104 @@ const PrePrimaryResult = () => {
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-
-  // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-
-  // const [ClassId , setClassId] = useState('')
   const [SelectTeacher, setSelectTeacher] = useState('');
+  let PreprimaryFullAccess = getSchoolConfigurations(163)
+  const asStandardDivisionId = Number(
+    sessionStorage.getItem('StandardDivisionId')
+  );
   const [AssessmentResult, setAssessmentResult] = useState('');
+  const [open, setOpen] = useState(false);
+  const [Reason, setReason] = useState('');
+  const [ReasonError, setReasonError] = useState('');
+  const asUserId = Number(localStorage.getItem('UserId'));
 
-  const HeaderList = ['Subject', 'Edit'];
-  const IconList = [
-    {
-      Id: 1,
-      Icon: <EditIcon />,
-      Action: 'Edit'
-    }
+
+
+  const HeaderList = [
+    { Id: 1, Header: 'Subject' },
+    { Id: 2, Header: 'Edit' },
+
+
   ];
+
   const PrePrimaryResultt = useSelector(
     (state: RootState) => state.PrePrimaryResult.PrePrimaryResult
   );
-  console.log(PrePrimaryResultt, 'GetClassTeacherss');
 
   const Assessmentt = useSelector(
     (state: RootState) => state.PrePrimaryResult.Assessment
   );
-  console.log(Assessmentt, 'GetTestwiseTerm');
 
   const GetTeacherXseedSubjects = useSelector(
     (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects
   );
-  console.log(GetTeacherXseedSubjects, 'GetTeacherXseedSubjects');
+  console.log(GetTeacherXseedSubjects, "GetTeacherXseedSubjects");
 
   const UnPublisheed = useSelector(
     (state: RootState) => state.PrePrimaryResult.Unpublish
   );
-  console.log('UnPublishee', UnPublisheed);
 
   const Publisheed = useSelector(
     (state: RootState) => state.PrePrimaryResult.publish
   );
-  console.log(Publisheed, 'Publisheed');
 
   const PrePrimaryResult: IGetPrePrimaryResultBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
   };
-  useEffect(() => {
-    dispatch(PrePrimary(PrePrimaryResult));
-  }, []);
+
 
   const AssessmentLists: IGetAssessmentBody = {
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
-  useEffect(() => {
-    dispatch(AssessmentList(AssessmentLists));
-  }, []);
+
 
   const SubjectsList: IGetClassTeacherXseedSubjectsBody = {
     asSchoolId: asSchoolId,
     asAcadmeicYearId: asAcademicYearId,
-    asStdDivId: Number(SelectTeacher),
+    asStdDivId: PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId,
     asAssessmentId: Number(AssessmentResult)
   };
-  useEffect(() => {
-    dispatch(TeacherXseedSubjects(SubjectsList));
-  }, [SelectTeacher, AssessmentResult]);
 
-  // const Unpublishee: IGetUnPublishResltBody = {
-  //   "asXseedResultPublishStatusId":140,
-  //   asSchoolId:asSchoolId,
-  //   asAcademic_Year_Id:asAcademicYearId,
-  //   "asAssessmentId":24,
-  //   "asStandardDivisionId":1221,
-  //   "asUnPublishReason":"kiran",
-  //   "asIsPublished":"false",
-  //   "asUpdatedById":455,
-  //   "asUpdateDate":"2023-06-06"
-  //   };
-  // useEffect(() => {
-  //   dispatch(UnPublished(Unpublishee));
-  // }, []);
 
-  const Publishee: IGetPublishResltBody = {
-    asStandardDivisionId: 1240,
-    asAssessmentId: 26,
-    asIsPublished: 'true',
-    asAcademic_Year_Id: 54,
-    asSchoolId: 18,
-    asInsertedById: 5654,
-    asInsertDate: '2024-06-06'
+
+
+  const ClickUnpublish = () => {
+    const Unpublishee: IGetUnPublishResltBody = {
+      asSchoolId: asSchoolId,
+      asAcademic_Year_Id: asAcademicYearId,
+      asStandardDivisionId: PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId,
+      asAssessmentId: Number(AssessmentResult),
+      asUnPublishReason: Reason,
+      asInsertedById: asUserId,
+      asUpdatedById: asUserId,
+      IsPublish: false
+    };
+    dispatch(UnPublished(Unpublishee));
   };
-  useEffect(() => {
+
+  const Clickpublish = () => {
+    const Publishee: IGetPublishResltBody = {
+      asSchoolId: asSchoolId,
+      asAcademic_Year_Id: asAcademicYearId,
+      asStandardDivisionId: PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId,
+      asAssessmentId: Number(AssessmentResult),
+      asUnPublishReason: "",
+      asInsertedById: asUserId,
+      asUpdatedById: asUserId,
+      IsPublish: false
+    }
     dispatch(Published(Publishee));
-  }, []);
+  };
+
+
+
+
+
+
+
+
 
   const GetPrPriResultDropdown = (value) => {
     setSelectTeacher(value);
@@ -129,78 +145,16 @@ const PrePrimaryResult = () => {
   const GetAssessmentDropdown = (value) => {
     setAssessmentResult(value);
   };
-  const ClickItem = (value) => { };
-  // const onClickunpublished =() =>{
-  //   navigate('/extended-sidebar/Teacher/UnPublishReslt')
+  const ClickItem = (value) => {
 
-  // }
-
-  const onClickpublished = () => {
-    if (
-      confirm(
-        'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?'
-      )
-    ) {
-      const Publishee: IGetPublishResltBody = {
-        asStandardDivisionId: 1240,
-        asAssessmentId: 26,
-        asIsPublished: 'false',
-        asAcademic_Year_Id: 54,
-        asSchoolId: 18,
-        asInsertedById: 5654,
-        asInsertDate: '2024-06-06'
-      };
-      dispatch(Published(Publishee));
-    }
-
-    if (Publisheed !== '') {
-      toast.success(Publisheed, { toastId: 'success1' });
-      //dispatch(Published());
-    }
-    dispatch(TeacherXseedSubjects(SubjectsList));
   };
 
-  // const getIsPublish = (Id) => {
-
-  //   let IsPublish = false
-  //   GetTeacherXseedSubjects.map((item)=>{
-  //     if(item.Id.toString()==Id.toString()){
-  //       IsPublish = item.Text7=="False"?true:false
-  //       return IsPublish;
-  //   }
-  //   })
-  //   return IsPublish
-  // }
 
   const onClickunpublished = () => {
-    navigate(
-      '/extended-sidebar/Teacher/UnpublishPrePrimaryResult/ ' +
-      getClassName() +
-      '/' +
-      getClassName1()
-    );
+    setOpen(true)
+
   };
 
-  // const onClickunpublished = (Id) => {
-  //   let IsPublish = getIsPublish(Id)
-  //   if(IsPublish){
-  //     navigate('/extended-sidebar/Teacher/UnPublishReslt/' + Id)
-  // } else{
-  //   const UnPublishBody: IGetUnPublishResltBody = {
-  //     "asXseedResultPublishStatusId":140,
-  //       asSchoolId:asSchoolId,
-  //       asAcademic_Year_Id:asAcademicYearId,
-  //       "asAssessmentId":24,
-  //       "asStandardDivisionId":1221,
-  //       "asUnPublishReason":"kiran",
-  //       "asIsPublished":"false",
-  //       "asUpdatedById":455,
-  //       "asUpdateDate":"2023-06-06"
-  //   }
-  //   dispatch(UnPublished(UnPublishBody));
-
-  //   }
-  // }
 
   const getClassName = () => {
     let className = '';
@@ -220,76 +174,249 @@ const PrePrimaryResult = () => {
     return className;
   };
 
+  const ClickOk = () => {
+    if (Reason === '') {
+      setReasonError("Reason for Unpublish should not be blank.");
+    } else {
+      setReasonError('');
+      ClickUnpublish()
+      setOpen(false);
+     
+    }
+  };
+
+
+  useEffect(() => {
+    dispatch(TeacherXseedSubjects(SubjectsList));
+  }, [SelectTeacher, AssessmentResult]);
+
+  useEffect(() => {
+    dispatch(AssessmentList(AssessmentLists));
+  }, []);
+
+  useEffect(() => {
+    dispatch(PrePrimary(PrePrimaryResult));
+  }, []);
+
+  useEffect(() => {
+
+    if (Publisheed != '') {
+      toast.success(Publisheed);
+      dispatch(PublishresetMessage());
+
+
+    }
+  }, [Publisheed]);
+
+  useEffect(() => {
+
+    if (UnPublisheed != '') {
+      toast.success(UnPublisheed);
+      dispatch(UnPublishresetMessage());
+      
+
+    }
+  }, [UnPublisheed]);
+
+
   return (
     <Box sx={{ px: 2 }}>
-      <br></br>
-      <br></br>
-      <PageHeader heading="Pre-Primary Result" />
-      <Grid container spacing={0.9} alignItems="center">
-        <Grid item xs={3}>
-          <Typography margin={'25px'}>
-            <b>Assessment:</b>
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <SearchableDropdown
-            ItemList={Assessmentt}
-            onChange={GetAssessmentDropdown}
-            defaultValue={AssessmentResult}
-            label={'--Select Term--'}
-          />
-        </Grid>
 
-        <Grid item xs={3}>
-          <Typography margin={'20px'}>
-            <b>Select Class Teacher:</b>
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <SearchableDropdown
-            ItemList={PrePrimaryResultt}
-            onChange={GetPrPriResultDropdown}
-            defaultValue={SelectTeacher}
-            label={'Subject Teacher'}
-          />
-        </Grid>
-      </Grid>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Pre-Primary Progress Report Results', path: '/extended-sidebar/Teacher/PrePrimaryResult' },
 
-      <DynamicList2
-        HeaderList={HeaderList}
-        ItemList={GetTeacherXseedSubjects}
-        IconList={IconList}
-        ClickItem={ClickItem}
+        ]}
+
+        rightActions={
+          <>
+            <SearchableDropdown
+              ItemList={Assessmentt}
+              sx={{ minWidth: '250px' }}
+              onChange={GetAssessmentDropdown}
+              defaultValue={AssessmentResult}
+              label={'Select Term'}
+              size={"small"}
+              mandatory
+            />
+            {
+              PreprimaryFullAccess == 'Y' ?
+                <SearchableDropdown
+                  ItemList={PrePrimaryResultt}
+                  sx={{ minWidth: '250px' }}
+                  onChange={GetPrPriResultDropdown}
+                  defaultValue={SelectTeacher}
+                  label={'Subject Teacher'}
+                  size={"small"}
+                  mandatory
+                />
+                : <span></span>
+
+            }
+
+            <Tooltip title={'Publish'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: blue[500],
+                  '&:hover': {
+                    backgroundColor: blue[600]
+                  }
+                }}
+                onClick={Clickpublish} >
+                <CheckCircle />
+              </IconButton>
+            </Tooltip>
+
+
+            <Tooltip title={'Unpublish'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: red[500],
+                  '&:hover': {
+                    backgroundColor: red[500]
+                  }
+                }}
+                onClick={onClickunpublished} >
+                <Unpublished />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] }
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
+          </>}
       />
 
-      <div>
-        <Grid
-          container
-          spacing={2}
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center'
+
+      <PrePrimaryResultlist
+        HeaderArray={HeaderList}
+        ItemList={GetTeacherXseedSubjects}
+        clickEdit={ClickItem}
+      />
+      <Dialog
+        open={open}
+        maxWidth={'md'}
+        fullWidth
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+      >
+        <DialogTitle
+          sx={{
+            bgcolor: '#223354',
+            // backgroundColor: (theme) => theme.colors.primary.main,
+            color: (theme) => theme.palette.common.white
           }}
         >
-          <Grid item xs={1}>
-            <ButtonPrimary onClick={onClickpublished} variant="contained">
-              <b>PUBLISH</b>
-            </ButtonPrimary>
+          <ClearIcon onClick={() => {
+            setOpen(false)
+          }}
+            sx={{
+              color: 'white',
+              // background:'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '7px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+                //  backgroundColor: red[100]
+
+              }
+            }} />
+
+
+
+
+
+        </DialogTitle>
+        <DialogContent >
+
+          <h1>
+            {'Enter reason for unpublish'}
+          </h1>
+          <Grid container spacing={1} alignItems="center">
+            <Grid item >
+              <TextField
+                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                label={'Exam'}
+                size={"small"}
+                value={getClassName()} />
+            </Grid>
           </Grid>
 
-          <Grid item xs={1} style={{ margin: '0 10px' }}>
-            {/* Adjust the margin value as needed */}
-            <ButtonPrimary
-              onClick={onClickunpublished}
-              variant="contained"
-              style={{ backgroundColor: 'red', color: 'white' }}
-            >
-              UNPUBLISH
-            </ButtonPrimary>
+
+          <br></br>
+
+          <Grid container spacing={1} alignItems="center">
+            <Grid item >
+              <TextField
+                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                label={'Class Teacher Name'}
+                size={"small"}
+                value={getClassName1()} />
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
+          <br></br>
+          <Typography variant={"h4"} sx={{ mb: 1 }}>
+            Unpublish Reason<span style={{ color: 'red' }}>*</span>
+          </Typography>
+          <ResizableTextField
+            multiline
+            // rows={5}
+            value={Reason}
+            onChange={(e) => {
+              setReason(e.target.value);
+            }}
+            sx={{ width: '100%' }}
+            error={ReasonError !== ''}
+            helperText={ReasonError}
+          />
+
+        </DialogContent>
+        <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button
+            color={'error'}
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
+            Close
+          </Button>
+          <Button
+
+            onClick={() => { ClickOk() }}
+            sx={{
+              color: 'green',
+              //  backgroundColor: grey[500],
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}
+          >
+            Unpublish
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

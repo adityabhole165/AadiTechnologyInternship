@@ -16,7 +16,9 @@ const SlicePrePrimaryResult = createSlice({
     Assessment: [],
     TeacherXseedSubjects: [],
     publish: '',
-    Unpublish: ''
+    Unpublish: '',
+    PublishMsg:'',
+    UnpublishMsg:''
   },
   reducers: {
     PrePrimaryResults(state, action) {
@@ -33,7 +35,15 @@ const SlicePrePrimaryResult = createSlice({
     },
     Unpublish(state, action) {
       state.Unpublish = action.payload;
-    }
+    },
+    RPublishresetMessageAll(state) {
+      state.PublishMsg = '';
+    },
+
+    RUnPublishresetMessageAll(state) {
+      state.UnpublishMsg = '';
+    },
+
   }
 });
 
@@ -69,9 +79,8 @@ export const TeacherXseedSubjects =
     const response = await ApiPrePrimaryResult.TeacherXseedSubjectsApi(data);
     let abc = response.data.listStandrdDetails.map((item, i) => {
       return {
-        Id: item.StandardDivisionID,
-        SubjectId: item.SubjectId,
-        Text1: item.Subject_Name
+        Id: item.SubjectId,
+        Subject_Name: item.Subject_Name
       };
     });
     dispatch(SlicePrePrimaryResult.actions.TeacherXseedSubjects(abc));
@@ -82,10 +91,22 @@ export const Published =
     const response = await ApiPrePrimaryResult.Published(data);
     dispatch(SlicePrePrimaryResult.actions.publish(response.data));
   };
-export const UnPublished =
+
+
+  export const UnPublished =
   (data: IGetUnPublishResltBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiPrePrimaryResult.UnPublishReslt(data);
     dispatch(SlicePrePrimaryResult.actions.Unpublish(response.data));
   };
+
+  export const PublishresetMessage= (): AppThunk => async (dispatch) => {
+    dispatch(SlicePrePrimaryResult.actions.RPublishresetMessageAll());
+  };
+
+  export const UnPublishresetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(SlicePrePrimaryResult.actions.RUnPublishresetMessageAll());
+  };
+
+  
 export default SlicePrePrimaryResult.reducer;

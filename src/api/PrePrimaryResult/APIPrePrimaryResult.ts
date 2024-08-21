@@ -29,10 +29,10 @@ const TeacherXseedSubjectsApi = (data: IGetClassTeacherXseedSubjectsBody) => {
   );
 };
 const Published = (data: IGetPublishResltBody) => {
-  return http.post('Teacher/PublishReslt', data);
+  return http.post('Teacher/PublishUnpublishPrePrimaryResult', data);
 };
 const UnPublishReslt = (data: IGetUnPublishResltBody) => {
-  return http.post('Teacher/UnPublishReslt', data);
+  return http.post('Teacher/PublishUnpublishPrePrimaryResult', data);
 };
 const ApiPrePrimaryResult = {
   PrePrimaryResultApi,

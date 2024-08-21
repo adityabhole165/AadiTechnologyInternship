@@ -1,0 +1,57 @@
+
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
+
+const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
+
+    return (
+        <div>
+
+            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow
+                            sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
+                        >
+                            {HeaderArray.map((item, i) => (
+                                <TableCell
+                                    key={i}
+                                    sx={{
+                                        textTransform: 'capitalize',
+                                        color: (theme) => theme.palette.common.white,
+                                        py: 1,
+                                        width: item?.width ? item?.width : 'auto',
+
+                                    }}
+                                >
+                                    <b>{item.Header}</b>
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {ItemList.map((item) => (
+                            <TableRow key={item.ItemID}>
+                                <TableCell sx={{ textTransform: 'capitalize', }}>
+                                    {item.Subject_Name}
+                                </TableCell>
+                                <Tooltip title={"Edit"}>
+                                    <IconButton
+                                        onClick={() => clickEdit(item.Id)}
+                                        style={{ color: '#223354', cursor: 'pointer' }}
+                                    >
+                                        <EditTwoTone />
+                                    </IconButton>
+                                </Tooltip>
+
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+        </div>
+    )
+}
+
+export default PrePrimaryResultlist

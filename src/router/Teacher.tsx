@@ -142,11 +142,11 @@ const Requisition = Loader(
 const AddRequisition = Loader(
   lazy(() => import('src/components/Requisition/AddRequisition'))
 );
-const UnpublishPrePrimaryResult = Loader(
-  lazy(
-    () => import('src/components/PrePrimaryResult/UnpublishPrePrimaryResult')
-  )
-);
+// const UnpublishPrePrimaryResult = Loader(
+//   lazy(
+//     () => import('src/components/PrePrimaryResult/UnpublishPrePrimaryResult')
+//   )
+// );
 const AddUnpublish1 = Loader(
   lazy(() => import('src/components/AssignHomework/AddUnpublish1'))
 );
@@ -562,10 +562,10 @@ const teacherRoutes = [
     path: 'PrePrimaryResult',
     element: <PrePrimaryResult />
   },
-  {
-    path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
-    element: <UnpublishPrePrimaryResult />
-  },
+  // {
+  //   path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
+  //   element: <UnpublishPrePrimaryResult />
+  // },
   {
     path: 'Requisition',
     element: <Requisition />
