@@ -1,10 +1,9 @@
 export interface IGetAbsentStudentDetailsBody {
     asSchoolId: number,
     asAcademicYearId: number,
-    asStudentIds: string,
     asStandardDivId: number,
     asSelectedDate: string,
-    asHalfDayAttendanceStudentIds: string,
+    asMaxDaysLimit: number,
 }
 
 export interface IGetAbsentStudentDetailsResult {
