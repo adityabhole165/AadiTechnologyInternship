@@ -186,9 +186,9 @@ export const GetStudentRecordData =
                     LectureName: item.LectureName,
                     IsDefaultComment: item.IsDefaultComment,
                     IsSubmitted: item.IsSubmitted,
-                    IsCommentReadByConsellor: item.IsCommentReadByConsellor,
-                    IsCommentReadByPrincipal: item.IsCommentReadByPrincipal,
-                    IsCommentReadByClassTeacher: item.IsCommentReadByClassTeacher,
+                    IsCommentReadByConsellor: item.IsCommentReadByConsellor == "0" ? "No" : "Yes",
+                    IsCommentReadByPrincipal: item.IsCommentReadByPrincipal == "True" ? "Yes" : "No",
+                    IsCommentReadByClassTeacher: item.IsCommentReadByClassTeacher == "0" ? "No" : "Yes",
                     LoginUserDesignation: item.LoginUserDesignation,
                     InsertedById: item.InsertedById,
                     UserName: item.UserName

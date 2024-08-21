@@ -27,9 +27,14 @@ const AddStudentRecord = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(localStorage.getItem('UserId'));
+    const [CommentData, setCommentData] = useState([])
     const listGeneralDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listGeneralDetails
     );
+    const listCommentDetailsUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.listCommentDetails
+    );
+    console.log(listCommentDetailsUS, "listCommentDetailsUS");
 
     const QueAnsList = useSelector(
         (state: RootState) => state.AddStudentRecords.QueAnsList
@@ -40,7 +45,7 @@ const AddStudentRecord = () => {
     const listParameterDetailsUS = useSelector(
         (state: RootState) => state.AddStudentRecords.listParameterDetails
     )
-    console.log(listParameterDetailsUS, "listParameterDetailsUS");
+    // console.log(listParameterDetailsUS, "listParameterDetailsUS");
 
     const SubmitStudentRecordCommentUS = useSelector(
         (state: RootState) => state.AddStudentRecords.submitStudentRecordCommentmsg
@@ -69,6 +74,9 @@ const AddStudentRecord = () => {
             }
         }))
     }
+    useEffect(() => {
+        setCommentData(listCommentDetailsUS)
+    }, [listCommentDetailsUS])
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
@@ -129,10 +137,10 @@ const AddStudentRecord = () => {
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
-        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam), /* Number(SchoolWiseStudentIdparam),*/
+        asSchoolwiseStudentId: 6039, /* Number(SchoolWiseStudentIdparam),*/
         asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
-        asUserId: asUserId
+        asUserId: 4463
 
     }
     const SubmitStudentRecordCommentResult: ISubmitStudentRecordCommentBody = {
@@ -385,6 +393,36 @@ const AddStudentRecord = () => {
             </Box>
             <AddStudentRecordList ItemList={ItemList}
                 ChangeItem={ChangeItem} />
+            <br></br>
+            <Typography variant={"h5"} mb={1}>
+                Comment(s)
+            </Typography>
+            <Box>
+                {/* <StudentRCommentList commentdetails={CommentData} /> */}
+                <Table>
+                    <TableBody>
+                        {listCommentDetailsUS.map((item, i) => (
+                            <React.Fragment key={i}>
+                                <TableRow sx={{ ...rowStyle, backgroundColor: '#324b84' }}>
+                                    <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Date : </b> {item.Date}</TableCell>
+                                    <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Principal : </b> {item.IsCommentReadByPrincipal}</TableCell>
+                                    <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Counsellor : </b> {item.IsCommentReadByConsellor}</TableCell>
+                                    <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Class Teacher : </b> {item.IsCommentReadByClassTeacher}</TableCell>
+                                </TableRow>
+                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableCell sx={cellStyle} colSpan={2}><b>Added By : </b>{item.UserName}</TableCell>
+                                </TableRow>
+                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableCell sx={cellStyle} colSpan={2}><b>Comment : </b>{item.Comment}</TableCell>
+                                </TableRow>
+                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableCell sx={cellStyle} colSpan={2}><b>Lecture Name : </b>{item.LectureName}</TableCell>
+                                </TableRow>
+                            </React.Fragment>
+                        ))}
+                    </TableBody>
+                </Table>
+            </Box>
             {/* <AddStudentRAccordionList exampleLessonDetails={exampleLessonDetails}
                 onTextChange={onTextChange} Action={Action}
                 IsEditingAllowed={IsEditingAllowed()} /> */}
@@ -397,7 +435,7 @@ const AddStudentRecord = () => {
                     />
                 )}
             </Box>
-        </Box>
+        </Box >
     )
 };
 
