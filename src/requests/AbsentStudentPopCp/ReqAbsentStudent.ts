@@ -7,8 +7,8 @@ const AbsentStudentslice = createSlice({
     name: 'AbsentStudent',
     initialState: {
         getlistAbsentStudentDetails: [],
-        getlistLinkVisible: {},
-        IsGetSchoolSettings: {},
+        getlistLinkVisible: '',
+        IsGetSchoolSettings: '',
     },
     reducers: {
         listAbsentStudent(state, action) {
