@@ -1,5 +1,4 @@
 import {
-    Alert,
     Box,
     Dialog,
     DialogContent,
@@ -85,8 +84,8 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
         <Dialog
             open={open}
             onClose={handleClose}
-            fullWidth
-            maxWidth="sm"
+            //fullWidth
+            maxWidth="md"
             PaperProps={{
                 sx: {
                     borderRadius: "15px",
@@ -112,9 +111,18 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                 Absent Student Details
             </Typography>
             <DialogContent >
-                <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none' }}>
+                <Box
+                    sx={{
+                        backgroundColor: (theme) => theme.palette.info.main,
+                        color: (theme) => theme.palette.common.black,
+                        padding: '10px 18px',
+                        boxShadow: 'none',
+                         fontSize: '14px'
+                    }}
+                >
                     This is the absent students list who is absent from last {UsschoolSettings} working days.
-                </Alert>
+                </Box>
+
                 <Box mt={1} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, width: '100%', textAlign: 'center' }}>
                         <TableHead>
@@ -131,7 +139,7 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                                 <React.Fragment key={rowData.Id}>
                                     <TableRow>
                                         {absentStudentColumns.map((column) => (
-                                            <TableCell key={column.id} sx={{ paddingTop: '10px', paddingBottom: '10px', textAlign: 'left' }}>
+                                            <TableCell key={column.id} sx={{ paddingTop: '10px', paddingBottom: '10px', textAlign: column.id === 'rollNo' ? 'center' : 'left', whiteSpace: 'nowrap' }}>
                                                 {column.renderCell(rowData)}
                                             </TableCell>
                                         ))}
