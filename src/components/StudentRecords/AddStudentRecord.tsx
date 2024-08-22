@@ -137,10 +137,10 @@ const AddStudentRecord = () => {
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
-        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+        asSchoolwiseStudentId: 6039, /*Number(SchoolWiseStudentIdparam),*/
         asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
-        asUserId: asUserId
+        asUserId: 4463
 
     }
     const SubmitStudentRecordCommentResult: ISubmitStudentRecordCommentBody = {
@@ -271,34 +271,39 @@ const AddStudentRecord = () => {
                         </Box>
                         <Box>
                             <Tooltip title={'SUBMIT'}>
-                                <IconButton
-                                    sx={{
-                                        backgroundColor: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                    onClick={onClickSubmit}
-                                >
-                                    <Check />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            backgroundColor: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={onClickSubmit}
+                                    >
+                                        <Check />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         </Box>
                         <Box>
                             <Tooltip title={'ADD COMMENT'}>
-                                <IconButton
-                                    sx={{
-                                        backgroundColor: blue[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: blue[600]
-                                        }
-                                    }}
-                                    onClick={ClickOpenDialogbox}
-                                >
-                                    <AddComment />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            backgroundColor: blue[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: blue[600]
+                                            }
+                                        }}
+                                        onClick={ClickOpenDialogbox}
+                                        disabled={(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].Comment != null && listCommentDetailsUS[0].IsSubmitted == "True")}
+                                    >
+                                        <AddComment />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         </Box>
                         <Box>
