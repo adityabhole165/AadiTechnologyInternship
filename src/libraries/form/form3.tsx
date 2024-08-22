@@ -1,51 +1,30 @@
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import SaveIcon from '@mui/icons-material/Save';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { green, grey } from '@mui/material/colors';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-  IAcceptTermsBody,
-  IChangePassword,
-  IChangePasswordResult
-} from 'src/interfaces/Common/ChangePassword';
-import Note from 'src/libraries/Note/Note';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import CommonPageHeader from 'src/components/CommonPageHeader';
+import { AlertContext } from 'src/contexts/AlertContext';
+import { IChangePassword, IChangePasswordResult } from 'src/interfaces/Common/ChangePassword';
 import http from 'src/requests/SchoolService/schoolServices';
 import { getTermsAndCondition } from 'src/requests/TermAndCondition/TermAndCondition';
 import { RootState } from 'src/store';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 import { ChangePasswordStyle } from '../styled/CommonStyle';
-import { green, grey, red } from '@mui/material/colors';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CommonPageHeader from 'src/components/CommonPageHeader';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
-import QuestionMark from '@mui/icons-material/QuestionMark';
-
-const note = [
-  ' Capitalization Matters! Min 6 characters, Max 15 characters.',
- 
-];
-const note3 = [
-   ' Password should be combination of at least one character, digit & special character.'
-];
-const note1 = [
-  'It seems you have not changed the system generated password. Please reset your password for security purpose.'
-];
-const note2 = [' Please reset your password for security purpose.'];
-
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const FirstTime = sessionStorage.getItem('TermsAccepted');
 
-  const TermAndConditions: any = useSelector(
+  const TermAndConditions = useSelector(
     (state: RootState) => state.TermAndConditions.GetAcceptTermResult
   );
-
-  console.log('FirstTime', FirstTime);
 
   const logout = () => {
     localStorage.removeItem('auth');
@@ -60,80 +39,81 @@ function Form() {
       navigate('/extended-sidebar/landing/landing');
     }
   };
-
-  const Logout = async (): Promise<void> => {
-    try {
-      sessionStorage.clear();
-      localStorage.removeItem('auth');
-      localStorage.removeItem('url');
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const regularExpression = /^.*(?=.{6,})(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).*$/;
-  const [output, setoutput] = useState<IChangePasswordResult>();
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const Id = sessionStorage.getItem('Id');
-  const UserLogin = sessionStorage.getItem('Userlogin');
-  const asUserId = sessionStorage.getItem('Id');
+  const [output, setOutput] = useState<IChangePasswordResult>();
 
-  const [value, setValue] = useState<any>('');
-  const values = { Oldpassword: '', NewPassword: '', ConfirmPassword: '' };
+  // const submitResult = () => {
+  //   const body: IChangePassword = {
+  //     asUserName: sessionStorage.getItem('Userlogin'),
+  //     asUserId: sessionStorage.getItem('Id'),
+  //     asSchoolId: localStorage.getItem('localSchoolId'),
+  //     asNewPassword: formik.values.ConfirmPassword,
+  //     asOldPassword: formik.values.Oldpassword,
+  //   };
 
-  const submitresult = () => {
+  //   dispatch(getTermsAndCondition({ asSchoolId: localStorage.getItem('localSchoolId'), asUserId: sessionStorage.getItem('Id') }));
+
+  //   http.post('School/ChangePassword', body).then((resp) => {
+  //     const data = resp.data;
+  //     setOutput(data);
+  //     if (data === 'True') {
+  //       toast.success('Password changed successfully');
+  //       logout();
+  //     } else {
+  //       toast.error(data);
+  //     }
+  //   });
+  // };
+
+  const submitResult = () => {
     const body: IChangePassword = {
-      asUserName: UserLogin,
-      asUserId: Id,
-      asSchoolId: asSchoolId,
+      asUserName: sessionStorage.getItem('Userlogin'),
+      asUserId: sessionStorage.getItem('Id'),
+      asSchoolId: localStorage.getItem('localSchoolId'),
       asNewPassword: formik.values.ConfirmPassword,
-      asOldPassword: formik.values.Oldpassword
+      asOldPassword: formik.values.Oldpassword,
     };
 
-    const TermsBody: IAcceptTermsBody = {
-      asSchoolId: asSchoolId,
-      asUserId: asUserId
-    };
-    const Note: string =
-    'Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.';
-    const note = [
-      '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
-      '2) Password should be combination of at least one character, digit & special character.'
-    ];
-    const note1 = [
-      'It seems you have not changed the system generated password. Please reset your password for security purpose.'
-    ];
-    dispatch(getTermsAndCondition(TermsBody));
+    showAlert({
+      title: 'Please Confirm',
+      message: 'Are you sure you want to change your password?',
+      variant: 'warning',
+      confirmButtonText: 'Change Password',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(getTermsAndCondition({
+          asSchoolId: localStorage.getItem('localSchoolId'),
+          asUserId: sessionStorage.getItem('Id')
+        }));
 
-    http
-      .post('School/ChangePassword', body)
-      .then((resp) => resp.data)
-      .then((data) => {
-        setoutput(data);
-        if (data === 'True') {
-          toast.success('Password changed successfully');
-          //call api
-          if (TermAndConditions.AcceptTermsResult === true) {
+        http.post('School/ChangePassword', body).then((resp) => {
+          const data = resp.data;
+          setOutput(data);
+          if (data === 'True') {
+            toast.success('Password changed successfully');
+            logout();
+          } else {
+            toast.error(data);
           }
+        });
 
-          Logout();
-        } else {
-          toast.error(data);
-        }
-      });
+        closeAlert();
+      },
+    });
   };
 
   const formik = useFormik({
     initialValues: {
-      UserLogin: UserLogin,
+      UserLogin: sessionStorage.getItem('Userlogin'),
       Oldpassword: '',
       NewPassword: '',
-      ConfirmPassword: ''
+      ConfirmPassword: '',
     },
-    onSubmit: (values) => {
-      submitresult();
-    },
+    onSubmit: submitResult,
     validate: (values) => {
       const errors: any = {};
       if (!values.Oldpassword) {
@@ -145,224 +125,197 @@ function Form() {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
       } else if (!regularExpression.test(values.NewPassword)) {
         errors.NewPassword =
-          'Password should be combination of at least one character, digit & special character.';
+          'Password should be a combination of at least one character, digit & special character.';
       } else if (values.NewPassword.length > 15) {
-        errors.NewPassword = 'Password must maximum 15 character';
+        errors.NewPassword = 'Password must be a maximum of 15 characters';
       }
       if (!values.ConfirmPassword) {
         errors.ConfirmPassword = 'Confirm password should not be blank.';
-      } else if (values.ConfirmPassword != values.NewPassword) {
+      } else if (values.ConfirmPassword !== values.NewPassword) {
         errors.ConfirmPassword =
-          'New password and confirm password should be same.';
+          'New password and confirm password should be the same.';
       }
       return errors;
-    }
+    },
   });
 
   return (
-<>
-     <Box mb={2}>
-     <CommonPageHeader
-        navLinks={[{ title: 'Change Password', path: ' ' }
-        ]}
-          rightActions={<>
-           <Tooltip title={'Change your existing password. You will have to use the same while loging into the site.'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMark/>
-              </IconButton>
-            </Tooltip>
-        <Tooltip title={'Cancle'}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: red[500],
-                '&:hover': {
-                  backgroundColor: red[600]
-                }
-              }}
-              onClick={getHomepage}
-               >
-              <CancelIcon/>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={'Save'}>
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: green[500],
-                '&:hover': {
-                  backgroundColor: green[600]
-                }
-              }}
-               type="submit"
-              onChange={formik.handleChange} 
-              // onSubmit={formik.handleSubmit}
-              >
-              <SaveIcon />
-            </IconButton>
-          </Tooltip>
-          </>}
-      />
-     <Accordion defaultExpanded>
-             <AccordionSummary
-                 expandIcon={<ExpandMoreIcon />}
-                 aria-controls="panel1-content"
-                 id="panel1-header"
-             >
-                 <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
-             </AccordionSummary>
-             <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
-                <Alert variant="filled" severity="info"><b>{note2}</b> </Alert>
-                <Alert variant="filled" severity="info"><b>{note1}</b> </Alert>
-                 <Alert variant="filled" severity="info"><b> {note}</b></Alert>
-                 <Alert variant="filled" severity="info"><b>{note3}</b></Alert>
-                 </AccordionDetails>
-                 </Accordion>
-                 </Box>
-    <Grid container >
-      <Grid item md={3}></Grid>
-      <Grid item xs={12} md={6}>
-        <ListStyle sx={ChangePasswordStyle}>
-          <form onSubmit={formik.handleSubmit}>
-            {/* {FirstTime == 'N' ? (
-              <Note NoteDetail={note1} />
-            ) : (
-              <Note NoteDetail={note2} />
-            )} */}
-            <Box gap={2} >
-              {/* <Typography>User Name</Typography> */}
-              <TextField
-                disabled
-                fullWidth
-                label="User Name"
-                margin="normal"
-                name="username"
-                type="text"
-                // variant="standard"
-                value={formik.values.UserLogin}
-                sx={{backgroundColor:'#F0F0F0'}}
-              />
-            </Box>
-            <Box >
-            <TextField
-              fullWidth
-              margin="normal"
-              // label={'Old Password'}
-              label={
-                <span>
-                   Old Password <span style={{ color: 'red' }}>*</span>
-                </span>}
-              name="Oldpassword"
-              type="password"
-              // variant="standard"
-              value={formik.values.Oldpassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              // sx={{ mt: '-0.3rem' }}
-            />
-
-            {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
-              <Errormessage Error={formik.errors.Oldpassword} />
-            ) : null}
-
-            <TextField
-              fullWidth
-              margin="normal"
-              // label={'New Password'}
-              label={
-                <span>
-                   New Password <span style={{ color: 'red' }}>*</span>
-                </span>}
-              name="NewPassword"
-              type="password"
-              // variant="standard"
-              value={formik.values.NewPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              // sx={{ mt: 2 }}
-            />
-
-            {formik.touched.NewPassword && formik.errors.NewPassword ? (
-              <Errormessage Error={formik.errors.NewPassword} />
-            ) : null}
-            <TextField
-              fullWidth
-              margin="normal"
-              label={
-                <span>
-                   Confirm Password <span style={{ color: 'red' }}>*</span>
-                </span>}
-              name="ConfirmPassword"
-              type="password"
-              // variant="standard"
-              value={formik.values.ConfirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              // sx={{ my: 2 }}
-            />
-
-            {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
-              <Errormessage Error={formik.errors.ConfirmPassword} />
-            ) : null}
-
-            {/* <Note NoteDetail={note} /> */}
-
-            </Box>
-            {/* <Grid container spacing={2} justifyContent={'right'}>
-              <Grid item
-              //  xs={2} md={1}
-               >
-
-              <Button
+    <>
+      <Box mb={2}>
+        <CommonPageHeader
+          navLinks={[{ title: 'Change Password', path: ' ' }]}
+          rightActions={
+            <>
+              <Tooltip title={'Change your existing password. You will have to use the same while logging into the site.'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600],
+                    },
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+              {/* <Tooltip title={'Cancel'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: red[500],
+                    '&:hover': {
+                      backgroundColor: red[600],
+                    },
+                  }}
                   onClick={getHomepage}
-                  fullWidth
-                  // color="secondary"
-                  sx={{
-                    color:'red',
-                    borderRadius:'7px',
-                      '&:hover': {
-                    color:'red',
-                    borderRadius:'7px',
-                     backgroundColor: red[100]
-                      }}}
                 >
-                  Cancel
-                </Button>
-                
-              </Grid>
-              <Grid item 
-              // xs={6} md={2}
-              >
-              <Button
+                  <CancelIcon />
+                </IconButton>
+              </Tooltip> */}
+              <Tooltip title={'Save'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    '&:hover': {
+                      backgroundColor: green[600],
+                    },
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default behavior
+                    formik.handleSubmit(); // Trigger form submission
+                  }}
+                >
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+          }
+        />
+        <Accordion defaultExpanded>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
+            <Alert variant="filled" severity="info"><b>{'Please reset your password for security purpose.'}</b></Alert>
+            <Alert variant="filled" severity="info"><b>{'It seems you have not changed the system generated password. Please reset your password for security purpose.'}</b></Alert>
+            <Alert variant="filled" severity="info"><b>{'Capitalization Matters! Min 6 characters, Max 15 characters.'}</b></Alert>
+            <Alert variant="filled" severity="info"><b>{'Password should be combination of at least one character, digit & special character.'}</b></Alert>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+      <Grid container>
+        <Grid item md={3}></Grid>
+        <Grid item xs={12} md={6}>
+          <ListStyle sx={ChangePasswordStyle}>
+            <form onSubmit={formik.handleSubmit}>
+              <Box gap={2}>
+                <TextField
+                  disabled
+                  fullWidth
+                  label="User Name"
+                  margin="normal"
+                  name="username"
+                  type="text"
+                  value={formik.values.UserLogin}
+                  sx={{ backgroundColor: '#F0F0F0' }}
+                />
+              </Box>
+              <Box>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label={
+                    <span>
+                      Old Password <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  name="Oldpassword"
+                  type="password"
+                  value={formik.values.Oldpassword}
                   onChange={formik.handleChange}
-                  type="submit"
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
+                  <Errormessage Error={formik.errors.Oldpassword} />
+                ) : null}
+
+                <TextField
                   fullWidth
-                  // color="primary"
-                  sx={{
-                    color:'green',
-                    borderRadius:'7px',
+                  margin="normal"
+                  label={
+                    <span>
+                      New Password <span style={{ color: 'red' }}>*</span>
+                    </span>}
+                  name="NewPassword"
+                  type="password"
+                  value={formik.values.NewPassword}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.NewPassword && formik.errors.NewPassword ? (
+                  <Errormessage Error={formik.errors.NewPassword} />
+                ) : null}
+
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label={
+                    <span>
+                      Confirm Password <span style={{ color: 'red' }}>*</span>
+                    </span>}
+                  name="ConfirmPassword"
+                  type="password"
+                  value={formik.values.ConfirmPassword}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
+                  <Errormessage Error={formik.errors.ConfirmPassword} />
+                ) : null}
+              </Box>
+              {/* <Grid container spacing={2} justifyContent={'right'}>
+                <Grid item>
+                  <Button
+                    onClick={getHomepage}
+                    fullWidth
+                    sx={{
+                      color: 'red',
+                      borderRadius: '7px',
                       '&:hover': {
-                    color:'green',
-                    borderRadius:'7px',
-                     backgroundColor: green[100]
-                      }}}
-                >
-                  Save
-                </Button>
-              </Grid>
-            </Grid> */}
-          </form>
-        </ListStyle>
+                        backgroundColor: red[100],
+                      },
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    sx={{
+                      color: 'green',
+                      borderRadius: '7px',
+                      '&:hover': {
+                        backgroundColor: green[100],
+                      },
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Grid>
+              </Grid> */}
+            </form>
+          </ListStyle>
+        </Grid>
+        <Grid item md={3}></Grid>
       </Grid>
-    </Grid>
     </>
   );
 }
