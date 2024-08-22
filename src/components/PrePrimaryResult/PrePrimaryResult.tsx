@@ -13,10 +13,10 @@ import {
 import {
   AssessmentList,
   PrePrimary,
-  Published,
+  CDAUnPublished,
   PublishresetMessage,
   TeacherXseedSubjects,
-  UnPublished,
+  CDAPublished,
   UnPublishresetMessage
 } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 
@@ -108,7 +108,7 @@ const PrePrimaryResult = () => {
 
 
   const ClickUnpublish = () => {
-    const Unpublishee: IGetUnPublishResltBody = {
+    const UnpublishBody: IGetUnPublishResltBody = {
       asSchoolId: asSchoolId,
       asAcademic_Year_Id: asAcademicYearId,
       asStandardDivisionId: PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId,
@@ -118,11 +118,11 @@ const PrePrimaryResult = () => {
       asUpdatedById: asUserId,
       IsPublish: false
     };
-    dispatch(UnPublished(Unpublishee));
+    dispatch(CDAUnPublished(UnpublishBody));
   };
 
   const Clickpublish = () => {
-    const Publishee: IGetPublishResltBody = {
+    const PublishBody: IGetPublishResltBody = {
       asSchoolId: asSchoolId,
       asAcademic_Year_Id: asAcademicYearId,
       asStandardDivisionId: PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId,
@@ -130,9 +130,9 @@ const PrePrimaryResult = () => {
       asUnPublishReason: "",
       asInsertedById: asUserId,
       asUpdatedById: asUserId,
-      IsPublish: false
+      IsPublish: true
     }
-    dispatch(Published(Publishee));
+    dispatch(CDAPublished(PublishBody));
   };
 
 
@@ -300,7 +300,7 @@ const PrePrimaryResult = () => {
           </>}
       />
       {
-        AssessmentResult != '' ?
+        GetTeacherXseedSubjects.length> 0 ?
           <PrePrimaryResultlist
             HeaderArray={HeaderList}
             ItemList={GetTeacherXseedSubjects}
