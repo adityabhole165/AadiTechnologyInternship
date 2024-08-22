@@ -79,7 +79,7 @@ function Form() {
       title: 'Please Confirm',
       message: 'Are you sure you want to change your password?',
       variant: 'warning',
-      confirmButtonText: 'Change Password',
+      confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       onCancel: () => {
         closeAlert();

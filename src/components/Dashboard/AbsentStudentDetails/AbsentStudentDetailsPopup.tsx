@@ -114,10 +114,10 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
                 <Box
                     sx={{
                         backgroundColor: (theme) => theme.palette.info.main,
-                        color: (theme) => theme.palette.common.black,
+                        color: (theme) => '#0A0A0A',
                         padding: '10px 18px',
                         boxShadow: 'none',
-                         fontSize: '14px'
+                        fontSize: '14px'
                     }}
                 >
                     This is the absent students list who is absent from last {UsschoolSettings} working days.
