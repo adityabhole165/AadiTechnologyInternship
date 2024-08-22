@@ -71,6 +71,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const LinkVisible = useSelector(
     (state: RootState) => state.AbsentStudent.getlistLinkVisible
   );
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
+  );
 
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
   const MissingDays = MissingName.map(item => item.MissingDays);
@@ -491,7 +494,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         />
       )}
 
-      {(AbsentStudentDialog && ListAbsentStudent.length > 0) && (
+      {UsschoolSettings.length > 0 && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={setAbsentStudentDialog}

@@ -119,6 +119,10 @@ const TAttendance = () => {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
+  );
+
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
   );
@@ -810,22 +814,24 @@ const TAttendance = () => {
               </Tooltip>
             </Box>
 
-            <Box>
-              <Tooltip title={'Absent Student Details'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: blue[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}
-                  onClick={ClickOpenDialogbox}
-                >
-                  <AddComment />
-                </IconButton>
-              </Tooltip>
-            </Box>
+            {UsschoolSettings.length > 0 && (
+              <Box>
+                <Tooltip title={'Absent Student Details'}>
+                  <IconButton
+                    sx={{
+                      backgroundColor: blue[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    onClick={ClickOpenDialogbox}
+                  >
+                    <AddComment />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
 
             <Box>
               {SaveIsActive ? (

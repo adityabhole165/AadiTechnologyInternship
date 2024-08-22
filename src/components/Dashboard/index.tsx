@@ -65,6 +65,9 @@ function Dashboard() {
       UserLoginDetails1.LastLoginDetails
     );
   }
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -515,7 +518,7 @@ function Dashboard() {
         />
       )}
 
-      {(AbsentStudentDialog && ListAbsentStudent.length > 0) && (
+      { UsschoolSettings.length > 0 && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={handleAbsentStudentDialogClose}
