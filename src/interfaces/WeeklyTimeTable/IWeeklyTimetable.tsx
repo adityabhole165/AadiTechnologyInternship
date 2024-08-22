@@ -273,7 +273,7 @@ export interface IGetSaveTeacherTimeTableBody {
     asMasterXml: string,
     asDetailXml: string
     asTeacherXML: string,
-    IsAdditionalClass: Number,
+    IsAdditionalClass: any,
     asIncCnt: Number
 }
 
@@ -356,4 +356,70 @@ export interface IGetValidateDataForClassResult {
     ErrMsgForSubjectLectures: string,
     ErrMsgForAssociateSubjectLectures: string,
     ErrMsgForExternalLectures: string
+}
+
+export interface IGetDataForAddClassesPopUpBody {
+    asSchoolId: Number,
+    asAcademicYearID: Number,
+    asTeacher_Id: Number,
+    asStandardDivision_Id: Number
+}
+
+export interface IGetDataForAddClassesPopUpResult {
+    listWeekDayNameDetiles: [
+        {
+            WeekDay_Name: string,
+            Weekday_Id: string
+        }
+    ],
+    listLectureNumberDetiles: [
+        {
+            Lecture_Number: string,
+            Weekday_Id: string
+        }
+    ],
+    listlasssSubjectNameDetiles: [
+        {
+            Standard_Division_Id: string,
+            Subject_Id: string,
+            classSubjectName: string,
+            SubjectTeacher: string,
+            Original_Standard_Id: string,
+            Original_Division_Id: string
+        }
+    ],
+    listClassNameDatiles: [
+        {
+            Standard_Division_Id: string,
+            Lecture_Number: string,
+            Subject_Id: string,
+            ClassSubject: string,
+            Weekday_Id: string
+        }
+    ],
+    listSubjectNameDatiles: [
+        {
+            Standard_Division_Id: string,
+            Lecture_Number: string,
+            WeekDay_Name: string,
+            Subject_Name: string,
+            ClassName: string
+            Weekday_Id: string
+        }
+    ],
+    listLectureNODetiles: []
+}
+
+export interface IGetCheckDuplicateLecturesMsgBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asSubjectId: Number,
+    asTeacherId: Number,
+    asStdDivId: Number,
+    asLectureNo: Number,
+    asWeekDayId: Number
+}
+
+export interface IGetCheckDuplicateLecturesMsgResult {
+    Result: string
 }

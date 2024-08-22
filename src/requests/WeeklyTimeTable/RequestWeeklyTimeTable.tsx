@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
 import { GetScreenPermission } from 'src/components/Common/Util';
-import { IGetClassTimeTableBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateDataForClassBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDataForAddClassesPopUpBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateDataForClassBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -42,13 +42,47 @@ const WeeklyTimeTableSlice = createSlice({
         ISStaybackClass: [],
         ISWeeklytestClass: [],
         ISValidateTeacherData: [],
+        ISValidateAddLecTeacherData: [],
         ISValidateClassData: [],
         ISExtLectCount: '',
+        ISGetAddLecPopUpWeekDayList: [],
+        ISGetAddLecPopUpLecNoList: [],
+        ISGetAddLecPopUpClassSubList: [],
+        ISGetAddLecPopUpCompClassNameDetailsList: [],
+        ISGetAddLecPopUpCompSubjectNameDetailsList: [],
+        ISGetCheckDuplicateLecturesMsg: '',
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        RGetAddLecPopUpWeekDayList(state, action) {
+            state.ISGetAddLecPopUpWeekDayList = action.payload;
+            state.Loading = false;
+        },
+        RGetCheckDuplicateLecturesMsg(state, action) {
+            state.ISGetCheckDuplicateLecturesMsg = action.payload;
+        },
+        RClearDuplicateLecturesMsg(state) {
+            state.ISGetCheckDuplicateLecturesMsg = '';
+            state.Loading = false;
+        },
+        RGetAddLecPopUpCompSubjectNameDetailsList(state, action) {
+            state.ISGetAddLecPopUpCompSubjectNameDetailsList = action.payload;
+            state.Loading = false;
+        },
+        RGetAddLecPopUpCompClassNameDetailsList(state, action) {
+            state.ISGetAddLecPopUpCompClassNameDetailsList = action.payload;
+            state.Loading = false;
+        },
+        RGetAddLecPopUpLecNoList(state, action) {
+            state.ISGetAddLecPopUpLecNoList = action.payload;
+            state.Loading = false;
+        },
+        RGetAddLecPopUpClassSubList(state, action) {
+            state.ISGetAddLecPopUpClassSubList = action.payload;
+            state.Loading = false;
         },
         RAddLecForClass(state, action) {
             state.ISAddLecForClass = action.payload;
@@ -67,6 +101,14 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RClearValidateTeacherData(state) {
             state.ISValidateTeacherData = [];
+            state.Loading = false;
+        },
+        RValidateAddLecTeacherData(state, action) {
+            state.ISValidateAddLecTeacherData = action.payload;
+            state.Loading = false;
+        },
+        RClearValidateAddLecTeacherData(state) {
+            state.ISValidateAddLecTeacherData = [];
             state.Loading = false;
         },
         RValidateClassData(state, action) {
@@ -316,6 +358,32 @@ export const CDAValidateTeacherData =
             })
             dispatch(WeeklyTimeTableSlice.actions.RValidateTeacherData(responseData));
         }
+export const CDAValidateAddLecTeacherData =
+    (data: IGetValidateTeacherDataBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetValidateTeacherDataApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.ErrMsgForWeeklyTeacherLectures,
+                        Text2: item.OverlapErrorMessage,
+                        Text3: item.ErrMsgForWeekDayTeacherLectures,
+                        Text4: item.ErrMsgForSubjectLectures,
+                        Text5: item.ErrMsgForAssociateSubjectLectures,
+                        Text6: item.ErrMsgForExternalLectures
+                    }
+                )
+            })
+            dispatch(WeeklyTimeTableSlice.actions.RValidateAddLecTeacherData(responseData));
+        }
+
+export const CDAClearValidateAddLecTeacherData =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.RClearValidateAddLecTeacherData());
+        }
 
 export const CDAClearValidateTeacherData =
     (): AppThunk =>
@@ -445,6 +513,20 @@ export const CDAResetDeleteAdditionalLectures =
             dispatch(WeeklyTimeTableSlice.actions.ResetDeleteAdditionalLecturesMsg());
         }
 
+export const CDAGetCheckDuplicateLecturesMsg =
+    (data: IGetCheckDuplicateLecturesMsgBody): AppThunk =>
+        async (dispatch) => {
+            const response = await WeeklyTimeTableApi.GetCheckDuplicateLecturesMsgApi(data);
+            let responseData = response.data.Result;
+            dispatch(WeeklyTimeTableSlice.actions.RGetCheckDuplicateLecturesMsg(responseData));
+        }
+export const CDAClearDuplicateLecturesMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            dispatch(WeeklyTimeTableSlice.actions.RClearDuplicateLecturesMsg());
+        }
+
 export const CDAManageClassTimeTable =
     (data: IGetManageClassTimeTableBody): AppThunk =>
         async (dispatch) => {
@@ -481,6 +563,29 @@ export const CDASaveTeacherTimetable =
             if (ISValidateTeacherData.length === 0) {
                 const response = await WeeklyTimeTableApi.GetSaveTeacherTimeTableApi(data);
                 dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
+            }
+        }
+export const CDASaveAddTeacherTimetable =
+    (data: IGetSaveTeacherTimeTableBody, DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody, AddLecForManageTeacherBody: IGetManageClassTimeTableBody): AppThunk =>
+        async (dispatch, getState) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            // Clear Add. Lec. Duplication messages first
+            await dispatch(CDAClearDuplicateLecturesMsg());
+            // Clear validation messages first
+            await dispatch(CDAClearValidateAddLecTeacherData());
+            // Dispatch the validation action and wait for it to complete
+            await dispatch(CDAGetCheckDuplicateLecturesMsg(DuplicateLecBody));
+            // Get the updated Add. Lec Duplication messages from the state
+            const { ISGetCheckDuplicateLecturesMsg } = getState().WeeklyTimetable;
+            // Check if there are no Duplication error messages and if so, proceed to save the data
+            if (ISGetCheckDuplicateLecturesMsg === '') {
+                // await dispatch(CDAValidateAddLecTeacherData(data));
+                // Get the updated validation messages from the state
+                // const { ISValidateAddLecTeacherData } = getState().WeeklyTimetable;
+                // console.log(`🥱`, ISValidateAddLecTeacherData)
+                // if (ISValidateAddLecTeacherData.length === 0) {
+                dispatch(CDAManageClassTimeTable(AddLecForManageTeacherBody))
+                // }
             }
         }
 
@@ -873,5 +978,78 @@ export const CDAClassLecNoWeekday =
             dispatch(WeeklyTimeTableSlice.actions.RWeeklytestClass(WeeklyTestInfo));
             dispatch(WeeklyTimeTableSlice.actions.RClassWeekdayIds(WeekDayId));
         }
+
+export const CDAGetDataForAddClassPopUp =
+    (data: IGetDataForAddClassesPopUpBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetIGetDataForAddClassesPopUpApi(data);
+            const WeekDayList = response.data.listWeekDayNameDetiles.map((item, i) => {
+                return (
+                    {
+                        Id: item.Weekday_Id,
+                        Name: item.WeekDay_Name,
+                        Value: item.Weekday_Id
+                    }
+                )
+            })
+            const LecNoList = response.data.listLectureNumberDetiles.map((item, i) => {
+                return (
+                    {
+                        Id: item.Lecture_Number,
+                        Name: item.Lecture_Number,
+                        Value: item.Lecture_Number,
+                        WeekdayId: item.Weekday_Id
+                    }
+                )
+            })
+            const ClassSubList = response.data.listlasssSubjectNameDetiles.map((item, i) => {
+                return (
+                    {
+                        Id: item.Standard_Division_Id,
+                        StdDivId: item.Standard_Division_Id,
+                        SubId: item.Subject_Id,
+                        Name: item.classSubjectName,
+                        SubTeacher: item.SubjectTeacher,
+                        OrgStdId: item.Original_Standard_Id,
+                        OrgDivId: item.Original_Division_Id,
+                        Value: item.Standard_Division_Id
+                    }
+                )
+            })
+            const ClassNameDetailsList = response.data.listClassNameDatiles.map((item, i) => {
+                return (
+                    {
+                        StdDivId: item.Standard_Division_Id,
+                        LecNo: item.Lecture_Number,
+                        SubId: item.Subject_Id,
+                        ClassSub: item.ClassSubject,
+                        WeekdayId: item.Weekday_Id
+                    }
+                )
+            })
+            const listSubjectNameDetails = response.data.listSubjectNameDatiles.map((item, i) => {
+                return (
+                    {
+                        StdDivId: item.Standard_Division_Id,
+                        LecNo: item.Lecture_Number,
+                        WeekdayName: item.WeekDay_Name,
+                        SubName: item.Subject_Name,
+                        ClassName: item.ClassName,
+                        WeekdayId: item.Weekday_Id
+                    }
+                )
+            })
+            WeekDayList.unshift({ Id: '0', Name: 'Select', Value: '0' });
+            LecNoList.unshift({ Id: '0', Name: 'Select', Value: '0', WeekdayId: '0' });
+            ClassSubList.unshift({ Id: '0', StdDivId: '0', SubId: '0', Name: 'Select', SubTeacher: 'Select', OrgStdId: '0', OrgDivId: '0', Value: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetAddLecPopUpWeekDayList(WeekDayList));
+            dispatch(WeeklyTimeTableSlice.actions.RGetAddLecPopUpLecNoList(LecNoList));
+            dispatch(WeeklyTimeTableSlice.actions.RGetAddLecPopUpClassSubList(ClassSubList));
+            dispatch(WeeklyTimeTableSlice.actions.RGetAddLecPopUpCompClassNameDetailsList(ClassNameDetailsList));
+            dispatch(WeeklyTimeTableSlice.actions.RGetAddLecPopUpCompSubjectNameDetailsList(listSubjectNameDetails));
+        };
+
+
 
 export default WeeklyTimeTableSlice.reducer;
