@@ -17,6 +17,8 @@ const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [ItemList, setItemList] = useState([]);
+    console.log(ItemList, "ItemList");
+    const [errorItemlist, seterrorItemlist] = useState('')
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
     const [Open, setOpen] = useState(false);
     const [Comment, setComment] = useState('');
@@ -137,10 +139,10 @@ const AddStudentRecord = () => {
     }
     const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
-        asSchoolwiseStudentId: 6039, /*Number(SchoolWiseStudentIdparam),*/
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
         asAcademicYearId: asAcademicYearId,
         asIsReadMode: "false",
-        asUserId: 4463
+        asUserId: asUserId
 
     }
     const SubmitStudentRecordCommentResult: ISubmitStudentRecordCommentBody = {
@@ -157,21 +159,42 @@ const AddStudentRecord = () => {
         asCommentId: Number(Comment)    /* 3279*/
 
     }
-    const SaveStudentRecordResult: ISaveStudentRecordBody = {
-        asSchoolId: asSchoolId,
-        asUpdatedById: asUserId,
-        asStudentId: Number(SchoolWiseStudentIdparam),
-        asDataXML: getXML(),
-        Date: ADate    /*"2011-05-21"*/
-    }
     const ClickOpenDialogbox = () => {
         setOpen(true);
     };
     const ClickCloseDialogbox = () => {
         setOpen(false);
     };
+    const IsFormValid = () => {
+        let returnVal = true;
+        let IsAns = false;
+        ItemList.map((Item) => {
+            Item.QueAnsList.map((Item) => {
+                if (Item.Answer !== '') {
+                    IsAns = true;
+                }
+            });
+        });
+        console.log(IsAns, "IsAns");
+        if (!IsAns) {
+            seterrorItemlist("Please enter details for at least one field.");
+            returnVal = false;
+        } else {
+            seterrorItemlist("");
+        }
+        return returnVal;
+    };
     const onClickSave = () => {
-        dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
+        if (IsFormValid()) {
+            const SaveStudentRecordResult: ISaveStudentRecordBody = {
+                asSchoolId: asSchoolId,
+                asUpdatedById: asUserId,
+                asStudentId: Number(SchoolWiseStudentIdparam),
+                asDataXML: getXML(),
+                Date: ADate    /*"2011-05-21"*/
+            }
+            dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
+        }
     };
     const onClickSubmit = () => {
     };
@@ -299,7 +322,7 @@ const AddStudentRecord = () => {
                                             }
                                         }}
                                         onClick={ClickOpenDialogbox}
-                                        disabled={(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].Comment != null && listCommentDetailsUS[0].IsSubmitted == "True")}
+                                        disabled={(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].Comment != null && listCommentDetailsUS[0].IsSubmitted == "False")}
                                     >
                                         <AddComment />
                                     </IconButton>
@@ -332,6 +355,11 @@ const AddStudentRecord = () => {
                             <ErrorMessage1 Error={dateError}></ErrorMessage1>
                         </Box>
                     )}
+                </Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography variant={"h5"} sx={{ color: 'red' }}>
+                    {errorItemlist}
                 </Typography>
             </Grid>
             <Box mb={1} sx={{ p: 1, color: 'red', background: 'white', fontWeight: 'bold' }}>

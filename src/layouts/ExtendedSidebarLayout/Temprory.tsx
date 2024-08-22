@@ -277,6 +277,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
 
   if (isPreprimary === true) {
+    sideList.splice(6, 0, {
+      title: 'Pre Primary Progress Report Results',
+      icon: <FeaturedPlayList />,
+      link: '/extended-sidebar/Teacher/PrePrimaryResult'
+    });
+  }
+
+  if (isPreprimary === true) {
     sideList.push({
       title: 'Student Wise Progress Report',
       icon: <TableChart />,
