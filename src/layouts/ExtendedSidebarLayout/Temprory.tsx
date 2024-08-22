@@ -127,11 +127,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/AssignHomework'
     },
     {
-      title: 'Attendance',
-      icon: <DateRange />,
-      link: '/extended-sidebar/Teacher/TAttendance'
-    },
-    {
       title: 'Assign Exam Marks',
       icon: <FeaturedPlayList />,
       link: '/extended-sidebar/Teacher/AssignExamMark'
@@ -224,6 +219,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
 
   ];
+
+  if (LinkVisible == 'True') {
+    sideList.push({
+      title: 'Attendance',
+      icon: <DateRange />,
+      link: '/extended-sidebar/Teacher/TAttendance'
+    });
+  }
 
   if (hasMissingDays) {
     sideList.push({
