@@ -116,8 +116,10 @@ const AbsentStudentP = ({ open, setOpen, ClickCloseDialogbox, Classname, Date, C
                 <Alert variant="filled" color="info" icon={<></>} sx={{ boxShadow: 'none', mt: 1 }}>
                     Student(s) is absent for {UsschoolSettings} or more working days.
                 </Alert>
+
                 {ListAbsentStudents && ListAbsentStudents.length > 0 ? (
-                    <Box mt={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Box mt={1} sx={{  justifyContent: 'center' }}>
+                        <Typography sx={{ mt: 1, mb:1 }}>Absent Student(s) :</Typography>                        
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, width: '100%', textAlign: 'center' }}>
                             <TableHead>
                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
