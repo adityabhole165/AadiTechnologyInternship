@@ -37,9 +37,9 @@ import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 
-import { IGetAbsentStudentBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
+import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import { IGetSchoolNoticePopupBody } from 'src/interfaces/SchoolNoticePopup/ISchoolNoticePopup';
-import { AbsentStudents } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
+import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -127,6 +127,9 @@ function Dashboard() {
   const getShowITRReportOnStudent: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ShowITRReportOnStudentLogin
   );
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
+  );
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -159,7 +162,9 @@ function Dashboard() {
       setSchoolNoticeDialog(false);
     }
   }, []);
-
+  const AbsentStudentsBody: ISchoolIdBody = {
+    asSchoolId: Number(asSchoolId),
+};
   const ListAbsentStudentBody: IGetAbsentStudentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -168,6 +173,7 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(AbsentStudents(ListAbsentStudentBody));
+    dispatch(GetSchoolSettings(AbsentStudentsBody));
   }, []);
 
   useEffect(() => {
@@ -515,7 +521,7 @@ function Dashboard() {
         />
       )}
 
-      {(AbsentStudentDialog && ListAbsentStudent.length > 0) && (
+      {(AbsentStudentDialog && Number(UsschoolSettings) > 0) && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={handleAbsentStudentDialogClose}
