@@ -65,13 +65,13 @@ const AbsentStudentDialog = ({ open, setOpen }: Props) => {
         {
             id: 'class',
             label: 'Class',
-            renderCell: (rowData) => rowData.Text2
+            renderCell: (rowData) => rowData.Text3
         },
 
         {
             id: 'rollNo',
             label: 'Roll No.',
-            renderCell: (rowData) => rowData.Text3
+            renderCell: (rowData) => rowData.Text2
         },
 
         {

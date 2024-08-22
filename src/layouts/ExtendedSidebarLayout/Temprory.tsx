@@ -29,12 +29,12 @@ import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
 import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
 
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
-import { IGetAbsentStudentBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
+import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
-import { AbsentStudents } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
+import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 import {
   MissingAttenNameAleart
@@ -238,7 +238,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: null // No link for this item
     });
   }
-  if (LinkVisible == 'True' && ListAbsentStudent.length > 0) {
+  if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
       title: 'Absent Student Details',
       icon: <FactCheck />,
@@ -317,9 +317,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     asAcademicYearId: Number(asAcademicYearId),
     asUserId: Number(UserId),
   };
-
+  const AbsentStudentsBody: ISchoolIdBody = {
+    asSchoolId: Number(asSchoolId),
+  };
   useEffect(() => {
     dispatch(AbsentStudents(ListAbsentStudentBody));
+    dispatch(GetSchoolSettings(AbsentStudentsBody));
   }, []);
 
   useEffect(() => {
@@ -494,7 +497,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         />
       )}
 
-      {UsschoolSettings.length > 0 && (
+      {(AbsentStudentDialog && Number(UsschoolSettings) > 0) && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={setAbsentStudentDialog}
