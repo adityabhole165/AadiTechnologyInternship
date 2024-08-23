@@ -4,16 +4,16 @@ function CardDashContainer2() {
   return (
     <div>
       <Card>
-        <Typography variant="h3" p={1} sx={{ color: '#304ffe', mb: '5px' }}>
+        <Typography variant="h3" p={1} sx={{ color: '#304ffe' }}>
           Upcoming Event
         </Typography>
-        <Grid container spacing={2} sx={{ mt: '-40px', mb: '20px' }}>
+        <Grid container spacing={1} >
           <Grid item sm={6} md={12}>
             <Box
-              sx={{ width: '800px', mr: '5px' }}
+              sx={{ width: '800px', mr: '0px' }}
               justifyContent={'center'}
-              px={6}
-              pt={2}
+              px={3.7}
+              
             >
               <Calendar />
             </Box>
