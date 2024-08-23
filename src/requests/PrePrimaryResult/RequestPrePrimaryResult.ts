@@ -15,6 +15,7 @@ const SlicePrePrimaryResult = createSlice({
     PrePrimaryResult: [],
     Assessment: [],
     TeacherXseedSubjects: [],
+    ISlistpublishstatusDetails:[],
     publish: "",
     Unpublish: "",
     
@@ -29,6 +30,12 @@ const SlicePrePrimaryResult = createSlice({
     TeacherXseedSubjects(state, action) {
       state.TeacherXseedSubjects = action.payload;
     },
+    RlistpublishstatusDetails(state, action) {
+      state.ISlistpublishstatusDetails = action.payload;
+    },
+
+
+    
     Rpublish(state, action) {
       state.publish = action.payload;
     },
@@ -50,13 +57,15 @@ export const PrePrimary =
   (data: IGetPrePrimaryResultBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiPrePrimaryResult.PrePrimaryResultApi(data);
-    let abc = response.data.map((item, i) => {
-      return {
+    let abc = [{ Id: '0', Name: 'Select', Value: '0',Is_PrePrimary : 'Y'}];
+    response.data.map((item, i) => {
+      abc.push({
         Id: item.SchoolWise_Standard_Division_Id,
         Name: item.TeacherName,
         Value: item.SchoolWise_Standard_Division_Id,
         Is_PrePrimary:item.Is_PrePrimary
-      };
+       
+      });
     });
     dispatch(SlicePrePrimaryResult.actions.PrePrimaryResults(abc));
   };
@@ -64,13 +73,15 @@ export const AssessmentList =
   (data: IGetAssessmentBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiPrePrimaryResult.AssessmentApi(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.AssessmentId,
-        Name: item.Name,
-        Value: item.AssessmentId
-      };
-    });
+      let abc = [{ Id: '0', Name: 'Select', Value: '0', }];
+      response.data.map((item, i) => {
+        abc.push({
+          Id: item.AssessmentId,
+          Name: item.Name,
+          Value: item.AssessmentId
+         
+        });
+      });
     dispatch(SlicePrePrimaryResult.actions.Assessment(abc));
   };
 export const TeacherXseedSubjects =
@@ -80,10 +91,22 @@ export const TeacherXseedSubjects =
     let abc = response.data.listStandrdDetails.map((item, i) => {
       return {
         Id: item.SubjectId,
-        Subject_Name: item.Subject_Name
+        Subject_Name: item.Subject_Name,
+        EditStatus : item.EditStatus
       };
     });
+
+    let publishstatus = response.data.listpublishstatusDetails.map((item, i) => {
+      return {
+        IsPublished: item.IsPublished,
+        PublishStatus: item.PublishStatus,
+        StandardDivisionId: item.StandardDivisionId
+      };
+    });
+
     dispatch(SlicePrePrimaryResult.actions.TeacherXseedSubjects(abc));
+    dispatch(SlicePrePrimaryResult.actions.RlistpublishstatusDetails(publishstatus));
+
   };
 export const CDAPublished =
   (data: IGetPublishResltBody): AppThunk =>

@@ -15,11 +15,13 @@ import { RootState } from 'src/store';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
+import { useNavigate } from 'react-router';
 import { IUnreadMessages } from "src/interfaces/Student/dashboard";
 import { getUnreadMessages } from "src/requests/Dashboard/Dashboard";
 
 const UnreadMessage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const UnreadMessage = useSelector((state: RootState) => state.Dashboard.UnreadMessage);
   const loading = useSelector((state: RootState) => state.Dashboard.Loading);
   const UnreadMessagesBody: IUnreadMessages = {
@@ -35,6 +37,9 @@ const UnreadMessage = () => {
   const clickRefresh = () => {
     dispatch(getUnreadMessages(UnreadMessagesBody))
   };
+  const clickMessage = (item) => {
+    navigate('/extended-sidebar/MessageCenter/viewMSg/192447/Inbox')
+  }
   return (
     <Card sx={{ height: '370px', overflow: 'auto' }}>
       <Grid container sx={{ mb: '5px' }}>
@@ -75,7 +80,7 @@ const UnreadMessage = () => {
                         fontSize="small"
                       />
                     </Grid>
-                    <Grid item xs={11.5}>
+                    <Grid item xs={11.5} onClick={() => { clickMessage(item) }}>
                       <Box
                         display={'flex'}
                         justifyContent={'space-between'}
