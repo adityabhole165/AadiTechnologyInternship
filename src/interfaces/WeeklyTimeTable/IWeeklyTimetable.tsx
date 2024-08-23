@@ -423,3 +423,23 @@ export interface IGetCheckDuplicateLecturesMsgBody {
 export interface IGetCheckDuplicateLecturesMsgResult {
     Result: string
 }
+
+export interface IGetValidateAddDataForTeacherBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInsertedById: Number,
+    asTeacherID: Number,
+    asMasterXml: string,
+    asDetailXml: string,
+    IsAdditionalClass: boolean,
+    asIncCnt: Number
+}
+
+export interface IGetValidateAddDataForTeacherResult {
+    ErrMsgForWeeklyTeacherLectures: string,
+    OverlapErrorMessage: string,
+    ErrMsgForWeekDayTeacherLectures: string,
+    ErrMsgForSubjectLectures: String,
+    ErrMsgForAssociateSubjectLectures: string,
+    ErrMsgForExternalLectures: string
+}

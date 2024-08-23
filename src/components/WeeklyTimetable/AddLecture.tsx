@@ -1,10 +1,14 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 import PropTypes from 'prop-types';
+import { useSelector } from "react-redux";
+import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
+import { RootState } from "src/store";
 
 AddLecture.propTypes = {
+    ValError: PropTypes.string,
     Heading: PropTypes.string,
     Open: PropTypes.bool,
     OnClose: PropTypes.func,
@@ -25,8 +29,9 @@ AddLecture.propTypes = {
     ErrorMsg2: PropTypes.bool,
     ErrorMsg3: PropTypes.bool
 }
-function AddLecture({ Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1, Label1, ItemList2, OnChange1, Defaultvalue2,
+function AddLecture({ ValError, Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1, Label1, ItemList2, OnChange1, Defaultvalue2,
     ErrorMsg1, ErrorMsg2, Defaultvalue3, OnChange2, ItemList3, ErrorMsg3, Defaultvalue4, OnChange3, ItemList4 }) {
+    const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
 
     return (
         <>
@@ -45,7 +50,9 @@ function AddLecture({ Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1
                 ></DialogTitle>
                 <DialogContent dividers>
                     <Box>
+                        {ValError?.length > 0 && <span dangerouslySetInnerHTML={{ __html: `Error : ${ValError}` }} style={{ color: 'red', fontWeight: 'bolder' }} />}
                         <Typography variant={"h4"}>{Heading}</Typography>
+                        {loading && <SuspenseLoader />}
                         <Stack gap={2} mt={2}>
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown

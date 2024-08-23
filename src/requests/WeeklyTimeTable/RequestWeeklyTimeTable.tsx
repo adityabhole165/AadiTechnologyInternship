@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
 import { GetScreenPermission } from 'src/components/Common/Util';
-import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDataForAddClassesPopUpBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateDataForClassBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDataForAddClassesPopUpBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateAddDataForTeacherBody, IGetValidateDataForClassBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -51,11 +51,20 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetAddLecPopUpCompClassNameDetailsList: [],
         ISGetAddLecPopUpCompSubjectNameDetailsList: [],
         ISGetCheckDuplicateLecturesMsg: '',
+        ISGetValidateAdditionalDataForTeacher: undefined,
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        RGetValidateAdditionalDataForTeacher(state, action) {
+            state.ISGetValidateAdditionalDataForTeacher = action.payload;
+            state.Loading = false;
+        },
+        RClearValidateAdditionalDataForTeacher(state) {
+            state.ISGetValidateAdditionalDataForTeacher = undefined;
+            state.Loading = false;
         },
         RGetAddLecPopUpWeekDayList(state, action) {
             state.ISGetAddLecPopUpWeekDayList = action.payload;
@@ -566,7 +575,7 @@ export const CDASaveTeacherTimetable =
             }
         }
 export const CDASaveAddTeacherTimetable =
-    (data: IGetSaveTeacherTimeTableBody, DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody, AddLecForManageTeacherBody: IGetManageClassTimeTableBody): AppThunk =>
+    (data: IGetSaveTeacherTimeTableBody, DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody, AddLecForManageTeacherBody: IGetManageClassTimeTableBody, ValidateAddDataForTeacher: IGetValidateAddDataForTeacherBody): AppThunk =>
         async (dispatch, getState) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             // Clear Add. Lec. Duplication messages first
@@ -584,7 +593,8 @@ export const CDASaveAddTeacherTimetable =
                 // const { ISValidateAddLecTeacherData } = getState().WeeklyTimetable;
                 // console.log(`🥱`, ISValidateAddLecTeacherData)
                 // if (ISValidateAddLecTeacherData.length === 0) {
-                dispatch(CDAManageClassTimeTable(AddLecForManageTeacherBody))
+                // dispatch(CDAManageClassTimeTable(AddLecForManageTeacherBody))
+                dispatch(CDAValidateAdditionalDataForTeacher(ValidateAddDataForTeacher));
                 // }
             }
         }
@@ -597,6 +607,20 @@ export const CDASaveTeacherTimetableWithIncr =
             // Clear validation messages first
             await dispatch(WeeklyTimeTableSlice.actions.RGetSaveTeacherTimetableMsg(response.data));
             await dispatch(CDAClearValidateTeacherData());
+        }
+
+export const CDAValidateAdditionalDataForTeacher =
+    (data: IGetValidateAddDataForTeacherBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetValidateAdditionalDataForTeacherApi(data);
+            await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(response.data));
+        }
+export const CDAClearValidateAdditionalDataForTeacher =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearValidateAdditionalDataForTeacher());
         }
 
 export const CDASaveClassTimetableWithIncr =
@@ -654,11 +678,15 @@ export const CDAGetDivisionName =
                     }
                 )
             });
+            const ConfigIdForPagePermissionListString: any = sessionStorage.getItem('SchoolConfiguration');
+            const ConfigIdForPagePermissionList = ConfigIdForPagePermissionListString ? JSON.parse(ConfigIdForPagePermissionListString) : [];
+            const ConfigIdPagePersmission: any = ConfigIdForPagePermissionList?.filter((item: any) => item.Configure_Id === 59 && item.Can_Edit === 'Y');
             const UserRoleId = sessionStorage.getItem('RoleId');
             const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
             let StdDivId = sessionStorage.getItem('StandardDivisionId');
             // 🙋‍♂️ TO BE UNCOMMENTED BEFORE FINAL TESTING ⚡
-            if (UserRoleId === '2' && IsWeeklyTimetableFullAccess === 'N') {
+            console.log(`🏠`, ConfigIdPagePersmission)
+            if (UserRoleId === '2' && ConfigIdPagePersmission.length === 0) {
                 responseData = responseData.filter(item => item.Id === StdDivId);
             }
             responseData.unshift({ Id: '0', Name: 'Select', Value: '0' })

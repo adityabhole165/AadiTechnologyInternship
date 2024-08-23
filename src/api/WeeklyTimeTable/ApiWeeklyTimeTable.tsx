@@ -1,4 +1,4 @@
-import { IGetCheckDuplicateLecturesMsgBody, IGetCheckDuplicateLecturesMsgResult, IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAddClassesPopUpBody, IGetDataForAddClassesPopUpResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult, IGetValidateDataForClassBody, IGetValidateDataForClassResult, IGetValidateTeacherDataBody, IGetValidateTeacherDataResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetCheckDuplicateLecturesMsgBody, IGetCheckDuplicateLecturesMsgResult, IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAddClassesPopUpBody, IGetDataForAddClassesPopUpResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult, IGetValidateAddDataForTeacherBody, IGetValidateAddDataForTeacherResult, IGetValidateDataForClassBody, IGetValidateDataForClassResult, IGetValidateTeacherDataBody, IGetValidateTeacherDataResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -78,6 +78,9 @@ const GetValidateClassDataApi = (data: IGetValidateDataForClassBody) => {
 const GetDeleteAdditionalLectureApi = (data: IGetDeleteAdditionalLectureBody) => {
     return http.post<string>('Teacher/DeleteAdditionalLecture', data)
 }
+const GetValidateAdditionalDataForTeacherApi = (data: IGetValidateAddDataForTeacherBody) => {
+    return http.post<IGetValidateAddDataForTeacherResult[]>('Teacher/ValidateAdditionalDataForTeacher', data)
+}
 const GetManageClassTimeTableApi = (data: IGetManageClassTimeTableBody) => {
     return http.post<string>('Teacher/ManageClassTimeTable', data)
 }
@@ -104,7 +107,8 @@ const WeeklyTimeTableApi = {
     GetValidateTeacherDataApi,
     GetValidateClassDataApi,
     GetIGetDataForAddClassesPopUpApi,
-    GetCheckDuplicateLecturesMsgApi
+    GetCheckDuplicateLecturesMsgApi,
+    GetValidateAdditionalDataForTeacherApi
 };
 
 export default WeeklyTimeTableApi;
