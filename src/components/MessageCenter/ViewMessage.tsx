@@ -1,3 +1,6 @@
+import { QuestionMark } from '@mui/icons-material';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -5,21 +8,16 @@ import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetLi
 import { IGetDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { IViewSent } from 'src/interfaces/MessageCenter/Sent_Message';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
-import BackButton from 'src/libraries/button/BackButton';
 import Card7 from 'src/libraries/card/card7';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { getDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage';
 import http from 'src/requests/SchoolService/schoolServices';
 import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 import { compareStringWithoutSpace } from '../Common/Util';
-import { Box, IconButton, Tooltip } from '@mui/material';
 import CommonPageHeader from '../CommonPageHeader';
-import { grey } from '@mui/material/colors';
-import { QuestionMark } from '@mui/icons-material';
 
-function ViewSms({}) {
+function ViewSms({ }) {
   const dispatch = useDispatch();
   const ViewDetail = {
     From: 'From',
@@ -135,70 +133,70 @@ function ViewSms({}) {
   };
 
   return (
-    
-    <Box sx={{px:2}}>
-    <CommonPageHeader
-        // <PageHeader heading="Message Center" subheading=""></PageHeader>
-          // <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
-        navLinks={[
-          { title: 'Message Center', path: 'extended-sidebar/MessageCenter/msgCenter' },
-          {title: 'View Message', path: 'extended-sidebar/MessageCenter/viewMSg '}
-        ]}
-       rightActions={
-            <>
-              <Box>
-                <Tooltip title={`View sent/received messages.`}>
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
-                    }}>
-                    <QuestionMark />
-                  </IconButton>
-                </Tooltip>
-              </Box>
 
-            </>
-          }
-        />
-      
+    <Box sx={{ px: 2 }}>
+      <CommonPageHeader
+        // <PageHeader heading="Message Center" subheading=""></PageHeader>
+        // <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
+        navLinks={[
+          { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
+          { title: 'View Message', path: '/extended-sidebar/MessageCenter/viewMSg ' }
+        ]}
+        rightActions={
+          <>
+            <Box>
+              <Tooltip title={`View sent/received messages.`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}>
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+
+          </>
+        }
+      />
+
       <>
         {viewSent === undefined
           ? null
           : showMessage && (
-              <Card7
-                ViewDetail={ViewDetail}
-                From={
-                  FromRoute === 'Draft'
-                    ? viewSent.SenderName
-                    : viewSent.UserName
-                }
-                InsertDateInFormat={viewSent.InsertDateInFormat}
-                To={
-                  viewSent.RecieverName != null && viewSent.RecieverName != ''
-                    ? viewSent.RecieverName
-                    : viewSent.DisplayText
-                }
-                // To={viewSent.DisplayText}
-                Cc={viewSent.DisplayTextCc}
-                Body={
-                  FromRoute === 'Draft'
-                    ? getWithoutHTML(viewSent.Body)
-                    : viewSent.Body
-                }
-                Text={viewSent.Subject}
-                Attachments={viewSent.Attachments}
-                ID={ID}
-                ViewSentObject={viewSent}
-                LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
-                MessageCenterReadMode={MessageCenterReadMode}
-              />
-            )}
+            <Card7
+              ViewDetail={ViewDetail}
+              From={
+                FromRoute === 'Draft'
+                  ? viewSent.SenderName
+                  : viewSent.UserName
+              }
+              InsertDateInFormat={viewSent.InsertDateInFormat}
+              To={
+                viewSent.RecieverName != null && viewSent.RecieverName != ''
+                  ? viewSent.RecieverName
+                  : viewSent.DisplayText
+              }
+              // To={viewSent.DisplayText}
+              Cc={viewSent.DisplayTextCc}
+              Body={
+                FromRoute === 'Draft'
+                  ? getWithoutHTML(viewSent.Body)
+                  : viewSent.Body
+              }
+              Text={viewSent.Subject}
+              Attachments={viewSent.Attachments}
+              ID={ID}
+              ViewSentObject={viewSent}
+              LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
+              MessageCenterReadMode={MessageCenterReadMode}
+            />
+          )}
       </>
-      </Box>
-    
+    </Box>
+
   );
 }
 
