@@ -20,75 +20,81 @@ import { green, orange, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Carousel from 'src/libraries/card/Carousel';
 import { getUpcomingStaffBdayList } from 'src/requests/Birthdays/RequestBirthdays';
 import { RootState } from 'src/store';
 
 import CheckIcon from '@mui/icons-material/Check';
+
 function BirthdayDashboard() {
   const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const RoleId = sessionStorage.getItem('RoleId');
   const DOB = sessionStorage.getItem('DOB');
-  const [view, setView] = useState('T');
+  const [view, setView] = useState('T'); // Set default view to 'T'
   const [isRefresh, setIsRefresh] = useState(false);
-  const Birthdays: any = useSelector(
-    (state: RootState) => state.Birthdays.BirthdaysList
-  );
+  const [alignment, setAlignment] = useState('S'); // Set default alignment to 'S'
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const Birthdays = useSelector((state: RootState) => state.Birthdays.BirthdaysList);
   const loading = useSelector((state: RootState) => state.Birthdays.Loading);
-  //Birth date of student
-  const curYear = new Date().getFullYear();
-  const date = DOB;
-  const day = new Date(date).getDate();
-  const month = new Date(date).toLocaleString('default', { month: 'short' });
-  const newdate = `${day} ${month} ${curYear}`;
 
-  // Todays date
-  const d = new Date().getDate();
-  const m = new Date().toLocaleString('default', { month: 'short' });
-  const y = new Date().getFullYear();
-  const ToDay = `${d} ${m} ${y}`;
+  const roleIdMapping = {
+    T: '2',
+    S: '3',
+    A: '6',
+    O: '7'
+  };
 
-  const BirthdaysBody = {
+  const [BirthdaysBody, setBirthdaysBody] = useState({
     aiSchoolId: asSchoolId,
     aiAcademicYrId: asAcademicYearId,
-    aiUserRoleId: '3',
+    aiUserRoleId: roleIdMapping[alignment],
     asView: view
-  };
+  });
 
   useEffect(() => {
     dispatch(getUpcomingStaffBdayList(BirthdaysBody));
-  }, [view, isRefresh]);
+  }, [BirthdaysBody, isRefresh]);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newView: string
   ) => {
-    if (newView != null) setView(newView);
+    if (newView != null) {
+      setView(newView);
+    }
   };
-  const [alignment, setAlignment] = useState('T');
 
   const ClickStaff = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
-    if (newAlignment != null) setAlignment(newAlignment);
-    // setAlignment(newAlignment);
+    if (newAlignment != null) {
+      setAlignment(newAlignment);
+    }
   };
-  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClickpop = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClickpop = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(prevAnchorEl => (prevAnchorEl ? null : event.currentTarget));
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const applyFilter = () => {
+    setBirthdaysBody(prevBody => ({
+      ...prevBody,
+      aiUserRoleId: roleIdMapping[alignment],
+      asView: view
+    }));
+    setAnchorEl(null);
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
   return (
     <Card sx={{ height: '280px' }}>
       <Grid container sx={{ mb: '-7px' }}>
@@ -100,20 +106,25 @@ function BirthdayDashboard() {
 
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <RefreshIcon
-              onClick={() => {
-                setIsRefresh(!isRefresh);
-              }}
-              sx={{ mt: '11px', mr: '5px' }}
-            />
-            <IconButton sx={{ mt: '5px' }}>
+            <IconButton sx={{ mt: '5px', mr: '8px' }}>
               <Badge
                 badgeContent={Birthdays.length !== 0 ? Birthdays.length : '0'}
                 color="secondary"
               />
             </IconButton>
-            <IconButton sx={{ mt: '5px' }}>
-              <SettingsIcon onClick={handleClickpop} />
+            <Tooltip title={`You are viewing old data, click here to see latest data.`}>
+              <IconButton
+                onClick={() => {
+                  setIsRefresh(prev => !prev);
+                }}
+              >
+                <RefreshIcon
+                  sx={{ mt: '5px', mr: '0px' }}
+                />
+              </IconButton>
+            </Tooltip>
+            <IconButton sx={{ mt: '5px' }} onClick={handleClickpop}>
+              <SettingsIcon />
             </IconButton>
           </Box>
         </Grid>
@@ -126,6 +137,7 @@ function BirthdayDashboard() {
           vertical: 'bottom',
           horizontal: 'left'
         }}
+        onClose={handleClose} // Ensure Popover closes on clicking outside
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }} p={1}>
           <Typography>Select User</Typography>
@@ -151,11 +163,20 @@ function BirthdayDashboard() {
         <Stack direction="row" spacing={2} sx={{ my: 1, px: 5 }}>
           <Tooltip title="Apply Filter">
             <Avatar sx={{ bgcolor: green[500] }} variant="square">
-              <CheckIcon onClick={handleClose} />
+              <CheckIcon onClick={applyFilter} />
             </Avatar>
           </Tooltip>
           <Avatar sx={{ bgcolor: orange[500] }} variant="square">
-            <ReplayIcon />
+            <ReplayIcon onClick={() => {
+              setView('T');
+              setAlignment('S');
+              setBirthdaysBody(prevBody => ({
+                ...prevBody,
+                aiUserRoleId: roleIdMapping['S'],
+                asView: 'T'
+              }));
+              setIsRefresh(prev => !prev);
+            }} />
           </Avatar>
           <Avatar sx={{ bgcolor: red[500] }} variant="square">
             <CloseIcon onClick={handleClose} />
@@ -163,19 +184,17 @@ function BirthdayDashboard() {
         </Stack>
       </Popover>
 
-      <>
+      <Box sx={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
         {loading ? (
           <SuspenseLoader />
+        ) : Birthdays.length !== 0 ? (
+          <Carousel itemlist={Birthdays} />
         ) : (
-          <>
-            {Birthdays.length !== 0 ? (
-              <Carousel itemlist={Birthdays} />
-            ) : (
-              <ErrorMessages Error={'No records found'} />
-            )}
-          </>
+          <Typography variant="h4" color="textSecondary">
+            No records found.
+          </Typography>
         )}
-      </>
+      </Box>
     </Card>
   );
 }
