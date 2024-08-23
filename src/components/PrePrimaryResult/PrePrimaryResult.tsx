@@ -1,6 +1,6 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   IGetAssessmentBody,
@@ -32,7 +32,7 @@ import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import PrePrimaryResultlist from './PrePrimaryResultlist';
-
+import { AlertContext } from 'src/contexts/AlertContext';
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const PrePrimaryResult = () => {
   const [Reason, setReason] = useState('');
   const [ReasonError, setReasonError] = useState('');
   const asUserId = Number(localStorage.getItem('UserId'));
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
 
   const HeaderList = [
@@ -127,7 +127,11 @@ const PrePrimaryResult = () => {
     dispatch(CDAUnPublished(UnpublishBody));
   };
 
+  
+
+
   const Clickpublish = () => {
+
     const PublishBody: IGetPublishResltBody = {
       asSchoolId: asSchoolId,
       asAcademic_Year_Id: asAcademicYearId,
@@ -138,7 +142,27 @@ const PrePrimaryResult = () => {
       asUpdatedById: asUserId,
       IsPublish: true
     }
-    dispatch(CDAPublished(PublishBody));
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?'  ,
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDAPublished(PublishBody));
+
+
+        closeAlert();
+      }
+    });
+
+
+
+
   };
 
 
