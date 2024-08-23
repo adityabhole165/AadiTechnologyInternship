@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Grid, Grow } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import CardMessage from '../mainCard/CardMessage';
 import { ListStyle } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg';
-
+// import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
                   onChange={onChange}
                 />
               ) : (
-                <DeleteIcon
+                <DeleteForeverIcon
                   onClick={() => DeleteDraft(Item.Id)}
                   color={'error'}
                 />
