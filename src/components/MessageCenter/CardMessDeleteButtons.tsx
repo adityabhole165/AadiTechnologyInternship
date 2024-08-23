@@ -1,12 +1,17 @@
-import { Avatar, Button, Grid } from '@mui/material';
+import { Avatar, Box, Button, Grid } from '@mui/material';
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import ReplayIcon from '@mui/icons-material/Replay';
 // import { Button } from 'src/libraries/styled/ButtonStyle';
-import { green, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import { MarkAsReadMessage } from 'src/libraries/styled/CommonStyle';
+import MarkunreadIcon from '@mui/icons-material/Markunread';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+
 function CardMessDeleteButtons({
   TrashDelete,
   clickReset,
@@ -15,24 +20,28 @@ function CardMessDeleteButtons({
   DeletePermanent,
   clickDelete
 }) {
+  function clickReadUnread(arg0: string) {
+    throw new Error('Function not implemented.');
+  }
+
   return (
-    <div>
+    <Box>
       <Grid  gap={1} sx={{ p:1, display:'flex', backgroundColor:'white', borderRadius:'10px'}}>
         {activeTab == 'Sent' ? (
          
-         <Grid item xs={5.5} sm={6} md={3} lg={2}>
+         <Grid item xs={5.5} sm={6} md={0} lg={2}>
             <Button
               onClick={activeTab == 'Sent' && DeletePermanent}
                endIcon={<ClearAllIcon />}
                fullWidth
               sx={{
-                color:'red',
-                width:'210px',
+                color:'#38548A',
+                width:'200px',
                 //  backgroundColor: red[100],
                   '&:hover': {
-                color:'red',
+                color:'#38548A',
                 borderRadius:'5px',
-                 backgroundColor: red[100]
+                 backgroundColor: grey[100]
                   }}}
             >
               Delete From Everyone
@@ -43,7 +52,7 @@ function CardMessDeleteButtons({
             <Grid item xs={5.5} sm={6} md={3} lg={1.5}>
               <Button
                 onClick={ConfirmUndelete}
-                // endIcon={
+                endIcon={
                 //   <Avatar
                 //   sx={{
                 //     color:'green',
@@ -54,9 +63,10 @@ function CardMessDeleteButtons({
                 //       }}}
                 //     src={'/imges/unDelete.png'}
                 //   />
-                // }
+                // 
+                <RestoreFromTrashIcon />}
                 fullWidth
-                sx={{  borderRadius:'5px'}}
+                sx={{  borderRadius:'5px', color:'#38548A'}}
               >
                 Un-Delete
               </Button>
@@ -64,24 +74,14 @@ function CardMessDeleteButtons({
           )
         )}
 
-        <Grid item xs={3.5} sm={3} md={1.5} lg={1}>
+       <Grid item xs={3.5} sm={3} md={1.5} lg={1} pl={1}>
           <Button
             fullWidth
-            color={'error'}
+            // color='#38548A'
             onClick={activeTab == 'Trash' ? TrashDelete : clickDelete }
             endIcon={
-            //   <Avatar
-            //     sx={{
-            //       color:'red',
-            //       width: 20,
-            //       height: 20,
-            //       ml: '-8px',
-            //       filter: ' brightness(100%) invert(1) '
-            //     }}
-            //     src={'/imges/delete.png'}
-            //   />
             <DeleteForeverIcon />}
-            sx={{  borderRadius:'5px'}}
+            sx={{  borderRadius:'5px', color:'#38548A' , px:2 }}
            >
             Delete
             
@@ -92,14 +92,55 @@ function CardMessDeleteButtons({
             fullWidth
             onClick={clickReset}
             endIcon={<RotateLeftIcon />}
-            color="secondary"
-            sx={{  borderRadius:'5px'}}
+            sx={{  borderRadius:'5px', color:'#38548A'}}
           >
             Reset
           </Button>
         </Grid>
+        <Grid >
+                  {activeTab == 'Inbox' && (
+                    <Grid item 
+                     sx={MarkAsReadMessage} bgcolor={"white"} p={1} borderRadius={"10px"}>
+                      <Button
+                      endIcon={<MarkunreadIcon />}
+                        onClick={() => {
+                          clickReadUnread('Unread');
+                        }}
+                        sx={{
+                          color:'#38548A',
+                           //  backgroundColor: grey[500],
+                            '&:hover': {
+                          color:'#38548A',
+                          borderRadius:'5px',
+                           backgroundColor: grey[200]
+                            }}}
+                      >
+                        {' '}
+                        Mark as Unread{' '}
+                      </Button>
+                      <Button
+                       endIcon={<MarkEmailReadIcon />}
+                        onClick={() => {
+                          clickReadUnread('Read');
+                        }}
+                        sx={{
+                          color:'#38548A',
+                           //  backgroundColor: grey[500],
+                            '&:hover': {
+                          color:'#38548A',
+                          borderRadius:'5px',
+                           backgroundColor: grey[200]
+                            }}}
+                      >
+                        {' '}
+                        Mark as Read
+                      </Button>
+                    </Grid>
+                  )}
+                  </Grid>
       </Grid>
-    </div>
+      
+    </Box>
   );
 }
 

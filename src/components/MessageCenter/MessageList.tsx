@@ -52,6 +52,8 @@ import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { blue, green, grey } from '@mui/material/colors';
+import MarkunreadIcon from '@mui/icons-material/Markunread';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -489,7 +491,7 @@ const MessageList = () => {
 
   return (
     <>
-      <Box sx={{ px: 2, }}>
+      <Box sx={{ px: 2}}>
         <CommonPageHeader navLinks={[
           {
             title: 'Message Center',
@@ -648,38 +650,39 @@ const MessageList = () => {
                       clickDelete={clickDelete}
                     />
                   </Box>
-                  <Box >
+                  {/* <Box >
                   {activeTab == 'Inbox' && (
                     <Grid item 
                      sx={MarkAsReadMessage} bgcolor={"white"} p={1} borderRadius={"10px"}>
                       <Button
+                      endIcon={<MarkunreadIcon />}
                         onClick={() => {
                           clickReadUnread('Unread');
                         }}
                         sx={{
-                          color:'blue',
+                          color:'#38548A',
                            //  backgroundColor: grey[500],
                             '&:hover': {
-                          color:'blue',
+                          color:'#38548A',
                           borderRadius:'5px',
-                           backgroundColor: blue[100]
+                           backgroundColor: grey[200]
                             }}}
                       >
                         {' '}
                         Mark as Unread{' '}
                       </Button>
                       <Button
-                       
+                       endIcon={<MarkEmailReadIcon />}
                         onClick={() => {
                           clickReadUnread('Read');
                         }}
                         sx={{
-                          color:'green',
+                          color:'#38548A',
                            //  backgroundColor: grey[500],
                             '&:hover': {
-                          color:'green',
+                          color:'#38548A',
                           borderRadius:'5px',
-                           backgroundColor: green[100]
+                           backgroundColor: grey[200]
                             }}}
                       >
                         {' '}
@@ -687,7 +690,7 @@ const MessageList = () => {
                       </Button>
                     </Grid>
                   )}
-                  </Box>
+                  </Box> */}
                 </>
               )}
             </Grid>
