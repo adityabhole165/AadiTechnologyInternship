@@ -213,6 +213,7 @@ const PrePrimaryResult = () => {
     if (Publisheed != "") {
       toast.success(Publisheed);
       dispatch(PublishresetMessage());
+      dispatch(TeacherXseedSubjects(SubjectsList));
     }
   }, [Publisheed]);
 
@@ -220,6 +221,7 @@ const PrePrimaryResult = () => {
     if (UnPublisheed != "") {
       toast.success(UnPublisheed);
       dispatch(UnPublishresetMessage());
+      dispatch(TeacherXseedSubjects(SubjectsList));
       setReasonError('')
       setReason('')
     }
