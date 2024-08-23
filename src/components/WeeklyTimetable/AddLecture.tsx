@@ -1,4 +1,5 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import { green, red } from "@mui/material/colors";
 import PropTypes from 'prop-types';
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
@@ -101,16 +102,26 @@ function AddLecture({ Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1
                 </DialogContent>
                 <DialogActions sx={{ py: 2, px: 3 }}>
                     <Button
-                        variant={"contained"}
                         onClick={OnClose}
-                        color={'error'}
+                        sx={{
+                            color: 'red',
+                            '&:hover': {
+                                color: 'red',
+                                backgroundColor: red[100]
+                            }
+                        }}
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={onSubmit}
-                        color={'primary'}
-                        variant={'contained'}
+                        sx={{
+                            color: 'green',
+                            '&:hover': {
+                                color: 'green',
+                                backgroundColor: green[100]
+                            }
+                        }}
                     >
                         Save
                     </Button>
