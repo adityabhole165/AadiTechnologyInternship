@@ -269,7 +269,7 @@ const PrePrimaryResult = () => {
 
             }
             {
-              StandardDivisionId == "" ? null : <div>
+              StandardDivisionId == "" || AssessmentResult =='0' ? null : <div>
                 {
                   PublishStatus === "Y" && IsPublished === "N" ? (
                     <Tooltip title={'Publish'}>
