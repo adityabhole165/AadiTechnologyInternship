@@ -1,3 +1,6 @@
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   Box,
   Card,
@@ -11,9 +14,6 @@ import {
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import RefreshIcon from '@mui/icons-material/Refresh';
 
 import { useNavigate } from 'react-router';
 import { IUnreadMessages } from "src/interfaces/Student/dashboard";
@@ -38,7 +38,9 @@ const UnreadMessage = () => {
     dispatch(getUnreadMessages(UnreadMessagesBody))
   };
   const clickMessage = (item) => {
-    navigate('/extended-sidebar/MessageCenter/viewMSg/192447/Inbox')
+    // console.log(item, "item");
+
+    navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox')
   }
   return (
     <Card sx={{ height: '370px', overflow: 'auto' }}>
@@ -107,11 +109,18 @@ const UnreadMessage = () => {
                   </Grid>
                   <Divider variant="middle" sx={{ m: '5px' }} />
                 </Box>
+
               </div>)
             })
           }
         </>
       )}
+      <Grid container>
+        <Grid xs={12} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
+          See all messages
+          <ArrowRightAltIcon />
+        </Grid>
+      </Grid>
     </Card>
   );
 }
