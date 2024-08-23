@@ -36,15 +36,15 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                                 </TableCell>
 
                                 <TableCell sx={{ textTransform: 'capitalize', py:1 }}>
-
-                                <Tooltip title={"Edit"}>
+                               {item.EditStatus == "Y" ?  <Tooltip title={"Edit"}>
                                     <IconButton
                                         onClick={() => clickEdit(item.Id)}
                                         sx={{ color: '#223354', cursor: 'pointer',  }}
                                     >
                                         <EditTwoTone />
                                     </IconButton>
-                                </Tooltip>
+                                </Tooltip> : <img src="../../../../../../ "  /> }
+                               
                                 </TableCell>
                                 
 

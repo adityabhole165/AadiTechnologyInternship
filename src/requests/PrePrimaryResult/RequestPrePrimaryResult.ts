@@ -91,7 +91,8 @@ export const TeacherXseedSubjects =
     let abc = response.data.listStandrdDetails.map((item, i) => {
       return {
         Id: item.SubjectId,
-        Subject_Name: item.Subject_Name
+        Subject_Name: item.Subject_Name,
+        EditStatus : item.EditStatus
       };
     });
 
