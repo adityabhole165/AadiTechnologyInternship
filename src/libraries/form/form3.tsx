@@ -106,6 +106,41 @@ function Form() {
     });
   };
 
+  // const formik = useFormik({
+  //   initialValues: {
+  //     UserLogin: sessionStorage.getItem('Userlogin'),
+  //     Oldpassword: '',
+  //     NewPassword: '',
+  //     ConfirmPassword: '',
+  //   },
+  //   onSubmit: submitResult,
+  //   validate: (values) => {
+  //     const errors: any = {};
+  //     if (!values.Oldpassword) {
+  //       errors.Oldpassword = 'Old password should not be blank.';
+  //     }
+  //     if (!values.NewPassword) {
+  //       errors.NewPassword = 'New password should not be blank.';
+  //     } else if (values.NewPassword.length < 6) {
+  //       errors.NewPassword = 'Password should be of minimum 6 characters.';
+  //     } else if (!regularExpression.test(values.NewPassword)) {
+  //       errors.NewPassword =
+  //         'Password should be a combination of at least one character, digit & special character.';
+  //     } else if (values.NewPassword.length > 15) {
+  //       errors.NewPassword = 'Password must be a maximum of 15 characters';
+  //     }
+  //     if (!values.ConfirmPassword) {
+  //       errors.ConfirmPassword = 'Confirm password should not be blank.';
+  //     } else if (values.ConfirmPassword !== values.NewPassword) {
+  //       errors.ConfirmPassword =
+  //         'New password and confirm password should be the same.';
+  //     }
+  //     return errors;
+  //   },
+  // });
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
+
   const formik = useFormik({
     initialValues: {
       UserLogin: sessionStorage.getItem('Userlogin'),
@@ -116,25 +151,29 @@ function Form() {
     onSubmit: submitResult,
     validate: (values) => {
       const errors: any = {};
+
       if (!values.Oldpassword) {
         errors.Oldpassword = 'Old password should not be blank.';
       }
+
       if (!values.NewPassword) {
         errors.NewPassword = 'New password should not be blank.';
       } else if (values.NewPassword.length < 6) {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
-      } else if (!regularExpression.test(values.NewPassword)) {
+      } else if (!passwordRegex.test(values.NewPassword)) {
         errors.NewPassword =
-          'Password should be a combination of at least one character, digit & special character.';
+          'Password should be a combination of at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.';
       } else if (values.NewPassword.length > 15) {
         errors.NewPassword = 'Password must be a maximum of 15 characters';
       }
+
       if (!values.ConfirmPassword) {
         errors.ConfirmPassword = 'Confirm password should not be blank.';
       } else if (values.ConfirmPassword !== values.NewPassword) {
         errors.ConfirmPassword =
           'New password and confirm password should be the same.';
       }
+
       return errors;
     },
   });
@@ -205,7 +244,7 @@ function Form() {
             <Alert variant="filled" severity="info"><b>{'Please reset your password for security purpose.'}</b></Alert>
             <Alert variant="filled" severity="info"><b>{'It seems you have not changed the system generated password. Please reset your password for security purpose.'}</b></Alert>
             <Alert variant="filled" severity="info"><b>{'Capitalization Matters! Min 6 characters, Max 15 characters.'}</b></Alert>
-            <Alert variant="filled" severity="info"><b>{'Password should be combination of at least one character, digit & special character.'}</b></Alert>
+            <Alert variant="filled" severity="info"><b>{'Password should be combination of at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.'}</b></Alert>
           </AccordionDetails>
         </Accordion>
       </Box>
