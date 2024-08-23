@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import {
   CardWrapper,
   ListStyle
 } from '../styled/CardStyle';
+import { blue } from '@mui/material/colors';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -214,54 +215,85 @@ function Card7({
             }
           > */}
             {FromRoute === 'Draft' ? (
-              <ButtonPrimary onClick={navigateToInBox}>
+              <Button onClick={navigateToInBox}
+              sx={{
+                color:'#38548A',
+                  '&:hover': {
+                color:'#38548A',
+                 backgroundColor: blue[100]
+                  }}}
+         >
                 {' '}
                 Go to Inbox{' '}
-              </ButtonPrimary>
+              </Button>
             ) : (
-              <ButtonPrimary
+              <Button
                 onClick={() => {
                   saveMessageBody('Reply');
                 }}
+                sx={{
+                  color:'#38548A',
+                    '&:hover': {
+                  color:'#38548A',
+                   backgroundColor: blue[100]
+                    }}}
               >
                 {' '}
                 Reply
-              </ButtonPrimary>
+              </Button>
             )}{' '}
             &nbsp; &nbsp;
             {RoleId !== '3' && (
               <>
                 {!IsSender && (
-                  <ButtonPrimary
+                  <Button
                     onClick={() => {
                       saveMessageBody('ReplyAll');
                     }}
+                    sx={{
+                      color:'#38548A',
+                        '&:hover': {
+                      color:'#38548A',
+                       backgroundColor: blue[100]
+                        }}}
                   >
                     {' '}
                     Reply All
-                  </ButtonPrimary>
+                  </Button>
                 )}
                 &nbsp;&nbsp;
               </>
             )}
             {FromRoute === 'Draft' ? (
-              <ButtonPrimary
+              <Button
                 onClick={() => {
                   saveMessageBody('Edit');
                 }}
+                sx={{
+                  color:'#38548A',
+                    '&:hover': {
+                  color:'#38548A',
+                   backgroundColor: blue[100]
+                    }}}
               >
                 {' '}
                 Edit{' '}
-              </ButtonPrimary>
+              </Button>
             ) : (
-              <ButtonPrimary
+              <Button
                 onClick={() => {
                   saveMessageBody('Forward');
                 }}
+                sx={{
+                  color:'#38548A',
+                    '&:hover': {
+                  color:'#38548A',
+                   backgroundColor: blue[100]
+                    }}}
               >
                 {' '}
                 Forward{' '}
-              </ButtonPrimary>
+              </Button>
             )}
           </CardWrapper>
         )}
