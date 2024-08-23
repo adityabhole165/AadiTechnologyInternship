@@ -139,7 +139,7 @@ function Form() {
   //   },
   // });
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
 
   const formik = useFormik({
     initialValues: {
@@ -160,15 +160,14 @@ function Form() {
         errors.NewPassword = 'New password should not be blank.';
       } else if (values.NewPassword.length < 6) {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
+      } else if (values.NewPassword.length > 15) {
+        errors.NewPassword = 'Password must be a maximum of 15 characters';
       } else if (values.NewPassword === values.Oldpassword) {
         errors.NewPassword = 'Old Password and New Password should not be the same.';
       } else if (!passwordRegex.test(values.NewPassword)) {
         errors.NewPassword =
           'Password should be a combination of at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.';
-      } else if (values.NewPassword.length > 15) {
-        errors.NewPassword = 'Password must be a maximum of 15 characters';
       }
-
       if (!values.ConfirmPassword) {
         errors.ConfirmPassword = 'Confirm password should not be blank.';
       } else if (values.ConfirmPassword !== values.NewPassword) {
