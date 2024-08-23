@@ -2,11 +2,11 @@ import { Box, Card, Grid, Table, TableBody, TableCell, TableContainer, TableRow,
 import UserPhoto from 'src/libraries/UserPhoto/UserPhoto';
 
 function MyprofileCard() {
-  const UserName = sessionStorage.getItem('StudentName');
-  const DesignationName = sessionStorage.getItem('DesignationName')|| '-';
-  const ClassTeacher = sessionStorage.getItem('ClassName')|| '-';
-  const MobileNumber= sessionStorage.getItem('MobileNumber');
-  const ImgUrl = sessionStorage.getItem('PhotoFilePath')|| '-';
+  const UserName = sessionStorage.getItem('StudentName') || '-';
+  const DesignationName = sessionStorage.getItem('DesignationName') || '-';
+  const ClassTeacher = sessionStorage.getItem('ClassName') || '-';
+  const MobileNumber = sessionStorage.getItem('MobileNumber') || '-';
+  const ImgUrl = sessionStorage.getItem('PhotoFilePath');
 
   const userPhoto =
     ImgUrl && ImgUrl.length !== 0
@@ -62,13 +62,13 @@ function MyprofileCard() {
               sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
             >
               <Box
-                 sx={{
+                sx={{
                   border: `1px solid #4db6ac`,
                   padding: '15.7px',
                   display: 'flex',
-                  justifyContent: 'center', 
+                  justifyContent: 'center',
                   alignItems: 'center',
-                  width: '100%' 
+                  width: '100%'
                 }}
               >
                 <UserPhoto
