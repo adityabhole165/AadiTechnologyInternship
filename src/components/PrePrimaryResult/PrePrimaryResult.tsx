@@ -12,11 +12,11 @@ import {
 
 import {
   AssessmentList,
-  PrePrimary,
+  CDAPublished,
   CDAUnPublished,
+  PrePrimary,
   PublishresetMessage,
   TeacherXseedSubjects,
-  CDAPublished,
   UnPublishresetMessage
 } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 
@@ -39,7 +39,7 @@ const PrePrimaryResult = () => {
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const [SelectTeacher, setSelectTeacher] = useState('');
+  const [SelectTeacher, setSelectTeacher] = useState('0');
   let PreprimaryFullAccess = getSchoolConfigurations(163)
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
@@ -65,7 +65,6 @@ const PrePrimaryResult = () => {
 
 
   const PrePrimaryClassTeacher = PrePrimaryResultt.filter((teacher: any) => teacher.Is_PrePrimary == 'Y');
-  console.log(PrePrimaryResultt, "GetTeacherXseedSubjects",PrePrimaryClassTeacher);
   const Assessmentt = useSelector(
     (state: RootState) => state.PrePrimaryResult.Assessment
   );
@@ -73,6 +72,13 @@ const PrePrimaryResult = () => {
   const GetTeacherXseedSubjects = useSelector(
     (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects
   );
+  const USlistpublishstatusDetails = useSelector(
+    (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails
+  );
+  const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
+  const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
+  const StandardDivisionId = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].StandardDivisionId : "";
+  console.log(IsPublished, "--", PublishStatus);
 
 
   const UnPublisheed = useSelector(
@@ -86,7 +92,7 @@ const PrePrimaryResult = () => {
   const PrePrimaryResult: IGetPrePrimaryResultBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asTeacher_id:0
+    asTeacher_id: 0
 
   };
 
@@ -182,7 +188,7 @@ const PrePrimaryResult = () => {
     if (Reason === '') {
       setReasonError("Reason for Unpublish should not be blank.");
     } else {
-     
+
       ClickUnpublish()
       setOpen(false);
       setReasonError('')
@@ -204,20 +210,28 @@ const PrePrimaryResult = () => {
   }, []);
 
   useEffect(() => {
-    if (Publisheed !="") {
+    if (Publisheed != "") {
       toast.success(Publisheed);
       dispatch(PublishresetMessage());
     }
   }, [Publisheed]);
 
   useEffect(() => {
-    if (UnPublisheed !="") {
+    if (UnPublisheed != "") {
       toast.success(UnPublisheed);
       dispatch(UnPublishresetMessage());
       setReasonError('')
       setReason('')
     }
   }, [UnPublisheed]);
+
+
+
+  useEffect(() => {
+    if (Assessmentt.length > 0) {
+      setAssessmentResult(Assessmentt[0].Value);
+    }
+  }, [Assessmentt]);
 
 
   return (
@@ -254,35 +268,45 @@ const PrePrimaryResult = () => {
                 : <span></span>
 
             }
+            {
+              StandardDivisionId == "" ? null : <div>
+                {
+                  PublishStatus === "Y" && IsPublished === "N" ? (
+                    <Tooltip title={'Publish'}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[600],
+                          },
+                        }}
+                        onClick={Clickpublish}
+                      >
+                        <CheckCircle />
+                      </IconButton>
+                    </Tooltip>
+                  ) : PublishStatus === "Y" && IsPublished === "Y" ? (
+                    <Tooltip title={'Unpublish'}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: red[500],
+                          '&:hover': {
+                            backgroundColor: red[500],
+                          },
+                        }}
+                        onClick={onClickunpublished}
+                      >
+                        <Unpublished />
+                      </IconButton>
+                    </Tooltip>
+                  ) : null
+                }
 
-            <Tooltip title={'Publish'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: blue[500],
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-                onClick={Clickpublish} >
-                <CheckCircle />
-              </IconButton>
-            </Tooltip>
+              </div>
+            }
 
-
-            <Tooltip title={'Unpublish'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: red[500],
-                  '&:hover': {
-                    backgroundColor: red[500]
-                  }
-                }}
-                onClick={onClickunpublished} >
-                <Unpublished />
-              </IconButton>
-            </Tooltip>
 
             <Tooltip title={'Displays xseed progress report of selected assessment.'}>
               <IconButton
@@ -300,7 +324,7 @@ const PrePrimaryResult = () => {
           </>}
       />
       {
-        GetTeacherXseedSubjects.length> 0 ?
+        GetTeacherXseedSubjects.length > 0 ?
           <PrePrimaryResultlist
             HeaderArray={HeaderList}
             ItemList={GetTeacherXseedSubjects}
