@@ -855,7 +855,7 @@ const AddSchoolNoticeFT = () => {
                                     Description
                                 </>}
                                 multiline
-                                rows={3}
+                                // rows={3}
                                 value={Description}
                                 onChange={(e) => {
                                     setDescription(e.target.value);
