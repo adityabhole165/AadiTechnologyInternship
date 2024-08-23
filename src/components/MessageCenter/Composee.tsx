@@ -4,6 +4,7 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Box,
+  Button,
   Checkbox,
   ClickAwayListener,
   Fab,
@@ -56,6 +57,7 @@ import {
 } from '../../interfaces/MessageCenter/MessageCenter';
 import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import AddReciepents from './AddReciepents';
+import { blue } from '@mui/material/colors';
 function Form13() {
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
@@ -621,8 +623,8 @@ function Form13() {
   return (
     <>
 
-      <Box sx={{ px: 2 }} >
-        <span
+      <Box sx={{ }} >
+        {/* <span
           onClick={() => {
             navigate(-1);
           }}
@@ -638,19 +640,20 @@ function Form13() {
           >
             <ReplyIcon />
           </Fab> 
-        </span>
+        </span> */}
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={1} sx={{ height: 'auto' }}>
               <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>To</Typography>
               </Grid>
-              <Grid item xs={12} sm={8} md={10} >
+              <Grid item xs={12} sm={8} md={9.5} >
                 {/* <FormControl fullWidth> */}
                 <TextField
                   multiline
                   id=""
                   fullWidth
+                  rows={3}
                   disabled
                   value={RecipientsObject.RecipientName.map((obj) =>
                     obj?.trim()
@@ -671,18 +674,37 @@ function Form13() {
               </Grid>
               {loading && <SuspenseLoader />}
               <Grid item xs={6} sm={2} md={1}>
-                <ButtonPrimary
+                <Button
                   fullWidth
-                  color="primary"
+                  // color="primary"
                   onClick={(e) => RecipientButton(e)}
+                  sx={{
+                    color:'#38548A',
+                    width:'130px',
+                    mt:1,
+                      '&:hover': {
+                    color:'#38548A',
+                     backgroundColor: blue[100]
+                      }}}
                 >
                   Add Recipients
-                </ButtonPrimary>
+                </Button>
               </Grid>
               <Grid item xs={6} sm={2} md={1}>
-                <ButtonPrimary fullWidth color="primary" onClick={clickHide}>
+                <Button
+                fullWidth
+                //  color="primary"
+                  onClick={clickHide}
+                  sx={{
+                    color:'#38548A',
+                    ml:4,
+                    mt:1,
+                      '&:hover': {
+                    color:'#38548A',
+                     backgroundColor: blue[100]
+                      }}}>
                   Add Cc
-                </ButtonPrimary>
+                </Button>
               </Grid>
               {/* <Hidden smDown>
                 <Box pl={1}>
@@ -700,9 +722,9 @@ function Form13() {
               {showCC && (
                 <>
                   <Grid item xs={12}>
-                  <Typography variant='h4' pl={1}>Cc</Typography>
+                  <Typography variant='h4'>Cc</Typography>
                   </Grid>
-                  <Grid item xs={12} sm={12} sx={{ ml: '-10px' }}>
+                  <Grid item xs={12} sm={12} sx={{  }}>
                     <TextField
                       multiline
                       id=""
