@@ -463,7 +463,7 @@ const teacherRoutes = [
     element: <StudentRecords />
   },
   {
-    path: 'AddStudentRecord',
+    path: 'AddStudentRecord/',
     element: <AddStudentRecord />
   },
   {
@@ -471,7 +471,7 @@ const teacherRoutes = [
     element: <StudentRecordComment />
   },
   {
-    path: 'AddStudentRecord/:SelectTeacher/:SchoolWiseStudentIdparam',
+    path: 'AddStudentRecord/:Action/:SelectTeacher/:SchoolWiseStudentIdparam',
     element: <AddStudentRecord />
   },
   {

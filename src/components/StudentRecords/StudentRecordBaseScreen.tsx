@@ -208,11 +208,11 @@ const StudentRecords = () => {
     setShowRiseAndShine(value);
   };
   const clickEdit = (value) => {
-    navigate('/extended-sidebar/Teacher/AddStudentRecord/' + SelectTeacher +
+    navigate('/extended-sidebar/Teacher/AddStudentRecord/Add/' + SelectTeacher +
       '/' + value);
   };
   const clickView = (value) => {
-    navigate('/extended-sidebar/Teacher/AddStudentRecord/' + SelectTeacher +
+    navigate('/extended-sidebar/Teacher/AddStudentRecord/Edit/' + SelectTeacher +
       '/' + value);
   };
   const PageChange = (pageNumber) => {

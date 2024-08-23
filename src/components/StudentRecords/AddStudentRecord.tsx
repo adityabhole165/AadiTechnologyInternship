@@ -1,4 +1,4 @@
-import { AddComment, Check, QuestionMark, Save, Send } from '@mui/icons-material';
+import { AddComment, Check, Done, QuestionMark, Save, Send } from '@mui/icons-material';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +20,7 @@ const AddStudentRecord = () => {
     console.log(ItemList, "ItemList");
     const [errorItemlist, seterrorItemlist] = useState('')
     const { Action, SchoolWiseStudentIdparam, SelectTeacher } = useParams()
+    const [ActionMode, setActionMode] = useState(Action)
     const [Open, setOpen] = useState(false);
     const [Comment, setComment] = useState('');
     const [errorMessage, seterrorMessage] = useState('')
@@ -82,10 +83,6 @@ const AddStudentRecord = () => {
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
-
-    useEffect(() => {
-        dispatch(GetSubmitStudentRecord(Getsubmitstudentrecord))
-    }, []);
     useEffect(() => {
         dispatch(GetMarkRecordAsRead(GetMarkRecordAsReadResult))
     }, []);
@@ -105,6 +102,9 @@ const AddStudentRecord = () => {
             dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [SaveStudentRecordUS])
+    useEffect(() => {
+
+    }, [])
     const getXML = () => {
         let sXML =
             "<ArrayOfKeyValue xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>";
@@ -194,9 +194,11 @@ const AddStudentRecord = () => {
                 Date: ADate    /*"2011-05-21"*/
             }
             dispatch(GetSaveStudentRecord(SaveStudentRecordResult))
+            setActionMode('Edit')
         }
     };
     const onClickSubmit = () => {
+        dispatch(GetSubmitStudentRecord(Getsubmitstudentrecord))
     };
     // const onTextChange = (value) => {
     //     setExampleLessonDetails(value)
@@ -206,6 +208,9 @@ const AddStudentRecord = () => {
     }
 
     const onClickSubmitComment = () => {
+    };
+    const onClickMarkAsRead = () => {
+        dispatch(GetMarkRecordAsRead(GetMarkRecordAsReadResult))
     };
     const handleDateChange = (selectedDate: string) => {
         let isError = false;
@@ -276,22 +281,27 @@ const AddStudentRecord = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
+
                         < Box >
                             <Tooltip title={'SAVE'}>
-                                <IconButton
-                                    sx={{
-                                        backgroundColor: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                    onClick={onClickSave}
-                                >
-                                    <Save />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            backgroundColor: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={onClickSave}
+                                        disabled={(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].Comment != null && listCommentDetailsUS[0].IsSubmitted != "False")}
+                                    >
+                                        <Save />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         </Box>
+
                         <Box>
                             <Tooltip title={'SUBMIT'}>
                                 <span>
@@ -342,6 +352,22 @@ const AddStudentRecord = () => {
                                     onClick={onClickSubmitComment}
                                 >
                                     <Send />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                        <Box>
+                            <Tooltip title={'MARK AS READ'}>
+                                <IconButton
+                                    sx={{
+                                        backgroundColor: green[500],
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                    onClick={onClickMarkAsRead}
+                                >
+                                    <Done />
                                 </IconButton>
                             </Tooltip>
                         </Box>
