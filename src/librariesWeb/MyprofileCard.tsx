@@ -1,79 +1,83 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
-
+import { Box, Card, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import UserPhoto from 'src/libraries/UserPhoto/UserPhoto';
+
 function MyprofileCard() {
   const UserName = sessionStorage.getItem('StudentName');
-  const RoleName = localStorage.getItem('RoleName');
-  const DesignationName = sessionStorage.getItem('DesignationName');
-  const ClassTeacher = sessionStorage.getItem('ClassName');
-  const RollNo = sessionStorage.getItem('RollNo');
-  const UDISENumber = sessionStorage.getItem('UDISENumber');
-  const BirthPlace = sessionStorage.getItem('BirthPlace');
-  const Nationality = sessionStorage.getItem('Nationality');
-  const Address = sessionStorage.getItem('Address');
-  const Blood_Group = sessionStorage.getItem('Blood_Group');
-  const MotherTongue = sessionStorage.getItem('MotherTongue');
-  const DOB = sessionStorage.getItem('DOB');
-  const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+  const DesignationName = sessionStorage.getItem('DesignationName')|| '-';
+  const ClassTeacher = sessionStorage.getItem('ClassName')|| '-';
+  const MobileNumber= sessionStorage.getItem('MobileNumber');
+  const ImgUrl = sessionStorage.getItem('PhotoFilePath')|| '-';
+
   const userPhoto =
-    ImgUrl.length != 0
+    ImgUrl && ImgUrl.length !== 0
       ? 'data:image/png;base64,' + ImgUrl
       : '/imges/defualtUser.jpg';
-  const getDateFormate = (date) => {
-    const day = new Date(date).getDate();
-    const month = new Date(date).toLocaleString('default', { month: 'long' });
-    const year = new Date(date).getFullYear();
-    return `${day} ${month} ${year}`;
-  };
-  const newdate = DOB === undefined || DOB === '' ? '' : getDateFormate(DOB);
+
   return (
     <div>
-      <Card sx={{ backgroundColor: '#4db6ac' }}>
-        <Box sx={{ display: 'flex' }} p={1.3}>
-          <UserPhoto
-            ImgUrl={userPhoto}
-            alt={'user.name'}
-            width={'106px'}
-            height={'137px'}
-          />
+      <Card sx={{ boxShadow: 2 }}>
+        <Box sx={{ backgroundColor: '#4db6ac', p: 1 }}>
+          <Typography variant="h3" color="white">
+            Teacher Details
+          </Typography>
+        </Box>
+        <Box sx={{ p: 1 }}>
           <Grid container>
-            <Grid item md={7} sm={6} pl={6} mt={-0.5}>
-              <Typography variant="h4"> </Typography>
-              <Typography>
-                {' '}
-                <b>Name :</b> {UserName}{' '}
-              </Typography>
-              <Typography>
-                {' '}
-                <b>Designation :</b> {DesignationName}
-              </Typography>
-              <Typography>
-                {' '}
-                <b>Class :</b> {ClassTeacher}
-              </Typography>
-              <Typography>
-                {' '}
-                <b>Date of Birth :</b> {newdate}
-              </Typography>
-              <Typography>
-                {' '}
-                <b>Qualification :</b> B.E{' '}
-              </Typography>
-              <Typography>
-                {' '}
-                <b>Mobile Number :</b> 9860168709
-              </Typography>
-              <Typography>
-                {' '}
-                <b>Email ID :</b> Unezad@gmail.com{' '}
-              </Typography>
+            <Grid item md={9} sm={8}>
+              <TableContainer>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                        <b>Teacher Name:</b>
+                      </TableCell>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{UserName}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                        <b>Designation:</b>
+                      </TableCell>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{DesignationName}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                        <b>Class Teacher:</b>
+                      </TableCell>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{ClassTeacher}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                        <b>Mobile Number:</b>
+                      </TableCell>
+                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{MobileNumber}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Grid>
-            <Grid item md={5} sm={6} sx={{ float: 'right' }}>
-              <img
-                src={'/imges/welcomeback.png'}
-                width={'250px'}
-                height={'137px'}
-              />
+            <Grid
+              item
+              md={3}
+              sm={4}
+              sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Box
+                 sx={{
+                  border: `1px solid #4db6ac`,
+                  padding: '15.7px',
+                  display: 'flex',
+                  justifyContent: 'center', 
+                  alignItems: 'center',
+                  width: '100%' 
+                }}
+              >
+                <UserPhoto
+                  ImgUrl={userPhoto}
+                  alt={'User Photo'}
+                  width={'140px'}
+                  height={'180px'}
+                />
+              </Box>
             </Grid>
           </Grid>
         </Box>
