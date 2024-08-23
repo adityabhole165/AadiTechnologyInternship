@@ -125,8 +125,23 @@ const PreprimaryProgressReport = () => {
 
 
     const clickPrint = () => {
-        window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
+        let hasError = false;
+
+        if (AssessmentId === '0') {
+            SetError('Assessment should be selected.');
+            hasError = true;
+        }
+
+        if (ClassTeacher === '0' && PreprimaryFullAccess === 'Y') {
+            SetError1('Class teacher should be selected.');
+            hasError = true;
+        }
+
+        if (!hasError) {
+            window.open('https://schoolwebsite.regulusit.net/RITeSchool/Student/StudentAnnualResultPrint.aspx?eNXR1G7TvKnm53e4OO8B4kK13X5MkQwItrEc3d1VEwmx4YWMbwW4T3xnZE3Dc3QV4xnyziKPOKwj6nT8UFXzenNlqH5PQrTSymfl4ktp7WE/4fc29EcOQXYAkGBiAYJ4ubKxU+rY3xn5qTDv2PMcpA==q');
+        }
     };
+
 
     useEffect(() => {
         dispatch(CDAAllPrimaryClassTeachers(AllPrimaryClassTeachersBody));
@@ -267,7 +282,7 @@ const PreprimaryProgressReport = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-                        
+
 
                     </>}
             />
@@ -278,61 +293,57 @@ const PreprimaryProgressReport = () => {
 
             {open && (
                 <Box>
-
-                {
-                    USFillStudentDetails.length > 0 ?
-
-                        USFillStudentDetails.map((detail) => (<>
-                            <Box border={'1px solid grey'} mb={4} sx={{ px: 2, background: 'white' }}>
+                    {USFillStudentDetails.length > 0 ? (
+                        USFillStudentDetails.map((detail) => (
+                            <Box key={detail.YearWiseStudentId} border="1px solid grey" mb={4} sx={{ px: 2, background: 'white' }}>
                                 <SchoolDetails USFillSchoolDetails={USFillSchoolDetails} />
-                                <StudentDetails USFillStudentDetails={USFillStudentDetails
-                                    .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
-
-                                }
+                                <StudentDetails
+                                    USFillStudentDetails={USFillStudentDetails.filter(
+                                        (item) => item.YearWiseStudentId === detail.YearWiseStudentId
+                                    )}
                                     presentCount={USFillStudentAttendance.filter(
                                         (attendance) =>
-                                            attendance.YearwiseStudentId == detail.YearWiseStudentId &&
+                                            attendance.YearwiseStudentId === detail.YearWiseStudentId &&
                                             attendance.IsPresent === "true"
                                     ).length}
                                     totalCount={USFillStudentAttendance.filter(
-                                        (item) => item.YearwiseStudentId == detail.YearWiseStudentId
-                                    ).length} />
+                                        (item) => item.YearwiseStudentId === detail.YearWiseStudentId
+                                    ).length}
+                                />
                                 <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
-
-                                <CurricularSubjects USFillStudentsLearningOutcomes={USFillStudentsLearningOutcomes
-                                    .filter((item) => item.YearwiseStudentId === detail.YearWiseStudentId)
-                                }
-                                    USFillSubjectSections={USFillSubjectSections} />
-                                <NonXseedSubjectGrades USFillNonXseedSubjectGrades=
-                                    {USFillNonXseedSubjectGrades
-                                        .filter((item) => item.YearwiseStudentId === detail.YearWiseStudentId)
-                                    } />
-                                <XseedRemarks USFillXseedRemarks=
-                                    {USFillXseedRemarks
-                                        .filter((item) => item.YearWiseStudentId === detail.YearWiseStudentId)
-                                    } />
-                                {/* <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} marginY={2} pl={1}>
-                                    <Typography>   Note: </Typography>
-                                    <Typography> Ab - Absent </Typography>
-                                    <Typography>  Ex - Exempted </Typography>
-                                </Typography> */}
+                                <CurricularSubjects
+                                    USFillStudentsLearningOutcomes={USFillStudentsLearningOutcomes.filter(
+                                        (item) => item.YearwiseStudentId === detail.YearWiseStudentId
+                                    )}
+                                    USFillSubjectSections={USFillSubjectSections}
+                                />
+                                <NonXseedSubjectGrades
+                                    USFillNonXseedSubjectGrades={USFillNonXseedSubjectGrades.filter(
+                                        (item) => item.YearwiseStudentId === detail.YearWiseStudentId
+                                    )}
+                                />
+                                <XseedRemarks
+                                    USFillXseedRemarks={USFillXseedRemarks.filter(
+                                        (item) => item.YearWiseStudentId === detail.YearWiseStudentId
+                                    )}
+                                />
                             </Box>
-                        </>))
-                        : <span> </span>
-                }
-                {PreprimaryFullAccess == 'Y' && ClassTeacher == '0' || AssessmentId == '0' ? <div>
-
-                </div> : <div>
-                    {AssessmentPublishStatus == 'N' && StudentWiseAssessmentPublishStatus == 'N' ?
-                        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                            <b>Assessment result is not available for this student.</b>
-                        </Typography> :
-                        <span> </span>
-                    }
-                </div>
-                }
-            </Box>)}
-
+                        ))
+                    ) : (
+                        <div>
+                            {PreprimaryFullAccess === 'Y' && ClassTeacher === '0' || AssessmentId === '0' ? (
+                                <div></div>
+                            ) : (
+                                AssessmentPublishStatus === 'N' && StudentWiseAssessmentPublishStatus === 'N' && (
+                                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                                        <b>Assessment result is not available for this student.</b>
+                                    </Typography>
+                                )
+                            )}
+                        </div>
+                    )}
+                </Box>
+            )}
 
             {PreprimaryFullAccess == 'N' && USlistAssessmentDetailss.length < 2 ?
 
@@ -342,12 +353,7 @@ const PreprimaryProgressReport = () => {
 
                 : <span></span>
             }
-
-
         </Box>
-
-
     );
 };
-
 export default PreprimaryProgressReport;
