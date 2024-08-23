@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Grid } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import ReplayIcon from '@mui/icons-material/Replay';
 // import { Button } from 'src/libraries/styled/ButtonStyle';
-import { green, grey, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
@@ -39,9 +39,8 @@ function CardMessDeleteButtons({
                 width:'200px',
                 //  backgroundColor: red[100],
                   '&:hover': {
-                color:'#38548A',
-                borderRadius:'5px',
-                 backgroundColor: grey[100]
+                color:'red',
+                 backgroundColor: red[100]
                   }}}
             >
               Delete From Everyone
@@ -81,7 +80,12 @@ function CardMessDeleteButtons({
             onClick={activeTab == 'Trash' ? TrashDelete : clickDelete }
             endIcon={
             <DeleteForeverIcon />}
-            sx={{  borderRadius:'5px', color:'#38548A' , px:2 }}
+            sx={{
+              color:'#38548A',
+                '&:hover': {
+              color:'red',
+               backgroundColor: red[100]
+                }}}
            >
             Delete
             
@@ -92,15 +96,21 @@ function CardMessDeleteButtons({
             fullWidth
             onClick={clickReset}
             endIcon={<RotateLeftIcon />}
-            sx={{  borderRadius:'5px', color:'#38548A'}}
+            sx={{
+              color:'#38548A',
+                '&:hover': {
+              color:'blue',
+               backgroundColor: blue[100]
+                }}}
           >
             Reset
           </Button>
         </Grid>
         <Grid >
                   {activeTab == 'Inbox' && (
-                    <Grid item 
-                     sx={MarkAsReadMessage} bgcolor={"white"} p={1} borderRadius={"10px"}>
+                    <Grid  
+                    //  sx={MarkAsReadMessage} bgcolor={"white"} pt={1} borderRadius={"10px"}
+                     >
                       <Button
                       endIcon={<MarkunreadIcon />}
                         onClick={() => {
@@ -108,11 +118,9 @@ function CardMessDeleteButtons({
                         }}
                         sx={{
                           color:'#38548A',
-                           //  backgroundColor: grey[500],
                             '&:hover': {
-                          color:'#38548A',
-                          borderRadius:'5px',
-                           backgroundColor: grey[200]
+                          color:'blue',
+                           backgroundColor: blue[100]
                             }}}
                       >
                         {' '}
@@ -125,11 +133,9 @@ function CardMessDeleteButtons({
                         }}
                         sx={{
                           color:'#38548A',
-                           //  backgroundColor: grey[500],
                             '&:hover': {
-                          color:'#38548A',
-                          borderRadius:'5px',
-                           backgroundColor: grey[200]
+                          color:'blue',  
+                           backgroundColor: blue[100]
                             }}}
                       >
                         {' '}
