@@ -308,7 +308,7 @@ const PrePrimaryResult = () => {
             }
 
 
-            <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+            <Tooltip title={'View summarised results of your class for the selected assessment.Assessment result can be publish on by clicking on Publish button and unpublish by clicking on Unpublish button.'}>
               <IconButton
                 sx={{
                   color: 'white',
