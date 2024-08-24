@@ -275,7 +275,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
-      title: 'Pre Primary Progress Report',
+      title: 'Pre-Primary Progress Report',
       icon: <FeaturedPlayList />,
       link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
     });
@@ -283,7 +283,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
-      title: 'Pre Primary Progress Report Results',
+      title: 'Pre-Primary Results',
       icon: <FeaturedPlayList />,
       link: '/extended-sidebar/Teacher/PrePrimaryResult'
     });
