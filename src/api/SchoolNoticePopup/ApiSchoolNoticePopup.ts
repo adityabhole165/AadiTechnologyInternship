@@ -1,15 +1,15 @@
 
 
-import { IGetNameAndStartDateEndDateValidationResult, IGetSchoolNoticePopupBody } from 'src/interfaces/SchoolNoticePopup/ISchoolNoticePopup';
+import { IGetSchoolNoticePopupBody, IGetSchoolNoticePopupResult } from 'src/interfaces/SchoolNoticePopup/ISchoolNoticePopup';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSchoolNoticePopup = (data: IGetSchoolNoticePopupBody) => {
-    return http.post<IGetNameAndStartDateEndDateValidationResult>('Teacher/GetNoticeAndEventDetails', data);
+    return http.post<IGetSchoolNoticePopupResult>('Teacher/GetNoticeAndEventDetails', data);
 
 };
 
 const SchoolNoticePopupApi = {
-   GetSchoolNoticePopup
+    GetSchoolNoticePopup
 };
 
 export default SchoolNoticePopupApi;  

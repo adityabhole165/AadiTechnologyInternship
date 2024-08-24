@@ -53,7 +53,6 @@ export const SchoolNoticePopup = (data: IGetSchoolNoticePopupBody): AppThunk => 
             Standard_Id: item.Standard_Id,
         }
     })
-
     dispatch(SchoolNoticePopupslice.actions.getSchoolNoticePopUP(SchoolNoticePopup1));
     dispatch(SchoolNoticePopupslice.actions.getFillUpcomingEvents(SchoolNoticePopup2));
 };

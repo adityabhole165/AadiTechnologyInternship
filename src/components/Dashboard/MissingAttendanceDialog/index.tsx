@@ -45,7 +45,7 @@ const MissingAttendanceDialog = ({ open, setOpen }: Props) => {
     };
     const [selectedTeacher, setSelectedTeacher] = useState(null);
     const [ItemNewID, SetItemNewID] = useState(null);
-    console.log(ItemNewID);
+
 
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));

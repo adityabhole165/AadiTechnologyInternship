@@ -8,7 +8,7 @@ export interface IGetSchoolNoticePopupBody {
     asLoginUserRoleId: number;
 }
 
-export interface IGetNameAndStartDateEndDateValidationResult {
+export interface IGetSchoolNoticePopupResult {
     SchoolNoticePopUP: [
         {
             NoticeId: string;
