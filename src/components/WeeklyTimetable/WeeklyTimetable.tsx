@@ -151,6 +151,36 @@ const WeeklyTimetable = (props: Props) => {
         return flag;
     }
 
+    interface TextFields {
+        Text1?: string;
+        Text2?: string;
+        Text3?: string;
+        Text4?: string;
+        Text5?: string;
+        Text6?: string;
+    }
+    const checkErrorMsgLength1 = (obj: TextFields = {}): boolean => {
+        let flag = true;
+
+        // Ensure obj is an object and check for empty values
+        const isText1Empty = (obj.Text1?.trim() ?? "") === "";
+        const isText2Empty = (obj.Text2?.trim() ?? "") === "";
+        const isText3Empty = (obj.Text3?.trim() ?? "") === "";
+        const isText5Empty = (obj.Text5?.trim() ?? "") === "";
+        const isText6Empty = (obj.Text6?.trim() ?? "") === "";
+
+        // Check if Text4 is non-empty
+        const isText4NonEmpty = (obj.Text4?.trim() ?? "") !== "";
+
+        // Condition: if Text4 is non-empty and all other texts are empty
+        if (isText4NonEmpty && isText1Empty && isText2Empty && isText3Empty && isText5Empty && isText6Empty) {
+            flag = false;
+        }
+
+        return flag;
+    }
+
+
     const filterLecNo = (value) => {
         return value.WeekdayId === AddLecForTWeekDayId
     }
@@ -762,7 +792,8 @@ const WeeklyTimetable = (props: Props) => {
     }, [ValidateTeacherDataMsg])
     useEffect(() => {
         if (GetValidateAddDataForTeacherMsgList !== undefined && GetValidateAddDataForTeacherMsgList?.length > 0) {
-            if (GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength(GetValidateAddDataForTeacherMsgList[0]) === false) {
+            console.log(`⛳`, GetValidateAddDataForTeacherMsgList[0])
+            if (GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) === false) {
                 let obs = GetValidateAddDataForTeacherMsgList[0];
                 const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
                     asSchoolId: Number(localStorage.getItem('SchoolId')),
@@ -2250,7 +2281,7 @@ const WeeklyTimetable = (props: Props) => {
                     </Button>
                 </DialogActions>
             </Dialog> */}
-            <AddLecture ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={SubmitAdditionalLecture} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
+            <AddLecture ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={SubmitAdditionalLecture} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
                 OnClose={() => { setShowAddAdditionalLectures(false); dispatch(CDAClearValidateAdditionalDataForTeacher()); }} ItemList1={filterBy === 'Teacher' ? TeachersList : [{ Id: '0', Name: `${standardName} - ${divisionName}`, Value: '0' }]}
                 Defaultvalue1={filterBy === 'Teacher' ? teacher : "0"} Label1={filterBy === 'Teacher' ? 'Teacher' : 'Class'} ItemList2={AddLecWeekDays} OnChange1={(value) => {
                     setAddLecForWeekDayId(value);
