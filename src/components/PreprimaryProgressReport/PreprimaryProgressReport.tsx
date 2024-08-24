@@ -104,7 +104,7 @@ const PreprimaryProgressReport = () => {
         if (AssessmentId == '0') {
             SetError('Assessment should be selected.')
         }
-        if (ClassTeacher == '0' && PreprimaryFullAccess == 'Y') {
+        if (ClassTeacher == '-1' && PreprimaryFullAccess == 'Y') {
             SetError1('Class teacher should be selected.')
         }
         if (ClassTeacher !== '0' && PreprimaryFullAccess == 'Y') {
@@ -134,7 +134,7 @@ const PreprimaryProgressReport = () => {
             hasError = true;
         }
 
-        if (ClassTeacher === '0' && PreprimaryFullAccess === 'Y') {
+        if (ClassTeacher === '-1' && PreprimaryFullAccess === 'Y') {
             SetError1('Class teacher should be selected.');
             hasError = true;
         }
