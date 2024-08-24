@@ -108,7 +108,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '220px', py:1
+                                                    width: '220px', py:1
                                                 }}
                                                 align="left"
                                             >
@@ -116,7 +116,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '300px', py:1
+                                                     width: '300px', py:1
                                                 }}
                                                 align="left"
                                             >
@@ -124,7 +124,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '300px', py:1
+                                                    width: '300px', py:1
                                                 }}
                                                 align="left"
                                             >
@@ -132,7 +132,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '150px', py:1
+                                                    width: '150px', py:1
                                                 }}
                                                 align="center"
                                             >
@@ -140,7 +140,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             {isFileType &&
 
-                                                <TableCell sx={{ textTransform: 'capitalize', width: '250px', py:1 }} align="left">
+                                                <TableCell sx={{ width: '250px', py:1 }} align="left">
 
                                                     <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
                                                         {item.Text6}
@@ -149,7 +149,7 @@ function SchoolNoticeList({
                                             }
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', py:1
+                                                    py:1
                                                 }}
                                                 align="center"
                                             >
