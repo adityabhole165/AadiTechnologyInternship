@@ -1,6 +1,6 @@
 import QueAns from "./QueAns";
 
-const QueAnsList = ({ ItemList, ChangeItem, QuestionId }) => {
+const QueAnsList = ({ ItemList, ChangeItem, QuestionId, IsEditiable }) => {
     const onChange = (Item, Value) => {
         ChangeItem(ItemList.map((item, i) => {
             return {
@@ -15,7 +15,7 @@ const QueAnsList = ({ ItemList, ChangeItem, QuestionId }) => {
             {ItemList.map((item, i) => {
                 return (
                     <div key={i}>
-                        <QueAns Item={item} ChangeItem={onChange} />
+                        <QueAns Item={item} ChangeItem={onChange} IsEditiable={IsEditiable} />
                     </div>
                 )
             })

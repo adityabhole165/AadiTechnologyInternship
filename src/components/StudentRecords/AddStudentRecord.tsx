@@ -1,4 +1,4 @@
-import { AddComment, Check, Done, QuestionMark, Save, Send } from '@mui/icons-material';
+import { AddComment, Check, Done, EditTwoTone, QuestionMark, Save, Send } from '@mui/icons-material';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetSaveStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
@@ -59,6 +59,9 @@ const AddStudentRecord = () => {
     const SaveStudentRecordUS = useSelector(
         (state: RootState) => state.AddStudentRecords.savestudentrecordmsg
     );
+    const MarkRecordAsReadUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.markrecordAsreadmsg
+    );
     useEffect(() => {
         if (QueAnsList.length > 0) {
             setItemList(QueAnsList)
@@ -84,9 +87,6 @@ const AddStudentRecord = () => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
     useEffect(() => {
-        dispatch(GetMarkRecordAsRead(GetMarkRecordAsReadResult))
-    }, []);
-    useEffect(() => {
         dispatch(GetSubmitStudentRecordComment(SubmitStudentRecordCommentResult))
     }, []);
     useEffect(() => {
@@ -103,8 +103,12 @@ const AddStudentRecord = () => {
         }
     }, [SaveStudentRecordUS])
     useEffect(() => {
-
-    }, [])
+        if (MarkRecordAsReadUS !== '') {
+            toast.success(MarkRecordAsReadUS, { toastId: 'success1' });
+            dispatch(resetGetMarkRecordAsRead());
+            dispatch(GetStudentRecordData(GetStudentRecordDataResult));
+        }
+    }, [MarkRecordAsReadUS])
     const getXML = () => {
         let sXML =
             "<ArrayOfKeyValue xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>";
@@ -242,6 +246,9 @@ const AddStudentRecord = () => {
     const rowStyle = {
         height: '0.5em 1.5em', // Ensure auto height to adjust based on content
     };
+    const isSubmitted = listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].IsSubmitted === "True";
+    const clickEdit = () => {
+    }
 
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -314,7 +321,7 @@ const AddStudentRecord = () => {
                                             }
                                         }}
                                         onClick={onClickSubmit}
-                                        disabled={Action == "Edit"}
+                                    // disabled={Action == "Edit"}
                                     >
                                         <Check />
                                     </IconButton>
@@ -451,7 +458,7 @@ const AddStudentRecord = () => {
                     </TableBody>
                 </Table>
             </Box>
-            <AddStudentRecordList ItemList={ItemList}
+            <AddStudentRecordList ItemList={ItemList} IsEditiable={isSubmitted}
                 ChangeItem={ChangeItem} />
             <br></br>
             <Typography variant={"h5"} mb={1}>
@@ -476,6 +483,22 @@ const AddStudentRecord = () => {
                                         <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Principal : </b> {item.IsCommentReadByPrincipal}</TableCell>
                                         <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Counsellor : </b> {item.IsCommentReadByConsellor}</TableCell>
                                         <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Class Teacher : </b> {item.IsCommentReadByClassTeacher}</TableCell>
+                                        {/* {(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].IsDefaultComment == "True" ||
+                                            listCommentDetailsUS[0].IsSubmitted == "True" &&
+                                             */}
+                                        {(listCommentDetailsUS.length > 0 &&
+                                            (item.IsDefaultComment === "False" || item.IsSubmitted === "False")) && (
+                                                <Tooltip title={"Edit"}>
+                                                    <EditTwoTone onClick={() => ClickOpenDialogbox()}
+                                                        sx={{
+                                                            color: 'white',
+                                                            '&:hover': {
+                                                                bgcolor: 'grey.300',
+                                                                cursor: 'pointer'
+                                                            }
+                                                        }} />
+
+                                                </Tooltip>)}
                                     </TableRow>
                                     <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
                                         <TableCell sx={cellStyle} colSpan={2}><b>Added By : </b>{item.UserName}</TableCell>

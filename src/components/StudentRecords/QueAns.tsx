@@ -1,7 +1,7 @@
 import { Checkbox, Grid, Typography } from '@mui/material'
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox'
 
-const QueAns = ({ Item, ChangeItem }) => {
+const QueAns = ({ Item, ChangeItem, IsEditiable }) => {
     return (
         <div>
             <Grid container>
@@ -21,6 +21,7 @@ const QueAns = ({ Item, ChangeItem }) => {
                                 sx={{
                                     resize: 'both'
                                 }}
+                                disabled={IsEditiable}
                             />
                         </Grid>
                         : <>
@@ -28,12 +29,15 @@ const QueAns = ({ Item, ChangeItem }) => {
                                 onChange={(e) => {
                                     ChangeItem(Item, e.target.checked ? "Yes" : "")
                                 }} sx={{ pl: 1 }}
-                                value={Item.Answer}>
+                                value={Item.Answer}
+                                disabled={IsEditiable}>
+
                             </Checkbox>Yes
                             <Checkbox checked={Item.Answer == "No"}
                                 onChange={(e) => {
                                     ChangeItem(Item, e.target.checked ? "No" : "")
-                                }} value={Item.Answer}>
+                                }} value={Item.Answer}
+                                disabled={IsEditiable}>
                             </Checkbox>No
                         </>
                     }
