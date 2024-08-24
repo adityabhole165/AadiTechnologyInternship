@@ -181,10 +181,21 @@ const PrePrimaryResult = () => {
   };
  
 
-  const ClickItem = () => {
-    navigate('/extended-sidebar/Teacher/AssignPrePrimaryGrades' );
-  };
+ 
 
+
+
+  const ClickItem = (value) => {
+    navigate(
+      '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
+      value +
+      '/' +
+      AssessmentResult +
+      '/' +
+      SelectTeacher
+
+    );
+  };
   const onClickunpublished = () => {
     setOpen(true)
 

@@ -254,6 +254,11 @@ const teacherRoutes = [
     element: <AssignPrePrimarySubjectGrades />
   },
   {
+    path: 'AssignPrePrimarySubjectGrades/:SubjectID/:Termid/:classid',
+    element: <AssignPrePrimarySubjectGrades />
+  },
+
+  {
     path: 'AddLeaveDetails',
     element: <AddLeaveDetails />
   },
