@@ -179,10 +179,11 @@ const PrePrimaryResult = () => {
   const GetAssessmentDropdown = (value) => {
     setAssessmentResult(value);
   };
-  const ClickItem = (value) => {
+ 
 
+  const ClickItem = () => {
+    navigate('/extended-sidebar/Teacher/AssignPrePrimaryGrades' );
   };
-
 
   const onClickunpublished = () => {
     setOpen(true)
