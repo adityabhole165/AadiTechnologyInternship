@@ -7,8 +7,8 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
     return (
         <div>
 
-            <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-                <Table aria-label="simple table">
+            <TableContainer component={Box} >
+                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                     <TableHead>
                         <TableRow
                             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
@@ -31,11 +31,11 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.ItemID}>
-                                <TableCell sx={{ textTransform: 'capitalize', py:1 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py:0 }}>
                                     {item.Subject_Name}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize', py:1 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py:0}}>
                                {item.EditStatus == "Y" ?  <Tooltip title={"Edit"}>
                                     <IconButton
                                         onClick={() => clickEdit(item.Id)}

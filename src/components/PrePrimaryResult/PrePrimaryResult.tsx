@@ -361,6 +361,8 @@ const PrePrimaryResult = () => {
             </Tooltip>
           </>}
       />
+
+      <Box sx={{backgroundColor:'white'}}>
       {
         GetTeacherXseedSubjects.length > 0 ?
           <PrePrimaryResultlist
@@ -370,7 +372,7 @@ const PrePrimaryResult = () => {
           />
           : <span></span>
       }
-
+</Box>
 
       <Dialog
         open={open}
