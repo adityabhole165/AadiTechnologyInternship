@@ -101,7 +101,7 @@ const AddSchoolNoticeFT = () => {
     const UserRoleselected = useSelector((state: RootState) => state.SchoolNoticeForm.UserRoleselected);
     const SelectedStandardAndDivisionCheckBoxx = useSelector((state: RootState) => state.SchoolNoticeForm.SelectedStandardAndDivisionCheckBoxx);
     const GetSchoolNoticeIdName: any = useSelector((state: RootState) => state.SchoolNoticeForm.getSchoolNoticeIdByName);
-    console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdName')
+
     useEffect(() => {
         const AllClassesAndDivisionBody: IGetAllClassesAndDivisionsBody = {
             asSchoolId: asSchoolId,
@@ -362,7 +362,6 @@ const AddSchoolNoticeFT = () => {
         }
 
         if (!NoticeId) {
-            console.log(GetSchoolNoticeIdName, 'GetSchoolNoticeIdNameyyyy')
             if (radioBtn == '1') {
                 if (GetSchoolNoticeIdName != null) {
                     setLinkNameError1('Link name already exists.');
@@ -423,13 +422,14 @@ const AddSchoolNoticeFT = () => {
 
     const ClickRadio = (value) => {
         setRadioBtn(value);
-        if (radioBtn == '1') {
+        if (value == '1') {
             setText(false)
         }
         else {
             setText(true)
         }
     };
+   
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
@@ -577,7 +577,7 @@ const AddSchoolNoticeFT = () => {
                     navLinks={[
                         {
                             title: 'School Notice',
-                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen/' + selectDisplayType
+                            path: '/extended-sidebar/Teacher/SchoolNoticeBasescreen/' + Text
                         },
                         {
                             title: `${radioBtn === '1' ? 'File' : 'Text'}`,
