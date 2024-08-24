@@ -71,7 +71,7 @@ export const CDAAllPrimaryClassTeachers =
   async (dispatch) => {
     const response = await ApiPreprimaryProgressReport.AllPrimaryClassTeachers(data)
 
-    let ClassTeachers = [{ Id: '0', Name: 'Select', Value: '0',Is_PrePrimary:'Y'}];
+    let ClassTeachers = [{ Id: '-1', Name: 'Select', Value: '-1',Is_PrePrimary:'Y'}];
     response.data.map((item, i) => {
       ClassTeachers.push({
         Id: item.SchoolWise_Standard_Division_Id,

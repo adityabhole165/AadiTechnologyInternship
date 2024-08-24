@@ -21,7 +21,7 @@ import StudentDetails from './StudentDetails';
 import XseedRemarks from './XseedRemarks';
 const PreprimaryProgressReport = () => {
     const dispatch = useDispatch();
-    const [ClassTeacher, setClassTeacher]: any = useState('0');
+    const [ClassTeacher, setClassTeacher]: any = useState('-1');
     const [StudentId, setStudentId]: any = useState();
     const [AssessmentId, setAssessmentId]: any = useState();
 
@@ -85,7 +85,7 @@ const PreprimaryProgressReport = () => {
 
     const clickClassTeacher = (value) => {
         setClassTeacher(value);
-        
+        SetError1('')
         setOpen(false);
     };
     const clickStudentId = (value) => {
@@ -95,6 +95,7 @@ const PreprimaryProgressReport = () => {
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
+        SetError('')
         setOpen(false);
     };
 
