@@ -614,7 +614,19 @@ export const CDAValidateAdditionalDataForTeacher =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetValidateAdditionalDataForTeacherApi(data);
-            await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(response.data));
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.ErrMsgForWeeklyTeacherLectures,
+                        Text2: item.OverlapErrorMessage,
+                        Text3: item.ErrMsgForWeekDayTeacherLectures,
+                        Text4: item.ErrMsgForSubjectLectures,
+                        Text5: item.ErrMsgForAssociateSubjectLectures,
+                        Text6: item.ErrMsgForExternalLectures
+                    }
+                )
+            })
+            await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(responseData));
         }
 export const CDAClearValidateAdditionalDataForTeacher =
     (): AppThunk =>

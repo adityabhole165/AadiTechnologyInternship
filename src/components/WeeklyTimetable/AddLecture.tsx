@@ -27,9 +27,10 @@ AddLecture.propTypes = {
     OnChange3: PropTypes.func,
     ErrorMsg1: PropTypes.bool,
     ErrorMsg2: PropTypes.bool,
-    ErrorMsg3: PropTypes.bool
+    ErrorMsg3: PropTypes.bool,
+    ValErrorMsgList: PropTypes.array
 }
-function AddLecture({ ValError, Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1, Label1, ItemList2, OnChange1, Defaultvalue2,
+function AddLecture({ ValErrorMsgList = [], ValError, Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1, Label1, ItemList2, OnChange1, Defaultvalue2,
     ErrorMsg1, ErrorMsg2, Defaultvalue3, OnChange2, ItemList3, ErrorMsg3, Defaultvalue4, OnChange3, ItemList4 }) {
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
 
@@ -51,6 +52,19 @@ function AddLecture({ ValError, Open, OnClose, onSubmit, Heading, ItemList1, Def
                 <DialogContent dividers>
                     <Box>
                         {ValError?.length > 0 && <span dangerouslySetInnerHTML={{ __html: `Error : ${ValError}` }} style={{ color: 'red', fontWeight: 'bolder' }} />}
+                        {ValErrorMsgList !== undefined && ValErrorMsgList?.length > 0 &&
+                            <Stack sx={{ width: '100%' }} spacing={.5}>
+                                {ValErrorMsgList.map((errorObj, index) => (
+                                    Object.keys(errorObj).map((key) => {
+                                        const message = errorObj[key].trim();
+                                        if (message !== "") {
+                                            return <span dangerouslySetInnerHTML={{ __html: message }} style={{ color: 'red', fontWeight: 'bolder', fontSize: '12px' }} />;
+                                        }
+                                        return null;
+                                    })
+                                ))}
+                            </Stack>
+                        }
                         <Typography variant={"h4"}>{Heading}</Typography>
                         {loading && <SuspenseLoader />}
                         <Stack gap={2} mt={2}>
@@ -76,7 +90,7 @@ function AddLecture({ ValError, Open, OnClose, onSubmit, Heading, ItemList1, Def
                                     mandatory={true}
                                     DisableClearable={true}
                                 />
-                                {ErrorMsg1 && <span style={{ color: 'red' }}>Weekday should not be empty.</span>}
+                                {ErrorMsg1 && <span style={{ color: 'red', fontSize: '12px' }}>Weekday should not be empty.</span>}
                             </Box>
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown1
@@ -89,7 +103,7 @@ function AddLecture({ ValError, Open, OnClose, onSubmit, Heading, ItemList1, Def
                                     mandatory={true}
                                     DisableClearable={true}
                                 />
-                                {ErrorMsg2 && <span style={{ color: 'red' }}>Lecture number should not be empty.</span>}
+                                {ErrorMsg2 && <span style={{ color: 'red', fontSize: '12px' }}>Lecture number should not be empty.</span>}
                             </Box>
                             <Box sx={{ width: '100%' }}>
                                 <SearchableDropdown1
@@ -102,7 +116,7 @@ function AddLecture({ ValError, Open, OnClose, onSubmit, Heading, ItemList1, Def
                                     mandatory={true}
                                     DisableClearable={true}
                                 />
-                                {ErrorMsg3 && <span style={{ color: 'red' }}>Class-Subject name should not be empty.</span>}
+                                {ErrorMsg3 && <span style={{ color: 'red', fontSize: '12px' }}>Class-Subject name should not be empty.</span>}
                             </Box>
                         </Stack>
                     </Box>

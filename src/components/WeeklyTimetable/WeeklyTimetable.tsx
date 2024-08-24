@@ -62,6 +62,7 @@ const WeeklyTimetable = (props: Props) => {
     const SessionTeacherId = sessionStorage.getItem('TeacherId');
     const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
     const ConfigIdForPagePermissionListString: any = sessionStorage.getItem('SchoolConfiguration');
+    const GetValidateAddDataForTeacherMsgList: any = useSelector((state: RootState) => state.WeeklyTimetable.ISGetValidateAdditionalDataForTeacher);
     const ConfigIdForPagePermissionList = ConfigIdForPagePermissionListString ? JSON.parse(ConfigIdForPagePermissionListString) : [];
     const ConfigIdPagePersmission: any = ConfigIdForPagePermissionList?.filter((item: any) => item.Configure_Id === 59);
     const TeachersList = useSelector((state: RootState) => state.WeeklyTimetable.ISTeachersList);
@@ -136,13 +137,13 @@ const WeeklyTimetable = (props: Props) => {
     const checkErrorMsgLength = (obj) => {
         let flag = true;
         // Trim whitespace and check for empty values
-        const isText1Empty = obj.Text1.trim() === "";
-        const isText2Empty = obj.Text2.trim() === "";
-        const isText3Empty = obj.Text3.trim() === "";
-        const isText5Empty = obj.Text5.trim() === "";
-        const isText6Empty = obj.Text6.trim() === "";
+        const isText1Empty = obj.Text1?.trim() === "";
+        const isText2Empty = obj.Text2?.trim() === "";
+        const isText3Empty = obj.Text3?.trim() === "";
+        const isText5Empty = obj.Text5?.trim() === "";
+        const isText6Empty = obj.Text6?.trim() === "";
         // Check if Text4 is non-empty
-        const isText4NonEmpty = obj.Text4.trim() !== "";
+        const isText4NonEmpty = obj.Text4?.trim() !== "";
         // Condition: if Text4 is non-empty and all other texts are empty
         if (isText4NonEmpty && isText1Empty && isText2Empty && isText3Empty && isText5Empty && isText6Empty) {
             flag = false;
@@ -754,6 +755,79 @@ const WeeklyTimetable = (props: Props) => {
         }
     }, [ValidateTeacherDataMsg])
     useEffect(() => {
+        if (GetValidateAddDataForTeacherMsgList !== undefined && GetValidateAddDataForTeacherMsgList?.length > 0) {
+            if (GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength(GetValidateAddDataForTeacherMsgList[0]) === false) {
+                let obs = GetValidateAddDataForTeacherMsgList[0];
+                const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
+                    asSchoolId: Number(localStorage.getItem('SchoolId')),
+                    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                    asSubjectId: Number(AddLecForTSubjectNameId),
+                    asTeacherId: Number(teacher),
+                    asStdDivId: Number(AddLecForTStdDivId),
+                    asLectureNo: Number(AddLecForTLecNo),
+                    asWeekDayId: Number(AddLecForTWeekDayId)
+                }
+                const AddLecForTeacherApiBody: IGetSaveTeacherTimeTableBody = {
+                    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+                    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                    asInsertedById: Number(sessionStorage.getItem('Id')),
+                    asTeacherID: Number(teacher),
+                    asMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id=\"${AddLecForTStdDivId}\" Weekday_Id=\"${AddLecForTWeekDayId}\" /></DaywiseTimeTableMaster>`,
+                    asDetailXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id=\"${AddLecForTWeekDayId}\" Teacher_ID=\"${teacher}\" Standard_Division_Id=\"${AddLecForTStdDivId}\" Lecture_Number=\"${AddLecForTLecNo}\" Subject_Id=\"${AddLecForTSubjectNameId}\" /></DaywiseTimeTableDetails>`,
+                    asTeacherXML: GetTeacherXML(),
+                    IsAdditionalClass: 1,
+                    asIncCnt: 0
+                }
+                const ValidateAdditionalDataForTeacher: IGetValidateAddDataForTeacherBody = {
+                    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+                    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                    asInsertedById: Number(sessionStorage.getItem('Id')),
+                    asTeacherID: Number(teacher),
+                    asMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id='${AddLecForTStdDivId}' Weekday_Id='${AddLecForTWeekDayId}' /></DaywiseTimeTableMaster>`,
+                    asDetailXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id='${AddLecForTWeekDayId}' Teacher_ID='${teacher}' Standard_Division_Id='${AddLecForTStdDivId}' Lecture_Number='${AddLecForTLecNo}' Subject_Id='${AddLecForTSubjectNameId}' /></DaywiseTimeTableDetails>`,
+                    IsAdditionalClass: true,
+                    asIncCnt: 1
+                }
+                const AddLecForManageTeacherApiBody: IGetManageClassTimeTableBody = {
+                    asSchoolId: Number(localStorage.getItem('localSchoolId')),
+                    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                    asInserted_By_id: Number(sessionStorage.getItem('Id')),
+                    asStandardDivId: Number(AddLecForTStdDivId),
+                    asDayTimeTableMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id='${AddLecForTStdDivId}' Weekday_Id='${AddLecForTWeekDayId}' /></DaywiseTimeTableMaster>`,
+                    asDayTimeTableDetailsXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id='${AddLecForTWeekDayId}' Teacher_ID='${teacher}' Standard_Division_Id='${AddLecForTStdDivId}' Lecture_Number='${AddLecForTLecNo}' Subject_Id='${AddLecForTSubjectNameId}' /></DaywiseTimeTableDetails>`,
+                    asIsAdditionalClass: true,
+                    asIsCountInceased: 0
+                }
+                showAlert({
+                    title: 'Please Confirm',
+                    message: `${obs.Text4}Do you want to increase limit for subject(s)?`,
+                    variant: 'warning',
+                    confirmButtonText: 'Confirm',
+                    cancelButtonText: 'Cancel',
+                    onConfirm: () => {
+                        const SaveTeacherTimetableBody1: IGetSaveTeacherTimeTableBody = {
+                            asSchoolId: Number(localStorage.getItem('SchoolId')),
+                            asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                            asInsertedById: Number(sessionStorage.getItem('Id')),
+                            asTeacherID: Number(teacher),
+                            asMasterXml: GetMasterXML(),
+                            asDetailXml: GetDetailXML(),
+                            asTeacherXML: GetTeacherXML(),
+                            IsAdditionalClass: 0,
+                            asIncCnt: 1
+                        }
+                        dispatch(CDASaveAddTeacherTimetable(AddLecForTeacherApiBody, DuplicateLecBody, AddLecForManageTeacherApiBody, ValidateAdditionalDataForTeacher));
+                        closeAlert();
+                    },
+                    onCancel: () => {
+                        closeAlert();
+                        dispatch(CDAClearValidateAdditionalDataForTeacher());
+                    }
+                });
+            }
+        }
+    }, [GetValidateAddDataForTeacherMsgList])
+    useEffect(() => {
         if (ValidateAddLecTeacherDataMsg.length > 0) {
             if (checkErrorMsgLength(ValidateAddLecTeacherDataMsg[0]) === false) {
                 let obs = ValidateAddLecTeacherDataMsg[0];
@@ -1148,6 +1222,7 @@ const WeeklyTimetable = (props: Props) => {
 
 
     function SubmitAdditionalLecture() {
+        dispatch(CDAClearValidateAdditionalDataForTeacher());
         const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
             asSchoolId: Number(localStorage.getItem('SchoolId')),
             asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -1882,10 +1957,10 @@ const WeeklyTimetable = (props: Props) => {
                                             <Table>
                                                 <TableHead>
                                                     <TableRow>
-                                                        <HeaderStyledCell>Week Day</HeaderStyledCell>
+                                                        <HeaderStyledCell sx={{ textAlign: 'left' }}>Week Day</HeaderStyledCell>
                                                         <HeaderStyledCell>Lecture #</HeaderStyledCell>
-                                                        <HeaderStyledCell>Subject</HeaderStyledCell>
-                                                        <HeaderStyledCell>Teacher Name</HeaderStyledCell>
+                                                        <HeaderStyledCell sx={{ textAlign: 'left' }}>Subject</HeaderStyledCell>
+                                                        <HeaderStyledCell sx={{ textAlign: 'left' }}>Teacher Name</HeaderStyledCell>
                                                         <HeaderStyledCell>Delete</HeaderStyledCell>
                                                     </TableRow>
                                                 </TableHead>
@@ -1893,10 +1968,10 @@ const WeeklyTimetable = (props: Props) => {
                                                     {/* Loopable content */}
                                                     {OptionalLecForClass.map((item, i) => (
                                                         <TableRow>
-                                                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text3}</TableCell>
+                                                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'left' }}>{item.Text3}</TableCell>
                                                             <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text2}</TableCell>
-                                                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text4}</TableCell>
-                                                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text10}</TableCell>
+                                                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'left' }}>{item.Text4}</TableCell>
+                                                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'left' }}>{item.Text10}</TableCell>
                                                             <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>
                                                                 <Tooltip title="Delete">
                                                                     <IconButton onClick={() => dltAddLecture(item.Text6)}
@@ -2177,8 +2252,8 @@ const WeeklyTimetable = (props: Props) => {
                     </Button>
                 </DialogActions>
             </Dialog> */}
-            <AddLecture ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={SubmitAdditionalLecture} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
-                OnClose={() => setShowAddAdditionalLectures(false)} ItemList1={filterBy === 'Teacher' ? TeachersList : [{ Id: '0', Name: `${standardName} - ${divisionName}`, Value: '0' }]}
+            <AddLecture ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={SubmitAdditionalLecture} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
+                OnClose={() => { setShowAddAdditionalLectures(false); dispatch(CDAClearValidateAdditionalDataForTeacher()); }} ItemList1={filterBy === 'Teacher' ? TeachersList : [{ Id: '0', Name: `${standardName} - ${divisionName}`, Value: '0' }]}
                 Defaultvalue1={filterBy === 'Teacher' ? teacher : "0"} Label1={filterBy === 'Teacher' ? 'Teacher' : 'Class'} ItemList2={AddLecWeekDays} OnChange1={(value) => {
                     setAddLecForWeekDayId(value);
                     setAddLecForTLecNo('0');
