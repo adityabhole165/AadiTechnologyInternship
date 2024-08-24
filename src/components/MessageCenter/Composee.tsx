@@ -653,7 +653,7 @@ function Form13() {
                   multiline
                   id=""
                   fullWidth
-                  rows={3}
+                  // rows={3}
                   disabled
                   value={RecipientsObject.RecipientName.map((obj) =>
                     obj?.trim()
@@ -722,9 +722,9 @@ function Form13() {
               {showCC && (
                 <>
                   <Grid item xs={12}>
-                  <Typography variant='h4'>Cc</Typography>
+                  <Typography variant='h4' pl={1}>Cc</Typography>
                   </Grid>
-                  <Grid item xs={12} sm={12} sx={{  }}>
+                  <Grid item xs={12} sm={8} md={9.5}>
                     <TextField
                       multiline
                       id=""
@@ -739,20 +739,27 @@ function Form13() {
                         overflow: 'auto',
                         border: '0.1px solid #c4c5c5',
                         borderRadius: '5.3px',
-                        marginLeft: '8px'
+                        marginLeft: '0px'
                       }}
                     />
                   </Grid>
 
-                  <Grid item sm={3} xs={12}>
-                    <Box mt={1}>
-                      <ButtonPrimary
+                  <Grid item xs={6} sm={2} md={1}>
+                    <Box >
+                      <Button
                         fullWidth
                         onClick={(e) => RecipientCCButton(e)}
-                        color="primary"
+                        sx={{
+                          color:'#38548A',
+                          mt:0.7,
+                          width:'150px',
+                            '&:hover': {
+                          color:'#38548A',
+                           backgroundColor: blue[100]
+                            }}}
                       >
                         Add Cc Recipients
-                      </ButtonPrimary>
+                      </Button>
                     </Box>
                   </Grid>
                   {/* <Grid item sm={10.5} /> */}
@@ -770,7 +777,7 @@ function Form13() {
                 </>
               )}
               {/* </FormControl> */}
-              <Grid item xs={12} pl={1}>
+              <Grid item xs={12} px={1}>
                 <TextField
                   fullWidth
                   margin="normal"
@@ -778,10 +785,10 @@ function Form13() {
                   name="Subject"
                   type="text"
                   autoComplete="off"
-                  variant="standard"
+                  // variant="standard"
                   value={formik.values.Subject}
                   onChange={formik.handleChange}
-                  sx={{ mt: '-5px' }}
+                  sx={{ }}
                 />
                 <Errormessages Error={subjecterror} />
                 <Box mb={0.4}>
