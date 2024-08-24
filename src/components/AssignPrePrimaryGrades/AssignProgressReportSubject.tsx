@@ -109,7 +109,7 @@ const AssignProgressReportSubject = () => {
             Id: 4, Header: <>
 
                 <SearchableDropdown
-                    sx={{ backgroundColor: 'white' }}
+                    sx={{ maxWidth: '15vw', backgroundColor: 'white' }}
                     ItemList={GradesList}
                     onChange={clickHeaderGrade}
                     label={''}
@@ -288,11 +288,29 @@ const AssignProgressReportSubject = () => {
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                             <TableHead >
                                 <TableRow>
-                                    {HeaderArray.map((item, i) => (
-                                        <TableCell align={'center'} key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : item.Header === 'Grade' ? 'right' : 'center', pt: '10px', pb: '10px', ...cellStyleH }}>
+                                    {/* {HeaderArray.map((item, i) => (
+                                        <TableCell key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : item.Header === 'Grade' ? 'right' : 'center', pt: '10px', pb: '10px' }}>
                                             <b>{item.Header}</b>
                                         </TableCell>
-                                    ))}
+                                    ))} */}
+                                    <TableCell align="center" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Roll No.</TableCell>
+                                    <TableCell align="left" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Student Name</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Grade</TableCell>
+                                    <TableCell align="left" sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle }}>
+                                        <>
+                                            <SearchableDropdown
+                                                sx={{ maxWidth: '15vw', backgroundColor: 'white' }}
+                                                ItemList={GradesList}
+                                                onChange={clickHeaderGrade}
+                                                label={''}
+                                                disabled={EditStatusId === '3' ? true : false}
+                                                defaultValue={headerGrade}
+                                                size={"small"}
+                                                DisableClearable={true}
+                                            />
+                                        </>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Observations</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -302,9 +320,9 @@ const AssignProgressReportSubject = () => {
                                         <TableCell sx={{ ...cellStyle }}>{item.Text2}</TableCell>
                                         <TableCell align="right" sx={{ ...cellStyle }}></TableCell>
 
-                                        <TableCell sx={{ ...cellStyle }}>
+                                        <TableCell align="left" sx={{ ...cellStyle }}>
                                             <SearchableDropdown
-                                                sx={{ backgroundColor: 'white' }}
+                                                sx={{ width: '15vw', backgroundColor: 'white' }}
                                                 ItemList={GradesList}
                                                 onChange={(value) => clickBodyGrade(item.Text1, value)}
                                                 label={''}
