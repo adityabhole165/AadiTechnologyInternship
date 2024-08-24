@@ -21,7 +21,7 @@ const landingRoutes = [
 
   {
     path: 'Landing',
-    element: <DashBoard />
+    element: <Landing />
   }
 ];
 
