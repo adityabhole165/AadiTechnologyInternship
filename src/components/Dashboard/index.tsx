@@ -155,16 +155,18 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('UserLoginDetails1');
-    if (isLoggedIn && SchoolNoticePopupDashBoard.length > 0) {
+    if (SchoolNoticePopupDashBoard.length > 0 && !sessionStorage.getItem('hasShownPopup')) {
       setSchoolNoticeDialog(true);
+      sessionStorage.setItem('hasShownPopup', 'true');
     } else {
       setSchoolNoticeDialog(false);
     }
-  }, []);
+  }, [SchoolNoticePopupDashBoard]);
+
+
   const AbsentStudentsBody: ISchoolIdBody = {
     asSchoolId: Number(asSchoolId),
-};
+  };
   const ListAbsentStudentBody: IGetAbsentStudentBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -465,7 +467,7 @@ function Dashboard() {
 
   const handleSchoolNoticePopupDialogClose = () => {
     setSchoolNoticeDialog(false);
-    localStorage.getItem('AllActiveNotices');
+    sessionStorage.setItem('hasShownPopup', 'true');
   };
   const handleAbsentStudentDialogClose = () => {
     setAbsentStudentDialog(false);

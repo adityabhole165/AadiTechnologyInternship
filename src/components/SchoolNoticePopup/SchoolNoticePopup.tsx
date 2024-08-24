@@ -30,12 +30,12 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
         sessionStorage.setItem('hasShownPopup', 'true');
     };
 
-    useEffect(() => {
-        const popupShown = sessionStorage.getItem('hasShownPopup');
-        if (popupShown) {
-            setOpen(true);
-        }
-    }, [setOpen]);
+    // useEffect(() => {
+    //     const popupShown = sessionStorage.getItem('hasShownPopup');
+    //     if (popupShown) {
+    //         setOpen(true);
+    //     }
+    // }, [setOpen]);
 
     const [openDetailDialog, setOpenDetailDialog] = useState(false);
     const [selectedLink, setSelectedLink] = useState('');
@@ -50,7 +50,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
 
     const SchoolNoticePopupBody: IGetSchoolNoticePopupBody = {
         asSchoolId: asSchoolId,
-        asDisplayLocation: 'C',
+        asDisplayLocation: 'B,C',
         asShowAllNotices: Number(0),
         asSortExpression: '',
         asStartIndex: 0,
