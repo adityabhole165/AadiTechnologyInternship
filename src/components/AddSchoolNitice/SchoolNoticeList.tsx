@@ -100,7 +100,7 @@ function SchoolNoticeList({
                                         <TableRow key={index} >
                                             <TableCell
                                                 sx={{
-                                                    textTransform: 'capitalize', width: '220px', py:1
+                                                     width: '220px', py:1
                                                 }}
                                                 align="left"
                                             >
