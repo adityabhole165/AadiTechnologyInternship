@@ -19,6 +19,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
 import { AlertContext } from 'src/contexts/AlertContext';
+import { IGetAbsentStudentDetailsBody } from 'src/interfaces/AbsentStudentDetails/IAbsentStudentPopup';
 import { ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import ITAttendance, {
   IStudentsDetails,
@@ -34,6 +35,7 @@ import {
 } from 'src/interfaces/Teacher/TAttendanceList';
 import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { AbsentStudentsandHalfday } from 'src/requests/AbsentStudentDetails/RequestAbsentStudent';
 import { GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import {
   CDADeleteAttendance,
@@ -120,6 +122,9 @@ const TAttendance = () => {
   const [ItemList, setItemList] = useState([]);
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
+  );
+  const ListAbsentStudents = useSelector(
+    (state: RootState) => state.AbsentStudentDetail.getlistAbsentStudentDetails
   );
   const UsschoolSettings = useSelector(
     (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
@@ -216,6 +221,15 @@ const TAttendance = () => {
     asStdDivId: Number(selectClasstecahernew),
     asUserId: Number(TeacherId)
   };
+  const ListAbsentStudentBody: IGetAbsentStudentDetailsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivId: Number(selectClasstecahernew),
+    asSelectedDate: assignedDate,
+    asMaxDaysLimit: Number(UsschoolSettings),
+  };
+
+
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeacherDropdownnew.map((item) => {
@@ -457,15 +471,6 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if (saveResponseMessage != '') {
-      dispatch(GetStudentList(GetStudentDetails));
-      toast.success(saveResponseMessage, { toastId: 'success1' });
-      dispatch(setSaveResponse());
-      dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
-    }
-  }, [saveResponseMessage]);
-
-  useEffect(() => {
     if (DeleteAttendance != '') {
       toast.success(DeleteAttendance);
       dispatch(CDAresetDeleteAttendance());
@@ -559,6 +564,7 @@ const TAttendance = () => {
           } else {
             SaveAttendance(); // Execute the API call after the second alert
             setIsDirty(false);
+
           }
         }
       });
@@ -592,6 +598,22 @@ const TAttendance = () => {
     return;
   };
 
+  useEffect(() => {
+    if (saveResponseMessage != '') {
+      dispatch(GetStudentList(GetStudentDetails));
+      toast.success(saveResponseMessage, { toastId: 'success1' });
+      dispatch(setSaveResponse());
+      dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
+      dispatch(AbsentStudentsandHalfday(ListAbsentStudentBody));
+    }
+  }, [saveResponseMessage]);
+
+  useEffect(() => {
+    console.log(ListAbsentStudents, 'ListAbsentStudents')
+    if (ListAbsentStudents.length > 0) {
+      setOpen(true);
+    }
+  }, [ListAbsentStudents])
   const ClickOpenDialogbox = () => {
     setOpen(true);
   };
@@ -822,24 +844,23 @@ const TAttendance = () => {
               </Tooltip>
             </Box>
 
-            {Number(UsschoolSettings) > 0 &&
-              <Box>
-                <Tooltip title={'Absent Student Details'}>
-                  <IconButton
-                    sx={{
-                      backgroundColor: blue[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
-                    }}
-                    onClick={ClickOpenDialogbox}
-                  >
-                    <AddComment />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            }
+            <Box>
+              <Tooltip title={'Absent Student Details'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: blue[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                  onClick={ClickOpenDialogbox}
+                >
+                  <AddComment />
+                </IconButton>
+              </Tooltip>
+            </Box>
+
             <Box>
               {SaveIsActive ? (
                 <Tooltip title={'Save Attendance'}>
