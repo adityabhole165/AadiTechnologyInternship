@@ -2007,8 +2007,8 @@ const WeeklyTimetable = (props: Props) => {
                                         <Table>
                                             <TableHead>
                                                 <TableRow>
-                                                    <HeaderStyledCell>Class Subjects</HeaderStyledCell>
-                                                    <HeaderStyledCell>Lecture Count</HeaderStyledCell>
+                                                    <HeaderStyledCell sx={{ textAlign: 'left' }}>Class Subjects</HeaderStyledCell>
+                                                    <HeaderStyledCell sx={{ textAlign: 'center' }}>Lecture Count</HeaderStyledCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -2057,17 +2057,17 @@ const WeeklyTimetable = (props: Props) => {
                                                     return (
                                                         item.Text2 === 'Total Weekly Lectures' ? (
                                                             <TableRow key={i}>
-                                                                <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                                                                <FooterStyledCell>{countNonZeroPatterns() + (mpt && Number(mptCount)) + (stayback && Number(staybackCount)) + (weeklytest && Number(weeklytestCount)) + (assembly && Number(assemblyCount))}</FooterStyledCell>
+                                                                <FooterStyledCell sx={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                                                                <FooterStyledCell sx={{ textAlign: 'center' }}>{countNonZeroPatterns() + (mpt && Number(mptCount)) + (stayback && Number(staybackCount)) + (weeklytest && Number(weeklytestCount)) + (assembly && Number(assemblyCount))}</FooterStyledCell>
                                                             </TableRow>
                                                         ) : !['Assembly', 'M.P.T.', 'Stay Back', 'Weekly Tests'].includes(item.Text2) ? (
                                                             <TableRow key={i}>
-                                                                <StyledCell1 sx={{ textAlign: 'center' }} >{item.Text2}</StyledCell1>
+                                                                <StyledCell1 sx={{ textAlign: 'left' }} >{item.Text2}</StyledCell1>
                                                                 <StyledCell1 sx={{ textAlign: 'center' }} >{countSubIdOccurrences(item.Text5, item.Text4)}</StyledCell1>
                                                             </TableRow>
                                                         ) : (
                                                             <TableRow key={i}>
-                                                                <StyledCell1 sx={{ textAlign: 'center' }} >{item.Text2}</StyledCell1>
+                                                                <StyledCell1 sx={{ textAlign: 'left' }} >{item.Text2}</StyledCell1>
                                                                 <StyledCell1 sx={{ textAlign: 'center' }} >{displayText3}</StyledCell1>
                                                             </TableRow>
                                                         )
@@ -2101,7 +2101,7 @@ const WeeklyTimetable = (props: Props) => {
                                                     <HeaderStyledCell sx={{ textAlign: 'left' }} >WeekDay</HeaderStyledCell>
                                                     <HeaderStyledCell sx={{ textAlign: 'center' }} >Lecture #</HeaderStyledCell>
                                                     <HeaderStyledCell>Class</HeaderStyledCell>
-                                                    <HeaderStyledCell>Subject </HeaderStyledCell>
+                                                    <HeaderStyledCell sx={{ textAlign: 'left' }} >Subject </HeaderStyledCell>
                                                     <HeaderStyledCell sx={{ textAlign: 'center' }}>Delete </HeaderStyledCell>
                                                 </TableRow>
                                             </TableHead>
@@ -2112,7 +2112,7 @@ const WeeklyTimetable = (props: Props) => {
                                                         <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>{item.Text2}</TableCell>
                                                         <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text1}</TableCell>
                                                         <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text4}</TableCell>
-                                                        <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'center' }}>{item.Text3}</TableCell>
+                                                        <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px', textAlign: 'left' }}>{item.Text3}</TableCell>
                                                         <TableCell sx={{ textAlign: 'center', border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '1px', paddingBottom: '1px' }}>
                                                             <Tooltip title="Delete">
                                                                 <IconButton onClick={() => dltAddLecture(item.Text5)}
