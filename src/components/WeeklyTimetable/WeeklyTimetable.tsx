@@ -367,6 +367,12 @@ const WeeklyTimetable = (props: Props) => {
         asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
         asWeekDayName: 'Friday'
     }
+    // Following f() is for Calculating the total Lec. count for each WeekDay
+    const [MonCount, setMonCount] = useState(0);
+    const [TueCount, setTueCount] = useState(0);
+    const [WedCount, setWedCount] = useState(0);
+    const [ThuCount, setThuCount] = useState(0);
+    const [FriCount, setFriCount] = useState(0);
     useEffect(() => {
         if (teacher !== '0' && teacher !== undefined && isNewTeacherSelection === true) {
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon));
@@ -374,11 +380,11 @@ const WeeklyTimetable = (props: Props) => {
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu));
             dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri));
-            setMonCount(0);
-            setTueCount(0);
-            setWedCount(0);
-            setThuCount(0);
-            setFriCount(0);
+            // setMonCount(0);
+            // setTueCount(0);
+            // setWedCount(0);
+            // setThuCount(0);
+            // setFriCount(0);
         }
     }, [teacher, isNewTeacherSelection]);
 
@@ -1177,16 +1183,9 @@ const WeeklyTimetable = (props: Props) => {
         return newAr;
     }
 
-    // Following f() is for Calculating the total Lec. count for each WeekDay
-    const [MonCount, setMonCount] = useState(0);
-    const [TueCount, setTueCount] = useState(0);
-    const [WedCount, setWedCount] = useState(0);
-    const [ThuCount, setThuCount] = useState(0);
-    const [FriCount, setFriCount] = useState(0);
     useEffect(() => {
-        if (ApplicablesToggleData.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && loading === false && TeacherTimetableCellValues.length > 0 && teacher !== '0' && MondayColumnList.length > 0 && TuesdayColumnList.length > 0 && WednesdayColumnList.length > 0 && ThursdayColumnList.length > 0 && FridayColumnList.length > 0) {
+        if (ApplicablesToggleData.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && TeacherTimetableCellValues.length > 0) {
             let WeekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-            // Object to map weekdays to their respective setter functions
             const daySetters = {
                 Monday: setMonCount,
                 Tuesday: setTueCount,
@@ -1194,7 +1193,6 @@ const WeeklyTimetable = (props: Props) => {
                 Thursday: setThuCount,
                 Friday: setFriCount
             };
-            // Loop through each day and calculate the count
             WeekDays.forEach(day => {
                 let dayCount = TeacherTimetableCellValues.reduce((total, item) => {
                     let mptCount = 0;
@@ -1214,11 +1212,11 @@ const WeeklyTimetable = (props: Props) => {
                     }
                     return total + mptCount + assemblyCount + staybackCount + weeklytestCount + lecNo;
                 }, 0);
-                // Update the state for the current day
                 daySetters[day](Number(dayCount));
             });
         }
-    }, [trackTeacherTimetable, ApplicablesToggleData, loading, teacher, MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList, TeacherTimetableCellValues]);
+    }, [TeacherTimetableCellValues, trackTeacherTimetable, ApplicablesToggleData, assembly, mpt, stayback, weeklytest]);
+
 
 
     function SubmitAdditionalLecture() {
