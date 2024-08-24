@@ -144,6 +144,17 @@ export const GetStudentRecordData =
             });
             dispatch(AddStudentRecordsSlice.actions.BehaviorDetails(behaviordetails));
 
+            const getAnswer = (Id, ControlId) => {
+                let returnVal = ""
+                response.data.listParameterDetails.map((Item, i) => {
+                    if (Item.ParameterId == Id)
+                        returnVal = ControlId == "3" ? (Item.Answer == "1" ? "Yes" : "No") : Item.Answer
+                })
+                return returnVal
+            }
+
+            // console.log("----------------", getAnswer(2, 2));
+
             const GetAnswerList = (Id) => {
                 let arr = []
                 response.data.listBehaviorDetails.map((item, i) => {
@@ -151,7 +162,7 @@ export const GetStudentRecordData =
                         arr.push({
                             Id: item.Id,
                             Question: item.Name,
-                            Answer: "",
+                            Answer: getAnswer(item.Id, item.ControlId),
                             QueType: item.ControlId,
                         })
                 })

@@ -314,6 +314,7 @@ const AddStudentRecord = () => {
                                             }
                                         }}
                                         onClick={onClickSubmit}
+                                        disabled={Action == "Edit"}
                                     >
                                         <Check />
                                     </IconButton>
