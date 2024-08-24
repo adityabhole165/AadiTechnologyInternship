@@ -155,8 +155,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('UserLoginDetails1');
-    if (isLoggedIn && SchoolNoticePopupDashBoard.length > 0) {
+    if ( !sessionStorage.getItem('hasShownPopup') && SchoolNoticePopupDashBoard.length > 0) {
       setSchoolNoticeDialog(true);
     } else {
       setSchoolNoticeDialog(false);
@@ -465,7 +464,7 @@ function Dashboard() {
 
   const handleSchoolNoticePopupDialogClose = () => {
     setSchoolNoticeDialog(false);
-    localStorage.getItem('AllActiveNotices');
+    sessionStorage.setItem('hasShownPopup', 'true');
   };
   const handleAbsentStudentDialogClose = () => {
     setAbsentStudentDialog(false);
@@ -514,17 +513,17 @@ function Dashboard() {
         />
       )}
 
-      {SchoolNoticeDialog && (
-        <SchoolNoticePopupCom
-          open={SchoolNoticeDialog}
-          setOpen={handleSchoolNoticePopupDialogClose}
-        />
-      )}
-
       {(AbsentStudentDialog && Number(UsschoolSettings) > 0) && (
         <AbsentStudentDetailsPopup
           open={AbsentStudentDialog}
           setOpen={handleAbsentStudentDialogClose}
+        />
+      )}
+
+      {SchoolNoticeDialog && (
+        <SchoolNoticePopupCom
+          open={SchoolNoticeDialog}
+          setOpen={handleSchoolNoticePopupDialogClose}
         />
       )}
     </>
