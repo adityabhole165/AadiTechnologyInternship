@@ -126,13 +126,17 @@ const AddSchoolNoticeFT = () => {
     }
     useEffect(() => {
         if (UserRoleselected.length > 0) {
-            setApplicableTo({
+
+            let updatedApplicableTo = {
                 admin: IsRolePresent("1"),
                 teacher: IsRolePresent("2"),
                 student: IsRolePresent("3"),
                 adminStaff: IsRolePresent("6"),
                 otherStaff: IsRolePresent("7"),
-            })
+            }
+            setApplicableTo(updatedApplicableTo)
+            const allChecked = Object.values(updatedApplicableTo).every(value => value);
+            setSelectAll(allChecked);
         }
     }, [UserRoleselected])
     const IsDivPresent = (StandardDivisionId) => {
@@ -429,7 +433,7 @@ const AddSchoolNoticeFT = () => {
             setText(true)
         }
     };
-   
+
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
