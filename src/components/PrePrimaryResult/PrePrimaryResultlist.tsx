@@ -20,7 +20,7 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                                         textTransform: 'capitalize',
                                         color: (theme) => theme.palette.common.white,
                                         py: 1,
-                                      
+
                                     }}
                                 >
                                     <b>{item.Header}</b>
@@ -31,22 +31,21 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.ItemID}>
-                                <TableCell sx={{ textTransform: 'capitalize', py:0 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
                                     {item.Subject_Name}
                                 </TableCell>
+                                <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
+                                    {item.EditStatus == "Y" ? <Tooltip title={"Edit"}>
+                                        <IconButton
+                                            onClick={() => clickEdit(item.Id, item.EditStatus, item.Subject_Name)}
+                                            sx={{ color: '#223354', cursor: 'pointer', }}
+                                        >
+                                            <EditTwoTone />
+                                        </IconButton>
+                                    </Tooltip> : <img src="../../../../../../ " />}
 
-                                <TableCell sx={{ textTransform: 'capitalize', py:0}}>
-                               {item.EditStatus == "Y" ?  <Tooltip title={"Edit"}>
-                                    <IconButton
-                                        onClick={() => clickEdit(item.Id)}
-                                        sx={{ color: '#223354', cursor: 'pointer',  }}
-                                    >
-                                        <EditTwoTone />
-                                    </IconButton>
-                                </Tooltip> : <img src="../../../../../../ "  /> }
-                               
                                 </TableCell>
-                                
+
 
                             </TableRow>
                         ))}

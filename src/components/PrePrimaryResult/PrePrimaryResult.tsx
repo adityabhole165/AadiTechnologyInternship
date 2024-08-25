@@ -27,12 +27,12 @@ import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import { AlertContext } from 'src/contexts/AlertContext';
+import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import PrePrimaryResultlist from './PrePrimaryResultlist';
-import { AlertContext } from 'src/contexts/AlertContext';
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,6 +40,8 @@ const PrePrimaryResult = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const [SelectTeacher, setSelectTeacher] = useState('0');
+  const [teacherName, setTeachername] = useState('');
+  const [termName, setTermName] = useState('');
   let PreprimaryFullAccess = getSchoolConfigurations(163)
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
@@ -127,7 +129,7 @@ const PrePrimaryResult = () => {
     dispatch(CDAUnPublished(UnpublishBody));
   };
 
-  
+
 
 
   const Clickpublish = () => {
@@ -145,7 +147,7 @@ const PrePrimaryResult = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?'  ,
+        'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
@@ -179,20 +181,35 @@ const PrePrimaryResult = () => {
   const GetAssessmentDropdown = (value) => {
     setAssessmentResult(value);
   };
- 
-
- 
 
 
 
-  const ClickItem = (value) => {
+
+
+  // path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher'
+  // const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
+
+  const ClickItem = (SubId, EditStatusId, SubName) => {
+    console.log(GetTeacherXseedSubjects);
+    let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(' ')[0];
+    let StdDivId = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
     navigate(
       '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
-      value +
+      EditStatusId +
+      '/' +
+      className +
+      '/' +
+      termName +
       '/' +
       AssessmentResult +
       '/' +
-      SelectTeacher
+      SubName +
+      '/' +
+      SubId +
+      '/' +
+      StdDivId +
+      '/' +
+      'RP'
 
     );
   };
@@ -283,10 +300,13 @@ const PrePrimaryResult = () => {
 
         rightActions={
           <>
-            <SearchableDropdown
+            <SearchableDropdown1
               ItemList={Assessmentt}
               sx={{ minWidth: '250px' }}
-              onChange={GetAssessmentDropdown}
+              onChange={(value) => {
+                GetAssessmentDropdown(value.Value);
+                setTermName(value.Name);
+              }}
               defaultValue={AssessmentResult}
               label={'Select Term'}
               size={"small"}
@@ -294,10 +314,13 @@ const PrePrimaryResult = () => {
             />
             {
               PreprimaryFullAccess == 'Y' ?
-                <SearchableDropdown
+                <SearchableDropdown1
                   ItemList={PrePrimaryClassTeacher}
                   sx={{ minWidth: '250px' }}
-                  onChange={GetPrPriResultDropdown}
+                  onChange={(value) => {
+                    GetPrPriResultDropdown(value.Value);
+                    setTeachername(value.Name)
+                  }}
                   defaultValue={SelectTeacher}
                   label={'Subject Teacher'}
                   size={"small"}
@@ -307,7 +330,7 @@ const PrePrimaryResult = () => {
 
             }
             {
-              StandardDivisionId == "" || AssessmentResult =='0' ? null : <div>
+              StandardDivisionId == "" || AssessmentResult == '0' ? null : <div>
                 {
                   PublishStatus === "Y" && IsPublished === "N" ? (
                     <Tooltip title={'Publish'}>
@@ -362,17 +385,17 @@ const PrePrimaryResult = () => {
           </>}
       />
 
-      <Box sx={{backgroundColor:'white'}}>
-      {
-        GetTeacherXseedSubjects.length > 0 ?
-          <PrePrimaryResultlist
-            HeaderArray={HeaderList}
-            ItemList={GetTeacherXseedSubjects}
-            clickEdit={ClickItem}
-          />
-          : <span></span>
-      }
-</Box>
+      <Box sx={{ backgroundColor: 'white' }}>
+        {
+          GetTeacherXseedSubjects.length > 0 ?
+            <PrePrimaryResultlist
+              HeaderArray={HeaderList}
+              ItemList={GetTeacherXseedSubjects}
+              clickEdit={ClickItem}
+            />
+            : <span></span>
+        }
+      </Box>
 
       <Dialog
         open={open}
