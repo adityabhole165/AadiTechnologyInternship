@@ -2,7 +2,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { useState } from 'react';
 import QueAnsList from './QueAnsList';
-const AddStudentRecordList = ({ ItemList, ChangeItem }) => {
+const AddStudentRecordList = ({ ItemList, ChangeItem, IsEditiable }) => {
     const [ItemList1, setItemList1] = useState(
         [{
             QuestionId: 1,
@@ -71,7 +71,8 @@ const AddStudentRecordList = ({ ItemList, ChangeItem }) => {
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ p: 0 }}>
                                     <QueAnsList ItemList={Item.QueAnsList}
-                                        QuestionId={Item.QuestionId} ChangeItem={ChangeItem}></QueAnsList>
+                                        QuestionId={Item.QuestionId} IsEditiable={IsEditiable}
+                                        ChangeItem={ChangeItem}></QueAnsList>
                                 </AccordionDetails>
                             </Accordion >
                         )
