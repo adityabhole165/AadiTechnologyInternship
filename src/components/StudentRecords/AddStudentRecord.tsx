@@ -249,6 +249,56 @@ const AddStudentRecord = () => {
     const isSubmitted = listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].IsSubmitted === "True";
     const clickEdit = () => {
     }
+    const disableSave = () => {
+        //enable when default comment not present
+        if (listCommentDetailsUS.length == 0) {
+            return false
+        }
+        else {
+            listCommentDetailsUS.map((item) => {
+                if (item.IsDefaultComment == "True") {
+                    //enable when default comment is not submitted
+                    if (item.IsSubmitted == "False") {
+                        return false
+                    }
+                }
+            })
+        }
+        return true
+    }
+    const disableSubmit = () => {
+        listCommentDetailsUS.map((item) => {
+            if (item.IsDefaultComment == "True") {
+                //enable when default comment is not submitted
+                if (item.IsSubmitted == "False") {
+                    return false
+                }
+            }
+        })
+        return true
+    }
+    const disableAddComment = () => {
+        listCommentDetailsUS.map((item) => {
+            if (item.IsDefaultComment == "True") {
+                //enable when default comment is not submitted
+                if (item.IsSubmitted == "True") {
+                    return false
+                }
+            }
+        })
+        return true
+    }
+    const disableSubmitComment = () => {
+        listCommentDetailsUS.map((item) => {
+            if (item.IsDefaultComment !== "False") {
+                //enable when any non-comment is not submitted
+                if (item.IsSubmitted == "False") {
+                    return false
+                }
+            }
+        })
+        return true
+    }
 
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -301,7 +351,7 @@ const AddStudentRecord = () => {
                                             }
                                         }}
                                         onClick={onClickSave}
-                                        disabled={(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].Comment != null && listCommentDetailsUS[0].IsSubmitted != "False")}
+                                        disabled={disableSave()}
                                     >
                                         <Save />
                                     </IconButton>
@@ -321,7 +371,7 @@ const AddStudentRecord = () => {
                                             }
                                         }}
                                         onClick={onClickSubmit}
-                                    // disabled={Action == "Edit"}
+                                        disabled={disableSubmit()}
                                     >
                                         <Check />
                                     </IconButton>
@@ -340,7 +390,7 @@ const AddStudentRecord = () => {
                                             }
                                         }}
                                         onClick={ClickOpenDialogbox}
-                                        disabled={(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].Comment != null && listCommentDetailsUS[0].IsSubmitted == "False")}
+                                        disabled={disableAddComment()}
                                     >
                                         <AddComment />
                                     </IconButton>
@@ -358,6 +408,7 @@ const AddStudentRecord = () => {
                                         }
                                     }}
                                     onClick={onClickSubmitComment}
+                                    disabled={disableSubmitComment()}
                                 >
                                     <Send />
                                 </IconButton>
