@@ -28,11 +28,11 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import PrePrimaryResultlist from './PrePrimaryResultlist';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -301,31 +301,25 @@ const PrePrimaryResult = () => {
 
         rightActions={
           <>
-            <SearchableDropdown1
+            <SearchableDropdown
               ItemList={Assessmentt}
               sx={{ minWidth: '250px' }}
-              onChange={(value) => {
-                GetAssessmentDropdown(value.Value);
-                setTermName(value.Name);
-              }}
+              onChange={GetAssessmentDropdown}
               defaultValue={AssessmentResult}
-              label={'Select Term'}
+              label={'Assessment'}
               size={"small"}
-              mandatory
+
             />
             {
               PreprimaryFullAccess == 'Y' ?
-                <SearchableDropdown1
+                <SearchableDropdown
                   ItemList={PrePrimaryClassTeacher}
                   sx={{ minWidth: '250px' }}
-                  onChange={(value) => {
-                    GetPrPriResultDropdown(value.Value);
-                    setTeachername(value.Name)
-                  }}
+                  onChange={GetPrPriResultDropdown}
                   defaultValue={SelectTeacher}
-                  label={'Subject Teacher'}
+                  label={'Select Class Teacher'}
                   size={"small"}
-                  mandatory
+
                 />
                 : <span></span>
 
@@ -370,7 +364,7 @@ const PrePrimaryResult = () => {
             }
 
 
-            <Tooltip title={'View summarised results of your class for the selected assessment.Assessment result can be publish on by clicking on Publish button and unpublish by clicking on Unpublish button.'}>
+            <Tooltip title={'View summarised results of your class for the selected assessment.Assessment result can be publish by clicking on publish button and unpublish by clicking on unpublish button.'}>
               <IconButton
                 sx={{
                   color: 'white',
