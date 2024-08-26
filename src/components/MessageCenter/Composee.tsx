@@ -1039,22 +1039,36 @@ function Form13() {
                 
               </Grid>
 
-              <Grid container spacing={1} sx={{ m:0.5, pt:2 }}>
-                <Grid item xs={6} sm={2} >
-                  <ButtonPrimary
-                    color="primary"
+              <Grid container spacing={1} sx={{ m:0.5, pt:2 }} >
+                <Grid item xs={6} sm={1} >
+                  <Button
+                    // color="primary"
                     type="submit"
                     fullWidth
                     onClick={formik.handleChange}
                     disabled={disabledStateOfSend}
+                    sx={{
+                      color:'#38548A',
+                        '&:hover': {
+                      color:'blue',  
+                       backgroundColor: blue[100]
+                        }}}
                   >
                     Send
-                  </ButtonPrimary>
+                  </Button>
                 </Grid>
-                <Grid item xs={6} sm={2} >
-                  <ButtonPrimary color="primary" fullWidth onClick={SaveDraft}>
+                <Grid item xs={6} sm={1.5} >
+                  <Button
+                  // color="primary" 
+                  fullWidth onClick={SaveDraft}
+                   sx={{
+                    color:'#38548A',
+                      '&:hover': {
+                    color:'blue',  
+                     backgroundColor: blue[100]
+                      }}}>
                   Save as Draft
-                  </ButtonPrimary>
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>

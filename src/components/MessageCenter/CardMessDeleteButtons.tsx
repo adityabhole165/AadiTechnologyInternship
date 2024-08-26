@@ -36,7 +36,7 @@ function CardMessDeleteButtons({
                fullWidth
               sx={{
                 color:'#38548A',
-                width:'200px',
+                width:'210px',
                 //  backgroundColor: red[100],
                   '&:hover': {
                 color:'red',

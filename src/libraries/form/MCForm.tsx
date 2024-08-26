@@ -102,16 +102,17 @@ const MCForm = ({
             defaultValue={academicYear}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} >
           <Dropdown
             Array={MonthYearList}
             handleChange={clickMY}
             label={'Month'}
             defaultValue={monthYear}
+            
           />
         </Grid>
         <Grid item xs={6}>
-          <Box sx={{ width: '100px' }}>
+          <Box sx={{  }}>
             <Dropdown
               Array={operatorArray}
               handleChange={clickOperator}
@@ -137,27 +138,6 @@ const MCForm = ({
                 />
         </Grid>
         <Grid item xs={0}>
-          {/* <Button>
-          <SearchIcon
-            onClick={onClick}
-            
-            color="success"
-          ></SearchIcon>
-          </Button> */}
-          {/* <Button
-               onClick={onClick}
-               endIcon={<SearchIcon />}
-               fullWidth
-              sx={{
-                color:'blue',
-                  '&:hover': {
-                color:'blue',
-                borderRadius:'5px',
-                 backgroundColor: blue[100]
-                  }}}
-            >
-              Search
-            </Button> */} 
             <IconButton
             onClick={onClick}
             sx={{
