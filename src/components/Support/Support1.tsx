@@ -1,7 +1,11 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SaveIcon from '@mui/icons-material/Save';
+import { Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { green, grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 import CommonPageHeader from '../CommonPageHeader';
 
 const Support1 = () => {
@@ -12,80 +16,142 @@ const Support1 = () => {
     const asUserId = Number(localStorage.getItem('UserId'));
     const asFolderName = localStorage.getItem('FolderName');
     const [radioBtn, setRadioBtn] = useState('1');
-    const [subject, setSubject] = useState('');
+    const [problemSubject, setProblemSubject] = useState('');
+    const [base64URL, setbase64URL] = useState('');
+    const [AttatchmentFile, setAttatchmentFile] = useState('');
+    const [emailId, setEmailId] = useState('');
+    const [mobilenumber, setMobilenumber] = useState(sessionStorage.getItem('MobileNumber'));
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
+    const ValidFileTypes = ['XLS', 'XLSX', 'DOC', 'DOCX', 'PDF', 'JPG', 'JPEG'];
+    const MaxfileSize = 20000000;
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
-
+    const ChangeFile = (value) => {
+        setAttatchmentFile(value.Name);
+        setbase64URL(value.Value);
+    };
     const handleSubmit = () => {
-       
+
     };
 
     return (
         <>
             <Box sx={{ px: 2 }}>
                 <CommonPageHeader
-                    navLinks={[{ title: 'Support', path: ' ' }]}
+                    navLinks={[
+                        {
+                            title: 'Support',
+                            path: ''
+                        }
+                    ]}
+                    rightActions={
+                        <>
+                            <Box>
+                                <Tooltip
+                                    title={`Please write us your queries/ problem. We will try our level best to assist you.`}
+                                >
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] }
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Box>
+                                <Tooltip title={'Submit'}>
+                                    <IconButton
+                                        type='submit'
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: green[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: green[600] }
+                                        }}
+                                        onClick={handleSubmit}
+                                    >
+                                        <SaveIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        </>
+                    }
                 />
-                <Box sx={{ mt: 4 }}>
-                    <Typography variant="h5" gutterBottom>
+                <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
+                    <Typography variant="h4" gutterBottom>
                         Support Request
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
+                </Grid >
+                <Grid sx={{ backgroundColor: 'white', p: 1 }}>
+                    <Typography variant="h5" gutterBottom>
                         Dear Teacher, <br />
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
                         Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible. You may attach a file as a supporting document. It will help our support member to understand the problem in full and speed up the resolution of your request.
                     </Typography>
-                    <Box sx={{ mt: 2 }}>
-                        <TextField
-                            fullWidth
-                            label="Subject"
-                            variant="outlined"
-                            value={subject}
-                            onChange={(e) => setSubject(e.target.value)}
-                            sx={{ mb: 2 }}
+                </Grid >
+                <Grid sx={{ backgroundColor: 'white', p: 1 }}>
+                    <Typography variant="h4" gutterBottom>
+                        Write to Us
+                    </Typography>
+                </Grid >
+                <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
+                    <TextField
+                        fullWidth
+                        label="E-mail Address : "
+                        variant="outlined"
+                        value={emailId}
+                        onChange={(e) => setEmailId(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        fullWidth
+                        label="Mobile Number :"
+                        variant="outlined"
+                        value={mobilenumber}
+                        onChange={(e) => setMobilenumber(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        fullWidth
+                        label="Problem Subject : "
+                        variant="outlined"
+                        value={problemSubject}
+                        onChange={(e) => setProblemSubject(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        fullWidth
+                        label="Description :"
+                        variant="outlined"
+                        multiline
+                        rows={4}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <Grid >
+                        <SingleFile2
+                            ValidFileTypes={ValidFileTypes}
+                            MaxfileSize={MaxfileSize}
+                            ChangeFile={ChangeFile}
+                            errorMessage={''}
+                            FileName={AttatchmentFile}
+                            FileLabel={'Attachment : '}
+                            width={'290px'}
+                            height={"52px"}
                         />
-                        <TextField
-                            fullWidth
-                            label="Description"
-                            variant="outlined"
-                            multiline
-                            rows={4}
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            sx={{ mb: 2 }}
-                        />
-                        <Button
-                            variant="contained"
-                            component="label"
-                            sx={{ mb: 2 }}
-                        >
-                            Attach File
-                            <input
-                                type="file"
-                                hidden
-                                onChange={handleFileChange}
-                            />
-                        </Button>
-                        {file && (
-                            <Typography variant="body2">
-                                Attached file: {file.name}
-                            </Typography>
-                        )}
-                        <Box sx={{ mt: 2 }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleSubmit}
-                            >
-                                Submit Request
-                            </Button>
-                        </Box>
-                    </Box>
-                </Box>
+                    </Grid>
+                </Grid >
             </Box>
+
         </>
     );
 };
