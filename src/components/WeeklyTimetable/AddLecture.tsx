@@ -1,4 +1,5 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import ClearIcon from '@mui/icons-material/Close';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
@@ -8,16 +9,15 @@ import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDrop
 import { RootState } from "src/store";
 
 AddLecture.propTypes = {
+    Value1: PropTypes.string,
     ValError: PropTypes.string,
     Heading: PropTypes.string,
     Open: PropTypes.bool,
     OnClose: PropTypes.func,
     onSubmit: PropTypes.func,
-    ItemList1: PropTypes.array,
     ItemList2: PropTypes.array,
     ItemList3: PropTypes.array,
     ItemList4: PropTypes.array,
-    Defaultvalue1: PropTypes.string,
     Defaultvalue2: PropTypes.string,
     Defaultvalue3: PropTypes.string,
     Defaultvalue4: PropTypes.string,
@@ -28,12 +28,12 @@ AddLecture.propTypes = {
     ErrorMsg1: PropTypes.bool,
     ErrorMsg2: PropTypes.bool,
     ErrorMsg3: PropTypes.bool,
+    Label3: PropTypes.string,
     ValErrorMsgList: PropTypes.array
 }
-function AddLecture({ ValErrorMsgList = [], ValError, Open, OnClose, onSubmit, Heading, ItemList1, Defaultvalue1, Label1, ItemList2, OnChange1, Defaultvalue2,
-    ErrorMsg1, ErrorMsg2, Defaultvalue3, OnChange2, ItemList3, ErrorMsg3, Defaultvalue4, OnChange3, ItemList4 }) {
+function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onSubmit, Heading, Label1, ItemList2, OnChange1, Defaultvalue2,
+    ErrorMsg1, ErrorMsg2, Defaultvalue3, OnChange2, ItemList3, ErrorMsg3, Defaultvalue4, OnChange3, ItemList4, Label3 }) {
     const loading = useSelector((state: RootState) => state.WeeklyTimetable.Loading);
-
     return (
         <>
             <Dialog
@@ -44,11 +44,24 @@ function AddLecture({ ValErrorMsgList = [], ValError, Open, OnClose, onSubmit, H
             >
                 <DialogTitle
                     sx={{
-                        py: 1,
+                        py: 1.6,
                         backgroundColor: (theme) => theme.colors.primary.main,
                         color: (theme) => theme.palette.common.white
                     }}
-                ></DialogTitle>
+                >
+                    <ClearIcon onClick={OnClose}
+                        sx={{
+                            color: 'white',
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            top: '5px',
+                            right: '8px',
+                            cursor: 'pointer',
+                            '&:hover': {
+                                color: 'red',
+                            }
+                        }} />
+                </DialogTitle>
                 <DialogContent dividers>
                     <Box>
                         {ValError?.length > 0 && <span dangerouslySetInnerHTML={{ __html: `Error : ${ValError}` }} style={{ color: 'red', fontWeight: 'bolder' }} />}
@@ -69,14 +82,15 @@ function AddLecture({ ValErrorMsgList = [], ValError, Open, OnClose, onSubmit, H
                         {loading && <SuspenseLoader />}
                         <Stack gap={2} mt={2}>
                             <Box sx={{ width: '100%' }}>
-                                <SearchableDropdown
-                                    onChange={() => { }}
-                                    ItemList={ItemList1}
-                                    defaultValue={Defaultvalue1}
+                                <TextField
                                     label={Label1}
-                                    sx={{ minWidth: '100%' }}
-                                    size={"small"}
-                                    disabled={true}
+                                    value={Value1}
+                                    sx={{ bgcolor: '#F0F0F0', minWidth: '100%' }}
+                                    size="small"
+                                    InputProps={{
+                                        readOnly: true,
+                                        style: { fontWeight: 'bolder' },
+                                    }}
                                 />
                             </Box>
                             <Box sx={{ width: '100%' }}>
@@ -109,14 +123,14 @@ function AddLecture({ ValErrorMsgList = [], ValError, Open, OnClose, onSubmit, H
                                 <SearchableDropdown1
                                     onChange={OnChange3}
                                     ItemList={ItemList4}
-                                    label="Class Subjects"
+                                    label={Label3}
                                     sx={{ minWidth: '100%' }}
                                     size={"small"}
                                     defaultValue={Defaultvalue4}
                                     mandatory={true}
                                     DisableClearable={true}
                                 />
-                                {ErrorMsg3 && <span style={{ color: 'red', fontSize: '12px' }}>Class-Subject name should not be empty.</span>}
+                                {ErrorMsg3 && <span style={{ color: 'red', fontSize: '12px' }}>{Label3} name should not be empty.</span>}
                             </Box>
                         </Stack>
                     </Box>

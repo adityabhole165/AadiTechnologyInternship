@@ -439,7 +439,103 @@ export interface IGetValidateAddDataForTeacherResult {
     ErrMsgForWeeklyTeacherLectures: string,
     OverlapErrorMessage: string,
     ErrMsgForWeekDayTeacherLectures: string,
-    ErrMsgForSubjectLectures: String,
+    ErrMsgForSubjectLectures: string,
+    ErrMsgForAssociateSubjectLectures: string,
+    ErrMsgForExternalLectures: string
+}
+
+export interface IGetOptionalSubjectLecturesBody {
+    asSchoolId: Number,
+    asAcademicYearID: Number,
+    asTeacher_Id: Number,
+    asStandardDivision_Id: Number
+}
+
+export interface IGetOptionalSubjectLecturesResult {
+    WeekDayNameDetails: [
+        {
+            WeekDay_Name: string,
+            Weekday_Id: string
+        }
+    ],
+    LectureNumberDetails: [
+        {
+            Lecture_Number: string,
+            Weekday_Id: string
+        }
+    ],
+    SubjectTeacherDetails: [
+        {
+            Standard_Division_Id: string,
+            Subject_Id: string,
+            classSubjectName: string,
+            SubjectTeacher: string,
+            Original_Standard_Id: string,
+            Original_Division_Id: string,
+            Teacher_Id: string,
+            ParentGroupId: string,
+            SubjectGroupId: string
+        }
+    ],
+    ClassSubjectDatails: [
+        {
+            Standard_Division_Id: string,
+            Lecture_Number: string,
+            Subject_Id: string,
+            ClassSubject: string,
+            Weekday_Id: string,
+            ParentGroupId: string,
+            SubjectGroupId: string
+        }
+    ],
+    OptionalSubjectDatails: [
+        {
+            Standard_Division_Id: string,
+            Lecture_Number: string,
+            WeekDay_Name: string,
+            Subject_Name: string,
+            ClassName: string,
+            Weekday_Id: string,
+            School_TimeTable_Detail_Id: string
+        }
+    ],
+    StdLectureNoDetails: any
+}
+
+export interface IGetGroupwiseOptionalSubjectBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asStdDivId: Number,
+    asParentGroupId: Number,
+    asSubjectGroupId: Number
+}
+
+export interface IGetGroupwiseOptionalSubjectResult {
+    Standard_Division_Id: string,
+    Subject_Id: string,
+    classSubjectName: string,
+    SubjectTeacher: string,
+    Teacher_Id: string,
+    ParentGrpId: string,
+    SubjectGroupId: string
+}
+
+export interface IGetValidateDataForClassBody1 {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asInsertedById: Number,
+    asStdDivId: Number,
+    asMasterXml: string,
+    asDetailXml: string,
+    IsAdditionalClass: Boolean,
+    asIncCnt: Number
+}
+
+export interface IGetValidateDataForClassResult {
+    ErrMsgForWeeklyTeacherLectures: string,
+    OverlapErrorMessage: string,
+    ErrMsgForWeekDayTeacherLectures: string,
+    ErrMsgForSubjectLectures: string,
     ErrMsgForAssociateSubjectLectures: string,
     ErrMsgForExternalLectures: string
 }

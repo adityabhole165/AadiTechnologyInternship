@@ -1,4 +1,4 @@
-import { IGetCheckDuplicateLecturesMsgBody, IGetCheckDuplicateLecturesMsgResult, IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAddClassesPopUpBody, IGetDataForAddClassesPopUpResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult, IGetValidateAddDataForTeacherBody, IGetValidateAddDataForTeacherResult, IGetValidateDataForClassBody, IGetValidateDataForClassResult, IGetValidateTeacherDataBody, IGetValidateTeacherDataResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetCheckDuplicateLecturesMsgBody, IGetCheckDuplicateLecturesMsgResult, IGetClassTimeTableBody, IGetClassTimeTableResult, IGetDataForAddClassesPopUpBody, IGetDataForAddClassesPopUpResult, IGetDataForAdditionalClassesBody, IGetDataForAdditionalClassesResult, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetDivisionForStdDropdownResult, IGetGroupwiseOptionalSubjectBody, IGetGroupwiseOptionalSubjectResult, IGetManageClassTimeTableBody, IGetOptionalSubjectLecturesBody, IGetOptionalSubjectLecturesResult, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherAndStandardForTimeTableResult, IGetTeacherSubjectMaxLecDetailsBody, IGetTeacherSubjectMaxLecDetailsResult, IGetTimeTableForTeacherBody, IGetTimeTableForTeacherResult, IGetValidateAddDataForTeacherBody, IGetValidateAddDataForTeacherResult, IGetValidateDataForClassBody, IGetValidateDataForClassBody1, IGetValidateDataForClassResult, IGetValidateTeacherDataBody, IGetValidateTeacherDataResult } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -27,31 +27,31 @@ const GetDivisionForStdDropdownApi = (data: IGetDivisionForStdDropdownBody) => {
     return http.post<IGetDivisionForStdDropdownResult[]>('Teacher/GetAllDivisionsForStandardDropDown', data)
 }
 
-// const GetTeacherSubjectMaxLecDetailsApi = (data: IGetTeacherSubjectMaxLecDetailsBody) => {
-//     return http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data)
-// }
+const GetTeacherSubjectMaxLecDetailsApi = (data: IGetTeacherSubjectMaxLecDetailsBody) => {
+    return http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data)
+}
 
-const GetTeacherSubjectMaxLecDetailsApi = async (data: IGetTeacherSubjectMaxLecDetailsBody) => {
-    try {
-        return await http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data);
-    } catch (error) {
-        console.error('Error in GetTeacherSubjectMaxLecDetailsApi:', error);
-        if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.error('Response data:', error.response.data);
-            console.error('Response status:', error.response.status);
-            console.error('Response headers:', error.response.headers);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.error('Request data:', error.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error('Error message:', error.message);
-        }
-        throw error;
-    }
-};
+// const GetTeacherSubjectMaxLecDetailsApi = async (data: IGetTeacherSubjectMaxLecDetailsBody) => {
+//     try {
+//         return await http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data);
+//     } catch (error) {
+//         console.error('Error in GetTeacherSubjectMaxLecDetailsApi:', error);
+//         if (error.response) {
+//             // The request was made and the server responded with a status code
+//             // that falls out of the range of 2xx
+//             console.error('Response data:', error.response.data);
+//             console.error('Response status:', error.response.status);
+//             console.error('Response headers:', error.response.headers);
+//         } else if (error.request) {
+//             // The request was made but no response was received
+//             console.error('Request data:', error.request);
+//         } else {
+//             // Something happened in setting up the request that triggered an Error
+//             console.error('Error message:', error.message);
+//         }
+//         throw error;
+//     }
+// };
 
 
 const GetTimeTableForTeacherApi = (data: IGetTimeTableForTeacherBody) => {
@@ -84,8 +84,17 @@ const GetValidateAdditionalDataForTeacherApi = (data: IGetValidateAddDataForTeac
 const GetManageClassTimeTableApi = (data: IGetManageClassTimeTableBody) => {
     return http.post<string>('Teacher/ManageClassTimeTable', data)
 }
+const GetOptionalSubjectLecturesApi = (data: IGetOptionalSubjectLecturesBody) => {
+    return http.post<IGetOptionalSubjectLecturesResult>('Teacher/OptionalSubjectLectures', data)
+}
+const GetGroupwiseOptionalSubjectApi = (data: IGetGroupwiseOptionalSubjectBody) => {
+    return http.post<IGetGroupwiseOptionalSubjectResult[]>('Teacher/GetGroupwiseOptionalSubject', data)
+}
 const GetDeleteAdditionalLecturesApi = (data: IGetDeleteAdditionalLecturesBody) => {
     return http.post<string>('Teacher/DeleteAdditionalLectures', data)
+}
+const GetValidateDataForClassApi = (data: IGetValidateDataForClassBody1) => {
+    return http.post<IGetValidateDataForClassResult[]>('Teacher/ValidateDataForClass', data)
 }
 
 // GetDeleteAdditionalLectureApi  | to be used before Saving Teacher Time Table
@@ -108,7 +117,10 @@ const WeeklyTimeTableApi = {
     GetValidateClassDataApi,
     GetIGetDataForAddClassesPopUpApi,
     GetCheckDuplicateLecturesMsgApi,
-    GetValidateAdditionalDataForTeacherApi
+    GetValidateAdditionalDataForTeacherApi,
+    GetOptionalSubjectLecturesApi,
+    GetGroupwiseOptionalSubjectApi,
+    GetValidateDataForClassApi
 };
 
 export default WeeklyTimeTableApi;
