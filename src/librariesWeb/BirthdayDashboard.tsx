@@ -115,6 +115,13 @@ function BirthdayDashboard() {
             <Tooltip title={`You are viewing old data, click here to see latest data.`}>
               <IconButton
                 onClick={() => {
+                  setView('T');
+                  setAlignment('S');
+                  setBirthdaysBody(prevBody => ({
+                    ...prevBody,
+                    aiUserRoleId: roleIdMapping['S'],
+                    asView: 'T'
+                  }));
                   setIsRefresh(prev => !prev);
                 }}
               >
