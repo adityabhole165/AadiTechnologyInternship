@@ -116,10 +116,11 @@ const MCForm = ({
               Array={operatorArray}
               handleChange={clickOperator}
               defaultValue={operator}
+              size={"medium"}
             />
           </Box>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5.4}>
           {/* <TextField
             type="date"
             id="outlined-required"
@@ -131,7 +132,7 @@ const MCForm = ({
                   DateValue={searchDate}
                   onDateChange={clickDate}
                   label={''}
-                  size={"small"}
+                  size={"medium"}
 
                 />
         </Grid>
@@ -162,6 +163,7 @@ const MCForm = ({
             sx={{
               background: (theme) => theme.palette.primary.main,
               color: 'white',
+              mt:1,
               '&:hover': {
                 backgroundColor: (theme) => theme.palette.primary.dark
               }
