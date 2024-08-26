@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify'
 import { AlertContext } from 'src/contexts/AlertContext'
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody } from "src/interfaces/Teacher/ITeacherTimeTable"
-import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateAddDataForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetGroupwiseOptionalSubjectBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateAddDataForTeacherBody, IGetValidateDataForClassBody1 } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader'
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAClassLecNoWeekday, CDAClearDuplicateLecturesMsg, CDAClearManageClassTimeTable, CDAClearValidateAdditionalDataForTeacher, CDAClearValidateAddLecTeacherData, CDAClearValidateClassData, CDAClearValidateTeacherData, CDAClearWeeklyClassTimetableValues, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAddClassPopUp, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAMutedDeleteAdditionalLectures, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveAddTeacherTimetable, CDASaveClassTimetable, CDASaveClassTimetableWithIncr, CDASaveTeacherTimetable, CDASaveTeacherTimetableWithIncr, CDAValidateAdditionalDataForTeacher, ResetSaveClassTimetableMsg, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAClassLecNoWeekday, CDAClassSubjectBaseLecList, CDAClearDuplicateLecturesMsg, CDAClearManageClassTimeTable, CDAClearValidateAdditionalDataForTeacher, CDAClearValidateAddLecTeacherData, CDAClearValidateClassData, CDAClearValidateTeacherData, CDAClearWeeklyClassTimetableValues, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAddClassPopUp, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetGroupwiseOptSub, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAMutedDeleteAdditionalLectures, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveAddClassTimetable, CDASaveAddTeacherTimetable, CDASaveClassTimetable, CDASaveClassTimetableWithIncr, CDASaveTeacherTimetable, CDASaveTeacherTimetableWithIncr, CDAValidateAdditionalDataForTeacher, ResetSaveClassTimetableMsg, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import { GetScreenPermission } from '../Common/Util'
 import CommonPageHeader from "../CommonPageHeader"
@@ -85,6 +85,7 @@ const WeeklyTimetable = (props: Props) => {
     const ApplicablesToggleData = useSelector((state: RootState) => state.WeeklyTimetable.ISGetApplicables);
     const ClassTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetClassLecNoWeekday);
     const WeekdayIds = useSelector((state: RootState) => state.WeeklyTimetable.ISWeekdayId);
+    const ClassBaseLecList = useSelector((state: RootState) => state.WeeklyTimetable.ISClassSubjectBaseLecList);
     const ClassWeeklyIds = useSelector((state: RootState) => state.WeeklyTimetable.ISClassWeekdayId);
     const mptInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISMPTinfo);
     const AssemblyInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISAssemblyInfo);
@@ -104,6 +105,7 @@ const WeeklyTimetable = (props: Props) => {
     const ValidateClassDataMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISValidateClassData);
     const ExtLectCount = useSelector((state: RootState) => state.WeeklyTimetable.ISExtLectCount);
     const OptionalLecForClass = useSelector((state: RootState) => state.WeeklyTimetable.ISAddLecForClass);
+    const GetGroupwiseOptSubList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetGroupwiseOptSub);
     const AddLecWeekDayList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetAddLecPopUpWeekDayList);
     const DuplicateLecturesMsg = useSelector((state: RootState) => state.WeeklyTimetable.ISGetCheckDuplicateLecturesMsg);
     const AddLecNoList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetAddLecPopUpLecNoList);
@@ -200,7 +202,7 @@ const WeeklyTimetable = (props: Props) => {
     }, [AddLecForTStdDivId])
     useEffect(() => {
         if (AddLecForTeacherSuccessMsg !== undefined && AddLecForTeacherSuccessMsg?.length === 0) {
-            toast.success('Additional Lecture Added Successfully');
+            toast.success('Additional lecture added successfully');
             dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
             dispatch(CDAClearValidateAdditionalDataForTeacher());
             setShowAddAdditionalLectures(false);
@@ -230,6 +232,46 @@ const WeeklyTimetable = (props: Props) => {
 
         return filteredClassSubjects;
     }
+
+    useEffect(() => {
+        if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && ClassBaseLecList.length > 0) {
+            const filteredArray = ClassBaseLecList?.filter((item) => item.Weekday_Id === AddLecForTWeekDayId && item.Lecture_Number === AddLecForTLecNo);
+            console.log(`🙋‍♂️ ??? `, filteredArray, ClassBaseLecList, AddLecForTWeekDayId, AddLecForTLecNo)
+            let ParentGroupId = filteredArray[0]?.ParentGroupId;
+            let SubjectGroupId = filteredArray[0]?.SubjectGroupId;
+            const OptionalLecBody: IGetGroupwiseOptionalSubjectBody = {
+                asSchoolId: Number(localStorage.getItem('SchoolId')),
+                asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                asStdDivId: Number(division),
+                asParentGroupId: Number(ParentGroupId),
+                asSubjectGroupId: Number(SubjectGroupId)
+            }
+            dispatch(CDAGetGroupwiseOptSub(OptionalLecBody));
+        }
+    }, [ClassBaseLecList, AddLecForTWeekDayId, AddLecForTLecNo])
+
+    const [filteredGroupwiseSubArray, setFilteredGroupwiseSubArray] = useState([])
+    const [AddLecTeacherId, setAddLecTeacherId] = useState('0')
+    useEffect(() => {
+        if (GetGroupwiseOptSubList.length > 0 && AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0') {
+            const arr = ClassBaseLecList?.filter((item) => item.Weekday_Id === AddLecForTWeekDayId && item.Lecture_Number === AddLecForTLecNo);
+            console.log('filtered array ⭐️', arr)
+            let excludedSub = arr[0]?.Subject_Id;
+            let filteredArray = GetGroupwiseOptSubList.filter((item) => item.Subject_Id !== excludedSub);
+            filteredArray = filteredArray.map((item) => {
+                return (
+                    {
+                        Id: item.Subject_Id,
+                        Name: item.SubjectTeacher,
+                        Value: item.Subject_Id,
+                        TeacherId: item.Teacher_Id
+                    }
+                )
+            })
+            filteredArray.unshift({ Id: '0', Name: 'Select', Value: '0', TeacherId: '0' });
+            setFilteredGroupwiseSubArray(filteredArray);
+        }
+    }, [GetGroupwiseOptSubList, AddLecForTWeekDayId, AddLecForTLecNo])
 
 
     const FilteredAddLecArray = getFilteredClassSubjects(AddLecForTWeekDayId, AddLecForTLecNo, AddLecPopupCompClassNameDetailsList, AddClassSubList);
@@ -541,11 +583,14 @@ const WeeklyTimetable = (props: Props) => {
         const AdditionalLecturesBody: IGetDataForAdditionalClassesBody = {
             asSchoolId: Number(localStorage.getItem('SchoolId')),
             asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
-            asTeacher_Id: Number(teacher),
-            asStandardDivision_Id: 0
+            asTeacher_Id: filterBy === 'Teacher' ? Number(teacher) : 0,
+            asStandardDivision_Id: filterBy === 'Class' ? Number(division) : 0
         }
         dispatch(CDAGetDataForAdditionalClasses(AdditionalLecturesBody));
-        dispatch(CDAGetDataForAddClassPopUp(AdditionalLecturesBody))
+        dispatch(CDAGetDataForAddClassPopUp(AdditionalLecturesBody));
+        if (filterBy === 'Class') {
+            dispatch(CDAClassSubjectBaseLecList(AdditionalLecturesBody));
+        }
     }
 
     const handleTeacherSettingsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -1251,6 +1296,7 @@ const WeeklyTimetable = (props: Props) => {
 
 
     function SubmitAdditionalLecture() {
+        dispatch(CDAClearDuplicateLecturesMsg());
         dispatch(CDAClearValidateAdditionalDataForTeacher());
         const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
             asSchoolId: Number(localStorage.getItem('SchoolId')),
@@ -1293,8 +1339,36 @@ const WeeklyTimetable = (props: Props) => {
             asIsCountInceased: 0
         }
         console.log(`🤝`, AddLecForTeacherApiBody)
-        if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && AddLecForTSubjectNameId !== '0') {
+        if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && AddLecForTStdDivId !== '0') {
             dispatch(CDASaveAddTeacherTimetable(AddLecForTeacherApiBody, DuplicateLecBody, AddLecForManageTeacherApiBody, ValidateAdditionalDataForTeacher));
+        } else {
+            setIsSubmitAdLecToTeacher(true);
+        }
+    }
+
+    function SubmitAddtionalLecForClass() {
+        dispatch(CDAClearDuplicateLecturesMsg());
+        const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
+            asSchoolId: Number(localStorage.getItem('SchoolId')),
+            asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+            asSubjectId: Number(AddLecForTSubjectNameId),
+            asTeacherId: Number(AddLecTeacherId),
+            asStdDivId: Number(division),
+            asLectureNo: Number(AddLecForTLecNo),
+            asWeekDayId: Number(AddLecForTWeekDayId)
+        }
+        const ValidateAddDataForClass: IGetValidateDataForClassBody1 = {
+            asSchoolId: Number(localStorage.getItem('SchoolId')),
+            asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+            asInsertedById: Number(sessionStorage.getItem('Id')),
+            asStdDivId: Number(division),
+            asMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id='1345' Weekday_Id='1072' /></DaywiseTimeTableMaster>`,
+            asDetailXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id='1072' Teacher_ID='2561' Standard_Division_Id='1345' Lecture_Number='2' Subject_Id='2391' /></DaywiseTimeTableDetails>`,
+            IsAdditionalClass: true,
+            asIncCnt: 0
+        }
+        if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && AddLecForTSubjectNameId !== '0') {
+            dispatch(CDASaveAddClassTimetable(DuplicateLecBody, ValidateAddDataForClass));
         } else {
             setIsSubmitAdLecToTeacher(true);
         }
@@ -2166,7 +2240,6 @@ const WeeklyTimetable = (props: Props) => {
                         }
                     </Stack>
                 </Box>
-
             </Box>
             {/* Add additional lectures */}
             {/* <Dialog
@@ -2281,21 +2354,27 @@ const WeeklyTimetable = (props: Props) => {
                     </Button>
                 </DialogActions>
             </Dialog> */}
-            <AddLecture ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={SubmitAdditionalLecture} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
-                OnClose={() => { setShowAddAdditionalLectures(false); dispatch(CDAClearValidateAdditionalDataForTeacher()); }} ItemList1={filterBy === 'Teacher' ? TeachersList : [{ Id: '0', Name: `${standardName} - ${divisionName}`, Value: '0' }]}
-                Defaultvalue1={filterBy === 'Teacher' ? teacher : "0"} Label1={filterBy === 'Teacher' ? 'Teacher' : 'Class'} ItemList2={AddLecWeekDays} OnChange1={(value) => {
+            <AddLecture Value1={filterBy === 'Teacher' ? teacherName : `${standardName} - ${divisionName}`} ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={filterBy === 'Teacher' ? SubmitAdditionalLecture : SubmitAddtionalLecForClass} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
+                OnClose={() => { setShowAddAdditionalLectures(false); dispatch(CDAClearValidateAdditionalDataForTeacher()); }} ItemList2={AddLecWeekDays} OnChange1={(value) => {
                     setAddLecForWeekDayId(value);
                     setAddLecForTLecNo('0');
                     setAddLecForTStdDivId('0');
-                }}
+                }} Label1={filterBy === 'Teacher' ? 'Teacher Name' : 'Class Name'}
                 Defaultvalue2={AddLecForTWeekDayId} ErrorMsg1={isSubmitAdLecToTeacher && AddLecForTWeekDayId === '0' ? true : false} ItemList3={AddLecForTWeekDayId !== '0' ? filteredAddLecLectureNumber : []}
                 Defaultvalue3={AddLecForTLecNo} OnChange2={(value) => {
                     setAddLecForTLecNo(value.Value);
                     setAddLecForTStdDivId('0');
-                }}
+                }} Label3={filterBy === 'Teacher' ? 'Class-Subjects' : 'Subject-Teacher'}
                 ErrorMsg2={isSubmitAdLecToTeacher && AddLecForTLecNo === '0' && AddLecForTWeekDayId !== '0' ? true : false}
-                ErrorMsg3={isSubmitAdLecToTeacher && AddLecForTSubjectNameId === '0' && AddLecForTLecNo !== '0' && AddLecForTWeekDayId !== '0' ? true : false} Defaultvalue4={AddLecForTStdDivId}
-                OnChange3={(value) => { setAddLecForTSubjectNameId(value.SubId); setAddLecForTStdDivId(value.StdDivId); }} ItemList4={AddLecForTLecNo !== '0' ? FilteredAddLecArray : []} />
+                ErrorMsg3={isSubmitAdLecToTeacher && AddLecForTSubjectNameId === '0' && AddLecForTLecNo !== '0' && AddLecForTWeekDayId !== '0' ? true : false} Defaultvalue4={filterBy === 'Teacher' ? AddLecForTStdDivId : AddLecForTSubjectNameId}
+                OnChange3={(value) => {
+                    if (filterBy === 'Teacher') {
+                        setAddLecForTSubjectNameId(value.SubId); setAddLecForTStdDivId(value.StdDivId);
+                    } else if (filterBy === 'Class') {
+                        setAddLecForTSubjectNameId(value.Id);
+                        setAddLecTeacherId(value.TeacherId);
+                    }
+                }} ItemList4={filterBy === 'Teacher' && AddLecForTLecNo !== '0' ? FilteredAddLecArray : filterBy === 'Class' && AddLecForTLecNo !== '0' ? filteredGroupwiseSubArray : []} />
         </>
     )
 }

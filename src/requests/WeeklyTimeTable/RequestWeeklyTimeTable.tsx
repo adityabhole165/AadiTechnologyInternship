@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import WeeklyTimeTableApi from 'src/api/WeeklyTimeTable/ApiWeeklyTimeTable';
 import { GetScreenPermission } from 'src/components/Common/Util';
-import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDataForAddClassesPopUpBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetManageClassTimeTableBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateAddDataForTeacherBody, IGetValidateDataForClassBody, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
+import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDataForAddClassesPopUpBody, IGetDataForAdditionalClassesBody, IGetDeleteAdditionalLectureBody, IGetDeleteAdditionalLecturesBody, IGetDivisionForStdDropdownBody, IGetGroupwiseOptionalSubjectBody, IGetManageClassTimeTableBody, IGetOptionalSubjectLecturesBody, IGetResetTimetableBody, IGetSaveClassTimeTableBody, IGetSaveTeacherTimeTableBody, IGetTeacherAndStandardForTimeTableBody, IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody, IGetValidateAddDataForTeacherBody, IGetValidateDataForClassBody, IGetValidateDataForClassBody1, IGetValidateTeacherDataBody } from 'src/interfaces/WeeklyTimeTable/IWeeklyTimetable';
 import { AppThunk } from 'src/store';
 
 // CONVENTIONS / SHORTFORM PRE-FIX > IS (INITIAL STATE) | R (REDUCER) | CDA (CONTROL DISPATCH ACTION) XD
@@ -52,11 +52,21 @@ const WeeklyTimeTableSlice = createSlice({
         ISGetAddLecPopUpCompSubjectNameDetailsList: [],
         ISGetCheckDuplicateLecturesMsg: '',
         ISGetValidateAdditionalDataForTeacher: undefined,
+        ISClassSubjectBaseLecList: [],
+        ISGetGroupwiseOptSub: [],
         Loading: true
     },
     reducers: {
         getLoading(state, action) {
             state.Loading = true;
+        },
+        RClassSubjectBaseLecList(state, action) {
+            state.ISClassSubjectBaseLecList = action.payload;
+            state.Loading = false;
+        },
+        RGetGroupwiseOptSub(state, action) {
+            state.ISGetGroupwiseOptSub = action.payload;
+            state.Loading = false;
         },
         RGetValidateAdditionalDataForTeacher(state, action) {
             state.ISGetValidateAdditionalDataForTeacher = action.payload;
@@ -72,6 +82,7 @@ const WeeklyTimeTableSlice = createSlice({
         },
         RGetCheckDuplicateLecturesMsg(state, action) {
             state.ISGetCheckDuplicateLecturesMsg = action.payload;
+            state.Loading = false;
         },
         RClearDuplicateLecturesMsg(state) {
             state.ISGetCheckDuplicateLecturesMsg = '';
@@ -348,6 +359,48 @@ export const CDAGetStandardNameList =
             dispatch(WeeklyTimeTableSlice.actions.RGetStandardName(responseData));
         };
 
+export const CDAClassSubjectBaseLecList =
+    (data: IGetOptionalSubjectLecturesBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetOptionalSubjectLecturesApi(data);
+            let responseData = response.data.ClassSubjectDatails.map((item) => {
+                return (
+                    {
+                        Standard_Division_Id: item.Standard_Division_Id,
+                        Lecture_Number: item.Lecture_Number,
+                        Subject_Id: item.Subject_Id,
+                        ClassSubject: item.ClassSubject,
+                        Weekday_Id: item.Weekday_Id,
+                        ParentGroupId: item.ParentGroupId,
+                        SubjectGroupId: item.SubjectGroupId
+                    }
+                )
+            });
+            dispatch(WeeklyTimeTableSlice.actions.RClassSubjectBaseLecList(responseData));
+        };
+
+export const CDAGetGroupwiseOptSub =
+    (data: IGetGroupwiseOptionalSubjectBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetGroupwiseOptionalSubjectApi(data);
+            let responseData = response.data.map((item) => {
+                return (
+                    {
+                        Standard_Division_Id: item.Standard_Division_Id,
+                        Subject_Id: item.Subject_Id,
+                        classSubjectName: item.classSubjectName,
+                        SubjectTeacher: item.SubjectTeacher,
+                        Teacher_Id: item.Teacher_Id,
+                        ParentGrpId: item.ParentGrpId,
+                        SubjectGroupId: item.SubjectGroupId
+                    }
+                )
+            })
+            dispatch(WeeklyTimeTableSlice.actions.RGetGroupwiseOptSub(responseData));
+        };
+
 export const CDAValidateTeacherData =
     (data: IGetValidateTeacherDataBody): AppThunk =>
         async (dispatch) => {
@@ -525,6 +578,7 @@ export const CDAResetDeleteAdditionalLectures =
 export const CDAGetCheckDuplicateLecturesMsg =
     (data: IGetCheckDuplicateLecturesMsgBody): AppThunk =>
         async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetCheckDuplicateLecturesMsgApi(data);
             let responseData = response.data.Result;
             dispatch(WeeklyTimeTableSlice.actions.RGetCheckDuplicateLecturesMsg(responseData));
@@ -599,6 +653,31 @@ export const CDASaveAddTeacherTimetable =
             }
         }
 
+export const CDASaveAddClassTimetable =
+    (DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody, ValidateAddDataForClass: IGetValidateDataForClassBody1): AppThunk =>
+        async (dispatch, getState) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            // Clear Add. Lec. Duplication messages first
+            await dispatch(CDAClearDuplicateLecturesMsg());
+            // Clear validation messages first
+            await dispatch(CDAClearValidateAddLecTeacherData());
+            // Dispatch the validation action and wait for it to complete
+            await dispatch(CDAGetCheckDuplicateLecturesMsg(DuplicateLecBody));
+            // Get the updated Add. Lec Duplication messages from the state
+            const { ISGetCheckDuplicateLecturesMsg } = getState().WeeklyTimetable;
+            // Check if there are no Duplication error messages and if so, proceed to save the data
+            if (ISGetCheckDuplicateLecturesMsg === '') {
+                // await dispatch(CDAValidateAddLecTeacherData(data));
+                // Get the updated validation messages from the state
+                // const { ISValidateAddLecTeacherData } = getState().WeeklyTimetable;
+                // console.log(`🥱`, ISValidateAddLecTeacherData)
+                // if (ISValidateAddLecTeacherData.length === 0) {
+                // dispatch(CDAManageClassTimeTable(AddLecForManageTeacherBody))
+                dispatch(CDAValidateAdditionalDataForClass(ValidateAddDataForClass));
+                // }
+            }
+        }
+
 export const CDASaveTeacherTimetableWithIncr =
     (data: IGetSaveTeacherTimeTableBody): AppThunk =>
         async (dispatch) => {
@@ -614,6 +693,26 @@ export const CDAValidateAdditionalDataForTeacher =
         async (dispatch) => {
             dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
             const response = await WeeklyTimeTableApi.GetValidateAdditionalDataForTeacherApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.ErrMsgForWeeklyTeacherLectures,
+                        Text2: item.OverlapErrorMessage,
+                        Text3: item.ErrMsgForWeekDayTeacherLectures,
+                        Text4: item.ErrMsgForSubjectLectures,
+                        Text5: item.ErrMsgForAssociateSubjectLectures,
+                        Text6: item.ErrMsgForExternalLectures
+                    }
+                )
+            })
+            await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(responseData));
+        }
+
+export const CDAValidateAdditionalDataForClass =
+    (data: IGetValidateDataForClassBody1): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetValidateDataForClassApi(data);
             let responseData = response.data.map((item, i) => {
                 return (
                     {
