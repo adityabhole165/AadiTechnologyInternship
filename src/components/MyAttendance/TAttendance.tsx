@@ -846,7 +846,9 @@ const TAttendance = () => {
 
             <Box>
               <Tooltip title={'Absent Student Details'}>
+              <span>
                 <IconButton
+                  onClick={ClickOpenDialogbox}
                   sx={{
                     backgroundColor: blue[500],
                     color: 'white',
@@ -854,10 +856,10 @@ const TAttendance = () => {
                       backgroundColor: blue[600]
                     }
                   }}
-                  onClick={ClickOpenDialogbox}
                 >
                   <AddComment />
                 </IconButton>
+                </span>
               </Tooltip>
             </Box>
 
