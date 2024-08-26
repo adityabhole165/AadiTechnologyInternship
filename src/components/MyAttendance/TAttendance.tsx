@@ -83,8 +83,6 @@ const TAttendance = () => {
   // console.log("AssignedDate", AssignedDate)
   // console.log("StandardId", StandardId)
   const { SelectClasstecahernew, AssignedDate } = useParams();
-  console.log("SelectClasstecahernew", SelectClasstecahernew)
-  console.log("AssignedDate", AssignedDate)
   const StandardDivisionIdse = (
     sessionStorage.getItem('StandardDivisionId')
   );
