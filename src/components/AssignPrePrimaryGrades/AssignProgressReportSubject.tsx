@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ISaveNonXseedSubGrades } from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
+import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
 import { CDAGetNonXseedStudentsObs, CDASaveNonXseedSubGrades, GetStudentsForStdDevMasters, resetSavenonXseedMsg } from "src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades";
 import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
@@ -28,7 +29,7 @@ const AssignProgressReportSubject = () => {
 
     const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
 
-    const [headerGrade, setHeaderGrade] = useState("0");
+    const [headerGrade, setHeaderGrade] = useState("0-0-0");
     const [grades, setGrades] = useState({});
     const [observations, setObservations] = useState({});
 
@@ -52,7 +53,7 @@ const AssignProgressReportSubject = () => {
     useEffect(() => {
         if (NonXseedStudentswithObs.length > 0) {
             const initialGrades = NonXseedStudentswithObs.reduce((acc, student) => {
-                acc[student.Text1] = student.Text3;
+                acc[student.Text1] = filteredValue(student.Text3);
                 return acc;
             }, {});
             const initialObservations = NonXseedStudentswithObs.reduce((acc, student) => {
@@ -64,7 +65,7 @@ const AssignProgressReportSubject = () => {
         }
     }, [NonXseedStudentswithObs]);
 
-    const clickHeaderGrade = (value) => {
+    const clickHeaderGrade = (value, isAbsent, isExempted) => {
         setHeaderGrade(value);
         const updatedGrades = NonXseedStudentswithObs.reduce((acc, student) => {
             acc[student.Text1] = value;
@@ -72,7 +73,7 @@ const AssignProgressReportSubject = () => {
         }, {});
         setGrades(updatedGrades);
 
-        if (value === "0") {
+        if (value === "0-0-0" || isAbsent === "1" || isExempted === "1") {
             const clearedObservations = NonXseedStudentswithObs.reduce((acc, student) => {
                 acc[student.Text1] = "";
                 return acc;
@@ -81,12 +82,12 @@ const AssignProgressReportSubject = () => {
         }
     };
 
-    const clickBodyGrade = (studentId, value) => {
+    const clickBodyGrade = (studentId, value, isAbsent, isExempted) => {
         setGrades((prevGrades) => ({
             ...prevGrades,
             [studentId]: value,
         }));
-        if (value === "0") {
+        if (value === "0-0-0" || isAbsent === "1" || isExempted === "1") {
             setObservations((prevObservations) => ({
                 ...prevObservations,
                 [studentId]: "",
@@ -138,7 +139,7 @@ const AssignProgressReportSubject = () => {
 
             const YearwiseId = student.Text5;
             const studentId = student.Text1;
-            const grade = grades[studentId];
+            const grade = grades[studentId]?.split('-')[0];
             const observation = observations[studentId];
             if (grade !== "0") {
                 sXML +=
@@ -158,6 +159,11 @@ const AssignProgressReportSubject = () => {
         ${sXML}</ArrayOfNonXseedSubjectGrades>`
         return sXML;
     };
+
+    function filteredValue(id) {
+        let isThere = GradesList.filter((item) => item.Value?.split('-')[0] === id);
+        return isThere[0].Value
+    }
     const [isEmpty, setIsEmpty] = useState(false);
     // useEffect(() => {
     //     if (isEmpty) {
@@ -166,8 +172,15 @@ const AssignProgressReportSubject = () => {
     // }, [isEmpty])
 
     const SaveNonXseedGrades = () => {
-        const emptyObservationRows = Object.keys(grades).filter(studentId => grades[studentId] !== "0" && !observations[studentId]);
-        const emptySubmissionRows = Object.keys(grades).filter(studentId => grades[studentId] == "0" && !observations[studentId]);
+        const emptyObservationRows = Object.keys(grades).filter(studentId => {
+            const gradeParts = grades[studentId]?.split('-');
+            return grades[studentId] !== "0-0-0" &&
+                !observations[studentId] &&
+                gradeParts[1] !== "1" &&
+                gradeParts[2] !== "1";
+        });
+
+        const emptySubmissionRows = Object.keys(grades).filter(studentId => grades[studentId] == "0-0-0" && !observations[studentId]);
         setIsEmpty(emptySubmissionRows.length > 0 ? true : false);
 
         const SaveNonXseedGradesBody: ISaveNonXseedSubGrades = {
@@ -177,8 +190,8 @@ const AssignProgressReportSubject = () => {
             asAssessmentId: Number(SelectTerm),
             asStandardDivId: Number(StandardDivisionId),
             asSubjectId: Number(SubjectId),
-            asInsertedById: 4186,
-            asUpdatedById: 0
+            asInsertedById: Number(sessionStorage.getItem('Id')),
+            asUpdatedById: Number(sessionStorage.getItem('Id'))
         };
         if (emptyObservationRows.length > 0) {
             // <Alert severity="warning">{`Observation should not be blank for row(s): ${emptyObservationRows}`}</Alert>
@@ -298,10 +311,10 @@ const AssignProgressReportSubject = () => {
                                     <TableCell align="right" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Grade</TableCell>
                                     <TableCell align="left" sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle }}>
                                         <>
-                                            <SearchableDropdown
+                                            <SearchableDropdown1
                                                 sx={{ maxWidth: '15vw', backgroundColor: 'white' }}
                                                 ItemList={GradesList}
-                                                onChange={clickHeaderGrade}
+                                                onChange={(value) => clickHeaderGrade(value.Value, value.isAbsent, value.isExempted)}
                                                 label={''}
                                                 disabled={EditStatusId === '3' ? true : false}
                                                 defaultValue={headerGrade}
@@ -321,10 +334,10 @@ const AssignProgressReportSubject = () => {
                                         <TableCell align="right" sx={{ ...cellStyle }}></TableCell>
 
                                         <TableCell align="left" sx={{ ...cellStyle }}>
-                                            <SearchableDropdown
+                                            <SearchableDropdown1
                                                 sx={{ width: '15vw', backgroundColor: 'white' }}
                                                 ItemList={GradesList}
-                                                onChange={(value) => clickBodyGrade(item.Text1, value)}
+                                                onChange={(value) => clickBodyGrade(item.Text1, value.Value, value.isAbsent, value.isExempted)}
                                                 label={''}
                                                 disabled={EditStatusId === '3' ? true : false}
                                                 defaultValue={grades[item.Text1]}
@@ -337,7 +350,7 @@ const AssignProgressReportSubject = () => {
                                                 rows={2}
                                                 cols={50}
                                                 style={{ backgroundColor: 'white' }}
-                                                disabled={EditStatusId === '3' ? true : grades[item.Text1] === "0"}
+                                                disabled={EditStatusId === '3' ? true : grades[item.Text1]?.split('-')[0] === "0" ? true : grades[item.Text1]?.split('-')[1] === "1" ? true : grades[item.Text1]?.split('-')[2] === "1" ? true : false}
                                                 value={observations[item.Text1]}
                                                 onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
                                                 maxLength={500}

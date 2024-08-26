@@ -181,12 +181,14 @@ export const GetStudentsForStdDevMasters =
       //   };
       // }) : [];
 
-      let GradesList = [{ Id: 0, Name: 'Select', Value: "0" }];
+      let GradesList = [{ Id: 0, Name: 'Select', Value: "0-0-0", isAbsent: '0', isExempted: '0' }];
       response.data.listGradesDetails.map((item, i) => {
         GradesList.push({
           Id: item.GradeId,
           Name: item.GradeName,
-          Value: item.GradeId.toString()
+          Value: `${item.GradeId.toString()}-${item.ConsideredAsAbsent.toString()}-${item.ConsideredAsExempted.toString()}`,
+          isAbsent: item.ConsideredAsAbsent.toString(),
+          isExempted: item.ConsideredAsExempted.toString()
         });
       });
 
