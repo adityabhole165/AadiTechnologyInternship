@@ -203,7 +203,11 @@ const WeeklyTimetable = (props: Props) => {
     useEffect(() => {
         if (AddLecForTeacherSuccessMsg !== undefined && AddLecForTeacherSuccessMsg?.length === 0) {
             toast.success('Additional lecture added successfully');
-            dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
+            if (filterBy === 'Teacher') {
+                dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
+            } else if (filterBy === 'Class') {
+                dispatch(CDAClassLecNoWeekday(WeekDayClassBody));
+            }
             dispatch(CDAClearValidateAdditionalDataForTeacher());
             setShowAddAdditionalLectures(false);
             setIsSubmitAdLecToTeacher(false);
@@ -880,6 +884,25 @@ const WeeklyTimetable = (props: Props) => {
                     asIsAdditionalClass: true,
                     asIsCountInceased: 0
                 }
+                const DuplicateLecBody1: IGetCheckDuplicateLecturesMsgBody = {
+                    asSchoolId: Number(localStorage.getItem('SchoolId')),
+                    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                    asSubjectId: Number(AddLecForTSubjectNameId),
+                    asTeacherId: Number(AddLecTeacherId),
+                    asStdDivId: Number(division),
+                    asLectureNo: Number(AddLecForTLecNo),
+                    asWeekDayId: Number(AddLecForTWeekDayId)
+                }
+                const ValidateAddDataForClass: IGetValidateDataForClassBody1 = {
+                    asSchoolId: Number(localStorage.getItem('SchoolId')),
+                    asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+                    asInsertedById: Number(sessionStorage.getItem('Id')),
+                    asStdDivId: Number(division),
+                    asMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id='${division}' Weekday_Id='${AddLecForTWeekDayId}' /></DaywiseTimeTableMaster>`,
+                    asDetailXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id='${AddLecForTWeekDayId}' Teacher_ID='${AddLecTeacherId}' Standard_Division_Id='${division}' Lecture_Number='${AddLecForTLecNo}' Subject_Id='${AddLecForTSubjectNameId}' /></DaywiseTimeTableDetails>`,
+                    IsAdditionalClass: true,
+                    asIncCnt: 1
+                }
                 showAlert({
                     title: 'Please Confirm',
                     message: `${obs.Text4}Do you want to increase limit for subject(s)?`,
@@ -898,7 +921,11 @@ const WeeklyTimetable = (props: Props) => {
                             IsAdditionalClass: 0,
                             asIncCnt: 1
                         }
-                        dispatch(CDASaveAddTeacherTimetable(AddLecForTeacherApiBody, DuplicateLecBody, AddLecForManageTeacherApiBody, ValidateAdditionalDataForTeacher));
+                        if (filterBy === 'Teacher') {
+                            dispatch(CDASaveAddTeacherTimetable(AddLecForTeacherApiBody, DuplicateLecBody, AddLecForManageTeacherApiBody, ValidateAdditionalDataForTeacher));
+                        } else if (filterBy === 'Class') {
+                            dispatch(CDASaveAddClassTimetable(DuplicateLecBody1, ValidateAddDataForClass));
+                        }
                         closeAlert();
                     },
                     onCancel: () => {
@@ -1348,6 +1375,7 @@ const WeeklyTimetable = (props: Props) => {
 
     function SubmitAddtionalLecForClass() {
         dispatch(CDAClearDuplicateLecturesMsg());
+        dispatch(CDAClearValidateAdditionalDataForTeacher());
         const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
             asSchoolId: Number(localStorage.getItem('SchoolId')),
             asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
@@ -1362,8 +1390,8 @@ const WeeklyTimetable = (props: Props) => {
             asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
             asInsertedById: Number(sessionStorage.getItem('Id')),
             asStdDivId: Number(division),
-            asMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id='1345' Weekday_Id='1072' /></DaywiseTimeTableMaster>`,
-            asDetailXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id='1072' Teacher_ID='2561' Standard_Division_Id='1345' Lecture_Number='2' Subject_Id='2391' /></DaywiseTimeTableDetails>`,
+            asMasterXml: `<DaywiseTimeTableMaster><DaywiseTimeTable Standard_Division_Id='${division}' Weekday_Id='${AddLecForTWeekDayId}' /></DaywiseTimeTableMaster>`,
+            asDetailXml: `<DaywiseTimeTableDetails><DaywiseTimeTableDetail WeekDay_Id='${AddLecForTWeekDayId}' Teacher_ID='${AddLecTeacherId}' Standard_Division_Id='${division}' Lecture_Number='${AddLecForTLecNo}' Subject_Id='${AddLecForTSubjectNameId}' /></DaywiseTimeTableDetails>`,
             IsAdditionalClass: true,
             asIncCnt: 0
         }

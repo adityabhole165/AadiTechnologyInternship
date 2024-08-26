@@ -653,6 +653,26 @@ export const CDASaveAddTeacherTimetable =
             }
         }
 
+export const CDAValidateAdditionalDataForClass =
+    (data: IGetValidateDataForClassBody1): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            const response = await WeeklyTimeTableApi.GetValidateDataForClassApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.ErrMsgForWeeklyTeacherLectures,
+                        Text2: item.OverlapErrorMessage,
+                        Text3: item.ErrMsgForWeekDayTeacherLectures,
+                        Text4: item.ErrMsgForSubjectLectures,
+                        Text5: item.ErrMsgForAssociateSubjectLectures,
+                        Text6: item.ErrMsgForExternalLectures
+                    }
+                )
+            })
+            await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(responseData));
+        }
+
 export const CDASaveAddClassTimetable =
     (DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody, ValidateAddDataForClass: IGetValidateDataForClassBody1): AppThunk =>
         async (dispatch, getState) => {
@@ -708,25 +728,7 @@ export const CDAValidateAdditionalDataForTeacher =
             await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(responseData));
         }
 
-export const CDAValidateAdditionalDataForClass =
-    (data: IGetValidateDataForClassBody1): AppThunk =>
-        async (dispatch) => {
-            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
-            const response = await WeeklyTimeTableApi.GetValidateDataForClassApi(data);
-            let responseData = response.data.map((item, i) => {
-                return (
-                    {
-                        Text1: item.ErrMsgForWeeklyTeacherLectures,
-                        Text2: item.OverlapErrorMessage,
-                        Text3: item.ErrMsgForWeekDayTeacherLectures,
-                        Text4: item.ErrMsgForSubjectLectures,
-                        Text5: item.ErrMsgForAssociateSubjectLectures,
-                        Text6: item.ErrMsgForExternalLectures
-                    }
-                )
-            })
-            await dispatch(WeeklyTimeTableSlice.actions.RGetValidateAdditionalDataForTeacher(responseData));
-        }
+
 export const CDAClearValidateAdditionalDataForTeacher =
     (): AppThunk =>
         async (dispatch) => {
