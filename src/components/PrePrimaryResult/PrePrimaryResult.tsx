@@ -191,11 +191,12 @@ const PrePrimaryResult = () => {
 
   const ClickItem = (SubId, EditStatusId, SubName) => {
     console.log(GetTeacherXseedSubjects);
-    let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(' ')[0];
+    let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
     let StdDivId = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
+    let EditStatus = EditStatusId === 'Y' ? '3' : '2'
     navigate(
       '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
-      EditStatusId +
+      EditStatus +
       '/' +
       className +
       '/' +

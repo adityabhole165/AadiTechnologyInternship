@@ -680,7 +680,7 @@ function Form13() {
                   onClick={(e) => RecipientButton(e)}
                   sx={{
                     color:'#38548A',
-                    width:'130px',
+                    width:'140px',
                     mt:1,
                       '&:hover': {
                     color:'#38548A',
@@ -752,7 +752,7 @@ function Form13() {
                         sx={{
                           color:'#38548A',
                           mt:0.7,
-                          width:'150px',
+                          width:'160px',
                             '&:hover': {
                           color:'#38548A',
                            backgroundColor: blue[100]
@@ -791,13 +791,13 @@ function Form13() {
                   sx={{ }}
                 />
                 <Errormessages Error={subjecterror} />
-                <Box mb={0.4}>
+                <Box >
                   {formik.touched.Subject && formik.errors.Subject ? (
                     <ErrorMessage1 Error={formik.errors.Subject} />
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={10} sm={5.5} md={5.5} lg={4.5}>
+              <Grid item xs={10} sm={5.5} md={5.5} lg={4.5} mt={1}>
                 <input
                   ref={aRef}
                   type="file"
