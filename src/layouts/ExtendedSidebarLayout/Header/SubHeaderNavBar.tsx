@@ -196,6 +196,9 @@ function SubHeaderNavBar({ toggleDrawer }) {
     setOpenSupportMenu(false);
   };
 
+  const handleSupport = () => {
+    navigate('./Common/Support');
+  };
   const handleuserguide = () => {
     window.location.href = 'https://www.riteschool.com/knowledge-base-user-guide';
   };
@@ -375,7 +378,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                         id="composition-menu"
                         aria-labelledby="composition-button"
                       >
-                        <MenuItem onClick={handleClose}>Support</MenuItem>
+                        <MenuItem onClick={handleSupport}>Support</MenuItem>
                         <MenuItem onClick={handleuserguide}>User Guide</MenuItem>
                         <MenuItem onClick={handleKnowledgebase}>
                           Knowledge Base
