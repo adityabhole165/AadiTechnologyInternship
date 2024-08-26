@@ -61,8 +61,8 @@ function SchoolNoticeBoard() {
   }, [GetAllActiveNotices]);
 
   return (
-    <Box sx={{ px: 2 }}>
-      <Card component={Box} mt={2} p={0.6}>
+    <Box sx={{ px: 0.2}}>
+      <Card component={Box} mt={3} p={0.5}>
         <Marquee delay={1}>
           {/* {GetNoticeBoardList.length !==0 && <>  🔶  </> }   */}
           {GetNoticeBoardList.map((item, i) => (
