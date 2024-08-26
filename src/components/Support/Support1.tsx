@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import CommonPageHeader from '../CommonPageHeader';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 
 const Support1 = () => {
     const navigate = useNavigate();
@@ -84,7 +85,7 @@ const Support1 = () => {
                         </>
                     }
                 />
-                <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
+                <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1.5 }}>
                     <Typography variant="h4" gutterBottom>
                         Support Request
                     </Typography>
@@ -93,7 +94,7 @@ const Support1 = () => {
                     <Typography variant="h5" gutterBottom>
                         Dear Teacher, <br />
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
+                    <Typography variant="body1" gutterBottom >
                         Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible. You may attach a file as a supporting document. It will help our support member to understand the problem in full and speed up the resolution of your request.
                     </Typography>
                 </Grid >
@@ -102,42 +103,46 @@ const Support1 = () => {
                         Write to Us
                     </Typography>
                 </Grid >
-                <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
+                <Box sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
+                <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
-                        label="E-mail Address : "
                         variant="outlined"
+                        label={
+                            <span>
+                                E-mail Address  <span style={{ color: 'red' }}>*</span>
+                            </span>
+                        }
                         value={emailId}
                         onChange={(e) => setEmailId(e.target.value)}
-                        sx={{ mb: 2 }}
-                    />
+
+                    /></Grid>
+                    <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
                         label="Mobile Number :"
                         variant="outlined"
                         value={mobilenumber}
                         onChange={(e) => setMobilenumber(e.target.value)}
-                        sx={{ mb: 2 }}
-                    />
+                       
+                    /></Grid>
+                    <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
-                        label="Problem Subject : "
+                        // label="Problem Subject : "
+                        label={
+                            <span>
+                                Problem Subject  <span style={{ color: 'red' }}>*</span>
+                            </span>
+                        }
                         variant="outlined"
                         value={problemSubject}
                         onChange={(e) => setProblemSubject(e.target.value)}
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Description :"
-                        variant="outlined"
-                        multiline
-                        rows={4}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        sx={{ mb: 2 }}
-                    />
-                    <Grid >
+                      
+                    /></Grid>
+                     <Grid item xs={12} md={6} >
+                        <Grid>
                         <SingleFile2
                             ValidFileTypes={ValidFileTypes}
                             MaxfileSize={MaxfileSize}
@@ -145,11 +150,30 @@ const Support1 = () => {
                             errorMessage={''}
                             FileName={AttatchmentFile}
                             FileLabel={'Attachment : '}
-                            width={'290px'}
                             height={"52px"}
+                            width={'100%'}
+                            isMandatory
                         />
+                        </Grid>
                     </Grid>
-                </Grid >
+                    <Grid item xs={12} md={12}>
+                    <ResizableTextField
+                        fullWidth
+                        // label="Description :"
+                        label={
+                            <span>
+                                Description  <span style={{ color: 'red' }}>*</span>
+                            </span>
+                        }
+                        variant="outlined"
+                        multiline
+                        // rows={4}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        sx={{ mb: 2 }}
+                    /></Grid>
+                   </Grid>
+                </Box >
             </Box>
 
         </>
