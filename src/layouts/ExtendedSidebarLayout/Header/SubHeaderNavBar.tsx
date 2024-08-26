@@ -3,6 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   AppBar,
   Box,
@@ -318,6 +319,18 @@ function SubHeaderNavBar({ toggleDrawer }) {
             </List>
           </Stack>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Tooltip
+              title={`Displays dashboard for users. Lists available features of the application.`}
+            >
+              <IconButton
+                sx={{
+                  color: 'white',
+                  background: (theme) => alpha(theme.palette.common.white, 0.2)
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={'Support'}>
               <IconButton
                 sx={{
