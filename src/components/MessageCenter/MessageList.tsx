@@ -596,7 +596,7 @@ const MessageList = () => {
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}
                     clickSearch={clickSearch}
-                    academicYear={academicYear}
+                     academicYear={academicYear}
                     monthYear={monthYear}
                     clickAcademicYear={clickAcademicYear}
                     clickMonthYear={clickMonthYear}
