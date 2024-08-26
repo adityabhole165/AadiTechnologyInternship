@@ -195,6 +195,9 @@ function SubHeaderNavBar({ toggleDrawer }) {
 
     setOpenSupportMenu(false);
   };
+  // const handleEmail = () => {
+  //   window.location.href = 'https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%3Fhl%3Den-GB&ec=GAlA8wE&hl=en-GB&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-401164080%3A1724671374900003&ddm=0';
+  // };
 
   const handleSupport = () => {
     navigate('./Common/Support');
@@ -378,13 +381,12 @@ function SubHeaderNavBar({ toggleDrawer }) {
                         id="composition-menu"
                         aria-labelledby="composition-button"
                       >
+                        <MenuItem onClick={handleClose}>Email</MenuItem>
                         <MenuItem onClick={handleSupport}>Support</MenuItem>
                         <MenuItem onClick={handleuserguide}>User Guide</MenuItem>
                         <MenuItem onClick={handleKnowledgebase}>
                           Knowledge Base
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>Contact Us</MenuItem>
-                        <MenuItem onClick={handleClose}>Email</MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>
