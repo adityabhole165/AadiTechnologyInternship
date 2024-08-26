@@ -15,6 +15,9 @@ const Loader = (Component) => (props) =>
 const Schoolnotice = Loader(
   lazy(() => import('src/components/SchoolNotice/Schoolnotice'))
 );
+const Support = Loader(
+  lazy(() => import('src/components/Support/Support1'))
+);
 const ViewSchoolNotice = Loader(
   lazy(() => import('src/components/SchoolNotice/Viewschoolnotice'))
 );
@@ -169,7 +172,12 @@ const commonRoutes = [
   {
     path: 'EventManagementForm/:SelectedDate/:StandardId/:DivisionId',
     element: <EventManagement />
-  }
+  },
+  {
+    path: 'Support',
+    element: <Support />
+  },
+
 ];
 
 export default commonRoutes;
