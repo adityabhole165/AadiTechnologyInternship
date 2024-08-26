@@ -399,37 +399,41 @@ const AddStudentRecord = () => {
                         </Box>
                         <Box>
                             <Tooltip title={'SUBMIT COMMENT'}>
-                                <IconButton
-                                    sx={{
-                                        backgroundColor: red[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: red[600]
-                                        }
-                                    }}
-                                    onClick={onClickSubmitComment}
-                                    disabled={disableSubmitComment()}
-                                >
-                                    <Send />
-                                </IconButton>
+                                <span>
+                                    <IconButton
+                                        sx={{
+                                            backgroundColor: red[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: red[600]
+                                            }
+                                        }}
+                                        onClick={onClickSubmitComment}
+                                        disabled={disableSubmitComment()}
+                                    >
+                                        <Send />
+                                    </IconButton>
+                                </span>
                             </Tooltip>
                         </Box>
-                        <Box>
-                            <Tooltip title={'MARK AS READ'}>
-                                <IconButton
-                                    sx={{
-                                        backgroundColor: green[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: green[600]
-                                        }
-                                    }}
-                                    onClick={onClickMarkAsRead}
-                                >
-                                    <Done />
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
+                        {disableSave() && (
+                            <Box>
+                                <Tooltip title={'MARK AS READ'}>
+                                    <IconButton
+                                        sx={{
+                                            backgroundColor: green[500],
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: green[600]
+                                            }
+                                        }}
+                                        onClick={onClickMarkAsRead}
+                                        disabled={disableSave()}
+                                    >
+                                        <Done />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>)}
                     </>
                 }
             />
@@ -557,9 +561,12 @@ const AddStudentRecord = () => {
                                     <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
                                         <TableCell sx={cellStyle} colSpan={2}><b>Comment : </b>{item.Comment}</TableCell>
                                     </TableRow>
-                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
-                                        <TableCell sx={cellStyle} colSpan={2}><b>Lecture Name : </b>{item.LectureName}</TableCell>
-                                    </TableRow>
+                                    {(listCommentDetailsUS.length > 0 &&
+                                        (item.IsDefaultComment === "False")) && (
+                                            <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                                <TableCell sx={cellStyle} colSpan={2}><b>Lecture Name : </b>{item.LectureName}</TableCell>
+                                            </TableRow>
+                                        )}
                                 </React.Fragment>
                             ))}
                         </TableBody>
