@@ -134,8 +134,8 @@ function CardMessDeleteButtons({
                         sx={{
                           color:'#38548A',
                             '&:hover': {
-                          color:'blue',  
-                           backgroundColor: blue[100]
+                          color:'green',  
+                           backgroundColor: green[100]
                             }}}
                       >
                         {' '}

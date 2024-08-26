@@ -29,6 +29,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MCForm from 'src/libraries/form/MCForm';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   DeleteButton,
   MarkAsReadMessage
@@ -499,6 +500,23 @@ const MessageList = () => {
           }
         ]}
           rightActions={
+            <>
+            <Box>
+                                <Tooltip
+                                    title={`Inbox - List of messages Received. Select message(s) and click on "Trash" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent Items - List of messages which you have sent. Select message(s) and click on "Trash" to send the message to trash box.`}
+                                >
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: grey[500],
+                                            height: '36px !important',
+                                            ':hover': { backgroundColor: grey[600] }
+                                        }}
+                                    >
+                                        <QuestionMarkIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
             <Box>
               <Hidden>
                 <Tooltip title="Setting">
@@ -536,7 +554,7 @@ const MessageList = () => {
               </Hidden>
               
             </Box>
-
+            </>
           }
         />
         {/* <Hidden smUp> */}
