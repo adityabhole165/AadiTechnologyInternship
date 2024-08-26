@@ -30,7 +30,10 @@ import { ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessag
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SendIcon from '@mui/icons-material/Send';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import DraftsIcon from '@mui/icons-material/Drafts';
 import {
   BoxContent,
   CardDetail8,
@@ -57,7 +60,8 @@ import {
 } from '../../interfaces/MessageCenter/MessageCenter';
 import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import AddReciepents from './AddReciepents';
-import { blue } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
+import CommonPageHeader from '../CommonPageHeader';
 function Form13() {
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
@@ -621,9 +625,65 @@ function Form13() {
     }
   }, [SaveDraftM]);
   return (
-    <>
-
-      <Box sx={{ }} >
+    <>  
+    <Box sx={{ px: 2 }}>
+      <CommonPageHeader navLinks={[
+         { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
+        {title: 'Compose Message', path: ''}
+      ]}
+        rightActions={<>
+          <Box>
+              <Tooltip
+                  title={`Write a new message/send reply to the message Received.`}
+              >
+                  <IconButton
+                      sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: grey[600] }
+                      }}
+                  >
+                      <QuestionMarkIcon />
+                  </IconButton>
+              </Tooltip>
+          </Box>
+          <Box>
+              <Tooltip title={'Save as Draft'}>
+                  <IconButton
+                      type='submit'
+                      sx={{
+                          color: 'white',
+                          backgroundColor: green[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: green[600] }
+                      }}
+                      // onClick={handleSubmit}
+                  >
+                      <DraftsIcon/>
+                  </IconButton>
+              </Tooltip>
+          </Box>
+          <Box>
+              <Tooltip title={'Send'}>
+                  <IconButton
+                      type='submit'
+                      sx={{
+                          color: 'white',
+                          backgroundColor: green[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: green[600] }
+                      }}
+                      // onClick={handleSubmit}
+                  >
+                      <SendIcon/>
+                  </IconButton>
+              </Tooltip>
+          </Box>
+      </>
+  }
+/>   
+      
         {/* <span
           onClick={() => {
             navigate(-1);

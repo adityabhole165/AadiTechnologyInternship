@@ -1,20 +1,16 @@
 // import PageHeader from 'src/libraries/heading/PageHeader';
-import { Box } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import CommonPageHeader from '../CommonPageHeader';
 import Form13 from './Composee';
-
+import PageHeader from '../CommonPageHead/PageHeader';
+import { green, grey } from '@mui/material/colors';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SendIcon from '@mui/icons-material/Send';
+import DraftsIcon from '@mui/icons-material/Drafts';
 export const Composee = () => {
   return (
-    <Box sx={{ px: 2 }}>
-      <CommonPageHeader navLinks={[
-        {
-          title: 'Compose Message',
-          path: ''
-        }
-      ]}
-        rightActions={''}
-      />
-      {/* <PageHeader heading={'Compose Message'} subheading={''} /> */}
+    <Box>
+      {/* <PageHeader heading={'Compose Message'} subheading={''} />  */}
       <Form13 />
     </Box>
   );
