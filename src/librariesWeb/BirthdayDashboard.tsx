@@ -1,22 +1,16 @@
+import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  Avatar,
-  Badge,
-  Box,
-  Card,
-  Grid,
-  IconButton,
-  Popover,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  Typography
+  Avatar, Badge, Box, Card, Grid, IconButton, Popover, Stack, ToggleButton,
+  ToggleButtonGroup, Tooltip, Typography
 } from '@mui/material';
 import { green, orange, red } from '@mui/material/colors';
+import {
+  differenceInHours, differenceInMinutes, differenceInSeconds
+} from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -24,17 +18,15 @@ import Carousel from 'src/libraries/card/Carousel';
 import { getUpcomingStaffBdayList } from 'src/requests/Birthdays/RequestBirthdays';
 import { RootState } from 'src/store';
 
-import CheckIcon from '@mui/icons-material/Check';
-
 function BirthdayDashboard() {
   const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const DOB = sessionStorage.getItem('DOB');
-  const [view, setView] = useState('T'); // Set default view to 'T'
+  const [view, setView] = useState('T');
   const [isRefresh, setIsRefresh] = useState(false);
-  const [alignment, setAlignment] = useState('S'); // Set default alignment to 'S'
+  const [alignment, setAlignment] = useState('S');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
 
   const Birthdays = useSelector((state: RootState) => state.Birthdays.BirthdaysList);
   const loading = useSelector((state: RootState) => state.Birthdays.Loading);
@@ -57,24 +49,36 @@ function BirthdayDashboard() {
     dispatch(getUpcomingStaffBdayList(BirthdaysBody));
   }, [BirthdaysBody, isRefresh]);
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newView: string
-  ) => {
-    if (newView != null) {
-      setView(newView);
-    }
+  const handleRefresh = () => {
+    setLastRefreshTime(new Date());
+    setView('T');
+    setAlignment('S');
+    setBirthdaysBody(prevBody => ({
+      ...prevBody,
+      aiUserRoleId: roleIdMapping['S'],
+      asView: 'T'
+    }));
+    setIsRefresh(prev => !prev);
   };
 
-  const ClickStaff = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    if (newAlignment != null) {
-      setAlignment(newAlignment);
-    }
-  };
+  const getTimeDifference = () => {
+    if (!lastRefreshTime) return 'no';
 
+    const now = new Date();
+    const seconds = differenceInSeconds(now, lastRefreshTime);
+    if (seconds < 60) {
+      return `${seconds} second(s)`;
+    }
+
+    const minutes = differenceInMinutes(now, lastRefreshTime);
+    if (minutes < 60) {
+      return `${minutes} minute(s)`;
+    }
+
+    const hours = differenceInHours(now, lastRefreshTime);
+    return `${hours} hour(s)`;
+  };
+ 
   const handleClickpop = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(prevAnchorEl => (prevAnchorEl ? null : event.currentTarget));
   };
@@ -112,22 +116,15 @@ function BirthdayDashboard() {
                 color="secondary"
               />
             </IconButton>
-            <Tooltip title={`You are viewing old data, click here to see latest data.`}>
-              <IconButton
-                onClick={() => {
-                  setView('T');
-                  setAlignment('S');
-                  setBirthdaysBody(prevBody => ({
-                    ...prevBody,
-                    aiUserRoleId: roleIdMapping['S'],
-                    asView: 'T'
-                  }));
-                  setIsRefresh(prev => !prev);
-                }}
-              >
-                <RefreshIcon
-                  sx={{ mt: '5px', mr: '0px' }}
-                />
+            <Tooltip
+              title={
+
+                `You are viewing ${getTimeDifference()} old data, click here to see the latest data.`
+
+              }
+            >
+              <IconButton onClick={handleRefresh}>
+                <RefreshIcon sx={{ mt: '5px', mr: '0px' }} />
               </IconButton>
             </Tooltip>
             <IconButton sx={{ mt: '5px' }} onClick={handleClickpop}>
@@ -144,11 +141,11 @@ function BirthdayDashboard() {
           vertical: 'bottom',
           horizontal: 'left'
         }}
-        onClose={handleClose} // Ensure Popover closes on clicking outside
+        onClose={handleClose}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }} p={1}>
           <Typography>Select User</Typography>
-          <ToggleButtonGroup value={alignment} exclusive onChange={ClickStaff}>
+          <ToggleButtonGroup value={alignment} exclusive onChange={(e, newAlignment) => setAlignment(newAlignment)}>
             <ToggleButton value="T">T</ToggleButton>
             <ToggleButton value="S">S</ToggleButton>
             <ToggleButton value="A">A</ToggleButton>
@@ -160,7 +157,7 @@ function BirthdayDashboard() {
           <ToggleButtonGroup
             value={view}
             exclusive
-            onChange={handleChange}
+            onChange={(e, newView) => setView(newView)}
             sx={{ ml: '25px' }}
           >
             <ToggleButton value="T">T</ToggleButton>
@@ -174,16 +171,7 @@ function BirthdayDashboard() {
             </Avatar>
           </Tooltip>
           <Avatar sx={{ bgcolor: orange[500] }} variant="square">
-            <ReplayIcon onClick={() => {
-              setView('T');
-              setAlignment('S');
-              setBirthdaysBody(prevBody => ({
-                ...prevBody,
-                aiUserRoleId: roleIdMapping['S'],
-                asView: 'T'
-              }));
-              setIsRefresh(prev => !prev);
-            }} />
+            <ReplayIcon onClick={handleRefresh} />
           </Avatar>
           <Avatar sx={{ bgcolor: red[500] }} variant="square">
             <CloseIcon onClick={handleClose} />
