@@ -9,10 +9,10 @@ import Datepicker1 from 'src/components/StudentRecords/DateField';
 import TimeField from 'src/components/StudentRecords/TimeField';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
-import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
+import { IGetDeleteCommentBody, IGetSaveandSubmitCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { GetStudentRecordCommentEdit } from 'src/requests/StudentRecords/RequestAddStudentRecords';
-import { DeleteCommentDetails, getSaveComment, resetDeleteHolidayDetails, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
+import { DeleteCommentDetails, getSaveandSubmitComment, getSaveComment, resetDeleteHolidayDetails, resetSaveandSubmitComment, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
@@ -45,6 +45,9 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
 
     const Savecomment = useSelector(
         (state: RootState) => state.StudentRecordCommentPopup.SaveComment
+    );
+    const SaveandSubmitcommentUS = useSelector(
+        (state: RootState) => state.StudentRecordCommentPopup.SaveandSubmitComment
     );
     const Editcomment = useSelector(
         (state: RootState) => state.AddStudentRecords.getstudentrecordcomment
@@ -98,19 +101,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
     useEffect(() => {
         dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
     }, []);
-    const SaveCommentBody: IGetSaveCommentBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
-        asCommentId: 0,
-        asDate: StartDate,
-        asComment: Comment,
-        asLectureName: LectureNm,
-        asUpdatedById: Number(asUserId),
-        asIsDeleteAction: false,
-        asAllowSubmit: false, /*true - save and submit comment */
-        asStdDivId: 1344,
-    };
+
     const deleteComment = () => {
         const DeleteCommentBody: IGetDeleteCommentBody = {
             asSchoolId: Number(asSchoolId),
@@ -154,6 +145,12 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
             dispatch(resetSaveComment());
         }
     }, [Savecomment])
+    useEffect(() => {
+        if (SaveandSubmitcommentUS != '') {
+            toast.success(SaveandSubmitcommentUS)
+            dispatch(resetSaveandSubmitComment());
+        }
+    }, [SaveandSubmitcommentUS])
     const onSelectSrDate = (value) => {
         setStartDate(value);
     };
@@ -174,18 +171,18 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
     const handleClose = () => {
         setOpen(false);
     };
-    const ClickOk = () => {
-        let isError = false;
+    const IsClickOk = () => {
+        let isError = true;
         if (Comment === '') {
             setCommentError('Comment should not be blank.');
-            isError = true;
+            isError = false;
         } else {
             setCommentError('');
         }
 
         if (LectureNm === '') {
             setLectureNmError('Lecture Name should not be blank.');
-            isError = true;
+            isError = false;
         } else {
             setLectureNmError('');
         }
@@ -193,19 +190,55 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
         const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
         if (!timePattern.test(Time)) {
             setTimeError('Time should be in HH:MM AM/PM format (e.g 10:00 AM).');
-            isError = true;
+            isError = false;
         } else {
             setTimeError('');
         }
-        if (!isError) {
-            dispatch(getSaveComment(SaveCommentBody));
-        }
+        // if (!isError) {
+        //     dispatch(getSaveComment(SaveCommentBody));
+        // }
         // if (!isError) {
         //     setOpen(false);
         // }
+        return isError;
 
     };
-
+    const onClickSave = () => {
+        if (IsClickOk()) {
+            const SaveCommentBody: IGetSaveCommentBody = {
+                asSchoolId: Number(asSchoolId),
+                asAcademicYearId: Number(asAcademicYearId),
+                asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+                asCommentId: 0,
+                asDate: StartDate,
+                asComment: Comment,
+                asLectureName: LectureNm,
+                asUpdatedById: Number(asUserId),
+                asIsDeleteAction: false,
+                asAllowSubmit: false, /*true - save and submit comment */
+                asStdDivId: 1344,
+            };
+            dispatch(getSaveComment(SaveCommentBody));
+        };
+    }
+    const onSaveandSubmit = () => {
+        if (IsClickOk()) {
+            const SavesubmitCommentBody: IGetSaveandSubmitCommentBody = {
+                asSchoolId: Number(asSchoolId),
+                asAcademicYearId: Number(asAcademicYearId),
+                asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+                asCommentId: 0,
+                asDate: StartDate,
+                asComment: Comment,
+                asLectureName: LectureNm,
+                asUpdatedById: Number(asUserId),
+                asIsDeleteAction: Number(false),
+                asAllowSubmit: Number(true), /*true - save and submit comment */
+                asStdDivId: 1344,
+            };
+            dispatch(getSaveandSubmitComment(SavesubmitCommentBody));
+        };
+    }
     return (
         <Dialog
             open={open}
@@ -298,13 +331,13 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
                         <Button sx={{
                             color: 'green',
                             ':hover': { backgroundColor: green[100] }
-                        }} onClick={ClickOk}>
+                        }} onClick={onClickSave}>
                             Save
                         </Button>
                         <Button sx={{
                             color: 'green',
                             ':hover': { backgroundColor: green[100] }
-                        }} onClick={ClickOk}>
+                        }} onClick={onSaveandSubmit}>
                             Save and Submit
                         </Button>
                         <Button sx={{
