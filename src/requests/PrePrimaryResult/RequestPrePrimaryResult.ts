@@ -92,7 +92,8 @@ export const TeacherXseedSubjects =
       return {
         Id: item.SubjectId,
         Subject_Name: item.Subject_Name,
-        EditStatus : item.EditStatus
+        EditStatus : item.EditStatus,
+        IsXseedSubject:item.IsXseedSubject
       };
     });
 

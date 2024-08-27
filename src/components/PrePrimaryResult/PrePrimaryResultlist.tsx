@@ -40,7 +40,7 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                                 <TableCell  sx={{ textTransform: 'capitalize', ...cellStyle }}>
                                     {item.EditStatus == "Y" ? <Tooltip title={"Edit"}>
                                         <IconButton
-                                            onClick={() => clickEdit(item.Id, item.EditStatus, item.Subject_Name)}
+                                            onClick={() => clickEdit(item.Id, item.EditStatus, item.Subject_Name , item.IsXseedSubject)}
                                             sx={{ color: '#223354', cursor: 'pointer', }}
                                         >
                                             <EditTwoTone />

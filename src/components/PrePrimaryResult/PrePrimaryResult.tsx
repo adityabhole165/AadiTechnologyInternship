@@ -189,8 +189,7 @@ const PrePrimaryResult = () => {
   // path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher'
   // const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
 
-  const ClickItem = (SubId, EditStatusId, SubName) => {
-    console.log(GetTeacherXseedSubjects);
+  const ClickItem = (SubId, EditStatusId, SubName, IsXseedSubject) => {
     let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
     let StdDivId = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
     let EditStatus = EditStatusId === 'Y' ? '3' : '2'
@@ -214,6 +213,7 @@ const PrePrimaryResult = () => {
 
     );
   };
+
   const onClickunpublished = () => {
     setOpen(true)
 
