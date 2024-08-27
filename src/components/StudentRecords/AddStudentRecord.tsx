@@ -86,9 +86,9 @@ const AddStudentRecord = () => {
     useEffect(() => {
         dispatch(GetStudentRecordData(GetStudentRecordDataResult));
     }, []);
-    useEffect(() => {
-        dispatch(GetSubmitStudentRecordComment(SubmitStudentRecordCommentResult))
-    }, []);
+    // useEffect(() => {
+    //     dispatch(GetSubmitStudentRecordComment(SubmitStudentRecordCommentResult))
+    // }, []);
     useEffect(() => {
         dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
     }, []);
@@ -160,11 +160,13 @@ const AddStudentRecord = () => {
     const GetStudentRecordCommentEditResult: IGetStudentRecordCommentBody = {
         asSchoolId: asSchoolId,
         asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
-        asCommentId: Number(Comment)    /* 3279*/
+        asCommentId: Number('')    /* 3279*/
 
     }
-    const ClickOpenDialogbox = () => {
+    const [commentid, setcommentid] = useState('')
+    const ClickOpenDialogbox = (Id) => {
         setOpen(true);
+        setcommentid(Id)
     };
     const ClickCloseDialogbox = () => {
         setOpen(false);
@@ -204,14 +206,12 @@ const AddStudentRecord = () => {
     const onClickSubmit = () => {
         dispatch(GetSubmitStudentRecord(Getsubmitstudentrecord))
     };
-    // const onTextChange = (value) => {
-    //     setExampleLessonDetails(value)
 
-    // }
     const IsEditingAllowed = () => {
     }
 
     const onClickSubmitComment = () => {
+        dispatch(GetSubmitStudentRecordComment(SubmitStudentRecordCommentResult))
     };
     const onClickMarkAsRead = () => {
         dispatch(GetMarkRecordAsRead(GetMarkRecordAsReadResult))
@@ -299,6 +299,7 @@ const AddStudentRecord = () => {
         })
         return true
     }
+
 
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -544,7 +545,7 @@ const AddStudentRecord = () => {
                                         {(listCommentDetailsUS.length > 0 &&
                                             (item.IsDefaultComment === "False" || item.IsSubmitted === "False")) && (
                                                 <Tooltip title={"Edit"}>
-                                                    <EditTwoTone onClick={() => ClickOpenDialogbox()}
+                                                    <EditTwoTone onClick={(e) => ClickOpenDialogbox(item.Id)}
                                                         sx={{
                                                             color: 'white',
                                                             '&:hover': {
@@ -582,6 +583,10 @@ const AddStudentRecord = () => {
                         open={Open}
                         setOpen={setOpen}
                         ClickCloseDialogbox={ClickCloseDialogbox}
+                        // CommentId={(listCommentDetailsUS.length > 0 &&
+                        //     (item.Id))}
+                        SchoolWiseStudentIdparam={SchoolWiseStudentIdparam}
+                        CommentId={commentid}
                     />
                 )}
             </Box>

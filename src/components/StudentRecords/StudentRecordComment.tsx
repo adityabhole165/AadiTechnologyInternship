@@ -8,16 +8,20 @@ import { toast } from 'react-toastify';
 import Datepicker1 from 'src/components/StudentRecords/DateField';
 import TimeField from 'src/components/StudentRecords/TimeField';
 import { AlertContext } from 'src/contexts/AlertContext';
+import { IGetStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import { IGetDeleteCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import { GetStudentRecordCommentEdit } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { DeleteCommentDetails, getSaveComment, resetDeleteHolidayDetails, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 
-const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
+const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, SchoolWiseStudentIdparam }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // const { Id } = useParams();
+    console.log(CommentId, "CommentId");
 
     const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -42,15 +46,62 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
     const Savecomment = useSelector(
         (state: RootState) => state.StudentRecordCommentPopup.SaveComment
     );
+    const Editcomment = useSelector(
+        (state: RootState) => state.AddStudentRecords.getstudentrecordcomment
+    );
+    console.log(Editcomment, "Editcomment");
 
     const ClickCancel = () => {
 
     }
+    const GetStudentRecordCommentEditResult: IGetStudentRecordCommentBody = {
+        asSchoolId: asSchoolId,
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+        asCommentId: Number(CommentId)    /* 3279*/
 
+    }
+    useEffect(() => {
+        if (CommentId !== undefined && Editcomment.length > 0 && Editcomment[0] != null) {
+            const EditDetails = Editcomment[0];
+            setStartDate(EditDetails.Date);
+            setComment(EditDetails.Comment);
+            setLectureNm(EditDetails.LectureName);
+        }
+    }, [Editcomment]);
+
+    // useEffect(() => {
+    //     if (Editcomment && Editcomment.length > 0) {
+    //         const EditDetails = Editcomment[0]; // Access the first element of the array
+    //         setStartDate(EditDetails.Date);
+    //         setComment(EditDetails.Comment);
+    //         setLectureNm(EditDetails.LectureName);
+    //     }
+    // }, [Editcomment]);
+    // useEffect(() => {
+    //     if (Editcomment != null) {
+    //         setStartDate(Editcomment.Date);
+    //         setComment(Editcomment.Comment);
+    //         setLectureNm(Editcomment.LectureName);
+    //     }
+    // }, [Editcomment]);
+    useEffect(() => {
+        if (CommentId != undefined) {
+            const GetStudentRecordCommentEditResult: IGetStudentRecordCommentBody = {
+                asSchoolId: asSchoolId,
+                asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+                asCommentId: Number(CommentId)    /* 3279*/
+
+            }
+            dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
+        }
+    }, [CommentId]);
+    useEffect(() => {
+        dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
+    }, []);
     const SaveCommentBody: IGetSaveCommentBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
-        asSchoolwiseStudentId: 6039,
+        asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
         asCommentId: 0,
         asDate: StartDate,
         asComment: Comment,
@@ -64,8 +115,8 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox }) => {
         const DeleteCommentBody: IGetDeleteCommentBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcademicYearId),
-            asSchoolwiseStudentId: 6039,
-            asCommentId: 3280,
+            asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
+            asCommentId: Number(CommentId),        /*3280,*/
             asUpdatedById: Number(asUserId),  /*4463*/
             asIsDeleteAction: false,
             asAllowSubmit: true
