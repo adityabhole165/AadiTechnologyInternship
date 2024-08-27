@@ -291,7 +291,7 @@ const Support1 = () => {
                                 onChange={(e) => setDescription(e.target.value)}
                                 error={!!Errordescription}
                                 helperText={Errordescription}
-                                rows={4}
+                                // rows={4}
                             />
                         </Grid>
                     </Grid>
