@@ -219,7 +219,7 @@ const AssignProgressReportSubject = () => {
                     navLinks={[
                         {
                             title: 'Assign Pre-Primary Grades',
-                            path: '/extended-sidebar/Teacher/AssignPrePrimaryGrades' + '/' + SelectTerm + '/' + selectTeacher
+                            path: selectTeacher === 'RP' ? '/extended-sidebar/Teacher/PrePrimaryResult' : '/extended-sidebar/Teacher/AssignPrePrimaryGrades' + '/' + SelectTerm + '/' + selectTeacher
                         },
                         {
                             title: 'Assign Subject Grades',
