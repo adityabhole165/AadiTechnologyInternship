@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetUserDetailsBody, ISaveStudentDetailsForSupportBody } from 'src/interfaces/Student/ISupport';
-import SingleFile2 from 'src/libraries/File/SingleFile2';
+import SingleFile3 from 'src/libraries/File/SingleFile3';
 import { getSaveSupport, getUserDetailss, ResetMessage } from 'src/requests/Support/RequestSupport';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -33,7 +33,7 @@ const Support1 = () => {
     const [Errormobilenumber, setErrorMobilenumber] = useState('');
     const [Errordescription, setErrorDescription] = useState('');
     const ValidFileTypes = ['XLS', 'XLSX', 'DOC', 'DOCX', 'PDF', 'JPG', 'JPEG'];
-    const MaxfileSize = 20000000;
+    const MaxfileSize = 200000000;
     const { showAlert, closeAlert } = useContext(AlertContext);
     const UserDetail = useSelector((state: RootState) => state.Support.getUserDetails);
     console.log(UserDetail, 'bbbbbbb')
@@ -266,7 +266,7 @@ const Support1 = () => {
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <SingleFile2
+                            <SingleFile3
                                 ValidFileTypes={ValidFileTypes}
                                 MaxfileSize={MaxfileSize}
                                 ChangeFile={ChangeFile}
