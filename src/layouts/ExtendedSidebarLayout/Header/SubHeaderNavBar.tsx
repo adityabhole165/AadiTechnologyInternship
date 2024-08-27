@@ -205,11 +205,13 @@ function SubHeaderNavBar({ toggleDrawer }) {
     navigate('./Common/Support');
   };
   const handleuserguide = () => {
-    window.location.href = 'https://www.riteschool.com/knowledge-base-user-guide';
+    const UserGuide = 'https://www.riteschool.com/knowledge-base-user-guide';
+    window.open(UserGuide, '_blank');
   };
 
   const handleKnowledgebase = () => {
-    window.location.href = 'https://www.riteschool.com/knowledge-base';
+    const KnowledgeBase = 'https://www.riteschool.com/knowledge-base';
+    window.open(KnowledgeBase, '_blank');
   };
 
   const supportOptions = [
