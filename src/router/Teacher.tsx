@@ -571,6 +571,10 @@ const teacherRoutes = [
     path: 'PrePrimaryResult',
     element: <PrePrimaryResult />
   },
+  {
+    path: 'PrePrimaryResult/:TermId/:StdDivId',
+    element: <PrePrimaryResult />
+  },
   // {
   //   path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
   //   element: <UnpublishPrePrimaryResult />
@@ -693,7 +697,7 @@ const teacherRoutes = [
     path: 'StudentwiseprogressreportEdit/:Assessment/:YearwiseStudentId/:StandardId',
     element: <StudentwiseprogressreportEdit />
   },
-  
+
 
 
 ];

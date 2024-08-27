@@ -25,7 +25,7 @@ import { RootState } from 'src/store';
 import { CheckCircle, Unpublished } from '@mui/icons-material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
@@ -36,7 +36,7 @@ import PrePrimaryResultlist from './PrePrimaryResultlist';
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { TermId, StdDivId } = useParams();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const [SelectTeacher, setSelectTeacher] = useState('0');
@@ -46,14 +46,25 @@ const PrePrimaryResult = () => {
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  const [AssessmentResult, setAssessmentResult] = useState('');
+  const [AssessmentResult, setAssessmentResult] = useState('0');
   const [open, setOpen] = useState(false);
   const [Reason, setReason] = useState('');
   const [ReasonError, setReasonError] = useState('');
   const asUserId = Number(localStorage.getItem('UserId'));
   const { showAlert, closeAlert } = useContext(AlertContext);
 
-
+  useEffect(() => {
+    if (StdDivId && TermId) {
+      if (StdDivId.length > 0 && TermId.length > 0) {
+        let CurrentTeacherName: any = PrePrimaryClassTeacher.filter((item) => item.Id === StdDivId);
+        let CurrentTermName: any = Assessmentt.filter((item) => item.Id === TermId);
+        setAssessmentResult(TermId)
+        setSelectTeacher(StdDivId)
+        setTeachername(CurrentTeacherName[0]?.Name)
+        setTermName(CurrentTermName[0]?.Name)
+      }
+    }
+  }, [StdDivId, TermId])
   const HeaderList = [
     { Id: 1, Header: 'Subject' },
     { Id: 2, Header: 'Edit' },
@@ -176,7 +187,8 @@ const PrePrimaryResult = () => {
 
 
   const GetPrPriResultDropdown = (value) => {
-    setSelectTeacher(value);
+    setSelectTeacher(value.Value);
+    setTeachername(value.Name)
   };
   const GetAssessmentDropdown = (value) => {
     setAssessmentResult(value);
@@ -191,7 +203,7 @@ const PrePrimaryResult = () => {
 
   const ClickItem = (SubId, EditStatusId, SubName, IsXseedSubject) => {
     let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
-    let StdDivId = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
+    let StdDivIds = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
     console.log('🥱', className)
     let EditStatus = EditStatusId === 'Y' ? '3' : '2'
     if (IsXseedSubject === 'Y') {
@@ -209,7 +221,7 @@ const PrePrimaryResult = () => {
         '/' +
         SubId +
         '/' +
-        StdDivId +
+        StdDivIds +
         '/' +
         'RP'
       );
@@ -228,7 +240,7 @@ const PrePrimaryResult = () => {
         '/' +
         SubId +
         '/' +
-        StdDivId +
+        StdDivIds +
         '/' +
         'RP'
       );
@@ -304,11 +316,11 @@ const PrePrimaryResult = () => {
 
 
 
-  useEffect(() => {
-    if (Assessmentt.length > 0) {
-      setAssessmentResult(Assessmentt[0].Value);
-    }
-  }, [Assessmentt]);
+  // useEffect(() => {
+  //   if (Assessmentt.length > 0) {
+  //     setAssessmentResult(Assessmentt[0].Value);
+  //   }
+  // }, [Assessmentt]);
 
 
   return (
@@ -316,7 +328,7 @@ const PrePrimaryResult = () => {
 
       <CommonPageHeader
         navLinks={[
-          { title: 'Pre-Primary Progress Report Results', path: '/extended-sidebar/Teacher/PrePrimaryResult' },
+          { title: `Pre-Primary Progress Report Results`, path: '/extended-sidebar/Teacher/PrePrimaryResult' },
 
         ]}
 
@@ -340,13 +352,11 @@ const PrePrimaryResult = () => {
                   ItemList={PrePrimaryClassTeacher}
                   sx={{ minWidth: '250px' }}
                   onChange={(value) => {
-                    GetPrPriResultDropdown(value.Value);
-                    setTeachername(value.Name)
+                    GetPrPriResultDropdown(value);
                   }}
                   defaultValue={SelectTeacher}
                   label={'Select Class Teacher'}
                   size={"small"}
-
                 />
                 : <span></span>
 
