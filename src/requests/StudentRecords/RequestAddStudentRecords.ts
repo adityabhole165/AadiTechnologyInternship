@@ -15,7 +15,7 @@ const AddStudentRecordsSlice = createSlice({
         submitStudentRecordmsg: '',
         markrecordAsreadmsg: '',
         submitStudentRecordCommentmsg: '',
-        getstudentrecordcomment: [],
+        getstudentrecordcomment: null,
         savestudentrecordmsg: '',
         QueAnsList: [],
         Loading: true

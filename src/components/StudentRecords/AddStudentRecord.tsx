@@ -420,19 +420,21 @@ const AddStudentRecord = () => {
                         {disableSave() && (
                             <Box>
                                 <Tooltip title={'MARK AS READ'}>
-                                    <IconButton
-                                        sx={{
-                                            backgroundColor: green[500],
-                                            color: 'white',
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={onClickMarkAsRead}
-                                        disabled={disableSave()}
-                                    >
-                                        <Done />
-                                    </IconButton>
+                                    <span>
+                                        <IconButton
+                                            sx={{
+                                                backgroundColor: green[500],
+                                                color: 'white',
+                                                '&:hover': {
+                                                    backgroundColor: green[600]
+                                                }
+                                            }}
+                                            onClick={onClickMarkAsRead}
+                                            disabled={disableSave()}
+                                        >
+                                            <Done />
+                                        </IconButton>
+                                    </span>
                                 </Tooltip>
                             </Box>)}
                     </>

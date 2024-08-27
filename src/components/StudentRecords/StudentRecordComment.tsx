@@ -64,31 +64,14 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
 
     }
     useEffect(() => {
-        if (CommentId !== undefined && Editcomment.length > 0 && Editcomment[0] != null) {
-            const EditDetails = Editcomment[0];
-            setStartDate(EditDetails.Date);
-            setComment(EditDetails.Comment);
-            setLectureNm(EditDetails.LectureName);
+        if (Editcomment != null) {
+            setStartDate(Editcomment.Date);
+            setComment(Editcomment.Comment);
+            setLectureNm(Editcomment.LectureName);
         }
     }, [Editcomment]);
-
-    // useEffect(() => {
-    //     if (Editcomment && Editcomment.length > 0) {
-    //         const EditDetails = Editcomment[0]; // Access the first element of the array
-    //         setStartDate(EditDetails.Date);
-    //         setComment(EditDetails.Comment);
-    //         setLectureNm(EditDetails.LectureName);
-    //     }
-    // }, [Editcomment]);
-    // useEffect(() => {
-    //     if (Editcomment != null) {
-    //         setStartDate(Editcomment.Date);
-    //         setComment(Editcomment.Comment);
-    //         setLectureNm(Editcomment.LectureName);
-    //     }
-    // }, [Editcomment]);
     useEffect(() => {
-        if (CommentId != undefined) {
+        if (CommentId != '') {
             const GetStudentRecordCommentEditResult: IGetStudentRecordCommentBody = {
                 asSchoolId: asSchoolId,
                 asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
@@ -98,10 +81,6 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
             dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
         }
     }, [CommentId]);
-    useEffect(() => {
-        dispatch(GetStudentRecordCommentEdit(GetStudentRecordCommentEditResult))
-    }, []);
-
     const deleteComment = () => {
         const DeleteCommentBody: IGetDeleteCommentBody = {
             asSchoolId: Number(asSchoolId),
@@ -128,7 +107,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
                 closeAlert();
             }
         });
-
+        ClickCloseDialogbox();
 
     };
 
