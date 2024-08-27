@@ -443,11 +443,11 @@ const WeeklyTimetable = (props: Props) => {
         asWeekDayName: 'Friday'
     }
     // Following f() is for Calculating the total Lec. count for each WeekDay
-    const [MonCount, setMonCount] = useState(0);
-    const [TueCount, setTueCount] = useState(0);
-    const [WedCount, setWedCount] = useState(0);
-    const [ThuCount, setThuCount] = useState(0);
-    const [FriCount, setFriCount] = useState(0);
+    const [MonCount, setMonCount] = useState<Number>();
+    const [TueCount, setTueCount] = useState<Number>();
+    const [WedCount, setWedCount] = useState<Number>();
+    const [ThuCount, setThuCount] = useState<Number>();
+    const [FriCount, setFriCount] = useState<Number>();
     useEffect(() => {
         if (teacher !== '0') {
             const fetchData = async () => {
@@ -1296,8 +1296,10 @@ const WeeklyTimetable = (props: Props) => {
         return newAr;
     }
 
+
     useEffect(() => {
-        if (ApplicablesToggleData.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && TeacherTimetableCellValues.length > 0) {
+        if (teacher !== '0' && ApplicablesToggleData.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && TeacherTimetableCellValues.length > 0) {
+            console.log('Appli. Data', ApplicablesToggleData)
             let WeekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
             const daySetters = {
                 Monday: setMonCount,
@@ -1326,9 +1328,10 @@ const WeeklyTimetable = (props: Props) => {
                     return total + mptCount + assemblyCount + staybackCount + weeklytestCount + lecNo;
                 }, 0);
                 daySetters[day](Number(dayCount));
+                console.log(MonCount, TueCount, WedCount, ThuCount, FriCount)
             });
         }
-    }, [TeacherTimetableCellValues, trackTeacherTimetable, ApplicablesToggleData, assembly, mpt, stayback, weeklytest]);
+    }, [TeacherTimetableCellValues, trackTeacherTimetable, ApplicablesToggleData, assembly, mpt, stayback, weeklytest, teacher, StayBackInfo, weeklyTestInfo, AssemblyInfo, mptInfo]);
 
 
 
@@ -1885,11 +1888,11 @@ const WeeklyTimetable = (props: Props) => {
                                                                     <TableRow>
                                                                         {Object.keys(trackTeacherTimetable).length > 0 && <>
                                                                             <FooterStyledCell>{'Total Lectures'}</FooterStyledCell>
-                                                                            <FooterStyledCell>{MonCount}</FooterStyledCell>
-                                                                            <FooterStyledCell>{TueCount}</FooterStyledCell>
-                                                                            <FooterStyledCell>{WedCount}</FooterStyledCell>
-                                                                            <FooterStyledCell>{ThuCount}</FooterStyledCell>
-                                                                            <FooterStyledCell>{FriCount}</FooterStyledCell>
+                                                                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && MonCount}</FooterStyledCell>
+                                                                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && TueCount}</FooterStyledCell>
+                                                                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && WedCount}</FooterStyledCell>
+                                                                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && ThuCount}</FooterStyledCell>
+                                                                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && FriCount}</FooterStyledCell>
                                                                         </>}
                                                                     </TableRow>
                                                                 }
@@ -2131,9 +2134,6 @@ const WeeklyTimetable = (props: Props) => {
                                                             </TableCell>
                                                         </TableRow>
                                                     ))}
-
-                                                    {/* Fixed Footer */}
-
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
@@ -2143,7 +2143,6 @@ const WeeklyTimetable = (props: Props) => {
                             </>}
                         {filterBy === 'Teacher' && teacher !== '0' && !loading && teacher !== undefined && TeacherTimetableCellValues.length > 0 && Object.keys(trackTeacherTimetable).length > 0 &&
                             <Box sx={{ flex: 1 }}>
-                                {/* <Typography variant={"h4"} mt={1} mb={1.5}>Class-Subject Lecture Count</Typography> */}
                                 <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', marginBottom: 0.5, fontWeight: 'bold' }}>Class-subject lecture count</Typography>
                                 {teacher !== '0' &&
                                     <TableContainer sx={{ width: '100%' }}>

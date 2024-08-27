@@ -35,7 +35,8 @@ const GetTeacherSubjectMaxLecDetailsApi = async (data: IGetTeacherSubjectMaxLecD
     try {
         return await http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data);
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        throw error;
     }
 };
 
