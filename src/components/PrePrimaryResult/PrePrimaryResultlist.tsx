@@ -1,9 +1,12 @@
 
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
 
 const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
-
+    const cellStyle = {
+        padding: '0.2em 1.5em', // Adjust these values to reduce the height
+      };
     return (
         <div>
 
@@ -31,10 +34,10 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.ItemID}>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
+                                <TableCell  sx={{ textTransform: 'capitalize', ...cellStyle }}>
                                     {item.Subject_Name}
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 0 }}>
+                                <TableCell  sx={{ textTransform: 'capitalize', ...cellStyle }}>
                                     {item.EditStatus == "Y" ? <Tooltip title={"Edit"}>
                                         <IconButton
                                             onClick={() => clickEdit(item.Id, item.EditStatus, item.Subject_Name)}
@@ -42,8 +45,15 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                                         >
                                             <EditTwoTone />
                                         </IconButton>
-                                    </Tooltip> : <img src="../../../../../../ " />}
+                                    </Tooltip> :  <Tooltip title={"Exam marks not submitted to the class teacher"}>
+                                    <EventBusyIcon style={{ color: '#0f0f0f' }} />
+                                    </Tooltip>
+                                    
+                                    }
 
+
+                                   
+            
                                 </TableCell>
 
 

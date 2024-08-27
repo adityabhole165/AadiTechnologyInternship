@@ -28,11 +28,11 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import PrePrimaryResultlist from './PrePrimaryResultlist';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 const PrePrimaryResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -380,17 +380,20 @@ const PrePrimaryResult = () => {
           </>}
       />
 
-      <Box sx={{ backgroundColor: 'white' }}>
-        {
-          GetTeacherXseedSubjects.length > 0 ?
-            <PrePrimaryResultlist
-              HeaderArray={HeaderList}
-              ItemList={GetTeacherXseedSubjects}
-              clickEdit={ClickItem}
-            />
-            : <span></span>
-        }
-      </Box>
+      
+        {GetTeacherXseedSubjects.length > 0 ? (
+            <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
+          <PrePrimaryResultlist
+            HeaderArray={HeaderList}
+            ItemList={GetTeacherXseedSubjects}
+            clickEdit={ClickItem}
+          />
+          </Box>
+        ) : (
+          <span></span>
+        )}
+     
+
 
       <Dialog
         open={open}
