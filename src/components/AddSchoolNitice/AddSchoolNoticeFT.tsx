@@ -405,8 +405,9 @@ const AddSchoolNoticeFT = () => {
 
     const modules = {
         toolbar: [
-            [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-            [{ size: [] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            //  [{ size: [] }],
+            [{ 'font': [ ] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript and Superscript
             [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
@@ -926,7 +927,7 @@ const AddSchoolNoticeFT = () => {
                             :
                             <Grid item md={12}>
                                 <Box>
-                                    <ReactQuill value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                    <ReactQuill  className= 'ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
                                     <ErrorMessage1 Error={NoticeContentError}></ErrorMessage1>
                                 </Box>
                             </Grid>

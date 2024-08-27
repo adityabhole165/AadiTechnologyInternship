@@ -74,7 +74,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
 
         if (link) {
 
-            setSelectedLink(getWithoutHTML(link));
+            setSelectedLink(link);
             const isImage = /\.(pdf|jpg|jpeg|png|gif|bmp)$/i.test(link);
             setContentType(isImage ? 'image' : 'text');
             setOpenDetailDialog(true);
