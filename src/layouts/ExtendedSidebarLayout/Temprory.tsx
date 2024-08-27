@@ -221,6 +221,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/StudentRecords'
     },
     {
+      title: 'Performance Grade Assignment',
+      icon: <FactCheck />,
+      link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen'
+    },
+    {
       title: 'Investment Declaration',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration'

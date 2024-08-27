@@ -433,15 +433,15 @@ const DashboardData = {
         Link: 'Teacher/LessonPlanBaseScreen',
         index: 15
       },
-      // {
-      //   Text1: 'Exam Result  ',
-      //   Text2: 'Unpublish',
-      //   Color: '#81c784',
-      //   iconColor: '#424242',
-      //   Icon: AssignmentIcon,
-      //   Link: 'Teacher/ExamResultUnpublish',
-      //   index: 15
-      // },
+      {
+        Text1: 'Performance Grade Assignment',
+        Text2: '',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/PerformanceGradeAssignmentBaseScreen',
+        index: 14
+      },
 
       // {
       //   Text1: 'Event ',

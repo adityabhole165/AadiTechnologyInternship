@@ -16,6 +16,10 @@ const Loader = (Component) => (props) =>
 );
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
+const PerformanceGradeAssignmentBaseScreen = Loader(
+  lazy(() => import('src/components/PerformanceGradeAssignment/PerformanceGradeAssignmentBaseScreen'))
+);
+
 const TAttendance = Loader(
   lazy(() => import('src/components/MyAttendance/TAttendance'))
 );
@@ -697,7 +701,10 @@ const teacherRoutes = [
     path: 'StudentwiseprogressreportEdit/:Assessment/:YearwiseStudentId/:StandardId',
     element: <StudentwiseprogressreportEdit />
   },
-
+  {
+    path: 'PerformanceGradeAssignmentBaseScreen',
+    element: <PerformanceGradeAssignmentBaseScreen />
+  },
 
 
 ];
