@@ -250,54 +250,60 @@ const AddStudentRecord = () => {
     const clickEdit = () => {
     }
     const disableSave = () => {
+        let returnVal = true
         //enable when default comment not present
         if (listCommentDetailsUS.length == 0) {
-            return false
+            returnVal = false
         }
         else {
             listCommentDetailsUS.map((item) => {
                 if (item.IsDefaultComment == "True") {
                     //enable when default comment is not submitted
                     if (item.IsSubmitted == "False") {
-                        return false
+                        returnVal = false
                     }
                 }
             })
         }
-        return true
+        return returnVal
     }
     const disableSubmit = () => {
+        let returnVal = true
         listCommentDetailsUS.map((item) => {
             if (item.IsDefaultComment == "True") {
                 //enable when default comment is not submitted
                 if (item.IsSubmitted == "False") {
-                    return false
+                    returnVal = false
                 }
             }
         })
-        return true
+        return returnVal
     }
     const disableAddComment = () => {
+        let returnVal = true
         listCommentDetailsUS.map((item) => {
             if (item.IsDefaultComment == "True") {
                 //enable when default comment is not submitted
                 if (item.IsSubmitted == "True") {
-                    return false
+
+                    returnVal = false
                 }
             }
         })
-        return true
+
+        return returnVal
     }
     const disableSubmitComment = () => {
+        let returnVal = true
         listCommentDetailsUS.map((item) => {
-            if (item.IsDefaultComment !== "False") {
+            if (item.IsDefaultComment == "False") {
                 //enable when any non-comment is not submitted
                 if (item.IsSubmitted == "False") {
-                    return false
+                    returnVal = false
                 }
             }
         })
-        return true
+        return returnVal
     }
 
 
