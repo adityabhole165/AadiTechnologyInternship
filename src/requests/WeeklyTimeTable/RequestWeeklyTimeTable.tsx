@@ -798,7 +798,6 @@ export const CDAGetDivisionName =
             const IsWeeklyTimetableFullAccess = GetScreenPermission('Weekly Timetable');
             let StdDivId = sessionStorage.getItem('StandardDivisionId');
             // 🙋‍♂️ TO BE UNCOMMENTED BEFORE FINAL TESTING ⚡
-            console.log(`🏠`, ConfigIdPagePersmission)
             if (UserRoleId === '2' && ConfigIdPagePersmission.length === 0) {
                 responseData = responseData.filter(item => item.Id === StdDivId);
             }

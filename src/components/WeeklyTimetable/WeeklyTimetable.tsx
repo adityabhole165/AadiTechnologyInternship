@@ -221,11 +221,10 @@ const WeeklyTimetable = (props: Props) => {
             lecture =>
                 lecture.WeekdayId === selectedWeekdayId && lecture.LecNo === selectedLectureNumber
         );
-        console.log(`🙋‍♂️`, matchedLectures)
         // Step 2: Get the Standard_Division_Id and Subject_Id from the matched lectures
         const matchedStandardDivisionId = matchedLectures.length > 0 ? matchedLectures[0].StdDivId : null;
         const matchedSubjectId = matchedLectures.length > 0 ? matchedLectures[0].SubId : null;
-        console.log(`🙋‍♂️`, matchedStandardDivisionId, matchedSubjectId)
+
         // Step 3: Filter the ClassSubjectDropdownList
         const filteredClassSubjects = classSubjectDropdownList.filter(subject =>
             subject.SubId === matchedSubjectId && subject.StdDivId !== matchedStandardDivisionId
@@ -240,7 +239,7 @@ const WeeklyTimetable = (props: Props) => {
     useEffect(() => {
         if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && ClassBaseLecList.length > 0) {
             const filteredArray = ClassBaseLecList?.filter((item) => item.Weekday_Id === AddLecForTWeekDayId && item.Lecture_Number === AddLecForTLecNo);
-            console.log(`🙋‍♂️ ??? `, filteredArray, ClassBaseLecList, AddLecForTWeekDayId, AddLecForTLecNo)
+
             let ParentGroupId = filteredArray[0]?.ParentGroupId;
             let SubjectGroupId = filteredArray[0]?.SubjectGroupId;
             const OptionalLecBody: IGetGroupwiseOptionalSubjectBody = {
@@ -259,7 +258,7 @@ const WeeklyTimetable = (props: Props) => {
     useEffect(() => {
         if (GetGroupwiseOptSubList.length > 0 && AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0') {
             const arr = ClassBaseLecList?.filter((item) => item.Weekday_Id === AddLecForTWeekDayId && item.Lecture_Number === AddLecForTLecNo);
-            console.log('filtered array ⭐️', arr)
+
             let excludedSub = arr[0]?.Subject_Id;
             let filteredArray = GetGroupwiseOptSubList.filter((item) => item.Subject_Id !== excludedSub);
             filteredArray = filteredArray.map((item) => {
@@ -300,7 +299,7 @@ const WeeklyTimetable = (props: Props) => {
             !excludedSubjects2.includes(item.Name?.split(' ')[0])
         );
         filteredArray.unshift({ Id: '0', StdDivId: '0', SubId: '0', SubName: 'Select', SubTeacher: 'Select', OrgStdId: '0', OrgDivId: '0', Value: '0' });
-        console.log(`✅`, filteredArray)
+
         return filteredArray;
     }
     const filterClassSubject = (value) => {
@@ -450,19 +449,25 @@ const WeeklyTimetable = (props: Props) => {
     const [ThuCount, setThuCount] = useState(0);
     const [FriCount, setFriCount] = useState(0);
     useEffect(() => {
-        if (teacher !== '0' && teacher !== undefined && isNewTeacherSelection === true) {
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri));
-            // setMonCount(0);
-            // setTueCount(0);
-            // setWedCount(0);
-            // setThuCount(0);
-            // setFriCount(0);
+        if (teacher !== '0') {
+            const fetchData = async () => {
+                try {
+                    await Promise.all([
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
+                    ]);
+                    // Handle post-fetch actions here
+                } catch (error) {
+                    // Handle errors here
+                }
+            };
+            fetchData();
         }
-    }, [teacher, isNewTeacherSelection]);
+    }, [teacher]);
+
 
     // Additional / Optional Lecture Added Success Msg.
     useEffect(() => {
@@ -532,15 +537,27 @@ const WeeklyTimetable = (props: Props) => {
             })
         }
     }, [ApplicablesToggleData])
+
     useEffect(() => {
         if (division !== '0') {
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu));
-            dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri));
+            const fetchData = async () => {
+                try {
+                    await Promise.all([
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
+                    ]);
+                    // Handle post-fetch actions here
+                } catch (error) {
+                    // Handle errors here
+                }
+            };
+            fetchData();
         }
     }, [division]);
+
     const AdditionalLectureBody: IGetDataForAdditionalClassesBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
@@ -803,7 +820,6 @@ const WeeklyTimetable = (props: Props) => {
                 closeAlert();
             }
         });
-        console.log(`SaveTeacherTimetableBody 🧧`, SaveTeacherTimetableBody)
     }
     useEffect(() => {
         if (ValidateTeacherDataMsg.length > 0) {
@@ -841,7 +857,6 @@ const WeeklyTimetable = (props: Props) => {
     }, [ValidateTeacherDataMsg])
     useEffect(() => {
         if (GetValidateAddDataForTeacherMsgList !== undefined && GetValidateAddDataForTeacherMsgList?.length > 0) {
-            console.log(`⛳`, GetValidateAddDataForTeacherMsgList[0])
             if (GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) === false) {
                 let obs = GetValidateAddDataForTeacherMsgList[0];
                 const DuplicateLecBody: IGetCheckDuplicateLecturesMsgBody = {
@@ -1102,16 +1117,11 @@ const WeeklyTimetable = (props: Props) => {
         sXML = `<DaywiseTimeTableMaster>${sXML}</DaywiseTimeTableMaster>`
         return sXML;
     }
-    useEffect(() => {
-        if (Object.keys(trackTeacherTimetable).length > 0) {
-            console.log(`🧨`, trackTeacherTimetable);
-        }
-    }, [trackTeacherTimetable])
+
     function GetDetailXML() {
         // TrackTeacherTimeTable String Split seq. `SubTeacherId-WeekDayId-StdDivId-SubId-LecNo` 
         let sXML = "";
         const weekdayIds = WeekdayIds.map(item => item.WeekdayId);
-        console.log(`🎄`, trackTeacherTimetable)
         TeacherTimetableCellValues.forEach(lecture => {
             const lectureNo = lecture.Text1;
             ['Text2', 'Text3', 'Text4', 'Text5', 'Text6'].forEach((day, index) => {
@@ -1365,7 +1375,6 @@ const WeeklyTimetable = (props: Props) => {
             asIsAdditionalClass: true,
             asIsCountInceased: 0
         }
-        console.log(`🤝`, AddLecForTeacherApiBody)
         if (AddLecForTWeekDayId !== '0' && AddLecForTLecNo !== '0' && AddLecForTStdDivId !== '0') {
             dispatch(CDASaveAddTeacherTimetable(AddLecForTeacherApiBody, DuplicateLecBody, AddLecForManageTeacherApiBody, ValidateAdditionalDataForTeacher));
         } else {
@@ -1421,8 +1430,11 @@ const WeeklyTimetable = (props: Props) => {
                                     onChange={(e) => {
                                         setFilterBy(e.target.value)
                                         if (filterBy === 'Teacher') {
-                                            setTeacher('0')
+                                            setDivision('0');
+                                            setStandard('0');
+                                            setTeacher('0');
                                         } else if (filterBy === 'Class') {
+                                            setTeacher('0');
                                             setDivision('0');
                                             setStandard('0');
                                         }
@@ -1739,7 +1751,7 @@ const WeeklyTimetable = (props: Props) => {
                                                         return (
                                                             <>
                                                                 {WeekdayIds.length > 0 && item.Text1 !== '99' ?
-                                                                    <TableRow>
+                                                                    <TableRow key={i}>
                                                                         <StyledCell sx={{ textAlign: 'center' }}>{item.Text1}</StyledCell>
                                                                         <Tooltip title={`For - Monday : ${item.Text1}`} arrow placement="top" enterDelay={2000}>
                                                                             <StyledCell sx={{ backgroundColor: `${mpt && isMPTLecture('Monday', item.Text1) ? '#f3f4f6' : assembly && isAssemblyLecture('Monday', item.Text1) ? '#f3f4f6' : stayback && isStaybackLecture('Monday', item.Text1) ? '#f3f4f6' : weeklytest === true && isWeeklyTestLecture('Monday', item.Text1) ? '#f3f4f6' : filterMaxDayLec(MondayColumnList, item.Text1).length === 1 ? '#9ca3af' : item.Text2 !== '0' ? '#f3f4f6' : ''}` }}>
@@ -2270,118 +2282,6 @@ const WeeklyTimetable = (props: Props) => {
                 </Box>
             </Box>
             {/* Add additional lectures */}
-            {/* <Dialog
-                open={showAddAdditionalLectures}
-                onClose={() => setShowAddAdditionalLectures(false)}
-                maxWidth={'xs'}
-                fullWidth
-            >
-                <DialogTitle
-                    sx={{
-                        py: 1,
-                        backgroundColor: (theme) => theme.colors.primary.main,
-                        color: (theme) => theme.palette.common.white
-                    }}
-                ></DialogTitle>
-                <DialogContent dividers>
-                    <Box>
-                        {DuplicateLecturesMsg.length > 0 && <span dangerouslySetInnerHTML={{ __html: `Error : ${DuplicateLecturesMsg}` }} style={{ color: 'red', fontWeight: 'bolder' }} />}
-                        <Typography variant={"h4"}>{filterBy === 'Teacher' ? `Assign additional lectures to teacher` :
-                            `Assign optional subject lectures to class`}</Typography>
-                        <Stack gap={2} mt={2}>
-                            <Box sx={{ width: '100%' }}>
-                                <SearchableDropdown
-                                    onChange={(value) => { }}
-                                    ItemList={filterBy === 'Teacher' ? TeachersList : [{ Id: '0', Name: `${standardName} - ${divisionName}`, Value: '0' }]}
-                                    defaultValue={filterBy === 'Teacher' ? teacher : "0"}
-                                    label={filterBy === 'Teacher' ? 'Teacher' : 'Class'}
-                                    sx={{ minWidth: '100%' }}
-                                    size={"small"}
-                                    disabled={true}
-                                />
-                            </Box>
-                            <Box sx={{ width: '100%' }}>
-                                <SearchableDropdown
-                                    onChange={(value) => {
-                                        setAddLecForWeekDayId(value);
-                                        setAddLecForTLecNo('0');
-                                        setAddLecForTStdDivId('0');
-                                    }}
-                                    ItemList={AddLecWeekDayList}
-                                    label="Week Day"
-                                    sx={{ minWidth: '100%' }}
-                                    size={"small"}
-                                    defaultValue={AddLecForTWeekDayId}
-                                    mandatory={true}
-                                    DisableClearable={true}
-                                />
-                                {isSubmitAdLecToTeacher && AddLecForTWeekDayId === '0' && <span style={{ color: 'red' }}>Weekday should not be empty.</span>}
-                            </Box>
-                            <Box sx={{ width: '100%' }}>
-                                <SearchableDropdown1
-                                    onChange={(value) => {
-                                        setAddLecForTLecNo(value.Value);
-                                        setAddLecForTStdDivId('0');
-                                    }}
-                                    ItemList={AddLecForTWeekDayId !== '0' ? filteredAddLecLectureNumber : []}
-                                    label="Lecture Number"
-                                    sx={{ minWidth: '100%' }}
-                                    size={"small"}
-                                    defaultValue={AddLecForTLecNo}
-                                    mandatory={true}
-                                    DisableClearable={true}
-                                />
-                                {isSubmitAdLecToTeacher && AddLecForTLecNo === '0' && AddLecForTWeekDayId !== '0' && <span style={{ color: 'red' }}>Lecture number should not be empty.</span>}
-                            </Box>
-                            <Box sx={{ width: '100%' }}>
-                                <SearchableDropdown1
-                                    onChange={(value) => {
-                                        setAddLecForTSubjectNameId(value.SubId);
-                                        setAddLecForTStdDivId(value.StdDivId);
-                                    }}
-                                    ItemList={AddLecForTLecNo !== '0' ? FilteredAddLecArray : []}
-                                    label="Class Subjects"
-                                    sx={{ minWidth: '100%' }}
-                                    size={"small"}
-                                    defaultValue={AddLecForTStdDivId}
-                                    mandatory={true}
-                                    DisableClearable={true}
-                                />
-                                {isSubmitAdLecToTeacher && AddLecForTSubjectNameId === '0' && AddLecForTLecNo !== '0' && AddLecForTWeekDayId !== '0' && <span style={{ color: 'red' }}>Class-Subject name should not be empty.</span>}
-                            </Box>
-                        </Stack>
-                    </Box>
-                </DialogContent>
-                <DialogActions sx={{ py: 2, px: 3 }}>
-                    <Button
-                        onClick={() => {
-                            setShowAddAdditionalLectures(false);
-                        }}
-                        sx={{
-                            color: 'red',
-                            '&:hover': {
-                                color: 'red',
-                                backgroundColor: red[100]
-                            }
-                        }}
-
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={SubmitAdditionalLecture}
-                        sx={{
-                            color: 'green',
-                            '&:hover': {
-                                color: 'green',
-                                backgroundColor: green[100]
-                            }
-                        }}
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog> */}
             <AddLecture Value1={filterBy === 'Teacher' ? teacherName : `${standardName} - ${divisionName}`} ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={filterBy === 'Teacher' ? SubmitAdditionalLecture : SubmitAddtionalLecForClass} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
                 OnClose={() => { setShowAddAdditionalLectures(false); dispatch(CDAClearValidateAdditionalDataForTeacher()); }} ItemList2={AddLecWeekDays} OnChange1={(value) => {
                     setAddLecForWeekDayId(value);

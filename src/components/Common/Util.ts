@@ -77,8 +77,6 @@ export function isFutureDateTime(date) {
   return new Date(date) > new Date();
 }
 export function isPastDateTime(date) {
-  console.log(new Date(date), "-", new Date());
-
   return new Date(date) < new Date();
 }
 export function getMonthYear() {
@@ -153,8 +151,6 @@ export const getDateMonthYearFormatted = (date) => {
   return `${arrDate[dateIndex]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[yearIndex]}`;
 };
 export const getYearFirstDateFormatted = (date) => {
-  console.log(date, "getYearFirstDateFormatted");
-
   let separator = date.indexOf('/') > 0 ? '/' : '-'
   let arrDate = date.split(' ')[0].split(separator);
   let yearIndex = arrDate[0].length == 4 ? 0 : 2
@@ -605,7 +601,6 @@ export function GetScreenPermission(ScreenName) {
     if (item.ScreenName === ScreenName)
       perm = item.IsFullAccess;
   });
-  console.log(perm)
   return perm;
 };
 

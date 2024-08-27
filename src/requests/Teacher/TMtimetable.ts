@@ -116,8 +116,6 @@ export const GetTeacherTimeTableResult =
   (data: IGetTeacherTimeTableBody): AppThunk =>
     async (dispatch) => {
       const response = await WeekdayApi.GetTimeTableDisplayForTeacher(data);
-      console.log("kfaklfalafld", response)
-
       // Table data
       let TimeTableList = response.data.listLectureName.map((item, i) => {
 
@@ -149,12 +147,6 @@ export const GetTeacherTimeTableResult =
           Stayback: item.Stayback_Applicable,
         }
       })
-
-      console.log("kfaklfalafld..>>>>>", TimeTableList)
-
-      console.log("Applicable..>>>>>", applicables)
-
-
       dispatch(TMTimetableslice.actions.RGetTeacherTimeTableResult(TimeTableList));
       dispatch(TMTimetableslice.actions.RApplicables(applicables));
     };
@@ -175,7 +167,6 @@ export const GetLectureCountsForTeachers =
           Text5: item.Subject_Id,
         }
       })
-      console.log(">>>>>>>>>>>>TC", SubjectLectureCount)
       dispatch(TMTimetableslice.actions.RGetLectureCountsForTeachers(SubjectLectureCount));
 
     };
@@ -196,7 +187,6 @@ export const GetDataForAdditionalClasses =
           Text4: item.Subject_Name
         }
       })
-      console.log(">>>>>>>>>>>>TC", AdditionalLecture)
       dispatch(TMTimetableslice.actions.RGetDataForAdditionalClasses(AdditionalLecture));
 
     };
