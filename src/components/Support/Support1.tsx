@@ -168,7 +168,7 @@ const Support1 = () => {
                     rightActions={
                         <>
                             <Box>
-                                <Tooltip title={`Please write to us with your queries or problems. We will do our best to assist you.`}>
+                                <Tooltip title={'Please write us your queries/ problem. We will try our level best to assist you'}>
                                     <span>
                                         <IconButton
                                             sx={{
@@ -184,7 +184,7 @@ const Support1 = () => {
                                 </Tooltip>
                             </Box>
                             <Box>
-                                <Tooltip title={'Submit'}>
+                                <Tooltip title={'Save'}>
                                     <span>
                                         <IconButton
                                             sx={{
@@ -213,7 +213,7 @@ const Support1 = () => {
                         Dear Teacher, <br />
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Mention the Subject for your Support Request and provide a detailed description of the problem, including exact steps if possible. You may attach a file as supporting documentation. This will help our support team understand the problem fully and speed up the resolution of your request.
+                        Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible. You may attach a file as a supporting document. It will help our support member to understand the problem in full and speed up resolution of your request.
                     </Typography>
                 </Grid>
                 <Grid sx={{ backgroundColor: 'white', p: 1 }}>
