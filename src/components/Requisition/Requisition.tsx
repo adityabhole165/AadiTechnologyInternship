@@ -169,7 +169,7 @@ const StatusRequisition = () => {
     showAlert({
       title: 'Please Confirm',
       message:
-        'Are you sure you want to delete this Requisition?  ',
+        'Are you sure you want to delete this requisition?  ',
       variant: 'warning',
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',

@@ -108,7 +108,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    width: '220px', py:1
+                                                    width: '200px', py:1
                                                 }}
                                                 align="left"
                                             >
