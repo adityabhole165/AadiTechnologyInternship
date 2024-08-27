@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import CardMessage from '../mainCard/CardMessage';
 import { ListStyle } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg';
+import { red } from '@mui/material/colors';
 // import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
   const navigate = useNavigate();
@@ -31,7 +32,14 @@ const ListCard4ColSel = ({ Item, onChange, ActiveTab, DeleteDraft }) => {
               ) : (
                 <DeleteForeverIcon
                   onClick={() => DeleteDraft(Item.Id)}
-                  color={'error'}
+                  sx={{
+                    color:'#38548A',
+                    cursor:'pointer',
+                     //  backgroundColor: grey[500],
+                      '&:hover': {
+                         color:'red',
+                     backgroundColor: red[100]
+                      }}}
                 />
               )}
             </Grid>
