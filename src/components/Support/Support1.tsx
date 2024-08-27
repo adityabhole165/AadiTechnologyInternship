@@ -12,6 +12,7 @@ import SingleFile2 from 'src/libraries/File/SingleFile2';
 import { getSaveSupport, getUserDetailss, ResetMessage } from 'src/requests/Support/RequestSupport';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import { IsPhoneNoValid } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const Support1 = () => {
@@ -84,6 +85,17 @@ const Support1 = () => {
         });
     };
 
+    const handleMobileNumberChange = (e) => {
+        const value = e.target.value;
+
+        if (/^[0-9]*$/.test(value) && value.length <= 10) {
+            const errorMessage = IsPhoneNoValid(value);
+            setMobilenumber(value);
+            setErrorMobilenumber(errorMessage);
+        } else {
+            setErrorMobilenumber('');
+        }
+    };
     const ClickSubmitSupport = () => {
         let isError = false;
 
@@ -96,20 +108,6 @@ const Support1 = () => {
             isError = true;
         } else {
             setErrorEmailId('');
-        }
-
-        const mobileNumberRegex = /^[0-9]{10}$/;
-        if (!mobilenumber.trim()) {
-            setErrorMobilenumber('Mobile number should not be blank.');
-            isError = true;
-        } else if (mobilenumber.length > 10) {
-            setErrorMobilenumber('Mobile number should not exceed 10 digits.');
-            isError = true;
-        } else if (!mobileNumberRegex.test(mobilenumber)) {
-            setErrorMobilenumber('Mobile Number should be of 10 digits.');
-            isError = true;
-        } else {
-            setErrorMobilenumber('');
         }
 
         if (!problemSubject.trim()) {
@@ -244,7 +242,7 @@ const Support1 = () => {
                                 label="Mobile Number :"
                                 variant="outlined"
                                 value={mobilenumber}
-                                onChange={(e) => setMobilenumber(e.target.value)}
+                                onChange={handleMobileNumberChange}
                                 error={!!Errormobilenumber}
                                 helperText={Errormobilenumber}
                             />
@@ -274,7 +272,7 @@ const Support1 = () => {
                                 FileLabel={'Attachment : '}
                                 height={"52px"}
                                 width={'100%'}
-
+                                isMandatory={false}
                             />
                         </Grid>
                         <Grid item xs={12}>

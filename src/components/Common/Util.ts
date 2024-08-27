@@ -624,3 +624,11 @@ export function extractTime(datetimeString) {
 
   return `${hours}:${minutes}`;
 }
+
+export const IsPhoneNoValid = (value) => {
+  const phoneRegExp = /^[0-9]{10}$/; // Exactly 10 digits
+  if (!phoneRegExp.test(value)) {
+    return 'Mobile Number should be of 10 digits';
+  }
+  return '';
+};
