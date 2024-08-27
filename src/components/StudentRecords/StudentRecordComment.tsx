@@ -53,7 +53,9 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
         (state: RootState) => state.AddStudentRecords.getstudentrecordcomment
     );
     console.log(Editcomment, "Editcomment");
-
+    const listCommentDetailsUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.listCommentDetails
+    );
     const ClickCancel = () => {
 
     }
@@ -319,12 +321,13 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
                         }} onClick={onSaveandSubmit}>
                             Save and Submit
                         </Button>
-                        <Button sx={{
-                            color: 'red',
-                            ':hover': { backgroundColor: red[100] }
-                        }} onClick={deleteComment}>
-                            Delete
-                        </Button>
+                        {(listCommentDetailsUS.length > 0) &&
+                            <Button sx={{
+                                color: 'red',
+                                ':hover': { backgroundColor: red[100] }
+                            }} onClick={deleteComment}>
+                                Delete
+                            </Button>}
                         <Button sx={{
                             color: 'red',
                             ':hover': { backgroundColor: red[100] }
