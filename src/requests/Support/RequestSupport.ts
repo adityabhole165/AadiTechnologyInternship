@@ -7,7 +7,7 @@ const SliceSupport = createSlice({
   name: 'Support',
   initialState: {
     SaveSupport: '',
-    getUserDetails: {},
+    getUserDetails: '',
     Loading: true
   },
   reducers: {
@@ -19,7 +19,7 @@ const SliceSupport = createSlice({
       state.SaveSupport = '';
     },
     GetUserDetails(state, action) {
-      state.getUserDetails = action.payload.TeacherDetails;
+      state.getUserDetails = action.payload;
 
     },
     getLoading(state, action) {
@@ -46,6 +46,7 @@ export const getUserDetailss =
   (data: IGetUserDetailsBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiSupport.GetUserDetailApi(data);
+      console.log(response.data.TeacherDetails.Email_Address,response.data, 'AAAAAA')
       dispatch(SliceSupport.actions.GetUserDetails(response.data.TeacherDetails.Email_Address));
     };
 
