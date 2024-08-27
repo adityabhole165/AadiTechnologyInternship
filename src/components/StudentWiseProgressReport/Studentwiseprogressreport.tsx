@@ -77,6 +77,7 @@ const Studentwiseprogressreport = () => {
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
   const [Assessment, setAssessment] = useState();
+  
   const [std, setstd] = useState();
   const [StudentAssig, setStudentAssig] = useState();
   const [StudentGrad, setStudentGrad] = useState();
@@ -359,27 +360,21 @@ const Studentwiseprogressreport = () => {
 
   
 
-  const clickEdit = (value) => {
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
-      ClassTecher + '/' +
-      value.StandardDivisionId + '/' +
-      value.SubjectId + '/' +
-      selectClass + '/' +
-      ClassWiseExam + '/' +
-      aTeacherId.toString() + '/' +
-      value.StandardId + '/' +
-      value.IsMonthConfig + '/' +
-      !(value.IsSubmitted == "N") + '/' +
-      false + '/' +
-      'true'
+  const ClicEdit = (YearwiseStudentId,StandardId) => {
+    console.log(YearwiseStudentId,"--", StandardId ,"--",Assessment);
+       
+    navigate('/extended-sidebar/Teacher/StudentwiseprogressreportEdit/' +
+      Assessment + '/' +
+      YearwiseStudentId  + '/' +
+      StandardId 
+      
     );
   };
 
   const ClickHeader = (value) => {
     setHeaderPublish(value)
   }
-  const ClicEdit = (value) => {
-  }
+
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, StudentRecordCount.Count);
   const pagecount = Math.ceil(StudentRecordCount.Count / rowsPerPage);

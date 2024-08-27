@@ -91,7 +91,7 @@ function StudentwiseProgressreportList({
                                         {item.EditStatus === "1" ? (
                                             <Tooltip title="Marks entry not started">
                                                 <EditOffIcon
-                                                    onClick={() => clickEdit(item.Id)}
+                                                    onClick={() => clickEdit(item.StandardId,item.Id)}
                                                     sx={{
                                                         color: '#f44336',
                                                         '&:hover': {
@@ -103,7 +103,7 @@ function StudentwiseProgressreportList({
                                         ) : item.EditStatus === "2" ? (
                                             <Tooltip title="Marks entry partially done">
                                                 <DesignServicesIcon
-                                                    onClick={() => clickEdit(item.Id)}
+                                                    onClick={() => clickEdit(item.StandardId,item.Id)}
                                                     sx={{
                                                         color: '#ff9800',
                                                         '&:hover': {
@@ -116,7 +116,7 @@ function StudentwiseProgressreportList({
                                             item.EditStatus === "3" ? (
                                                 <Tooltip title='Marks entry completed'>
                                                     <EventAvailableIcon style={{ color: '#25e67b', cursor: 'pointer' }}
-                                                        onClick={() => clickEdit(item.Id)}
+                                                        onClick={() => clickEdit(item.StandardId,item.Id)}
                                                         sx={{
                                                             color: '#ff9800',
                                                             '&:hover': {

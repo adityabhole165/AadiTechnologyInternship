@@ -129,7 +129,8 @@ export const PageStudentsAssignment =
                     StudentName: item.StudentName,
                     EditStatus: item.EditStatus,
                     ShowDeleteButton: item.ShowDeleteButton,
-                    ShowProgressReport:item.ShowProgressReport
+                    ShowProgressReport:item.ShowProgressReport,
+                    StandardId: item.StandardId,
 
                 };
             });
