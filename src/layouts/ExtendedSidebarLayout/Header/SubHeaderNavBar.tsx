@@ -196,6 +196,11 @@ function SubHeaderNavBar({ toggleDrawer }) {
     setOpenSupportMenu(false);
   };
 
+  const handleMenuItemClick = (action: () => void) => (event: React.MouseEvent) => {
+    action();
+    setOpenSupportMenu(false); 
+  };
+  
   const handleEmail = () => {
     const Email = 'https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%3Fhl%3Den-GB&ec=GAlA8wE&hl=en-GB&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-401164080%3A1724671374900003&ddm=0';
     window.open(Email, '_blank');
@@ -385,10 +390,10 @@ function SubHeaderNavBar({ toggleDrawer }) {
                         id="composition-menu"
                         aria-labelledby="composition-button"
                       >
-                        <MenuItem onClick={handleEmail}>Email</MenuItem>
-                        <MenuItem onClick={handleSupport}>Support</MenuItem>
-                        <MenuItem onClick={handleuserguide}>User Guide</MenuItem>
-                        <MenuItem onClick={handleKnowledgebase}>
+                        <MenuItem onClick={handleMenuItemClick(handleEmail)}>Email</MenuItem>
+                        <MenuItem onClick={handleMenuItemClick(handleSupport)}>Support</MenuItem>
+                        <MenuItem onClick={handleMenuItemClick(handleuserguide)}>User Guide</MenuItem>
+                        <MenuItem onClick={handleMenuItemClick(handleKnowledgebase)}>
                           Knowledge Base
                         </MenuItem>
                       </MenuList>
