@@ -103,9 +103,9 @@ function PhotoCardDash() {
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <RefreshIcon sx={{ mr: '-8px', mt: '8px' }} />
 
-              <IconButton sx={{ padding: '10px' }}>
-                {' '}
-                <SettingsIcon onClick={handleClickpop} />
+              <IconButton sx={{ padding: '10px' }}
+                onClick={handleClickpop}>
+                <SettingsIcon />
               </IconButton>
             </Box>
           </Grid>

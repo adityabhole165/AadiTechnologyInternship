@@ -116,7 +116,7 @@ const UnreadMessage = () => {
         </>
       )}
       <Grid container>
-        <Grid xs={12} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
+        <Grid item xs={12} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
           See all messages
           <ArrowRightAltIcon />
         </Grid>

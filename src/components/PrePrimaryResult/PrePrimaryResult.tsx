@@ -28,7 +28,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import SearchableDropdown1 from 'src/libraries/ResuableComponents/SearchableDropdown1';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -192,26 +192,47 @@ const PrePrimaryResult = () => {
   const ClickItem = (SubId, EditStatusId, SubName, IsXseedSubject) => {
     let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
     let StdDivId = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
+    console.log('🥱', className)
     let EditStatus = EditStatusId === 'Y' ? '3' : '2'
-    navigate(
-      '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
-      EditStatus +
-      '/' +
-      className +
-      '/' +
-      termName +
-      '/' +
-      AssessmentResult +
-      '/' +
-      SubName +
-      '/' +
-      SubId +
-      '/' +
-      StdDivId +
-      '/' +
-      'RP'
-
-    );
+    if (IsXseedSubject === 'Y') {
+      navigate(
+        '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
+        EditStatus +
+        '/' +
+        className +
+        '/' +
+        termName +
+        '/' +
+        AssessmentResult +
+        '/' +
+        SubName +
+        '/' +
+        SubId +
+        '/' +
+        StdDivId +
+        '/' +
+        'RP'
+      );
+    } else if (IsXseedSubject === 'N') {
+      navigate(
+        '/extended-sidebar/Teacher/AssignProgressReportSubject/' +
+        EditStatus +
+        '/' +
+        className +
+        '/' +
+        termName +
+        '/' +
+        AssessmentResult +
+        '/' +
+        SubName +
+        '/' +
+        SubId +
+        '/' +
+        StdDivId +
+        '/' +
+        'RP'
+      );
+    }
   };
 
   const onClickunpublished = () => {
@@ -301,10 +322,13 @@ const PrePrimaryResult = () => {
 
         rightActions={
           <>
-            <SearchableDropdown
+            <SearchableDropdown1
               ItemList={Assessmentt}
               sx={{ minWidth: '250px' }}
-              onChange={GetAssessmentDropdown}
+              onChange={(value) => {
+                GetAssessmentDropdown(value.Value);
+                setTermName(value.Name);
+              }}
               defaultValue={AssessmentResult}
               label={'Assessment'}
               size={"small"}
@@ -312,10 +336,13 @@ const PrePrimaryResult = () => {
             />
             {
               PreprimaryFullAccess == 'Y' ?
-                <SearchableDropdown
+                <SearchableDropdown1
                   ItemList={PrePrimaryClassTeacher}
                   sx={{ minWidth: '250px' }}
-                  onChange={GetPrPriResultDropdown}
+                  onChange={(value) => {
+                    GetPrPriResultDropdown(value.Value);
+                    setTeachername(value.Name)
+                  }}
                   defaultValue={SelectTeacher}
                   label={'Select Class Teacher'}
                   size={"small"}
@@ -380,19 +407,19 @@ const PrePrimaryResult = () => {
           </>}
       />
 
-      
-        {GetTeacherXseedSubjects.length > 0 ? (
-            <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
+
+      {GetTeacherXseedSubjects.length > 0 ? (
+        <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
           <PrePrimaryResultlist
             HeaderArray={HeaderList}
             ItemList={GetTeacherXseedSubjects}
             clickEdit={ClickItem}
           />
-          </Box>
-        ) : (
-          <span></span>
-        )}
-     
+        </Box>
+      ) : (
+        <span></span>
+      )}
+
 
 
       <Dialog
