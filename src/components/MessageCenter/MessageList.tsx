@@ -609,7 +609,7 @@ const MessageList = () => {
           <Grid container sm={10} spacing={1}>
             {((showSearch && isMobile) || !isMobile) && (
               <>
-                <Grid item xs={12} sm={9} md={12}>
+                <Grid item xs={12} sm={12} md={12}>
                   <MCForm
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}

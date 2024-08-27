@@ -7,6 +7,7 @@ import { ListStyle } from '../styled/CardStyle';
 import Datepicker from '../DateSelector/Datepicker';
 import { blue, red } from '@mui/material/colors';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
+import SearchableDropdown from '../ResuableComponents/SearchableDropdown';
 
 const MCForm = ({
   AcademicYearList,
@@ -62,8 +63,10 @@ const MCForm = ({
   console.log('operatorArray', operatorArray);
 
   return (
-    <ListStyle>
-      <Box display={{ xs: 'block', sm: 'none' }}>
+    <>
+    <Box sx={{p:2, backgroundColor:'white', mb: 2}}>
+    {/* <ListStyle> */}
+      {/* <Box display={{ xs: 'block', sm: 'none' }}>
         <Avatar
           onClick={CloseSearchBar}
           sx={{
@@ -81,10 +84,10 @@ const MCForm = ({
         >
           <CloseIcon fontSize="small" color="error" />
         </Avatar>
-      </Box>
+      </Box> */}
 
-      <Grid container spacing={2} sx={{px:4}}>
-        <Grid item xs={12}>
+      <Grid container spacing={2} >
+        <Grid item xs={12} md={12}>
           <TextField
             id="standard-basic"
             label="Name / Subject / Message Body :"
@@ -94,31 +97,56 @@ const MCForm = ({
             size={"medium"}
           />
         </Grid>
-        <Grid item xs={6}>
-          <Dropdown
+        <Grid item xs={12} md={6}>
+          {/* <Dropdown
             Array={AcademicYearList}
             handleChange={clickAY}
             label={'Year'}
             defaultValue={academicYear}
-          />
-        </Grid>
-        <Grid item xs={6} >
-          <Dropdown
+          /> */}
+       
+        <SearchableDropdown
+            ItemList={AcademicYearList}
+            onChange={clickAY}
+            label={'Year'}
+            defaultValue={academicYear}
+            mandatory
+            size={"medium"}
+            sx={{width:'100%'}}
+          /></Grid>
+
+        <Grid item xs={12} md={6} >
+          {/* <Dropdown
             Array={MonthYearList}
             handleChange={clickMY}
             label={'Month'}
             defaultValue={monthYear}
-            
+          /> */}
+          <SearchableDropdown
+            ItemList={MonthYearList}
+            onChange={clickAY}
+            label={'Month'}
+            defaultValue={monthYear}
+            size={"medium"}
+            sx={{width:'100%'}}
           />
         </Grid>
-        <Grid item xs={6}>
-          <Box sx={{  }}>
-            <Dropdown
+        <Grid item xs={12} md={6}>
+          <Box>
+            {/* <Dropdown
               Array={operatorArray}
               handleChange={clickOperator}
               defaultValue={operator}
               size={"medium"}
-            />
+            /> */}
+            <SearchableDropdown
+            ItemList={operatorArray}
+            onChange={clickAY}
+            label={'Operator'}
+            defaultValue={operator}
+            size={"medium"}
+            sx={{width:'100%'}}
+          />
           </Box>
         </Grid>
         <Grid item xs={5.4}>
@@ -153,7 +181,9 @@ const MCForm = ({
           </IconButton>
         </Grid>
       </Grid>
-    </ListStyle>
+    {/* </ListStyle> */}
+    </Box>
+    </>
   );
 };
 
