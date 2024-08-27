@@ -124,7 +124,7 @@ const StudentwiseprogressreportEdit = () => {
                 <Box sx={{ pt: 2, background: 'white' }}>
                     <Grid container spacing={3}>
                         {USFillSchoolDetails.map((detail) => (
-                            <Grid item xs={12} key={detail.UserId}>
+                            <Grid item xs={12} >
                                 <Box sx={{
                                     backgroundColor: '#F0F0F0',
                                     textAlign: 'center',
@@ -169,7 +169,17 @@ const StudentwiseprogressreportEdit = () => {
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class :  {detail.Class} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year :  {detail.AcademicYear} </b></TableCell>
                                 <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Assessment : {detail.Assessment} </b></TableCell>
-                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Attendance :  {USFillStudentAttendance} / {USFillStudentAttendance} </b></TableCell>
+                                <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Attendance :  {USFillStudentAttendance.filter(
+                                    (attendance) =>
+                                        attendance.YearwiseStudentId == detail.YearWiseStudentId &&
+                                        attendance.IsPresent == "true"
+                                ).length} / {
+
+                                        USFillStudentAttendance.filter(
+                                            (item) => item.YearwiseStudentId == detail.YearWiseStudentId
+                                        ).length
+
+                                    } </b></TableCell>
 
                             </TableRow>
                         ))}
@@ -218,10 +228,7 @@ const StudentwiseprogressreportEdit = () => {
                     </Box>
                 </div>
 
-
-
-
-                <div>
+                <>
                     <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2}>
                         Pre-Primary Curricular Subjects
                     </Typography>
@@ -259,7 +266,8 @@ const StudentwiseprogressreportEdit = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </>
+
 
             </Box>
 

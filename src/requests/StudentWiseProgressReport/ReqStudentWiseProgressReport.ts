@@ -130,7 +130,7 @@ export const PageStudentsAssignment =
                     EditStatus: item.EditStatus,
                     ShowDeleteButton: item.ShowDeleteButton,
                     ShowProgressReport:item.ShowProgressReport,
-                    StandardId: item.StandardId,
+                    StandardId: item.Standard_Division_Id,
 
                 };
             });
