@@ -68,16 +68,76 @@ const StudentwiseprogressreportEdit = () => {
         dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
     }, [AssessmentId, YearwiseStudentId, StandardId]);
 
+    const XseedGradesList = [
+        {
+            "Id": "0",
+            "Name": "Select",
+            "Value": "0"
+        },
+        {
+            "Id": "11",
+            "Name": "Excellent - A",
+            "Value": "11"
+        },
+        {
+            "Id": "12",
+            "Name": "Very Good - A+",
+            "Value": "12"
+        },
+        {
+            "Id": "13",
+            "Name": "Good - B",
+            "Value": "13"
+        },
+        {
+            "Id": "14",
+            "Name": "Average - C",
+            "Value": "14"
+        },
+        {
+            "Id": "15",
+            "Name": "Below Avg - D",
+            "Value": "15"
+        },
+        {
+            "Id": "9",
+            "Name": "Ab - Absent",
+            "Value": "9"
+        },
+        {
+            "Id": "10",
+            "Name": "Ex - Exempted",
+            "Value": "10"
+        }
+    ]
+    const [headerGrade, setHeaderGrade] = useState("0")
+    const [grades, setGrades] = useState({});
+    function clickHeaderGrade(value) {
+        setHeaderGrade(value)
+        const updatedGrades = USFillStudentsLearningOutcomes.reduce((acc, student) => {
+            acc[student.LearningOutcomeConfigId] = `${value}-${student.LearningOutcomeGradeId}`;
+            return acc;
+        }, {});
+        setGrades(updatedGrades);
+    }
+  
 
+    const clickGrade = (learningOutcomeId, value, gradeConfigId) => {
+        setGrades((prevGrades) => ({
+            ...prevGrades,
+            [learningOutcomeId]: `${value}-${gradeConfigId}`,
+        }));
+    }
 
     return (
         <Box sx={{ px: 2 }}>
 
             <CommonPageHeader
+                
                 navLinks={[
+                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' },
                     { title: 'Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
-
-                ]}
+                  ]}
 
                 rightActions={
                     <>
@@ -240,6 +300,18 @@ const StudentwiseprogressreportEdit = () => {
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Sr. No.</TableCell>
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Learning Outcome</TableCell>
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Grade</TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
+                                        <SearchableDropdown
+                                            ItemList={XseedGradesList}
+                                            defaultValue={headerGrade}
+                                            label={''}
+                                            sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
+                                            size={"small"}
+                                            DisableClearable={true}
+                                            onChange={clickHeaderGrade}
+                                            mandatory
+                                        />
+                                    </TableCell>
                                     {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1, width: '200px' }}>Facilitator's Observation</TableCell> */}
                                 </TableRow>
                             </TableHead>
@@ -259,6 +331,29 @@ const StudentwiseprogressreportEdit = () => {
                                                     <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
                                                     <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
                                                     <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
+                                                    <TableBody>
+                                                        {outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId && (
+                                                            <TableRow>
+                                                                <TableCell colSpan={3}>
+                                                                    <TableBody>
+                                                                        <TableRow key={outcome.LearningOutcomeConfigId}>
+                                                                            
+                                                                            <SearchableDropdown
+                                                                                    ItemList={XseedGradesList}
+                                                                                    defaultValue={grades[outcome.LearningOutcomeConfigId]?.split('-')[0]}
+                                                                                    label={''}
+                                                                                    sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                                                    size={"small"}
+                                                                                    DisableClearable={true}
+                                                                                    onChange={(value) => clickGrade(outcome.LearningOutcomeConfigId, value, outcome.LearningOutcomeGradeId)}
+                                                                                    mandatory
+                                                                                />
+                                                                        </TableRow>
+                                                                    </TableBody>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )}
+                                                    </TableBody>
                                                 </TableRow>
                                             ))}
                                     </React.Fragment>
