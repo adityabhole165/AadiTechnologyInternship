@@ -103,8 +103,11 @@ const Support1 = () => {
         if (!emailId.trim()) {
             setErrorEmailId('Email Address should not be blank.');
             isError = true;
+        } else if (emailId.length > 100) {
+            setErrorEmailId('Email Address should not exceed 100 characters.');
+            isError = true;
         } else if (!emailRegex.test(emailId)) {
-            setErrorEmailId('E-mail should be in valid format.(For Example : john.smith@yahoo.com)');
+            setErrorEmailId('E-mail should be in a valid format (For Example: john.smith@yahoo.com).');
             isError = true;
         } else {
             setErrorEmailId('');
@@ -289,7 +292,7 @@ const Support1 = () => {
                                 onChange={(e) => setDescription(e.target.value)}
                                 error={!!Errordescription}
                                 helperText={Errordescription}
-                                // rows={4}
+                            // rows={4}
                             />
                         </Grid>
                     </Grid>
