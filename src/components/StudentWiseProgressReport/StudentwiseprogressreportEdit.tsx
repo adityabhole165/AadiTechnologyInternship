@@ -110,8 +110,6 @@ const StudentwiseprogressreportEdit = () => {
 
     const [headerGrade, setHeaderGrade] = useState("0");
     const [grades, setGrades] = useState({});
-    console.log(grades, "lll");
-
     function clickHeaderGrade(value) {
         setHeaderGrade(value);
         const updatedGrades = USFillGradeDetails.reduce((acc, student) => {
