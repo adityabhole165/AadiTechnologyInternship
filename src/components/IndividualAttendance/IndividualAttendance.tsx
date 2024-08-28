@@ -280,7 +280,7 @@ const IndividualAttendance = () => {
       message: 'Are you sure, Do you want to update changes?',
       variant: 'warning',
       cancelButtonText: 'Cancel',
-      confirmButtonText: 'Update',
+      confirmButtonText: 'Confirm',
       onConfirm: () => {
         SaveFile();
         closeAlert();
