@@ -1,7 +1,6 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import {
-  Badge,
   Box,
   Card,
   CircularProgress,
@@ -24,13 +23,20 @@ const UnreadMessage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const UnreadMessage = useSelector((state: RootState) => state.Dashboard.UnreadMessage);
+  const UnreadMessageCount = useSelector((state: RootState) => state.Dashboard.UnreadMessageCount);
   const loading = useSelector((state: RootState) => state.Dashboard.Loading);
+
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
+  const asRoleId = Number(sessionStorage.getItem('RoleId'));
+
   const UnreadMessagesBody: IUnreadMessages = {
-    aiSchoolId: localStorage.getItem('SchoolId'),
-    aiAcademicYrId: sessionStorage.getItem('AcademicYearId'),
-    aiReceiverId: localStorage.getItem('UserId'),
-    aiReceiverRoleId: sessionStorage.getItem('RoleId')
-  }
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    aiReceiverId: asUserId,
+    aiReceiverRoleId: asRoleId,
+  };
   useEffect(() => {
 
     dispatch(getUnreadMessages(UnreadMessagesBody))
@@ -44,28 +50,30 @@ const UnreadMessage = () => {
   return (
     <Card sx={{ height: '370px', overflow: 'auto' }}>
       <Grid container sx={{ mb: '5px' }}>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <Typography variant="h3" p={1} sx={{ color: '#304ffe' }}>
             Unread Messages
           </Typography>
         </Grid>
-        <Grid item xs={6}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton sx={{ mt: '20px', mr: '20px' }}>
-              <Badge
-                badgeContent={UnreadMessage.length !== 0 ? UnreadMessage.length : '0'}
-                color="secondary"
-              />
+        <Grid item xs={4}>
+          <Box sx={{ display: 'flex' }}>
+            <IconButton sx={{ mr: '30px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',      // Circle diameter
+                  height: '40px',     // Circle diameter
+                  borderRadius: '50%', // Makes the Box a circle
+                  backgroundColor: 'secondary.main', // Secondary background color
+                  color: 'black',      // Text color
+                  fontSize: '0.8rem',
+                }}
+              >
+                {UnreadMessageCount}
+              </Box>
             </IconButton>
-            {/* <RefreshIcon
-              sx={{ mr: '1px', mt: '10px' }}
-              onClick={clickRefresh}
-            /> */}
-            {/* <Avatar
-              sx={{ height: '20px', width: '20px', mt: '13px', mr: '10px' }}
-              src={'/imges/arrow.png'}
-              onClick={ClickFeddback}
-            /> */}
           </Box>
         </Grid>
       </Grid>
@@ -81,12 +89,6 @@ const UnreadMessage = () => {
               return (<div key={i}>
                 <Box>
                   <Grid container>
-                    <Grid item xs={0.5}>
-                      <AccessTimeIcon
-                        sx={{ ml: '10px', color: '#64b5f6' }}
-                        fontSize="small"
-                      />
-                    </Grid>
                     <Grid item xs={11.5} onClick={() => { clickMessage(item) }}>
                       <Box
                         display={'flex'}
@@ -97,18 +99,23 @@ const UnreadMessage = () => {
                         <Typography variant="body2">{item.Subject}</Typography>
                       </Box>
                       <Tooltip title={item.Text3} placement="left-start">
-                        <Typography
-                          variant="body2"
-                          px={3}
-                          sx={{
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis',
-                            width: '300px'
-                          }}
-                        >
-                          {item.Date}
-                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
+                          <AccessTimeIcon
+                            sx={{ mr: '5px', color: '#64b5f6' }}
+                            fontSize="small"
+                          />
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                              width: '300px',
+                            }}
+                          >
+                            {item.Date}
+                          </Typography>
+                        </Box>
                       </Tooltip>
                     </Grid>
                   </Grid>

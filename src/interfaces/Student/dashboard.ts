@@ -1,10 +1,9 @@
 //Unread Messages
 export interface IUnreadMessages {
-  aiSchoolId: string;
-  aiAcademicYrId: string;
-  aiReceiverId: string;
-  aiReceiverRoleId: string;
-  asProfilePicUpdDt?: string;
+  aiSchoolId: number;
+  aiAcademicYrId: number;
+  aiReceiverId: number;
+  aiReceiverRoleId: number;
 }
 export interface IUnreadMessagesResult {
   UnreadMessages: [
