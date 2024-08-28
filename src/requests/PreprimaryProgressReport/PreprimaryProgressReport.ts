@@ -159,12 +159,14 @@ export const CDAAllPrimaryClassTeachers =
       School_Name: item.School_Name,
     }));
     const FillGradeDetails = response.data.FillGradeDetails.map((item, i) => ({
-      GradeId: item.GradeId,
-      GradeName: item.GradeName,
+      Id: item.GradeId,
+      Name: item.GradeName,
+      Value: item.GradeId,
       Description: item.Description,
       SortOrder: item.SortOrder,
       ConsideredAsAbsent: item.ConsideredAsAbsent,
       ConsideredAsExempted: item.ConsideredAsExempted,
+      GradeId:item.GradeId
 
     }));
     const FillXseedRemarks = response.data.FillXseedRemarks.map((item, i) => ({
