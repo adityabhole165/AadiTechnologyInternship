@@ -158,8 +158,10 @@ export const CDAAllPrimaryClassTeachers =
       OrganizationName: item.OrganizationName,
       School_Name: item.School_Name,
     }));
-    const FillGradeDetails = response.data.FillGradeDetails.map((item, i) => ({
-      Id: item.GradeId,
+    let FillGradeDetails = [{ Id: '0', Name: 'Select', Value: '0',Description:'', SortOrder:'',ConsideredAsAbsent:'',ConsideredAsExempted:'',GradeId:'0'}];
+    response.data.FillGradeDetails.map((item, i) => {
+      FillGradeDetails.push({
+    Id: item.GradeId,
       Name: item.GradeName,
       Value: item.GradeId,
       Description: item.Description,
@@ -167,8 +169,9 @@ export const CDAAllPrimaryClassTeachers =
       ConsideredAsAbsent: item.ConsideredAsAbsent,
       ConsideredAsExempted: item.ConsideredAsExempted,
       GradeId:item.GradeId
-
-    }));
+      
+      });
+    });
     const FillXseedRemarks = response.data.FillXseedRemarks.map((item, i) => ({
       YearwiseStudentId: item.YearwiseStudentId,
       Remark: item.Remark,

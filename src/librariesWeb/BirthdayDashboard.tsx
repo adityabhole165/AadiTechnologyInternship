@@ -59,6 +59,7 @@ function BirthdayDashboard() {
       asView: 'T'
     }));
     setIsRefresh(prev => !prev);
+    setAnchorEl(null);
   };
 
   const getTimeDifference = () => {
@@ -170,12 +171,16 @@ function BirthdayDashboard() {
               <CheckIcon onClick={applyFilter} />
             </Avatar>
           </Tooltip>
+          <Tooltip title="Clear Filter">
           <Avatar sx={{ bgcolor: orange[500] }} variant="square">
             <ReplayIcon onClick={handleRefresh} />
           </Avatar>
+          </Tooltip>
+          <Tooltip title="Cancel">
           <Avatar sx={{ bgcolor: red[500] }} variant="square">
             <CloseIcon onClick={handleClose} />
           </Avatar>
+          </Tooltip>
         </Stack>
       </Popover>
 

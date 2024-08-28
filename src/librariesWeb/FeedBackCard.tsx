@@ -1,14 +1,17 @@
 import {
-  Avatar,
   Box,
   Card,
   CircularProgress,
   Divider,
   Grid,
+  IconButton,
   Stack,
   Tooltip,
   Typography
 } from '@mui/material';
+import {
+  differenceInHours, differenceInMinutes, differenceInSeconds
+} from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +26,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 function FeedBackCard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const RoleId = sessionStorage.getItem('RoleId');
   const SchoolId = localStorage.getItem('localSchoolId');
   const Feedback: any = useSelector(
@@ -56,13 +60,33 @@ function FeedBackCard() {
     dispatch(getuserFeedback(FeedbackBody));
   }, []);
 
-  const clickRefresh = () => {
-    dispatch(getuserFeedback(FeedbackBody));
+
+  const getTimeDifference = () => {
+    if (!lastRefreshTime) return 'no';
+
+    const now = new Date();
+    const seconds = differenceInSeconds(now, lastRefreshTime);
+    if (seconds < 60) {
+      return `${seconds} second(s)`;
+    }
+
+    const minutes = differenceInMinutes(now, lastRefreshTime);
+    if (minutes < 60) {
+      return `${minutes} minute(s)`;
+    }
+
+    const hours = differenceInHours(now, lastRefreshTime);
+    return `${hours} hour(s)`;
   };
 
-  const clickNav = (value) => {
-    navigate(`/${location.pathname.split('/')[1]}/Student/AddFeedback`);
+  const handleRefresh = () => {
+    dispatch(getuserFeedback(FeedbackBody));
+    setLastRefreshTime(new Date());
   };
+
+  // const clickNav = (value) => {
+  //   navigate(`/${location.pathname.split('/')[1]}/Student/AddFeedback`);
+  // };
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = (event) => {
@@ -87,15 +111,22 @@ function FeedBackCard() {
         </Grid>
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <RefreshIcon
-              sx={{ mr: '1px', mt: '10px' }}
-              onClick={clickRefresh}
-            />
-            <Avatar
+            <Tooltip
+              title={
+
+                `You are viewing ${getTimeDifference()} old data, click here to see the latest data.`
+
+              }
+            >
+              <IconButton onClick={handleRefresh}>
+                <RefreshIcon sx={{ mt: '5px', mr: '0px' }} />
+              </IconButton>
+            </Tooltip>
+            {/* <Avatar
               sx={{ height: '20px', width: '20px', mt: '13px', mr: '10px' }}
               src={'/imges/arrow.png'}
               onClick={ClickFeddback}
-            />
+            /> */}
           </Box>
         </Grid>
       </Grid>
@@ -113,33 +144,48 @@ function FeedBackCard() {
                 <div key={i}>
                   <Box key={i}>
                     <Grid container>
-                      <Grid item xs={0.5}>
-                        <AccessTimeIcon
-                          sx={{ ml: '10px', color: '#64b5f6' }}
-                          fontSize="small"
-                        />
-                      </Grid>
                       <Grid item xs={11.5}>
                         <Box
                           display={'flex'}
                           justifyContent={'space-between'}
                           px={3}
                         >
-                          <Typography variant="h5">{item.Header}</Typography>
-                          <Typography variant="body2">{item.Text2}</Typography>
+                          <Typography variant="h5">{item.Header}</Typography>  </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
+                          <AccessTimeIcon
+                            sx={{ mr: '5px', color: '#64b5f6' }}
+                            fontSize="small"
+                          />
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                              width: '300px',
+                            }}
+                          >
+                            {item.Text2}
+                          </Typography>
                         </Box>
+
                         <Tooltip title={item.Text3} placement="left-start">
                           <Typography
                             variant="body2"
                             px={3}
                             sx={{
                               overflow: 'hidden',
-                              whiteSpace: 'nowrap',
+                              whiteSpace: 'normal',
                               textOverflow: 'ellipsis',
-                              width: '300px'
+                              maxHeight: '6.25rem',
+                              lineHeight: '1.25rem',
+                              display: '-webkit-box',
+                              WebkitLineClamp: 5,
+                              WebkitBoxOrient: 'vertical',
+                              position: 'relative',
                             }}
                           >
-                            {item.Text3}
+                            "{item.Text3}"
                           </Typography>
                         </Tooltip>
                       </Grid>
