@@ -157,18 +157,20 @@ const ViewHomework = () => {
         <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Subject'}  InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject}  
+              inputProps={{ readOnly: true,  }} 
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title}  inputProps={{ readOnly: true,}} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.AssignedDate)}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.AssignedDate)}  inputProps={{ readOnly: true, }} />
 
 
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.CompleteByDate)}  inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }} />
+              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.CompleteByDate)}  inputProps={{ readOnly: true, }} />
 
             </Grid>
 
