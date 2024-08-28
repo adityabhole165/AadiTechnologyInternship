@@ -70,6 +70,10 @@ const AddStudentRecordsSlice = createSlice({
             state.Loading = false;
             state.submitStudentRecordCommentmsg = action.payload;
         },
+        resetSubmitStudentRecordComment(state) {
+            state.Loading = false;
+            state.submitStudentRecordCommentmsg = "";
+        },
         getGetStudentRecordComment(state, action) {
             state.Loading = false;
             state.getstudentrecordcomment = action.payload;
@@ -241,6 +245,7 @@ export const GetSubmitStudentRecordComment =
             dispatch(AddStudentRecordsSlice.actions.getSubmitStudentRecordComment(response.data));
 
         };
+
 export const GetStudentRecordCommentEdit =
     (data: IGetStudentRecordCommentBody): AppThunk =>
         async (dispatch) => {
@@ -248,6 +253,11 @@ export const GetStudentRecordCommentEdit =
             const response = await GetStudentRecordDataAPI.GetStudentRecordComment(data);
             dispatch(AddStudentRecordsSlice.actions.getGetStudentRecordComment(response.data));
 
+        };
+export const resetGetSubmitStudentRecordComment =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AddStudentRecordsSlice.actions.resetSubmitStudentRecordComment());
         };
 
 export const GetSaveStudentRecord =

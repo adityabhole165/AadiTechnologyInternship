@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord, resetGetSubmitStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord, resetGetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
@@ -111,12 +111,12 @@ const AddStudentRecord = () => {
         }
     }, [MarkRecordAsReadUS])
     useEffect(() => {
-        if (GetStudentRecordCommentUS !== '') {
-            toast.success(GetStudentRecordCommentUS, { toastId: 'success1' });
-            dispatch(resetGetSubmitStudentRecord());
+        if (SubmitStudentRecordCommentUS !== '') {
+            toast.success(SubmitStudentRecordCommentUS, { toastId: 'success1' });
+            dispatch(resetGetSubmitStudentRecordComment());
             dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
-    }, [GetStudentRecordCommentUS])
+    }, [SubmitStudentRecordCommentUS])
 
     const getXML = () => {
         let sXML =
@@ -471,11 +471,11 @@ const AddStudentRecord = () => {
                     {errorItemlist}
                 </Typography>
             </Grid>
-            <Box     sx={{ p: 1, color: 'red', background: 'white', fontWeight: 'bold' }}>
+            <Box sx={{ p: 1, color: 'red', background: 'white', fontWeight: 'bold' }}>
                 The following information is for professional use and will be handled confidentially. This information will assist the counsellor for the child's evaluation.<br></br>
                 Please complete the following questions as fully and accurately as possible. If you are unable to complete a question you may consult other subject teachers for the better understanding of the child.
             </Box>
-            <Box  sx={{ p: 1, background: 'white' }}>
+            <Box sx={{ p: 1, background: 'white' }}>
                 <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', backgroundColor: '#F0F0F0', padding: 1, borderRadius: 2, color: '#324b84' }} >
                     General Information
                 </Typography>
@@ -489,7 +489,7 @@ const AddStudentRecord = () => {
                                     <TableCell ><b>Name of the student : </b> {item.Text1}</TableCell>
                                     <TableCell sx={cellStyle}><b>Date of Birth : </b> {item.Text2}</TableCell>
                                 </TableRow>
-                                <TableRow sx={{ backgroundColor:'#F0F0F0',...rowStyle}}>
+                                <TableRow sx={{ backgroundColor: '#F0F0F0', ...rowStyle }}>
                                     <TableCell sx={cellStyle} colSpan={2}><b>Family Details</b></TableCell>
                                 </TableRow>
                                 <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
@@ -536,7 +536,7 @@ const AddStudentRecord = () => {
             <AddStudentRecordList ItemList={ItemList} IsEditiable={isSubmitted}
                 ChangeItem={ChangeItem} />
 
-            <Box sx={{ backgroundColor: 'white', pt: 2}}>
+            <Box sx={{ backgroundColor: 'white', pt: 2 }}>
                 <Typography variant={"h4"} pl={2} >
                     Comment(s)
                 </Typography></Box>
@@ -548,7 +548,7 @@ const AddStudentRecord = () => {
                     </Typography>
                 </Box>
             ) : (
-                <Box sx={{ backgroundColor: 'white', px: 2 , py:1}}>
+                <Box sx={{ backgroundColor: 'white', px: 2, py: 1 }}>
                     {/* <StudentRCommentList commentdetails={CommentData} /> */}
                     <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                         <TableBody>
