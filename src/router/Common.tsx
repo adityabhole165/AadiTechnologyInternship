@@ -11,7 +11,7 @@ const Loader = (Component) => (props) =>
 // const Holidays1 = Loader(lazy(() => import('src/components/Holidays/Holidays')));
 
 // const Holidays = Loader(lazy(() => import('src/components/SchoolConfiguration/Holidays/index')));
-
+const DashBoard = Loader(lazy(() => import('src/componentsWeb/DashBoard/DashBoard')));
 const Schoolnotice = Loader(
   lazy(() => import('src/components/SchoolNotice/Schoolnotice'))
 );
@@ -177,6 +177,10 @@ const commonRoutes = [
     path: 'Support',
     element: <Support />
   },
+  {
+    path: 'DashBoard',
+    element: <DashBoard />
+  }
 
 ];
 
