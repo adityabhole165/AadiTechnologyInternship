@@ -34,6 +34,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SendIcon from '@mui/icons-material/Send';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import DraftsIcon from '@mui/icons-material/Drafts';
+import SingleFile2 from 'src/libraries/File/SingleFile2';
 import {
   BoxContent,
   CardDetail8,
@@ -603,6 +604,9 @@ function Form13() {
       DisplayTextCc: RecipientsCCObject.RecipientName.toString()
     }
   };
+  const ValidFileTypes = ['PDF', 'PNG', 'JPEG', 'JPG', 'BMP'];
+  const MaxfileSize = 10000000;
+  const ValidFileTypes2 = ['JPG', 'JPEG', 'PNG', 'BMP'];
 
   const SaveDraft = () => {
     let isError = false;
@@ -634,7 +638,7 @@ function Form13() {
         rightActions={<>
           <Box>
               <Tooltip
-                  title={`Write a new message/send reply to the message Received.`}
+                  title={`Write a new message/send reply to the message received.`}
               >
                   <IconButton
                       sx={{
@@ -649,7 +653,7 @@ function Form13() {
               </Tooltip>
           </Box>
           <Box>
-              <Tooltip title={'Save as Draft'}>
+              <Tooltip title={'Save As Draft'}>
                   <IconButton
                       type='submit'
                       sx={{
@@ -670,9 +674,9 @@ function Form13() {
                       type='submit'
                       sx={{
                           color: 'white',
-                          backgroundColor: green[500],
+                          backgroundColor: blue[500],
                           height: '36px !important',
-                          ':hover': { backgroundColor: green[600] }
+                          ':hover': { backgroundColor: blue[600] }
                       }}
                       // onClick={handleSubmit}
                   >
@@ -704,6 +708,34 @@ function Form13() {
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={1} sx={{ height: 'auto' }}>
+            <Grid item xs={12} >
+                <Typography variant='h4' pl={1}>Form</Typography>
+              </Grid>
+              <Grid item xs={12} sm={8} md={9.5} >
+                {/* <FormControl fullWidth> */}
+                <TextField
+                  multiline
+                  id=""
+                  fullWidth
+                  // rows={3}
+                  disabled
+                  value={RecipientsObject.RecipientName.map((obj) =>
+                    obj?.trim()
+                  ).join('; ')}
+                  onChange={formik.handleChange}
+                  sx={{
+                    height: '50px',
+                    overflow: 'auto',
+                    border: '0.1px solid #c4c5c5',
+                    borderRadius: '7px'
+                  }}
+                />
+                <Box mt={0}>
+                  {RecipientsList.length == 0 ? (
+                    <ErrorMessage1 Error={formik.errors.To} />
+                  ) : null}
+                </Box>
+              </Grid>
               <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>To</Typography>
               </Grid>
@@ -857,23 +889,38 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={10} sm={5.5} md={5.5} lg={4.5} mt={1}>
-                <input
+              <Grid item xs={10} sm={6} md={6} lg={4.5} mt={1}>
+                {/* <input
                   ref={aRef}
                   type="file"
                   multiple
                   onChange={fileChangedHandler}
                   style={{
-                    width: '280px',
+                    width: '20px',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis'
                   }}
-                />
+                    
+                /> */}
+                <SingleFile2
+                  ValidFileTypes={ValidFileTypes2}
+                  // MaxfileSize={MaxfileSize2}
+                  // ChangeFile={ChangeFile2}
+                  errorMessage={''}
+                  // FileName={ImageFile}
+                  FileLabel={'Select Image'}
+                  width={'100%'}
+                  height={"52px"}
+                  isMandatory={false} 
+                  MaxfileSize={undefined}
+                   ChangeFile={undefined}                             
+                      // onChange={fileChangedHandler}
+                            />
                 <Box sx={{ mt: '15px', width: '300px' }}>
                   <Errormessages Error={fileerror} />
                 </Box>
               </Grid>
-              <Grid item xs={2} sm={1} md={0.5} lg={0.5} sx={{ mt: '5px' }}>
+              {/* <Grid item xs={2} sm={1} md={0.5} lg={0.5} sx={{ mt: '5px' }}>
                 <ClickAwayListener onClickAway={handleClickAway}>
                   <Tooltip
                     PopperProps={{
@@ -904,7 +951,7 @@ function Form13() {
                     </IconButton>
                   </Tooltip>
                 </ClickAwayListener>
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12}>
                 {finalBase642New == undefined ||
@@ -1099,8 +1146,8 @@ function Form13() {
                 
               </Grid>
 
-              <Grid container spacing={1} sx={{ m:0.5, pt:2 }} >
-                <Grid item xs={6} sm={1} >
+              <Grid container spacing={1} sx={{ m:0.5, pt:2 , pl:125}}  >
+                <Grid item xs={12} sm={6} >
                   <Button
                     // color="primary"
                     type="submit"
@@ -1117,17 +1164,17 @@ function Form13() {
                     Send
                   </Button>
                 </Grid>
-                <Grid item xs={6} sm={1.5} >
+                <Grid item xs={12} sm={5} >
                   <Button
                   // color="primary" 
                   fullWidth onClick={SaveDraft}
                    sx={{
-                    color:'#38548A',
+                    color:'green',
                       '&:hover': {
-                    color:'blue',  
-                     backgroundColor: blue[100]
+                    color:'green',  
+                     backgroundColor: green[100]
                       }}}>
-                  Save as Draft
+                  Save As Draft
                   </Button>
                 </Grid>
               </Grid>
