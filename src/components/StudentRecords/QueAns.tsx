@@ -8,13 +8,13 @@ const QueAns = ({ Item, ChangeItem, IsEditiable }) => {
                 <Grid item xs={12} p={1}>
                     <Typography pl={1}>{Item.Question}</Typography>
                 </Grid>
-                <Grid item xs={12} pl={2}>
+                <Grid item xs={12} pl={1}>
                     {Item.QueType == 2 ?
                         <Grid item xs={12} md={12} m={1} pr={2}>
                             <ResizableTextField
                                 name='description'
                                 multiline
-                                rows={3}
+                                // rows={3}
                                 fullWidth
                                 value={Item.Answer}
                                 onChange={(e) => { ChangeItem(Item, e.target.value) }}

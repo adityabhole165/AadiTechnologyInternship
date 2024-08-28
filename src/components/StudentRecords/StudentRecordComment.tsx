@@ -257,7 +257,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
             </Typography>
             <DialogContent >
                 <Grid container spacing={1} alignItems="center">
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6} >
                         <Datepicker1
                             DateValue={StartDate}
                             onDateChange={onSelectSrDate}
@@ -266,7 +266,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
                         />
                         <ErrorMessage1 Error={ErrorSrDateblank} />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} md={6}>
 
                         <TimeField Item={Time} label={'Time'} ClickItem={clickTime} size={'medium'} />
                         {TimeError && <Typography color="error">{TimeError}</Typography>}
@@ -309,18 +309,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
             <DialogActions sx={{ py: 2, px: 3 }}>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
-                        <Button sx={{
-                            color: 'green',
-                            ':hover': { backgroundColor: green[100] }
-                        }} onClick={onClickSave}>
-                            Save
-                        </Button>
-                        <Button sx={{
-                            color: 'green',
-                            ':hover': { backgroundColor: green[100] }
-                        }} onClick={onSaveandSubmit}>
-                            Save and Submit
-                        </Button>
+                       
                         {(listCommentDetailsUS.length > 0) &&
                             <Button sx={{
                                 color: 'red',
@@ -333,6 +322,19 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
                             ':hover': { backgroundColor: red[100] }
                         }} onClick={handleDialogClose}>
                             Cancel
+                        </Button>
+                       
+                        <Button sx={{
+                            color: 'green',
+                            ':hover': { backgroundColor: green[100] }
+                        }} onClick={onSaveandSubmit}>
+                            Save and Submit
+                        </Button>
+                        <Button sx={{
+                            color: 'green',
+                            ':hover': { backgroundColor: green[100] }
+                        }} onClick={onClickSave}>
+                            Save
                         </Button>
                     </Stack>
                 </Grid>

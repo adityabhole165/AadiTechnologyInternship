@@ -13,6 +13,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
 import AddStudentRecordList from './StudentRecordList';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -438,7 +439,7 @@ const AddStudentRecord = () => {
                                             onClick={onClickMarkAsRead}
                                             disabled={disableSave()}
                                         >
-                                            <Done />
+                                            <MarkEmailReadIcon />
                                         </IconButton>
                                     </span>
                                 </Tooltip>
@@ -465,17 +466,17 @@ const AddStudentRecord = () => {
                 Please complete the following questions as fully and accurately as possible. If you are unable to complete a question you may consult other subject teachers for the better understanding of the child.
             </Box>
             <Box mb={1} sx={{ p: 1, background: 'white' }}>
-                <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                <Typography variant="h4" align="center" color="blue" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
                     General Information
                 </Typography>
             </Box>
             <Box mb={1} sx={{ p: 1, background: 'white' }}>
-                <Table>
+                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
                     <TableBody>
                         {listGeneralDetailsUS.map((item, i) => (
                             <React.Fragment key={i}>
-                                <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
-                                    <TableCell><b>Name of the student:</b> {item.Text1}</TableCell>
+                                <TableRow sx={{  bgcolor: 'white' }} >
+                                    <TableCell ><b>Name of the student:</b> {item.Text1}</TableCell>
                                     <TableCell sx={cellStyle}><b>Date of Birth:</b> {item.Text2}</TableCell>
                                 </TableRow>
                                 <TableRow sx={rowStyle}>
@@ -499,7 +500,7 @@ const AddStudentRecord = () => {
                             <Table sx={{ minWidth: 500, width: '70%', height: 'auto' }} aria-label="simple table">
 
                                 <TableHead>
-                                    <TableRow sx={{ ...rowStyle, backgroundColor: '#324b84' }}>
+                                    <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                         <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Name</TableCell>
                                         <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Sex</TableCell>
                                         <TableCell align="center" style={{ border: '1px solid black', color: 'white', ...cellStyle }}>Age</TableCell>
@@ -524,29 +525,30 @@ const AddStudentRecord = () => {
             </Box>
             <AddStudentRecordList ItemList={ItemList} IsEditiable={isSubmitted}
                 ChangeItem={ChangeItem} />
-            <br></br>
-            <Typography variant={"h5"} mb={1}>
+            
+            <Box sx={{backgroundColor:'white', p:1, mt:2 }}>
+            <Typography variant={"h4"} pl={1} >
                 Comment(s)
-            </Typography>
+            </Typography></Box>
             {listCommentDetailsUS.length === 0 ? (
-                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                <Box sx={{ backgroundColor: 'white', p:1}}>
 
-                    <Typography variant="h6" align="center" color="blue" style={{ border: '2px solid black' }} sx={{ textAlign: 'center', marginTop: 1, backgroundColor: 'White', padding: 1, borderRadius: 2, color: 'black' }} >
+                    <Typography variant="h6" align="center" color="blue"  sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
                         No Comment Found.
                     </Typography>
                 </Box>
             ) : (
-                <Box>
+                <Box sx={{backgroundColor:'white', p:2}}>
                     {/* <StudentRCommentList commentdetails={CommentData} /> */}
-                    <Table>
+                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                         <TableBody>
                             {listCommentDetailsUS.map((item, i) => (
                                 <React.Fragment key={i}>
-                                    <TableRow sx={{ ...rowStyle, backgroundColor: '#324b84' }}>
-                                        <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Date : </b> {item.Date}</TableCell>
-                                        <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Principal : </b> {item.IsCommentReadByPrincipal}</TableCell>
-                                        <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Counsellor : </b> {item.IsCommentReadByConsellor}</TableCell>
-                                        <TableCell sx={cellStyle} style={{ border: '1px solid white', color: 'white', ...cellStyle }}><b>Read By Class Teacher : </b> {item.IsCommentReadByClassTeacher}</TableCell>
+                                    <TableRow sx={{ ...rowStyle, backgroundColor: '#F0F0F0' }}>
+                                        <TableCell sx={cellStyle} style={{  color: '#38548A' }}><b>Date : </b> {item.Date}</TableCell>
+                                        <TableCell sx={cellStyle} style={{  color: '#38548A',  }}><b>Read By Principal : </b> {item.IsCommentReadByPrincipal}</TableCell>
+                                        <TableCell sx={cellStyle} style={{  color: '#38548A' }}><b>Read By Counsellor : </b> {item.IsCommentReadByConsellor}</TableCell>
+                                        <TableCell sx={cellStyle} style={{  color: '#38548A' }}><b>Read By Class Teacher : </b> {item.IsCommentReadByClassTeacher}</TableCell>
                                         {/* {(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].IsDefaultComment == "True" ||
                                             listCommentDetailsUS[0].IsSubmitted == "True" &&
                                              */}
@@ -555,24 +557,25 @@ const AddStudentRecord = () => {
                                                 <Tooltip title={"Edit"}>
                                                     <EditTwoTone onClick={(e) => ClickOpenDialogbox(item.Id)}
                                                         sx={{
-                                                            color: 'white',
-                                                            '&:hover': {
-                                                                bgcolor: 'grey.300',
-                                                                cursor: 'pointer'
+                                                            color:'#38548A',
+                                                            //  backgroundColor: grey[500],
+                                                             '&:hover': {
+                                                           color:'#38548A',
+                                                            backgroundColor: 'grey[200]'
                                                             }
                                                         }} />
 
                                                 </Tooltip>)}
                                     </TableRow>
-                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white', p:1, }}>
                                         <TableCell sx={cellStyle} colSpan={2}><b>Added By : </b>{item.UserName}</TableCell>
                                     </TableRow>
-                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white',   }}>
                                         <TableCell sx={cellStyle} colSpan={2}><b>Comment : </b>{item.Comment}</TableCell>
                                     </TableRow>
                                     {(listCommentDetailsUS.length > 0 &&
                                         (item.IsDefaultComment === "False")) && (
-                                            <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
+                                            <TableRow sx={{ ...rowStyle, bgcolor: 'white',  }}>
                                                 <TableCell sx={cellStyle} colSpan={2}><b>Lecture Name : </b>{item.LectureName}</TableCell>
                                             </TableRow>
                                         )}
