@@ -23,7 +23,8 @@ const StudentwiseprogressreportEdit = () => {
     const [Error1, SetError1] = useState('');
     const [headerGrade, setHeaderGrade] = useState("0");
     const [grades, setGrades] = useState({});
-
+    const [textall, setTextall] = useState('');
+    const maxChars = 300;
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     let PreprimaryFullAccess = getSchoolConfigurations(164)
@@ -137,20 +138,7 @@ const StudentwiseprogressreportEdit = () => {
 
 
 
-    const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
-    {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asYearwiseStudentId: Number(StandardId),
-        asStandardDivisionId: Number(YearwiseStudentId),
-        asAssessmentId: Number(AssessmentId),
-        asInsertedById: asUserId,
-        asLearningOutcomeXML: xmlString,
-        asXseedGradesXML: xmlString1,
-        asMode: "Save",
-        asRemark: "STR"
-
-    };
+   
 
 
 
@@ -167,9 +155,7 @@ const StudentwiseprogressreportEdit = () => {
     useEffect(() => {
         dispatch(CDAGetStandardwiseAssessmentDetails(GetStandardwiseAssessmentDetailBody));
     }, [YearwiseStudentId]);
-    useEffect(() => {
-        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
-    }, [AssessmentId, YearwiseStudentId, StandardId]);
+    
 
 
 
@@ -190,8 +176,7 @@ const StudentwiseprogressreportEdit = () => {
     };
 
 
-    const [textall, setTextall] = useState('');
-    const maxChars = 300;
+    
 
     const Detailschnageall3 = (event) => {
         if (event.target.value.length <= maxChars) {
@@ -200,7 +185,24 @@ const StudentwiseprogressreportEdit = () => {
     };
 
 
-    const clicksave = () => { };
+    const clicksave = () => {
+        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
+        {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asYearwiseStudentId: Number(StandardId),
+            asStandardDivisionId: Number(YearwiseStudentId),
+            asAssessmentId: Number(AssessmentId),
+            asInsertedById: asUserId,
+            asLearningOutcomeXML: xmlString,
+            asXseedGradesXML: xmlString1,
+            asMode: "Save",
+            asRemark: textall
+    
+        };
+        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+
+     };
     const Clickpublish = () => { };
     const ClickShow = () => { };
 
