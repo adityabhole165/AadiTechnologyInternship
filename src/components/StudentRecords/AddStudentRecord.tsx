@@ -486,19 +486,19 @@ const AddStudentRecord = () => {
                         {listGeneralDetailsUS.map((item, i) => (
                             <React.Fragment key={i}>
                                 <TableRow sx={{ bgcolor: 'white' }} >
-                                    <TableCell ><b>Name of the student:</b> {item.Text1}</TableCell>
-                                    <TableCell sx={cellStyle}><b>Date of Birth:</b> {item.Text2}</TableCell>
+                                    <TableCell ><b>Name of the student : </b> {item.Text1}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Date of Birth : </b> {item.Text2}</TableCell>
                                 </TableRow>
                                 <TableRow sx={{ backgroundColor:'#F0F0F0',...rowStyle}}>
                                     <TableCell sx={cellStyle} colSpan={2}><b>Family Details</b></TableCell>
                                 </TableRow>
                                 <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
-                                    <TableCell sx={cellStyle}><b>Mother Name:</b> {item.Text3}</TableCell>
-                                    <TableCell sx={cellStyle}><b>Mother Occupation:</b> {item.Text6}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Mother Name : </b> {item.Text3}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Mother Occupation : </b> {item.Text6}</TableCell>
                                 </TableRow>
                                 <TableRow sx={{ ...rowStyle, bgcolor: 'white' }}>
-                                    <TableCell sx={cellStyle}><b>Father Name:</b> {item.Text4}</TableCell>
-                                    <TableCell sx={cellStyle}><b>Father Occupation:</b> {item.Text5}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Father Name : </b> {item.Text4}</TableCell>
+                                    <TableCell sx={cellStyle}><b>Father Occupation : </b> {item.Text5}</TableCell>
                                 </TableRow>
                             </React.Fragment>
                         ))}
