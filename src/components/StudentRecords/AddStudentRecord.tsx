@@ -358,7 +358,7 @@ const AddStudentRecord = () => {
                         </Box>
 
                         < Box >
-                            <Tooltip title={'SAVE'}>
+                            <Tooltip title={'Save'}>
                                 <span>
                                     <IconButton
                                         sx={{
@@ -378,7 +378,7 @@ const AddStudentRecord = () => {
                         </Box>
 
                         <Box>
-                            <Tooltip title={'SUBMIT'}>
+                            <Tooltip title={'Submit'}>
                                 <span>
                                     <IconButton
                                         sx={{
@@ -397,7 +397,7 @@ const AddStudentRecord = () => {
                             </Tooltip>
                         </Box>
                         <Box>
-                            <Tooltip title={'ADD COMMENT'}>
+                            <Tooltip title={'Add Comment'}>
                                 <span>
                                     <IconButton
                                         sx={{
@@ -416,7 +416,7 @@ const AddStudentRecord = () => {
                             </Tooltip>
                         </Box>
                         <Box>
-                            <Tooltip title={'SUBMIT COMMENT'}>
+                            <Tooltip title={'Submit Comment'}>
                                 <span>
                                     <IconButton
                                         sx={{
@@ -436,7 +436,7 @@ const AddStudentRecord = () => {
                         </Box>
                         {disableSave() && (
                             <Box>
-                                <Tooltip title={'MARK AS READ'}>
+                                <Tooltip title={'Mark as read'}>
                                     <span>
                                         <IconButton
                                             sx={{
