@@ -102,6 +102,7 @@ import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUpload
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
 import AbsentStudentDetailsslice from '../requests/AbsentStudentDetails/RequestAbsentStudent';
+import AbsentStudentslice from '../requests/AbsentStudentPopCp/ReqAbsentStudent';
 import AddNoticeslice from '../requests/AddSchoolNotice/ReqAddNotice';
 import AddSchoolNotice from '../requests/AddSchoolNotice/ReqAddSchoolNotice';
 import SchoolNoticeFormslice from '../requests/AddSchoolNotice/RequestSchoolNoticeForm';
@@ -116,6 +117,7 @@ import LeaveDetailsslice from '../requests/LeaveDetails/RequestLeaveDetails';
 import MissingattendanceAleartSlice from '../requests/MissingAttendanceAleart/ReqMissAttendAleart';
 import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
+import PerformanceGradeAssignmentslice from '../requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
@@ -125,7 +127,6 @@ import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectEx
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
-import AbsentStudentslice from '../requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -256,7 +257,8 @@ const rootReducer = combineReducers({
   PreprimaryProgressReport: SlicePreprimaryProgressReport,
   SchoolNoticePopup: SchoolNoticePopupslice,
   AbsentStudentDetail: AbsentStudentDetailsslice,
-  AbsentStudent: AbsentStudentslice
+  AbsentStudent: AbsentStudentslice,
+  PerformanceGradeAssignment: PerformanceGradeAssignmentslice
 });
 
 export default rootReducer;

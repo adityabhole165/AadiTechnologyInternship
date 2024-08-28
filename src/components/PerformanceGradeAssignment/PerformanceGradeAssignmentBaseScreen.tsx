@@ -1,10 +1,39 @@
 import { QuestionMark } from "@mui/icons-material";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
+import { RGetAllUsersReportingToGivenUser, RGetAllYearsDropdown } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
+import { RootState } from "src/store";
 import CommonPageHeader from "../CommonPageHeader";
 
 const PerformanceGradeAssignmentBaseScreen = () => {
+    const dispatch = useDispatch();
+    const GetAllYearsUS = useSelector(
+        (state: RootState) => state.PerformanceGradeAssignment.GetAllYearsIS
+    );
+    console.log(GetAllYearsUS, "GetAllYearsUS");
+    const GetAllUsersReportingToGivenUserUS = useSelector(
+        (state: RootState) => state.PerformanceGradeAssignment.GetAllUsersReportingToGivenUserIS
+    );
+    console.log(GetAllUsersReportingToGivenUserUS, "GetAllUsersReportingToGivenUserUS");
+    const GetAllYearBody: IGetAllYearsBody = {
+        "asSchoolId": 18
+    }
+    const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
+        "asSchoolId": 18,
+        "asUserID": 3443,
+        "asYear": 51,
+        "asShowPending": false
+    }
+    useEffect(() => {
+        dispatch(RGetAllYearsDropdown(GetAllYearBody))
+    }, []);
+    useEffect(() => {
+        dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserBody))
+    }, []);
     const clickYearDropdown = (value) => {
 
     };
