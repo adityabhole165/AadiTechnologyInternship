@@ -1,6 +1,6 @@
 import { QuestionMark } from '@mui/icons-material';
 import { Box, IconButton, Tooltip } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -16,6 +16,9 @@ import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 import { compareStringWithoutSpace } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import ReplyIcon from '@mui/icons-material/Reply';
+import ReplyAllIcon from '@mui/icons-material/ReplyAll';
+import ForwardIcon from '@mui/icons-material/Forward';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -154,6 +157,45 @@ function ViewSms({ }) {
                     ':hover': { backgroundColor: grey[600] }
                   }}>
                   <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Forward`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: blue[600] }
+                  }}>
+                  <ForwardIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Reply All`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}>
+                  <ReplyAllIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Reply`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}>
+                  <ReplyIcon />
                 </IconButton>
               </Tooltip>
             </Box>
