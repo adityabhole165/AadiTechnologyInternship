@@ -1,7 +1,7 @@
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { blue, green, grey } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,8 @@ import { CDAGetStandardwiseAssessmentDetails, CDAProgressReportDetails } from 's
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-
+import { CheckCircle, Save } from '@mui/icons-material';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
 
@@ -47,7 +48,7 @@ const StudentwiseprogressreportEdit = () => {
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
-console.log(USGetStandardwiseAssessmentDetails,"");
+    console.log(USGetStandardwiseAssessmentDetails, "");
 
 
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
@@ -65,13 +66,13 @@ console.log(USGetStandardwiseAssessmentDetails,"");
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asStandardId: Number(YearwiseStudentId),
-       
+
 
     };
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
-       
+
 
     };
 
@@ -135,7 +136,7 @@ console.log(USGetStandardwiseAssessmentDetails,"");
         }, {});
         setGrades(updatedGrades);
     }
-  
+
 
     const clickGrade = (learningOutcomeId, value, gradeConfigId) => {
         setGrades((prevGrades) => ({
@@ -144,15 +145,31 @@ console.log(USGetStandardwiseAssessmentDetails,"");
         }));
     }
 
+    const [textall, setTextall] = useState('');
+    const maxChars = 300;
+
+    const Detailschnageall3 = (event) => {
+        if (event.target.value.length <= maxChars) {
+            setTextall(event.target.value);
+        }
+    };
+
+
+    const clicksave = () => {};
+    const Clickpublish = () => {};
+    const ClickShow = () => {};
+    
+
+    
     return (
         <Box sx={{ px: 2 }}>
 
             <CommonPageHeader
-                
+
                 navLinks={[
                     { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' },
                     { title: 'Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
-                  ]}
+                ]}
 
                 rightActions={
                     <>
@@ -167,7 +184,47 @@ console.log(USGetStandardwiseAssessmentDetails,"");
                             mandatory
                         />
 
+                               <IconButton
+                                onClick={clicksave}
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: green[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: green[600] },
+                                    
+                                }}
+                            >
+                                <Save />
+                            </IconButton>
 
+                            <Tooltip title={'Publish'}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[600],
+                          },
+                        }}
+                        onClick={Clickpublish}
+                      >
+                        <CheckCircle />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title={'Show'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+                onClick={ClickShow}>
+                <VisibilityTwoToneIcon />
+              </IconButton>
+            </Tooltip>
 
                         <Tooltip title={'Displays xseed progress report of selected assessment.'}>
                             <IconButton
@@ -352,17 +409,17 @@ console.log(USGetStandardwiseAssessmentDetails,"");
                                                                 <TableCell colSpan={3}>
                                                                     <TableBody>
                                                                         <TableRow key={outcome.LearningOutcomeConfigId}>
-                                                                            
+
                                                                             <SearchableDropdown
-                                                                                    ItemList={XseedGradesList}
-                                                                                    defaultValue={grades[outcome.LearningOutcomeConfigId]?.split('-')[0]}
-                                                                                    label={''}
-                                                                                    sx={{ width: '20vw', backgroundColor: 'white' }}
-                                                                                    size={"small"}
-                                                                                    DisableClearable={true}
-                                                                                    onChange={(value) => clickGrade(outcome.LearningOutcomeConfigId, value, outcome.LearningOutcomeGradeId)}
-                                                                                    mandatory
-                                                                                />
+                                                                                ItemList={XseedGradesList}
+                                                                                defaultValue={grades[outcome.LearningOutcomeConfigId]?.split('-')[0]}
+                                                                                label={''}
+                                                                                sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                                                size={"small"}
+                                                                                DisableClearable={true}
+                                                                                onChange={(value) => clickGrade(outcome.LearningOutcomeConfigId, value, outcome.LearningOutcomeGradeId)}
+                                                                                mandatory
+                                                                            />
                                                                         </TableRow>
                                                                     </TableBody>
                                                                 </TableCell>
@@ -378,6 +435,79 @@ console.log(USGetStandardwiseAssessmentDetails,"");
                     </TableContainer>
                 </>
 
+                <div>
+                    <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2} >
+                        Co-CurricularSubjects
+                    </Typography>
+                    <TableContainer component={Box} >
+                        <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                            <TableHead>
+                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                    <TableCell sx={{
+                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                        py: 1
+                                    }}>Subject</TableCell>
+                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
+                                        <SearchableDropdown
+                                            ItemList={XseedGradesList}
+                                            defaultValue={headerGrade}
+                                            label={''}
+                                            sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
+                                            size={"small"}
+                                            DisableClearable={true}
+                                            onChange={clickHeaderGrade}
+                                            mandatory
+                                        />
+                                    </TableCell>
+                                    <TableCell sx={{
+                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                        py: 1
+                                    }}>Facilitator's Observation</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {USFillNonXseedSubjectGrades.map((row) => (
+                                    <TableRow key={row.YearwiseStudentId}>
+                                        <TableCell sx={{ py: 1 }}>{row.SubjectName}</TableCell>
+                                        <TableCell key={row.LearningOutcomeConfigId}>
+
+                                            <SearchableDropdown
+                                                ItemList={XseedGradesList}
+                                                defaultValue={grades[row.LearningOutcomeConfigId]?.split('-')[0]}
+                                                label={''}
+                                                sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                size={"small"}
+                                                DisableClearable={true}
+                                                onChange={(value) => clickGrade(row.LearningOutcomeConfigId, value, row.LearningOutcomeGradeId)}
+                                                mandatory
+                                            />
+                                        </TableCell>
+                                        <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+
+
+
+                <Box>
+                    <TextField
+                        label={
+                            <span>
+                                Remark <span style={{ color: 'red' }}>*</span>
+                            </span>
+                        }
+                        multiline
+                        value={textall}
+                        onChange={Detailschnageall3}
+                        fullWidth
+                    />
+                    <Typography variant="caption" align="right" display="block" color="textSecondary">
+                       ({maxChars - textall.length} ) 
+                    </Typography>
+                </Box>
 
             </Box>
 
