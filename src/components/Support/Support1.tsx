@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetUserDetailsBody, ISaveStudentDetailsForSupportBody } from 'src/interfaces/Student/ISupport';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile3 from 'src/libraries/File/SingleFile3';
 import { getSaveSupport, getUserDetailss, ResetMessage } from 'src/requests/Support/RequestSupport';
 import { RootState } from 'src/store';
@@ -235,9 +236,8 @@ const Support1 = () => {
                                 }
                                 value={emailId}
                                 onChange={(e) => setEmailId(e.target.value)}
-                                error={!!ErroremailId}
-                                helperText={ErroremailId}
                             />
+                            <ErrorMessage1 Error={ErroremailId}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
@@ -246,9 +246,8 @@ const Support1 = () => {
                                 variant="outlined"
                                 value={mobilenumber}
                                 onChange={handleMobileNumberChange}
-                                error={!!Errormobilenumber}
-                                helperText={Errormobilenumber}
                             />
+                            <ErrorMessage1 Error={Errormobilenumber}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
@@ -261,9 +260,8 @@ const Support1 = () => {
                                 variant="outlined"
                                 value={problemSubject}
                                 onChange={(e) => setProblemSubject(e.target.value)}
-                                error={!!ErrorproblemSubject}
-                                helperText={ErrorproblemSubject}
                             />
+                            <ErrorMessage1 Error={ErrorproblemSubject}></ErrorMessage1>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <SingleFile3
@@ -290,10 +288,9 @@ const Support1 = () => {
                                 multiline
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                error={!!Errordescription}
-                                helperText={Errordescription}
                             // rows={4}
                             />
+                            <ErrorMessage1 Error={Errordescription}></ErrorMessage1>
                         </Grid>
                     </Grid>
                 </Box>
