@@ -114,7 +114,7 @@ const AssignProgressReportSubject = () => {
                     ItemList={GradesList}
                     onChange={clickHeaderGrade}
                     label={''}
-                    disabled={EditStatusId === '3' ? true : false}
+                    disabled={EditStatusId === '3' || EditStatusId === '3P'}
                     defaultValue={headerGrade}
                     size={"small"}
                     DisableClearable={true}
@@ -259,7 +259,7 @@ const AssignProgressReportSubject = () => {
                                     readOnly: true,
                                 }}
                             />
-                            {EditStatusId !== '3' &&
+                            {(EditStatusId !== '3' && EditStatusId !== '3P') &&
                                 <Tooltip title={'Save'}>
                                     <IconButton
                                         onClick={SaveNonXseedGrades}
@@ -296,6 +296,10 @@ const AssignProgressReportSubject = () => {
                     <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                         <b>Student grades are already submitted.</b>
                     </Typography>}
+                {EditStatusId === '3P' &&
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                        <b>Results for this assessment has been published. You need to unpublish the assessment to update the grades.</b>
+                    </Typography>}
                 <Box sx={{ background: 'white', p: 2 }}>
                     <TableContainer component={Box}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
@@ -316,7 +320,7 @@ const AssignProgressReportSubject = () => {
                                                 ItemList={GradesList}
                                                 onChange={(value) => clickHeaderGrade(value.Value, value.isAbsent, value.isExempted)}
                                                 label={''}
-                                                disabled={EditStatusId === '3' ? true : false}
+                                                disabled={EditStatusId === '3' || EditStatusId === '3P'}
                                                 defaultValue={headerGrade}
                                                 size={"small"}
                                                 DisableClearable={true}
@@ -339,7 +343,7 @@ const AssignProgressReportSubject = () => {
                                                 ItemList={GradesList}
                                                 onChange={(value) => clickBodyGrade(item.Text1, value.Value, value.isAbsent, value.isExempted)}
                                                 label={''}
-                                                disabled={EditStatusId === '3' ? true : false}
+                                                disabled={EditStatusId === '3' || EditStatusId === '3P'}
                                                 defaultValue={grades[item.Text1]}
                                                 DisableClearable={true}
                                                 size={"small"}
@@ -350,7 +354,7 @@ const AssignProgressReportSubject = () => {
                                                 rows={2}
                                                 cols={50}
                                                 style={{ backgroundColor: 'white' }}
-                                                disabled={EditStatusId === '3' ? true : grades[item.Text1]?.split('-')[0] === "0" ? true : grades[item.Text1]?.split('-')[1] === "1" ? true : grades[item.Text1]?.split('-')[2] === "1" ? true : false}
+                                                disabled={EditStatusId === '3' || EditStatusId === '3P' ? true : grades[item.Text1]?.split('-')[0] === "0" ? true : grades[item.Text1]?.split('-')[1] === "1" ? true : grades[item.Text1]?.split('-')[2] === "1" ? true : false}
                                                 value={observations[item.Text1]}
                                                 onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
                                                 maxLength={500}

@@ -186,7 +186,7 @@ const AssignPrePrimarySubjectGrades = () => {
                                 readOnly: true,
                             }}
                         />
-                        {EditStatusId !== '3' && student !== '0' && subjectSection !== '0' &&
+                        {(EditStatusId !== '3' && EditStatusId !== '3P') && student !== '0' && subjectSection !== '0' &&
                             <Tooltip title={'Save'}>
                                 <IconButton
                                     onClick={saveLearningOutcomes}
@@ -243,6 +243,10 @@ const AssignPrePrimarySubjectGrades = () => {
                 <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
                     <b>Student grades are already submitted.</b>
                 </Typography>}
+            {EditStatusId === '3P' &&
+                <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
+                    <b>Results for this assessment has been published. You need to unpublish the assessment to update the grades.</b>
+                </Typography>}
             {student !== '0' && subjectSection !== '0' && ListLearningOutcomeDetails.length === 0 &&
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                     <b>No record found.</b>
@@ -266,7 +270,7 @@ const AssignPrePrimarySubjectGrades = () => {
                                             label={''}
                                             sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
                                             size={"small"}
-                                            disabled={EditStatusId === '3' ? true : false}
+                                            disabled={EditStatusId === '3' || EditStatusId === '3P'}
                                             DisableClearable={true}
                                             onChange={clickHeaderGrade}
                                             mandatory
@@ -287,7 +291,7 @@ const AssignPrePrimarySubjectGrades = () => {
                                                     label={''}
                                                     sx={{ width: '20vw', backgroundColor: 'white' }}
                                                     size={"small"}
-                                                    disabled={EditStatusId === '3' ? true : false}
+                                                    disabled={EditStatusId === '3' || EditStatusId === '3P'}
                                                     DisableClearable={true}
                                                     onChange={(value) => clickBodyGrade(item.Text1, value, item.Text5)}
                                                     mandatory

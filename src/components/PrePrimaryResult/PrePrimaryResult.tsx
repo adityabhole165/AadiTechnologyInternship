@@ -201,15 +201,15 @@ const PrePrimaryResult = () => {
   // path: 'AssignPrePrimarySubjectGrades/:EditStatusId/:ClassName/:Assesment/:SelectTerm/:SubjectName/:SubjectId/:StandardDivisionId/:selectTeacher'
   // const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
 
-  const ClickItem = (SubId, EditStatusId, SubName, IsXseedSubject) => {
+  const ClickItem = (SubId, SubName, IsXseedSubject) => {
     let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
     let StdDivIds = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
     console.log('🥱', className)
-    let EditStatus = EditStatusId === 'Y' ? '3' : '2'
+    let isPublishStatus = IsPublished === 'Y' ? '3P' : '2'
     if (IsXseedSubject === 'Y') {
       navigate(
         '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
-        EditStatus +
+        isPublishStatus +
         '/' +
         className +
         '/' +
@@ -228,7 +228,7 @@ const PrePrimaryResult = () => {
     } else if (IsXseedSubject === 'N') {
       navigate(
         '/extended-sidebar/Teacher/AssignProgressReportSubject/' +
-        EditStatus +
+        isPublishStatus +
         '/' +
         className +
         '/' +
