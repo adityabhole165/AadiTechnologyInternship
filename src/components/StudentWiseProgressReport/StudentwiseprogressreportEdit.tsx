@@ -1,19 +1,19 @@
 
+import { CheckCircle, Save } from '@mui/icons-material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAGetStandardwiseAssessmentDetails, CDAProgressReportDetails } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { CheckCircle, Save } from '@mui/icons-material';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
 
@@ -48,7 +48,10 @@ const StudentwiseprogressreportEdit = () => {
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
-    console.log(USGetStandardwiseAssessmentDetails, "");
+    const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
+
+
+    console.log(USManageStudentWiseAssessmentGrades, "");
 
 
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
@@ -70,6 +73,23 @@ const StudentwiseprogressreportEdit = () => {
 
     };
 
+    const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
+    {
+        asSchoolId: 18,
+        asAcademicYearId: 55,
+        asYearwiseStudentId: 40968,
+        asStandardDivisionId: 1294,
+        asAssessmentId: 28,
+        asInsertedById: 5488,
+        asLearningOutcomeXML: "<LearningOutcomes><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17517' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17518' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17519' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17520' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17521' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17522' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17512' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17513' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17514' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17515' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17516' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17523' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17524' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17525' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17526' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17527' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17507' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17508' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17509' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17510' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17511' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17528' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17529' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17530' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17531' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17532' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='261' LearningOutcomeConfigId='18444' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='261' LearningOutcomeConfigId='18445' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='262' LearningOutcomeConfigId='18446' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='262' LearningOutcomeConfigId='18447' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='263' LearningOutcomeConfigId='18448' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='263' LearningOutcomeConfigId='18449' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='264' LearningOutcomeConfigId='18450' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='264' LearningOutcomeConfigId='18451' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='265' LearningOutcomeConfigId='18452' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='265' LearningOutcomeConfigId='18453' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='266' LearningOutcomeConfigId='18454' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='266' LearningOutcomeConfigId='18455' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='267' LearningOutcomeConfigId='18456' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='267' LearningOutcomeConfigId='18457' LearningOutcomeGradeId='0'/></LearningOutcomes>",
+        asXseedGradesXML: "<NonXseedSubjectGrades><NonXseedSubjectGrades GradeId='11' Observation='' SubjectId='2396'/></NonXseedSubjectGrades>",
+        asMode: "Save",
+        asRemark: "STR"
+
+    };
+
+
+
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
 
@@ -83,6 +103,9 @@ const StudentwiseprogressreportEdit = () => {
     useEffect(() => {
         dispatch(CDAGetStandardwiseAssessmentDetails(GetStandardwiseAssessmentDetailBody));
     }, [YearwiseStudentId]);
+    useEffect(() => {
+        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
+    }, []);
 
     const XseedGradesList = [
         {
@@ -155,12 +178,12 @@ const StudentwiseprogressreportEdit = () => {
     };
 
 
-    const clicksave = () => {};
-    const Clickpublish = () => {};
-    const ClickShow = () => {};
-    
+    const clicksave = () => { };
+    const Clickpublish = () => { };
+    const ClickShow = () => { };
 
-    
+
+
     return (
         <Box sx={{ px: 2 }}>
 
@@ -184,47 +207,47 @@ const StudentwiseprogressreportEdit = () => {
                             mandatory
                         />
 
-                               <IconButton
-                                onClick={clicksave}
+                        <IconButton
+                            onClick={clicksave}
+                            sx={{
+                                color: 'white',
+                                backgroundColor: green[500],
+                                height: '36px !important',
+                                ':hover': { backgroundColor: green[600] },
+
+                            }}
+                        >
+                            <Save />
+                        </IconButton>
+
+                        <Tooltip title={'Publish'}>
+                            <IconButton
                                 sx={{
                                     color: 'white',
-                                    backgroundColor: green[500],
-                                    height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
-                                    
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600],
+                                    },
                                 }}
+                                onClick={Clickpublish}
                             >
-                                <Save />
+                                <CheckCircle />
                             </IconButton>
+                        </Tooltip>
 
-                            <Tooltip title={'Publish'}>
-                      <IconButton
-                        sx={{
-                          color: 'white',
-                          backgroundColor: blue[500],
-                          '&:hover': {
-                            backgroundColor: blue[600],
-                          },
-                        }}
-                        onClick={Clickpublish}
-                      >
-                        <CheckCircle />
-                      </IconButton>
-                    </Tooltip>
-
-                    <Tooltip title={'Show'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-                onClick={ClickShow}>
-                <VisibilityTwoToneIcon />
-              </IconButton>
-            </Tooltip>
+                        <Tooltip title={'Show'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: grey[500],
+                                    '&:hover': {
+                                        backgroundColor: grey[600]
+                                    }
+                                }}
+                                onClick={ClickShow}>
+                                <VisibilityTwoToneIcon />
+                            </IconButton>
+                        </Tooltip>
 
                         <Tooltip title={'Displays xseed progress report of selected assessment.'}>
                             <IconButton
@@ -505,7 +528,7 @@ const StudentwiseprogressreportEdit = () => {
                         fullWidth
                     />
                     <Typography variant="caption" align="right" display="block" color="textSecondary">
-                       ({maxChars - textall.length} ) 
+                        ({maxChars - textall.length} )
                     </Typography>
                 </Box>
 

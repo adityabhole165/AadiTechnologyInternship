@@ -214,3 +214,17 @@ export interface IGetStandardwiseAssessmentDetailsResult {
 
 
 }
+
+
+export interface ManageStudentWiseAssessmentGradesBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asYearwiseStudentId: number
+  asStandardDivisionId: number
+  asAssessmentId: number
+  asInsertedById: number
+  asLearningOutcomeXML: string
+  asXseedGradesXML: string
+  asMode: string
+  asRemark: string
+}
