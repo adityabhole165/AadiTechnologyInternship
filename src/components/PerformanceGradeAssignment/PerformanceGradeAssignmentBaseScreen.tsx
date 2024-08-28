@@ -1,7 +1,7 @@
 import { QuestionMark } from "@mui/icons-material";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
@@ -11,6 +11,9 @@ import CommonPageHeader from "../CommonPageHeader";
 
 const PerformanceGradeAssignmentBaseScreen = () => {
     const dispatch = useDispatch();
+    const [SelectYear, setSelectYear] = useState('0')
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
     const GetAllYearsUS = useSelector(
         (state: RootState) => state.PerformanceGradeAssignment.GetAllYearsIS
     );
@@ -20,22 +23,27 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     );
     console.log(GetAllUsersReportingToGivenUserUS, "GetAllUsersReportingToGivenUserUS");
     const GetAllYearBody: IGetAllYearsBody = {
-        "asSchoolId": 18
+        asSchoolId: asSchoolId
     }
     const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
-        "asSchoolId": 18,
-        "asUserID": 3443,
-        "asYear": 51,
-        "asShowPending": false
+        asSchoolId: asSchoolId,
+        asUserID: asUserId, /*3443,*/
+        asYear: 51,
+        asShowPending: false
     }
     useEffect(() => {
         dispatch(RGetAllYearsDropdown(GetAllYearBody))
     }, []);
     useEffect(() => {
+        if (GetAllYearsUS.length > 0) {
+            setSelectYear(GetAllYearsUS[0].Value)
+        }
+    }, [GetAllYearsUS])
+    useEffect(() => {
         dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserBody))
     }, []);
     const clickYearDropdown = (value) => {
-
+        setSelectYear(value)
     };
 
     return (
@@ -50,10 +58,10 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                         <Box sx={{ background: 'white' }}>
                             <SearchableDropdown
                                 sx={{ minWidth: '25vw' }}
-                                ItemList={[0]}
+                                ItemList={GetAllYearsUS}
                                 onChange={clickYearDropdown}
                                 label={'Year'}
-                                defaultValue={""}
+                                defaultValue={SelectYear}
                                 size={"small"}
                             />
                         </Box>
