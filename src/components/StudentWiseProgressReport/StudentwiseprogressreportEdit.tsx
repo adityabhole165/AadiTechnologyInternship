@@ -5,10 +5,10 @@ import { grey } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { GetProgressReportDetailsBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { CDAProgressReportDetails } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { CDAGetStandardwiseAssessmentDetails, CDAProgressReportDetails } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -17,7 +17,7 @@ const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
 
     const { Assessment, YearwiseStudentId, StandardId } = useParams();
-    const [AssessmentId, setAssessmentId]: any = useState();
+    const [AssessmentId, setAssessmentId]: any = useState(Assessment);
     const [Error, SetError] = useState('')
     const [Error1, SetError1] = useState('');
     let PreprimaryFullAccess = getSchoolConfigurations(164)
@@ -46,6 +46,8 @@ const StudentwiseprogressreportEdit = () => {
     const USFillStudentAttendance: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentAttendance);
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
+    const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
+console.log(USGetStandardwiseAssessmentDetails,"");
 
 
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
@@ -54,19 +56,32 @@ const StudentwiseprogressreportEdit = () => {
         asAcademicYearId: asAcademicYearId,
         asStandardDivisionId: Number(YearwiseStudentId),
         asYearwiseStudentId: Number(StandardId),
-        asAssessmentId: Number(Assessment)
+        asAssessmentId: Number(AssessmentId)
+
+    };
+
+    const GetStandardwiseAssessmentDetailBody: IGetStandardwiseAssessmentDetailsBody =
+    {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardId: Number(YearwiseStudentId),
+       
 
     };
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
-        SetError('')
+       
 
     };
 
     useEffect(() => {
         dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
     }, [AssessmentId, YearwiseStudentId, StandardId]);
+
+    useEffect(() => {
+        dispatch(CDAGetStandardwiseAssessmentDetails(GetStandardwiseAssessmentDetailBody));
+    }, [YearwiseStudentId]);
 
     const XseedGradesList = [
         {
@@ -143,11 +158,11 @@ const StudentwiseprogressreportEdit = () => {
                     <>
 
                         <SearchableDropdown
-                            ItemList={USlistAssessmentDetailss}
+                            ItemList={USGetStandardwiseAssessmentDetails}
                             sx={{ minWidth: '250px' }}
                             onChange={clickAssessmentId}
                             defaultValue={AssessmentId}
-                            label={'Assessment '}
+                            label={'Assessment'}
                             size={"small"}
                             mandatory
                         />

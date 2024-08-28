@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiPreprimaryProgressReport from 'src/api/PreprimaryProgressReport/PreprimaryProgressReport';
-import { IGetAllPrimaryClassTeacherssBody,GetStudentDetailsDropdownBody ,GetProgressReportDetailsBody} from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { IGetAllPrimaryClassTeacherssBody,GetStudentDetailsDropdownBody ,GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody} from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 
 import { AppThunk } from 'src/store';
 
@@ -19,7 +19,8 @@ const SlicePreprimaryProgressReport = createSlice({
     ISFillStudentDetails:[],
     ISFillStudentAttendance:[],
     ISFillStudentsLearningOutcomes:[],
-    ISFillNonXseedSubjectGrades:[]
+    ISFillNonXseedSubjectGrades:[],
+    ISGetStandardwiseAssessmentDetails:[]
     
   },
   reducers: {
@@ -62,6 +63,10 @@ const SlicePreprimaryProgressReport = createSlice({
       RFillNonXseedSubjectGrades(state, action) {
         state. ISFillNonXseedSubjectGrades = action.payload;
       },
+      RGetStandardwiseAssessmentDetails(state, action) {
+        state. ISGetStandardwiseAssessmentDetails = action.payload;
+      },
+      
       
   }
 });
@@ -220,6 +225,22 @@ export const CDAAllPrimaryClassTeachers =
 
     
   };
+
+
+  export const CDAGetStandardwiseAssessmentDetails =
+  (data: IGetStandardwiseAssessmentDetailsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiPreprimaryProgressReport.GetStandardwiseAssessmentDetails(data)
+    const SetAssessmentDetails = response.data.SetAssessmentDetails.map((item, i) => ({
+      Id: item.AssessmentId,
+      Name: item.AssessmentName,
+      Value: item.AssessmentId,
+
+    }));
+
+    dispatch(SlicePreprimaryProgressReport.actions.RGetStandardwiseAssessmentDetails(SetAssessmentDetails));
+  };
+
 
 
 

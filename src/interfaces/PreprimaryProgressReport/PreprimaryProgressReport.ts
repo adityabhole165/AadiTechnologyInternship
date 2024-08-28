@@ -182,3 +182,35 @@ export interface GetProgressReportDetailsResult {
   ],
 }
 
+
+export interface IGetStandardwiseAssessmentDetailsBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardId: number
+  
+}
+
+export interface IGetStandardwiseAssessmentDetailsResult {
+  SetAssessmentDetails: [
+    {
+      StandardwiseAssessmentId: string
+      AssessmentId: string
+      AssessmentName: string
+      StartDate: string
+      EndDate: string
+      IsFinalAssessment: string
+      IsDeleted: string
+      SortOrder: string
+
+    }
+  ],
+  setAcademicYearDates: [
+    {
+      StdStartDate: string
+      StdEndDate: string
+    }
+  ],
+
+
+
+}
