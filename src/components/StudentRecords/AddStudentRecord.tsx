@@ -1,4 +1,5 @@
-import { AddComment, Check, Done, EditTwoTone, QuestionMark, Save, Send } from '@mui/icons-material';
+import { AddComment, Check, EditTwoTone, QuestionMark, Save, Send } from '@mui/icons-material';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
@@ -8,12 +9,11 @@ import { toast } from 'react-toastify';
 import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord, resetGetSubmitStudentRecord } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
 import AddStudentRecordList from './StudentRecordList';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 const AddStudentRecord = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -110,17 +110,27 @@ const AddStudentRecord = () => {
             dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [MarkRecordAsReadUS])
+    useEffect(() => {
+        if (GetStudentRecordCommentUS !== '') {
+            toast.success(GetStudentRecordCommentUS, { toastId: 'success1' });
+            dispatch(resetGetSubmitStudentRecord());
+            dispatch(GetStudentRecordData(GetStudentRecordDataResult));
+        }
+    }, [GetStudentRecordCommentUS])
+
     const getXML = () => {
         let sXML =
             "<ArrayOfKeyValue xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>";
-        listParameterDetailsUS.map((Item) => {
-            sXML =
-                sXML +
-                '<KeyValue><Key>' +
-                Item.ParameterId +
-                '</Key><Value>' +
-                Item.Answer +
-                '</Value></KeyValue>';
+        ItemList.map((ParentItem) => {
+            ParentItem.QueAnsList.map((Item) => {
+                sXML =
+                    sXML +
+                    '<KeyValue><Key>' +
+                    Item.Id +
+                    '</Key><Value>' +
+                    Item.Answer +
+                    '</Value></KeyValue>';
+            })
         });
         sXML = sXML + '</ArrayOfKeyValue>';
 
@@ -475,7 +485,7 @@ const AddStudentRecord = () => {
                     <TableBody>
                         {listGeneralDetailsUS.map((item, i) => (
                             <React.Fragment key={i}>
-                                <TableRow sx={{  bgcolor: 'white' }} >
+                                <TableRow sx={{ bgcolor: 'white' }} >
                                     <TableCell ><b>Name of the student:</b> {item.Text1}</TableCell>
                                     <TableCell sx={cellStyle}><b>Date of Birth:</b> {item.Text2}</TableCell>
                                 </TableRow>
@@ -525,30 +535,30 @@ const AddStudentRecord = () => {
             </Box>
             <AddStudentRecordList ItemList={ItemList} IsEditiable={isSubmitted}
                 ChangeItem={ChangeItem} />
-            
-            <Box sx={{backgroundColor:'white', p:1, mt:2 }}>
-            <Typography variant={"h4"} pl={1} >
-                Comment(s)
-            </Typography></Box>
-            {listCommentDetailsUS.length === 0 ? (
-                <Box sx={{ backgroundColor: 'white', p:1}}>
 
-                    <Typography variant="h6" align="center" color="blue"  sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No Comment Found.
+            <Box sx={{ backgroundColor: 'white', p: 1, mt: 2 }}>
+                <Typography variant={"h4"} pl={1} >
+                    Comment(s)
+                </Typography></Box>
+            {listCommentDetailsUS.length === 0 ? (
+                <Box sx={{ backgroundColor: 'white', p: 1 }}>
+
+                    <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                        No comment found.
                     </Typography>
                 </Box>
             ) : (
-                <Box sx={{backgroundColor:'white', p:2}}>
+                <Box sx={{ backgroundColor: 'white', p: 2 }}>
                     {/* <StudentRCommentList commentdetails={CommentData} /> */}
                     <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                         <TableBody>
                             {listCommentDetailsUS.map((item, i) => (
                                 <React.Fragment key={i}>
                                     <TableRow sx={{ ...rowStyle, backgroundColor: '#F0F0F0' }}>
-                                        <TableCell sx={cellStyle} style={{  color: '#38548A' }}><b>Date : </b> {item.Date}</TableCell>
-                                        <TableCell sx={cellStyle} style={{  color: '#38548A',  }}><b>Read By Principal : </b> {item.IsCommentReadByPrincipal}</TableCell>
-                                        <TableCell sx={cellStyle} style={{  color: '#38548A' }}><b>Read By Counsellor : </b> {item.IsCommentReadByConsellor}</TableCell>
-                                        <TableCell sx={cellStyle} style={{  color: '#38548A' }}><b>Read By Class Teacher : </b> {item.IsCommentReadByClassTeacher}</TableCell>
+                                        <TableCell sx={cellStyle} style={{ color: '#38548A' }}><b>Date : </b> {item.Date}</TableCell>
+                                        <TableCell sx={cellStyle} style={{ color: '#38548A', }}><b>Read By Principal : </b> {item.IsCommentReadByPrincipal}</TableCell>
+                                        <TableCell sx={cellStyle} style={{ color: '#38548A' }}><b>Read By Counsellor : </b> {item.IsCommentReadByConsellor}</TableCell>
+                                        <TableCell sx={cellStyle} style={{ color: '#38548A' }}><b>Read By Class Teacher : </b> {item.IsCommentReadByClassTeacher}</TableCell>
                                         {/* {(listCommentDetailsUS.length > 0 && listCommentDetailsUS[0].IsDefaultComment == "True" ||
                                             listCommentDetailsUS[0].IsSubmitted == "True" &&
                                              */}
@@ -557,25 +567,25 @@ const AddStudentRecord = () => {
                                                 <Tooltip title={"Edit"}>
                                                     <EditTwoTone onClick={(e) => ClickOpenDialogbox(item.Id)}
                                                         sx={{
-                                                            color:'#38548A',
+                                                            color: '#38548A',
                                                             //  backgroundColor: grey[500],
-                                                             '&:hover': {
-                                                           color:'#38548A',
-                                                            backgroundColor: 'grey[200]'
+                                                            '&:hover': {
+                                                                color: '#38548A',
+                                                                backgroundColor: 'grey[200]'
                                                             }
                                                         }} />
 
                                                 </Tooltip>)}
                                     </TableRow>
-                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white', p:1, }}>
+                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white', p: 1, }}>
                                         <TableCell sx={cellStyle} colSpan={2}><b>Added By : </b>{item.UserName}</TableCell>
                                     </TableRow>
-                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white',   }}>
+                                    <TableRow sx={{ ...rowStyle, bgcolor: 'white', }}>
                                         <TableCell sx={cellStyle} colSpan={2}><b>Comment : </b>{item.Comment}</TableCell>
                                     </TableRow>
                                     {(listCommentDetailsUS.length > 0 &&
                                         (item.IsDefaultComment === "False")) && (
-                                            <TableRow sx={{ ...rowStyle, bgcolor: 'white',  }}>
+                                            <TableRow sx={{ ...rowStyle, bgcolor: 'white', }}>
                                                 <TableCell sx={cellStyle} colSpan={2}><b>Lecture Name : </b>{item.LectureName}</TableCell>
                                             </TableRow>
                                         )}

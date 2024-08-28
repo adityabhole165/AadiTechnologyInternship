@@ -333,7 +333,7 @@ const TermwiseHeightWeight = () => {
           </DotLegend1>
         </Stack>
         </Box>
-      <Box sx={{ background: 'white', pl:2, pr:2, pt:2 }}>
+      <Box sx={{ background: 'white', p:2}}>
         {/* New Table */}
         {/* <DataTable
           columns={
@@ -404,7 +404,7 @@ const TermwiseHeightWeight = () => {
             />
           </>
         ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+          <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
             <b>No Record Found.</b>
           </Typography>
         )}
