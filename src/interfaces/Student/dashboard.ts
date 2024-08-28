@@ -7,16 +7,31 @@ export interface IUnreadMessages {
   asProfilePicUpdDt?: string;
 }
 export interface IUnreadMessagesResult {
-  UnreadMessages: [{
-    SenderUserId: string,
-    Subject: string,
-    UserName: string,
-    Date: string,
-    MessageCount: Number,
-    ReturnUrl: string,
-    MessageDetailsId: Number,
-    MessageReceiverDetailsId: Number
-  }]
+  UnreadMessages: [
+    {
+      SenderUserId: string;
+      Subject: string;
+      UserName: string;
+      Date: string;
+      MessageCount: number;
+      ReturnUrl: string;
+      MessageDetailsId: number;
+      MessageReceiverDetailsId: number;
+    }
+  ],
+  SenderPhoto: [
+    {
+      Id: string;
+      Photo: string;
+    }
+  ],
+  UnreadMessageCount: number;
+  UserProfilePicData: [
+    {
+      UpdateDate: string;
+      ProfilePicture: string;
+    }
+  ]
 }
 
 //Upcoming Events

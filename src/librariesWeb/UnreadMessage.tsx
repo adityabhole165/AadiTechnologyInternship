@@ -1,12 +1,13 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import {
+  Badge,
   Box,
   Card,
   CircularProgress,
   Divider,
   Grid,
+  IconButton,
   Stack,
   Tooltip,
   Typography
@@ -38,8 +39,6 @@ const UnreadMessage = () => {
     dispatch(getUnreadMessages(UnreadMessagesBody))
   };
   const clickMessage = (item) => {
-    // console.log(item, "item");
-
     navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox')
   }
   return (
@@ -52,10 +51,16 @@ const UnreadMessage = () => {
         </Grid>
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <RefreshIcon
+            <IconButton sx={{ mt: '20px', mr: '20px' }}>
+              <Badge
+                badgeContent={UnreadMessage.length !== 0 ? UnreadMessage.length : '0'}
+                color="secondary"
+              />
+            </IconButton>
+            {/* <RefreshIcon
               sx={{ mr: '1px', mt: '10px' }}
               onClick={clickRefresh}
-            />
+            /> */}
             {/* <Avatar
               sx={{ height: '20px', width: '20px', mt: '13px', mr: '10px' }}
               src={'/imges/arrow.png'}
