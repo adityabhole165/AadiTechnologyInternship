@@ -21,6 +21,12 @@ const StudentwiseprogressreportEdit = () => {
     const [AssessmentId, setAssessmentId]: any = useState(Assessment);
     const [Error, SetError] = useState('')
     const [Error1, SetError1] = useState('');
+    const [headerGrade, setHeaderGrade] = useState("0");
+    const [grades, setGrades] = useState({});
+    const [textall, setTextall] = useState('');
+    const maxChars = 300;
+    const [xmlString, setXmlString] = useState('');
+    const [xmlString1, setXmlString1] = useState('');
     let PreprimaryFullAccess = getSchoolConfigurations(164)
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -51,7 +57,7 @@ const StudentwiseprogressreportEdit = () => {
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
 
 
-    console.log(USManageStudentWiseAssessmentGrades, "");
+    console.log(USManageStudentWiseAssessmentGrades, "-----ll");
 
 
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
@@ -73,20 +79,66 @@ const StudentwiseprogressreportEdit = () => {
 
     };
 
-    const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
-    {
-        asSchoolId: 18,
-        asAcademicYearId: 55,
-        asYearwiseStudentId: 40968,
-        asStandardDivisionId: 1294,
-        asAssessmentId: 28,
-        asInsertedById: 5488,
-        asLearningOutcomeXML: "<LearningOutcomes><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17517' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17518' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17519' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17520' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17521' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='245' LearningOutcomeConfigId='17522' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17512' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17513' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17514' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17515' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='244' LearningOutcomeConfigId='17516' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17523' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17524' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17525' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17526' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='246' LearningOutcomeConfigId='17527' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17507' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17508' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17509' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17510' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='243' LearningOutcomeConfigId='17511' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17528' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17529' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17530' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17531' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='259' LearningOutcomeConfigId='17532' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='261' LearningOutcomeConfigId='18444' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='261' LearningOutcomeConfigId='18445' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='262' LearningOutcomeConfigId='18446' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='262' LearningOutcomeConfigId='18447' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='263' LearningOutcomeConfigId='18448' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='263' LearningOutcomeConfigId='18449' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='264' LearningOutcomeConfigId='18450' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='264' LearningOutcomeConfigId='18451' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='265' LearningOutcomeConfigId='18452' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='265' LearningOutcomeConfigId='18453' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='266' LearningOutcomeConfigId='18454' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='266' LearningOutcomeConfigId='18455' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='267' LearningOutcomeConfigId='18456' LearningOutcomeGradeId='0'/><LearningOutcomes GradeId='12' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='267' LearningOutcomeConfigId='18457' LearningOutcomeGradeId='0'/></LearningOutcomes>",
-        asXseedGradesXML: "<NonXseedSubjectGrades><NonXseedSubjectGrades GradeId='11' Observation='' SubjectId='2396'/></NonXseedSubjectGrades>",
-        asMode: "Save",
-        asRemark: "STR"
 
-    };
+
+    console.log(xmlString, "xmlString");
+
+    useEffect(() => {
+        const getXML = () => {
+            let sXML = '<LearningOutcomes>';
+            USFillStudentsLearningOutcomes.map((Item) => {
+
+                sXML +=
+                    '<LearningOutcomes  ' +
+                    'GradeId="' + Item.GradeId + '" ' +
+                    'Observation="0" ' +
+                    'LearningOutcomesObservationId="0" ' +
+                    'SubjectSectionConfigurationId=" ' + Item.SubjectSectionConfigId + ' " ' +
+                    'LearningOutcomeConfigId=" ' + Item.LearningOutcomeConfigId + ' " />';
+                '/>'
+
+            });
+
+            sXML = sXML + '</LearningOutcomes>';
+            return sXML;
+        };
+
+
+        const xml = getXML();
+        setXmlString(xml);
+    }, [USFillStudentsLearningOutcomes]);
+
+
+
+    useEffect(() => {
+        const getXML1 = () => {
+            let sXML = '<NonXseedSubjectGrades>';
+            USFillNonXseedSubjectGrades.map((Item) => {
+
+                sXML +=
+                    '<NonXseedSubjectGrades  ' +
+                    'GradeId="' + Item.GradeId + '" ' +
+                    'Observation="0" ' +
+                    'SubjectId=" ' + Item.SubjectId + ' " ' +
+
+                    '/>'
+
+            });
+
+            sXML = sXML + '</NonXseedSubjectGrades>';
+            return sXML;
+        };
+
+        const xml = getXML1();
+        setXmlString1(xml);
+    }, [USFillNonXseedSubjectGrades]);
+
+
+
+
+
+
+   
 
 
 
@@ -103,13 +155,10 @@ const StudentwiseprogressreportEdit = () => {
     useEffect(() => {
         dispatch(CDAGetStandardwiseAssessmentDetails(GetStandardwiseAssessmentDetailBody));
     }, [YearwiseStudentId]);
-    useEffect(() => {
-        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
-    }, []);
+    
 
 
-    const [headerGrade, setHeaderGrade] = useState("0");
-    const [grades, setGrades] = useState({});
+
     function clickHeaderGrade(value) {
         setHeaderGrade(value);
         const updatedGrades = USFillGradeDetails.reduce((acc, student) => {
@@ -127,8 +176,7 @@ const StudentwiseprogressreportEdit = () => {
     };
 
 
-    const [textall, setTextall] = useState('');
-    const maxChars = 300;
+    
 
     const Detailschnageall3 = (event) => {
         if (event.target.value.length <= maxChars) {
@@ -137,9 +185,30 @@ const StudentwiseprogressreportEdit = () => {
     };
 
 
-    const clicksave = () => { };
+    const clicksave = () => {
+        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
+        {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asYearwiseStudentId: Number(StandardId),
+            asStandardDivisionId: Number(YearwiseStudentId),
+            asAssessmentId: Number(AssessmentId),
+            asInsertedById: asUserId,
+            asLearningOutcomeXML: xmlString,
+            asXseedGradesXML: xmlString1,
+            asMode: "Save",
+            asRemark: textall
+    
+        };
+        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+
+     };
     const Clickpublish = () => { };
     const ClickShow = () => { };
+
+
+
+
 
 
 
@@ -404,7 +473,7 @@ const StudentwiseprogressreportEdit = () => {
                                                                                     sx={{ width: '20vw', backgroundColor: 'white' }}
                                                                                     size={"small"}
                                                                                     DisableClearable={true}
-                                                                                    onChange={(value) => clickGrade(detail.GradeId, value, detail.GradeId)}
+                                                                                    onChange={(value) => clickGrade(outcome.GradeId, value, detail.GradeId)}
                                                                                     mandatory
                                                                                 />
                                                                             );
