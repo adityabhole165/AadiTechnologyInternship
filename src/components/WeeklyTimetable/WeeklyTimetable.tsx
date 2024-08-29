@@ -366,43 +366,8 @@ const WeeklyTimetable = (props: Props) => {
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
         asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
-        // asWeekDayName: 'Monday'
     }
-    const IGetTeacherSubjectMaxLecForMon: IGetTeacherSubjectMaxLecDetailsBody = {
-        asSchoolId: Number(localStorage.getItem('SchoolId')),
-        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
-        // asWeekDayName: 'Monday'
-    }
-    const IGetTeacherSubjectMaxLecForTue: IGetTeacherSubjectMaxLecDetailsBody = {
-        asSchoolId: Number(localStorage.getItem('SchoolId')),
-        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
-        // asWeekDayName: 'Tuesday'
-    }
-    const IGetTeacherSubjectMaxLecForWed: IGetTeacherSubjectMaxLecDetailsBody = {
-        asSchoolId: Number(localStorage.getItem('SchoolId')),
-        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
-        // asWeekDayName: 'Wednesday'
-    }
-    const IGetTeacherSubjectMaxLecForThu: IGetTeacherSubjectMaxLecDetailsBody = {
-        asSchoolId: Number(localStorage.getItem('SchoolId')),
-        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
-        // asWeekDayName: 'Thursday'
-    }
-    const IGetTeacherSubjectMaxLecForFri: IGetTeacherSubjectMaxLecDetailsBody = {
-        asSchoolId: Number(localStorage.getItem('SchoolId')),
-        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
-        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
-        // asWeekDayName: 'Friday'
-    }
+
     // Following f() is for Calculating the total Lec. count for each WeekDay
     const [MonCount, setMonCount] = useState<Number>();
     const [TueCount, setTueCount] = useState<Number>();
@@ -415,15 +380,11 @@ const WeeklyTimetable = (props: Props) => {
                 try {
                     await Promise.all([
                         dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
                     ]);
                     // Handle post-fetch actions here
                 } catch (error) {
                     // Handle errors here
+                    toast.error('Request Failed. Try refreshing the page.')
                 }
             };
             fetchData();
@@ -506,15 +467,11 @@ const WeeklyTimetable = (props: Props) => {
                 try {
                     await Promise.all([
                         dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
-                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
                     ]);
                     // Handle post-fetch actions here
                 } catch (error) {
                     // Handle errors here
+                    toast.error('Request Failed. Try refreshing the page.')
                 }
             };
             fetchData();
@@ -1202,7 +1159,6 @@ const WeeklyTimetable = (props: Props) => {
 
     useEffect(() => {
         if (teacher !== '0' && ApplicablesToggleData.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && TeacherTimetableCellValues.length > 0) {
-            console.log('Appli. Data', ApplicablesToggleData)
             let WeekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
             const daySetters = {
                 Monday: setMonCount,
@@ -1231,7 +1187,6 @@ const WeeklyTimetable = (props: Props) => {
                     return total + mptCount + assemblyCount + staybackCount + weeklytestCount + lecNo;
                 }, 0);
                 daySetters[day](Number(dayCount));
-                console.log(MonCount, TueCount, WedCount, ThuCount, FriCount)
             });
         }
     }, [TeacherTimetableCellValues, trackTeacherTimetable, ApplicablesToggleData, assembly, mpt, stayback, weeklytest, teacher, StayBackInfo, weeklyTestInfo, AssemblyInfo, mptInfo]);
@@ -2183,7 +2138,7 @@ const WeeklyTimetable = (props: Props) => {
                     </Stack>
                 </Box>
             </Box>
-            {/* Add additional lectures */}
+            {/* Additional Lecture Pop-Up Reusable Component */}
             <AddLecture Value1={filterBy === 'Teacher' ? teacherName : `${standardName} - ${divisionName}`} ValErrorMsgList={GetValidateAddDataForTeacherMsgList !== undefined && checkErrorMsgLength1(GetValidateAddDataForTeacherMsgList[0]) ? GetValidateAddDataForTeacherMsgList : []} ValError={DuplicateLecturesMsg?.length > 0 ? DuplicateLecturesMsg : ''} Open={showAddAdditionalLectures} onSubmit={filterBy === 'Teacher' ? SubmitAdditionalLecture : SubmitAddtionalLecForClass} Heading={filterBy === 'Teacher' ? `Assign additional lectures to teacher` : `Assign optional subject lectures to class`}
                 OnClose={() => { setShowAddAdditionalLectures(false); dispatch(CDAClearValidateAdditionalDataForTeacher()); }} ItemList2={AddLecWeekDays} OnChange1={(value) => {
                     setAddLecForWeekDayId(value);

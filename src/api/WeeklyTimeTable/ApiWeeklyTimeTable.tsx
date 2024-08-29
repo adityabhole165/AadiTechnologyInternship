@@ -27,18 +27,18 @@ const GetDivisionForStdDropdownApi = (data: IGetDivisionForStdDropdownBody) => {
     return http.post<IGetDivisionForStdDropdownResult[]>('Teacher/GetAllDivisionsForStandardDropDown', data)
 }
 
-// const GetTeacherSubjectMaxLecDetailsApi = (data: IGetTeacherSubjectMaxLecDetailsBody) => {
-//     return http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data)
-// }
+const GetTeacherSubjectMaxLecDetailsApi = (data: IGetTeacherSubjectMaxLecDetailsBody) => {
+    return http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data)
+}
 
-const GetTeacherSubjectMaxLecDetailsApi = async (data: IGetTeacherSubjectMaxLecDetailsBody) => {
-    try {
-        return await http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data);
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
+// const GetTeacherSubjectMaxLecDetailsApi = async (data: IGetTeacherSubjectMaxLecDetailsBody) => {
+//     try {
+//         return await http.post<IGetTeacherSubjectMaxLecDetailsResult>('Teacher/GetTeacherSubjectMaxLecDetails', data);
+//     } catch (error) {
+//         console.log(error);
+//         throw error;
+//     }
+// };
 
 
 const GetTimeTableForTeacherApi = (data: IGetTimeTableForTeacherBody) => {
