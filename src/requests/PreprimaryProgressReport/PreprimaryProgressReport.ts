@@ -161,7 +161,7 @@ export const CDAAllPrimaryClassTeachers =
     let FillGradeDetails = [{ Id: '0', Name: 'Select', Value: '0',Description:'', SortOrder:'',ConsideredAsAbsent:'',ConsideredAsExempted:'',GradeId:'0'}];
     response.data.FillGradeDetails.map((item, i) => {
       FillGradeDetails.push({
-    Id: item.GradeId,
+      Id: item.GradeId,
       Name: item.GradeName,
       Value: item.GradeId,
       Description: item.Description,

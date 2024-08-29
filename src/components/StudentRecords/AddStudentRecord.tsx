@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody, IMarkRecordAsReadBody, ISaveStudentRecordBody, ISubmitStudentRecordBody, ISubmitStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord, resetGetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetMarkRecordAsRead, GetSaveStudentRecord, GetStudentRecordCommentEdit, GetStudentRecordData, GetSubmitStudentRecord, GetSubmitStudentRecordComment, resetGetMarkRecordAsRead, resetGetSaveStudentRecord, resetGetSubmitStudentRecord, resetGetSubmitStudentRecordComment } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import StudentRecordComment from './StudentRecordComment';
@@ -60,6 +60,9 @@ const AddStudentRecord = () => {
     const SaveStudentRecordUS = useSelector(
         (state: RootState) => state.AddStudentRecords.savestudentrecordmsg
     );
+    const SubmitStudentRecordUS = useSelector(
+        (state: RootState) => state.AddStudentRecords.submitStudentRecordmsg
+    );
     const MarkRecordAsReadUS = useSelector(
         (state: RootState) => state.AddStudentRecords.markrecordAsreadmsg
     );
@@ -103,6 +106,13 @@ const AddStudentRecord = () => {
             dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [SaveStudentRecordUS])
+    useEffect(() => {
+        if (SubmitStudentRecordUS !== '') {
+            toast.success(SubmitStudentRecordUS, { toastId: 'success1' });
+            dispatch(resetGetSubmitStudentRecord());
+            dispatch(GetStudentRecordData(GetStudentRecordDataResult));
+        }
+    }, [SubmitStudentRecordUS])
     useEffect(() => {
         if (MarkRecordAsReadUS !== '') {
             toast.success(MarkRecordAsReadUS, { toastId: 'success1' });
@@ -316,7 +326,17 @@ const AddStudentRecord = () => {
         })
         return returnVal
     }
-
+    const hideshowLoginuser = () => {
+        let returnVal = true
+        listCommentDetailsUS.map((item) => {
+            if (item.LoginUserDesignation == "1") {
+                if (item.LoginUserDesignation == "2") {
+                    returnVal = false
+                }
+            }
+        })
+        return returnVal = false
+    }
 
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -356,46 +376,50 @@ const AddStudentRecord = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
+                        {hideshowLoginuser() && (
+                            <React.Fragment>
+                                <Box>
+                                    <Tooltip title={'Save'}>
+                                        <span>
+                                            <IconButton
+                                                sx={{
+                                                    backgroundColor: green[500],
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: green[600]
+                                                    }
+                                                }}
+                                                onClick={onClickSave}
+                                                disabled={disableSave()}
+                                            >
+                                                <Save />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Box>
 
-                        < Box >
-                            <Tooltip title={'Save'}>
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            backgroundColor: green[500],
-                                            color: 'white',
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={onClickSave}
-                                        disabled={disableSave()}
-                                    >
-                                        <Save />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        </Box>
+                                <Box>
+                                    <Tooltip title={'Submit'}>
+                                        <span>
+                                            <IconButton
+                                                sx={{
+                                                    backgroundColor: green[500],
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: green[600]
+                                                    }
+                                                }}
+                                                onClick={onClickSubmit}
+                                                disabled={disableSubmit()}
+                                            >
+                                                <Check />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Box>
+                            </React.Fragment>
+                        )}
 
-                        <Box>
-                            <Tooltip title={'Submit'}>
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            backgroundColor: green[500],
-                                            color: 'white',
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={onClickSubmit}
-                                        disabled={disableSubmit()}
-                                    >
-                                        <Check />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        </Box>
                         <Box>
                             <Tooltip title={'Add Comment'}>
                                 <span>

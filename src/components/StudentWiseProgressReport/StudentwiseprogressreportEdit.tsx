@@ -23,6 +23,8 @@ const StudentwiseprogressreportEdit = () => {
     const [Error1, SetError1] = useState('');
     const [headerGrade, setHeaderGrade] = useState("0");
     const [grades, setGrades] = useState({});
+     console.log(grades);
+     
     const [textall, setTextall] = useState('');
     const maxChars = 300;
     const [xmlString, setXmlString] = useState('');
@@ -57,7 +59,6 @@ const StudentwiseprogressreportEdit = () => {
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
 
 
-    console.log(USManageStudentWiseAssessmentGrades, "-----ll");
 
 
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
@@ -81,67 +82,6 @@ const StudentwiseprogressreportEdit = () => {
 
 
 
-    console.log(xmlString, "xmlString");
-
-    useEffect(() => {
-        const getXML = () => {
-            let sXML = '<LearningOutcomes>';
-            USFillStudentsLearningOutcomes.map((Item) => {
-
-                sXML +=
-                    '<LearningOutcomes  ' +
-                    'GradeId="' + Item.GradeId + '" ' +
-                    'Observation="0" ' +
-                    'LearningOutcomesObservationId="0" ' +
-                    'SubjectSectionConfigurationId=" ' + Item.SubjectSectionConfigId + ' " ' +
-                    'LearningOutcomeConfigId=" ' + Item.LearningOutcomeConfigId + ' " />';
-                '/>'
-
-            });
-
-            sXML = sXML + '</LearningOutcomes>';
-            return sXML;
-        };
-
-
-        const xml = getXML();
-        setXmlString(xml);
-    }, [USFillStudentsLearningOutcomes]);
-
-
-
-    useEffect(() => {
-        const getXML1 = () => {
-            let sXML = '<NonXseedSubjectGrades>';
-            USFillNonXseedSubjectGrades.map((Item) => {
-
-                sXML +=
-                    '<NonXseedSubjectGrades  ' +
-                    'GradeId="' + Item.GradeId + '" ' +
-                    'Observation="0" ' +
-                    'SubjectId=" ' + Item.SubjectId + ' " ' +
-
-                    '/>'
-
-            });
-
-            sXML = sXML + '</NonXseedSubjectGrades>';
-            return sXML;
-        };
-
-        const xml = getXML1();
-        setXmlString1(xml);
-    }, [USFillNonXseedSubjectGrades]);
-
-
-
-
-
-
-   
-
-
-
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
 
@@ -157,23 +97,60 @@ const StudentwiseprogressreportEdit = () => {
     }, [YearwiseStudentId]);
     
 
-
+    useEffect(() => {
+        if (USFillStudentsLearningOutcomes.length > 0) {
+            const initialGrades = USFillStudentsLearningOutcomes.reduce((acc, student) => {
+                acc[student.LearningOutcomeConfigId] =student.GradeId;
+                return acc;
+            }, {});
+            setGrades(initialGrades);
+        }
+    }, [USFillStudentsLearningOutcomes])
 
     function clickHeaderGrade(value) {
         setHeaderGrade(value);
-        const updatedGrades = USFillGradeDetails.reduce((acc, student) => {
-            acc[student.GradeId] = `${value}-${student.GradeId}`;
+        const updatedGrades = USFillStudentsLearningOutcomes.reduce((acc, student) => {
+            acc[student.LearningOutcomeConfigId] = value;
             return acc;
         }, {});
         setGrades(updatedGrades);
     }
 
-    const clickGrade = (learningOutcomeId, value, gradeConfigId) => {
+    const clickGrade = (value,LearningOutcomeConfigId) => {
         setGrades((prevGrades) => ({
             ...prevGrades,
-            [learningOutcomeId]: `${value}-${gradeConfigId}`,
+            [LearningOutcomeConfigId]:value ,
         }));
     };
+
+
+
+    function learningOutcomeXML() {
+        let sXML = '';
+        USFillStudentsLearningOutcomes.forEach((student) => {
+            const learningOutcomeConfigId = student.LearningOutcomeConfigId;
+            const gradeId = grades[learningOutcomeConfigId]
+            const SubjectSectionConfigId = student.SubjectSectionConfigId;
+            const gradeValue = grades[student.LearningOutcomeConfigId] ? grades[student.LearningOutcomeConfigId] : student.GradeId;
+            sXML += `<LearningOutcomes Observation="0" GradeId='${gradeValue}' LearningOutcomesObservationId="0" SubjectSectionConfigurationId='${SubjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}'/>`
+
+        });
+        sXML = `<LearningOutcomes>${sXML}</LearningOutcomes>`
+        return sXML;
+    }
+
+    function learningOutcomeXML1() {
+        let sXML = '';
+        USFillNonXseedSubjectGrades.forEach((student) => {
+            const GradeId = student.GradeId;
+         
+            const SubjectId = student.SubjectId;
+            sXML += `<LearningOutcomes  GradeId='${GradeId}' Observation="0" SubjectId='${SubjectId}'/>`
+        });
+        sXML = `<NonXseedSubjectGrades>${sXML}</NonXseedSubjectGrades>`
+        return sXML;
+    }
+ 
 
 
     
@@ -194,8 +171,8 @@ const StudentwiseprogressreportEdit = () => {
             asStandardDivisionId: Number(YearwiseStudentId),
             asAssessmentId: Number(AssessmentId),
             asInsertedById: asUserId,
-            asLearningOutcomeXML: xmlString,
-            asXseedGradesXML: xmlString1,
+            asLearningOutcomeXML: learningOutcomeXML(),
+            asXseedGradesXML:  learningOutcomeXML1(),
             asMode: "Save",
             asRemark: textall
     
@@ -457,27 +434,19 @@ const StudentwiseprogressreportEdit = () => {
                                                         {outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId && (
                                                             <TableRow>
                                                                 <TableCell sx={{ py: 1 }}>
-                                                                    {USFillGradeDetails.filter(detail => detail.GradeId === outcome.GradeId)
-                                                                        .map((detail) => {
-                                                                            // Determine the default value for the dropdown
-                                                                            const defaultValue = grades[detail.GradeId]
-                                                                                ? grades[detail.GradeId].split('-')[0]
-                                                                                : outcome.GradeId;
-
-                                                                            return (
+                                                                   
                                                                                 <SearchableDropdown
-                                                                                    key={detail.Id}
+                                                                                    key={outcome.LearningOutcomeConfigId}
                                                                                     ItemList={USFillGradeDetails}
-                                                                                    defaultValue={defaultValue}
+                                                                                    defaultValue={ grades[outcome.LearningOutcomeConfigId]}
                                                                                     label={''}
                                                                                     sx={{ width: '20vw', backgroundColor: 'white' }}
                                                                                     size={"small"}
                                                                                     DisableClearable={true}
-                                                                                    onChange={(value) => clickGrade(outcome.GradeId, value, detail.GradeId)}
+                                                                                    onChange={(value) => clickGrade( value ,  outcome.LearningOutcomeConfigId)}
                                                                                     mandatory
                                                                                 />
-                                                                            );
-                                                                        })}
+                                                                        
                                                                 </TableCell>
 
                                                             </TableRow>
@@ -505,7 +474,7 @@ const StudentwiseprogressreportEdit = () => {
                                         textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                                         py: 1
                                     }}>Subject</TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
+                                    {/* <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                         <SearchableDropdown
                                             ItemList={USFillGradeDetails}
                                             defaultValue={headerGrade}
@@ -516,14 +485,14 @@ const StudentwiseprogressreportEdit = () => {
                                             onChange={clickHeaderGrade}
                                             mandatory
                                         />
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell sx={{
                                         textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                                         py: 1
                                     }}>Facilitator's Observation</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            {/* <TableBody>
                                 {USFillNonXseedSubjectGrades.map((row) => (
                                     <TableRow key={row.YearwiseStudentId}>
                                         <TableCell sx={{ py: 1 }}>{row.SubjectName}</TableCell>
@@ -543,7 +512,7 @@ const StudentwiseprogressreportEdit = () => {
                                         <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
                                     </TableRow>
                                 ))}
-                            </TableBody>
+                            </TableBody> */}
                         </Table>
                     </TableContainer>
                 </div>
