@@ -19,6 +19,7 @@ const Dashboardlice = createSlice({
     BirthdayList: [],
     UnreadMessage: [],
     UnreadMessageCount: '',
+    SenderPhoto: [],
     UpcomingEventsList: [],
     PhotoAlbumList: [],
     FeedbackList: [],
@@ -40,7 +41,10 @@ const Dashboardlice = createSlice({
       state.Loading = false;
       state.UnreadMessageCount = action.payload;
     },
-
+    getSenderPhoto(state, action) {
+      state.Loading = false;
+      state.SenderPhoto = action.payload;
+    },
     getEventsList(state, action) {
       state.UpcomingEventsList = action.payload.UpcomingEventsData;
     },
@@ -82,6 +86,7 @@ export const getUnreadMessages =
       const response = await DashboardApi.GetUnreadMessageList(data);
       dispatch(Dashboardlice.actions.getUnreadMessages(response.data.UnreadMessages));
       dispatch(Dashboardlice.actions.getUnreadMessageCount(response.data.UnreadMessageCount.toString()));
+      dispatch(Dashboardlice.actions.getSenderPhoto(response.data.SenderPhoto));
     };
 
 export const getEventsList =
