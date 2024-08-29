@@ -326,6 +326,22 @@ const AddStudentRecord = () => {
         })
         return returnVal
     }
+    const disableMarkAsRead = () => {
+        let returnVal = true
+        if (listCommentDetailsUS.length == 0) {
+            returnVal = false
+        }
+        else {
+            listCommentDetailsUS.map((item) => {
+                if (item.IsDefaultComment == "False") {
+                    if (item.IsSubmitted == "True") {
+                        returnVal = false
+                    }
+                }
+            })
+        }
+        return returnVal
+    }
     const hideshowLoginuser = () => {
         let returnVal = true
         if (listCommentDetailsUS.length == 0) {
@@ -475,7 +491,7 @@ const AddStudentRecord = () => {
                                                 }
                                             }}
                                             onClick={onClickMarkAsRead}
-                                            disabled={disableSave()}
+                                            disabled={disableMarkAsRead()}
                                         >
                                             <MarkEmailReadIcon />
                                         </IconButton>
