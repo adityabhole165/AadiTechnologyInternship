@@ -150,7 +150,7 @@ const AssignPrePrimaryGrades = () => {
     // }
   };
 
-  const ClickUnSubmit = (value, StandardDivisionID, pending) => {
+  const ClickUnSubmit = (value, StandardDivisionID, pending, IsPublished) => {
     const SubmitExamMarksStatusBody: IGetSubmitUnsubmitExamMarksStatusBody = {
       asStandard_Division_Id: Number(StandardDivisionID),
       asAssessmentId: Number(SelectTerm),
@@ -237,9 +237,9 @@ const AssignPrePrimaryGrades = () => {
   const clickSelectClass = (value) => {
     SetselectTeacher(value);
   };
-  const clickEdit = (SubmitStatusId, ClassName, SubjectName, SubjectId, StandardDivisionID, IsXseed) => {
-    let EditStatusId = SubmitStatusId
-    let StandardDivisionId = StandardDivisionID
+  const clickEdit = (SubmitStatusId, ClassName, SubjectName, SubjectId, StandardDivisionID, IsXseed, IsPublished) => {
+    let EditStatusId = IsPublished === 'Y' ? '3P' : SubmitStatusId;
+    let StandardDivisionId = StandardDivisionID;
     let Assesment: string;
     let isXseed = IsXseed;
     USGetTestwiseTerm.forEach(AssesmentArray => {

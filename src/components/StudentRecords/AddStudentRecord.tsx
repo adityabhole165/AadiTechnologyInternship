@@ -329,13 +329,12 @@ const AddStudentRecord = () => {
     const hideshowLoginuser = () => {
         let returnVal = true
         listCommentDetailsUS.map((item) => {
-            if (item.LoginUserDesignation == "1") {
-                if (item.LoginUserDesignation == "2") {
-                    returnVal = false
-                }
+            if ((item.IsDefaultComment == "True" && item.IsSubmitted == "True") &&
+                (item.LoginUserDesignation == "1" || (item.LoginUserDesignation == "2"))) {
+                returnVal = false
             }
         })
-        return returnVal = false
+        return returnVal
     }
 
     return (
