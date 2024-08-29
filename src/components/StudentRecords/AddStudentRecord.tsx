@@ -326,7 +326,17 @@ const AddStudentRecord = () => {
         })
         return returnVal
     }
-
+    const hideshowLoginuser = () => {
+        let returnVal = true
+        listCommentDetailsUS.map((item) => {
+            if (item.LoginUserDesignation == "1") {
+                if (item.LoginUserDesignation == "2") {
+                    returnVal = false
+                }
+            }
+        })
+        return returnVal = false
+    }
 
     return (
         <Box sx={{ px: 2 }} maxWidth="xl">
@@ -366,46 +376,50 @@ const AddStudentRecord = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
+                        {hideshowLoginuser() && (
+                            <React.Fragment>
+                                <Box>
+                                    <Tooltip title={'Save'}>
+                                        <span>
+                                            <IconButton
+                                                sx={{
+                                                    backgroundColor: green[500],
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: green[600]
+                                                    }
+                                                }}
+                                                onClick={onClickSave}
+                                                disabled={disableSave()}
+                                            >
+                                                <Save />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Box>
 
-                        < Box >
-                            <Tooltip title={'Save'}>
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            backgroundColor: green[500],
-                                            color: 'white',
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={onClickSave}
-                                        disabled={disableSave()}
-                                    >
-                                        <Save />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        </Box>
+                                <Box>
+                                    <Tooltip title={'Submit'}>
+                                        <span>
+                                            <IconButton
+                                                sx={{
+                                                    backgroundColor: green[500],
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: green[600]
+                                                    }
+                                                }}
+                                                onClick={onClickSubmit}
+                                                disabled={disableSubmit()}
+                                            >
+                                                <Check />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Box>
+                            </React.Fragment>
+                        )}
 
-                        <Box>
-                            <Tooltip title={'Submit'}>
-                                <span>
-                                    <IconButton
-                                        sx={{
-                                            backgroundColor: green[500],
-                                            color: 'white',
-                                            '&:hover': {
-                                                backgroundColor: green[600]
-                                            }
-                                        }}
-                                        onClick={onClickSubmit}
-                                        disabled={disableSubmit()}
-                                    >
-                                        <Check />
-                                    </IconButton>
-                                </span>
-                            </Tooltip>
-                        </Box>
                         <Box>
                             <Tooltip title={'Add Comment'}>
                                 <span>
