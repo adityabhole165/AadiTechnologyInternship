@@ -8,10 +8,10 @@ import { toast } from 'react-toastify';
 import Datepicker1 from 'src/components/StudentRecords/DateField';
 import TimeField from 'src/components/StudentRecords/TimeField';
 import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetStudentRecordCommentBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
+import { IGetStudentRecordCommentBody, IGetStudentRecordDataBody } from 'src/interfaces/StudentRecords/IAddStudentRecords';
 import { IGetDeleteCommentBody, IGetSaveandSubmitCommentBody, IGetSaveCommentBody } from 'src/interfaces/StudentRecords/IStudentRecordComment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import { GetStudentRecordCommentEdit } from 'src/requests/StudentRecords/RequestAddStudentRecords';
+import { GetStudentRecordCommentEdit, GetStudentRecordData } from 'src/requests/StudentRecords/RequestAddStudentRecords';
 import { DeleteCommentDetails, getSaveandSubmitComment, getSaveComment, resetDeleteHolidayDetails, resetSaveandSubmitComment, resetSaveComment } from 'src/requests/StudentRecords/RequestStudentRecordComment';
 import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
@@ -59,10 +59,12 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
     const ClickCancel = () => {
 
     }
-    const GetStudentRecordCommentEditResult: IGetStudentRecordCommentBody = {
+    const GetStudentRecordDataResult: IGetStudentRecordDataBody = {
         asSchoolId: asSchoolId,
         asSchoolwiseStudentId: Number(SchoolWiseStudentIdparam),
-        asCommentId: Number(CommentId)    /* 3279*/
+        asAcademicYearId: asAcademicYearId,
+        asIsReadMode: "false",
+        asUserId: asUserId
 
     }
     useEffect(() => {
@@ -97,7 +99,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
         showAlert({
             title: 'Please Confirm',
             message:
-                'Are you sure you want to delete this holiday?  ',
+                'Are you sure you want to delete this comment?  ',
             variant: 'warning',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
@@ -117,19 +119,21 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
         if (deleteCommentMsg != '') {
             toast.success(deleteCommentMsg)
             dispatch(resetDeleteHolidayDetails());
-            // dispatch(getHolidaysF(body));
+            dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [deleteCommentMsg])
     useEffect(() => {
         if (Savecomment != '') {
             toast.success(Savecomment)
             dispatch(resetSaveComment());
+            dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [Savecomment])
     useEffect(() => {
         if (SaveandSubmitcommentUS != '') {
             toast.success(SaveandSubmitcommentUS)
             dispatch(resetSaveandSubmitComment());
+            // dispatch(GetStudentRecordData(GetStudentRecordDataResult));
         }
     }, [SaveandSubmitcommentUS])
     const onSelectSrDate = (value) => {
@@ -309,7 +313,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
             <DialogActions sx={{ py: 2, px: 3 }}>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
-                       
+
                         {(listCommentDetailsUS.length > 0) &&
                             <Button sx={{
                                 color: 'red',
@@ -323,7 +327,7 @@ const StudentRecordComment = ({ open, setOpen, ClickCloseDialogbox, CommentId, S
                         }} onClick={handleDialogClose}>
                             Cancel
                         </Button>
-                       
+
                         <Button sx={{
                             color: 'green',
                             ':hover': { backgroundColor: green[100] }
