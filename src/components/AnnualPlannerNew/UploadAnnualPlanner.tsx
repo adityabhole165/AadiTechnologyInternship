@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IAddAnnualPlannerBody, IDeleteFileDetailsBody, IGetFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { DeleteFile, GetFile, addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
@@ -30,7 +31,7 @@ const UploadAnnualPlanner = ({
   const UserId = sessionStorage.getItem('Id');
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const FileDetails: any = useSelector(
     (state: RootState) => state.AddPlanner.getfile
   );
@@ -80,18 +81,44 @@ const UploadAnnualPlanner = ({
     dispatch(GetFile(GetFileDetailsBody));
   }, []);
 
-  const clickDelete = async () => {
-    if (window.confirm("Are you sure you want to delete current Annual Planner file?")) {
-      try {
-        await dispatch(DeleteFile(DeleteFileDetailsBody));
-        dispatch(GetFile(GetFileDetailsBody));
-        toast.success('File Deleted Successfully', { toastId: 'success1' });
-      } catch (error) {
-        console.error('Error deleting file:', error);
-        toast.error('Error deleting file', { toastId: 'error1' });
+  // const clickDelete = async () => {
+  //   if (window.confirm("Are you sure you want to delete current Annual Planner file?")) {
+  //     try {
+  //       await dispatch(DeleteFile(DeleteFileDetailsBody));
+  //       dispatch(GetFile(GetFileDetailsBody));
+  //       toast.success('File Deleted Successfully', { toastId: 'success1' });
+  //     } catch (error) {
+  //       console.error('Error deleting file:', error);
+  //       toast.error('Error deleting file', { toastId: 'error1' });
+  //     }
+  //   }
+  // };
+
+  const clickDelete = () => {
+    showAlert({
+      title: 'Please Confirm',
+      message: 'Are you sure you want to delete the current Annual Planner file?',
+      variant: 'warning',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: async () => {
+        try {
+          await dispatch(DeleteFile(DeleteFileDetailsBody));
+          dispatch(GetFile(GetFileDetailsBody));
+          toast.success('File Deleted Successfully', { toastId: 'success1' });
+        } catch (error) {
+          console.error('Error deleting file:', error);
+          toast.error('Error deleting file', { toastId: 'error1' });
+        } finally {
+          closeAlert();
+        }
       }
-    }
+    });
   };
+
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
@@ -106,7 +133,7 @@ const UploadAnnualPlanner = ({
       //localStorage.getItemItem("SiteURL", window.location.pathname)
     }
   };
-  
+
   const handleClose = (value) => {
     setOpen(false)
   }
@@ -124,29 +151,32 @@ const UploadAnnualPlanner = ({
             borderRadius: "15px",
           }
         }}
-        >
+      >
         <DialogTitle
-          sx={{bgcolor: '#223354',
+          sx={{
+            bgcolor: '#223354',
             // py: 1,
             // backgroundColor: (theme) => theme.colors.primary.main,
             color: (theme) => theme.palette.common.white
           }}
         >
-           <ClearIcon  onClick={() => {
-              setOpenAnnualPlannerDialog(false);
-            }}
-        sx={{ color: 'White', 
-          borderRadius: '7px',
-          position: 'absolute', 
-          top: '5px', right: '5px', 
-          cursor: 'pointer',
-          '&:hover': {
-                  color: 'red',}
-         }} />
+          <ClearIcon onClick={() => {
+            setOpenAnnualPlannerDialog(false);
+          }}
+            sx={{
+              color: 'White',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px', right: '5px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              }
+            }} />
         </DialogTitle>
         <DialogContent dividers>
           <Box>
-         
+
             <Typography variant={'h3'}>Upload Annual Planner</Typography>
             <Box sx={{ mt: 2 }}>
               {/* while file is not selected */}
@@ -209,12 +239,13 @@ const UploadAnnualPlanner = ({
             // color={'success'}
             // variant={'contained'}
             sx={{
-              color:'green',
-               //  backgroundColor: grey[500],
-                '&:hover': {
-              color:'green',
-               backgroundColor: green[100]
-                }}}>
+              color: 'green',
+              //  backgroundColor: grey[500],
+              '&:hover': {
+                color: 'green',
+                backgroundColor: green[100]
+              }
+            }}>
 
             Save
           </Button>
