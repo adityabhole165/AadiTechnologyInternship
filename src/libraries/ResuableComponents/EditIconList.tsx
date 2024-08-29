@@ -57,19 +57,19 @@ function EditIconList({
                   {item.Text3 === '3' ? (
                     <IconButton>
                       <Tooltip title="Marks entry completed">
-                        <CheckIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed)} sx={{ cursor: 'pointer', color: '#07bc0c' }} />
+                        <CheckIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed, item.Text6)} sx={{ cursor: 'pointer', color: '#07bc0c' }} />
                       </Tooltip>
                     </IconButton>
                   ) : item.Text3 === '2' ? (
                     <IconButton>
                       <Tooltip title="Marks entry partially done">
-                        <DesignServicesIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed)} sx={{ cursor: 'pointer', color: 'orange' }} />
+                        <DesignServicesIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed, item.Text6)} sx={{ cursor: 'pointer', color: 'orange' }} />
                       </Tooltip>
                     </IconButton>
                   ) : (
                     <IconButton>
                       <Tooltip title="Marks entry not started">
-                        <EditOffIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed)} sx={{ cursor: 'pointer', color: '#f44336' }} />
+                        <EditOffIcon onClick={() => clickEdit(item.Text4, item.Text1, item.Text2, item.SubjectId, item.StandardDivisionID, item.IsXseed, item.Text6)} sx={{ cursor: 'pointer', color: '#f44336' }} />
                       </Tooltip>
                     </IconButton>
                   )}
@@ -85,15 +85,15 @@ function EditIconList({
                         />
                       </Tooltip>
                     </IconButton>
-                  ) : item.Text4 === '3' ? (
+                  ) : item.Text4 === '3' && item.Text6 === 'N' ? (
                     <IconButton>
                       <Tooltip title="Unsubmit exam marks">
                         <EventBusyIcon onClick={() =>
-                          clickUnSubmit(item.SubjectId, item.StandardDivisionID, item.Text5)
+                          clickUnSubmit(item.SubjectId, item.StandardDivisionID, item.Text5, item.Text6)
                         } sx={{ cursor: 'pointer', color: 'black' }} />
                       </Tooltip>
                     </IconButton>
-                  ) : (
+                  ) : item.Text4 === '3' && item.Text6 === 'Y' ? (<span>Marks are already published.</span>) : (
                     <span>Marks cannot be submitted.</span>
                   )}
 

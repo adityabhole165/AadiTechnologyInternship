@@ -108,6 +108,7 @@ export interface IGetTeacherXseedSubjectsResult {
   SubmitStatus: string;
   IsXseedSubject: string;
   IncompleteRollNoString: string;
+  IsPublished: string;
 }
 
 export interface ISubmitExamMarksStatusBody {
