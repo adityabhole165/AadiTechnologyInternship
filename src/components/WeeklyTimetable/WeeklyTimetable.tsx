@@ -16,7 +16,7 @@ import { IGetCheckDuplicateLecturesMsgBody, IGetClassTimeTableBody, IGetDeleteAd
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader'
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers } from "src/requests/Teacher/TMtimetable"
-import { CDAClassLecNoWeekday, CDAClassSubjectBaseLecList, CDAClearDuplicateLecturesMsg, CDAClearManageClassTimeTable, CDAClearValidateAdditionalDataForTeacher, CDAClearValidateAddLecTeacherData, CDAClearValidateClassData, CDAClearValidateTeacherData, CDAClearWeeklyClassTimetableValues, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAddClassPopUp, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetGroupwiseOptSub, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForFri, CDAGetTeacherSubjectMaxLecDetailsForMon, CDAGetTeacherSubjectMaxLecDetailsForThu, CDAGetTeacherSubjectMaxLecDetailsForTue, CDAGetTeacherSubjectMaxLecDetailsForWed, CDAMutedDeleteAdditionalLectures, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveAddClassTimetable, CDASaveAddTeacherTimetable, CDASaveClassTimetable, CDASaveClassTimetableWithIncr, CDASaveTeacherTimetable, CDASaveTeacherTimetableWithIncr, ResetSaveClassTimetableMsg, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAClassLecNoWeekday, CDAClassSubjectBaseLecList, CDAClearDuplicateLecturesMsg, CDAClearManageClassTimeTable, CDAClearValidateAdditionalDataForTeacher, CDAClearValidateAddLecTeacherData, CDAClearValidateClassData, CDAClearValidateTeacherData, CDAClearWeeklyClassTimetableValues, CDAClearWeeklyTeacherTimetableValues, CDADeleteAdditionalLectures, CDAGetDataForAddClassPopUp, CDAGetDataForAdditionalClasses, CDAGetDivisionName, CDAGetGroupwiseOptSub, CDAGetLectureNoWeekday, CDAGetResetTimetableMsgClear, CDAGetStandardNameList, CDAGetTeachersList, CDAGetTeacherSubjectMaxLecDetailsForWeekDays, CDAMutedDeleteAdditionalLectures, CDAResetDeleteAdditionalLecture, CDAResetDeleteAdditionalLectures, CDAResetTimetable, CDASaveAddClassTimetable, CDASaveAddTeacherTimetable, CDASaveClassTimetable, CDASaveClassTimetableWithIncr, CDASaveTeacherTimetable, CDASaveTeacherTimetableWithIncr, ResetSaveClassTimetableMsg, ResetSaveTeacherTimetableMsg } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import { GetScreenPermission } from '../Common/Util'
 import CommonPageHeader from "../CommonPageHeader"
@@ -361,40 +361,47 @@ const WeeklyTimetable = (props: Props) => {
         asStandardDivisionId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
     }
     // Dispatch to get Timetable subject dropdowns for Teachers selection.. (Mon to Fri)
+    const IGetTeacherSubjectMaxLecForWeekDay: IGetTeacherSubjectMaxLecDetailsBody = {
+        asSchoolId: Number(localStorage.getItem('SchoolId')),
+        asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+        asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+        // asWeekDayName: 'Monday'
+    }
     const IGetTeacherSubjectMaxLecForMon: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
-        asWeekDayName: 'Monday'
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+        // asWeekDayName: 'Monday'
     }
     const IGetTeacherSubjectMaxLecForTue: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
-        asWeekDayName: 'Tuesday'
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+        // asWeekDayName: 'Tuesday'
     }
     const IGetTeacherSubjectMaxLecForWed: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
-        asWeekDayName: 'Wednesday'
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+        // asWeekDayName: 'Wednesday'
     }
     const IGetTeacherSubjectMaxLecForThu: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
-        asWeekDayName: 'Thursday'
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+        // asWeekDayName: 'Thursday'
     }
     const IGetTeacherSubjectMaxLecForFri: IGetTeacherSubjectMaxLecDetailsBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
         asTeacherId: filterBy === 'Teacher' && teacher !== '0' ? Number(teacher) : 0,
-        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0,
-        asWeekDayName: 'Friday'
+        asStandardDivId: filterBy === 'Class' && division !== '0' ? Number(division) : 0
+        // asWeekDayName: 'Friday'
     }
     // Following f() is for Calculating the total Lec. count for each WeekDay
     const [MonCount, setMonCount] = useState<Number>();
@@ -407,11 +414,12 @@ const WeeklyTimetable = (props: Props) => {
             const fetchData = async () => {
                 try {
                     await Promise.all([
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
                     ]);
                     // Handle post-fetch actions here
                 } catch (error) {
@@ -497,11 +505,12 @@ const WeeklyTimetable = (props: Props) => {
             const fetchData = async () => {
                 try {
                     await Promise.all([
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
-                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
+                        dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForMon(IGetTeacherSubjectMaxLecForMon)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForTue(IGetTeacherSubjectMaxLecForTue)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForWed(IGetTeacherSubjectMaxLecForWed)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForThu(IGetTeacherSubjectMaxLecForThu)),
+                        // dispatch(CDAGetTeacherSubjectMaxLecDetailsForFri(IGetTeacherSubjectMaxLecForFri)),
                     ]);
                     // Handle post-fetch actions here
                 } catch (error) {

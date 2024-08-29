@@ -805,6 +805,98 @@ export const CDAGetDivisionName =
             dispatch(WeeklyTimeTableSlice.actions.RGetDivisionName(responseData));
 
         }
+// For Entire WeekDays Dropdown API Call  
+export const CDAGetTeacherSubjectMaxLecDetailsForWeekDays =
+    (data: IGetTeacherSubjectMaxLecDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(WeeklyTimeTableSlice.actions.getLoading(true));
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForMon());
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForTue());
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForWed());
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForThu());
+            await dispatch(WeeklyTimeTableSlice.actions.RClearTeacherSubjectMaxLecForFri());
+            const response = await WeeklyTimeTableApi.GetTeacherSubjectMaxLecDetailsApi(data);
+            const MondayData = response.data.TeacherSubjectMaxLecDetails.filter((item, i) => item.WeekDay_Name === 'Monday');
+            const MondayColData = MondayData.map((item, i) => {
+                return (
+                    {
+                        Id: item.Teacher_Subject_Id,
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
+                        Value: item.Teacher_Subject_Id,
+                        StdDivId: item.Standard_Division_Id,
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
+                    }
+                )
+            })
+            const TuesdayData = response.data.TeacherSubjectMaxLecDetails.filter((item, i) => item.WeekDay_Name === 'Tuesday');
+            const TuesdayColData = TuesdayData.map((item, i) => {
+                return (
+                    {
+                        Id: item.Teacher_Subject_Id,
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
+                        Value: item.Teacher_Subject_Id,
+                        StdDivId: item.Standard_Division_Id,
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
+                    }
+                )
+            })
+            const WednesdayData = response.data.TeacherSubjectMaxLecDetails.filter((item, i) => item.WeekDay_Name === 'Wednesday');
+            const WednesdayColData = WednesdayData.map((item, i) => {
+                return (
+                    {
+                        Id: item.Teacher_Subject_Id,
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
+                        Value: item.Teacher_Subject_Id,
+                        StdDivId: item.Standard_Division_Id,
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
+                    }
+                )
+            })
+            const ThursdayData = response.data.TeacherSubjectMaxLecDetails.filter((item, i) => item.WeekDay_Name === 'Thursday');
+            const ThursdayColData = ThursdayData.map((item, i) => {
+                return (
+                    {
+                        Id: item.Teacher_Subject_Id,
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
+                        Value: item.Teacher_Subject_Id,
+                        StdDivId: item.Standard_Division_Id,
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
+                    }
+                )
+            })
+            const FridayData = response.data.TeacherSubjectMaxLecDetails.filter((item, i) => item.WeekDay_Name === 'Friday');
+            const FridayColData = FridayData.map((item, i) => {
+                return (
+                    {
+                        Id: item.Teacher_Subject_Id,
+                        Name: data.asStandardDivId === 0 ? item.classSubjectName : item.Teacher_Subject,
+                        Value: item.Teacher_Subject_Id,
+                        StdDivId: item.Standard_Division_Id,
+                        SubId: item.Subject_Id,
+                        TeacherId: item.Teacher_Id,
+                        MaxDayLec: item.maxDaylectures
+                    }
+                )
+            })
+            MondayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+            TuesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+            WednesdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+            ThursdayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+            FridayColData.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForMon(MondayColData))
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForTue(TuesdayColData))
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForWed(WednesdayColData))
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForThu(ThursdayColData))
+            dispatch(WeeklyTimeTableSlice.actions.RGetTeacherSubjectMaxLecForFri(FridayColData))
+        }
 
 // For Monday 
 export const CDAGetTeacherSubjectMaxLecDetailsForMon =

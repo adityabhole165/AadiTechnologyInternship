@@ -118,8 +118,8 @@ export interface IGetTeacherSubjectMaxLecDetailsBody {
     asSchoolId: Number,
     asAcademicYearId: Number,
     asTeacherId: Number,
-    asStandardDivId: Number,
-    asWeekDayName: string
+    asStandardDivId: Number
+    // asWeekDayName: string
 }
 
 export interface IGetTeacherSubjectMaxLecDetailsResult {
