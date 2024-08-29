@@ -131,7 +131,8 @@ const StudentwiseprogressreportEdit = () => {
             const learningOutcomeConfigId = student.LearningOutcomeConfigId;
             const gradeId = grades[learningOutcomeConfigId]
             const SubjectSectionConfigId = student.SubjectSectionConfigId;
-            sXML += `<LearningOutcomes Observation="0" GradeId='${gradeId}' LearningOutcomesObservationId="0" SubjectSectionConfigurationId='${SubjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}'/>`
+            const gradeValue = grades[student.LearningOutcomeConfigId] ? grades[student.LearningOutcomeConfigId] : student.GradeId;
+            sXML += `<LearningOutcomes Observation="0" GradeId='${gradeValue}' LearningOutcomesObservationId="0" SubjectSectionConfigurationId='${SubjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}'/>`
 
         });
         sXML = `<LearningOutcomes>${sXML}</LearningOutcomes>`
