@@ -2,17 +2,17 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import FactCheck from '@mui/icons-material/FactCheck';
 import ManageAccounts from '@mui/icons-material/ManageAccounts';
-import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Unpublished from '@mui/icons-material/Unpublished';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Box, Button, Checkbox, FormControlLabel, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IGenerateTestTotalMarksBody,
   IGetAllStudentsByGivenStdDivsBody,
@@ -47,7 +47,7 @@ const ExamResultBase = () => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserRole = localStorage.getItem('RoleName');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState(
     ParamsTestId == undefined ? "0" : ParamsTestId
@@ -503,14 +503,31 @@ const ExamResultBase = () => {
 
     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
   };
+  // const handlePublishClick = () => {
+  //   const confirmation = window.confirm("Once you publish the result it will be visible to parents/students.       Are you sure you want to continue?");
+  //   if (confirmation) {
+  //     clickPublishUnpublish(true);
+  //   }
+  // };
+
+
   const handlePublishClick = () => {
-    const confirmation = window.confirm("Once you publish the result it will be visible to parents/students.       Are you sure you want to continue?");
-    if (confirmation) {
-      clickPublishUnpublish(true);
-    }
+    showAlert({
+      title: 'Please Confirm',
+      message: 'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        clickPublishUnpublish(true);
+        closeAlert();
+      }
+    });
   };
   useEffect(() => {
-
     if (PublishUnpublish !== '') {
       toast.success(PublishUnpublish)
       dispatch(resetPublishUnpublishExams())
@@ -706,7 +723,7 @@ const ExamResultBase = () => {
                   !ClassPassFailDetailsForButton?.ToppersGenerated}
 
               >
-                  <WorkspacePremiumIcon /> 
+                <WorkspacePremiumIcon />
               </IconButton>
             </span>
           </Tooltip>
