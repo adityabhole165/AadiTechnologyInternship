@@ -1,10 +1,12 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import {
+  Avatar,
   Box,
   Card,
   CircularProgress,
   Divider,
+  FormGroup,
   Grid,
   IconButton,
   Stack,
@@ -24,6 +26,7 @@ const UnreadMessage = () => {
   const navigate = useNavigate()
   const UnreadMessage = useSelector((state: RootState) => state.Dashboard.UnreadMessage);
   const UnreadMessageCount = useSelector((state: RootState) => state.Dashboard.UnreadMessageCount);
+  const SenderPhoto = useSelector((state: RootState) => state.Dashboard.SenderPhoto);
   const loading = useSelector((state: RootState) => state.Dashboard.Loading);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -94,7 +97,19 @@ const UnreadMessage = () => {
                         display={'flex'}
                         justifyContent={'space-between'}
                         px={3}
-                      >
+                      > {SenderPhoto.map((image, i) => {
+                        if (image.Id === item.SenderUserId) {
+                          return (
+                            <FormGroup>
+                              <Avatar
+                                alt="u"
+                                src={`data:image/png;base64,${image.Photo}`}
+                              />
+                            </FormGroup>
+                          );
+                        }
+                      })}
+
                         <Typography variant="h5">{item.UserName}</Typography>
                         <Typography variant="body2">{item.Subject}</Typography>
                       </Box>
