@@ -162,7 +162,7 @@ export const CDAAllPrimaryClassTeachers =
       OrganizationName: item.OrganizationName,
       School_Name: item.School_Name,
     }));
-    let FillGradeDetails = [{ Id: '0', Name: 'Select', Value: '0',Description:'', SortOrder:'',ConsideredAsAbsent:'',ConsideredAsExempted:'',GradeId:'0'}];
+    let FillGradeDetails = [{ Id: '0', Name: 'Select', Value: '0',Description:'', SortOrder:'',ConsideredAsAbsent:'1',ConsideredAsExempted:'',GradeId:'0'}];
     response.data.FillGradeDetails.map((item, i) => {
       FillGradeDetails.push({
       Id: item.GradeId,

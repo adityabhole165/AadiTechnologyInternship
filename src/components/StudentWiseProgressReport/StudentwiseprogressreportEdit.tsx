@@ -7,6 +7,7 @@ import { blue, green, grey } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -14,7 +15,6 @@ import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrad
 import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { toast } from 'react-toastify';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ const StudentwiseprogressreportEdit = () => {
 
     console.log(grades);
 
-    const [textall, setTextall] = useState('');    
+    const [textall, setTextall] = useState('');
     const maxChars = 300;
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
@@ -67,10 +67,10 @@ const StudentwiseprogressreportEdit = () => {
     useEffect(() => {
         const remark = USFillXseedRemarks.filter(item => item.Remark);
         if (remark.length > 0) {
-            setTextall(remark[0].Remark);  
+            setTextall(remark[0].Remark);
         }
-    }, [USFillXseedRemarks]);  
-    
+    }, [USFillXseedRemarks]);
+
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
     {
         asSchoolId: asSchoolId,
@@ -169,8 +169,8 @@ const StudentwiseprogressreportEdit = () => {
             const learningOutcomeConfigId = student.LearningOutcomeConfigId;
             const gradeId = grades[learningOutcomeConfigId]
             const SubjectSectionConfigId = student.SubjectSectionConfigId;
-            console.log(gradeId,"gradeId");
-           
+            console.log(gradeId, "gradeId");
+
             sXML += `<LearningOutcomes  GradeId='${gradeId}' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='${SubjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}' LearningOutcomeGradeId='0'/>`
 
         });
@@ -183,8 +183,8 @@ const StudentwiseprogressreportEdit = () => {
         USFillNonXseedSubjectGrades.forEach((student) => {
             const learningOutcomeConfigId = student.GradeId;
             const gradeId = grades1[learningOutcomeConfigId]
-            console.log(gradeId,"gradeIddubmmd");
-            
+            console.log(gradeId, "gradeIddubmmd");
+
             const SubjectId = student.SubjectId;
             sXML += `<NonXseedSubjectGrades  GradeId='${gradeId}' Observation='' SubjectId='${SubjectId}'/>`
         });
@@ -223,14 +223,14 @@ const StudentwiseprogressreportEdit = () => {
     };
 
 
-    
-  useEffect(() => {
-    if (USManageStudentWiseAssessmentGrades != "") {
-      toast.success(USManageStudentWiseAssessmentGrades);
-      dispatch(resetMessage());
-      dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
-    }
-  }, [USManageStudentWiseAssessmentGrades]);
+
+    useEffect(() => {
+        if (USManageStudentWiseAssessmentGrades != "") {
+            toast.success(USManageStudentWiseAssessmentGrades);
+            dispatch(resetMessage());
+            dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
+        }
+    }, [USManageStudentWiseAssessmentGrades]);
     const Clickpublish = () => { };
     const ClickShow = () => { };
 
@@ -569,7 +569,7 @@ const StudentwiseprogressreportEdit = () => {
                     </TableContainer>
                 </div>
 
-
+                <br></br>
 
                 <Box>
                     <TextField
