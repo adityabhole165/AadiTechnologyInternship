@@ -70,6 +70,10 @@ const SlicePreprimaryProgressReport = createSlice({
       RManageStudentWiseAssessmentGrades(state, action) {
         state. ISManageStudentWiseAssessmentGrades = action.payload;
       },
+
+      RresetMessageAll(state) {
+        state.ISManageStudentWiseAssessmentGrades = "";
+      },
       
       
   }
@@ -258,6 +262,11 @@ export const CDAAllPrimaryClassTeachers =
     dispatch(SlicePreprimaryProgressReport.actions.RManageStudentWiseAssessmentGrades(response.data));
   };
 
+  export const resetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(SlicePreprimaryProgressReport.actions.RresetMessageAll());
+  };
+
+  
 
 
 
