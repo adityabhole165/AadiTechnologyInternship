@@ -1,9 +1,11 @@
 import { QuestionMark } from "@mui/icons-material";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
+import RadioButton1 from "src/libraries/RadioButton/RadioButton1";
+import PerformanceGradeAList from "src/libraries/ResuableComponents/PerformanceGradeAList";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { RGetAllUsersReportingToGivenUser, RGetAllYearsDropdown } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { RootState } from "src/store";
@@ -12,6 +14,15 @@ import CommonPageHeader from "../CommonPageHeader";
 const PerformanceGradeAssignmentBaseScreen = () => {
     const dispatch = useDispatch();
     const [SelectYear, setSelectYear] = useState('0')
+    const [HeaderLeave, setHeaderLeave] = useState([
+        { Id: 1, Header: 'Staff Name (Designation)' },
+        { Id: 2, Header: 'Performance Evaluation' },
+    ]);
+    const RadioListCT = [
+        { Value: '1', Name: 'Submitted' },
+        { Value: '2', Name: 'Pending' }
+    ];
+    const [radioBtn, setRadioBtn] = useState('2');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const GetAllYearsUS = useSelector(
@@ -27,7 +38,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     }
     const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
-        asUserID: asUserId, /*3443,*/
+        asUserID: 3443, /*3443,*/
         asYear: 51,
         asShowPending: false
     }
@@ -45,6 +56,18 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     const clickYearDropdown = (value) => {
         setSelectYear(value)
     };
+    const ClickRadio = (value) => {
+        setRadioBtn(value);
+        // if (value == '1') {
+        //     setText(false)
+        // }
+        // else {
+        //     setText(true)
+        // }
+    };
+    const ClickAdd = (value) => {
+
+    }
 
     return (
 
@@ -82,6 +105,22 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                             </Tooltip>
                         </Box>
                     </>}
+            />
+            <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant='h5'>Status: </Typography>
+                    <RadioButton1
+                        Array={RadioListCT}
+                        ClickRadio={ClickRadio}
+                        defaultValue={radioBtn}
+                        Label={''}
+                    />
+                </Box>
+            </Grid>
+            <PerformanceGradeAList
+                HeaderArray={HeaderLeave}
+                ItemList={GetAllUsersReportingToGivenUserUS}
+                clickView={ClickAdd}
             />
         </Box>
     )

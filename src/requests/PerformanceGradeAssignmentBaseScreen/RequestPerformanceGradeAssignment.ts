@@ -43,7 +43,16 @@ export const RGetAllUsersReportingToGivenUser =
         async (dispatch) => {
             dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
             const response = await PerformanceGradeAssignmentAPI.GetAllUsersReportingToGivenUserApi(data);
-            dispatch(PerformanceGradeAssignmentslice.actions.getGetAllUsersReportingToGivenUser(response.data));
+            const responseData = response.data.map((Item, i) => {
+                return {
+                    Id: Item.UserId,
+                    Text1: Item.UserName,
+                    Text2: Item.IsSupervisor,
+                };
+            });
+            dispatch(PerformanceGradeAssignmentslice.actions.getGetAllUsersReportingToGivenUser(responseData));
+            console.log(responseData, "---------------------");
+
         };
 
 export default PerformanceGradeAssignmentslice.reducer;
