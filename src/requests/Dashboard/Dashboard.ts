@@ -119,7 +119,7 @@ export const getPhotoAlbum =
           userId: item.UserId
         };
       });
-      console.log(Data, 'Data')
+
       dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
     };
 
