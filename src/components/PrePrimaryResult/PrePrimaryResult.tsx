@@ -432,124 +432,105 @@ const PrePrimaryResult = () => {
 
 
 
+     
+
+
+
+
       <Dialog
-        open={open}
-        maxWidth={'md'}
-        fullWidth
-        onClose={() => {
-          setOpen(false);
-        }}
-        PaperProps={{
-          sx: {
-            borderRadius: "15px",
-          }
+      open={open}
+      onClose={() => {
+        setOpen(false);
+      }}
+      fullWidth
+      maxWidth={'sm'}
+      PaperProps={{
+        sx: {
+          borderRadius: "15px",
+        }
+      }}
+    >
+      <DialogTitle
+        sx={{
+          bgcolor: '#223354',
+          // backgroundColor: (theme) => theme.colors.primary.main,
+          color: (theme) => theme.palette.common.white
         }}
       >
-        <DialogTitle
+        <ClearIcon onClick={() => {
+          setOpen(false)
+        }}
           sx={{
-            bgcolor: '#223354',
-            // backgroundColor: (theme) => theme.colors.primary.main,
-            color: (theme) => theme.palette.common.white
-          }}
-        >
-          <ClearIcon onClick={() => {
-            setOpen(false)
-            setReasonError('')
-            setReason('')
-          }}
-            sx={{
-              color: 'white',
-              // background:'white',
-              borderRadius: '7px',
-              position: 'absolute',
-              top: '5px',
-              right: '7px',
-              cursor: 'pointer',
-              '&:hover': {
-                color: 'red',
-                //  backgroundColor: red[100]
+            color: 'white',
+            // background:'white',
+            borderRadius: '7px',
+            position: 'absolute',
+            top: '5px',
+            right: '7px',
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'red',
+              //  backgroundColor: red[100]
 
-              }
-            }} />
+            }
+          }} />
+      </DialogTitle>
+      <DialogContent>
 
-
-
-
-
-        </DialogTitle>
-        <DialogContent >
-
+        <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
           <h1>
-            {'Enter Reason For Unpublish'}
+          Enter Reason For Unpublish
           </h1>
-          <Grid container spacing={1} alignItems="center">
-            <Grid item >
-              <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Assessment'}
-                size={"small"}
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={6}>
+              <TextField fullWidth label={'Assessment'}
+                sx={{ width: '95%', bgcolor: '#f0f0f0' }}
                 disabled
-                value={getClassName()} />
+                value={getClassName()}
+              />
             </Grid>
-          </Grid>
-
-
-          <br></br>
-
-          <Grid container spacing={1} alignItems="center">
-            <Grid item >
-              <TextField
-                sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Class Teacher'}
-                size={"small"}
+            <Grid item xs={6}>
+              <TextField fullWidth label={'Class Teacher :'}
+                sx={{ width: '100%', bgcolor: '#f0f0f0' }}
                 disabled
                 value={getClassName1()} />
             </Grid>
-          </Grid>
-          <br></br>
-          <Typography variant={"h4"} sx={{ mb: 1 }}>
+            <br></br>
+            <Grid item xs={12} marginTop={2}>
+            {/* <Typography variant={"h4"} sx={{ mb: 1 }}>
           Reason For Unpublish<span style={{ color: 'red' }}>*</span>
-          </Typography>
-          <ResizableTextField
-            multiline
-            // rows={5}
-            value={Reason}
-            onChange={(e) => {
-              setReason(e.target.value);
-            }}
-            sx={{ width: '100%' }}
-            error={ReasonError !== ''}
-            helperText={ReasonError}
-          />
+          </Typography> */}
+              <ResizableTextField fullWidth label={'Reason For Unpublish  :'}
+                multiline
+                // rows={3}
+                value={Reason}
+                onChange={(e) => {
+                  setReason(e.target.value);
+                }}
+                sx={{ width: '100%' }}
+                error={ReasonError !== ''}
+                helperText={ReasonError}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </DialogContent>
+      <DialogActions sx={{ py: 1, px: 3 }}>
+        <Button onClick={() => {
+          setOpen(false)
+        }} color={'error'}>
+          Cancel
+        </Button>
+        <Button onClick={() => { ClickOk() }} color={'error'} sx={{
+          '&:hover': {
+            backgroundColor: red[100]
+          }
+        }}>
+          Unpublish
+        </Button>
 
-        </DialogContent>
-        <DialogActions sx={{ py: 2, px: 3 }}>
-          <Button
-            color={'error'}
-            onClick={() => {
-              setOpen(false)
-              setReasonError('')
-              setReason('')
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-
-            onClick={() => { ClickOk() }}
-            sx={{
-              color: 'green',
-              //  backgroundColor: grey[500],
-              '&:hover': {
-                color: 'green',
-                backgroundColor: green[100]
-              }
-            }}
-          >
-            Unpublish
-          </Button>
-        </DialogActions>
-      </Dialog>
+      </DialogActions>
+    </Dialog>
     </Box>
   );
 };
