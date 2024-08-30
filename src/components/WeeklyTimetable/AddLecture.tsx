@@ -88,8 +88,7 @@ function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onS
                                     sx={{ bgcolor: '#F0F0F0', minWidth: '100%' }}
                                     size="small"
                                     InputProps={{
-                                        readOnly: true,
-                                        style: { fontWeight: 'bolder' },
+                                        readOnly: true
                                     }}
                                 />
                             </Box>
