@@ -1,10 +1,11 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@mui/material';
-import { red } from '@mui/material/colors';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -30,7 +31,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
   // };
   const ClickOk = () => {
     if (Reason === '') {
-      setReasonError('Please fix the following error(s): Reason for Unpublish should not be blank.');
+      setReasonError('fix the following error(s): Reason for Unpublish should not be blank.');
     } else {
       setReasonError('');
       clickPublishUnpublish(false, Reason);
@@ -76,6 +77,20 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
 
             }
           }} />
+          <Tooltip title={'Enter the reason for assessment unpublish.'}>
+
+            <QuestionMarkIcon
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }} />
+          </Tooltip> 
       </DialogTitle>
       <DialogContent>
 
@@ -97,7 +112,11 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
             </Grid>
             <br></br>
             <Grid item xs={12} marginTop={2}>
-              <ResizableTextField fullWidth label={'Reason For Unpublish  :'}
+              <ResizableTextField fullWidth 
+              // label={'Reason For Unpublish  :'}
+              label={<>
+                Reason For Unpublish  : <span style={{ color: 'red' }}>*</span>
+            </>}
                 multiline
                 // rows={3}
                 value={Reason}
