@@ -459,6 +459,8 @@ const PrePrimaryResult = () => {
         >
           <ClearIcon onClick={() => {
             setOpen(false)
+            setReasonError('')
+            setReason('')
           }}
             sx={{
               color: 'white',
