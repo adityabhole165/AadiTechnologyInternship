@@ -480,13 +480,13 @@ const PrePrimaryResult = () => {
         <DialogContent >
 
           <h1>
-            {'Enter reason for unpublish'}
+            {'Enter Reason For Unpublish'}
           </h1>
           <Grid container spacing={1} alignItems="center">
             <Grid item >
               <TextField
                 sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Exam'}
+                label={'Assessment'}
                 size={"small"}
                 value={getClassName()} />
             </Grid>
@@ -499,14 +499,14 @@ const PrePrimaryResult = () => {
             <Grid item >
               <TextField
                 sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Class Teacher Name'}
+                label={'Class Teacher'}
                 size={"small"}
                 value={getClassName1()} />
             </Grid>
           </Grid>
           <br></br>
           <Typography variant={"h4"} sx={{ mb: 1 }}>
-            Unpublish Reason<span style={{ color: 'red' }}>*</span>
+          Reason For Unpublish<span style={{ color: 'red' }}>*</span>
           </Typography>
           <ResizableTextField
             multiline
@@ -530,7 +530,7 @@ const PrePrimaryResult = () => {
               setReason('')
             }}
           >
-            Close
+            Cancel
           </Button>
           <Button
 
