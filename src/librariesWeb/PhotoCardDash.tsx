@@ -36,19 +36,19 @@ function PhotoCardDash() {
   const [year, setYear] = useState(currentYear);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const MonthArray = [
-    { Id: 1, Name: 'All', Value: '' },
-    { Id: 2, Name: 'January', Value: '10' },
-    { Id: 3, Name: 'February', Value: '20' },
-    { Id: 4, Name: 'March', Value: '30' },
-    { Id: 5, Name: 'April', Value: '40' },
-    { Id: 6, Name: 'May', Value: '50' },
-    { Id: 7, Name: 'June', Value: '60' },
-    { Id: 8, Name: 'July', Value: '70' },
-    { Id: 9, Name: 'August', Value: '80' },
-    { Id: 10, Name: 'September', Value: '90' },
-    { Id: 11, Name: 'October', Value: '100' },
-    { Id: 12, Name: 'November', Value: '100' },
-    { Id: 13, Name: 'December', Value: '100' },
+    { Id: 1, Name: 'All', Value: '0' },
+    { Id: 2, Name: 'January', Value: '1' },
+    { Id: 3, Name: 'February', Value: '2' },
+    { Id: 4, Name: 'March', Value: '3' },
+    { Id: 5, Name: 'April', Value: '4' },
+    { Id: 6, Name: 'May', Value: '5' },
+    { Id: 7, Name: 'June', Value: '6' },
+    { Id: 8, Name: 'July', Value: '7' },
+    { Id: 9, Name: 'August', Value: '8' },
+    { Id: 10, Name: 'September', Value: '9' },
+    { Id: 11, Name: 'October', Value: '10' },
+    { Id: 12, Name: 'November', Value: '11' },
+    { Id: 13, Name: 'December', Value: '12' },
     { Id: 14, Name: 'Recent 5', Value: '100' },
   ]
 
@@ -73,9 +73,12 @@ function PhotoCardDash() {
   };
 
   useEffect(() => {
-    dispatch(getPhotoAlbum(picsBody));
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
-  }, [dispatch, month, year]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getPhotoAlbum(picsBody));
+  }, [month, year]);
 
   const getTimeDifference = () => {
     if (!lastRefreshTime) return 'no';
@@ -113,7 +116,7 @@ function PhotoCardDash() {
   };
 
   const handleClearFilter = () => {
-    setMonth('14');
+    setMonth('100');
     setYear(currentYear);
     dispatch(getPhotoAlbum(picsBody));
     handleClose();
@@ -233,12 +236,12 @@ function PhotoCardDash() {
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         {PhotoAlbum.length > 0 ? (
           <img
-            src={PhotoAlbum[index]?.ImageURL}
+            src={PhotoAlbum[index]?.ImagePath}
             alt={`Photo ${index + 1}`}
             style={{ maxHeight: '200px', maxWidth: '100%' }}
           />
         ) : (
-          <Typography variant="h6" sx={{ mt: 2 }}>
+          <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
             No Photos Available
           </Typography>
         )}

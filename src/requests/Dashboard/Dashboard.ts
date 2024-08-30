@@ -6,7 +6,6 @@ import {
   IFeedbackList,
   IMsgfrom,
   INewMessageCount,
-  IPhotoAlbum,
   IPhotoAlbumBody,
   ISaveUserLoginDetailsBody,
   IUnreadMessages,
@@ -104,19 +103,23 @@ export const getPhotoAlbum =
 
       const response = await DashboardApi.PhotoAlbumData(data);
 
-      const Data =
-        response.data[0].Name === null
-          ? []
-          : response.data.map((item, index) => {
-            return {
-              id: index,
-              header: item.Name === null ? '' : item.Name,
-              text1: '',
-              text2: '',
-              linkPath: `/Common/Photos/` + item.Name + '/PhotoGallery',
-              FileName: ''
-            };
-          });
+      const Data = response.data.map((item) => {
+        const imageList = item.ImageList || [];
+
+        return {
+          id: item.Id,
+          header: item.Name || '',
+          images: imageList.map(image => ({
+            id: image.ImageId,
+            src: image.ImagePath,
+            description: image.Description || ''
+          })),
+          month: item.Month,
+          year: item.Year,
+          userId: item.UserId
+        };
+      });
+      console.log(Data, 'Data')
       dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
     };
 
