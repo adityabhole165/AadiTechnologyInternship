@@ -62,8 +62,12 @@ const StudentwiseprogressreportEdit = () => {
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
+    const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
 
+    
 
+   
+   
     useEffect(() => {
         const remark = USFillXseedRemarks.filter(item => item.Remark);
         if (remark.length > 0) {
@@ -162,22 +166,35 @@ const StudentwiseprogressreportEdit = () => {
         }));
     };
 
-
     function learningOutcomeXML() {
         let sXML = '';
+    
         USFillStudentsLearningOutcomes.forEach((student) => {
             const learningOutcomeConfigId = student.LearningOutcomeConfigId;
-            const gradeId = grades[learningOutcomeConfigId]
-            const SubjectSectionConfigId = student.SubjectSectionConfigId;
-            console.log(gradeId, "gradeId");
-
-            sXML += `<LearningOutcomes  GradeId='${gradeId}' Observation='' LearningOutcomesObservationId='0' SubjectSectionConfigurationId='${SubjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}' LearningOutcomeGradeId='0'/>`
-
+            const gradeId = grades[learningOutcomeConfigId];
+            const subjectSectionConfigId = student.SubjectSectionConfigId;
+    
+          
+            const learningOutcomesObservationId = USFillStudentsLearningOutcomeObservations
+                .filter(observation => observation.SubjectSectionConfigId === subjectSectionConfigId)
+                .map(observation => observation.LearningOutcomesObservationId)[0];
+    
+          
+            const learningOutcomeGradeId = USFillSubjectSections
+                .filter(section => section.SubjectSectionConfigId === subjectSectionConfigId)
+                .map(section => student.LearningOutcomeGradeId)[0];
+    
+            
+            sXML += `<LearningOutcomes GradeId='${gradeId}' Observation='' LearningOutcomesObservationId='${learningOutcomesObservationId}' SubjectSectionConfigurationId='${subjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}' LearningOutcomeGradeId='${learningOutcomeGradeId}' />`;
         });
-        sXML = `<LearningOutcomes>${sXML}</LearningOutcomes>`
+    
+        sXML = `<LearningOutcomes>${sXML}</LearningOutcomes>`;
         return sXML;
     }
-
+    
+    
+    
+    
     function learningOutcomeXML1() {
         let sXML = '';
         USFillNonXseedSubjectGrades.forEach((student) => {

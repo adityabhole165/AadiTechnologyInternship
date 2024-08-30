@@ -94,12 +94,6 @@ export interface GetProgressReportDetailsResult {
 
   ],
 
-  FillStudentsLearningOutcomeObservations: [
-
-  ],
-
-
-
   FillNonXseedSubjectGrades: [
     {
       YearwiseStudentId: string
@@ -159,6 +153,17 @@ export interface GetProgressReportDetailsResult {
   }
 
   ],
+  FillStudentsLearningOutcomeObservations: [
+    {
+      YearwiseStudentId: string,
+      LearningOutcomesObservationId: string,
+      SubjectSectionConfigurationId: string,
+      Observation: string
+  }
+
+  ],
+
+
   GetAssessmentPublishStatus: [
 
     {
