@@ -516,7 +516,11 @@ const PrePrimaryResult = () => {
                 {/* <Typography variant={"h4"} sx={{ mb: 1 }}>
           Reason For Unpublish<span style={{ color: 'red' }}>*</span>
           </Typography> */}
-                <ResizableTextField fullWidth label={'Reason For Unpublish  :'}
+                <ResizableTextField fullWidth
+                //  label={'Reason For Unpublish  :'}
+                 label={<>
+                  Reason For Unpublish  : <span style={{ color: 'red' }}>*</span>
+              </>}
                   multiline
                   // rows={3}
                   value={Reason}
