@@ -88,6 +88,29 @@ export interface IPhotoAlbumResult {
   Month: Number;
 }
 
+//Photo album
+export interface IPhotoAlbumBody {
+  aiSchoolId: number;
+  aiMonth: number;
+  aiYear: number;
+  iFirstLoad: boolean;
+  aiUserId: number;
+}
+export interface IPhotoAlbumDResult {
+  Id: number;
+  Name: string;
+  ImageList: [
+    {
+      Description: string;
+      ImageId: Number;
+      ImagePath: string;
+    }
+  ];
+  Month: number;
+  Year: number;
+  UserId: number;
+}
+
 // Feedback
 export interface IFeedbackList {
   aiUserRoleId: number;

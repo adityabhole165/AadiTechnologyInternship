@@ -4,6 +4,8 @@ import {
   IMsgfrom,
   INewMessageCount,
   IPhotoAlbum,
+  IPhotoAlbumBody,
+  IPhotoAlbumDResult,
   IPhotoAlbumResult,
   ISaveUserLoginDetailsBody,
   ISaveUserLoginDetailsResult,
@@ -29,8 +31,8 @@ const BirthdayDetailsData = (data: IBirthdays) => {
 };
 
 //photo album
-const PhotoAlbumData = (data: IPhotoAlbum) => {
-  return http.post<IPhotoAlbumResult[]>('Dashboard/GetAlbumsList', data);
+const PhotoAlbumData = (data: IPhotoAlbumBody) => {
+  return http.post<IPhotoAlbumDResult[]>('Dashboard/GetAlbumsList', data);
 };
 
 //Feedback

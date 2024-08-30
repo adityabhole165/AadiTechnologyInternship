@@ -45,18 +45,19 @@ export const getimgs =
     dispatch(GallerySlice.actions.getimgList(responseData));
   };
 
-export const getYearList =
+  export const getYearList =
   (data: IYearList): AppThunk =>
-  async (dispatch) => {
-    const response = await PhotoGallaryApi.GetAllAcademicYearsForSchool(data);
-    const standardList = response.data.GetAllAcademicYearsForSchoolResult.map(
-      (item, index) => {
+    async (dispatch) => {
+      const response =
+        await PhotoGallaryApi.GetAllAcademicYearsForSchool(data);
+      let a = response.data.map((item, i) => {
         return {
-          Value: item.split('-')[0],
-          Name: item.split('-')[0]
+          Id: item.Academic_Year_ID,
+          Name: item.YearValue,
+          Value: item.Academic_Year_ID
         };
-      }
-    );
-    dispatch(GallerySlice.actions.getYearList(standardList));
-  };
+      });
+
+      dispatch(GallerySlice.actions.getYearList(a));
+    };
 export default GallerySlice.reducer;

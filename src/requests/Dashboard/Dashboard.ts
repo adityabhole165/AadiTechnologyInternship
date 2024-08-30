@@ -7,6 +7,7 @@ import {
   IMsgfrom,
   INewMessageCount,
   IPhotoAlbum,
+  IPhotoAlbumBody,
   ISaveUserLoginDetailsBody,
   IUnreadMessages,
   IUpcomingEventsList
@@ -97,7 +98,7 @@ export const getEventsList =
     };
 
 export const getPhotoAlbum =
-  (data: IPhotoAlbum): AppThunk =>
+  (data: IPhotoAlbumBody): AppThunk =>
     async (dispatch) => {
       dispatch(Dashboardlice.actions.getLoading(true));
 

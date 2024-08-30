@@ -12,7 +12,7 @@ import http from '../../requests/SchoolService/schoolServices';
 //Get year list
 
 const GetAllAcademicYearsForSchool = (data: IYearList) => {
-  return http.post<AllAcademicYearsForSchoolResult>(
+  return http.post<AllAcademicYearsForSchoolResult[]>(
     'School/GetAllAcademicYearsForSchool',
     data
   );
