@@ -7,7 +7,7 @@ import {
   Avatar, Badge, Box, Card, Grid, IconButton, Popover, Stack, ToggleButton,
   ToggleButtonGroup, Tooltip, Typography
 } from '@mui/material';
-import { green, orange, red } from '@mui/material/colors';
+import { green, grey, orange, red } from '@mui/material/colors';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
 } from 'date-fns';
@@ -101,17 +101,15 @@ function BirthdayDashboard() {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Card sx={{ height: '280px' }}>
-      <Grid container sx={{ mb: '-7px' }}>
-        <Grid item xs={6}>
-          <Typography variant="h3" p={1} sx={{ color: '#304ffe' }}>
+    <Box sx={{ height: '300px', backgroundColor:'white', p:1 }}>
+      <Grid item sx={{ mb: '0px', display:'flex', backgroundColor:'#38548A'  }}>
+        <Grid item xs={12}>
+          <Typography variant="h3" p={0.8} sx={{ color: 'white',  }}>
             Birthdays
           </Typography>
         </Grid>
-
-        <Grid item xs={6}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton sx={{ mt: '5px', mr: '8px' }}>
+        <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <IconButton  sx={{ mt: '4px', pr:2 }} >
               <Badge
                 badgeContent={Birthdays.length !== 0 ? Birthdays.length : '0'}
                 color="secondary"
@@ -125,14 +123,33 @@ function BirthdayDashboard() {
               }
             >
               <IconButton onClick={handleRefresh}>
-                <RefreshIcon sx={{ mt: '5px', mr: '0px' }} />
+                <RefreshIcon 
+                // sx={{ mt: '5px', mr: '0px' }} 
+                sx={{
+                  color: 'white',
+                  borderRadius: '7px',
+                  mt: '4px',
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: grey[600] }
+                }} />
               </IconButton>
             </Tooltip>
-            <IconButton sx={{ mt: '5px' }} onClick={handleClickpop}>
-              <SettingsIcon />
+            <IconButton 
+            sx={{ mt: '4px' }} onClick={handleClickpop}>
+              <SettingsIcon
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',  
+                cursor: 'pointer',
+                '&:hover': 
+                { backgroundColor: grey[600] }
+              }} />
             </IconButton>
-          </Box>
-        </Grid>
+          </Grid>
+        {/* <Grid item xs={6}>
+         
+        </Grid> */}
       </Grid>
 
       <Popover
@@ -195,7 +212,7 @@ function BirthdayDashboard() {
           </Typography>
         )}
       </Box>
-    </Card>
+    </Box>
   );
 }
 

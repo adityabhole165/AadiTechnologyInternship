@@ -23,7 +23,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { green, orange, red } from '@mui/material/colors';
+import { green, grey, orange, red } from '@mui/material/colors';
 
 function PhotoCardDash() {
   const dispatch = useDispatch();
@@ -90,24 +90,35 @@ function PhotoCardDash() {
     }
   };
   return (
-    <div>
-      <Card sx={{ height: '255px', overflow: 'auto' }}>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h3" p={1} sx={{ color: '#304ffe' }}>
+    <Box sx={{height: '300px', backgroundColor:'white', p:1 }}>
+        <Grid item sx={{  overflow: 'auto',display:'flex', backgroundColor:'#38548A'  }}>
+          <Grid item xs={12}>
+            <Typography variant="h3" p={0.8} sx={{ color: 'white' }}>
               Photo Albums
             </Typography>
           </Grid>
 
-          <Grid item xs={6}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <RefreshIcon sx={{ mr: '-8px', mt: '8px' }} />
-
-              <IconButton sx={{ padding: '10px' }}
+          <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <IconButton>
+              <RefreshIcon  sx={{
+                  color: 'white',
+                  borderRadius: '7px',
+                  mt: '4px',
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: grey[600] }
+                }} />
+             </IconButton>
+              <IconButton
                 onClick={handleClickpop}>
-                <SettingsIcon />
+                <SettingsIcon 
+                sx={{
+                  color: 'white',
+                  borderRadius: '7px',
+                  mt: '4px',
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: grey[600] }
+                }}/>
               </IconButton>
-            </Box>
           </Grid>
         </Grid>
 
@@ -138,8 +149,7 @@ function PhotoCardDash() {
             </Avatar>
           </Stack>
         </Popover>
-      </Card>
-    </div>
+    </Box>
   );
 }
 

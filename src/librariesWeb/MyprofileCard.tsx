@@ -14,9 +14,9 @@ function MyprofileCard() {
       : '/imges/defualtUser.jpg';
 
   return (
-    <div>
+    <Box sx={{backgroundColor:'white', p:1}}>
       <Card sx={{ boxShadow: 2 }}>
-        <Box sx={{ backgroundColor: '#4db6ac', p: 1 }}>
+        <Box sx={{ backgroundColor: '#38548A', p: 0.8 }}>
           <Typography variant="h3" color="white">
             Teacher Details
           </Typography>
@@ -28,28 +28,28 @@ function MyprofileCard() {
                 <Table>
                   <TableBody>
                     <TableRow>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                      <TableCell sx={{ border: `1px solid gray` }}>
                         <b>Teacher Name:</b>
                       </TableCell>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{UserName}</TableCell>
+                      <TableCell sx={{ border: `1px solid gray` }}><b>{UserName} </b></TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                      <TableCell sx={{ border: `1px solid gray` }}>
                         <b>Designation:</b>
                       </TableCell>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{DesignationName}</TableCell>
+                      <TableCell sx={{ border: `1px solid gray` }}><b>{DesignationName}</b></TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                      <TableCell sx={{ border: `1px solid gray` }}>
                         <b>Class Teacher:</b>
                       </TableCell>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{ClassTeacher}</TableCell>
+                      <TableCell sx={{ border: `1px solid gray` }}><b>{ClassTeacher}</b></TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>
+                      <TableCell sx={{ border: `1px solid gray` }}>
                         <b>Mobile Number:</b>
                       </TableCell>
-                      <TableCell sx={{ border: `1px solid #4db6ac` }}>{MobileNumber}</TableCell>
+                      <TableCell sx={{ border: `1px solid gray` }}><b>{MobileNumber}</b></TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -63,7 +63,7 @@ function MyprofileCard() {
             >
               <Box
                 sx={{
-                  border: `1px solid #4db6ac`,
+                  border: `1px solid gray`,
                   padding: '15.7px',
                   display: 'flex',
                   justifyContent: 'center',
@@ -82,7 +82,7 @@ function MyprofileCard() {
           </Grid>
         </Box>
       </Card>
-    </div>
+    </Box>
   );
 }
 

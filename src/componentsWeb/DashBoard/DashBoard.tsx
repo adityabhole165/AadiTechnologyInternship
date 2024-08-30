@@ -49,15 +49,16 @@ function DashBoard() {
     <Box sx={{ px: 2 }}>
       <SchoolNoticeBoard />
       <Grid container spacing={2} mt={-1}>
-        <Grid item md={12} lg={6}>
+        <Grid item md={12} lg={8}>
           <CardDahContainer />
+        </Grid>
+        <Grid item sm={12} md={6} lg={4}>
+          <CardDashContainer3 />
         </Grid>
         <Grid item sm={12} md={6} lg={3}>
           <CardDashContainer2 />
         </Grid>
-        <Grid item sm={12} md={6} lg={3}>
-          <CardDashContainer3 />
-        </Grid>
+       
         {SchoolNoticeDialog && (
           <SchoolNoticePopupCom
             open={SchoolNoticeDialog}
