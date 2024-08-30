@@ -346,7 +346,7 @@ const AddStudentRecord = () => {
         let returnVal = true
         listCommentDetailsUS.map((item) => {
             if ((item.IsDefaultComment == "True" && item.IsSubmitted == "True") &&
-                (item.LoginUserDesignation == "1" || (item.LoginUserDesignation == "2") || item.LoginUserDesignation == 4)) {
+                (item.LoginUserDesignation == "1" || (item.LoginUserDesignation == "2") || item.LoginUserDesignation == "4")) {
                 returnVal = false
             }
         })
