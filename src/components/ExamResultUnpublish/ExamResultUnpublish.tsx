@@ -31,7 +31,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
   // };
   const ClickOk = () => {
     if (Reason === '') {
-      setReasonError('fix the following error(s): Reason for Unpublish should not be blank.');
+      setReasonError('Reason for unpublish should not be blank.');
     } else {
       setReasonError('');
       clickPublishUnpublish(false, Reason);
@@ -77,7 +77,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
 
             }
           }} />
-          <Tooltip title={'Enter the reason for assessment unpublish.'}>
+          <Tooltip title={'Enter the reason for exam unpublish.'}>
 
             <QuestionMarkIcon
               sx={{
@@ -115,7 +115,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
               <ResizableTextField fullWidth 
               // label={'Reason For Unpublish  :'}
               label={<>
-                Reason For Unpublish  : <span style={{ color: 'red' }}>*</span>
+                Reason for Unpublish  : <span style={{ color: 'red' }}>*</span>
             </>}
                 multiline
                 // rows={3}
