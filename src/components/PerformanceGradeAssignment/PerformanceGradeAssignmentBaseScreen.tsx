@@ -38,7 +38,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     }
     const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
-        asUserID: asUserId, /*3443,*/
+        asUserID: 3443, /*3443,*/
         asYear: Number(SelectYear),
         asShowPending: false
     }
@@ -80,7 +80,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                     <>
                         <Box sx={{ background: 'white' }}>
                             <SearchableDropdown
-                                sx={{ minWidth: '25vw' }}
+                                sx={{ minWidth: '15vw' }}
                                 ItemList={GetAllYearsUS}
                                 onChange={clickYearDropdown}
                                 label={'Year'}

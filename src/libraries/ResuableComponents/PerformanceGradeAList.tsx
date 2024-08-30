@@ -1,4 +1,4 @@
-import Visibility from '@mui/icons-material/Visibility';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +13,7 @@ function PerformanceGradeAList({
     HeaderArray,
 }) {
     return (
-        <div >
+        <Box>
             {ItemList.length === 0 ? (
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
@@ -24,77 +24,72 @@ function PerformanceGradeAList({
             ) : (
 
                 <>
-
-                    <TableContainer component={Box}>
-                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-                            <TableHead>
-                                <TableRow
-                                    sx={{ background: (theme) => theme.palette.secondary.main }}
-                                >
-                                    {HeaderArray.map((item, i) => (
-                                        <TableCell
-                                            key={i}
-                                            sx={{
-                                                // textTransform: 'capitalize',
-                                                color: (theme) => theme.palette.common.white,
-                                                // textAlign: i === 1 ? 'left' : 'left'
-                                            }}
-                                            align="center"
-                                        >
-                                            <b>{item.Header}</b>
-                                        </TableCell>
-                                    ))} <span></span>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {ItemList.map((item, index) => {
-                                    return (
-                                        <TableRow key={index} >
+                    <Box sx={{
+                        backgroundColor: 'white', mt: 1, p: 2
+                    }}>
+                        <TableContainer component={Box}>
+                            <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                                <TableHead>
+                                    <TableRow
+                                        sx={{ background: (theme) => theme.palette.secondary.main }}
+                                    >
+                                        {HeaderArray.map((item, i) => (
                                             <TableCell
-                                                sx={{
-                                                    textTransform: 'capitalize', width: '250px', paddingTop: '2.5px', paddingBottom: '2.5px'
-                                                }}
-                                                align="left"
-                                            >
-                                                {item.Text1}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{
-                                                paddingTop: '2.5px', paddingBottom: '2.5px'
-                                            }}>
-                                                <Tooltip title={"View"}>
-                                                    <IconButton
-                                                        onClick={() => clickView(item.Id, item.Text1)}
-                                                        sx={{
-                                                            color: '#223354',
-                                                            '&:hover': {
-                                                                color: '#223354',
-                                                                cursor: 'pointer'
-                                                            }
-                                                        }}
-                                                    >
-                                                        <Visibility />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </TableCell>
-                                            <TableCell
+                                                key={i}
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    opacity: 1, paddingTop: '2.5px', paddingBottom: '2.5px'
-                                                }}
-                                                align="center"
-                                            >
+                                                    color: (theme) => theme.palette.common.white,
+                                                    py: 1
 
+                                                }}
+                                            >
+                                                <b>{item.Header}</b>
                                             </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {ItemList.map((item, index) => {
+                                        return (
+                                            <TableRow key={item.ItemID} >
+                                                <TableCell
+                                                    sx={{
+                                                        textTransform: 'capitalize', py: 1
+                                                    }}
+                                                // align="left"
+                                                >
+                                                    {item.Text1}
+                                                </TableCell>
+                                                <TableCell sx={{
+                                                    textTransform: 'capitalize',
+                                                    py: 1, pl: 9
+                                                }}>
+                                                    <Tooltip title={"Performance Evaluation"}>
+                                                        <IconButton
+                                                            onClick={() => clickView(item.Id)}
+                                                            sx={{
+                                                                color: '#223354',
+                                                                '&:hover': {
+                                                                    color: '#223354',
+                                                                    cursor: 'pointer'
+                                                                }
+                                                            }}
+                                                        >
+                                                            <AddCircleIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
                 </>
             )
             }
-        </div >
+        </Box >
     );
 }
 
