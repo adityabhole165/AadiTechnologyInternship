@@ -3,6 +3,7 @@ import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import RadioButton1 from "src/libraries/RadioButton/RadioButton1";
 import PerformanceGradeAList from "src/libraries/ResuableComponents/PerformanceGradeAList";
@@ -13,6 +14,7 @@ import CommonPageHeader from "../CommonPageHeader";
 
 const PerformanceGradeAssignmentBaseScreen = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [SelectYear, setSelectYear] = useState('0')
     const [HeaderLeave, setHeaderLeave] = useState([
         { Id: 1, Header: 'Staff Name (Designation)' },
@@ -38,9 +40,9 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     }
     const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
-        asUserID: 3443, /*3443,*/
+        asUserID: asUserId, /*3443,*/
         asYear: Number(SelectYear),
-        asShowPending: false
+        asShowPending: true
     }
     useEffect(() => {
         dispatch(RGetAllYearsDropdown(GetAllYearBody))
@@ -66,9 +68,8 @@ const PerformanceGradeAssignmentBaseScreen = () => {
         // }
     };
     const ClickAdd = (value) => {
-
+        navigate('/extended-sidebar/Teacher/PerformanceEvaluation')
     }
-
     return (
 
         <Box sx={{ px: 2 }}>
@@ -89,7 +90,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                             />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Tooltip title={"Displays user who report to the logged in teacher."}>
+                            <Tooltip title={"Displays user who report to the logged in user."}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
