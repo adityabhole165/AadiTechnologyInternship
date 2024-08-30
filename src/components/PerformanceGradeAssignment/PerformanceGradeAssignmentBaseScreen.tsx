@@ -67,7 +67,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
         } else if (radioBtn == '2') {
             dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserPending))
         }
-    }, [radioBtn]);
+    }, [radioBtn, SelectYear]);
     const clickYearDropdown = (value) => {
         setSelectYear(value)
     };
