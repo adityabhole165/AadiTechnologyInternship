@@ -51,6 +51,9 @@ const IndidualAttendance = Loader(
 const AddAnnualPlaner = Loader(
   lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner'))
 );
+const PerformanceEvaluation = Loader(
+  lazy(() => import('src/components/PerformanceGradeAssignment/PerformanceEvaluation'))
+);
 const MonthwiseAttandance = Loader(
   lazy(() => import('src/components/Attendance/MonthwiseAttandance'))
 );
@@ -704,6 +707,10 @@ const teacherRoutes = [
   {
     path: 'PerformanceGradeAssignmentBaseScreen',
     element: <PerformanceGradeAssignmentBaseScreen />
+  },
+  {
+    path: 'PerformanceEvaluation',
+    element: <PerformanceEvaluation />
   },
 
 
