@@ -1,6 +1,7 @@
+import { QuestionMark } from '@mui/icons-material';
 import ClearIcon from '@mui/icons-material/Close';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from "@mui/material";
-import { green, red } from "@mui/material/colors";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { green, grey, red } from "@mui/material/colors";
 import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import SuspenseLoader from "src/layouts/components/SuspenseLoader";
@@ -44,11 +45,24 @@ function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onS
             >
                 <DialogTitle
                     sx={{
-                        py: 1.6,
+                        py: 1.8,
                         backgroundColor: (theme) => theme.colors.primary.main,
                         color: (theme) => theme.palette.common.white
                     }}
                 >
+                    <Tooltip title={'Add additional / optional subject lectures.'}>
+                        <QuestionMark
+                            sx={{
+                                color: 'white',
+                                // background:'white',
+                                borderRadius: '7px',
+                                position: 'absolute',
+                                top: '4px',
+                                right: '35px',
+                                cursor: 'pointer',
+                                '&:hover': { backgroundColor: grey[600] }
+                            }} />
+                    </Tooltip>
                     <ClearIcon onClick={OnClose}
                         sx={{
                             color: 'white',
@@ -64,7 +78,7 @@ function AddLecture({ Value1, ValErrorMsgList = [], ValError, Open, OnClose, onS
                 </DialogTitle>
                 <DialogContent dividers>
                     <Box>
-                        {ValError?.length > 0 && <span dangerouslySetInnerHTML={{ __html: `Error : ${ValError}` }} style={{ color: 'red', fontWeight: 'bolder' }} />}
+                        {ValError?.length > 0 && <span dangerouslySetInnerHTML={{ __html: `${ValError}` }} style={{ color: 'red', fontWeight: 'bolder' }} />}
                         {ValErrorMsgList !== undefined && ValErrorMsgList?.length > 0 &&
                             <Stack sx={{ width: '100%' }} spacing={.5}>
                                 {ValErrorMsgList.map((errorObj, index) => (
