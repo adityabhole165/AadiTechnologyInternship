@@ -97,7 +97,7 @@ const UploadAnnualPlanner = ({
   const clickDelete = () => {
     showAlert({
       title: 'Please Confirm',
-      message: 'Are you sure you want to delete the current Annual Planner file?',
+      message: 'Are you sure you want to delete the current annual planner file?',
       variant: 'warning',
       confirmButtonText: 'Delete',
       cancelButtonText: 'Cancel',
