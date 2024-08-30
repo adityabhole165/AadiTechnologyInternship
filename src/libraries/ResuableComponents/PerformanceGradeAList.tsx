@@ -37,7 +37,7 @@ function PerformanceGradeAList({
                                             sx={{
                                                 // textTransform: 'capitalize',
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: i === 1 || i === 2 ? 'left' : 'left'
+                                                // textAlign: i === 1 ? 'left' : 'left'
                                             }}
                                             align="center"
                                         >

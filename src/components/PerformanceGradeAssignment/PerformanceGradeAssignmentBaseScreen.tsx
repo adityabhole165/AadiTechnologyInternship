@@ -38,8 +38,8 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     }
     const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
-        asUserID: 3443, /*3443,*/
-        asYear: 51,
+        asUserID: asUserId, /*3443,*/
+        asYear: Number(SelectYear),
         asShowPending: false
     }
     useEffect(() => {
@@ -52,7 +52,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     }, [GetAllYearsUS])
     useEffect(() => {
         dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserBody))
-    }, []);
+    }, [SelectYear, radioBtn]);
     const clickYearDropdown = (value) => {
         setSelectYear(value)
     };
