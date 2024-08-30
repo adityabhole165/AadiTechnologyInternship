@@ -18,6 +18,7 @@ const SlicePreprimaryProgressReport = createSlice({
     ISFillXseedRemarks:[],
     ISFillStudentDetails:[],
     ISFillStudentAttendance:[],
+    ISFillStudentsLearningOutcomeObservations:[],
     ISFillStudentsLearningOutcomes:[],
     ISFillNonXseedSubjectGrades:[],
     ISGetStandardwiseAssessmentDetails:[],
@@ -52,6 +53,10 @@ const SlicePreprimaryProgressReport = createSlice({
       RFillXseedRemarks(state, action) {
         state. ISFillXseedRemarks = action.payload;
       },
+      RFillStudentsLearningOutcomeObservations(state, action) {
+        state. ISFillStudentsLearningOutcomeObservations = action.payload;
+      },
+      
       RFillStudentDetails(state, action) {
         state. ISFillStudentDetails = action.payload;
       },
@@ -155,7 +160,7 @@ export const CDAAllPrimaryClassTeachers =
       SortOrder: item.SortOrder,
       StandardwiseSubjectId:item.StandardwiseSubjectId,
       SubjectSectionConfigurationId:item.SubjectSectionConfigurationId,
-     
+      SubjectSectionConfigId:item.SubjectSectionConfigurationId
      
     }));
     const FillSchoolDetails = response.data.FillSchoolDetails.map((item, i) => ({
@@ -223,6 +228,15 @@ export const CDAAllPrimaryClassTeachers =
       
     }));
 
+    const FillStudentsLearningOutcomeObservations = response.data.FillStudentsLearningOutcomeObservations.map((item, i) => ({
+      YearwiseStudentId: item.YearwiseStudentId,
+      LearningOutcomesObservationId: item.LearningOutcomesObservationId,
+      SubjectSectionConfigId: item.SubjectSectionConfigurationId,
+      Observation: item.Observation,
+     
+      
+    }));
+
 
     
     dispatch(SlicePreprimaryProgressReport.actions.RAssessmentPublishStatus(AssessmentPublishStatus));
@@ -235,6 +249,7 @@ export const CDAAllPrimaryClassTeachers =
     dispatch(SlicePreprimaryProgressReport.actions.RFillStudentAttendance(FillStudentAttendance));
     dispatch(SlicePreprimaryProgressReport.actions.RFillStudentsLearningOutcomes(FillStudentsLearningOutcomes));
     dispatch(SlicePreprimaryProgressReport.actions.RFillNonXseedSubjectGrades(FillNonXseedSubjectGrades));
+    dispatch(SlicePreprimaryProgressReport.actions.RFillStudentsLearningOutcomeObservations(FillStudentsLearningOutcomeObservations));
 
     
   };

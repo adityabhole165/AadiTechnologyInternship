@@ -1,11 +1,11 @@
-import { QuestionMark } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogBox, onClickUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -31,7 +31,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
   // };
   const ClickOk = () => {
     if (Reason === '') {
-      setReasonError( "Reason for Unpublish should not be blank.");
+      setReasonError("Reason for unpublish should not be blank.");
     } else {
       setReasonError('');
       onClickUnpublish(false, Reason);
@@ -79,45 +79,57 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
 
               }
             }} />
+          <Tooltip title={'Enter the reason for exam unpublish.'}>
+
+            <QuestionMarkIcon
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }} />
+          </Tooltip>
 
 
-        
 
 
         </DialogTitle>
         <DialogContent >
-
+        <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
           <h1>
-            {'Enter reason for unpublish'}
+            Enter reason for unpublish
           </h1>
-          <Grid container spacing={1} alignItems="center">
-            <Grid item >
+
+
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={6} >
               <TextField
-              sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
+                sx={{ width: '100%', bgcolor: '#F0F0F0' }}
                 label={'Exam'}
-                size={"small"}
+                size={"medium"}
                 value={ExamName} />
             </Grid>
-          </Grid>
-
-
-          <br></br>
-
-          <Grid container spacing={1} alignItems="center">
-            <Grid item >
+         
+          
+            <Grid item  xs={6}>
               <TextField
-               sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
-                label={'Class Teacher Name'}
-                size={"small"}
+                sx={{width: '100%', bgcolor: '#F0F0F0' }}
+                label={'Class Teacher'}
+                size={"medium"}
                 value={TeacherName} />
             </Grid>
-          </Grid>
-          <br></br>
-          <Typography variant={"h4"} sx={{ mb: 1 }}>
-            Unpublish Reason<span style={{ color: 'red' }}>*</span>
-          </Typography>
+         
+         
+          <Grid item xs={12} marginTop={1}>
           <ResizableTextField
             multiline
+            label={<>
+              Reason for Unpublish  : <span style={{ color: 'red' }}>*</span>
+          </>}
             // rows={5}
             value={Reason}
             onChange={(e) => {
@@ -127,7 +139,9 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
             error={ReasonError !== ''}
             helperText={ReasonError}
           />
-
+          </Grid>
+          </Grid>
+           </Box>
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button
@@ -141,14 +155,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
           <Button
 
             onClick={() => { ClickOk() }}
-            sx={{
-              color: 'green',
-              //  backgroundColor: grey[500],
-              '&:hover': {
-                color: 'green',
-                backgroundColor: green[100]
-              }
-            }}
+            color={'error'}
           >
             Unpublish
           </Button>

@@ -38,11 +38,17 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     const GetAllYearBody: IGetAllYearsBody = {
         asSchoolId: asSchoolId
     }
-    const GetAllUsersReportingToGivenUserBody: IGetAllUsersReportingToGivenUserBody = {
+    const GetAllUsersReportingToGivenUserPending: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
         asUserID: asUserId, /*3443,*/
         asYear: Number(SelectYear),
         asShowPending: true
+    }
+    const GetAllUsersReportingToGivenUserSubmitted: IGetAllUsersReportingToGivenUserBody = {
+        asSchoolId: asSchoolId,
+        asUserID: asUserId, /*3443,*/
+        asYear: Number(SelectYear),
+        asShowPending: false
     }
     useEffect(() => {
         dispatch(RGetAllYearsDropdown(GetAllYearBody))
@@ -52,9 +58,16 @@ const PerformanceGradeAssignmentBaseScreen = () => {
             setSelectYear(GetAllYearsUS[0].Value)
         }
     }, [GetAllYearsUS])
+    // useEffect(() => {
+    //         dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserPending))
+    //     }, [SelectYear, radioBtn]);
     useEffect(() => {
-        dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserBody))
-    }, [SelectYear, radioBtn]);
+        if (radioBtn == '1') {
+            dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserSubmitted))
+        } else if (radioBtn == '2') {
+            dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserPending))
+        }
+    }, [radioBtn, SelectYear]);
     const clickYearDropdown = (value) => {
         setSelectYear(value)
     };
