@@ -1,5 +1,5 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -23,7 +23,7 @@ import {
 import { RootState } from 'src/store';
 // import { Container } from '@mui/material';
 import { CheckCircle, Unpublished } from '@mui/icons-material';
-import { blue, green, grey, red } from '@mui/material/colors';
+import { blue, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -432,108 +432,122 @@ const PrePrimaryResult = () => {
 
 
 
-     
+
 
 
 
 
       <Dialog
-      open={open}
-      onClose={() => {
-        setOpen(false);
-      }}
-      fullWidth
-      maxWidth={'sm'}
-      PaperProps={{
-        sx: {
-          borderRadius: "15px",
-        }
-      }}
-    >
-      <DialogTitle
-        sx={{
-          bgcolor: '#223354',
-          // backgroundColor: (theme) => theme.colors.primary.main,
-          color: (theme) => theme.palette.common.white
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        fullWidth
+        maxWidth={'sm'}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
         }}
       >
-        <ClearIcon onClick={() => {
-          setOpen(false)
-        }}
+        <DialogTitle
           sx={{
-            color: 'white',
-            // background:'white',
-            borderRadius: '7px',
-            position: 'absolute',
-            top: '5px',
-            right: '7px',
-            cursor: 'pointer',
-            '&:hover': {
-              color: 'red',
-              //  backgroundColor: red[100]
+            bgcolor: '#223354',
+            // backgroundColor: (theme) => theme.colors.primary.main,
+            color: (theme) => theme.palette.common.white
+          }}
+        >
+          <ClearIcon onClick={() => {
+            setOpen(false)
+          }}
+            sx={{
+              color: 'white',
+              // background:'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '7px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+                //  backgroundColor: red[100]
 
-            }
-          }} />
-      </DialogTitle>
-      <DialogContent>
+              }
+            }} />
+          <Tooltip title={'Enter the reason for assessment unpublish.'}>
 
-        <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
-          <h1>
-          Enter Reason For Unpublish
-          </h1>
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={6}>
-              <TextField fullWidth label={'Assessment'}
-                sx={{ width: '95%', bgcolor: '#f0f0f0' }}
-                disabled
-                value={getClassName()}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField fullWidth label={'Class Teacher :'}
-                sx={{ width: '100%', bgcolor: '#f0f0f0' }}
-                disabled
-                value={getClassName1()} />
-            </Grid>
-            <br></br>
-            <Grid item xs={12} marginTop={2}>
-            {/* <Typography variant={"h4"} sx={{ mb: 1 }}>
+            <QuestionMarkIcon
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '10px',
+                position: 'absolute',
+                top: '5px',
+                right: '10px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }} />
+          </Tooltip>
+        </DialogTitle>
+        <DialogContent>
+
+          <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+            <h1>
+              Enter Reason For Unpublish
+            </h1>
+            <Grid container spacing={0} alignItems="center">
+              <Grid item xs={6}>
+                <TextField fullWidth label={'Assessment'}
+                  sx={{ width: '95%', bgcolor: '#f0f0f0' }}
+                  disabled
+                  value={getClassName()}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField fullWidth label={'Class Teacher :'}
+                  sx={{ width: '100%', bgcolor: '#f0f0f0' }}
+                  disabled
+                  value={getClassName1()} />
+              </Grid>
+              <br></br>
+              <Grid item xs={12} marginTop={2}>
+                {/* <Typography variant={"h4"} sx={{ mb: 1 }}>
           Reason For Unpublish<span style={{ color: 'red' }}>*</span>
           </Typography> */}
-              <ResizableTextField fullWidth label={'Reason For Unpublish  :'}
-                multiline
-                // rows={3}
-                value={Reason}
-                onChange={(e) => {
-                  setReason(e.target.value);
-                }}
-                sx={{ width: '100%' }}
-                error={ReasonError !== ''}
-                helperText={ReasonError}
-              />
+                <ResizableTextField fullWidth label={'Reason For Unpublish  :'}
+                  multiline
+                  // rows={3}
+                  value={Reason}
+                  onChange={(e) => {
+                    setReason(e.target.value);
+                  }}
+                  sx={{ width: '100%' }}
+                  error={ReasonError !== ''}
+                  helperText={ReasonError}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </DialogContent>
-      <DialogActions sx={{ py: 1, px: 3 }}>
-        <Button onClick={() => {
-              setOpen(false)
-              setReasonError('')
-              setReason('')
-            }}
-         color={'error'}>
-          Cancel
-        </Button>
-        <Button onClick={() => { ClickOk() }} color={'error'} sx={{
-          '&:hover': {
-            backgroundColor: red[100]
-          }
-        }}>
-          Unpublish
-        </Button>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ py: 1, px: 3 }}>
+          <Button onClick={() => {
+            setOpen(false)
+            setReasonError('')
+            setReason('')
+          }}
+            color={'error'}>
+            Cancel
+          </Button>
+          <Button onClick={() => { ClickOk() }} color={'error'} sx={{
+            '&:hover': {
+              backgroundColor: red[100]
+            }
+          }}>
+            Unpublish
+          </Button>
 
-      </DialogActions>
-    </Dialog>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
