@@ -273,7 +273,7 @@ const PrePrimaryResult = () => {
 
   const ClickOk = () => {
     if (Reason === '') {
-      setReasonError("Reason for Unpublish should not be blank.");
+      setReasonError("Reason for unpublish should not be blank.");
     } else {
 
       ClickUnpublish()
@@ -488,6 +488,7 @@ const PrePrimaryResult = () => {
                 sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Assessment'}
                 size={"small"}
+                disabled
                 value={getClassName()} />
             </Grid>
           </Grid>
@@ -501,6 +502,7 @@ const PrePrimaryResult = () => {
                 sx={{ minWidth: '30vw', bgcolor: '#F0F0F0' }}
                 label={'Class Teacher'}
                 size={"small"}
+                disabled
                 value={getClassName1()} />
             </Grid>
           </Grid>
