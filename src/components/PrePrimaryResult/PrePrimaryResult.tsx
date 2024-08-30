@@ -482,8 +482,8 @@ const PrePrimaryResult = () => {
                 // background:'white',
                 borderRadius: '10px',
                 position: 'absolute',
-                top: '5px',
-                right: '10px',
+                top: '4px',
+                right: '35px',
                 cursor: 'pointer',
                 '&:hover': { backgroundColor: grey[600] }
               }} />
