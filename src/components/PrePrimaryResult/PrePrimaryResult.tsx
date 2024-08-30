@@ -517,8 +517,11 @@ const PrePrimaryResult = () => {
       </DialogContent>
       <DialogActions sx={{ py: 1, px: 3 }}>
         <Button onClick={() => {
-          setOpen(false)
-        }} color={'error'}>
+              setOpen(false)
+              setReasonError('')
+              setReason('')
+            }}
+         color={'error'}>
           Cancel
         </Button>
         <Button onClick={() => { ClickOk() }} color={'error'} sx={{
