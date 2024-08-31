@@ -54,15 +54,16 @@ function PerformanceGradeAList({
                                             <TableRow key={item.ItemID} >
                                                 <TableCell
                                                     sx={{
-                                                        textTransform: 'capitalize', py: 1
+                                                        textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px'
                                                     }}
                                                 // align="left"
                                                 >
                                                     {item.Text1}
                                                 </TableCell>
                                                 <TableCell sx={{
-                                                    textTransform: 'capitalize',
-                                                    py: 1, pl: 9
+                                                    textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px',
+                                                    // py: 1, 
+                                                    pl: 9
                                                 }}>
                                                     <Tooltip title={"Performance Evaluation"}>
                                                         <IconButton
