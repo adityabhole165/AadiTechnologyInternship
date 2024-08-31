@@ -1,5 +1,5 @@
 
-import { Box } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProgressReportDetailsBody, GetStudentDetailsDropdownBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
@@ -54,7 +54,6 @@ const PreprimaryProgressReportView = () => {
 
 
 
-
     const GetProgressReportDetailsBody: GetProgressReportDetailsBody =
     {
         asSchoolId: asSchoolId,
@@ -91,10 +90,10 @@ const PreprimaryProgressReportView = () => {
         <Box sx={{ px: 2 }}>
 
             <CommonPageHeader
-                navLinks={[
-                    { title: 'Pre Primary Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
-
-                ]}
+               navLinks={[
+                { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' },
+                { title: ' Progress Report ', path: '' }
+              ]}
                 rightActions={
                     <>
                     
@@ -133,7 +132,47 @@ const PreprimaryProgressReportView = () => {
                                     (item) => item.YearwiseStudentId == detail.YearWiseStudentId
                                 ).length}
                             />
-                            <GradeDetails GradeDetailsfilteredAndSortedData={GradeDetailsfilteredAndSortedData} />
+                          <div>
+                    <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2}>
+
+                        Key to Curricular and Co-Curricular
+
+                    </Typography>
+                    <TableContainer component={Box} >
+                        <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                            <TableHead>
+                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                    <TableCell sx={{
+                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                        py: 1
+                                    }}>Grade Name</TableCell>
+                                    <TableCell sx={{
+                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                        py: 1
+                                    }}>Description</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {GradeDetailsfilteredAndSortedData.map((row) => (
+                                    <TableRow key={row.GradeId}>
+                                        <TableCell sx={{ py: 1 }}>{row.Name}</TableCell>
+                                        <TableCell sx={{ py: 1 }}>{row.Description}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Box mt={1}>
+                        <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                            <TableBody>
+                                <TableRow sx={{ bgcolor: '#F0F0F0', border: '1px solid lightgrey' }}>
+                                    <TableCell sx={{ textAlign: 'left', py: 1, color: 'black', p: 1 }}><b>Note :&nbsp; </b> Ab - Absent &nbsp; &nbsp; &nbsp;  Ex - Exempted </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </Box>
+                </div>
                             <CurricularSubjects
                                 USFillStudentsLearningOutcomes={USFillStudentsLearningOutcomes.filter(
                                     (item) => item.YearwiseStudentId == detail.YearWiseStudentId

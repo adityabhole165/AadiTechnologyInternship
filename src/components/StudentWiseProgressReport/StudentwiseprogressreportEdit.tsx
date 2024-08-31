@@ -575,6 +575,7 @@ const StudentwiseprogressreportEdit = () => {
                                             DisableClearable={true}
                                             onChange={clickHeaderGrade}
                                             mandatory
+                                            disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -610,6 +611,7 @@ const StudentwiseprogressreportEdit = () => {
                                                                         DisableClearable={true}
                                                                         onChange={(value) => clickGrade(value, outcome.LearningOutcomeConfigId)}
                                                                         mandatory
+                                                                        disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
                                                                     />
 
                                                                 </TableCell>
@@ -649,6 +651,7 @@ const StudentwiseprogressreportEdit = () => {
                                             DisableClearable={true}
                                             onChange={clickHeaderGrade1}
                                             mandatory
+                                            disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
                                         />
                                     </TableCell>
                                     <TableCell sx={{
@@ -673,6 +676,7 @@ const StudentwiseprogressreportEdit = () => {
                                                 DisableClearable={true}
                                                 onChange={(value) => clickGrade1(value, row.GradeId)}
                                                 mandatory
+                                                disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
                                             />
                                         </TableCell>
                                         <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
