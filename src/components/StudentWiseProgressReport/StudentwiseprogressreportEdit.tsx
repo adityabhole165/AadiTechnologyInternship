@@ -6,18 +6,18 @@ import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, Tab
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails, resetMessage } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
+import { useNavigate, useParams } from 'react-router';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const { Assessment, YearwiseStudentId, StandardId } = useParams();
     const [AssessmentId, setAssessmentId]: any = useState(Assessment);
     const [Error, SetError] = useState('')
@@ -293,10 +293,17 @@ const StudentwiseprogressreportEdit = () => {
 
 
 
+    
+
      const ClickShow = () => {
-
-     };
-
+           
+        navigate('/extended-sidebar/Teacher/PreprimaryProgressReportView/' +
+            AssessmentId + '/' +
+          YearwiseStudentId  + '/' +
+          StandardId 
+          
+        );
+      };
 
 
      

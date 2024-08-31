@@ -237,6 +237,11 @@ const PreprimaryProgressReport = Loader(
 const StudentwiseprogressreportEdit = Loader(
   lazy(() => import('src/components/StudentWiseProgressReport/StudentwiseprogressreportEdit'))
 )
+const PreprimaryProgressReportView = Loader(
+  lazy(() => import('src/components/StudentWiseProgressReport/PreprimaryProgressReportView'))
+)
+
+
 
 const DashBoard = Loader(
   lazy(() => import('src/componentsWeb/DashBoard/DashBoard'))
@@ -711,6 +716,10 @@ const teacherRoutes = [
   {
     path: 'PerformanceEvaluation',
     element: <PerformanceEvaluation />
+  },
+  {
+    path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
+    element: <PreprimaryProgressReportView />
   },
 
 
