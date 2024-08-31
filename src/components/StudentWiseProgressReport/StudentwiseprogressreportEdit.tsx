@@ -1,9 +1,9 @@
 
-import { CheckCircle, Save } from '@mui/icons-material';
+import { CheckCircle, Save, Unpublished } from '@mui/icons-material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -64,10 +64,20 @@ const StudentwiseprogressreportEdit = () => {
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
 
-    
 
-   
-   
+
+    const hasValidLearningOutcomeGrade = (outcome: any) => {
+        return outcome.LearningOutcomeGradeId !== "0";
+    };
+
+    const filteredOutcomes = USFillStudentsLearningOutcomes.map((outcome: any) => hasValidLearningOutcomeGrade(outcome));
+
+
+    // AssessmentPublishStatus StudentWiseAssessmentPublishStatus 
+    console.log(filteredOutcomes[0], AssessmentPublishStatus, StudentWiseAssessmentPublishStatus, "---");
+
+
+
     useEffect(() => {
         const remark = USFillXseedRemarks.filter(item => item.Remark);
         if (remark.length > 0) {
@@ -168,33 +178,33 @@ const StudentwiseprogressreportEdit = () => {
 
     function learningOutcomeXML() {
         let sXML = '';
-    
+
         USFillStudentsLearningOutcomes.forEach((student) => {
             const learningOutcomeConfigId = student.LearningOutcomeConfigId;
             const gradeId = grades[learningOutcomeConfigId];
             const subjectSectionConfigId = student.SubjectSectionConfigId;
-    
-          
+
+
             const learningOutcomesObservationId = USFillStudentsLearningOutcomeObservations
                 .filter(observation => observation.SubjectSectionConfigId === subjectSectionConfigId)
                 .map(observation => observation.LearningOutcomesObservationId)[0];
-    
-          
+
+
             const learningOutcomeGradeId = USFillSubjectSections
                 .filter(section => section.SubjectSectionConfigId === subjectSectionConfigId)
                 .map(section => student.LearningOutcomeGradeId)[0];
-    
-            
+
+
             sXML += `<LearningOutcomes GradeId='${gradeId}' Observation='' LearningOutcomesObservationId='${learningOutcomesObservationId}' SubjectSectionConfigurationId='${subjectSectionConfigId}' LearningOutcomeConfigId='${learningOutcomeConfigId}' LearningOutcomeGradeId='${learningOutcomeGradeId}' />`;
         });
-    
+
         sXML = `<LearningOutcomes>${sXML}</LearningOutcomes>`;
         return sXML;
     }
-    
-    
-    
-    
+
+
+
+
     function learningOutcomeXML1() {
         let sXML = '';
         USFillNonXseedSubjectGrades.forEach((student) => {
@@ -280,47 +290,78 @@ const StudentwiseprogressreportEdit = () => {
                             mandatory
                         />
 
-                        <IconButton
-                            onClick={clicksave}
-                            sx={{
-                                color: 'white',
-                                backgroundColor: green[500],
-                                height: '36px !important',
-                                ':hover': { backgroundColor: green[600] },
 
-                            }}
-                        >
-                            <Save />
-                        </IconButton>
-
-                        <Tooltip title={'Publish'}>
+                        {AssessmentPublishStatus == "N" && StudentWiseAssessmentPublishStatus == "N" ?
                             <IconButton
+                                onClick={clicksave}
                                 sx={{
                                     color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600],
-                                    },
+                                    backgroundColor: green[500],
+                                    height: '36px !important',
+                                    ':hover': { backgroundColor: green[600] },
+
                                 }}
-                                onClick={Clickpublish}
                             >
-                                <CheckCircle />
-                            </IconButton>
-                        </Tooltip>
+                                <Save />
+                            </IconButton> : null
 
-                        <Tooltip title={'Show'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
-                                onClick={ClickShow}>
-                                <VisibilityTwoToneIcon />
-                            </IconButton>
-                        </Tooltip>
+                        }
+
+                        {
+                           (StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N" ) && filteredOutcomes[0] == true ? (
+                                <Tooltip title={'Publish'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: blue[500],
+                                            '&:hover': {
+                                                backgroundColor: blue[600],
+                                            },
+                                        }}
+                                        onClick={Clickpublish}
+                                    >
+                                        <CheckCircle />
+                                    </IconButton>
+                                </Tooltip>
+                            ) : (StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N" )&& filteredOutcomes[0] == true ? (
+                                <Tooltip title={'Unpublish'}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: red[500],
+                                            '&:hover': {
+                                                backgroundColor: red[500],
+                                            },
+                                        }}
+                                        onClick={Clickpublish}
+                                    >
+                                        <Unpublished />
+                                    </IconButton>
+                                </Tooltip>
+                            ) : null
+                        }
+
+
+
+
+
+
+                        {StudentWiseAssessmentPublishStatus == "Y" && filteredOutcomes[0] == true ?
+                            <Tooltip title={'Show'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: grey[600]
+                                        }
+                                    }}
+                                    onClick={ClickShow}>
+                                    <VisibilityTwoToneIcon />
+                                </IconButton>
+                            </Tooltip> : null
+                        }
+
 
                         <Tooltip title={'Displays xseed progress report of selected assessment.'}>
                             <IconButton
