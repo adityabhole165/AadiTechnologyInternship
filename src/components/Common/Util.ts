@@ -632,3 +632,17 @@ export const IsPhoneNoValid = (value) => {
   }
   return '';
 };
+
+// Following Function is to Encrypt and Decrypt the Data which is Passed through URL 
+// Imorting Buffer Function >>
+import { Buffer } from 'buffer';
+
+// Encrypt Function
+export const encodeURL = (data) => {
+  return Buffer.from(data).toString('base64');
+}
+
+// Decrypt Function
+export const decodeURL = (data) => {
+  return Buffer.from(data, 'base64').toString('utf-8');
+}
