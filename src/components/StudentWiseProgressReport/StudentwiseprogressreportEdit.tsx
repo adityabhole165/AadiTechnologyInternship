@@ -28,12 +28,13 @@ const StudentwiseprogressreportEdit = () => {
     const [headerGrade1, setHeaderGrade1] = useState("0");
     const [grades1, setGrades1] = useState({});
 
-    console.log(grades);
+    console.log(grades1,"grades1");
 
     const [textall, setTextall] = useState('');
     const maxChars = 300;
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
+    const [ReasonError, setReasonError] = useState('');
     let PreprimaryFullAccess = getSchoolConfigurations(164)
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -71,10 +72,6 @@ const StudentwiseprogressreportEdit = () => {
     };
 
     const filteredOutcomes = USFillStudentsLearningOutcomes.map((outcome: any) => hasValidLearningOutcomeGrade(outcome));
-
-
-    // AssessmentPublishStatus StudentWiseAssessmentPublishStatus 
-    console.log(filteredOutcomes[0], AssessmentPublishStatus, StudentWiseAssessmentPublishStatus, "---");
 
 
 
@@ -231,8 +228,13 @@ const StudentwiseprogressreportEdit = () => {
 
 
     const clicksave = () => {
-        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
-        {
+        if (grades1["15"] === "0") {
+            const subjectNames = USFillNonXseedSubjectGrades.map((row) => row.SubjectName).join(", ");
+            setReasonError(`Grade should be selected for co-curricular subject(s): ${subjectNames}`);
+            return; 
+        }
+    
+        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody = {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
             asYearwiseStudentId: Number(StandardId),
@@ -243,29 +245,75 @@ const StudentwiseprogressreportEdit = () => {
             asXseedGradesXML: learningOutcomeXML1(),
             asMode: "Save",
             asRemark: textall
+        };
+    
+        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
+    };
+    
+
+
+
+    const Clickpublish = () => { 
+
+        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
+        {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asYearwiseStudentId: Number(StandardId),
+            asStandardDivisionId: Number(YearwiseStudentId),
+            asAssessmentId: Number(AssessmentId),
+            asInsertedById: asUserId,
+            asLearningOutcomeXML: learningOutcomeXML(),
+            asXseedGradesXML: learningOutcomeXML1(),
+            asMode: "Publish",
+            asRemark: textall
 
         };
         dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
-
     };
+    const ClickUnpublish = () => {
+
+
+        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
+        {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asYearwiseStudentId: Number(StandardId),
+            asStandardDivisionId: Number(YearwiseStudentId),
+            asAssessmentId: Number(AssessmentId),
+            asInsertedById: asUserId,
+            asLearningOutcomeXML: learningOutcomeXML(),
+            asXseedGradesXML: learningOutcomeXML1(),
+            asMode: "Unpublish",
+            asRemark: textall
+
+        };
+        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+     };
 
 
 
-    useEffect(() => {
+     const ClickShow = () => {
+
+     };
+
+
+
+     
+
+     useEffect(() => {
         if (USManageStudentWiseAssessmentGrades != "") {
-            toast.success(USManageStudentWiseAssessmentGrades);
-            dispatch(resetMessage());
-            dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
+          toast.success(USManageStudentWiseAssessmentGrades);
+          dispatch(resetMessage());
+          dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
+          setReasonError('')
         }
-    }, [USManageStudentWiseAssessmentGrades]);
-    const Clickpublish = () => { };
-    const ClickShow = () => { };
+      }, [USManageStudentWiseAssessmentGrades]);
+
+    
 
 
-
-
-
-
+     
 
     return (
         <Box sx={{ px: 2 }}>
@@ -333,7 +381,7 @@ const StudentwiseprogressreportEdit = () => {
                                                 backgroundColor: red[500],
                                             },
                                         }}
-                                        onClick={Clickpublish}
+                                        onClick={ClickUnpublish}
                                     >
                                         <Unpublished />
                                     </IconButton>
@@ -384,6 +432,7 @@ const StudentwiseprogressreportEdit = () => {
 
             <ErrorMessage1 Error={Error}></ErrorMessage1>
             <ErrorMessage1 Error={Error1}></ErrorMessage1>
+            <ErrorMessage1 Error={ReasonError}></ErrorMessage1>
 
 
 
