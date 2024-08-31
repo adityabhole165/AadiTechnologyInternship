@@ -44,7 +44,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
 
       <Dialog
         open={open}
-        maxWidth={'md'}
+        maxWidth={'sm'}
         fullWidth
         onClose={() => {
           setOpen(false);
