@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import RadioButton1 from "src/libraries/RadioButton/RadioButton1";
+import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent";
 import PerformanceGradeAList from "src/libraries/ResuableComponents/PerformanceGradeAList";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { RGetAllUsersReportingToGivenUser, RGetAllYearsDropdown } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
@@ -38,17 +39,33 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     const GetAllYearBody: IGetAllYearsBody = {
         asSchoolId: asSchoolId
     }
+    const [PagedLeave, setPagedLeave] = useState([]);
+    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const rowsPerPageOptions = [20, 50, 100, 200];
+    const [page, setPage] = useState(1);
+    const filteredList = GetAllUsersReportingToGivenUserUS.filter((item) => item.TotalRows !== undefined);
+    const TotalCount = filteredList.map((item) => item.TotalRows);
+    const uniqueTotalCount = [...new Set(TotalCount)];
+    const singleTotalCount = uniqueTotalCount[0];
+    const startRecord = (page - 1) * rowsPerPage + 1;
+    const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+    const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
     const GetAllUsersReportingToGivenUserPending: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
         asUserID: asUserId, /*3443,*/
         asYear: Number(SelectYear),
-        asShowPending: true
+        asShowPending: true,
+        asStartIndex: (page - 1) * rowsPerPage,
+        asPageSize: page * rowsPerPage,
     }
     const GetAllUsersReportingToGivenUserSubmitted: IGetAllUsersReportingToGivenUserBody = {
         asSchoolId: asSchoolId,
         asUserID: asUserId, /*3443,*/
         asYear: Number(SelectYear),
-        asShowPending: false
+        asShowPending: false,
+        asStartIndex: (page - 1) * rowsPerPage,
+        asPageSize: page * rowsPerPage,
+
     }
     useEffect(() => {
         dispatch(RGetAllYearsDropdown(GetAllYearBody))
@@ -67,9 +84,16 @@ const PerformanceGradeAssignmentBaseScreen = () => {
         } else if (radioBtn == '2') {
             dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserPending))
         }
-    }, [radioBtn, SelectYear]);
+    }, [radioBtn, SelectYear, page, rowsPerPage,]);
+    useEffect(() => {
+        if (GetAllUsersReportingToGivenUserUS) {
+            setPagedLeave(GetAllUsersReportingToGivenUserUS);
+        }
+    }, [GetAllUsersReportingToGivenUserUS]);
     const clickYearDropdown = (value) => {
         setSelectYear(value)
+        setRowsPerPage(20)
+        setPage(1);
     };
     const ClickRadio = (value) => {
         setRadioBtn(value);
@@ -83,6 +107,13 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     const ClickAdd = (value) => {
         navigate('/extended-sidebar/Teacher/PerformanceEvaluation')
     }
+    const PageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    const ChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1); // Reset to the first page when changing rows per page
+    };
     return (
 
         <Box sx={{ px: 2 }}>
@@ -131,11 +162,47 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                     />
                 </Box>
             </Grid>
-            <PerformanceGradeAList
+            {/* <PerformanceGradeAList
                 HeaderArray={HeaderLeave}
                 ItemList={GetAllUsersReportingToGivenUserUS}
                 clickView={ClickAdd}
-            />
+            /> */}
+            <Box sx={{ background: 'white', p: 2 }}>
+                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {startRecord} to {endRecord}
+                        </Box>
+                        {' '}out of{' '}
+                        <Box component="span" fontWeight="fontWeightBold">
+                            {singleTotalCount}
+                        </Box>{' '}
+                        {singleTotalCount === 1 ? 'record' : 'records'}
+                    </Typography>
+                </div> : <span> </span>}
+
+                <PerformanceGradeAList
+                    HeaderArray={HeaderLeave}
+                    ItemList={GetAllUsersReportingToGivenUserUS}
+                    clickView={ClickAdd}
+                />
+                {
+                    endRecord > 19 ? (
+                        <ButtonGroupComponent
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+                    ) : (
+                        <span></span>
+
+                    )
+                }
+            </Box>
+
+
         </Box>
     )
 }

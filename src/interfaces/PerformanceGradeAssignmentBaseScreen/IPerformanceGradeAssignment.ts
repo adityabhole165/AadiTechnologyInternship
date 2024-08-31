@@ -11,9 +11,14 @@ export interface IGetAllUsersReportingToGivenUserBody {
     asUserID: number
     asYear: number
     asShowPending: boolean
+    asStartIndex: number
+    asPageSize: number
 }
 export interface IGetAllUsersReportingToGivenUserResult {
+    RowID: string
+    TotalRows: string
     UserId: string
     UserName: string
     IsSupervisor: string
+
 }

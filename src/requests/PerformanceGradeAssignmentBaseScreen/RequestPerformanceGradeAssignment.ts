@@ -48,6 +48,8 @@ export const RGetAllUsersReportingToGivenUser =
                     Id: Item.UserId,
                     Text1: Item.UserName,
                     Text2: Item.IsSupervisor,
+                    Text3: Item.RowID,
+                    TotalRows: Item.TotalRows,
                 };
             });
             dispatch(PerformanceGradeAssignmentslice.actions.getGetAllUsersReportingToGivenUser(responseData));
