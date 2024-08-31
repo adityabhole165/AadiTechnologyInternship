@@ -20,6 +20,7 @@ import {
 } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Carousel from 'src/libraries/card/Carousel';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
@@ -235,11 +236,7 @@ function PhotoCardDash() {
       {/* Photo Album Display */}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         {PhotoAlbum.length > 0 ? (
-          <img
-            src={PhotoAlbum[index]?.ImagePath}
-            alt={`Photo ${index + 1}`}
-            style={{ maxHeight: '200px', maxWidth: '100%' }}
-          />
+          <Carousel itemlist={PhotoAlbum} IsPath={true} />
         ) : (
           <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
             No Photos Available

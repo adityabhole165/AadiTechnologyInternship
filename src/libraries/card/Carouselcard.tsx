@@ -1,16 +1,16 @@
 import { Avatar, Typography } from '@mui/material';
 import { Cardbday } from '../styled/CardStyle';
 
-const Carouselcard = ({ item }) => {
+const Carouselcard = ({ item, IsPath }) => {
   return (
     <div>
       <Cardbday sx={{ mt: 1, pl: 1 }}>
         <Avatar
           alt="user.name"
-          src={
+          src={IsPath ? item.Text2 :
             item.Text2 != 0
               ? `data:image/png;base64,${item.Text2}`
-              : '/imges/defualtUser.jpg '
+              : '/imges/defualtUser.jpg'
           }
           sx={{
             mt: '10px',

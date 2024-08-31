@@ -103,22 +103,32 @@ export const getPhotoAlbum =
 
       const response = await DashboardApi.PhotoAlbumData(data);
 
-      const Data = response.data.map((item) => {
-        const imageList = item.ImageList || [];
-
-        return {
-          id: item.Id,
-          header: item.Name || '',
-          images: imageList.map(image => ({
-            id: image.ImageId,
-            src: image.ImagePath,
-            description: image.Description || ''
-          })),
-          month: item.Month,
-          year: item.Year,
-          userId: item.UserId
-        };
+      let Data = []
+      response.data.map((item) => {
+        item.ImageList.map((image, index) => {
+          Data.push({
+            id: index,
+            Header: item.Name,
+            Text1: image.Description,
+            Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
+          })
+        });
       });
+
+
+      // return {
+
+      //   id: item.Id,
+      //   header: item.Name || '',
+      //   images: imageList.map(image => ({
+      //     id: image.ImageId,
+      //     src: image.ImagePath,
+      //     description: image.Description || ''
+      //   })),
+      //   month: item.Month,
+      //   year: item.Year,
+      //   userId: item.UserId
+      // };
 
       dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
     };
