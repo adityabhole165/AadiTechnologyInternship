@@ -167,39 +167,46 @@ const PerformanceGradeAssignmentBaseScreen = () => {
                 ItemList={GetAllUsersReportingToGivenUserUS}
                 clickView={ClickAdd}
             /> */}
-            <Box sx={{ background: 'white', p: 2 }}>
-                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
-                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                        <Box component="span" fontWeight="fontWeightBold">
-                            {startRecord} to {endRecord}
-                        </Box>
-                        {' '}out of{' '}
-                        <Box component="span" fontWeight="fontWeightBold">
-                            {singleTotalCount}
-                        </Box>{' '}
-                        {singleTotalCount === 1 ? 'record' : 'records'}
-                    </Typography>
-                </div> : <span> </span>}
+            <Box sx={{ background: 'white', p: 1 }}>
+                <Box p={1}>
+                    {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
+                            <Box component="span" fontWeight="fontWeightBold">
+                                {startRecord} to {endRecord}
+                            </Box>
+                            {' '}out of{' '}
+                            <Box component="span" fontWeight="fontWeightBold">
+                                {singleTotalCount}
+                            </Box>{' '}
+                            {singleTotalCount === 1 ? 'record' : 'records'}
+                        </Typography>
+                    </div> : <span> </span>}
+                </Box>
 
                 <PerformanceGradeAList
                     HeaderArray={HeaderLeave}
                     ItemList={GetAllUsersReportingToGivenUserUS}
                     clickView={ClickAdd}
                 />
-                {
-                    endRecord > 19 ? (
-                        <ButtonGroupComponent
-                            rowsPerPage={rowsPerPage}
-                            ChangeRowsPerPage={ChangeRowsPerPage}
-                            rowsPerPageOptions={rowsPerPageOptions}
-                            PageChange={PageChange}
-                            pagecount={pagecount}
-                        />
-                    ) : (
-                        <span></span>
 
-                    )
-                }
+                <Box p={2}>
+                    {
+                        endRecord > 19 ? (
+
+                            <ButtonGroupComponent
+                                rowsPerPage={rowsPerPage}
+                                ChangeRowsPerPage={ChangeRowsPerPage}
+                                rowsPerPageOptions={rowsPerPageOptions}
+                                PageChange={PageChange}
+                                pagecount={pagecount}
+                            />
+                        ) : (
+                            <span></span>
+
+                        )
+                    }
+                </Box>
+
             </Box>
 
 

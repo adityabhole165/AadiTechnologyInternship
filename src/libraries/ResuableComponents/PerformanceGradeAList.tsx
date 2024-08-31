@@ -25,7 +25,7 @@ function PerformanceGradeAList({
 
                 <>
                     <Box sx={{
-                        backgroundColor: 'white', mt: 1, p: 2
+                        backgroundColor: 'white', px: 2
                     }}>
                         <TableContainer component={Box}>
                             <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
