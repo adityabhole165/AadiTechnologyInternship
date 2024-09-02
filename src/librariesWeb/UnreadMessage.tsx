@@ -51,35 +51,36 @@ const UnreadMessage = () => {
     navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox')
   }
   return (
-    <Card sx={{ height: '370px', overflow: 'auto' }}>
-      <Grid container sx={{ mb: '5px' }}>
+    <Box sx={{backgroundColor:'white', p:1}}>
+      <Grid container sx={{ backgroundColor:'#38548A',}}>
         <Grid item xs={8}>
-          <Typography variant="h3" p={1} sx={{ color: '#304ffe' }}>
+          <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Unread Messages
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Box sx={{ display: 'flex' }}>
-            <IconButton sx={{ mr: '30px' }}>
+            <IconButton sx={{ mr: '10px' }}>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '40px',      // Circle diameter
-                  height: '40px',     // Circle diameter
+                  width: '30px',      // Circle diameter
+                  height: '30px',     // Circle diameter
                   borderRadius: '50%', // Makes the Box a circle
-                  backgroundColor: 'secondary.main', // Secondary background color
+                  backgroundColor: 'white', // Secondary background color
                   color: 'black',      // Text color
                   fontSize: '0.8rem',
                 }}
               >
-                {UnreadMessageCount}
+               <b>{UnreadMessageCount}</b> 
               </Box>
             </IconButton>
           </Box>
         </Grid>
       </Grid>
+      <Box sx={{ height: '400px', overflow: 'auto', mt:2 }}>
       {loading ? (
         <Stack justifyContent="center" alignItems="center">
           <CircularProgress size={40} disableShrink thickness={4} />
@@ -148,7 +149,8 @@ const UnreadMessage = () => {
           <ArrowRightAltIcon />
         </Grid>
       </Grid>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 

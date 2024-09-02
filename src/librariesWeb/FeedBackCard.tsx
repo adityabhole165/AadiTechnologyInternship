@@ -102,10 +102,10 @@ function FeedBackCard() {
 
   const open = Boolean(anchorEl);
   return (
-    <Card sx={{ height: '370px', overflow: 'auto' }}>
-      <Grid container sx={{ mb: '5px' }}>
+    <Box sx={{backgroundColor:'white', p:1}} >
+      <Grid container sx={{ backgroundColor:'#38548A',}}>
         <Grid item xs={6}>
-          <Typography variant="h3" p={1} sx={{ color: '#304ffe' }}>
+          <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Feedback
           </Typography>
         </Grid>
@@ -119,7 +119,7 @@ function FeedBackCard() {
               }
             >
               <IconButton onClick={handleRefresh}>
-                <RefreshIcon sx={{ mt: '5px', mr: '0px' }} />
+                <RefreshIcon sx={{ mt: '8px', color:'white', }} />
               </IconButton>
             </Tooltip>
             {/* <Avatar
@@ -130,6 +130,7 @@ function FeedBackCard() {
           </Box>
         </Grid>
       </Grid>
+      <Box sx={{ height: '400px', overflow: 'auto', mt:2 }}>
       {loading ? (
         <Stack justifyContent="center" alignItems="center">
           <CircularProgress size={40} disableShrink thickness={4} />
@@ -143,14 +144,14 @@ function FeedBackCard() {
               {Feedback.map((item, i) => (
                 <div key={i}>
                   <Box key={i}>
-                    <Grid container>
-                      <Grid item xs={11.5}>
+                    <Grid >
+                      <Grid item xs={12}>
                         <Box
                           display={'flex'}
                           justifyContent={'space-between'}
                           px={3}
                         >
-                          <Typography variant="h5">{item.Header}</Typography>  </Box>
+                          <Typography variant="h4" p={0.5}>{item.Header}</Typography>  </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
                           <AccessTimeIcon
                             sx={{ mr: '5px', color: '#64b5f6' }}
@@ -198,7 +199,8 @@ function FeedBackCard() {
           )}
         </>
       )}
-    </Card>
+      </Box>
+    </Box>
   );
 }
 
