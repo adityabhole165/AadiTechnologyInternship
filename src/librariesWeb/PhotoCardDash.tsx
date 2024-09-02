@@ -20,7 +20,7 @@ import {
 } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Carousel from 'src/libraries/card/Carousel';
+import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
@@ -36,6 +36,7 @@ function PhotoCardDash() {
   const [month, setMonth] = useState('100');
   const [year, setYear] = useState(currentYear);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const MonthArray = [
     { Id: 1, Name: 'All', Value: '0' },
     { Id: 2, Name: 'January', Value: '1' },
@@ -70,7 +71,7 @@ function PhotoCardDash() {
     aiMonth: Number(month),
     aiYear: Number(year),
     aiUserId: Number(asUserId),
-    iFirstLoad: true
+    iFirstLoad: isFirstLoad
   };
 
   useEffect(() => {
@@ -79,6 +80,7 @@ function PhotoCardDash() {
 
   useEffect(() => {
     dispatch(getPhotoAlbum(picsBody));
+    setIsFirstLoad(false);
   }, [month, year]);
 
   const getTimeDifference = () => {
@@ -124,12 +126,14 @@ function PhotoCardDash() {
   };
 
   const handleApplyFilter = () => {
+    setMonth(month);
+    setYear(year);
     const filteredPicsBody = {
       ...picsBody,
       aiMonth: Number(month),
       aiYear: Number(year),
     };
-    dispatch(getPhotoAlbum(filteredPicsBody));
+
     handleClose();
     setLastRefreshTime(new Date()); // Update the last refresh time
   };
@@ -137,22 +141,9 @@ function PhotoCardDash() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const [index, setIndex] = useState(0);
-
-  const arrowClick = (value) => {
-    const maxLength = PhotoAlbum.length - 1;
-    const min = 0;
-    if (value === -1 && index === 0) {
-      setIndex(maxLength);
-    } else if (value === 1 && index === maxLength) {
-      setIndex(min);
-    } else {
-      setIndex(index + value);
-    }
-  };
 
   return (
-    <Box sx={{ height: '300px', backgroundColor: 'white', p: 1 }}>
+    <Box sx={{ height: '487px', backgroundColor: 'white', p: 1 }}>
       <Grid item sx={{ overflow: 'auto', display: 'flex', backgroundColor: '#38548A' }}>
         <Grid item xs={12}>
           <Typography variant="h3" p={0.8} sx={{ color: 'white' }}>
@@ -183,15 +174,21 @@ function PhotoCardDash() {
               }} />
             </IconButton>
           </Tooltip>
-          <IconButton onClick={handleClickpop}>
-            <SettingsIcon sx={{
-              color: 'white',
-              borderRadius: '7px',
-              mt: '4px',
-              cursor: 'pointer',
-              '&:hover': { backgroundColor: grey[600] }
-            }} />
-          </IconButton>
+          <Tooltip
+            title={
+              'Click here to display all galleries of selected year, select All option from month and apply filter.'
+            }
+          >
+            <IconButton onClick={handleClickpop}>
+              <SettingsIcon sx={{
+                color: 'white',
+                borderRadius: '7px',
+                mt: '4px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }} />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Grid>
 
@@ -236,26 +233,12 @@ function PhotoCardDash() {
       {/* Photo Album Display */}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         {PhotoAlbum.length > 0 ? (
-          <Carousel itemlist={PhotoAlbum} IsPath={true} />
+          <CarouselPhoto itemlist={PhotoAlbum} IsPath={true} />
         ) : (
           <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
             No Photos Available
           </Typography>
         )}
-      </Box>
-
-      {/* Arrows for navigation */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <IconButton onClick={() => arrowClick(-1)}>
-          <Typography variant="h5" sx={{ color: '#38548A' }}>
-            &#9664;
-          </Typography>
-        </IconButton>
-        <IconButton onClick={() => arrowClick(1)}>
-          <Typography variant="h5" sx={{ color: '#38548A' }}>
-            &#9654;
-          </Typography>
-        </IconButton>
       </Box>
     </Box>
   );
