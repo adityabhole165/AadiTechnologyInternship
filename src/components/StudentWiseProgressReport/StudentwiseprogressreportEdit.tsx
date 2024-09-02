@@ -443,7 +443,7 @@ const StudentwiseprogressreportEdit = () => {
                         }
 
 
-                        <Tooltip title={'Displays xseed progress report of selected assessment.'}>
+                        <Tooltip title={'Assign,publish student grades and view students progress report'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -723,6 +723,7 @@ const StudentwiseprogressreportEdit = () => {
                         value={textall}
                         onChange={Detailschnageall3}
                         fullWidth
+                        disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
                     />
                     <Typography variant="caption" align="right" display="block" color="textSecondary">
                         ({maxChars - textall.length} )
