@@ -41,7 +41,7 @@ const AnnualPlanerBaseScreenSlice = createSlice({
     ISMonthList: [],
     ParentList: [],
     GetTeacherDetails: null,
-    listTeacherDetail:[]
+    listTeacherDetail: []
   },
   reducers: {
     addanual(state, action) {
@@ -103,7 +103,7 @@ const AnnualPlanerBaseScreenSlice = createSlice({
     },
     GetTeacherDetailsForControlPanel(state, action) {
       state.GetTeacherDetails = action.payload;
-      state.listTeacherDetail= action.payload.listTeacherDetailss
+      state.listTeacherDetail = action.payload.listTeacherDetailss
     }
   }
 });
@@ -411,7 +411,7 @@ export const CDAAllAcademicYearsForSchool =
         return {
           Id: item.Academic_Year_ID,
           Name: item.YearValue,
-          Value: item.Academic_Year_ID
+          Value: item.YearValue.split('-')[0]
         };
       });
 

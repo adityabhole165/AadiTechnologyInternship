@@ -20,23 +20,26 @@ import {
 } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import { CDAAllAcademicYearsForSchool, GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 
 function PhotoCardDash() {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear().toString();
+  console.log(currentYear, 'currentYear')
   const currentMonth = (new Date().getMonth() + 1).toString();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
   const [month, setMonth] = useState('100');
-  const [year, setYear] = useState(currentYear);
+  const [year, setYear] = useState('currentYear');
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [refreshFlag, setRefreshFlag] = useState(0);
   const MonthArray = [
     { Id: 1, Name: 'All', Value: '0' },
     { Id: 2, Name: 'January', Value: '1' },
@@ -57,14 +60,28 @@ function PhotoCardDash() {
   const SelectYearList = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList
   );
+  const AllAcademicYearsForSchool: any = useSelector(
+    (state: RootState) =>
+      state.AnnualPlanerBaseScreen.ISGetAllAcademicYearsForSchool
+  );
+
+
+  useEffect(() => {
+    const lastIndex = AllAcademicYearsForSchool.length - 1;
+    if (lastIndex >= 0) {
+      setYear(AllAcademicYearsForSchool[lastIndex].Value);
+    }
+  }, [AllAcademicYearsForSchool]);
+  const GetAllAcademicYearsForSchoolBody: IGetAllAcademicYearsForSchoolEVBody =
+  {
+    asSchoolId: Number(asSchoolId),
+    asUserId: Number(asUserId),
+    asUserRoleId: Number(RoleId)
+  };
 
   const PhotoAlbum = useSelector(
     (state: RootState) => state.Dashboard.PhotoAlbumList
   );
-
-  const GetYearsForAnnualPalannerBody = {
-    asSchoolId: Number(asSchoolId)
-  };
 
   const picsBody = {
     aiSchoolId: Number(asSchoolId),
@@ -75,13 +92,15 @@ function PhotoCardDash() {
   };
 
   useEffect(() => {
-    dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+    dispatch(CDAAllAcademicYearsForSchool(GetAllAcademicYearsForSchoolBody));
   }, []);
+
+
 
   useEffect(() => {
     dispatch(getPhotoAlbum(picsBody));
     setIsFirstLoad(false);
-  }, [month, year]);
+  }, []);
 
   const getTimeDifference = () => {
     if (!lastRefreshTime) return 'no';
@@ -118,12 +137,19 @@ function PhotoCardDash() {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    if (refreshFlag == 1) {
+      dispatch(getPhotoAlbum(picsBody));
+      setRefreshFlag(0)
+    }
+  }, [refreshFlag]);
   const handleClearFilter = () => {
     setMonth('100');
     setYear(currentYear);
-    dispatch(getPhotoAlbum(picsBody));
+    setRefreshFlag(1)
     handleClose();
   };
+
 
   const handleApplyFilter = () => {
     setMonth(month);
@@ -133,7 +159,7 @@ function PhotoCardDash() {
       aiMonth: Number(month),
       aiYear: Number(year),
     };
-
+    dispatch(getPhotoAlbum(picsBody));
     handleClose();
     setLastRefreshTime(new Date()); // Update the last refresh time
   };
@@ -205,7 +231,7 @@ function PhotoCardDash() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }} p={1}>
           <Dropdown Array={MonthArray} handleChange={ClickMonth} label={'Select Month'} defaultValue={month} />
           <Dropdown
-            Array={SelectYearList}
+            Array={AllAcademicYearsForSchool}
             handleChange={ClickYear}
             defaultValue={year}
             label={'Select Year'}
