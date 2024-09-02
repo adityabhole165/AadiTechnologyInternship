@@ -323,6 +323,32 @@ export const getDateFormat = (date) => {
   const Year = new Date(date).getFullYear();
   return `${Day}-${Month}-${Year}`;
 };
+export function formatDate(dateString) {
+  // Parse the input date string (assuming it is in DD-MM-YYYY format)
+  let [day, month, year] = dateString.split('-');
+
+  // Pad day and month with leading zeros if necessary
+  day = day.padStart(2, '0');
+  month = month.padStart(2, '0');
+
+  // Create a Date object from the parsed values
+  const date = new Date(`${year}-${month}-${day}`);
+
+  // Define an array with month names
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  // Format the date in DD-MMM-YYYY format
+  const formattedDate = `${day}-${months[date.getMonth()]}-${year}`;
+
+  return formattedDate;
+}
+export const getDateFormatNew = (date) => {
+  date = date || new Date();
+  const Day = new Date(date).getDate().toString().length === 1 ? '0' + new Date(date).getDate() : new Date(date).getDate();
+  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Year = new Date(date).getFullYear();
+  return `${Day}-${Month}-${Year}`;
+};
 
 export const getDateFormat1 = (date) => {
   date = date || new Date();
