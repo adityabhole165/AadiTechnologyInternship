@@ -182,7 +182,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
     },
     {
-      title: 'Aadhar Card Details',
+      title: 'Add Aadhar Card Details',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/AadharCard'
     },
