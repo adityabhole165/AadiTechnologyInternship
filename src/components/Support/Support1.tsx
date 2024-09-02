@@ -205,12 +205,11 @@ const Support1 = () => {
                         </>
                     }
                 />
-                <Grid sx={{ backgroundColor: 'white', mb: 2, p: 1.5 }}>
-                    <Typography variant="h4" gutterBottom>
+                <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>
+                    <Typography variant="h4" gutterBottom pl={1}>
                         Support Request
                     </Typography>
-                </Grid>
-                <Grid sx={{ backgroundColor: 'white', p: 1 }}>
+                    <Grid sx={{ backgroundColor: 'white', p: 1 }}>
                     <Typography variant="h5" gutterBottom>
                         Dear Teacher, <br />
                     </Typography>
@@ -218,13 +217,16 @@ const Support1 = () => {
                         Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible. You may attach a file as a supporting document. It will help our support member to understand the problem in full and speed up resolution of your request.
                     </Typography>
                 </Grid>
-                <Grid sx={{ backgroundColor: 'white', p: 1 }}>
+                </Grid>
+                
+                
+                <Box sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
+                <Grid sx={{ backgroundColor: 'white', p: 1}}>
                     <Typography variant="h4" gutterBottom>
                         Write to Us
                     </Typography>
                 </Grid>
-                <Box sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} p={1}>
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth

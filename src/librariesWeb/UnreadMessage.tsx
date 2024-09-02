@@ -53,14 +53,14 @@ const UnreadMessage = () => {
   return (
     <Box sx={{backgroundColor:'white', p:1}}>
       <Grid container sx={{ backgroundColor:'#38548A',}}>
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Unread Messages
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <Box sx={{ display: 'flex' }}>
-            <IconButton sx={{ mr: '10px' }}>
+            <IconButton sx={{ mr: '0px' }}>
               <Box
                 sx={{
                   display: 'flex',
@@ -93,11 +93,11 @@ const UnreadMessage = () => {
               return (<div key={i}>
                 <Box>
                   <Grid container>
-                    <Grid item xs={11.5} onClick={() => { clickMessage(item) }}>
+                    <Grid item xs={12} onClick={() => { clickMessage(item) }}>
                       <Box
                         display={'flex'}
                         justifyContent={'space-between'}
-                        px={3}
+                        px={2}
                       > {SenderPhoto.map((image, i) => {
                         if (image.Id === item.SenderUserId) {
                           return (
@@ -111,14 +111,15 @@ const UnreadMessage = () => {
                         }
                       })}
 
-                        <Typography variant="h5">{item.UserName}</Typography>
-                        <Typography variant="body2">{item.Subject}</Typography>
+                        <Typography variant="h4" pl={2}>{item.UserName}</Typography>
+                        <Typography variant="body2" pl={1}>{item.Subject}</Typography>
                       </Box>
                       <Tooltip title={item.Text3} placement="left-start">
                         <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
                           <AccessTimeIcon
-                            sx={{ mr: '5px', color: '#64b5f6' }}
-                            fontSize="small"
+                            sx={{ mr: '10px', color: '#64b5f6' }}
+                            fontSize="medium"
+                            
                           />
                           <Typography
                             variant="body2"
