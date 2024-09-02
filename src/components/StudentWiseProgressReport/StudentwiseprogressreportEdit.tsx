@@ -338,6 +338,7 @@ const StudentwiseprogressreportEdit = () => {
             dispatch(resetMessage());
             dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
             setReasonError('')
+            setReasonError1('')
         }
     }, [USManageStudentWiseAssessmentGrades]);
 
