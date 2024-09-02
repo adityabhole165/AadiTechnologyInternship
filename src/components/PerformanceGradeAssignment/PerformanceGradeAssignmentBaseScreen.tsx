@@ -3,7 +3,7 @@ import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import RadioButton1 from "src/libraries/RadioButton/RadioButton1";
 import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent";
@@ -11,11 +11,13 @@ import PerformanceGradeAList from "src/libraries/ResuableComponents/PerformanceG
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
 import { RGetAllUsersReportingToGivenUser, RGetAllYearsDropdown } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { RootState } from "src/store";
+import { decodeURL } from "../Common/Util";
 import CommonPageHeader from "../CommonPageHeader";
 
 const PerformanceGradeAssignmentBaseScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { asYearID, statusID } = useParams();
     const [SelectYear, setSelectYear] = useState('0')
     const [HeaderLeave, setHeaderLeave] = useState([
         { Id: 1, Header: 'Staff Name (Designation)' },
@@ -31,14 +33,23 @@ const PerformanceGradeAssignmentBaseScreen = () => {
     const GetAllYearsUS = useSelector(
         (state: RootState) => state.PerformanceGradeAssignment.GetAllYearsIS
     );
-    console.log(GetAllYearsUS, "GetAllYearsUS");
+    // console.log(GetAllYearsUS, "GetAllYearsUS");
     const GetAllUsersReportingToGivenUserUS = useSelector(
         (state: RootState) => state.PerformanceGradeAssignment.GetAllUsersReportingToGivenUserIS
     );
-    console.log(GetAllUsersReportingToGivenUserUS, "GetAllUsersReportingToGivenUserUS");
+    // console.log(GetAllUsersReportingToGivenUserUS, "GetAllUsersReportingToGivenUserUS");
     const GetAllYearBody: IGetAllYearsBody = {
         asSchoolId: asSchoolId
     }
+
+    // useEffect to set Param data if !undefined for Year and Radio Status
+    useEffect(() => {
+        if (asYearID !== undefined && statusID !== undefined) {
+            setSelectYear(decodeURL(asYearID));
+            setRadioBtn(decodeURL(statusID));
+        }
+    }, [asYearID, statusID])
+
     const [PagedLeave, setPagedLeave] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
@@ -71,10 +82,10 @@ const PerformanceGradeAssignmentBaseScreen = () => {
         dispatch(RGetAllYearsDropdown(GetAllYearBody))
     }, []);
     useEffect(() => {
-        if (GetAllYearsUS.length > 0) {
+        if (GetAllYearsUS.length > 0 && asYearID === undefined && statusID === undefined) {
             setSelectYear(GetAllYearsUS[0].Value)
         }
-    }, [GetAllYearsUS])
+    }, [GetAllYearsUS, asYearID, statusID])
     // useEffect(() => {
     //         dispatch(RGetAllUsersReportingToGivenUser(GetAllUsersReportingToGivenUserPending))
     //     }, [SelectYear, radioBtn]);
@@ -105,7 +116,13 @@ const PerformanceGradeAssignmentBaseScreen = () => {
         // }
     };
     const ClickAdd = (value) => {
-        navigate('/extended-sidebar/Teacher/PerformanceEvaluation')
+        const dataToPass = {
+            userId: value,
+            asYear: SelectYear,
+            status: radioBtn,
+        };
+        // Data is Passed to the next page using navigate's state property  | state: dataToPass (can pass an entire Object)
+        navigate('/extended-sidebar/Teacher/PerformanceEvaluation', { state: dataToPass })
     }
     const PageChange = (pageNumber) => {
         setPage(pageNumber);

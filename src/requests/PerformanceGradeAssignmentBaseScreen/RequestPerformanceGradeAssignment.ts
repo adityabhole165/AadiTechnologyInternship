@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PerformanceGradeAssignmentAPI from 'src/api/PerformanceGradeAssignmentBaseScreen/ApiPerformanceGradeAssignment';
-import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
+import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody, IGetPerformanceEvaluationDetailsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
 import { AppThunk } from 'src/store';
 const PerformanceGradeAssignmentslice = createSlice({
     name: 'PerformanceGradeAssignment',
@@ -8,6 +8,7 @@ const PerformanceGradeAssignmentslice = createSlice({
     initialState: {
         GetAllYearsIS: [],
         GetAllUsersReportingToGivenUserIS: [],
+        ISlistSchoolOrgNameDetails: [],
         Loading: true
     },
     reducers: {
@@ -18,6 +19,10 @@ const PerformanceGradeAssignmentslice = createSlice({
         getGetAllUsersReportingToGivenUser(state, action) {
             state.Loading = false;
             state.GetAllUsersReportingToGivenUserIS = action.payload;
+        },
+        RlistSchoolOrgNameDetails(state, action) {
+            state.Loading = false;
+            state.ISlistSchoolOrgNameDetails = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -53,7 +58,25 @@ export const RGetAllUsersReportingToGivenUser =
                 };
             });
             dispatch(PerformanceGradeAssignmentslice.actions.getGetAllUsersReportingToGivenUser(responseData));
-            console.log(responseData, "---------------------");
+            // console.log(responseData, "---------------------");
+
+        };
+
+export const CDAGetPerformanceEvaluationDetails =
+    (data: IGetPerformanceEvaluationDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            const response = await PerformanceGradeAssignmentAPI.GetPerformanceEvaluationDetailsApi(data);
+            const listSchoolOrgNameDetails = response.data.listSchoolOrgnNameDetiles.map((item, i) => {
+                return (
+                    {
+                        schoolOrgName: item.School_Orgn_Name,
+                        schoolName: item.School_Name,
+                        address: item.Address
+                    }
+                );
+            });
+            dispatch(PerformanceGradeAssignmentslice.actions.RlistSchoolOrgNameDetails(listSchoolOrgNameDetails));
 
         };
 

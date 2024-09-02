@@ -634,7 +634,7 @@ export const IsPhoneNoValid = (value) => {
 };
 
 // Following Function is to Encrypt and Decrypt the Data which is Passed through URL 
-// Imorting Buffer Function >>
+// Importing Buffer Function >>
 import { Buffer } from 'buffer';
 
 // Encrypt Function

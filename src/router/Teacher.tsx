@@ -714,6 +714,10 @@ const teacherRoutes = [
     element: <PerformanceGradeAssignmentBaseScreen />
   },
   {
+    path: 'PerformanceGradeAssignmentBaseScreen/:asYearID/:statusID',
+    element: <PerformanceGradeAssignmentBaseScreen />
+  },
+  {
     path: 'PerformanceEvaluation',
     element: <PerformanceEvaluation />
   },
