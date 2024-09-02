@@ -6,13 +6,13 @@ import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, Tab
 import { blue, green, grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails, resetMessage } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
-import { useNavigate, useParams } from 'react-router';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const StudentwiseprogressreportEdit = () => {
@@ -28,13 +28,15 @@ const StudentwiseprogressreportEdit = () => {
     const [headerGrade1, setHeaderGrade1] = useState("0");
     const [grades1, setGrades1] = useState({});
 
-    console.log(grades1,"grades1");
+    console.log(grades1, "grades1");
 
     const [textall, setTextall] = useState('');
     const maxChars = 300;
     const [xmlString, setXmlString] = useState('');
     const [xmlString1, setXmlString1] = useState('');
     const [ReasonError, setReasonError] = useState('');
+    const [ReasonError1, setReasonError1] = useState('');
+    
     let PreprimaryFullAccess = getSchoolConfigurations(164)
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -228,12 +230,34 @@ const StudentwiseprogressreportEdit = () => {
 
 
     const clicksave = () => {
-        if (grades1["15"] === "0") {
-            const subjectNames = USFillNonXseedSubjectGrades.map((row) => row.SubjectName).join(", ");
-            setReasonError(`Grade should be selected for co-curricular subject(s): ${subjectNames}`);
-            return; 
+
+        const gradeKeysWithZeroValue = USFillStudentsLearningOutcomes.filter(outcome => grades[outcome.LearningOutcomeConfigId] == "0");
+        const gradeKeysWithZeroValue1 = USFillNonXseedSubjectGrades.filter(outcome => grades1[outcome.GradeId] == "0");
+
+        if (gradeKeysWithZeroValue.length > 0) {
+            const subjectNames = USFillSubjectSections.map(subjectSection => {
+                const outcomes = USFillStudentsLearningOutcomes.filter(
+                    outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId && grades[outcome.LearningOutcomeConfigId] === "0"
+                );
+                if (outcomes.length > 0) {
+                    const outcomeIndices = outcomes.map((_, index) => index + 1).join(', ');
+                    return `${subjectSection.SubjectSectionName} : ${outcomeIndices}`;
+                }
+                return null;
+            }).filter(Boolean); 
+            
+
+            const allSubjectNamesString = subjectNames.join('.\n');
+            setReasonError(`Grade should be selected for Learning Outcome(s): ${allSubjectNamesString}`);
+            return;
         }
-    
+
+        if (gradeKeysWithZeroValue1.length > 0) {
+            const subjectNames = USFillNonXseedSubjectGrades.map((row) => row.SubjectName).join(", ");
+            setReasonError1(`Grade should be selected for co-curricular subject(s): ${subjectNames}`);
+            return;
+        }
+
         const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody = {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
@@ -246,14 +270,14 @@ const StudentwiseprogressreportEdit = () => {
             asMode: "Save",
             asRemark: textall
         };
-    
+
         dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
     };
-    
 
 
 
-    const Clickpublish = () => { 
+
+    const Clickpublish = () => {
 
         const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
         {
@@ -289,38 +313,39 @@ const StudentwiseprogressreportEdit = () => {
 
         };
         dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
-     };
+    };
 
 
 
-    
 
-     const ClickShow = () => {
-           
+
+    const ClickShow = () => {
+
         navigate('/extended-sidebar/Teacher/PreprimaryProgressReportView/' +
             AssessmentId + '/' +
-          YearwiseStudentId  + '/' +
-          StandardId 
-          
+            YearwiseStudentId + '/' +
+            StandardId
+
         );
-      };
+    };
 
 
-     
 
-     useEffect(() => {
+
+    useEffect(() => {
         if (USManageStudentWiseAssessmentGrades != "") {
-          toast.success(USManageStudentWiseAssessmentGrades);
-          dispatch(resetMessage());
-          dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
-          setReasonError('')
+            toast.success(USManageStudentWiseAssessmentGrades);
+            dispatch(resetMessage());
+            dispatch(CDAProgressReportDetails(GetProgressReportDetailsBody));
+            setReasonError('')
+            setReasonError1('')
         }
-      }, [USManageStudentWiseAssessmentGrades]);
-
-    
+    }, [USManageStudentWiseAssessmentGrades]);
 
 
-     
+
+
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -363,7 +388,7 @@ const StudentwiseprogressreportEdit = () => {
                         }
 
                         {
-                           (StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N" ) && filteredOutcomes[0] == true ? (
+                            (StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true ? (
                                 <Tooltip title={'Publish'}>
                                     <IconButton
                                         sx={{
@@ -378,7 +403,7 @@ const StudentwiseprogressreportEdit = () => {
                                         <CheckCircle />
                                     </IconButton>
                                 </Tooltip>
-                            ) : (StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N" )&& filteredOutcomes[0] == true ? (
+                            ) : (StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true ? (
                                 <Tooltip title={'Unpublish'}>
                                     <IconButton
                                         sx={{
@@ -437,11 +462,9 @@ const StudentwiseprogressreportEdit = () => {
                     </>}
             />
 
-            <ErrorMessage1 Error={Error}></ErrorMessage1>
-            <ErrorMessage1 Error={Error1}></ErrorMessage1>
+           
             <ErrorMessage1 Error={ReasonError}></ErrorMessage1>
-
-
+            <ErrorMessage1 Error={ReasonError1}></ErrorMessage1>
 
             <Box border="1px solid grey" mb={4} sx={{ px: 2, background: 'white' }}>
 
