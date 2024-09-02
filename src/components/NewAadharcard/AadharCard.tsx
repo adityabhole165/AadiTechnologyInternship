@@ -83,19 +83,28 @@ const AadharCard = () => {
   // };
   const SaveFile = () => {
     let isError = false;
-    const isAadharValid = validateAadharCardNumber(AadharCardNumber);
+    // const isAadharValid = validateAadharCardNumber(AadharCardNumber);
     // if (!isAadharValid) {
-    //   alert('Please enter a valid Aadhar card number.');
+    //   setErrorNumberAadharcard('Please enter a valid Aadhar card number.');
     //   isError = true;
     // }
+    // if (AadharCardNumber.trim() === '') {
+    //   setErrorNumberAadharcard('Please enter Aadhar card number.');
+    //   isError = true;
+    // } else if (AadharCardNumber.length < 12) {
+    //   setErrorNumberAadharcard('Aadhar card number must be 12 digits.');
+    //   isError = true;
+    // } else {
+    //   setErrorNumberAadharcard('');
+    // }
     if (AadharCardNumber.trim() === '') {
-      setErrorNumberAadharcard('Please enter Aadhar Card Number.');
+      setErrorNumberAadharcard('Please enter aadhar card number.');
       isError = true;
     } else {
       setErrorNumberAadharcard('');
     }
     if (NamePerAadharCard.trim() === '') {
-      setErrorNamePerAadharcard('Please enter name present on Aadhar Card.');
+      setErrorNamePerAadharcard('Please enter name present on aadhar card.');
       isError = true;
     } else {
       setErrorNamePerAadharcard('');
@@ -208,15 +217,30 @@ const AadharCard = () => {
 
 
 
+  // const changeAdhar = (value) => {
+  //   const re = /^\d{0,12}$/;
+  //   if (re.test(value)) {
+  //     setAadharCardNumber(value);
+  //     setError(false);
+  //   } else {
+  //     setError(true);
+  //   }
+  // };
   const changeAdhar = (value) => {
     const re = /^\d{0,12}$/;
     if (re.test(value)) {
       setAadharCardNumber(value);
+      if (value.length < 12) {
+        setErrorNumberAadharcard('Please enter a valid aadhar card number.');
+      } else {
+        setErrorNumberAadharcard('');
+      }
       setError(false);
     } else {
       setError(true);
     }
-  };
+  }
+
 
   // useEffect(() => {
   //   const storedFile = JSON.parse(localStorage.getItem('selectedFile'));
@@ -263,435 +287,6 @@ const AadharCard = () => {
     });
   };
 
-  //   return (
-  //     <>
-  //       <Box sx={{ px: 2 }}>
-  //         <CommonPageHeader
-  //           navLinks={[
-  //             {
-  //               title: 'Add Aadhar Card Details',
-  //               path: ''
-  //             }
-  //           ]}
-  //           rightActions={
-  //             <>
-  //               <Box>
-  //                 <Tooltip title={`Add aadhar card details.`}>
-  //                   <IconButton
-  //                     sx={{
-  //                       color: 'white', backgroundColor: grey[500], height: '36px !important',
-  //                       ':hover': { backgroundColor: grey[600] }
-  //                     }}
-  //                   >
-  //                     <QuestionMark />
-  //                   </IconButton>
-  //                 </Tooltip>
-  //               </Box>
-  //               <Box>
-  //                 <Tooltip title={`Save`}>
-  //                   <IconButton
-  //                     onClick={() => SaveFile()}
-  //                     sx={{
-  //                       backgroundColor: green[500], color: 'white', height: '36px !important',
-  //                       ':hover': { backgroundColor: green[600] }
-  //                     }}
-  //                   >
-  //                     <Save />
-  //                   </IconButton>
-  //                 </Tooltip>
-  //               </Box>
-  //             </>
-  //           }
-  //         />
-  //         <Box sx={{ p: 2, background: 'white' }}>
-  //           <Grid container spacing={2}>
-  //             <Grid item xs={8}>
-  //               <Grid container spacing={2}>
-  //                 <Grid item xs={12}>
-  //                   <TextField
-  //                     fullWidth
-  //                     label="Name"
-  //                     InputLabelProps={{ shrink: true }}
-  //                     // sx={{  width:'80%', height: '60px'}}
-  //                     sx={{
-  //                       width: '80%',
-  //                       '& .MuiInputBase-input': {
-  //                         height: '50px', // Adjust height of the input field
-
-  //                         padding: '10px', // Add padding as needed
-  //                         bgcolor: '#D3D3D3', // Background color of the input field
-  //                         borderRadius: '4px', // Optional: add border radius
-  //                       },
-  //                     }}
-  //                     value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
-  //                     InputProps={{
-  //                       readOnly: true,
-  //                     }}
-  //                   />
-  //                 </Grid>
-  //                 <Grid item xs={12}>
-  //                   <TextField
-  //                     fullWidth
-  //                     value={AadharCardNumber}
-  //                     error={error}
-  //                     label={
-  //                       <span>
-  //                         Aadhar Card Number <span style={{ color: 'red' }}>*</span>
-  //                       </span>
-  //                     }
-  //                     onChange={(e) => changeAdhar(e.target.value)}
-  //                     helperText={error ? 'Please enter only 12 digits ' : ''}
-  //                     // sx={{ width: '80%' }}
-  //                     sx={{
-  //                       width: '80%',
-  //                       '& .MuiInputBase-input': {
-  //                         height: '50px', // Adjust height of the input field
-
-  //                         padding: '10px', // Add padding as needed
-  //                         bgcolor: '', // Background color of the input field
-  //                         borderRadius: '4px', // Optional: add border radius
-  //                       },
-  //                     }}
-  //                   />
-  //                 </Grid>
-
-  //                 <Grid item xs={12}>
-  //                   <TextField
-  //                     label={
-  //                       <span>
-  //                         Name As Per Aadhar Card <span style={{ color: 'red' }}>*</span>
-  //                       </span>
-  //                     }
-
-  //                     rows={3}
-  //                     value={NamePerAadharCard}
-  //                     onChange={(e) => setNamePerAadharcard(e.target.value)}
-  //                     fullWidth
-  //                     error={ErrorNamePerAadharCard !== ''}
-  //                     helperText={ErrorNamePerAadharCard}
-  //                     // sx={{
-  //                     //   width: '80%'
-  //                     // }}
-  //                     sx={{
-  //                       width: '80%',
-  //                       '& .MuiInputBase-input': {
-  //                         height: '50px', // Adjust height of the input field
-
-  //                         padding: '10px', // Add padding as needed
-  //                         bgcolor: '', // Background color of the input field
-  //                         borderRadius: '4px', // Optional: add border radius
-  //                       },
-  //                     }}
-  //                   />
-  //                 </Grid>
-  //               </Grid>
-  //             </Grid>
-  //             <Grid item xs={4}>
-  //               <Box sx={{ my: '10px', textAlign: 'center', marginBottom: '10px' }}>
-  //                 {GetUserDetailsForAadharCardNoUS != null &&
-  //                   GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path ===
-  //                   '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
-  //                   <img
-  //                     src="/imges/Adhar.png"
-  //                     alt="adhar"
-  //                     style={{ height: '150px', width: '150px', marginBottom: '10px' }}
-  //                   />
-  //                 ) : (
-  //                   <>
-  //                     {selectedFile ? (
-  //                       <img
-  //                         width="150"
-  //                         height="150"
-  //                         src={URL.createObjectURL(selectedFile)}
-  //                         style={{ border: '1px solid gray', padding: '1px', marginBottom: '10px' }}
-  //                       />
-  //                     ) : (
-  //                       <img
-  //                         width="180"
-  //                         height="180"
-  //                         src={
-  //                           localStorage.getItem('SiteURL') +
-  //                           '/RITeSchool/DOWNLOADS/Aadhar Card/' +
-  //                           GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
-  //                         }
-  //                         style={{ border: '1px solid gray', padding: '1px', marginBottom: '10px' }}
-  //                       />
-  //                     )}
-  //                   </>
-  //                 )}
-  //               </Box>
-  //               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
-  //                 <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
-  //                   <Button
-  //                     sx={{
-  //                       width: '300px',
-  //                       gap: 1,
-  //                       position: 'relative',
-  //                       border: (theme) =>
-  //                         `1px dashed ${theme.palette.primary.main}`,
-  //                       display: 'flex',
-  //                       alignItems: 'center',
-  //                       justifyContent: 'space-between',
-  //                     }}
-  //                     color="primary"
-  //                   >
-  //                     <Stack
-  //                       direction="row"
-  //                       alignItems="center"
-  //                       gap={1}
-  //                       sx={{
-  //                         overflow: 'hidden',
-  //                         textOverflow: 'ellipsis',
-  //                         whiteSpace: 'nowrap',
-  //                       }}
-  //                     >
-  //                       <CloudUploadIcon />
-  //                       {fileName === '' ? ' No file selected' : fileName}
-  //                       <input
-  //                         ref={aRef}
-  //                         type="file"
-  //                         onChange={changeFile}
-  //                         style={{
-  //                           opacity: 0,
-  //                           top: 0,
-  //                           left: 0,
-  //                           right: 0,
-  //                           bottom: 0,
-  //                           position: 'absolute',
-  //                           cursor: 'pointer',
-  //                         }}
-  //                       />
-  //                     </Stack>
-  //                   </Button>
-  //                 </Tooltip>
-  //               </Box>
-  //               {fileError && (
-  //                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-  //                   <Errormessage Error={fileError} />
-  //                 </Box>
-  //               )}
-  //             </Grid>
-  //           </Grid>
-  //         </Box>
-  //       </Box>
-  //     </>
-  //   );
-  // };
-
-  // export default AadharCard;
-  //   return (
-  //     <>
-  //       <Box sx={{ px: 2 }}>
-  //         <CommonPageHeader
-  //           navLinks={[
-  //             {
-  //               title: 'Add Aadhar Card Details',
-  //               path: '',
-  //             },
-  //           ]}
-  //           rightActions={
-  //             <>
-  //               <Box>
-  //                 <Tooltip title={`Add Aadhar card details.`}>
-  //                   <IconButton
-  //                     sx={{
-  //                       color: 'white',
-  //                       backgroundColor: grey[500],
-  //                       height: '36px !important',
-  //                       ':hover': { backgroundColor: grey[600] },
-  //                     }}
-  //                   >
-  //                     <QuestionMark />
-  //                   </IconButton>
-  //                 </Tooltip>
-  //               </Box>
-  //               <Box>
-  //                 <Tooltip title={`Save`}>
-  //                   <IconButton
-  //                     onClick={() => SaveFile()}
-  //                     sx={{
-  //                       backgroundColor: green[500],
-  //                       color: 'white',
-  //                       height: '36px !important',
-  //                       ':hover': { backgroundColor: green[600] },
-  //                     }}
-  //                   >
-  //                     <Save />
-  //                   </IconButton>
-  //                 </Tooltip>
-  //               </Box>
-  //             </>
-  //           }
-  //         />
-  //         <Box sx={{ p: 2, background: 'white' }}>
-  //           <Grid container spacing={2}>
-  //             <Grid item xs={12} md={8}>
-  //               <Grid container spacing={2}>
-  //                 <Grid item xs={12}>
-  //                   <TextField
-  //                     fullWidth
-  //                     label="Name"
-  //                     InputLabelProps={{ shrink: true }}
-  //                     sx={{
-  //                       width: '80%',
-  //                       '& .MuiInputBase-input': {
-  //                         height: '50px',
-  //                         padding: '10px',
-  //                         bgcolor: '#D3D3D3',
-  //                         borderRadius: '4px',
-  //                       },
-  //                     }}
-  //                     value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
-  //                     InputProps={{
-  //                       readOnly: true,
-  //                     }}
-  //                   />
-  //                 </Grid>
-  //                 <Grid item xs={12}>
-  //                   <TextField
-  //                     fullWidth
-  //                     value={AadharCardNumber}
-  //                     error={error}
-  //                     label={
-  //                       <span>
-  //                         Aadhar Card Number <span style={{ color: 'red' }}>*</span>
-  //                       </span>
-  //                     }
-  //                     onChange={(e) => changeAdhar(e.target.value)}
-  //                     helperText={error ? 'Please enter only 12 digits ' : ''}
-  //                     sx={{
-  //                       width: '80%',
-  //                       '& .MuiInputBase-input': {
-  //                         height: '50px',
-  //                         padding: '10px',
-  //                         bgcolor: '',
-  //                         borderRadius: '4px',
-  //                       },
-  //                     }}
-  //                   />
-  //                 </Grid>
-  //                 <Grid item xs={12}>
-  //                   <TextField
-  //                     label={
-  //                       <span>
-  //                         Name As Per Aadhar Card <span style={{ color: 'red' }}>*</span>
-  //                       </span>
-  //                     }
-  //                     value={NamePerAadharCard}
-  //                     onChange={(e) => setNamePerAadharcard(e.target.value)}
-  //                     fullWidth
-  //                     error={ErrorNamePerAadharCard !== ''}
-  //                     helperText={ErrorNamePerAadharCard}
-  //                     sx={{
-  //                       width: '80%',
-  //                       '& .MuiInputBase-input': {
-  //                         height: '50px',
-  //                         padding: '10px',
-  //                         bgcolor: '',
-  //                         borderRadius: '4px',
-  //                       },
-  //                     }}
-  //                   />
-  //                 </Grid>
-  //               </Grid>
-  //             </Grid>
-  //             <Grid item xs={12} md={4}>
-  //               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-  //                 <div style={{ width: '180px', height: '180px', marginBottom: '10px', position: 'relative', border: '1px solid gray', overflow: 'hidden' }}>
-  //                   {GetUserDetailsForAadharCardNoUS != null &&
-  //                     GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path ===
-  //                     '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
-  //                     <img
-  //                       src="/imges/Adhar.png"
-  //                       alt="adhar"
-  //                       style={{ height: '150px', width: '150px', marginBottom: '10px' }}
-  //                     />
-  //                   ) : (
-  //                     <div style={{ width: '180px', height: '180px', marginBottom: '10px', position: 'relative' }}>
-  //                       <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, overflow: 'hidden' }}>
-  //                         {selectedFile ? (
-  //                           <img
-  //                             src={URL.createObjectURL(selectedFile)}
-  //                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-  //                             onClick={handleImageClick}
-  //                           />
-  //                         ) : (
-  //                           <img
-  //                             src={
-  //                               localStorage.getItem('SiteURL') +
-  //                               '/RITeSchool/DOWNLOADS/Aadhar Card/' +
-  //                               GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
-  //                             }
-  //                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-
-  //                           />
-  //                         )}
-  //                       </div>
-  //                     </div>
-
-  //                   )}
-  //                 </div>
-  //                 <Dialog open={openDialog} onClose={handleCloseDialog}>
-  //                   <img src={dialogImageUrl} style={{ width: '100%', height: 'auto' }} />
-  //                 </Dialog>
-  //                 <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
-  //                   <Button
-  //                     sx={{
-  //                       width: '250px',
-  //                       gap: 1,
-  //                       position: 'relative',
-  //                       border: (theme) => `1px dashed ${theme.palette.primary.main}`,
-  //                       display: 'flex',
-  //                       alignItems: 'center',
-  //                       justifyContent: 'center',
-  //                       marginTop: '10px',
-  //                     }}
-  //                     color="primary"
-  //                   >
-  //                     <Stack
-  //                       direction="row"
-  //                       alignItems="center"
-  //                       gap={1}
-  //                       sx={{
-  //                         overflow: 'hidden',
-  //                         textOverflow: 'ellipsis',
-  //                         whiteSpace: 'nowrap',
-  //                       }}
-  //                     >
-  //                       <CloudUploadIcon />
-  //                       {fileName === '' ? ' No file selected' : fileName}
-  //                       <input
-  //                         ref={aRef}
-  //                         type="file"
-  //                         onChange={changeFile}
-  //                         style={{
-  //                           opacity: 0,
-  //                           top: 0,
-  //                           left: 0,
-  //                           right: 0,
-  //                           bottom: 0,
-  //                           position: 'absolute',
-  //                           cursor: 'pointer',
-  //                         }}
-  //                       />
-  //                     </Stack>
-  //                   </Button>
-  //                 </Tooltip>
-  //                 {fileError && (
-  //                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-  //                     <Errormessage Error={fileError} />
-  //                   </Box>
-  //                 )}
-  //               </Box>
-  //             </Grid>
-  //           </Grid>
-  //         </Box>
-  //       </Box>
-  //     </>
-  //   );
-  // };
-
-  // export default AadharCard;
   /////new
   return (
     <Box sx={{ px: 2 }}>
@@ -785,6 +380,8 @@ const AadharCard = () => {
                   }}
                 />
                 {ErrorNumberAadharCard && <ErrorMessage1 Error={ErrorNumberAadharCard} />}
+
+                {!!ErrorNumberAadharCard && <ErrorMessage1 Error={!!ErrorNumberAadharCard} />}
               </Grid>
               <Grid item xs={12}>
                 <TextField
