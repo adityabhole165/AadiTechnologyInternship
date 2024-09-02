@@ -15,6 +15,7 @@ import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { IsPhoneNoValid } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import { Check } from '@mui/icons-material';
 
 const Support1 = () => {
     const navigate = useNavigate();
@@ -186,7 +187,7 @@ const Support1 = () => {
                                 </Tooltip>
                             </Box>
                             <Box>
-                                <Tooltip title={'Save'}>
+                                <Tooltip title={'Submit'}>
                                     <span>
                                         <IconButton
                                             sx={{
@@ -197,7 +198,7 @@ const Support1 = () => {
                                             }}
                                             onClick={ClickSubmitSupport}
                                         >
-                                            <SaveIcon />
+                                             <Check />
                                         </IconButton>
                                     </span>
                                 </Tooltip>
