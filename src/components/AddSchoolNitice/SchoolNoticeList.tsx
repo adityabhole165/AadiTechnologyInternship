@@ -1,6 +1,7 @@
 import { EditTwoTone } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import AttachmentIcon from '@mui/icons-material/Attachment';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box, IconButton, Link, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
@@ -67,7 +68,7 @@ function SchoolNoticeList({
 
                     <TableContainer component={Box}>
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-                            <TableHead sx={{overflow:'auto'}}>
+                            <TableHead sx={{ overflow: 'auto' }}>
                                 <TableRow
                                     sx={{ background: (theme) => theme.palette.secondary.main }}
                                 >
@@ -76,18 +77,18 @@ function SchoolNoticeList({
                                             key={i}
                                             sx={{
                                                 color: (theme) => theme.palette.common.white,
-                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt:1.5, pb:1.5
+                                                textAlign: [1].includes(i) ? 'left' : [2, 3, 4, 6].includes(i) ? 'left' : 'center', pt: 1.5, pb: 1.5
 
                                             }}
                                             onClick={item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ? () => clickHeader(item.Id) : null}
 
                                         >
-                                            <Box sx={{display:'flex', gap:0.5}}>
-                                            <b>{item.Header}</b>
-                                            {item.SortOrder !== null && item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ?
-                                                item.SortOrder === "desc" ? <ArrowDropDownCircleIcon/> : <ArrowCircleUpIcon />
-                                                : null
-                                            }
+                                            <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                                <b>{item.Header}</b>
+                                                {item.SortOrder !== null && item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ?
+                                                    item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                    : null
+                                                }
                                             </Box>
                                         </TableCell>
                                     ))} <span></span>
@@ -100,7 +101,7 @@ function SchoolNoticeList({
                                         <TableRow key={index} >
                                             <TableCell
                                                 sx={{
-                                                     width: '220px', py:1
+                                                    width: '220px', py: 1
                                                 }}
                                                 align="left"
                                             >
@@ -108,7 +109,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    width: '200px', py:1
+                                                    width: '200px', py: 1
                                                 }}
                                                 align="left"
                                             >
@@ -116,7 +117,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                     width: '300px', py:1
+                                                    width: '300px', py: 1
                                                 }}
                                                 align="left"
                                             >
@@ -124,7 +125,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    width: '300px', py:1
+                                                    width: '300px', py: 1
                                                 }}
                                                 align="left"
                                             >
@@ -132,7 +133,7 @@ function SchoolNoticeList({
                                             </TableCell>
                                             <TableCell
                                                 sx={{
-                                                    width: '150px', py:1
+                                                    width: '150px'
                                                 }}
                                                 align="center"
                                             >
@@ -140,16 +141,16 @@ function SchoolNoticeList({
                                             </TableCell>
                                             {isFileType &&
 
-                                                <TableCell sx={{ width: '250px', py:1 }} align="left">
+                                                <TableCell sx={{ width: '150px', py: 1 }} align="center">
 
-                                                    <Link href={url + item.Text6} style={{ textDecoration: 'underline' }}>
-                                                        {item.Text6}
+                                                    <Link href={url + item.Text6}>
+                                                        <AttachmentIcon />
                                                     </Link>
                                                 </TableCell>
                                             }
                                             <TableCell
                                                 sx={{
-                                                    py:1
+                                                    py: 1
                                                 }}
                                                 align="center"
                                             >
@@ -162,7 +163,7 @@ function SchoolNoticeList({
                                                     /></Tooltip>
                                             </TableCell>
                                             <TableCell align="center" sx={{
-                                                py:1
+                                                py: 1
                                             }}>
                                                 <Tooltip title={"Edit"}>
                                                     <IconButton
@@ -182,7 +183,7 @@ function SchoolNoticeList({
                                             <TableCell
                                                 sx={{
                                                     textTransform: 'capitalize',
-                                                    opacity: 1, py:1
+                                                    opacity: 1, py: 1
                                                 }}
                                                 align="center"
                                             >
@@ -195,7 +196,7 @@ function SchoolNoticeList({
                                                         }
                                                     }}
 
-                                                    onClick={() => clickDelete(item.Id,item.Text2,item.Text3)}
+                                                    onClick={() => clickDelete(item.Id, item.Text2, item.Text3)}
                                                 >
                                                     <Tooltip title="Delete" >
                                                         <DeleteForeverIcon />
