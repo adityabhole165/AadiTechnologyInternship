@@ -3,7 +3,7 @@ import { Calendar } from 'react-multi-date-picker';
 function CardDashContainer2() {
   return (
       <Box sx={{ height: 'auto', width:'auto', backgroundColor:'white', p:1 }}>
-      <Grid item xs={12} sx={{ backgroundColor:'#38548A'  }}>
+      <Grid item xs={12} sx={{ backgroundColor:'#38548A',  borderRadius:'10px' }}>
         <Typography variant="h3" p={0.8} mb={2} sx={{ color: 'white' }}>
           Upcoming Event
         </Typography>

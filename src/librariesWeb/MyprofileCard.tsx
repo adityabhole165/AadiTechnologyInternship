@@ -16,7 +16,7 @@ function MyprofileCard() {
   return (
     <Box sx={{backgroundColor:'white', p:1}}>
       <Card sx={{ boxShadow: 2 }}>
-        <Box sx={{ backgroundColor: '#38548A', p: 0.8 }}>
+        <Box sx={{ backgroundColor: '#38548A', p: 0.8 ,  borderRadius:'10px'}}>
           <Typography variant="h3" color="white">
             Teacher Details
           </Typography>
@@ -63,7 +63,9 @@ function MyprofileCard() {
             >
               <Box
                 sx={{
-                  border: `1px solid gray`,
+                   borderRight: `1px solid gray`,
+                    borderTop: `1px solid gray`,
+                     borderBottom: `1px solid gray`,
                   padding: '15.7px',
                   display: 'flex',
                   justifyContent: 'center',
@@ -75,7 +77,7 @@ function MyprofileCard() {
                   ImgUrl={userPhoto}
                   alt={'User Photo'}
                   width={'140px'}
-                  height={'180px'}
+                  height={'179px'}
                 />
               </Box>
             </Grid>

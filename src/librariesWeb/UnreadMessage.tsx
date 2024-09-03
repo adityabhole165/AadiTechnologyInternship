@@ -20,6 +20,7 @@ import { RootState } from 'src/store';
 import { useNavigate } from 'react-router';
 import { IUnreadMessages } from "src/interfaces/Student/dashboard";
 import { getUnreadMessages } from "src/requests/Dashboard/Dashboard";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 const UnreadMessage = () => {
   const dispatch = useDispatch()
@@ -51,8 +52,8 @@ const UnreadMessage = () => {
     navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox')
   }
   return (
-    <Box sx={{backgroundColor:'white', p:1}}>
-      <Grid container sx={{ backgroundColor:'#38548A',}}>
+    <Box sx={{backgroundColor:'white', pt:1}}>
+      <Grid container sx={{ backgroundColor:'#38548A', borderRadius:'10px'}}>
         <Grid item xs={6}>
           <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Unread Messages
@@ -80,7 +81,7 @@ const UnreadMessage = () => {
           </Box>
         </Grid>
       </Grid>
-      <Box sx={{ height: '400px', overflow: 'auto', mt:2 }}>
+      <Box sx={{ height: '350px', overflow: 'auto', mt:2 , }}>
       {loading ? (
         <Stack justifyContent="center" alignItems="center">
           <CircularProgress size={40} disableShrink thickness={4} />
@@ -101,7 +102,7 @@ const UnreadMessage = () => {
                       > {SenderPhoto.map((image, i) => {
                         if (image.Id === item.SenderUserId) {
                           return (
-                            <FormGroup>
+                            <FormGroup sx={{p:1}}>
                               <Avatar
                                 alt="u"
                                 src={`data:image/png;base64,${image.Photo}`}
@@ -110,12 +111,11 @@ const UnreadMessage = () => {
                           );
                         }
                       })}
-
-                        <Typography variant="h4" pl={2}>{item.UserName}</Typography>
+                        <Typography variant="h4" pl={1}>{item.UserName}</Typography>
                         <Typography variant="body2" pl={1}>{item.Subject}</Typography>
                       </Box>
                       <Tooltip title={item.Text3} placement="left-start">
-                        <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }} px={9}>
                           <AccessTimeIcon
                             sx={{ mr: '10px', color: '#64b5f6' }}
                             fontSize="medium"
@@ -144,13 +144,16 @@ const UnreadMessage = () => {
           }
         </>
       )}
-      <Grid container>
-        <Grid item xs={12} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
-          See all messages
-          <ArrowRightAltIcon />
+    
+      </Box>
+      <Grid container py={1.5} >
+        <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
+        <Typography variant="h4"> <b>See all messages</b></Typography>
+        </Grid>
+        <Grid item xs={5}>
+        <ArrowCircleRightIcon />
         </Grid>
       </Grid>
-      </Box>
     </Box>
   );
 }
