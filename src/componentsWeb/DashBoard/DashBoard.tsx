@@ -55,7 +55,7 @@ function DashBoard() {
         <Grid item sm={12} md={6} lg={4}>
           <CardDashContainer3 />
         </Grid>
-        <Grid item sm={12} md={6} lg={3}>
+        <Grid item sm={6} md={6} lg={12}>
           <CardDashContainer2 />
         </Grid>
        

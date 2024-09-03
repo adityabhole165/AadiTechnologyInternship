@@ -103,7 +103,7 @@ function FeedBackCard() {
   const open = Boolean(anchorEl);
   return (
     <Box sx={{backgroundColor:'white', p:1}} >
-      <Grid container sx={{ backgroundColor:'#38548A',}}>
+      <Grid container sx={{ backgroundColor:'#38548A', borderRadius:'10px'}}>
         <Grid item xs={6}>
           <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Feedback
@@ -151,7 +151,8 @@ function FeedBackCard() {
                           justifyContent={'space-between'}
                           px={3}
                         >
-                          <Typography variant="h4" p={0.5}>{item.Header}</Typography>  </Box>
+                          <Typography variant="h3" p={0.5}  >{item.Header}</Typography> 
+                           </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
                           <AccessTimeIcon
                             sx={{ mr: '5px', color: '#64b5f6' }}

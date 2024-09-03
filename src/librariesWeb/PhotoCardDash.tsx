@@ -170,7 +170,7 @@ function PhotoCardDash() {
 
   return (
     <Box sx={{ height: '487px', backgroundColor: 'white', p: 1 }}>
-      <Grid item sx={{ overflow: 'auto', display: 'flex', backgroundColor: '#38548A' }}>
+      <Grid item sx={{ overflow: 'auto', display: 'flex', backgroundColor: '#38548A',  borderRadius:'10px' }}>
         <Grid item xs={12}>
           <Typography variant="h3" p={0.8} sx={{ color: 'white' }}>
             Photo Albums
@@ -181,6 +181,7 @@ function PhotoCardDash() {
             <Badge
               badgeContent={PhotoAlbum.length !== 0 ? PhotoAlbum.length : '0'}
               color="secondary"
+           
             />
           </IconButton>
           <Tooltip
