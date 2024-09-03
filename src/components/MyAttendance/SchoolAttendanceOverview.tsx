@@ -8,17 +8,16 @@ import {
   Typography
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { DatePicker } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IGetSchoolAttendanceOverviewBody } from 'src/interfaces/SchoolAttendanceOverview/ISchoolAttendanceOverview';
+import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import Datepicker from 'src/libraries/DateSelector/Datepicker';
 
 
 const SchoolAttendanceOverview = () => {
@@ -87,7 +86,8 @@ const SchoolAttendanceOverview = () => {
         navLinks={[
           {
             title: 'Attendance',
-            path: '/extended-sidebar/Teacher/TAttendance/' + SelectDate
+            path: '/extended-sidebar/Teacher/TAttendance'
+            //  + SelectDate
           },
           {
             title: 'Attendance Overview',
@@ -122,17 +122,17 @@ const SchoolAttendanceOverview = () => {
                 }}
 
               /> */}
-                <Datepicker
-                  DateValue={SelectDate}
-                  onDateChange={onSelectDate}
-                  label={'Start Date'}
-                  size={"small"}
+              <Datepicker
+                DateValue={SelectDate}
+                onDateChange={onSelectDate}
+                label={'Start Date'}
+                size={"small"}
 
-                />
+              />
             </Box>
-            
+
             <Box>
-              
+
               <Tooltip title={Note}>
                 <IconButton
                   sx={{
@@ -150,7 +150,7 @@ const SchoolAttendanceOverview = () => {
           </>
         }
       /><br></br>
-       <Box sx={{ display: 'flex', backgroundColor:'white', p:2, mb:2 }}>
+      <Box sx={{ display: 'flex', backgroundColor: 'white', p: 2, mb: 2 }}>
         <Typography><b>Legend : </b></Typography>
         <ClearIcon sx={{ color: 'red' }} />{' '}
         <Typography><b>Attendance Not Marked </b></Typography>
@@ -160,7 +160,7 @@ const SchoolAttendanceOverview = () => {
           {ISWeekendStatusList}
         </Typography>
       ) : (
-        <Box  sx={{backgroundColor:'white', p:2}}>
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} >
               <TableUsingArray
@@ -173,7 +173,7 @@ const SchoolAttendanceOverview = () => {
           <br></br>
         </Box>
       )}
-     
+
     </Box>
   );
 };
