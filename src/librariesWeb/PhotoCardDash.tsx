@@ -5,8 +5,10 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Avatar,
-  Badge,
   Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
   Popover,
@@ -15,6 +17,7 @@ import {
   Typography
 } from '@mui/material';
 import { green, grey, orange, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
 } from 'date-fns';
@@ -23,7 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { CDAAllAcademicYearsForSchool, GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import { CDAAllAcademicYearsForSchool } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 
@@ -40,6 +43,8 @@ function PhotoCardDash() {
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [refreshFlag, setRefreshFlag] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const MonthArray = [
     { Id: 1, Name: 'All', Value: '0' },
     { Id: 2, Name: 'January', Value: '1' },
@@ -87,6 +92,8 @@ function PhotoCardDash() {
     (state: RootState) => state.Dashboard.PhotoAlbumList1
   );
 
+  console.log(PhotoAlbum, "PhotoAlbum");
+  console.log(PhotoAlbum1, "PhotoAlbum1");
 
   const picsBody = {
     aiSchoolId: Number(asSchoolId),
@@ -172,28 +179,38 @@ function PhotoCardDash() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedImage(null);
+  };
 
   return (
     <Box sx={{ height: '487px', backgroundColor: 'white', p: 1 }}>
-      <Grid item sx={{ overflow: 'auto', display: 'flex', backgroundColor: '#38548A',  borderRadius:'10px' }}>
+      <Grid item sx={{ overflow: 'auto', display: 'flex', backgroundColor: '#38548A', borderRadius: '10px' }}>
         <Grid item xs={12}>
           <Typography variant="h3" p={0.8} sx={{ color: 'white' }}>
             Photo Albums
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <IconButton sx={{ mt: '4px', pr: 1}} >
-          <Box sx={{display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '30px',      // Circle diameter
-                height: '30px',     // Circle diameter
-                borderRadius: '50%', // Makes the Box a circle
-                backgroundColor: 'white', // Secondary background color
-                color: 'black',      // Text color
-                fontSize: '0.8rem',
-              }}> <b>{PhotoAlbum.length !== 0 ? PhotoAlbum.length : '0'}</b></Box>
-          
+          <IconButton sx={{ mt: '4px', pr: 1 }} >
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '30px',      // Circle diameter
+              height: '30px',     // Circle diameter
+              borderRadius: '50%', // Makes the Box a circle
+              backgroundColor: 'white', // Secondary background color
+              color: 'black',      // Text color
+              fontSize: '0.8rem',
+            }}> <b>{PhotoAlbum.length !== 0 ? PhotoAlbum.length : '0'}</b></Box>
+
           </IconButton>
           <Tooltip
             title={
@@ -271,13 +288,48 @@ function PhotoCardDash() {
       {/* Photo Album Display */}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         {PhotoAlbum.length > 0 ? (
-          <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} />
+          <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} />
         ) : (
           <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
             No Photos Available
           </Typography>
         )}
       </Box>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+          <ClearIcon onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              }
+            }} />
+        </DialogTitle>
+        <DialogContent>
+          {PhotoAlbum1.map((detail) => (
+            <CarouselPhoto itemlist={PhotoAlbum.filter(
+              (item) => item.AlbumID == detail.AlbumID
+            )} IsPath={true} onImageClick={handleImageClick} />))}
+
+
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 }

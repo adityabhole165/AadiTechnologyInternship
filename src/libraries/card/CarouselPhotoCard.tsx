@@ -1,6 +1,13 @@
 import { Avatar, Typography } from '@mui/material';
 
-const CarouselPhotoCard = ({ item, IsPath }) => {
+const CarouselPhotoCard = ({ item, IsPath, onImageClick }) => {
+
+    const handleClick = () => {
+        if (onImageClick) {
+            onImageClick(IsPath ? item.Text2 : item.Text2);
+        }
+    };
+
     return (
         <div>
             <Avatar
@@ -18,6 +25,7 @@ const CarouselPhotoCard = ({ item, IsPath }) => {
                 }}
                 variant="rounded"
                 aria-label="add"
+                onClick={handleClick}
             />
             <Typography variant="h5">{item.Header}</Typography>
             <Typography variant="body2" sx={{ mb: 1 }}>

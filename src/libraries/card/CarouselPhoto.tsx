@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Carouselcard from './Carouselcard';
 import CarouselPhotoCard from './CarouselPhotoCard';
-const CarouselPhoto = ({ itemlist, IsPath = false }) => {
+const CarouselPhoto = ({ itemlist, IsPath = false ,onImageClick}) => {
   const [index, setIndex] = useState(0);
 
   const arrowClick = (value) => {
@@ -34,7 +34,7 @@ const CarouselPhoto = ({ itemlist, IsPath = false }) => {
           <ArrowLeft onClick={() => arrowClick(-1)} />
         </Grid>
         <Grid item xs={10}>
-          <CarouselPhotoCard item={itemlist[index]} IsPath={IsPath} />
+          <CarouselPhotoCard item={itemlist[index]} IsPath={IsPath} onImageClick={onImageClick} />
         </Grid>
         <Grid item xs={1}>
           <ArrowRight onClick={() => arrowClick(1)} />
