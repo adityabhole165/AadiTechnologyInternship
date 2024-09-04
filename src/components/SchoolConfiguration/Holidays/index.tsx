@@ -298,7 +298,7 @@ const Holidays = (props: Props) => {
                     isLoading={false}
                 /> */}
 
-                {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
+                {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
                     <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                         <Box component="span" fontWeight="fontWeightBold">
                             {startRecord} to {endRecord}
@@ -320,7 +320,7 @@ const Holidays = (props: Props) => {
                     clickDelete={deleteRow}
                 />
                 <br />
-                {singleTotalCount > rowsPerPage ? <ButtonGroupComponent
+                {singleTotalCount > 19 ? <ButtonGroupComponent
                     rowsPerPage={rowsPerPage}
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions}
