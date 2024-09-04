@@ -178,15 +178,15 @@ function PhotoCardDash() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+  const [selectedAlbumID, setSelectedAlbumID] = useState(null);
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
-    setOpenDialog(true);
+  const handleImageClick = (albumID) => {
+    setSelectedAlbumID(albumID); 
+    setOpenDialog(true); 
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setSelectedImage(null);
   };
 
   return (
@@ -286,6 +286,7 @@ function PhotoCardDash() {
       </Popover>
 
       {/* Photo Album Display */}
+      <div>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         {PhotoAlbum.length > 0 ? (
           <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} />
@@ -322,14 +323,17 @@ function PhotoCardDash() {
             }} />
         </DialogTitle>
         <DialogContent>
-          {PhotoAlbum1.map((detail) => (
-            <CarouselPhoto itemlist={PhotoAlbum.filter(
-              (item) => item.AlbumID == detail.AlbumID
-            )} IsPath={true} onImageClick={handleImageClick} />))}
-
-
+        
+              <CarouselPhoto
+            
+                itemlist={PhotoAlbum.filter((item) => item.AlbumID === selectedAlbumID)}
+                IsPath={true}
+                onImageClick={handleImageClick}
+              />
+            
         </DialogContent>
       </Dialog>
+    </div>
     </Box>
   );
 }

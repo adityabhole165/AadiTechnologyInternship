@@ -4,7 +4,7 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick }) => {
 
     const handleClick = () => {
         if (onImageClick) {
-            onImageClick(IsPath ? item.Text2 : item.Text2);
+            onImageClick(IsPath ? item.AlbumID : item.AlbumID);
         }
     };
 
