@@ -167,7 +167,7 @@ const Holidays = (props: Props) => {
         asDivisionId: Number(0),
         asSortExp: "ORDER BY Holiday_Start_Date ASC",
         asStartIndex: (page - 1) * rowsPerPage,
-        asPageSize: Number(20),
+        asPageSize: page * rowsPerPage,
     };
 
 
@@ -313,24 +313,24 @@ const Holidays = (props: Props) => {
 
 
                 <Box px={2} pb={2}>
-                <HolidaysList
-                    ItemList={holidaysList}
-                    clickEdit={editRow}
-                    HeaderArray={HeaderPublish}
-                    clickDelete={deleteRow}
-                />
-            
-                {singleTotalCount > 19 ? <ButtonGroupComponent
-                    rowsPerPage={rowsPerPage}
-                    ChangeRowsPerPage={ChangeRowsPerPage}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    PageChange={PageChange}
-                    pagecount={pagecount}
+                    <HolidaysList
+                        ItemList={holidaysList}
+                        clickEdit={editRow}
+                        HeaderArray={HeaderPublish}
+                        clickDelete={deleteRow}
+                    />
 
-                /> : <span> </span>}
+                    {singleTotalCount > 19 ? <ButtonGroupComponent
+                        rowsPerPage={rowsPerPage}
+                        ChangeRowsPerPage={ChangeRowsPerPage}
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        PageChange={PageChange}
+                        pagecount={pagecount}
+
+                    /> : <span> </span>}
 
 
-             </Box>
+                </Box>
             </Box>
         </Box>
     )
