@@ -22,6 +22,7 @@ const Dashboardlice = createSlice({
     SenderPhoto: [],
     UpcomingEventsList: [],
     PhotoAlbumList: [],
+    PhotoAlbumList1: [],
     FeedbackList: [],
     Msgfrom: [],
     MessageCount: {},
@@ -53,10 +54,16 @@ const Dashboardlice = createSlice({
       state.Loading = false;
       state.PhotoAlbumList = action.payload;
     },
+    
+    getPhotoAlbum1(state, action) {
+      state.Loading = false;
+      state.PhotoAlbumList1 = action.payload;
+    },
     getLoading(state, action) {
       state.Loading = true;
       state.PhotoAlbumList = [];
     },
+
 
     getFeedback(state, action) {
       state.FeedbackList = action.payload.GetUserFeedbackDetails;
@@ -95,43 +102,45 @@ export const getEventsList =
       const response = await DashboardApi.GetUpcomingEventSList(data);
       dispatch(Dashboardlice.actions.getEventsList(response.data));
     };
-
-export const getPhotoAlbum =
-  (data: IPhotoAlbumBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(Dashboardlice.actions.getLoading(true));
-
-      const response = await DashboardApi.PhotoAlbumData(data);
-
-      let Data = []
-      response.data.map((item) => {
-        item.ImageList.map((image, index) => {
-          Data.push({
-            id: index,
-            Header: item.Name,
-            Text1: image.Description,
-            Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
-          })
+    export const getPhotoAlbum =
+    (data: IPhotoAlbumBody): AppThunk =>
+      async (dispatch) => {
+        dispatch(Dashboardlice.actions.getLoading(true));
+  
+        const response = await DashboardApi.PhotoAlbumData(data);
+  
+        const Data = [];
+        const Data1 = [];
+        const albumMap = new Map();
+  
+        response.data.forEach((item) => {
+          item.ImageList.forEach((image, index) => {
+           
+            Data.push({
+              id: index,
+              Header: item.Name,
+              AlbumID: item.Id,
+              Text1: image.Description,
+              Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
+            });
+  
+          
+            if (!albumMap.has(item.Id)) {
+              albumMap.set(item.Id, true);
+              Data1.push({
+                id: index,
+                Header: item.Name,
+                AlbumID: item.Id,
+                Text1: image.Description,
+                Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
+              });
+            }
+          });
         });
-      });
-
-
-      // return {
-
-      //   id: item.Id,
-      //   header: item.Name || '',
-      //   images: imageList.map(image => ({
-      //     id: image.ImageId,
-      //     src: image.ImagePath,
-      //     description: image.Description || ''
-      //   })),
-      //   month: item.Month,
-      //   year: item.Year,
-      //   userId: item.UserId
-      // };
-
-      dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
-    };
+  
+        dispatch(Dashboardlice.actions.getPhotoAlbum1(Data1));
+        dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
+      };
 
 export const getFeedback =
   (data: IFeedbackList): AppThunk =>

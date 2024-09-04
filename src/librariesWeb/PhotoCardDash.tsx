@@ -83,6 +83,11 @@ function PhotoCardDash() {
     (state: RootState) => state.Dashboard.PhotoAlbumList
   );
 
+  const PhotoAlbum1 = useSelector(
+    (state: RootState) => state.Dashboard.PhotoAlbumList1
+  );
+
+
   const picsBody = {
     aiSchoolId: Number(asSchoolId),
     aiMonth: Number(month),
@@ -266,7 +271,7 @@ function PhotoCardDash() {
       {/* Photo Album Display */}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         {PhotoAlbum.length > 0 ? (
-          <CarouselPhoto itemlist={PhotoAlbum} IsPath={true} />
+          <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} />
         ) : (
           <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
             No Photos Available
