@@ -348,6 +348,7 @@ const IndividualAttendance = () => {
     if (SaveAttendanceforStudent !== '')
       toast.success(SaveAttendanceforStudent, { toastId: 'success1' });
     dispatch(resetMessage());
+    dispatch(getcalendar(IGetCalendarForStudent));
   }, [SaveAttendanceforStudent]);
 
   const SaveFile = () => {
@@ -361,7 +362,7 @@ const IndividualAttendance = () => {
     };
     dispatch(SaveStudentAttendance(SaveAttendance));
   };
-  
+
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
@@ -590,7 +591,7 @@ const IndividualAttendance = () => {
           </>
         }
       />
-      <Box sx={{pl:2}}>
+      <Box sx={{ pl: 2 }}>
         <CardCalenderList
           ItemList={ItemList}
           ClickItem={ClickItem}
