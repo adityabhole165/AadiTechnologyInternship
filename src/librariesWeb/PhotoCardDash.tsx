@@ -209,7 +209,7 @@ function PhotoCardDash() {
               backgroundColor: 'white', // Secondary background color
               color: 'black',      // Text color
               fontSize: '0.8rem',
-            }}> <b>{PhotoAlbum.length !== 0 ? PhotoAlbum.length : '0'}</b></Box>
+            }}> <b>{PhotoAlbum1.length !== 0 ? PhotoAlbum1.length : '0'}</b></Box>
 
           </IconButton>
           <Tooltip
