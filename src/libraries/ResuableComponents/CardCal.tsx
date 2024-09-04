@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { useState } from 'react';
 
 function CardCal({
@@ -45,8 +45,9 @@ function CardCal({
   };
 
   const handleMouseEnter = () => {
-    if (item.Text1 === 'Present' || item.Text1 === 'Absent'){
-    setIsHovered(true);}
+    if (item.Text1 === 'Present' || item.Text1 === 'Absent') {
+      setIsHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -80,7 +81,13 @@ function CardCal({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Box dangerouslySetInnerHTML={{ __html: item.Name }}></Box>
+        {/* <Box dangerouslySetInnerHTML={{ __html: item.Name }}></Box> */}
+        <Tooltip title={item.MouseoverStatus || ""}>
+          <Box
+            component="span"
+            dangerouslySetInnerHTML={{ __html: item.Name }}
+          />
+        </Tooltip>
       </Box>
     </div>
   );
