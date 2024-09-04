@@ -54,14 +54,14 @@ const UnreadMessage = () => {
   return (
     <Box sx={{backgroundColor:'white', pt:1}}>
       <Grid container sx={{ backgroundColor:'#38548A', borderRadius:'10px'}}>
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Unread Messages
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Box sx={{ display: 'flex' }}>
-            <IconButton sx={{ mr: '0px' }}>
+            <IconButton sx={{ mt: '5px', ml:12 }}>
               <Box
                 sx={{
                   display: 'flex',
@@ -81,7 +81,7 @@ const UnreadMessage = () => {
           </Box>
         </Grid>
       </Grid>
-      <Box sx={{ height: '350px', overflow: 'auto', mt:2 , }}>
+      <Box sx={{ height: '350px', overflow: 'auto', mt:2 ,}}>
       {loading ? (
         <Stack justifyContent="center" alignItems="center">
           <CircularProgress size={40} disableShrink thickness={4} />
@@ -102,7 +102,7 @@ const UnreadMessage = () => {
                       > {SenderPhoto.map((image, i) => {
                         if (image.Id === item.SenderUserId) {
                           return (
-                            <FormGroup sx={{p:1}}>
+                            <FormGroup >
                               <Avatar
                                 alt="u"
                                 src={`data:image/png;base64,${image.Photo}`}
@@ -112,12 +112,12 @@ const UnreadMessage = () => {
                         }
                       })}
                         <Typography variant="h4" pl={1}>{item.UserName}</Typography>
-                        <Typography variant="body2" pl={1}>{item.Subject}</Typography>
+                        <Typography variant="body2" >{item.Subject}</Typography>
                       </Box>
                       <Tooltip title={item.Text3} placement="left-start">
-                        <Box sx={{ display: 'flex', alignItems: 'center' }} px={9}>
+                        <Box sx={{ display: 'flex'}}>
                           <AccessTimeIcon
-                            sx={{ mr: '10px', color: '#64b5f6' }}
+                            sx={{ mr: '10px', color: '#64b5f6', ml:7 }}
                             fontSize="medium"
                             
                           />

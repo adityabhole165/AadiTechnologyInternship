@@ -109,12 +109,22 @@ function BirthdayDashboard() {
           </Typography>
         </Grid>
         <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton  sx={{ mt: '4px', pr:2 }} >
-              <Badge
-                badgeContent={Birthdays.length !== 0 ? Birthdays.length : '0'}
-                color="secondary"
-              />
+            <IconButton  sx={{ mt: '4px', pr:1 }} >
+              <Box sx={{display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '30px',      // Circle diameter
+                height: '30px',     // Circle diameter
+                borderRadius: '50%', // Makes the Box a circle
+                backgroundColor: 'white', // Secondary background color
+                color: 'black',      // Text color
+                fontSize: '0.8rem',
+              }}> <b>{Birthdays.length !== 0 ? Birthdays.length : '0'}</b></Box>
+                
+                
+              
             </IconButton>
+            
             <Tooltip
               title={
 
