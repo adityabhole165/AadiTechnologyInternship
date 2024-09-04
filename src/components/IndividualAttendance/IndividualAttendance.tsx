@@ -590,7 +590,7 @@ const IndividualAttendance = () => {
           </>
         }
       />
-      <Box>
+      <Box sx={{pl:2}}>
         <CardCalenderList
           ItemList={ItemList}
           ClickItem={ClickItem}

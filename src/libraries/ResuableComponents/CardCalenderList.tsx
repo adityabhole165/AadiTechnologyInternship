@@ -40,7 +40,7 @@ function CardCalenderList({
   };
   let dayCount = new Date('01' + formattedDate).getDay();
   return (
-    <Box sx={{ backgroundColor: 'white' }} p={2}>
+    <Box sx={{ backgroundColor: 'white' }} pl={2.5} pr={1} py={2}>
       <Box
         sx={{
           alignItems: 'center',
@@ -108,7 +108,7 @@ function CardCalenderList({
           ))}
           <Grid
             item
-            border="0.5px solid #ebebeb"
+            border="1px solid #ebebeb"
             md={1.7 * dayCount}
             sx={{ textAlign: 'center', pt: 0 }}
           ></Grid>
