@@ -179,6 +179,7 @@ function PhotoCardDash() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const [selectedAlbumID, setSelectedAlbumID] = useState(null);
+console.log(selectedAlbumID,"selectedAlbumID");
 
   const handleImageClick = (albumID) => {
     setSelectedAlbumID(albumID); 
@@ -326,7 +327,7 @@ function PhotoCardDash() {
         
               <CarouselPhoto
             
-                itemlist={PhotoAlbum.filter((item) => item.AlbumID === selectedAlbumID)}
+                itemlist={PhotoAlbum.filter((item) => item.AlbumID == selectedAlbumID)}
                 IsPath={true}
                 onImageClick={handleImageClick}
               />
