@@ -140,7 +140,6 @@ export const getEventsList =
   
         dispatch(Dashboardlice.actions.getPhotoAlbum1(Data1));
         dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
-        console.log(Data1,"Data1",Data);
         
       };
 

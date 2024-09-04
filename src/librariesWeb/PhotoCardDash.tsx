@@ -92,8 +92,7 @@ function PhotoCardDash() {
     (state: RootState) => state.Dashboard.PhotoAlbumList1
   );
 
-  console.log(PhotoAlbum, "PhotoAlbum");
-  console.log(PhotoAlbum1, "PhotoAlbum1");
+
 
   const picsBody = {
     aiSchoolId: Number(asSchoolId),
@@ -179,7 +178,7 @@ function PhotoCardDash() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const [selectedAlbumID, setSelectedAlbumID] = useState(null);
-console.log(selectedAlbumID,"selectedAlbumID");
+   console.log(selectedAlbumID,"selectedAlbumID");
 
   const handleImageClick = (albumID) => {
     setSelectedAlbumID(albumID); 
