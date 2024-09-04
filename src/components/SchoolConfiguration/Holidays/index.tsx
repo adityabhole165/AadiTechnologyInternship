@@ -291,7 +291,7 @@ const Holidays = (props: Props) => {
                 <SuspenseLoader />
             }
             {/* Content */}
-            <Box sx={{ background: 'white', p: 2 }}>
+            <Box sx={{ background: 'white', pt: 1 }}>
                 {/* <DataTable
                     columns={holidayColumns}
                     data={holidaysList}
@@ -312,14 +312,14 @@ const Holidays = (props: Props) => {
                 </div> : <span> </span>}
 
 
-
+                <Box px={2} pb={2}>
                 <HolidaysList
                     ItemList={holidaysList}
                     clickEdit={editRow}
                     HeaderArray={HeaderPublish}
                     clickDelete={deleteRow}
                 />
-                <br />
+            
                 {singleTotalCount > 19 ? <ButtonGroupComponent
                     rowsPerPage={rowsPerPage}
                     ChangeRowsPerPage={ChangeRowsPerPage}
@@ -330,7 +330,7 @@ const Holidays = (props: Props) => {
                 /> : <span> </span>}
 
 
-
+             </Box>
             </Box>
         </Box>
     )
