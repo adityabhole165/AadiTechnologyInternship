@@ -82,8 +82,8 @@ const EventOverview = (props: Props) => {
   };
   const GetAssociatedStandardsEVBody: INewGetAssociatedStdLstForTeacherDropDownBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(selectYear),
-    asUserId: 0
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(UserId)
   };
 
   const GetAllMonthsDropDownBody: INewGetAllMonthsDropDownotBody = {
@@ -92,7 +92,7 @@ const EventOverview = (props: Props) => {
 
   const GetAllEventsBody: IGetAllEventsBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(selectYear),
+    asAcademicYearId: Number(asAcademicYearId),
     asMonthId: selectMonth,
     asStandardId: selectStandard
   };
