@@ -73,10 +73,10 @@ export interface IGetAcademicYearBody {
     asSchoolId: number;
 }
 export interface IGetAcademicYearResult {
-    Academic_Year_ID: string,
-    YearValue: string,
-    School_Id: string,
-    Is_Current_Year: string,
+    Academic_Year_ID: string;
+    YearValue: string;
+    School_Id: string;
+    Is_Current_Year: string;
 }
 
 export interface IGetStatusDropdownBody {

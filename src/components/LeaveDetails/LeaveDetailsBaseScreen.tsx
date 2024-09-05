@@ -91,6 +91,7 @@ const LeaveDetailsBaseScreen = () => {
             setAcademicYear(currentYear ? currentYear.Value : GetAcademicYear[0]?.Value);
         }
     }, [GetAcademicYear]);
+
     useEffect(() => {
         if (GetCategoryDropdownList.length > 0) {
             setCategory(GetCategoryDropdownList.slice(0, 3)[0].Value);
@@ -342,7 +343,7 @@ const LeaveDetailsBaseScreen = () => {
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
                             sx={{ minWidth: '20vw' }}
-                            ItemList={GetAcademicYear}
+                            ItemList={GetAcademicYear.slice(0, 4)}
                             defaultValue={selectAcademicYear}
                             onChange={clickAcademicYearDropdown}
                             size={"small"}
