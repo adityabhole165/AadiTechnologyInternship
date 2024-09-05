@@ -1,6 +1,5 @@
 import {
   Box,
-  Card,
   CircularProgress,
   Divider,
   Grid,
@@ -35,7 +34,8 @@ function FeedBackCard() {
   const loading = useSelector((state: RootState) => state.FeedBack.Loading);
 
   const myRef = useRef(null);
-
+  const [countdown, setCountdown] = useState('');
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const executeScroll = () => {
     myRef.current.scrollIntoView({ top: 0, behavior: 'smooth' });
   };
@@ -79,6 +79,38 @@ function FeedBackCard() {
     return `${hours} hour(s)`;
   };
 
+  const updateCountdown = () => {
+    setCountdown(getTimeDifference());
+  };
+
+  useEffect(() => {
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [lastRefreshTime]);
+
+  const handleMouseEnter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+  };
   const handleRefresh = () => {
     dispatch(getuserFeedback(FeedbackBody));
     setLastRefreshTime(new Date());
@@ -102,8 +134,8 @@ function FeedBackCard() {
 
   const open = Boolean(anchorEl);
   return (
-    <Box sx={{backgroundColor:'white', p:1}} >
-      <Grid container sx={{ backgroundColor:'#38548A', borderRadius:'10px'}}>
+    <Box sx={{ backgroundColor: 'white', p: 1 }} >
+      <Grid container sx={{ backgroundColor: '#38548A', borderRadius: '10px' }}>
         <Grid item xs={6}>
           <Typography variant="h3" p={1} sx={{ color: 'white' }}>
             Feedback
@@ -112,14 +144,12 @@ function FeedBackCard() {
         <Grid item xs={6}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Tooltip
-              title={
-
-                `You are viewing ${getTimeDifference()} old data, click here to see the latest data.`
-
-              }
+              title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <IconButton onClick={handleRefresh}>
-                <RefreshIcon sx={{ mt: '8px', color:'white', }} />
+                <RefreshIcon sx={{ mt: '8px', color: 'white', }} />
               </IconButton>
             </Tooltip>
             {/* <Avatar
@@ -130,76 +160,76 @@ function FeedBackCard() {
           </Box>
         </Grid>
       </Grid>
-      <Box sx={{ height: '400px', overflow: 'auto', mt:2 }}>
-      {loading ? (
-        <Stack justifyContent="center" alignItems="center">
-          <CircularProgress size={40} disableShrink thickness={4} />
-        </Stack>
-      ) : (
-        <>
-          {Feedback.length == 0 ? (
-            <ErrorMessages Error={'No records found'} />
-          ) : (
-            <>
-              {Feedback.map((item, i) => (
-                <div key={i}>
-                  <Box key={i}>
-                    <Grid >
-                      <Grid item xs={12}>
-                        <Box
-                          display={'flex'}
-                          justifyContent={'space-between'}
-                          px={3}
-                        >
-                          <Typography variant="h3" p={0.5}  >{item.Header}</Typography> 
-                           </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
-                          <AccessTimeIcon
-                            sx={{ mr: '5px', color: '#64b5f6' }}
-                            fontSize="small"
-                          />
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis',
-                              width: '300px',
-                            }}
-                          >
-                            {item.Text2}
-                          </Typography>
-                        </Box>
-
-                        <Tooltip title={item.Text3} placement="left-start">
-                          <Typography
-                            variant="body2"
+      <Box sx={{ height: '400px', overflow: 'auto', mt: 2 }}>
+        {loading ? (
+          <Stack justifyContent="center" alignItems="center">
+            <CircularProgress size={40} disableShrink thickness={4} />
+          </Stack>
+        ) : (
+          <>
+            {Feedback.length == 0 ? (
+              <ErrorMessages Error={'No records found'} />
+            ) : (
+              <>
+                {Feedback.map((item, i) => (
+                  <div key={i}>
+                    <Box key={i}>
+                      <Grid >
+                        <Grid item xs={12}>
+                          <Box
+                            display={'flex'}
+                            justifyContent={'space-between'}
                             px={3}
-                            sx={{
-                              overflow: 'hidden',
-                              whiteSpace: 'normal',
-                              textOverflow: 'ellipsis',
-                              maxHeight: '6.25rem',
-                              lineHeight: '1.25rem',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 5,
-                              WebkitBoxOrient: 'vertical',
-                              position: 'relative',
-                            }}
                           >
-                            "{item.Text3}"
-                          </Typography>
-                        </Tooltip>
+                            <Typography variant="h3" p={0.5}  >{item.Header}</Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
+                            <AccessTimeIcon
+                              sx={{ mr: '5px', color: '#64b5f6' }}
+                              fontSize="small"
+                            />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis',
+                                width: '300px',
+                              }}
+                            >
+                              {item.Text2}
+                            </Typography>
+                          </Box>
+
+                          <Tooltip title={item.Text3} placement="left-start">
+                            <Typography
+                              variant="body2"
+                              px={3}
+                              sx={{
+                                overflow: 'hidden',
+                                whiteSpace: 'normal',
+                                textOverflow: 'ellipsis',
+                                maxHeight: '6.25rem',
+                                lineHeight: '1.25rem',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 5,
+                                WebkitBoxOrient: 'vertical',
+                                position: 'relative',
+                              }}
+                            >
+                              "{item.Text3}"
+                            </Typography>
+                          </Tooltip>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Divider variant="middle" sx={{ m: '5px' }} />
-                  </Box>
-                </div>
-              ))}
-            </>
-          )}
-        </>
-      )}
+                      <Divider variant="middle" sx={{ m: '5px' }} />
+                    </Box>
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+        )}
       </Box>
     </Box>
   );
