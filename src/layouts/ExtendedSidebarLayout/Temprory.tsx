@@ -31,15 +31,12 @@ import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
-import InsertChartTwoToneIcon from '@mui/icons-material/InsertChartTwoTone';
-import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
 import AddShoppingCartTwoToneIcon from '@mui/icons-material/AddShoppingCartTwoTone';
 import AddCardTwoToneIcon from '@mui/icons-material/AddCardTwoTone';
 import CastForEducationTwoToneIcon from '@mui/icons-material/CastForEducationTwoTone';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone';//Assign Homework
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';//School Notices
-import SmsIcon from '@mui/icons-material/Sms';// SMS Center 
 import ThreePTwoToneIcon from '@mui/icons-material/ThreePTwoTone';//Message Center
 import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';// Student Record List
 import GroupRemoveTwoToneIcon from '@mui/icons-material/GroupRemoveTwoTone';//Absent Student Details
@@ -58,8 +55,8 @@ import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';// Att
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';//Holidays
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';//Progress Report
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined';//Annual Planner
-
-
+import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';// message center 
+import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone';//SMS Center 
 
 import {
   IMissingattendancealeartNameBody
@@ -228,13 +225,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       title: 'SMS Center',
-      icon: <SmsIcon />,
+      icon: <SmsTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SmsCenter'
 
     },
     {
       title: 'Message Center',
-      icon: <ThreePTwoToneIcon />,
+      icon: <ForwardToInboxTwoToneIcon />,
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
     },
@@ -327,7 +324,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (isPreprimary === true) {
     sideList.push({
       title: 'Student Wise Progress Report',
-      icon: <TableChart />,
+      icon: <TableChartTwoToneIcon/>,
       link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
     });
   }
