@@ -320,8 +320,8 @@ function HolidaysList({
                 {ItemList.map((item, index) => {
                   const formattedItemDate = formatDate(new Date(item.Text1));
                   const isCurrentDate = formattedItemDate === formattedDate;
-                  const isFuture = isFutureDateTime(new Date(item.Text1));
-                  const isPast = isPastDateTime(new Date(item.Text1));
+                  const isFuture = isFutureDateTime(new Date(item.Text2));
+                  const isPast = isPastDateTime(new Date(item.Text2));
                   const isEqual = Equal(new Date(item.Text1))
 
                   const backgroundColor = isCurrentDate || (  index === 0 && isFuture) ? '#EFDCC9 ' : isPast ? "white" : 'white';
