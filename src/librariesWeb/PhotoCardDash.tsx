@@ -383,17 +383,18 @@ function PhotoCardDash() {
               largeImage={true}
               isSlideshowRunning={isSlideshowRunning}
             />
+
             <Typography
               variant="body1"
               onClick={toggleSlideshow}
               sx={{
                 position: 'absolute',
                 bottom: '16px',
-                right: '16px',
-                color: isSlideshowRunning ? 'secondary.main' : 'secondary.main',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                textDecoration: 'underline',
+                right: '16px',   
+                color: isSlideshowRunning ? 'primary.main' : 'primary.main',
+                cursor: 'pointer', 
+                fontWeight: 'bold', 
+                textDecoration: 'underline', 
               }}
             >
               {isSlideshowRunning ? 'Stop Slideshow' : 'Start Slideshow'}
