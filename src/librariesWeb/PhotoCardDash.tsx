@@ -331,8 +331,7 @@ function PhotoCardDash() {
       <div>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           {PhotoAlbum.length > 0 ? (
-            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false}
-            />
+            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined}            />
           ) : (
             <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
               No Photos Available
