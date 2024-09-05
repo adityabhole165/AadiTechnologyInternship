@@ -2,9 +2,8 @@ import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Carouselcard from './Carouselcard';
 import CarouselPhotoCard from './CarouselPhotoCard';
-const CarouselPhoto = ({ itemlist, IsPath = false ,onImageClick}) => {
+const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = false }) => {
   const [index, setIndex] = useState(0);
 
   const arrowClick = (value) => {
@@ -34,7 +33,9 @@ const CarouselPhoto = ({ itemlist, IsPath = false ,onImageClick}) => {
           <ArrowLeft onClick={() => arrowClick(-1)} />
         </Grid>
         <Grid item xs={10}>
-          <CarouselPhotoCard item={itemlist[index]} IsPath={IsPath} onImageClick={onImageClick} />
+          <CarouselPhotoCard item={itemlist[index]} IsPath={IsPath} onImageClick={onImageClick} largeImage={largeImage}
+            currentIndex={index}
+            totalImages={itemlist.length} />
         </Grid>
         <Grid item xs={1}>
           <ArrowRight onClick={() => arrowClick(1)} />

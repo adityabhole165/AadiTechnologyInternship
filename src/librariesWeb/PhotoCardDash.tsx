@@ -114,59 +114,59 @@ function PhotoCardDash() {
   }, []);
 
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
-const [countdown, setCountdown] = useState('');  
-const intervalRef = useRef<NodeJS.Timeout | null>(null); // Use useRef for interval ID
+  const [countdown, setCountdown] = useState('');
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-const getTimeDifference = () => {
-  if (!lastRefreshTime) return 'no';
+  const getTimeDifference = () => {
+    if (!lastRefreshTime) return 'no';
 
-  const now = new Date();
-  const seconds = differenceInSeconds(now, lastRefreshTime);
-  if (seconds < 60) {
-    return `${seconds} second(s)`;
-  }
+    const now = new Date();
+    const seconds = differenceInSeconds(now, lastRefreshTime);
+    if (seconds < 60) {
+      return `${seconds} second(s)`;
+    }
 
-  const minutes = differenceInMinutes(now, lastRefreshTime);
-  if (minutes < 60) {
-    return `${minutes} minute(s)`;
-  }
+    const minutes = differenceInMinutes(now, lastRefreshTime);
+    if (minutes < 60) {
+      return `${minutes} minute(s)`;
+    }
 
-  const hours = differenceInHours(now, lastRefreshTime);
-  return `${hours} hour(s)`;
-};
+    const hours = differenceInHours(now, lastRefreshTime);
+    return `${hours} hour(s)`;
+  };
 
-const updateCountdown = () => {
-  setCountdown(getTimeDifference());
-};
+  const updateCountdown = () => {
+    setCountdown(getTimeDifference());
+  };
 
-useEffect(() => {
- 
-  if (intervalRef.current) {
-    clearInterval(intervalRef.current);
-  }
+  useEffect(() => {
 
-  intervalRef.current = setInterval(updateCountdown, 1000);
-
-  return () => {
     if (intervalRef.current) {
-      clearInterval(intervalRef.current); 
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [lastRefreshTime]);
+
+  const handleMouseEnter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
   };
-}, [lastRefreshTime]);
 
-const handleMouseEnter = () => {
-  if (intervalRef.current) {
-    clearInterval(intervalRef.current);  
-  }
-};
+  const handleMouseLeave = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
 
-const handleMouseLeave = () => {
-  if (intervalRef.current) {
-    clearInterval(intervalRef.current);  
-  }
-
-  intervalRef.current = setInterval(updateCountdown, 1000); 
-};
+    intervalRef.current = setInterval(updateCountdown, 1000);
+  };
 
   const ClickMonth = (value) => {
     setMonth(value);
@@ -197,7 +197,7 @@ const handleMouseLeave = () => {
     setYear(currentYear);
     setRefreshFlag(1)
     handleClose();
-    setLastRefreshTime(new Date()); 
+    setLastRefreshTime(new Date());
   };
 
 
@@ -253,8 +253,8 @@ const handleMouseLeave = () => {
           </IconButton>
           <Tooltip
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-            onMouseEnter={handleMouseEnter}  
-            onMouseLeave={handleMouseLeave} 
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <IconButton onClick={handleClearFilter}>
               <RefreshIcon sx={{
@@ -326,7 +326,8 @@ const handleMouseLeave = () => {
       <div>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           {PhotoAlbum.length > 0 ? (
-            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} />
+            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false}
+            />
           ) : (
             <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
               No Photos Available
@@ -359,13 +360,22 @@ const handleMouseLeave = () => {
                 }
               }} />
           </DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{
+            height: '600px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mt: '20px',
+            overflow: 'hidden'
+          }}>
 
             <CarouselPhoto
 
               itemlist={PhotoAlbum.filter((item) => item.AlbumID == selectedAlbumID)}
               IsPath={true}
               onImageClick={handleImageClick}
+              largeImage={true}
+
             />
 
           </DialogContent>

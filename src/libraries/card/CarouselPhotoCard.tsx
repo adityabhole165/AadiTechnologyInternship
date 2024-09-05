@@ -1,12 +1,13 @@
 import { Avatar, Typography } from '@mui/material';
 
-const CarouselPhotoCard = ({ item, IsPath, onImageClick }) => {
+const CarouselPhotoCard = ({ item, IsPath, onImageClick, largeImage = false, currentIndex = 0, totalImages = 0 }) => {
 
     const handleClick = () => {
         if (onImageClick) {
             onImageClick(IsPath ? item.AlbumID : item.AlbumID);
         }
     };
+    const avatarSize = largeImage ? { height: '500px', width: '400px' } : { height: '300px', width: '250px' };
 
     return (
         <div>
@@ -21,7 +22,8 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick }) => {
                     mt: '10px',
                     backgroundColor: '#90caf9',
                     height: '300px',
-                    width: '250px'
+                    width: '250px',
+                    ...avatarSize
                 }}
                 variant="rounded"
                 aria-label="add"
@@ -31,6 +33,11 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick }) => {
             <Typography variant="body2" sx={{ mb: 1 }}>
                 {item.Text1}
             </Typography>
+            {largeImage && (
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                    {`${currentIndex + 1} of ${totalImages}`}
+                </Typography>
+            )}
         </div>
     );
 };
