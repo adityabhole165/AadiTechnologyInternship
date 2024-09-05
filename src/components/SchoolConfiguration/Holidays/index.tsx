@@ -22,7 +22,7 @@ type Props = {}
 
 const Holidays = (props: Props) => {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const asSchoolId = localStorage.getItem('localSchoolId');
+    const asSchoolId = localStorage.getItem('SchoolId');
     const asStandardId = sessionStorage.getItem('StandardId');
     const asDivisionId = sessionStorage.getItem('DivisionId');
     const [asHoliday_Id, setAsHoliday_Id] = useState();
