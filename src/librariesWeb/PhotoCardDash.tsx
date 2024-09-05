@@ -45,6 +45,11 @@ function PhotoCardDash() {
   const [refreshFlag, setRefreshFlag] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isSlideshowRunning, setIsSlideshowRunning] = useState(true);
+  const toggleSlideshow = () => {
+    setIsSlideshowRunning((prev) => !prev);
+  };
+
   const MonthArray = [
     { Id: 1, Name: 'All', Value: '0' },
     { Id: 2, Name: 'January', Value: '1' },
@@ -365,6 +370,7 @@ function PhotoCardDash() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            flexDirection: 'column',
             mt: '20px',
             overflow: 'hidden'
           }}>
@@ -375,8 +381,23 @@ function PhotoCardDash() {
               IsPath={true}
               onImageClick={handleImageClick}
               largeImage={true}
-
+              isSlideshowRunning={isSlideshowRunning}
             />
+            <Typography
+              variant="body1"
+              onClick={toggleSlideshow}
+              sx={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '16px',
+                color: isSlideshowRunning ? 'secondary.main' : 'secondary.main',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                textDecoration: 'underline',
+              }}
+            >
+              {isSlideshowRunning ? 'Stop Slideshow' : 'Start Slideshow'}
+            </Typography>
 
           </DialogContent>
         </Dialog>

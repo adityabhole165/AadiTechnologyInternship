@@ -3,7 +3,7 @@ import ArrowRight from '@mui/icons-material/ArrowRight';
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import CarouselPhotoCard from './CarouselPhotoCard';
-const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = false }) => {
+const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = false, isSlideshowRunning = true }) => {
   const [index, setIndex] = useState(0);
 
   const arrowClick = (value) => {
@@ -17,14 +17,29 @@ const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = fa
       setIndex(index + value);
     }
   };
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIndex((prevIndex) =>
+  //       prevIndex === itemlist.length - 1 ? 0 : prevIndex + 1
+  //     );
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, [index]);
+  
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIndex((prevIndex) =>
-        prevIndex === itemlist.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [index]);
+    let timer;
+    if (isSlideshowRunning) {
+      timer = setTimeout(() => {
+        setIndex((prevIndex) =>
+          prevIndex === itemlist.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 2000);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [index, isSlideshowRunning, itemlist.length]);
 
   return (
     <div>
