@@ -331,7 +331,7 @@ function PhotoCardDash() {
       <div>
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           {PhotoAlbum.length > 0 ? (
-            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined}            />
+            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
           ) : (
             <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
               No Photos Available
@@ -389,11 +389,11 @@ function PhotoCardDash() {
               sx={{
                 position: 'absolute',
                 bottom: '16px',
-                right: '16px',   
+                right: '16px',
                 color: isSlideshowRunning ? 'primary.main' : 'primary.main',
-                cursor: 'pointer', 
-                fontWeight: 'bold', 
-                textDecoration: 'underline', 
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                textDecoration: 'underline',
               }}
             >
               {isSlideshowRunning ? 'Stop Slideshow' : 'Start Slideshow'}
@@ -401,6 +401,9 @@ function PhotoCardDash() {
 
           </DialogContent>
         </Dialog>
+        <Grid item xs={12} textAlign={'right'}>
+          <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
+        </Grid>
       </div>
     </Box>
   );
