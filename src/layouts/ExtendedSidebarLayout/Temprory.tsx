@@ -27,9 +27,39 @@ import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
 import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
-
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
+import InsertChartTwoToneIcon from '@mui/icons-material/InsertChartTwoTone';
+import ListAltTwoToneIcon from '@mui/icons-material/ListAltTwoTone';
+import AddShoppingCartTwoToneIcon from '@mui/icons-material/AddShoppingCartTwoTone';
+import AddCardTwoToneIcon from '@mui/icons-material/AddCardTwoTone';
+import CastForEducationTwoToneIcon from '@mui/icons-material/CastForEducationTwoTone';
+import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
+import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone';//Assign Homework
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';//School Notices
+import SmsIcon from '@mui/icons-material/Sms';// SMS Center 
+import ThreePTwoToneIcon from '@mui/icons-material/ThreePTwoTone';//Message Center
+import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';// Student Record List
+import GroupRemoveTwoToneIcon from '@mui/icons-material/GroupRemoveTwoTone';//Absent Student Details
+import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone';// Assign Pre-Primary Progress Report Grades
+import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';// Pre Primary Progress Report
+import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';//Pre-Primary Progress Report Results
+import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone';//Investment Declaration
+import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone';//Leave Details
+import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone';// password
+import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone';// Progress Remark 
+import AccessTimeIcon from '@mui/icons-material/AccessTime';// time table 
+import AddchartIcon from '@mui/icons-material/Addchart';//Performance Grade Assignment
+import RuleIcon from '@mui/icons-material/Rule';//Assign exam mark 
+import EventBusyTwoToneIcon from '@mui/icons-material/EventBusyTwoTone';// missing attendance
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';// Attendance
+import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';//Holidays
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';//Progress Report
+import EventOutlinedIcon from '@mui/icons-material/EventOutlined';//Annual Planner
+
+
 
 import {
   IMissingattendancealeartNameBody
@@ -116,32 +146,32 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       title: 'Annual Planner',
-      icon: <CalendarToday />,
+      icon: <EventOutlinedIcon />,
       link: '/extended-sidebar/Common/AnnualPlanner'
     },
     {
-      title: 'Weekly Timetable',
-      icon: <AccessTime />,
-      link: '/extended-sidebar/Teacher/WeeklyTimetable'
-    },
-    {
       title: 'Assign Homework',
-      icon: <Assignment />,
+      icon: <AutoStoriesTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignHomework'
     },
     {
+      title: 'Weekly Timetable',
+      icon: <TableChartOutlinedIcon />,
+      link: '/extended-sidebar/Teacher/WeeklyTimetable'
+    },
+    {
       title: 'Attendance',
-      icon: <DateRange />,
+      icon: <EventNoteOutlinedIcon />,
       link: '/extended-sidebar/Teacher/TAttendance'
     },
     {
       title: 'Assign Exam Marks',
-      icon: <FeaturedPlayList />,
+      icon: <RuleIcon />,
       link: '/extended-sidebar/Teacher/AssignExamMark'
     },
     {
       title: 'Change Password',
-      icon: <Password />,
+      icon: <LockResetTwoToneIcon />,
       link: '/extended-sidebar/common/changePassword'
     },
     {
@@ -161,73 +191,73 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       title: 'Progress Remarks',
-      icon: <TableChart />,
+      icon: <InsertCommentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/ProgressRemarks'
     },
 
     {
       title: 'Progress Report',
-      icon: <TableChart />,
+      icon: <AssessmentOutlinedIcon />,
       link: '/extended-sidebar/Teacher/ProgressReportNew'
     },
     {
       title: 'Requisition',
-      icon: <TableChart />,
+      icon: <AddShoppingCartTwoToneIcon />,
       link: '/extended-sidebar/Teacher/Requisition'
     },
 
     {
       title: 'Lesson Plan',
-      icon: <TableChart />,
+      icon: <HistoryEduTwoToneIcon />,
       link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
     },
     {
       title: 'Add Aadhar Card Details',
-      icon: <TableChart />,
+      icon: <AddCardTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AadharCard'
     },
     {
       title: 'Holidays',
-      icon: <DateRangeIcon />,
+      icon: <DateRangeOutlinedIcon />,
       link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
     },
     {
       title: 'Leave Details',
-      icon: <DateRangeIcon />,
+      icon: <LibraryBooksTwoToneIcon />,
       link: '/extended-sidebar/Teacher/LeaveDetails'
     },
     {
       title: 'SMS Center',
-      icon: <FactCheck />,
+      icon: <SmsIcon />,
       link: '/extended-sidebar/Teacher/SmsCenter'
 
     },
     {
       title: 'Message Center',
-      icon: <FactCheck />,
+      icon: <ThreePTwoToneIcon />,
       link: '/extended-sidebar/MessageCenter/msgCenter'
 
     },
     {
       title: 'Timetable',
-      icon: <FactCheck />,
+      icon: <AccessTimeIcon />,
       link: '/extended-sidebar/Teacher/TeacherTimeTable'
 
     },
 
     {
       title: 'Student Records',
-      icon: <TableChart />,
+      icon: <CoPresentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/StudentRecords'
     },
     {
       title: 'Performance Grade Assignment',
-      icon: <FactCheck />,
+      icon: <AddchartIcon />,
       link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen'
     },
     {
       title: 'Investment Declaration',
-      icon: <FactCheck />,
+      icon: <AssuredWorkloadTwoToneIcon />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration'
     },
 
@@ -244,21 +274,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (hasMissingDays) {
     sideList.push({
       title: 'Missing Attendance',
-      icon: <FactCheck />,
+      icon: <EventBusyTwoToneIcon />,
       link: null // No link for this item
     });
   }
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
       title: 'Absent Student Details',
-      icon: <FactCheck />,
+      icon: <GroupRemoveTwoToneIcon />,
       link: null
     });
   }
   if (asUserRoleId === '2') {
     sideList.push({
       title: 'School Notices',
-      icon: <Assignment />,
+      icon: <AssignmentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
     });
   }
@@ -266,7 +296,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (asUserRoleId === '3') {
     sideList.push({
       title: 'School Notices',
-      icon: <Assignment />,
+      icon: <AssignmentTwoToneIcon />,
       link: '/extended-sidebar/Common/SchoolNotice'
     });
   }
@@ -274,14 +304,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
       title: 'Assign Pre-Primary Grades',
-      icon: <FeaturedPlayList />,
+      icon: <ReceiptTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
     });
   }
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
       title: 'Pre-Primary Progress Report',
-      icon: <FeaturedPlayList />,
+      icon: <FactCheckTwoToneIcon />,
       link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
     });
   }
@@ -289,7 +319,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
       title: 'Pre-Primary Results',
-      icon: <FeaturedPlayList />,
+      icon: <SchoolTwoToneIcon />,
       link: '/extended-sidebar/Teacher/PrePrimaryResult'
     });
   }
