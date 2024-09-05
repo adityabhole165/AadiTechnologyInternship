@@ -99,7 +99,7 @@ function TableUsingArray({ ItemList, HeaderArray }) {
                       color: i === ItemList.length - 1 ? theme.palette.common.white : 'inherit',
                     })}
                   >
-                    {obj === 'X' ? <ClearIcon sx={{ color: 'red' }} /> : obj}
+                    {obj === 'X' ? <ClearIcon sx={{ color: 'red' }} /> : obj || '-'}
                   </TableCell>
                 ))}
               </TableRow>

@@ -484,13 +484,13 @@ const TAttendance = () => {
       setOnlySelectedClass('');
     }
   }, [stdlist]);
-  useEffect(() => {
-    if (!AcademicDates || !AcademicDates.StartDate || !AcademicDates.EndDate) {
-      setMarksError('Term Start & End dates have not been configured for this Standard. Please configure it.');
-    } else {
-      setMarksError(''); // Clear any existing error message
-    }
-  }, [AcademicDates]);
+  // useEffect(() => {
+  //   if (!AcademicDates || !AcademicDates.StartDate || !AcademicDates.EndDate) {
+  //     setMarksError('Term Start & End dates have not been configured for this Standard. Please configure it.');
+  //   } else {
+  //     setMarksError(''); // Clear any existing error message
+  //   }
+  // }, [AcademicDates]);
 
 
 
@@ -844,19 +844,19 @@ const TAttendance = () => {
 
             <Box>
               <Tooltip title={'Absent Student Details'}>
-              <span>
-                <IconButton
-                  onClick={ClickOpenDialogbox}
-                  sx={{
-                    backgroundColor: blue[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}
-                >
-                  <AddComment />
-                </IconButton>
+                <span>
+                  <IconButton
+                    onClick={ClickOpenDialogbox}
+                    sx={{
+                      backgroundColor: blue[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                  >
+                    <AddComment />
+                  </IconButton>
                 </span>
               </Tooltip>
             </Box>
