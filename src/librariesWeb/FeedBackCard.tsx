@@ -25,7 +25,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 function FeedBackCard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
   const RoleId = sessionStorage.getItem('RoleId');
   const SchoolId = localStorage.getItem('localSchoolId');
   const Feedback: any = useSelector(

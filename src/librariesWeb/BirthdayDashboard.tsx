@@ -28,7 +28,7 @@ function BirthdayDashboard() {
   const [isRefresh, setIsRefresh] = useState(false);
   const [alignment, setAlignment] = useState('S');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
   const [countdown, setCountdown] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
