@@ -4,14 +4,16 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  Avatar, Badge, Box, Card, Grid, IconButton, Popover, Stack, ToggleButton,
+  Avatar,
+  Box,
+  Grid, IconButton, Popover, Stack, ToggleButton,
   ToggleButtonGroup, Tooltip, Typography
 } from '@mui/material';
 import { green, grey, orange, red } from '@mui/material/colors';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
 } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Carousel from 'src/libraries/card/Carousel';
@@ -27,6 +29,8 @@ function BirthdayDashboard() {
   const [alignment, setAlignment] = useState('S');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
+  const [countdown, setCountdown] = useState('');
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const Birthdays = useSelector((state: RootState) => state.Birthdays.BirthdaysList);
   const loading = useSelector((state: RootState) => state.Birthdays.Loading);
@@ -62,6 +66,7 @@ function BirthdayDashboard() {
     setAnchorEl(null);
   };
 
+
   const getTimeDifference = () => {
     if (!lastRefreshTime) return 'no';
 
@@ -79,7 +84,39 @@ function BirthdayDashboard() {
     const hours = differenceInHours(now, lastRefreshTime);
     return `${hours} hour(s)`;
   };
- 
+
+  const updateCountdown = () => {
+    setCountdown(getTimeDifference());
+  };
+
+  useEffect(() => {
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [lastRefreshTime]);
+
+  const handleMouseEnter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+  };
   const handleClickpop = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(prevAnchorEl => (prevAnchorEl ? null : event.currentTarget));
   };
@@ -101,39 +138,38 @@ function BirthdayDashboard() {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Box sx={{ height: '300px', backgroundColor:'white', p:1.  }}>
-      <Grid item sx={{ mb: '0px', display:'flex', backgroundColor:'#38548A' ,  borderRadius:'10px' }}>
+    <Box sx={{ height: '300px', backgroundColor: 'white', p: 1. }}>
+      <Grid item sx={{ mb: '0px', display: 'flex', backgroundColor: '#38548A', borderRadius: '10px' }}>
         <Grid item xs={12}>
-          <Typography variant="h3" p={0.8} sx={{ color: 'white',  }}>
+          <Typography variant="h3" p={0.8} sx={{ color: 'white', }}>
             Birthdays
           </Typography>
         </Grid>
         <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton  sx={{ mt: '4px', pr:1 }} >
-              <Box sx={{display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '30px',      // Circle diameter
-                height: '30px',     // Circle diameter
-                borderRadius: '50%', // Makes the Box a circle
-                backgroundColor: 'white', // Secondary background color
-                color: 'black',      // Text color
-                fontSize: '0.8rem',
-              }}> <b>{Birthdays.length !== 0 ? Birthdays.length : '0'}</b></Box>
-                
-                
-              
-            </IconButton>
-            
-            <Tooltip
-              title={
+          <IconButton sx={{ mt: '4px', pr: 1 }} >
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '30px',      // Circle diameter
+              height: '30px',     // Circle diameter
+              borderRadius: '50%', // Makes the Box a circle
+              backgroundColor: 'white', // Secondary background color
+              color: 'black',      // Text color
+              fontSize: '0.8rem',
+            }}> <b>{Birthdays.length !== 0 ? Birthdays.length : '0'}</b></Box>
 
-                `You are viewing ${getTimeDifference()} old data, click here to see the latest data.`
 
-              }
-            >
-              <IconButton onClick={handleRefresh}>
-                <RefreshIcon 
+
+          </IconButton>
+
+          <Tooltip
+            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <IconButton onClick={handleRefresh}>
+              <RefreshIcon
                 // sx={{ mt: '5px', mr: '0px' }} 
                 sx={{
                   color: 'white',
@@ -142,21 +178,21 @@ function BirthdayDashboard() {
                   cursor: 'pointer',
                   '&:hover': { backgroundColor: grey[600] }
                 }} />
-              </IconButton>
-            </Tooltip>
-            <IconButton 
+            </IconButton>
+          </Tooltip>
+          <IconButton
             sx={{ mt: '4px' }} onClick={handleClickpop}>
-              <SettingsIcon
+            <SettingsIcon
               sx={{
                 color: 'white',
                 // background:'white',
-                borderRadius: '7px',  
+                borderRadius: '7px',
                 cursor: 'pointer',
-                '&:hover': 
-                { backgroundColor: grey[600] }
+                '&:hover':
+                  { backgroundColor: grey[600] }
               }} />
-            </IconButton>
-          </Grid>
+          </IconButton>
+        </Grid>
         {/* <Grid item xs={6}>
          
         </Grid> */}
@@ -199,14 +235,14 @@ function BirthdayDashboard() {
             </Avatar>
           </Tooltip>
           <Tooltip title="Clear Filter">
-          <Avatar sx={{ bgcolor: orange[500] }} variant="square">
-            <ReplayIcon onClick={handleRefresh} />
-          </Avatar>
+            <Avatar sx={{ bgcolor: orange[500] }} variant="square">
+              <ReplayIcon onClick={handleRefresh} />
+            </Avatar>
           </Tooltip>
           <Tooltip title="Cancel">
-          <Avatar sx={{ bgcolor: red[500] }} variant="square">
-            <CloseIcon onClick={handleClose} />
-          </Avatar>
+            <Avatar sx={{ bgcolor: red[500] }} variant="square">
+              <CloseIcon onClick={handleClose} />
+            </Avatar>
           </Tooltip>
         </Stack>
       </Popover>
