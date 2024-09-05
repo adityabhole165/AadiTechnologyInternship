@@ -21,7 +21,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
 } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
@@ -40,7 +40,7 @@ function PhotoCardDash() {
   const RoleId = sessionStorage.getItem('RoleId');
   const [month, setMonth] = useState('100');
   const [year, setYear] = useState('currentYear');
-  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
+
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [refreshFlag, setRefreshFlag] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
@@ -113,23 +113,61 @@ function PhotoCardDash() {
     setIsFirstLoad(false);
   }, []);
 
-  const getTimeDifference = () => {
-    if (!lastRefreshTime) return 'no';
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
+const [countdown, setCountdown] = useState('');  
+const intervalRef = useRef<NodeJS.Timeout | null>(null); // Use useRef for interval ID
 
-    const now = new Date();
-    const seconds = differenceInSeconds(now, lastRefreshTime);
-    if (seconds < 60) {
-      return `${seconds} second(s)`;
+const getTimeDifference = () => {
+  if (!lastRefreshTime) return 'no';
+
+  const now = new Date();
+  const seconds = differenceInSeconds(now, lastRefreshTime);
+  if (seconds < 60) {
+    return `${seconds} second(s)`;
+  }
+
+  const minutes = differenceInMinutes(now, lastRefreshTime);
+  if (minutes < 60) {
+    return `${minutes} minute(s)`;
+  }
+
+  const hours = differenceInHours(now, lastRefreshTime);
+  return `${hours} hour(s)`;
+};
+
+const updateCountdown = () => {
+  setCountdown(getTimeDifference());
+};
+
+useEffect(() => {
+ 
+  if (intervalRef.current) {
+    clearInterval(intervalRef.current);
+  }
+
+  intervalRef.current = setInterval(updateCountdown, 1000);
+
+  return () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current); 
     }
-
-    const minutes = differenceInMinutes(now, lastRefreshTime);
-    if (minutes < 60) {
-      return `${minutes} minute(s)`;
-    }
-
-    const hours = differenceInHours(now, lastRefreshTime);
-    return `${hours} hour(s)`;
   };
+}, [lastRefreshTime]);
+
+const handleMouseEnter = () => {
+  if (intervalRef.current) {
+    clearInterval(intervalRef.current);  
+  }
+};
+
+const handleMouseLeave = () => {
+  if (intervalRef.current) {
+    clearInterval(intervalRef.current);  
+  }
+
+  intervalRef.current = setInterval(updateCountdown, 1000); 
+};
+
   const ClickMonth = (value) => {
     setMonth(value);
   };
@@ -159,6 +197,7 @@ function PhotoCardDash() {
     setYear(currentYear);
     setRefreshFlag(1)
     handleClose();
+    setLastRefreshTime(new Date()); 
   };
 
 
@@ -178,11 +217,11 @@ function PhotoCardDash() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const [selectedAlbumID, setSelectedAlbumID] = useState(null);
-   console.log(selectedAlbumID,"selectedAlbumID");
+  console.log(selectedAlbumID, "selectedAlbumID");
 
   const handleImageClick = (albumID) => {
-    setSelectedAlbumID(albumID); 
-    setOpenDialog(true); 
+    setSelectedAlbumID(albumID);
+    setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
@@ -213,11 +252,9 @@ function PhotoCardDash() {
 
           </IconButton>
           <Tooltip
-            title={
-
-              `You are viewing ${getTimeDifference()} old data, click here to see the latest data.`
-
-            }
+            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+            onMouseEnter={handleMouseEnter}  
+            onMouseLeave={handleMouseLeave} 
           >
             <IconButton onClick={handleClearFilter}>
               <RefreshIcon sx={{
@@ -287,53 +324,53 @@ function PhotoCardDash() {
 
       {/* Photo Album Display */}
       <div>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-        {PhotoAlbum.length > 0 ? (
-          <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} />
-        ) : (
-          <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
-            No Photos Available
-          </Typography>
-        )}
-      </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          {PhotoAlbum.length > 0 ? (
+            <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} />
+          ) : (
+            <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
+              No Photos Available
+            </Typography>
+          )}
+        </Box>
 
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        fullWidth
-        maxWidth="md"
-        PaperProps={{
-          sx: {
-            borderRadius: "15px",
-          }
-        }}
-      >
-        <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
-          <ClearIcon onClick={handleCloseDialog}
-            sx={{
-              color: 'white',
-              borderRadius: '7px',
-              position: 'absolute',
-              top: '5px',
-              right: '8px',
-              cursor: 'pointer',
-              '&:hover': {
-                color: 'red',
-              }
-            }} />
-        </DialogTitle>
-        <DialogContent>
-        
-              <CarouselPhoto
-            
-                itemlist={PhotoAlbum.filter((item) => item.AlbumID == selectedAlbumID)}
-                IsPath={true}
-                onImageClick={handleImageClick}
-              />
-            
-        </DialogContent>
-      </Dialog>
-    </div>
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          fullWidth
+          maxWidth="md"
+          PaperProps={{
+            sx: {
+              borderRadius: "15px",
+            }
+          }}
+        >
+          <DialogTitle sx={{ bgcolor: '#223354', position: 'relative' }}>
+            <ClearIcon onClick={handleCloseDialog}
+              sx={{
+                color: 'white',
+                borderRadius: '7px',
+                position: 'absolute',
+                top: '5px',
+                right: '8px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'red',
+                }
+              }} />
+          </DialogTitle>
+          <DialogContent>
+
+            <CarouselPhoto
+
+              itemlist={PhotoAlbum.filter((item) => item.AlbumID == selectedAlbumID)}
+              IsPath={true}
+              onImageClick={handleImageClick}
+            />
+
+          </DialogContent>
+        </Dialog>
+      </div>
     </Box>
   );
 }
