@@ -64,6 +64,7 @@ function BirthdayDashboard() {
     }));
     setIsRefresh(prev => !prev);
     setAnchorEl(null);
+    setLastRefreshTime(new Date());
   };
 
 
@@ -132,6 +133,7 @@ function BirthdayDashboard() {
       asView: view
     }));
     setAnchorEl(null);
+    setLastRefreshTime(new Date());
   };
 
   const open = Boolean(anchorEl);
