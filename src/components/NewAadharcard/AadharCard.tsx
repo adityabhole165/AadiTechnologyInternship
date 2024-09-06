@@ -300,7 +300,7 @@ const AadharCard = () => {
         rightActions={
           <>
             <Box>
-              <Tooltip title={`Add Aadhar card details.`}>
+              <Tooltip title={`Add aadhar card details.`}>
                 <IconButton
                   sx={{
                     color: 'white',
