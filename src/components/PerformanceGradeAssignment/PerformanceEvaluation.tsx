@@ -15,7 +15,6 @@ import CommonPageHeader from "../CommonPageHeader";
 import UploadDocument from "./UploadDocument";
 // import DatePicker from "react-multi-date-picker";
 
-
 const PerformanceEvaluation = () => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -746,7 +745,10 @@ const PerformanceEvaluation = () => {
             {/* const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose, RefreshList }) => { */}
             <UploadDocument Id={userId} ReportingUserId={uploadDocUserId} yearId={asYear}
                 saveButton={listEnableRejectButtonDetails[0]?.Text3}
-                open={uploadDoc} handleClose={() => { setUploadDoc(false) }} RefreshList={() => { }} />
+                open={uploadDoc} handleClose={() => {
+                    setUploadDoc(false);
+                    dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
+                }} RefreshList={() => { }} />
         </>
     )
 }

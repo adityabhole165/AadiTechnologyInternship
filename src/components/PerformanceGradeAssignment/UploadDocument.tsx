@@ -1,5 +1,6 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
-import { green } from "@mui/material/colors";
+import { QuestionMark } from "@mui/icons-material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip, Typography } from "@mui/material";
+import { green, grey } from "@mui/material/colors";
 import { ClearIcon } from "@mui/x-date-pickers";
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +9,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import { IGetUserInvestmentMethodDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import SingleFile from 'src/libraries/File/SingleFile';
-import { deleteresetInvestMessage, getAllDocumentsList, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
+import { deleteresetInvestMessage, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { CDAGetAllDocumentsList, CDAGetUserInvestmentMethodDetails } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { RootState } from 'src/store';
 import UploadDocList from './UploadDocList';
@@ -19,6 +20,18 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     // console.log(UserName, "UserName");
     // console.log(DocumentName, "DocumentName");
     // useSelectors()
+
+    const { showAlert, closeAlert } = useContext(AlertContext);
+    const [fileName, setFileName] = useState('');
+    const [fileNameError, setFileNameError] = useState('');
+    const [ValidFile, setValidFile] = useState('')
+    const [base64URL, setbase64URL] = useState('');
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asFolderName = localStorage.getItem('FolderName');
+    const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const asUserId = Number(localStorage.getItem('UserId'));
+    const envUserId = sessionStorage.getItem('Id');
     const UserInvestmentMethodDetails: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISUserInvestmentMethodDetails);
     const GetAllDocumentsList: any = useSelector((state: RootState) => state.PerformanceGradeAssignment.ISGetAllDocumentsList);
 
@@ -35,19 +48,34 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     const IGetAllDocumentsListBody: IGetAllDocumentsListBody = {
         asSchoolId: Number(schoolId),
         asUserId: Number(Id),
-        asFinancialYearId: Number(financialYearId),
+        asFinancialYearId: 1,
         asDocumentTypeId: 8,
         asAcademicYearId: Number(yearId),
         asDocumentId: 0,
         asReportingUserId: Number(ReportingUserId),
         asLoginUserId: Number(sessionStorage.getItem('Id'))
     }
+
+    const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
+        asSchoolId: Number(schoolId),
+        asAcademicYearId: Number(yearId),
+        asFinancialYearId: Number(financialYearId),
+        asDocumentId: 0,
+        asFileName: fileName == '' ? null : fileName,
+        asUserId: Number(Id),
+        asInsertedById: asUserId,
+        asDocumnetTypeId: 8,
+        asReportingUserId: Number(ReportingUserId),
+        asSaveFeature: "Performance Evaluation",
+        asFolderName: asFolderName.toString(),
+        asBase64String: base64URL == '' ? null : base64URL
+    }
     useEffect(() => {
-        if (Id !== '0' && ReportingUserId !== '0') {
-            dispatch(CDAGetUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody));
-            dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
-        }
-    }, [Id, ReportingUserId])
+        // if (Id !== '0' && ReportingUserId !== '0') {
+        dispatch(CDAGetUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody));
+        dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
+        // }
+    }, [open])
 
 
     //
@@ -71,17 +99,6 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     // console.log(debouncedFetch, "debouncedFetch");
 
 
-    const { showAlert, closeAlert } = useContext(AlertContext);
-    const [fileName, setFileName] = useState('');
-    const [fileNameError, setFileNameError] = useState('');
-    const [ValidFile, setValidFile] = useState('')
-    const [base64URL, setbase64URL] = useState('');
-    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asFolderName = localStorage.getItem('FolderName');
-    const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
-    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const asUserId = Number(localStorage.getItem('UserId'));
-    const envUserId = sessionStorage.getItem('Id');
     const USCheckPublishUnpublishDocument: any = useSelector(
         (state: RootState) => state.AddInvestmentDetailsDoc.ISCheckPublishUnpublishDocument
     );
@@ -106,34 +123,27 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         asFinancialYearId: 1,
         asUserId: asUserId
     };
-    const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: Number(yearId),
-        asFinancialYearId: 1,
-        asDocumentId: 0,
-        asFileName: fileName == '' ? null : fileName,
-        asUserId: Number(Id),
-        asInsertedById: asUserId,
-        asDocumnetTypeId: 8,
-        asReportingUserId: Number(ReportingUserId),
-        asSaveFeature: "Performance Evaluation",
-        asFolderName: asFolderName.toString(),
-        asBase64String: base64URL == '' ? null : base64URL
-    }
-    const GetGetAllDocumentsListBody: IGetAllDocumentsListBody = {
-        asSchoolId: asSchoolId,
-        asUserId: asUserId,
-        asFinancialYearId: 1,
-        asDocumentTypeId: 8,
-        asAcademicYearId: asAcademicYearId,
-        asDocumentId: null,
-        asReportingUserId: Number(Id),
-        asLoginUserId: asUserId
-    }
+    // const SaveInvestmentDocumentBody: ISaveInvestmentDocumentBody = {
+    //     asSchoolId: asSchoolId,
+    //     asAcademicYearId: asAcademicYearId,
+    //     asFinancialYearId: Number(financialYearId),
+    //     asDocumentId: 0,
+    //     asFileName: fileName == '' ? null : fileName,
+    //     asUserId: Number(Id),
+    //     asInsertedById: asUserId,
+    //     asDocumnetTypeId: 8,
+    //     asReportingUserId: Number(ReportingUserId),
+    //     asSaveFeature: "Performance Evaluation",
+    //     asFolderName: asFolderName.toString(),
+    //     asBase64String: base64URL == '' ? null : base64URL
+    // }
     const InvestmentDocumentFileBody: IGetInvestmentDocumentFileBody = {
         asSchoolId: asSchoolId,
         asId: Number(Id),    /*2303,*/
     };
+    useEffect(() => {
+        setFileNameError('')
+    }, [])
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
     }, [])
@@ -156,6 +166,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
             setFileNameError('');
         }
         if (!isError) {
+            console.log(`Following is the Body for the save document -`, SaveInvestmentDocumentBody)
             dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody));
             ResetForm();
         }
@@ -165,7 +176,8 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         if (USSaveInvestmentDocument != '') {
             toast.success(USSaveInvestmentDocument);
             dispatch(resetSaveInvestmentMessage());
-            dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+            // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+            dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
             RefreshList()
 
         }
@@ -193,7 +205,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     const ClickDelete = (Id) => {
         const DeleteInvestmentDocumentBody: IDeleteInvestmentDocumentBody = {
             asSchoolId: asSchoolId,
-            asFinancialYearId: 1,
+            asFinancialYearId: Number(financialYearId),
             asUpdatedById: asUserId,
             asDocumentId: Number(Id),
             asDocumnetTypeId: 8
@@ -219,7 +231,8 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         if (USDeleteInvestmentDocument !== '') {
             toast.success("Document deleted successfully.");
             dispatch(deleteresetInvestMessage());
-            dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+            // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
+            dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
             RefreshList()
 
         }
@@ -227,11 +240,12 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     const ClickView = (fileName) => {
         window.open(
             localStorage.getItem('SiteURL') +
-            '/RITeSchool//downloads/Performance%20Evaluation/' +
+            '/RITESCHOOL/DOWNLOADS/Performance Evaluation' +
             fileName
-
+            // \\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation\MCAResult12320240906143621.pdf
+            // http://web.aaditechnology.info/RITeSchool//downloads//Performance%20Evaluation//Screenshot%202024-09-05%20095824.pdf
         );
-
+        // RITESchool_PPS_API\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation
     }
     const handleDialogClose = () => {
         ResetForm();
@@ -258,6 +272,19 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
             }}
         >
             <DialogTitle sx={{ bgcolor: '#223354' }}>
+                <Tooltip title={'Upload / delete document(s).'}>
+                    <QuestionMark
+                        sx={{
+                            color: 'white',
+                            // background:'white',
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            top: '4px',
+                            right: '35px',
+                            cursor: 'pointer',
+                            '&:hover': { backgroundColor: grey[600] }
+                        }} />
+                </Tooltip>
                 <ClearIcon onClick={handleDialogClose}
                     sx={{
                         color: 'white',
