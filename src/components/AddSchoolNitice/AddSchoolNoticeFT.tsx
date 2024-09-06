@@ -268,7 +268,7 @@ const AddSchoolNoticeFT = () => {
         asUserRoleIds: getApplicableTo(),
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
-        asFolderName: asFolderName,
+        asFolderName: 'PPSN Website',
         asBase64String: base64URL,
         asBase64String2: base64URL2,
         NoticeName: NoticeName,
@@ -407,7 +407,7 @@ const AddSchoolNoticeFT = () => {
         toolbar: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
             //  [{ size: [] }],
-            [{ 'font': [] }],
+            [{ 'font': [ ] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript and Superscript
             [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
@@ -871,48 +871,55 @@ const AddSchoolNoticeFT = () => {
                                 }}
                             />
                         </Grid>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} md={2.5} mt={2} ml={3}>
-                                <Typography variant="h5">
+                        <Grid container  >
+                            <Grid item xs={12} md={2} mt={2} ml={2}>
+                                <Typography variant="h4" p={1}>
                                     Applicable to : <span style={{ color: 'red' }}>*</span>
                                 </Typography>
 
-                                <FormGroup row>
-                                    <Grid item xs={12} bgcolor={'lightgrey'} px={1}>
+                                <FormGroup >
+                                <Box  ml={1} gap={2} sx={{display:'flex'}}>
+                                    <Box bgcolor={'lightgrey'} px={1} width={'200px'}>
                                         <FormControlLabel
                                             control={<Checkbox checked={selectAll} onChange={handleSelectAll} disabled={selectDisplayLocation === 'H'} />}
                                             label={<Typography variant="h5">Select All</Typography>}
                                         />
-                                    </Grid>
-                                    <Box mt={1} ml={1}>
+                                    </Box>
+                                    <Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.admin} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="admin" />}
                                             label="Admin"
-                                        />
+                                        /></Box>
                                         <Box>
                                             <FormControlLabel
                                                 control={<Checkbox checked={applicableTo.teacher} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="teacher" />}
                                                 label="Teacher"
                                             /></Box>
+                                            <Box>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.student} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="student" />}
                                             label="Student"
-                                        />
-                                        <Box>
+                                        /></Box>
+                                        <Box width={'125px'}>
                                             <FormControlLabel
                                                 control={<Checkbox checked={applicableTo.adminStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="adminStaff" />}
                                                 label="Admin Staff"
                                             /></Box>
+                                            <Box width={'200px'}>
                                         <FormControlLabel
                                             control={<Checkbox checked={applicableTo.otherStaff} onChange={handleCheckboxChange} disabled={selectDisplayLocation === 'H'} name="otherStaff" />}
                                             label="Other Staff"
-                                        />
-                                    </Box>  <ErrorMessage1 Error={ErrorUserRole} />
+                                        /></Box>
+                                    </Box> 
+                                     <ErrorMessage1 Error={ErrorUserRole} />
+                                   
                                 </FormGroup>
                             </Grid>
+                            </Grid>
+                            <Grid container pl={3} mt={2}>
                             {applicableTo.student && (
-                                <Grid item xs={12} md={9} mt={2}>
-                                    <Typography variant="h5">
+                                <Grid item xs={12} md={12} mt={1}>
+                                    <Typography variant="h4" py={1}>
                                         Associated Classes  <span style={{ color: 'red' }}>*</span>
                                     </Typography>
                                     <SelectListHierarchy
@@ -927,7 +934,7 @@ const AddSchoolNoticeFT = () => {
                             :
                             <Grid item md={12}>
                                 <Box>
-                                    <ReactQuill className='ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                    <ReactQuill  className= 'ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
                                     <ErrorMessage1 Error={NoticeContentError}></ErrorMessage1>
                                 </Box>
                             </Grid>
