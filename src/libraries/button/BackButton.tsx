@@ -26,7 +26,7 @@ function BackButton({ FromRoute }) {
         color="primary"
         style={{ textDecoration: 'none' }}
       >
-        <Fab
+        {/* <Fab
           sx={{
             background: `${theme.colors.gradients.listColor}`,
             position: 'absolute',
@@ -39,7 +39,7 @@ function BackButton({ FromRoute }) {
           }}
         >
           <ReplyIcon />
-        </Fab>
+        </Fab> */}
       </RouterLink>
     </>
   );

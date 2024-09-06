@@ -48,7 +48,7 @@ function Card5({ Content, FileName, Name }) {
 
   return (
     <>
-      <Box sx={{ px: 2, height:'600px' }}>
+      <Box sx={{ height:'600px' }}>
         <ListStyle>
           <Typography  variant='h3'> {Name}</Typography>
           <Divider />
@@ -63,9 +63,9 @@ function Card5({ Content, FileName, Name }) {
               {FileName === '' ? null : (
                 <>
                   <Box sx={{ marginTop: '1px' }}>
-                    <a>
-                      <FileDownloadOutlinedIcon onClick={download} />
-                    </a>
+                      <a>
+                        <FileDownloadOutlinedIcon onClick={download} />
+                      </a>
                   </Box>
                 </>
               )}

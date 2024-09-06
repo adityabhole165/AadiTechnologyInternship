@@ -12,6 +12,7 @@ import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import CommonPageHeader from '../CommonPageHeader';
+import SchoolNoticeHeader from '../SchoolNoticeHeader';
 
 function Schoolnotice() {
   const theme = useTheme();
@@ -130,19 +131,19 @@ function Schoolnotice() {
     );
   };
 
-  return (
-    <Box px={2} sx={{backgroundColor:'#F0F0F0'}}>
-      {/* <CommonPageHeader
+  return (  
+    <Box px={2} sx={{backgroundColor:'#F5F5F5'}}>  
+       <SchoolNoticeHeader
         navLinks={[
           {
             title: 'School Notice',
             path: ''
           }
         ]}
-      /> */}
-      <Typography variant="h3" pl={5.5} pt={2.4} mb={2} >
+      /> 
+      {/* <Typography variant="h3" pl={5.5} pt={2.4} mb={2} >
                    School Notice 
-         </Typography>
+         </Typography> */}
 
       
       <Box sx={{ background: 'white', p: 2 }}>

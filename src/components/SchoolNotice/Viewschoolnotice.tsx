@@ -9,7 +9,8 @@ import { getviewSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import { GetSchoolNoticeListResult } from '../../interfaces/Common/SchoolNotice';
 import IViewschoolnotice from '../../interfaces/Student/ViewSchoolNotice';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import SchoolNoticeHeader from '../SchoolNoticeHeader';
 
 function Viewschoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -33,11 +34,24 @@ function Viewschoolnotice() {
 
   return (
     <>
+    <Box px={2} sx={{backgroundColor:'F5F5F5'}}>
       <BoxStyle>
         {/* <PageHeader heading={'Notice Details'} subheading={''} /> */}
-        <Typography variant="h3" pl={8} pt={2.4} mb={2} >
+        <SchoolNoticeHeader
+        navLinks={[
+          {
+            title: 'School Notice',
+            path: '/schoolNotice'
+          },
+          {
+            title: 'Notice Details',
+            path: ''
+          }
+        ]}
+      /> 
+        {/* <Typography variant="h3" pl={8} pt={2.4} mb={2} >
         Notice Details
-         </Typography>
+         </Typography> */}
         {sessionStorage.getItem('Id') === null ? (
           <BackButton FromRoute={'/schoolnotice'} />
         ) : (
@@ -54,6 +68,7 @@ function Viewschoolnotice() {
           ))}
         </div>
       </BoxStyle>
+      </Box>
     </>
   );
 }
