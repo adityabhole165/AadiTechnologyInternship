@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PerformanceGradeAssignmentAPI from 'src/api/PerformanceGradeAssignmentBaseScreen/ApiPerformanceGradeAssignment';
-import { IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody, IGetPerformanceEvaluationDetailsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
+import { IGetAllDocumentsListBody, IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody, IGetPerformanceEvaluationDetailsBody, IGetUserInvestmentMethodDetailsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
 import { AppThunk } from 'src/store';
 const PerformanceGradeAssignmentslice = createSlice({
     name: 'PerformanceGradeAssignment',
@@ -14,6 +14,11 @@ const PerformanceGradeAssignmentslice = createSlice({
         ISlistOriginalSkillIdDetails: [],
         ISlistTeacherTitleDetails: [],
         ISlistParameterIdDetails: [],
+        ISlistIsFinalApproverDetails: [],
+        ISgradeDropDownList: [],
+        ISlistEnableRejectButtonDetails: [],
+        ISUserInvestmentMethodDetails: {},
+        ISGetAllDocumentsList: [],
         Loading: true
     },
     reducers: {
@@ -25,6 +30,10 @@ const PerformanceGradeAssignmentslice = createSlice({
             state.Loading = false;
             state.GetAllUsersReportingToGivenUserIS = action.payload;
         },
+        RgradeDropDownList(state, action) {
+            state.Loading = false;
+            state.ISgradeDropDownList = action.payload;
+        },
         RlistSchoolOrgNameDetails(state, action) {
             state.Loading = false;
             state.ISlistSchoolOrgNameDetails = action.payload;
@@ -32,6 +41,18 @@ const PerformanceGradeAssignmentslice = createSlice({
         RlistUserNameDetails(state, action) {
             state.Loading = false;
             state.ISlistUserNameDetails = action.payload;
+        },
+        RUserInvestmentMethodDetails(state, action) {
+            state.Loading = false;
+            state.ISUserInvestmentMethodDetails = action.payload;
+        },
+        RlistIsFinalApproverDetails(state, action) {
+            state.Loading = false;
+            state.ISlistIsFinalApproverDetails = action.payload;
+        },
+        RGetAllDocumentsList(state, action) {
+            state.Loading = false;
+            state.ISGetAllDocumentsList = action.payload;
         },
         RlistDescriptionDetails(state, action) {
             state.Loading = false;
@@ -48,6 +69,10 @@ const PerformanceGradeAssignmentslice = createSlice({
         RlistParameterIdDetails(state, action) {
             state.Loading = false;
             state.ISlistParameterIdDetails = action.payload;
+        },
+        RlistEnableRejectButtonDetails(state, action) {
+            state.Loading = false;
+            state.ISlistEnableRejectButtonDetails = action.payload;
         },
         getLoading(state, action) {
             state.Loading = true;
@@ -68,6 +93,20 @@ export const RGetAllYearsDropdown =
             });
             dispatch(PerformanceGradeAssignmentslice.actions.getGetAllYears(abc));
         };
+export const CDAGetAllDocumentsList =
+    (data: IGetAllDocumentsListBody): AppThunk =>
+        async (dispatch) => {
+            const response = await PerformanceGradeAssignmentAPI.GetAllDocumentsListApi(data);
+            let responseData = response.data.map((item, i) => {
+                return (
+                    {
+                        Text1: item.Id,
+                        Text2: item.FileName
+                    }
+                );
+            });
+            dispatch(PerformanceGradeAssignmentslice.actions.RGetAllDocumentsList(responseData));
+        };
 export const RGetAllUsersReportingToGivenUser =
     (data: IGetAllUsersReportingToGivenUserBody): AppThunk =>
         async (dispatch) => {
@@ -86,6 +125,14 @@ export const RGetAllUsersReportingToGivenUser =
             // console.log(responseData, "---------------------");
 
         };
+
+export const CDAGetUserInvestmentMethodDetails =
+    (data: IGetUserInvestmentMethodDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            const response = await PerformanceGradeAssignmentAPI.GetUserInvestmentMethodDetailsApi(data);
+            dispatch(PerformanceGradeAssignmentslice.actions.RUserInvestmentMethodDetails(response.data));
+        }
 
 export const CDAGetPerformanceEvaluationDetails =
     (data: IGetPerformanceEvaluationDetailsBody): AppThunk =>
@@ -136,6 +183,17 @@ export const CDAGetPerformanceEvaluationDetails =
                     }
                 )
             })
+            const gradeDropDownList = response.data.listDescriptionDetiles.map((item, i) => {
+                return (
+                    {
+                        Id: item.Id,
+                        Name: `${item.ShortName} (${item.Name})`,
+                        Value: item.Id
+
+                    }
+                )
+            })
+            gradeDropDownList.unshift({ Id: '0', Name: "Select", Value: '0' })
             const listOriginalSkillIdDetails = response.data.listOriginalSkillIdDetiles.map((item, i) => {
                 return (
                     {
@@ -174,12 +232,42 @@ export const CDAGetPerformanceEvaluationDetails =
                     }
                 )
             })
+            const listIsFinalApproverDetails = response.data.listIsFinalApproverDetiles.map((item, i) => {
+                return (
+                    {
+                        Text1: item.UserName,
+                        Text2: item.Designation,
+                        Text3: item.ReportingUserId,
+                        Text4: item.IsFinalApprover,
+                        Text5: item.IsSupervisor,
+                        Text6: item.IsSubmitted,
+                        Text7: item.ApprovalSortOrder,
+                        Text8: item.AttachmentCount
+                    }
+                )
+            })
+            const listEnableRejectButtonDetails = response.data.listEnableRejectButtonDetiles.map((item, i) => {
+                return (
+                    {
+                        Text1: item.EnableRejectButton,
+                        Text2: item.EnableSaveButton,
+                        Text3: item.EnableSubmitButton,
+                        Text4: item.EnablePublishButton,
+                        Text5: item.IsPublished,
+                        Text6: item.CanUserAddComments
+                    }
+                )
+            })
+
             dispatch(PerformanceGradeAssignmentslice.actions.RlistSchoolOrgNameDetails(listSchoolOrgNameDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistUserNameDetails(listUserNameDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistDescriptionDetails(listDescriptionDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistOriginalSkillIdDetails(listOriginalSkillIdDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistTecherTitleDetails(listTecherTitleDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistParameterIdDetails(listParameterIdDetails));
+            dispatch(PerformanceGradeAssignmentslice.actions.RlistIsFinalApproverDetails(listIsFinalApproverDetails));
+            dispatch(PerformanceGradeAssignmentslice.actions.RgradeDropDownList(gradeDropDownList));
+            dispatch(PerformanceGradeAssignmentslice.actions.RlistEnableRejectButtonDetails(listEnableRejectButtonDetails));
 
         };
 

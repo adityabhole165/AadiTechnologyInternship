@@ -328,8 +328,8 @@ export function formatDate(dateString) {
   let [day, month, year] = dateString.split('-');
 
   // Pad day and month with leading zeros if necessary
-  day = day.padStart(2, '0');
-  month = month.padStart(2, '0');
+  day = day?.padStart(2, '0');
+  month = month?.padStart(2, '0');
 
   // Create a Date object from the parsed values
   const date = new Date(`${year}-${month}-${day}`);

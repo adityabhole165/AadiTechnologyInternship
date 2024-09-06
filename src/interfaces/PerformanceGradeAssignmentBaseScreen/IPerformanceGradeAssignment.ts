@@ -132,3 +132,32 @@ export interface IGetPerformanceEvaluationDetailsResult {
         }
     ]
 }
+
+export interface IGetUserInvestmentMethodDetailsBody {
+    asSchoolId: Number,
+    asFinancialYearId: Number,
+    asUserId: Number,
+    asDocumentId: any,
+    asDocumentTypeId: Number
+}
+
+export interface IGetUserInvestmentMethodDetailsResult {
+    DocumentName: string,
+    UserName: string
+}
+
+export interface IGetAllDocumentsListBody {
+    asSchoolId: Number,
+    asUserId: Number,
+    asFinancialYearId: Number,
+    asDocumentTypeId: Number,
+    asAcademicYearId: Number,
+    asDocumentId: Number,
+    asReportingUserId: Number,
+    asLoginUserId: Number
+}
+
+export interface IGetAllDocumentsListResult {
+    Id: string,
+    FileName: string
+}
