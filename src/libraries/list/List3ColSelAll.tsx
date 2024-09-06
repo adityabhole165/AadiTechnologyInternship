@@ -5,18 +5,18 @@ import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel';
 
 const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => {
   let isCheckAll = !Itemlist
-  .filter((obj)=>{return !obj.IsExamSubmitted})
-  .some((obj) => obj.isActive === false)
+    .filter((obj) => { return !obj.IsExamSubmitted })
+    .some((obj) => obj.isActive === false)
     ? 1
     : !Itemlist
-    .filter((obj)=>{return !obj.IsExamSubmitted})
-    .some((obj) => obj.isActive === true)
-    ? 0
-    : 2;
+      .filter((obj) => { return !obj.IsExamSubmitted })
+      .some((obj) => obj.isActive === true)
+      ? 0
+      : 2;
 
   const ClickAll = (value) => {
     Itemlist = Itemlist.map((obj) => {
-      return { ...obj, isActive: (!obj.IsExamSubmitted?value:false) }
+      return { ...obj, isActive: (!obj.IsExamSubmitted ? value : false) }
     });
     refreshData(Itemlist);
     setIsDirty(true);
@@ -30,9 +30,9 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
   };
   return (
     <div>
-      <Box 
-      sx={{ height: '50px'}}
-      
+      <Box
+        sx={{ height: '50px' }}
+
       >
         <ListHeaderCard3ColSel
           Item={{
@@ -47,10 +47,10 @@ const List3ColSelAll = ({ Itemlist, refreshData, assignedDate, setIsDirty }) => 
       {Itemlist.map((item, index) => (
         <Box
           sx={{
-            py: 0,
+            pb: 0.4,
             border: `1px solid ${grey[300]}`,
             backgroundColor: 'white',
-            
+
           }}
           key={index}
         >
