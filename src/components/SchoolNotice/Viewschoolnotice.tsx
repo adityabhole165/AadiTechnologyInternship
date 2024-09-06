@@ -35,7 +35,7 @@ function Viewschoolnotice() {
   return (
     <>
     <Box px={2} sx={{backgroundColor:'F5F5F5'}}>
-      <BoxStyle>
+      <Box>
         {/* <PageHeader heading={'Notice Details'} subheading={''} /> */}
         <SchoolNoticeHeader
         navLinks={[
@@ -67,7 +67,7 @@ function Viewschoolnotice() {
             />
           ))}
         </div>
-      </BoxStyle>
+      </Box>
       </Box>
     </>
   );
