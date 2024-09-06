@@ -1,18 +1,37 @@
 import { useTheme } from '@emotion/react';
-import AccessTime from '@mui/icons-material/AccessTime';
-import Assignment from '@mui/icons-material/Assignment';
-import CalendarToday from '@mui/icons-material/CalendarToday';
+import AccessTimeIcon from '@mui/icons-material/AccessTime'; // time table 
+import AddCardTwoToneIcon from '@mui/icons-material/AddCardTwoTone';
+import AddShoppingCartTwoToneIcon from '@mui/icons-material/AddShoppingCartTwoTone';
+import AddchartIcon from '@mui/icons-material/Addchart'; //Performance Grade Assignment
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'; //Progress Report
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'; //School Notices
+import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone'; //Investment Declaration
+import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone'; //Assign Homework
 import Dataset from '@mui/icons-material/CalendarViewMonth';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone'; // Student Record List
 import Dashboard from '@mui/icons-material/Dashboard';
-import { default as DateRange, default as DateRangeIcon } from '@mui/icons-material/DateRange';
+import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined'; //Holidays
+import EventBusyTwoToneIcon from '@mui/icons-material/EventBusyTwoTone'; // missing attendance
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'; // Attendance
+import EventOutlinedIcon from '@mui/icons-material/EventOutlined'; //Annual Planner
 import FactCheck from '@mui/icons-material/FactCheck';
-import FeaturedPlayList from '@mui/icons-material/FeaturedPlayList';
+import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone'; // Pre Primary Progress Report
+import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone'; // message center 
+import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
+import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone'; // Progress Remark 
+import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone'; //Leave Details
+import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone'; // password
 import User from '@mui/icons-material/ManageAccounts';
-import Password from '@mui/icons-material/Password';
 import PowerOutLined from '@mui/icons-material/PowerSettingsNew';
+import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone'; // Assign Pre-Primary Progress Report Grades
+import RuleIcon from '@mui/icons-material/Rule'; //Assign exam mark 
+import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone'; //Pre-Primary Progress Report Results
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
+import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone'; //SMS Center 
 import TableChart from '@mui/icons-material/TableChart';
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
 import { Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -27,42 +46,15 @@ import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { GetIsPrePrimaryTeacher, logoURL } from 'src/components/Common/Util';
 import AbsentStudentDetailsPopup from 'src/components/Dashboard/AbsentStudentDetails/AbsentStudentDetailsPopup';
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
-import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
 import MissingAttendanceDialog from 'src/components/Dashboard/MissingAttendanceDialog';
 import { IGetAbsentStudentBody, ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
-import AddShoppingCartTwoToneIcon from '@mui/icons-material/AddShoppingCartTwoTone';
-import AddCardTwoToneIcon from '@mui/icons-material/AddCardTwoTone';
-import CastForEducationTwoToneIcon from '@mui/icons-material/CastForEducationTwoTone';
-import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
-import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone';//Assign Homework
-import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone';//School Notices
-import ThreePTwoToneIcon from '@mui/icons-material/ThreePTwoTone';//Message Center
-import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';// Student Record List
-import GroupRemoveTwoToneIcon from '@mui/icons-material/GroupRemoveTwoTone';//Absent Student Details
-import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone';// Assign Pre-Primary Progress Report Grades
-import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone';// Pre Primary Progress Report
-import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';//Pre-Primary Progress Report Results
-import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone';//Investment Declaration
-import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone';//Leave Details
-import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone';// password
-import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone';// Progress Remark 
-import AccessTimeIcon from '@mui/icons-material/AccessTime';// time table 
-import AddchartIcon from '@mui/icons-material/Addchart';//Performance Grade Assignment
-import RuleIcon from '@mui/icons-material/Rule';//Assign exam mark 
-import EventBusyTwoToneIcon from '@mui/icons-material/EventBusyTwoTone';// missing attendance
-import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';// Attendance
-import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';//Holidays
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';//Progress Report
-import EventOutlinedIcon from '@mui/icons-material/EventOutlined';//Annual Planner
-import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone';// message center 
-import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone';//SMS Center 
 
 import {
   IMissingattendancealeartNameBody
 } from 'src/interfaces/MissAttendaceAleart/IMissingAttendaceAleart';
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
+import { PersonOff } from '@mui/icons-material';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -278,7 +270,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
       title: 'Absent Student Details',
-      icon: <GroupRemoveTwoToneIcon />,
+      icon: <PersonOff />,
       link: null
     });
   }
@@ -324,7 +316,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   if (isPreprimary === true) {
     sideList.push({
       title: 'Student Wise Progress Report',
-      icon: <TableChartTwoToneIcon/>,
+      icon: <TableChartTwoToneIcon />,
       link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
     });
   }
