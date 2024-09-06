@@ -268,7 +268,7 @@ const AddSchoolNoticeFT = () => {
         asUserRoleIds: getApplicableTo(),
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
-        asFolderName: 'PPSN Website',
+        asFolderName: asFolderName,
         asBase64String: base64URL,
         asBase64String2: base64URL2,
         NoticeName: NoticeName,
@@ -407,7 +407,7 @@ const AddSchoolNoticeFT = () => {
         toolbar: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
             //  [{ size: [] }],
-            [{ 'font': [ ] }],
+            [{ 'font': [] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'script': 'sub' }, { 'script': 'super' }], // Subscript and Superscript
             [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
@@ -927,7 +927,7 @@ const AddSchoolNoticeFT = () => {
                             :
                             <Grid item md={12}>
                                 <Box>
-                                    <ReactQuill  className= 'ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
+                                    <ReactQuill className='ql-editor' value={NoticeContent} onChange={handleEditorChange} modules={modules} formats={formats} style={{ height: '300px', marginBottom: "50px", }} />
                                     <ErrorMessage1 Error={NoticeContentError}></ErrorMessage1>
                                 </Box>
                             </Grid>
