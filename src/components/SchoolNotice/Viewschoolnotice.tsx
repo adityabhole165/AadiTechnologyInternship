@@ -9,6 +9,7 @@ import { getviewSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import { GetSchoolNoticeListResult } from '../../interfaces/Common/SchoolNotice';
 import IViewschoolnotice from '../../interfaces/Student/ViewSchoolNotice';
+import { Typography } from '@mui/material';
 
 function Viewschoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -33,7 +34,10 @@ function Viewschoolnotice() {
   return (
     <>
       <BoxStyle>
-        <PageHeader heading={'Notice Details'} subheading={''} />
+        {/* <PageHeader heading={'Notice Details'} subheading={''} /> */}
+        <Typography variant="h3" pl={8} pt={2.4} mb={2} >
+        Notice Details
+         </Typography>
         {sessionStorage.getItem('Id') === null ? (
           <BackButton FromRoute={'/schoolnotice'} />
         ) : (

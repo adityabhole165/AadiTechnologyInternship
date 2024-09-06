@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Divider, useTheme } from '@mui/material';
+import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -48,9 +48,9 @@ function Card5({ Content, FileName, Name }) {
 
   return (
     <>
-      <Box sx={{ px: 2 }}>
+      <Box sx={{ px: 2, height:'600px' }}>
         <ListStyle>
-          <CardDetail1> {Name}</CardDetail1>
+          <Typography  variant='h3'> {Name}</Typography>
           <Divider />
           <CardDetail2
             dangerouslySetInnerHTML={{ __html: Content }}

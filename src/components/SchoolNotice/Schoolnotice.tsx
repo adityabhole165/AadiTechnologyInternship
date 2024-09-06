@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -131,17 +131,22 @@ function Schoolnotice() {
   };
 
   return (
-    <Box px={2}>
-      <CommonPageHeader
+    <Box px={2} sx={{backgroundColor:'#F0F0F0'}}>
+      {/* <CommonPageHeader
         navLinks={[
           {
             title: 'School Notice',
             path: ''
           }
         ]}
-      />
-      <Box sx={{ background: 'white', p: 2 }}>
+      /> */}
+      <Typography variant="h3" pl={5.5} pt={2.4} mb={2} >
+                   School Notice 
+         </Typography>
 
+      
+      <Box sx={{ background: 'white', p: 2 }}>
+       
         {Data1.map((item, index) => {
           return (
             <CardNotice

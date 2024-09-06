@@ -61,7 +61,7 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
         />
         Associated Class(es)
       </Box>
-      <Stack direction={'row'} gap={1} flexWrap={'wrap'}>
+      <Stack direction={'row'} gap={0.7} flexWrap={'wrap'}>
         {ParentList.map((ParentItem, index) => {
           return (
             <Box key={index}>
