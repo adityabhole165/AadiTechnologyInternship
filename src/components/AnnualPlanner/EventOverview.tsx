@@ -83,7 +83,7 @@ const EventOverview = (props: Props) => {
   const GetAssociatedStandardsEVBody: INewGetAssociatedStdLstForTeacherDropDownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asUserId: Number(UserId)
+    asUserId: 0
   };
 
   const GetAllMonthsDropDownBody: INewGetAllMonthsDropDownotBody = {
