@@ -1,4 +1,4 @@
-import { AddComment } from '@mui/icons-material';
+import { PersonOff } from '@mui/icons-material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -848,14 +848,14 @@ const TAttendance = () => {
                   <IconButton
                     onClick={ClickOpenDialogbox}
                     sx={{
-                      backgroundColor: blue[500],
+                      backgroundColor: red[500],
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: blue[600]
+                        backgroundColor: red[600]
                       }
                     }}
                   >
-                    <AddComment />
+                    <PersonOff />
                   </IconButton>
                 </span>
               </Tooltip>
