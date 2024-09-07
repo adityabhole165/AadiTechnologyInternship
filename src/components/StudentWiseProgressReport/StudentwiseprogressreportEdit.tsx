@@ -45,6 +45,10 @@ const StudentwiseprogressreportEdit = () => {
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
+    console.log(USFillStudentsLearningOutcomes,"USFillStudentsLearningOutcomes");
+    const FillStudentsLearningOutcomessortedOutcomes = [...USFillStudentsLearningOutcomes].sort((a, b) => {
+        return parseInt(a.LearningOutcomeSortOrder) - parseInt(b.LearningOutcomeSortOrder);
+      });
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
 
@@ -530,7 +534,7 @@ const StudentwiseprogressreportEdit = () => {
                                             </TableCell>
                                         </TableRow>
 
-                                        {USFillStudentsLearningOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId)
+                                        {FillStudentsLearningOutcomessortedOutcomes.filter(outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId)
                                             .map((outcome, index) => (
                                                 <TableRow key={outcome.YearwiseStudentId}>
                                                     <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
