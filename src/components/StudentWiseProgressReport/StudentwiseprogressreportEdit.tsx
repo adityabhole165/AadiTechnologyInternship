@@ -503,7 +503,7 @@ const StudentwiseprogressreportEdit = () => {
                                 <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Sr. No.</TableCell>
                                     <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Learning Outcome</TableCell>
-                                    <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Grade</TableCell>
+                                    {/* <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, py: 1 }}>Grade</TableCell> */}
                                     <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                         <SearchableDropdown
                                             ItemList={USFillGradeDetails}
@@ -534,7 +534,7 @@ const StudentwiseprogressreportEdit = () => {
                                                 <TableRow key={outcome.YearwiseStudentId}>
                                                     <TableCell sx={{ py: 1 }}>{index + 1}</TableCell>
                                                     <TableCell sx={{ py: 1 }}>{outcome.LearningOutcome}</TableCell>
-                                                    <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell>
+                                                    {/* <TableCell sx={{ py: 1, borderRight: '1px solid lightgrey' }}>{outcome.ShortName}</TableCell> */}
                                                     <TableBody>
                                                         {outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId && (
                                                             <TableRow>
