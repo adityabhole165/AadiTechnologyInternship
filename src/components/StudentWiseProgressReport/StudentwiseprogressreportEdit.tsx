@@ -309,6 +309,7 @@ const StudentwiseprogressreportEdit = () => {
                             mandatory
                         />
                         {AssessmentPublishStatus == "N" && StudentWiseAssessmentPublishStatus == "N" ?
+                         <Tooltip title={'Save'}>
                             <IconButton
                                 onClick={clicksave}
                                 sx={{
@@ -320,7 +321,7 @@ const StudentwiseprogressreportEdit = () => {
                                 }}
                             >
                                 <Save />
-                            </IconButton> : null
+                            </IconButton></Tooltip> : null
 
                         }
                         {
