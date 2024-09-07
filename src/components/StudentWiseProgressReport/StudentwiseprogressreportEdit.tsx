@@ -1,5 +1,6 @@
 
 import { CheckCircle, Save, Unpublished } from '@mui/icons-material';
+import FactCheck from '@mui/icons-material/FactCheck';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
@@ -372,12 +373,12 @@ const StudentwiseprogressreportEdit = () => {
                                         }
                                     }}
                                     onClick={ClickShow}>
-                                    <VisibilityTwoToneIcon />
+                                    <FactCheck />
                                 </IconButton>
                             </Tooltip> : null
                         }
 
-                        <Tooltip title={'Assign,publish student grades and view students progress report'}>
+                        <Tooltip title={'Assign,publish student grades and view students progress report.'}>
                             <IconButton
                                 sx={{
                                     color: 'white',
@@ -599,7 +600,7 @@ const StudentwiseprogressreportEdit = () => {
                                     <TableCell sx={{
                                         textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                                         py: 1
-                                    }}>Facilitator's Observation</TableCell>
+                                    }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -632,7 +633,7 @@ const StudentwiseprogressreportEdit = () => {
                     <TextField
                         label={
                             <span>
-                                Remark <span style={{ color: 'red' }}>*</span>
+                               Remark {/* Remark <span style={{ color: 'red' }}>*</span> */}
                             </span>
                         }
                         multiline
