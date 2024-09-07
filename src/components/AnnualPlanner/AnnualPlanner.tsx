@@ -242,14 +242,14 @@ function AnnualPlanner() {
   const clickSubmit = () => {
     if (fileName.length !== 0 && base64URL.length !== 0) {
       dispatch(addanual(AnnualplannerBody));
-      toast.success('File Uploaded Successfully', { toastId: 'success1' });
+      toast.success('File uploaded successfully', { toastId: 'success1' });
     }
   };
 
   const clickDelete = (Id) => {
     if (confirm('Are You Sure you want to delete The File')) {
       dispatch(DeleteFile(DeleteFileDetailsBody));
-      toast.success('File Deleted Successfully', { toastId: 'success1' });
+      toast.success('File deleted successfully', { toastId: 'success1' });
     }
   };
 
@@ -538,32 +538,33 @@ function AnnualPlanner() {
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-            <Button 
-            sx={{
-              // backgroundColor: green[100],
-              color: 'red',
-              ':hover': { backgroundColor: red[100] }
-          }}
+            <Button
+              sx={{
+                // backgroundColor: green[100],
+                color: 'red',
+                ':hover': { backgroundColor: red[100] }
+              }}
               onClick={() => {
                 setOpenAnnualPlannerDialog(false);
               }}
-              // color={'error'}
+            // color={'error'}
             >
               Cancel
             </Button>
-            
+
             <Button
               onClick={clickSubmit}
               // color={'primary'}
               // variant={'contained'}
               sx={{
-                color:'green',
+                color: 'green',
                 //  backgroundColor: grey[500],
                 '&:hover': {
-                color:'green',
-                backgroundColor: green[100]}
-                                                
-            }} 
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+
+              }}
             >
               Save
             </Button>
