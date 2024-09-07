@@ -67,7 +67,7 @@ const AddAnnualPlaner = () => {
   useEffect(() => {
     dispatch(GetFile(GetFileDetailsBody));
   }, []);
-  useEffect(() => {}, [FileDetails]);
+  useEffect(() => { }, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId)
@@ -92,8 +92,8 @@ const AddAnnualPlaner = () => {
     if (FileDetails !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Event%20Planner/' +
-          FileDetails[0].LinkUrl
+        '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+        FileDetails[0].LinkUrl
       );
       // localStorage.getItemItem("SiteURL", window.location.pathname)
     }
@@ -101,14 +101,14 @@ const AddAnnualPlaner = () => {
   const clickSubmit = () => {
     if (fileName.length !== 0 && base64URL.length !== 0) {
       dispatch(addanual(AnnualplannerBody));
-      toast.success('File Uploaded Successfully', { toastId: 'success1' });
+      toast.success('File uploaded successfully', { toastId: 'success1' });
     }
   };
 
   const clickDelete = (Id) => {
     if (confirm('Are You Sure you want to delete The File')) {
       dispatch(DeleteFile(DeleteFileDetailsBody));
-      toast.success('File Deleted Successfully', { toastId: 'success1' });
+      toast.success('File deleted successfully', { toastId: 'success1' });
     }
   };
   return (
