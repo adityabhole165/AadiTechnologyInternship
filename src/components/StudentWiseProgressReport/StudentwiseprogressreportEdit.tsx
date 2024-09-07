@@ -197,10 +197,57 @@ const StudentwiseprogressreportEdit = () => {
         }
     };
 
+    // const clicksave = () => {
+    //     const gradeKeysWithZeroValue = USFillStudentsLearningOutcomes.filter(outcome => grades[outcome.LearningOutcomeConfigId] == "0");
+    //     const gradeKeysWithZeroValue1 = USFillNonXseedSubjectGrades.filter(outcome => grades1[outcome.GradeId] == "0");
+
+    //     if (gradeKeysWithZeroValue.length > 0) {
+    //         const subjectNames = USFillSubjectSections.map(subjectSection => {
+    //             const outcomes = USFillStudentsLearningOutcomes.filter(
+    //                 outcome => outcome.SubjectSectionConfigId === subjectSection.SubjectSectionConfigurationId && grades[outcome.LearningOutcomeConfigId] === "0"
+    //             );
+    //             if (outcomes.length > 0) {
+    //                 const outcomeIndices = outcomes.map((_, index) => index + 1).join(', ');
+    //                 return `${subjectSection.SubjectSectionName} : ${outcomeIndices}`;
+    //             }
+    //             return null;
+    //         }).filter(Boolean); 
+            
+
+    //         const allSubjectNamesString = subjectNames.join('.\n');
+    //         setReasonError(`Grade should be selected for Learning Outcome(s): ${allSubjectNamesString}`);
+    //         return;
+    //     }
+
+    //     if (gradeKeysWithZeroValue1.length > 0) {
+    //         const subjectNames = USFillNonXseedSubjectGrades.map((row) => row.SubjectName).join(", ");
+    //         setReasonError1(`Grade should be selected for co-curricular subject(s): ${subjectNames}`);
+    //         return;
+    //     }
+
+    //     const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody = {
+    //         asSchoolId: asSchoolId,
+    //         asAcademicYearId: asAcademicYearId,
+    //         asYearwiseStudentId: Number(StandardId),
+    //         asStandardDivisionId: Number(YearwiseStudentId),
+    //         asAssessmentId: Number(AssessmentId),
+    //         asInsertedById: asUserId,
+    //         asLearningOutcomeXML: learningOutcomeXML(),
+    //         asXseedGradesXML: learningOutcomeXML1(),
+    //         asMode: "Save",
+    //         asRemark: textall
+    //     };
+
+    //     dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
+    // };
+
+
     const clicksave = () => {
+        let isError = false;
+    
         const gradeKeysWithZeroValue = USFillStudentsLearningOutcomes.filter(outcome => grades[outcome.LearningOutcomeConfigId] == "0");
         const gradeKeysWithZeroValue1 = USFillNonXseedSubjectGrades.filter(outcome => grades1[outcome.GradeId] == "0");
-
+      // Check for missing grades in USFillStudentsLearningOutcomes
         if (gradeKeysWithZeroValue.length > 0) {
             const subjectNames = USFillSubjectSections.map(subjectSection => {
                 const outcomes = USFillStudentsLearningOutcomes.filter(
@@ -211,35 +258,49 @@ const StudentwiseprogressreportEdit = () => {
                     return `${subjectSection.SubjectSectionName} : ${outcomeIndices}`;
                 }
                 return null;
-            }).filter(Boolean); 
-            
-
-            const allSubjectNamesString = subjectNames.join('.\n');
-            setReasonError(`Grade should be selected for Learning Outcome(s): ${allSubjectNamesString}`);
-            return;
+            }).filter(Boolean);
+    
+            if (subjectNames.length > 0) {
+                const allSubjectNamesString = subjectNames.join('.\n');
+                setReasonError(`Grade should be selected for Learning Outcome(s): ${allSubjectNamesString}`);
+                isError = true;
+            } else {
+                setReasonError(""); 
+            }
+        } else {
+            setReasonError("");
         }
-
+    
+       
         if (gradeKeysWithZeroValue1.length > 0) {
-            const subjectNames = USFillNonXseedSubjectGrades.map((row) => row.SubjectName).join(", ");
+            const subjectNames = USFillNonXseedSubjectGrades.map(row => row.SubjectName).join(", ");
             setReasonError1(`Grade should be selected for co-curricular subject(s): ${subjectNames}`);
-            return;
+            isError = true;
+        } else {
+            setReasonError1(""); 
         }
-
-        const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asYearwiseStudentId: Number(StandardId),
-            asStandardDivisionId: Number(YearwiseStudentId),
-            asAssessmentId: Number(AssessmentId),
-            asInsertedById: asUserId,
-            asLearningOutcomeXML: learningOutcomeXML(),
-            asXseedGradesXML: learningOutcomeXML1(),
-            asMode: "Save",
-            asRemark: textall
-        };
-
-        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
+    
+      
+        if (!isError) {
+            const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody = {
+                asSchoolId: asSchoolId,
+                asAcademicYearId: asAcademicYearId,
+                asYearwiseStudentId: Number(StandardId),
+                asStandardDivisionId: Number(YearwiseStudentId),
+                asAssessmentId: Number(AssessmentId),
+                asInsertedById: asUserId,
+                asLearningOutcomeXML: learningOutcomeXML(),
+                asXseedGradesXML: learningOutcomeXML1(),
+                asMode: "Save",
+                asRemark: textall
+            };
+    
+            dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
+        }
     };
+    
+    
+    
 
     const Clickpublish = () => {
         const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
