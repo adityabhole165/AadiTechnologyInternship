@@ -1,5 +1,5 @@
+import { Check } from '@mui/icons-material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import SaveIcon from '@mui/icons-material/Save';
 import { Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
@@ -15,7 +15,6 @@ import { RootState } from 'src/store';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { IsPhoneNoValid } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import { Check } from '@mui/icons-material';
 
 const Support1 = () => {
     const navigate = useNavigate();
@@ -34,6 +33,7 @@ const Support1 = () => {
     const [ErroremailId, setErrorEmailId] = useState('');
     const [Errormobilenumber, setErrorMobilenumber] = useState('');
     const [Errordescription, setErrorDescription] = useState('');
+    const asFolderName = localStorage.getItem('FolderName');
     const ValidFileTypes = ['XLS', 'XLSX', 'DOC', 'DOCX', 'PDF', 'JPG', 'JPEG'];
     const MaxfileSize = 200000000;
     const { showAlert, closeAlert } = useContext(AlertContext);
@@ -70,7 +70,7 @@ const Support1 = () => {
             asSubject: problemSubject,
             asMobileNo: mobilenumber,
             asBase64String: base64URL,
-            asFolderName: 'PPSN Website'
+            asFolderName: asFolderName
         };
 
         showAlert({
@@ -198,7 +198,7 @@ const Support1 = () => {
                                             }}
                                             onClick={ClickSubmitSupport}
                                         >
-                                             <Check />
+                                            <Check />
                                         </IconButton>
                                     </span>
                                 </Tooltip>
@@ -211,22 +211,22 @@ const Support1 = () => {
                         Support Request
                     </Typography>
                     <Grid sx={{ backgroundColor: 'white', p: 1 }}>
-                    <Typography variant="h5" gutterBottom>
-                        Dear Teacher, <br />
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible. You may attach a file as a supporting document. It will help our support member to understand the problem in full and speed up resolution of your request.
-                    </Typography>
+                        <Typography variant="h5" gutterBottom>
+                            Dear Teacher, <br />
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible. You may attach a file as a supporting document. It will help our support member to understand the problem in full and speed up resolution of your request.
+                        </Typography>
+                    </Grid>
                 </Grid>
-                </Grid>
-                
-                
+
+
                 <Box sx={{ backgroundColor: 'white', mb: 2, p: 1 }}>
-                <Grid sx={{ backgroundColor: 'white', p: 1}}>
-                    <Typography variant="h4" gutterBottom>
-                        Write to Us
-                    </Typography>
-                </Grid>
+                    <Grid sx={{ backgroundColor: 'white', p: 1 }}>
+                        <Typography variant="h4" gutterBottom>
+                            Write to Us
+                        </Typography>
+                    </Grid>
                     <Grid container spacing={2} p={1}>
                         <Grid item xs={12} md={6}>
                             <TextField
