@@ -2,22 +2,21 @@
 import { CheckCircle, Save, Unpublished } from '@mui/icons-material';
 import FactCheck from '@mui/icons-material/FactCheck';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import React, { useEffect, useContext,useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
+import { IGetClassTeacherXseedSubjectsBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails, resetMessage } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
+import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetClassTeacherXseedSubjectsBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
-import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -36,7 +35,7 @@ const StudentwiseprogressreportEdit = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
-    
+
     const USAssessmentPublishStatus: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISAssessmentPublishStatus);
     const AssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.AssessmentPublishStatus);
     const StudentWiseAssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.StudentWiseAssessmentPublishStatus);
@@ -50,16 +49,16 @@ const StudentwiseprogressreportEdit = () => {
     const GradeDetailsfilteredAndSortedData = USFillGradeDetails.filter(item => item.ConsideredAsAbsent !== "1" && item.ConsideredAsExempted !== "1").sort((a, b) => parseInt(a.SortOrder) - parseInt(b.SortOrder));
     const USFillStudentsLearningOutcomes: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomes);
     const USGetStandardwiseAssessmentDetails: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISGetStandardwiseAssessmentDetails);
-    console.log(USFillStudentsLearningOutcomes,"USFillStudentsLearningOutcomes");
+    console.log(USFillStudentsLearningOutcomes, "USFillStudentsLearningOutcomes");
     const FillStudentsLearningOutcomessortedOutcomes = [...USFillStudentsLearningOutcomes].sort((a, b) => {
         return parseInt(a.LearningOutcomeSortOrder) - parseInt(b.LearningOutcomeSortOrder);
-      });
+    });
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
 
     const USlistpublishstatusDetails = useSelector(
         (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails
-      );
+    );
 
     const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
     const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
@@ -103,7 +102,7 @@ const StudentwiseprogressreportEdit = () => {
         asAcadmeicYearId: asAcademicYearId,
         asStdDivId: Number(YearwiseStudentId),
         asAssessmentId: Number(AssessmentId)
-      };
+    };
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
@@ -121,7 +120,7 @@ const StudentwiseprogressreportEdit = () => {
 
     useEffect(() => {
         dispatch(TeacherXseedSubjects(SubjectsList));
-      }, [ AssessmentId]);
+    }, [AssessmentId]);
 
     useEffect(() => {
         if (USFillStudentsLearningOutcomes.length > 0) {
@@ -235,7 +234,7 @@ const StudentwiseprogressreportEdit = () => {
     //             }
     //             return null;
     //         }).filter(Boolean); 
-            
+
 
     //         const allSubjectNamesString = subjectNames.join('.\n');
     //         setReasonError(`Grade should be selected for Learning Outcome(s): ${allSubjectNamesString}`);
@@ -267,10 +266,10 @@ const StudentwiseprogressreportEdit = () => {
 
     const clicksave = () => {
         let isError = false;
-    
+
         const gradeKeysWithZeroValue = USFillStudentsLearningOutcomes.filter(outcome => grades[outcome.LearningOutcomeConfigId] == "0");
         const gradeKeysWithZeroValue1 = USFillNonXseedSubjectGrades.filter(outcome => grades1[outcome.GradeId] == "0");
-      // Check for missing grades in USFillStudentsLearningOutcomes
+        // Check for missing grades in USFillStudentsLearningOutcomes
         if (gradeKeysWithZeroValue.length > 0) {
             const subjectNames = USFillSubjectSections.map(subjectSection => {
                 const outcomes = USFillStudentsLearningOutcomes.filter(
@@ -282,28 +281,28 @@ const StudentwiseprogressreportEdit = () => {
                 }
                 return null;
             }).filter(Boolean);
-    
+
             if (subjectNames.length > 0) {
                 const allSubjectNamesString = subjectNames.join('.\n');
                 setReasonError(`Grade should be selected for Learning Outcome(s): ${allSubjectNamesString}`);
                 isError = true;
             } else {
-                setReasonError(""); 
+                setReasonError("");
             }
         } else {
             setReasonError("");
         }
-    
-       
+
+
         if (gradeKeysWithZeroValue1.length > 0) {
             const subjectNames = USFillNonXseedSubjectGrades.map(row => row.SubjectName).join(", ");
             setReasonError1(`Grade should be selected for co-curricular subject(s): ${subjectNames}`);
             isError = true;
         } else {
-            setReasonError1(""); 
+            setReasonError1("");
         }
-    
-      
+
+
         if (!isError) {
             const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody = {
                 asSchoolId: asSchoolId,
@@ -317,15 +316,15 @@ const StudentwiseprogressreportEdit = () => {
                 asMode: "Save",
                 asRemark: textall
             };
-    
+
             dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody));
         }
     };
-    
-    
-    
 
-   
+
+
+
+
 
 
     const Clickpublish = () => {
@@ -343,27 +342,27 @@ const StudentwiseprogressreportEdit = () => {
             asRemark: textall
 
         };
-    
+
         const confirmationMessage = 'Once you publish the result it will be visible to parents/student. Are you sure you want to continue?';
-    
+
         showAlert({
-          title: 'Please Confirm',
-          message: confirmationMessage,
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-            closeAlert();
-          },
-          onConfirm: () => {
-            dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
-            closeAlert();
-          }
+            title: 'Please Confirm',
+            message: confirmationMessage,
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+                closeAlert();
+            }
         });
-      };
+    };
 
 
-      const ClickUnpublish = () => {
+    const ClickUnpublish = () => {
         const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
         {
             asSchoolId: asSchoolId,
@@ -378,26 +377,26 @@ const StudentwiseprogressreportEdit = () => {
             asRemark: textall
 
         };
-    
-        const confirmationMessage = 'Once you unpublish the result it will not be visible to parents/student. Are you sure you want to continue?';
-    
-        showAlert({
-          title: 'Please Confirm',
-          message: confirmationMessage,
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-            closeAlert();
-          },
-          onConfirm: () => {
-            dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
-            closeAlert();
-          }
-        });
-      };
 
-    
+        const confirmationMessage = 'Once you unpublish the result it will not be visible to parents/student. Are you sure you want to continue?';
+
+        showAlert({
+            title: 'Please Confirm',
+            message: confirmationMessage,
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+                closeAlert();
+            }
+        });
+    };
+
+
 
     const ClickShow = () => {
 
@@ -435,10 +434,9 @@ const StudentwiseprogressreportEdit = () => {
                             defaultValue={AssessmentId}
                             label={'Assessment'}
                             size={"small"}
-                            
+
                         />
-                        {AssessmentPublishStatus == "N" && StudentWiseAssessmentPublishStatus == "N" ?
-                         <Tooltip title={'Save'}>
+                        <Tooltip title={'Save'}>
                             <IconButton
                                 onClick={clicksave}
                                 sx={{
@@ -446,61 +444,77 @@ const StudentwiseprogressreportEdit = () => {
                                     backgroundColor: green[500],
                                     height: '36px !important',
                                     ':hover': { backgroundColor: green[600] },
-
                                 }}
+                                disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
                             >
                                 <Save />
-                            </IconButton></Tooltip> : null
+                            </IconButton>
+                        </Tooltip>
 
-                        }
+                     
+
+
                         {
                             (StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true ? (
                                 <Tooltip title={'Publish'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: blue[500],
-                                            '&:hover': {
-                                                backgroundColor: blue[600],
-                                            },
-                                        }}
-                                        onClick={Clickpublish}
-                                    >
-                                        <CheckCircle />
-                                    </IconButton>
-                                </Tooltip>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600],
+                                    },
+                                }}
+                                disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true}
+
+                                onClick={Clickpublish}
+
+
+                            >
+                                <CheckCircle />
+                            </IconButton>
+                        </Tooltip>
+
                             ) : (StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true ? (
                                 <Tooltip title={'Unpublish'}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: red[500],
-                                            '&:hover': {
-                                                backgroundColor: red[500],
-                                            },
-                                        }}
-                                        onClick={ClickUnpublish}
-                                    >
-                                        <Unpublished />
-                                    </IconButton>
-                                </Tooltip>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: red[500],
+                                    '&:hover': {
+                                        backgroundColor: red[500],
+                                    },
+                                }}
+                                disabled={(StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true}
+
+                                onClick={ClickUnpublish}
+                            >
+                                <Unpublished />
+                            </IconButton>
+                        </Tooltip>
                             ) : null
                         }
-                        {StudentWiseAssessmentPublishStatus == "Y" && filteredOutcomes[0] == true ?
-                            <Tooltip title={'Show'}>
-                                <IconButton
-                                    sx={{
-                                        color: 'white',
-                                        backgroundColor: grey[500],
-                                        '&:hover': {
-                                            backgroundColor: grey[600]
-                                        }
-                                    }}
-                                    onClick={ClickShow}>
-                                    <FactCheck />
-                                </IconButton>
-                            </Tooltip> : null
-                        }
+
+
+
+
+                        <Tooltip title={'Show'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: grey[500],
+                                    '&:hover': {
+                                        backgroundColor: grey[600]
+                                    }
+                                }}
+                                disabled={StudentWiseAssessmentPublishStatus == "N" && filteredOutcomes[0] == true}
+
+                                onClick={ClickShow}>
+                                <FactCheck />
+                            </IconButton>
+                        </Tooltip>
+
+
 
                         <Tooltip title={'Assign,publish student grades and view students progress report.'}>
                             <IconButton
@@ -644,7 +658,7 @@ const StudentwiseprogressreportEdit = () => {
                                             DisableClearable={true}
                                             onChange={clickHeaderGrade}
                                             mandatory
-                                            disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+                                            disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -680,7 +694,7 @@ const StudentwiseprogressreportEdit = () => {
                                                                         DisableClearable={true}
                                                                         onChange={(value) => clickGrade(value, outcome.LearningOutcomeConfigId)}
                                                                         mandatory
-                                                                        disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+                                                                        disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
 
                                                                     />
 
@@ -699,78 +713,78 @@ const StudentwiseprogressreportEdit = () => {
                 </>
                 {
                     USFillNonXseedSubjectGrades.length > 0 ? <div>
-                    <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2} >
-                        Co-CurricularSubjects
-                    </Typography>
-                    <TableContainer component={Box} >
-                        <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
-                            <TableHead>
-                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                                    <TableCell sx={{
-                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                        py: 1
-                                    }}>Subject</TableCell>
-                                    <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
-                                        <SearchableDropdown
-                                            ItemList={USFillGradeDetails}
-                                            defaultValue={headerGrade1}
-                                            label={''}
-                                            sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
-                                            size={"small"}
-                                            DisableClearable={true}
-                                            onChange={clickHeaderGrade1}
-                                            mandatory
-                                            disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
-
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{
-                                        textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
-                                        py: 1
-                                    }}></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {USFillNonXseedSubjectGrades.map((row) => (
-                                    <TableRow key={row.YearwiseStudentId}>
-                                        <TableCell sx={{ py: 1 }}>{row.SubjectName}</TableCell>
-                                        <TableCell key={row.GradeId}>
+                        <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2} >
+                            Co-CurricularSubjects
+                        </Typography>
+                        <TableContainer component={Box} >
+                            <Table aria-label="simple table" sx={{ border: '1px solid lightgrey' }}>
+                                <TableHead>
+                                    <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                                        <TableCell sx={{
+                                            textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1
+                                        }}>Subject</TableCell>
+                                        <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                             <SearchableDropdown
-                                                key={row.GradeId}
                                                 ItemList={USFillGradeDetails}
-                                                defaultValue={grades1[row.GradeId]}
+                                                defaultValue={headerGrade1}
                                                 label={''}
-                                                sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                sx={{ maxWidth: '20vw', backgroundColor: 'white', marginLeft: '5px' }}
                                                 size={"small"}
                                                 DisableClearable={true}
-                                                onChange={(value) => clickGrade1(value, row.GradeId)}
+                                                onChange={clickHeaderGrade1}
                                                 mandatory
-                                                disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+                                                disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
 
                                             />
                                         </TableCell>
-                                        <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
+                                        <TableCell sx={{
+                                            textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
+                                            py: 1
+                                        }}></TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div> : null
+                                </TableHead>
+                                <TableBody>
+                                    {USFillNonXseedSubjectGrades.map((row) => (
+                                        <TableRow key={row.YearwiseStudentId}>
+                                            <TableCell sx={{ py: 1 }}>{row.SubjectName}</TableCell>
+                                            <TableCell key={row.GradeId}>
+                                                <SearchableDropdown
+                                                    key={row.GradeId}
+                                                    ItemList={USFillGradeDetails}
+                                                    defaultValue={grades1[row.GradeId]}
+                                                    label={''}
+                                                    sx={{ width: '20vw', backgroundColor: 'white' }}
+                                                    size={"small"}
+                                                    DisableClearable={true}
+                                                    onChange={(value) => clickGrade1(value, row.GradeId)}
+                                                    mandatory
+                                                    disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
+
+                                                />
+                                            </TableCell>
+                                            <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div> : null
                 }
-                
+
                 <br></br>
                 <Box>
                     <TextField
                         label={
                             <span>
-                               Remark {/* Remark <span style={{ color: 'red' }}>*</span> */}
+                                Remark {/* Remark <span style={{ color: 'red' }}>*</span> */}
                             </span>
                         }
                         multiline
                         value={textall}
                         onChange={Detailschnageall3}
                         fullWidth
-                        disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+                        disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") || (IsPublished == 'Y' && PublishStatus == "Y")}
 
                     />
                     <Typography variant="caption" align="right" display="block" color="textSecondary">
