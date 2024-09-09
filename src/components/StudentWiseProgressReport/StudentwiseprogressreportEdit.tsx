@@ -697,7 +697,8 @@ const StudentwiseprogressreportEdit = () => {
                         </Table>
                     </TableContainer>
                 </>
-                <div>
+                {
+                    USFillNonXseedSubjectGrades.length > 0 ? <div>
                     <Typography variant={"h4"} textAlign={'left'} color={"#38548a"} mt={2} >
                         Co-CurricularSubjects
                     </Typography>
@@ -754,7 +755,9 @@ const StudentwiseprogressreportEdit = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </div> : null
+                }
+                
                 <br></br>
                 <Box>
                     <TextField
