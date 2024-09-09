@@ -435,7 +435,7 @@ const StudentwiseprogressreportEdit = () => {
                             defaultValue={AssessmentId}
                             label={'Assessment'}
                             size={"small"}
-                            mandatory
+                            
                         />
                         {AssessmentPublishStatus == "N" && StudentWiseAssessmentPublishStatus == "N" ?
                          <Tooltip title={'Save'}>
