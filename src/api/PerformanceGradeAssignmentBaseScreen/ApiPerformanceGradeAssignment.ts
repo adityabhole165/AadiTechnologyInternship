@@ -1,4 +1,4 @@
-import { IGetAllDocumentsListBody, IGetAllDocumentsListResult, IGetAllUsersReportingToGivenUserBody, IGetAllUsersReportingToGivenUserResult, IGetAllYearsBody, IGetAllYearsResult, IGetPerformanceEvaluationDetailsBody, IGetPerformanceEvaluationDetailsResult, IGetUserInvestmentMethodDetailsBody, IGetUserInvestmentMethodDetailsResult } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
+import { IGetAllDocumentsListBody, IGetAllDocumentsListResult, IGetAllUsersReportingToGivenUserBody, IGetAllUsersReportingToGivenUserResult, IGetAllYearsBody, IGetAllYearsResult, IGetPerformanceEvaluationDetailsBody, IGetPerformanceEvaluationDetailsResult, IGetUserInvestmentMethodDetailsBody, IGetUserInvestmentMethodDetailsResult, IPublishStaffPerformanceDetailsBody, ISaveStaffPerformanceEvalDetailsBody, ISubmitStaffPerformanceDetailsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetAllYearsApi = (data: IGetAllYearsBody) => {
@@ -19,12 +19,27 @@ const GetUserInvestmentMethodDetailsApi = (data: IGetUserInvestmentMethodDetails
 const GetAllDocumentsListApi = (data: IGetAllDocumentsListBody) => {
     return http.post<IGetAllDocumentsListResult[]>('Teacher/GetAllDocumentsList', data);
 }
+
+const SaveStaffPerformanceEvalDetailsApi = (data: ISaveStaffPerformanceEvalDetailsBody) => {
+    return http.post<string>('Teacher/SaveStaffPerformanceEvalDetails', data);
+}
+
+const SubmitStaffPerformanceDetailsApi = (data: ISubmitStaffPerformanceDetailsBody) => {
+    return http.post<string>('Teacher/SubmitStaffPerformanceDetails', data);
+}
+
+const PublishStaffPerformanceDetailsApi = (data: IPublishStaffPerformanceDetailsBody) => {
+    return http.post<string>('Teacher/PublishStaffPerformanceDetails', data);
+}
 const PerformanceGradeAssignmentAPI = {
     GetAllYearsApi,
     GetAllUsersReportingToGivenUserApi,
     GetPerformanceEvaluationDetailsApi,
     GetUserInvestmentMethodDetailsApi,
-    GetAllDocumentsListApi
+    GetAllDocumentsListApi,
+    SaveStaffPerformanceEvalDetailsApi,
+    SubmitStaffPerformanceDetailsApi,
+    PublishStaffPerformanceDetailsApi
 
 };
 export default PerformanceGradeAssignmentAPI;

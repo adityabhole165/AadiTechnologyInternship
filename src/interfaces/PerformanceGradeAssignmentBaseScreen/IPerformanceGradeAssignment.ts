@@ -161,3 +161,34 @@ export interface IGetAllDocumentsListResult {
     Id: string,
     FileName: string
 }
+
+export interface ISaveStaffPerformanceEvalDetailsBody {
+    asSchoolId: Number,
+    asUpdatedById: Number,
+    asUserId: Number,
+    asReportingUserId: Number,
+    asYear: Number,
+    asPerformanceXml: string,
+    asClasses: string,
+    asSubjects: string
+}
+
+export interface ISubmitStaffPerformanceDetailsBody {
+    asSchoolId: Number,
+    asUserId: Number,
+    asReportingUserId: Number,
+    asYear: Number,
+    asIsSubmitAction: Number
+}
+
+export interface IPublishStaffPerformanceDetailsBody {
+    asSchoolId: Number,
+    asUserId: Number,
+    asReportingUserId: Number,
+    asYear: Number,
+    asIsPublish: Boolean,
+    asAcademicYearId: Number,
+    asEffectiveDate: string,
+    asLastIncrementDate: any
+}
+

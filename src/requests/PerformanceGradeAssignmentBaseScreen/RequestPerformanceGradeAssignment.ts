@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PerformanceGradeAssignmentAPI from 'src/api/PerformanceGradeAssignmentBaseScreen/ApiPerformanceGradeAssignment';
-import { IGetAllDocumentsListBody, IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody, IGetPerformanceEvaluationDetailsBody, IGetUserInvestmentMethodDetailsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
+import { IGetAllDocumentsListBody, IGetAllUsersReportingToGivenUserBody, IGetAllYearsBody, IGetPerformanceEvaluationDetailsBody, IGetUserInvestmentMethodDetailsBody, IPublishStaffPerformanceDetailsBody, ISaveStaffPerformanceEvalDetailsBody, ISubmitStaffPerformanceDetailsBody } from 'src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment';
 import { AppThunk } from 'src/store';
 const PerformanceGradeAssignmentslice = createSlice({
     name: 'PerformanceGradeAssignment',
@@ -19,6 +19,9 @@ const PerformanceGradeAssignmentslice = createSlice({
         ISlistEnableRejectButtonDetails: [],
         ISUserInvestmentMethodDetails: {},
         ISGetAllDocumentsList: [],
+        ISSaveStaffPerformanceEvalDetailsMsg: '',
+        ISSubmitStaffPerformanceDetailsMsg: '',
+        ISPublishStaffPerformanceDetailsMsg: '',
         Loading: true
     },
     reducers: {
@@ -37,6 +40,30 @@ const PerformanceGradeAssignmentslice = createSlice({
         RlistSchoolOrgNameDetails(state, action) {
             state.Loading = false;
             state.ISlistSchoolOrgNameDetails = action.payload;
+        },
+        RSaveStaffPerformanceEvalDetailsMsg(state, action) {
+            state.Loading = false;
+            state.ISSaveStaffPerformanceEvalDetailsMsg = action.payload;
+        },
+        ResetSaveStaffPerformanceEvalDetailsMsg(state) {
+            state.Loading = false;
+            state.ISSaveStaffPerformanceEvalDetailsMsg = '';
+        },
+        RSubmitStaffPerformanceDetailsMsg(state, action) {
+            state.Loading = false;
+            state.ISSubmitStaffPerformanceDetailsMsg = action.payload;
+        },
+        ResetSubmitStaffPerformanceDetailsMsg(state) {
+            state.Loading = false;
+            state.ISSubmitStaffPerformanceDetailsMsg = '';
+        },
+        RPublishStaffPerformanceDetailsMsg(state, action) {
+            state.Loading = false;
+            state.ISPublishStaffPerformanceDetailsMsg = action.payload;
+        },
+        ResetPublishStaffPerformanceDetailsMsg(state) {
+            state.Loading = false;
+            state.ISPublishStaffPerformanceDetailsMsg = '';
         },
         RlistUserNameDetails(state, action) {
             state.Loading = false;
@@ -270,5 +297,58 @@ export const CDAGetPerformanceEvaluationDetails =
             dispatch(PerformanceGradeAssignmentslice.actions.RlistEnableRejectButtonDetails(listEnableRejectButtonDetails));
 
         };
+
+//     export const CDAGetUserInvestmentMethodDetails =
+// (data: IGetUserInvestmentMethodDetailsBody): AppThunk =>
+//     async (dispatch) => {
+//         dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+//         const response = await PerformanceGradeAssignmentAPI.GetUserInvestmentMethodDetailsApi(data);
+//         dispatch(PerformanceGradeAssignmentslice.actions.RUserInvestmentMethodDetails(response.data));
+//     }
+
+export const CDASaveStaffPerformanceEvalDetailsMsg =
+    (data: ISaveStaffPerformanceEvalDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            const response = await PerformanceGradeAssignmentAPI.SaveStaffPerformanceEvalDetailsApi(data);
+            dispatch(PerformanceGradeAssignmentslice.actions.RSaveStaffPerformanceEvalDetailsMsg(response.data));
+        };
+
+export const CDAResetSaveStaffPerformanceEvalDetailsMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            dispatch(PerformanceGradeAssignmentslice.actions.ResetSaveStaffPerformanceEvalDetailsMsg());
+        }
+
+export const CDASubmitStaffPerformanceDetailsMsg =
+    (data: ISubmitStaffPerformanceDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            const response = await PerformanceGradeAssignmentAPI.SubmitStaffPerformanceDetailsApi(data);
+            dispatch(PerformanceGradeAssignmentslice.actions.RSubmitStaffPerformanceDetailsMsg(response.data));
+        }
+
+export const CDAResetSubmitStaffPerformanceDetailsMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            dispatch(PerformanceGradeAssignmentslice.actions.ResetSubmitStaffPerformanceDetailsMsg());
+        }
+
+export const CDAPublishStaffPerformanceDetailsMsg =
+    (data: IPublishStaffPerformanceDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            const response = await PerformanceGradeAssignmentAPI.PublishStaffPerformanceDetailsApi(data);
+            dispatch(PerformanceGradeAssignmentslice.actions.RPublishStaffPerformanceDetailsMsg(response.data));
+        }
+
+export const CDAResetPublishStaffPerformanceDetailsMsg =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            dispatch(PerformanceGradeAssignmentslice.actions.ResetPublishStaffPerformanceDetailsMsg());
+        }
 
 export default PerformanceGradeAssignmentslice.reducer;

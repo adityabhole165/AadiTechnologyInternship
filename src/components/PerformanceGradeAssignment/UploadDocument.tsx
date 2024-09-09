@@ -16,7 +16,7 @@ import UploadDocList from './UploadDocList';
 
 
 const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, RefreshList, saveButton }) => {
-    console.log(Id, "wow");
+    // console.log(Id, "wow");
     // console.log(UserName, "UserName");
     // console.log(DocumentName, "DocumentName");
     // useSelectors()
@@ -116,7 +116,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     );
 
 
-    console.log(USCheckPublishUnpublishDocument, "USCheckPublishUnpublishDocument");
+    // console.log(USCheckPublishUnpublishDocument, "USCheckPublishUnpublishDocument");
 
     const GetCheckPublishUnpublishDocumentBody: ICheckPublishUnpublishDocumentBody = {
         asSchoolId: asSchoolId,
@@ -166,7 +166,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
             setFileNameError('');
         }
         if (!isError) {
-            console.log(`Following is the Body for the save document -`, SaveInvestmentDocumentBody)
+            // console.log(`Following is the Body for the save document -`, SaveInvestmentDocumentBody)
             dispatch(getSaveInvestmentDocument(SaveInvestmentDocumentBody));
             ResetForm();
         }
@@ -191,7 +191,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     const ChangeFile = (value) => {
         setFileName(value.Name);
         setbase64URL(value.Value);
-        console.log(value, "setFileNameError");
+        // console.log(value, "setFileNameError");
 
         setFileNameError(value.ErrorMsg);
 
@@ -240,7 +240,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     const ClickView = (fileName) => {
         window.open(
             localStorage.getItem('SiteURL') +
-            '/RITESCHOOL/DOWNLOADS/Performance Evaluation' +
+            '/RITESCHOOL/DOWNLOADS/Performance Evaluation/' +
             fileName
             // \\PPSN Website\RITESCHOOL\DOWNLOADS\Performance Evaluation\MCAResult12320240906143621.pdf
             // http://web.aaditechnology.info/RITeSchool//downloads//Performance%20Evaluation//Screenshot%202024-09-05%20095824.pdf
