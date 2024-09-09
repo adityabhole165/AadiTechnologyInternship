@@ -808,9 +808,9 @@ const FinalResult = () => {
                   disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
                   sx={{
                     color: 'white',
-                    backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? green[200] : green[500],
+                    backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? blue[200] : blue[500],
                     '&:hover': {
-                      backgroundColor: green[600]
+                      backgroundColor: blue[600]
                     },
                     ...(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) && {
                       pointerEvents: 'none'

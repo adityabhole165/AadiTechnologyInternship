@@ -673,9 +673,9 @@ const ExamResultBase = () => {
             <span>
               <IconButton sx={{
                 color: 'white',
-                backgroundColor: green[500],
+                backgroundColor: blue[500],
                 '&:hover': {
-                  backgroundColor: green[500]
+                  backgroundColor: blue[500]
                 }
               }}
                 //  onClick={() => clickPublishUnpublish(true)} 
