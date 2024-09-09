@@ -277,20 +277,20 @@ export const CDAStudentProgressReport =
             }
           })
           //show grade column
-          if (true) {
+          if (data.IsTotalConsiderForProgressReport =="True") {
             response.data.ListSchoolWiseTestNameDetail.map((Item) => {
               // let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
 
                 //PE sports
-                columns.push({
-                  MarksScored: Item.Total_Marks_Scored,
-                  TotalMarks: Item.Subjects_Total_Marks,
-                  IsAbsent: "N"
-                })
+                // columns.push({
+                //   MarksScored: Item.Total_Marks_Scored,
+                //   TotalMarks: Item.Subjects_Total_Marks,
+                //   IsAbsent: "N"
+                // })
 
                 columns.push({
-                  MarksScored: Item.Total_Marks_Scored,
+                  MarksScored:parseInt(Item.Total_Marks_Scored) ,
                   TotalMarks: Item.Subjects_Total_Marks,
                   IsAbsent: "N"
                 })
@@ -300,6 +300,7 @@ export const CDAStudentProgressReport =
                   TotalMarks: "-",
                   IsAbsent: "N"
                 })
+
                 columns.push({
                   MarksScored: Item.Grade_Name,
                   TotalMarks: "-",
@@ -315,13 +316,17 @@ export const CDAStudentProgressReport =
           })
         })
       //show grade column
-      if (true) {
+      if (data.IsTotalConsiderForProgressReport =="True") {
+        SubHeaderArray.push({ TestTypeName: "" })
+        
+       
+        SubHeaderArray.push({ TestTypeName: "" })
         SubHeaderArray.push({ TestTypeName: "Total" })
         SubHeaderArray.push({ TestTypeName: "%" })
         SubHeaderArray.push({ TestTypeName: "Grade" })
       }
       //Add subheader for PE Sports
-      SubHeaderArray.push({ TestTypeName: "Grade" })
+      // SubHeaderArray.push({ TestTypeName: "Grade" })
 
       let listTestDetailsArr = []
       response.data.listTestDetails
@@ -341,7 +346,7 @@ export const CDAStudentProgressReport =
 
           });
           //show grade column
-          if (true) {
+          if (data.IsTotalConsiderForProgressReport =="True") {
             let tempGrade = response.data.ListSchoolWiseTestNameDetail
               .filter(item => (item.SchoolWise_Test_Id == Tests.Test_Id))
             arr.push({
@@ -418,7 +423,7 @@ export const CDAStudentProgressReport =
         };
       });
       //show grade column
-      if (true) {
+      if (data.IsTotalConsiderForProgressReport =="True") {
         ListSubjectidDetails.push({
           Subject_Id: "-1",
           ShortenTestType_Name: "Grade",
