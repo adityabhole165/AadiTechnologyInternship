@@ -16,6 +16,8 @@ import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrad
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import { AlertContext } from 'src/contexts/AlertContext';
+import { IGetClassTeacherXseedSubjectsBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
+import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -55,7 +57,16 @@ const StudentwiseprogressreportEdit = () => {
     const USManageStudentWiseAssessmentGrades: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISManageStudentWiseAssessmentGrades);
     const USFillStudentsLearningOutcomeObservations: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISFillStudentsLearningOutcomeObservations);
 
+    const USlistpublishstatusDetails = useSelector(
+        (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails
+      );
+
+    const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
+    const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
+    console.log(IsPublished, "--", PublishStatus);
     const hasValidLearningOutcomeGrade = (outcome: any) => {
+
+
         return outcome.LearningOutcomeGradeId !== "0";
     };
 
@@ -87,6 +98,13 @@ const StudentwiseprogressreportEdit = () => {
 
     };
 
+    const SubjectsList: IGetClassTeacherXseedSubjectsBody = {
+        asSchoolId: asSchoolId,
+        asAcadmeicYearId: asAcademicYearId,
+        asStdDivId: Number(YearwiseStudentId),
+        asAssessmentId: Number(AssessmentId)
+      };
+
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
 
@@ -101,6 +119,9 @@ const StudentwiseprogressreportEdit = () => {
         dispatch(CDAGetStandardwiseAssessmentDetails(GetStandardwiseAssessmentDetailBody));
     }, [YearwiseStudentId]);
 
+    useEffect(() => {
+        dispatch(TeacherXseedSubjects(SubjectsList));
+      }, [ AssessmentId]);
 
     useEffect(() => {
         if (USFillStudentsLearningOutcomes.length > 0) {
@@ -623,7 +644,7 @@ const StudentwiseprogressreportEdit = () => {
                                             DisableClearable={true}
                                             onChange={clickHeaderGrade}
                                             mandatory
-                                            disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
+                                            disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -659,7 +680,8 @@ const StudentwiseprogressreportEdit = () => {
                                                                         DisableClearable={true}
                                                                         onChange={(value) => clickGrade(value, outcome.LearningOutcomeConfigId)}
                                                                         mandatory
-                                                                        disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
+                                                                        disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+
                                                                     />
 
                                                                 </TableCell>
@@ -697,7 +719,8 @@ const StudentwiseprogressreportEdit = () => {
                                             DisableClearable={true}
                                             onChange={clickHeaderGrade1}
                                             mandatory
-                                            disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
+                                            disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+
                                         />
                                     </TableCell>
                                     <TableCell sx={{
@@ -721,7 +744,8 @@ const StudentwiseprogressreportEdit = () => {
                                                 DisableClearable={true}
                                                 onChange={(value) => clickGrade1(value, row.GradeId)}
                                                 mandatory
-                                                disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
+                                                disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+
                                             />
                                         </TableCell>
                                         <TableCell sx={{ py: 1 }}>{row.Observation}</TableCell>
@@ -743,7 +767,8 @@ const StudentwiseprogressreportEdit = () => {
                         value={textall}
                         onChange={Detailschnageall3}
                         fullWidth
-                        disabled={StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N"}
+                        disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N")|| (IsPublished == 'Y' && PublishStatus == "Y")}
+
                     />
                     <Typography variant="caption" align="right" display="block" color="textSecondary">
                         ({maxChars - textall.length} )
