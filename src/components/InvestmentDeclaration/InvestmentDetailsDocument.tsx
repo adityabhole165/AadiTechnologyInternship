@@ -42,7 +42,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const [ValidFile, setValidFile] = useState('')
     const [base64URL, setbase64URL] = useState('');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asFolderName = Number(localStorage.getItem('FolderName'));
+    const asFolderName = localStorage.getItem('FolderName');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(localStorage.getItem('UserId'));
@@ -81,8 +81,8 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
         asDocumnetTypeId: 1,
         asReportingUserId: 0,
         asSaveFeature: "Investment Declarations",
-        asFolderName: asFolderName.toString(),
-        asBase64String: base64URL == '' ? null : base64URL
+        asFolderName: asFolderName,
+        asBase64String: base64URL
     }
     const GetGetAllDocumentsListBody: IGetAllDocumentsListBody = {
         asSchoolId: asSchoolId,
