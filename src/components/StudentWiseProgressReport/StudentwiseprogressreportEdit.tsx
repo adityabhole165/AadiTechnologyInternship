@@ -5,7 +5,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red } from '@mui/material/colors';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -15,6 +15,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails, resetMessage } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import { AlertContext } from 'src/contexts/AlertContext';
 const StudentwiseprogressreportEdit = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const StudentwiseprogressreportEdit = () => {
     const [AssessmentId, setAssessmentId]: any = useState(Assessment);
     const [headerGrade, setHeaderGrade] = useState("0");
     const [grades, setGrades] = useState({});
+    const { showAlert, closeAlert } = useContext(AlertContext);
 
     const [headerGrade1, setHeaderGrade1] = useState("0");
     const [grades1, setGrades1] = useState({});
@@ -302,6 +304,9 @@ const StudentwiseprogressreportEdit = () => {
     
     
 
+   
+
+
     const Clickpublish = () => {
         const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
         {
@@ -317,9 +322,27 @@ const StudentwiseprogressreportEdit = () => {
             asRemark: textall
 
         };
-        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
-    };
-    const ClickUnpublish = () => {
+    
+        const confirmationMessage = 'Once you publish the result it will be visible to parents/student. Are you sure you want to continue?';
+    
+        showAlert({
+          title: 'Please Confirm',
+          message: confirmationMessage,
+          variant: 'warning',
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+            closeAlert();
+          }
+        });
+      };
+
+
+      const ClickUnpublish = () => {
         const ManageStudentWiseAssessmentGradeBody: ManageStudentWiseAssessmentGradesBody =
         {
             asSchoolId: asSchoolId,
@@ -332,9 +355,28 @@ const StudentwiseprogressreportEdit = () => {
             asXseedGradesXML: learningOutcomeXML1(),
             asMode: "Unpublish",
             asRemark: textall
+
         };
-        dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
-    };
+    
+        const confirmationMessage = 'Once you unpublish the result it will not be visible to parents/student. Are you sure you want to continue?';
+    
+        showAlert({
+          title: 'Please Confirm',
+          message: confirmationMessage,
+          variant: 'warning',
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            dispatch(CDAManageStudentWiseAssessmentGrades(ManageStudentWiseAssessmentGradeBody))
+            closeAlert();
+          }
+        });
+      };
+
+    
 
     const ClickShow = () => {
 
