@@ -74,6 +74,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         // if (Id !== '0' && ReportingUserId !== '0') {
         dispatch(CDAGetUserInvestmentMethodDetails(GetUserInvestmentMethodDetailsBody));
         dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
+        setFileNameError('')
         // }
     }, [open])
 
@@ -141,9 +142,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         asSchoolId: asSchoolId,
         asId: Number(Id),    /*2303,*/
     };
-    useEffect(() => {
-        setFileNameError('')
-    }, [])
+
     useEffect(() => {
         dispatch(getCheckPublishUnpublishDocument(GetCheckPublishUnpublishDocumentBody))
     }, [])
@@ -312,7 +311,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                                 <TextField
                                     fullWidth
                                     label={<>
-                                        User Name <span style={{ color: 'red' }}>*</span>
+                                        User Name
                                     </>}
                                     InputLabelProps={{ shrink: true }}
                                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}
@@ -327,7 +326,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                                 <TextField
                                     fullWidth
                                     label={<>
-                                        Doucment Name  <span style={{ color: 'red' }}>*</span>
+                                        Doucment Name
                                     </>}
                                     InputLabelProps={{ shrink: true }}
                                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}
