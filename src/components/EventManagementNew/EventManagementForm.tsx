@@ -468,8 +468,9 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         />
                     </Typography>
                 </Grid>
-                <Grid item xs={6} md={6}>
-                    <Typography fontSize={'10px'}>Select Photo:</Typography>
+                <Grid container xs={6} md={6}>
+                <Typography fontSize={'10px'} pt={1} pr={3} ml={2}>Select Photo:</Typography>
+                <Grid item >
                     <SingleFile
                         ValidFileTypes={ValidFileTypes}
                         MaxfileSize={MaxfileSize}
@@ -483,6 +484,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                         clickDelete={clickDelete}
                         isMandatory={false}
                     ></SingleFile>
+                </Grid>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
