@@ -268,7 +268,7 @@ const AddSchoolNoticeFT = () => {
         asUserRoleIds: getApplicableTo(),
         asClassIds: isClassSelected(),
         asSaveFeature: 'School Notices',
-        asFolderName: 'PPSN Website',
+        asFolderName: asFolderName,
         asBase64String: base64URL,
         asBase64String2: base64URL2,
         NoticeName: NoticeName,
