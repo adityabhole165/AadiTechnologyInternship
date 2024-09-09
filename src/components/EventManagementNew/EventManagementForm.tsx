@@ -21,7 +21,7 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateMonthYearFormatted, isGreaterThanDate } from '../Common/Util';
+import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
     const { SelectedDate, StandardId, DivisionId } = useParams();
@@ -173,28 +173,28 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
 
         return false;
     };
-
     useEffect(() => {
         if (EventStartDate && EventEndDate) {
             if (isGreaterThanDate(EventStartDate, EventEndDate)) {
                 setErrorEventStartDate('Start date should not be greater than end date');
             } else if (isOutsideAcademicYear(EventStartDate)) {
                 setErrorEventStartDate('Event Start date must be within current academic year ' +
-                    '(i.e between ' + getDateMonthYearFormatted(sessionStorage.getItem("StartDate")) +
-                    ' and ' + getDateMonthYearFormatted(sessionStorage.getItem("EndDate")) + ')');
+                    '(i.e between ' + sessionStorage.getItem("StartDate") +
+                    ' and ' + sessionStorage.getItem("EndDate") + ')');
             } else {
                 setErrorEventStartDate('');
             }
 
             if (isOutsideAcademicYear(EventEndDate)) {
                 setErrorEventEndDate('Event End date must be within current academic year ' +
-                    '(i.e between ' + getDateMonthYearFormatted(sessionStorage.getItem("StartDate")) +
-                    ' and ' + getDateMonthYearFormatted(sessionStorage.getItem("EndDate")) + ')');
+                    '(i.e between ' + sessionStorage.getItem("StartDate") +
+                    ' and ' + sessionStorage.getItem("EndDate") + ')');
             } else {
                 setErrorEventEndDate('');
             }
         }
     }, [EventStartDate, EventEndDate]);
+
 
 
     const resetForm = () => {
