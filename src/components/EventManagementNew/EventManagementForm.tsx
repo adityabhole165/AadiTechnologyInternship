@@ -1,4 +1,4 @@
-import { Button, Checkbox, debounce, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Button, debounce, Grid, Stack, TextField, Typography } from '@mui/material';
 import { green, red } from '@mui/material/colors';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -453,7 +453,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                     ></SelectListHierarchy>
                     <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
                 </Grid>
-                <Grid item xs={12} md={12}>
+                {/* <Grid item xs={12} md={12}>
                     <Typography>
                         <FormControlLabel
                             control={
@@ -467,24 +467,24 @@ const EventManagementForm = ({ EventId, AddNewEventClicked, SaveClicked }) => {
                             label="Display On Homepage"
                         />
                     </Typography>
-                </Grid>
+                </Grid> */}
                 <Grid container xs={6} md={6}>
-                <Typography fontSize={'10px'} pt={1} pr={3} ml={2}>Select Photo:</Typography>
-                <Grid item >
-                    <SingleFile
-                        ValidFileTypes={ValidFileTypes}
-                        MaxfileSize={MaxfileSize}
-                        ChangeFile={ChangeFile}
-                        errorMessage={FileError}
-                        FilePath={EventDetaill == null ? "" : EventDetaill.Event_Image}
-                        FileName={FileName}
-                        viewIcon={true}
-                        deleteIcon={true}
-                        clickFileName={clickFileName}
-                        clickDelete={clickDelete}
-                        isMandatory={false}
-                    ></SingleFile>
-                </Grid>
+                    <Typography fontSize={'10px'} pt={1} pr={3} ml={2}>Select Photo:</Typography>
+                    <Grid item >
+                        <SingleFile
+                            ValidFileTypes={ValidFileTypes}
+                            MaxfileSize={MaxfileSize}
+                            ChangeFile={ChangeFile}
+                            errorMessage={FileError}
+                            FilePath={EventDetaill == null ? "" : EventDetaill.Event_Image}
+                            FileName={FileName}
+                            viewIcon={true}
+                            deleteIcon={true}
+                            clickFileName={clickFileName}
+                            clickDelete={clickDelete}
+                            isMandatory={false}
+                        ></SingleFile>
+                    </Grid>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
