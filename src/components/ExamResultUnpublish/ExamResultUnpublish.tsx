@@ -106,7 +106,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Class Teacher :'}
+              <TextField fullWidth label={'Class Teacher '}
                 sx={{ width: '100%', bgcolor: '#f0f0f0' }}
                 value={TeacherName} />
             </Grid>
@@ -115,7 +115,7 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
               <ResizableTextField fullWidth 
               // label={'Reason For Unpublish  :'}
               label={<>
-                Reason for Unpublish  : <span style={{ color: 'red' }}>*</span>
+                Reason for Unpublish  <span style={{ color: 'red' }}>*</span>
             </>}
                 multiline
                 // rows={3}

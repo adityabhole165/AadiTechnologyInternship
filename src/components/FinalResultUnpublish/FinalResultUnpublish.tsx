@@ -128,7 +128,7 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
           <ResizableTextField
             multiline
             label={<>
-              Reason for Unpublish  : <span style={{ color: 'red' }}>*</span>
+              Reason for Unpublish  <span style={{ color: 'red' }}>*</span>
           </>}
             // rows={5}
             value={Reason}
