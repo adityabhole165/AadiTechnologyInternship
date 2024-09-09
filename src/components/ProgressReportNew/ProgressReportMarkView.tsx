@@ -64,35 +64,7 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                         </TableRow>
                     </TableBody>
                 ))}
-                {
-                    IsTotalConsiderForProgressReport == "True" ?
-                        <span>
-
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Total</TableCell>
-                                    <TableCell>%</TableCell>
-                                    <TableCell>Grade</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {USListMarkssDetails.map((outcome) => (
-                                    USListSchoolWiseTestNameDetail.filter(row => outcome.Marks_Grades_Configuration_Detail_ID === row.Grade_id)
-                                        .map((row, index) => (
-                                            <TableRow >
-                                                <TableCell>{row.Total}</TableCell>
-                                                <TableCell>{row.Percentage}</TableCell>
-                                                <TableCell>{row.Grade_Name}{outcome.Remarks}</TableCell>
-
-                                            </TableRow>
-                                        ))
-                                ))}
-                            </TableBody>
-
-
-                        </span> : <span></span>
-
-                }
+               
             </Table>
         </Box>
     )
