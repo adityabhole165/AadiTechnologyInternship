@@ -384,10 +384,10 @@ const StatusRequisition = () => {
               <AddTwoTone />
             </IconButton>
           </Tooltip>
-          
 
 
-                  </>}
+
+        </>}
       />
 
 
@@ -561,7 +561,7 @@ const StatusRequisition = () => {
           />
         )}
 
-        {
+        {/* {
           CountGetPagedRequisition.TotalCount > rowsPerPage ? (
 
             <ButtonGroupComponent
@@ -573,6 +573,22 @@ const StatusRequisition = () => {
             />
           ) : (
             <span></span>
+          )
+        } */}
+
+        {
+          endRecord > 19 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
+
+          ) : (
+            <span></span>
+
           )
         }
 

@@ -165,6 +165,9 @@ const Studentwiseprogressreport = () => {
     asAssessmentId: Number(Assessment),
   }
 
+
+   console.log(StudentRecordCount.Count,"----" );
+   
   useEffect(() => {
     if (PublishStatu.AllowPublish === true || PublishStatu.AllowUnpublish === true) {
       setIsVisible(true);
@@ -610,18 +613,21 @@ const Studentwiseprogressreport = () => {
         />
         </ IsPublishstatus.Provider>
       
-      {StudentRecordCount.Count > rowsPerPage ? (
-        <ButtonGroupComponent
-          rowsPerPage={rowsPerPage}
-          ChangeRowsPerPage={ChangeRowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-          PageChange={PageChange}
-          pagecount={pagecount}
-        />
-      ) : (
-        <span></span>
-      )
-      }
+        {
+                    endRecord > 19 ? (
+                        <ButtonGroupComponent
+                            rowsPerPage={rowsPerPage}
+                            ChangeRowsPerPage={ChangeRowsPerPage}
+                            rowsPerPageOptions={rowsPerPageOptions}
+                            PageChange={PageChange}
+                            pagecount={pagecount}
+                        />
+
+                    ) : (
+                        <span></span>
+
+                    )
+                }
       </Box>
     </Box>
   );
