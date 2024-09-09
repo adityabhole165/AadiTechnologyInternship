@@ -101,7 +101,7 @@ const AddAnnualPlaner = () => {
   const clickSubmit = () => {
     if (fileName.length !== 0 && base64URL.length !== 0) {
       dispatch(addanual(AnnualplannerBody));
-      toast.success('File uploaded successfully', { toastId: 'success1' });
+      toast.success('File uploaded successfully.', { toastId: 'success1' });
     }
   };
 

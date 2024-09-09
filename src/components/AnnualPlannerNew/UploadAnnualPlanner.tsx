@@ -55,7 +55,7 @@ const UploadAnnualPlanner = ({
         };
 
         await dispatch(addanual(AnnualplannerBody));
-        toast.success('File uploaded successfully', { toastId: 'success1' })
+        toast.success('File uploaded successfully.', { toastId: 'success1' })
         dispatch(GetFile(GetFileDetailsBody));
         setFileName('')
         setbase64URL('')
@@ -108,7 +108,7 @@ const UploadAnnualPlanner = ({
         try {
           await dispatch(DeleteFile(DeleteFileDetailsBody));
           dispatch(GetFile(GetFileDetailsBody));
-          toast.success('File deleted successfully', { toastId: 'success1' });
+          toast.success('File deleted successfully.', { toastId: 'success1' });
         } catch (error) {
           console.error('Error deleting file:', error);
           toast.error('Error deleting file', { toastId: 'error1' });
