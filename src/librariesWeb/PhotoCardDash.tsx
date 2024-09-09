@@ -329,7 +329,7 @@ function PhotoCardDash() {
 
       {/* Photo Album Display */}
       <div>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
           {PhotoAlbum.length > 0 ? (
             <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
           ) : (
@@ -347,6 +347,7 @@ function PhotoCardDash() {
           PaperProps={{
             sx: {
               borderRadius: "15px",
+              
             }
           }}
         >
@@ -373,16 +374,16 @@ function PhotoCardDash() {
             mt: '20px',
             overflow: 'hidden'
           }}>
-
+           <Box mt={2}>
             <CarouselPhoto
-
               itemlist={PhotoAlbum.filter((item) => item.AlbumID == selectedAlbumID)}
               IsPath={true}
               onImageClick={handleImageClick}
               largeImage={true}
               isSlideshowRunning={isSlideshowRunning}
             />
-
+          </Box>
+          <Box>
             <Typography
               variant="body1"
               onClick={toggleSlideshow}
@@ -398,10 +399,10 @@ function PhotoCardDash() {
             >
               {isSlideshowRunning ? 'Stop Slideshow' : 'Start Slideshow'}
             </Typography>
-
+          </Box>
           </DialogContent>
         </Dialog>
-        <Grid item xs={12} textAlign={'right'}>
+        <Grid item xs={12} textAlign={'center'}>
           <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
         </Grid>
       </div>

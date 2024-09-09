@@ -1,4 +1,4 @@
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
 const CarouselPhotoCard = ({ item, IsPath, onImageClick, largeImage = false, currentIndex = 0, totalImages = 0 }) => {
 
@@ -7,10 +7,13 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick, largeImage = false, cur
             onImageClick(IsPath ? item.AlbumID : item.AlbumID);
         }
     };
-    const avatarSize = largeImage ? { height: '500px', width: '400px' } : { height: '300px', width: '250px' };
+    const avatarSize = largeImage ? { height: '450px', width: 'Auto' } : { height: '300px', width: '250px' };
 
     return (
-        <div>
+        <>
+        <Box sx={{p:0}}>
+            <Typography variant="h3" textAlign={'center'} >{item.Header}</Typography>
+            <Box>
             <Avatar
                 alt="user.name"
                 src={IsPath ? item.Text2 :
@@ -21,24 +24,30 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick, largeImage = false, cur
                 sx={{
                     mt: '10px',
                     backgroundColor: '#90caf9',
-                    height: '300px',
-                    width: '250px',
+                    width: '100%',
+                   height: 'auto',
+                    border: (theme) => `1px solid ${theme.palette.grey[600]}`,
                     ...avatarSize
                 }}
                 variant="rounded"
                 aria-label="add"
                 onClick={handleClick}
             />
-            <Typography variant="h5">{item.Header}</Typography>
-            <Typography variant="body2" sx={{ mb: 1 }}>
+            
+            <Typography variant="body2" textAlign={'center'} sx={{ m: 1 }}>
                 {item.Text1}
             </Typography>
+           
+            </Box>
+            <Box >
             {largeImage && (
-                <Typography variant="body2" sx={{ mt: 1 }}>
+                <Typography variant="body2" sx={{ mt: 0}}>
                     {`${currentIndex + 1} of ${totalImages}`}
                 </Typography>
             )}
-        </div>
+            </Box>
+        </Box>
+        </>
     );
 };
 

@@ -48,11 +48,12 @@ const CarouselPhoto = ({ itemlist, IsPath = false, onImageClick, largeImage = fa
           <ArrowLeft onClick={() => arrowClick(-1)} />
         </Grid>
         <Grid item xs={10}>
-          <CarouselPhotoCard item={itemlist[index]} IsPath={IsPath} onImageClick={onImageClick} largeImage={largeImage}
+          <CarouselPhotoCard item={itemlist[index]} 
+          IsPath={IsPath} onImageClick={onImageClick} largeImage={largeImage}
             currentIndex={index}
             totalImages={itemlist.length} />
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={1} pl={0.4}> 
           <ArrowRight onClick={() => arrowClick(1)} />
         </Grid>
       </Grid>
