@@ -33,7 +33,8 @@ export interface IStudentProgressReportBody {
     asSchoolId: number
     asAcadmeicYearId: number
     asStudentId: number
-    asUserId: number
+    asUserId: number,
+    IsTotalConsiderForProgressReport:string
 }
 
 

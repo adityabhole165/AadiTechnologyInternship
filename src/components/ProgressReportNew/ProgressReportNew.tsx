@@ -169,7 +169,8 @@ const ProgressReportNew = () => {
     asSchoolId: Number(asSchoolId),
     asAcadmeicYearId: Number(asAcademicYearId),
     asStudentId: Number(StudentId),
-    asUserId: asUserId
+    asUserId: asUserId,
+    IsTotalConsiderForProgressReport : IsTotalConsiderForProgressReport
 
 
   };
