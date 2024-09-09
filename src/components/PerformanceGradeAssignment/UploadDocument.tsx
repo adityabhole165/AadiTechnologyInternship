@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { ICheckPublishUnpublishDocumentBody, IDeleteInvestmentDocumentBody, IGetAllDocumentsListBody, IGetInvestmentDocumentFileBody, ISaveInvestmentDocumentBody } from 'src/interfaces/InvestmentDeclaration/IAddInvestmentDetailsDocument';
 import { IGetUserInvestmentMethodDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
-import SingleFile from 'src/libraries/File/SingleFile';
+import SpecificFileType from "src/libraries/File/SpecificFileType";
 import { deleteresetInvestMessage, getCheckPublishUnpublishDocument, getDeleteInvestmentDocument, getInvestmentDocumentFile, getSaveInvestmentDocument, resetSaveInvestmentMessage } from 'src/requests/InvestmentDeclaration/ReqAddInvestmentDetailsDocument';
 import { CDAGetAllDocumentsList, CDAGetUserInvestmentMethodDetails } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { RootState } from 'src/store';
@@ -276,7 +276,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                         sx={{
                             color: 'white',
                             // background:'white',
-                            borderRadius: '7px',
+                            borderRadius: '10px',
                             position: 'absolute',
                             top: '4px',
                             right: '35px',
@@ -339,7 +339,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                             </Grid>
                             <Grid item xs={4}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.7, width: 'calc(100% + 1px)', position: 'relative' }}>
-                                    <SingleFile
+                                    <SpecificFileType
                                         ValidFileTypes={ValidFileTypes}
                                         MaxfileSize={MaxfileSize}
                                         FileName={fileName}

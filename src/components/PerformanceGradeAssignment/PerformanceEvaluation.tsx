@@ -1,5 +1,4 @@
-import { CheckCircle, FactCheck, QuestionMark, Save } from "@mui/icons-material";
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import { Check, CheckCircle, FactCheck, QuestionMark, Save } from "@mui/icons-material";
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
 import { blue, green, grey } from "@mui/material/colors";
 import React, { useContext, useEffect, useState } from "react";
@@ -350,6 +349,7 @@ const PerformanceEvaluation = () => {
     }
 
     const submitEval = () => {
+        let selfUser = isSelfUser();
         const SubmitStaffPerformanceDetailBody: ISubmitStaffPerformanceDetailsBody = {
             asSchoolId: Number(schoolId),
             asUserId: Number(userId),
@@ -357,18 +357,33 @@ const PerformanceEvaluation = () => {
             asYear: Number(asYear),
             asIsSubmitAction: 1
         }
-        showAlert({
-            title: 'Please Confirm',
-            message: 'This action will save and submit current details. Are you sure you want to continue?',
-            variant: 'warning',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
-            onConfirm: () => {
-                dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody))
-                closeAlert();
-            },
-            onCancel: closeAlert
-        });
+        if (selfUser && classTaught !== '' && teachingSub !== '') {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'This action will save and submit current details. Are you sure you want to continue?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onConfirm: () => {
+                    dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody))
+                    closeAlert();
+                },
+                onCancel: closeAlert
+            });
+            setClassError(false)
+            setTeachingSubError(false)
+        }
+        if (selfUser && classTaught === '') {
+            setClassError(true)
+        } else {
+            setClassError(false)
+        }
+        if (selfUser && teachingSub === '') {
+            setTeachingSubError(true)
+        } else {
+            setTeachingSubError(false)
+        }
+
 
     }
     const publishEval = () => {
@@ -444,7 +459,7 @@ const PerformanceEvaluation = () => {
                                             }}
                                             onClick={submitEval}
                                         >
-                                            <AssignmentTurnedInIcon />
+                                            <Check />
                                         </IconButton>
                                     </span>
                                 </Tooltip>
@@ -774,13 +789,13 @@ const PerformanceEvaluation = () => {
                                 {Object.keys(initialStaffPerfEval).length > 0 && listOriginalSkillIdDetails?.length > 0 &&
                                     listOriginalSkillIdDetails.map((item, i) => (
                                         <React.Fragment key={i}>
-                                            <TableRow sx={{ backgroundColor: '#19bed4' }}>
+                                            <TableRow sx={{ backgroundColor: '#e5e7eb' }}>
                                                 <TableCell
                                                     colSpan={3}
                                                     sx={{
                                                         textAlign: 'left',
                                                         fontWeight: 'bold',
-                                                        color: 'white',
+                                                        color: 'black',
                                                         paddingTop: '5px',
                                                         paddingBottom: '5px',
                                                         border: '1px solid rgba(224, 224, 224, 1)',
@@ -805,6 +820,7 @@ const PerformanceEvaluation = () => {
                                                                                 paddingTop: '5px',
                                                                                 paddingBottom: '5px',
                                                                                 border: '1px solid rgba(224, 224, 224, 1)',
+                                                                                borderBottom: '1px solid white'
                                                                             }}
                                                                         >
                                                                             {++count} {/* Increment and display the counter */}
@@ -837,10 +853,10 @@ const PerformanceEvaluation = () => {
                                                                         </TableCell>
                                                                         <TableCell
                                                                             sx={{
-                                                                                backgroundColor: '#19bed4',
+                                                                                backgroundColor: '#f3f4f6',
                                                                                 textAlign: 'left',
                                                                                 fontWeight: 'bold',
-                                                                                color: 'white',
+                                                                                color: 'black',
                                                                                 paddingTop: '5px',
                                                                                 paddingBottom: '5px',
                                                                                 border: '1px solid rgba(224, 224, 224, 1)'
@@ -850,10 +866,10 @@ const PerformanceEvaluation = () => {
                                                                         </TableCell>
                                                                         <TableCell
                                                                             sx={{
-                                                                                backgroundColor: '#19bed4',
+                                                                                backgroundColor: '#f3f4f6',
                                                                                 textAlign: 'left',
                                                                                 fontWeight: 'bold',
-                                                                                color: 'white',
+                                                                                color: 'black',
                                                                                 paddingTop: '5px',
                                                                                 paddingBottom: '5px',
                                                                                 border: '1px solid rgba(224, 224, 224, 1)',
@@ -921,10 +937,10 @@ const PerformanceEvaluation = () => {
                                 <TableRow>
                                     <TableCell colSpan={3}
                                         sx={{
-                                            backgroundColor: '#19bed4',
+                                            backgroundColor: '#e5e7eb',
                                             textAlign: 'left',
                                             fontWeight: 'bold',
-                                            color: 'white',
+                                            color: 'black',
                                             paddingTop: '5px',
                                             paddingBottom: '5px',
                                             border: '1px solid rgba(224, 224, 224, 1)'
