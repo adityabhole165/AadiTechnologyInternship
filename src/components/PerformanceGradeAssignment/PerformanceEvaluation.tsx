@@ -315,7 +315,16 @@ const PerformanceEvaluation = () => {
     //     asYear: Number(asYear),
     //     asAcademicYearId: Number(academicYearId)
     // }
-
+    const isValid = () => {
+        let selfUser = isSelfUser();
+        if (selfUser && classTaught !== '' && teachingSub !== '') {
+            return true;
+        } else if (selfUser === false) {
+            return true
+        } else {
+            return false;
+        }
+    }
     const savePerfEval = () => {
         let data = generatePerformanceXml(initialStaffPerfEval);
         console.log(data);
@@ -330,7 +339,7 @@ const PerformanceEvaluation = () => {
             asClasses: classTaught.toString(),
             asSubjects: teachingSub.toString()
         }
-        if (selfUser && classTaught !== '' && teachingSub !== '') {
+        if (isValid) {
             dispatch(CDASaveStaffPerformanceEvalDetailsMsg(SaveStaffPerformanceEvalDetailBody));
             setClassError(false)
             setTeachingSubError(false)
@@ -357,7 +366,7 @@ const PerformanceEvaluation = () => {
             asYear: Number(asYear),
             asIsSubmitAction: 1
         }
-        if (selfUser && classTaught !== '' && teachingSub !== '') {
+        if (isValid) {
             showAlert({
                 title: 'Please Confirm',
                 message: 'This action will save and submit current details. Are you sure you want to continue?',

@@ -26,6 +26,7 @@ function NavBarMenus() {
   const [searchText, setSearchText] = useState('');
   const [parentMenu, setParentMenu] = useState([]);
   const [menuId, setMenuId] = useState(0);
+  console.log('? >', GetNavbarmenu);
   const [SelectedMenu, setSelectedMenu] = useState({
     MenuId: 0,
     ParentMenuId: 0

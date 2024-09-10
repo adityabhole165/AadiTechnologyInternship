@@ -1,6 +1,8 @@
 export interface IGetMenuDetailsBody {
-  aiSchoolId: number;
-  aiUserRoleId: string;
+  aiSchoolId: number,
+  aiUserRoleId?: string,
+  aiMenuId?: string,
+  IsRefresh?: boolean
 }
 
 export interface IGetMenuDetailsResult {
