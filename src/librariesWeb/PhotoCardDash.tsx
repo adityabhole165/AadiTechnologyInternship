@@ -1,22 +1,13 @@
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ReplayIcon from '@mui/icons-material/Replay';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  Avatar,
   Box,
   Dialog,
   DialogContent,
   DialogTitle,
   Grid,
-  IconButton,
-  Popover,
-  Stack,
-  Tooltip,
   Typography
 } from '@mui/material';
-import { green, grey, orange, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
@@ -25,15 +16,17 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { CDAAllAcademicYearsForSchool } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
+import Actions from './Actions';
+import Header from './Header';
+import PhotoPopup from './PhotoPopup';
 
 function PhotoCardDash() {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear().toString();
-  console.log(currentYear, 'currentYear')
+  // console.log(currentYear, 'currentYear')
   const currentMonth = (new Date().getMonth() + 1).toString();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
@@ -49,23 +42,6 @@ function PhotoCardDash() {
   const toggleSlideshow = () => {
     setIsSlideshowRunning((prev) => !prev);
   };
-
-  const MonthArray = [
-    { Id: 1, Name: 'All', Value: '0' },
-    { Id: 2, Name: 'January', Value: '1' },
-    { Id: 3, Name: 'February', Value: '2' },
-    { Id: 4, Name: 'March', Value: '3' },
-    { Id: 5, Name: 'April', Value: '4' },
-    { Id: 6, Name: 'May', Value: '5' },
-    { Id: 7, Name: 'June', Value: '6' },
-    { Id: 8, Name: 'July', Value: '7' },
-    { Id: 9, Name: 'August', Value: '8' },
-    { Id: 10, Name: 'September', Value: '9' },
-    { Id: 11, Name: 'October', Value: '10' },
-    { Id: 12, Name: 'November', Value: '11' },
-    { Id: 13, Name: 'December', Value: '12' },
-    { Id: 14, Name: 'Recent 5', Value: '100' },
-  ]
 
   const SelectYearList = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList
@@ -222,7 +198,6 @@ function PhotoCardDash() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const [selectedAlbumID, setSelectedAlbumID] = useState(null);
-  console.log(selectedAlbumID, "selectedAlbumID");
 
   const handleImageClick = (albumID) => {
     setSelectedAlbumID(albumID);
@@ -235,101 +210,30 @@ function PhotoCardDash() {
 
   return (
     <Box sx={{ height: '487px', backgroundColor: 'white', p: 1 }}>
-      <Grid item sx={{ overflow: 'auto', display: 'flex', backgroundColor: '#38548A', borderRadius: '10px' }}>
+      <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
         <Grid item xs={12}>
-          <Typography variant="h3" p={0.8} sx={{ color: 'white' }}>
-            Photo Albums
-          </Typography>
+          <Header Title="Photo Albums" />
         </Grid>
-        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <IconButton sx={{ mt: '4px', pr: 1 }} >
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '30px',      // Circle diameter
-              height: '30px',     // Circle diameter
-              borderRadius: '50%', // Makes the Box a circle
-              backgroundColor: 'white', // Secondary background color
-              color: 'black',      // Text color
-              fontSize: '0.8rem',
-            }}> <b>{PhotoAlbum1.length !== 0 ? PhotoAlbum1.length : '0'}</b></Box>
+        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+          <Actions IconType="Label" DiplayText={PhotoAlbum1.length !== 0 ? PhotoAlbum1.length : '0'} />
 
-          </IconButton>
-          <Tooltip
+          <Actions Icon={RefreshIcon} ClickIcon={handleClearFilter}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <IconButton onClick={handleClearFilter}>
-              <RefreshIcon sx={{
-                color: 'white',
-                borderRadius: '7px',
-                mt: '4px',
-                cursor: 'pointer',
-                '&:hover': { backgroundColor: grey[600] }
-              }} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip
-            title={
-              'Click here to display all galleries of selected year, select All option from month and apply filter.'
-            }
-          >
-            <IconButton onClick={handleClickpop}>
-              <SettingsIcon sx={{
-                color: 'white',
-                borderRadius: '7px',
-                mt: '4px',
-                cursor: 'pointer',
-                '&:hover': { backgroundColor: grey[600] }
-              }} />
-            </IconButton>
-          </Tooltip>
+            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+
+          <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
         </Grid>
       </Grid>
 
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
-        }}
-        onClose={handleClose}
-      >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }} p={1}>
-          <Dropdown Array={MonthArray} handleChange={ClickMonth} label={'Select Month'} defaultValue={month} />
-          <Dropdown
-            Array={AllAcademicYearsForSchool}
-            handleChange={ClickYear}
-            defaultValue={year}
-            label={'Select Year'}
-          />
-        </Box>
-        <Stack direction="row" spacing={2} sx={{ my: 1, px: 5 }}>
-          <Tooltip title="Apply Filter">
-            <Avatar sx={{ bgcolor: green[500] }} variant="square">
-              <CheckIcon onClick={handleApplyFilter} />
-            </Avatar>
-          </Tooltip>
-          <Tooltip title="Clear Filter">
-            <Avatar sx={{ bgcolor: orange[500] }} variant="square">
-              <ReplayIcon onClick={handleClearFilter} />
-            </Avatar>
-          </Tooltip>
-          <Tooltip title="Cancel">
-            <Avatar sx={{ bgcolor: red[500] }} variant="square">
-              <CloseIcon onClick={handleClose} />
-            </Avatar>
-          </Tooltip>
-        </Stack>
-      </Popover>
+      <PhotoPopup id={id} open={open} anchorEl={anchorEl}
+        handleClose={handleClose} handleApplyFilter={handleApplyFilter} handleClearFilter={handleClearFilter}
+        year={year} month={month} ClickMonth={ClickMonth} ClickYear={ClickYear}
+      />
+
 
       {/* Photo Album Display */}
       <div>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           {PhotoAlbum.length > 0 ? (
             <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
           ) : (
@@ -347,7 +251,6 @@ function PhotoCardDash() {
           PaperProps={{
             sx: {
               borderRadius: "15px",
-              
             }
           }}
         >
@@ -374,16 +277,16 @@ function PhotoCardDash() {
             mt: '20px',
             overflow: 'hidden'
           }}>
-           <Box mt={2}>
+
             <CarouselPhoto
+
               itemlist={PhotoAlbum.filter((item) => item.AlbumID == selectedAlbumID)}
               IsPath={true}
               onImageClick={handleImageClick}
               largeImage={true}
               isSlideshowRunning={isSlideshowRunning}
             />
-          </Box>
-          <Box>
+
             <Typography
               variant="body1"
               onClick={toggleSlideshow}
@@ -399,10 +302,10 @@ function PhotoCardDash() {
             >
               {isSlideshowRunning ? 'Stop Slideshow' : 'Start Slideshow'}
             </Typography>
-          </Box>
+
           </DialogContent>
         </Dialog>
-        <Grid item xs={12} textAlign={'center'}>
+        <Grid item xs={12} textAlign={'right'}>
           <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
         </Grid>
       </div>

@@ -1,5 +1,6 @@
-import { Box, Card, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Box, Card, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import UserPhoto from 'src/libraries/UserPhoto/UserPhoto';
+import Header from './Header';
 
 function MyprofileCard() {
   const UserName = sessionStorage.getItem('StudentName') || '-';
@@ -14,14 +15,16 @@ function MyprofileCard() {
       : '/imges/defualtUser.jpg';
 
   return (
-    <Box sx={{backgroundColor:'white', p:1}}>
-      <Card sx={{ boxShadow: 2 }}>
-        <Box sx={{ backgroundColor: '#38548A', p: 0.8 ,  borderRadius:'10px'}}>
-          <Typography variant="h3" color="white">
-            Teacher Details
-          </Typography>
-        </Box>
-        <Box sx={{ p: 1 }}>
+    <Box sx={{ backgroundColor: 'white', p: 1 }}>
+      <Card >
+        <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
+          <Grid item xs={12}>
+            <Header Title="Teacher Details" />
+          </Grid>
+        </Grid>
+        <Box
+          sx={{ p: 2 }}
+        >
           <Grid container>
             <Grid item md={9} sm={8}>
               <TableContainer>
@@ -55,17 +58,12 @@ function MyprofileCard() {
                 </Table>
               </TableContainer>
             </Grid>
-            <Grid
-              item
-              md={3}
-              sm={4}
-              sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            >
+            <Grid item md={3} sm={4}>
               <Box
                 sx={{
-                   borderRight: `1px solid gray`,
-                    borderTop: `1px solid gray`,
-                     borderBottom: `1px solid gray`,
+                  borderRight: `1px solid gray`,
+                  borderTop: `1px solid gray`,
+                  borderBottom: `1px solid gray`,
                   padding: '15.7px',
                   display: 'flex',
                   justifyContent: 'center',

@@ -1,13 +1,13 @@
 import { Grid } from '@mui/material';
 import FeedBackCard from './FeedBackCard';
-import MyprofileCard from './MyprofileCard';
+import Profile from './Profile';
 import UnreadMessage from './UnreadMessage';
 function CardDahContainer() {
   return (
     <div>
-      <Grid container spacing={2} direction="column">
-        <Grid item>
-          <MyprofileCard />
+      <Grid container spacing={2} >
+        <Grid item sm={6}>
+          <Profile />
         </Grid>
         <Grid item container spacing={2}>
           <Grid item sm={6}>

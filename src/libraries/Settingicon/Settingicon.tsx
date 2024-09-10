@@ -163,8 +163,11 @@ const SettingsDropdown = () => {
                                     //mandatory
                                     size={"small"}
                                 />
+                                <br></br>
                             </Box>
                         </Popover>
+
+
                     </Stack>
                 )}
 

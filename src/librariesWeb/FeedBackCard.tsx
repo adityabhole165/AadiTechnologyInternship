@@ -3,7 +3,6 @@ import {
   CircularProgress,
   Divider,
   Grid,
-  IconButton,
   Stack,
   Tooltip,
   Typography
@@ -21,6 +20,8 @@ import { RootState } from 'src/store';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import Actions from './Actions';
+import Header from './Header';
 
 function FeedBackCard() {
   const navigate = useNavigate();
@@ -135,29 +136,15 @@ function FeedBackCard() {
   const open = Boolean(anchorEl);
   return (
     <Box sx={{ backgroundColor: 'white', p: 1 }} >
-      <Grid container sx={{ backgroundColor: '#38548A', borderRadius: '10px' }}>
-        <Grid item xs={6}>
-          <Typography variant="h3" p={1} sx={{ color: 'white' }}>
-            Feedback
-          </Typography>
+      <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
+        <Grid item xs={12}>
+          <Header Title="Feedback" />
         </Grid>
-        <Grid item xs={6}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Tooltip
-              title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <IconButton onClick={handleRefresh}>
-                <RefreshIcon sx={{ mt: '8px', color: 'white', }} />
-              </IconButton>
-            </Tooltip>
-            {/* <Avatar
-              sx={{ height: '20px', width: '20px', mt: '13px', mr: '10px' }}
-              src={'/imges/arrow.png'}
-              onClick={ClickFeddback}
-            /> */}
-          </Box>
+        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+
+          <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
+            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
         </Grid>
       </Grid>
       <Box sx={{ height: '400px', overflow: 'auto', mt: 2 }}>
@@ -172,66 +159,53 @@ function FeedBackCard() {
             ) : (
               <>
                 {Feedback.map((item, i) => (
-                  <div key={i}>
-                    <Box key={i}>
-                      <Grid >
+
+                  <Grid container key={i}>
+                    <Grid item xs={12}>
+                      <Grid container>
+                        <Grid item xs={9}>
+                          <Typography variant="h4" p={0.5}  >{item.Header}</Typography>
+                        </Grid>
+                        <Grid item xs={3} >
+                          <AccessTimeIcon sx={{ mr: '5px', color: '#64b5f6' }} fontSize="small" />
+                          {item.Text2}
+                        </Grid>
+
                         <Grid item xs={12}>
-                          <Box
-                            display={'flex'}
-                            justifyContent={'space-between'}
-                            px={3}
-                          >
-                            <Typography variant="h3" p={0.5}  >{item.Header}</Typography>
-                          </Box>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }} px={3}>
-                            <AccessTimeIcon
-                              sx={{ mr: '5px', color: '#64b5f6' }}
-                              fontSize="small"
-                            />
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis',
-                                width: '300px',
-                              }}
-                            >
-                              {item.Text2}
-                            </Typography>
-                          </Box>
 
                           <Tooltip title={item.Text3} placement="left-start">
                             <Typography
                               variant="body2"
-                              px={3}
+                              px={1}
                               sx={{
                                 overflow: 'hidden',
                                 whiteSpace: 'normal',
                                 textOverflow: 'ellipsis',
                                 maxHeight: '6.25rem',
-                                lineHeight: '1.25rem',
+                                // lineHeight: '1.25rem',
                                 display: '-webkit-box',
-                                WebkitLineClamp: 5,
+                                WebkitLineClamp: 2,
                                 WebkitBoxOrient: 'vertical',
                                 position: 'relative',
                               }}
                             >
-                              "{item.Text3}"
+                              {item.Text3}
                             </Typography>
                           </Tooltip>
                         </Grid>
                       </Grid>
-                      <Divider variant="middle" sx={{ m: '5px' }} />
-                    </Box>
-                  </div>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Divider variant="middle" sx={{ m: '10px' }} />
+                    </Grid>
+                  </Grid>
                 ))}
               </>
             )}
           </>
         )}
       </Box>
-    </Box>
+    </Box >
   );
 }
 

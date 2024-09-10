@@ -4,7 +4,7 @@ import { Grid, Paper, Typography, styled } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 import {
   getDateFormatted,
-  getMonthYearFormatted
+  getHomeworkDateFormatted
 } from 'src/components/Common/Util';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -19,8 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
 const MonthSelector = ({ DefaultDate, ClickDate }) => {
   const classes = Styles();
   const ClickLeftRight = (value) => {
-    const newDate = new Date(DefaultDate);
-    newDate.setMonth(newDate.getMonth() + value);
+    const newDate = new Date(DefaultDate) + value;
+    // newDate.setMonth(newDate.getMonth() + value);
     ClickDate(getDateFormatted(newDate));
   };
   return (
@@ -36,7 +36,7 @@ const MonthSelector = ({ DefaultDate, ClickDate }) => {
             <Item sx={{ p: 1.3, background: '' }} className={classes.date}>
               {' '}
               <Typography sx={{ fontWeight: 'bold' }}>
-                {getMonthYearFormatted(DefaultDate)}
+                {getHomeworkDateFormatted(DefaultDate)}
               </Typography>
             </Item>
             <div

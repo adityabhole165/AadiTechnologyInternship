@@ -1,47 +1,53 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
-import { Calendar } from 'react-multi-date-picker';
+import { Box, Grid } from '@mui/material';
+import { useState } from 'react';
+import MonthSelector from 'src/libraries/DateSelector/MonthSelector';
+import Header from './Header';
 function CardDashContainer2() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [assignedYear, setAssignedYear] = useState<any>();
+  const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
+
+  function setCurrentDate(newDate?: Date) {
+    const date = newDate || new Date();
+    const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
+
+    const Month_num = new Date(date).getMonth();
+
+    const Year = new Date(date).getFullYear();
+    const NewDateFormat = `${Month} ${Year}`;
+
+    setAssignedYear(Year);
+    SetassignedMonth_num(Month_num + 1);
+  }
+  const ClickDate = (value) => {
+    setSelectedDate(value)
+  }
   return (
-      <Box sx={{ height: 'auto', width:'auto', backgroundColor:'white', p:1 }}>
-      <Grid item xs={12} sx={{ backgroundColor:'#38548A',  borderRadius:'10px' }}>
-        <Typography variant="h3" p={0.8} mb={2} sx={{ color: 'white' }}>
-          Upcoming Event
-        </Typography>
+    <Box sx={{ height: 'auto', width: 'auto', backgroundColor: 'white', p: 1 }}>
+      <Header Title="Upcoming Event" />
+      <Grid container spacing={1} >
+        <Grid item sm={6} md={12}>
+          <Box
+            justifyContent={'center'}
+            px={4.5}>
+            <MonthSelector
+              DefaultDate={selectedDate}
+              ClickDate={ClickDate} />
+          </Box>
         </Grid>
-        <Grid container spacing={1} >
-          <Grid item sm={6} md={12}>
-            <Box
-              sx={{ width: '800px', mr: '0px' }}
-              justifyContent={'center'}
-              px={4.5}>
-              <Calendar />
-            </Box>
+        <Grid container>
+          <Grid xs={4} sx={{
+            backgroundColor: '#4db6ac', color: 'black', height: '3rem'
+          }}>
+            < b > School Event</b>
+          </Grid><Grid xs={4} sx={{ backgroundColor: '#64b5f6', color: 'black' }}>
+            <b> Holiday</b>
+          </Grid><Grid xs={4} sx={{ backgroundColor: 'orange', color: 'black' }}>
+            <b> Exam</b>
           </Grid>
-          <Grid item sm={6} md={12}>
-            <Card>
-              <Card
-                component={Box}
-                m={1.7}
-                p={1}
-                sx={{ backgroundColor: '#4db6ac', color:'black' }}
-              >
-               <b> School Event</b>
-              </Card>
-              <Card
-                component={Box}
-                m={1.7}
-                p={1}
-                sx={{ backgroundColor: '#64b5f6', color:'black' }}
-              >
-               <b> Holiday</b>
-              </Card>
-            </Card>
-          </Grid>
-        
         </Grid>
-        </Box>
-      
-    
+      </Grid >
+    </Box >
   );
 }
 

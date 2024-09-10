@@ -1,14 +1,11 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import {
   Avatar,
   Box,
-  Card,
   CircularProgress,
   Divider,
   FormGroup,
   Grid,
-  IconButton,
   Stack,
   Tooltip,
   Typography
@@ -17,10 +14,12 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useNavigate } from 'react-router';
 import { IUnreadMessages } from "src/interfaces/Student/dashboard";
 import { getUnreadMessages } from "src/requests/Dashboard/Dashboard";
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import Actions from './Actions';
+import Header from './Header';
 
 const UnreadMessage = () => {
   const dispatch = useDispatch()
@@ -52,49 +51,30 @@ const UnreadMessage = () => {
     navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox')
   }
   return (
-    <Box sx={{backgroundColor:'white', pt:1}}>
-      <Grid container sx={{ backgroundColor:'#38548A', borderRadius:'10px'}}>
+    <Box sx={{ backgroundColor: 'white', pt: 1 }}>
+      <Grid container sx={{ borderRadius: '10px' }}>
         <Grid item xs={8}>
-          <Typography variant="h3" p={1} sx={{ color: 'white' }}>
-            Unread Messages
-          </Typography>
+          <Grid item xs={12}>
+            <Header Title="Unread Messages" />
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <Box sx={{ display: 'flex' }}>
-            <IconButton sx={{ mt: '5px', ml:12 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '30px',      // Circle diameter
-                  height: '30px',     // Circle diameter
-                  borderRadius: '50%', // Makes the Box a circle
-                  backgroundColor: 'white', // Secondary background color
-                  color: 'black',      // Text color
-                  fontSize: '0.8rem',
-                }}
-              >
-               <b>{UnreadMessageCount}</b> 
-              </Box>
-            </IconButton>
-          </Box>
+        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+          <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '350px', overflow: 'auto', mt:2 ,}}>
-      {loading ? (
-        <Stack justifyContent="center" alignItems="center">
-          <CircularProgress size={40} disableShrink thickness={4} />
-        </Stack>
-      ) : (
-        <>
-          {UnreadMessage.length == 0 ?
-            "No records found" :
-            UnreadMessage.map((item, i) => {
-              return (<div key={i}>
-                <Box>
-                  <Grid container>
-                    <Grid item xs={12} onClick={() => { clickMessage(item) }}>
+      <Box sx={{ height: '350px', overflow: 'auto', mt: 2, }}>
+        {loading ? (
+          <Stack justifyContent="center" alignItems="center">
+            <CircularProgress size={40} disableShrink thickness={4} />
+          </Stack>
+        ) : (
+          <>
+            {UnreadMessage.length == 0 ?
+              "No records found" :
+              UnreadMessage.map((item, i) => {
+                return (
+                  <Grid container key={i}>
+                    <Grid item xs={2} onClick={() => { clickMessage(item) }}>
                       <Box
                         display={'flex'}
                         justifyContent={'space-between'}
@@ -102,7 +82,7 @@ const UnreadMessage = () => {
                       > {SenderPhoto.map((image, i) => {
                         if (image.Id === item.SenderUserId) {
                           return (
-                            <FormGroup >
+                            <FormGroup key={i}>
                               <Avatar
                                 alt="u"
                                 src={`data:image/png;base64,${image.Photo}`}
@@ -111,47 +91,51 @@ const UnreadMessage = () => {
                           );
                         }
                       })}
-                        <Typography variant="h4" pl={1}>{item.UserName}</Typography>
-                        <Typography variant="body2" >{item.Subject}</Typography>
                       </Box>
-                      <Tooltip title={item.Text3} placement="left-start">
-                        <Box sx={{ display: 'flex'}}>
-                          <AccessTimeIcon
-                            sx={{ mr: '10px', color: '#64b5f6', ml:7 }}
-                            fontSize="medium"
-                            
-                          />
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis',
-                              width: '300px',
-                            }}
-                          >
-                            {item.Date}
-                          </Typography>
-                        </Box>
+                    </Grid><Grid item xs={10}>
+                      <Grid container>
+                        <Grid item xs={7}>
+                          <Typography variant="h4" p={0.5}  >{item.UserName}</Typography>
+                        </Grid>
+                        <Grid item xs={5}>
+                          <AccessTimeIcon sx={{ mr: '5px', color: '#64b5f6' }} fontSize="small" />
+                          {item.Date}
+                        </Grid>
+                      </Grid>
+                      <Tooltip title={item.Subject} >
+                        <Typography
+                          variant="body2"
+                          px={1}
+                          sx={{
+                            overflow: 'hidden',
+                            whiteSpace: 'normal',
+                            textOverflow: 'ellipsis',
+                            maxHeight: '6.25rem',
+                            // lineHeight: '1.25rem',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 1,
+                            WebkitBoxOrient: 'vertical',
+                            position: 'relative',
+                          }}
+                        >{item.Subject}</Typography>
                       </Tooltip>
+
+                    </Grid><Grid item xs={9}>
+                      <Divider variant="middle" sx={{ m: '15px' }} />
                     </Grid>
                   </Grid>
-                  <Divider variant="middle" sx={{ m: '5px' }} />
-                </Box>
-
-              </div>)
-            })
-          }
-        </>
-      )}
-    
+                )
+              })
+            }
+          </>
+        )}
       </Box>
       <Grid container py={1.5} >
         <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
-        <Typography variant="h4"> <b>See all messages</b></Typography>
+          <Typography variant="h4"> <b>See all messages</b></Typography>
         </Grid>
         <Grid item xs={5}>
-        <ArrowCircleRightIcon />
+          <ArrowCircleRightIcon />
         </Grid>
       </Grid>
     </Box>

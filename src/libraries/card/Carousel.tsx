@@ -1,10 +1,14 @@
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
-import { Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { RootState } from 'src/store';
 import Carouselcard from './Carouselcard';
 const Carousel = ({ itemlist, IsPath = false }) => {
   const [index, setIndex] = useState(0);
+  const loading = useSelector((state: RootState) => state.Birthdays.Loading);
 
   const arrowClick = (value) => {
     const maxlength = itemlist.length - 1;
@@ -28,17 +32,28 @@ const Carousel = ({ itemlist, IsPath = false }) => {
 
   return (
     <div>
-      <Grid container alignItems="center">
-        <Grid item xs={1}>
-          <ArrowLeft onClick={() => arrowClick(-1)} />
-        </Grid>
-        <Grid item xs={10}>
-          <Carouselcard item={itemlist[index]} IsPath={IsPath} />
-        </Grid>
-        <Grid item xs={1}>
-          <ArrowRight onClick={() => arrowClick(1)} />
-        </Grid>
-      </Grid>
+      <Box sx={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        {loading ? (
+          <SuspenseLoader />
+        ) : itemlist.length !== 0 ? (
+          <Grid container alignItems="center">
+            <Grid item xs={1}>
+              <ArrowLeft onClick={() => arrowClick(-1)} />
+            </Grid>
+            <Grid item xs={10}>
+              <Carouselcard item={itemlist[index]} IsPath={IsPath} />
+            </Grid>
+            <Grid item xs={1}>
+              <ArrowRight onClick={() => arrowClick(1)} />
+            </Grid>
+          </Grid>
+        ) : (
+          <Typography variant="h4" color="textSecondary">
+            No records found.
+          </Typography>
+        )}
+      </Box>
+
     </div>
   );
 };
