@@ -94,10 +94,10 @@ const UnreadMessage = () => {
                       </Box>
                     </Grid><Grid item xs={10}>
                       <Grid container>
-                        <Grid item xs={7}>
+                        <Grid item xs={6}>
                           <Typography variant="h4" p={0.5}  >{item.UserName}</Typography>
                         </Grid>
-                        <Grid item xs={5}>
+                        <Grid item xs={6}>
                           <AccessTimeIcon sx={{ mr: '5px', color: '#64b5f6' }} fontSize="small" />
                           {item.Date}
                         </Grid>
