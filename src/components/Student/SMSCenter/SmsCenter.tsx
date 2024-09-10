@@ -1,185 +1,19 @@
-
-// import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-// import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-// import {
-//   Box,
-//   IconButton,
-//   Tooltip,
-//   Typography
-// } from '@mui/material';
-// import { grey, yellow } from '@mui/material/colors';
-// import { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
-// import CommonPageHeader from 'src/components/CommonPageHeader';
-// import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
-// import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
-// import { RootState } from 'src/store';
-
-// const PageNumber = 1;
-
-// function SmsCenter() {
-//   const [state, setstate] = useState([]);
-//   const [page, setpage] = useState(PageNumber);
-
-//   const dispatch = useDispatch();
-//   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
-//   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
-//   const MobileNumber = useSelector(
-//     (state: RootState) => state.SmsCenter.MobileNumber
-//   );
-//   const Note: string =
-//     'School SMS will be sent to these number(s). To add/update the number, please send the information to Admin Staff via Message Center.';
-
-//   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-//   const asSchoolId = localStorage.getItem('localSchoolId');
-//   const UserId = sessionStorage.getItem('Id');
-//   const RoleId = sessionStorage.getItem('RoleId');
-
-//   const SmsList_body: ISmsList = {
-//     asSchoolId: asSchoolId,
-//     asAcademicYearId: asAcademicYearId,
-//     asUserId: UserId,
-//     asReceiverUserRoleId: RoleId
-//   };
-
-//   const MobileNumber_body: IMobileNumber = {
-//     asSchoolId: asSchoolId,
-//     asAcademicYearId: asAcademicYearId,
-//     asUserId: UserId,
-//     asUserRoleId: RoleId
-//   };
-
-//   useEffect(() => {
-//     localStorage.setItem('url', window.location.pathname);
-//     dispatch(getSmsList(SmsList_body));
-//     dispatch(getMobileNumber(MobileNumber_body));
-//   }, [page]);
-
-//   // const Data = SmsList.map((item, index) => {
-//   //   return {
-//   //     id: index,
-//   //     header: item.Subject,
-//   //     text1: item.RecieverMobileNumber,
-//   //     text2: item.Date,
-//   //     linkPath: '/Student/viewsms/' + item.ID
-//   //   };
-//   // });
-
-//   const Data = [
-//     {
-//       id: 0,
-//       header: 'PPSchl',
-//       text1: 'Welcome to Aadi Technology!',
-//       text2: '2022-01-01',
-//       linkPath: '/extended-sidebar/Student/viewsms/1'
-//     }
-//   ];
-
-//   const scrollToEnd = () => {
-//     setpage(page + 1);
-//   };
-
-//   return (
-//     <Box sx={{ px: 2 }}>
-//       <CommonPageHeader
-//         navLinks={[
-//           {
-//             title: 'Received SMS',
-//             path: '/extended-sidebar/Student/SmsCenter'
-//           }
-//         ]}
-//         rightActions={
-//           <>
-//             <Box>
-//               <Tooltip title={'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'}>
-//                 <IconButton
-//                   sx={{
-//                     color: 'white',
-//                     backgroundColor: yellow[700],
-//                     height: '36px !important',
-//                     ':hover': { backgroundColor: yellow[800] }
-//                   }}
-//                 >
-//                   <PriorityHighIcon />
-//                 </IconButton>
-//               </Tooltip>
-//             </Box>
-//             <Box>
-//               <Tooltip title={`Displays received SMS list.`}>
-//                 <IconButton
-//                   sx={{
-//                     color: 'white',
-//                     backgroundColor: grey[500],
-//                     height: '36px !important',
-//                     ':hover': { backgroundColor: grey[600] }
-//                   }}
-//                 >
-//                   <QuestionMarkIcon />
-//                 </IconButton>
-//               </Tooltip>
-//             </Box>
-//           </>
-//         }
-//       />
-
-//       <Box sx={{ background: 'white', p: 2 }}>
-//         <Typography variant={'h4'}>
-//           Mobile Number(s) : {MobileNumber.replace(';', ', ')}
-//         </Typography>
-//         <Box sx={{ mt: 2 }}>
-//           {loading ? (
-//             <Typography variant="h6">Loading...</Typography>
-//           ) : (
-//             SmsList.length > 0 ? (
-//               SmsList.map((item, index) => (
-//                 <Box key={index} sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.grey[500]}`, borderRadius: (theme) => theme.general.borderRadius }}>
-//                   <Typography variant={"h4"} sx={{ display: 'flex', gap: 1 }}>
-//                     <span style={{ color: grey[500] }}>From: </span> {item.UserName}
-//                   </Typography>
-//                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-//                     <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1 }}>
-//                       <Link to={'/extended-sidebar/Student/viewsms/' + item.ID} style={{ textDecoration: 'none' }}>
-//                         <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
-//                       </Link>
-//                     </Typography>
-//                     <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }} >
-//                       <span style={{ color: grey[500] }}>Received Date: </span> {item.Date}
-//                     </Typography>
-//                   </Box>
-//                 </Box>
-//               ))
-//             ) : (
-//               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-//                 <b>No record found.</b>
-//               </Typography>
-//             )
-//           )}
-//         </Box>
-//       </Box>
-//     </Box>
-//   );
-// }
-
-// export default SmsCenter;
-
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, yellow } from '@mui/material/colors';
+import { green, grey, yellow } from '@mui/material/colors';
 import format from 'date-fns/format';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
-import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png'
 
-const PageSize = 10;
+const PageSize = 20;
 
 function SmsCenter() {
   const [dateFilter, setDateFilter] = useState<{ startDate: Date | null; endDate: Date | null }>({
@@ -191,22 +25,22 @@ function SmsCenter() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
+  console.log(SmsList, 'SmsList')
   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
   const MobileNumber = useSelector((state: RootState) => state.SmsCenter.MobileNumber);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const rowsPerPageOptions = [20, 50, 100, 200];
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
+
+  const filteredList = SmsList.filter((item) => item.TotalRecords !== undefined);
+  const TotalRecords = filteredList.map((item) => item.TotalRecords);
+  const uniqueTotalCount = [...new Set(TotalRecords)];
+  const singleTotalCount = uniqueTotalCount[0];
 
   useEffect(() => {
-    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const asSchoolId = localStorage.getItem('localSchoolId');
-    const UserId = sessionStorage.getItem('Id');
-    const RoleId = sessionStorage.getItem('RoleId');
-
-    const SmsList_body: ISmsList = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: UserId,
-      asReceiverUserRoleId: RoleId,
-    };
-
     const MobileNumber_body: IMobileNumber = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
@@ -215,11 +49,20 @@ function SmsCenter() {
     };
 
     localStorage.setItem('url', window.location.pathname);
-    dispatch(getSmsList(SmsList_body));
     dispatch(getMobileNumber(MobileNumber_body));
-  }, [dispatch, page]);
+  }, [page, rowsPerPage]);
 
-  // Handle sorting and filtering based on date
+  useEffect(() => {
+    const SmsList_body: ISmsList = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: UserId,
+      asReceiverUserRoleId: RoleId,
+      asPageIndex: page
+    };
+    dispatch(getSmsList(SmsList_body));
+  }, [page, rowsPerPage]);
+
   const sortedAndFilteredSmsList = SmsList
     .filter(item => {
       if (!dateFilter.startDate && !dateFilter.endDate) return true;
@@ -237,6 +80,17 @@ function SmsCenter() {
   const handleEndDateChange = (date: Date | null) => {
     setDateFilter(prevState => ({ ...prevState, endDate: date }));
   };
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 20));
+    setPage(1); // Reset to the first page when changing rows per page
+  };
+
+  const startRecord = (page - 1) * rowsPerPage + 1;
+  const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
+  const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
   const handleFilterClick = () => {
     setFiltered(!filtered); // Toggle the filtered state
@@ -246,9 +100,6 @@ function SmsCenter() {
 
   const displayList = filtered ? sortedAndFilteredSmsList.slice(0, page * PageSize) : SmsList.slice(0, page * PageSize); // Implement pagination
 
-  const handleLoadMore = () => {
-    setPage(prevPage => prevPage + 1);
-  };
 
   return (
     <Box sx={{ px: 2 }}>
@@ -306,7 +157,7 @@ function SmsCenter() {
                 >
                   {/* <FilterListIcon /> */}
                   {/* {sortDirection === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} */}
-                  <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24}style={{ filter: 'brightness(0) invert(1)' }} />
+                  <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24} style={{ filter: 'brightness(0) invert(1)' }} />
                 </IconButton>
 
               </Tooltip>
@@ -317,6 +168,18 @@ function SmsCenter() {
 
       <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={'h4'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+        {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+            <Box component="span" fontWeight="fontWeightBold">
+              {startRecord} to {endRecord}
+            </Box>
+            {' '}out of{' '}
+            <Box component="span" fontWeight="fontWeightBold">
+              {singleTotalCount}
+            </Box>{' '}
+            {singleTotalCount === 1 ? 'record' : 'records'}
+          </Typography>
+        </div> : <span> </span>}
         <Box sx={{ mt: 2 }}>
           {loading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -364,219 +227,24 @@ function SmsCenter() {
             </Typography>
           )}
         </Box>
-        {/* {displayList.length > 0 && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button variant="contained" onClick={handleLoadMore}>
-              Load More
-            </Button>
-          </Box>
-        )} */}
+        {
+          endRecord > 19 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
+
+          ) : (
+            <span></span>
+
+          )
+        }
       </Box>
     </Box>
   );
 }
 
 export default SmsCenter;
-
-////3rd icon upward downward
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-// import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-// import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-// import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-// import { Box, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material';
-// import { blue, grey, yellow } from '@mui/material/colors';
-// import format from 'date-fns/format';
-// import { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
-// import CommonPageHeader from 'src/components/CommonPageHeader';
-// import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
-// import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
-// import { RootState } from 'src/store';
-
-// const PageSize = 10;
-
-// function SmsCenter() {
-//   const [dateFilter, setDateFilter] = useState<{ startDate: Date | null; endDate: Date | null }>({
-//     startDate: null,
-//     endDate: null,
-//   });
-//   const [page, setPage] = useState(1);
-//   const [filtered, setFiltered] = useState(false);
-//   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
-
-//   const dispatch = useDispatch();
-//   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
-//   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
-//   const MobileNumber = useSelector((state: RootState) => state.SmsCenter.MobileNumber);
-
-//   useEffect(() => {
-//     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-//     const asSchoolId = localStorage.getItem('localSchoolId');
-//     const UserId = sessionStorage.getItem('Id');
-//     const RoleId = sessionStorage.getItem('RoleId');
-
-//     const SmsList_body: ISmsList = {
-//       asSchoolId: asSchoolId,
-//       asAcademicYearId: asAcademicYearId,
-//       asUserId: UserId,
-//       asReceiverUserRoleId: RoleId,
-//     };
-
-//     const MobileNumber_body: IMobileNumber = {
-//       asSchoolId: asSchoolId,
-//       asAcademicYearId: asAcademicYearId,
-//       asUserId: UserId,
-//       asUserRoleId: RoleId,
-//     };
-
-//     localStorage.setItem('url', window.location.pathname);
-//     dispatch(getSmsList(SmsList_body));
-//     dispatch(getMobileNumber(MobileNumber_body));
-//   }, [dispatch, page]);
-
-//   const sortedAndFilteredSmsList = SmsList
-//     .filter(item => {
-//       if (!dateFilter.startDate && !dateFilter.endDate) return true;
-//       const itemDate = new Date(item.Date);
-//       if (dateFilter.startDate && !dateFilter.endDate) return itemDate >= dateFilter.startDate;
-//       if (!dateFilter.startDate && dateFilter.endDate) return itemDate <= dateFilter.endDate;
-//       return itemDate >= dateFilter.startDate && itemDate <= dateFilter.endDate;
-//     })
-//     .sort((a, b) => {
-//       const dateA = new Date(a.Date).getTime();
-//       const dateB = new Date(b.Date).getTime();
-//       return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-//     });
-
-//   const handleFilterClick = () => {
-//     setFiltered(!filtered);
-//     setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc')); // Toggle sort direction
-//   };
-
-//   const displayList = filtered ? sortedAndFilteredSmsList.slice(0, page * PageSize) : SmsList.slice(0, page * PageSize);
-
-//   return (
-//     <Box sx={{ px: 2 }}>
-//       <CommonPageHeader
-//         navLinks={[
-//           {
-//             title: 'Received SMS',
-//             path: '/extended-sidebar/Student/SmsCenter',
-//           },
-//         ]}
-//         rightActions={
-//           <>
-//             <Box>
-//               <Tooltip
-//                 title={
-//                   'School SMS will be sent to below listed number(s). To add/update the number, please send the information to admin staff via message center.'
-//                 }
-//               >
-//                 <IconButton
-//                   sx={{
-//                     color: 'white',
-//                     backgroundColor: yellow[700],
-//                     height: '36px !important',
-//                     ':hover': { backgroundColor: yellow[800] },
-//                   }}
-//                 >
-//                   <PriorityHighIcon />
-//                 </IconButton>
-//               </Tooltip>
-//             </Box>
-//             <Box>
-//               <Tooltip title={`Displays received SMS list.`}>
-//                 <IconButton
-//                   sx={{
-//                     color: 'white',
-//                     backgroundColor: grey[500],
-//                     height: '36px !important',
-//                     ':hover': { backgroundColor: grey[600] },
-//                   }}
-//                 >
-//                   <QuestionMarkIcon />
-//                 </IconButton>
-//               </Tooltip>
-//             </Box>
-//             <Box>
-//               <Tooltip title={`Sorting SMS List`}>
-//                 <IconButton
-//                   sx={{
-//                     color: 'white',
-//                     backgroundColor: blue[500],
-//                     height: '36px !important',
-//                     ':hover': { backgroundColor: blue[600] },
-//                   }}
-//                   onClick={handleFilterClick}
-//                 >
-//                   {sortDirection === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-//                 </IconButton>
-//               </Tooltip>
-//             </Box>
-//           </>
-//         }
-//       />
-
-//       <Box sx={{ background: 'white', p: 2 }}>
-//         <Typography variant={'h4'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
-//         <Box sx={{ mt: 2 }}>
-//           {loading ? (
-//             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-//               <CircularProgress />
-//             </Box>
-//           ) : displayList.length > 0 ? (
-//             displayList.map((item, index) => (
-//               <Box
-//                 key={index}
-//                 sx={{
-//                   p: 1,
-//                   border: (theme) => `1px solid ${theme.palette.grey[500]}`,
-//                   borderRadius: (theme) => theme.general.borderRadius,
-//                   mb: 2
-//                 }}
-//               >
-//                 <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
-//                   <span style={{ color: grey[500] }}>From: </span> {item.UserName}
-//                 </Typography>
-//                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-//                   <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
-//                     <Link to={`/extended-sidebar/Student/viewsms/${item.ID}`} style={{ textDecoration: 'none' }}>
-//                       <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
-//                     </Link>
-//                   </Typography>
-//                   <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }}>
-//                     <span style={{ color: grey[500] }}>Received Date: </span> {format(new Date(item.Date), 'dd MMM yyyy hh:mm a')}
-//                   </Typography>
-//                 </Box>
-//               </Box>
-//             ))
-//           ) : (
-//             <Typography
-//               variant="body1"
-//               sx={{
-//                 textAlign: 'center',
-//                 marginTop: 4,
-//                 backgroundColor: '#324b84',
-//                 padding: 1,
-//                 borderRadius: 2,
-//                 color: 'white',
-//               }}
-//             >
-//               <b>No record found.</b>
-//             </Typography>
-//           )}
-//         </Box>
-//         {/* {displayList.length > 0 && (
-//           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-//             <Button variant="contained" onClick={handleLoadMore}>
-//               Load More
-//             </Button>
-//           </Box>
-//         )} */}
-//       </Box>
-//     </Box>
-//   );
-// }
-
-// export default SmsCenter;

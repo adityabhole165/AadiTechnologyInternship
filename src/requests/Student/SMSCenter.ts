@@ -35,24 +35,25 @@ const SmsCenterSlice = createSlice({
 
 export const getSmsList =
   (data: ISmsList): AppThunk =>
-  async (dispatch) => {
-    dispatch(SmsCenterSlice.actions.getLoading(true));
-    const response = await SmsCenterApi.GetSmsCenterList(data);
-    dispatch(SmsCenterSlice.actions.getSmsList(response.data));
-  };
+    async (dispatch) => {
+      dispatch(SmsCenterSlice.actions.getLoading(true));
+      const response = await SmsCenterApi.GetSmsCenterList(data);
+      console.log(response.data, 'response')
+      dispatch(SmsCenterSlice.actions.getSmsList(response.data));
+    };
 
 export const getMobileNumber =
   (data: IMobileNumber): AppThunk =>
-  async (dispatch) => {
-    const response = await SmsCenterApi.GetMobileNumber(data);
-    dispatch(SmsCenterSlice.actions.getMobileNumber(response.data));
-  };
+    async (dispatch) => {
+      const response = await SmsCenterApi.GetMobileNumber(data);
+      dispatch(SmsCenterSlice.actions.getMobileNumber(response.data));
+    };
 
 export const getSmsDetails =
   (data: IViewSms): AppThunk =>
-  async (dispatch) => {
-    const response = await SmsCenterApi.GetSmsDetails(data);
-    dispatch(SmsCenterSlice.actions.getSmsDetails(response.data));
-  };
+    async (dispatch) => {
+      const response = await SmsCenterApi.GetSmsDetails(data);
+      dispatch(SmsCenterSlice.actions.getSmsDetails(response.data));
+    };
 
 export default SmsCenterSlice.reducer;

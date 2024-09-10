@@ -4,6 +4,7 @@ export interface ISmsList {
   asAcademicYearId: string;
   asUserId: string;
   asReceiverUserRoleId: string;
+  asPageIndex: number;
 }
 export interface GetSMSListResult {
   Date: string;
@@ -11,6 +12,12 @@ export interface GetSMSListResult {
   RecieverMobileNumber: string;
   Subject: string;
   UserName: string;
+  UserId : string;
+  SubReadMessageFlagject: string;
+  RecieverDetailsId: string;
+  DisplayText: string;
+  SenderName: string;
+  TotalRecords: string
 }
 
 //Mobile number
