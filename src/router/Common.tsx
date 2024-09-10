@@ -21,9 +21,9 @@ const Support = Loader(
 const ViewSchoolNotice = Loader(
   lazy(() => import('src/components/SchoolNotice/Viewschoolnotice'))
 );
-const ActiveSchoolNotice = Loader(
-  lazy(() => import('src/components/SchoolNotice/ActiveSchoolNotice'))
-);
+// const ActiveSchoolNotice = Loader(
+//   lazy(() => import('src/components/SchoolNotice/ActiveSchoolNotice'))
+// );
 const ChangePassword = Loader(
   lazy(() => import('src/components/ChangePassword/changePassword'))
 );
@@ -120,10 +120,10 @@ const commonRoutes = [
     path: 'ViewSchoolNotice/:ID',
     element: <ViewSchoolNotice />
   },
-  {
-    path: 'ActiveSchoolNotice',
-    element: <ActiveSchoolNotice />
-  },
+  // {
+  //   path: 'ActiveSchoolNotice',
+  //   element: <ActiveSchoolNotice />
+  // },
   // {
   //   path: 'Holidays1',
   //   element: <Holidays1 />
