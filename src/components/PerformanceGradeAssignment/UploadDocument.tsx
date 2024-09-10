@@ -26,6 +26,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     const [fileNameError, setFileNameError] = useState('');
     const [ValidFile, setValidFile] = useState('')
     const [base64URL, setbase64URL] = useState('');
+    const [newFile, setNewFile] = useState(false);
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asFolderName = localStorage.getItem('FolderName');
     const asFinancialYearId = sessionStorage.getItem('FinancialYearId');
@@ -175,6 +176,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         if (USSaveInvestmentDocument != '') {
             toast.success(USSaveInvestmentDocument);
             dispatch(resetSaveInvestmentMessage());
+            setNewFile(true);
             // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
             dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
             RefreshList()
@@ -248,7 +250,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     }
     const handleDialogClose = () => {
         ResetForm();
-        handleClose();
+        handleClose(newFile);
     }
     const handleUploadControl = () => {
         let flag = true;

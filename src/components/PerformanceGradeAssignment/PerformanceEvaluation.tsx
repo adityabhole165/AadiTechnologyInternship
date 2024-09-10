@@ -452,9 +452,9 @@ const PerformanceEvaluation = () => {
                                             disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
                                             sx={{
                                                 color: 'white',
-                                                backgroundColor: blue[500],
+                                                backgroundColor: green[500],
                                                 '&:hover': {
-                                                    backgroundColor: blue[600],
+                                                    backgroundColor: green[600],
                                                 },
                                             }}
                                             onClick={submitEval}
@@ -661,8 +661,7 @@ const PerformanceEvaluation = () => {
                                                         isSelfUser() ? setClassTaught(e.target.value) : '';
                                                     }}
                                                     size="small"
-                                                    inputProps={{ maxLength: 100 }}
-                                                    disabled={isSelfUser() ? false : true}
+                                                    inputProps={{ maxLength: 100, readOnly: isSelfUser() ? false : true, }}
                                                     sx={{ height: "2vh", minWidth: "76vw" }}
                                                 />
                                                 <span style={{ color: 'red' }}> *</span>
@@ -688,10 +687,9 @@ const PerformanceEvaluation = () => {
                                                     onChange={(e) => {
                                                         isSelfUser() ? setTeachingSub(e.target.value) : '';
                                                     }}
-                                                    inputProps={{ maxLength: 100 }}
+                                                    inputProps={{ maxLength: 100, readOnly: isSelfUser() ? false : true, }}
                                                     variant="outlined"
                                                     size="small"
-                                                    disabled={isSelfUser() ? false : true}
                                                     sx={{ height: "2vh", minWidth: "76vw" }}
                                                 />
                                                 <span style={{ color: 'red' }}> *</span>
@@ -1005,9 +1003,12 @@ const PerformanceEvaluation = () => {
             {/* const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose, RefreshList }) => { */}
             <UploadDocument Id={userId} ReportingUserId={uploadDocUserId} yearId={asYear}
                 saveButton={listEnableRejectButtonDetails[0]?.Text3}
-                open={uploadDoc} handleClose={() => {
+                open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
-                    dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
+                    if (newFile) {
+                        console.log('NewFile ->', newFile)
+                        dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
+                    }
                     setHoveredRow(null);
                 }} RefreshList={() => { }} />
         </>
