@@ -436,22 +436,35 @@ const StudentwiseprogressreportEdit = () => {
                             size={"small"}
 
                         />
-                        <Tooltip title={'Save'}>
+                        <Tooltip title={'Assign,publish student grades and view students progress report.'}>
                             <IconButton
-                                onClick={clicksave}
                                 sx={{
                                     color: 'white',
-                                    backgroundColor: green[500],
+                                    backgroundColor: grey[500],
+
                                     height: '36px !important',
-                                    ':hover': { backgroundColor: green[600] },
+                                    ':hover': { backgroundColor: grey[600] }
                                 }}
-                                disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
                             >
-                                <Save />
+                                <QuestionMarkIcon />
                             </IconButton>
                         </Tooltip>
 
-                     
+                        <Tooltip title={'View Progress Report'}>
+                            <IconButton
+                                sx={{
+                                    color: 'white',
+                                    backgroundColor: blue[500],
+                                    '&:hover': {
+                                        backgroundColor: blue[600]
+                                    }
+                                }}
+                                disabled={StudentWiseAssessmentPublishStatus == "N" && filteredOutcomes[0] == true}
+
+                                onClick={ClickShow}>
+                                <FactCheck />
+                            </IconButton>
+                        </Tooltip>
 
 
                         {
@@ -498,35 +511,23 @@ const StudentwiseprogressreportEdit = () => {
 
 
 
-                        <Tooltip title={'Show'}>
+                        
+
+
+
+                        
+                        <Tooltip title={'Save'}>
                             <IconButton
+                                onClick={clicksave}
                                 sx={{
                                     color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
-                                disabled={StudentWiseAssessmentPublishStatus == "N" && filteredOutcomes[0] == true}
-
-                                onClick={ClickShow}>
-                                <FactCheck />
-                            </IconButton>
-                        </Tooltip>
-
-
-
-                        <Tooltip title={'Assign,publish student grades and view students progress report.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-
+                                    backgroundColor: green[500],
                                     height: '36px !important',
-                                    ':hover': { backgroundColor: grey[600] }
+                                    ':hover': { backgroundColor: green[600] },
                                 }}
+                                disabled={AssessmentPublishStatus == "Y" || StudentWiseAssessmentPublishStatus == "Y"}
                             >
-                                <QuestionMarkIcon />
+                                <Save />
                             </IconButton>
                         </Tooltip>
                     </>}
