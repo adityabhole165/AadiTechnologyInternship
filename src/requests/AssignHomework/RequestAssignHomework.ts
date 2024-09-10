@@ -48,12 +48,13 @@ export const TeacherNameList =
   (data: ITeacherDropdownBody): AppThunk =>
     async (dispatch) => {
       const response = await TeacherDropdownApi.TeacherDropdown(data);
-      let abc = response.data.map((item, i) => {
-        return {
+      let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
+      response.data.map((item, i) => {
+        abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
           Value: item.Teacher_Id
-        };
+        });
       });
       dispatch(AssignHomeworkSlice.actions.TeacherNameList(abc));
     };
@@ -61,15 +62,16 @@ export const ClassName =
   (data: IClassDropDownBody): AppThunk =>
     async (dispatch) => {
       const response = await TeacherDropdownApi.ClassDropdown(data);
-      let abc = response.data.map((item, i) => {
-        return {
+      let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
+      response.data.map((item, i) => {
+        abc.push({
           Id: item.Standard_Division_Id,
           Name: item.StandardDivision,
           Value: item.Standard_Division_Id
-        };
+        });
       });
 
-      abc = abc.slice(1);
+      // abc = abc.slice(1);
 
       dispatch(AssignHomeworkSlice.actions.ClassName(abc));
     };

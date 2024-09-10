@@ -1,4 +1,4 @@
-import AddTwoTone from '@mui/icons-material/AddTwoTone';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import {
@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -29,7 +29,6 @@ import {
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import AddTaskIcon from '@mui/icons-material/AddTask';
 
 const AssignHomework = () => {
   const dispatch = useDispatch();
@@ -52,7 +51,7 @@ const AssignHomework = () => {
   );
 
   console.log(SelectClass);
-  
+
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
@@ -103,7 +102,7 @@ const AssignHomework = () => {
   }, []);
 
   useEffect(() => {
-    if (GetScreenPermission() !== 'Y' && TeacherList.length > 0) {
+    if (GetScreenPermission() == 'Y' && TeacherList.length > 0) {
       setSelectTeacher(TeacherList[0].Value);
     }
   }, [TeacherList]);
@@ -125,7 +124,7 @@ const AssignHomework = () => {
 
   useEffect(() => {
 
-    if (GetScreenPermission() !== 'Y' && ClassList.length > 0) {
+    if (ClassList.length > 0) {
       setSelectClass(ClassList[0].Id);
     }
   }, [ClassList]);
@@ -214,7 +213,7 @@ const AssignHomework = () => {
       '/' +
       value.SubjectId +
       '/' +
-      MySubject+
+      MySubject +
       '/' +
       SelectClass
 
@@ -247,7 +246,7 @@ const AssignHomework = () => {
         ]}
         rightActions={<>
           <SearchableDropdown
-            sx={{ minWidth: '25vw',  bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit' }}
+            sx={{ minWidth: '25vw', bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit' }}
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
             label={'Select Teacher'}
@@ -296,7 +295,7 @@ const AssignHomework = () => {
                     }}
                   >
                     <AddTaskIcon />
-                    
+
                   </IconButton>
                 </Tooltip>
               </div>
