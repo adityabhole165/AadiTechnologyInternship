@@ -121,7 +121,7 @@ const commonRoutes = [
     element: <ViewSchoolNotice />
   },
   {
-    path: 'ActiveSchoolNotice/:ID',
+    path: 'ActiveSchoolNotice',
     element: <ActiveSchoolNotice />
   },
   // {
