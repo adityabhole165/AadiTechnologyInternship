@@ -14,16 +14,18 @@ import PhotoCardDash from 'src/librariesWeb/PhotoCardDash';
 import PieChart from 'src/librariesWeb/PieChart';
 import Profile from 'src/librariesWeb/Profile';
 import UnreadMessage from 'src/librariesWeb/UnreadMessage';
+import UpcomingEvent from 'src/librariesWeb/UpcomingEvent';
 // ... other imports
 
 function DashBoard() {
   const initialTiles = [
     { id: 'profile', label: 'Profile', SortOrder: 1 },
-    { id: 'unreadMessages', label: 'Unread Messages', SortOrder: 2 },
-    { id: 'attendance', label: 'Attendance', SortOrder: 3 },
+    { id: 'attendance', label: 'Attendance', SortOrder: 2 },
+    { id: 'unreadMessages', label: 'Unread Messages', SortOrder: 3 },
     { id: 'birthday', label: 'Birthday Dashboard', SortOrder: 4 },
     { id: 'photoCardDash', label: 'Photo Card Dashboard', SortOrder: 5 },
     { id: 'feedbackCard', label: 'Feedback Card', SortOrder: 6 },
+    { id: 'upcomingEvent', label: 'Upcoming Events', SortOrder: 7 },
   ];
 
   const getComponent = (id: string) => {
@@ -40,10 +42,13 @@ function DashBoard() {
         return <FeedBackCard />;
       case 'attendance':
         return <PieChart />;
+      case 'upcomingEvent': // Fix here - lowercase 'u'
+        return <UpcomingEvent />;
       default:
         return null;
     }
   };
+
 
   const [SchoolNoticeDialog, setSchoolNoticeDialog] = useState(false);
   const [tiles, setTiles] = useState(initialTiles);
