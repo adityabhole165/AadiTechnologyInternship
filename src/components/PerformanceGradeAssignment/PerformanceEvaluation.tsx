@@ -902,28 +902,43 @@ const PerformanceEvaluation = () => {
                                                                                             paddingTop: '5px',
                                                                                             paddingBottom: '5px',
                                                                                             border: '1px solid rgba(224, 224, 224, 1)',
+
                                                                                         }}></TableCell>
                                                                                         <TableCell sx={{
                                                                                             paddingTop: '5px',
                                                                                             paddingBottom: '5px',
                                                                                             border: '1px solid rgba(224, 224, 224, 1)',
+
                                                                                         }}>
                                                                                             {getFinalApproverName(item3.Text5)}
                                                                                         </TableCell>
-                                                                                        <TableCell sx={{
-                                                                                            paddingTop: '5px',
-                                                                                            paddingBottom: '5px',
-                                                                                            border: '1px solid rgba(224, 224, 224, 1)',
-                                                                                        }}>
+                                                                                        <TableCell
+                                                                                            sx={{
+                                                                                                padding: item.Text7 === '2' && isSelfUserBody(item3.Text5) ? '0' : '5px',
+                                                                                                border: '1px solid rgba(224, 224, 224, 1)',
+                                                                                                height: '100%', // Ensure the cell takes full height
+                                                                                            }}
+                                                                                        >
                                                                                             {item.Text7 === '2' && isSelfUserBody(item3.Text5) ? (
                                                                                                 <textarea
-                                                                                                    style={{ backgroundColor: 'white', width: '100%', resize: 'vertical', marginTop: '-5px', marginBottom: '-12px' }}
-                                                                                                    value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`])?.observation ?? ''}
                                                                                                     rows={3}
+                                                                                                    style={{
+                                                                                                        width: '100%',
+                                                                                                        height: '100%',
+                                                                                                        resize: 'vertical',
+                                                                                                        backgroundColor: 'white',
+                                                                                                        margin: 0,
+                                                                                                        padding: '5px',
+                                                                                                        border: '0.5px solid #f4f4f5',
+                                                                                                        boxSizing: 'border-box',
+                                                                                                        display: 'block', // Ensures the textarea behaves as a block element
+                                                                                                    }}
+                                                                                                    value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`])?.observation ?? ''}
                                                                                                     onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`, e.target.value) }}
                                                                                                     disabled={isNotEditable()}
-                                                                                                ></textarea>
+                                                                                                />
                                                                                             ) : item.Text7 === '2' && `${item3.Text4}`}
+
                                                                                             {item.Text7 === '3' && isSelfUserBody(item3.Text5) ? (
                                                                                                 <SearchableDropdown1
                                                                                                     defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`])?.gradeId ?? ''}
@@ -935,6 +950,7 @@ const PerformanceEvaluation = () => {
                                                                                                 />
                                                                                             ) : item.Text7 === '3' && getGradeName(item3.Text3)}
                                                                                         </TableCell>
+
                                                                                     </TableRow>
                                                                                 }
                                                                             </>
