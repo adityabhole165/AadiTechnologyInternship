@@ -37,21 +37,22 @@ const SliceSchoolNoticeBoard = createSlice({
 
 export const getSchoolNoticeBoard =
   (data: IGetNoticeBoardDetailsBody): AppThunk =>
-  async (dispatch) => {
-    dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
-    const response = await SchoolNoticeApi.GetNoticeBoardList(data);
-    dispatch(
-      SliceSchoolNoticeBoard.actions.getSchoolNoticeBoard(response.data)
-    );
-  };
+    async (dispatch) => {
+      dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
+      const response = await SchoolNoticeApi.GetNoticeBoardList(data);
+      dispatch(
+        SliceSchoolNoticeBoard.actions.getSchoolNoticeBoard(response.data)
+      );
+    };
 
 export const getAllActiveNotices =
   (data: IGetAllActiveNoticesBody): AppThunk =>
-  async (dispatch) => {
-    // dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
-    const response = await SchoolNoticeApi.GetAllActiveNotices(data);
-    dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
-  };
+    async (dispatch) => {
+      dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
+      const response = await SchoolNoticeApi.GetAllActiveNotices(data);
+      console.log(response.data, "Activenotices")
+      dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
+    };
 
 export const getAllNoticeRecet = (): AppThunk => async (dispatch) => {
   dispatch(SliceSchoolNoticeBoard.actions.getAllNoticeRecet());

@@ -23,4 +23,5 @@ export interface IGetAllActiveNoticesResult {
   IsText: string;
   Content: string;
   IsImageNotice: boolean;
+  DisplayLocation: string;
 }
