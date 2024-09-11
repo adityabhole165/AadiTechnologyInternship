@@ -139,14 +139,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Common/AnnualPlanner'
     },
     {
+      title: 'Assign Exam Marks',
+      icon: <RuleIcon />,
+      link: '/extended-sidebar/Teacher/AssignExamMark'
+    },
+    {
       title: 'Assign Homework',
       icon: <AutoStoriesTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignHomework'
-    },
-    {
-      title: 'Weekly Timetable',
-      icon: <TableChartOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/WeeklyTimetable'
     },
     {
       title: 'Attendance',
@@ -154,15 +154,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/TAttendance'
     },
     {
-      title: 'Assign Exam Marks',
-      icon: <RuleIcon />,
-      link: '/extended-sidebar/Teacher/AssignExamMark'
-    },
-    {
       title: 'Change Password',
       icon: <LockResetTwoToneIcon />,
       link: '/extended-sidebar/common/changePassword'
-    },
+    }, 
     {
       title: 'Exam Result',
       icon: <TableChart />,
@@ -177,7 +172,17 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Final Result',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult'
+    }, 
+    {
+      title: 'Holidays',
+      icon: <DateRangeOutlinedIcon />,
+      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
     },
+    {
+      title: 'Message Center',
+      icon: <ForwardToInboxTwoToneIcon />,
+      link: '/extended-sidebar/MessageCenter/msgCenter'
+    },  
     {
       title: 'Progress Remarks',
       icon: <InsertCommentTwoToneIcon />,
@@ -194,21 +199,31 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <AddShoppingCartTwoToneIcon />,
       link: '/extended-sidebar/Teacher/Requisition'
     },
-
     {
-      title: 'Lesson Plan',
-      icon: <HistoryEduTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
+      title: 'SMS Center',
+      icon: <SmsTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/SmsCenter'
     },
+    {
+      title: 'Timetable',
+      icon: <AccessTimeIcon />,
+      link: '/extended-sidebar/Teacher/TeacherTimeTable'
+    },
+    {
+      title: 'Weekly Timetable',
+      icon: <TableChartOutlinedIcon />,
+      link: '/extended-sidebar/Teacher/WeeklyTimetable'
+    },
+   
     {
       title: 'Add Aadhar Card Details',
       icon: <AddCardTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AadharCard'
     },
     {
-      title: 'Holidays',
-      icon: <DateRangeOutlinedIcon />,
-      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
+      title: 'Investment Declaration',
+      icon: <AssuredWorkloadTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/InvestmentDeclaration'
     },
     {
       title: 'Leave Details',
@@ -216,28 +231,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/LeaveDetails'
     },
     {
-      title: 'SMS Center',
-      icon: <SmsTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/SmsCenter'
-
-    },
-    {
-      title: 'Message Center',
-      icon: <ForwardToInboxTwoToneIcon />,
-      link: '/extended-sidebar/MessageCenter/msgCenter'
-
-    },
-    {
-      title: 'Timetable',
-      icon: <AccessTimeIcon />,
-      link: '/extended-sidebar/Teacher/TeacherTimeTable'
-
-    },
-
-    {
-      title: 'Student Records',
-      icon: <CoPresentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentRecords'
+      title: 'Lesson Plan',
+      icon: <HistoryEduTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
     },
     {
       title: 'Performance Grade Assignment',
@@ -245,9 +241,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen'
     },
     {
-      title: 'Investment Declaration',
-      icon: <AssuredWorkloadTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/InvestmentDeclaration'
+      title: 'Student Records',
+      icon: <CoPresentTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/StudentRecords'
     },
 
   ];
