@@ -59,3 +59,42 @@ export interface IClassTeacherDropdownResult {
   Original_Division_Id: string;
   StandardDivisionId: string;
 }
+export interface ISchoolsettingBody {
+  asSchoolId: number;
+}
+
+export interface IGetSchoolSettingsResult {
+
+  GetSchoolSettingsResult: {
+    AssemblyLectNo: number;
+    AssemblyName: string;
+    AssemblyWeekday: string;
+    BlockProgressReportIfFeesArePending: string;
+    FromMailAddress: string;
+    IsAssemblyApplicable: string;
+    IsMPTApplicable: string;
+    IsStaybackApplicable: string;
+    IsWeeklyTestApplicable: string;
+    MPTLectNo: number;
+    MPTName: string;
+    MPTWeekday: string;
+    ProgressSheetNote: string;
+    SMSProvider: string;
+    SMSSenderUPwd: string;
+    SMSSenderUserName: string;
+    SendMail: string;
+    SendSMS: string;
+    ShowProgressSheetNote: string;
+    AllowProgressReportDownloadAtStudentLogin: string;
+    IsTotalConsiderForProgressReport: string;
+    SiteName: string;
+    StaybackName: string;
+    WeeklyTestLectNo: string;
+    WeeklyTestName: string;
+    WeeklyTestWeekDay: string;
+    EnableHomeworkMySubjectListView: string;
+    EnableAssignExamMarksToAllSubjectOfClass: string;
+    StudentAbsentCount: string;
+    AllowHomewirkDailyLog: string;
+  }
+}

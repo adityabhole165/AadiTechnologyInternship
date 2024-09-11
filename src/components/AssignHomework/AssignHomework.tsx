@@ -15,6 +15,7 @@ import {
   IClassDropDownBody,
   IClassTeacherDropdownBody,
   IGetTeacherSubjectDetailsBody,
+  ISchoolsettingBody,
   ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
@@ -22,6 +23,8 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import {
   ClassName,
   FullTeacherName,
+  GetschoolSettings,
+  ReqschoolSettings,
   SubjectDetails,
   TeacherNameList,
   resetClassName,
@@ -81,6 +84,19 @@ const AssignHomework = () => {
   const FullAccessTeacher: any = useSelector(
     (State: RootState) => State.TeacherNameList.ClassTeacherList
   );
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.TeacherNameList.IsGetSchoolSettings
+  );
+  const schoolSettingsForSubjectlist = useSelector(
+    (state: RootState) => state.TeacherNameList.ISGetSchoolSettingsSubjectL
+  );
+  const SchoolsettingBody: ISchoolsettingBody = {
+    asSchoolId: Number(asSchoolId),
+  };
+  useEffect(() => {
+    dispatch(GetschoolSettings(SchoolsettingBody));
+    dispatch(ReqschoolSettings(SchoolsettingBody));
+  }, []);
 
   useEffect(() => {
     setSubjectDetailList(
@@ -281,7 +297,8 @@ const AssignHomework = () => {
           </Tooltip>
           {SelectClass &&
             ((asStandardDivisionId === SelectClass && GetScreenPermission() === 'Y') ||
-              SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
+              SubjectDetailLists.some((item) => item.Text5 === "Y") && UsschoolSettings === "true")
+            && (
               <div>
                 <Tooltip title={'Manage Daily Log'}>
                   <IconButton
@@ -321,25 +338,26 @@ const AssignHomework = () => {
           )}
         </Box>
 
-
-        <Box mt={2}>
-          <Typography variant={'h4'} mb={1}>
-            My Class Subjects
-          </Typography>
-          {SubjectDetailLists1.length > 0 ? (
-            <Assignhomeworklist
-              ItemList={SubjectDetailLists1}
-              clickAssign={clickItem1}
-              HeaderArray={HeaderOfTable}
-              MySubject={false}
-
-            />
-          ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No record found.</b>
+        {schoolSettingsForSubjectlist == "True" && (
+          <Box mt={2}>
+            <Typography variant={'h4'} mb={1}>
+              My Class Subjects
             </Typography>
-          )}
-        </Box>
+            {SubjectDetailLists1.length > 0 ? (
+              <Assignhomeworklist
+                ItemList={SubjectDetailLists1}
+                clickAssign={clickItem1}
+                HeaderArray={HeaderOfTable}
+                MySubject={false}
+
+              />
+            ) : (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>No record found.</b>
+              </Typography>
+            )}
+          </Box>
+        )}
       </Box>
 
     </Box>

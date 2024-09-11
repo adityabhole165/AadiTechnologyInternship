@@ -4,6 +4,7 @@ import {
   IClassDropDownBody,
   IClassTeacherDropdownBody,
   IGetTeacherSubjectDetailsBody,
+  ISchoolsettingBody,
   ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import { AppThunk } from 'src/store';
@@ -15,7 +16,10 @@ const AssignHomeworkSlice = createSlice({
     ClassList: [],
     SubjectList: [],
     SubjectList1: [],
-    ClassTeacherList: []
+    ClassTeacherList: [],
+    IsGetSchoolSettings: {},
+    ISGetSchoolSettingsSubjectL: {},
+
   },
   reducers: {
     TeacherNameList(state, action) {
@@ -41,7 +45,14 @@ const AssignHomeworkSlice = createSlice({
     },
     FullTeacherName(state, action) {
       state.ClassTeacherList = action.payload;
-    }
+    },
+    getSchoolSettings(state, action) {
+      state.IsGetSchoolSettings = action.payload;
+    },
+    SchoolSettings(state, action) {
+      state.ISGetSchoolSettingsSubjectL = action.payload;
+    },
+
   }
 });
 export const TeacherNameList =
@@ -132,6 +143,24 @@ export const FullTeacherName =
         };
       });
       dispatch(AssignHomeworkSlice.actions.FullTeacherName(abc));
+    };
+
+export const GetschoolSettings =
+  (data: ISchoolsettingBody): AppThunk =>
+    async (dispatch) => {
+      const response = await TeacherDropdownApi.GetSchoolSettings(data)
+
+      dispatch(AssignHomeworkSlice.actions.getSchoolSettings(response.data.GetSchoolSettingsResult.AllowHomewirkDailyLog))
+
+    };
+export const ReqschoolSettings =
+  (data: ISchoolsettingBody): AppThunk =>
+    async (dispatch) => {
+      const response = await TeacherDropdownApi.GetSchoolSettings(data)
+
+      dispatch(AssignHomeworkSlice.actions.SchoolSettings(response.data.GetSchoolSettingsResult.EnableHomeworkMySubjectListView))
+      // dispatch(AssignHomeworkSlice.actions.getSchoolSettings(response.data.GetSchoolSettingsResult.EnableHomeworkMySubjectListView))
+
     };
 
 export default AssignHomeworkSlice.reducer;

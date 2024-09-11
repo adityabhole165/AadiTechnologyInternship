@@ -3,8 +3,10 @@ import {
   IClassDropDownResult,
   IClassTeacherDropdownBody,
   IClassTeacherDropdownResult,
+  IGetSchoolSettingsResult,
   IGetTeacherSubjectDetailsBody,
   IGetTeacherSubjectDetailsResult,
+  ISchoolsettingBody,
   ITeacherDropdownBody,
   ITeacherDropdownResult
 } from 'src/interfaces/AssignHomework/IAssignHomework';
@@ -31,12 +33,17 @@ const fullClassTeacherDropdown = (data: IClassTeacherDropdownBody) => {
     data
   );
 };
+const GetSchoolSettings = (data: ISchoolsettingBody) => {
+  return http.post<IGetSchoolSettingsResult>('School/GetSchoolSettings', data);
+};
+
 
 const TeacherDropdownApi = {
   TeacherDropdown,
   ClassDropdown,
   GetTeacherSubjectDetails,
-  fullClassTeacherDropdown
+  fullClassTeacherDropdown,
+  GetSchoolSettings
 };
 
 export default TeacherDropdownApi;
