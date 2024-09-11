@@ -3,7 +3,7 @@ import { AlertContext } from 'src/contexts/AlertContext';
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, TextareaAutosize, Tooltip, Typography, debounce } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, TextField, Tooltip, Typography, debounce } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -18,11 +18,11 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
 import { CDAresetgethomeworkdetail, GetHomeworkDetails, GetPublishUnpublishHomework, GetTeacherSubjectList, HomeworkDelete, HomeworkSave, PublishUnpublishAllHomework, PublishresetMessageNew, PublishresetMessageNewAll, SubjectListforTeacherDropdown, resetDeleteHomework, resetHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
+import { ResizableTextField } from "../AddSchoolNitice/ResizableDescriptionBox";
 import UploadMultipleDialog from '../AssignHomework/UploadMultipleDialog';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isGreaterOrEqualDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import SelectedsubjectList from './SelectedsubjectList';
-import { ResizableTextField } from "../AddSchoolNitice/ResizableDescriptionBox";
 
 
 const AddHomeworkNew = () => {
@@ -960,7 +960,9 @@ const AddHomeworkNew = () => {
     setDetails('')
     setTitle('')
     setCompleteDate(null)
+    setAssignedDate(new Date().toISOString().split('T')[0])
     setMultipleFiles([])
+    setFileName('')
     dispatch(CDAresetgethomeworkdetail());
   }
 
@@ -1276,8 +1278,8 @@ const AddHomeworkNew = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
-            
-          <Button
+
+            <Button
               color={'error'}
               onClick={handleClose1}
             >
@@ -1416,10 +1418,10 @@ const AddHomeworkNew = () => {
               multiline
               // rows={5}
               type="text"
-               value={textall}
+              value={textall}
               onChange={Detailschnageall}
-              style={{width: '545px', }}
-            />      
+              style={{ width: '545px', }}
+            />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button onClick={() => {
@@ -1488,7 +1490,7 @@ const AddHomeworkNew = () => {
           </Box>
         </Box>
 
-        <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)} 
+        <Dialog open={openPublishDialogall} onClose={() => setOpenPublishDialogall(false)}
           fullWidth
           maxWidth={'sm'}
           PaperProps={{
@@ -1530,9 +1532,9 @@ const AddHomeworkNew = () => {
               multiline
               // rows={5}
               type="text"
-               value={textall}
+              value={textall}
               onChange={Detailschnageall}
-              style={{width: '545px', }}
+              style={{ width: '545px', }}
             />
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
