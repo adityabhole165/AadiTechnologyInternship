@@ -43,7 +43,6 @@ import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPop
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
-import { getNavbarMenuDetails } from 'src/requests/NavBarMenu/requestNavBarMenu';
 import { SchoolNoticePopup } from 'src/requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import SchoolNoticePopupCom from '../SchoolNoticePopup/SchoolNoticePopup';
 import AbsentStudentDetailsPopup from './AbsentStudentDetails/AbsentStudentDetailsPopup';
@@ -155,14 +154,14 @@ function Dashboard() {
     asLoginUserRoleId: Number(RoleId),
   };
   // Code for NavbarMenu / Navigation Menu
-  const IGetMenuDetailsBody = {
-    aiSchoolId: Number(asSchoolId),
-    aiUserRoleId: RoleId
-  };
+  // const IGetMenuDetailsBody = {
+  //   aiSchoolId: Number(asSchoolId),
+  //   aiUserRoleId: RoleId
+  // };
 
-  useEffect(() => {
-    dispatch(getNavbarMenuDetails(IGetMenuDetailsBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getNavbarMenuDetails(IGetMenuDetailsBody));
+  // }, [dispatch]);
 
 
   useEffect(() => {

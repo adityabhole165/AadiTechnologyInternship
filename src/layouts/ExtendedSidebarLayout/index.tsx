@@ -1,6 +1,8 @@
 import { Box, SwipeableDrawer, alpha, lighten, useTheme } from '@mui/material';
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
+import { getNavbarMenuDetails } from 'src/requests/NavBarMenu/requestNavBarMenu';
 import Basenav from '../BaseNavigation/index';
 import Header from './Header';
 import SubHeaderNavBar from './Header/SubHeaderNavBar';
@@ -12,6 +14,12 @@ interface ExtendedSidebarLayoutProps {
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
+  let data = localStorage.getItem('NavbarMenu');
+  useEffect(() => {
+    if (data.length > 0) {
+      console.log('data ⚡', data)
+    }
+  }, [data])
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -22,7 +30,18 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const toggleDrawer = (anchor: Anchor, open: boolean) => {
     setState({ ...state, [anchor]: open });
   };
+  // Code for NavbarMenu / Navigation Menu
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const dispatch = useDispatch();
+  const IGetMenuDetailsBody = {
+    aiSchoolId: Number(asSchoolId),
+    aiUserRoleId: RoleId
+  };
 
+  useEffect(() => {
+    dispatch(getNavbarMenuDetails(IGetMenuDetailsBody));
+  }, [dispatch]);
   return (
     <>
       <Box
@@ -43,12 +62,12 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
             boxShadow:
               theme.palette.mode === 'dark'
                 ? '0 1px 0 ' +
-                  alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
-                  ', 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)'
+                alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
+                ', 0px 2px 4px -3px rgba(0, 0, 0, 0.2), 0px 5px 12px -4px rgba(0, 0, 0, .1)'
                 : '0px 2px 4px -3px ' +
-                  alpha(theme.colors.alpha.black[100], 0.1) +
-                  ', 0px 5px 12px -4px ' +
-                  alpha(theme.colors.alpha.black[100], 0.05)
+                alpha(theme.colors.alpha.black[100], 0.1) +
+                ', 0px 5px 12px -4px ' +
+                alpha(theme.colors.alpha.black[100], 0.05)
           }
         }}
       >
