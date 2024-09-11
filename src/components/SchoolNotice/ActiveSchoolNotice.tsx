@@ -1,9 +1,8 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
-import CardNotice from 'src/libraries/card/CardNotice';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import NoticeCard from 'src/libraries/card/NoticeCard';
 import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -101,7 +100,7 @@ const ActiveSchoolNotice = () => {
     }
     return (
         <Box sx={{ px: 2 }}>
-      <CommonPageHeader
+            <CommonPageHeader
                 navLinks={[
                     {
                         title: 'School Notices',
@@ -112,7 +111,7 @@ const ActiveSchoolNotice = () => {
             {Data1.map((item, index) => {
                 return (
                     <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
-                        <CardNotice
+                        <NoticeCard
                             item={item}
                             downloadNotice={downloadNotice}
                             clickSingle={clickSingle}
