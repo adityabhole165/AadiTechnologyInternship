@@ -1,24 +1,27 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Card, Container, Grid, Hidden, Link, TextField, Typography } from '@mui/material';
+import { Box, Card, Container, Grid, Hidden, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { getMenuDescription, getNavbarMenuDetails } from 'src/requests/NavBarMenu/requestNavBarMenu';
+import { getChildMenuId, getMenuDescription, getNavbarMenuDetails } from 'src/requests/NavBarMenu/requestNavBarMenu';
 import { RootState } from 'src/store';
-import { sitePath } from "../Common/Util";
+// import { getWithoutHTML, sitePath } from "../Common/Util";
+import NavContent from "./NavContent";
 export function getWithoutHTML(value) {
   var div = document.createElement('div');
   div.innerHTML = value;
   var text = div.textContent || div.innerText || '';
   return text;
 };
+
 function NavBarMenus() {
   const dispatch = useDispatch();
 
   const GetNavbarmenu: any = useSelector((state: RootState) => state.NavbarMenu.GetNavbarMenuDetails);
   const MenuDescription: any = useSelector((state: RootState) => state.NavbarMenu.MenuDescription);
+  const ChildMenuId: any = useSelector((state: RootState) => state.NavbarMenu.ChildMenuId);
 
   const RoleId = sessionStorage.getItem('RoleId');
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -30,7 +33,7 @@ function NavBarMenus() {
   const [menuId, setMenuId] = useState(0)
   const [SelectedMenu, setSelectedMenu] = useState({ MenuId: 0, ParentMenuId: 0 })
   const [ParentMenuId, setParentMenuId] = useState(0)
-  const [ChildMenuId, setChildMenuId] = useState(0)
+  // const [ChildMenuId, setChildMenuId] = useState(0)
   const [MenuContent, setMenuContent] = useState('')
   const IGetMenuDetailsBody =
   {
@@ -83,7 +86,7 @@ function NavBarMenus() {
     setShowSearch(false)
 
     setParentMenuId(value.ParentMenuId)
-    setChildMenuId(value.MenuId)
+    dispatch(getChildMenuId(value.MenuId))
     setSelectedMenu(value)
     let Menus = getMenuById(value.MenuId)
     if (Menus?.MenuTypeId == "2") {
@@ -188,27 +191,6 @@ function NavBarMenus() {
     return returnVal
   }
 
-  const IsAttachment = () => {
-    let returnVal = false
-    GetNavbarmenu
-      .filter((item) => { return item.MenuId == ChildMenuId })
-      .map((item, index) => {
-        if (item.FilePath != "" && !item.IsURL)
-          returnVal = true
-      })
-    return returnVal
-  }
-
-  const IsURL = () => {
-    let returnVal = false
-    GetNavbarmenu
-      .filter((item) => { return item.MenuId == ChildMenuId })
-      .map((item, index) => {
-        if (item.FilePath != "" && item.IsURL)
-          returnVal = true
-      })
-    return returnVal
-  }
   return (
     <Container maxWidth={'xl'}>
       <PageHeader heading={'School Menus'} subheading={''} />
@@ -284,55 +266,10 @@ function NavBarMenus() {
               </Grid>
           }
           <br></br>
-          {IsContent() &&
-            (<>
-
-              <Typography variant='h4' sx={{ backgroundColor: 'white', p: 1 }}>Content</Typography>
-
-              {MenuContent != "" &&
-                <Card component={Box} padding={1} mt={1}>
-                  <div dangerouslySetInnerHTML={{
-                    __html: getWithoutHTML(MenuContent)
-                  }}></div>
-                </Card>
-              }
-              {IsFile() &&
-                <Grid item xs={12}>
-                  <Card component={Box} padding={1} mt={1}>
-                    {
-                      GetNavbarmenu
-                        .filter((item) => { return item.MenuId == ChildMenuId })
-                        .map((item, index) => {
-                          return (<>
-                            {(item.FilePath != "" && !item.IsURL) &&
-
-                              (<>
-                                {IsAttachment() &&
-                                  <Typography variant='h6' style={{ fontWeight: 'bold' }}>Attachments:{item.IsURL.toString()}</Typography>
-                                }
-
-                                <Link href={sitePath + item.FilePath} target="_blank">{item.LinkName}</Link><br />{item.IsURL}
-                              </>)
-                            }
-                            {
-                              (item.FilePath != "" && item.IsURL) &&
-
-                              (<>
-                                {IsURL() &&
-                                  <Typography variant='h6' style={{ fontWeight: 'bold' }}>URLs:</Typography>
-                                }
-                                <Link href={item.FilePath} target="_blank">{item.LinkName}</Link><br />{item.IsURL}
-                              </>)
-                            }
-                          </>)
-                        })
-                    }
-                  </Card>
-                </Grid>
-              }
-            </>
-
-            )}
+          {IsContent() && <>
+            <Typography variant='h4' sx={{ backgroundColor: 'white', p: 1 }}>Content</Typography>
+            <NavContent /> </>
+          }
           <br></br>
           <Typography variant='h4' sx={{ backgroundColor: 'white', p: 1 }}>Sub-Menu</Typography>
           {

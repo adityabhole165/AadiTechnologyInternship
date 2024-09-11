@@ -27,7 +27,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
-import { getMenuDescription } from 'src/requests/NavBarMenu/requestNavBarMenu';
+import { getChildMenuId, getMenuDescription } from 'src/requests/NavBarMenu/requestNavBarMenu';
 import { RootState } from 'src/store';
 
 interface MenuItem {
@@ -90,7 +90,6 @@ function SubHeaderNavBar({ toggleDrawer }) {
     return rootItems;
   };
 
-
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>, menuId: number) => {
     setAnchorEl({ ...anchorEl, [menuId]: event.currentTarget });
   };
@@ -98,35 +97,6 @@ function SubHeaderNavBar({ toggleDrawer }) {
   const handleMenuClose = (menuId: number) => {
     setAnchorEl({ ...anchorEl, [menuId]: null });
   };
-  // navigation function | f()
-  // const IsFile = () => {
-  //   let returnVal = false
-  //   GetNavbarmenu
-  //     .filter((item) => { return item.MenuId == ChildMenuId })
-  //     .map((item, index) => {
-  //       if (item.FilePath != "")
-  //         returnVal = true
-  //     })
-  //   return returnVal
-  // }
-  // const IsContent = () => {
-  //   let returnVal = IsFile()
-  //   if (MenuContent != "")
-  //     returnVal = true
-  //   return returnVal
-  // }
-
-  // const IsAttachment = () => {
-  //   let returnVal = false
-  //   GetNavbarmenu
-  //     .filter((item) => { return item.MenuId == ChildMenuId })
-  //     .map((item, index) => {
-  //       if (item.FilePath != "" && !item.IsURL)
-  //         returnVal = true
-  //     })
-  //   return returnVal
-  // }
-  //
   function actionPage(item) {
     if (item?.MenuTypeId == "2") {
       dispatch(getMenuDescription({ aiMenuId: item.MenuId, aiSchoolId: Number(schoolId) }))
@@ -155,14 +125,17 @@ function SubHeaderNavBar({ toggleDrawer }) {
             '&:hover': {
               color: (theme) => theme.palette.primary.main,
             },
-            px: 1,
+            px: 1, py: .5,
             fontWeight: 'bold',
             whiteSpace: 'nowrap'
           }}
-          onMouseOver={(e) => handleMenuClick(e, item.MenuId)}
+          onMouseEnter={(e) => handleMenuClick(e, item.MenuId)}
           onClick={() => {
             console.log('----->>>>', item);
-            actionPage(item)
+            // actionPage(item)
+            navigate('/extended-sidebar/landing/NavContent');
+            dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
+            dispatch(getChildMenuId({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }))
           }}
         // onMouseOut={() => handleMenuClose(item.MenuId)}
         >

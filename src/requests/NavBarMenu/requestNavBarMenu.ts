@@ -8,6 +8,7 @@ const SliceNavbarMenu = createSlice({
   initialState: {
     GetNavbarMenuDetails: [],
     MenuDescription: [],
+    ChildMenuId: 0,
     Loading: true,
   },
   reducers: {
@@ -17,6 +18,10 @@ const SliceNavbarMenu = createSlice({
     },
     getMenuDescription(state, action) {
       state.MenuDescription = action.payload;
+      state.Loading = false;
+    },
+    getChildMenuId(state, action) {
+      state.ChildMenuId = action.payload;
       state.Loading = false;
     },
     getLoading(state, action) {
@@ -33,6 +38,12 @@ export const getMenuDescription =
       dispatch(SliceNavbarMenu.actions.getLoading(true));
       const response = await ApiGetMenuDetails.GetMenuDescriptionApi(data)
       dispatch(SliceNavbarMenu.actions.getMenuDescription(response.data.MenuDetails));
+    };
+export const getChildMenuId =
+  (data: IGetMenuDetailsBody): AppThunk =>
+    async (dispatch) => {
+      console.warn('-\--/-', data)
+      dispatch(SliceNavbarMenu.actions.getChildMenuId(data.aiMenuId));
     };
 
 export const getNavbarMenuDetails =

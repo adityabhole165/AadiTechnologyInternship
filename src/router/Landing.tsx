@@ -14,6 +14,9 @@ const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
 const NavMenuPage = Loader(
   lazy(() => import('src/components/NavMenuPages/NavMenuPage'))
 );
+const NavContent = Loader(
+  lazy(() => import('src/components/NavbarMenu/NavContent'))
+);
 
 const DashBoard = Loader(lazy(() => import('src/componentsWeb/DashBoard/DashBoard')));
 const landingRoutes = [
@@ -29,6 +32,10 @@ const landingRoutes = [
   {
     path: 'NavMenuPage',
     element: <NavMenuPage />
+  },
+  {
+    path: 'NavContent',
+    element: <NavContent />
   },
 ];
 
