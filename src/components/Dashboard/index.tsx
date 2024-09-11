@@ -43,6 +43,7 @@ import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPop
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
+import { getNavbarMenuDetails } from 'src/requests/NavBarMenu/requestNavBarMenu';
 import { SchoolNoticePopup } from 'src/requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import SchoolNoticePopupCom from '../SchoolNoticePopup/SchoolNoticePopup';
 import AbsentStudentDetailsPopup from './AbsentStudentDetails/AbsentStudentDetailsPopup';
@@ -55,6 +56,7 @@ const Text = styled(Box)(({ theme }) => ({
 }));
 
 function Dashboard() {
+
   const UserLoginDetails1 = useSelector(
     (state: RootState) => state.Dashboard.UserLoginDetails
   );
@@ -130,6 +132,9 @@ function Dashboard() {
   const UsschoolSettings = useSelector(
     (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
   );
+  const GetNavbarmenu: any = useSelector(
+    (state: RootState) => state.NavbarMenu.GetNavbarMenuDetails
+  );
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -149,13 +154,23 @@ function Dashboard() {
     asEndIndex: 40,
     asLoginUserRoleId: Number(RoleId),
   };
+  // Code for NavbarMenu / Navigation Menu
+  const IGetMenuDetailsBody = {
+    aiSchoolId: Number(asSchoolId),
+    aiUserRoleId: RoleId
+  };
+
+  useEffect(() => {
+    dispatch(getNavbarMenuDetails(IGetMenuDetailsBody));
+  }, []);
+
 
   useEffect(() => {
     dispatch(SchoolNoticePopup(SchoolNoticePopupBody));
   }, []);
 
   useEffect(() => {
-    if ( !sessionStorage.getItem('hasShownPopup') && SchoolNoticePopupDashBoard.length > 0) {
+    if (!sessionStorage.getItem('hasShownPopup') && SchoolNoticePopupDashBoard.length > 0) {
       setSchoolNoticeDialog(true);
     } else {
       setSchoolNoticeDialog(false);

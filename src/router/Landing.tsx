@@ -11,6 +11,9 @@ const Loader = (Component) => (props) =>
 
 // Dashboards
 const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
+const NavMenuPage = Loader(
+  lazy(() => import('src/components/NavMenuPages/NavMenuPage'))
+);
 
 const DashBoard = Loader(lazy(() => import('src/componentsWeb/DashBoard/DashBoard')));
 const landingRoutes = [
@@ -22,7 +25,11 @@ const landingRoutes = [
   {
     path: 'Landing',
     element: <Landing />
-  }
+  },
+  {
+    path: 'NavMenuPage',
+    element: <NavMenuPage />
+  },
 ];
 
 export default landingRoutes;

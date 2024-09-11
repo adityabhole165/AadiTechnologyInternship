@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
+  alpha,
   AppBar,
   Box,
   ClickAwayListener,
@@ -20,166 +21,190 @@ import {
   Popper,
   Stack,
   Tooltip,
-  Typography,
-  alpha
+  Typography
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
+import { getMenuDescription } from 'src/requests/NavBarMenu/requestNavBarMenu';
+import { RootState } from 'src/store';
+
+interface MenuItem {
+  MenuId: number;
+  MenuName: string;
+  ParentMenuId: number;
+  LevelIndex: number;
+  children?: MenuItem[];
+}
 
 function SubHeaderNavBar({ toggleDrawer }) {
-  const [pages, setPages] = React.useState([
-    {
-      name: "Counsellor's Corner",
-      anchor: null,
-      options: [
-        {
-          name: 'Self Discipline',
-          link: ''
-        },
-        {
-          name: 'Social Media',
-          link: ''
-        },
-        {
-          name: 'Effective Study Skills',
-          link: ''
-        },
-        {
-          name: 'Bullying - Copy',
-          link: ''
-        },
-        {
-          name: 'Benefit of pets for human health',
-          link: ''
-        },
-        {
-          name: 'Angry Child Outbursts',
-          link: ''
-        },
-        {
-          name: 'AUTISM WORKSHOP',
-          link: ''
-        },
-        {
-          name: 'Rashmi Gupta',
-          link: ''
-        },
-        {
-          name: 'Remedial Teaching',
-          link: ''
-        },
-        {
-          name: 'Why having choices should be a choice for children?',
-          link: ''
-        },
-        {
-          name: 'learning  difficulty2',
-          link: ''
-        },
-        {
-          name: 'cyber Safety',
-          link: ''
-        },
-        {
-          name: 'Learning Difficulty',
-          link: ''
-        }
-      ]
-    },
-    {
-      name: 'PTA',
-      anchor: null,
-      options: []
-    },
-    {
-      name: 'Pre-Primary Activities',
-      anchor: null,
-      options: []
-    },
-    {
-      name: 'Syllabus',
-      anchor: null,
-      options: [
-        {
-          name: 'Standard I',
-          link: ''
-        },
-        {
-          name: 'Standard II',
-          link: ''
-        },
-        {
-          name: 'Standard III',
-          link: ''
-        },
-        {
-          name: 'Standard IV',
-          link: ''
-        },
-        {
-          name: 'Standard V',
-          link: ''
-        },
-        {
-          name: 'Standard VI',
-          link: ''
-        },
-        {
-          name: 'Standard VI',
-          link: ''
-        },
-        {
-          name: 'Standard VII',
-          link: ''
-        },
-        {
-          name: 'Standard IX',
-          link: ''
-        },
-        {
-          name: 'Standard IV',
-          link: ''
-        },
-        {
-          name: 'Standard X',
-          link: ''
-        },
-        {
-          name: 'Exam Paper Pattern',
-          link: ''
-        }
-      ]
-    },
-    {
-      name: 'Practice Worksheet',
-      anchor: null,
-      options: []
-    },
-    {
-      name: 'School Club',
-      anchor: null,
-      options: []
-    },
-    {
-      name: 'Mediclaim',
-      anchor: null,
-      options: []
-    },
-    {
-      name: 'Eloquium e-Newsletter',
-      anchor: null,
-      options: []
-    },
-    {
-      name: 'Question Bank',
-      anchor: null,
-      options: []
+  let schoolId = localStorage.getItem('SchoolId');
+  const dispatch = useDispatch();
+  const GetNavbarmenu: any = useSelector((state: RootState) => state.NavbarMenu.GetNavbarMenuDetails);
+  const GetNavbarMenuDetails: any = useSelector((state: RootState) => state.NavbarMenu.MenuDescription);
+  const [menuStructure, setMenuStructure] = useState<MenuItem[]>([]);
+  const [anchorEl, setAnchorEl] = useState<{ [key: number]: HTMLElement | null }>({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (GetNavbarmenu.length > 0) {
+      const structure = buildMenuStructure(GetNavbarmenu);
+      setMenuStructure(structure);
     }
-  ]);
+  }, [GetNavbarmenu]);
+  useEffect(() => {
+    if (GetNavbarMenuDetails.length > 0) {
+      console.log(GetNavbarMenuDetails)
+    }
+  }, [GetNavbarMenuDetails])
+
+  const buildMenuStructure = (menuItems: any[]): MenuItem[] => {
+    const itemMap: { [key: number]: MenuItem } = {};
+
+    // Create a map to track MenuId and filter out duplicates
+    const seen = new Set<number>();
+
+    // First pass: create all menu items, skipping duplicates
+    menuItems.forEach(item => {
+      if (!seen.has(item.MenuId)) {
+        seen.add(item.MenuId);
+        itemMap[item.MenuId] = { ...item, children: [] };
+      }
+    });
+
+    // Second pass: build the tree structure
+    const rootItems: MenuItem[] = [];
+    seen.forEach(menuId => {
+      const item = itemMap[menuId];
+      if (item.ParentMenuId === 0) {
+        rootItems.push(itemMap[item.MenuId]);
+      } else {
+        const parent = itemMap[item.ParentMenuId];
+        if (parent) {
+          parent.children.push(itemMap[item.MenuId]);
+        }
+      }
+    });
+
+    return rootItems;
+  };
+
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>, menuId: number) => {
+    setAnchorEl({ ...anchorEl, [menuId]: event.currentTarget });
+  };
+
+  const handleMenuClose = (menuId: number) => {
+    setAnchorEl({ ...anchorEl, [menuId]: null });
+  };
+  // navigation function | f()
+  // const IsFile = () => {
+  //   let returnVal = false
+  //   GetNavbarmenu
+  //     .filter((item) => { return item.MenuId == ChildMenuId })
+  //     .map((item, index) => {
+  //       if (item.FilePath != "")
+  //         returnVal = true
+  //     })
+  //   return returnVal
+  // }
+  // const IsContent = () => {
+  //   let returnVal = IsFile()
+  //   if (MenuContent != "")
+  //     returnVal = true
+  //   return returnVal
+  // }
+
+  // const IsAttachment = () => {
+  //   let returnVal = false
+  //   GetNavbarmenu
+  //     .filter((item) => { return item.MenuId == ChildMenuId })
+  //     .map((item, index) => {
+  //       if (item.FilePath != "" && !item.IsURL)
+  //         returnVal = true
+  //     })
+  //   return returnVal
+  // }
+  //
+  function actionPage(item) {
+    if (item?.MenuTypeId == "2") {
+      dispatch(getMenuDescription({ aiMenuId: item.MenuId, aiSchoolId: Number(schoolId) }))
+      // let obj = {
+      //   NavMenuName: item.MenuName
+      // }
+      console.log(item)
+      navigate('/extended-sidebar/landing/navmenupage', { state: item })
+    } else {
+      if (item.FilePath !== '' && item.IsURL) {
+        window.open(item.FilePath, "_blank");
+      } else if (item.FilePath !== '' && !item.IsURL) {
+        window.open(localStorage.getItem('SiteURL') + item.FilePath);
+      }
+    }
+  }
+
+  const renderMenuItem = (item: MenuItem) => {
+    const hasChildren = item.children && item.children.length > 0;
+
+    return (
+      <Box key={item.MenuId}>
+        <ListItemButton
+          sx={{
+            color: 'inherit',
+            '&:hover': {
+              color: (theme) => theme.palette.primary.main,
+            },
+            px: 1,
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap'
+          }}
+          onMouseOver={(e) => handleMenuClick(e, item.MenuId)}
+          onClick={() => {
+            console.log('----->>>>', item);
+            actionPage(item)
+          }}
+        // onMouseOut={() => handleMenuClose(item.MenuId)}
+        >
+          {item.MenuName}
+          {hasChildren && <KeyboardArrowDownIcon />}
+        </ListItemButton>
+        {hasChildren && (
+          <Menu
+            anchorEl={anchorEl[item.MenuId]}
+            open={Boolean(anchorEl[item.MenuId])}
+            onClose={() => handleMenuClose(item.MenuId)}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button'
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left', // Aligns to bottom-right of the button
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left', // Menu opens from the top-right corner
+            }}
+            sx={{
+              '& .MuiMenu-paper': {
+                padding: 0,
+                scrollBehavior: 'smooth',
+                maxHeight: '60vh', // Set the maximum height of the dropdown
+                overflowY: 'auto', // Enable vertical scrolling if content exceeds the height
+              }
+            }}
+          >
+            {item.children.map((child) => renderMenuItem(child))}
+          </Menu>
+        )}
+      </Box>
+    );
+  };
+
+  // ... (rest of the component code remains the same)
   const [openSupportMenu, setOpenSupportMenu] = React.useState(false);
   const supportMenuRef = React.useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleToggle = () => {
     setOpenSupportMenu((prevOpen) => !prevOpen);
@@ -198,9 +223,9 @@ function SubHeaderNavBar({ toggleDrawer }) {
 
   const handleMenuItemClick = (action: () => void) => (event: React.MouseEvent) => {
     action();
-    setOpenSupportMenu(false); 
+    setOpenSupportMenu(false);
   };
-  
+
   const handleEmail = () => {
     const Email = 'https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%3Fhl%3Den-GB&ec=GAlA8wE&hl=en-GB&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-401164080%3A1724671374900003&ddm=0';
     window.open(Email, '_blank');
@@ -256,6 +281,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
       console.error(err);
     }
   };
+
   return (
     <div>
       <AppBar
@@ -289,58 +315,11 @@ function SubHeaderNavBar({ toggleDrawer }) {
               }}
             >
               <ListItem sx={{ p: 0 }}>
-                {pages.map((page, key) => (
-                  <Box key={key}>
-                    <ListItemButton
-                      sx={{
-                        color: (theme) => theme.palette.common.white,
-                        '&:hover': {
-                          color: (theme) => theme.palette.primary.main
-                        },
-                        px: 1,
-                        fontWeight: 'bold',
-                        whiteSpace: 'nowrap'
-                      }}
-                      key={key}
-                      onClick={(e) => {
-                        let pagesCpy = [...pages];
-                        pagesCpy[key].anchor = e.currentTarget;
-                        setPages(pagesCpy);
-                      }}
-                    >
-                      {page.name}
-                      {page?.options && page?.options.length > 0 && (
-                        <KeyboardArrowDownIcon />
-                      )}
-                    </ListItemButton>
-                    {page?.options && page?.options.length > 0 && (
-                      <Menu
-                        id={`${page.name}-menu`}
-                        anchorEl={page.anchor}
-                        open={Boolean(page.anchor)}
-                        onClose={() => {
-                          page.anchor = null;
-                          setPages([...pages]);
-                        }}
-                        MenuListProps={{
-                          'aria-labelledby': 'basic-button'
-                        }}
-                        sx={{
-                          '& .MuiMenu-paper': {
-                            padding: 0
-                          }
-                        }}
-                      >
-                        {page?.options.map((option, key) => (
-                          <MenuItem key={key}>{option.name}</MenuItem>
-                        ))}
-                      </Menu>
-                    )}
-                  </Box>
-                ))}
+                {menuStructure.map((item) => renderMenuItem(item))}
               </ListItem>
             </List>
           </Stack>
+          {/* ... (rest of the JSX remains the same) */}
           <Stack direction={'row'} alignItems={'center'} gap={1}>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}
@@ -428,8 +407,9 @@ function SubHeaderNavBar({ toggleDrawer }) {
           </Stack>
         </Stack>
       </AppBar>
-    </div >
+    </div>
   );
 }
 
 export default SubHeaderNavBar;
+
