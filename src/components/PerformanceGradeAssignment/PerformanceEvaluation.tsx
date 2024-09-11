@@ -44,8 +44,8 @@ const PerformanceEvaluation = () => {
     const reportingUserId = sessionStorage.getItem('Id');
     const currentSignedInUser = sessionStorage.getItem('Id');
     const [effectiveDate, setEffectiveDate] = useState(new Date());
-    const [classTaught, setClassTaught] = useState(userNameDetails?.Text8);
-    const [teachingSub, setTeachingSub] = useState(userNameDetails?.Text9);
+    const [classTaught, setClassTaught] = useState('');
+    const [teachingSub, setTeachingSub] = useState('');
     const [uploadDoc, setUploadDoc] = useState(false);
     const [hoveredRow, setHoveredRow] = useState(null);
     const [uploadDocUserName, setUploadDocUserName] = useState('');
@@ -53,6 +53,12 @@ const PerformanceEvaluation = () => {
     const [initialStaffPerfEval, setInitialStaffPerfEval] = useState({});
     const [classError, setClassError] = useState(false);
     const [teachingSubError, setTeachingSubError] = useState(false);
+    useEffect(() => {
+        if (userNameDetails) {
+            setTeachingSub(userNameDetails?.Text8);
+            setClassTaught(userNameDetails?.Text9);
+        }
+    }, [userNameDetails])
 
     useEffect(() => { gradeDropddownList.length > 0 ? console.log(gradeDropddownList) : '' }, [gradeDropddownList]);
     const PerformanceEvaluationDetailsBody: IGetPerformanceEvaluationDetailsBody = {

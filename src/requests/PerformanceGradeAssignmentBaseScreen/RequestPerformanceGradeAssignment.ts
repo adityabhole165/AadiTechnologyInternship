@@ -29,6 +29,19 @@ const PerformanceGradeAssignmentslice = createSlice({
             state.Loading = false;
             state.GetAllYearsIS = action.payload;
         },
+        ResetDetails(state) {
+            state.Loading = false;
+            state.ISlistSchoolOrgNameDetails = [];
+            state.ISlistUserNameDetails = [];
+            state.ISlistDescriptionDetails = [];
+            state.ISlistOriginalSkillIdDetails = [];
+            state.ISlistTeacherTitleDetails = [];
+            state.ISlistParameterIdDetails = [];
+            state.ISlistIsFinalApproverDetails = [];
+            state.ISgradeDropDownList = [];
+            state.ISlistEnableRejectButtonDetails = [];
+            state.ISUserInvestmentMethodDetails = {};
+        },
         getGetAllUsersReportingToGivenUser(state, action) {
             state.Loading = false;
             state.GetAllUsersReportingToGivenUserIS = action.payload;
@@ -165,6 +178,7 @@ export const CDAGetPerformanceEvaluationDetails =
     (data: IGetPerformanceEvaluationDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            dispatch(PerformanceGradeAssignmentslice.actions.ResetDetails());
             const response = await PerformanceGradeAssignmentAPI.GetPerformanceEvaluationDetailsApi(data);
             const listSchoolOrgNameDetails = response.data.listSchoolOrgnNameDetiles.map((item, i) => {
                 return (
