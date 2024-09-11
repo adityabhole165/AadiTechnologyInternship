@@ -249,10 +249,10 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPl
 
   const bg = legendColors.map(color => hexToRGBA(color, 0.2));
 
-  const cardStyle = {
-    height: '10px',
-    fontSize: '15px'
-  };
+  // const cardStyle = {
+  //   height: '20px',
+  //   fontSize: '15px'
+  // };
 
   const renderGridItems = () => {
     const gridItems = [];
@@ -292,8 +292,11 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPl
               justifyContent: 'center',
               flexDirection: 'column',
               cursor: cursorStyle,
+              // scrollBehavior:'auto',
+              // overflowY:'scroll',
+              // scrollbarWidth:'auto',
               backgroundColor: backgroundColor,
-              ...cardStyle,
+            //  ...cardStyle,
               fontWeight: '500',
               border: `1px solid ${grey[300]}`
             }}
@@ -301,7 +304,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPl
           >
             <Typography>{day}</Typography>
             {Item && Item.Text1 && (
-              <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 0.3}}>
                 {Item.Text1.map((obj, idx) => (
                   <Tooltip key={`${year}-${month}-${day}-${idx}`} title={obj.Name}>
                     <b style={{ width: '100%', paddingLeft: 2, paddingRight: 2 }}>
@@ -310,7 +313,9 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors,AnnualPl
                           color: legendColors[obj.Legend],
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap'
+                          whiteSpace: 'nowrap',
+                          
+                      
                         }}
                       >
                         {obj.Name}
