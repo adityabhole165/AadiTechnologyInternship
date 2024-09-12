@@ -82,7 +82,17 @@ const ExamResultBase = () => {
     });
     return TeacherId;
   };
-  // console.log("ParamsStandardDivisionId", ParamsStandardDivisionId)
+
+  const getStandardId = () => {
+    let returnVal = 0
+    ClassTeachers.map((item) => {
+      if (item.Value == StandardDivisionId) {
+        returnVal = item.StanderdId
+      }
+    })
+    return returnVal
+  };
+   console.log("getStandardId", getStandardId())
 
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
@@ -381,6 +391,8 @@ const ExamResultBase = () => {
     return returnVal
   }
   const ClickItem = (value) => {
+    console.log(value.StandardId,"----bb");
+    
     // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
       '0' + '/' +
@@ -390,11 +402,12 @@ const ExamResultBase = () => {
       TestId + '/' +
       getTeacherId() + '/' +
       '0/' +
-      // value.StandardId + '/' +
+      // getStandardId() + '/' +
       'true' + '/' +
       'false' + '/' +
       'true' + '/' +
-      ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")
+      ((ClassPassFailDetailsForButton.IsPublish) ? "true" : "false")+'/' +
+      getStandardId()
 
     );
   };

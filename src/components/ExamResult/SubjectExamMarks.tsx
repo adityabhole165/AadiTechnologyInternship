@@ -39,7 +39,7 @@ const SubjectExamMarks = () => {
   //   return current.isBefore(today)
   // }
   let { ClassTecher, ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish } = useParams();
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish,getStandardId } = useParams();
 
   // const [examResultProp, setexamResultProp] = useState(false);
 
@@ -119,7 +119,7 @@ const SubjectExamMarks = () => {
   }
   useEffect(() => {
     if (StandardName != undefined || StandardName) {
-      StandardId = StandardName.Standard_Id
+      getStandardId = StandardName.Standard_Id
     }
   }, [StandardName])
   //for testdate
@@ -158,7 +158,7 @@ const SubjectExamMarks = () => {
     const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYrId: Number(asAcademicYearId),
-      asStandardId: Number(StandardId),
+      asStandardId: Number(getStandardId),
       asSubjectId: Number(SubjectId),
       asTestId: Number(TestId),
     };
@@ -220,7 +220,7 @@ const SubjectExamMarks = () => {
     {
 
       asSchoolId: Number(asSchoolId),
-      asStandardId: Number(StandardId),
+      asStandardId: Number(getStandardId),
       asTestId: Number(TestId),
       asSubjectId: Number(SubjectId),
     }
@@ -380,6 +380,8 @@ const SubjectExamMarks = () => {
   ]
   const [MarksError, setMarksError] = useState('')
 
+  console.log(getStandardId,"getStandardId");
+  
 
   // useEffect(() => {
   //   if (TestDate != "") {
