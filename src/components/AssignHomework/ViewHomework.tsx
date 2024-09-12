@@ -15,8 +15,9 @@ import { IGetAllHomeworkDocumentsBody, IGetHomeworkDetailBody } from 'src/interf
 import { GetAllHomeworkDocuments } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
-import { getDateFormatted } from '../Common/Util';
+import { getCalendarDateFormatDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import DatepickerLeave from '../LeaveDetails/DatepickerLeave';
 const ViewHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -157,32 +158,41 @@ const ViewHomework = () => {
         <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Subject'}  InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject}  
-              inputProps={{ readOnly: true,  }} 
+              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject}
+                inputProps={{ readOnly: true, }}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title}  inputProps={{ readOnly: true,}} />
+              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title} inputProps={{ readOnly: true, }} />
             </Grid>
-            <Grid item xs={6}>
-              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.AssignedDate)}  inputProps={{ readOnly: true, }} />
-
-
-            </Grid>
-            <Grid item xs={6}>
-              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getDateFormatted(HomeworkDetail.CompleteByDate)}  inputProps={{ readOnly: true, }} />
-
-            </Grid>
-
             {/* <Grid item xs={6}>
-              <Typography>
-                Attachment: &nbsp;
-                <a  onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'none', cursor: 'pointer', }}>
-                  {HomeworkDetail.AttachmentPath}
-                </a>
-              </Typography>
+              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={getCalendarDateFormatDate(HomeworkDetail.AssignedDate)} inputProps={{ readOnly: true, }} />
+
 
             </Grid> */}
+            <Grid item xs={6}>
+              <DatepickerLeave
+                DateValue={getCalendarDateFormatDate(HomeworkDetail.AssignedDate)}
+                onDateChange={''}
+                label={'Assigned Date'}
+                size={"medium"}
+                disabled={true}
+              />
+            </Grid>
+            {/* <Grid item xs={6}>
+              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={getCalendarDateFormatDate(HomeworkDetail.CompleteByDate)} inputProps={{ readOnly: true, }} />
+
+            </Grid> */}
+
+            <Grid item xs={6}>
+              <DatepickerLeave
+                DateValue={getCalendarDateFormatDate(HomeworkDetail.CompleteByDate)}
+                onDateChange={''}
+                label={'Complete Date '}
+                size={"medium"}
+                disabled={true}
+              />
+            </Grid>
             <Grid item xs={6}>
               <Typography   > Attachments:&nbsp;
                 {
@@ -192,9 +202,9 @@ const ViewHomework = () => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true}} InputProps={{
-                    readOnly: true,
-                  }} value={HomeworkDetail.Details} />
+              <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} InputProps={{
+                readOnly: true,
+              }} value={HomeworkDetail.Details} />
             </Grid>
           </Grid>
         </Box>
