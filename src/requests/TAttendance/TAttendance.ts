@@ -298,8 +298,56 @@ export const CDASummaryCountforAttendanceBody =
           };
         }
       );
-
+      const getValue = (Value) => {
+        return (Value !== "0" ? Value : "-")
+      }
       const GetSummaryCountforAttendance = {
+        GetSummaryCountList: [{
+          Id: 1,
+          Name: 'Present Student ',
+          Values: [
+            { Id: 1, Name: 'Boys', Value: getValue(response.data.listSummaryCountforAttendance.Boys) },
+            { Id: 2, Name: 'Girls', Value: getValue(response.data.listSummaryCountforAttendance.Girls) },
+            { Id: 3, Name: 'Total', Value: getValue(response.data.listSummaryCountforAttendance.Total) },
+          ]
+        },
+        {
+          Id: 2,
+          Name: 'Absent  Student ',
+          Values: [
+            { Id: 1, Name: 'Boys', Value: getValue(response.data.listAbsentCountforAttendance.Boys) },
+            { Id: 2, Name: 'Girls', Value: getValue(response.data.listAbsentCountforAttendance.Girls) },
+            { Id: 3, Name: 'Total', Value: getValue(response.data.listAbsentCountforAttendance.Total) },
+          ]
+        },
+        {
+          Id: 3,
+          Name: 'Total  Student ',
+          Values: [
+            { Id: 1, Name: 'Boys', Value: getValue(response.data.listtotalCountforAttendance.Boys) },
+            { Id: 2, Name: 'Girls', Value: getValue(response.data.listtotalCountforAttendance.Girls) },
+            { Id: 3, Name: 'Total', Value: getValue(response.data.listtotalCountforAttendance.Total) },
+          ]
+        },
+        {
+          Id: 4,
+          Name: 'Present  Student ',
+          Values: [
+            { Id: 1, Name: 'Boys', Value: getValue(response.data.listPresentGendersAttendance.PresentBoys) },
+            { Id: 2, Name: 'Girls', Value: getValue(response.data.listPresentGendersAttendance.PresentGirls) },
+            { Id: 3, Name: 'Total', Value: getValue(response.data.listPresentGendersAttendance.Total) },
+          ]
+        }],
+        TotalStudents:
+          response.data.listTotalStudentAttendance.PresentStudents +
+          '   /    ' +
+          response.data.listTotalStudentAttendance.TotalStudents,
+        TotalDivisions:
+          response.data.listTotalStudentAttendance.PresentDivisions +
+          '   /    ' +
+          response.data.listTotalStudentAttendance.TotalDivisions
+      }
+      const GetSummaryCountforAttendance1 = {
         GetSummaryCountList: [
           {
             Id: '1',
