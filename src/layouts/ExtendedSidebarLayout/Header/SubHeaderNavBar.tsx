@@ -129,9 +129,10 @@ function SubHeaderNavBar({ toggleDrawer }) {
             fontWeight: 'bold',
             whiteSpace: 'nowrap'
           }}
-          onMouseEnter={(e) => handleMenuClick(e, item.MenuId)}
-          onClick={() => {
+          // onMouseEnter={(e) => handleMenuClick(e, item.MenuId)}
+          onClick={(e) => {
             console.log('----->>>>', item);
+            handleMenuClick(e, item.MenuId)
             // actionPage(item)
             navigate('/extended-sidebar/landing/NavContent');
             dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
@@ -269,14 +270,20 @@ function SubHeaderNavBar({ toggleDrawer }) {
           direction={'row'}
           alignItems={'center'}
           justifyContent={'space-between'}
-          overflow={'scroll'}
-          sx={{ overflowY: 'hidden' }}
+          overflow={'scroll'}  // Enables horizontal scroll
+          sx={{
+            overflowY: 'hidden',  // Hides vertical scroll
+            '::-webkit-scrollbar': { display: 'none' },  // Hides scrollbar in WebKit browsers
+            '-ms-overflow-style': 'none',  // Hides scrollbar in Internet Explorer
+            'scrollbar-width': 'none'  // Hides scrollbar in Firefox
+          }}
           px={2}
+          py={1}
         >
           <Stack direction={'row'} alignItems={'center'}>
-            <Typography sx={{ p: '5px', color: 'white' }}>
+            <Typography sx={{ left: '0', p: '5px', py: '7px', color: 'white', position: 'fixed', alignItems: 'center', zIndex: 1000, backgroundColor: (theme) => theme.palette.primary.main }}>
               <Tooltip title="Sidebar">
-                <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+                <IconButton color="inherit" onClick={toggleDrawer}>
                   <MenuIcon />
                 </IconButton>
               </Tooltip>
@@ -289,13 +296,13 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 flex: 1,
               }}
             >
-              <ListItem sx={{ p: 0 }}>
+              <ListItem sx={{ p: 0, ml: 4, mr: 16 }}>
                 {menuStructure.map((item) => renderMenuItem(item))}
               </ListItem>
             </List>
           </Stack>
           {/* ... (rest of the JSX remains the same) */}
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}
             >
@@ -371,6 +378,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             <Tooltip title={'Logout'}>
               <IconButton
                 sx={{
+                  marginRight: '10px',
                   color: 'white',
                   background: (theme) => alpha(theme.palette.common.white, 0.2)
                 }}
