@@ -1,124 +1,73 @@
 import AddTaskIcon from '@mui/icons-material/AddTask';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import {
-  Box,
-  IconButton,
-  Tooltip,
-  Typography
-} from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import {
-  IClassDropDownBody,
-  IClassTeacherDropdownBody,
-  IGetTeacherSubjectDetailsBody,
-  ISchoolsettingBody,
-  ITeacherDropdownBody
+  IClassDropDownBody, IClassTeacherDropdownBody, IGetTeacherSubjectDetailsBody,
+  ISchoolsettingBody, ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
-  ClassName,
-  FullTeacherName,
-  GetschoolSettings,
-  ReqschoolSettings,
-  SubjectDetails,
-  TeacherNameList,
-  resetClassName,
-  resetSubjectDetails
+  ClassName, FullTeacherName, GetschoolSettings, ReqschoolSettings,
+  SubjectDetails, TeacherNameList, resetClassName, resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
+import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Id } = useParams();
-  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const [SelectClass, setSelectClass] = useState(null);
-  const [subjectDetailList, setSubjectDetailList] = useState([]);
-  const [MySubject, setMySubject] = useState();
+
+  const HeaderOfTable = [
+    { Id: 1, Header: 'Class', width: 200 },
+    { Id: 2, Header: 'Subject', },
+    { Id: 3, Header: 'Assign', width: 400, align: 'center' }
+  ];
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const asShowHomeworkToClassTeacher = Number(
-    sessionStorage.getItem('ShowHomeworkToClassTeacher')
-  );
-  const asStandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
-  const ScreensAccessPermission = JSON.parse(
-    sessionStorage.getItem('ScreensAccessPermission')
-  );
+  const asShowHomeworkToClassTeacher = Number(sessionStorage.getItem('ShowHomeworkToClassTeacher'));
+  const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+  const AssignHomeworkPermission = GetScreenPermission('Assign Homework')
 
-  console.log(SelectClass);
+  const [SelectClass, setSelectClass] = useState(null);
+  const [SelectTeacher, setSelectTeacher] = useState(AssignHomeworkPermission !== 'Y' ? TeacherId : null);
 
-  const GetScreenPermission = () => {
-    let perm = 'N';
-    ScreensAccessPermission?.map((item) => {
-      if (item.ScreenName === 'Assign Homework') perm = item.IsFullAccess;
-    });
-    return perm;
-  };
-  const [SelectTeacher, setSelectTeacher] = useState(
-    GetScreenPermission() !== 'Y' ? TeacherId : null);
-
-  const TeacherList: any = useSelector(
-    (state: RootState) => state.TeacherNameList.TeacherList
-  );
-  const ClassList = useSelector(
-    (State: RootState) => State.TeacherNameList.ClassList
-  );
-
-  const SubjectDetailLists: any = useSelector(
-    (State: RootState) => State.TeacherNameList.SubjectList
-  );
-  const SubjectDetailLists1: any = useSelector(
-    (State: RootState) => State.TeacherNameList.SubjectList1
-  );
-  console.log(SubjectDetailLists, "SubjectDetailLists");
-
-
-  const FullAccessTeacher: any = useSelector(
-    (State: RootState) => State.TeacherNameList.ClassTeacherList
-  );
-  const UsschoolSettings = useSelector(
-    (state: RootState) => state.TeacherNameList.IsGetSchoolSettings
-  );
-  const schoolSettingsForSubjectlist = useSelector(
-    (state: RootState) => state.TeacherNameList.ISGetSchoolSettingsSubjectL
-  );
-  const SchoolsettingBody: ISchoolsettingBody = {
-    asSchoolId: Number(asSchoolId),
-  };
-  useEffect(() => {
-    dispatch(GetschoolSettings(SchoolsettingBody));
-    dispatch(ReqschoolSettings(SchoolsettingBody));
-  }, []);
+  const TeacherList = useSelector((state: RootState) => state.TeacherNameList.TeacherList);
+  const ClassList = useSelector((State: RootState) => State.TeacherNameList.ClassList);
+  const SubjectDetailLists = useSelector((State: RootState) => State.TeacherNameList.SubjectList);
+  const SubjectDetailLists1 = useSelector((State: RootState) => State.TeacherNameList.SubjectList1);
+  const UsschoolSettings = useSelector((state: RootState) => state.TeacherNameList.IsGetSchoolSettings);
+  const schoolSettingsForSubjectlist = useSelector((state: RootState) => state.TeacherNameList.ISGetSchoolSettingsSubjectL);
 
   useEffect(() => {
-    setSubjectDetailList(
-      SubjectDetailLists.map((item) => {
-        return { ...item, Icon: <AssignmentTurnedInIcon /> };
-      })
-    );
-  }, [SubjectDetailLists]);
-
-  useEffect(() => {
+    const SchoolsettingBody: ISchoolsettingBody = {
+      asSchoolId: Number(asSchoolId),
+    };
     const GetTeacher: ITeacherDropdownBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asShowHomeworkToClassTeacher: asShowHomeworkToClassTeacher,
-      aTeacherId: GetScreenPermission() === 'Y' ? 0 : SelectTeacher
+      aTeacherId: AssignHomeworkPermission === 'Y' ? 0 : SelectTeacher
+    };
+    const fullClassTeacherBody: IClassTeacherDropdownBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearID: asAcademicYearId
     };
 
+    dispatch(GetschoolSettings(SchoolsettingBody));
+    dispatch(ReqschoolSettings(SchoolsettingBody));
     dispatch(TeacherNameList(GetTeacher));
+    dispatch(FullTeacherName(fullClassTeacherBody));
   }, []);
 
   useEffect(() => {
-    if (GetScreenPermission() == 'Y' && TeacherList.length > 0) {
+    if (AssignHomeworkPermission == 'Y' && TeacherList.length > 0) {
       setSelectTeacher(TeacherList[0].Value);
     }
   }, [TeacherList]);
@@ -139,25 +88,10 @@ const AssignHomework = () => {
   }, [SelectTeacher]);
 
   useEffect(() => {
-
     if (ClassList.length > 0) {
       setSelectClass(ClassList[0].Id);
     }
   }, [ClassList]);
-
-  useEffect(() => {
-    const fullClassTeacherBody: IClassTeacherDropdownBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearID: asAcademicYearId
-    };
-    dispatch(FullTeacherName(fullClassTeacherBody));
-  }, []);
-
-  const HeaderOfTable = [
-    { Id: 1, Header: 'Class', width: 200 },
-    { Id: 2, Header: 'Subject', },
-    { Id: 3, Header: 'Assign', width: 400, align: 'center' }
-  ];
 
   //subjectList
   useEffect(() => {
@@ -211,21 +145,9 @@ const AssignHomework = () => {
       SelectClass
     );
   };
-
-  const clickItem = (value) => {
-    navigate('/extended-sidebar/Teacher/TExamschedule');
-    value.map((item) => {
-      if (item.IsActive) {
-        alert(item.Id)
-      }
-    })
-  };
-
   const onClick = () => {
-    navigate(
-      '/extended-sidebar/Teacher/AddDailyLog/' +
-      SelectClass +
-      '/' +
+    navigate('/extended-sidebar/Teacher/AddDailyLog/' +
+      SelectClass + '/' +
       getClassName()
     );
   };
@@ -238,15 +160,15 @@ const AssignHomework = () => {
         ]}
         rightActions={<>
           <SearchableDropdown
-            sx={{ minWidth: '25vw', bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit' }}
+            sx={{ minWidth: '25vw', bgcolor: AssignHomeworkPermission === 'N' ? '#F0F0F0' : 'inherit' }}
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
             label={'Select Teacher'}
             defaultValue={SelectTeacher?.toString()}
             mandatory
             size={"small"}
-            DisableClearable={GetScreenPermission() === 'N'}
-            disabled={GetScreenPermission() === 'N'}
+            DisableClearable={AssignHomeworkPermission === 'N'}
+            disabled={AssignHomeworkPermission === 'N'}
           />
           <SearchableDropdown
             sx={{ minWidth: '25vw' }}
@@ -259,20 +181,15 @@ const AssignHomework = () => {
           />
           <Tooltip title={'List the class subjects for homework assignment.'}>
             <IconButton
-
               sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: grey[500]
-                }
+                color: 'white', backgroundColor: grey[500], '&:hover': { backgroundColor: grey[500] }
               }}
             >
               <QuestionMark />
             </IconButton>
           </Tooltip>
           {SelectClass &&
-            ((asStandardDivisionId === SelectClass && GetScreenPermission() === 'Y') ||
+            ((asStandardDivisionId === SelectClass && AssignHomeworkPermission === 'Y') ||
               SubjectDetailLists.some((item) => item.Text5 === "Y") && UsschoolSettings === "true")
             && (
               <div>
@@ -280,15 +197,10 @@ const AssignHomework = () => {
                   <IconButton
                     onClick={onClick}
                     sx={{
-                      color: 'white',
-                      backgroundColor: blue[500],
-                      '&:hover': {
-                        backgroundColor: blue[600]
-                      }
+                      color: 'white', backgroundColor: blue[500], '&:hover': { backgroundColor: blue[600] }
                     }}
                   >
                     <AddTaskIcon />
-
                   </IconButton>
                 </Tooltip>
               </div>
@@ -297,9 +209,7 @@ const AssignHomework = () => {
       />
       <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
         <Box>
-          <Typography variant={'h4'} mb={1}>
-            My Subjects
-          </Typography>
+          <Typography variant={'h4'} mb={1}> My Subjects </Typography>
           {SubjectDetailLists.length > 0 ? (
             <Assignhomeworklist
               ItemList={SubjectDetailLists}
@@ -308,7 +218,11 @@ const AssignHomework = () => {
               MySubject={true}
             />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1"
+              sx={{
+                textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1,
+                borderRadius: 2, color: 'white'
+              }}>
               <b>No record found.</b>
             </Typography>
           )}
@@ -316,26 +230,26 @@ const AssignHomework = () => {
 
         {schoolSettingsForSubjectlist == "True" && (
           <Box mt={2}>
-            <Typography variant={'h4'} mb={1}>
-              My Class Subjects
-            </Typography>
+            <Typography variant={'h4'} mb={1}> My Class Subjects </Typography>
             {SubjectDetailLists1.length > 0 ? (
               <Assignhomeworklist
                 ItemList={SubjectDetailLists1}
                 clickAssign={clickItem1}
                 HeaderArray={HeaderOfTable}
                 MySubject={false}
-
               />
             ) : (
-              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <Typography variant="body1"
+                sx={{
+                  textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1,
+                  borderRadius: 2, color: 'white'
+                }}>
                 <b>No record found.</b>
               </Typography>
             )}
           </Box>
         )}
       </Box>
-
     </Box>
   );
 };
