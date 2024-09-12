@@ -63,18 +63,7 @@ function SmsCenter() {
   //   dispatch(getSmsList(SmsList_body));
   // }, [page, rowsPerPage]);
 
-  useEffect(() => {
-    const SmsNewList_body: INewSmsList = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: UserId,
-      asReceiverUserRoleId: RoleId,
-      asStartIndex: (page - 1) * rowsPerPage,
-      asPageSize: page * rowsPerPage
-    };
-    dispatch(getNewSmsList(SmsNewList_body));
-  }, [page, rowsPerPage]);
-
+ 
   const sortedAndFilteredSmsList = NewSmsList
     .filter(item => {
       if (!dateFilter.startDate && !dateFilter.endDate) return true;
@@ -92,24 +81,46 @@ function SmsCenter() {
   const handleEndDateChange = (date: Date | null) => {
     setDateFilter(prevState => ({ ...prevState, endDate: date }));
   };
-  const PageChange = (pageNumber) => {
-    setPage(pageNumber);
-  };
-  const ChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 20));
-    setPage(1); // Reset to the first page when changing rows per page
-  };
+ 
+
+
+
 
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
+
+  const ChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const PageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
+
+
+    const SmsNewList_body: INewSmsList = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: UserId,
+      asReceiverUserRoleId: RoleId,
+      asStartIndex: (page - 1) * rowsPerPage,
+      asPageSize: page * rowsPerPage
+    };
+   
+
+  useEffect(() => {
+    dispatch(getNewSmsList(SmsNewList_body))
+  }, [page, rowsPerPage]);
 
   const handleFilterClick = () => {
     setFiltered(!filtered); // Toggle the filtered state
     setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc')); // Toggle sort direction
   };
 
-  const displayList = filtered ? sortedAndFilteredSmsList.slice(0, page * PageSize) : NewSmsList.slice(0, page * PageSize); // Implement pagination
+  const displayList = filtered ? sortedAndFilteredSmsList : NewSmsList; // Implement pagination
 
 
   return (

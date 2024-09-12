@@ -922,6 +922,7 @@ const PerformanceEvaluation = () => {
                                                                                             {item.Text7 === '2' && isSelfUserBody(item3.Text5) ? (
                                                                                                 <textarea
                                                                                                     rows={3}
+                                                                                                    placeholder={`${isNotEditable() === false ? 'Enter your observation here...' : ''}`}
                                                                                                     style={{
                                                                                                         width: '100%',
                                                                                                         height: '100%',
