@@ -199,40 +199,16 @@ const AssignHomework = () => {
     return classTeacherName;
   };
 
-  // const clickItem1 = (value) => {
-  //   navigate(
-  //     '/extended-sidebar/Teacher/AddHomework/' +
-  //     value.StandardDivisionId +
-  //     '/' +
-  //     value.StandardDivision +
-  //     '/' +
-  //     SelectTeacher +
-  //     '/' +
-  //     getClassTeacherName() +
-  //     '/' +
-  //     value.SubjectId +
-  //     '/' +
-  //     value.SubjectName
-  //   );
-  // };
-
   const clickItem1 = (value, MySubject) => {
     navigate(
       '/extended-sidebar/Teacher/AddHomeworkNew/' +
-      SelectTeacher +
-      '/' +
-      getClassTeacherName() +
-      '/' +
-      value.StandardDivision +
-      '/' +
-      value.SubjectName +
-      '/' +
-      value.SubjectId +
-      '/' +
-      MySubject +
-      '/' +
+      SelectTeacher + '/' +
+      getClassTeacherName() + '/' +
+      value.StandardDivision + '/' +
+      value.SubjectName + '/' +
+      value.SubjectId + '/' +
+      MySubject + '/' +
       SelectClass
-
     );
   };
 
