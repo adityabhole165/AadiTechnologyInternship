@@ -323,7 +323,7 @@ const PerformanceEvaluation = () => {
     // }
     const isValid = () => {
         let selfUser = isSelfUser();
-        if (selfUser && classTaught !== '' && teachingSub !== '') {
+        if (selfUser && classTaught.trim() !== '' && teachingSub.trim() !== '') {
             return true;
         } else if (selfUser === false) {
             return true
@@ -345,17 +345,17 @@ const PerformanceEvaluation = () => {
             asClasses: classTaught.toString(),
             asSubjects: teachingSub.toString()
         }
-        if (isValid) {
+        if (isValid()) {
             dispatch(CDASaveStaffPerformanceEvalDetailsMsg(SaveStaffPerformanceEvalDetailBody));
             setClassError(false)
             setTeachingSubError(false)
         }
-        if (selfUser && classTaught === '') {
+        if (selfUser && classTaught?.trim() === '') {
             setClassError(true)
         } else {
             setClassError(false)
         }
-        if (selfUser && teachingSub === '') {
+        if (selfUser && teachingSub?.trim() === '') {
             setTeachingSubError(true)
         } else {
             setTeachingSubError(false)
