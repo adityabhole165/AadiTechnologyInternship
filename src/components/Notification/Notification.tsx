@@ -33,7 +33,7 @@ const Notification = () => {
       navigate('/extended-sidebar/MessageCenter/msgCenter');
     }
     if (value == 'SchoolNotices.htm') {
-      navigate('/extended-sidebar/Common/SchoolNotice');
+      navigate('/extended-sidebar/Common/ActiveSchoolNotice');
     }
     if (value == 'ProgressReport.htm') {
       navigate('/extended-sidebar/Student/Progressreport');
