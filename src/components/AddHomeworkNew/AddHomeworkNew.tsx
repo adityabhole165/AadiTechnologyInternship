@@ -393,39 +393,24 @@ const AddHomeworkNew = () => {
   };
 
   const clickTitle = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id +
-      '/' +
-      TeacherId +
-      '/' +
-      TeacherName +
-      '/' +
-      ClassName +
-      '/' +
-      SubjectName +
-      '/' +
-      SubjectId +
-      '/' +
-      MySubject +
-      '/' +
+    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id + '/' +
+      TeacherId + '/' +
+      TeacherName + '/' +
+      ClassName + '/' +
+      SubjectName + '/' +
+      SubjectId + '/' +
+      MySubject + '/' +
       SelectClass)
   };
   const clickView = (Id) => {
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id +
-      '/' +
-      TeacherId +
-      '/' +
-      TeacherName +
-      '/' +
-      ClassName +
-      '/' +
-      SubjectName +
-      '/' +
-      SubjectId +
-      '/' +
-      MySubject +
-      '/' +
+    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id + '/' +
+      TeacherId + '/' +
+      TeacherName + '/' +
+      ClassName + '/' +
+      SubjectName + '/' +
+      SubjectId + '/' +
+      MySubject + '/' +
       SelectClass
-
     );
   };
 
@@ -573,7 +558,7 @@ const AddHomeworkNew = () => {
         variant: 'warning',
         confirmButtonText: 'Ok',
         cancelButtonText: 'Cancel',
-        hideConfirm: true,
+        // hideConfirm: true,
         onCancel: () => {
           closeAlert();
         },
@@ -822,7 +807,14 @@ const AddHomeworkNew = () => {
   //   }
   // };
   const clickTitle1 = (Id) => {
-    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
+    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id + '/' +
+      TeacherId + '/' +
+      TeacherName + '/' +
+      ClassName + '/' +
+      SubjectName + '/' +
+      SubjectId + '/' +
+      MySubject + '/' +
+      SelectClass);
   };
 
   const clickHomeworkStatus = (value) => {
