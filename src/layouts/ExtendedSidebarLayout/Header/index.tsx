@@ -457,6 +457,7 @@ function Header() {
   };
   return (
     <>
+    <Box >
       <HeaderWrapper
         display="flex"
         alignItems="center"
@@ -472,12 +473,14 @@ function Header() {
               alpha(theme.colors.alpha.black[100], 0.1)
         }}
       >
+        
         {Toaster()}
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
           alignItems="center"
           spacing={2}
+          sx={{mb:2}}
         >
           <img src={img_src} className={classes.smalllogo} />
         </Stack>
@@ -785,7 +788,7 @@ function Header() {
           {/* <ThemeSettings /> */}
         </Stack>
       </HeaderWrapper>
-
+      </Box>
       {/* The Following Code is for App Rating */}
       <>
         {/* <Button variant="contained" onClick={handleClickOpen}>

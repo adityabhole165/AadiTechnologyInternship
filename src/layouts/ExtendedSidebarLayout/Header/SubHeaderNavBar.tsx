@@ -257,7 +257,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
   };
 
   return (
-    <div>
+    <Box mb={1.5}>
       <AppBar
         position="fixed"
         sx={{
@@ -390,7 +390,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           </Stack>
         </Stack>
       </AppBar>
-    </div>
+    </Box>
   );
 }
 

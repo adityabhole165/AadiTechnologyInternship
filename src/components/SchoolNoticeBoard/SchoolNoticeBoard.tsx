@@ -197,8 +197,9 @@ function SchoolNoticeBoard() {
   }, [GetAllActiveNotices])
 
   return (
-    <Container>
-      <Card component={Box} mt={2} p={0.6}>
+
+    <Box>
+      <Card component={Box} mt={2} p={0.3}>
         <Marquee delay={1}>
           {/* {GetNoticeBoardList.length !==0 && <>  🔶  </> }   */}
           {GetNoticeBoardList.map((item, i) => (
@@ -214,7 +215,7 @@ function SchoolNoticeBoard() {
       </Card>
 
 
-    </Container>
+    </Box>
   )
 }
 
