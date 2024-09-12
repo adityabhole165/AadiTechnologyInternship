@@ -220,7 +220,7 @@ function Basenav() {
                   <IconButton>
                     <NavLink
                       to={`/${location.pathname.split('/')[1]
-                        }/Common/schoolnotice`}
+                        }/Common/ActiveSchoolNotice`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >
