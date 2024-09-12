@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
+import { IMobileNumber, INewSmsList } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
+import { getMobileNumber, getNewSmsList } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
 
 const PageSize = 20;
@@ -20,14 +20,14 @@ function SmsCenter() {
     startDate: null,
     endDate: null,
   });
-  const [page, setPage] = useState(1);
   const [filtered, setFiltered] = useState(false); // State to toggle between original and filtered list
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
-  console.log(SmsList, 'SmsList')
+  const NewSmsList = useSelector((state: RootState) => state.SmsCenter.NewSmsList);
   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
   const MobileNumber = useSelector((state: RootState) => state.SmsCenter.MobileNumber);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -35,9 +35,9 @@ function SmsCenter() {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
-  const filteredList = SmsList.filter((item) => item.TotalRecords !== undefined);
-  const TotalRecords = filteredList.map((item) => item.TotalRecords);
-  const uniqueTotalCount = [...new Set(TotalRecords)];
+  const filteredList = NewSmsList.filter((item) => item.TotalRows !== undefined);
+  const TotalCount = filteredList.map((item) => item.TotalRows);
+  const uniqueTotalCount = [...new Set(TotalCount)];
   const singleTotalCount = uniqueTotalCount[0];
 
   useEffect(() => {
@@ -50,20 +50,32 @@ function SmsCenter() {
 
     localStorage.setItem('url', window.location.pathname);
     dispatch(getMobileNumber(MobileNumber_body));
-  }, [page, rowsPerPage]);
+  }, []);
+
+  // useEffect(() => {
+  //   const SmsList_body: ISmsList = {
+  //     asSchoolId: asSchoolId,
+  //     asAcademicYearId: asAcademicYearId,
+  //     asUserId: UserId,
+  //     asReceiverUserRoleId: RoleId,
+  //     asPageIndex: page
+  //   };
+  //   dispatch(getSmsList(SmsList_body));
+  // }, [page, rowsPerPage]);
 
   useEffect(() => {
-    const SmsList_body: ISmsList = {
+    const SmsNewList_body: INewSmsList = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asUserId: UserId,
       asReceiverUserRoleId: RoleId,
-      asPageIndex: page
+      asStartIndex: (page - 1) * rowsPerPage,
+      asPageSize: page * rowsPerPage
     };
-    dispatch(getSmsList(SmsList_body));
+    dispatch(getNewSmsList(SmsNewList_body));
   }, [page, rowsPerPage]);
 
-  const sortedAndFilteredSmsList = SmsList
+  const sortedAndFilteredSmsList = NewSmsList
     .filter(item => {
       if (!dateFilter.startDate && !dateFilter.endDate) return true;
       const itemDate = new Date(item.Date); // Assuming item.Date is in a parseable format
@@ -95,10 +107,9 @@ function SmsCenter() {
   const handleFilterClick = () => {
     setFiltered(!filtered); // Toggle the filtered state
     setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc')); // Toggle sort direction
-    console.log('Filter icon clicked');
   };
 
-  const displayList = filtered ? sortedAndFilteredSmsList.slice(0, page * PageSize) : SmsList.slice(0, page * PageSize); // Implement pagination
+  const displayList = filtered ? sortedAndFilteredSmsList.slice(0, page * PageSize) : NewSmsList.slice(0, page * PageSize); // Implement pagination
 
 
   return (

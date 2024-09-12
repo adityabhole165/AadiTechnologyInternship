@@ -1,5 +1,7 @@
 import {
+  GetNewSMSListResult,
   IMobileNumber,
+  INewSmsList,
   ISmsList,
   IViewSms
 } from '../../interfaces/Student/SMSCenter';
@@ -10,6 +12,9 @@ const GetSmsCenterList = (data: ISmsList) => {
   return http.post<ISmsList>('SMS/GetSMSList', data);
 };
 
+const GetNewSmsCenterList = (data: INewSmsList) => {
+  return http.post<GetNewSMSListResult>('Teacher/SMSCenterList', data);
+};
 //Mobile number
 const GetMobileNumber = (data: IMobileNumber) => {
   return http.post<IMobileNumber>('SMS/GetUserMobileNumber', data);
@@ -22,6 +27,7 @@ const GetSmsDetails = (data: IViewSms) => {
 
 const SmsCenterApi = {
   GetSmsCenterList,
+  GetNewSmsCenterList,
   GetMobileNumber,
   GetSmsDetails
 };

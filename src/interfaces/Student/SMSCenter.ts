@@ -12,12 +12,35 @@ export interface GetSMSListResult {
   RecieverMobileNumber: string;
   Subject: string;
   UserName: string;
-  UserId : string;
+  UserId: string;
   SubReadMessageFlagject: string;
   RecieverDetailsId: string;
   DisplayText: string;
   SenderName: string;
   TotalRecords: string
+}
+//Sms center list
+export interface INewSmsList {
+  asSchoolId: string;
+  asAcademicYearId: string;
+  asUserId: string;
+  asReceiverUserRoleId: string;
+  asStartIndex: number;
+  asPageSize: number;
+}
+
+export interface GetNewSMSListResult {
+  Date: string;
+  RowID: string;
+  RecieverMobileNumber: string;
+  SMS_Id: string;
+  Subject: string;
+  UserName: string;
+  UserId: string;
+  ReadMessageFlag: string;
+  RecieverDetailsId: string;
+  DisplayText: string;
+  TotalRows: string
 }
 
 //Mobile number
