@@ -125,6 +125,7 @@ import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudent
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
+import UpcomingEventDashslice from '../requests/UpcomingEventDash/ReqUpcomingEventDash';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
 
@@ -258,7 +259,8 @@ const rootReducer = combineReducers({
   SchoolNoticePopup: SchoolNoticePopupslice,
   AbsentStudentDetail: AbsentStudentDetailsslice,
   AbsentStudent: AbsentStudentslice,
-  PerformanceGradeAssignment: PerformanceGradeAssignmentslice
+  PerformanceGradeAssignment: PerformanceGradeAssignmentslice,
+  UpcomingEventDash: UpcomingEventDashslice
 });
 
 export default rootReducer;
