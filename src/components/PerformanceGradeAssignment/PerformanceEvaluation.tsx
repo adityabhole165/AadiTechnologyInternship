@@ -54,11 +54,11 @@ const PerformanceEvaluation = () => {
     const [classError, setClassError] = useState(false);
     const [teachingSubError, setTeachingSubError] = useState(false);
     useEffect(() => {
-        if (userNameDetails) {
-            setTeachingSub(userNameDetails?.Text8);
-            setClassTaught(userNameDetails?.Text9);
+        if (listUserNameDetails?.length > 0) {
+            setTeachingSub(listUserNameDetails[0]?.Text9);
+            setClassTaught(listUserNameDetails[0]?.Text8);
         }
-    }, [userNameDetails])
+    }, [listUserNameDetails])
 
     useEffect(() => { gradeDropddownList.length > 0 ? console.log(gradeDropddownList) : '' }, [gradeDropddownList]);
     const PerformanceEvaluationDetailsBody: IGetPerformanceEvaluationDetailsBody = {

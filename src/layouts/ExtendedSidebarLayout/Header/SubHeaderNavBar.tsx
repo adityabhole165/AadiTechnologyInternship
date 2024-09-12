@@ -269,6 +269,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
           direction={'row'}
           alignItems={'center'}
           justifyContent={'space-between'}
+          overflow={'scroll'}
+          sx={{ overflowY: 'hidden' }}
           px={2}
         >
           <Stack direction={'row'} alignItems={'center'}>
