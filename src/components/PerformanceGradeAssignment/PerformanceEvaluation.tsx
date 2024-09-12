@@ -521,7 +521,7 @@ const PerformanceEvaluation = () => {
                                     </Box> </>}
                         </>}
                 />
-                {Object.keys(initialStaffPerfEval).length === 0 || loading ? <SuspenseLoader /> :
+                {loading ? <SuspenseLoader /> :
                     <Box border={1} sx={{ p: 2, background: 'white' }}>
                         {classError && <>
                             <span style={{ color: 'red', fontWeight: 'bolder' }}>Classes Taught should not be blank.</span>

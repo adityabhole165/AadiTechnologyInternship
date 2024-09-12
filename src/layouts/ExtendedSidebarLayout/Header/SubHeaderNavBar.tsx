@@ -1,3 +1,5 @@
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
@@ -113,6 +115,26 @@ function SubHeaderNavBar({ toggleDrawer }) {
       }
     }
   }
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: -200, // Adjust scroll distance as needed
+        behavior: 'smooth', // Smooth scrolling
+      });
+    }
+  };
+
+  // Function to scroll to the right
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: 200, // Adjust scroll distance as needed
+        behavior: 'smooth',
+      });
+    }
+  };
+
 
   const renderMenuItem = (item: MenuItem) => {
     const hasChildren = item.children && item.children.length > 0;
@@ -256,6 +278,143 @@ function SubHeaderNavBar({ toggleDrawer }) {
     }
   };
 
+  //   return (
+  //     <Box mb={1.5}>
+  //       <AppBar
+  //         position="fixed"
+  //         sx={{
+  //           mt: '60px',
+  //           zIndex: 1201,
+  //           backgroundColor: (theme) => theme.palette.primary.main,
+  //         }}
+  //       >
+  //         <Stack
+  //           direction={'row'}
+  //           alignItems={'center'}
+  //           justifyContent={'space-between'}
+  //           overflow={'scroll'}  // Enables horizontal scroll
+  //           sx={{
+  //             overflowY: 'hidden',  // Hides vertical scroll
+  //             '::-webkit-scrollbar': { display: 'none' },  // Hides scrollbar in WebKit browsers
+  //             '-ms-overflow-style': 'none',  // Hides scrollbar in Internet Explorer
+  //             'scrollbar-width': 'none'  // Hides scrollbar in Firefox
+  //           }}
+  //           px={2}
+  //           py={1}
+  //         >
+  //           <Stack direction={'row'} alignItems={'center'}>
+  //             <Typography sx={{ left: '0', p: '5px', py: '7px', color: 'white', position: 'fixed', alignItems: 'center', zIndex: 1000, backgroundColor: (theme) => theme.palette.primary.main }}>
+  //               <Tooltip title="Sidebar">
+  //                 <IconButton color="inherit" onClick={toggleDrawer}>
+  //                   <MenuIcon />
+  //                 </IconButton>
+  //               </Tooltip>
+  //             </Typography>
+  //             <List
+  //               sx={{
+  //                 flexDirection: 'row',
+  //                 p: 0,
+  //                 m: 0,
+  //                 flex: 1,
+  //               }}
+  //             >
+  //               <ListItem sx={{ p: 0, ml: 4, mr: 16 }}>
+  //                 {menuStructure.map((item) => renderMenuItem(item))}
+  //               </ListItem>
+  //             </List>
+  //           </Stack>
+  //           {/* ... (rest of the JSX remains the same) */}
+  //           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
+  //             <Tooltip
+  //               title={`Displays dashboard for users. Lists available features of the application.`}
+  //             >
+  //               <IconButton
+  //                 sx={{
+  //                   color: 'white',
+  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
+  //                 }}
+  //               >
+  //                 <QuestionMarkIcon />
+  //               </IconButton>
+  //             </Tooltip>
+  //             <Tooltip title={'Support'}>
+  //               <IconButton
+  //                 sx={{
+  //                   color: 'white',
+  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
+  //                 }}
+  //                 ref={supportMenuRef}
+  //                 onClick={handleToggle}
+  //               >
+  //                 <InfoTwoToneIcon />
+  //               </IconButton>
+  //             </Tooltip>
+
+  //             {/* Support Menu Popup */}
+  //             <Popper
+  //               open={openSupportMenu}
+  //               anchorEl={supportMenuRef.current}
+  //               role={undefined}
+  //               placement="bottom-start"
+  //               transition
+  //               disablePortal
+  //             >
+  //               {({ TransitionProps, placement }) => (
+  //                 <Grow
+  //                   {...TransitionProps}
+  //                   style={{
+  //                     transformOrigin:
+  //                       placement === 'bottom-start' ? 'left top' : 'left bottom'
+  //                   }}
+  //                 >
+  //                   <Paper>
+  //                     <ClickAwayListener onClickAway={handleClose}>
+  //                       <MenuList
+  //                         id="composition-menu"
+  //                         aria-labelledby="composition-button"
+  //                       >
+  //                         <MenuItem onClick={handleMenuItemClick(handleEmail)}>Email</MenuItem>
+  //                         <MenuItem onClick={handleMenuItemClick(handleSupport)}>Support</MenuItem>
+  //                         <MenuItem onClick={handleMenuItemClick(handleuserguide)}>User Guide</MenuItem>
+  //                         <MenuItem onClick={handleMenuItemClick(handleKnowledgebase)}>
+  //                           Knowledge Base
+  //                         </MenuItem>
+  //                       </MenuList>
+  //                     </ClickAwayListener>
+  //                   </Paper>
+  //                 </Grow>
+  //               )}
+  //             </Popper>
+  //             {/* Support Menu Popup End */}
+  //             <SettingsDropdown />
+  //             <Tooltip title={'Notifications'}>
+  //               <IconButton
+  //                 sx={{
+  //                   color: 'white',
+  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
+  //                 }}
+  //               >
+  //                 <NotificationsTwoToneIcon />
+  //               </IconButton>
+  //             </Tooltip>
+  //             <Tooltip title={'Logout'}>
+  //               <IconButton
+  //                 sx={{
+  //                   marginRight: '10px',
+  //                   color: 'white',
+  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
+  //                 }}
+  //                 onClick={handleLogout}
+  //               >
+  //                 <LogoutTwoToneIcon />
+  //               </IconButton>
+  //             </Tooltip>
+  //           </Stack>
+  //         </Stack>
+  //       </AppBar>
+  //     </Box>
+  //   );
+  // }
   return (
     <Box mb={1.5}>
       <AppBar
@@ -270,39 +429,67 @@ function SubHeaderNavBar({ toggleDrawer }) {
           direction={'row'}
           alignItems={'center'}
           justifyContent={'space-between'}
-          overflow={'scroll'}  // Enables horizontal scroll
-          sx={{
-            overflowY: 'hidden',  // Hides vertical scroll
-            '::-webkit-scrollbar': { display: 'none' },  // Hides scrollbar in WebKit browsers
-            '-ms-overflow-style': 'none',  // Hides scrollbar in Internet Explorer
-            'scrollbar-width': 'none'  // Hides scrollbar in Firefox
-          }}
           px={2}
           py={1}
         >
-          <Stack direction={'row'} alignItems={'center'}>
-            <Typography sx={{ left: '0', p: '5px', py: '7px', color: 'white', position: 'fixed', alignItems: 'center', zIndex: 1000, backgroundColor: (theme) => theme.palette.primary.main }}>
-              <Tooltip title="Sidebar">
-                <IconButton color="inherit" onClick={toggleDrawer}>
-                  <MenuIcon />
-                </IconButton>
-              </Tooltip>
-            </Typography>
-            <List
+          {/* <Tooltip title={'Left'}> */}
+          <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 2 }}>
+            <ArrowBackIosNewIcon sx={{ color: 'white' }} />
+          </IconButton>
+          {/* </Tooltip> */}
+
+          <Box
+            sx={{
+              display: 'flex',
+              flex: 1,
+              overflow: 'hidden', // Ensures container is scrollable
+            }}
+          >
+            <Stack
+              ref={scrollRef}
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              overflow={'scroll'} // Enables horizontal scroll
               sx={{
-                flexDirection: 'row',
-                p: 0,
-                m: 0,
-                flex: 1,
+                overflowY: 'hidden', // Hides vertical scroll
+                '::-webkit-scrollbar': { display: 'none' }, // Hides scrollbar in WebKit browsers
+                '-ms-overflow-style': 'none', // Hides scrollbar in Internet Explorer
+                'scrollbar-width': 'none', // Hides scrollbar in Firefox
               }}
             >
-              <ListItem sx={{ p: 0, ml: 4, mr: 16 }}>
-                {menuStructure.map((item) => renderMenuItem(item))}
-              </ListItem>
-            </List>
-          </Stack>
-          {/* ... (rest of the JSX remains the same) */}
+              <Stack direction={'row'} alignItems={'center'}>
+                <Typography sx={{ left: '0', p: '5px', py: '7px', color: 'white', position: 'fixed', alignItems: 'center', zIndex: 1000, backgroundColor: (theme) => theme.palette.primary.main }}>
+                  <Tooltip title="Sidebar">
+                    <IconButton color="inherit" onClick={toggleDrawer}>
+                      <MenuIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Typography>
+                <List
+                  sx={{
+                    flexDirection: 'row',
+                    p: 0,
+                    m: 0,
+                    flex: 1,
+                  }}
+                >
+                  <ListItem sx={{ p: 0, pr: 28 }}>
+                    {menuStructure.map((item) => renderMenuItem(item))}
+                  </ListItem>
+                </List>
+              </Stack>
+            </Stack>
+          </Box>
+
+
+
+          {/* Right-hand controls (support, settings, notifications, logout) */}
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
+            {/* Add your support, settings, notifications, and logout buttons here */}
+            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, pl: 0, mr: 0 }}>
+              <ArrowForwardIosIcon sx={{ color: 'white' }} />
+            </IconButton>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}
             >
@@ -393,6 +580,5 @@ function SubHeaderNavBar({ toggleDrawer }) {
     </Box>
   );
 }
-
 export default SubHeaderNavBar;
 
