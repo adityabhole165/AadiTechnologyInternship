@@ -348,6 +348,7 @@ interface MultipleFileProps {
     ChangeFile: (files: { FileName: string; Base64URL: string }[]) => void;
     errorMessage?: string;
     clickDelete?: () => void;
+    MultipleFiles?: any[];
     clickFileName?: () => void;
     width?: string;
     viewIcon?: boolean;
@@ -371,7 +372,8 @@ const MultipleFile: React.FC<MultipleFileProps> = ({
     FileLabel = "",
     isMandatory = true,
     height = 'auto',
-    resetFileInput = false // Default to false
+    resetFileInput = false, // Default to false
+    MultipleFiles = []
 }) => {
     const [FileError, setFileError] = useState<string>('');
     const [fileList, setFileList] = useState<{ FileName: string; Base64URL: string }[]>([]);
@@ -423,6 +425,13 @@ const MultipleFile: React.FC<MultipleFileProps> = ({
             setFileError('');
         }
     }, [resetFileInput]);
+    useEffect(() => {
+        if (MultipleFiles.length == 0) {
+            fileInputRef.current.value = '';
+            setFileList([])
+        }
+
+    }, [MultipleFiles])
 
     return (
         <Grid container>

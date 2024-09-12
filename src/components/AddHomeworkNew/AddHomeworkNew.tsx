@@ -192,7 +192,6 @@ const AddHomeworkNew = () => {
     setTitle('');
     setAssignedDate('');
     setCompleteDate(null);
-    setFileName('');
     setDetails('');
     setMultipleFiles([]);
   };
@@ -1228,6 +1227,7 @@ const AddHomeworkNew = () => {
             </Grid> */}
                   <Grid item xs={3}>
                     <MultipleFile
+                      MultipleFiles={MultipleFiles}
                       ValidFileTypes={ValidFileTypes}
                       MaxfileSize={MaxfileSize}
                       ChangeFile={handleFileChange}
@@ -1336,7 +1336,6 @@ const AddHomeworkNew = () => {
                 onDateChange={handleDateChange}
                 label={'Date'}
                 size={"small"}
-
               />
             </Box>
             {/* <TextField
