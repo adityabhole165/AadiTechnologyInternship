@@ -157,7 +157,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Change Password',
       icon: <LockResetTwoToneIcon />,
       link: '/extended-sidebar/common/changePassword'
-    }, 
+    },
     {
       title: 'Exam Result',
       icon: <TableChart />,
@@ -172,7 +172,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Final Result',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult'
-    }, 
+    },
     {
       title: 'Holidays',
       icon: <DateRangeOutlinedIcon />,
@@ -182,7 +182,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Message Center',
       icon: <ForwardToInboxTwoToneIcon />,
       link: '/extended-sidebar/MessageCenter/msgCenter'
-    },  
+    },
     {
       title: 'Progress Remarks',
       icon: <InsertCommentTwoToneIcon />,
@@ -214,7 +214,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <TableChartOutlinedIcon />,
       link: '/extended-sidebar/Teacher/WeeklyTimetable'
     },
-   
+
     {
       title: 'Add Aadhar Card Details',
       icon: <AddCardTwoToneIcon />,
@@ -427,7 +427,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         alignItems="center"
         spacing={2}
       >
-        <img src={imgsrc} className={classes.smalllogo} />
+        <img src={imgsrc} className={classes.smalllogo1} />
       </Stack>
       <Divider />
       <Box
@@ -470,7 +470,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       <Box
         sx={{
           position: 'absolute',
-          top: 0
+          top: 1,
         }}
       >
         <Tooltip title="Back">

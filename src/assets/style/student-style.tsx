@@ -11,13 +11,19 @@ export const Styles = makeStyles({
 
   logo: {
     width: '100px',
-     margin: 'auto'
+    margin: 'auto'
   },
 
   smalllogo: {
     // width: '100%',
     margin: 'auto',
     maxHeight: 60
+  },
+  smalllogo1: {
+    // width: '100%',
+    margin: 'auto',
+    maxHeight: 60,
+    paddingLeft: 50
   },
   check: {
     fontWeight: 'bold !important',
