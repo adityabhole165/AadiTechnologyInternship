@@ -362,9 +362,11 @@ const PrePrimaryResult = () => {
 
             }
             {
-              StandardDivisionId == "" || AssessmentResult == '0' ? null : <div>
-                {
-                  PublishStatus === "Y" && IsPublished === "N" ? (
+              StandardDivisionId == "" || AssessmentResult == '0' ? null : 
+              
+              <div>
+                
+                 
                     <Tooltip title={'Publish'}>
                       <IconButton
                         sx={{
@@ -374,12 +376,15 @@ const PrePrimaryResult = () => {
                             backgroundColor: blue[600],
                           },
                         }}
+                        disabled={PublishStatus == "Y" && IsPublished == "Y"}
+
                         onClick={Clickpublish}
                       >
+                        
                         <CheckCircle />
                       </IconButton>
                     </Tooltip>
-                  ) : PublishStatus === "Y" && IsPublished === "Y" ? (
+                  
                     <Tooltip title={'Unpublish'}>
                       <IconButton
                         sx={{
@@ -389,13 +394,15 @@ const PrePrimaryResult = () => {
                             backgroundColor: red[500],
                           },
                         }}
+                        disabled={PublishStatus == "Y" && IsPublished == "N"}
+
                         onClick={onClickunpublished}
                       >
                         <Unpublished />
                       </IconButton>
                     </Tooltip>
-                  ) : null
-                }
+                  
+                
 
               </div>
             }
