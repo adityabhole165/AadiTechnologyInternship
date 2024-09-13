@@ -161,7 +161,7 @@ const ViewLeaveDetails = () => {
             toast.success(USApproveorRejectLeaveDetails)
             dispatch(resetapproveorreject())
             // dispatch(getLeaveDetailList());
-
+            navigate('/extended-sidebar/Teacher/LeaveDetails');
         }
     }, [USApproveorRejectLeaveDetails])
 
