@@ -1,6 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, IconButton, Link } from '@mui/material';
+import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -100,35 +100,52 @@ function Adddailyloglist({
                   <ButtonPrimary
                     style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
                     onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '10px', marginLeft: '40px' }}>
-                    {item.Text3 === 'False' ? <PublishedWithChangesIcon /> : <UnpublishedIcon />
+                    {item.Text3 === 'False' ?
+                      <Tooltip title={'Publish'}>
+                        <PublishedWithChangesIcon />
+                      </Tooltip>
+                      :
+                      <Tooltip title={'Unpublish'}>
+                        <UnpublishedIcon />
+                      </Tooltip>
                     }
                   </ButtonPrimary>
+                  {/* <ButtonPrimary
+                    style={{ backgroundColor: item.Text3 === 'False' ? green[500] : red[500] }}
+                    onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '10px', marginLeft: '40px' }}>
+                    {item.Text3 === 'False' ?  <PublishedWithChangesIcon /> 
+                    :  <UnpublishedIcon />
+                    }
+                  </ButtonPrimary> */}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="center">
                   {item.Text3 === 'False' ? (
-                    <IconButton
-                      onClick={() => clickEdit(item.Id)}
-                      sx={{
-                        cursor: 'pointer',
-                        '&:hover': { backgroundColor: 'lightgrey' }
-                      }}
-                    ><EditTwoTone /></IconButton>
+                    <Tooltip title="Edit">
+                      <IconButton
+                        onClick={() => clickEdit(item.Id)}
+                        sx={{
+                          cursor: 'pointer',
+                          '&:hover': { backgroundColor: 'lightgrey' }
+                        }}
+                      ><EditTwoTone /></IconButton>
+                    </Tooltip>
                   ) : null}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }} align="center">
                   {item.Text3 === 'False' ? (
-                    <IconButton
-                      onClick={() => clickDelete(item.Id)}
-                      sx={{
-                        color: '#223354', 
-                        //  backgroundColor: grey[500],
-                        '&:hover':{
-                          color: 'red',
-                          backgroundColor: red[100]
-                        }
-                      }}>   <DeleteForeverIcon /> </IconButton>
+                    <Tooltip title="Delete">
+                      <IconButton
+                        onClick={() => clickDelete(item.Id)}
+                        sx={{
+                          color: '#223354',
+                          //  backgroundColor: grey[500],
+                          '&:hover': {
+                            color: 'red',
+                            backgroundColor: red[100]
+                          }
+                        }}>   <DeleteForeverIcon /> </IconButton></Tooltip>
                   ) : null}
                 </TableCell>
               </TableRow>
