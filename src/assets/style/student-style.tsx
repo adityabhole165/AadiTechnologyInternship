@@ -11,13 +11,15 @@ export const Styles = makeStyles({
 
   logo: {
     width: '100px',
-    margin: 'auto'
+    margin: 'auto',
+    marginLeft:'5px'
   },
 
   smalllogo: {
     // width: '100%',
     margin: 'auto',
-    maxHeight: 60
+    maxHeight: 60,
+    
   },
   smalllogo1: {
     // width: '100%',

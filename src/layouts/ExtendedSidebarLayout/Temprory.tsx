@@ -10,11 +10,12 @@ import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone'; //A
 import Dataset from '@mui/icons-material/CalendarViewMonth';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone'; // Student Record List
-import Dashboard from '@mui/icons-material/Dashboard';
+import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined'; //Holidays
 import EventBusyTwoToneIcon from '@mui/icons-material/EventBusyTwoTone'; // missing attendance
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'; // Attendance
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'; //Annual Planner
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FactCheck from '@mui/icons-material/FactCheck';
 import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone'; // Pre Primary Progress Report
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone'; // message center 
@@ -32,14 +33,18 @@ import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone'; //SMS Center
 import TableChart from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import { Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, IconButton, ListItemText, Stack, Tooltip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
+import { BookOpenCheck, Copy, NotebookPen } from 'lucide-react';
+
+
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { grey } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
+import { Inbox, MailCheck } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -129,118 +134,141 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   const sideList = [
     {
+      id: 'Dashboard',
       title: ' Dashboard',
-      icon: <Dashboard />,
+      icon: <DashboardCustomizeOutlinedIcon />,
       link: '/extended-sidebar/landing/landing'
     },
     {
+      id: 'Other Utilities',
       title: 'Annual Planner',
       icon: <EventOutlinedIcon />,
       link: '/extended-sidebar/Common/AnnualPlanner'
     },
     {
+      id: 'Exam',
       title: 'Assign Exam Marks',
       icon: <RuleIcon />,
       link: '/extended-sidebar/Teacher/AssignExamMark'
     },
     {
+      id: 'Daily Activities',
       title: 'Assign Homework',
       icon: <AutoStoriesTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignHomework'
     },
     {
+      id: 'Daily Activities',
       title: 'Attendance',
       icon: <EventNoteOutlinedIcon />,
       link: '/extended-sidebar/Teacher/TAttendance'
     },
     {
+      id: 'Other Utilities',
       title: 'Change Password',
       icon: <LockResetTwoToneIcon />,
       link: '/extended-sidebar/common/changePassword'
     },
     {
+      id: 'Exam',
       title: 'Exam Result',
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ExamResultBase'
     },
     {
+      id: 'Exam',
       title: 'Exam Shedule',
       icon: <Dataset />,
       link: '/extended-sidebar/Teacher/Texamschedule'
     },
     {
+      id: 'Exam',
       title: 'Final Result',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult'
     },
     {
+      id: 'Other Utilities',
       title: 'Holidays',
       icon: <DateRangeOutlinedIcon />,
       link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
     },
     {
+      id: 'Communication',
       title: 'Message Center',
       icon: <ForwardToInboxTwoToneIcon />,
       link: '/extended-sidebar/MessageCenter/msgCenter'
     },
     {
+      id: 'Exam',
       title: 'Progress Remarks',
       icon: <InsertCommentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/ProgressRemarks'
     },
 
     {
+      id: 'Exam',
       title: 'Progress Report',
       icon: <AssessmentOutlinedIcon />,
       link: '/extended-sidebar/Teacher/ProgressReportNew'
     },
     {
+      id: 'Other Utilities',
       title: 'Requisition',
       icon: <AddShoppingCartTwoToneIcon />,
       link: '/extended-sidebar/Teacher/Requisition'
     },
     {
+      id: 'Communication',
       title: 'SMS Center',
       icon: <SmsTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SmsCenter'
     },
     {
+      id: 'Daily Activities',
       title: 'Timetable',
       icon: <AccessTimeIcon />,
       link: '/extended-sidebar/Teacher/TeacherTimeTable'
     },
     {
+      id: 'Daily Activities',
       title: 'Weekly Timetable',
       icon: <TableChartOutlinedIcon />,
       link: '/extended-sidebar/Teacher/WeeklyTimetable'
     },
 
     {
+      id: 'Extra Screens',
       title: 'Add Aadhar Card Details',
       icon: <AddCardTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AadharCard'
     },
     {
+      id: 'Extra Screens',
       title: 'Investment Declaration',
       icon: <AssuredWorkloadTwoToneIcon />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration'
     },
     {
+      id: 'Extra Screens',
       title: 'Leave Details',
       icon: <LibraryBooksTwoToneIcon />,
       link: '/extended-sidebar/Teacher/LeaveDetails'
     },
     {
+      id: 'Extra Screens',
       title: 'Lesson Plan',
       icon: <HistoryEduTwoToneIcon />,
       link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
     },
     {
+      id: 'Extra Screens',
       title: 'Performance Grade Assignment',
       icon: <AddchartIcon />,
       link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen'
     },
     {
+      id: 'Extra Screens',
       title: 'Student Records',
       icon: <CoPresentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/StudentRecords'
@@ -258,6 +286,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (hasMissingDays) {
     sideList.push({
+      id: 'Daily Activities',
       title: 'Missing Attendance',
       icon: <EventBusyTwoToneIcon />,
       link: null // No link for this item
@@ -265,6 +294,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
+      id: 'Daily Activities',
       title: 'Absent Student Details',
       icon: <PersonOff />,
       link: null
@@ -272,6 +302,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
   if (asUserRoleId === '2') {
     sideList.push({
+      id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
@@ -280,6 +311,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (asUserRoleId === '3') {
     sideList.push({
+      id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
       link: '/extended-sidebar/Common/SchoolNotice'
@@ -288,6 +320,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   // Conditionally insert the "Assign Pre-Primary Grades" item at the 4th position (index 3)
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
+      id: 'Exam',
       title: 'Assign Pre-Primary Grades',
       icon: <ReceiptTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
@@ -295,6 +328,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
+      id: 'Exam',
       title: 'Pre-Primary Progress Report',
       icon: <FactCheckTwoToneIcon />,
       link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
@@ -303,6 +337,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (isPreprimary === true) {
     sideList.splice(6, 0, {
+      id: 'Exam',
       title: 'Pre-Primary Results',
       icon: <SchoolTwoToneIcon />,
       link: '/extended-sidebar/Teacher/PrePrimaryResult'
@@ -311,11 +346,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (isPreprimary === true) {
     sideList.push({
+      id: 'Exam',
       title: 'Student Wise Progress Report',
       icon: <TableChartTwoToneIcon />,
       link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
     });
   }
+
 
 
   const activeStyle = {
@@ -409,25 +446,44 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       setMissingAttendanceDialog(false);
     }
   }, [hasMissingDays]);
+  //new impliment
+  const groupedItems = {
+    "Daily Activities": sideList.filter(item => item.id === 'Daily Activities'),
+    "Communication": sideList.filter(item => item.id === 'Communication'),
+    "Exam": sideList.filter(item => item.id === 'Exam'),
+    "Other Utilities": sideList.filter(item => item.id === 'Other Utilities'),
+    "Extra Screens": sideList.filter(item => item.id === 'Extra Screens'),
 
+  };
+  const handleListItemClick1 = (event, link) => {
+    event.stopPropagation(); // Prevent event propagation to AccordionSummary
+    if (link) {
+      window.location.href = link; // Redirect to the specified link
+    }
+  };
+  //end new impliment
 
   const list = (anchor: Anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
-      onClick={() => {
-        toggleDrawer(anchor, false);
-      }}
-      onKeyDown={() => {
-        toggleDrawer(anchor, false);
-      }}
+    // onClick={() => {
+    //   toggleDrawer(anchor, false);
+    // }}
+    // onKeyDown={() => {
+    //   toggleDrawer(anchor, false);
+    // }}
     >
       <Stack
         direction="row"
         alignItems="center"
-        spacing={2}
-      >
-        <img src={imgsrc} className={classes.smalllogo1} />
+        spacing={2} sx={{pl:1}}>
+          <Box onClick={() => {
+              toggleDrawer(anchor, false);
+              navigate('/extended-sidebar/landing/landing')
+            }} sx={{cursor:'pointer', zIndex:'1000'}}>
+        <img src={imgsrc} className={classes.smalllogo}  />
+        </Box>
       </Stack>
       <Divider />
       <Box
@@ -436,7 +492,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           overflow: 'auto'
         }}
       >
-        <List>
+        {/* <List>
           {sideList.map((text, index) => (
             <ListItem
               key={index}
@@ -465,39 +521,69 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
+        </List> */}
+        <div>
+          <Box px={0}>
+            <ListItemButton onClick={() => {
+              toggleDrawer(anchor, false);
+              navigate('/extended-sidebar/landing/landing')
+            }}>
+              <IconButton
+                onKeyDown={() => { toggleDrawer(anchor, false); }} >
+                <DashboardCustomizeOutlinedIcon />
+              </IconButton>
+              <Typography variant='h5' pl={0.1}>
+                Dashboard
+              </Typography>
+            </ListItemButton>
+          </Box>
+          {Object.keys(groupedItems).map((group) => (
+            <Accordion key={group} >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} >
+                {group === 'Daily Activities' && <IconButton sx={{ pt: 0.5 , borderRadius:'7px' }}><NotebookPen /></IconButton>}
+                {group === 'Communication' && <IconButton sx={{ pt: 0.5, borderRadius:'7px'}}><MailCheck /></IconButton>}
+                {group === 'Exam' && <IconButton sx={{ pt: 0.5, borderRadius:'7px' }}><BookOpenCheck /></IconButton>}
+                {group === 'Other Utilities' && <IconButton sx={{ pt: 0.5, borderRadius:'7px' }}><Inbox /></IconButton>}
+                {group === 'Extra Screens' && <IconButton sx={{ pt: 0.5, borderRadius:'7px' }}><Copy /></IconButton>}
+                <b style={{ marginTop: '4px' }}> {group}</b>
+              </AccordionSummary >
+              <AccordionDetails sx={{ py: 0, pl: 0 }}>
+                <List sx={{ pt: 0, px: 0 }}>
+                  {groupedItems[group].map((item) => (
+                    <ListItem button key={item.title}
+                      //  component="a" href={item.link}
+                      onClick={(e) => handleListItemClick1(e, item.link)}>
+                      <ListItemIcon sx={{ pt: 0, px: 0, pl: 2 }}>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.title} />
+                    </ListItem>
+                  ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
       </Box>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 1,
-        }}
-      >
+      <Box sx={{ position: 'absolute', top: 0 }}>
         <Tooltip title="Back">
           <IconButton
             onClick={() => {
               toggleDrawer('left', false);
             }}
             sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              mx: 1,
-              my: 0.5,
-              ':hover': { backgroundColor: grey[600] }
-            }}
-          >
+              color: '#38548A',
+              //  backgroundColor: grey[500], 
+              mt: 2, ml: 23,
+              borderRadius: '7px',
+              ':hover': {
+                color: red[600],
+                backgroundColor: red[100]
+              }
+            }}>
             <CloseTwoTone />
           </IconButton>
         </Tooltip>
       </Box>
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: 0,
-          display: 'flow',
-          width: '100%'
-        }}
-      >
+      <Box sx={{ position: 'absolute', bottom: 0, display: 'flow', width: '100%' }}>
         <Divider className="m-5" />
         <Grid className="p-8" container>
           <Tooltip title={'Profile'}>
