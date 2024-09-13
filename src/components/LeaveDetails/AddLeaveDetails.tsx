@@ -285,9 +285,9 @@ const AddLeaveDetails = () => {
         if (SubmitLeaveDetails != "") {
 
             if (LeaveDId) {
-                toast.success("Leave details updated successfully.", { toastId: "success1" });
+                toast.success("Leave record updated successfully.", { toastId: "success1" });
             } else {
-                toast.success("Leave details saved successfully.", { toastId: "success1" });
+                toast.success("Leave record saved successfully.", { toastId: "success1" });
             }
             dispatch(resetSubmitLeave());
             navigate('/extended-sidebar/Teacher/LeaveDetails');
