@@ -582,9 +582,9 @@ const AddDailyLog = () => {
         >
           <DialogTitle
             sx={{
-              bgcolor:'#223354',
+              bgcolor: '#223354',
               // backgroundColor: (theme) => theme.colors.primary.main,
-               color: (theme) => theme.palette.common.white
+              color: (theme) => theme.palette.common.white
             }}
           >
             <ClearIcon onClick={handleClose}
@@ -664,7 +664,7 @@ const AddDailyLog = () => {
                 }
               }}
             >
-              Save
+              Update
             </Button>
           </DialogActions>
         </Dialog>
