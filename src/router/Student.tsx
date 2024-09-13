@@ -169,7 +169,7 @@ const studentRoutes = [
     element: <SmsCenter />
   },
   {
-    path: 'viewsms/:ID',
+    path: 'viewsms/:SMS_Id',
     element: <ViewSms />
   },
   {

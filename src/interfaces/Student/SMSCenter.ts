@@ -58,15 +58,23 @@ export interface GetUserMobileNumberResult {
 //View SMS details
 
 export interface IViewSms {
-  asSchoolId: string;
-  asSMSId: string;
-  asUserRoleId: string;
-  asUserId: string;
-  asAcademicYearId: string;
+  asSchoolId: number;
+  asSMSId: number;
 }
 export interface GetSMSDetailsResult {
-  UserName: string;
-  Date: string;
-  DisplayText: string;
-  Subject: string;
+  SMS_Id: number;
+  Sender_Name: string;
+  SMS_Text: string;
+  SMS_Count: string;
+  Display_Text: string;
+  Is_DeletedFromUser: string;
+  Sender_User_Role_Id: number;
+  Sender_User_Id: number;
+  School_Id: number;
+  academic_Year_Id: number;
+  Is_Deleted: string;
+  Insert_Date: string;
+  Inserted_By_Id: string;
+  Updated_Date: string;
+  Updated_By_Id: string;
 }

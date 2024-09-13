@@ -63,7 +63,7 @@ function SmsCenter() {
   //   dispatch(getSmsList(SmsList_body));
   // }, [page, rowsPerPage]);
 
- 
+
   const sortedAndFilteredSmsList = NewSmsList
     .filter(item => {
       if (!dateFilter.startDate && !dateFilter.endDate) return true;
@@ -81,7 +81,7 @@ function SmsCenter() {
   const handleEndDateChange = (date: Date | null) => {
     setDateFilter(prevState => ({ ...prevState, endDate: date }));
   };
- 
+
 
 
 
@@ -101,15 +101,15 @@ function SmsCenter() {
 
 
 
-    const SmsNewList_body: INewSmsList = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: UserId,
-      asReceiverUserRoleId: RoleId,
-      asStartIndex: (page - 1) * rowsPerPage,
-      asPageSize: page * rowsPerPage
-    };
-   
+  const SmsNewList_body: INewSmsList = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asUserId: UserId,
+    asReceiverUserRoleId: RoleId,
+    asStartIndex: (page - 1) * rowsPerPage,
+    asPageSize: page * rowsPerPage
+  };
+
 
   useEffect(() => {
     dispatch(getNewSmsList(SmsNewList_body))
@@ -223,7 +223,7 @@ function SmsCenter() {
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
-                    <Link to={`/extended-sidebar/Student/viewsms/${item.ID}`} style={{ textDecoration: 'none' }}>
+                    <Link to={`/extended-sidebar/Student/viewsms/${item.SMS_Id}`} style={{ textDecoration: 'none' }}>
                       <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
                     </Link>
                   </Typography>

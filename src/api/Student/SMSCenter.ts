@@ -1,5 +1,6 @@
 import {
   GetNewSMSListResult,
+  GetSMSDetailsResult,
   IMobileNumber,
   INewSmsList,
   ISmsList,
@@ -22,7 +23,7 @@ const GetMobileNumber = (data: IMobileNumber) => {
 
 //View SMS details
 const GetSmsDetails = (data: IViewSms) => {
-  return http.post<IViewSms>('SMS/GetSMSDetails', data);
+  return http.post<GetSMSDetailsResult>('Teacher/GetSMSDetails', data);
 };
 
 const SmsCenterApi = {

@@ -33,15 +33,12 @@ function ViewSms() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
-  const { ID } = useParams();
+  const { SMS_Id } = useParams();
 
   const GetViewMessageResult = () => {
     const ViewSms_body: IViewSms = {
-      asSchoolId: asSchoolId,
-      asSMSId: `${ID}`,
-      asUserRoleId: RoleId,
-      asUserId: UserId,
-      asAcademicYearId: asAcademicYearId
+      asSchoolId: Number(asSchoolId),
+      asSMSId: Number(SMS_Id),
     };
     http
       .post('SMS/GetSMSDetails', ViewSms_body)
@@ -95,7 +92,7 @@ function ViewSms() {
                   </Typography>
               </FlexedTypography>
               <Typography variant={"h4"}>
-                {viewSms?.UserName}
+                {viewSms?.Sender_Name}
               </Typography>
             </Grid>
             <Grid item xs={10}>
@@ -106,7 +103,7 @@ function ViewSms() {
                
               </FlexedTypography>
               <Typography variant={"h4"}>
-                {viewSms?.Date}
+                {viewSms?.Insert_Date}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -119,7 +116,7 @@ function ViewSms() {
                 </Typography>        
               </FlexedTypography>
               <Typography variant={"h4"}>
-                {viewSms?.DisplayText}
+                {viewSms?.Display_Text}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -133,7 +130,7 @@ function ViewSms() {
               
               </FlexedTypography>
               <Typography variant={"h4"}>
-                {viewSms?.Subject}
+                {viewSms?.SMS_Text}
               </Typography>
             </Grid>
           </Grid>
