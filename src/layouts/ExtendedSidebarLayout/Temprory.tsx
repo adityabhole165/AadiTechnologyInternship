@@ -467,22 +467,17 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
-    // onClick={() => {
-    //   toggleDrawer(anchor, false);
-    // }}
-    // onKeyDown={() => {
-    //   toggleDrawer(anchor, false);
-    // }}
+
     >
       <Stack
         direction="row"
         alignItems="center"
-        spacing={2} sx={{pl:1}}>
-          <Box onClick={() => {
-              toggleDrawer(anchor, false);
-              navigate('/extended-sidebar/landing/landing')
-            }} sx={{cursor:'pointer', zIndex:'1000'}}>
-        <img src={imgsrc} className={classes.smalllogo}  />
+        spacing={2} sx={{ pl: 1 }}>
+        <Box onClick={() => {
+          toggleDrawer(anchor, false);
+          navigate('/extended-sidebar/landing/landing')
+        }} sx={{ cursor: 'pointer', zIndex: '1000' }}>
+          <img src={imgsrc} className={classes.smalllogo} />
         </Box>
       </Stack>
       <Divider />
@@ -540,11 +535,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           {Object.keys(groupedItems).map((group) => (
             <Accordion key={group} >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-                {group === 'Daily Activities' && <IconButton sx={{ pt: 0.5 , borderRadius:'7px' }}><NotebookPen /></IconButton>}
-                {group === 'Communication' && <IconButton sx={{ pt: 0.5, borderRadius:'7px'}}><MailCheck /></IconButton>}
-                {group === 'Exam' && <IconButton sx={{ pt: 0.5, borderRadius:'7px' }}><BookOpenCheck /></IconButton>}
-                {group === 'Other Utilities' && <IconButton sx={{ pt: 0.5, borderRadius:'7px' }}><Inbox /></IconButton>}
-                {group === 'Extra Screens' && <IconButton sx={{ pt: 0.5, borderRadius:'7px' }}><Copy /></IconButton>}
+                {group === 'Daily Activities' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><NotebookPen /></IconButton>}
+                {group === 'Communication' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><MailCheck /></IconButton>}
+                {group === 'Exam' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><BookOpenCheck /></IconButton>}
+                {group === 'Other Utilities' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><Inbox /></IconButton>}
+                {group === 'Extra Screens' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><Copy /></IconButton>}
                 <b style={{ marginTop: '4px' }}> {group}</b>
               </AccordionSummary >
               <AccordionDetails sx={{ py: 0, pl: 0 }}>
