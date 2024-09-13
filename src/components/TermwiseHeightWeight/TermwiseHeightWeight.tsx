@@ -253,7 +253,7 @@ const TermwiseHeightWeight = () => {
           <SearchableDropdown
             sx={{
               minWidth: '20vw'
-              , bgcolor: screenPermission.perm === 'N' ? '#f0e68c' : 'inherit'
+              , bgcolor: screenPermission.perm === 'N' ? '#F0F0F0' : 'inherit'
             }}
             ItemList={ClassTeacherDropdown}
             onChange={clickTeacherDropdown}
@@ -322,7 +322,7 @@ const TermwiseHeightWeight = () => {
        <Box  sx={{backgroundColor:'white', mb:2, p:2}}>
         <Stack direction={'row'} gap={1} alignItems={'center'}  mb={0} >
           <Typography variant={'h4'} mb={0}>
-            Legend:
+            Legend
           </Typography>
           <DotLegend1 sx={{ alignItems: 'center', display: 'flex', mt:'0px' }}>
             <DotLegendStyled1
@@ -405,7 +405,7 @@ const TermwiseHeightWeight = () => {
           </>
         ) : (
           <Typography variant="body1" sx={{ textAlign: 'center', backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
+            <b>No record found.</b>
           </Typography>
         )}
         
