@@ -99,22 +99,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
   const handleMenuClose = (menuId: number) => {
     setAnchorEl({ ...anchorEl, [menuId]: null });
   };
-  function actionPage(item) {
-    if (item?.MenuTypeId == "2") {
-      dispatch(getMenuDescription({ aiMenuId: item.MenuId, aiSchoolId: Number(schoolId) }))
-      // let obj = {
-      //   NavMenuName: item.MenuName
-      // }
-      console.log(item)
-      navigate('/extended-sidebar/landing/navmenupage', { state: item })
-    } else {
-      if (item.FilePath !== '' && item.IsURL) {
-        window.open(item.FilePath, "_blank");
-      } else if (item.FilePath !== '' && !item.IsURL) {
-        window.open(localStorage.getItem('SiteURL') + item.FilePath);
-      }
-    }
-  }
+
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -135,10 +120,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
     }
   };
 
-
   const renderMenuItem = (item: MenuItem) => {
     const hasChildren = item.children && item.children.length > 0;
-
     return (
       <Box key={item.MenuId}>
         <ListItemButton
@@ -152,6 +135,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             whiteSpace: 'nowrap'
           }}
           // onMouseEnter={(e) => handleMenuClick(e, item.MenuId)}
+          onMouseEnter={(e) => { handleMenuClick(e, item.MenuId) }}
           onClick={(e) => {
             console.log('----->>>>', item);
             handleMenuClick(e, item.MenuId)
@@ -160,7 +144,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
             dispatch(getChildMenuId({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }))
           }}
-        // onMouseOut={() => handleMenuClose(item.MenuId)}
+        // onMouseLeave={() => handleMenuClose(item.MenuId)}
         >
           {item.MenuName}
           {hasChildren && <KeyboardArrowDownIcon />}
@@ -171,7 +155,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
             open={Boolean(anchorEl[item.MenuId])}
             onClose={() => handleMenuClose(item.MenuId)}
             MenuListProps={{
-              'aria-labelledby': 'basic-button'
+              'aria-labelledby': 'basic-button',
+              onMouseLeave: () => handleMenuClose(item.MenuId)
             }}
             anchorOrigin={{
               vertical: 'bottom',
@@ -197,10 +182,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
     );
   };
 
-  // ... (rest of the component code remains the same)
   const [openSupportMenu, setOpenSupportMenu] = React.useState(false);
   const supportMenuRef = React.useRef<HTMLButtonElement>(null);
-  // const navigate = useNavigate();
 
   const handleToggle = () => {
     setOpenSupportMenu((prevOpen) => !prevOpen);
@@ -240,34 +223,6 @@ function SubHeaderNavBar({ toggleDrawer }) {
     window.open(KnowledgeBase, '_blank');
   };
 
-  const supportOptions = [
-    {
-      name: 'Support',
-      anchor: null,
-      options: [
-        {
-          name: 'User Guide',
-          link: ''
-        },
-        {
-          name: 'Knowledge Base',
-          link: ''
-        },
-        // {
-        //   name: 'Email',
-        //   link: ''
-        // },
-        {
-          name: 'Feedback',
-          link: ''
-        },
-        {
-          name: 'Contact Us',
-          link: ''
-        }
-      ]
-    }
-  ];
   const handleLogout = async (): Promise<void> => {
     try {
       localStorage.removeItem('auth');
@@ -277,144 +232,6 @@ function SubHeaderNavBar({ toggleDrawer }) {
       console.error(err);
     }
   };
-
-  //   return (
-  //     <Box mb={1.5}>
-  //       <AppBar
-  //         position="fixed"
-  //         sx={{
-  //           mt: '60px',
-  //           zIndex: 1201,
-  //           backgroundColor: (theme) => theme.palette.primary.main,
-  //         }}
-  //       >
-  //         <Stack
-  //           direction={'row'}
-  //           alignItems={'center'}
-  //           justifyContent={'space-between'}
-  //           overflow={'scroll'}  // Enables horizontal scroll
-  //           sx={{
-  //             overflowY: 'hidden',  // Hides vertical scroll
-  //             '::-webkit-scrollbar': { display: 'none' },  // Hides scrollbar in WebKit browsers
-  //             '-ms-overflow-style': 'none',  // Hides scrollbar in Internet Explorer
-  //             'scrollbar-width': 'none'  // Hides scrollbar in Firefox
-  //           }}
-  //           px={2}
-  //           py={1}
-  //         >
-  //           <Stack direction={'row'} alignItems={'center'}>
-  //             <Typography sx={{ left: '0', p: '5px', py: '7px', color: 'white', position: 'fixed', alignItems: 'center', zIndex: 1000, backgroundColor: (theme) => theme.palette.primary.main }}>
-  //               <Tooltip title="Sidebar">
-  //                 <IconButton color="inherit" onClick={toggleDrawer}>
-  //                   <MenuIcon />
-  //                 </IconButton>
-  //               </Tooltip>
-  //             </Typography>
-  //             <List
-  //               sx={{
-  //                 flexDirection: 'row',
-  //                 p: 0,
-  //                 m: 0,
-  //                 flex: 1,
-  //               }}
-  //             >
-  //               <ListItem sx={{ p: 0, ml: 4, mr: 16 }}>
-  //                 {menuStructure.map((item) => renderMenuItem(item))}
-  //               </ListItem>
-  //             </List>
-  //           </Stack>
-  //           {/* ... (rest of the JSX remains the same) */}
-  //           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
-  //             <Tooltip
-  //               title={`Displays dashboard for users. Lists available features of the application.`}
-  //             >
-  //               <IconButton
-  //                 sx={{
-  //                   color: 'white',
-  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
-  //                 }}
-  //               >
-  //                 <QuestionMarkIcon />
-  //               </IconButton>
-  //             </Tooltip>
-  //             <Tooltip title={'Support'}>
-  //               <IconButton
-  //                 sx={{
-  //                   color: 'white',
-  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
-  //                 }}
-  //                 ref={supportMenuRef}
-  //                 onClick={handleToggle}
-  //               >
-  //                 <InfoTwoToneIcon />
-  //               </IconButton>
-  //             </Tooltip>
-
-  //             {/* Support Menu Popup */}
-  //             <Popper
-  //               open={openSupportMenu}
-  //               anchorEl={supportMenuRef.current}
-  //               role={undefined}
-  //               placement="bottom-start"
-  //               transition
-  //               disablePortal
-  //             >
-  //               {({ TransitionProps, placement }) => (
-  //                 <Grow
-  //                   {...TransitionProps}
-  //                   style={{
-  //                     transformOrigin:
-  //                       placement === 'bottom-start' ? 'left top' : 'left bottom'
-  //                   }}
-  //                 >
-  //                   <Paper>
-  //                     <ClickAwayListener onClickAway={handleClose}>
-  //                       <MenuList
-  //                         id="composition-menu"
-  //                         aria-labelledby="composition-button"
-  //                       >
-  //                         <MenuItem onClick={handleMenuItemClick(handleEmail)}>Email</MenuItem>
-  //                         <MenuItem onClick={handleMenuItemClick(handleSupport)}>Support</MenuItem>
-  //                         <MenuItem onClick={handleMenuItemClick(handleuserguide)}>User Guide</MenuItem>
-  //                         <MenuItem onClick={handleMenuItemClick(handleKnowledgebase)}>
-  //                           Knowledge Base
-  //                         </MenuItem>
-  //                       </MenuList>
-  //                     </ClickAwayListener>
-  //                   </Paper>
-  //                 </Grow>
-  //               )}
-  //             </Popper>
-  //             {/* Support Menu Popup End */}
-  //             <SettingsDropdown />
-  //             <Tooltip title={'Notifications'}>
-  //               <IconButton
-  //                 sx={{
-  //                   color: 'white',
-  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
-  //                 }}
-  //               >
-  //                 <NotificationsTwoToneIcon />
-  //               </IconButton>
-  //             </Tooltip>
-  //             <Tooltip title={'Logout'}>
-  //               <IconButton
-  //                 sx={{
-  //                   marginRight: '10px',
-  //                   color: 'white',
-  //                   background: (theme) => alpha(theme.palette.common.white, 0.2)
-  //                 }}
-  //                 onClick={handleLogout}
-  //               >
-  //                 <LogoutTwoToneIcon />
-  //               </IconButton>
-  //             </Tooltip>
-  //           </Stack>
-  //         </Stack>
-  //       </AppBar>
-  //     </Box>
-  //   );
-  // }
   return (
     <Box mb={1.5}>
       <AppBar
@@ -535,6 +352,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                   <Paper>
                     <ClickAwayListener onClickAway={handleClose}>
                       <MenuList
+                        onMouseLeave={handleClose}
                         id="composition-menu"
                         aria-labelledby="composition-button"
                       >
@@ -581,4 +399,3 @@ function SubHeaderNavBar({ toggleDrawer }) {
   );
 }
 export default SubHeaderNavBar;
-

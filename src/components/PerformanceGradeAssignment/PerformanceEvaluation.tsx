@@ -372,7 +372,7 @@ const PerformanceEvaluation = () => {
             asYear: Number(asYear),
             asIsSubmitAction: 1
         }
-        if (isValid) {
+        if (isValid()) {
             showAlert({
                 title: 'Please Confirm',
                 message: 'This action will save and submit current details. Are you sure you want to continue?',
