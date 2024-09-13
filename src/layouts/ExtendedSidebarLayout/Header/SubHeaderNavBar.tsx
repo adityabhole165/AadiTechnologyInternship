@@ -25,6 +25,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import {  grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -250,7 +251,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           py={1}
         >
           {/* <Tooltip title={'Left'}> */}
-          <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 2 }}>
+          <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3  }}>
             <ArrowBackIosNewIcon sx={{ color: 'white' }} />
           </IconButton>
           {/* </Tooltip> */}
@@ -304,7 +305,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           {/* Right-hand controls (support, settings, notifications, logout) */}
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
-            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, pl: 0, mr: 0 }}>
+            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0 }}>
               <ArrowForwardIosIcon sx={{ color: 'white' }} />
             </IconButton>
             <Tooltip
