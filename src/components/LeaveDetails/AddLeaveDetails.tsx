@@ -182,6 +182,11 @@ const AddLeaveDetails = () => {
         let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24) + 1); // +1 to include both start and end dates
         return daysDiff < 0 ? 0 : daysDiff;
     };
+    const handleTotalDaysChange = (e) => {
+        const value = e.target.value;
+        const numericValue = value.replace(/[^0-9]/g, '').slice(0, 4);
+        setTotalDays(numericValue);
+    };
 
     // useEffect(() => {
     //     if (StartDate && EndDate) {
@@ -429,7 +434,7 @@ const AddLeaveDetails = () => {
                                 Total Days <span style={{ color: 'red' }}>*</span>
                             </>}
                             value={TotalDays}
-                            onChange={(e) => setTotalDays(e.target.value)}
+                            onChange={handleTotalDaysChange}
                             fullWidth
                         />
                         <ErrorMessage1 Error={TotalDaysError}></ErrorMessage1>
