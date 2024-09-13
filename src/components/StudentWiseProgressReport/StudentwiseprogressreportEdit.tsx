@@ -11,10 +11,12 @@ import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import { IGetClassTeacherXseedSubjectsBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
+import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails, resetMessage } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
+import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const StudentwiseprogressreportEdit = () => {
@@ -35,7 +37,8 @@ const StudentwiseprogressreportEdit = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
-
+    const RoleId = sessionStorage.getItem('RoleId');
+    const userId = sessionStorage.getItem('Id');
     const USAssessmentPublishStatus: any = useSelector((state: RootState) => state.PreprimaryProgressReport.ISAssessmentPublishStatus);
     const AssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.AssessmentPublishStatus);
     const StudentWiseAssessmentPublishStatus = USAssessmentPublishStatus.map(item => item.StudentWiseAssessmentPublishStatus);
@@ -63,6 +66,10 @@ const StudentwiseprogressreportEdit = () => {
     const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
     const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
     console.log(IsPublished, "--", PublishStatus);
+
+    const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
+
+
     const hasValidLearningOutcomeGrade = (outcome: any) => {
 
 
@@ -70,6 +77,8 @@ const StudentwiseprogressreportEdit = () => {
     };
 
     const filteredOutcomes = USFillStudentsLearningOutcomes.map((outcome: any) => hasValidLearningOutcomeGrade(outcome));
+    const allOutcomesValid = filteredOutcomes.every((outcomeValid: boolean) => outcomeValid);
+console.log(allOutcomesValid,"allOutcomesValid");
 
     useEffect(() => {
         const remark = USFillXseedRemarks.filter(item => item.Remark);
@@ -103,6 +112,17 @@ const StudentwiseprogressreportEdit = () => {
         asStdDivId: Number(YearwiseStudentId),
         asAssessmentId: Number(AssessmentId)
     };
+
+
+    useEffect(() => {
+        const UserDetailBody: IGetUserDetailsBody = {
+            asSchoolId: String(asSchoolId),
+            asUserId: userId,
+            asRoleId: RoleId
+        };
+        dispatch(getUserDetailss(UserDetailBody));
+    }, [userId, RoleId]);
+
 
     const clickAssessmentId = (value) => {
         setAssessmentId(value);
@@ -418,6 +438,9 @@ const StudentwiseprogressreportEdit = () => {
         }
     }, [USManageStudentWiseAssessmentGrades]);
 
+    console.log(AssessmentPublishStatus,"AssessmentPublishStatusAssessmentPublishStatus");
+    
+
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
@@ -459,7 +482,7 @@ const StudentwiseprogressreportEdit = () => {
                                         backgroundColor: blue[600]
                                     }
                                 }}
-                                disabled={StudentWiseAssessmentPublishStatus == "N" && filteredOutcomes[0] == true}
+                                disabled={StudentWiseAssessmentPublishStatus == "N" || allOutcomesValid == false}
 
                                 onClick={ClickShow}>
                                 <FactCheck />
@@ -467,55 +490,33 @@ const StudentwiseprogressreportEdit = () => {
                         </Tooltip>
 
 
+
                         {
-                            (StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true ? (
-                                <Tooltip title={'Publish'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: blue[500],
-                                    '&:hover': {
-                                        backgroundColor: blue[600],
-                                    },
-                                }}
-                                disabled={(StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true}
-
-                                onClick={Clickpublish}
-
-
-                            >
-                                <CheckCircle />
-                            </IconButton>
-                        </Tooltip>
-
-                            ) : (StudentWiseAssessmentPublishStatus == "Y" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true ? (
-                                <Tooltip title={'Unpublish'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: red[500],
-                                    '&:hover': {
-                                        backgroundColor: red[500],
-                                    },
-                                }}
-                                disabled={(StudentWiseAssessmentPublishStatus == "N" && AssessmentPublishStatus == "N") && filteredOutcomes[0] == true}
-
-                                onClick={ClickUnpublish}
-                            >
-                                <Unpublished />
-                            </IconButton>
-                        </Tooltip>
-                            ) : null
+                            UserDetail.CanPublishUnpublishExam == true? (
+                                <Tooltip title={StudentWiseAssessmentPublishStatus[0]  == "N" ? "Publish" : "Unpublish"}>
+                                    <IconButton
+                                        sx={{
+                                            color: 'white',
+                                            backgroundColor: StudentWiseAssessmentPublishStatus[0]  == "N" ? blue[500] : red[500],
+                                            '&:hover': {
+                                                backgroundColor: StudentWiseAssessmentPublishStatus[0]  == "N" ? blue[600] : red[600],
+                                            },
+                                        }}
+                                        disabled={
+                                            (AssessmentPublishStatus[0]  == "Y" || allOutcomesValid == false) 
+                                        }
+                                        onClick={StudentWiseAssessmentPublishStatus[0]  == "N" ? Clickpublish : ClickUnpublish}
+                                    >
+                                        {StudentWiseAssessmentPublishStatus[0]  == "N" ? <CheckCircle /> : <Unpublished />}
+                                    </IconButton>
+                                </Tooltip>
+                            ) : <span></span>
                         }
 
 
 
 
-                        
 
-
-
-                        
                         <Tooltip title={'Save'}>
                             <IconButton
                                 onClick={clicksave}
