@@ -272,6 +272,26 @@ const ViewLeaveDetails = () => {
                     <QuestionMark />
                 </IconButton>
             </Tooltip>
+            <Box>
+                <Tooltip title={'Reject'}>
+                    <span>
+                        <IconButton
+                            disabled={(GetViewLeave.length > 0 &&
+                                GetViewLeave[0].Text6 != '')}
+                            sx={{
+                                backgroundColor: red[500],
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: red[600]
+                                }
+                            }}
+                            onClick={onClickReject}
+                        >
+                            <PersonRemove />
+                        </IconButton>
+                    </span>
+                </Tooltip>
+            </Box>
             {getApproveRRBtnShow() && getLeaveId && (
                 <>
                     <Tooltip title={getTooltipTitle()}>
@@ -295,26 +315,7 @@ const ViewLeaveDetails = () => {
                         </span>
                     </Tooltip>
                     {/* {getButtonDisEnaRAR() && ( */}
-                    <Box>
-                        <Tooltip title={'Reject'}>
-                            <span>
-                                <IconButton
-                                    disabled={(GetViewLeave.length > 0 &&
-                                        GetViewLeave[0].Text6 != '')}
-                                    sx={{
-                                        backgroundColor: red[500],
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: red[600]
-                                        }
-                                    }}
-                                    onClick={onClickReject}
-                                >
-                                    <PersonRemove />
-                                </IconButton>
-                            </span>
-                        </Tooltip>
-                    </Box>
+
                     {/* )} */}
                 </>)}
 
