@@ -455,10 +455,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     "Extra Screens": sideList.filter(item => item.id === 'Extra Screens'),
 
   };
-  const handleListItemClick1 = (event, link) => {
+  const handleListItemClick1 = (event, link, anchor) => {
     event.stopPropagation(); // Prevent event propagation to AccordionSummary
     if (link) {
-      window.location.href = link; // Redirect to the specified link
+      // window.location.href = link; // Redirect to the specified link
+      navigate(link);
+      toggleDrawer(anchor, false);
     }
   };
   //end new impliment
@@ -547,7 +549,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
                   {groupedItems[group].map((item) => (
                     <ListItem button key={item.title}
                       //  component="a" href={item.link}
-                      onClick={(e) => handleListItemClick1(e, item.link)}>
+                      onClick={(e) => handleListItemClick1(e, item.link, anchor)}>
                       <ListItemIcon sx={{ pt: 0, px: 0, pl: 2 }}>{item.icon}</ListItemIcon>
                       <ListItemText primary={item.title} />
                     </ListItem>

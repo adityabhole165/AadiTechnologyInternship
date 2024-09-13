@@ -441,46 +441,27 @@ const PerformanceEvaluation = () => {
                                     </IconButton>
                                 </Tooltip>
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Tooltip title={'Save'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text2 === 'True' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: green[500],
-                                                '&:hover': {
-                                                    backgroundColor: green[600]
-                                                }
-                                            }}
-                                            onClick={savePerfEval}
-                                        >
-                                            <Save />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Tooltip title={'Submit'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: green[500],
-                                                '&:hover': {
-                                                    backgroundColor: green[600],
-                                                },
-                                            }}
-                                            onClick={submitEval}
-                                        >
-                                            <Check />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
-                            </Box>
                             {isFinalApprover() &&
                                 <>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <Tooltip title={'View report'}>
+                                            <span>
+                                                <IconButton
+                                                    disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
+                                                    sx={{
+                                                        color: 'white',
+                                                        backgroundColor: blue[500],
+                                                        '&:hover': {
+                                                            backgroundColor: blue[600],
+                                                        },
+                                                    }}
+                                                    onClick={() => { }}
+                                                >
+                                                    <FactCheck />
+                                                </IconButton>
+                                            </span>
+                                        </Tooltip>
+                                    </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                         <Tooltip title={'Publish'}>
                                             <span>
@@ -500,25 +481,47 @@ const PerformanceEvaluation = () => {
                                             </span>
                                         </Tooltip>
                                     </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Tooltip title={'View report'}>
-                                            <span>
-                                                <IconButton
-                                                    disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
-                                                    sx={{
-                                                        color: 'white',
-                                                        backgroundColor: blue[500],
-                                                        '&:hover': {
-                                                            backgroundColor: blue[600],
-                                                        },
-                                                    }}
-                                                    onClick={() => { }}
-                                                >
-                                                    <FactCheck />
-                                                </IconButton>
-                                            </span>
-                                        </Tooltip>
-                                    </Box> </>}
+                                </>}
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Tooltip title={'Submit'}>
+                                    <span>
+                                        <IconButton
+                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: green[500],
+                                                '&:hover': {
+                                                    backgroundColor: green[600],
+                                                },
+                                            }}
+                                            onClick={submitEval}
+                                        >
+                                            <Check />
+                                        </IconButton>
+                                    </span>
+                                </Tooltip>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Tooltip title={'Save'}>
+                                    <span>
+                                        <IconButton
+                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text2 === 'True' ? false : true}
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: green[500],
+                                                '&:hover': {
+                                                    backgroundColor: green[600]
+                                                }
+                                            }}
+                                            onClick={savePerfEval}
+                                        >
+                                            <Save />
+                                        </IconButton>
+                                    </span>
+                                </Tooltip>
+                            </Box>
+
+
                         </>}
                 />
                 {loading ? <SuspenseLoader /> :
@@ -532,28 +535,33 @@ const PerformanceEvaluation = () => {
                         <Grid container spacing={3}>
                             {listSchoolOrgNameDetails?.map((item, i) => (
                                 <Grid item xs={12} key={item.UserId}>
-                                    <Box sx={{
-                                        backgroundColor: '#F0F0F0',
-                                        textAlign: 'center', marginBottom: 2,
-                                    }}>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-                                            {item.schoolOrgName}
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1} >
-                                            {item.schoolName}
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-                                            {item.address}
-                                        </Typography>
-                                        <hr />
-                                        <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
-                                            Staff Performance Evaluation
-                                        </Typography>
-                                        <hr />
-                                    </Box>
+                                    <Table>
+                                        <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black' }}>
+                                                <Typography variant={"h4"} color={"#38548a"}>
+                                                    {item.schoolOrgName}
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black' }}>
+                                                <Typography variant={"h4"} color={"#38548a"}>
+                                                    {item.schoolName}
+                                                </Typography></TableCell>
+                                        </TableRow>
+                                        <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black' }}>      <Typography variant={"h4"} color={"#38548a"}>
+                                                {item.address}
+                                            </Typography></TableCell>
+                                        </TableRow>
+                                        <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black' }}>
+                                                <Typography variant={"h4"} color={"#38548a"}>
+                                                    Staff Performance Evaluation
+                                                </Typography></TableCell>
+                                        </TableRow>
+                                    </Table>
+                                    <br />
                                     {listUserNameDetails.length > 0 && listUserNameDetails.map((item, i) => (
                                         <>
                                             <Box sx={{ backgroundColor: '#ffffff', display: 'flex', justifyContent: 'space-between', pr: 7 }}>
@@ -1037,10 +1045,10 @@ const PerformanceEvaluation = () => {
                 saveButton={listEnableRejectButtonDetails[0]?.Text3}
                 open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
-                    if (newFile) {
-                        console.log('NewFile ->', newFile)
-                        dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
-                    }
+                    // if (newFile) {
+                    //     console.log('NewFile ->', newFile)
+                    //     dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
+                    // }
                     setHoveredRow(null);
                 }} RefreshList={() => { }} />
         </>
