@@ -257,6 +257,17 @@ const AssignExamMark = () => {
     { Id: 4, Header: 'Submit', align: 'center' }
   ];
 
+
+  const getStandardId = () => {
+    let returnVal = 0
+    ClassDropdown.map((item) => {
+      if (item.Value == item.Value) {
+        returnVal = item.StanderdId
+      }
+    })
+    return returnVal
+  };
+
   const clickEdit = (value) => {
 
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
@@ -270,7 +281,8 @@ const AssignExamMark = () => {
       value.IsMonthConfig + '/' +
       !(value.IsSubmitted == "N") + '/' +
       false + '/' +
-      'true'
+      'true' + '/' +
+      getStandardId()
     )
       ;
 
