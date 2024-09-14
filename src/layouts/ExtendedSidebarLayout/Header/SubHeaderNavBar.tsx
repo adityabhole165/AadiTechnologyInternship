@@ -304,7 +304,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           {/* Right-hand controls (support, settings, notifications, logout) */}
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
-            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0 }}>
+            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}>
               <ArrowForwardIosIcon sx={{ color: 'white' }} />
             </IconButton>
             <Tooltip
