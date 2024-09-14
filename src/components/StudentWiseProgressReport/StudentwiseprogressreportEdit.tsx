@@ -456,7 +456,7 @@ const StudentwiseprogressreportEdit = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport' },
+                    { title: 'Student Wise Progress Report ', path: '/extended-sidebar/Teacher/StudentwiseProgressReport/' + AssessmentId  },
                     { title: 'Progress Report', path: '/extended-sidebar/Teacher/PreprimaryProgressReport' },
                 ]}
                 rightActions={
