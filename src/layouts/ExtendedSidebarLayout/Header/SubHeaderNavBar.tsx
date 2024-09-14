@@ -25,7 +25,6 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import {  grey, red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -136,10 +135,10 @@ function SubHeaderNavBar({ toggleDrawer }) {
             whiteSpace: 'nowrap'
           }}
           // onMouseEnter={(e) => handleMenuClick(e, item.MenuId)}
-          onMouseEnter={(e) => { handleMenuClick(e, item.MenuId) }}
+          // onMouseEnter={(e) => { }}
           onClick={(e) => {
             console.log('----->>>>', item);
-            handleMenuClick(e, item.MenuId)
+            // handleMenuClick(e, item.MenuId)
             // actionPage(item)
             navigate('/extended-sidebar/landing/NavContent');
             dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
@@ -148,7 +147,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
         // onMouseLeave={() => handleMenuClose(item.MenuId)}
         >
           {item.MenuName}
-          {hasChildren && <KeyboardArrowDownIcon />}
+          {hasChildren && <KeyboardArrowDownIcon onMouseOver={(e: any) => { handleMenuClick(e, item.MenuId); }} />}
         </ListItemButton>
         {hasChildren && (
           <Menu
@@ -157,7 +156,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
             onClose={() => handleMenuClose(item.MenuId)}
             MenuListProps={{
               'aria-labelledby': 'basic-button',
-              onMouseLeave: () => handleMenuClose(item.MenuId)
+              onMouseLeave: () => setAnchorEl({})
             }}
             anchorOrigin={{
               vertical: 'bottom',
@@ -251,7 +250,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           py={1}
         >
           {/* <Tooltip title={'Left'}> */}
-          <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3  }}>
+          <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3 }}>
             <ArrowBackIosNewIcon sx={{ color: 'white' }} />
           </IconButton>
           {/* </Tooltip> */}
