@@ -12,11 +12,13 @@ import { AlertContext } from 'src/contexts/AlertContext';
 import { GetProgressReportDetailsBody, IGetStandardwiseAssessmentDetailsBody, ManageStudentWiseAssessmentGradesBody } from 'src/interfaces/PreprimaryProgressReport/PreprimaryProgressReport';
 import { IGetClassTeacherXseedSubjectsBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
 import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { IGetAssessmentDropdownBody } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { CDAGetStandardwiseAssessmentDetails, CDAManageStudentWiseAssessmentGrades, CDAProgressReportDetails, resetMessage } from 'src/requests/PreprimaryProgressReport/PreprimaryProgressReport';
 import { TeacherXseedSubjects } from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
+import { CDAAssessmentDropdown } from 'src/requests/StudentWiseProgressReport/ReqStudentWiseProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const StudentwiseprogressreportEdit = () => {
@@ -69,6 +71,7 @@ const StudentwiseprogressreportEdit = () => {
 
     const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
 
+    const USAssessmentDrop = useSelector((state: RootState) => state.Studentwiseprogress.ISAssessmentDropdown);
 
     const hasValidLearningOutcomeGrade = (outcome: any) => {
 
@@ -78,7 +81,7 @@ const StudentwiseprogressreportEdit = () => {
 
     const filteredOutcomes = USFillStudentsLearningOutcomes.map((outcome: any) => hasValidLearningOutcomeGrade(outcome));
     const allOutcomesValid = filteredOutcomes.every((outcomeValid: boolean) => outcomeValid);
-console.log(allOutcomesValid,"allOutcomesValid");
+    console.log(allOutcomesValid, "allOutcomesValid");
 
     useEffect(() => {
         const remark = USFillXseedRemarks.filter(item => item.Remark);
@@ -113,6 +116,14 @@ console.log(allOutcomesValid,"allOutcomesValid");
         asAssessmentId: Number(AssessmentId)
     };
 
+    const GetAssessmentDropdown_Body: IGetAssessmentDropdownBody = {
+        asAcademicYearId: Number(asAcademicYearId),
+        asSchoolId: Number(asSchoolId),
+    };
+
+    useEffect(() => {
+        dispatch(CDAAssessmentDropdown(GetAssessmentDropdown_Body));
+    }, []);
 
     useEffect(() => {
         const UserDetailBody: IGetUserDetailsBody = {
@@ -438,8 +449,8 @@ console.log(allOutcomesValid,"allOutcomesValid");
         }
     }, [USManageStudentWiseAssessmentGrades]);
 
-    console.log(AssessmentPublishStatus,"AssessmentPublishStatusAssessmentPublishStatus");
-    
+    console.log(AssessmentPublishStatus, "AssessmentPublishStatusAssessmentPublishStatus");
+
 
     return (
         <Box sx={{ px: 2 }}>
@@ -450,7 +461,7 @@ console.log(allOutcomesValid,"allOutcomesValid");
                 ]}
                 rightActions={
                     <>
-                        <SearchableDropdown
+                        {/* <SearchableDropdown
                             ItemList={USGetStandardwiseAssessmentDetails}
                             sx={{ minWidth: '250px' }}
                             onChange={clickAssessmentId}
@@ -458,7 +469,18 @@ console.log(allOutcomesValid,"allOutcomesValid");
                             label={'Assessment'}
                             size={"small"}
 
+                        /> */}
+
+                        <SearchableDropdown
+                            sx={{ minWidth: '15vw' }}
+                            ItemList={USAssessmentDrop}
+                            onChange={clickAssessmentId}
+                            label={'Assessment:'}
+                            defaultValue={AssessmentId}
+                            mandatory
+                            size={"small"}
                         />
+
                         <Tooltip title={'Assign,publish student grades and view students progress report.'}>
                             <IconButton
                                 sx={{
@@ -492,22 +514,22 @@ console.log(allOutcomesValid,"allOutcomesValid");
 
 
                         {
-                            UserDetail.CanPublishUnpublishExam == true? (
-                                <Tooltip title={StudentWiseAssessmentPublishStatus[0]  == "N" ? "Publish" : "Unpublish"}>
+                            UserDetail.CanPublishUnpublishExam == true ? (
+                                <Tooltip title={StudentWiseAssessmentPublishStatus[0] == "N" ? "Publish" : "Unpublish"}>
                                     <IconButton
                                         sx={{
                                             color: 'white',
-                                            backgroundColor: StudentWiseAssessmentPublishStatus[0]  == "N" ? blue[500] : red[500],
+                                            backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[500] : red[500],
                                             '&:hover': {
-                                                backgroundColor: StudentWiseAssessmentPublishStatus[0]  == "N" ? blue[600] : red[600],
+                                                backgroundColor: StudentWiseAssessmentPublishStatus[0] == "N" ? blue[600] : red[600],
                                             },
                                         }}
                                         disabled={
-                                            (AssessmentPublishStatus[0]  == "Y" || allOutcomesValid == false) 
+                                            (AssessmentPublishStatus[0] == "Y" || allOutcomesValid == false)
                                         }
-                                        onClick={StudentWiseAssessmentPublishStatus[0]  == "N" ? Clickpublish : ClickUnpublish}
+                                        onClick={StudentWiseAssessmentPublishStatus[0] == "N" ? Clickpublish : ClickUnpublish}
                                     >
-                                        {StudentWiseAssessmentPublishStatus[0]  == "N" ? <CheckCircle /> : <Unpublished />}
+                                        {StudentWiseAssessmentPublishStatus[0] == "N" ? <CheckCircle /> : <Unpublished />}
                                     </IconButton>
                                 </Tooltip>
                             ) : <span></span>
