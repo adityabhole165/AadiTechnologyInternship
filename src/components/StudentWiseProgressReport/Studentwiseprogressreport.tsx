@@ -1,27 +1,25 @@
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {
   Box,
   IconButton,
   Tooltip, Typography
 } from '@mui/material';
 // import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
-import { green, grey, red } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
+  GetClassTeacherXseedSubjectsBody,
   IDeleteAllStudentTestMarksBody,
   IGetAllPrimaryClassTeachersBody,
   IGetAssessmentDropdownBody,
   IGetPagedStudentsForMarkAssignmentBody,
   IGetPublishStatusBody,
-  IoneDeleteStudentTestMarksBody,
-  GetClassTeacherXseedSubjectsBody
+  IoneDeleteStudentTestMarksBody
 } from 'src/interfaces/StudentWiseProgressReport/IStudentWiseProgressReport';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
@@ -77,7 +75,7 @@ const Studentwiseprogressreport = () => {
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
   const [Assessment, setAssessment] = useState();
-  
+
   const [std, setstd] = useState();
   const [StudentAssig, setStudentAssig] = useState();
   const [StudentGrad, setStudentGrad] = useState();
@@ -126,13 +124,16 @@ const Studentwiseprogressreport = () => {
   const PublishUnpublish: any = useSelector((state: RootState) => state.Studentwiseprogress.PublishUnpublishXseed);
   const StudentRecordCount: any = useSelector((state: RootState) => state.Studentwiseprogress.ISAllStudentRecordCount);
   const USClassTeacherXseedSubjects: any = useSelector((state: RootState) => state.Studentwiseprogress.ISClassTeacherXseedSubjects);
-   const IsPublished = USClassTeacherXseedSubjects.map (item => item.IsPublished)
+  const IsPublished = USClassTeacherXseedSubjects.map(item => item.IsPublished)
   const [asMode, setAsMode] = useState(PublishStatu.AllowPublish === true ? 'Publish' : 'Unpublish');
   const ShowDeleteButton = StudentAssignment.map(item => item.ShowDeleteButton)
   const ShowProgressReport = StudentAssignment.map(item => item.ShowProgressReport)
 
   const GetAllRecordSubmitted: any = useSelector((state: RootState) => state.Studentwiseprogress.ISGetAllRecordSubmitted);
- 
+
+  console.log(ShowDeleteButton[0], "--", IsPublished[0]);
+
+
   const getPrimaryTeacher_body: IGetAllPrimaryClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(asAcademicYearId),
@@ -166,8 +167,8 @@ const Studentwiseprogressreport = () => {
   }
 
 
-   console.log(StudentRecordCount.Count,"----" );
-   
+  console.log(StudentRecordCount.Count, "----");
+
   useEffect(() => {
     if (PublishStatu.AllowPublish === true || PublishStatu.AllowUnpublish === true) {
       setIsVisible(true);
@@ -346,31 +347,31 @@ const Studentwiseprogressreport = () => {
     }
   }, [DeleteAllStud]);
 
-  const ClassTeacherXseedSubjectsBodyNew : GetClassTeacherXseedSubjectsBody  ={
+  const ClassTeacherXseedSubjectsBodyNew: GetClassTeacherXseedSubjectsBody = {
     asAcadmeicYearId: Number(asAcademicYearId),
     asSchoolId: Number(asSchoolId),
     asAssessmentId: Number(Assessment),
-    asStdDivId:  Number(StandardDivisionId())
-   
+    asStdDivId: Number(StandardDivisionId())
+
 
   }
 
   useEffect(() => {
     dispatch(CDAClassTeacherXseedSubjects(ClassTeacherXseedSubjectsBodyNew));
 
-    
-  }, [Assessment ,StandardDivisionId()]);
 
-  
+  }, [Assessment, StandardDivisionId()]);
 
-  const ClicEdit = (YearwiseStudentId,StandardId) => {
-    console.log(YearwiseStudentId,"--", StandardId ,"--",Assessment);
-       
+
+
+  const ClicEdit = (YearwiseStudentId, StandardId) => {
+    console.log(YearwiseStudentId, "--", StandardId, "--", Assessment);
+
     navigate('/extended-sidebar/Teacher/StudentwiseprogressreportEdit/' +
       Assessment + '/' +
-      YearwiseStudentId  + '/' +
-      StandardId 
-      
+      YearwiseStudentId + '/' +
+      StandardId
+
     );
   };
 
@@ -470,39 +471,29 @@ const Studentwiseprogressreport = () => {
               }
             </Box> */}
 
-            {ShowDeleteButton[0] == 1 && IsPublished == 'N' ? <Box
 
-              sx={{
-                display: 'inline-flex',
-                width: 36,
-                height: 36,
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid #ccc',
-                borderRadius: 2,
-                backgroundColor: 'transparent'
-              }}
-            >
-              <Tooltip
-                title={`Delete All`}
+
+
+
+            <Tooltip title="Delete All">
+              <IconButton
+                sx={{
+                  display: 'inline-flex',
+                  color: 'white',
+                  padding: '4px',
+                  width: '36px',
+                  height: '36px',
+                  backgroundColor: red[500],
+                  ':hover': { backgroundColor: red[600] },
+                  marginLeft: '0px',
+                }}
+                disabled={ShowDeleteButton[0] !== 1 && IsPublished[0] == 'Y'}
+                onClick={clickDeleteAlll}
               >
-                <DeleteSweepIcon
-                  onClick={clickDeleteAlll}
-                  sx={{
-                    display: 'inline-flex',
-                    color: 'white',
-                    padding: '4px',
-                    width: '36px',
-                    backgroundColor: red[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: red[600] },
-                    marginLeft: '0px',
-                  }}
-                />
-              </Tooltip>
-            </Box> :
-              <span></span>
-            }
+                <DeleteSweepIcon />
+              </IconButton>
+            </Tooltip>
+
 
 
 
@@ -568,7 +559,7 @@ const Studentwiseprogressreport = () => {
           </>
         } />
 
-      <Box sx={{ background: 'white', pl: 2, p: 2, mb:2 }}>
+      <Box sx={{ background: 'white', pl: 2, p: 2, mb: 2 }}>
         <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
@@ -582,12 +573,12 @@ const Studentwiseprogressreport = () => {
           </Box>
         </Box>
       </Box>
-      <Box mb={1} sx={{p:2, background: 'white' }}>
+      <Box mb={1} sx={{ p: 2, background: 'white' }}>
         <Box>
           {
             StudentAssignment.length > 0 ? (
               <p style={{ flex: 1, textAlign: 'center', }}>
-                <Typography variant="subtitle1" sx={{ textAlign: 'center'}}>
+                <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
                   <Box component="span" fontWeight="fontWeightBold">
                     {startRecord} to {endRecord}
                   </Box>
@@ -604,30 +595,30 @@ const Studentwiseprogressreport = () => {
         </Box>
 
         <IsPublishstatus.Provider value={IsPublished}>
-        <StudentwiseProgressreportList
-          ItemList={StudentAssignment}
-          HeaderArray={HeaderPublish}
-          ClickHeader={ClickHeader}
-          clickEdit={ClicEdit}
-          clickDelete={ClickDelete}
-        />
+          <StudentwiseProgressreportList
+            ItemList={StudentAssignment}
+            HeaderArray={HeaderPublish}
+            ClickHeader={ClickHeader}
+            clickEdit={ClicEdit}
+            clickDelete={ClickDelete}
+          />
         </ IsPublishstatus.Provider>
-      
+
         {
-                    endRecord > 19 ? (
-                        <ButtonGroupComponent
-                            rowsPerPage={rowsPerPage}
-                            ChangeRowsPerPage={ChangeRowsPerPage}
-                            rowsPerPageOptions={rowsPerPageOptions}
-                            PageChange={PageChange}
-                            pagecount={pagecount}
-                        />
+          endRecord > 19 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
 
-                    ) : (
-                        <span></span>
+          ) : (
+            <span></span>
 
-                    )
-                }
+          )
+        }
       </Box>
     </Box>
   );
