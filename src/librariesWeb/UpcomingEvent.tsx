@@ -24,7 +24,7 @@ function UpcomingEvent() {
       aiAcademicYrId: asAcademicYearId,
       aiUserId: asUserId,
       aiUserRoleId: asUserRoleId,
-      isScreenFullAccess: true
+      isScreenFullAccess: false
     };
 
     dispatch(getUpcomingEventDashdata(UpcomingEventDashBody));
