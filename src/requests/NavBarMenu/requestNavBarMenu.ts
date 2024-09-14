@@ -51,15 +51,15 @@ export const getNavbarMenuDetails =
     async (dispatch) => {
       dispatch(SliceNavbarMenu.actions.getLoading(true));
       let responseData = []
-      if (!data.IsRefresh) {
-        let NavbarMenuTemp = localStorage.getItem("NavbarMenu")
-        responseData = (NavbarMenuTemp == undefined || NavbarMenuTemp == null) ?
-          [] : JSON.parse(NavbarMenuTemp)
-      }
+      // if (!data.IsRefresh) {
+      //   let NavbarMenuTemp = localStorage.getItem("NavbarMenu")
+      //   responseData = (NavbarMenuTemp == undefined || NavbarMenuTemp == null) ?
+      //     [] : JSON.parse(NavbarMenuTemp)
+      // }
       if (responseData != null && responseData.length == 0) {
         const response = await ApiGetMenuDetails.GetMenuDetailsApi(data)
         responseData = response.data.MenuDetails
-        localStorage.setItem("NavbarMenu", JSON.stringify(responseData))
+        // localStorage.setItem("NavbarMenu", JSON.stringify(responseData))
       }
       dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails(responseData.sort((a, b) => a.Priority - b.Priority)));
     };
