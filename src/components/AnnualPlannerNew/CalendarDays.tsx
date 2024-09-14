@@ -21,15 +21,15 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
 
-  // const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
-  //   <Tooltip {...props} classes={{ popper: className }} />
-  // ))(({ theme }) => ({
-  //   [`& .${tooltipClasses.tooltip}`]: {
-  //     backgroundColor: '#F0F0F0',
-  //     boxShadow: theme.shadows[1],
-  //     fontSize: 11,
-  //   },
-  // }));
+  const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: '#f2f2f2',
+      boxShadow: theme.shadows[1],
+      fontSize: 11,
+    },
+  }));
 
   const bg = legendColors.map(color => hexToRGBA(color, 0.2));
 
@@ -68,11 +68,11 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
           border="0.5px solid #ebebeb"
         >
           {Item?.Text1.length > 0 ?
-            <Tooltip arrow sx={{borderRadius:'7px'}}  title={Item?.Text1.map((obj, idx) => {
+            <LightTooltip arrow sx={{borderRadius:'7px'}}  title={Item?.Text1.map((obj, idx) => {
               return (
                 <>
                 <Box >
-                  <Typography variant='h5' color={'white'}><b>{obj.Name}</b></Typography>
+                  <Typography variant='h5' color={'#38548A'}><b>{obj.Name}</b></Typography>
                   </Box>
                 </>
               )
@@ -118,7 +118,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
                     })}
                   </Box>
                 )}
-              </Box></Tooltip> :
+              </Box></LightTooltip> :
             <Box
               sx={{
                 minHeight: '80px',
