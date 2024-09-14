@@ -48,7 +48,6 @@ function ViewSms() {
       });
   };
 
-  console.log(viewSms, 'viewSms')
   useEffect(() => {
     GetViewMessageResult();
   }, []);
