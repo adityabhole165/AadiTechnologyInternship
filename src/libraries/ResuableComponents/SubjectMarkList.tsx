@@ -45,10 +45,10 @@ function SubjectMarkList({
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow
-                            sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
+                            sx={{ px:1, background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
                         >
-                            <TableCell sx={{ textTransform: 'capitalize', padding:'15px' }} >
-                                <Checkbox sx={{ p: 1 }} checked={IsCheckAll()}
+                            <TableCell sx={{ textTransform: 'capitalize', padding:'15px', py:1 }} >
+                                <Checkbox sx={{ p: 0.5 }} checked={IsCheckAll()}
                                     onClick={clickAll}
                                 ></Checkbox>
 
@@ -60,9 +60,7 @@ function SubjectMarkList({
                                     sx={{
                                         textTransform: 'capitalize',
                                         color: (theme) => 'white',
-                                        paddingTop: '2.5px', paddingBottom: '2.5px'
-
-   
+                                        py:0.5
                                     }}
                                     align={item.align ? item.align : 'left'}
                                 >
@@ -74,32 +72,26 @@ function SubjectMarkList({
                     <TableBody>
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell 
-                                sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}
-                                >
-                                    <Checkbox sx={{  }}
-                                        checked={item.IsActive}
-                                        onChange={() => {
-                                            onClick(item.Text1);
-                                        }}
-                                    />
+                                <TableCell sx={{ py:0}}>
+                                    <Checkbox checked={item.IsActive} 
+                                    onChange={() => {onClick(item.Text1);}}/>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize',py:0 }} >
                                     {item.Text1}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize' ,py:0}} >
                                     {item.Text2}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize',py:0 }} >
 
                                     {item.Text3}
 
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize',py:1 }} >
                                     {item.Text4}
                                 </TableCell>
                             </TableRow>
