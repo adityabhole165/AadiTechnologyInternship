@@ -28,7 +28,7 @@ function UpcomingEvent() {
     };
 
     dispatch(getUpcomingEventDashdata(UpcomingEventDashBody));
-  }, [dispatch, asSchoolId, asAcademicYearId, asUserId, asUserRoleId]);
+  }, []);
 
   const handleEventTypeClick = (eventType: string) => {
     setSelectedEventType(eventType);
