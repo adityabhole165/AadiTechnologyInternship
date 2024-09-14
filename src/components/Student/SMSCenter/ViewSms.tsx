@@ -41,13 +41,14 @@ function ViewSms() {
       asSMSId: Number(SMS_Id),
     };
     http
-      .post('SMS/GetSMSDetails', ViewSms_body)
-      .then((resp) => resp.data.GetSMSDetailsResult)
-      .then((data) => {
+      .post('Teacher/GetSMSDetails', ViewSms_body)
+      .then((resp) => {
+        const data = resp.data;
         setViewSms(data);
       });
   };
 
+  console.log(viewSms, 'viewSms')
   useEffect(() => {
     GetViewMessageResult();
   }, []);
@@ -88,8 +89,8 @@ function ViewSms() {
             <Grid item xs={2}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <CallReceived color={'primary'} fontSize='small' />
-                <Typography variant={"h4"}color={'primary'} >From
-                  </Typography>
+                <Typography variant={"h4"} color={'primary'} >From
+                </Typography>
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.Sender_Name}
@@ -98,9 +99,9 @@ function ViewSms() {
             <Grid item xs={10}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <History color={'primary'} fontSize={'small'} />
-                <Typography variant={"h4"}color={'primary'} > Received Date :
+                <Typography variant={"h4"} color={'primary'} > Received Date :
                 </Typography>
-               
+
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.Insert_Date}
@@ -112,8 +113,8 @@ function ViewSms() {
             <Grid item xs={12}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <AccountCircleOutlined color={"primary"} fontSize={'small'} />
-                <Typography variant={"h4"}color={'primary'} >   To:
-                </Typography>        
+                <Typography variant={"h4"} color={'primary'} >   To:
+                </Typography>
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.Display_Text}
@@ -125,9 +126,9 @@ function ViewSms() {
             <Grid item xs={12}>
               <FlexedTypography mb={.5} gap={.5} variant={"h4"} color={'grey.500'}>
                 <SmsOutlined color={"primary"} fontSize={'small'} />
-                <Typography variant={"h4"}color={'primary'} > SMS Text :
-                </Typography>   
-              
+                <Typography variant={"h4"} color={'primary'} > SMS Text :
+                </Typography>
+
               </FlexedTypography>
               <Typography variant={"h4"}>
                 {viewSms?.SMS_Text}
