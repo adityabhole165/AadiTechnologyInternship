@@ -67,7 +67,7 @@ const StudentwiseprogressreportEdit = () => {
 
     const IsPublished = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].IsPublished : "";
     const PublishStatus = USlistpublishstatusDetails.length > 0 ? USlistpublishstatusDetails[0].PublishStatus : "";
-    console.log(IsPublished, "--", PublishStatus);
+    console.log(USFillNonXseedSubjectGrades, "--");
 
     const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
 
@@ -477,7 +477,6 @@ const StudentwiseprogressreportEdit = () => {
                             onChange={clickAssessmentId}
                             label={'Assessment:'}
                             defaultValue={AssessmentId}
-                            mandatory
                             size={"small"}
                         />
 
@@ -748,6 +747,11 @@ const StudentwiseprogressreportEdit = () => {
                                             textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                                             py: 1
                                         }}>Subject</TableCell>
+
+
+
+
+
                                         <TableCell sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', pt: '10px', pb: '10px' }}>
                                             <SearchableDropdown
                                                 ItemList={USFillGradeDetails}
@@ -762,10 +766,29 @@ const StudentwiseprogressreportEdit = () => {
 
                                             />
                                         </TableCell>
+
                                         <TableCell sx={{
                                             textTransform: 'capitalize', color: (theme) => theme.palette.common.white,
                                             py: 1
                                         }}></TableCell>
+
+                                        {USFillNonXseedSubjectGrades.map((row, index) => (
+                                            row.Observation !== "" ? (
+                                                <TableCell
+                                                    key={index}
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        color: (theme) => theme.palette.common.white,
+                                                        py: 1
+                                                    }}
+                                                >
+                                                    Facilitator's Observation
+                                                </TableCell>
+                                            ) : null
+                                        ))}
+
+
+
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -800,9 +823,9 @@ const StudentwiseprogressreportEdit = () => {
                 <Box>
                     <TextField
                         label={
-                            <span>
+                            <div>
                                 Remark {/* Remark <span style={{ color: 'red' }}>*</span> */}
-                            </span>
+                            </div>
                         }
                         multiline
                         value={textall}
