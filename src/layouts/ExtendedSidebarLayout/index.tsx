@@ -14,7 +14,6 @@ interface ExtendedSidebarLayoutProps {
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
-  let data = localStorage.getItem('NavbarMenu');
   const [state, setState] = useState({
     top: false,
     left: false,
