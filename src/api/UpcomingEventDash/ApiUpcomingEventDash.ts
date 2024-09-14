@@ -4,7 +4,7 @@ import http from '../../requests/SchoolService/schoolServices';
 
 
 const GetUpcomingEventList = (data: IUpcomingEventDashBody) => {
-    return http.post<IUpcomingEventDashResult>('Dashboard/GetUpcomingEvents', data);
+    return http.post<IUpcomingEventDashResult>('Teacher/GetUpcomingEventsNew', data);
 };
 
 const ApiUpcomingEventDash = {

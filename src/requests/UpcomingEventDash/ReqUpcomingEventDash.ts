@@ -40,7 +40,8 @@ export const getUpcomingEventDashdata =
                     Text2: formatDateAsDDMMMYYYY(item.EndDate),
                     Text3: item.EventTitle,
                     Text4: item.StandardName,
-                    Text5: item.EventDescription
+                    Text5: item.EventDescription,
+                    Text6: item.EventType
                 };
             });
 

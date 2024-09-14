@@ -321,11 +321,13 @@ export const CDAGetPerformanceEvaluationDetails =
 //     }
 
 export const CDASaveStaffPerformanceEvalDetailsMsg =
-    (data: ISaveStaffPerformanceEvalDetailsBody): AppThunk =>
+    (data: ISaveStaffPerformanceEvalDetailsBody, buttonType): AppThunk =>
         async (dispatch) => {
             dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
             const response = await PerformanceGradeAssignmentAPI.SaveStaffPerformanceEvalDetailsApi(data);
-            dispatch(PerformanceGradeAssignmentslice.actions.RSaveStaffPerformanceEvalDetailsMsg(response.data));
+            if (buttonType === 'save') {
+                dispatch(PerformanceGradeAssignmentslice.actions.RSaveStaffPerformanceEvalDetailsMsg(response.data));
+            }
         };
 
 export const CDAResetSaveStaffPerformanceEvalDetailsMsg =
