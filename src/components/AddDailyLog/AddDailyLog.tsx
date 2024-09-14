@@ -664,7 +664,7 @@ const AddDailyLog = () => {
                 }
               }}
             >
-              Update
+              {LogId == 0 ? 'Save' : 'Update'}
             </Button>
           </DialogActions>
         </Dialog>
