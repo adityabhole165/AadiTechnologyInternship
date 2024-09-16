@@ -79,7 +79,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
             })}>
               <Box
                 sx={{
-                  minHeight: '80px',
+                  minHeight: '90px',
                   height: '100%',
                   display: 'flex',
                   alignItems: 'center',
@@ -96,7 +96,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
               >
                 <Typography>{day}</Typography>
                 {Item && Item.Text1 && (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 0 }}>
                     {Item.Text1.map((obj, idx) => {
                       return (
                         <>
@@ -112,16 +112,24 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
                               >
                                 {idx <= 1 ? obj.Name : ''}
                               </Box>
+
                             </b>}
                         </>
                       )
                     })}
+                    {Item.Text1.length > 2 && (
+                      <Box sx={{ display: 'flex', width:'100%'}}>
+                        <Typography sx={{ textAlign: 'center', color:'#38548A', backgroundColor:'inherit', ml:9}}> <b>more...</b></Typography>
+                        {/* <MoreVertIcon sx={{ ml: 0.5 }} /> */}
+                      </Box>
+                    )}
                   </Box>
                 )}
-              </Box></LightTooltip> :
+              </Box>
+              </LightTooltip> :
             <Box
               sx={{
-                minHeight: '80px',
+                minHeight: '90px',
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
@@ -138,7 +146,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors, AnnualP
             >
               <Typography>{day}</Typography>
               {Item && Item.Text1 && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 0 }}>
                   {Item.Text1.map((obj, idx) => (
 
                     <b style={{ width: '100%', paddingLeft: 2, paddingRight: 2 }}>
