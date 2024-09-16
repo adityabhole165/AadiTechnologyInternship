@@ -107,17 +107,13 @@ const ActiveSchoolNotice = () => {
                         path: ' '
                     }
                 ]} />
+            <NoticeCard
+                itemList={Data1}
+                downloadNotice={downloadNotice}
+                clickSingle={clickSingle}
+            />
 
-            {Data1.map((item, index) => {
-                return (
-                    <Box key={index} >
-                        <NoticeCard
-                            item={item}
-                            downloadNotice={downloadNotice}
-                            clickSingle={clickSingle}
-                        />
-                    </Box>);
-            })} </Box>
+        </Box>
     )
 }
 
