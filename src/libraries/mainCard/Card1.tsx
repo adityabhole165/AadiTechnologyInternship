@@ -18,13 +18,13 @@ function Card1({
   Textcolor = ''
 }) {
   return (
-    <Grow in={true} style={{ transformOrigin: '0 0 1' }} {...{ timeout: 1500 }}>
-      <ListStyle color={Color} sx={{ mx: margin }}>
-        {FileName === '' || FileName === undefined ? null : (
-          <BoxStyle>
-            <AttachmentIcon />
-          </BoxStyle>
-        )}
+    // <Grow in={true} style={{ transformOrigin: '0 0 1' }} {...{ timeout: 1500 }}>
+    //   <ListStyle color={Color} sx={{ mx: margin }}>
+    //     {FileName === '' || FileName === undefined ? null : (
+    //       <BoxStyle>
+    //         <AttachmentIcon />
+    //       </BoxStyle>
+    //     )}
         <Card4
           clickCard={clickCard}
           header={header}
@@ -36,8 +36,8 @@ function Card1({
           text6={text6}
           Textcolor={Textcolor}
         />
-      </ListStyle>
-    </Grow>
+    //   </ListStyle>
+    // </Grow>
   );
 }
 

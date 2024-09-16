@@ -89,7 +89,7 @@ function Card4({
         : '';
   return (
     <>
-      <CardDetail onClick={clickCard}>
+      {/* <CardDetail onClick={clickCard}>
         <CardDetail1 sx={{ color: IsReadColor || Textcolor }}>
           {header}
         </CardDetail1>
@@ -127,67 +127,67 @@ function Card4({
             )}
           </>
         )}
-      </CardDetail>
+      </CardDetail> */}
 
-      <CardDetail>
-        {pageName1 == 'MessageCenter/msgCenter' ? (
-          <CardD>{text1}</CardD>
-        ) : (
-          <CardDetail3>{text1}</CardDetail3>
-        )}
-        <CardDetail2 sx={{ color: 'black', display: 'flex' }}>
-          <>
-            {text2}{' '}
-            {IsSchedule && (
-              <ScheduleIcon
-                fontSize="small"
-                color="primary"
-                sx={{ mt: '-2px', ml: '4px' }}
-              />
-            )}
-          </>
-          <>
-            {RequestReadReceipt === 'True' && (
-              <>
-                {HasReadReceipt ? (
-                  <>
-                    <DraftsIcon
+        {/* <CardDetail>
+          {pageName1 == 'MessageCenter/msgCenter' ? (
+            <CardD>{text1}</CardD>
+          ) : (
+            <CardDetail3>{text1}</CardDetail3>
+          )}
+          <CardDetail2 sx={{ color: 'black', display: 'flex' }}>
+            <>
+              {text2}{' '}
+              {IsSchedule && (
+                <ScheduleIcon
+                  fontSize="small"
+                  color="primary"
+                  sx={{ mt: '-2px', ml: '4px' }}
+                />
+              )}
+            </>
+            <>
+              {RequestReadReceipt === 'True' && (
+                <>
+                  {HasReadReceipt ? (
+                    <>
+                      <DraftsIcon
+                        fontSize="small"
+                        color="success"
+                        sx={{ mt: '-2px', ml: '4px' }}
+                        onClick={(e) => {
+                          handleClickToOpen(e);
+                        }}
+                      />
+                      <Dialog
+                        open={popup}
+                        onClose={() => {
+                          setPopup(false);
+                        }}
+                      >
+                        <Card15 text1={text2} text2={text1} />
+                      </Dialog>
+                    </>
+                  ) : (
+                    <EmailIcon
                       fontSize="small"
-                      color="success"
+                      color="error"
                       sx={{ mt: '-2px', ml: '4px' }}
-                      onClick={(e) => {
-                        handleClickToOpen(e);
-                      }}
                     />
-                    <Dialog
-                      open={popup}
-                      onClose={() => {
-                        setPopup(false);
-                      }}
-                    >
-                      <Card15 text1={text2} text2={text1} />
-                    </Dialog>
-                  </>
-                ) : (
-                  <EmailIcon
-                    fontSize="small"
-                    color="error"
-                    sx={{ mt: '-2px', ml: '4px' }}
-                  />
-                )}
-              </>
-            )}
-          </>
-        </CardDetail2>
-      </CardDetail>
+                  )}
+                </>
+              )}
+            </>
+          </CardDetail2>
+        </CardDetail> */}
 
-      <CardDetail>
+      {/* <CardDetail>
         {pageName == 'PTA' ? (
           <CardDetail2 color="primary">{text6}</CardDetail2>
         ) : null}
         <CardDetail9 color="primary">{text5}</CardDetail9>
         <CardDetail2>{text4}</CardDetail2>
-      </CardDetail>
+      </CardDetail> */}
     </>
   );
 }
