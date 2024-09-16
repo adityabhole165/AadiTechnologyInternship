@@ -148,16 +148,13 @@ function Schoolnotice() {
       
       <Box sx={{ background: 'white', p: 2 }}>
        
-        {Data1.map((item, index) => {
-          return (
+       
             <CardNotice
-              key={index}
-              item={item}
+              itemList={Data1}
               downloadNotice={downloadNotice}
               clickSingle={clickSingle}
             />
-          );
-        })}
+
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />
         )}
