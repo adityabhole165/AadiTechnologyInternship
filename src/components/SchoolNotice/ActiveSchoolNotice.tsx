@@ -110,13 +110,13 @@ const ActiveSchoolNotice = () => {
 
             {Data1.map((item, index) => {
                 return (
-                    <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box key={index} >
                         <NoticeCard
                             item={item}
                             downloadNotice={downloadNotice}
                             clickSingle={clickSingle}
                         />
-                    </div>);
+                    </Box>);
             })} </Box>
     )
 }
