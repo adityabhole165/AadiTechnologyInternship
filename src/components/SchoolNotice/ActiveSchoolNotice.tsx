@@ -107,12 +107,13 @@ const ActiveSchoolNotice = () => {
                         path: ' '
                     }
                 ]} />
+                <Box sx={{backgroundColor:'white', p:1}}>
             <NoticeCard
                 itemList={Data1}
                 downloadNotice={downloadNotice}
                 clickSingle={clickSingle}
             />
-
+          </Box>
         </Box>
     )
 }
