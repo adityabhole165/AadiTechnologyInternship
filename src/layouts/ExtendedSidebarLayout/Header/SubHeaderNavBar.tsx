@@ -57,7 +57,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
   }, [GetNavbarmenu]);
   useEffect(() => {
     if (GetNavbarMenuDetails.length > 0) {
-      console.log(GetNavbarMenuDetails)
+      console.log(`🎉`, GetNavbarMenuDetails)
     }
   }, [GetNavbarMenuDetails])
 
@@ -251,7 +251,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
         >
           {/* <Tooltip title={'Left'}> */}
           <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3 }}>
-            <ArrowBackIosNewIcon sx={{ color: 'white' }} />
+            {menuStructure.length > 0 &&
+              <ArrowBackIosNewIcon sx={{ color: 'white' }} />}
           </IconButton>
           {/* </Tooltip> */}
 
@@ -291,7 +292,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                     flex: 1,
                   }}
                 >
-                  <ListItem sx={{ p: 0, pr: 28 }}>
+                  <ListItem sx={{ p: 0, pr: 28, minHeight: menuStructure.length === 0 ? '35px' : 'none' }}>
                     {menuStructure.map((item) => renderMenuItem(item))}
                   </ListItem>
                 </List>
@@ -305,7 +306,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
             <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}>
-              <ArrowForwardIosIcon sx={{ color: 'white' }} />
+              {menuStructure.length > 0 &&
+                <ArrowForwardIosIcon sx={{ color: 'white' }} />}
             </IconButton>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}
