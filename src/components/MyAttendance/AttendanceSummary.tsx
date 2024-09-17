@@ -1,17 +1,6 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
 
 const AttendanceSummary = ({ SummaryCountforAttendance, assignedDate }) => {
-
-    const getColor = (value) => {
-        let returnVal = 'green'
-        switch (value) {
-            case 0: returnVal = 'green'; break;
-            case 1: returnVal = 'error'; break;
-            case 2: returnVal = 'primary'; break;
-            case 3: returnVal = 'black'; break;
-        }
-        return returnVal
-    }
     return (
         <Grid container spacing={2}>
             {SummaryCountforAttendance.map((item, i) => {
@@ -22,10 +11,9 @@ const AttendanceSummary = ({ SummaryCountforAttendance, assignedDate }) => {
                                 background: (theme) => theme.palette.common.white,
                                 p: 2, textAlign: 'center'
                             }}>
-                            <Typography variant={'h4'} color={getColor(i)}
+                            <Typography variant={'h4'} color={item.Color}
                                 sx={{ marginBottom: 1, fontSize: '18px !important', textTransform: 'capitalize' }}>
-                                {i < 3 ? item.Name :
-                                    (new Date(assignedDate).toLocaleString('default', { month: 'long' })) + ' Summary'}
+                                {item.Name}
                             </Typography>
                             <Stack direction={'row'} gap={2} alignItems={'center'} justifyContent={'space-between'}>
                                 <Grid container spacing={2}>

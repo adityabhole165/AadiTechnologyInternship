@@ -304,7 +304,7 @@ export const CDASummaryCountforAttendanceBody =
       const GetSummaryCountforAttendance = {
         GetSummaryCountList: [{
           Id: 1,
-          Name: 'Present Student ',
+          Name: 'Present Student ', Color: 'green',
           Values: [
             { Id: 1, Name: 'Boys', Value: getValue(response.data.listSummaryCountforAttendance.Boys) },
             { Id: 2, Name: 'Girls', Value: getValue(response.data.listSummaryCountforAttendance.Girls) },
@@ -313,7 +313,7 @@ export const CDASummaryCountforAttendanceBody =
         },
         {
           Id: 2,
-          Name: 'Absent  Student ',
+          Name: 'Absent  Student ', Color: 'error',
           Values: [
             { Id: 1, Name: 'Boys', Value: getValue(response.data.listAbsentCountforAttendance.Boys) },
             { Id: 2, Name: 'Girls', Value: getValue(response.data.listAbsentCountforAttendance.Girls) },
@@ -322,7 +322,7 @@ export const CDASummaryCountforAttendanceBody =
         },
         {
           Id: 3,
-          Name: 'Total  Student ',
+          Name: 'Total  Student ', Color: 'primary',
           Values: [
             { Id: 1, Name: 'Boys', Value: getValue(response.data.listtotalCountforAttendance.Boys) },
             { Id: 2, Name: 'Girls', Value: getValue(response.data.listtotalCountforAttendance.Girls) },
@@ -331,7 +331,7 @@ export const CDASummaryCountforAttendanceBody =
         },
         {
           Id: 4,
-          Name: 'Present  Student ',
+          Name: (new Date(data.asAttendanceDate).toLocaleString('default', { month: 'long' })) + ' Summary',
           Values: [
             { Id: 1, Name: 'Boys', Value: getValue(response.data.listPresentGendersAttendance.PresentBoys) },
             { Id: 2, Name: 'Girls', Value: getValue(response.data.listPresentGendersAttendance.PresentGirls) },
