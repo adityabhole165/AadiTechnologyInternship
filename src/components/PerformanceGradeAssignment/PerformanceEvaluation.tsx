@@ -53,6 +53,8 @@ const PerformanceEvaluation = () => {
     const [initialStaffPerfEval, setInitialStaffPerfEval] = useState({});
     const [classError, setClassError] = useState(false);
     const [teachingSubError, setTeachingSubError] = useState(false);
+    const [gradeError, setGradeError] = useState('');
+    const [obsError, setObsError] = useState('');
     useEffect(() => {
         if (listUserNameDetails?.length > 0) {
             setTeachingSub(listUserNameDetails[0]?.Text9);
@@ -221,7 +223,7 @@ const PerformanceEvaluation = () => {
                 matchedItems2.forEach(matchedItem2 => {
                     const matchedItems3 = listParameterIdDetails.filter(item3 => item3.Text2 === matchedItem2.Text1);
                     matchedItems3.forEach(matchedItem3 => {
-                        const key = `${item1.Text1}-${matchedItem2.Text1}-${matchedItem3.Text1}-${matchedItem3.Text5}`;
+                        const key = `${item1.Text1}-${matchedItem2.Text1}-${matchedItem3.Text1}-${matchedItem3.Text5}-${item1.Text7}`;
                         const value = JSON.stringify({
                             id: matchedItem3.Text1,
                             parameterId: matchedItem3.Text2,
@@ -283,6 +285,50 @@ const PerformanceEvaluation = () => {
         observation: string;
         reportingUserId: string;
     }
+    function validateGrades(evalRowValues: Record<string, string>): { isValidGrade: boolean; errorMessage: string } {
+        const invalidRows: number[] = [];
+        let gradeRowCount = 0;
+
+        Object.entries(evalRowValues).forEach(([key, value]) => {
+            if (typeof value === 'string') {
+                try {
+                    const parsedValue: EvalRowValue = JSON.parse(value);
+                    const [, , , , inputTypeId] = key.split('-');
+
+                    // Check both conditions: matching reportingUserId and inputTypeId is '3'
+                    if (parsedValue.reportingUserId === reportingUserId && inputTypeId === '3') {
+                        gradeRowCount++; // Increment the count for each grade row
+                        if (parsedValue.gradeId === '0') {
+                            invalidRows.push(gradeRowCount);  // Use the grade row count instead of index
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error parsing JSON value: ", error);
+                }
+            }
+        });
+
+        if (invalidRows.length > 0) {
+            return {
+                isValidGrade: false,
+                errorMessage: `Grade should be selected for row(s): ${invalidRows.join(', ')}`
+            };
+        }
+
+        return { isValidGrade: true, errorMessage: '' };
+    }
+
+    function validateObs() {
+        for (let key in initialStaffPerfEval) {
+            const item = JSON.parse(initialStaffPerfEval[key]);
+
+            // Split the key and check if the first part (input type) is '2'
+            if (key.split('-')[4] === '2' && item.reportingUserId === reportingUserId && item.observation !== "") {
+                return true;
+            }
+        }
+        return false;
+    }
 
     function generatePerformanceXml(evalRowValues: Record<string, string>): string {
         const parser = new DOMParser();
@@ -331,7 +377,13 @@ const PerformanceEvaluation = () => {
             return false;
         }
     }
-    const savePerfEval = () => {
+    const savePerfEval = (buttonType) => {
+        let flag = false;
+        setObsError('');
+        setGradeError('');
+        setTeachingSubError(false);
+        setClassError(false);
+        const { isValidGrade, errorMessage } = validateGrades(initialStaffPerfEval);
         let data = generatePerformanceXml(initialStaffPerfEval);
         console.log(data);
         let selfUser = isSelfUser();
@@ -345,25 +397,30 @@ const PerformanceEvaluation = () => {
             asClasses: classTaught.toString(),
             asSubjects: teachingSub.toString()
         }
-        if (isValid()) {
-            dispatch(CDASaveStaffPerformanceEvalDetailsMsg(SaveStaffPerformanceEvalDetailBody));
+        if (isValid() && isValidGrade && validateObs()) {
+            flag = true;
+            dispatch(CDASaveStaffPerformanceEvalDetailsMsg(SaveStaffPerformanceEvalDetailBody, buttonType));
             setClassError(false)
             setTeachingSubError(false)
         }
         if (selfUser && classTaught?.trim() === '') {
             setClassError(true)
-        } else {
-            setClassError(false)
         }
         if (selfUser && teachingSub?.trim() === '') {
             setTeachingSubError(true)
-        } else {
-            setTeachingSubError(false)
         }
-        console.log('✅', SaveStaffPerformanceEvalDetailBody)
+        if (!isValidGrade) {
+            setGradeError(errorMessage);
+        }
+        if (!validateObs()) {
+            setObsError('Value for at least one observation should be set.')
+        }
+
+        return flag
     }
 
     const submitEval = () => {
+        let flag = savePerfEval('submit');
         let selfUser = isSelfUser();
         const SubmitStaffPerformanceDetailBody: ISubmitStaffPerformanceDetailsBody = {
             asSchoolId: Number(schoolId),
@@ -372,7 +429,7 @@ const PerformanceEvaluation = () => {
             asYear: Number(asYear),
             asIsSubmitAction: 1
         }
-        if (isValid()) {
+        if (isValid() && flag) {
             showAlert({
                 title: 'Please Confirm',
                 message: 'This action will save and submit current details. Are you sure you want to continue?',
@@ -513,7 +570,7 @@ const PerformanceEvaluation = () => {
                                                     backgroundColor: green[600]
                                                 }
                                             }}
-                                            onClick={savePerfEval}
+                                            onClick={() => { savePerfEval('save') }}
                                         >
                                             <Save />
                                         </IconButton>
@@ -526,11 +583,17 @@ const PerformanceEvaluation = () => {
                 />
                 {loading ? <SuspenseLoader /> :
                     <Box border={1} sx={{ p: 2, background: 'white' }}>
-                        {classError && <>
-                            <span style={{ color: 'red', fontWeight: 'bolder' }}>Classes Taught should not be blank.</span>
-                            {classError && teachingSubError && <br />} </>}
-                        {teachingSubError &&
-                            <span style={{ color: 'red', fontWeight: 'bolder' }}>Teaching Subjects should not be blank.</span>}
+                        <Box mb={1}>
+                            {classError && <>
+                                <div style={{ color: 'red', fontWeight: 'bolder' }}>Classes Taught should not be blank.</div>
+                            </>}
+                            {teachingSubError &&
+                                <div style={{ color: 'red', fontWeight: 'bolder' }}>Teaching Subjects should not be blank.</div>}
+                            {gradeError.length > 0 &&
+                                <div style={{ color: 'red', fontWeight: 'bolder' }}>{gradeError}</div>}
+                            {obsError.length > 0 &&
+                                <div style={{ color: 'red', fontWeight: 'bolder' }}>{obsError}</div>}
+                        </Box>
                         {/* {teachingSubError !== '' && */}
                         <Grid container spacing={3}>
                             {listSchoolOrgNameDetails?.map((item, i) => (
@@ -929,6 +992,7 @@ const PerformanceEvaluation = () => {
                                                                                         >
                                                                                             {item.Text7 === '2' && isSelfUserBody(item3.Text5) ? (
                                                                                                 <textarea
+                                                                                                    maxLength={4000}
                                                                                                     rows={3}
                                                                                                     placeholder={`${isNotEditable() === false ? 'Enter your observation here...' : ''}`}
                                                                                                     style={{
@@ -942,20 +1006,20 @@ const PerformanceEvaluation = () => {
                                                                                                         boxSizing: 'border-box',
                                                                                                         display: 'block', // Ensures the textarea behaves as a block element
                                                                                                     }}
-                                                                                                    value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`])?.observation ?? ''}
-                                                                                                    onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`, e.target.value) }}
+                                                                                                    value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`])?.observation ?? ''}
+                                                                                                    onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`, e.target.value) }}
                                                                                                     disabled={isNotEditable()}
                                                                                                 />
                                                                                             ) : item.Text7 === '2' && `${item3.Text4}`}
 
                                                                                             {item.Text7 === '3' && isSelfUserBody(item3.Text5) ? (
                                                                                                 <SearchableDropdown1
-                                                                                                    defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`])?.gradeId ?? ''}
+                                                                                                    defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`])?.gradeId ?? ''}
                                                                                                     ItemList={gradeDropddownList}
                                                                                                     size={"small"}
                                                                                                     DisableClearable={true}
                                                                                                     sx={{ maxWidth: '15vw' }}
-                                                                                                    onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}`, value.Value) }}
+                                                                                                    onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`, value.Value) }}
                                                                                                 />
                                                                                             ) : item.Text7 === '3' && getGradeName(item3.Text3)}
                                                                                         </TableCell>

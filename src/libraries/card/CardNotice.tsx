@@ -1,8 +1,9 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Card, Grid, Typography } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useState } from 'react';
 import ChechBoX from './CheckBoX';
-const CardNotice = ({ item, downloadNotice, clickSingle }) => {
+
+const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
   const [isCardVisible, setIsCardVisible] = useState(true);
   const handleCheckboxChange = () => {
     setIsCardVisible(!isCardVisible);
@@ -10,10 +11,10 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
 
   return (
     <>
-      <Grid container>
+      {/* <Grid container>
         <Grid xs={12}>
           <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5 }}>
-            <Typography>{item.header}</Typography>
+          <Typography>{item.header}</Typography>
             <div style={{ flex: '1' }}></div>
             <FileDownloadOutlinedIcon
               onClick={() => {
@@ -30,7 +31,59 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
             onChange={clickSingle}
           />
         </Grid>
-      </Grid>
+      </Grid> */}
+
+      <Box sx={{ backgroundColor: 'white', mb:2}}>
+        <TableContainer component={Box} >
+          <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+            <TableHead>
+              <TableRow
+                sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
+                <TableCell sx={{ color: 'white' }}>
+                Checkbox
+                </TableCell>
+                <TableCell sx={{ color: 'white' }} >
+                  Notice Name
+                </TableCell>
+                <TableCell sx={{ color: 'white', textAlign: 'center', py: 1 }}>
+                  Download
+                </TableCell>
+
+
+              </TableRow>
+            </TableHead>
+            <TableBody >
+              {itemList.map((item, index) => {
+                return (
+                  <TableRow 
+                  // onClick={() => { clickCard(item.linkPath) }}
+                  >
+                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>
+                      <ChechBoX
+                        name={''}
+                        value={item.id}
+                        checked={item.isActive}
+                        onChange={clickSingle}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>
+                    {item.header}
+                    </TableCell>
+                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }}>
+                      <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }} />
+                    </TableCell>
+
+
+
+
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+      </Box>
     </>
   );
 };

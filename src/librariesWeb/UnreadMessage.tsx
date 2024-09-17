@@ -52,17 +52,17 @@ const UnreadMessage = () => {
   }
   return (
     <Box sx={{ backgroundColor: 'white', pt: 1 }}>
-      <Grid container sx={{ borderRadius: '10px' }}>
-        <Grid item xs={8}>
+      <Grid container >
+        <Grid item xs={6}>
           <Grid item xs={12}>
             <Header Title="Unread Messages" />
           </Grid>
         </Grid>
-        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+        <Grid item xs={1.5} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '350px', overflow: 'auto', mt: 2, }}>
+      <Box sx={{ height: '242px', overflow: 'auto', mt: 2, }}>
         {loading ? (
           <Stack justifyContent="center" alignItems="center">
             <CircularProgress size={40} disableShrink thickness={4} />
@@ -78,7 +78,7 @@ const UnreadMessage = () => {
                       <Box
                         display={'flex'}
                         justifyContent={'space-between'}
-                        px={2}
+                        px={1}
                       > {SenderPhoto.map((image, i) => {
                         if (image.Id === item.SenderUserId) {
                           return (
@@ -95,11 +95,11 @@ const UnreadMessage = () => {
                     </Grid><Grid item xs={10}>
                       <Grid container>
                         <Grid item xs={6}>
-                          <Typography variant="h4" p={0.5}  >{item.UserName}</Typography>
+                          <Typography variant="h4" pl={0.6}  >{item.UserName}</Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                          <AccessTimeIcon sx={{ mr: '5px', color: '#64b5f6' }} fontSize="small" />
-                          {item.Date}
+                        <Grid container item xs={6}>
+                          <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
+                          <Typography>{item.Date}</Typography> 
                         </Grid>
                       </Grid>
                       <Tooltip title={item.Subject} >
@@ -116,12 +116,12 @@ const UnreadMessage = () => {
                             WebkitLineClamp: 1,
                             WebkitBoxOrient: 'vertical',
                             position: 'relative',
+                            color:'#38548A'
                           }}
                         >{item.Subject}</Typography>
                       </Tooltip>
-
                     </Grid><Grid item xs={9}>
-                      <Divider variant="middle" sx={{ m: '15px' }} />
+                      <Divider variant="middle" sx={{ m: '5px' }} />
                     </Grid>
                   </Grid>
                 )

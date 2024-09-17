@@ -1,6 +1,7 @@
 import PushPinIcon from '@mui/icons-material/PushPin';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Card, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Card, Grid, IconButton } from '@mui/material';
+import { blue, red } from '@mui/material/colors';
 import { motion } from 'framer-motion'; // Import framer-motion for animations
 import { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
@@ -95,11 +96,20 @@ function DashBoard() {
     <Box sx={{ px: 2 }}>
       <SchoolNoticeBoard />
       <Grid container justifyContent="flex-end">
-        <IconButton onClick={handleReset}>
+        {/* <IconButton onClick={handleReset}>
           <Typography variant="h6"> Reset Dashboard </Typography>
           <RefreshIcon />
-        </IconButton>
+        </IconButton> */}
+        <Button sx={{
+          mt: 1, color: '#38548A', borderRadius: '7px', '&:hover': {
+            color: 'blue',
+            backgroundColor: blue[100]
+          }
+        }} onClick={handleReset} endIcon={<RefreshIcon />} >
+          Reset Dashboard </Button>
       </Grid>
+
+
 
       {/* Drag and Drop Context */}
       <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -134,7 +144,8 @@ function DashBoard() {
                           {/* Unpin Button */}
                           <IconButton
                             size="small"
-                            sx={{ position: 'absolute', top: 4, right: 4 }}
+                            sx={{ position: 'absolute', top: 4, right: 4 , '&:hover': {
+                            color: 'red',  backgroundColor: red[100]}}}
                             onClick={() => handleUnpinTile(tile.id)}
                           >
                             <PushPinIcon fontSize="small" />

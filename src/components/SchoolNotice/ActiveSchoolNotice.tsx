@@ -107,17 +107,14 @@ const ActiveSchoolNotice = () => {
                         path: ' '
                     }
                 ]} />
-
-            {Data1.map((item, index) => {
-                return (
-                    <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
-                        <NoticeCard
-                            item={item}
-                            downloadNotice={downloadNotice}
-                            clickSingle={clickSingle}
-                        />
-                    </div>);
-            })} </Box>
+                <Box sx={{backgroundColor:'white', p:1}}>
+            <NoticeCard
+                itemList={Data1}
+                downloadNotice={downloadNotice}
+                clickSingle={clickSingle}
+            />
+          </Box>
+        </Box>
     )
 }
 

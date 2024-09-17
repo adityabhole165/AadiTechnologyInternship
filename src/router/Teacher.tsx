@@ -674,6 +674,10 @@ const teacherRoutes = [
     element: <Studentwiseprogressreport />
   },
   {
+    path: 'Studentwiseprogressreport/:TermId',
+    element: <Studentwiseprogressreport />
+  },
+  {
     path: 'AllNoticeList',
     element: <AllNoticeList />
   },

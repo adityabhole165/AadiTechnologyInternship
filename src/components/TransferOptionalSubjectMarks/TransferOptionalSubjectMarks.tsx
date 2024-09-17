@@ -378,7 +378,7 @@ const TransferOptionalSubjectMarks = () => {
                                 sx={{ width: '25vw' }}
                                 ItemList={USClassTeacherList}
                                 onChange={ClickSelctTecher}
-                                label={'Select Teacher:'}
+                                label={'Select Teacher'}
                                 defaultValue={selectClasstecaher}
                                 mandatory
                                 size={"small"}
@@ -386,7 +386,7 @@ const TransferOptionalSubjectMarks = () => {
                             <TextField
                                 sx={{ wdth: '25vw' }}
                                 fullWidth
-                                label="Student Name / Reg.No. :"
+                                label="Student Name / Reg.No. "
                                 value={SearchText}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' || e.key === 'Tab') {
@@ -554,7 +554,7 @@ const TransferOptionalSubjectMarks = () => {
                         {
                             StudentsList.length > 0 ? (
                                 <div style={{ flex: 1, textAlign: 'center' }}>
-                                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                    <Typography variant="subtitle1" sx={{ margin: '5px 0', textAlign: 'center' }}>
                                         <Box component="span" fontWeight="fontWeightBold">
                                             {startRecord} to {endRecord}
                                         </Box>

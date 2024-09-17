@@ -1,4 +1,5 @@
-import { Grid } from '@mui/material';
+import AttachmentIcon from '@mui/icons-material/Attachment';
+import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Card1 from 'src/libraries/mainCard/Card1';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
@@ -9,6 +10,7 @@ function List1({
   linkParams = ''
 }) {
   const navigate = useNavigate();
+  const url = localStorage.getItem("SiteURL") + "/RITeSchool/downloads/School Notices/";
   const clickCard = (path) => {
     if (location.pathname.split('/')[1].toLocaleLowerCase() === 'schoolnotice')
       navigate('../' + path.replace('/Common/', ''));
@@ -35,7 +37,40 @@ function List1({
       {items.length == 0 ? (
         <ErrorMessages Error={'No records found'} />
       ) : (
-        <Grid container>
+        <Grid >
+         <Box sx={{ backgroundColor: 'white', mb:2}}>
+        <TableContainer component={Box} >
+          <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+            <TableHead >
+              <TableRow  sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
+                <TableCell sx={{ color: 'white' }}>Notice Name</TableCell>
+                <TableCell sx={{ color: 'white' }}>Date</TableCell>
+                <TableCell sx={{ color: 'white', textAlign: 'center' }}>Attachment</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((items, index) => (
+                <TableRow key={index} sx={{ cursor: 'pointer' }} onClick={() => {
+                  clickCard(items.linkPath);
+                }}>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>
+                    {items.header}
+                  </TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5 , }}>
+                    {items.text1}
+                  </TableCell>
+                  <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }}>
+                    {items.FileName.length > 0 ?
+                      <IconButton >
+                        <AttachmentIcon />
+                      </IconButton> : ''}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          </TableContainer>
+      </Box>
           {items.map((items, index) => (
             <Grid item xs={12} key={index}>
               <Card1

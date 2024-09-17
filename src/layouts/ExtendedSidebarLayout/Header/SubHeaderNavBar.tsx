@@ -6,6 +6,7 @@ import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+
 import {
   alpha,
   AppBar,
@@ -13,8 +14,6 @@ import {
   ClickAwayListener,
   Grow,
   IconButton,
-  List,
-  ListItem,
   ListItemButton,
   Menu,
   MenuItem,
@@ -31,6 +30,7 @@ import { useNavigate } from 'react-router-dom';
 import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
 import { getChildMenuId, getMenuDescription } from 'src/requests/NavBarMenu/requestNavBarMenu';
 import { RootState } from 'src/store';
+import ImprovedNestedMenu from './NestedMenu';
 
 interface MenuItem {
   MenuId: number;
@@ -57,9 +57,15 @@ function SubHeaderNavBar({ toggleDrawer }) {
   }, [GetNavbarmenu]);
   useEffect(() => {
     if (GetNavbarMenuDetails.length > 0) {
-      console.log(GetNavbarMenuDetails)
+      console.log(`🎉`, GetNavbarMenuDetails)
     }
   }, [GetNavbarMenuDetails])
+  const handleItemClick = (item) => {
+    console.log('Clicked item:', item);
+    navigate('/extended-sidebar/landing/NavContent');
+    dispatch(getMenuDescription({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
+    dispatch(getChildMenuId({ aiMenuId: String(item.MenuId), aiSchoolId: Number(schoolId) }));
+  };
 
   const buildMenuStructure = (menuItems: any[]): MenuItem[] => {
     const itemMap: { [key: number]: MenuItem } = {};
@@ -74,6 +80,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
         itemMap[item.MenuId] = { ...item, children: [] };
       }
     });
+
 
     // Second pass: build the tree structure
     const rootItems: MenuItem[] = [];
@@ -251,7 +258,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
         >
           {/* <Tooltip title={'Left'}> */}
           <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3 }}>
-            <ArrowBackIosNewIcon sx={{ color: 'white' }} />
+            {menuStructure.length > 0 &&
+              <ArrowBackIosNewIcon sx={{ color: 'white' }} />}
           </IconButton>
           {/* </Tooltip> */}
 
@@ -283,18 +291,15 @@ function SubHeaderNavBar({ toggleDrawer }) {
                     </IconButton>
                   </Tooltip>
                 </Typography>
-                <List
-                  sx={{
-                    flexDirection: 'row',
-                    p: 0,
-                    m: 0,
-                    flex: 1,
-                  }}
-                >
-                  <ListItem sx={{ p: 0, pr: 28 }}>
-                    {menuStructure.map((item) => renderMenuItem(item))}
-                  </ListItem>
-                </List>
+                <Box sx={{ gap: 0, display: 'flex', alignItems: 'center', }}>
+                  {menuStructure.map((item, i) => (
+                    <ImprovedNestedMenu
+                      menuStructure={item}
+                      onItemClick={handleItemClick}
+                    />
+                  ))}
+                </Box>
+                <div style={{ width: '16vw' }} />
               </Stack>
             </Stack>
           </Box>
@@ -304,8 +309,9 @@ function SubHeaderNavBar({ toggleDrawer }) {
           {/* Right-hand controls (support, settings, notifications, logout) */}
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
-            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0 }}>
-              <ArrowForwardIosIcon sx={{ color: 'white' }} />
+            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}>
+              {menuStructure.length > 0 &&
+                <ArrowForwardIosIcon sx={{ color: 'white' }} />}
             </IconButton>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}

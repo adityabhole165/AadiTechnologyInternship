@@ -46,7 +46,8 @@ import CommonPageHeader from '../CommonPageHeader';
 const Studentwiseprogressreport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { TermId } = useParams();
+  
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asUpdatedById = Number(sessionStorage.getItem('Id'));
 
@@ -74,7 +75,7 @@ const Studentwiseprogressreport = () => {
   const [selectClass, SetSelectClass] = useState(ClassId == undefined ? "" : ClassId);
   const [ClassWiseExam, SetClassWiseExam] = useState(TestId == undefined ? "" : TestId);
   const [ClassTecher, SetClassTecher] = useState(ClassTecherid == undefined ? TeacherId : ClassTecherid);
-  const [Assessment, setAssessment] = useState();
+  const [Assessment, setAssessment] = useState(TermId ? TermId : 28);
 
   const [std, setstd] = useState();
   const [StudentAssig, setStudentAssig] = useState();
@@ -227,12 +228,7 @@ const Studentwiseprogressreport = () => {
   }, []);
 
 
-  useEffect(() => {
-    if (USAssessmentDrop.length > 0) {
-      setAssessment(USAssessmentDrop[0].Value);
-    }
-  }, [USAssessmentDrop]);
-
+ 
 
   useEffect(() => {
     if (Assessment != null) {
@@ -422,7 +418,7 @@ const Studentwiseprogressreport = () => {
                 ItemList={USAssessmentDrop}
                 onChange={clickAssessmentDropdown}
                 label={'Assessment:'}
-                defaultValue={Assessment}
+                defaultValue={String(Assessment)} 
                 mandatory
                 size={"small"}
               />

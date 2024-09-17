@@ -48,7 +48,7 @@ const AddLeaveDetails = () => {
     const [DescriptionError, setDescriptionError] = useState('');
     const [TotalDaysError, setTotalDaysError] = useState('')
     const [TotalDaysError1, setTotalDaysError1] = useState('')
-
+    const [dropdownData, setDropdownData] = useState([]);
 
     const GetViewLeave = useSelector(
         (state: RootState) => state.LeaveDetails.ViewLeaveDetails
@@ -67,6 +67,18 @@ const AddLeaveDetails = () => {
         (state: RootState) => state.AddLeaveDetails.ApproveorReject);
     console.log(USApproveorRejectLeaveDetails, "USApproveorRejectLeaveDetails");
 
+    useEffect(() => {
+        if (GetLeaveTypeDropdown) {
+            let filteredData = GetLeaveTypeDropdown;
+
+            // Filter data if schoolId is 122
+            if (asSchoolId === 122) {
+                filteredData = GetLeaveTypeDropdown.slice(0, 8);
+            }
+
+            setDropdownData(filteredData);
+        }
+    }, [GetLeaveTypeDropdown, asSchoolId]);
     const Note2 = [
         ' If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.'
     ];
@@ -187,6 +199,12 @@ const AddLeaveDetails = () => {
         const numericValue = value.replace(/[^0-9]/g, '').slice(0, 4);
         setTotalDays(numericValue);
     };
+    const formattedLeaveBalance = GetLeaveBalance.map(item => {
+        if (asSchoolId === 122 && item.Text2 <= 0) {
+            return `${item.Text1} (Unpaid)`;
+        }
+        return `${item.Text1} (${item.Text2})`;
+    }).join(', ');
 
     // useEffect(() => {
     //     if (StartDate && EndDate) {
@@ -380,7 +398,8 @@ const AddLeaveDetails = () => {
                     </AccordionSummary>
                     <AccordionDetails sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}>
                         <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
-                            <b>Note 1 :</b> <>Leave balance </>{GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')}
+                            <b>Note 1 :</b> <>Leave balance </>{formattedLeaveBalance}
+                            {/* {GetLeaveBalance.filter(item => !item.IsUnpaidLeave).map(item => `${item.Text1}(${item.Text2})`).join(', ')} */}
                         </Alert>
                         <Alert variant="filled" severity="info"><b>Note 2 : </b> {Note2}</Alert>
                     </AccordionDetails>
@@ -443,7 +462,7 @@ const AddLeaveDetails = () => {
                     <Grid item xs={12} md={4}>
                         <SearchableDropdown
                             sx={{ minWidth: '20vw' }}
-                            ItemList={GetLeaveTypeDropdown}
+                            ItemList={dropdownData}
                             onChange={clickLeaveTypeDropdown}
                             label={'Leave Type'}
                             defaultValue={SelectLeaveType}
