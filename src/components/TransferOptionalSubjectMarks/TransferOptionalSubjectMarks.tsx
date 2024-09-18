@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IGetClassTeachersBody, IGetOptionalSubjectsForMarksTransferBody, IGetStudentsToTransferMarksBody, ITransferOptionalSubjectMarksBody } from 'src/interfaces/TransferOptionalSubjectMarks/ITransferOptionalSubjectMarks';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { Padding } from '@mui/icons-material';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -52,7 +52,7 @@ const TransferOptionalSubjectMarks = () => {
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
     const [StudentsList, setStudentsList] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([]);
-    const [selectedSubjects, setSelectedSubjects] = useState([]);
+    const [success, setsuccess] = useState("");
     const [OptionalSubjects, setOptionalSubjects] = useState([])
     const [defaultSubjects, setdefaultSubjects] = useState([])
     const [rowsPerPage, setRowsPerPage] = useState(20);
@@ -354,12 +354,21 @@ const TransferOptionalSubjectMarks = () => {
     };
 
     useEffect(() => {
-        if (ISTransferOptionalSubjectMarks != '') {
-            toast.success(ISTransferOptionalSubjectMarks);
+        if (ISTransferOptionalSubjectMarks == "Subjects transferred successfully.") {
+            toast.success("Subjects transferred successfully.");
             dispatch(CDAresetMessage());
             dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
             dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
             setErrorMessage('');
+            setsuccess('');
+        }
+
+    }, [ISTransferOptionalSubjectMarks]);
+
+    useEffect(() => {
+        if (ISTransferOptionalSubjectMarks != "Subjects transferred successfully.") {
+            setsuccess(ISTransferOptionalSubjectMarks);
+
         }
 
     }, [ISTransferOptionalSubjectMarks]);
@@ -447,6 +456,8 @@ const TransferOptionalSubjectMarks = () => {
                         </>
                     }
                 />
+
+                <ErrorMessage1 Error={success}></ErrorMessage1>
                 {StudentsList.length > 0 && (
                     <Paper sx={{ marginTop: '10px' }}>
                         <Accordion defaultExpanded>
@@ -468,29 +479,29 @@ const TransferOptionalSubjectMarks = () => {
                 )}
 
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{pr:1 }}>
+                    <Box sx={{ pr: 1 }}>
                         {StudentsList.length > 0 && (
-                            <Paper sx={{ mt:1}}>
+                            <Paper sx={{ mt: 1 }}>
                                 <Accordion>
                                     <AccordionSummary
                                         expandIcon={<ExpandMoreIcon />}
                                         aria-controls="panel1-content"
                                         id="panel1-header"
-                                      
+
                                     >
                                         <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Optional Subjects</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails sx={{ display: 'flex', flexDirection: 'column' }}>
                                         {StudentsList.length > 0 && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', width: "250px", height: 'auto',mt:-2 }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', width: "250px", height: 'auto', mt: -2 }}>
 
                                                 {ParentOptionalSubjects
                                                     .map((subject, index) => (
                                                         <Accordion key={index}>
-                                                            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{p:-1, m:-1}}>
+                                                            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ p: -1, m: -1 }}>
                                                                 {subject.OptionalSubjectName} (Select any {subject.NoOfSubjects})
                                                             </AccordionSummary>
-                                                            <AccordionDetails sx={{p:-1, m:-2}}>
+                                                            <AccordionDetails sx={{ p: -1, m: -2 }}>
                                                                 <ul>
                                                                     {OptionalSubjects
                                                                         .filter((objParent) => {
@@ -547,29 +558,29 @@ const TransferOptionalSubjectMarks = () => {
                         )}
                     </Box >
                     <Box sx={{ backgroundColor: 'white', p: 2, mt: 1, width: '100% ' }}>
-                        <Box sx={{pt:-1}}>
+                        <Box sx={{ pt: -1 }}>
 
-                        {
-                            StudentsList.length > 0 ? (
-                                <div style={{ flex: 1, textAlign: 'center' }}>
-                                    <Typography variant="subtitle1" sx={{ margin: '5px 0', textAlign: 'center' }}>
-                                        <Box component="span" fontWeight="fontWeightBold">
-                                            {startRecord} to {endRecord}
-                                        </Box>
-                                        {' '}out of{' '}
-                                        <Box component="span" fontWeight="fontWeightBold">
-                                            {countArray}
-                                        </Box>{' '}
-                                        {countArray === 1 ? 'record' : 'records'}
-                                    </Typography>
-                                </div>
+                            {
+                                StudentsList.length > 0 ? (
+                                    <div style={{ flex: 1, textAlign: 'center' }}>
+                                        <Typography variant="subtitle1" sx={{ margin: '5px 0', textAlign: 'center' }}>
+                                            <Box component="span" fontWeight="fontWeightBold">
+                                                {startRecord} to {endRecord}
+                                            </Box>
+                                            {' '}out of{' '}
+                                            <Box component="span" fontWeight="fontWeightBold">
+                                                {countArray}
+                                            </Box>{' '}
+                                            {countArray === 1 ? 'record' : 'records'}
+                                        </Typography>
+                                    </div>
 
-                            ) : (
-                                <span></span>
+                                ) : (
+                                    <span></span>
 
-                            )
-                        }
-                          </Box>
+                                )
+                            }
+                        </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
 
                             {StudentsList.length > 0 && (
@@ -584,7 +595,7 @@ const TransferOptionalSubjectMarks = () => {
                         </Box>
 
 
-                        
+
                         {selectClasstecaher !== '0' ? (
                             StudentsList.length > 0 ? (
                                 <span></span>
@@ -594,7 +605,7 @@ const TransferOptionalSubjectMarks = () => {
                                 </Typography>
                             )
                         ) : null}
-                     
+
 
                         {
                             countArray > rowsPerPage ? (
