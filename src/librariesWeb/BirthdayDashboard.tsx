@@ -3,7 +3,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Box,
-  Grid
+  Grid,
+  IconButton
 } from '@mui/material';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
@@ -137,24 +138,45 @@ function BirthdayDashboard() {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Box sx={{ height: '300px', backgroundColor: 'white', p: 1. }}>
-      <Grid item sx={{ mb: '0px', display: 'flex', borderRadius: '10px' }}>
-        <Header Title="Birthdays" />
-        <Grid sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+    <Box sx={{ height: '300px', backgroundColor: 'white', pt: 1 }}>
+     <Grid container >
+        <Grid item xs={6}>
+          <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Header Title="Birthdays" />
+          </Grid>
+        </Grid>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
           <Actions IconType="Label" DiplayText={Birthdays.length !== 0 ? Birthdays.length : '0'} />
-
+        
+       
+          <IconButton>
+         <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
+            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+         </IconButton>
+          <IconButton>
+          <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
+          </IconButton>
+           </Grid>
+        
+      </Grid>
+     
+      {/* <Grid xs={12} item sx={{ mb: '0px', display: 'flex', borderRadius: '10px', pr: 3  }}> */}
+       {/* <Grid item xs={12}>  */}
+        {/* <Header Title="Birthdays" /> */}
+        {/* <Actions IconType="Label" DiplayText={Birthdays.length !== 0 ? Birthdays.length : '0'} /></Grid> */}
+        {/* <Grid xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
           <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
             handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
-
           <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
-        </Grid>
-      </Grid>
+        </Grid> */}
+      {/* </Grid> */}
       <BirthdayPopup open={open} anchorEl={anchorEl} handleClose={handleClose}
         applyFilter={applyFilter} handleRefresh={handleRefresh} />
       <Carousel itemlist={Birthdays} />
     </Box>
-  );
+  );  
 }
 
 export default BirthdayDashboard;

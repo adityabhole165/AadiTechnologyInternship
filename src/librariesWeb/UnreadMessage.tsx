@@ -58,7 +58,7 @@ const UnreadMessage = () => {
             <Header Title="Unread Messages" />
           </Grid>
         </Grid>
-        <Grid item xs={1.5} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
+        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>

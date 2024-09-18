@@ -39,9 +39,9 @@ const Actions = ({ Icon = undefined, ClickIcon = undefined, title = undefined,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '30px',      // Circle diameter
-                height: '30px',     // Circle diameter
-                borderRadius: '50%', // Makes the Box a circle
+                width: '25px',      // Circle diameter
+                height: '25px',     // Circle diameter
+                borderRadius: '40%', // Makes the Box a circle
                 backgroundColor: '#38548A', // Secondary background color
                 color: 'white',      // Text color
                 fontSize: '0.8rem',
@@ -49,9 +49,10 @@ const Actions = ({ Icon = undefined, ClickIcon = undefined, title = undefined,
         </IconButton>:
                     <Icon sx={{
                         color: '#38548A', borderRadius: '7px',
-                        mt: '4px', cursor: 'pointer',
-                        '&:hover': { backgroundColor: grey[600] }
+                        mt: '0px', cursor: 'pointer',
+                        // '&:hover': { backgroundColor: grey[600] }
                     }} />
+                    
                 }
         </Box>
         </Tooltip>
