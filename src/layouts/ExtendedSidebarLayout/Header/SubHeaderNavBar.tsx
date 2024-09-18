@@ -21,8 +21,7 @@ import {
   Paper,
   Popper,
   Stack,
-  Tooltip,
-  Typography
+  Tooltip
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -247,6 +246,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
           mt: '60px',
           zIndex: 1201,
           backgroundColor: (theme) => theme.palette.primary.main,
+          // backgroundColor: 'green',
+          minHeight: '50px',
         }}
       >
         <Stack
@@ -254,7 +255,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           alignItems={'center'}
           justifyContent={'space-between'}
           px={2}
-          py={1}
+          py={.5}
         >
           {/* <Tooltip title={'Left'}> */}
           <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3 }}>
@@ -283,15 +284,15 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 'scrollbar-width': 'none', // Hides scrollbar in Firefox
               }}
             >
-              <Stack direction={'row'} alignItems={'center'}>
-                <Typography sx={{ left: '0', p: '5px', py: '7px', color: 'white', position: 'fixed', alignItems: 'center', zIndex: 1000, backgroundColor: (theme) => theme.palette.primary.main }}>
+              <Stack direction={'row'} alignItems={'center'} >
+                <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ pl: '8px', zIndex: '1000', position: 'fixed', left: '0', top: '63px', height: '45px', backgroundColor: (theme) => theme.palette.primary.main }}>
                   <Tooltip title="Sidebar">
                     <IconButton color="inherit" onClick={toggleDrawer}>
                       <MenuIcon />
                     </IconButton>
                   </Tooltip>
-                </Typography>
-                <Box sx={{ gap: 0, display: 'flex', alignItems: 'center', }}>
+                </Stack>
+                <Box sx={{ gap: 0, display: 'flex', alignItems: 'center' }}>
                   {menuStructure.map((item, i) => (
                     <ImprovedNestedMenu
                       menuStructure={item}
@@ -307,7 +308,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
 
 
           {/* Right-hand controls (support, settings, notifications, logout) */}
-          <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '68px', backgroundColor: (theme) => theme.palette.primary.main }}>
+          <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '63px', height: '45px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
             <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}>
               {menuStructure.length > 0 &&
