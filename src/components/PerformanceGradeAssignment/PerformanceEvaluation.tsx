@@ -1,6 +1,8 @@
 import { Check, CheckCircle, FactCheck, QuestionMark, Save } from "@mui/icons-material";
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
-import { blue, green, grey } from "@mui/material/colors";
+import { blue, green, grey, red } from "@mui/material/colors";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -8,7 +10,7 @@ import { toast } from "react-toastify";
 import { AlertContext } from 'src/contexts/AlertContext';
 import { IGetPerformanceEvaluationDetailsBody, IPublishStaffPerformanceDetailsBody, ISaveStaffPerformanceEvalDetailsBody, ISubmitStaffPerformanceDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
 import SuspenseLoader from "src/layouts/components/SuspenseLoader";
-import Datepicker2 from "src/libraries/DateSelector/Datepicker2";
+import Datepicker3 from "src/libraries/DateSelector/Datepicker3";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
 import { CDAGetPerformanceEvaluationDetails, CDAPublishStaffPerformanceDetailsMsg, CDAResetPublishStaffPerformanceDetailsMsg, CDAResetSaveStaffPerformanceEvalDetailsMsg, CDAResetSubmitStaffPerformanceDetailsMsg, CDASaveStaffPerformanceEvalDetailsMsg, CDASubmitStaffPerformanceDetailsMsg } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { encodeURL, formatDate } from "../Common/Util";
@@ -16,10 +18,19 @@ import CommonPageHeader from "../CommonPageHeader";
 import UploadDocument from "./UploadDocument";
 // import DatePicker from "react-multi-date-picker";
 
+const getTodayDate = () => {
+    const today = new Date(); // Get the current date
+    const day = String(today.getDate()).padStart(2, '0'); // Get day and pad with zero if needed
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Get month (0-indexed) and pad with zero if needed
+    const year = today.getFullYear(); // Get full year
+    return `${day}-${month}-${year}`; // Format to 'DD-MM-YYYY'
+};
+
 const PerformanceEvaluation = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const { showAlert, closeAlert } = useContext(AlertContext);
+    const todayDate = getTodayDate();
     // useSelectors and Store Data
     const listSchoolOrgNameDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistSchoolOrgNameDetails);
     const listUserNameDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistUserNameDetails);
@@ -43,7 +54,8 @@ const PerformanceEvaluation = () => {
     const academicYearId = sessionStorage.getItem('AcademicYearId');
     const reportingUserId = sessionStorage.getItem('Id');
     const currentSignedInUser = sessionStorage.getItem('Id');
-    const [effectiveDate, setEffectiveDate] = useState(new Date());
+    const [effectiveDate, setEffectiveDate] = useState(listUserNameDetails[0]?.Text13 === '' ? todayDate : listUserNameDetails[0]?.Text13);
+    const [incrementDate, setIncrementDate] = useState(listUserNameDetails[0]?.Text12 === '' ? undefined : listUserNameDetails[0]?.Text12);
     const [classTaught, setClassTaught] = useState('');
     const [teachingSub, setTeachingSub] = useState('');
     const [uploadDoc, setUploadDoc] = useState(false);
@@ -77,6 +89,11 @@ const PerformanceEvaluation = () => {
             console.log(listSchoolOrgNameDetails)
         }
     }, [dispatch]);
+    useEffect(() => {
+        if (listUserNameDetails.length > 0) {
+            console.log(`😎`, listUserNameDetails)
+        }
+    }, [listUserNameDetails])
 
     function getFinalApproverName(id) {
         let filteredObserver = listIsFinalApproverDetails.filter((item) => item.Text3 === id);
@@ -319,11 +336,15 @@ const PerformanceEvaluation = () => {
     }
 
     function validateObs() {
+        console.log(`🏠`, initialStaffPerfEval)
         for (let key in initialStaffPerfEval) {
             const item = JSON.parse(initialStaffPerfEval[key]);
 
             // Split the key and check if the first part (input type) is '2'
             if (key.split('-')[4] === '2' && item.reportingUserId === reportingUserId && item.observation !== "") {
+                return true;
+            }
+            else if (key.split('-')[4] === '2' && item.reportingUserId !== reportingUserId && item.observation !== "") {
                 return true;
             }
         }
@@ -455,8 +476,27 @@ const PerformanceEvaluation = () => {
         } else {
             setTeachingSubError(false)
         }
-
-
+    }
+    const unsubmitEval = () => {
+        const SubmitStaffPerformanceDetailBody: ISubmitStaffPerformanceDetailsBody = {
+            asSchoolId: Number(schoolId),
+            asUserId: Number(userId),
+            asReportingUserId: Number(reportingUserId),
+            asYear: Number(asYear),
+            asIsSubmitAction: 0
+        }
+        showAlert({
+            title: 'Please Confirm',
+            message: 'This action will unsubmit current details. Are you sure you want to continue?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onConfirm: () => {
+                dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody))
+                closeAlert();
+            },
+            onCancel: closeAlert
+        });
     }
     const publishEval = () => {
         const PublishStaffPerformanceDetailBody: IPublishStaffPerformanceDetailsBody = {
@@ -466,8 +506,21 @@ const PerformanceEvaluation = () => {
             asYear: Number(asYear),
             asIsPublish: true,
             asAcademicYearId: Number(academicYearId),
-            asEffectiveDate: '',
-            asLastIncrementDate: ''
+            asEffectiveDate: effectiveDate,
+            asLastIncrementDate: incrementDate
+        }
+        dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
+    }
+    const unpublishEval = () => {
+        const PublishStaffPerformanceDetailBody: IPublishStaffPerformanceDetailsBody = {
+            asSchoolId: Number(schoolId),
+            asUserId: Number(userId),
+            asReportingUserId: Number(reportingUserId),
+            asYear: Number(asYear),
+            asIsPublish: false,
+            asAcademicYearId: Number(academicYearId),
+            asEffectiveDate: effectiveDate,
+            asLastIncrementDate: incrementDate
         }
         dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
     }
@@ -500,11 +553,12 @@ const PerformanceEvaluation = () => {
                             </Box>
                             {isFinalApprover() &&
                                 <>
+
                                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                         <Tooltip title={'View report'}>
                                             <span>
                                                 <IconButton
-                                                    disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
+                                                    disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0]?.Text3 === 'false' || listEnableRejectButtonDetails[0]?.Text5 === '1' ? false : true}
                                                     sx={{
                                                         color: 'white',
                                                         backgroundColor: blue[500],
@@ -539,6 +593,24 @@ const PerformanceEvaluation = () => {
                                         </Tooltip>
                                     </Box>
                                 </>}
+                            {isFinalApprover() && listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text5 === "1" &&
+                                <Tooltip title={'Unpublish'}>
+                                    <span>
+                                        <IconButton
+                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text5 === '1' ? false : true}
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: red[500],
+                                                '&:hover': {
+                                                    backgroundColor: red[600],
+                                                },
+                                            }}
+                                            onClick={unpublishEval}
+                                        >
+                                            <UnpublishedIcon />
+                                        </IconButton>
+                                    </span>
+                                </Tooltip>}
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Tooltip title={'Submit'}>
                                     <span>
@@ -558,6 +630,25 @@ const PerformanceEvaluation = () => {
                                     </span>
                                 </Tooltip>
                             </Box>
+                            {isFinalApprover() && listEnableRejectButtonDetails.length > 0 && listEnableRejectButtonDetails[0]?.Text4 === 'True' &&
+                                <Tooltip title={'Unsubmit'}>
+                                    <span>
+                                        <IconButton
+                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
+                                            sx={{
+                                                color: 'white',
+                                                backgroundColor: blue[500],
+                                                '&:hover': {
+                                                    backgroundColor: blue[600],
+                                                },
+                                            }}
+                                            onClick={unsubmitEval}
+                                        >
+                                            <EventBusyIcon />
+                                        </IconButton>
+                                    </span>
+                                </Tooltip>
+                            }
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Tooltip title={'Save'}>
                                     <span>
@@ -696,9 +787,11 @@ const PerformanceEvaluation = () => {
                                                             {isFinalApprover() === false ? <Typography variant="h5" component="span">
                                                                 {item.Text12 !== '' ? formatDate(item.Text12.split(' ')[0]) : '-'}
                                                             </Typography> :
-                                                                <Datepicker2
-                                                                    DateValue={new Date(item.Text12)}
-                                                                    onDateChange={() => { }}
+                                                                <Datepicker3
+                                                                    disabled={listEnableRejectButtonDetails[0]?.Text5 === '1' ? true : false}
+                                                                    maxDate={true}
+                                                                    DateValue={incrementDate}
+                                                                    onDateChange={(value) => { setIncrementDate(value) }}
                                                                     label={''}
                                                                     size={"small"}
                                                                     fullWidth={false}
@@ -794,9 +887,13 @@ const PerformanceEvaluation = () => {
                                                     Effective From Date:
                                                 </Box>
                                                 <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                                                    <Datepicker2
+                                                    <Datepicker3
+                                                        disabled={listEnableRejectButtonDetails[0]?.Text5 === '1' ? true : false}
+                                                        minDate={true}
                                                         DateValue={effectiveDate}
-                                                        onDateChange={(value) => { setEffectiveDate(value) }}
+                                                        onDateChange={(value) => {
+                                                            setEffectiveDate(value)
+                                                        }}
                                                         label={''}
                                                         size={"small"}
                                                         fullWidth={false}
