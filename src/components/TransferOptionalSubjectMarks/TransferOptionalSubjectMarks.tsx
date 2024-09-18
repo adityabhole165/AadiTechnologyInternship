@@ -608,7 +608,7 @@ const TransferOptionalSubjectMarks = () => {
 
 
                         {
-                            countArray > rowsPerPage ? (
+                            endRecord > 19 ? (
                                 <ButtonGroupComponent
                                     rowsPerPage={rowsPerPage}
                                     ChangeRowsPerPage={ChangeRowsPerPage}
@@ -616,8 +616,11 @@ const TransferOptionalSubjectMarks = () => {
                                     PageChange={PageChange}
                                     pagecount={pagecount}
                                 />
-                            ) : <span> </span>
 
+                            ) : (
+                                <span></span>
+
+                            )
                         }
 
 
