@@ -93,6 +93,7 @@ function UpcomingEvent() {
   }, [lastRefreshTime]);
   const handleRefresh = () => {
     dispatch(getUpcomingEventDashdata(UpcomingEventDashBody));
+    setSelectedEventType('');
     setLastRefreshTime(new Date());
   };
   const handleMouseEnter = () => {
