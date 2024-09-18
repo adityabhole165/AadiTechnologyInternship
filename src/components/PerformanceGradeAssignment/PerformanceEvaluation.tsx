@@ -1208,10 +1208,10 @@ const PerformanceEvaluation = () => {
                 saveButton={listEnableRejectButtonDetails[0]?.Text3}
                 open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
-                    // if (newFile) {
-                    //     console.log('NewFile ->', newFile)
-                    //     dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
-                    // }
+                    if (newFile) {
+                        console.log('NewFile ->', newFile)
+                        dispatch(CDAGetDetailsForAttachment(PerformanceEvaluationDetailsBody));
+                    }
                     setHoveredRow(null);
                 }} RefreshList={() => { }} />
         </>
