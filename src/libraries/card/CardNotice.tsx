@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useState } from 'react';
 import ChechBoX from './CheckBoX';
 
@@ -37,28 +37,26 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
         <TableContainer component={Box} >
           <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
             <TableHead>
-              <TableRow
-                sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
-                <TableCell sx={{ color: 'white' }}>
+              <TableRow sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
+                <TableCell sx={{ color: 'white', minWidth:'125px'  }}>
                 Checkbox
                 </TableCell>
-                <TableCell sx={{ color: 'white' }} >
+                <TableCell sx={{ color: 'white', }} >
                   Notice Name
                 </TableCell>
                 <TableCell sx={{ color: 'white', textAlign: 'center', py: 1 }}>
                   Download
                 </TableCell>
-
-
               </TableRow>
             </TableHead>
-            <TableBody >
+            <TableBody>
               {itemList.map((item, index) => {
                 return (
+                  <>
                   <TableRow 
                   // onClick={() => { clickCard(item.linkPath) }}
                   >
-                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>
+                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, maxWidth:'150px', pl:3.5 }}>
                       <ChechBoX
                         name={''}
                         value={item.id}
@@ -66,17 +64,15 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
                         onChange={clickSingle}
                       />
                     </TableCell>
-                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }}>
+                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5,  }}>
                     {item.header}
                     </TableCell>
-                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center' }}>
+                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', minWidth:'120px'}}>
+                      <IconButton>
                       <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }} />
-                    </TableCell>
-
-
-
-
-                  </TableRow>
+                      </IconButton></TableCell>
+                  </TableRow> 
+                  </>
                 )
               })}
             </TableBody>
