@@ -3,6 +3,7 @@ import {
   CircularProgress,
   Divider,
   Grid,
+  IconButton,
   Stack,
   Tooltip,
   Typography
@@ -140,8 +141,7 @@ function FeedBackCard() {
         <Grid item xs={12}>
           <Header Title="Feedback" />
         </Grid>
-        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
-
+        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>    
           <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
             handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />

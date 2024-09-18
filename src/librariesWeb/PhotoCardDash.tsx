@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   Typography
 } from '@mui/material';
 import { ClearIcon } from '@mui/x-date-pickers';
@@ -216,12 +217,10 @@ function PhotoCardDash() {
         </Grid>
         <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
           <Actions IconType="Label" DiplayText={PhotoAlbum1.length !== 0 ? PhotoAlbum1.length : '0'} />
-
-          <Actions Icon={RefreshIcon} ClickIcon={handleClearFilter}
-            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
-
-          <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
+            <Actions Icon={RefreshIcon} ClickIcon={handleClearFilter}
+              title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+              handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+            <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
         </Grid>
       </Grid>
 

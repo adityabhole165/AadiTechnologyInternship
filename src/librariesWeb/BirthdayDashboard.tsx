@@ -147,18 +147,11 @@ function BirthdayDashboard() {
         </Grid>
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
           <Actions IconType="Label" DiplayText={Birthdays.length !== 0 ? Birthdays.length : '0'} />
-        
-       
-          <IconButton>
          <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
             handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
-         </IconButton>
-          <IconButton>
           <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
-          </IconButton>
-           </Grid>
-        
+           </Grid>        
       </Grid>
      
       {/* <Grid xs={12} item sx={{ mb: '0px', display: 'flex', borderRadius: '10px', pr: 3  }}> */}

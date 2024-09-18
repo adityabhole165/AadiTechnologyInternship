@@ -32,9 +32,9 @@ const Actions = ({ Icon = undefined, ClickIcon = undefined, title = undefined,
         // </Tooltip>
         <Tooltip title={title}
             onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <Box onClick={ClickIcon}>
+        <IconButton onClick={ClickIcon}>
               {IconType == "Label" ?
-        <IconButton>
+        <Box>
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -46,7 +46,7 @@ const Actions = ({ Icon = undefined, ClickIcon = undefined, title = undefined,
                 color: 'white',      // Text color
                 fontSize: '0.8rem',
             }}> <b>{DiplayText}</b></Box>
-        </IconButton>:
+        </Box>:
                     <Icon sx={{
                         color: '#38548A', borderRadius: '7px',
                         mt: '0px', cursor: 'pointer',
@@ -54,7 +54,7 @@ const Actions = ({ Icon = undefined, ClickIcon = undefined, title = undefined,
                     }} />
                     
                 }
-        </Box>
+        </IconButton>
         </Tooltip>
     )
 }
