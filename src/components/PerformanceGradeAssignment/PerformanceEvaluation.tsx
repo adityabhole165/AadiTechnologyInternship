@@ -12,7 +12,7 @@ import { IGetPerformanceEvaluationDetailsBody, IPublishStaffPerformanceDetailsBo
 import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker3 from "src/libraries/DateSelector/Datepicker3";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
-import { CDAGetPerformanceEvaluationDetails, CDAPublishStaffPerformanceDetailsMsg, CDAResetPublishStaffPerformanceDetailsMsg, CDAResetSaveStaffPerformanceEvalDetailsMsg, CDAResetSubmitStaffPerformanceDetailsMsg, CDASaveStaffPerformanceEvalDetailsMsg, CDASubmitStaffPerformanceDetailsMsg } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
+import { CDAGetDetailsForAttachment, CDAGetPerformanceEvaluationDetails, CDAPublishStaffPerformanceDetailsMsg, CDAResetPublishStaffPerformanceDetailsMsg, CDAResetSaveStaffPerformanceEvalDetailsMsg, CDAResetSubmitStaffPerformanceDetailsMsg, CDASaveStaffPerformanceEvalDetailsMsg, CDASubmitStaffPerformanceDetailsMsg } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
 import { encodeURL, formatDate } from "../Common/Util";
 import CommonPageHeader from "../CommonPageHeader";
 import UploadDocument from "./UploadDocument";
@@ -40,6 +40,7 @@ const PerformanceEvaluation = () => {
     const listParameterIdDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistParameterIdDetails);
     const listIsFinalApproverDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistIsFinalApproverDetails);
     const gradeDropddownList = useSelector((state: any) => state.PerformanceGradeAssignment.ISgradeDropDownList);
+    const attachmentDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISAttachmentDetails);
     const listEnableRejectButtonDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistEnableRejectButtonDetails);
     const SubmitStaffPerformanceDetailsMsg = useSelector((state: any) => state.PerformanceGradeAssignment.ISSubmitStaffPerformanceDetailsMsg);
     const PublishStaffPerformanceDetailsMsg = useSelector((state: any) => state.PerformanceGradeAssignment.ISPublishStaffPerformanceDetailsMsg);
@@ -85,10 +86,12 @@ const PerformanceEvaluation = () => {
     // useEffects()
     useEffect(() => {
         dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody))
+        dispatch(CDAGetDetailsForAttachment(PerformanceEvaluationDetailsBody))
         if (listSchoolOrgNameDetails.length > 0) {
             console.log(listSchoolOrgNameDetails)
         }
     }, [dispatch]);
+
     useEffect(() => {
         if (listUserNameDetails.length > 0) {
             console.log(`😎`, listUserNameDetails)
@@ -1091,7 +1094,6 @@ const PerformanceEvaluation = () => {
                                                                                                 <textarea
                                                                                                     maxLength={4000}
                                                                                                     rows={3}
-                                                                                                    placeholder={`${isNotEditable() === false ? 'Enter your observation here...' : ''}`}
                                                                                                     style={{
                                                                                                         width: '100%',
                                                                                                         height: '100%',
@@ -1148,7 +1150,7 @@ const PerformanceEvaluation = () => {
                                         Attachment
                                     </TableCell>
                                 </TableRow>
-                                {listIsFinalApproverDetails.length > 0 && listIsFinalApproverDetails.map((item4, i4) => {
+                                {attachmentDetails.length > 0 && attachmentDetails.map((item4, i4) => {
                                     return (
                                         <>
                                             <TableRow key={i4}>

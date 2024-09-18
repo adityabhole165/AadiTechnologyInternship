@@ -22,6 +22,7 @@ const PerformanceGradeAssignmentslice = createSlice({
         ISSaveStaffPerformanceEvalDetailsMsg: '',
         ISSubmitStaffPerformanceDetailsMsg: '',
         ISPublishStaffPerformanceDetailsMsg: '',
+        ISAttachmentDetails: [],
         Loading: true
     },
     reducers: {
@@ -45,6 +46,10 @@ const PerformanceGradeAssignmentslice = createSlice({
         getGetAllUsersReportingToGivenUser(state, action) {
             state.Loading = false;
             state.GetAllUsersReportingToGivenUserIS = action.payload;
+        },
+        RAttachmentDetails(state, action) {
+            state.Loading = false;
+            state.ISAttachmentDetails = action.payload;
         },
         RgradeDropDownList(state, action) {
             state.Loading = false;
@@ -311,6 +316,28 @@ export const CDAGetPerformanceEvaluationDetails =
             dispatch(PerformanceGradeAssignmentslice.actions.RlistEnableRejectButtonDetails(listEnableRejectButtonDetails));
 
         };
+
+export const CDAGetDetailsForAttachment =
+    (data: IGetPerformanceEvaluationDetailsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(PerformanceGradeAssignmentslice.actions.getLoading(true));
+            const response = await PerformanceGradeAssignmentAPI.GetPerformanceEvaluationDetailsApi(data);
+            const listIsFinalApproverDetails = response.data.listIsFinalApproverDetiles.map((item, i) => {
+                return (
+                    {
+                        Text1: item.UserName,
+                        Text2: item.Designation,
+                        Text3: item.ReportingUserId,
+                        Text4: item.IsFinalApprover,
+                        Text5: item.IsSupervisor,
+                        Text6: item.IsSubmitted,
+                        Text7: item.ApprovalSortOrder,
+                        Text8: item.AttachmentCount
+                    }
+                )
+            })
+            dispatch(PerformanceGradeAssignmentslice.actions.RAttachmentDetails(listIsFinalApproverDetails));
+        }
 
 //     export const CDAGetUserInvestmentMethodDetails =
 // (data: IGetUserInvestmentMethodDetailsBody): AppThunk =>
