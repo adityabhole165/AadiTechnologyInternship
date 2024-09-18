@@ -58,7 +58,7 @@ function List1({
                       <TableCell sx={{ textTransform: 'capitalize', py:1}}>
                         {items.text1}
                       </TableCell>
-                      <TableCell sx={{  textAlign: 'center', py:0.5 }}>
+                      <TableCell sx={{  textAlign: 'center', py:0.3 }}>
                         {items.FileName.length > 0 ?
                           <IconButton >
                             <AttachmentIcon />
