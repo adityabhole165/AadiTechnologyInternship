@@ -1409,8 +1409,10 @@ const AddHomeworkNew = () => {
               multiline
               // rows={5}
               type="text"
-              value={textall}
-              onChange={Detailschnageall}
+              value={text}
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
               style={{ width: '545px', }}
             />
           </DialogContent>
