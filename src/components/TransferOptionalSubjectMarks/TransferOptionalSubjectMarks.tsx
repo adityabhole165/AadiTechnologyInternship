@@ -468,7 +468,7 @@ const TransferOptionalSubjectMarks = () => {
                 )}
 
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{p:1 }}>
+                    <Box sx={{pr:1 }}>
                         {StudentsList.length > 0 && (
                             <Paper sx={{ mt:1}}>
                                 <Accordion>
@@ -541,14 +541,12 @@ const TransferOptionalSubjectMarks = () => {
                         {errorMessage && (
                             <>
                                 <Typography sx={{ color: 'red' }}>
-                                    Please fix following error(s):</Typography>
-                                <Typography sx={{ color: 'red' }}>
                                     {errorMessage}
                                 </Typography>
                             </>
                         )}
                     </Box >
-                    <Box sx={{ backgroundColor: 'white', p: 2, mt: 2, width: '100% ' }}>
+                    <Box sx={{ backgroundColor: 'white', p: 2, mt: 1, width: '100% ' }}>
                         <Box sx={{pt:-1}}>
 
                         {
