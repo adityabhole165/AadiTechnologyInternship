@@ -3,6 +3,8 @@ import {
   IAssignClassResult,
   IClasswiseExamDropdownBody,
   IClasswiseExamDropdownResult,
+  IGetSchoolSettingsResult,
+  ISchoolsettingBody,
   ISubjectTeachersForAssignExamMarksBody,
   ISubjectTeachersForAssignExamMarksResult,
   ISubjectsExamMarksStatusForClassBody,
@@ -42,6 +44,10 @@ const SubmitMarksTeacher = (data: ISubmitTestMarksToClassTeacherBody) => {
 const SubjectTeachersForAssignExamMarks = (data: ISubjectTeachersForAssignExamMarksBody) => {
   return http.post<ISubjectTeachersForAssignExamMarksResult[]>('Teacher/SubjectTeachersForAssignExamMarks', data);
 };
+const GetSchoolSettings = (data: ISchoolsettingBody) => {
+  return http.post<IGetSchoolSettingsResult>('School/GetSchoolSettings', data);
+};
+
 
 
 const AssignExamMarkApi = {
@@ -49,7 +55,8 @@ const AssignExamMarkApi = {
   ClasswiseExamDropdown,
   SubjectsExamMarks,
   SubmitMarksTeacher,
-  SubjectTeachersForAssignExamMarks
+  SubjectTeachersForAssignExamMarks,
+  GetSchoolSettings
 };
 
 export default AssignExamMarkApi;

@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   IAssignClassBody,
   IClasswiseExamDropdownBody,
-  ISubjectTeachersForAssignExamMarksBody,
+  ISchoolsettingBody,
   ISubjectsExamMarksStatusForClassBody,
+  ISubjectTeachersForAssignExamMarksBody,
   ISubmitTestMarksToClassTeacherBody
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
 
@@ -13,6 +14,7 @@ import {
   CDASubjectTeachersForAssignExamMarks,
   GetAssignExamMarkList,
   GetClassWiseExam,
+  GetschoolSettings,
   GetSubjectList,
   ReqSubmitMarksTeacher,
   resetMessage
@@ -82,6 +84,8 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectTeachersForAssignExamMarks
   );
 
+  const UsschoolSettings = useSelector((state: RootState) => state.AssignExamMarkSlice.IsGetSchoolSettings);
+  console.log(UsschoolSettings, "-------");
 
 
 
@@ -196,7 +200,12 @@ const AssignExamMark = () => {
       dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, [selectClass]);
 
-
+  useEffect(() => {
+    const SchoolsettingBody: ISchoolsettingBody = {
+      asSchoolId: Number(asSchoolId),
+    };
+    dispatch(GetschoolSettings(SchoolsettingBody));
+  }, []);
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
@@ -356,7 +365,7 @@ const AssignExamMark = () => {
       />
       {/* <AssignExamMarkNew ItemList={ExamMarksStatusForClass} /> */}
       <Box sx={{ background: 'white', p: 1 }}>
-        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center',background: 'white',  }}>
+        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'white', }}>
           <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
           <Box sx={{ display: 'flex', gap: '20px' }}>
             <DotLegends
@@ -392,7 +401,7 @@ const AssignExamMark = () => {
 
           )}
         <Divider sx={{ my: 2 }} />
-        {SubjectListmarkClass1.length > 0 && (
+        {SubjectListmarkClass1.length > 0 && UsschoolSettings == "True" && (
           <Box mt={2}>
             <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
             {SubjectListmarkClass1.length > 0 ? (
