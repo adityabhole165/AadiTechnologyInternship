@@ -32,7 +32,7 @@ const PieChart = () => {
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
                 <Header Title="Attendance" />
             </Grid>
-            <Box sx={{ height: '300px', overflow: 'auto', mt: 2, }}>
+            <Box sx={{ height: '310px', overflow: 'auto', mt: 2, }}>
                 <ApexCharts
                     options={options}
                     series={series}

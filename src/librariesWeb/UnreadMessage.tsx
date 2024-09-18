@@ -62,7 +62,7 @@ const UnreadMessage = () => {
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '242px', overflow: 'auto', mt: 2, }}>
+      <Box sx={{ height: '252px', overflow: 'auto', mt: 2, }}>
         {loading ? (
           <Stack justifyContent="center" alignItems="center">
             <CircularProgress size={40} disableShrink thickness={4} />
