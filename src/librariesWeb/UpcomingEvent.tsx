@@ -120,24 +120,26 @@ function UpcomingEvent() {
 
   return (
     <Box sx={{ height: 'auto', width: 'auto', backgroundColor: 'white', p: 1 }}>
-      <Grid item xs={12}>
+     <Grid container >
+      <Grid item xs={6}>
+      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Header Title="Upcoming Event" />
-      </Grid>
+        </Grid>
+        </Grid>
 
-      <Grid container spacing={1}>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
         {/* <Grid item sm={6} md={12}>
           <Box justifyContent={'center'} px={4.5}>
-            <MonthSelector
+           	 <MonthSelector
               DefaultDate={selectedDate}
               ClickDate={handleDateChange}
             />
           </Box>
         </Grid> */}
-
-        <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
+        <Actions Icon={RefreshIcon} ClickIcon={handleRefresh} 
           title={`You are viewing ${countdown} old data, click here to see the latest data.`}
           handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
-
+</Grid>
         <Grid container spacing={1} sx={{ mt: 1 }}>
           {['Event', 'Holiday', 'Exam'].map((eventType) => (
             <Grid item xs={4} key={eventType}>
