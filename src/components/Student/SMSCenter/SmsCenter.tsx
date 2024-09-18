@@ -249,6 +249,7 @@ function SmsCenter() {
             </Typography>
           )}
         </Box>
+        <Box mt={-1.5}>
         {
           endRecord > 19 ? (
             <ButtonGroupComponent
@@ -263,7 +264,7 @@ function SmsCenter() {
             <span></span>
 
           )
-        }
+        }</Box>
       </Box>
     </Box>
   );
