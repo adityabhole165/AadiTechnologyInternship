@@ -259,7 +259,7 @@ const TExamScheduleNew = () => {
                                                      textAlign: 'center'
                                                 }
                                             }}>
-                                                <TableCell sx={{ width: '14%', textAlign: 'left', p:1, color:'white' }}>Date</TableCell>
+                                                <TableCell sx={{ width: '14%', textAlign: 'left', p:2, color:'white' }}>Date</TableCell>
                                                 <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Time</TableCell>
                                                 <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
@@ -283,7 +283,7 @@ const TExamScheduleNew = () => {
                                                         {std === '0' ? (
                                                             classList.map((className) => (
 
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'left', 
+                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', 
                                                                  whiteSpace: 'pre-line'}}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
