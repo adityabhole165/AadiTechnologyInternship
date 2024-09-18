@@ -71,7 +71,8 @@ export const GetAssignExamMarkList =
           IsClassTeacher: item.IsClassTeacher == "true"
         };
       });
-      dispatch(AssignExamMarkSlice.actions.getAssignExamMark(a));
+      let abc = [{ Id: '0', Name: 'All', Value: '0' }, ...a];
+      dispatch(AssignExamMarkSlice.actions.getAssignExamMark(abc));
     };
 
 //ClassWiseExam
@@ -111,7 +112,7 @@ export const GetSubjectList =
     async (dispatch) => {
       const response = await AssignExamMarkApi.SubjectsExamMarks(data);
       let serialNumber = 2;
-      let ClassList = response.data.ExamMarksStatusForClass ? 
+      let ClassList = response.data.ExamMarksStatusForClass ?
         response.data.ExamMarksStatusForClass.map(item => ({
           Id: ++serialNumber,
           Text1: item.StandardDivision,
@@ -126,7 +127,7 @@ export const GetSubjectList =
         })) : [];
 
       serialNumber = 2;
-      let MyClassList = response.data.ExamMarksStatusForClassTeacher ? 
+      let MyClassList = response.data.ExamMarksStatusForClassTeacher ?
         response.data.ExamMarksStatusForClassTeacher.map(item => ({
           Id: ++serialNumber,
           Text1: item.StandardDivision,
