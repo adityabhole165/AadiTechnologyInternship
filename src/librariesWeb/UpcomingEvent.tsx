@@ -1,16 +1,27 @@
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import {
+  differenceInHours, differenceInMinutes, differenceInSeconds
+} from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { IUpcomingEventDashBody } from 'src/interfaces/UpcomingEventDash/IUpcomingEventDash';
 import { getUpcomingEventDashdata } from 'src/requests/UpcomingEventDash/ReqUpcomingEventDash';
 import { RootState } from 'src/store';
+import Actions from './Actions';
 import Header from './Header';
 
 function UpcomingEvent() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEventType, setSelectedEventType] = useState('');
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
+  const [countdown, setCountdown] = useState('');
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -18,17 +29,19 @@ function UpcomingEvent() {
 
   const UpcomingEventDash = useSelector((state: RootState) => state.UpcomingEventDash.UpcomingEventData);
 
-  useEffect(() => {
-    const UpcomingEventDashBody: IUpcomingEventDashBody = {
-      aiSchoolId: asSchoolId,
-      aiAcademicYrId: asAcademicYearId,
-      aiUserId: asUserId,
-      aiUserRoleId: asUserRoleId,
-      isScreenFullAccess: false
-    };
+  const UpcomingEventDashBody: IUpcomingEventDashBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    aiUserId: asUserId,
+    aiUserRoleId: asUserRoleId,
+    isScreenFullAccess: false
+  };
 
+  useEffect(() => {
     dispatch(getUpcomingEventDashdata(UpcomingEventDashBody));
   }, []);
+
+
 
   const handleEventTypeClick = (eventType: string) => {
     setSelectedEventType(eventType);
@@ -42,6 +55,59 @@ function UpcomingEvent() {
     setSelectedDate(value);
   };
 
+  const getTimeDifference = () => {
+    if (!lastRefreshTime) return 'no';
+
+    const now = new Date();
+    const seconds = differenceInSeconds(now, lastRefreshTime);
+    if (seconds < 60) {
+      return `${seconds} second(s)`;
+    }
+
+    const minutes = differenceInMinutes(now, lastRefreshTime);
+    if (minutes < 60) {
+      return `${minutes} minute(s)`;
+    }
+
+    const hours = differenceInHours(now, lastRefreshTime);
+    return `${hours} hour(s)`;
+  };
+
+  const updateCountdown = () => {
+    setCountdown(getTimeDifference());
+  };
+
+  useEffect(() => {
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [lastRefreshTime]);
+  const handleRefresh = () => {
+    dispatch(getUpcomingEventDashdata(UpcomingEventDashBody));
+    setLastRefreshTime(new Date());
+  };
+  const handleMouseEnter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(updateCountdown, 1000);
+  };
   const getButtonColor = (eventType: string) => {
     switch (eventType) {
       case 'Event': return '#4db6ac';
@@ -53,7 +119,10 @@ function UpcomingEvent() {
 
   return (
     <Box sx={{ height: 'auto', width: 'auto', backgroundColor: 'white', p: 1 }}>
-      <Header Title="Upcoming Event" />
+      <Grid item xs={12}>
+        <Header Title="Upcoming Event" />
+      </Grid>
+
       <Grid container spacing={1}>
         {/* <Grid item sm={6} md={12}>
           <Box justifyContent={'center'} px={4.5}>
@@ -63,6 +132,11 @@ function UpcomingEvent() {
             />
           </Box>
         </Grid> */}
+
+        <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
+          title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+          handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+
         <Grid container spacing={1} sx={{ mt: 1 }}>
           {['Event', 'Holiday', 'Exam'].map((eventType) => (
             <Grid item xs={4} key={eventType}>
@@ -105,6 +179,17 @@ function UpcomingEvent() {
             </Grid>
           )}
         </Grid>
+      </Grid>
+      <Grid container py={1.5} >
+        <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/Common/AnnualPlanner') }}>
+          <Typography variant="h4"> <b>See all events</b></Typography>
+        </Grid>
+        <Grid item xs={5}>
+          <ArrowCircleRightIcon />
+        </Grid>
+      </Grid>
+      <Grid item xs={12} textAlign={'right'}>
+        <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
       </Grid>
     </Box>
   );
