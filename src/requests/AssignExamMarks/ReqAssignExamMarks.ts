@@ -3,6 +3,7 @@ import AssignExamMarkApi from 'src/api/ApiAssignExamMarks/ApiAssignExamMarks';
 import {
   IAssignClassBody,
   IClasswiseExamDropdownBody,
+  ISchoolsettingBody,
   ISubjectTeachersForAssignExamMarksBody,
   ISubjectsExamMarksStatusForClassBody,
   ISubmitTestMarksToClassTeacherBody
@@ -19,7 +20,8 @@ const AssignExamMarkSlice = createSlice({
     ISSubmitMarksTeacher: '',
     ISSubmitMarksRest: '',
     ExamMarksStatusForClass: [],
-    ISSubjectTeachersForAssignExamMarks: []
+    ISSubjectTeachersForAssignExamMarks: [],
+    IsGetSchoolSettings: {},
   },
   reducers: {
     //AssignClass
@@ -53,7 +55,10 @@ const AssignExamMarkSlice = createSlice({
 
     resetMessage(state) {
       state.ISSubmitMarksTeacher = '';
-    }
+    },
+    getSchoolSettings(state, action) {
+      state.IsGetSchoolSettings = action.payload;
+    },
   }
 });
 
@@ -177,5 +182,14 @@ export const CDASubjectTeachersForAssignExamMarks =
 export const resetMessage = (): AppThunk => async (dispatch) => {
   dispatch(AssignExamMarkSlice.actions.resetMessage());
 };
+
+export const GetschoolSettings =
+  (data: ISchoolsettingBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AssignExamMarkApi.GetSchoolSettings(data)
+
+      dispatch(AssignExamMarkSlice.actions.getSchoolSettings(response.data.GetSchoolSettingsResult.EnableAssignExamMarksToAllSubjectOfClass))
+
+    };
 
 export default AssignExamMarkSlice.reducer;
