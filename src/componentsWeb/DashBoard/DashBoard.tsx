@@ -101,7 +101,7 @@ function DashBoard() {
           <RefreshIcon />
         </IconButton> */}
         <Button sx={{
-          mt: 1, color: '#38548A', borderRadius: '7px', '&:hover': {
+          my: 1, color: '#38548A', borderRadius: '7px', '&:hover': {
             color: 'blue',
             backgroundColor: blue[100]
           }
@@ -117,8 +117,8 @@ function DashBoard() {
           {(provided) => (
             <Grid
               container
-              spacing={2}
-              mt={-1}
+              spacing={1}
+              // mt={-1}
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
