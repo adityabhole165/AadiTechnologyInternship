@@ -343,6 +343,9 @@ const TransferOptionalSubjectMarks = () => {
                 if (selectedSubjectsCount < item.NoOfSubjects) {
                     errorMessages.push(`At least ${item.NoOfSubjects} subject(s) should be selected for optional subject ${item.OptionalSubjectName}.`);
                 }
+                if (selectedSubjectsCount > item.NoOfSubjects) {
+                    errorMessages.push(`At most ${item.NoOfSubjects} subject(s) can be selected for optional subject ${item.OptionalSubjectName}.`);
+                }
             });
 
             if (errorMessages.length > 0) {
