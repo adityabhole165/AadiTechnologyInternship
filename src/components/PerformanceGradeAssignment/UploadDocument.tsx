@@ -305,7 +305,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
 
             </DialogTitle>
 
-            <DialogContent  >
+            <DialogContent>
                 <Box>
                     <Typography variant="h2" sx={{ pt: 2, pl: 1 }}>Documents</Typography>
                     <Box sx={{ background: 'white', top: '1px', alignItems: 'center', pl: 1, pr: 2, pt: 2 }}>
@@ -371,8 +371,8 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                         </Grid>
                     </Box>
                 </Box>
-            </DialogContent>
-            <Box sx={{ backgroundColor: 'white', pl: 3.8, pr: 3.8 }}>
+           
+            <Box sx={{ backgroundColor: 'white', mt:2, px:1 }}>
                 {GetAllDocumentsList.length > 0 ? (
                     <UploadDocList
                         HeaderArray={HeaderList}
@@ -408,6 +408,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                     Upload
                 </Button>
             </DialogActions>
+            </DialogContent>
         </Dialog >
     );
 }
