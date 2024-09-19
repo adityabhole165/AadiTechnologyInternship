@@ -202,7 +202,7 @@ const TExamScheduleNew = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         {RoleId !== '3' && (
-                            <Box sx={{ width: '150px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
+                            <Box sx={{ width: '130px', mr: 2, marginRight: '5px' }}> {/* Adjusted margin-right */}
                                 <Dropdown
                                     Array={getstandard}
                                     handleChange={stdChange}
@@ -291,7 +291,7 @@ const TExamScheduleNew = () => {
                                                 }}>
                                                 <TableCell sx={{ width: '14%', textAlign: 'left', p: 2, color: 'white' }}>Date</TableCell>
                                                 <TableCell sx={{ width: '8%', textAlign: 'left', p: 1 }}>Time</TableCell>
-                                                <TableCell sx={{ width: '8%', textAlign: 'left', p: 1 }}>Duration</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'center', p: 1 }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
                                                     <TableCell key={index} sx={{ textAlign: 'left', p: 1 }}>{className}</TableCell>
                                                 ))}
@@ -309,7 +309,7 @@ const TExamScheduleNew = () => {
                                                     <TableRow key={index} sx={{ '& > *': { textAlign: 'center', pl: 0, pb: 0 } }}>
                                                         <TableCell sx={{ textAlign: 'left' }}>{uniqueDates.has(date) ? '' : date}</TableCell>
                                                         <TableCell sx={{ textAlign: 'left' }}>{getTime(startTime, endTime) || '-'}</TableCell>
-                                                        <TableCell sx={{ textAlign: 'left' }}>{getDuration(startTime, endTime) || '-'}</TableCell>
+                                                        <TableCell sx={{ textAlign: 'center' }}>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
 
