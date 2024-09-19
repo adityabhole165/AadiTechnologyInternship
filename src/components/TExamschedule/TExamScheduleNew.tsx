@@ -107,6 +107,25 @@ const TExamScheduleNew = () => {
         return `${formattedStartTime} - ${formattedEndTime}`;
     };
 
+    // const getDuration = (startTime, endTime) => {
+    //     const [startHours, startMinutes] = startTime.split(':').map(Number);
+    //     const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+    //     const startDate = new Date(0, 0, 0, startHours, startMinutes, 0);
+    //     const endDate = new Date(0, 0, 0, endHours, endMinutes, 0);
+
+    //     let diff = endDate.getTime() - startDate.getTime();
+
+    //     if (diff < 0) {
+    //         diff += 24 * 60 * 60 * 1000;
+    //     }
+
+    //     const hours = Math.floor(diff / (1000 * 60 * 60));
+    //     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    //     return `${hours}h ${minutes}m`;
+    // };
+
     const getDuration = (startTime, endTime) => {
         const [startHours, startMinutes] = startTime.split(':').map(Number);
         const [endHours, endMinutes] = endTime.split(':').map(Number);
@@ -117,13 +136,21 @@ const TExamScheduleNew = () => {
         let diff = endDate.getTime() - startDate.getTime();
 
         if (diff < 0) {
-            diff += 24 * 60 * 60 * 1000;
+            diff += 24 * 60 * 60 * 1000; // Handle overnight difference
         }
 
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-        return `${hours}h ${minutes}m`;
+        if (hours > 0 && minutes > 0) {
+            return `${hours}h ${minutes}m`;
+        } else if (hours > 0) {
+            return `${hours}h`;
+        } else if (minutes > 0) {
+            return `${minutes}m`;
+        } else {
+            return '0m'; // In case of no difference
+        }
     };
 
     const classList = ['Nursery', 'Junior KG', 'Senior KG', ...Array.from({ length: 10 }, (_, i) => `${i + 1}`)];
@@ -186,7 +213,7 @@ const TExamScheduleNew = () => {
                                 />
                             </Box>
                         )}
-                        <Tooltip title="Examination Schedule for your class." arrow placement="top">
+                        <Tooltip title="Displays standardwise exam schedule.">
                             <IconButton sx={{
                                 color: 'white',
                                 backgroundColor: grey[500],
@@ -219,20 +246,20 @@ const TExamScheduleNew = () => {
                         }}
                         onClick={() => toggleAccordion(index)}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center',pl:0.5 }}>
-                            <Box sx={{ width: '10px', height: '10px', p:0.5, border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography sx={{ color: 'Black', fontSize: '16px', fontWeight: 'bold', p:1}}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', pl: 0.5 }}>
+                            <Box sx={{ width: '10px', height: '10px', p: 0.5, border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Typography sx={{ color: 'Black', fontSize: '16px', fontWeight: 'bold', p: 1 }}>
                                     {expandedCardIndex === index ? '-' : '+'}
                                 </Typography>
                             </Box>
-                            <Box sx={{display:'flex'}}>
-                            <Typography variant="h6" sx={{ color: 'red', ml: 1 }}>
-                                <b>{exam.Text1}</b> 
-                                 </Typography>
-                                <Typography variant="h6" sx={{ ml: 1 }}>
-                                <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
+                            <Box sx={{ display: 'flex' }}>
+                                <Typography variant="h6" sx={{ color: 'red', ml: 1 }}>
+                                    <b>{exam.Text1}</b>
                                 </Typography>
-                           
+                                <Typography variant="h6" sx={{ ml: 1 }}>
+                                    <b>{formatDate(exam.Text3)} To {formatDate(exam.Text4)}</b>
+                                </Typography>
+
                             </Box>
                         </Box>
                     </Box>
@@ -244,29 +271,32 @@ const TExamScheduleNew = () => {
                             ) : (
                                 <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
                                     <Table sx={{ minWidth: 640 }}>
-                                        <TableHead sx={{ background: '#19bed4', '& > *': { color: 'white', fontWeight: 'bold',                                                     textAlign: 'center', // Center align headers
-} }}>
-                                            <TableRow 
-                                            sx={{ 
-                                                '& > *': {
-                                                    borderBottom: '1px solid white',
-                                                    textAlign: 'center', // Center align headers
-                                                    color:'white'
-                                                },
-                                                '& > :not(:first-of-type)': {
-                                                    borderLeft: '1px solid white',
-                                                     color:'white',
-                                                     textAlign: 'center'
-                                                }
-                                            }}>
-                                                <TableCell sx={{ width: '14%', textAlign: 'left', p:2, color:'white' }}>Date</TableCell>
-                                                <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Time</TableCell>
-                                                <TableCell sx={{ width: '8%', textAlign: 'left', p:1 }}>Duration</TableCell>
+                                        <TableHead sx={{
+                                            background: '#19bed4', '& > *': {
+                                                color: 'white', fontWeight: 'bold', textAlign: 'center', // Center align headers
+                                            }
+                                        }}>
+                                            <TableRow
+                                                sx={{
+                                                    '& > *': {
+                                                        borderBottom: '1px solid white',
+                                                        textAlign: 'center', // Center align headers
+                                                        color: 'white'
+                                                    },
+                                                    '& > :not(:first-of-type)': {
+                                                        borderLeft: '1px solid white',
+                                                        color: 'white',
+                                                        textAlign: 'center'
+                                                    }
+                                                }}>
+                                                <TableCell sx={{ width: '14%', textAlign: 'left', p: 2, color: 'white' }}>Date</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'left', p: 1 }}>Time</TableCell>
+                                                <TableCell sx={{ width: '8%', textAlign: 'left', p: 1 }}>Duration</TableCell>
                                                 {std === '0' && classList.map((className, index) => (
-                                                    <TableCell key={index} sx={{ textAlign: 'left', p:1 }}>{className}</TableCell>
+                                                    <TableCell key={index} sx={{ textAlign: 'left', p: 1 }}>{className}</TableCell>
                                                 ))}
-                                                {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center',p:1}}>Subject</TableCell>}
-                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center', p:1}}>Description</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '8%', textAlign: 'center', p: 1 }}>Subject</TableCell>}
+                                                {std !== '0' && <TableCell sx={{ width: '20%', textAlign: 'center', p: 1 }}>Description</TableCell>}
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -276,15 +306,17 @@ const TExamScheduleNew = () => {
                                                 const uniqueDates = new Set();
 
                                                 return items.length > 0 ? (
-                                                    <TableRow key={index} sx={{ '& > *': { textAlign: 'center', pl:0,pb:0 } }}>
-                                                        <TableCell sx={{textAlign: 'left'}}>{uniqueDates.has(date) ? '' : date}</TableCell>
-                                                        <TableCell sx={{textAlign: 'left'}}>{getTime(startTime, endTime) || '-'}</TableCell>
-                                                        <TableCell sx={{textAlign: 'left'}}>{getDuration(startTime, endTime) || '-'}</TableCell>
+                                                    <TableRow key={index} sx={{ '& > *': { textAlign: 'center', pl: 0, pb: 0 } }}>
+                                                        <TableCell sx={{ textAlign: 'left' }}>{uniqueDates.has(date) ? '' : date}</TableCell>
+                                                        <TableCell sx={{ textAlign: 'left' }}>{getTime(startTime, endTime) || '-'}</TableCell>
+                                                        <TableCell sx={{ textAlign: 'left' }}>{getDuration(startTime, endTime) || '-'}</TableCell>
                                                         {std === '0' ? (
                                                             classList.map((className) => (
 
-                                                                <TableCell key={`${className}-${index}`} sx={{ textAlign: 'center', 
-                                                                 whiteSpace: 'pre-line'}}>
+                                                                <TableCell key={`${className}-${index}`} sx={{
+                                                                    textAlign: 'center',
+                                                                    whiteSpace: 'pre-line'
+                                                                }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name === className)
                                                                         .map((item, idx, arr) => (
@@ -300,7 +332,7 @@ const TExamScheduleNew = () => {
                                                             ))
                                                         ) : (
                                                             <>
-                                                                <TableCell sx={{ textAlign: 'center'}}>
+                                                                <TableCell sx={{ textAlign: 'center' }}>
                                                                     {items
                                                                         .filter((item) => item.Standard_Name)
                                                                         .map((item, idx, arr) => (
@@ -310,7 +342,7 @@ const TExamScheduleNew = () => {
                                                                             </p>
                                                                         ))}
                                                                 </TableCell>
-                                                                <TableCell sx={{ textAlign: 'center'}}>
+                                                                <TableCell sx={{ textAlign: 'center' }}>
                                                                     {items.length > 0 ? (
                                                                         items.map((item, idx, arr) => (
                                                                             <p key={idx}>
