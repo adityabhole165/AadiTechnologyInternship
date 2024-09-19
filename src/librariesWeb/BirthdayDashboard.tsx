@@ -138,14 +138,14 @@ function BirthdayDashboard() {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Box sx={{ height: '250px', backgroundColor: 'white', pt: 1 }}>
+    <Box sx={{ height: '380px', backgroundColor: 'white', pt: 1 }}>
      <Grid container >
         <Grid item xs={6}>
           <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Header Title="Birthdays" />
           </Grid>
         </Grid>
-        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 4 }}>
           <Actions IconType="Label" DiplayText={Birthdays.length !== 0 ? Birthdays.length : '0'} />
          <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}

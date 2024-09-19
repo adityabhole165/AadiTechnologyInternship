@@ -163,7 +163,7 @@ function FeedBackCard() {
                     <Grid item xs={12}>
                       <Grid container>
                         <Grid item xs={8}>
-                          <Typography variant="h4" p={1}  >{item.Header}</Typography>
+                          <Typography variant="h4" p={0.5}  >{item.Header}</Typography>
                         </Grid>
                         <Grid container item xs={4} >
                           <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
@@ -183,7 +183,7 @@ function FeedBackCard() {
                                 maxHeight: '6.25rem',
                                 lineHeight: '1.25rem',
                                 display: '-webkit-box',
-                                WebkitLineClamp: 2,
+                                WebkitLineClamp: 1,
                                 WebkitBoxOrient: 'vertical',
                                 position: 'relative',
                               }}

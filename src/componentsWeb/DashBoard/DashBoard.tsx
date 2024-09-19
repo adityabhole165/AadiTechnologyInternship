@@ -143,12 +143,12 @@ function DashBoard() {
                         <Card elevation={3} sx={{ position: 'relative' }}>
                           {/* Unpin Button */}
                           <IconButton
-                            size="small"
-                            sx={{ position: 'absolute', top: 4, right: 4 , '&:hover': {
+                            // size="medium"
+                            sx={{ position: 'absolute', top: 10, right: 2 , '&:hover': {
                             color: 'red',  backgroundColor: red[100]}}}
                             onClick={() => handleUnpinTile(tile.id)}
                           >
-                            <PushPinIcon fontSize="small" />
+                            <PushPinIcon  />
                           </IconButton>
 
                           {/* Component for each tile */}
