@@ -254,7 +254,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
     }
     const handleUploadControl = () => {
         let flag = true;
-        if (ReportingUserId === envUserId && saveButton === 'True') {
+        if (ReportingUserId === envUserId && saveButton === '2') {
             flag = false;
         }
         return flag;

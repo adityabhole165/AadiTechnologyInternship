@@ -55,8 +55,8 @@ const PerformanceEvaluation = () => {
     const academicYearId = sessionStorage.getItem('AcademicYearId');
     const reportingUserId = sessionStorage.getItem('Id');
     const currentSignedInUser = sessionStorage.getItem('Id');
-    const [effectiveDate, setEffectiveDate] = useState(listUserNameDetails[0]?.Text13 === '' ? todayDate : listUserNameDetails[0]?.Text13);
-    const [incrementDate, setIncrementDate] = useState(listUserNameDetails[0]?.Text12 === '' ? undefined : listUserNameDetails[0]?.Text12);
+    const [effectiveDate, setEffectiveDate] = useState('');
+    const [incrementDate, setIncrementDate] = useState('');
     const [classTaught, setClassTaught] = useState('');
     const [teachingSub, setTeachingSub] = useState('');
     const [uploadDoc, setUploadDoc] = useState(false);
@@ -68,6 +68,12 @@ const PerformanceEvaluation = () => {
     const [teachingSubError, setTeachingSubError] = useState(false);
     const [gradeError, setGradeError] = useState('');
     const [obsError, setObsError] = useState('');
+    useEffect(() => {
+        if (listUserNameDetails.length > 0) {
+            setEffectiveDate(listUserNameDetails[0]?.Text13 === '' ? todayDate : listUserNameDetails[0]?.Text13);
+            setIncrementDate(listUserNameDetails[0]?.Text12 === '' ? undefined : listUserNameDetails[0]?.Text12)
+        }
+    }, [listUserNameDetails])
     useEffect(() => {
         if (listUserNameDetails?.length > 0) {
             setTeachingSub(listUserNameDetails[0]?.Text9);
@@ -1205,7 +1211,7 @@ const PerformanceEvaluation = () => {
             </Box>
             {/* const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose, RefreshList }) => { */}
             <UploadDocument Id={userId} ReportingUserId={uploadDocUserId} yearId={asYear}
-                saveButton={listEnableRejectButtonDetails[0]?.Text3}
+                saveButton={status}
                 open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
                     if (newFile) {
