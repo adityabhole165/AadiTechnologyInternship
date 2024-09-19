@@ -80,7 +80,7 @@ const AddHomeworkNew = () => {
     { Id: 4, Header: ' 	Complete By Date' },
     { Id: 5, Header: ' ' },
     { Id: 6, Header: 'View' },
-    { Id: 7, Header: 'Publish/Unpublish' },
+    { Id: 7, Header: 'Publish / Unpublish' },
     { Id: 8, Header: 'Edit' },
     { Id: 9, Header: 'Delete' }
   ];
@@ -1319,7 +1319,7 @@ const AddHomeworkNew = () => {
               ItemList={HomeworkStatus}
               onChange={clickHomeworkStatus}
               defaultValue={HomeworkS.toString()}
-              label={'Select Homework Status:'}
+              label={'Select Homework Status'}
               size={"small"}
             />
             <Box sx={{ minWidth: '150px' }}>

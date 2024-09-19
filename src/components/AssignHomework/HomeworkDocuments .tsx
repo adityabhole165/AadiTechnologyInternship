@@ -3,6 +3,7 @@ import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IDeleteHomeworkDocumentBody,
   IGetAllHomeworkDocumentsBody
@@ -15,7 +16,6 @@ import {
 } from 'src/requests/AssignHomework/requestHomeworkDocuments';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { AlertContext } from 'src/contexts/AlertContext';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
@@ -89,7 +89,7 @@ const HomeworkDocuments = () => {
 
   useEffect(() => {
     if (DeleteHomeworkDocument !== '') {
-      toast.success("Document deleted successfully !!!");
+      toast.success("Document deleted successfully.");
       dispatch(deleteresetMessage());
       dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
 

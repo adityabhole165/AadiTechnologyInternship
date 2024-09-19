@@ -1,11 +1,10 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Box } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Box, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import TableRow from '@mui/material/TableRow';
 import { red } from '@mui/material/colors';
 // ... (your other imports)
@@ -38,17 +37,22 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center' >
-                  <DeleteForeverIcon 
-                  onClick={() => clickDelete(item.Id)} 
-                  // color='error'
-                  sx={{
-                    color:'#223354',
-                     //  backgroundColor: grey[500],
-                      '&:hover': {
-                    color:'red',
-                     backgroundColor: red[100]
-                      }}}
-                   />
+                  <Tooltip title={
+                    'Delete'
+                  }>
+                    <DeleteForeverIcon
+                      onClick={() => clickDelete(item.Id)}
+                      // color='error'
+                      sx={{
+                        color: '#223354',
+                        //  backgroundColor: grey[500],
+                        '&:hover': {
+                          color: 'red',
+                          backgroundColor: red[100]
+                        }
+                      }}
+                    />
+                  </Tooltip>
                 </TableCell>
 
               </TableRow>
