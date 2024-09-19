@@ -37,7 +37,7 @@ const Carousel = ({ itemlist, IsPath = false }) => {
           <SuspenseLoader />
         ) : itemlist.length !== 0 ? (
           <Grid container alignItems="center">
-            <Grid item xs={1}>
+            <Grid item xs={1} pl={1.8}>
               <ArrowLeft onClick={() => arrowClick(-1)} />
             </Grid>
             <Grid item xs={10}>

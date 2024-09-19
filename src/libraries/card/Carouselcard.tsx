@@ -15,14 +15,14 @@ const Carouselcard = ({ item, IsPath }) => {
           sx={{
             mt: '10px',
             backgroundColor: '#90caf9',
-            height: '151px',
+            height: '150px',
             width: '112px'
           }}
           variant="rounded"
           aria-label="add"
         />
-        <Typography variant="h5">{item.Header}</Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
+        <Typography variant="h5" mt={1}>{item.Header}</Typography>
+        <Typography variant="body2" sx={{ mb: 2 }}>
           {item.Text1}
         </Typography>
       </Cardbday>
