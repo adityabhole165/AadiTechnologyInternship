@@ -325,7 +325,7 @@ const AssignExamMark = () => {
               sx={{ minWidth: '300px' }}
               ItemList={ClassDropdown}
               onChange={onClickClass}
-              label={'Select Class:'}
+              label={'Select Class'}
               defaultValue={selectClass}
               mandatory
               size={"small"}
@@ -337,7 +337,7 @@ const AssignExamMark = () => {
               sx={{ minWidth: '300px' }}
               ItemList={ClassWiseExamDropdown}
               onChange={clickClassWiseExam}
-              label={'Select Exam:'}
+              label={'Select Exam'}
               defaultValue={ClassWiseExam}
               mandatory
               size={"small"}

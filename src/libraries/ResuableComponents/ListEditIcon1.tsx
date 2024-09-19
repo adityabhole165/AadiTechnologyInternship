@@ -11,19 +11,34 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ISchoolsettingBody } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
+import { GetschoolSettingsForUnsubmitMarks } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
+import { RootState } from 'src/store';
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
+  const dispatch = useDispatch();
   const cellStyle = {
     padding: '0.2em 1.5em', // Adjust these values to reduce the height
   };
-  
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const UsschoolSettings = useSelector((state: RootState) => state.AssignExamMarkSlice.IsGetSchoolSettings);
+  console.log(UsschoolSettings, "***********");
+
+  useEffect(() => {
+    const SchoolsettingBody: ISchoolsettingBody = {
+      asSchoolId: Number(asSchoolId),
+    };
+    dispatch(GetschoolSettingsForUnsubmitMarks(SchoolsettingBody));
+  }, []);
   return (
     <div>
       <TableContainer component={Box}>
         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow
-              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white ,}}
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, }}
             >
               {HeaderArray.map((item, i) => (
                 <TableCell
@@ -107,42 +122,53 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                         <span>Marks cannot be submitted.</span>
                       </Tooltip>
                     )
-                  ) : (
-                    item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
-                      item.Subject_Id !== -1 ? (
-                        item.Is_Submitted === 'Y' ? (
-                          <Tooltip title={'unsubmit marks'}>
-                            <EventBusyIcon style={{ color: '#0f0f0f' }}
-                              onClick={() => clickSubmit({
-                                asSubjectId: item.SubjectId,
-                                asStandardDivisionId: item.StandardDivisionId,
-                                asIsSubmitted: "N"
-                              })} />
+                  ) : item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
+                    item.Subject_Id !== -1 ? (
+                      item.Is_Submitted === 'Y' ? (
+                        UsschoolSettings === 'true' ? (
+                          <Tooltip title={'Unsubmit marks'}>
+                            <EventBusyIcon
+                              style={{ color: '#0f0f0f' }}
+                              onClick={() =>
+                                clickSubmit({
+                                  asSubjectId: item.SubjectId,
+                                  asStandardDivisionId: item.StandardDivisionId,
+                                  asIsSubmitted: 'N',
+                                })
+                              }
+                            />
                           </Tooltip>
                         ) : (
-                          <Tooltip title={'Submit Marks To Class Teacher'}>
-                            <EventAvailableIcon style={{ color: '#25e67b' }}
-                              onClick={() => clickSubmit({
-                                asSubjectId: item.SubjectId,
-                                asStandardDivisionId: item.StandardDivisionId,
-                                asIsSubmitted: "Y"
-                              })} />
-                          </Tooltip>
+                          <span>Marks already submitted</span>
                         )
                       ) : (
-                        item.Is_Submitted === 'Y' ? (
-                          <Tooltip title={item.StatusDescription}>
-                            <EventAvailableIcon style={{ color: '#25e67b' }} />
-                          </Tooltip>
-                        ) : (
-                          <Tooltip title={item.StatusDescription}>
-                            <CheckIcon style={{ color: '#07bc0c' }} />
-                          </Tooltip>
-                        )
+                        <Tooltip title={'Submit Marks To Class Teacher'}>
+                          <EventAvailableIcon
+                            style={{ color: '#25e67b' }}
+                            onClick={() =>
+                              clickSubmit({
+                                asSubjectId: item.SubjectId,
+                                asStandardDivisionId: item.StandardDivisionId,
+                                asIsSubmitted: 'Y',
+                              })
+                            }
+                          />
+                        </Tooltip>
                       )
-                    ) : <span>Marks cannot be submitted.</span>
+                    ) : item.Is_Submitted === 'Y' ? (
+                      <Tooltip title={item.StatusDescription}>
+                        <EventAvailableIcon style={{ color: '#25e67b' }} />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title={item.StatusDescription}>
+                        <CheckIcon style={{ color: '#07bc0c' }} />
+                      </Tooltip>
+                    )
+                  ) : (
+                    <span>Marks cannot be submitted.</span>
                   )}
                 </TableCell>
+
               </TableRow>
             ))}
           </TableBody>

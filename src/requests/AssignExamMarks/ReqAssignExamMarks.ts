@@ -192,4 +192,14 @@ export const GetschoolSettings =
 
     };
 
+export const GetschoolSettingsForUnsubmitMarks =
+  (data: ISchoolsettingBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AssignExamMarkApi.GetSchoolSettings(data)
+
+      dispatch(AssignExamMarkSlice.actions.getSchoolSettings(response.data.GetSchoolSettingsResult.AllowUnsubmitExamMarks))
+
+    };
+
+
 export default AssignExamMarkSlice.reducer;

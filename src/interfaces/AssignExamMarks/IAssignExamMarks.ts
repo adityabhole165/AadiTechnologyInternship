@@ -132,5 +132,6 @@ export interface IGetSchoolSettingsResult {
     EnableAssignExamMarksToAllSubjectOfClass: string;
     StudentAbsentCount: string;
     AllowHomewirkDailyLog: string;
+    AllowUnsubmitExamMarks: string;
   }
 }
