@@ -38,7 +38,7 @@ const PieChart = () => {
                     series={series}
                     type="pie"
                     width="95%"
-                    height="350"
+                    height="320"
                 />
             </Box>
         </Box>
