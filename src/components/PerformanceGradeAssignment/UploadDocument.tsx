@@ -232,6 +232,7 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
         if (USDeleteInvestmentDocument !== '') {
             toast.success("Document deleted successfully.");
             dispatch(deleteresetInvestMessage());
+            setNewFile(true);
             // dispatch(getAllDocumentsList(GetGetAllDocumentsListBody))
             dispatch(CDAGetAllDocumentsList(IGetAllDocumentsListBody))
             RefreshList()
