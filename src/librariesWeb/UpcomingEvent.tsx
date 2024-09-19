@@ -1,6 +1,6 @@
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Tooltip, Typography } from '@mui/material';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
 } from 'date-fns';
@@ -111,24 +111,24 @@ function UpcomingEvent() {
   };
   const getButtonColor = (eventType: string) => {
     switch (eventType) {
-      case 'Event': return '#4db6ac';
-      case 'Holiday': return '#64b5f6';
-      case 'Exam': return 'orange';
+      case 'Event': return '#4d79ff';
+      case 'Holiday': return ' #ff4d4d';
+      case 'Exam': return ' #33ff77';
       default: return '#F0F0F0';
     }
   };
 
   return (
-    <Box sx={{ height: 'auto', width: 'auto', backgroundColor: 'white', p: 1 }}>
-     <Grid container >
-      <Grid item xs={6}>
-      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Header Title="Upcoming Event" />
-        </Grid>
+    <Box sx={{ height: '380px', width: 'auto', backgroundColor: 'white', p: 1 }}>
+      <Grid container >
+        <Grid item xs={6}>
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Header Title="Upcoming Event" />
+          </Grid>
         </Grid>
 
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
-        {/* <Grid item sm={6} md={12}>
+          {/* <Grid item sm={6} md={12}>
           <Box justifyContent={'center'} px={4.5}>
            	 <MonthSelector
               DefaultDate={selectedDate}
@@ -136,10 +136,10 @@ function UpcomingEvent() {
             />
           </Box>
         </Grid> */}
-        <Actions Icon={RefreshIcon} ClickIcon={handleRefresh} 
-          title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-          handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
-</Grid>
+          <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
+            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+        </Grid>
         <Grid container spacing={1} sx={{ mt: 1 }}>
           {['Event', 'Holiday', 'Exam'].map((eventType) => (
             <Grid item xs={4} key={eventType}>
@@ -159,8 +159,8 @@ function UpcomingEvent() {
         </Grid>
         <Grid container spacing={2} sx={{ mt: 2 }}>
           {filteredEvents.map((event, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Box
+            <Grid item xs={12} sm={6} md={12} >
+              {/* <Box
                 sx={{
                   p: 2,
                   border: `1px solid ${getButtonColor(event.Text6)}`,
@@ -171,9 +171,45 @@ function UpcomingEvent() {
                 <Typography variant="h6">{event.Text3}</Typography>
                 <Typography variant="body2" color="textSecondary">{event.Text1}</Typography>
                 <Typography variant="body2">{event.Text4}</Typography>
-              </Box>
+              </Box> */}
+              <Grid container>
+                <Grid item xs={8}>
+                  <Typography variant="h4" p={1}  >{event.Text3}</Typography>
+                </Grid>
+                <Grid container item xs={4} >
+                  {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
+                  <Typography>{event.Text1}</Typography>
+                </Grid>
+
+                <Grid item xs={12}>
+
+                  <Tooltip title={event.Text4} placement="left-start">
+                    <Typography
+                      variant="body2"
+                      px={1}
+                      sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'normal',
+                        textOverflow: 'ellipsis',
+                        maxHeight: '6.25rem',
+                        lineHeight: '1.25rem',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        position: 'relative',
+                      }}
+                    >
+                      {event.Text4}
+                    </Typography>
+                  </Tooltip>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Divider variant="middle" sx={{ m: '10px' }} />
+              </Grid>
             </Grid>
           ))}
+
           {filteredEvents.length === 0 && (
             <Grid item xs={12}>
               <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
@@ -183,7 +219,8 @@ function UpcomingEvent() {
           )}
         </Grid>
       </Grid>
-      <Grid container py={1.5} >
+
+      <Grid container py={0} mt={10}>
         <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/Common/AnnualPlanner') }}>
           <Typography variant="h4"> <b>See all events</b></Typography>
         </Grid>
@@ -191,7 +228,7 @@ function UpcomingEvent() {
           <ArrowCircleRightIcon />
         </Grid>
       </Grid>
-      <Grid item xs={12} textAlign={'right'}>
+      <Grid item xs={12} textAlign={'center'}>
         <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
       </Grid>
     </Box>
