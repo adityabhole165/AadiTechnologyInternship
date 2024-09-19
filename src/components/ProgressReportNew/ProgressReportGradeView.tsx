@@ -1,7 +1,7 @@
 import { Box, Table, TableHead, TableRow, TableCell, Typography, TableBody } from '@mui/material'
 import React from 'react'
 
-const ProgressReportGradeView = ({USlistSubjectsDetails,USListSubjectidDetails,USlistTestDetailsArr}) => {
+const ProgressReportGradeView = ({USlistSubjectsDetails,USListSubjectidDetails,USlistTestDetailsArr,IsTotalConsiderForProgressReport}) => {
   return (
     <Box sx={{ overflowX: 'auto' }}>
                     <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
@@ -31,9 +31,17 @@ const ProgressReportGradeView = ({USlistSubjectsDetails,USListSubjectidDetails,U
                         <TableRow>
                           {USListSubjectidDetails.map((item) => (
                             <TableCell sx={{ backgroundColor: 'white' }}>
-                              <Typography color="#38548A" textAlign={'left'} mr={5}  >
+                                 {
+                                  IsTotalConsiderForProgressReport == "True"
+                                    ?<Typography color="#38548A" textAlign={'left'} mr={5}  >
+                                  <b style={{ marginRight: "9px" }}>{"Total"}</b>
+                                </Typography> :<Typography color="#38548A" textAlign={'left'} mr={5}  >
                                 <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
                               </Typography>
+
+                                 }
+
+                              
                             </TableCell>
                           ))}
                         </TableRow>

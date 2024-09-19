@@ -240,20 +240,19 @@ export const CDAStudentProgressReport =
               HeaderCount += 1
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
-              columns.push({
-                MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) 
-                             ? parseInt(cell.Total_Marks_Scored) 
-                             : cell 
-                             ? getListDisplayName(cell) 
-                             : "-",
-                             
-                TotalMarks: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) 
-                            ? (cell ? (cell.Is_Absent === "N" ? parseInt(cell.TestType_Total_Marks) : "") : "-") 
-                            : (cell ? parseInt(cell.Subject_Total_Marks) : "-"),
-                            
-                IsAbsent: cell ? cell.Is_Absent : "N"
-              });
+
+              if(TestTypeCount != 1){
+                columns.push({
+                  MarksScored: cell ? getListDisplayName(cell) : "-",
+                  TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
+                  IsAbsent: cell ? cell.Is_Absent : "N"
+                })
+                
+              }
+             
+
               
+
               if (TestIndex == 0) {
                 SubHeaderArray.push({ TestTypeName: (data.IsTotalConsiderForProgressReport =="True" && TestTypeCount == 1)
                   ? "Total"  : TestType.ShortenTestType_Name })
@@ -295,7 +294,7 @@ export const CDAStudentProgressReport =
               // let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
               if (Item.SchoolWise_Test_Id == Test.Test_Id) {
 
-                //PE sports
+                // PE sports
                 // columns.push({
                 //   MarksScored: Item.Total_Marks_Scored,
                 //   TotalMarks: Item.Subjects_Total_Marks,
@@ -329,17 +328,15 @@ export const CDAStudentProgressReport =
           })
         })
       //show grade column
-      if (data.IsTotalConsiderForProgressReport === "True") {
-        SubHeaderArray.push({ TestTypeName: "" });
-        SubHeaderArray.push({ TestTypeName: "" });
-        SubHeaderArray.push({ TestTypeName: "Total" });
-        SubHeaderArray.push({ TestTypeName: "%" });
-        SubHeaderArray.push({ TestTypeName: "Grade" });
-      } else {
+      if (data.IsTotalConsiderForProgressReport =="True") {
+        SubHeaderArray.push({ TestTypeName: "" })
+        
        
-        return null;
+        SubHeaderArray.push({ TestTypeName: "" })
+        SubHeaderArray.push({ TestTypeName: "Total" })
+        SubHeaderArray.push({ TestTypeName: "%" })
+        SubHeaderArray.push({ TestTypeName: "Grade" })
       }
-      
       //Add subheader for PE Sports
       // SubHeaderArray.push({ TestTypeName: "Grade" })
 

@@ -525,6 +525,7 @@ const ProgressReportNew = () => {
                   USlistSubjectsDetails={USlistSubjectsDetails}
                   USListSubjectidDetails={USListSubjectidDetails}
                   USlistTestDetailsArr={USlistTestDetailsArr}
+                  IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
                   />
                   </Box>
                 </>
