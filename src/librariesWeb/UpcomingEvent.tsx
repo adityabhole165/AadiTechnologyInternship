@@ -157,7 +157,7 @@ function UpcomingEvent() {
                   <Typography >{event.Text1}</Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Tooltip title={event.Text4} placement="left-start">
+                  <Tooltip title={event.Text4} >
                     <Typography
                       variant="body2"
                       px={1}
