@@ -241,20 +241,33 @@ export const CDAStudentProgressReport =
               let cell = getMatch(Test.Original_SchoolWise_Test_Id, Subject.Subject_Id, TestType.TestType_Id)
 
               columns.push({
-                MarksScored: cell ? getListDisplayName(cell) : "-",
-                TotalMarks: cell ? cell.Is_Absent == "N" ? parseInt(cell.TestType_Total_Marks) : "" : "-",
+                MarksScored: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) 
+                             ? parseInt(cell.Total_Marks_Scored) 
+                             : cell 
+                             ? getListDisplayName(cell) 
+                             : "-",
+                             
+                TotalMarks: (data.IsTotalConsiderForProgressReport === "True" && TestTypeCount === 1) 
+                            ? (cell ? (cell.Is_Absent === "N" ? parseInt(cell.TestType_Total_Marks) : "") : "-") 
+                            : (cell ? parseInt(cell.Subject_Total_Marks) : "-"),
+                            
                 IsAbsent: cell ? cell.Is_Absent : "N"
-              })
+              });
+              
               if (TestIndex == 0) {
-                SubHeaderArray.push({ TestTypeName: TestType.ShortenTestType_Name })
+                SubHeaderArray.push({ TestTypeName: (data.IsTotalConsiderForProgressReport =="True" && TestTypeCount == 1)
+                  ? "Total"  : TestType.ShortenTestType_Name })
               }
+
+              console.log(data.IsTotalConsiderForProgressReport ,"data.IsTotalConsiderForProgressReport");
+              
 
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
 
                 totalMarks = {
-                  MarksScored: cell ? parseInt(cell.Marks_Scored) : "-",
-                  TotalMarks: cell ? cell.Subject_Total_Marks : "-",
+                  MarksScored:  (data.IsTotalConsiderForProgressReport =="True" && TestTypeCount == 1)  ?parseInt(cell.Total_Marks_Scored) : cell ? parseInt(cell.Marks_Scored) : "-",
+                  TotalMarks: (data.IsTotalConsiderForProgressReport =="True" && TestTypeCount == 1) ?parseInt(cell.Subject_Total_Marks ) : cell ? cell.Subject_Total_Marks : "-",
                   IsAbsent: cell ? cell.Is_Absent : "N"
                 }
               }
@@ -316,15 +329,17 @@ export const CDAStudentProgressReport =
           })
         })
       //show grade column
-      if (data.IsTotalConsiderForProgressReport =="True") {
-        SubHeaderArray.push({ TestTypeName: "" })
-        
+      if (data.IsTotalConsiderForProgressReport === "True") {
+        SubHeaderArray.push({ TestTypeName: "" });
+        SubHeaderArray.push({ TestTypeName: "" });
+        SubHeaderArray.push({ TestTypeName: "Total" });
+        SubHeaderArray.push({ TestTypeName: "%" });
+        SubHeaderArray.push({ TestTypeName: "Grade" });
+      } else {
        
-        SubHeaderArray.push({ TestTypeName: "" })
-        SubHeaderArray.push({ TestTypeName: "Total" })
-        SubHeaderArray.push({ TestTypeName: "%" })
-        SubHeaderArray.push({ TestTypeName: "Grade" })
+        return null;
       }
+      
       //Add subheader for PE Sports
       // SubHeaderArray.push({ TestTypeName: "Grade" })
 
@@ -373,10 +388,15 @@ export const CDAStudentProgressReport =
               .filter(item => (item.Subject_Id == Subjects.Subject_Id &&
                 item.Original_SchoolWise_Test_Id == Tests.Original_SchoolWise_Test_Id
               ))
-            arr.push({
-              SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
-              Grade: temp.length > 0 ? `${parseInt(temp[0].Marks_Scored)} / ${temp[0].TestType_Total_Marks}` : "-"
-            });
+              arr.push({
+                SchoolWise_Test_Name: temp.length > 0 ? temp[0].SchoolWise_Test_Name : "-",
+                Grade: temp.length > 0 
+                  ? data.IsTotalConsiderForProgressReport == "True"
+                    ? `${parseInt(temp[0].Total_Marks_Scored)} / ${temp[0].Subject_Total_Marks}`
+                    : `${parseInt(temp[0].Marks_Scored)} / ${temp[0].TestType_Total_Marks}`
+                  : "-"
+              });
+              
 
           });
           listTestDetailsArr1.push({
