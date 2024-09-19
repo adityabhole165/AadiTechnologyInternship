@@ -126,16 +126,7 @@ function UpcomingEvent() {
             <Header Title="Upcoming Event" />
           </Grid>
         </Grid>
-
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
-          {/* <Grid item sm={6} md={12}>
-          <Box justifyContent={'center'} px={4.5}>
-           	 <MonthSelector
-              DefaultDate={selectedDate}
-              ClickDate={handleDateChange}
-            />
-          </Box>
-        </Grid> */}
           <Actions Icon={RefreshIcon} ClickIcon={handleRefresh}
             title={`You are viewing ${countdown} old data, click here to see the latest data.`}
             handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
@@ -146,43 +137,26 @@ function UpcomingEvent() {
               <Button
                 sx={{
                   backgroundColor: selectedEventType === eventType ? '#F0F0F0' : getButtonColor(eventType),
-                  color: 'black',
-                  height: '3rem',
-                  width: '100%',
+                  color: 'black', height: '3rem', width: '100%',
                 }}
-                onClick={() => handleEventTypeClick(eventType)}
-              >
+                onClick={() => handleEventTypeClick(eventType)}>
                 <b>{eventType}</b>
               </Button>
             </Grid>
           ))}
-        </Grid>
-        <Grid container spacing={2} sx={{ mt: 2 }}>
+        </Grid></Grid>
+        <Box sx={{ height: '180px', mt: 2, overflow:'auto' }}>
           {filteredEvents.map((event, index) => (
             <Grid item xs={12} sm={6} md={12} >
-              {/* <Box
-                sx={{
-                  p: 2,
-                  border: `1px solid ${getButtonColor(event.Text6)}`,
-                  borderRadius: 2,
-                  mb: 2
-                }}
-              >
-                <Typography variant="h6">{event.Text3}</Typography>
-                <Typography variant="body2" color="textSecondary">{event.Text1}</Typography>
-                <Typography variant="body2">{event.Text4}</Typography>
-              </Box> */}
               <Grid container>
                 <Grid item xs={8}>
                   <Typography variant="h4" p={1}  >{event.Text3}</Typography>
                 </Grid>
-                <Grid container item xs={4} >
+                <Grid  item xs={4} pt={0.7} >
                   {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
-                  <Typography>{event.Text1}</Typography>
+                  <Typography >{event.Text1}</Typography>
                 </Grid>
-
                 <Grid item xs={12}>
-
                   <Tooltip title={event.Text4} placement="left-start">
                     <Typography
                       variant="body2"
@@ -203,24 +177,27 @@ function UpcomingEvent() {
                     </Typography>
                   </Tooltip>
                 </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider variant="middle" sx={{ m: '10px' }} />
-              </Grid>
-            </Grid>
-          ))}
 
-          {filteredEvents.length === 0 && (
-            <Grid item xs={12}>
-              <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-                No events found for the selected type.
-              </Typography>
-            </Grid>
-          )}
-        </Grid>
-      </Grid>
-
-      <Grid container py={0} mt={10}>
+                <Grid item xs={12}>
+                  <Divider variant="middle" sx={{ m: '0px' }} />
+                </Grid>
+                </Grid>
+              </Grid>
+              ))}
+            
+          
+              {
+              filteredEvents.length === 0 && (
+                <Grid item xs={12}>
+                  <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+                    No events found for the selected type.
+                  </Typography>
+                </Grid>
+              )
+            }
+      </Box>
+      
+      <Grid container py={0} mt={1}>
         <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/Common/AnnualPlanner') }}>
           <Typography variant="h4"> <b>See all events</b></Typography>
         </Grid>

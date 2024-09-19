@@ -92,7 +92,8 @@ const UnreadMessage = () => {
                         }
                       })}
                       </Box>
-                    </Grid><Grid item xs={10}>
+                    </Grid>
+                    <Grid item xs={10}>
                       <Grid container>
                         <Grid item xs={6}>
                           <Typography variant="h4" pl={0.6}  >{item.UserName}</Typography>
