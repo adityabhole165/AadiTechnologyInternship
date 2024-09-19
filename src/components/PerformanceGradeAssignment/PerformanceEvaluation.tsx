@@ -209,12 +209,9 @@ const PerformanceEvaluation = () => {
         return flag;
     }
     function isNotEditable() {
-        let flag = true;
-        if (listEnableRejectButtonDetails.length > 0) {
-            const data = listEnableRejectButtonDetails[0];
-            if (data?.Text2 === 'True' && data?.Text3 === 'True') {
-                flag = false;
-            }
+        let flag = false;
+        if (status === '1') {
+            flag = true;
         }
         return flag;
     }
@@ -230,6 +227,23 @@ const PerformanceEvaluation = () => {
             });
         }
         return gradeName;
+    }
+    function getGradeName1(parameterId, reportingUserId) {
+        let filteredArr = listParameterIdDetails.filter(item => item.Text2 === parameterId && item.Text5 === reportingUserId);
+        if (filteredArr.length > 0) {
+            return getGradeName(filteredArr[0].Text3);
+        } else {
+            return '';
+        }
+    }
+
+    function getObsName1(parameterId, reportingUserId) {
+        let filteredArr = listParameterIdDetails.filter(item => item.Text2 === parameterId && item.Text5 === reportingUserId);
+        if (filteredArr.length > 0) {
+            return filteredArr[0].Text4;
+        } else {
+            return '';
+        }
     }
     // Initial StaffPerformanceEvalDetailsLogic 
 
@@ -251,9 +265,9 @@ const PerformanceEvaluation = () => {
                 matchedItems2.forEach(matchedItem2 => {
                     const matchedItems3 = listParameterIdDetails.filter(item3 => item3.Text2 === matchedItem2.Text1);
                     matchedItems3.forEach(matchedItem3 => {
-                        const key = `${item1.Text1}-${matchedItem2.Text1}-${matchedItem3.Text1}-${matchedItem3.Text5}-${item1.Text7}`;
+                        const key = `${item1.Text1}-${matchedItem2.Text1}-0-${matchedItem3.Text5}-${item1.Text7}`;
                         const value = JSON.stringify({
-                            id: matchedItem3.Text1,
+                            id: '0',
                             parameterId: matchedItem3.Text2,
                             gradeId: matchedItem3.Text3,
                             observation: matchedItem3.Text4,
@@ -1074,70 +1088,125 @@ const PerformanceEvaluation = () => {
                                                                             {item.Text7 === '2' ? 'Observation' : 'Grade'}
                                                                         </TableCell>
                                                                     </TableRow>
-                                                                    {listParameterIdDetails?.length > 0 && listParameterIdDetails?.map((item3, i3) => {
+                                                                    {item.Text8 === 'False' ? <>
+                                                                        <TableRow>
+                                                                            <TableCell sx={{
+                                                                                paddingTop: '5px',
+                                                                                paddingBottom: '5px',
+                                                                                border: '1px solid rgba(224, 224, 224, 1)',
+
+                                                                            }}>{item.Text8}</TableCell>
+                                                                            <TableCell sx={{
+                                                                                paddingTop: '5px',
+                                                                                paddingBottom: '5px',
+                                                                                border: '1px solid rgba(224, 224, 224, 1)',
+
+                                                                            }}>
+                                                                                {getFinalApproverName(userId)}
+                                                                            </TableCell>
+                                                                            <TableCell
+                                                                                sx={{
+                                                                                    padding: item.Text7 === '2' && isSelfUserBody(userId) ? '0' : '5px',
+                                                                                    border: '1px solid rgba(224, 224, 224, 1)',
+                                                                                    height: '100%', // Ensure the cell takes full height
+                                                                                }}
+                                                                            >
+                                                                                {item.Text7 === '2' && isSelfUserBody(userId) ? (
+                                                                                    <textarea
+                                                                                        maxLength={4000}
+                                                                                        rows={3}
+                                                                                        style={{
+                                                                                            width: '100%',
+                                                                                            height: '100%',
+                                                                                            resize: 'vertical',
+                                                                                            backgroundColor: 'white',
+                                                                                            margin: 0,
+                                                                                            padding: '5px',
+                                                                                            border: '0.5px solid #f4f4f5',
+                                                                                            boxSizing: 'border-box',
+                                                                                            display: 'block', // Ensures the textarea behaves as a block element
+                                                                                        }}
+                                                                                        value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`])?.observation ?? ''}
+                                                                                        onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`, e.target.value) }}
+                                                                                        disabled={isNotEditable()}
+                                                                                    />
+                                                                                ) : item.Text7 === '2' && getObsName1(item1.Text1, userId)}
+
+                                                                                {item.Text7 === '3' && isSelfUserBody(userId) ? (
+                                                                                    <SearchableDropdown1
+                                                                                        defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`])?.gradeId ?? '0'}
+                                                                                        ItemList={gradeDropddownList}
+                                                                                        size={"small"}
+                                                                                        DisableClearable={true}
+                                                                                        sx={{ maxWidth: '15vw' }}
+                                                                                        onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`, value.Value) }}
+                                                                                    />
+                                                                                ) : item.Text7 === '3' && getGradeName1(item1.Text1, userId)}
+                                                                            </TableCell>
+                                                                        </TableRow>
+                                                                    </> : listIsFinalApproverDetails.map((item7, i7) => {
                                                                         return (
                                                                             <>
-                                                                                {item3.Text2 === item1.Text1 && getFinalApproverName(item3.Text5) !== undefined &&
-                                                                                    <TableRow key={i3}>
-                                                                                        <TableCell sx={{
-                                                                                            paddingTop: '5px',
-                                                                                            paddingBottom: '5px',
+                                                                                <TableRow key={i7}>
+                                                                                    <TableCell sx={{
+                                                                                        paddingTop: '5px',
+                                                                                        paddingBottom: '5px',
+                                                                                        border: '1px solid rgba(224, 224, 224, 1)',
+
+                                                                                    }}>{item.Text8}</TableCell>
+                                                                                    <TableCell sx={{
+                                                                                        paddingTop: '5px',
+                                                                                        paddingBottom: '5px',
+                                                                                        border: '1px solid rgba(224, 224, 224, 1)',
+
+                                                                                    }}>
+                                                                                        {getFinalApproverName(item7.Text3)}
+                                                                                    </TableCell>
+                                                                                    <TableCell
+                                                                                        sx={{
+                                                                                            padding: item.Text7 === '2' && isSelfUserBody(item7.Text3) ? '0' : '5px',
                                                                                             border: '1px solid rgba(224, 224, 224, 1)',
+                                                                                            height: '100%', // Ensure the cell takes full height
+                                                                                        }}
+                                                                                    >
+                                                                                        {item.Text7 === '2' && isSelfUserBody(item7.Text3) ? (
+                                                                                            <textarea
+                                                                                                maxLength={4000}
+                                                                                                rows={3}
+                                                                                                style={{
+                                                                                                    width: '100%',
+                                                                                                    height: '100%',
+                                                                                                    resize: 'vertical',
+                                                                                                    backgroundColor: 'white',
+                                                                                                    margin: 0,
+                                                                                                    padding: '5px',
+                                                                                                    border: '0.5px solid #f4f4f5',
+                                                                                                    boxSizing: 'border-box',
+                                                                                                    display: 'block', // Ensures the textarea behaves as a block element
+                                                                                                }}
+                                                                                                value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`])?.observation ?? ''}
+                                                                                                onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`, e.target.value) }}
+                                                                                                disabled={isNotEditable()}
+                                                                                            />
+                                                                                        ) : item.Text7 === '2' && getObsName1(item1.Text1, item7.Text3)}
 
-                                                                                        }}></TableCell>
-                                                                                        <TableCell sx={{
-                                                                                            paddingTop: '5px',
-                                                                                            paddingBottom: '5px',
-                                                                                            border: '1px solid rgba(224, 224, 224, 1)',
-
-                                                                                        }}>
-                                                                                            {getFinalApproverName(item3.Text5)}
-                                                                                        </TableCell>
-                                                                                        <TableCell
-                                                                                            sx={{
-                                                                                                padding: item.Text7 === '2' && isSelfUserBody(item3.Text5) ? '0' : '5px',
-                                                                                                border: '1px solid rgba(224, 224, 224, 1)',
-                                                                                                height: '100%', // Ensure the cell takes full height
-                                                                                            }}
-                                                                                        >
-                                                                                            {item.Text7 === '2' && isSelfUserBody(item3.Text5) ? (
-                                                                                                <textarea
-                                                                                                    maxLength={4000}
-                                                                                                    rows={3}
-                                                                                                    style={{
-                                                                                                        width: '100%',
-                                                                                                        height: '100%',
-                                                                                                        resize: 'vertical',
-                                                                                                        backgroundColor: 'white',
-                                                                                                        margin: 0,
-                                                                                                        padding: '5px',
-                                                                                                        border: '0.5px solid #f4f4f5',
-                                                                                                        boxSizing: 'border-box',
-                                                                                                        display: 'block', // Ensures the textarea behaves as a block element
-                                                                                                    }}
-                                                                                                    value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`])?.observation ?? ''}
-                                                                                                    onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`, e.target.value) }}
-                                                                                                    disabled={isNotEditable()}
-                                                                                                />
-                                                                                            ) : item.Text7 === '2' && `${item3.Text4}`}
-
-                                                                                            {item.Text7 === '3' && isSelfUserBody(item3.Text5) ? (
-                                                                                                <SearchableDropdown1
-                                                                                                    defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`])?.gradeId ?? ''}
-                                                                                                    ItemList={gradeDropddownList}
-                                                                                                    size={"small"}
-                                                                                                    DisableClearable={true}
-                                                                                                    sx={{ maxWidth: '15vw' }}
-                                                                                                    onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-${item3.Text1}-${item3.Text5}-${item.Text7}`, value.Value) }}
-                                                                                                />
-                                                                                            ) : item.Text7 === '3' && getGradeName(item3.Text3)}
-                                                                                        </TableCell>
-
-                                                                                    </TableRow>
-                                                                                }
+                                                                                        {item.Text7 === '3' && isSelfUserBody(item7.Text3) ? (
+                                                                                            <SearchableDropdown1
+                                                                                                defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`])?.gradeId ?? '0'}
+                                                                                                ItemList={gradeDropddownList}
+                                                                                                size={"small"}
+                                                                                                DisableClearable={true}
+                                                                                                sx={{ maxWidth: '15vw' }}
+                                                                                                onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`, value.Value) }}
+                                                                                            />
+                                                                                        ) : item.Text7 === '3' && getGradeName1(item1.Text1, item7.Text3)}
+                                                                                    </TableCell>
+                                                                                </TableRow>
                                                                             </>
                                                                         )
-                                                                    })}
+                                                                    }
+                                                                    )}
+
 
                                                                 </React.Fragment>
                                                             )
