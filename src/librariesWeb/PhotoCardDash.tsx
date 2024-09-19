@@ -210,7 +210,7 @@ function PhotoCardDash() {
   };
 
   return (
-    <Box sx={{ height: '487px', backgroundColor: 'white', p: 1 }}>
+    <Box sx={{ height: '455px', backgroundColor: 'white', p: 1 }}>
       <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
         <Grid item xs={12}>
           <Header Title="Photo Albums" />
@@ -232,7 +232,7 @@ function PhotoCardDash() {
 
       {/* Photo Album Display */}
       <div>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0}}>
           {PhotoAlbum.length > 0 ? (
             <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
           ) : (
@@ -304,7 +304,7 @@ function PhotoCardDash() {
 
           </DialogContent>
         </Dialog>
-        <Grid item xs={12} textAlign={'right'}>
+        <Grid item xs={12} textAlign={'center'} >
           <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
         </Grid>
       </div>
