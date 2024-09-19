@@ -242,6 +242,8 @@ const PerformanceEvaluation = () => {
     //         setGrades(initialGrades);
     //     }
     // }, [ListLearningOutcomeDetails])
+
+    // #region Preformatting
     useEffect(() => {
         if (listOriginalSkillIdDetails.length > 0) {
             const initialEvalRowValues = listOriginalSkillIdDetails.reduce((acc, item1) => {
@@ -266,6 +268,8 @@ const PerformanceEvaluation = () => {
             console.log(`-->`, initialEvalRowValues);
         }
     }, [listOriginalSkillIdDetails, listTecherTitleDetails, listParameterIdDetails]);
+    // #endregion
+
     const parseJSON = (jsonString) => {
         try {
             return JSON.parse(jsonString);
@@ -535,7 +539,7 @@ const PerformanceEvaluation = () => {
     }
 
 
-
+    // #region Return Code
     return (
         <>
             <Box sx={{ px: 2 }}>
@@ -976,7 +980,7 @@ const PerformanceEvaluation = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {Object.keys(initialStaffPerfEval).length > 0 && listOriginalSkillIdDetails?.length > 0 &&
+                                {listOriginalSkillIdDetails?.length > 0 &&
                                     listOriginalSkillIdDetails.map((item, i) => (
                                         <React.Fragment key={i}>
                                             <TableRow sx={{ backgroundColor: '#e5e7eb' }}>
@@ -1222,6 +1226,7 @@ const PerformanceEvaluation = () => {
                 }} RefreshList={() => { }} />
         </>
     )
+    // #endregion
 }
 
 export default PerformanceEvaluation;
