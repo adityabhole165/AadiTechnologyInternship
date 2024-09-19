@@ -7,7 +7,7 @@ const CarouselPhotoCard = ({ item, IsPath, onImageClick, largeImage = false, cur
             onImageClick(IsPath ? item.AlbumID : item.AlbumID);
         }
     };
-    const avatarSize = largeImage ? { height: '450px', width: 'Auto' } : { height: '300px', width: '250px' };
+    const avatarSize = largeImage ? { height: '450px', width: 'Auto' } : { height: '220px', width: '250px' };
 
     return (
         <>

@@ -147,7 +147,7 @@ function FeedBackCard() {
             handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '400px', overflow: 'auto', mt: 2 }}>
+      <Box sx={{ height: '320px', overflow: 'auto', mt: 1 }}>
         {loading ? (
           <Stack justifyContent="center" alignItems="center">
             <CircularProgress size={40} disableShrink thickness={4} />
@@ -163,12 +163,12 @@ function FeedBackCard() {
                   <Grid container key={i}>
                     <Grid item xs={12}>
                       <Grid container>
-                        <Grid item xs={9}>
-                          <Typography variant="h4" p={0.5}  >{item.Header}</Typography>
+                        <Grid item xs={8}>
+                          <Typography variant="h4" p={1}  >{item.Header}</Typography>
                         </Grid>
-                        <Grid item xs={3} >
-                          <AccessTimeIcon sx={{ mr: '5px', color: '#64b5f6' }} fontSize="small" />
-                          {item.Text2}
+                        <Grid container item xs={4} >
+                          <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
+                          <Typography>{item.Text2}</Typography>
                         </Grid>
 
                         <Grid item xs={12}>
@@ -182,7 +182,7 @@ function FeedBackCard() {
                                 whiteSpace: 'normal',
                                 textOverflow: 'ellipsis',
                                 maxHeight: '6.25rem',
-                                // lineHeight: '1.25rem',
+                                lineHeight: '1.25rem',
                                 display: '-webkit-box',
                                 WebkitLineClamp: 2,
                                 WebkitBoxOrient: 'vertical',

@@ -138,7 +138,7 @@ function BirthdayDashboard() {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <Box sx={{ height: '300px', backgroundColor: 'white', pt: 1 }}>
+    <Box sx={{ height: '250px', backgroundColor: 'white', pt: 1 }}>
      <Grid container >
         <Grid item xs={6}>
           <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
