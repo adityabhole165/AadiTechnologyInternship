@@ -62,7 +62,7 @@ const UnreadMessage = () => {
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '252px', overflow: 'auto', mt: 2, }}>
+      <Box sx={{ height: '260px', overflow: 'auto', mt: 2, }}>
         {loading ? (
           <Stack justifyContent="center" alignItems="center">
             <CircularProgress size={40} disableShrink thickness={4} />
@@ -111,7 +111,7 @@ const UnreadMessage = () => {
                             whiteSpace: 'normal',
                             textOverflow: 'ellipsis',
                             maxHeight: '6.25rem',
-                            // lineHeight: '1.25rem',
+                             lineHeight: '1.25rem',
                             display: '-webkit-box',
                             WebkitLineClamp: 1,
                             WebkitBoxOrient: 'vertical',
@@ -120,7 +120,7 @@ const UnreadMessage = () => {
                           }}
                         >{item.Subject}</Typography>
                       </Tooltip>
-                    </Grid><Grid item xs={9}>
+                    </Grid><Grid item xs={12}>
                       <Divider variant="middle" sx={{ m: '5px' }} />
                     </Grid>
                   </Grid>
