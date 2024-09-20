@@ -970,7 +970,7 @@ const PerformanceEvaluation = () => {
                                                 <span style={{ color: 'red' }}> *</span>
                                             </Box>
 
-                                            {isFinalApprover() && <Box py={0.5}>
+                                            {isFinalApprover() && <Box py={1}>
                                                 <Box
                                                     display="inline-flex"
                                                     alignItems="center"
