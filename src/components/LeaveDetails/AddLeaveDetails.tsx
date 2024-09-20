@@ -70,15 +70,17 @@ const AddLeaveDetails = () => {
     useEffect(() => {
         if (GetLeaveTypeDropdown) {
             let filteredData = GetLeaveTypeDropdown;
-
-            // Filter data if schoolId is 122
             if (asSchoolId === 122) {
-                filteredData = GetLeaveTypeDropdown.slice(0, 8);
+
+                filteredData = GetLeaveTypeDropdown.filter((item, index) =>
+                    index !== 2 && index !== GetLeaveTypeDropdown.length - 1
+                );
             }
 
             setDropdownData(filteredData);
         }
     }, [GetLeaveTypeDropdown, asSchoolId]);
+
     const Note2 = [
         ' If leave start date or end date is across the month, then the system will update leave for only the days that are in the upcoming salary publish month.'
     ];
