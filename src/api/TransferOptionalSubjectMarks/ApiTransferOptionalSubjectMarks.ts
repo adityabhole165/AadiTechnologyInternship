@@ -4,7 +4,7 @@ import { IGetStudentsToTransferMarksBody, ITransferStudentSubjectsMarkDetailsLis
 import http from '../../requests/SchoolService/schoolServices';
   
   const GetClassTeachers = (data: IGetClassTeachersBody) => {
-    return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeachers', data);
+    return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeachersForOptionalSubjectClasses', data);
   };
   
   const GetStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody) => {

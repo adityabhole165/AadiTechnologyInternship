@@ -4,7 +4,7 @@ import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -16,7 +16,7 @@ import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-
+import { AlertContext } from 'src/contexts/AlertContext';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -58,7 +58,7 @@ const TransferOptionalSubjectMarks = () => {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const rowsPerPageOptions = [20, 50, 100, 200];
     const [page, setPage] = useState(1);
-
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
     useEffect(() => {
@@ -330,7 +330,20 @@ const TransferOptionalSubjectMarks = () => {
     const clickTransfer = () => {
         let errorMessages = [];
         if (!StudentsList.some((Item) => Item.IsActive)) {
-            alert("At least one student subject should be selected.");
+
+            showAlert({
+                title: 'Please Confirm',
+                message: "At least one student subject should be selected.",
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    closeAlert();
+                }
+            });
         } else {
             ParentOptionalSubjects.forEach((item) => {
                 let selectedSubjectsCount = OptionalSubjects.filter((subItem) => {

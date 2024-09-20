@@ -8,7 +8,7 @@ export interface IGetClassTeachersResult {
   Teacher_Id: string;
   Designation_Id: string;
   Teacher_First_Name: string;
-  Standard_Id: string;
+  // Standard_Id: string;
   Standard_Name: string;
   Division_Name: string;
   Original_Standard_Id: string;
