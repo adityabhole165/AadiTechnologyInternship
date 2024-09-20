@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -12,7 +12,6 @@ import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import CommonPageHeader from '../CommonPageHeader';
-import SchoolNoticeHeader from '../SchoolNoticeHeader';
 
 function Schoolnotice() {
   const theme = useTheme();
@@ -131,29 +130,29 @@ function Schoolnotice() {
     );
   };
 
-  return (  
-    <Box px={2} sx={{backgroundColor:'#F5F5F5'}}>  
-       <SchoolNoticeHeader
+  return (
+    <Box sx={{ px: 2 }}>
+      <CommonPageHeader
         navLinks={[
           {
             title: 'School Notice',
             path: ''
           }
         ]}
-      /> 
+      />
       {/* <Typography variant="h3" pl={5.5} pt={2.4} mb={2} >
                    School Notice 
          </Typography> */}
 
-      
+
       <Box sx={{ background: 'white', p: 2 }}>
-       
-       
-            <CardNotice
-              itemList={Data1}
-              downloadNotice={downloadNotice}
-              clickSingle={clickSingle}
-            />
+
+
+        <CardNotice
+          itemList={Data1}
+          downloadNotice={downloadNotice}
+          clickSingle={clickSingle}
+        />
 
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />

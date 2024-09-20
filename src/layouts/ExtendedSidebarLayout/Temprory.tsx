@@ -105,7 +105,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const ListAbsentStudent = useSelector(
     (state: RootState) => state.AbsentStudent.getlistAbsentStudentDetails
   );
-
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'School Notices') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
   const UserId = Number(localStorage.getItem('UserId'));
 
   const navigate = useNavigate();
@@ -300,12 +309,20 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: null
     });
   }
-  if (asUserRoleId === '2') {
+  if (asUserRoleId === '2' && GetScreenPermission() == "Y") {
     sideList.push({
       id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
+    });
+  }
+  if (asUserRoleId === '2' && GetScreenPermission() == "N") {
+    sideList.push({
+      id: 'Daily Activities',
+      title: 'School Notices',
+      icon: <AssignmentTwoToneIcon />,
+      link: '/extended-sidebar/Common/SchoolNotice'
     });
   }
 
