@@ -149,7 +149,7 @@ const TExamScheduleNew = () => {
         } else if (minutes > 0) {
             return `${minutes}m`;
         } else {
-            return '0m'; // In case of no difference
+            return '-'; // In case of no difference
         }
     };
 
