@@ -583,7 +583,18 @@ const PerformanceEvaluation = () => {
             asEffectiveDate: effectiveDate,
             asLastIncrementDate: incrementDate
         }
-        dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
+        showAlert({
+            title: 'Please Confirm',
+            message: 'This action will publish current details. Are you sure you want to continue?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onConfirm: () => {
+                dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
+                closeAlert();
+            },
+            onCancel: closeAlert
+        });
     }
     const unpublishEval = () => {
         const PublishStaffPerformanceDetailBody: IPublishStaffPerformanceDetailsBody = {
@@ -596,7 +607,18 @@ const PerformanceEvaluation = () => {
             asEffectiveDate: effectiveDate,
             asLastIncrementDate: incrementDate
         }
-        dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
+        showAlert({
+            title: 'Please Confirm',
+            message: 'This action will unpublish all published details. Are you sure you want to continue?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onConfirm: () => {
+                dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
+                closeAlert();
+            },
+            onCancel: closeAlert
+        });
     }
 
 
@@ -711,9 +733,9 @@ const PerformanceEvaluation = () => {
                                             disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
                                             sx={{
                                                 color: 'white',
-                                                backgroundColor: blue[500],
+                                                backgroundColor: red[500],
                                                 '&:hover': {
-                                                    backgroundColor: blue[600],
+                                                    backgroundColor: red[600],
                                                 },
                                             }}
                                             onClick={unsubmitEval}

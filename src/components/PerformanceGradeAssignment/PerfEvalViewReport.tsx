@@ -399,7 +399,7 @@ const PerEvalViewReport = () => {
                                                                 {item.Text12 !== '' ? formatDate(item.Text12.split(' ')[0]) : '-'}
                                                             </Typography> :
                                                                 <Datepicker3
-                                                                    disabled={listEnableRejectButtonDetails[0]?.Text5 === '1' ? true : false}
+                                                                    disabled={true}
                                                                     maxDate={true}
                                                                     DateValue={incrementDate}
                                                                     onDateChange={(value) => { setIncrementDate(value) }}
@@ -495,7 +495,7 @@ const PerEvalViewReport = () => {
                                                 </Box>
                                                 <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>
                                                     <Datepicker3
-                                                        disabled={listEnableRejectButtonDetails[0]?.Text5 === '1' ? true : false}
+                                                        disabled={true}
                                                         minDate={true}
                                                         DateValue={effectiveDate}
                                                         onDateChange={(value) => {
