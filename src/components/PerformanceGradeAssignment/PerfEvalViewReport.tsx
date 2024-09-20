@@ -1,23 +1,26 @@
-import { Check, CheckCircle, FactCheck, QuestionMark, Save } from "@mui/icons-material";
-import EventBusyIcon from '@mui/icons-material/EventBusy';
-import UnpublishedIcon from '@mui/icons-material/Unpublished';
-import { Box, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
-import { blue, green, grey, red } from "@mui/material/colors";
-import React, { useContext, useEffect, useState } from "react";
+import { QuestionMark } from "@mui/icons-material";
+import ChevronRightTwoTone from "@mui/icons-material/ChevronRightTwoTone";
+import HomeTwoTone from "@mui/icons-material/HomeTwoTone";
+import { Breadcrumbs, IconButton, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import { grey } from "@mui/material/colors";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { AlertContext } from 'src/contexts/AlertContext';
-import { IGetPerformanceEvaluationDetailsBody, IPublishStaffPerformanceDetailsBody, ISaveStaffPerformanceEvalDetailsBody, ISubmitStaffPerformanceDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
+import { useLocation, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { IGetPerformanceEvaluationDetailsBody } from "src/interfaces/PerformanceGradeAssignmentBaseScreen/IPerformanceGradeAssignment";
+import { CDAGetDetailsForAttachment } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
+
+
+///
+
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
+import React, { useState } from "react";
 import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import Datepicker3 from "src/libraries/DateSelector/Datepicker3";
-import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
-import { CDAGetDetailsForAttachment, CDAGetPerformanceEvaluationDetails, CDAPublishStaffPerformanceDetailsMsg, CDAResetPublishStaffPerformanceDetailsMsg, CDAResetSaveStaffPerformanceEvalDetailsMsg, CDAResetSubmitStaffPerformanceDetailsMsg, CDASaveStaffPerformanceEvalDetailsMsg, CDASubmitStaffPerformanceDetailsMsg } from "src/requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment";
-import { encodeURL, formatDate } from "../Common/Util";
-import CommonPageHeader from "../CommonPageHeader";
+import { formatDate } from "../Common/Util";
 import UploadDocument from "./UploadDocument";
 // import DatePicker from "react-multi-date-picker";
-
 const getTodayDate = () => {
     const today = new Date(); // Get the current date
     const day = String(today.getDate()).padStart(2, '0'); // Get day and pad with zero if needed
@@ -26,13 +29,14 @@ const getTodayDate = () => {
     return `${day}-${month}-${year}`; // Format to 'DD-MM-YYYY'
 };
 
-const PerformanceEvaluation = () => {
+///
+
+const PerEvalViewReport = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { showAlert, closeAlert } = useContext(AlertContext);
-    const todayDate = getTodayDate();
-    // useSelectors and Store Data
+    const { asUserId, asYear } = location.state || {};
+
     const listSchoolOrgNameDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistSchoolOrgNameDetails);
     const listUserNameDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistUserNameDetails);
     const listDescriptionDetails = useSelector((state: any) => state.PerformanceGradeAssignment.ISlistDescriptionDetails);
@@ -48,17 +52,9 @@ const PerformanceEvaluation = () => {
     const PublishStaffPerformanceDetailsMsg = useSelector((state: any) => state.PerformanceGradeAssignment.ISPublishStaffPerformanceDetailsMsg);
     const SaveStaffPerformanceEvalDetailsMsg = useSelector((state: any) => state.PerformanceGradeAssignment.ISSaveStaffPerformanceEvalDetailsMsg);
     const loading = useSelector((state: any) => state.PerformanceGradeAssignment.Loading);
-    const formType = listTecherTitleDetails[0]?.Text7;
-    // data is passed from the previous page using navigate's state property and accessed using useLocation hook 
-    // and the Object is destructured for further use
-    let userNameDetails = listUserNameDetails[0];
-    const { userId, asYear, status } = location.state || {};
-    const schoolId = localStorage.getItem('SchoolId');
-    const academicYearId = sessionStorage.getItem('AcademicYearId');
-    const reportingUserId = sessionStorage.getItem('Id');
-    const currentSignedInUser = sessionStorage.getItem('Id');
-    const [effectiveDate, setEffectiveDate] = useState('');
+
     const [incrementDate, setIncrementDate] = useState('');
+    const [effectiveDate, setEffectiveDate] = useState('');
     const [classTaught, setClassTaught] = useState('');
     const [teachingSub, setTeachingSub] = useState('');
     const [uploadDoc, setUploadDoc] = useState(false);
@@ -66,10 +62,8 @@ const PerformanceEvaluation = () => {
     const [uploadDocUserName, setUploadDocUserName] = useState('');
     const [uploadDocUserId, setUploadDocUserId] = useState('');
     const [initialStaffPerfEval, setInitialStaffPerfEval] = useState({});
-    const [classError, setClassError] = useState(false);
-    const [teachingSubError, setTeachingSubError] = useState(false);
-    const [gradeError, setGradeError] = useState('');
-    const [obsError, setObsError] = useState('');
+    const todayDate = getTodayDate();
+
     useEffect(() => {
         if (listUserNameDetails.length > 0) {
             setEffectiveDate(listUserNameDetails[0]?.Text13 === '' ? todayDate : listUserNameDetails[0]?.Text13);
@@ -83,40 +77,18 @@ const PerformanceEvaluation = () => {
         }
     }, [listUserNameDetails])
 
-    useEffect(() => { gradeDropddownList.length > 0 ? console.log(gradeDropddownList) : '' }, [gradeDropddownList]);
     const PerformanceEvaluationDetailsBody: IGetPerformanceEvaluationDetailsBody = {
-        asSchoolId: Number(schoolId),
-        asUserId: Number(userId),
-        asReportingUserId: Number(reportingUserId),
+        asSchoolId: Number(localStorage.getItem('SchoolId')),
+        asUserId: Number(asUserId),
+        asReportingUserId: Number(sessionStorage.getItem('Id')),
         asYear: Number(asYear),
-        asAcademicYearId: Number(academicYearId)
+        asAcademicYearId: Number(asYear)
     }
-    // useEffects()
     useEffect(() => {
-        dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody))
         dispatch(CDAGetDetailsForAttachment(PerformanceEvaluationDetailsBody))
-        if (listSchoolOrgNameDetails.length > 0) {
-            console.log(listSchoolOrgNameDetails)
-        }
-    }, [dispatch]);
-    function viewReport() {
-        const dataPass = {
-            asYear: asYear,
-            asUserId: userId,
-        }
-        navigate(`/extended-sidebar/Teacher/PerfEvalViewReport`, { state: dataPass })
-    }
+    }, [dispatch])
 
-    useEffect(() => {
-        if (listUserNameDetails.length > 0) {
-            console.log(`😎`, listUserNameDetails)
-        }
-    }, [listUserNameDetails])
-
-    function getFinalApproverName(id) {
-        let filteredObserver = listIsFinalApproverDetails.filter((item) => item.Text3 === id);
-        return filteredObserver[0]?.Text1
-    }
+    // f()
     function isFinalApprover() {
         let flag = false;
         let filteredArray = listIsFinalApproverDetails.filter((item) => item.Text3 === sessionStorage.getItem('Id'));
@@ -125,60 +97,9 @@ const PerformanceEvaluation = () => {
         }
         return flag;
     }
-    function dynamicHeader(id) {
-        let headerName = '';
-        console.log('⭐⭐', listParameterIdDetails, id)
-        let filteredArray = listParameterIdDetails.filter((item) => item.Text2 === id);
-        console.log('⭐⭐', filteredArray)
-        filteredArray = filteredArray[0];
-        if (filteredArray?.Text3 === '0' && filteredArray?.Text4 === '') {
-            headerName = 'Grade';
-        } else if (filteredArray?.Text3 === '0' && filteredArray?.Text4 !== '') {
-            headerName = 'Observation';
-        } else if (filteredArray?.Text3 !== '0' && filteredArray?.Text4 === '') {
-            headerName = 'Grade';
-        }
-        return headerName;
-    }
-    useEffect(() => {
-        if (SubmitStaffPerformanceDetailsMsg !== '') {
-            toast.success(SubmitStaffPerformanceDetailsMsg);
-            dispatch(CDAResetSubmitStaffPerformanceDetailsMsg());
-            dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
-        }
-    }, [SubmitStaffPerformanceDetailsMsg])
-    useEffect(() => {
-        if (PublishStaffPerformanceDetailsMsg !== '') {
-            toast.success(PublishStaffPerformanceDetailsMsg);
-            dispatch(CDAResetPublishStaffPerformanceDetailsMsg());
-            dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
-        }
-    }, [PublishStaffPerformanceDetailsMsg])
-    useEffect(() => {
-        if (SaveStaffPerformanceEvalDetailsMsg !== '') {
-            toast.success(SaveStaffPerformanceEvalDetailsMsg);
-            dispatch(CDAResetSaveStaffPerformanceEvalDetailsMsg());
-            dispatch(CDAGetPerformanceEvaluationDetails(PerformanceEvaluationDetailsBody));
-        }
-    }, [SaveStaffPerformanceEvalDetailsMsg])
-
-    function showEffDate(userId) {
-        let flag = false;
-        let filteredArray = listIsFinalApproverDetails.filter((item) => item.Text3 === userId);
-        if (filteredArray.length > 0 && (filteredArray[0]?.Text4 === 'True' || filteredArray[0]?.Text5 === 'True')) {
-            flag = true;
-        }
-        return flag;
-    }
-    function isSelfUser() {
-        // This function checks if currently signed-in user is viewing
-        // his own form and submit status of form is Pending i.e, -> 2
-        let flag = false;
-        let localUserId = sessionStorage.getItem('Id');
-        if (userId === localUserId && status === '2') {
-            flag = true;
-        }
-        return flag;
+    function getFinalApproverName(id) {
+        let filteredObserver = listIsFinalApproverDetails.filter((item) => item.Text3 === id);
+        return filteredObserver[0]?.Text1
     }
     function isSelfUserBody(id) {
         let flag = false;
@@ -188,42 +109,54 @@ const PerformanceEvaluation = () => {
         }
         return flag;
     }
-    // if (miSchoolId == Constants.SchoolId.PPS.ToInt())
-    //     {
-    //         if (QueryString["Year"].ToInt() >= 51)
-    //         {
-    //             var oTypeId = moStaffPerformanceEvaluationBL.PerformanceParameters.Select(PP => PP.AppraisalFormTypeId).FirstOrDefault();
-    //             if (oTypeId == 2)
-    //                 FillGrades();
-    //         }
-    //         else
-    //             FillGrades();
-    //     }
-    //     else
-    //         FillGrades();
-    function showKeyToRate() {
-        let flag = false;
-        if (schoolId === '18') {
-            if (Number(asYear) >= 51) {
-                let formTypeId = listTecherTitleDetails[0]?.Text7;
-                if (formTypeId === '2') {
-                    flag = true;
-                }
-            } else {
-                flag = true;
+    const parseJSON = (jsonString) => {
+        try {
+            return JSON.parse(jsonString);
+        } catch (error) {
+            console.error("Failed to parse JSON:", error);
+            return null;
+        }
+    };
+    const updateStaffPerfEvalObs = (key, observation) => {
+        const updatedFields = {
+            observation: observation
+        }
+        setInitialStaffPerfEval(prevState => {
+            const newState = { ...prevState };
+            if (newState[key]) {
+                const currentValue = JSON.parse(newState[key]);
+                const updatedValue = { ...currentValue, ...updatedFields };
+                newState[key] = JSON.stringify(updatedValue);
             }
-        } else {
-            flag = true;
-        }
-        return flag;
-    }
+            return newState;
+        });
+    };
+
     function isNotEditable() {
-        let flag = false;
-        if (status === '1') {
-            flag = true;
+        let flag = true;
+        if (listEnableRejectButtonDetails.length > 0) {
+            const data = listEnableRejectButtonDetails[0];
+            if (data?.Text2 === 'True' && data?.Text3 === 'True') {
+                flag = false;
+            }
         }
         return flag;
     }
+
+    const updateStaffPerfEvalGrade = (key, gradeId) => {
+        const updatedFields = {
+            gradeId: gradeId
+        }
+        setInitialStaffPerfEval(prevState => {
+            const newState = { ...prevState };
+            if (newState[key]) {
+                const currentValue = JSON.parse(newState[key]);
+                const updatedValue = { ...currentValue, ...updatedFields };
+                newState[key] = JSON.stringify(updatedValue);
+            }
+            return newState;
+        });
+    };
     function getGradeName(gradeId) {
         let gradeName = '';
         if (gradeDropddownList.length > 0) {
@@ -254,19 +187,7 @@ const PerformanceEvaluation = () => {
             return '';
         }
     }
-    // Initial StaffPerformanceEvalDetailsLogic 
 
-    // useEffect(() => {
-    //     if (ListLearningOutcomeDetails.length > 0) {
-    //         const initialGrades = ListLearningOutcomeDetails.reduce((acc, student) => {
-    //             acc[student.Text1] = `${student.Text4}-${student.Text5}`;
-    //             return acc;
-    //         }, {});
-    //         setGrades(initialGrades);
-    //     }
-    // }, [ListLearningOutcomeDetails])
-
-    // #region Preformatting
     useEffect(() => {
         if (listOriginalSkillIdDetails.length > 0) {
             const initialEvalRowValues = listOriginalSkillIdDetails.reduce((acc, item1) => {
@@ -274,10 +195,9 @@ const PerformanceEvaluation = () => {
                 matchedItems2.forEach(matchedItem2 => {
                     const matchedItems3 = listParameterIdDetails.filter(item3 => item3.Text2 === matchedItem2.Text1);
                     matchedItems3.forEach(matchedItem3 => {
-                        // listOriginalSkillIdDetails.Text1-listTecherTitleDetails.Text1-0-listParameterIdDetails.Text5-listOriginalSkillIdDetails.Text7
-                        const key = `${item1.Text1}-${matchedItem2.Text1}-0-${matchedItem3.Text5}-${item1.Text7}`;
+                        const key = `${item1.Text1}-${matchedItem2.Text1}-${matchedItem3.Text1}-${matchedItem3.Text5}-${item1.Text7}`;
                         const value = JSON.stringify({
-                            id: '0',
+                            id: matchedItem3.Text1,
                             parameterId: matchedItem3.Text2,
                             gradeId: matchedItem3.Text3,
                             observation: matchedItem3.Text4,
@@ -292,473 +212,90 @@ const PerformanceEvaluation = () => {
             console.log(`-->`, initialEvalRowValues);
         }
     }, [listOriginalSkillIdDetails, listTecherTitleDetails, listParameterIdDetails]);
-    // #endregion
-
-    const parseJSON = (jsonString) => {
-        try {
-            return JSON.parse(jsonString);
-        } catch (error) {
-            console.error("Failed to parse JSON:", error);
-            return null;
-        }
-    };
-
-    const updateStaffPerfEvalGrade = (key, gradeId, parameterId, reportingUserId) => {
-        console.log('🎃', initialStaffPerfEval);
-        const updatedFields = {
-            gradeId: gradeId
-        }
-        const newlyUpdatedFields = {
-            id: '0',
-            parameterId: parameterId,
-            gradeId: gradeId,
-            observation: '',
-            reportingUserId: reportingUserId
-        }
-        setInitialStaffPerfEval(prevState => {
-            const newState = { ...prevState };
-            if (newState[key]) {
-                const currentValue = JSON.parse(newState[key]);
-                const updatedValue = { ...currentValue, ...updatedFields };
-                newState[key] = JSON.stringify(updatedValue);
-            } else {
-                newState[key] = JSON.stringify(newlyUpdatedFields);
-            }
-            return newState;
-        });
-
-    };
-    // id: '0',
-    // parameterId: matchedItem3.Text2,
-    // gradeId: matchedItem3.Text3,
-    // observation: matchedItem3.Text4,
-    // reportingUserId: matchedItem3.Text5
-    // listOriginalSkillIdDetails.Text1-listTecherTitleDetails.Text1-0-listParameterIdDetails.Text5-listOriginalSkillIdDetails.Text7
-    const updateStaffPerfEvalObs = (key, observation, parameterId, reportingUserId) => {
-        const updatedFields = {
-            observation: observation
-        }
-        const newlyUpdatedFields = {
-            id: '0',
-            parameterId: parameterId,
-            gradeId: '0',
-            observation: observation,
-            reportingUserId: reportingUserId
-        }
-        setInitialStaffPerfEval(prevState => {
-            const newState = { ...prevState };
-            if (newState[key]) {
-                const currentValue = JSON.parse(newState[key]);
-                const updatedValue = { ...currentValue, ...updatedFields };
-                newState[key] = JSON.stringify(updatedValue);
-            } else {
-                newState[key] = JSON.stringify(newlyUpdatedFields);
-            }
-            return newState;
-        });
-    };
-
-    interface EvalRowValue {
-        id: string;
-        parameterId: string;
-        gradeId: string;
-        observation: string;
-        reportingUserId: string;
-    }
-    function validateGrades(evalRowValues: Record<string, string>): { isValidGrade: boolean; errorMessage: string } {
-        const invalidRows: number[] = [];
-        let gradeRowCount = 0;
-
-        Object.entries(evalRowValues).forEach(([key, value]) => {
-            if (typeof value === 'string') {
-                try {
-                    const parsedValue: EvalRowValue = JSON.parse(value);
-                    const [, , , , inputTypeId] = key.split('-');
-
-                    // Check both conditions: matching reportingUserId and inputTypeId is '3'
-                    if (parsedValue.reportingUserId === reportingUserId && inputTypeId === '3') {
-                        gradeRowCount++; // Increment the count for each grade row
-                        if (parsedValue.gradeId === '0') {
-                            invalidRows.push(gradeRowCount);  // Use the grade row count instead of index
-                        }
-                    }
-                } catch (error) {
-                    console.error("Error parsing JSON value: ", error);
-                }
-            }
-        });
-
-        if (invalidRows.length > 0) {
-            return {
-                isValidGrade: false,
-                errorMessage: `Grade should be selected for row(s): ${invalidRows.join(', ')}`
-            };
-        }
-
-        return { isValidGrade: true, errorMessage: '' };
-    }
-
-    function validateObs() {
-        console.log(`🏠`, initialStaffPerfEval)
-        for (let key in initialStaffPerfEval) {
-            const item = JSON.parse(initialStaffPerfEval[key]);
-
-            // Split the key and check if the first part (input type) is '2'
-            if (key.split('-')[4] === '2' && item.reportingUserId === reportingUserId && item.observation !== "") {
-                return true;
-            }
-            else if (key.split('-')[4] === '2' && item.reportingUserId !== reportingUserId && item.observation !== "") {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function generatePerformanceXml(evalRowValues: Record<string, string>): string {
-        const parser = new DOMParser();
-        let xmlString = '';
-        Object.keys(evalRowValues).forEach((key) => {
-            const value: unknown = evalRowValues[key];
-
-            // Ensure the value is a string before parsing
-            if (typeof value === 'string') {
-                try {
-                    const parsedValue: EvalRowValue = JSON.parse(value);
-                    // Construct XML string
-                    if (parsedValue.reportingUserId === reportingUserId) {
-                        xmlString += `<StaffPerformanceObservation>
-                        <Id>0</Id>
-                        <StaffPerformanceEvalDetailsId>0</StaffPerformanceEvalDetailsId>
-                        <ParameterId>${parsedValue.parameterId}</ParameterId>
-                        <GradeId>${parsedValue.gradeId}</GradeId>
-                        <ReportingUserId>${parsedValue.reportingUserId}</ReportingUserId>
-                        <Observation>${parsedValue.observation}</Observation>
-                      </StaffPerformanceObservation>`;
-                    }
-                } catch (error) {
-                    console.error("Error parsing JSON value: ", error);
-                }
-            }
-        });
-
-        xmlString = "<ArrayOfStaffPerformanceObservation xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>" + xmlString + "</ArrayOfStaffPerformanceObservation>";
-        return xmlString;
-    }
-    // const PerformanceEvaluationDetailsBody: IGetPerformanceEvaluationDetailsBody = {
-    //     asSchoolId: Number(schoolId),
-    //     asUserId: Number(userId),
-    //     asReportingUserId: Number(reportingUserId),
-    //     asYear: Number(asYear),
-    //     asAcademicYearId: Number(academicYearId)
-    // }
-    const isValid = () => {
-        let selfUser = isSelfUser();
-        if (selfUser && classTaught.trim() !== '' && teachingSub.trim() !== '') {
-            return true;
-        } else if (selfUser === false) {
-            return true
-        } else {
-            return false;
-        }
-    }
-    const isSubmittedForm = (userId) => {
-        let flag = false;
-        if (ListIsPublishDetails?.length > 0) {
-            const filteredArr = ListIsPublishDetails?.filter(item => item.Text3 === userId);
-            if (filteredArr.length > 0) {
-                filteredArr[0]?.Text2 === 'True' ? flag = true : flag = false;
-            }
-        }
-        return flag;
-    }
-    const savePerfEval = (buttonType) => {
-        console.log('🎃 ✅', initialStaffPerfEval);
-        let flag = false;
-        setObsError('');
-        setGradeError('');
-        setTeachingSubError(false);
-        setClassError(false);
-        const { isValidGrade, errorMessage } = validateGrades(initialStaffPerfEval);
-        let data = generatePerformanceXml(initialStaffPerfEval);
-        console.log(data);
-        let selfUser = isSelfUser();
-        const SaveStaffPerformanceEvalDetailBody: ISaveStaffPerformanceEvalDetailsBody = {
-            asSchoolId: Number(schoolId),
-            asUpdatedById: Number(reportingUserId),
-            asUserId: Number(userId),
-            asReportingUserId: Number(reportingUserId),
-            asYear: Number(asYear),
-            asPerformanceXml: generatePerformanceXml(initialStaffPerfEval),
-            asClasses: classTaught.toString(),
-            asSubjects: teachingSub.toString()
-        }
-        if (isValid() && isValidGrade && validateObs()) {
-            flag = true;
-            dispatch(CDASaveStaffPerformanceEvalDetailsMsg(SaveStaffPerformanceEvalDetailBody, buttonType));
-            setClassError(false)
-            setTeachingSubError(false)
-        }
-        if (selfUser && classTaught?.trim() === '') {
-            setClassError(true)
-        }
-        if (selfUser && teachingSub?.trim() === '') {
-            setTeachingSubError(true)
-        }
-        if (!isValidGrade) {
-            setGradeError(errorMessage);
-        }
-        if (!validateObs()) {
-            setObsError('Value for at least one observation should be set.')
-        }
-
-        return flag
-    }
-
-    const submitEval = () => {
-        let flag = savePerfEval('submit');
-        let selfUser = isSelfUser();
-        const SubmitStaffPerformanceDetailBody: ISubmitStaffPerformanceDetailsBody = {
-            asSchoolId: Number(schoolId),
-            asUserId: Number(userId),
-            asReportingUserId: Number(reportingUserId),
-            asYear: Number(asYear),
-            asIsSubmitAction: 1
-        }
-        if (isValid() && flag) {
-            showAlert({
-                title: 'Please Confirm',
-                message: 'This action will save and submit current details. Are you sure you want to continue?',
-                variant: 'warning',
-                confirmButtonText: 'Confirm',
-                cancelButtonText: 'Cancel',
-                onConfirm: () => {
-                    dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody))
-                    closeAlert();
-                },
-                onCancel: closeAlert
-            });
-            setClassError(false)
-            setTeachingSubError(false)
-        }
-        if (selfUser && classTaught === '') {
-            setClassError(true)
-        } else {
-            setClassError(false)
-        }
-        if (selfUser && teachingSub === '') {
-            setTeachingSubError(true)
-        } else {
-            setTeachingSubError(false)
-        }
-    }
-    const unsubmitEval = () => {
-        const SubmitStaffPerformanceDetailBody: ISubmitStaffPerformanceDetailsBody = {
-            asSchoolId: Number(schoolId),
-            asUserId: Number(userId),
-            asReportingUserId: Number(reportingUserId),
-            asYear: Number(asYear),
-            asIsSubmitAction: 0
-        }
-        showAlert({
-            title: 'Please Confirm',
-            message: 'This action will unsubmit current details. Are you sure you want to continue?',
-            variant: 'warning',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
-            onConfirm: () => {
-                dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody))
-                closeAlert();
-            },
-            onCancel: closeAlert
-        });
-    }
-    const publishEval = () => {
-        const PublishStaffPerformanceDetailBody: IPublishStaffPerformanceDetailsBody = {
-            asSchoolId: Number(schoolId),
-            asUserId: Number(userId),
-            asReportingUserId: Number(reportingUserId),
-            asYear: Number(asYear),
-            asIsPublish: true,
-            asAcademicYearId: Number(academicYearId),
-            asEffectiveDate: effectiveDate,
-            asLastIncrementDate: incrementDate
-        }
-        dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
-    }
-    const unpublishEval = () => {
-        const PublishStaffPerformanceDetailBody: IPublishStaffPerformanceDetailsBody = {
-            asSchoolId: Number(schoolId),
-            asUserId: Number(userId),
-            asReportingUserId: Number(reportingUserId),
-            asYear: Number(asYear),
-            asIsPublish: false,
-            asAcademicYearId: Number(academicYearId),
-            asEffectiveDate: effectiveDate,
-            asLastIncrementDate: incrementDate
-        }
-        dispatch(CDAPublishStaffPerformanceDetailsMsg(PublishStaffPerformanceDetailBody))
-    }
 
 
-    // #region Return Code
+
+
     return (
         <>
             <Box sx={{ px: 2 }}>
-                <CommonPageHeader
-                    navLinks={[
-                        { title: `Performance Grade Assignment`, path: `/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen/${encodeURL(asYear)}/${encodeURL(status)}` },
-                        { title: 'Performance Evaluation', path: '' }
-                    ]}
-                    rightActions={
-                        <>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Tooltip title={"Manage / display performance evaluation details."}>
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: grey[500],
-                                            height: '36px !important',
-                                            ':hover': { backgroundColor: grey[600] }
-                                        }}
-                                    >
-                                        <QuestionMark />
-                                    </IconButton>
-                                </Tooltip>
-                            </Box>
-                            {isFinalApprover() &&
-                                <>
+                <Stack
+                    direction={'row'}
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                    sx={{
+                        pt: 5,
+                        pb: 2
+                    }}
+                >
+                    <Box>
+                        <Breadcrumbs
+                            aria-label="breadcrumb"
+                            separator={<ChevronRightTwoTone fontSize="small" />}
+                            sx={{
+                                '& .MuiBreadcrumbs-separator': {
+                                    marginLeft: '4px',
+                                    marginRight: '4px'
+                                }
+                            }}
+                        >
+                            <Link
+                                to={'/extended-sidebar/landing/landing'}
+                                color="inherit"
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <IconButton
+                                    sx={{
+                                        background: (theme) => theme.palette.common.white,
+                                        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                                    }}
+                                >
+                                    <HomeTwoTone color="primary" />
+                                </IconButton>
+                            </Link>
+                            <Typography
+                                variant={'h3'}
+                                fontSize={'18px'}
+                                fontWeight={'normal'}
+                                color={'text.primary'}
+                                sx={{
+                                    '&:hover': {
+                                        fontWeight: 'bold'
+                                    }, cursor: 'pointer'
+                                }}
+                                onClick={() => {
+                                    navigate(-1);
+                                }}
+                            >
+                                Performance Evaluation
+                            </Typography>
 
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Tooltip title={'View report'}>
-                                            <span>
-                                                <IconButton
-                                                    disabled={!isSubmittedForm(reportingUserId)}
-                                                    sx={{
-                                                        color: 'white',
-                                                        backgroundColor: blue[500],
-                                                        '&:hover': {
-                                                            backgroundColor: blue[600],
-                                                        },
-                                                    }}
-                                                    onClick={viewReport}
-                                                >
-                                                    <FactCheck />
-                                                </IconButton>
-                                            </span>
-                                        </Tooltip>
-                                    </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Tooltip title={'Publish'}>
-                                            <span>
-                                                <IconButton
-                                                    disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
-                                                    sx={{
-                                                        color: 'white',
-                                                        backgroundColor: blue[500],
-                                                        '&:hover': {
-                                                            backgroundColor: blue[600],
-                                                        },
-                                                    }}
-                                                    onClick={publishEval}
-                                                >
-                                                    <CheckCircle />
-                                                </IconButton>
-                                            </span>
-                                        </Tooltip>
-                                    </Box>
-                                </>}
-                            {isFinalApprover() && listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text5 === "1" &&
-                                <Tooltip title={'Unpublish'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text5 === '1' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: red[500],
-                                                '&:hover': {
-                                                    backgroundColor: red[600],
-                                                },
-                                            }}
-                                            onClick={unpublishEval}
-                                        >
-                                            <UnpublishedIcon />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>}
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Tooltip title={'Submit'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: green[500],
-                                                '&:hover': {
-                                                    backgroundColor: green[600],
-                                                },
-                                            }}
-                                            onClick={submitEval}
-                                        >
-                                            <Check />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
-                            </Box>
-                            {isFinalApprover() && listEnableRejectButtonDetails.length > 0 && listEnableRejectButtonDetails[0]?.Text4 === 'True' &&
-                                <Tooltip title={'Unsubmit'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: blue[500],
-                                                '&:hover': {
-                                                    backgroundColor: blue[600],
-                                                },
-                                            }}
-                                            onClick={unsubmitEval}
-                                        >
-                                            <EventBusyIcon />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
-                            }
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Tooltip title={'Save'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text2 === 'True' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: green[500],
-                                                '&:hover': {
-                                                    backgroundColor: green[600]
-                                                }
-                                            }}
-                                            onClick={() => { savePerfEval('save') }}
-                                        >
-                                            <Save />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
-                            </Box>
+                            <Typography variant={'h3'} fontSize={'18px'} color="text.primary">
+                                View Report
+                            </Typography>
+                        </Breadcrumbs>
+                    </Box>
+                    <Stack direction={'row'} alignItems={'center'} gap={1}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Tooltip title={"Manage / display performance evaluation details."}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        height: '36px !important',
+                                        ':hover': { backgroundColor: grey[600] }
+                                    }}
+                                >
+                                    <QuestionMark />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    </Stack>
+                </Stack>
 
-
-                        </>}
-                />
+                {/* Form View */}
                 {loading ? <SuspenseLoader /> :
                     <Box border={1} sx={{ p: 2, background: 'white' }}>
-                        <Box mb={1}>
-                            {classError && <>
-                                <div style={{ color: 'red', fontWeight: 'bolder' }}>Classes Taught should not be blank.</div>
-                            </>}
-                            {teachingSubError &&
-                                <div style={{ color: 'red', fontWeight: 'bolder' }}>Teaching Subjects should not be blank.</div>}
-                            {gradeError.length > 0 &&
-                                <div style={{ color: 'red', fontWeight: 'bolder' }}>{gradeError}</div>}
-                            {obsError.length > 0 &&
-                                <div style={{ color: 'red', fontWeight: 'bolder' }}>{obsError}</div>}
-                        </Box>
                         {/* {teachingSubError !== '' && */}
                         <Grid container spacing={3}>
                             {listSchoolOrgNameDetails?.map((item, i) => (
@@ -910,11 +447,9 @@ const PerformanceEvaluation = () => {
                                                     required
                                                     label=""
                                                     variant="outlined"
-                                                    onChange={(e) => {
-                                                        isSelfUser() ? setClassTaught(e.target.value) : '';
-                                                    }}
+                                                    onChange={() => { }}
                                                     size="small"
-                                                    inputProps={{ maxLength: 100, readOnly: isSelfUser() ? false : true, }}
+                                                    inputProps={{ maxLength: 100, readOnly: true }}
                                                     sx={{ height: "2vh", minWidth: "76vw" }}
                                                 />
                                                 <span style={{ color: 'red' }}> *</span>
@@ -937,10 +472,8 @@ const PerformanceEvaluation = () => {
                                                     value={teachingSub}
                                                     required
                                                     label=""
-                                                    onChange={(e) => {
-                                                        isSelfUser() ? setTeachingSub(e.target.value) : '';
-                                                    }}
-                                                    inputProps={{ maxLength: 100, readOnly: isSelfUser() ? false : true, }}
+                                                    onChange={() => { }}
+                                                    inputProps={{ maxLength: 100, readOnly: true, }}
                                                     variant="outlined"
                                                     size="small"
                                                     sx={{ height: "2vh", minWidth: "76vw" }}
@@ -980,35 +513,7 @@ const PerformanceEvaluation = () => {
                                 </Grid>
                             ))}
                         </Grid>
-                        {showKeyToRate() && listDescriptionDetails.length > 0 &&
-                            <Typography variant="h4" textAlign={'center'} color={"#38548a"} mt={1} mb={1} sx={{ fontWeight: '800' }}>Key To Rate</Typography>
-                        }
-                        {showKeyToRate() && listDescriptionDetails.length > 0 &&
-                            <Table>
-                                <TableHead>
-                                    <TableRow sx={{ textAlign: "left", backgroundColor: '#19bed4' }}>
-                                        <TableCell sx={{ fontWeight: 'bold', color: 'white', paddingTop: '10px', paddingBottom: '10px', border: '1px solid rgba(224, 224, 224, 1)' }}>
-                                            Grade
-                                        </TableCell>
-                                        <TableCell sx={{ fontWeight: 'bold', color: 'white', paddingTop: '10px', paddingBottom: '10px', border: '1px solid rgba(224, 224, 224, 1)' }}>
-                                            Description
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                {listDescriptionDetails.map((item, i) => (
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell sx={{ paddingTop: '5px', paddingBottom: '5px', border: '1px solid rgba(224, 224, 224, 1)' }}>
-                                                {item.Text5}
-                                            </TableCell>
-                                            <TableCell sx={{ paddingTop: '5px', paddingBottom: '5px', border: '1px solid rgba(224, 224, 224, 1)' }}>
-                                                {item.Text2}
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                ))}
-                            </Table>
-                        } <br />
+
                         <Table>
                             <TableHead>
                                 <TableRow sx={{ backgroundColor: '#19bed4' }}>
@@ -1041,7 +546,7 @@ const PerformanceEvaluation = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {listOriginalSkillIdDetails?.length > 0 &&
+                                {Object.keys(initialStaffPerfEval).length > 0 && listOriginalSkillIdDetails?.length > 0 &&
                                     listOriginalSkillIdDetails.map((item, i) => (
                                         <React.Fragment key={i}>
                                             <TableRow sx={{ backgroundColor: '#e5e7eb' }}>
@@ -1149,11 +654,11 @@ const PerformanceEvaluation = () => {
                                                                                 border: '1px solid rgba(224, 224, 224, 1)',
 
                                                                             }}>
-                                                                                {getFinalApproverName(userId)}
+                                                                                {getFinalApproverName(asUserId)}
                                                                             </TableCell>
                                                                             <TableCell
                                                                                 sx={{
-                                                                                    padding: item.Text7 === '2' && isSelfUserBody(userId) ? '0' : '5px',
+                                                                                    padding: item.Text7 === '2' && isSelfUserBody(asUserId) ? '0' : '5px',
                                                                                     border: '1px solid rgba(224, 224, 224, 1)',
                                                                                     height: '100%', // Ensure the cell takes full height
                                                                                 }}
@@ -1164,38 +669,9 @@ const PerformanceEvaluation = () => {
                                                                                 gradeId: matchedItem3.Text3,
                                                                                 observation: matchedItem3.Text4,
                                                                                 reportingUserId: matchedItem3.Text5 */}
-                                                                                {item.Text7 === '2' && isSelfUserBody(userId) ? (
-                                                                                    <textarea
-                                                                                        maxLength={4000}
-                                                                                        rows={3}
-                                                                                        style={{
-                                                                                            width: '100%',
-                                                                                            height: '100%',
-                                                                                            resize: 'vertical',
-                                                                                            backgroundColor: 'white',
-                                                                                            margin: 0,
-                                                                                            padding: '5px',
-                                                                                            border: '0.5px solid #f4f4f5',
-                                                                                            boxSizing: 'border-box',
-                                                                                            display: 'block', // Ensures the textarea behaves as a block element
-                                                                                        }}
-                                                                                        value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`])?.observation ?? ''}
-                                                                                        onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`, e.target.value, item1.Text1, userId) }}
-                                                                                        disabled={isSubmittedForm(userId)}
-                                                                                    />
-                                                                                ) : item.Text7 === '2' && getObsName1(item1.Text1, userId)}
+                                                                                {item.Text7 === '2' && getObsName1(item1.Text1, asUserId)}
 
-                                                                                {item.Text7 === '3' && isSelfUserBody(userId) ? (
-                                                                                    <SearchableDropdown1
-                                                                                        defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`])?.gradeId ?? '0'}
-                                                                                        ItemList={gradeDropddownList}
-                                                                                        size={"small"}
-                                                                                        disabled={isSubmittedForm(userId)}
-                                                                                        DisableClearable={true}
-                                                                                        sx={{ maxWidth: '15vw' }}
-                                                                                        onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-0-${userId}-${item.Text7}`, value.Value, item1.Text1, userId) }}
-                                                                                    />
-                                                                                ) : item.Text7 === '3' && getGradeName1(item1.Text1, userId)}
+                                                                                {item.Text7 === '3' && getGradeName1(item1.Text1, asUserId)}
                                                                             </TableCell>
                                                                         </TableRow>
                                                                     </> : listIsFinalApproverDetails.map((item7, i7) => {
@@ -1223,44 +699,14 @@ const PerformanceEvaluation = () => {
                                                                                             height: '100%', // Ensure the cell takes full height
                                                                                         }}
                                                                                     >
-                                                                                        {item.Text7 === '2' && isSelfUserBody(item7.Text3) ? (
-                                                                                            <textarea
-                                                                                                maxLength={4000}
-                                                                                                rows={3}
-                                                                                                style={{
-                                                                                                    width: '100%',
-                                                                                                    height: '100%',
-                                                                                                    resize: 'vertical',
-                                                                                                    backgroundColor: 'white',
-                                                                                                    margin: 0,
-                                                                                                    padding: '5px',
-                                                                                                    border: '0.5px solid #f4f4f5',
-                                                                                                    boxSizing: 'border-box',
-                                                                                                    display: 'block', // Ensures the textarea behaves as a block element
-                                                                                                }}
-                                                                                                value={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`])?.observation ?? ''}
-                                                                                                onChange={(e) => { updateStaffPerfEvalObs(`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`, e.target.value, item1.Text1, item7.Text3) }}
-                                                                                                disabled={isSubmittedForm(item7.Text3)}
-                                                                                            />
-                                                                                        ) : item.Text7 === '2' && getObsName1(item1.Text1, item7.Text3)}
+                                                                                        {item.Text7 === '2' && getObsName1(item1.Text1, item7.Text3)}
 
-                                                                                        {item.Text7 === '3' && isSelfUserBody(item7.Text3) ? (
-                                                                                            <SearchableDropdown1
-                                                                                                defaultValue={parseJSON(initialStaffPerfEval[`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`])?.gradeId ?? '0'}
-                                                                                                ItemList={gradeDropddownList}
-                                                                                                size={"small"}
-                                                                                                disabled={isSubmittedForm(item7.Text3)}
-                                                                                                DisableClearable={true}
-                                                                                                sx={{ maxWidth: '15vw' }}
-                                                                                                onChange={(value) => { updateStaffPerfEvalGrade(`${item.Text1}-${item1.Text1}-0-${item7.Text3}-${item.Text7}`, value.Value, item1.Text1, item7.Text3) }}
-                                                                                            />
-                                                                                        ) : item.Text7 === '3' && getGradeName1(item1.Text1, item7.Text3)}
+                                                                                        {item.Text7 === '3' && getGradeName1(item1.Text1, item7.Text3)}
                                                                                     </TableCell>
                                                                                 </TableRow>
                                                                             </>
                                                                         )
-                                                                    }
-                                                                    )}
+                                                                    })}
 
 
                                                                 </React.Fragment>
@@ -1337,9 +783,9 @@ const PerformanceEvaluation = () => {
 
                     </Box>}
             </Box>
-            {/* const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleClose, RefreshList }) => { */}
-            <UploadDocument Id={userId} ReportingUserId={uploadDocUserId} yearId={asYear}
-                saveButton={status}
+
+            <UploadDocument Id={asUserId} ReportingUserId={uploadDocUserId} yearId={asYear}
+                saveButton={listEnableRejectButtonDetails[0]?.Text3}
                 open={uploadDoc} handleClose={(newFile) => {
                     setUploadDoc(false);
                     if (newFile) {
@@ -1348,9 +794,22 @@ const PerformanceEvaluation = () => {
                     }
                     setHoveredRow(null);
                 }} RefreshList={() => { }} />
+
         </>
     )
-    // #endregion
 }
 
-export default PerformanceEvaluation;
+export default PerEvalViewReport;
+
+
+
+
+////
+
+
+
+
+
+
+
+

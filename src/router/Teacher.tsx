@@ -230,6 +230,10 @@ const ViewLeaveDetails = Loader(
   lazy(() => import('src/components/LeaveDetails/ViewLeaveDetails'))
 )
 
+const PerEvalViewReport = Loader(
+  lazy(() => import('src/components/PerformanceGradeAssignment/PerfEvalViewReport'))
+)
+
 
 const PreprimaryProgressReport = Loader(
   lazy(() => import('src/components/PreprimaryProgressReport/PreprimaryProgressReport'))
@@ -272,6 +276,10 @@ const teacherRoutes = [
   {
     path: 'AssignPrePrimarySubjectGrades/:SubjectID/:Termid/:classid',
     element: <AssignPrePrimarySubjectGrades />
+  },
+  {
+    path: 'PerfEvalViewReport',
+    element: <PerEvalViewReport />
   },
 
   {

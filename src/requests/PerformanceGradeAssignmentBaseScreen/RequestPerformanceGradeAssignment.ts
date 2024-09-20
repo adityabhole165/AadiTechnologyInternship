@@ -14,6 +14,7 @@ const PerformanceGradeAssignmentslice = createSlice({
         ISlistOriginalSkillIdDetails: [],
         ISlistTeacherTitleDetails: [],
         ISlistParameterIdDetails: [],
+        ISlistIsPublishedDetails: [],
         ISlistIsFinalApproverDetails: [],
         ISgradeDropDownList: [],
         ISlistEnableRejectButtonDetails: [],
@@ -38,6 +39,7 @@ const PerformanceGradeAssignmentslice = createSlice({
             state.ISlistOriginalSkillIdDetails = [];
             state.ISlistTeacherTitleDetails = [];
             state.ISlistParameterIdDetails = [];
+            state.ISlistIsPublishedDetails = [];
             state.ISlistIsFinalApproverDetails = [];
             state.ISgradeDropDownList = [];
             state.ISlistEnableRejectButtonDetails = [];
@@ -114,6 +116,10 @@ const PerformanceGradeAssignmentslice = createSlice({
         RlistParameterIdDetails(state, action) {
             state.Loading = false;
             state.ISlistParameterIdDetails = action.payload;
+        },
+        RlistIsPublishedDetails(state, action) {
+            state.Loading = false;
+            state.ISlistIsPublishedDetails = action.payload;
         },
         RlistEnableRejectButtonDetails(state, action) {
             state.Loading = false;
@@ -278,6 +284,15 @@ export const CDAGetPerformanceEvaluationDetails =
                     }
                 )
             })
+            const listIsPublishedDetails = response.data.listIsPublishedDetiles.map((item, i) => {
+                return (
+                    {
+                        Text1: item.Id,
+                        Text2: item.IsPublished,
+                        Text3: item.ReportingUserId
+                    }
+                )
+            })
             const listIsFinalApproverDetails = response.data.listIsFinalApproverDetiles.map((item, i) => {
                 return (
                     {
@@ -313,6 +328,7 @@ export const CDAGetPerformanceEvaluationDetails =
             dispatch(PerformanceGradeAssignmentslice.actions.RlistParameterIdDetails(listParameterIdDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistIsFinalApproverDetails(listIsFinalApproverDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RgradeDropDownList(gradeDropDownList));
+            dispatch(PerformanceGradeAssignmentslice.actions.RlistIsPublishedDetails(listIsPublishedDetails));
             dispatch(PerformanceGradeAssignmentslice.actions.RlistEnableRejectButtonDetails(listEnableRejectButtonDetails));
 
         };
