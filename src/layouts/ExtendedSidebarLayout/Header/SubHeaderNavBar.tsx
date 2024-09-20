@@ -23,7 +23,7 @@ import {
   Stack,
   Tooltip
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SettingsDropdown from 'src/libraries/Settingicon/Settingicon';
@@ -238,6 +238,52 @@ function SubHeaderNavBar({ toggleDrawer }) {
       console.error(err);
     }
   };
+
+  //
+  // const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollIntervalRef = useRef<number | null>(null);
+
+  const scroll = useCallback((direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -40 : 40;
+      scrollRef.current.scrollLeft += scrollAmount;
+    }
+  }, []);
+
+  const startScrolling = useCallback((direction: 'left' | 'right') => {
+    if (scrollIntervalRef.current === null) {
+      scrollIntervalRef.current = window.setInterval(() => scroll(direction), 50);
+    }
+  }, [scroll]);
+
+  const stopScrolling = useCallback(() => {
+    if (scrollIntervalRef.current !== null) {
+      clearInterval(scrollIntervalRef.current);
+      scrollIntervalRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollIntervalRef.current !== null) {
+        clearInterval(scrollIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseDown = (direction: 'left' | 'right') => {
+    scroll(direction);
+    startScrolling(direction);
+  };
+
+  const handleMouseUp = () => {
+    stopScrolling();
+  };
+
+  const handleMouseLeave = () => {
+    stopScrolling();
+  };
+  //
   return (
     <Box mb={1.5}>
       <AppBar
@@ -258,9 +304,13 @@ function SubHeaderNavBar({ toggleDrawer }) {
           py={.5}
         >
           {/* <Tooltip title={'Left'}> */}
-          <IconButton onClick={scrollLeft} sx={{ zIndex: 1200, ml: 3 }}>
-            {menuStructure.length > 0 &&
-              <ArrowBackIosNewIcon sx={{ color: 'white' }} />}
+          <IconButton
+            onMouseDown={() => handleMouseDown('left')}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            sx={{ zIndex: 1200, ml: 3 }}
+          >
+            {menuStructure.length > 0 && <ArrowBackIosNewIcon sx={{ color: 'white' }} />}
           </IconButton>
           {/* </Tooltip> */}
 
@@ -310,9 +360,13 @@ function SubHeaderNavBar({ toggleDrawer }) {
           {/* Right-hand controls (support, settings, notifications, logout) */}
           <Stack direction={'row'} alignItems={'center'} gap={1} sx={{ position: 'fixed', right: '0', top: '63px', height: '45px', backgroundColor: (theme) => theme.palette.primary.main }}>
             {/* Add your support, settings, notifications, and logout buttons here */}
-            <IconButton onClick={scrollRight} sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}>
-              {menuStructure.length > 0 &&
-                <ArrowForwardIosIcon sx={{ color: 'white' }} />}
+            <IconButton
+              onMouseDown={() => handleMouseDown('right')}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              sx={{ zIndex: 1200, right: 0, pr: 0, p: 0.5, mr: 0.5 }}
+            >
+              {menuStructure.length > 0 && <ArrowForwardIosIcon sx={{ color: 'white' }} />}
             </IconButton>
             <Tooltip
               title={`Displays dashboard for users. Lists available features of the application.`}
