@@ -150,9 +150,9 @@ function UpcomingEvent() {
           <Grid item xs={12} sm={6} md={12} >
             <Grid container>
               <Grid item xs={8}>
-                <Typography variant="h4" p={1}  >{event.Text3}</Typography>
+                <Typography variant="h4" p={1} sx={{ color: `${getButtonColor(event.Text6)}`}} >{event.Text3}</Typography>
               </Grid>
-              <Grid item xs={4} pt={0.7} >
+              <Grid item xs={4} pt={0.5} >
                 {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
                 <Typography>
                   {/* {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1} to  {event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2} */}
@@ -196,7 +196,7 @@ function UpcomingEvent() {
           filteredEvents.length === 0 && (
             <Grid item xs={12}>
               <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-                No events found for the selected type.
+                <b>No events found for the selected type.</b>
               </Typography>
             </Grid>
           )
