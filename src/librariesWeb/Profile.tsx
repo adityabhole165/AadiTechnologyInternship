@@ -21,22 +21,22 @@ const Profile: React.FC = () => {
 
 
     return (
-        <Box sx={{ height:'250px', p: 1, backgroundColor: 'white'}}>
+        <Box sx={{ height:'382px', maxWidth:'50', p: 1, backgroundColor: 'white'}}>
             <Grid container>
                 <Grid item xs={12}>
                     <Header Title="Teacher Details" />
                 </Grid>
-                <Grid item md={4} mt={2} >
+                <Grid item md={12} mt={2} ml={17}>
                     <Avatar src={userPhoto}
-                        alt="Profile Picture" sx={{ width: 150, height: 150, }}
+                        alt="Profile Picture" sx={{ width: 170, height: 170, }}
                     />
                 </Grid>
-                <Grid item md={8} sx={{ p: 3 }}>
-                    <Typography variant="h4">{UserName}</Typography>
-                    <Typography variant="subtitle1">{DesignationName} ({ClassTeacher})</Typography>
-                    <Typography variant="body1">{MobileNumber}</Typography>
-                    <br /><b>Last Login:</b> {UserLoginDetails1}
-                </Grid>
+                <Grid item md={12} sx={{ p: 2}} >
+                    <Typography variant="h4" align='center'>{UserName}</Typography>
+                    <Typography variant="subtitle1" align='center'>{DesignationName} ({ClassTeacher})</Typography>
+                    <Typography variant="body1" align='center'>{MobileNumber}</Typography>
+                    <Typography align='center'><br /><b>Last Login:</b> {UserLoginDetails1}</Typography> 
+                    </Grid>
             </Grid>
         </Box>
     );

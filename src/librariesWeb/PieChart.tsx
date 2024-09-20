@@ -68,4 +68,3 @@ const PieChart = () => {
 };
 
 export default PieChart;
-100
