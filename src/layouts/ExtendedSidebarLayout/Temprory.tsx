@@ -40,7 +40,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { BookOpenCheck, Copy, NotebookPen } from 'lucide-react';
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { red } from '@mui/material/colors';
@@ -149,7 +149,19 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/landing/landing'
     },
     {
-      id: 'Other Utilities',
+      id: 'Calendar',
+      title: 'Exam Shedule',
+      icon: <Dataset />,
+      link: '/extended-sidebar/Teacher/Texamschedule'
+    },
+    {
+      id: 'Calendar',
+      title: 'Holidays',
+      icon: <DateRangeOutlinedIcon />,
+      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
+    },
+    {
+      id: 'Calendar',
       title: 'Annual Planner',
       icon: <EventOutlinedIcon />,
       link: '/extended-sidebar/Common/AnnualPlanner'
@@ -162,15 +174,27 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Daily Activities',
+      title: 'Attendance',
+      icon: <EventNoteOutlinedIcon />,
+      link: '/extended-sidebar/Teacher/TAttendance'
+    },
+    {
+      id: 'Daily Activities',
       title: 'Assign Homework',
       icon: <AutoStoriesTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignHomework'
     },
     {
       id: 'Daily Activities',
-      title: 'Attendance',
-      icon: <EventNoteOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/TAttendance'
+      title: 'Timetable',
+      icon: <AccessTimeIcon />,
+      link: '/extended-sidebar/Teacher/TeacherTimeTable'
+    },
+    {
+      id: 'Daily Activities',
+      title: 'Weekly Timetable',
+      icon: <TableChartOutlinedIcon />,
+      link: '/extended-sidebar/Teacher/WeeklyTimetable'
     },
     {
       id: 'Other Utilities',
@@ -184,23 +208,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ExamResultBase'
     },
-    {
-      id: 'Exam',
-      title: 'Exam Shedule',
-      icon: <Dataset />,
-      link: '/extended-sidebar/Teacher/Texamschedule'
-    },
+   
     {
       id: 'Exam',
       title: 'Final Result',
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult'
-    },
-    {
-      id: 'Other Utilities',
-      title: 'Holidays',
-      icon: <DateRangeOutlinedIcon />,
-      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
     },
     {
       id: 'Communication',
@@ -233,19 +246,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <SmsTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SmsCenter'
     },
-    {
-      id: 'Daily Activities',
-      title: 'Timetable',
-      icon: <AccessTimeIcon />,
-      link: '/extended-sidebar/Teacher/TeacherTimeTable'
-    },
-    {
-      id: 'Daily Activities',
-      title: 'Weekly Timetable',
-      icon: <TableChartOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/WeeklyTimetable'
-    },
-
     {
       id: 'Extra Screens',
       title: 'Add Aadhar Card Details',
@@ -300,7 +300,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <EventBusyTwoToneIcon />,
       link: null // No link for this item
     });
-  }
+  } 
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
       id: 'Daily Activities',
@@ -468,6 +468,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     "Daily Activities": sideList.filter(item => item.id === 'Daily Activities'),
     "Communication": sideList.filter(item => item.id === 'Communication'),
     "Exam": sideList.filter(item => item.id === 'Exam'),
+    "Calendar": sideList.filter(item => item.id === 'Calendar'),
     "Other Utilities": sideList.filter(item => item.id === 'Other Utilities'),
     "Extra Screens": sideList.filter(item => item.id === 'Extra Screens'),
 
@@ -484,7 +485,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   const list = (anchor: Anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 260 }}
       role="presentation"
 
     >
@@ -554,11 +555,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           {Object.keys(groupedItems).map((group) => (
             <Accordion key={group} >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-                {group === 'Daily Activities' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><NotebookPen /></IconButton>}
-                {group === 'Communication' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><MailCheck /></IconButton>}
-                {group === 'Exam' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><BookOpenCheck /></IconButton>}
-                {group === 'Other Utilities' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><Inbox /></IconButton>}
-                {group === 'Extra Screens' && <IconButton sx={{ pt: 0.5, borderRadius: '7px' }}><Copy /></IconButton>}
+                {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px',  }}><NotebookPen /></IconButton>}
+                {group === 'Communication' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><MailCheck /></IconButton>}
+                {group === 'Exam' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><BookOpenCheck /></IconButton>}
+                {group === 'Calendar' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><CalendarMonthIcon /></IconButton>}
+                {group === 'Other Utilities' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><Inbox /></IconButton>}
+                {group === 'Extra Screens' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><Copy /></IconButton>}
                 <b style={{ marginTop: '4px' }}> {group}</b>
               </AccordionSummary >
               <AccordionDetails sx={{ py: 0, pl: 0 }}>
