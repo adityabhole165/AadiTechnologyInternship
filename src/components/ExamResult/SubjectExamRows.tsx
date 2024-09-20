@@ -36,8 +36,9 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                 return (
                     <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
                     }}>
-                        <Stack direction="row" alignItems="center" gap={2}>
+                        <Stack direction="row" alignItems="right" gap={2}>
                             <Dropdown
+                               width='150px'
                                 size={"small"}
                                 defaultValue={Item.ExamStatus}
                                 variant='outlined'
@@ -56,14 +57,16 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
 
                                 <Stack direction="row" alignItems="center" gap={2}>
 
-                                    <Tooltip title={
+                                    <Tooltip title={    
                                         (Number(Item.Text1) > Number(Item.Text2)) ?
                                             ("Marks Scored should be less than " + Item.Text2)
                                             : null}>
                                         <TextField size={"small"}
 
                                             sx={{
+                                                alignItems:'left',
                                                 width: '50px',
+                                                ml:-8,
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
                                                 background: (IsReadOnly || examResultProp && publish ||!(Item.ExamStatus == "N") ?
