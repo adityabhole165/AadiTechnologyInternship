@@ -199,9 +199,20 @@ const AddLeaveDetails = () => {
         const numericValue = value.replace(/[^0-9]/g, '').slice(0, 4);
         setTotalDays(numericValue);
     };
-    const formattedLeaveBalance = GetLeaveBalance.map(item => {
-        if (asSchoolId === 122 && item.Text2 <= 0) {
-            return `${item.Text1} (Unpaid)`;
+    // const formattedLeaveBalance = GetLeaveBalance.map(item => {
+    //     if (asSchoolId === 122 && item.Text2 <= 0) {
+    //         return `${item.Text1} (Unpaid)`;
+    //     }
+    //     return `${item.Text1} (${item.Text2})`;
+    // }).join(', ');
+
+    const formattedLeaveBalance = GetLeaveBalance.map((item, index) => {
+        if (asSchoolId === 122) {
+            if (index === 0 || index === GetLeaveBalance.length - 1) {
+                return `${item.Text1} (${item.Text2})`;
+            } else {
+                return `${item.Text1} (Unpaid)`;
+            }
         }
         return `${item.Text1} (${item.Text2})`;
     }).join(', ');
