@@ -461,6 +461,13 @@ const TransferOptionalSubjectMarks = () => {
                 />
 
                 <ErrorMessage1 Error={success}></ErrorMessage1>
+                {errorMessage && (
+                            <>
+                                <Typography sx={{ color: 'red' }}>
+                                    {errorMessage}
+                                </Typography>
+                            </>
+                        )}
                 {StudentsList.length > 0 && (
                     <Paper sx={{ marginTop: '10px' }}>
                         <Accordion defaultExpanded>
@@ -480,7 +487,7 @@ const TransferOptionalSubjectMarks = () => {
                         </Accordion>
                     </Paper>
                 )}
-
+                          {StudentsList?.length > 0 &&
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ pr: 1 }}>
                         {StudentsList.length > 0 && (
@@ -552,13 +559,7 @@ const TransferOptionalSubjectMarks = () => {
                         )}
 
 
-                        {errorMessage && (
-                            <>
-                                <Typography sx={{ color: 'red' }}>
-                                    {errorMessage}
-                                </Typography>
-                            </>
-                        )}
+                       
                     </Box >
                     <Box sx={{ backgroundColor: 'white', p: 2, mt: 1, width: '100% ' }}>
                         <Box sx={{ pt: -1 }}>
@@ -629,7 +630,7 @@ const TransferOptionalSubjectMarks = () => {
 
 
                     </Box >
-                </Box>
+                </Box>}
             </Box>
         </>
     );
