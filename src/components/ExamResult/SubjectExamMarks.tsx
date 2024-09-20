@@ -501,7 +501,7 @@ const SubjectExamMarks = () => {
                       :
                       ''
                   }
-                  sx={{ bgcolor: '#F0F0F0', maxWidth: '20vw' }}
+                  sx={{ bgcolor: '#F0F0F0', maxWidth: '16vw' }}
                    
                   InputProps={{
                     readOnly: true,
@@ -511,7 +511,7 @@ const SubjectExamMarks = () => {
                 />
               </Box>
 
-              <Box sx={{ ml: 1, width: '29%' }}>
+              <Box sx={{ ml: 1, width: '28%'}}>
                 <TextField
                   size={"small"}
                   fullWidth
