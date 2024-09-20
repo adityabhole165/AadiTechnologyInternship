@@ -54,7 +54,7 @@ const UnreadMessage = () => {
     <Box sx={{ backgroundColor: 'white', pt: 1 }}>
       <Grid container >
         <Grid item xs={6}>
-          <Grid item xs={12}>
+          <Grid item xs={12} pl={0.5}>
             <Header Title="Unread Messages" />
           </Grid>
         </Grid>
@@ -62,7 +62,7 @@ const UnreadMessage = () => {
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '260px', overflow: 'auto', mt: 2, }}>
+      <Box sx={{ height: '262px', overflow: 'auto', mt: 2, }}>
         {loading ? (
           <Stack justifyContent="center" alignItems="center">
             <CircularProgress size={40} disableShrink thickness={4} />
