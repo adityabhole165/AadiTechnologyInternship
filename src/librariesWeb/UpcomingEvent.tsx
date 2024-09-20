@@ -34,7 +34,7 @@ function UpcomingEvent() {
     aiAcademicYrId: asAcademicYearId,
     aiUserId: asUserId,
     aiUserRoleId: asUserRoleId,
-    isScreenFullAccess: false
+    isScreenFullAccess: true
   };
 
   useEffect(() => {
@@ -145,58 +145,58 @@ function UpcomingEvent() {
             </Grid>
           ))}
         </Grid></Grid>
-        <Box sx={{ height: '180px', mt: 2, overflow:'auto' }}>
-          {filteredEvents.map((event, index) => (
-            <Grid item xs={12} sm={6} md={12} >
-              <Grid container>
-                <Grid item xs={8}>
-                  <Typography variant="h4" p={1}  >{event.Text3}</Typography>
-                </Grid>
-                <Grid  item xs={4} pt={0.7} >
-                  {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
-                  <Typography >{event.Text1}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Tooltip title={event.Text4} >
-                    <Typography
-                      variant="body2"
-                      px={1}
-                      sx={{
-                        overflow: 'hidden',
-                        whiteSpace: 'normal',
-                        textOverflow: 'ellipsis',
-                        maxHeight: '6.25rem',
-                        lineHeight: '1.25rem',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        position: 'relative',
-                      }}
-                    >
-                      {event.Text4}
-                    </Typography>
-                  </Tooltip>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Divider variant="middle" sx={{ m: '0px' }} />
-                </Grid>
-                </Grid>
+      <Box sx={{ height: '180px', mt: 2, overflow: 'auto' }}>
+        {filteredEvents.map((event, index) => (
+          <Grid item xs={12} sm={6} md={12} >
+            <Grid container>
+              <Grid item xs={8}>
+                <Typography variant="h4" p={1}  >{event.Text3}</Typography>
               </Grid>
-              ))}
-            
-          
-              {
-              filteredEvents.length === 0 && (
-                <Grid item xs={12}>
-                  <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-                    No events found for the selected type.
+              <Grid item xs={4} pt={0.7} >
+                {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
+                <Typography >{event.Text1}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Tooltip title={event.Text4} >
+                  <Typography
+                    variant="body2"
+                    px={1}
+                    sx={{
+                      overflow: 'hidden',
+                      whiteSpace: 'normal',
+                      textOverflow: 'ellipsis',
+                      maxHeight: '6.25rem',
+                      lineHeight: '1.25rem',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      position: 'relative',
+                    }}
+                  >
+                    {event.Text4}
                   </Typography>
-                </Grid>
-              )
-            }
+                </Tooltip>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Divider variant="middle" sx={{ m: '0px' }} />
+              </Grid>
+            </Grid>
+          </Grid>
+        ))}
+
+
+        {
+          filteredEvents.length === 0 && (
+            <Grid item xs={12}>
+              <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+                No events found for the selected type.
+              </Typography>
+            </Grid>
+          )
+        }
       </Box>
-      
+
       <Grid container py={0} mt={1}>
         <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/Common/AnnualPlanner') }}>
           <Typography variant="h4"> <b>See all events</b></Typography>
