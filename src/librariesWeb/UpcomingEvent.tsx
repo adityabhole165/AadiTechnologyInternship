@@ -119,7 +119,7 @@ function UpcomingEvent() {
   };
 
   return (
-    <Box sx={{ height: '380px', width: 'auto', backgroundColor: 'white', p: 1 }}>
+    <Box sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1 }}>
       <Grid container >
         <Grid item xs={6}>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>

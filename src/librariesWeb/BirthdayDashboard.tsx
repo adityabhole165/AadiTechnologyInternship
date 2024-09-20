@@ -141,7 +141,7 @@ function BirthdayDashboard() {
     <Box sx={{ height: '382px', backgroundColor: 'white', pt: 1 }}>
      <Grid container >
         <Grid item xs={6}>
-          <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Grid item xs={4} sx={{ pl:0.5, display: 'flex', justifyContent: 'flex-end' }}>
             <Header Title="Birthdays" />
           </Grid>
         </Grid>
