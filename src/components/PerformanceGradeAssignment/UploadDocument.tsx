@@ -371,43 +371,44 @@ const UploadDocument = ({ Id, yearId, ReportingUserId, open, handleClose, Refres
                         </Grid>
                     </Box>
                 </Box>
-           
-            <Box sx={{ backgroundColor: 'white', mt:2, px:1 }}>
-                {GetAllDocumentsList.length > 0 ? (
-                    <UploadDocList
-                        HeaderArray={HeaderList}
-                        ItemList={GetAllDocumentsList}
-                        clickDelete={ClickDelete}
-                        clickView={ClickView}
-                    />
-                ) : (
-                    <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                        No record found.
-                    </Typography>
-                )}
-            </Box>
 
-            <DialogActions sx={{ py: 2, px: 3 }}>
-                <Button
-                    color={'error'}
-                    onClick={handleDialogClose}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    onClick={ClickUpload}
-                    sx={{
-                        color: 'green',
-                        '&:hover': {
+                <Box sx={{ backgroundColor: 'white', mt: 2, px: 1 }}>
+                    {GetAllDocumentsList.length > 0 ? (
+                        <UploadDocList
+                            HeaderArray={HeaderList}
+                            ItemList={GetAllDocumentsList}
+                            clickDelete={ClickDelete}
+                            clickView={ClickView}
+                            isDeletePermission={handleUploadControl()}
+                        />
+                    ) : (
+                        <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                            No record found.
+                        </Typography>
+                    )}
+                </Box>
+
+                <DialogActions sx={{ py: 2, px: 3 }}>
+                    <Button
+                        color={'error'}
+                        onClick={handleDialogClose}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={ClickUpload}
+                        sx={{
                             color: 'green',
-                            backgroundColor: green[100]
-                        }
-                    }}
-                    disabled={handleUploadControl()}
-                >
-                    Upload
-                </Button>
-            </DialogActions>
+                            '&:hover': {
+                                color: 'green',
+                                backgroundColor: green[100]
+                            }
+                        }}
+                        disabled={handleUploadControl()}
+                    >
+                        Upload
+                    </Button>
+                </DialogActions>
             </DialogContent>
         </Dialog >
     );

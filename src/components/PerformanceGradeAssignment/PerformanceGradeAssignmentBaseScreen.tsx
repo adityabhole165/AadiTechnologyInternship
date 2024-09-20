@@ -170,7 +170,7 @@ const PerformanceGradeAssignmentBaseScreen = () => {
             />
             <Grid sx={{ backgroundColor: 'white', mb: 1, p: 1 }}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant='h5'>Status: </Typography>
+                    <Typography variant='h5'>Status </Typography>
                     <RadioButton1
                         Array={RadioListCT}
                         ClickRadio={ClickRadio}

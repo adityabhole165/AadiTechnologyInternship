@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { red } from '@mui/material/colors';
 // ... (your other imports)
 
-function UploadDocList({ ItemList, clickView, clickDelete, HeaderArray }) {
+function UploadDocList({ ItemList, clickView, clickDelete, HeaderArray, isDeletePermission }) {
     return (
         <div>
             <TableContainer component={Box} >
@@ -57,6 +57,7 @@ function UploadDocList({ ItemList, clickView, clickDelete, HeaderArray }) {
                                                 backgroundColor: red[100]
                                             }
                                         }}
+                                        disabled={isDeletePermission}
 
                                         onClick={() => clickDelete(item.Text1)}
                                     >
