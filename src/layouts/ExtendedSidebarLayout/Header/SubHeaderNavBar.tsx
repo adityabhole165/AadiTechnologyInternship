@@ -239,7 +239,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
     }
   };
 
-  //
+  // Conflict resolving commit 
   // const scrollRef = useRef<HTMLDivElement>(null);
   const scrollIntervalRef = useRef<number | null>(null);
 
