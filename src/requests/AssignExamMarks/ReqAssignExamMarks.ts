@@ -22,6 +22,7 @@ const AssignExamMarkSlice = createSlice({
     ExamMarksStatusForClass: [],
     ISSubjectTeachersForAssignExamMarks: [],
     IsGetSchoolSettings: {},
+    Isschoolsetting: {}
   },
   reducers: {
     //AssignClass
@@ -58,6 +59,9 @@ const AssignExamMarkSlice = createSlice({
     },
     getSchoolSettings(state, action) {
       state.IsGetSchoolSettings = action.payload;
+    },
+    RSchoolSettings(state, action) {
+      state.Isschoolsetting = action.payload;
     },
   }
 });
@@ -188,7 +192,7 @@ export const GetschoolSettings =
     async (dispatch) => {
       const response = await AssignExamMarkApi.GetSchoolSettings(data)
 
-      dispatch(AssignExamMarkSlice.actions.getSchoolSettings(response.data.GetSchoolSettingsResult.EnableAssignExamMarksToAllSubjectOfClass))
+      dispatch(AssignExamMarkSlice.actions.RSchoolSettings(response.data.GetSchoolSettingsResult.EnableAssignExamMarksToAllSubjectOfClass))
 
     };
 

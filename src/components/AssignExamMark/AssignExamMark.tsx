@@ -84,7 +84,7 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectTeachersForAssignExamMarks
   );
 
-  const UsschoolSettings = useSelector((state: RootState) => state.AssignExamMarkSlice.IsGetSchoolSettings);
+  const UsschoolSettings = useSelector((state: RootState) => state.AssignExamMarkSlice.Isschoolsetting);
   console.log(UsschoolSettings, "-------");
 
 
