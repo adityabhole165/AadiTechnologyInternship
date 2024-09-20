@@ -9,6 +9,7 @@ import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautif
 // Components and other imports...
 import SchoolNoticeBoard from 'src/components/SchoolNoticeBoard/SchoolNoticeBoard';
 import SchoolNoticePopupCom from 'src/components/SchoolNoticePopup/SchoolNoticePopup';
+import AnnualPlannerDashBoard from 'src/librariesWeb/AnnualPlannerDashBoard';
 import BirthdayDashboard from 'src/librariesWeb/BirthdayDashboard';
 import FeedBackCard from 'src/librariesWeb/FeedBackCard';
 import PhotoCardDash from 'src/librariesWeb/PhotoCardDash';
@@ -27,6 +28,7 @@ function DashBoard() {
     { id: 'photoCardDash', label: 'Photo Card Dashboard', SortOrder: 5 },
     { id: 'feedbackCard', label: 'Feedback Card', SortOrder: 6 },
     { id: 'upcomingEvent', label: 'Upcoming Events', SortOrder: 7 },
+    { id: 'annualplanner', label: 'Annual Planner DashBoard', SortOrder: 8 },
   ];
 
   const getComponent = (id: string) => {
@@ -41,8 +43,10 @@ function DashBoard() {
         return <PhotoCardDash />;
       case 'feedbackCard':
         return <FeedBackCard />;
-      case 'attendance':
-        return <PieChart />;
+      case 'annualplanner':
+        return <AnnualPlannerDashBoard/>;
+        case 'attendance':
+          return <PieChart />; 
       case 'upcomingEvent': // Fix here - lowercase 'u'
         return <UpcomingEvent />;
       default:
