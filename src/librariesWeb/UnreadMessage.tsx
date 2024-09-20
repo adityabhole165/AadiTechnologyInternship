@@ -100,7 +100,7 @@ const UnreadMessage = () => {
                         </Grid>
                         <Grid container item xs={6}>
                           <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
-                          <Typography>{item.Date}</Typography> 
+                          <Typography>{item.Date}</Typography>
                         </Grid>
                       </Grid>
                       <Tooltip title={item.Subject} >
@@ -112,12 +112,12 @@ const UnreadMessage = () => {
                             whiteSpace: 'normal',
                             textOverflow: 'ellipsis',
                             maxHeight: '6.25rem',
-                             lineHeight: '1.25rem',
+                            lineHeight: '1.25rem',
                             display: '-webkit-box',
                             WebkitLineClamp: 1,
                             WebkitBoxOrient: 'vertical',
                             position: 'relative',
-                            color:'#38548A'
+                            color: '#38548A'
                           }}
                         >{item.Subject}</Typography>
                       </Tooltip>
@@ -135,7 +135,7 @@ const UnreadMessage = () => {
         <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
           <Typography variant="h4"> <b>See all messages</b></Typography>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
           <ArrowCircleRightIcon />
         </Grid>
       </Grid>
