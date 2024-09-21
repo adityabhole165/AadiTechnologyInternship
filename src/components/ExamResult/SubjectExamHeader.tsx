@@ -1,4 +1,6 @@
 import { Box, TableCell, TextField } from "@mui/material";
+import { useContext } from "react";
+import { AlertContext } from "src/contexts/AlertContext";
 import Dropdown from "src/libraries/dropdown/Dropdown";
 const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
@@ -23,14 +25,34 @@ const handleChange = (e, validationFunction, callback) => {
 
 const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExamHeader,
     GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
+    // const handleBlur = (value, Index) => {
+    //     if (value == "" || value != "") {
+    //         if (confirm('This action will set a new value for all students. Do you want to continue?')) {
+    //             console.log('Confirmed. Setting new value...');
+    //             BlurrExamHeader(value, Index);
+    //         } else {
+    //             console.log('Cancelled. Value remains unchanged.');
+    //         }
+    //     }
+    // };
+
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const handleBlur = (value, Index) => {
-        if (value == "" || value != "") {
-            if (confirm('This action will set a new value for all students. Do you want to continue?')) {
-                console.log('Confirmed. Setting new value...');
-                BlurrExamHeader(value, Index);
-            } else {
-                console.log('Cancelled. Value remains unchanged.');
-            }
+        if (value !== "") {
+            showAlert({
+                title: 'Please Confirm',
+                message: 'This action will set a new value for all students. Do you want to continue?',
+                variant: 'warning',
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                onCancel: () => {
+                    closeAlert();
+                },
+                onConfirm: () => {
+                    BlurrExamHeader(value, Index);
+                    closeAlert();
+                }
+            });
         }
     };
     return (

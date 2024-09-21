@@ -1,11 +1,14 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { useContext } from 'react';
+import { AlertContext } from 'src/contexts/AlertContext';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
+
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
   ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly, examResultProp, publish,
   onChangeExamGrade, IsMark, AllowDecimal = true }) => {
 
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const ChangeExamHeader = (value, Id, Index) => {
 
     ExamMarksHeader = {
@@ -23,30 +26,59 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     onChangeExamHeader(ExamMarksHeader);
 
   };
+  // const ChangeExamGradeHeader = (value, Id, Index) => {
+  //   if (value != "") {
+  //     if (confirm('This action will set a new value for all students. Do you want to continue?')) {
+
+  //       ExamMarksHeader = {
+  //         ...ExamMarksHeader,
+  //         Text4: ExamMarksHeader.Text4.map((Item) => {
+  //           if (Item.Id === Id) {
+  //             return { ...Item, Text3: value }
+  //           }
+  //           else {
+  //             return Item;
+  //           }
+  //         })
+  //       }
+  //       // console.log("ExamMarksHeader", ExamMarksHeader)
+  //       // setAllValues(value, Index)
+  //       setAllValuesforGrade(value, Index)
+  //       onChangeExamHeader(ExamMarksHeader);
+  //     }
+  //   }
+
+  // };
+
   const ChangeExamGradeHeader = (value, Id, Index) => {
-    if (value != "") {
-      if (confirm('This action will set a new value for all students. Do you want to continue?')) {
-
-        ExamMarksHeader = {
-          ...ExamMarksHeader,
-          Text4: ExamMarksHeader.Text4.map((Item) => {
-            if (Item.Id === Id) {
-              return { ...Item, Text3: value }
-            }
-            else {
-              return Item;
-            }
-          })
+    if (value !== "") {
+      showAlert({
+        title: 'Please Confirm',
+        message: 'This action will set a new value for all students. Do you want to continue?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          ExamMarksHeader = {
+            ...ExamMarksHeader,
+            Text4: ExamMarksHeader.Text4.map((Item) => {
+              if (Item.Id === Id) {
+                return { ...Item, Text3: value };
+              } else {
+                return Item;
+              }
+            })
+          };
+          setAllValuesforGrade(value, Index);
+          onChangeExamHeader(ExamMarksHeader);
+          closeAlert();
         }
-        // console.log("ExamMarksHeader", ExamMarksHeader)
-        // setAllValues(value, Index)
-        setAllValuesforGrade(value, Index)
-        onChangeExamHeader(ExamMarksHeader);
-      }
+      });
     }
-
   };
-
 
   const changeExamStatus = (value, StudentId, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
@@ -199,11 +231,11 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   return (
     <div>
       <Box>
-        <TableContainer component={Box} sx={{ mt: 2 , width:'auto'}}>
+        <TableContainer component={Box} sx={{ mt: 2, width: 'auto' }}>
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <TableHead>
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-              <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
+                <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text1}
                 </TableCell>
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
@@ -233,8 +265,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
               {StudentsForMarksAssignment?.length > 0 &&
                 StudentsForMarksAssignment.map((Item, i) => {
                   return (<TableRow key={i}>
-                    <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text1}</TableCell>
-                    <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'}}>{Item.Text2}</TableCell>
+                    <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{Item.Text1}</TableCell>
+                    <TableCell sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>{Item.Text2}</TableCell>
 
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
@@ -250,7 +282,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     />
                     {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
-                      <TableCell sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
+                      <TableCell sx={{
+                        paddingTop: '2.5px', paddingBottom: '2.5px'
                       }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <TextField sx={{
