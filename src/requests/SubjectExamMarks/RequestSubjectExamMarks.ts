@@ -342,6 +342,25 @@ export const getSubjectExamMarkslist =
             });
 
             dispatch(SubjectExamMarksslice.actions.GetListDisplayNameDetail(responseData4));
+
+            // let reponseData5 = [];
+            // const response5 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
+            // // let responseData5 = [{ Id: '0', Name: 'Select', Value: 'N' }];
+
+            // response5.data.listFailCreatiaDetails.map((Item, i) => {
+            //     return {
+            //         IsCoCurricullar: Item.IsCoCurricullar,
+            //         IsFailCriteriaNotApplicable: Item.IsFailCriteriaNotApplicable,
+            //         TestOutOfMarks: Item.TestOutOfMarks,
+            //         TestOutOfMarksAvailable: Item.TestOutOfMarksAvailable,
+            //         TestTypeOutOfMarksAvailable: Item.TestTypeOutOfMarksAvailable
+
+            //     };
+            // });
+            // // console.log(response5, "response5");
+            // dispatch(SubjectExamMarksslice.actions.GetListDisplayNameDetail(response5.data.listFailCreatiaDetails))
+
+
         }
 
 
