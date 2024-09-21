@@ -12,6 +12,7 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
   return (
     <>
       {/* <Grid container>
+      
         <Grid xs={12}>
           <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5 }}>
           <Typography>{item.header}</Typography>
@@ -33,13 +34,13 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
         </Grid>
       </Grid> */}
 
-      <Box sx={{ backgroundColor: 'white', mb:2}}>
+      <Box sx={{ backgroundColor: 'white', mb: 2 }}>
         <TableContainer component={Box} >
           <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
             <TableHead>
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
-                <TableCell sx={{ color: 'white', minWidth:'125px'  }}>
-                Checkbox
+                <TableCell sx={{ color: 'white', minWidth: '125px' }}>
+                  Checkbox
                 </TableCell>
                 <TableCell sx={{ color: 'white', }} >
                   Notice Name
@@ -53,25 +54,34 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
               {itemList.map((item, index) => {
                 return (
                   <>
-                  <TableRow 
-                  // onClick={() => { clickCard(item.linkPath) }}
-                  >
-                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, maxWidth:'150px', pl:3.5 }}>
-                      <ChechBoX
-                        name={''}
-                        value={item.id}
-                        checked={item.isActive}
-                        onChange={clickSingle}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5,  }}>
-                    {item.header}
-                    </TableCell>
-                    <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', minWidth:'120px'}}>
+                    <TableRow
+                    // onClick={() => { clickCard(item.linkPath) }}
+                    >
+                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, maxWidth: '150px', pl: 3.5 }}>
+                        <ChechBoX
+                          name={''}
+                          value={item.id}
+                          checked={item.isActive}
+                          onChange={clickSingle}
+                        />
+                      </TableCell>
+                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, }}>
+                        {item.header}
+                      </TableCell>
+                      {/* <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', minWidth:'120px'}}>
                       <IconButton>
                       <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }} />
-                      </IconButton></TableCell>
-                  </TableRow> 
+                      </IconButton></TableCell> */}
+                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', minWidth: '120px' }}>
+                        {item.FileName ? (
+                          <IconButton onClick={() => downloadNotice(item.FileName, item.IsImageNotice)}>
+                            <FileDownloadOutlinedIcon />
+                          </IconButton>
+                        ) : (
+                          <span>-</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
                   </>
                 )
               })}
