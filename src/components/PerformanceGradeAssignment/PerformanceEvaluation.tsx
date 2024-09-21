@@ -98,7 +98,7 @@ const PerformanceEvaluation = () => {
         if (listSchoolOrgNameDetails.length > 0) {
             console.log(listSchoolOrgNameDetails)
         }
-    }, [dispatch]);
+    }, [dispatch, userId, asYear]);
     function viewReport() {
         const dataPass = {
             asYear: asYear,
@@ -183,7 +183,7 @@ const PerformanceEvaluation = () => {
     function isSelfUserBody(id) {
         let flag = false;
         let localUserId = sessionStorage.getItem('Id');
-        if (id === localUserId && status === '2') {
+        if (id === localUserId && !isSubmittedForm(id)) {
             flag = true;
         }
         return flag;
@@ -273,6 +273,36 @@ const PerformanceEvaluation = () => {
                 const matchedItems2 = listTecherTitleDetails.filter(item2 => item2.Text4 === item1.Text1);
                 matchedItems2.forEach(matchedItem2 => {
                     const matchedItems3 = listParameterIdDetails.filter(item3 => item3.Text2 === matchedItem2.Text1);
+                    console.log(matchedItems3.length, 'this was length and items is', matchedItems3)
+                    if (matchedItems3.length === 0) {
+                        console.log('currently in zero lenght loop')
+                        if (item1.Text8 === "True") {
+                            listIsFinalApproverDetails.forEach(item7 => {
+                                const key = `${item1.Text1}-${matchedItem2.Text1}-0-${item7.Text3}-${item1.Text7}`;
+                                const value = JSON.stringify({
+                                    id: '0',
+                                    parameterId: matchedItem2.Text1,
+                                    gradeId: '0',
+                                    observation: '',
+                                    reportingUserId: item7.Text3
+                                })
+                                acc[key] = value;
+                                console.log('True key and value is', key, value)
+                            })
+                        }
+                        if (item1.Text8 === "False") {
+                            const key = `${item1.Text1}-${matchedItem2.Text1}-0-${userId}-${item1.Text7}`;
+                            const value = JSON.stringify({
+                                id: '0',
+                                parameterId: matchedItem2.Text1,
+                                gradeId: '0',
+                                observation: '',
+                                reportingUserId: userId
+                            })
+                            acc[key] = value;
+                            console.log('False key and value is', key, value)
+                        }
+                    }
                     matchedItems3.forEach(matchedItem3 => {
                         // listOriginalSkillIdDetails.Text1-listTecherTitleDetails.Text1-0-listParameterIdDetails.Text5-listOriginalSkillIdDetails.Text7
                         const key = `${item1.Text1}-${matchedItem2.Text1}-0-${matchedItem3.Text5}-${item1.Text7}`;
@@ -283,6 +313,7 @@ const PerformanceEvaluation = () => {
                             observation: matchedItem3.Text4,
                             reportingUserId: matchedItem3.Text5
                         });
+                        console.log('⛳current Key', key, 'and value is', value, 'question is', item1.Text2)
                         acc[key] = value;
                     });
                 });
@@ -291,7 +322,7 @@ const PerformanceEvaluation = () => {
             setInitialStaffPerfEval(initialEvalRowValues);
             console.log(`-->`, initialEvalRowValues);
         }
-    }, [listOriginalSkillIdDetails, listTecherTitleDetails, listParameterIdDetails]);
+    }, [listOriginalSkillIdDetails, listTecherTitleDetails, listParameterIdDetails, listIsFinalApproverDetails, userId]);
     // #endregion
 
     const parseJSON = (jsonString) => {
@@ -669,25 +700,26 @@ const PerformanceEvaluation = () => {
                                             </span>
                                         </Tooltip>
                                     </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Tooltip title={'Publish'}>
-                                            <span>
-                                                <IconButton
-                                                    disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
-                                                    sx={{
-                                                        color: 'white',
-                                                        backgroundColor: blue[500],
-                                                        '&:hover': {
-                                                            backgroundColor: blue[600],
-                                                        },
-                                                    }}
-                                                    onClick={publishEval}
-                                                >
-                                                    <CheckCircle />
-                                                </IconButton>
-                                            </span>
-                                        </Tooltip>
-                                    </Box>
+                                    {listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' &&
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <Tooltip title={'Publish'}>
+                                                <span>
+                                                    <IconButton
+                                                        disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text4 === 'True' ? false : true}
+                                                        sx={{
+                                                            color: 'white',
+                                                            backgroundColor: blue[500],
+                                                            '&:hover': {
+                                                                backgroundColor: blue[600],
+                                                            },
+                                                        }}
+                                                        onClick={publishEval}
+                                                    >
+                                                        <CheckCircle />
+                                                    </IconButton>
+                                                </span>
+                                            </Tooltip>
+                                        </Box>}
                                 </>}
                             {isFinalApprover() && listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text5 === "1" &&
                                 <Tooltip title={'Unpublish'}>
@@ -707,25 +739,26 @@ const PerformanceEvaluation = () => {
                                         </IconButton>
                                     </span>
                                 </Tooltip>}
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Tooltip title={'Submit'}>
-                                    <span>
-                                        <IconButton
-                                            disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
-                                            sx={{
-                                                color: 'white',
-                                                backgroundColor: green[500],
-                                                '&:hover': {
-                                                    backgroundColor: green[600],
-                                                },
-                                            }}
-                                            onClick={submitEval}
-                                        >
-                                            <Check />
-                                        </IconButton>
-                                    </span>
-                                </Tooltip>
-                            </Box>
+                            {listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' &&
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Tooltip title={'Submit'}>
+                                        <span>
+                                            <IconButton
+                                                disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
+                                                sx={{
+                                                    color: 'white',
+                                                    backgroundColor: green[500],
+                                                    '&:hover': {
+                                                        backgroundColor: green[600],
+                                                    },
+                                                }}
+                                                onClick={submitEval}
+                                            >
+                                                <Check />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Box>}
                             {isFinalApprover() && listEnableRejectButtonDetails.length > 0 && listEnableRejectButtonDetails[0]?.Text4 === 'True' &&
                                 <Tooltip title={'Unsubmit'}>
                                     <span>
@@ -764,11 +797,9 @@ const PerformanceEvaluation = () => {
                                     </span>
                                 </Tooltip>
                             </Box>
-
-
                         </>}
                 />
-                {loading ? <SuspenseLoader /> :
+                {Object.keys(initialStaffPerfEval).length === 0 || attachmentDetails.length === 0 || loading ? <SuspenseLoader /> :
                     <Box border={1} sx={{ p: 2, background: 'white' }}>
                         <Box mb={1}>
                             {classError && <>
@@ -969,7 +1000,6 @@ const PerformanceEvaluation = () => {
                                                 />
                                                 <span style={{ color: 'red' }}> *</span>
                                             </Box>
-
                                             {isFinalApprover() && <Box py={1}>
                                                 <Box
                                                     display="inline-flex"
