@@ -15,6 +15,10 @@ const DashBoard = Loader(lazy(() => import('src/componentsWeb/DashBoard/DashBoar
 const Schoolnotice = Loader(
   lazy(() => import('src/components/SchoolNotice/Schoolnotice'))
 );
+const SchoolnoticeOwn = Loader(
+  lazy(() => import('src/components/SchoolNotice/SchoolNoticeOwn'))
+);
+
 const Support = Loader(
   lazy(() => import('src/components/Support/Support1'))
 );
@@ -115,6 +119,10 @@ const commonRoutes = [
   {
     path: 'schoolnotice',
     element: <Schoolnotice />
+  },
+  {
+    path: 'SchoolnoticeOwn',
+    element: <SchoolnoticeOwn />
   },
   {
     path: 'ViewSchoolNotice/:ID',

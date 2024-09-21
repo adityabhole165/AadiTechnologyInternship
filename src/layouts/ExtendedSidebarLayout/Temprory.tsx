@@ -7,6 +7,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'; //P
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'; //School Notices
 import AssuredWorkloadTwoToneIcon from '@mui/icons-material/AssuredWorkloadTwoTone'; //Investment Declaration
 import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone'; //Assign Homework
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Dataset from '@mui/icons-material/CalendarViewMonth';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone'; // Student Record List
@@ -40,7 +41,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { BookOpenCheck, Copy, NotebookPen } from 'lucide-react';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { red } from '@mui/material/colors';
@@ -208,7 +208,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ExamResultBase'
     },
-   
+
     {
       id: 'Exam',
       title: 'Final Result',
@@ -300,7 +300,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <EventBusyTwoToneIcon />,
       link: null // No link for this item
     });
-  } 
+  }
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
     sideList.push({
       id: 'Daily Activities',
@@ -322,7 +322,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Common/SchoolNotice'
+      link: '/extended-sidebar/Common/SchoolnoticeOwn'
     });
   }
 
@@ -555,7 +555,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           {Object.keys(groupedItems).map((group) => (
             <Accordion key={group} >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-                {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px',  }}><NotebookPen /></IconButton>}
+                {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px', }}><NotebookPen /></IconButton>}
                 {group === 'Communication' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><MailCheck /></IconButton>}
                 {group === 'Exam' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><BookOpenCheck /></IconButton>}
                 {group === 'Calendar' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><CalendarMonthIcon /></IconButton>}
