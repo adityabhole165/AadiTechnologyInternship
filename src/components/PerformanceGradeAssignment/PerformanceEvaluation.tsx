@@ -544,9 +544,36 @@ const PerformanceEvaluation = () => {
 
         return flag
     }
+    function preValidation() {
+        let flag = false;
+        let selfUser = isSelfUser();
+        setObsError('');
+        setGradeError('');
+        setTeachingSubError(false);
+        setClassError(false);
+        const { isValidGrade, errorMessage } = validateGrades(initialStaffPerfEval);
+        if (isValid() && isValidGrade && validateObs()) {
+            flag = true;
+            setClassError(false)
+            setTeachingSubError(false)
+        }
+        if (selfUser && classTaught?.trim() === '') {
+            setClassError(true)
+        }
+        if (selfUser && teachingSub?.trim() === '') {
+            setTeachingSubError(true)
+        }
+        if (!isValidGrade) {
+            setGradeError(errorMessage);
+        }
+        if (!validateObs()) {
+            setObsError('Value for at least one observation should be set.')
+        }
+        return flag
+    }
 
     const submitEval = () => {
-        let flag = savePerfEval('submit');
+        // let flag = savePerfEval('submit');
         let selfUser = isSelfUser();
         const SubmitStaffPerformanceDetailBody: ISubmitStaffPerformanceDetailsBody = {
             asSchoolId: Number(schoolId),
@@ -555,7 +582,7 @@ const PerformanceEvaluation = () => {
             asYear: Number(asYear),
             asIsSubmitAction: 1
         }
-        if (isValid() && flag) {
+        if (isValid() && preValidation()) {
             showAlert({
                 title: 'Please Confirm',
                 message: 'This action will save and submit current details. Are you sure you want to continue?',
@@ -563,7 +590,11 @@ const PerformanceEvaluation = () => {
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
                 onConfirm: () => {
-                    dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody))
+                    if (isValid() && savePerfEval('submit')) {
+                        dispatch(CDASubmitStaffPerformanceDetailsMsg(SubmitStaffPerformanceDetailBody));
+                        setClassError(false)
+                        setTeachingSubError(false)
+                    }
                     closeAlert();
                 },
                 onCancel: closeAlert
@@ -739,7 +770,7 @@ const PerformanceEvaluation = () => {
                                         </IconButton>
                                     </span>
                                 </Tooltip>}
-                            {listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' &&
+                            {isFinalApprover() && listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' &&
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <Tooltip title={'Submit'}>
                                         <span>
@@ -759,6 +790,27 @@ const PerformanceEvaluation = () => {
                                         </span>
                                     </Tooltip>
                                 </Box>}
+                            {!isFinalApprover() &&
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Tooltip title={'Submit'}>
+                                        <span>
+                                            <IconButton
+                                                disabled={listEnableRejectButtonDetails?.length > 0 && listEnableRejectButtonDetails[0].Text3 === 'True' ? false : true}
+                                                sx={{
+                                                    color: 'white',
+                                                    backgroundColor: green[500],
+                                                    '&:hover': {
+                                                        backgroundColor: green[600],
+                                                    },
+                                                }}
+                                                onClick={submitEval}
+                                            >
+                                                <Check />
+                                            </IconButton>
+                                        </span>
+                                    </Tooltip>
+                                </Box>}
+
                             {isFinalApprover() && listEnableRejectButtonDetails.length > 0 && listEnableRejectButtonDetails[0]?.Text4 === 'True' &&
                                 <Tooltip title={'Unsubmit'}>
                                     <span>
