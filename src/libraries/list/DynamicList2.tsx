@@ -49,13 +49,13 @@ const DynamicList2 = ({
     let img;
     switch (Text77) {
       case "1":
-        img = <img src={GoldMedal} alt="Gold Medal" width={25} />;
+        img = <img src={GoldMedal} alt="Gold Medal" width={22} />;
         break;
       case "2":
-        img = <img src={SilverMedal} alt="Silver Medal" width={25} />;
+        img = <img src={SilverMedal} alt="Silver Medal" width={22} />;
         break;
       case "3":
-        img = <img src={BronzeMedal} alt="Bronze Medal" width={25} />;
+        img = <img src={BronzeMedal} alt="Bronze Medal" width={22} />;
         break;
 
       default:
@@ -111,7 +111,7 @@ const DynamicList2 = ({
                                 } */}
 
                   {item.Text77 !== undefined && (
-                    <TableCell sx={{ p: "5px", pb: "1px", pl: "16px", }}>
+                    <TableCell sx={{ py:0, pt:0.5, pl: "16px", }}>
                       {getMedalImage(item.Text77)}
                     </TableCell>
                   )}
@@ -124,17 +124,17 @@ const DynamicList2 = ({
                     </Link>
                   </TableCell> */}
                   {item.Text1 != undefined && (
-                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '', p: "5px", pb: "1px", pl: "16px" }}>{item.Text1}</TableCell>
+                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '', p: 0.5, pb: "1px", pl: "16px" }}>{item.Text1}</TableCell>
                   )}
                   {item.Text6 != undefined && (
                     <TableCell  >{item.Text6}</TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '', p: "5px", pb: "1px" }} align={"center"}>{item.Text2}</TableCell>
+                    <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '', p: 0.5, pb: "1px" }} align={"center"}>{item.Text2}</TableCell>
                   )}
                   {item.Text3 != undefined && (
                     <TableCell
-                      sx={{ color: item.IsHighlightStudent ? 'red' : '', p: "5px", pb: "1px", pl: "16px" }}
+                      sx={{ color: item.IsHighlightStudent ? 'red' : '', p: 0.5, pb: "1px", pl: "16px" }}
                       onClick={() => { ClickItem(item.Id) }} >
                       {item.Text3}
                     </TableCell>
@@ -143,7 +143,7 @@ const DynamicList2 = ({
                     <TableCell sx={{ color: item.IsHighlightStudent ? 'red' : '', p: "5px", pb: "1px" }}>{item.Text4}</TableCell>
                   )}
                   {item.Text5 != undefined && (
-                    <TableCell sx={{ p: "5px" }}>{item.Text5}</TableCell>
+                    <TableCell sx={{ p: 0.5 }}>{item.Text5}</TableCell>
                   )}
 
                   {IconList?.map((obj, i) => {

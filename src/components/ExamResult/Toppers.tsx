@@ -581,7 +581,7 @@ const ExamResultToppers = () => {
                             {Object.keys(groupedBySubject).map((subject, subjectIndex) => (
                                 <Grid item key={subjectIndex} xs={12} sm={12} md={6}>
                                     <TableContainer component={Paper}>
-                                        <Table>
+                                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`}}>
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell colSpan={3}>
@@ -591,7 +591,7 @@ const ExamResultToppers = () => {
                                                     </TableCell>
                                                 </TableRow>
 
-                                                <StyledTableRow>
+                                                <StyledTableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                                                     <StyledTableCell>Rank</StyledTableCell>
                                                     <StyledTableCell align={"center"}>Roll No.</StyledTableCell>
                                                     <StyledTableCell>Student Name</StyledTableCell>
@@ -602,7 +602,7 @@ const ExamResultToppers = () => {
                                                     row.Students.map((student, studentIndex) => (
                                                         <TableRow key={`${subjectIndex}-${index}-${studentIndex}`}>
                                                             {studentIndex === 0 && (
-                                                                <TableCell rowSpan={row.Students.length}>
+                                                                <TableCell rowSpan={row.Students.length} sx={{  width:'220px',  borderRight:(theme) => `1px solid ${theme.palette.grey[300]}`}}>
                                                                     {row.Rank_Image === "~/RITeSchool/images/Number1.gif" && (
                                                                         <Stack direction={"row"} alignItems={"center"} gap={2}>
                                                                             <img src={GoldMedal} width={"40"} alt="Gold Medal" />
@@ -623,9 +623,9 @@ const ExamResultToppers = () => {
                                                                     )}
                                                                 </TableCell>
                                                             )}
-                                                            <TableCell sx={{ color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
+                                                            <TableCell sx={{py:1, color: student.IsHighlightStudent ? 'red' : '' }} align={"center"}>{student.Text1}</TableCell>
                                                             <TableCell
-                                                                sx={{ color: student.IsHighlightStudent ? 'red' : '' }}
+                                                                sx={{py:1, color: student.IsHighlightStudent ? 'red' : '' }}
                                                             >{student.Text2}</TableCell>
                                                         </TableRow>
                                                     ))
