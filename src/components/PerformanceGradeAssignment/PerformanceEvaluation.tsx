@@ -870,25 +870,25 @@ const PerformanceEvaluation = () => {
                                 <Grid item xs={12} key={item.UserId}>
                                     <Table>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py:1 }}>
                                                 <Typography variant={"h4"} color={"#38548a"}>
                                                     {item.schoolOrgName}
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py:1  }}>
                                                 <Typography variant={"h4"} color={"#38548a"}>
                                                     {item.schoolName}
                                                 </Typography></TableCell>
                                         </TableRow>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black' }}>      <Typography variant={"h4"} color={"#38548a"}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py:1  }}>      <Typography variant={"h4"} color={"#38548a"}>
                                                 {item.address}
                                             </Typography></TableCell>
                                         </TableRow>
                                         <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
-                                            <TableCell align="center" sx={{ border: '1px solid black' }}>
+                                            <TableCell align="center" sx={{ border: '1px solid black', py:1  }}>
                                                 <Typography variant={"h4"} color={"#38548a"}>
                                                     Staff Performance Evaluation
                                                 </Typography></TableCell>
