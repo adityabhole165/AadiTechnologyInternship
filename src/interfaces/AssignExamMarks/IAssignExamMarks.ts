@@ -130,6 +130,7 @@ export interface IGetSchoolSettingsResult {
     WeeklyTestWeekDay: string;
     EnableHomeworkMySubjectListView: string;
     EnableAssignExamMarksToAllSubjectOfClass: string;
+    AllowExamStatusForCoCurricullarSubjects: string;
     StudentAbsentCount: string;
     AllowHomewirkDailyLog: string;
     AllowUnsubmitExamMarks: string;

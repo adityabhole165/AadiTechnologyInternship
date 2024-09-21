@@ -39,7 +39,7 @@ const SubjectExamMarks = () => {
   //   return current.isBefore(today)
   // }
   let { ClassTecher, ClassId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish,getStandardId } = useParams();
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId, examResultProp, publish, getStandardId } = useParams();
 
   // const [examResultProp, setexamResultProp] = useState(false);
 
@@ -100,6 +100,7 @@ const SubjectExamMarks = () => {
   const ExamStatus: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListDisplayNameDetail
   );
+  // console.log(ExamStatus, "ExamStatus");
 
   const ManageStudentsTestMarks: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ManageStudentsTestMark
@@ -158,7 +159,7 @@ const SubjectExamMarks = () => {
     const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYrId: Number(asAcademicYearId),
-      asStandardId: Number(getStandardId),
+      asStandardId: 1078,
       asSubjectId: Number(SubjectId),
       asTestId: Number(TestId),
     };
@@ -220,7 +221,7 @@ const SubjectExamMarks = () => {
     {
 
       asSchoolId: Number(asSchoolId),
-      asStandardId: Number(getStandardId),
+      asStandardId: 1078,
       asTestId: Number(TestId),
       asSubjectId: Number(SubjectId),
     }
@@ -380,8 +381,8 @@ const SubjectExamMarks = () => {
   ]
   const [MarksError, setMarksError] = useState('')
 
-  console.log(getStandardId,"getStandardId");
-  
+  console.log(getStandardId, "getStandardId");
+
 
   // useEffect(() => {
   //   if (TestDate != "") {
@@ -502,16 +503,16 @@ const SubjectExamMarks = () => {
                       ''
                   }
                   sx={{ bgcolor: '#F0F0F0', maxWidth: '16vw' }}
-                   
+
                   InputProps={{
                     readOnly: true,
                   }}
-                   disabled={IsReadOnly === 'true'}
-                   //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                  disabled={IsReadOnly === 'true'}
+                //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                 />
               </Box>
 
-              <Box sx={{ ml: 1, width: '28%'}}>
+              <Box sx={{ ml: 1, width: '28%' }}>
                 <TextField
                   size={"small"}
                   fullWidth
@@ -528,7 +529,7 @@ const SubjectExamMarks = () => {
                   }}
                   //disabled={IsReadOnly === 'true'}
                   disabled={IsReadOnly === 'true'}
-  
+
                 />
               </Box>
 
@@ -542,9 +543,9 @@ const SubjectExamMarks = () => {
                   InputProps={{
                     readOnly: true,
                   }}
-                 // disabled={IsReadOnly === 'true'}
-                 disabled={IsReadOnly === 'true'}
-                 //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                  // disabled={IsReadOnly === 'true'}
+                  disabled={IsReadOnly === 'true'}
+                //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
                 />
 
               </Box>
@@ -673,9 +674,9 @@ const SubjectExamMarks = () => {
                 InputProps={{
                   readOnly: true,
                 }}
-               // disabled={IsReadOnly === 'true'}
-               disabled={IsReadOnly === 'true'}
-               //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                // disabled={IsReadOnly === 'true'}
+                disabled={IsReadOnly === 'true'}
+              //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
               />
               // <TextField
               // size={"small"} fullWidth value={TestMarkDetails?.length > 0 ?
@@ -709,9 +710,9 @@ const SubjectExamMarks = () => {
                 InputProps={{
                   readOnly: true,
                 }}
-               // disabled={IsReadOnly === 'true'}
-               disabled={IsReadOnly === 'true'}
-               //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                // disabled={IsReadOnly === 'true'}
+                disabled={IsReadOnly === 'true'}
+              //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
               />
             }
             {TestName && TestName.Grade_Or_Marks == "G" &&
@@ -729,9 +730,9 @@ const SubjectExamMarks = () => {
                 InputProps={{
                   readOnly: true,
                 }}
-             //   disabled={IsReadOnly === 'true'}
-             disabled={IsReadOnly === 'true'}
-             //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
+                //   disabled={IsReadOnly === 'true'}
+                disabled={IsReadOnly === 'true'}
+              //inputProps={{ style: { fontWeight: 'bold', color: 'rgb(0, 0, 0)' } }}
               />
             }
 
