@@ -12,6 +12,7 @@ import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import CommonPageHeader from '../CommonPageHeader';
+import SchoolNoticeHeader from '../SchoolNoticeHeader';
 
 function Schoolnotice() {
   const theme = useTheme();
@@ -132,7 +133,7 @@ function Schoolnotice() {
 
   return (
     <Box sx={{ px: 2 }}>
-      <CommonPageHeader
+      <SchoolNoticeHeader
         navLinks={[
           {
             title: 'School Notice',
