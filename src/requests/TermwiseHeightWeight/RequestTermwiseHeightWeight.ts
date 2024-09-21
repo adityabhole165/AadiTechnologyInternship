@@ -52,13 +52,13 @@ export const getTeacherNameList =
       let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
       response.data.map((item, i) => {
         abc.push({
-          Id: item.Teacher_Id,
+          Id: item.SchoolWise_Standard_Division_Id,
           Name: item.TeacherName,
           Value: item.SchoolWise_Standard_Division_Id
         });
       });
       dispatch(TermwiseHeightWeightSlice.actions.TeacherNameList(abc));
-      // console.log(Response, "abc")
+       console.log(Response, "abc")
     };
 
 export const getTermList =

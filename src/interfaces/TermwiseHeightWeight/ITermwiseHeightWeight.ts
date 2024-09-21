@@ -1,7 +1,7 @@
 export interface IClassTeacherDropdownBody {
   asSchoolId: number,
   asAcademicYearId: number,
-  asUserId: number
+
 }
 
 export interface IClassTeacherDropdownResult {

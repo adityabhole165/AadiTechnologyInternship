@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
+import { getSchoolConfigurations } from '../Common/Util';
 import {
   IClassTeacherDropdownBody,
   IGetFinalPublishedExamStatusBody,
@@ -33,9 +34,9 @@ import CommonPageHeader from '../CommonPageHeader';
 const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getTeacherId } = useParams();
+  const { StandardDivisionId } = useParams();
 
-  const [SelectTeacher, setSelectTeacher] = useState(0);
+ 
   const [SelectTerm, setSelectTerm] = useState(0);
   const [Itemlist, setItemlist] = useState([]);
 
@@ -48,13 +49,18 @@ const TermwiseHeightWeight = () => {
   const ClassTeacherDropdown = useSelector((state: RootState) => state.TermwiseHtWt.ClassTeacherList);
   console.log(ClassTeacherDropdown, "ClassTeacherDropdown");
 
+  let CanEdit = getSchoolConfigurations(247) 
+  console.log(CanEdit, "CanEdit");
+
+  const [SelectTeacher, setSelectTeacher] = useState(CanEdit =="Y"? 0 :StandardDivisionId);
+console.log(SelectTeacher,"SelectTeacher");
+
   const TermDropdown = useSelector((state: RootState) => state.TermwiseHtWt.TermwiseTermList);
   const StudentList = useSelector((state: RootState) => state.TermwiseHtWt.Student);
   const UpdateStudentDetails = useSelector((state: RootState) => state.TermwiseHtWt.UpdateStudent);
 
 
   const GetFinalPublishedExamStatus: any = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
-  console.log('GetFinalPublishedExamStatus', GetFinalPublishedExamStatus);
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -101,15 +107,23 @@ const TermwiseHeightWeight = () => {
 
     return { perm: ((TermwiseHeightWeightAccess == "N" && ExamResultsAccess == "N") ? "N" : "Y"), UserId: UserId }
   };
-  const screenPermission = GetScreenPermission();
+
+  
+
+  
+
+
+  
+  
   useEffect(() => {
     const ClassTeacherBody: IClassTeacherDropdownBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asUserId: screenPermission.UserId
+     
     };
     dispatch(getTeacherNameList(ClassTeacherBody));
   }, []);
+
   useEffect(() => {
     const TermDropdownBody: ITermDropdownBody = {
       asSchoolId: asSchoolId
@@ -117,32 +131,24 @@ const TermwiseHeightWeight = () => {
     dispatch(getTermList(TermDropdownBody));
   }, []);
 
-  useEffect(() => {
-    if (ClassTeacherDropdown.length > 0) {
-
-      setSelectTeacher(screenPermission.perm == "N" ? getStdDiv() : (ClassTeacherDropdown[0].Id));
-    }
-  }, [ClassTeacherDropdown]);
+  
 
   useEffect(() => {
     if (TermDropdown.length > 0)
       setSelectTerm(TermDropdown[0].Id);
   }, [TermDropdown]);
+
+
   const StudentlistBody: IStudentsListBody = {
-    asStdDivId: SelectTeacher,
+    asStdDivId: Number(SelectTeacher),
     asAcademic_Year_Id: asAcademicYearId,
     asSchoolId: asSchoolId,
     asTerm_Id: SelectTerm
   };
-  const getStdDiv = () => {
-    let returnVal = '';
-    ClassTeacherDropdown.map((item) => {
-      if (item.Id == getTeacherId) {
-        returnVal = item.Value
-      }
-    })
-    return returnVal;
-  }
+
+
+ 
+
   useEffect(() => {
 
     dispatch(getstudentdetails(StudentlistBody));
@@ -156,7 +162,7 @@ const TermwiseHeightWeight = () => {
 
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
-    asStandardDivId: SelectTeacher,
+    asStandardDivId: Number(SelectTeacher),
     asTerm_Id: SelectTerm,
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
@@ -221,7 +227,7 @@ const TermwiseHeightWeight = () => {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asTermId: SelectTerm,
-      asStandardDivisionId: SelectTeacher,
+      asStandardDivisionId:Number(SelectTeacher),
       aiUserId: UserId,
       StudentHeightWeightDetailsXML: getXML() // "<ArrayOfStudentInfoForHeightWeight xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37608</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37609</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37610</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37611</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37612</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37613</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37614</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37615</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37616</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37617</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37618</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37619</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37620</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37621</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37622</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37623</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37625</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37652</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37626</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37627</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37628</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37629</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37630</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37631</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37632</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37633</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37634</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37635</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37636</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37637</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37638</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37639</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37640</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37641</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37642</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37643</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37644</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37645</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37646</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37647</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37648</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37649</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37650</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37651</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight><StudentInfoForHeightWeight><RollNo>0</RollNo><YearWiseStudentId>37624</YearWiseStudentId><Height>0.0</Height><Weight>0.00</Weight><IsLeftStudent>0</IsLeftStudent></StudentInfoForHeightWeight></ArrayOfStudentInfoForHeightWeight>"
     };
@@ -253,7 +259,7 @@ const TermwiseHeightWeight = () => {
           <SearchableDropdown
             sx={{
               minWidth: '20vw'
-              , bgcolor: screenPermission.perm === 'N' ? '#F0F0F0' : 'inherit'
+              , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
             }}
             ItemList={ClassTeacherDropdown}
             onChange={clickTeacherDropdown}
@@ -261,8 +267,8 @@ const TermwiseHeightWeight = () => {
             defaultValue={SelectTeacher.toString()} // Convert number to string
             mandatory
             size={"small"}
-            DisableClearable={screenPermission.perm === 'N'}
-            disabled={screenPermission.perm === 'N'}
+            DisableClearable={CanEdit == 'N'}
+            disabled={CanEdit == 'N'}
           />
           <SearchableDropdown
             sx={{ minWidth: '20vw' }}
@@ -299,7 +305,7 @@ const TermwiseHeightWeight = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip>
-          {SelectTeacher > 0 && (
+          {Number(SelectTeacher) > 0 && (
             <Tooltip title={'Save'}>
               <IconButton
                 sx={{

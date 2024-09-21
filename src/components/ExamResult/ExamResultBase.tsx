@@ -79,10 +79,13 @@ const ExamResultBase = () => {
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeachers.map((item) => {
-      if (item.Value == StandardDivisionId) TeacherId = item.Id;
+      if (item.Value == StandardDivisionId) TeacherId = StandardDivisionId;
     });
     return TeacherId;
   };
+
+  console.log(getTeacherId(),"getTeacherId");
+  
 
   const getStandardId = () => {
     let returnVal = 0
@@ -432,7 +435,7 @@ const ExamResultBase = () => {
   };
 
   const TermwiseHighwight = (value) => {
-    navigate('/extended-sidebar/Teacher/TermwiseHeightWeight/' + getTeacherId());
+    navigate('/extended-sidebar/Teacher/TermwiseHeightWeight/' + StandardDivisionId);
   };
 
   // const getClassTeacherName = () => {

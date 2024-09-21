@@ -429,7 +429,7 @@ const teacherRoutes = [
     element: <TermwiseHeightWeight />
   },
   {
-    path: 'TermwiseHeightWeight/:getTeacherId',
+    path: 'TermwiseHeightWeight/:StandardDivisionId',
     element: <TermwiseHeightWeight />
   },
 

@@ -29,11 +29,11 @@ const TermwiseHeightWeightList = ({
       const numericValue = e.target.value.replace(/[^0-9.]/g, '');
       const parts = numericValue.split('.');
 
-      if (parts[0].length > 3) {
+      if (parts[0].length > 2) {
         return;
       }
 
-      if (parts[1] && parts[1].length > 3) {
+      if (parts[1] && parts[1].length > 4) {
         return;
       }
 
@@ -46,11 +46,11 @@ const TermwiseHeightWeightList = ({
       const numericValue = e.target.value.replace(/[^0-9.]/g, '');
       const parts = numericValue.split('.');
 
-      if (parts[0].length > 3) {
+      if (parts[0].length > 2) {
         return;
       }
 
-      if (parts[1] && parts[1].length > 3) {
+      if (parts[1] && parts[1].length > 4) {
         return;
       }
 

@@ -117,12 +117,15 @@ const ProgressReportNew = () => {
   const StandardDivisionId = () => {
     let returnVal = 0
     USGetClassTeachers.map((item) => {
-      if (item.Value == item.NewValue) {
+      if (item.Value == selectTeacher) {
         returnVal = item.Id
       }
     })
     return returnVal
   };
+
+  console.log(StandardDivisionId(),"--StandardDivisionId");
+  
 
   const Standard_Id = () => {
     let returnVal = 0
