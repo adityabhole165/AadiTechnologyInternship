@@ -39,6 +39,7 @@ import {
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
+import { getSchoolConfigurations } from '../Common/Util';
 const ExamResultBase = () => {
   const { ParamsStandardDivisionId, ParamsTestId, selectTeacher } = useParams();
   const [toppersGenerated, setToppersGenerated] = useState(false);
@@ -53,7 +54,7 @@ const ExamResultBase = () => {
     ParamsTestId == undefined ? "0" : ParamsTestId
 
   );
-  // console.log("ParamsTestId", ParamsTestId)
+ 
   const [DisplayNote, setDisplayNote] = useState('');
   // const [InsertedId, setInsertedId] = useState('');
   const [HelpNote, setHelpNote] = useState('');
@@ -62,6 +63,7 @@ const ExamResultBase = () => {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
+  
   const asUserId = localStorage.getItem('UserId');
   const [StandardDivisionId, setStandardDivisionId] = useState(
     ParamsStandardDivisionId
@@ -74,7 +76,6 @@ const ExamResultBase = () => {
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ClassTeachers
   );
-  console.log(ClassTeachers, "-", ParamsStandardDivisionId);
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeachers.map((item) => {
@@ -92,7 +93,6 @@ const ExamResultBase = () => {
     })
     return returnVal
   };
-   console.log("getStandardId", getStandardId())
 
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
@@ -100,7 +100,7 @@ const ExamResultBase = () => {
   const Submitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
-  // console.log(Submitted, "abcderg");
+ 
 
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
@@ -139,7 +139,7 @@ const ExamResultBase = () => {
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
   );
-  // console.log(ProgressSheet, "ProgressSheet")
+ 
   const PrePrimaryExam: any = useSelector(
     (state: RootState) => state.ExamResult.IsPrePrimaryExamConfiguration
   );
@@ -157,13 +157,14 @@ const ExamResultBase = () => {
     });
     return perm;
   };
-  //console.log("GetScreenPermission", GetScreenPermission())
+
+  let CanEdit = getSchoolConfigurations(78) 
 
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     // asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
-    asTeacherId: GetScreenPermission() === 'Y'
+    asTeacherId: CanEdit == 'Y'
       ? 0
       : (getTeacherId() ? Number(getTeacherId()) : (ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)))
     // asTeacherId: asTeacherId
@@ -261,14 +262,12 @@ const ExamResultBase = () => {
   useEffect(() => {
     if (ClassTeachers && ClassTeachers.length > 0) {
       if (ParamsStandardDivisionId == undefined) {
-        if (GetScreenPermission() === 'Y') {
+        if (CanEdit == 'Y') {
           setStandardDivisionId(ClassTeachers[0].Value);
-          console.log(GetScreenPermission(), "ClassTeachers 2", ClassTeachers[0].Value)
         } else {
           const teacherIdFromSession = sessionStorage.getItem('StandardDivisionId');
           if (teacherIdFromSession !== null) {
             setStandardDivisionId(teacherIdFromSession);
-            console.log(teacherIdFromSession, "ClassTeachers 1")
           }
         }
       }
@@ -372,7 +371,6 @@ const ExamResultBase = () => {
 
   const clickTeacher = (value) => {
     setStandardDivisionId(value);
-    console.log(value, "clickTeacher 3")
 
   };
   const clickExam = (value) => {
@@ -391,7 +389,6 @@ const ExamResultBase = () => {
     return returnVal
   }
   const ClickItem = (value) => {
-    console.log(value.StandardId,"----bb");
     
     // const isPublish = publish === ClassPassFailDetailsForButton.IsPublish;
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
@@ -575,9 +572,7 @@ const ExamResultBase = () => {
 
   const GenerateTopper = () => {
 
-    console.log('Before toggling ToppersGenerated:', ClassPassFailDetailsForButton.ToppersGenerated);
     const updatedValue = !ClassPassFailDetailsForButton.ToppersGenerated;
-    console.log('After toggling ToppersGenerated:', updatedValue);
     dispatch(getGenerateTopper(GetGenerateTopper));
   };
   useEffect(() => {
@@ -599,7 +594,7 @@ const ExamResultBase = () => {
           <SearchableDropdown
             sx={{
               minWidth: '20vw'
-              , bgcolor: GetScreenPermission() === 'N' ? '#F0F0F0' : 'inherit'
+              , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
             }}
             ItemList={ClassTeachers}
             onChange={clickTeacher}
@@ -608,8 +603,8 @@ const ExamResultBase = () => {
             defaultValue={StandardDivisionId}
             mandatory
             size={"small"}
-            DisableClearable={GetScreenPermission() === 'N'}
-            disabled={GetScreenPermission() === 'N'}
+            DisableClearable={CanEdit == 'N'}
+            disabled={CanEdit == 'N'}
 
           />
 
@@ -760,7 +755,7 @@ const ExamResultBase = () => {
                   Progress Remarks
                 </Button>
 
-                {GetScreenPermission() === 'Y' ? (
+                {CanEdit == 'Y' ? (
                   <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
                     Transfer Optional Subject Marks
                   </Button>
