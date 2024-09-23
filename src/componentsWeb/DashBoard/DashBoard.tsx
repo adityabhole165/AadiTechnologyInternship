@@ -1,4 +1,3 @@
-import { Title } from '@mui/icons-material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Card, Grid, IconButton } from '@mui/material';
@@ -45,9 +44,9 @@ function DashBoard() {
       case 'feedbackCard':
         return <FeedBackCard />;
       case 'annualplanner':
-        return <AnnualPlannerDashBoard/>;
-        case 'attendance':
-          return <PieChart />; 
+        return <AnnualPlannerDashBoard />;
+      case 'attendance':
+        return <PieChart />;
       case 'upcomingEvent': // Fix here - lowercase 'u'
         return <UpcomingEvent />;
       default:
@@ -115,8 +114,9 @@ function DashBoard() {
       </Grid>
 
 
-   
+
       {/* Drag and Drop Context */}
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="dashboard" direction="horizontal">
           {(provided) => (
@@ -128,11 +128,11 @@ function DashBoard() {
               ref={provided.innerRef}
             >
               {tiles.map((tile, index) => (
-                <Draggable key={tile.id} draggableId={tile.id} index={index}>
+                <Draggable isDragDisabled={tile.id === 'profile' ? true : false} key={tile.id} draggableId={tile.id} index={index}>
                   {(provided) => (
                     <Grid
                       item
-                      sm={tile.id === 'attendance' ?  8:4}
+                      sm={tile.id === 'attendance' ? 8 : 4}
                       key={resetKey} // Use the resetKey to force re-render
                       ref={provided.innerRef}
                       {...provided.draggableProps}
@@ -147,14 +147,18 @@ function DashBoard() {
                       >
                         <Card elevation={3} sx={{ position: 'relative' }}>
                           {/* Unpin Button */}
-                          <IconButton
-                            // size="medium"
-                            sx={{ position: 'absolute', top: 10, right: 2 , '&:hover': {
-                            color: 'red',  backgroundColor: red[100]}}}
-                            onClick={() => handleUnpinTile(tile.id)}
-                          >
-                            <PushPinIcon  />
-                          </IconButton>
+                          {tile.id !== 'profile' &&
+                            <IconButton
+                              // size="medium"
+                              sx={{
+                                position: 'absolute', top: 10, right: 2, '&:hover': {
+                                  color: 'red', backgroundColor: red[100]
+                                }
+                              }}
+                              onClick={() => handleUnpinTile(tile.id)}
+                            >
+                              <PushPinIcon />
+                            </IconButton>}
 
                           {/* Component for each tile */}
                           {getComponent(tile.id)}
