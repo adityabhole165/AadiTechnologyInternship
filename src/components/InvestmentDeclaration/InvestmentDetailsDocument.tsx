@@ -193,9 +193,8 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
     const ClickView = (fileName) => {
         window.open(
             localStorage.getItem('SiteURL') +
-            '/RITeSchool//downloads/Investment%20Declarations/' +
+            'RITeSchool//downloads//Investment Declarations/' +
             fileName
-
         );
 
     }
@@ -259,7 +258,7 @@ const InvestmentDeatailsDocument = ({ Id, UserName, DocumentName, open, handleCl
                                 <TextField
                                     fullWidth
                                     label={<>
-                                        Doucment Name  <span style={{ color: 'red' }}>*</span>
+                                        Document Name  <span style={{ color: 'red' }}>*</span>
                                     </>}
                                     InputLabelProps={{ shrink: true }}
                                     sx={{ bgcolor: '#F0F0F0', width: '100%' }}

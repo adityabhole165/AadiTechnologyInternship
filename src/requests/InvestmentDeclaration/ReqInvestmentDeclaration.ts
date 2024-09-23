@@ -111,7 +111,7 @@ export const GetInvestmentDetails = (data: IGetInvestmentDetailsBody): AppThunk 
                 Gender: item.Gender,
                 IsSubmitted: item.IsSubmitted,
                 IsSaved: item.IsSaved,
-                FinancialYearEnd: item.FinancialYear,
+                FinancialYearEnd: item.FinancialYearEnd,
                 RegimeId: item.RegimeId
             };
         });
