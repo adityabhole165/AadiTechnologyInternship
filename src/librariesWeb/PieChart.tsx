@@ -3,12 +3,21 @@ import { useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import Header from './Header';
 import colors from 'react-multi-date-picker/plugins/colors';
+import { ApexOptions } from 'apexcharts';
 
 const PieChart = () => {
+    const options1 = {
+        chart: {
+            id: "basic-bar444",
+        },
+        series: [2, 4],
+        labels: ["Girl", "Boys"],
+        };
+        const series = [2, 4];
     // Define options with correct types
-    // const options: ApexOptions = {
+    // const options2: ApexOptions = {
     //     chart: {
-    //         type: 'pie' as 'pie', // Ensure the type is 'pie'
+    //          id: "basic-bar444", // Ensure the type is 'pie'
     //     },
     //     labels: ['Group A', 'Group B', 'Group C', 'Group D'],
     //     responsive: [
@@ -30,7 +39,7 @@ const PieChart = () => {
     const [state, setState] = useState({
         colors:{},
         options: {
-            chart: {
+           chart: {
                 id: "basic-bar444",
             },
             xaxis: {
@@ -54,7 +63,17 @@ const PieChart = () => {
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
                 <Header Title="Weekly Attendance" />
             </Grid>
-            <Box sx={{ height: '320px', overflow: 'auto', mt: 1, }}>
+            <Grid container>
+            <Grid item xs={4} mt={5}>
+            <ApexCharts
+                    options={options1}
+                    series={series}
+                    type="donut"
+                    width="100%"
+                    height="295"
+                />
+            </Grid>
+            <Grid item xs={8} sx={{ height: '320px', overflow: 'auto', mt: 1, }}>
                 <ApexCharts
                     options={state.options}
                     series={state.series}
@@ -62,9 +81,12 @@ const PieChart = () => {
                     width="95%"
                     height="295"
                 />
-            </Box>
+            </Grid>
+            
+            </Grid>
         </Box>
     );
 };
 
 export default PieChart;
+ 
