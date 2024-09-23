@@ -246,11 +246,11 @@ export const StandardToppersList =
             response.data.GetSelectedSubjectTopperList.map((item, i) => {
                 if (
                     !Subjects.includes(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${item.Total_Marks_Scored} / ${item.Subject_Total_Marks}`,
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${parseFloat(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`,
                     )
                 ) {
                     Subjects.push(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${item.Total_Marks_Scored} / ${item.Subject_Total_Marks}`
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${parseFloat(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
                     );
                 }
             });
@@ -266,7 +266,7 @@ export const StandardToppersList =
                 response.data.GetSelectedSubjectTopperList.map((item, i) => {
                     if (
                         obj ==
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${item.Total_Marks_Scored} / ${item.Subject_Total_Marks}`
+                        item.Subject_Name + '#' + item.Rank_Image + '#' +`${parseFloat(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
                     ) {
                         child.Students.push({
                             Id: item.Student_Id,
