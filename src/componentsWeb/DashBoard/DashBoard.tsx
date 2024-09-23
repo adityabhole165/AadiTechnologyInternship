@@ -1,4 +1,3 @@
-import { Title } from '@mui/icons-material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Card, Grid, IconButton } from '@mui/material';
@@ -45,9 +44,9 @@ function DashBoard() {
       case 'feedbackCard':
         return <FeedBackCard />;
       case 'annualplanner':
-        return <AnnualPlannerDashBoard/>;
-        case 'attendance':
-          return <PieChart />; 
+        return <AnnualPlannerDashBoard />;
+      case 'attendance':
+        return <PieChart />;
       case 'upcomingEvent': // Fix here - lowercase 'u'
         return <UpcomingEvent />;
       default:
@@ -115,7 +114,7 @@ function DashBoard() {
       </Grid>
 
 
-   
+
       {/* Drag and Drop Context */}
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="dashboard" direction="horizontal">
@@ -132,7 +131,7 @@ function DashBoard() {
                   {(provided) => (
                     <Grid
                       item
-                      sm={tile.id === 'attendance' ?  8:4}
+                      sm={tile.id === 'attendance' ? 8 : 4}
                       key={resetKey} // Use the resetKey to force re-render
                       ref={provided.innerRef}
                       {...provided.draggableProps}
@@ -149,11 +148,14 @@ function DashBoard() {
                           {/* Unpin Button */}
                           <IconButton
                             // size="medium"
-                            sx={{ position: 'absolute', top: 10, right: 2 , '&:hover': {
-                            color: 'red',  backgroundColor: red[100]}}}
+                            sx={{
+                              position: 'absolute', top: 10, right: 2, '&:hover': {
+                                color: 'red', backgroundColor: red[100]
+                              }
+                            }}
                             onClick={() => handleUnpinTile(tile.id)}
                           >
-                            <PushPinIcon  />
+                            <PushPinIcon />
                           </IconButton>
 
                           {/* Component for each tile */}
