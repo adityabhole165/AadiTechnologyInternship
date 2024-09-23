@@ -120,6 +120,9 @@ const SubjectMarkList = () => {
         </Stack>
       </>
     }])
+
+    console.log(Columns,"value");
+    
   useEffect(() => {
     if (HeaderListTestMark.length > 0) {
       let Columncpy = [...Columns];
@@ -347,7 +350,8 @@ const SubjectMarkList = () => {
                 <Grid item xs={gridIndex}>
                   <DataTable
                     columns={Columns}
-                    data={TestMarkListNew.filter((item) => { return (item.Index >= arrItem.startIndex && item.Index < arrItem.endIndex) })}
+                    data={TestMarkListNew.filter((item) => { return (item.Index >= arrItem.startIndex && item.Index <= arrItem.endIndex
+                    ) })}
                     isPagination={false}
                   />
                 </Grid>
