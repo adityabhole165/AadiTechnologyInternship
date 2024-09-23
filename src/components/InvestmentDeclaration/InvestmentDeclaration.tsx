@@ -403,7 +403,7 @@ const InvestmentDeclaration = () => {
                                 <Box sx={{
                                     backgroundColor: '#F0F0F0',
                                     textAlign: 'center', marginBottom: 2,
-                                    
+
                                 }}>
                                     <hr />
                                     <Typography variant={"h4"} textAlign={'center'} color={"#38548a"} mb={1}>
@@ -576,19 +576,24 @@ const InvestmentDeclaration = () => {
                             <Typography sx={{ backgroundColor: "#38548a", color: 'white', p: 1, ml: 2, textAlign: 'center' }}> {grandTotalAmount}</Typography>
                         </Box>
 
+                        <Grid container spacing={3}>
+                            {USISlistInvestmentEmpDetails.map((detail) => (
+                                <Grid item xs={12} key={detail.UserId}>
+                                    <Box sx={{ backgroundColor: '#ffffff', marginTop: 2 }}>
+                                        <Typography variant="body1" paragraph>
+                                            I further undertake to provide all documentary proofs of payment made by me before 25th January, {detail.FinancialYearEnd}, and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
+                                        </Typography>
+                                        <Typography variant="body1" paragraph>
+                                            I hereby declare that the information as stated above is true and correct. I also authorize the School to recover tax (TDS) from my salary based on the declaration/documents submitted by me. I am personally liable to Income Tax proceedings for any misstatements in the declaration or proofs submitted herewith if they are inconsistent with the requirement of Income Tax Act, 1961.
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            I <b>{detail.UserName}</b> solemnly declare that to the best of my knowledge and belief, the information given above is correct and complete.
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            ))}
+                        </Grid>
 
-
-                        <Box sx={{ backgroundColor: '#ffffff', marginTop: 2 }}>
-                            <Typography variant="body1" paragraph>
-                                I further undertake to provide all documentary proofs of payment made by me before 25th January, 2012 and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
-                            </Typography>
-                            <Typography variant="body1" paragraph>
-                                I hereby declare that Information as stated above is true and correct. I also authorize the School to recover tax (TDS) from my salary based on the declaration/documents submitted by me. I am personally liable to Income Tax proceedings for any misstatements in the declaration or proofs submitted herewith if they are inconsistent with the requirement of Income Tax Act, 1961.
-                            </Typography>
-                            <Typography variant="body1">
-                                I<b> {userName} </b>solemnly declare that to the best of my knowledge and belief the information given above is correct and complete.
-                            </Typography>
-                        </Box>
                     </Box >
 
                     {/* <Grid container justifyContent="center" spacing={2} style={{ marginTop: '20px' }}>
