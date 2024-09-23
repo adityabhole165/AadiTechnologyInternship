@@ -1,3 +1,4 @@
+import { Title } from '@mui/icons-material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Card, Grid, IconButton } from '@mui/material';
@@ -114,7 +115,7 @@ function DashBoard() {
       </Grid>
 
 
-
+   
       {/* Drag and Drop Context */}
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="dashboard" direction="horizontal">
@@ -131,7 +132,7 @@ function DashBoard() {
                   {(provided) => (
                     <Grid
                       item
-                      sm={4}
+                      sm={tile.id === 'attendance' ?  8:4}
                       key={resetKey} // Use the resetKey to force re-render
                       ref={provided.innerRef}
                       {...provided.draggableProps}
