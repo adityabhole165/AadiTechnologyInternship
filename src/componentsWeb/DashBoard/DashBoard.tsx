@@ -121,6 +121,7 @@ function DashBoard() {
         <Droppable droppableId="dashboard" direction="horizontal">
           {(provided) => (
             <Grid
+            
               container
               spacing={1}
               // mt={-1}
@@ -131,10 +132,12 @@ function DashBoard() {
                 <Draggable isDragDisabled={tile.id === 'profile' ? true : false} key={tile.id} draggableId={tile.id} index={index}>
                   {(provided) => (
                     <Grid
+                     
                       item
                       sm={tile.id === 'attendance' ? 8 : 4}
                       key={resetKey} // Use the resetKey to force re-render
                       ref={provided.innerRef}
+                    
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
@@ -145,12 +148,13 @@ function DashBoard() {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 1 }}
                       >
-                        <Card elevation={3} sx={{ position: 'relative' }}>
+                        <Card elevation={3} sx={{ position: 'relative', borderRadius:'10px' }}>
                           {/* Unpin Button */}
                           {tile.id !== 'profile' &&
                             <IconButton
                               // size="medium"
                               sx={{
+                                
                                 position: 'absolute', top: 10, right: 2, '&:hover': {
                                   color: 'red', backgroundColor: red[100]
                                 }
