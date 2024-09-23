@@ -160,7 +160,7 @@ const SubjectMarkList = () => {
       Columncpy.push({
         id: 'total',
         label: 'Total',
-        renderCell: (rowData) => <span>{parseInt(rowData.total)}</span>
+        renderCell: (rowData) => <span>{parseFloat(rowData.total)}</span>
       });
 
       setColumns(Columncpy);
