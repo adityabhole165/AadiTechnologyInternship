@@ -137,7 +137,7 @@ function UpcomingEvent() {
               <Button
                 sx={{
                   backgroundColor: selectedEventType === eventType ? '#F0F0F0' : getButtonColor(eventType),
-                  color: 'black', height: '3rem', width: '100%',
+                  color: `${getButtonColor(eventType)}`, height: '3rem', width: '100%',
                 }}
                 onClick={() => handleEventTypeClick(eventType)}>
                 <b>{eventType}</b>

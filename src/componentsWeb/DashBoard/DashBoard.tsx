@@ -116,6 +116,7 @@ function DashBoard() {
 
 
       {/* Drag and Drop Context */}
+
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="dashboard" direction="horizontal">
           {(provided) => (
@@ -127,7 +128,7 @@ function DashBoard() {
               ref={provided.innerRef}
             >
               {tiles.map((tile, index) => (
-                <Draggable key={tile.id} draggableId={tile.id} index={index}>
+                <Draggable isDragDisabled={tile.id === 'profile' ? true : false} key={tile.id} draggableId={tile.id} index={index}>
                   {(provided) => (
                     <Grid
                       item
