@@ -41,6 +41,9 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { BookOpenCheck, Copy, NotebookPen } from 'lucide-react';
+import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
+import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
+import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { red } from '@mui/material/colors';
@@ -555,12 +558,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
           {Object.keys(groupedItems).map((group) => (
             <Accordion key={group} >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-                {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px', }}><NotebookPen /></IconButton>}
+                {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px', }}><NoteAltOutlinedIcon /></IconButton>}
                 {group === 'Communication' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><MailCheck /></IconButton>}
-                {group === 'Exam' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><BookOpenCheck /></IconButton>}
+                {group === 'Exam' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><ImportContactsOutlinedIcon /></IconButton>}
                 {group === 'Calendar' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><CalendarMonthIcon /></IconButton>}
                 {group === 'Other Utilities' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><Inbox /></IconButton>}
-                {group === 'Extra Screens' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><Copy /></IconButton>}
+                {group === 'Extra Screens' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><FolderCopyOutlinedIcon /></IconButton>}
                 <b style={{ marginTop: '4px' }}> {group}</b>
               </AccordionSummary >
               <AccordionDetails sx={{ py: 0, pl: 0 }}>
