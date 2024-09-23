@@ -159,7 +159,7 @@ const SubjectExamMarks = () => {
     const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
       asSchoolId: Number(asSchoolId),
       asAcademicYrId: Number(asAcademicYearId),
-      asStandardId: 1078,
+      asStandardId: Number(StandardId),
       asSubjectId: Number(SubjectId),
       asTestId: Number(TestId),
     };
@@ -221,7 +221,7 @@ const SubjectExamMarks = () => {
     {
 
       asSchoolId: Number(asSchoolId),
-      asStandardId: 1078,
+      asStandardId: Number(StandardId),
       asTestId: Number(TestId),
       asSubjectId: Number(SubjectId),
     }
