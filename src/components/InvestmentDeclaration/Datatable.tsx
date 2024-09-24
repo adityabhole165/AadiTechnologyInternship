@@ -86,13 +86,13 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                 <Table >
                     <TableHead>
                         <StyledTableRow>
-                            <StyledTableCell>No.</StyledTableCell>
+                            <StyledTableCell align="center">No.</StyledTableCell>
                             {columns.map((column) => (
                                 <StyledTableCell {...column.headerCellProps} key={column.id}>
                                     {column.renderHeader ? column.renderHeader() : column.label}
                                 </StyledTableCell>
                             ))}
-                            <StyledTableCell>Amount</StyledTableCell>
+                            <StyledTableCell >Amount</StyledTableCell>
                         </StyledTableRow>
                     </TableHead>
                     <TableBody>
@@ -111,7 +111,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                         ) : (
                             (isPagination ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : tableData).map((row, rowIndex) => (
                                 <TableRow key={rowIndex}>
-                                    <TableCell>{page * rowsPerPage + rowIndex + 1}</TableCell>
+                                    <TableCell align="center">{page * rowsPerPage + rowIndex + 1}</TableCell>
                                     {columns.map((column, i) => (<>{(GroupAmount == 0) ?
                                         < TableCell  {...column.cellProps} key={column.id} >
                                             {column.renderCell ? column.renderCell(row, rowIndex) : row[column.id]}
@@ -123,14 +123,14 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                     }
                                     </>
                                     ))}
-                                    
-                                    {GroupAmount != 0 && rowIndex % 12 ===0 &&(
-                                        < TableCell rowSpan={tableData.filter(r => r.GroupAmount === row.GroupAmount).length}  align='left' sx={{border: (theme) => `1px solid ${theme.palette.divider}`}}>
+
+                                    {GroupAmount != 0 && rowIndex % 12 === 0 && (
+                                        < TableCell rowSpan={tableData.filter(r => r.GroupAmount === row.GroupAmount).length} align='center' sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                                             {GroupAmount}
                                         </TableCell >
                                     )}
 
-                                        {/* {GroupAmount !== 0 && isGroupAmountDifferent && (
+                                    {/* {GroupAmount !== 0 && isGroupAmountDifferent && (
                                             <TableCell rowSpan={tableData.filter(r => r.GroupAmount === row.GroupAmount).length}>
                                                 {GroupAmount}
                                             </TableCell>
@@ -153,8 +153,8 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                         <TableRow sx={{
                             paddingTop: '2.5px', paddingBottom: '2.5px'
                         }}>
-                            <TableCell colSpan={columns.length + 1} sx={{textAlign:'right'}}>
-                                <Typography variant="h6" sx={{ backgroundColor: "#324b84", ml: 120, p: 0.5, color: 'white', textAlign:'center' }}>Total Amount </Typography>
+                            <TableCell colSpan={columns.length + 1} sx={{ textAlign: 'right' }}>
+                                <Typography variant="h6" sx={{ backgroundColor: "#324b84", ml: 120, p: 0.5, color: 'white', textAlign: 'center' }}>Total Amount </Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant="h6" sx={{ backgroundColor: "#324b84", p: 0.5, mr: 10, color: 'white' }}>{totalAmount}</Typography>

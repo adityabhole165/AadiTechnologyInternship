@@ -146,6 +146,8 @@ const InvestmentSection = ({ refreshData, clickDocumentDetails }) => {
                 {
                     id: 'AttachmentCount',
                     label: 'Attachment Count',
+                    headerCellProps: { align: 'center' }, // Align the header to center
+                    cellProps: { align: 'center', sx: { border: (theme) => `1px solid ${theme.palette.divider}` }, },
                     // renderCell: (rowData) => rowData.DocumentCount,
                     renderCell: (rowData) => (
                         // <IconButton onClick={() => clickDocument((rowData))} sx={{ padding: '3px 8px', margin: '0px 15px' }} >
@@ -157,6 +159,8 @@ const InvestmentSection = ({ refreshData, clickDocumentDetails }) => {
                 {
                     id: 'MaximumLimit',
                     label: 'Maximum Limit Rs.',
+                    headerCellProps: { align: 'center' }, // Align the header to center
+                    cellProps: { align: 'center', sx: { border: (theme) => `1px solid ${theme.palette.divider}` }, },
                     renderCell: (rowData) => section.GroupMaxAmount == 0 ? rowData.MaxAmount : section.GroupMaxAmount,
                 }
             ];
