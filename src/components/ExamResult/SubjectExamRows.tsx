@@ -63,7 +63,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         <TextField size={"small"}
 
                                             sx={{
-                                                width: '50px',
+                                                width: '60px',
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
                                                 background: (IsReadOnly || examResultProp && publish ||!(Item.ExamStatus == "N") ?
