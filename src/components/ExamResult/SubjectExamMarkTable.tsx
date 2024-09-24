@@ -235,10 +235,10 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <TableHead >
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                <TableCell sx={{ color: 'white', fontWeight: "bold", py:1, width:'100px' }}>
+                <TableCell sx={{ color: 'white', fontWeight: "bold", py:1,}}>
                   {ExamMarksHeader.Text1}
                 </TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" , py:1, width:'40%'}}>
+                <TableCell sx={{ color: 'white', fontWeight: "bold" , py:1, }}>
                   {ExamMarksHeader.Text2}
                 </TableCell>
                 {/* <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
