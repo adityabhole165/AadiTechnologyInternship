@@ -39,7 +39,7 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
           <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
             <TableHead>
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
-                <TableCell sx={{ color: 'white', minWidth: '107px' }}>
+                <TableCell sx={{ color: 'white', minWidth: '130px'}}>
                   Checkbox
                 </TableCell>
                 <TableCell sx={{ color: 'white', }} >

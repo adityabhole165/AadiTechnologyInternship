@@ -52,7 +52,7 @@ function List1({
                     <TableRow key={index} sx={{ cursor: 'pointer' }} onClick={() => {
                       clickCard(items.linkPath);
                     }}>
-                      <TableCell sx={{ textTransform: 'capitalize', maxWidth:'50px' , py:1}}>
+                      <TableCell sx={{ textTransform: 'capitalize', maxWidth:'60px' , py:1}}>
                         {items.header}
                       </TableCell>
                       <TableCell sx={{ textTransform: 'capitalize', py:1}}>
