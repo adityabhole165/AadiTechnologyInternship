@@ -231,9 +231,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   return (
     <div>
       <Box>
-        <TableContainer component={Box} sx={{ mt: 2, width: 'auto' }}>
+        <TableContainer component={Box} sx={{ mt: 2 }}>
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-            <TableHead>
+            <TableHead >
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text1}
@@ -306,7 +306,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
           </Table>
         </TableContainer>
       </Box>
-    </div>
+    </div >
   );
 
 }

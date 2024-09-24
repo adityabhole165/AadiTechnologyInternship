@@ -58,50 +58,56 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
     return (
         <>
             {ExamMarksHeader?.map((Item, Index) => {
-                return (<TableCell
+                return (
+                    <>
+                        {/* <TableCell
                     sx={{ color: 'white', fontWeight: "bold", py: 0 }}
-                    key={Index}>
-                    {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}> */}
+                    key={Index}> */}
+                        {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}> */}
 
-                    {/* <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
+                        {/* <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
                         {Item.Text4}</TableCell> */}
-                    <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
-                        {Item.Text4}
-                    </TableCell>
+                        <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
+                            {Item.Text4}
+                        </TableCell>
 
-                    <TableCell sx={{ color: 'white', fontWeight: "bold", py: 0 }}>
-                        {IsMark ? (
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                {Item.Text1}
+                        <TableCell sx={{ color: 'white', fontWeight: "bold", py: 0 }}>
+                            {IsMark ? (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    {Item.Text1}
 
 
-                                <TextField sx={{
-                                    width: '50px',
-                                    background: (IsReadOnly) ?
-                                        "#F0F0F0" : "white"
-                                }} size={"small"}
-                                    value={Item.Text2}
-                                    onBlur={() => handleBlur(Item.Text2, Index)}
-                                    onChange={(e) => handleChange(e, validateInput, (value) =>
-                                        ChangeExamHeader(value, Item.Id))}
+                                    <TextField sx={{
+                                        width: '50px',
+                                        background: (IsReadOnly) ?
+                                            "#F0F0F0" : "white"
+                                    }} size={"small"}
+                                        value={Item.Text2}
+                                        onBlur={() => handleBlur(Item.Text2, Index)}
+                                        onChange={(e) => handleChange(e, validateInput, (value) =>
+                                            ChangeExamHeader(value, Item.Id))}
+                                        disabled={IsReadOnly}
+                                    />
+                                    {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
+                            value={Item.Text3} /> */}
+                                </Box>
+                            ) : (
+                                <Dropdown
+                                    defaultValue={Item.Text3}
+                                    variant='outlined'
+                                    Array={GradesForSubjectMarkList}
+                                    handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
                                     disabled={IsReadOnly}
                                 />
-                                {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
-                            value={Item.Text3} /> */}
-                            </Box>
-                        ) : (
-                            <Dropdown
-                                defaultValue={Item.Text3}
-                                variant='outlined'
-                                Array={GradesForSubjectMarkList}
-                                handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
-                                disabled={IsReadOnly}
-                            />
-                        )}
-                    </TableCell>
-                    {/* </Box>
+                            )}
+                        </TableCell>
+                        <TableCell sx={{ color: 'white', fontWeight: "bold", py: 0 }} />
+                        {/* </Box>
                    */}
-                </TableCell>)
+                        {/* </TableCell>
+                 */}
+                    </>
+                )
             })}
         </>
     )
