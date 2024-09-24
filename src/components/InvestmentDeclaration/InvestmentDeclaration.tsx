@@ -581,7 +581,7 @@ const InvestmentDeclaration = () => {
                                 <Grid item xs={12} key={detail.UserId}>
                                     <Box sx={{ backgroundColor: '#ffffff', marginTop: 2 }}>
                                         <Typography variant="body1" paragraph>
-                                            I further undertake to provide all documentary proofs of payment made by me before 25th January, {detail.FinancialYearEnd}, and if I fail to do so, the school can make full deduction of income tax dues from February / March 2012 salary.
+                                            I further undertake to provide all documentary proofs of payment made by me before 25th January, {detail.FinancialYearEnd}, and if I fail to do so, the school can make full deduction of income tax dues from February / March {detail.FinancialYearEnd} salary.
                                         </Typography>
                                         <Typography variant="body1" paragraph>
                                             I here by declare that Information as stated above is true and correct. I also authorize the School to recover tax (TDS) from my salary based on the declaration/documents submitted by me. I am personally liable to Income Tax proceedings for any misstatements in the declaration or proofs submitted herewith if they are inconsistent with the requirement of Income misstatements in the declaration or proofs submitted herewith if they are inconsistent with the requirement of Income Tax Act, 1961.
