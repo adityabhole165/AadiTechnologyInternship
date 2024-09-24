@@ -47,13 +47,10 @@ const TermwiseHeightWeight = () => {
   const asUserId = Number(sessionStorage.getItem('UserId'));
 
   const ClassTeacherDropdown = useSelector((state: RootState) => state.TermwiseHtWt.ClassTeacherList);
-  console.log(ClassTeacherDropdown, "ClassTeacherDropdown");
 
   let CanEdit = getSchoolConfigurations(247) 
-  console.log(CanEdit, "CanEdit");
 
   const [SelectTeacher, setSelectTeacher] = useState(CanEdit =="Y"? 0 :StandardDivisionId);
-console.log(SelectTeacher,"SelectTeacher");
 
   const TermDropdown = useSelector((state: RootState) => state.TermwiseHtWt.TermwiseTermList);
   const StudentList = useSelector((state: RootState) => state.TermwiseHtWt.Student);

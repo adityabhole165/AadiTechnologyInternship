@@ -63,6 +63,8 @@ const ExamResultBase = () => {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
+
+  
   
   const asUserId = localStorage.getItem('UserId');
   const [StandardDivisionId, setStandardDivisionId] = useState(
@@ -79,12 +81,12 @@ const ExamResultBase = () => {
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeachers.map((item) => {
-      if (item.Value == StandardDivisionId) TeacherId = StandardDivisionId;
+      if (item.Value == StandardDivisionId) 
+        TeacherId = item.Value;
     });
     return TeacherId;
   };
 
-  console.log(getTeacherId(),"getTeacherId");
   
 
   const getStandardId = () => {

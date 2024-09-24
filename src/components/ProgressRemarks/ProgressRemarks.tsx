@@ -44,6 +44,7 @@ import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
+import { getSchoolConfigurations } from '../Common/Util';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const ProgressRemarks = () => {
 
   const { StandardDivisionId, TestId } = useParams();
 
-  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId == undefined ? "0" : StandardDivisionId);
+  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId ? StandardDivisionId :"0" );
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -85,6 +86,7 @@ const ProgressRemarks = () => {
     return perm;
   };
 
+  
   // const determineInitialState = () => {
   //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
   // };
@@ -151,7 +153,6 @@ const ProgressRemarks = () => {
   );
 
   const countArray = USGetAllStudentsForProgressRemark.map((item: any) => item.TotalRows);
-  console.log(countArray[0], "countArray");
 
 
   const USRemarkDetailsHeaderList: any = useSelector(
@@ -167,9 +168,9 @@ const ProgressRemarks = () => {
 
   const maxRemarkLength = USGetConfiguredMaxRemarkLength?.MaxRemarkLength;
 
-  console.log(maxRemarkLength, "---M1");
 
-
+  let CanEdit = getSchoolConfigurations(266) 
+  
   useEffect(() => {
     let headerArray = [
       { Id: 1, Header: 'Roll No.' },
