@@ -123,6 +123,7 @@ import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
 import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
+import StudentsSlice from '../requests/Students/RequestStudents';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import UpcomingEventDashslice from '../requests/UpcomingEventDash/ReqUpcomingEventDash';
@@ -131,6 +132,7 @@ import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeT
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
+  Students: StudentsSlice,
   Support: SliceSupport,
   Holidays: Holidaysslice,
   WeeklyTimetable: WeeklyTimeTableSlice,

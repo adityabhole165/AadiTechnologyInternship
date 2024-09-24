@@ -244,6 +244,9 @@ const StudentwiseprogressreportEdit = Loader(
 const PreprimaryProgressReportView = Loader(
   lazy(() => import('src/components/StudentWiseProgressReport/PreprimaryProgressReportView'))
 )
+const StudentBaseScreen = Loader(
+  lazy(() => import('src/components/Students/StudentBaseScreen'))
+)
 
 
 
@@ -285,6 +288,10 @@ const teacherRoutes = [
   {
     path: 'AddLeaveDetails',
     element: <AddLeaveDetails />
+  },
+  {
+    path: 'Students',
+    element: <StudentBaseScreen />
   },
   {
     path: 'ViewLeaveDetails/:LeaveDId/:ParamsUserId/:selectCategory/:getSenderName',

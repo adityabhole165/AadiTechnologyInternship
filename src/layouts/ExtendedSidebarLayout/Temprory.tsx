@@ -17,6 +17,7 @@ import EventBusyTwoToneIcon from '@mui/icons-material/EventBusyTwoTone'; // miss
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'; // Attendance
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'; //Annual Planner
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 import FactCheck from '@mui/icons-material/FactCheck';
 import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone'; // Pre Primary Progress Report
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone'; // message center 
@@ -254,6 +255,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Add Aadhar Card Details',
       icon: <AddCardTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AadharCard'
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Students',
+      icon: <SwitchAccountIcon />,
+      link: '/extended-sidebar/Teacher/Students'
     },
     {
       id: 'Extra Screens',
