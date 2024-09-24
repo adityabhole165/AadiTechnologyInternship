@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, FormControlLabel, Grid, Switch, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetScreenPermission } from 'src/components/Common/Util';
@@ -13,124 +13,141 @@ import Header from './Header';
 
 const AnnualPlannerDashBoard = () => {
     const dispatch = useDispatch();
-    const StandardDivisionId = Number(
-        sessionStorage.getItem('StandardDivisionId')
-    );
+    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const FinalResultFullAccess = GetScreenPermission('Final Result');
-    const [standardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0' : String(StandardDivisionId))
-    const [ClassToppersListCT, setClassToppersListCT] = useState([])
+    const [isToggleEnabled, setIsToggleEnabled] = useState(false);
+    const [standardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess === 'Y' ? '0' : String(StandardDivisionId));
+    const [ClassToppersListCT, setClassToppersListCT] = useState([]);
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
     const HeaderListCT = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
-    const GetClassTeachers = useSelector(
-        (state: RootState) => state.FinalResult.ClassTeachers
-    );
-    const GetLatestclassExam = useSelector(
-        (state: RootState) => state.Toppers.LatestExamIdCT
-    );
-    const GetClassToppersListCT = useSelector(
-        (state: RootState) => state.Toppers.ClassToppersList
-    );
+    const GetClassTeachers = useSelector((state: RootState) => state.FinalResult.ClassTeachers);
+    const GetLatestclassExam = useSelector((state: RootState) => state.Toppers.LatestExamIdCT);
+    const GetClassToppersListCT = useSelector((state: RootState) => state.Toppers.ClassToppersList);
 
     const getTeacherId = () => {
-        let returnVal = 0
-        GetClassTeachers.map((item) => {
-            if (item.Value == standardDivisionId) {
-                returnVal = item.Id
+        let returnVal = 0;
+        GetClassTeachers.forEach((item) => {
+            if (item.Value === standardDivisionId) {
+                returnVal = item.Value;
             }
-        })
-
-        return returnVal
-
+        });
+        console.log(returnVal, 'returnVal')
+        return returnVal;
     };
 
     const ClassTeachersBody: IClassTeacherListBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        // asTeacherId: "2532"
-        asTeacherId: FinalResultFullAccess == 'Y' ? '0' : getTeacherId()
+        asTeacherId: FinalResultFullAccess === 'Y' ? '0' : getTeacherId(),
     };
+
     const ExamDropdownBodyCT: IGetLatestExamIdandDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asStandardDivId: Number(standardDivisionId),
-        asStandardId: 0
+        asStandardId: 0,
     };
+
     const ToppersListBodyCT: IGetClassandStandardToppersListBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asStandardDivId: Number(standardDivisionId),
         asStandardId: null,
         asTestId: Number(GetLatestclassExam),
-        asSubjectId: Number(SelectSubjectCT)
+        asSubjectId: Number(SelectSubjectCT),
     };
 
     const clickTeacherDropdown = (value) => {
         setStandardDivisionId(value);
-
     };
+
+    const handleToggleChange = (event) => {
+        setIsToggleEnabled(event.target.checked);
+    };
+
     useEffect(() => {
-        setClassToppersListCT(GetClassToppersListCT)
-    }, [GetClassToppersListCT])
+        dispatch(ClassTechersList(ClassTeachersBody));
+    }, []);
+
+    useEffect(() => {
+        setClassToppersListCT(GetClassToppersListCT);
+    }, [GetClassToppersListCT]);
 
     useEffect(() => {
         dispatch(LatestClassExam(ExamDropdownBodyCT));
     }, []);
+
     useEffect(() => {
         dispatch(ClassToppersList(ToppersListBodyCT));
-    }, [GetLatestclassExam, GetClassTeachers]);
-    useEffect(() => {
-        dispatch(ClassTechersList(ClassTeachersBody));
-    }, [getTeacherId()]);
-
+    }, [GetLatestclassExam, standardDivisionId]);
 
     return (
-        <Box sx={{ backgroundColor: 'white', p: 1 }} >
+        <Box sx={{ backgroundColor: 'white', p: 1 }}>
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
                 <Header Title="Toppers" />
             </Grid>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
                 <SearchableDropdown
                     sx={{
-                        minWidth: '300px'
-                        , bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit'
+                        minWidth: '20vw',
+                        bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit',
                     }}
-
                     ItemList={GetClassTeachers}
                     onChange={clickTeacherDropdown}
                     label={'Teacher'}
                     defaultValue={standardDivisionId}
                     DisableClearable={FinalResultFullAccess === 'N'}
                     disabled={FinalResultFullAccess === 'N'}
-
                     mandatory
-                    size={"small"}
-
+                    size="small"
+                />
+                <FormControlLabel
+                    control={
+                        <Switch checked={isToggleEnabled} onChange={handleToggleChange} color="primary" />
+                    }
+                    label="Change View"
+                    sx={{ ml: 2 }}
                 />
             </Box>
-            <Box sx={{ height: '320px', overflow: 'auto', mt: 1, }}>
+            <Box sx={{ height: '270px', overflow: 'auto', mt: 1 }}>
                 {GetClassToppersListCT.length > 0 ? (
-                    <div>
+                    isToggleEnabled ? (
+
+                        <Grid container spacing={2}>
+                            {ClassToppersListCT.map((student, index) => (
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <Card sx={{ backgroundColor: '#f5f5f5', p: 2 }}>
+                                        <CardContent>
+                                            <Typography>Roll No.: {student.Text2}</Typography>
+                                            <Typography>Student Name: {student.Text3}</Typography>
+                                            <Typography>Marks: {student.Text4}</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+
+
+                    ) : (
+                        // Render the original list view when toggle is disabled
                         <DynamicList2
                             HeaderList={HeaderListCT}
                             ItemList={ClassToppersListCT}
                             IconList={[]}
                             ClickItem={undefined}
                         />
-                    </div>
+                    )
                 ) : (
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                        <b>No record found.</b>
+                    <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
+                        No record found.
                     </Typography>
-
                 )}
             </Box>
-        </Box >
+        </Box>
     );
 };
 
 export default AnnualPlannerDashBoard;
-
-
