@@ -1,4 +1,4 @@
-import { Box, Stack, TableCell, TextField, Tooltip } from '@mui/material';
+import { Box, TableCell, TextField, Tooltip } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 const validateInput = (inputValue) => {
     const regex = /^\d{0,3}(\.\d{0,1})?$|^\d{0,5}$/
@@ -6,7 +6,7 @@ const validateInput = (inputValue) => {
 };
 const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
     GradesForSubjectMarkList, ExamStatus, changeExamStatus,
-    changeExamGrade, IsReadOnly,examResultProp,publish, IsMark, AllowDecimal = true }) => {
+    changeExamGrade, IsReadOnly, examResultProp, publish, IsMark, AllowDecimal = true }) => {
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
@@ -34,10 +34,10 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
         <>
             {ExamMarks?.map((Item, Index) => {
                 return (
-                    <TableCell key={Index} sx={{paddingTop: '2.5px', paddingBottom: '2.5px'
-                    }}>
-                        <Stack direction="row" alignItems="center" gap={2}>
+                    <>
+                        <TableCell key={Index} sx={{py:1}}>
                             <Dropdown
+                                width='150px'
                                 size={"small"}
                                 defaultValue={Item.ExamStatus}
                                 variant='outlined'
@@ -52,10 +52,11 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         Item.AllowMarksEntryForLateJoin == "false")}
 
                             />
-                            {IsMark ? (
+                        </TableCell>
+                        {IsMark ? (
 
-                                <Stack direction="row" alignItems="center" gap={2}>
-
+                            <>
+                                <TableCell key={Index} sx={{py:1,}}>
                                     <Tooltip title={
                                         (Number(Item.Text1) > Number(Item.Text2)) ?
                                             ("Marks Scored should be less than " + Item.Text2)
@@ -63,14 +64,15 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
                                         <TextField size={"small"}
 
                                             sx={{
-                                                width: '60px',
+                                                ml:3,
+                                                width: '50px',
                                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0,
-                                                background: (IsReadOnly || examResultProp && publish ||!(Item.ExamStatus == "N") ?
+                                                background: (IsReadOnly || examResultProp && publish || !(Item.ExamStatus == "N") ?
                                                     "#f0F0F0" : "")
 
                                             }}
-                                            disabled={IsReadOnly ||examResultProp && publish || !(Item.ExamStatus == "N")}
+                                            disabled={IsReadOnly || examResultProp && publish || !(Item.ExamStatus == "N")}
                                             value={AllowDecimal ? Item.Text1 :
                                                 Math.round(Number(Item.Text1))
                                             }
@@ -78,25 +80,27 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText,
 
                                         />
                                     </Tooltip>
+                                </TableCell>
+                                <TableCell key={Index} sx={{py:1}}>
                                     {getGrade(Item.Text1, Item.Text2)}
-                                </Stack>
-                            ) : (
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell key={Index} sx={{py:1}}>
                                 <Box>
-
-
                                     <Dropdown
                                         size={"small"}
                                         defaultValue={Item.ExamGrade}
                                         variant='outlined'
                                         Array={GradesForSubjectMarkList}
-                                        disabled={IsReadOnly|| examResultProp && publish  || !Item.IsActive}
+                                        disabled={IsReadOnly || examResultProp && publish || !Item.IsActive}
                                         handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
                                     />
 
-                                </Box>)
-                            }
-                        </Stack>
-                    </TableCell>
+                                </Box>
+                            </TableCell>)
+                        }
+                    </>
                 )
             })}
         </>
