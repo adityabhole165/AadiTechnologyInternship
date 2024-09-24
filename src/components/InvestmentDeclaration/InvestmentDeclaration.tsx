@@ -538,7 +538,7 @@ const InvestmentDeclaration = () => {
                                 </Box>
                                 <Box >
                                     <SearchableDropdown
-                                        sx={{ maxWidth: '25vh' }}
+                                        sx={{ maxWidth: '26vh' }}
                                         ItemList={USGetRegimeDropdown}
                                         onChange={clickRegimeDropDown}
                                         label={'Regime'}
