@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetScreenPermission } from 'src/components/Common/Util';
 import { IGetClassandStandardToppersListBody, IGetLatestExamIdandDropdownBody } from 'src/interfaces/ExamResult/IToppers';
 import { IClassTeacherListBody } from 'src/interfaces/FinalResult/IFinalResult';
-import DynamicList2 from 'src/libraries/list/DynamicList2';
+import DynamicToppersList from 'src/libraries/list/DynamicToppersList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { ClassToppersList, LatestClassExam } from 'src/requests/ExamResult/RequestToppers';
 import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
 import Header from './Header';
-import DynamicToppersList from 'src/libraries/list/DynamicToppersList';
 
 
 const AnnualPlannerDashBoard = () => {
@@ -23,7 +22,7 @@ const AnnualPlannerDashBoard = () => {
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-
+    const ClassName = String(sessionStorage.getItem('ClassName'));
     const HeaderListCT = ['Rank', 'Student Name', 'Marks'];
     const GetClassTeachers = useSelector((state: RootState) => state.FinalResult.ClassTeachers);
     const GetLatestclassExam = useSelector((state: RootState) => state.Toppers.LatestExamIdCT);
@@ -92,20 +91,36 @@ const AnnualPlannerDashBoard = () => {
                 <Header Title="Toppers" />
             </Grid>
             <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                <SearchableDropdown
+                {/* <SearchableDropdown
                     sx={{
                         minWidth: '20vw',
-                        bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit',
+                        //bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit',
                     }}
                     ItemList={GetClassTeachers}
                     onChange={clickTeacherDropdown}
                     label={'Teacher'}
                     defaultValue={standardDivisionId}
                     DisableClearable={FinalResultFullAccess === 'N'}
-                    disabled={FinalResultFullAccess === 'N'}
+                    //disabled={FinalResultFullAccess === 'N'}
                     mandatory
                     size="small"
-                />
+                /> */}
+
+                {ClassName == '' && ( // If ClassName is empty, render the dropdown
+                    <SearchableDropdown
+                        sx={{
+                            minWidth: '20vw',
+                        }}
+                        ItemList={GetClassTeachers}
+                        onChange={clickTeacherDropdown}
+                        label={'Teacher'}
+                        defaultValue={standardDivisionId}
+                        DisableClearable={FinalResultFullAccess === 'N'}
+                        mandatory
+                        size="small"
+                    />
+                )}
+
                 <FormControlLabel
                     control={
                         <Switch checked={isToggleEnabled} onChange={handleToggleChange} color="primary" />
