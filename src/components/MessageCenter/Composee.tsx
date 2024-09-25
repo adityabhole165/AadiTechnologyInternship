@@ -1,13 +1,17 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import DraftsIcon from '@mui/icons-material/Drafts';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import ReplyIcon from '@mui/icons-material/Reply';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SendIcon from '@mui/icons-material/Send';
 import {
   Box,
   Button,
   Checkbox,
   ClickAwayListener,
-  Fab,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   FormHelperText,
   Grid,
   TextField,
@@ -16,6 +20,8 @@ import {
   useTheme
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import { blue, green, grey } from '@mui/material/colors';
+import { ClearIcon } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
@@ -30,10 +36,6 @@ import { ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessag
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import SendIcon from '@mui/icons-material/Send';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import DraftsIcon from '@mui/icons-material/Drafts';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
 import {
   BoxContent,
@@ -60,10 +62,13 @@ import {
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
 import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
-import AddReciepents from './AddReciepents';
-import { blue, green, grey } from '@mui/material/colors';
 import CommonPageHeader from '../CommonPageHeader';
+import AddReciepents from './AddReciepents';
+
 function Form13() {
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [showRecipients, setShowRecipients] = useState(false);
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -268,6 +273,15 @@ function Form13() {
         }
       }
     }
+  };
+
+  const handleOpenDialog = (isRecipients) => {
+    setShowRecipients(isRecipients);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   const CheckValidation = (fileData) => {
@@ -629,65 +643,65 @@ function Form13() {
     }
   }, [SaveDraftM]);
   return (
-    <>  
-    <Box sx={{ px: 2 }}>
-      <CommonPageHeader navLinks={[
-         { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
-        {title: 'Compose Message', path: ''}
-      ]}
-        rightActions={<>
-          <Box>
+    <>
+      <Box sx={{ px: 2 }}>
+        <CommonPageHeader navLinks={[
+          { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
+          { title: 'Compose Message', path: '' }
+        ]}
+          rightActions={<>
+            <Box>
               <Tooltip
-                  title={`Write a new message/send reply to the message received.`}
+                title={`Write a new message/send reply to the message received.`}
               >
-                  <IconButton
-                      sx={{
-                          color: 'white',
-                          backgroundColor: grey[500],
-                          height: '36px !important',
-                          ':hover': { backgroundColor: grey[600] }
-                      }}
-                  >
-                      <QuestionMarkIcon />
-                  </IconButton>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
               </Tooltip>
-          </Box>
-          <Box>
+            </Box>
+            <Box>
               <Tooltip title={'Save As Draft'}>
-                  <IconButton
-                      type='submit'
-                      sx={{
-                          color: 'white',
-                          backgroundColor: green[500],
-                          height: '36px !important',
-                          ':hover': { backgroundColor: green[600] }
-                      }}
-                      // onClick={handleSubmit}
-                  >
-                      <DraftsIcon/>
-                  </IconButton>
+                <IconButton
+                  type='submit'
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                // onClick={handleSubmit}
+                >
+                  <DraftsIcon />
+                </IconButton>
               </Tooltip>
-          </Box>
-          <Box>
+            </Box>
+            <Box>
               <Tooltip title={'Send'}>
-                  <IconButton
-                      type='submit'
-                      sx={{
-                          color: 'white',
-                          backgroundColor: blue[500],
-                          height: '36px !important',
-                          ':hover': { backgroundColor: blue[600] }
-                      }}
-                      // onClick={handleSubmit}
-                  >
-                      <SendIcon/>
-                  </IconButton>
+                <IconButton
+                  type='submit'
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: blue[600] }
+                  }}
+                // onClick={handleSubmit}
+                >
+                  <SendIcon />
+                </IconButton>
               </Tooltip>
-          </Box>
-      </>
-  }
-/>   
-      
+            </Box>
+          </>
+          }
+        />
+
         {/* <span
           onClick={() => {
             navigate(-1);
@@ -708,7 +722,7 @@ function Form13() {
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={1} sx={{ height: 'auto' }}>
-            <Grid item xs={12} >
+              <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>Form</Typography>
               </Grid>
               <Grid item xs={12} sm={8} md={9.5} >
@@ -769,32 +783,36 @@ function Form13() {
                 <Button
                   fullWidth
                   // color="primary"
-                  onClick={(e) => RecipientButton(e)}
+                  // onClick={(e) => RecipientButton(e)}
+                  onClick={() => handleOpenDialog(true)}
                   sx={{
-                    color:'#38548A',
-                    width:'140px',
-                    mt:1,
-                      '&:hover': {
-                    color:'#38548A',
-                     backgroundColor: blue[100]
-                      }}}
+                    color: '#38548A',
+                    width: '140px',
+                    mt: 1,
+                    '&:hover': {
+                      color: '#38548A',
+                      backgroundColor: blue[100]
+                    }
+                  }}
                 >
                   Add Recipients
                 </Button>
               </Grid>
               <Grid item xs={6} sm={2} md={1}>
                 <Button
-                fullWidth
-                //  color="primary"
+                  fullWidth
+                  //  color="primary"
                   onClick={clickHide}
+
                   sx={{
-                    color:'#38548A',
-                    ml:4,
-                    mt:1,
-                      '&:hover': {
-                    color:'#38548A',
-                     backgroundColor: blue[100]
-                      }}}>
+                    color: '#38548A',
+                    ml: 4,
+                    mt: 1,
+                    '&:hover': {
+                      color: '#38548A',
+                      backgroundColor: blue[100]
+                    }
+                  }}>
                   Add Cc
                 </Button>
               </Grid>
@@ -814,7 +832,7 @@ function Form13() {
               {showCC && (
                 <>
                   <Grid item xs={12}>
-                  <Typography variant='h4' pl={1}>Cc</Typography>
+                    <Typography variant='h4' pl={1}>Cc</Typography>
                   </Grid>
                   <Grid item xs={12} sm={8} md={9.5}>
                     <TextField
@@ -840,15 +858,17 @@ function Form13() {
                     <Box >
                       <Button
                         fullWidth
-                        onClick={(e) => RecipientCCButton(e)}
+                        // onClick={(e) => RecipientCCButton(e)}       
+                        onClick={() => handleOpenDialog(false)}
                         sx={{
-                          color:'#38548A',
-                          mt:0.7,
-                          width:'160px',
-                            '&:hover': {
-                          color:'#38548A',
-                           backgroundColor: blue[100]
-                            }}}
+                          color: '#38548A',
+                          mt: 0.7,
+                          width: '160px',
+                          '&:hover': {
+                            color: '#38548A',
+                            backgroundColor: blue[100]
+                          }
+                        }}
                       >
                         Add Cc Recipients
                       </Button>
@@ -880,7 +900,7 @@ function Form13() {
                   // variant="standard"
                   value={formik.values.Subject}
                   onChange={formik.handleChange}
-                  sx={{ }}
+                  sx={{}}
                 />
                 <Errormessages Error={subjecterror} />
                 <Box >
@@ -911,11 +931,11 @@ function Form13() {
                   FileLabel={'Select Image'}
                   width={'100%'}
                   height={"52px"}
-                  isMandatory={false} 
+                  isMandatory={false}
                   MaxfileSize={undefined}
-                   ChangeFile={undefined}                             
-                      // onChange={fileChangedHandler}
-                            />
+                  ChangeFile={undefined}
+                // onChange={fileChangedHandler}
+                />
                 <Box sx={{ mt: '15px', width: '300px' }}>
                   <Errormessages Error={fileerror} />
                 </Box>
@@ -1094,10 +1114,10 @@ function Form13() {
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{p:0}}>
-                <ReactQuill value={formik.values.Content} modules={toolbarOptions}
-                  onChange={formik.handleChange} theme='snow'
-                  onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
+                <Box sx={{ p: 0 }}>
+                  <ReactQuill value={formik.values.Content} modules={toolbarOptions}
+                    onChange={formik.handleChange} theme='snow'
+                    onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
                 </Box>
                 {/* <TextField
                   fullWidth
@@ -1130,7 +1150,7 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={12} sx={{ mt: 2, pl:0 }}>
+              <Grid item xs={12} sm={12} sx={{ mt: 2, pl: 0 }}>
                 {PageName === 'Reply' || PageName === 'Forwa' ? (
                   <>
                     <FormHelperText sx={{ ml: '3px' }}>
@@ -1143,10 +1163,10 @@ function Form13() {
                     </BoxContent>
                   </>
                 ) : null}
-                
+
               </Grid>
 
-              <Grid container spacing={1} sx={{ m:0.5, pt:2 , pl:125}}  >
+              <Grid container spacing={1} sx={{ m: 0.5, pt: 2, pl: 125 }}  >
                 <Grid item xs={12} sm={6} >
                   <Button
                     // color="primary"
@@ -1155,26 +1175,28 @@ function Form13() {
                     onClick={formik.handleChange}
                     disabled={disabledStateOfSend}
                     sx={{
-                      color:'#38548A',
-                        '&:hover': {
-                      color:'blue',  
-                       backgroundColor: blue[100]
-                        }}}
+                      color: '#38548A',
+                      '&:hover': {
+                        color: 'blue',
+                        backgroundColor: blue[100]
+                      }
+                    }}
                   >
                     Send
                   </Button>
                 </Grid>
                 <Grid item xs={12} sm={5} >
                   <Button
-                  // color="primary" 
-                  fullWidth onClick={SaveDraft}
-                   sx={{
-                    color:'green',
+                    // color="primary" 
+                    fullWidth onClick={SaveDraft}
+                    sx={{
+                      color: 'green',
                       '&:hover': {
-                    color:'green',  
-                     backgroundColor: green[100]
-                      }}}>
-                  Save As Draft
+                        color: 'green',
+                        backgroundColor: green[100]
+                      }
+                    }}>
+                    Save As Draft
                   </Button>
                 </Grid>
               </Grid>
@@ -1183,7 +1205,7 @@ function Form13() {
           </form>
         </ListStyle>
       </Box>
-      <div style={{ display: displayOfRecipients, paddingTop:'15px' }}>
+      {/* <div style={{ display: displayOfRecipients, paddingTop:'15px' }}>
         <AddReciepents
           RecipientName={RecipientsObject.RecipientName}
           RecipientId={RecipientsObject.RecipientId}
@@ -1196,7 +1218,56 @@ function Form13() {
           RecipientId={RecipientsCCObject.RecipientId}
           recipientListClick={RecipientsCCListFun}
         ></AddReciepents>
-      </div>
+      </div> */}
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <ClearIcon onClick={handleCloseDialog}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              }
+            }} />
+
+        </DialogTitle>
+        <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+          {showRecipients ? 'Add Recipients' : 'Add CC Recipients'}
+        </Typography>
+
+        <DialogContent>
+          <Box>
+            {showRecipients ? (
+              <AddReciepents
+                RecipientName={RecipientsObject.RecipientName}
+                RecipientId={RecipientsObject.RecipientId}
+                recipientListClick={RecipientsListFun}
+              />
+            ) : (
+              <AddReciepents
+                RecipientName={RecipientsCCObject.RecipientName}
+                RecipientId={RecipientsCCObject.RecipientId}
+                recipientListClick={RecipientsCCListFun}
+              />
+            )}
+          </Box>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

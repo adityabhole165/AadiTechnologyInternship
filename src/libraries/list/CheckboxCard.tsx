@@ -17,7 +17,7 @@ const CheckboxCard = ({ Item, onClick }) => {
   };
 
   return (
-    <ListStyle1>
+    <ListStyle1 sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
       <Box sx={{ display: 'flex' }}>
         <CheckboxImg
           name={Item.Name}

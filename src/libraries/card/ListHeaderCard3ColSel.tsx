@@ -4,7 +4,7 @@ import HeaderCheckbox from './HeaderCheckbox';
 
 const ListHeaderCard3ColSel = ({ Item, onChange }) => {
   return (
-    <ListStyle1 color={"secondary"}>
+    <ListStyle1 color={"secondary"} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
       <Grid container >
         <Grid
           item
@@ -13,7 +13,7 @@ const ListHeaderCard3ColSel = ({ Item, onChange }) => {
         >
           <HeaderCheckbox checked={Item.isActive} onChange={onChange} />
         </Grid>{' '}
-        <Grid item xs={2} >
+        <Grid item xs={2}>
           <CardDetail1 sx={{ color: 'white' }}>
             {Item.text1.split(' ')[0]}
             &nbsp;

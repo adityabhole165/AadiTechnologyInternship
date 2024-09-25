@@ -1,6 +1,7 @@
 import { Box, Card, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import {
   GetAdminAndprincipalUsers,
   IGetStudentsUser,
@@ -12,7 +13,6 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import ListSelect from 'src/libraries/list/ListSelect';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import {
   ContactGroup,
   GetGetAdminAndprincipalUsers,
@@ -26,6 +26,7 @@ import SelectallAddrecipents from './SelectallAddrecipents';
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedRecipents, setSelectedRecipents] = useState([]);
   const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
   const [classId, setClassId] = useState([]);
@@ -366,10 +367,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       ClassId: classId,
       ContactGroup: contactGroup
     });
+    // navigate('/extended-sidebar/MessageCenter/Compose');
   };
   return (
     <>
-      <Box sx={{ px: 2 }}>
+      <Box>
         <TextField
           fullWidth
           disabled
@@ -388,14 +390,14 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
             borderRadius: '5.3px'
           }}
         />
-        <ButtonPrimary onClick={clickOkay} sx={{ mb: '10px' }}>
+        <ButtonPrimary onClick={clickOkay} sx={{ mb: 1 }}>
           Back to Compose
         </ButtonPrimary>
         <>
           {RoleId === '6' && (
-            <BorderBox1>
+            <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
               <ListSelect Itemlist={entireSchool} onChange={onChange} />
-            </BorderBox1>
+            </Box>
           )}
           {show === true ? (
             <>
@@ -404,12 +406,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
                       <Card>
-                        <BorderBox
+                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}
                           height={
                             RoleId === '3'
                               ? '50px'
                               : '180px' || RoleId === '2'
-                                ? '110px'
+                                ? '97px'
                                 : '100px'
                           }
                         >
@@ -417,18 +419,18 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                             Itemlist={staffAndAdmin}
                             onChange={adminandSWChange}
                           />
-                        </BorderBox>
+                        </Box>
                       </Card>
                     </Grid>
                     <Grid item xs={6} sm={12}>
                       <Card>
-                        <BorderBox>
+                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
                           <ListSelect
                             Itemlist={teacherStudent}
                             onChange={teacherStudentChange}
                             isSingleSelect={true}
                           />
-                        </BorderBox>
+                        </Box>
                       </Card>
                     </Grid>
                   </Grid>
