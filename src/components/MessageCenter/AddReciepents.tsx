@@ -1,4 +1,4 @@
-import { Box, Card, Grid, TextField } from '@mui/material';
+import { Box, Button, Card, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -22,6 +22,8 @@ import {
 } from 'src/requests/AdminSMSCenter/To1';
 import { RootState } from 'src/store';
 import SelectallAddrecipents from './SelectallAddrecipents';
+import { blue } from '@mui/material/colors';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -372,6 +374,39 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   return (
     <>
       <Box>
+        <Grid xs={12} sm={12}>
+           {/* Searchable Dropdown For Search Teacher  */}
+
+        {/* <SearchableDropdown
+            sx={{ minWidth: '15vw' }}
+            // ItemList={Requision}
+            // onChange={GetRequisitionStatusDropdown}
+            label={'Status'}
+            // defaultValue={SelectResult.toString()}
+            mandatory
+            size={"small"}
+          /> */}
+          <TextField
+            sx={{ width: '15vw' }}
+            fullWidth
+            label="Serach Teacher Name"
+            // value={regNoOrName}
+            variant={'outlined'}
+            size={"small"}
+            onChange={(e) => {
+              // handleRegNoOrNameChange(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === 'Tab') {
+                // clickSearch();
+              }
+            }}
+          />
+        </Grid>
+        
+         {/* field and back Compose code  */}
+        <Grid container>
+        <Grid item xs={12} sm={10}  >
         <TextField
           fullWidth
           disabled
@@ -389,13 +424,25 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
             border: '0.1px solid #c4c5c5',
             borderRadius: '5.3px'
           }}
-        />
-        <ButtonPrimary onClick={clickOkay} sx={{ mb: 1 }}>
+        /></Grid>
+         <Grid item xs={6} sm={2} mt={2}>
+        <Button onClick={clickOkay} 
+          sx={{
+            color: '#38548A',
+            width: '150px',
+            ml:1,
+            '&:hover': {
+              color: '#38548A',
+              backgroundColor: blue[100]
+            }
+          }}>
           Back to Compose
-        </ButtonPrimary>
+        </Button>
+        </Grid>
+        </Grid>
         <>
           {RoleId === '6' && (
-            <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+            <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
               <ListSelect Itemlist={entireSchool} onChange={onChange} />
             </Box>
           )}
@@ -406,7 +453,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                   <Grid container spacing={1}>
                     <Grid item xs={6} sm={12}>
                       <Card>
-                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}
+                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}
                           height={
                             RoleId === '3'
                               ? '50px'
