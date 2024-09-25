@@ -10,6 +10,8 @@ import { ClassToppersList, LatestClassExam } from 'src/requests/ExamResult/Reque
 import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
 import Header from './Header';
+import DynamicToppersList from 'src/libraries/list/DynamicToppersList';
+
 
 const AnnualPlannerDashBoard = () => {
     const dispatch = useDispatch();
@@ -22,7 +24,7 @@ const AnnualPlannerDashBoard = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-    const HeaderListCT = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
+    const HeaderListCT = ['Rank', 'Student Name', 'Marks'];
     const GetClassTeachers = useSelector((state: RootState) => state.FinalResult.ClassTeachers);
     const GetLatestclassExam = useSelector((state: RootState) => state.Toppers.LatestExamIdCT);
     const GetClassToppersListCT = useSelector((state: RootState) => state.Toppers.ClassToppersList);
@@ -112,7 +114,7 @@ const AnnualPlannerDashBoard = () => {
                     sx={{ ml: 2 }}
                 />
             </Box>
-            <Box sx={{ height: '270px', overflow: 'auto', mt: 1 }}>
+            <Box sx={{ height: '260px', overflow: 'auto', mt: 1 }}>
                 {GetClassToppersListCT.length > 0 ? (
                     isToggleEnabled ? (
 
@@ -133,7 +135,7 @@ const AnnualPlannerDashBoard = () => {
 
                     ) : (
                         // Render the original list view when toggle is disabled
-                        <DynamicList2
+                        <DynamicToppersList
                             HeaderList={HeaderListCT}
                             ItemList={ClassToppersListCT}
                             IconList={[]}
