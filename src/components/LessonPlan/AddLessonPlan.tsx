@@ -6,10 +6,11 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
@@ -64,7 +65,7 @@ const AddLessonPlan = () => {
       friday.toISOString().split('T')[0] :
       EndDateParam
     ));
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const [ActionMode, setActionMode] = useState(Action)
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
@@ -488,32 +489,55 @@ const AddLessonPlan = () => {
   }
 
   const onClickSubmit = () => {
-    if (confirm('After this action you will not be able to change any details. Do you want to continue?')) {
-      const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-        asReportingUserId: Number(asUserId),
-        aasStartDate: StartDate,
-        aasEndDate: EndDate,
-        asUpdatedById: Number(UpdatedById)
-      };
-      dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
-    }
+    const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+      asReportingUserId: Number(asUserId),
+      aasStartDate: StartDate,
+      aasEndDate: EndDate,
+      asUpdatedById: Number(UpdatedById)
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message: 'After this action you will not be able to change any details. Do you want to continue?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
+        closeAlert();
+      }
+    });
   };
   const onClickApprover = () => {
-    if (confirm('After this action you will not be able to change any details. Do you want to continue?')) {
-      const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-        asReportingUserId: Number(asUserId),
-        aasStartDate: StartDate,
-        aasEndDate: EndDate,
-        asUpdatedById: Number(UpdatedById)
-      };
-      dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
-    }
+    const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+      asReportingUserId: Number(asUserId),
+      aasStartDate: StartDate,
+      aasEndDate: EndDate,
+      asUpdatedById: Number(UpdatedById)
+    };
+    showAlert({
+      title: 'Please Confirm',
+      message: 'After this action you will not be able to change any details. Do you want to continue?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
+        closeAlert();
+      }
+    });
+
   };
   const onClickUpdateDate = () => {
     if (IsFormValid()) {

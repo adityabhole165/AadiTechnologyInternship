@@ -1,8 +1,10 @@
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
+import { useContext } from 'react';
+import { AlertContext } from 'src/contexts/AlertContext';
 const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingAllowed }) => {
-
+    const { showAlert, closeAlert } = useContext(AlertContext);
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
@@ -74,47 +76,100 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
         return returnVal
     }
 
+    // const ClickCopy = (value) => {
+    //     if (confirm('This action will copy details of this subject section and paste / overwrite it on subject section of other classes of same standard present on this screen. Do you want to continue?')) {
+    //         let returnVal = null;
+    //         let tempPlanDetails = []
+    //         let arr = exampleLessonDetails.filter((Item, i) => {
+    //             return Item.StdId == value.StdId &&
+    //                 Item.SubjectId == value.SubjectId &&
+    //                 Item.DivisionId == value.DivisionId
+    //         })
+
+    //         if (arr.length > 0) {
+    //             tempPlanDetails = arr[0].planDetails
+
+    //             exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
+    //                 returnVal = Item
+    //                 if (Item.StdId == value.StdId &&
+    //                     Item.SubjectId == value.SubjectId &&
+    //                     Item.DivisionId !== value.DivisionId) {
+    //                     return {
+    //                         ...Item,
+    //                         planDetails: Item.planDetails.map((obj, i) => {
+    //                             return {
+    //                                 ...obj,
+    //                                 value: tempPlanDetails[i].value,
+    //                                 subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
+    //                                     return {
+    //                                         ...subItem,
+    //                                         value: tempPlanDetails[i].subPlanDetails[subIndex].value
+    //                                     }
+    //                                 })
+    //                             }
+    //                         })
+    //                     }
+    //                 }
+    //                 else
+    //                     return Item
+    //             })
+    //         }
+    //         onTextChange(exampleLessonDetails)
+    //     }
+    // }
     const ClickCopy = (value) => {
-        if (confirm('This action will copy details of this subject section and paste / overwrite it on subject section of other classes of same standard present on this screen. Do you want to continue?')) {
-            let returnVal = null;
-            let tempPlanDetails = []
-            let arr = exampleLessonDetails.filter((Item, i) => {
-                return Item.StdId == value.StdId &&
-                    Item.SubjectId == value.SubjectId &&
-                    Item.DivisionId == value.DivisionId
-            })
-
-            if (arr.length > 0) {
-                tempPlanDetails = arr[0].planDetails
-
-                exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
-                    returnVal = Item
-                    if (Item.StdId == value.StdId &&
+        showAlert({
+            title: 'Please Confirm',
+            message: 'This action will set a new value for all students. Do you want to continue?',
+            variant: 'warning',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            onCancel: () => {
+                closeAlert();
+            },
+            onConfirm: () => {
+                let returnVal = null;
+                let tempPlanDetails = []
+                let arr = exampleLessonDetails.filter((Item, i) => {
+                    return Item.StdId == value.StdId &&
                         Item.SubjectId == value.SubjectId &&
-                        Item.DivisionId !== value.DivisionId) {
-                        return {
-                            ...Item,
-                            planDetails: Item.planDetails.map((obj, i) => {
-                                return {
-                                    ...obj,
-                                    value: tempPlanDetails[i].value,
-                                    subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
-                                        return {
-                                            ...subItem,
-                                            value: tempPlanDetails[i].subPlanDetails[subIndex].value
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    }
-                    else
-                        return Item
+                        Item.DivisionId == value.DivisionId
                 })
+
+                if (arr.length > 0) {
+                    tempPlanDetails = arr[0].planDetails
+
+                    exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
+                        returnVal = Item
+                        if (Item.StdId == value.StdId &&
+                            Item.SubjectId == value.SubjectId &&
+                            Item.DivisionId !== value.DivisionId) {
+                            return {
+                                ...Item,
+                                planDetails: Item.planDetails.map((obj, i) => {
+                                    return {
+                                        ...obj,
+                                        value: tempPlanDetails[i].value,
+                                        subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
+                                            return {
+                                                ...subItem,
+                                                value: tempPlanDetails[i].subPlanDetails[subIndex].value
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        }
+                        else
+                            return Item
+                    })
+                }
+                onTextChange(exampleLessonDetails)
+
+                closeAlert();
             }
-            onTextChange(exampleLessonDetails)
-        }
-    }
+        });
+    };
 
     return (
         <>
@@ -128,9 +183,9 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                             {index + 1}) {lesson?.lessonName}
                         </Typography>
                     </AccordionSummary>
-                    <AccordionDetails 
-                    // sx={{ p: 0 }}
-                    aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
+                    <AccordionDetails
+                        // sx={{ p: 0 }}
+                        aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
                     >
                         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                             <TableHead>
@@ -153,56 +208,56 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action, IsEditingA
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                         <StyledCell > 
-                                        {(Action == 'View' || !IsEditingAllowed) ?
-                                            <><Typography><b>{plan.label}</b></Typography>
-                                                <Typography>{plan.value}</Typography></>
-                                            :
-                                            <TextField label={plan.label} value={plan.value}
-                                                fullWidth multiline
-                                                disabled={Action == "View"}
-                                                rows={Action == 'View' ? 1 : 3}
-                                                onChange={(e) => {
-                                                    onChangeValue(lesson.StdId, lesson.DivisionId,
-                                                        lesson.SubjectId, plan.Id, e.target.value
-                                                    )
-                                                }}
+                                        <StyledCell >
+                                            {(Action == 'View' || !IsEditingAllowed) ?
+                                                <><Typography><b>{plan.label}</b></Typography>
+                                                    <Typography>{plan.value}</Typography></>
+                                                :
+                                                <TextField label={plan.label} value={plan.value}
+                                                    fullWidth multiline
+                                                    disabled={Action == "View"}
+                                                    rows={Action == 'View' ? 1 : 3}
+                                                    onChange={(e) => {
+                                                        onChangeValue(lesson.StdId, lesson.DivisionId,
+                                                            lesson.SubjectId, plan.Id, e.target.value
+                                                        )
+                                                    }}
                                                 // sx={{mt:2}}
-                                            />}
-                                        {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
-                                            plan.subPlanDetails.map((subPlan, subIndex) => (
-                                                <Table key={subIndex}>
-                                                    <TableRow >
-                                                        <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top',border:1 }}>
-                                                            {index + 1}.{subIndex + 1}
-                                                        </StyledCell>
-                                                         <StyledCell> 
-                                                        {(Action == 'View' || !IsEditingAllowed) ?
-                                                            <><Typography ><b>{subPlan.label}</b></Typography>
-                                                                <Typography>{subPlan.value}</Typography></>
-                                                            // plan.value
-                                                            : <TextField
-                                                                label={subPlan.label}
-                                                                value={subPlan.value}
-                                                                // disabled={!IsEditingAllowed()}
-                                                                fullWidth
-                                                                multiline
-                                                                rows={3}
-                                                                // sx={{mt:2}}
-                                                                onChange={(e) => {
-                                                                    onSubChangeValue(
-                                                                        lesson.StdId,
-                                                                        lesson.DivisionId,
-                                                                        subPlan.Id,
-                                                                        e.target.value
-                                                                    )
-                                                                }}
-                                                            />}
-                                                        </StyledCell> 
-                                                    </TableRow>
-                                                </Table>
-                                            ))}
-                                         </StyledCell> 
+                                                />}
+                                            {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
+                                                plan.subPlanDetails.map((subPlan, subIndex) => (
+                                                    <Table key={subIndex}>
+                                                        <TableRow >
+                                                            <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top', border: 1 }}>
+                                                                {index + 1}.{subIndex + 1}
+                                                            </StyledCell>
+                                                            <StyledCell>
+                                                                {(Action == 'View' || !IsEditingAllowed) ?
+                                                                    <><Typography ><b>{subPlan.label}</b></Typography>
+                                                                        <Typography>{subPlan.value}</Typography></>
+                                                                    // plan.value
+                                                                    : <TextField
+                                                                        label={subPlan.label}
+                                                                        value={subPlan.value}
+                                                                        // disabled={!IsEditingAllowed()}
+                                                                        fullWidth
+                                                                        multiline
+                                                                        rows={3}
+                                                                        // sx={{mt:2}}
+                                                                        onChange={(e) => {
+                                                                            onSubChangeValue(
+                                                                                lesson.StdId,
+                                                                                lesson.DivisionId,
+                                                                                subPlan.Id,
+                                                                                e.target.value
+                                                                            )
+                                                                        }}
+                                                                    />}
+                                                            </StyledCell>
+                                                        </TableRow>
+                                                    </Table>
+                                                ))}
+                                        </StyledCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
