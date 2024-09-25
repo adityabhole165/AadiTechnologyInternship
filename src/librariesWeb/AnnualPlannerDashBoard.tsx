@@ -106,6 +106,14 @@ const AnnualPlannerDashBoard = () => {
                     size="small"
                 /> */}
 
+                <FormControlLabel
+                    control={
+                        <Switch checked={isToggleEnabled} onChange={handleToggleChange} color="primary" />
+                    }
+                    label="Change View"
+                    sx={{ ml: 2 }}
+                />
+
                 {ClassName == '' && ( // If ClassName is empty, render the dropdown
                     <SearchableDropdown
                         sx={{
@@ -121,13 +129,6 @@ const AnnualPlannerDashBoard = () => {
                     />
                 )}
 
-                <FormControlLabel
-                    control={
-                        <Switch checked={isToggleEnabled} onChange={handleToggleChange} color="primary" />
-                    }
-                    label="Change View"
-                    sx={{ ml: 2 }}
-                />
             </Box>
             <Box sx={{ height: '260px', overflow: 'auto', mt: 1 }}>
                 {GetClassToppersListCT.length > 0 ? (
