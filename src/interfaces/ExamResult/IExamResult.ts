@@ -216,3 +216,16 @@ export interface IGetTeacherDetailsForControlPanelResult {
     }
   ]
 }
+
+
+export interface getIsFinalResultPublishedBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardDivisionId: number
+}
+
+export interface getIsTermExamPublishedBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asStandardDivisionId: number
+}
