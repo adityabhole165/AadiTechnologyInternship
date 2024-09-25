@@ -86,8 +86,9 @@ const ExamResultBase = () => {
   );
 
   const ClassTeachers: any = useSelector(
-    (state: RootState) => state.ExamResult.ClassTeachers
+    (state: RootState) => state.ExamResult.ISClassTeachers
   );
+  
   const getTeacherId = () => {
     let TeacherId = '';
     ClassTeachers.map((item) => {
@@ -684,7 +685,7 @@ const USgetIsTermExamPublished: any = useSelector(
               minWidth: '20vw'
               , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
             }}
-            ItemList={ClassTeachers}
+            ItemList={ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")}
             onChange={clickTeacher}
             label={'Select Class Teacher'}
             // defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}

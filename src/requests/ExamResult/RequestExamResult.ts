@@ -19,7 +19,7 @@ import { AppThunk } from 'src/store';
 const SliceExamResult = createSlice({
   name: 'Birthdays',
   initialState: {
-    ClassTeachers: [],
+    ISClassTeachers: [],
     ClasswiseExam: [],
     ClassPassDetailsForButton: null,
     ClassPassFailDetailsForTest: [],
@@ -40,7 +40,7 @@ const SliceExamResult = createSlice({
   reducers: {
     GetClassTeachers(state, action) {
       state.Loading = false;
-      state.ClassTeachers = action.payload;
+      state.ISClassTeachers = action.payload;
     },
     GetIsSubmitted(state, action) {
       state.Loading = false;
@@ -162,7 +162,7 @@ export const getClassTeachers =
       const response = await ApiExamResult.ClassTeachersApi(data);
       console.log(response, 'TeachersResponse')
 
-      let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0' }];
+      let abc = [{ Id: '0', Name: 'Select', Value: '0', StanderdId: '0' ,Is_PrePrimary: 'N'}];
       dispatch(SliceExamResult.actions.getLoading(true));
 
       response.data.map((item, i) => {
@@ -170,7 +170,9 @@ export const getClassTeachers =
           Id: item.Teacher_Id,
           Name: item.TeacherName,
           Value: item.SchoolWise_Standard_Division_Id,
-          StanderdId: item.Standard_Id
+          StanderdId: item.Standard_Id,
+          Is_PrePrimary:item.Is_PrePrimary
+
         });
       });
 
