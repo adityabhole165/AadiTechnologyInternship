@@ -7,6 +7,8 @@ import {
   IGetClassTeachersBody,
   IGetClassTeachersResult,
   IGetClasswiseExamDropdownBody,
+  getIsFinalResultPublishedBody,
+  getIsTermExamPublishedBody,
   IGetClasswiseExamDropdownResult,
   IGetPrePrimaryProgressSheetStatusBody, IGetPrePrimaryProgressSheetStatusResult,
   IGetSMSTemplateBody, IGetSMSTemplateResult,
@@ -78,6 +80,20 @@ const GenerateTestTotalMarksApi = (data: IGenerateTestTotalMarksBody) => {
     data
   );
 };
+
+const getIsFinalResultPublished = (data: getIsFinalResultPublishedBody) => {
+  return http.post(
+    'ProgressReport/getIsFinalResultPublished',
+    data
+  );
+};
+const getIsTermExamPublished = (data: getIsTermExamPublishedBody) => {
+  return http.post(
+    'ProgressReport/getIsTermExamPublished',
+    data
+  );
+};
+
 const ApiExamResult = {
   ClassTeachersApi,
   GetClasswiseExamDropDownApi,
@@ -88,7 +104,9 @@ const ApiExamResult = {
   MonthConfigurationForExamResultApi,
   GetAllStudentsByGivenStdDivsApi,
   GetSMSTemplateApi,
-  GenerateTestTotalMarksApi
+  GenerateTestTotalMarksApi,
+  getIsFinalResultPublished,
+  getIsTermExamPublished
 };
 export default ApiExamResult;
 

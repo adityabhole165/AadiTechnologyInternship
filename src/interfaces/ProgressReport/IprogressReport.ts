@@ -274,6 +274,7 @@ export interface IsGradingStandarBody {
     IsStaybackApplicable: string
     StaybackName: string
     ShowProgressSheetNote: string
+    AllowProgressReportDownloadAtStudentLogin: string
     SiteName: any
     SendMail: any
     SendSMS: any
@@ -286,6 +287,19 @@ export interface IsGradingStandarBody {
     WeeklyTestLectNo: any
     WeeklyTestWeekDay: any
     IsTotalConsiderForProgressReport: string
+    EnableHomeworkMySubjectListView: string
+    EnableAssignExamMarksToAllSubjectOfClass: string
+    StudentAbsentCount: string
+    AllowHomewirkDailyLog: string
+    AllowUnsubmitExamMarks: string
+    AllowExamStatusForCoCurricullarSubjects: string
+    IsMiniSite: string
+    DisplayWeeklyTimtableLink: string
+    EnableOnlineExamModule: string
+    EnableStudentRecordModule: string
+    ExternalLibrarySite: string
+    ShowTopppers: string
+    BlockExamPublish: string
   }
 
 

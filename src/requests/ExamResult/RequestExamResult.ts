@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiExamResult from 'src/api/ExamResult/ApiExamResult';
 import {
+  getIsFinalResultPublishedBody,
+  getIsTermExamPublishedBody,
   IGenerateTestTotalMarksBody,
   IGetAllStudentsByGivenStdDivsBody,
   IGetClassPassFailDetailsForTestBody,
@@ -31,6 +33,8 @@ const SliceExamResult = createSlice({
     GetAllStudentsByGivenStdDivs: [],
     GetSMSTemplate: null,
     GenerateTopper: null,
+    ISgetIsFinalResultPublished: '',
+    ISgetIsTermExamPublished: '',
     Loading: true
   },
   reducers: {
@@ -94,6 +98,17 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.GenerateTopper = action.payload;
     },
+    RgetIsFinalResultPublished(state, action) {
+      state.Loading = false;
+      state.ISgetIsFinalResultPublished = action.payload;
+    },
+    RgetIsTermExamPublished(state, action) {
+      state.Loading = false;
+      state.ISgetIsTermExamPublished = action.payload;
+    },
+
+    
+    
     resetGenerateTopper(state) {
       state.GenerateTopper = "";
     },
@@ -295,5 +310,24 @@ export const getClassPassFailDetailsForTest =
 
 
     };
+
+
+    export const CDAgetIsFinalResultPublished =
+  (data: getIsFinalResultPublishedBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.getIsFinalResultPublished(data);
+      dispatch(SliceExamResult.actions.RgetIsFinalResultPublished(response.data));
+
+    };
+
+    export const CDAetIsTermExamPublished =
+    (data: getIsTermExamPublishedBody): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceExamResult.actions.getLoading(true));
+        const response = await ApiExamResult.getIsTermExamPublished(data);
+        dispatch(SliceExamResult.actions.RgetIsTermExamPublished(response.data));
+  
+      };
 
 export default SliceExamResult.reducer;
