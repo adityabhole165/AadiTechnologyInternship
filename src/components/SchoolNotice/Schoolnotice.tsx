@@ -11,7 +11,6 @@ import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoo
 import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
-import CommonPageHeader from '../CommonPageHeader';
 import SchoolNoticeHeader from '../SchoolNoticeHeader';
 
 function Schoolnotice() {
@@ -145,11 +144,20 @@ function Schoolnotice() {
                    School Notice 
          </Typography> */}
       <Box sx={{ background: 'white', p: 2 }}>
-        <CardNotice
+
+        {/* <CardNotice
           itemList={Data1}
           downloadNotice={downloadNotice}
           clickSingle={clickSingle}
-        />
+        /> */}
+
+        {GetAllActiveNotices.length > 0 && ( // Check if there are any active notices
+          <CardNotice
+            itemList={Data1}
+            downloadNotice={downloadNotice}
+            clickSingle={clickSingle}
+          />
+        )}
 
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />
