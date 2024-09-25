@@ -131,7 +131,7 @@ const AnnualPlannerDashBoard = () => {
                 )}
 
             </Box>
-            <Box sx={{ height: '260px', overflow: 'auto', mt: 1 }}>
+            <Box sx={{ height: '270px', overflow: 'auto', mt: 1 }}>
                 {GetClassToppersListCT.length > 0 ? (
                     isToggleEnabled ? (
                         <ToppersList studentData={GetClassToppersListCT} />
