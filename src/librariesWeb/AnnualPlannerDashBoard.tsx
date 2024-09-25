@@ -10,6 +10,7 @@ import { ClassToppersList, LatestClassExam } from 'src/requests/ExamResult/Reque
 import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
 import Header from './Header';
+import ToppersList from './ToppersList';
 
 
 const AnnualPlannerDashBoard = () => {
@@ -133,21 +134,7 @@ const AnnualPlannerDashBoard = () => {
             <Box sx={{ height: '260px', overflow: 'auto', mt: 1 }}>
                 {GetClassToppersListCT.length > 0 ? (
                     isToggleEnabled ? (
-
-                        <Grid container spacing={2}>
-                            {ClassToppersListCT.map((student, index) => (
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <Card sx={{ backgroundColor: '#f5f5f5', p: 2 }}>
-                                        <CardContent>
-                                            <Typography>Roll No.: {student.Text2}</Typography>
-                                            <Typography>Student Name: {student.Text3}</Typography>
-                                            <Typography>Marks: {student.Text4}</Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-
+                        <ToppersList studentData={GetClassToppersListCT} />
 
                     ) : (
                         // Render the original list view when toggle is disabled
