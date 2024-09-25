@@ -124,7 +124,7 @@ const DataTable: React.FC<Props> = ({ columns, data, changeText, GroupAmount = 0
                                     </>
                                     ))}
 
-                                    {GroupAmount != 0 && rowIndex % 12 === 0 && (
+                                    {GroupAmount != 0 && rowIndex % 100 === 0 && (
                                         < TableCell rowSpan={tableData.filter(r => r.GroupAmount === row.GroupAmount).length} align='center' sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                                             {GroupAmount}
                                         </TableCell >
