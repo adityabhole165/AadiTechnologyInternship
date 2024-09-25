@@ -21,7 +21,7 @@ import {
 import http from '../../requests/SchoolService/schoolServices';
 
 const ClassTeachersApi = (data: IGetClassTeachersBody) => {
-  return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeachers', data);
+  return http.post<IGetClassTeachersResult[]>('Teacher/GetAllPrimaryClassTeacherss', data);
 };
 const GetClasswiseExamDropDownApi = (data: IGetClasswiseExamDropdownBody) => {
   return http.post<IGetClasswiseExamDropdownResult[]>(

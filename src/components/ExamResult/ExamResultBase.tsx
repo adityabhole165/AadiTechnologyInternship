@@ -200,9 +200,9 @@ const USgetIsTermExamPublished: any = useSelector(
 
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
+    asAcadmicYearId: Number(asAcademicYearId),
     // asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
-    asTeacherId: CanEdit == 'Y'
+    asTeacher_id: CanEdit == 'Y'
       ? 0
       : (getTeacherId() ? Number(getTeacherId()) : (ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)))
     // asTeacherId: asTeacherId
@@ -305,14 +305,14 @@ const USgetIsTermExamPublished: any = useSelector(
    
       dispatch(CDAgetIsFinalResultPublished(IsFinalResultPublishedBody));
     
-  }, [BlockExamPublish]);
+  }, []);
   
   // Dispatch term exam published check when final result published changes
   useEffect(() => {
    
       dispatch(CDAetIsTermExamPublished(IsTermExamPublishedBody));
     
-  }, [USgetIsFinalResultPublished]);
+  }, []);
 
 
   useEffect(() => {
