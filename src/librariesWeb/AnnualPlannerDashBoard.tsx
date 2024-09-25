@@ -112,7 +112,7 @@ const AnnualPlannerDashBoard = () => {
                         <Switch checked={isToggleEnabled} onChange={handleToggleChange} color="primary" />
                     }
                     label="Change View"
-                    sx={{ ml: 2 }}
+                    sx={{ ml: 34,  }}
                 />
 
                 {ClassName == '' && ( // If ClassName is empty, render the dropdown
