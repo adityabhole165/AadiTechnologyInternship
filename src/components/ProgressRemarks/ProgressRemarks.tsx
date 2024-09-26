@@ -804,12 +804,12 @@ const ProgressRemarks = () => {
           </Box>
         </>}
       />
-      <Paper sx={{ mb: '10px' }}>
+      <Box >
         <ProgressRemarksNotes />
-      </Paper>
+      </Box>
       
-      <Box sx={{  mb: 2, mt:2 }}>
-        <Box sx={{ background: 'white', mb: 2, p: 2 }}>
+      <Box sx={{  mb: 2, mt:1 }}>
+        <Box sx={{ background: 'white', mb: 1, p: 2 }}>
         <Grid item xs={12}>
           <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
             <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
@@ -818,7 +818,7 @@ const ProgressRemarks = () => {
           </Typography>
         </Grid>
         </Box>
-        <Box sx={{ background: 'white', p:2 }}>
+        <Box sx={{ background: 'white', p:1 }}>
         <Grid container spacing={2}>
         
           {
@@ -853,7 +853,7 @@ const ProgressRemarks = () => {
               )}
 
 
-
+          
               {USGetAllStudentswiseRemarkDetails.length > 0 ? (
                 <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm }}>
                   <ResizableCommentsBox
@@ -969,8 +969,8 @@ const ProgressRemarks = () => {
                   />
                 </ProgressRemarkTerm.Provider>
               ) : (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
-                  <b>No Record Found.</b>
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: 'auto' }}>
+                  <b>No record found.</b>
                 </Typography>
               )}
             </Box>

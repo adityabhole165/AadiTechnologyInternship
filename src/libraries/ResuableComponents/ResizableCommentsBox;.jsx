@@ -32,8 +32,8 @@
 //     }
 //   };
 //   let TermId = useContext(ProgressRemarkTerm)
-    
-  
+
+
 //   return (
 //     <div
 //       style={{
@@ -76,10 +76,10 @@
 //                     <TextareaAutosize value={item.Text4} />
 //                   </TableCell>
 //                 )}
-                
+
 //                 {item.Remarks.map((RemarksItem,i)=>{
 //                   return (<TableCell align="center" key={i}>
-                  
+
 //                     <TextareaAutosize 
 //                       id={`outlined-basic-${i}`}
 //                       value={RemarksItem.Text3}
@@ -97,7 +97,7 @@
 //                     <Typography variant="caption" color="textSecondary">
 //                       ({300 - item.Text3.length})
 //                     </Typography>
-                  
+
 //                 </TableCell>)
 //                 })}
 //              </TableRow>
@@ -134,7 +134,7 @@ function ResizableCommentsBox({
 }) {
 
   let TermId = useContext(ProgressRemarkTerm);
-    
+
 
   const TextChange = (value) => {
     // Remove character filtering
@@ -155,8 +155,8 @@ function ResizableCommentsBox({
       setTextValues(updatedItemList);
     }
   };
-  
-  
+
+
 
   return (
     <div
@@ -164,7 +164,7 @@ function ResizableCommentsBox({
         maxHeight: '800px',
         overflowY: 'auto',
         scrollBehavior: 'smooth',
-         border: '2px'
+        border: '2px'
       }}
     >
       <TableContainer component={Card}>
@@ -178,9 +178,9 @@ function ResizableCommentsBox({
                     textTransform: 'capitalize',
                     backgroundColor: (theme) => theme.palette.secondary.main,
                     color: 'white',
-                   
+
                   }}
-                 
+
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -191,24 +191,26 @@ function ResizableCommentsBox({
             {ItemList.map((item, i) => (
               <TableRow
                 key={i}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 },  }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }, }}
 
               >
-                <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit', paddingTop: '5px', paddingBottom: '5px'
-}}>{item.Text1}</TableCell>
-                <TableCell align="left" sx={{ color: item.IsLeftStudent == 1 ? 'red' : 'inherit', paddingTop: '5px', paddingBottom: '5px'
-}}>{item.Text2}</TableCell>
+                <TableCell align="left" sx={{
+                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', paddingTop: '5px', paddingBottom: '5px'
+                }}>{item.Text1}</TableCell>
+                <TableCell align="left" sx={{
+                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', paddingTop: '5px', paddingBottom: '5px'
+                }}>{item.Text2}</TableCell>
 
                 {TermId.SelectTerm == 2 && (
-                  <TableCell align="center" sx={{paddingTop: '5px', paddingBottom: '5px'
+                  <TableCell align="center" sx={{
+                    paddingTop: '5px', paddingBottom: '5px'
                   }} >
-                    <TextareaAutosize value={item.Text4} />
+                    <TextareaAutosize value={item.Text4}  />
                   </TableCell>
                 )}
 
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="left " key={j} sx={{ paddingTop: '5px', paddingBottom: '5px'
-                  }}>
+                  <TableCell align="left " key={j} sx={{ paddingTop: '5px', paddingBottom: '5px' }}>
                     <TextareaAutosize
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
@@ -216,16 +218,17 @@ function ResizableCommentsBox({
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
-                      maxRows={1}
+                      
+                      maxRows={2}
                       maxLength={TermId.maxRemarkLength}
-                      sx={{ width: '200px',minHeight:'30px', }}
+                      // sx={{ width: '200px', minHeight: '30px', }}
                     />
-                    <IconButton 
-                    onClick={() => NoteClick(item.Id, j)}>
+                    <IconButton
+                      onClick={() => NoteClick(item.Id, j)}>
                       <MoreVertIcon />
                     </IconButton>
                     <Typography variant="caption" color="textSecondary" >
-                      ({TermId.maxRemarkLength- RemarksItem.Text3.length})
+                      ({TermId.maxRemarkLength - RemarksItem.Text3.length})
                     </Typography>
                   </TableCell>
                 ))}
