@@ -19,7 +19,6 @@ import { RootState } from 'src/store';
 
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Actions from './Actions';
 import Header from './Header';
 
@@ -154,7 +153,11 @@ function FeedBackCard() {
         ) : (
           <>
             {Feedback.length == 0 ? (
-              <ErrorMessages Error={'No records found'} />
+              <Grid item xs={12}>
+                <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+                  <b>No records found.</b>
+                </Typography>
+              </Grid>
             ) : (
               <>
                 {Feedback.map((item, i) => (

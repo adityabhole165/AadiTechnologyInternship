@@ -73,60 +73,64 @@ const UnreadMessage = () => {
         ) : (
           <>
             {UnreadMessage.length === 0
-              ? 'No records found'
+              ? <Grid item xs={12}>
+                <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+                  <b>No record found.</b>
+                </Typography>
+              </Grid>
               : UnreadMessage.map((item, i) => (
-                  <Grid container key={i} onClick={() => clickMessage(item)} sx={{ cursor: 'pointer' }}>
-                    <Grid item xs={2}>
-                      <Box display={'flex'} justifyContent={'space-between'} px={1}>
-                        {SenderPhoto.map((image, i) => {
-                          if (image.Id === item.SenderUserId) {
-                            return (
-                              <FormGroup key={i}>
-                                <Avatar alt="u" src={`data:image/png;base64,${image.Photo}`} />
-                              </FormGroup>
-                            );
-                          }
-                        })}
-                      </Box>
-                    </Grid>
-                    <Grid item xs={10}>
-                      <Grid container>
-                        <Grid item xs={6}>
-                          <Typography variant="h4" pl={0.6}>
-                            {item.UserName}
-                          </Typography>
-                        </Grid>
-                        <Grid container item xs={6}>
-                          <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
-                          <Typography>{item.Date}</Typography>
-                        </Grid>
-                      </Grid>
-                      <Tooltip title={item.Subject}>
-                        <Typography
-                          variant="body2"
-                          px={1}
-                          sx={{
-                            overflow: 'hidden',
-                            whiteSpace: 'normal',
-                            textOverflow: 'ellipsis',
-                            maxHeight: '6.25rem',
-                            lineHeight: '1.25rem',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 1,
-                            WebkitBoxOrient: 'vertical',
-                            position: 'relative',
-                            color: '#38548A'
-                          }}
-                        >
-                          {item.Subject}
-                        </Typography>
-                      </Tooltip>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Divider variant="middle" sx={{ m: '5px' }} />
-                    </Grid>
+                <Grid container key={i} onClick={() => clickMessage(item)} sx={{ cursor: 'pointer' }}>
+                  <Grid item xs={2}>
+                    <Box display={'flex'} justifyContent={'space-between'} px={1}>
+                      {SenderPhoto.map((image, i) => {
+                        if (image.Id === item.SenderUserId) {
+                          return (
+                            <FormGroup key={i}>
+                              <Avatar alt="u" src={`data:image/png;base64,${image.Photo}`} />
+                            </FormGroup>
+                          );
+                        }
+                      })}
+                    </Box>
                   </Grid>
-                ))}
+                  <Grid item xs={10}>
+                    <Grid container>
+                      <Grid item xs={6}>
+                        <Typography variant="h4" pl={0.6}>
+                          {item.UserName}
+                        </Typography>
+                      </Grid>
+                      <Grid container item xs={6}>
+                        <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
+                        <Typography>{item.Date}</Typography>
+                      </Grid>
+                    </Grid>
+                    <Tooltip title={item.Subject}>
+                      <Typography
+                        variant="body2"
+                        px={1}
+                        sx={{
+                          overflow: 'hidden',
+                          whiteSpace: 'normal',
+                          textOverflow: 'ellipsis',
+                          maxHeight: '6.25rem',
+                          lineHeight: '1.25rem',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 1,
+                          WebkitBoxOrient: 'vertical',
+                          position: 'relative',
+                          color: '#38548A'
+                        }}
+                      >
+                        {item.Subject}
+                      </Typography>
+                    </Tooltip>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider variant="middle" sx={{ m: '5px' }} />
+                  </Grid>
+                </Grid>
+              ))}
           </>
         )}
       </Box>
