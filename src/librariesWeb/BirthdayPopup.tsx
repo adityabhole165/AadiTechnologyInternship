@@ -1,19 +1,30 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
-
 import {
     Avatar,
     Box,
-    Popover, Stack, ToggleButton,
-    ToggleButtonGroup, Tooltip, Typography
+    Popover,
+    Stack,
+    ToggleButton,
+    ToggleButtonGroup,
+    Tooltip,
+    Typography
 } from '@mui/material';
 import { green, orange, red } from '@mui/material/colors';
-import { useState } from 'react';
 
-const BirthdayPopup = ({ open, anchorEl, handleClose, applyFilter, handleRefresh }) => {
-    const [view, setView] = useState('T');
-    const [alignment, setAlignment] = useState('S');
+// BirthdayPopup component receives alignment, view, setAlignment, and setView props
+const BirthdayPopup = ({
+    open,
+    anchorEl,
+    handleClose,
+    applyFilter,
+    handleRefresh,
+    alignment,
+    setAlignment,
+    view,
+    setView
+}) => {
     return (
         <Popover
             open={open}
@@ -26,7 +37,13 @@ const BirthdayPopup = ({ open, anchorEl, handleClose, applyFilter, handleRefresh
         >
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }} p={1}>
                 <Typography>Select User</Typography>
-                <ToggleButtonGroup value={alignment} exclusive onChange={(e, newAlignment) => setAlignment(newAlignment)}>
+                <ToggleButtonGroup
+                    value={alignment}
+                    exclusive
+                    onChange={(e, newAlignment) => {
+                        if (newAlignment !== null) setAlignment(newAlignment);
+                    }}
+                >
                     <ToggleButton value="T">T</ToggleButton>
                     <ToggleButton value="S">S</ToggleButton>
                     <ToggleButton value="A">A</ToggleButton>
@@ -38,7 +55,9 @@ const BirthdayPopup = ({ open, anchorEl, handleClose, applyFilter, handleRefresh
                 <ToggleButtonGroup
                     value={view}
                     exclusive
-                    onChange={(e, newView) => setView(newView)}
+                    onChange={(e, newView) => {
+                        if (newView !== null) setView(newView);
+                    }}
                     sx={{ ml: '25px' }}
                 >
                     <ToggleButton value="T">T</ToggleButton>
@@ -63,7 +82,7 @@ const BirthdayPopup = ({ open, anchorEl, handleClose, applyFilter, handleRefresh
                 </Tooltip>
             </Stack>
         </Popover>
-    )
-}
+    );
+};
 
-export default BirthdayPopup
+export default BirthdayPopup;

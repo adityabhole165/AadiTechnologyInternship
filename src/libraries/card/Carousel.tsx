@@ -48,9 +48,11 @@ const Carousel = ({ itemlist, IsPath = false }) => {
             </Grid>
           </Grid>
         ) : (
-          <Typography variant="h4" color="textSecondary">
-            No records found.
-          </Typography>
+          <Grid item xs={12}>
+            <Typography variant="body1" sx={{ textAlign: 'center', mt: 5 }}>
+              <b>No record found.</b>
+            </Typography>
+          </Grid>
         )}
       </Box>
 
