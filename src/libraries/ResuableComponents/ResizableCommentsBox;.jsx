@@ -195,33 +195,26 @@ function ResizableCommentsBox({
 
               >
                 <TableCell align="left" sx={{
-                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', paddingTop: '5px', paddingBottom: '5px'
-                }}>{item.Text1}</TableCell>
+                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', py:0.5}}>{item.Text1}</TableCell>
                 <TableCell align="left" sx={{
-                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', paddingTop: '5px', paddingBottom: '5px'
-                }}>{item.Text2}</TableCell>
-
+                  color: item.IsLeftStudent == 1 ? 'red' : 'inherit', py:0.5}}>{item.Text2}</TableCell>
                 {TermId.SelectTerm == 2 && (
-                  <TableCell align="center" sx={{
-                    paddingTop: '5px', paddingBottom: '5px'
-                  }} >
+                  <TableCell align="center" sx={{py:0.5}} >
                     <TextareaAutosize value={item.Text4}  />
                   </TableCell>
                 )}
-
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="left " key={j} sx={{ paddingTop: '5px', paddingBottom: '5px' }}>
-                    <TextareaAutosize
+                  <TableCell align="left " key={j} sx={{ py:0.5}}>
+                    <TextareaAutosize                    
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
                       variant="outlined"
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
-                      
-                      maxRows={2}
+                       minRows={2}
                       maxLength={TermId.maxRemarkLength}
-                      // sx={{ width: '200px', minHeight: '30px', }}
+                       sx={{ width: '70vh', Height: 'auto', }}
                     />
                     <IconButton
                       onClick={() => NoteClick(item.Id, j)}>
