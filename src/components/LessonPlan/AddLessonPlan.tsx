@@ -340,12 +340,12 @@ const AddLessonPlan = () => {
     // }
     // else
     //   seterrorComment("")
-    if (EndDate) {
-      seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
-      returnVal = false;
-    } else {
-      seterrorOverlapDate("");
-    }
+    // if (EndDate) {
+    //   seterrorOverlapDate("Lesson plan date range should not overlap on another lesson plan.");
+    //   returnVal = false;
+    // } else {
+    //   seterrorOverlapDate("");
+    // }
 
     return returnVal;
   };
