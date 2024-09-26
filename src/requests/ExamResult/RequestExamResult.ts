@@ -184,7 +184,7 @@ export const getClassTeachers =
           Id: item.Teacher_Id,
           Name: item.TeacherName,
           Value: item.SchoolWise_Standard_Division_Id,
-          StanderdId: item.Standard_Id,
+          StanderdId: item.Original_Standard_Id,
           Is_PrePrimary:item.Is_PrePrimary
 
         });

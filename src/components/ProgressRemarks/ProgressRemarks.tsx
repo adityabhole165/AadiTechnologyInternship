@@ -4,7 +4,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -46,6 +46,8 @@ import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
 import { getSchoolConfigurations } from '../Common/Util';
 
+import { AlertContext } from 'src/contexts/AlertContext';
+
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ const ProgressRemarks = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const { StandardDivisionId, TestId } = useParams();
 
   const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId ? StandardDivisionId :"0" );
@@ -392,7 +394,7 @@ const ProgressRemarks = () => {
   };
 
   const TextChange1 = () => {
-    let showAlert = false;
+    let showAlert1 = false;
     setItemlist(prevItemlist =>
       prevItemlist.map(item => {
         if (item.Id === StudentId) {
@@ -401,7 +403,7 @@ const ProgressRemarks = () => {
             if (i === ColIndex) {
               const newText3 = remark.Text3 + activeTexts;
               if (newText3.length > maxRemarkLength) {
-                showAlert = true;
+                showAlert1 = true;
                 return remark; // Return the original remark without changes
               } else {
                 setIsDirty(true)
@@ -410,8 +412,24 @@ const ProgressRemarks = () => {
             }
             return remark;
           });
-          if (showAlert) {
-            alert(`Remarks length should not be more than ${maxRemarkLength}`);
+          if (showAlert1) {
+
+            showAlert({
+              title: 'Please Confirm',
+              message: `Remarks length should not be more than ${maxRemarkLength}`,
+              variant: 'warning',
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel',
+              onCancel: () => {
+                closeAlert();
+              },
+              onConfirm: () => {
+               
+                closeAlert();
+              }
+            });
+
+
           }
           return {
             ...item,
@@ -421,7 +439,7 @@ const ProgressRemarks = () => {
         return item;
       })
     );
-    return showAlert;
+    return showAlert1;
   };
 
   const [message, setMessage] = useState("");
@@ -532,8 +550,22 @@ const ProgressRemarks = () => {
 
   const Exportremark = () => {
     const confirmMessage = "This Action will show only saved details. Do you want to continue?";
-    let confirmed = true
-    confirmed = window.confirm(confirmMessage);
+
+
+    showAlert({
+      title: 'Please Confirm',
+      message: confirmMessage,
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        
+        closeAlert();
+      }
+    });
 
   };
 
