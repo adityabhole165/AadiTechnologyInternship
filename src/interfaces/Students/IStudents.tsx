@@ -27,11 +27,16 @@ export interface IGetStudentsListBody {
 export interface IGetStudentsListResult {
     Name: string,
     Roll_No: string,
+    Is_Locked: string,
     Enrolment_Number: string,
     DOB: string,
+    Sex: string,
     SchoolWise_Standard_Division_Id: string,
+    StandardDivision: string,
     Is_Leave: string,
     SchoolLeft_Date: string,
+    IsAttendanceAvailable: string,
+    StudentIsOnLeave: string,
     Photo_file_Path_Image: string,
     TotalRows: string
 }

@@ -150,16 +150,16 @@ const StudentBaseScreen = () => {
                             </Box>
                         </>
                     } />
-                <Box sx={{ background: 'white', p: 1, mb: 2 }}>
+                <Box sx={{ background: 'white', p: 1, mb: .5 }}>
                     <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                         <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
                         <Box sx={{ display: 'flex', gap: '20px' }}>
                             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <SquareIcon style={{ color: '#9ca3af', fontSize: 25, position: 'relative', top: '-2px' }} />
+                                <SquareIcon style={{ color: '#e2e8f0', fontSize: 25, position: 'relative', top: '-2px' }} />
                                 <Typography>Deactivated User</Typography>
                             </Box>
                             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                                <SquareIcon style={{ color: '#e5e7eb', fontSize: 25, position: 'relative', top: '-2px' }} />
+                                <SquareIcon style={{ color: '#dbeafe', fontSize: 25, position: 'relative', top: '-2px' }} />
                                 <Typography>Long Leave</Typography>
                             </Box>
                         </Box>
@@ -204,24 +204,25 @@ const StudentBaseScreen = () => {
                                                 </TableHead>
                                                 <TableBody>
                                                     {StudentsList.length > 0 && StudentsList?.map((item, i) => (
-                                                        <TableRow key={i} >
-                                                            <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '' }}>
+                                                        <TableRow key={i} sx={{ backgroundColor: item.Text10 !== '0' && item.Text7 === '' ? '#dbeafe' : item.Text11 !== 'N' ? '#e2e8f0' : 'inherit' }} >
+                                                            <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
                                                                 {item.Text3}
                                                             </TableCell>
-                                                            <TableCell align="center" sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '' }}>
+                                                            <TableCell align="center" sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
                                                                 {item.Text2}
                                                             </TableCell>
-                                                            <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '' }}>
+                                                            <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
                                                                 {item.Text1}
                                                             </TableCell>
-                                                            <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '' }}>
+                                                            <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
                                                                 {formatDate1(item.Text4.split(' ')[0])}
                                                             </TableCell>
                                                             <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
                                                                 {item.Text7 !== '' ? <span
                                                                     style={{
                                                                         cursor: 'pointer',
-                                                                        textDecoration: 'none'
+                                                                        textDecoration: 'none',
+                                                                        fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit'
                                                                     }}
                                                                     onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.textDecoration = 'underline'}
                                                                     onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.textDecoration = 'none'}

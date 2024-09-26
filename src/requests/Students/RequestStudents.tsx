@@ -66,6 +66,8 @@ export const CDAGetStudentsList =
                     Text7: item.SchoolLeft_Date,
                     Text8: item.Photo_file_Path_Image,
                     Text9: item.TotalRows,
+                    Text10: item.StudentIsOnLeave,
+                    Text11: item.Is_Locked
                 })
             })
             dispatch(StudentsSlice.actions.RGetStudentsList(responseData));
