@@ -137,7 +137,7 @@ function UpcomingEvent() {
               <Button
                 sx={{
                   backgroundColor: selectedEventType === eventType ? '#F0F0F0' : getButtonColor(eventType),
-                  color:selectedEventType === eventType ? `${getButtonColor(eventType)}` : '#F0F0F0', height: '3rem', width: '100%',
+                  color: selectedEventType === eventType ? `${getButtonColor(eventType)}` : '#F0F0F0', height: '3rem', width: '100%',
                 }}
                 onClick={() => handleEventTypeClick(eventType)}>
                 <b>{eventType}</b>
@@ -196,7 +196,7 @@ function UpcomingEvent() {
           filteredEvents.length === 0 && (
             <Grid item xs={12}>
               <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-                <b>No events found for the selected type.</b>
+                <b>No record found for the selected type.</b>
               </Typography>
             </Grid>
           )
