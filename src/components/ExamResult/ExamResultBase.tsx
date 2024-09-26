@@ -685,7 +685,9 @@ const USgetIsTermExamPublished: any = useSelector(
               minWidth: '20vw'
               , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
             }}
-            ItemList={ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")}
+            ItemList={ asSchoolId == '18'
+              ? ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")
+              : ClassTeachers}
             onChange={clickTeacher}
             label={'Select Class Teacher'}
             // defaultValue={ParamsStandardDivisionId != null ? ParamsStandardDivisionId.toString() : StandardDivisionId}
