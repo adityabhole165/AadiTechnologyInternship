@@ -165,7 +165,6 @@ const ExamResultBase = () => {
   );
 
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
-  console.log(UsGetSchoolSettings,"UsGetSchoolSettings");
 
   const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
   
@@ -173,7 +172,6 @@ const BlockExamPublish = UsGetSchoolSettings?.GetSchoolSettingsResult?.BlockExam
 const ShowTopppers = UsGetSchoolSettings?.GetSchoolSettingsResult?.ShowTopppers || '';
 
 
-console.log();
 
 const USgetIsFinalResultPublished: any = useSelector(
   (state: RootState) => state.ExamResult.ISgetIsFinalResultPublished
@@ -182,11 +180,7 @@ const USgetIsTermExamPublished: any = useSelector(
   (state: RootState) => state.ExamResult.ISgetIsTermExamPublished
 );
 
-  console.log(BlockExamPublish,"BlockExamPublish");
-  console.log(USgetIsFinalResultPublished,"USgetIsFinalResultPublished");
-  console.log(  UserDetail.CanPublishUnpublishExam,"  UserDetail.CanPublishUnpublishExam");
-  console.log(  USgetIsTermExamPublished," USgetIsTermExamPublished");
-  
+ 
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
