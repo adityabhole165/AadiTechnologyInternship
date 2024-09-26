@@ -39,7 +39,7 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
           <Table aria-label="simple table" sx={{ py: 1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
             <TableHead>
               <TableRow sx={{ background: (theme) => theme.palette.secondary.main, py: 1 }}>
-                <TableCell sx={{ color: 'white', minWidth: '130px'}}>
+                <TableCell sx={{ color: 'white', width:'480px'}}>
                   Checkbox
                 </TableCell>
                 <TableCell sx={{ color: 'white', }} >
@@ -57,7 +57,7 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
                     <TableRow
                     // onClick={() => { clickCard(item.linkPath) }}
                     >
-                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, maxWidth: '150px', pl: 3.5 }}>
+                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, pl: 3.5 }}>
                         <ChechBoX
                           name={''}
                           value={item.id}
@@ -72,7 +72,7 @@ const CardNotice = ({ itemList, downloadNotice, clickSingle }) => {
                       <IconButton>
                       <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }} />
                       </IconButton></TableCell> */}
-                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', minWidth: '120px' }}>
+                      <TableCell sx={{ textTransform: 'capitalize', py: 0.5, textAlign: 'center', minWidth: '170px' }}>
                         {item.FileName ? (
                           <IconButton onClick={() => downloadNotice(item.FileName, item.IsImageNotice)}>
                             <FileDownloadOutlinedIcon />

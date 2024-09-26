@@ -55,7 +55,7 @@ function List1({
                       <TableCell sx={{ textTransform: 'capitalize', maxWidth:'60px' , py:1}}>
                         {items.header}
                       </TableCell>
-                      <TableCell sx={{ textTransform: 'capitalize', py:1}}>
+                      <TableCell sx={{ textTransform: 'capitalize', textAlign:'left', py:1}}>
                         {items.text1}
                       </TableCell>
                       <TableCell sx={{  textAlign: 'center', py:0.3 }}>
