@@ -203,7 +203,7 @@ function ResizableCommentsBox({
                   </TableCell>
                 )}
                 {item.Remarks.map((RemarksItem, j) => (
-                  <TableCell align="left " key={j} sx={{ py:0.5, minWidth:'270px'}} >
+                  <TableCell align="left " key={j} sx={{ py:0.5, minWidth:'280px'}} >
                     <TextareaAutosize                    
                       id={`outlined-basic-${i}-${j}`}
                       value={RemarksItem.Text3}
@@ -217,13 +217,15 @@ function ResizableCommentsBox({
                     />
                     <IconButton
                       onClick={() => NoteClick(item.Id, j)}
-                      // variant="caption"
+                      variant="caption"
+                      sx={{mt:-3, ml:0}}
                       >
                       <MoreVertIcon />
                     </IconButton>
 
                     <Typography
                     variant="caption"
+                    sx={{mt:10}}
                      color="textSecondary" alignItems={'center'} >
                       ({TermId.maxRemarkLength - RemarksItem.Text3.length})
                     </Typography>
