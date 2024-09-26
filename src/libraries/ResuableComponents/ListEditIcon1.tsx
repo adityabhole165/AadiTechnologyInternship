@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ISchoolsettingBody } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
-import { GetschoolSettingsForUnsubmitMarks } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
+import { GetschoolSettingsForUnsubmitMarks, GetschoolSettingsPartialSubmit } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
 import { RootState } from 'src/store';
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefined }) {
@@ -24,13 +24,16 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
   };
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const UsschoolSettings = useSelector((state: RootState) => state.AssignExamMarkSlice.IsGetSchoolSettings);
-  console.log(UsschoolSettings, "***********");
+  const UsschoolSettingPartialSubmit = useSelector((state: RootState) => state.AssignExamMarkSlice.IsschoolsettingPartialSubmit);
+  console.log(UsschoolSettingPartialSubmit, "UsschoolSettingPartialSubmit");
 
+
+  const SchoolsettingBody: ISchoolsettingBody = {
+    asSchoolId: Number(asSchoolId),
+  };
   useEffect(() => {
-    const SchoolsettingBody: ISchoolsettingBody = {
-      asSchoolId: Number(asSchoolId),
-    };
     dispatch(GetschoolSettingsForUnsubmitMarks(SchoolsettingBody));
+    dispatch(GetschoolSettingsPartialSubmit(SchoolsettingBody))
   }, []);
   return (
     <div>

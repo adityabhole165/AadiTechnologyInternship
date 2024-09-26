@@ -134,5 +134,6 @@ export interface IGetSchoolSettingsResult {
     StudentAbsentCount: string;
     AllowHomewirkDailyLog: string;
     AllowUnsubmitExamMarks: string;
+    AllowPartialSubmit: string;
   }
 }

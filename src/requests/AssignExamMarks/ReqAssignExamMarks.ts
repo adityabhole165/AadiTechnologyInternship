@@ -23,7 +23,8 @@ const AssignExamMarkSlice = createSlice({
     ISSubjectTeachersForAssignExamMarks: [],
     IsGetSchoolSettings: {},
     Isschoolsetting: {},
-    IsschoolsettingExamstatus: {}
+    IsschoolsettingExamstatus: {},
+    IsschoolsettingPartialSubmit: {}
   },
   reducers: {
     //AssignClass
@@ -66,6 +67,9 @@ const AssignExamMarkSlice = createSlice({
     },
     RSchoolSettingsExamStatus(state, action) {
       state.IsschoolsettingExamstatus = action.payload;
+    },
+    RSchoolSettingsPartialSubmit(state, action) {
+      state.IsschoolsettingPartialSubmit = action.payload;
     },
   }
 });
@@ -214,6 +218,14 @@ export const GetschoolSettingsExamStatusForCoCurriculumS =
       const response = await AssignExamMarkApi.GetSchoolSettings(data)
 
       dispatch(AssignExamMarkSlice.actions.RSchoolSettingsExamStatus(response.data.GetSchoolSettingsResult.AllowExamStatusForCoCurricullarSubjects))
+
+    };
+export const GetschoolSettingsPartialSubmit =
+  (data: ISchoolsettingBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AssignExamMarkApi.GetSchoolSettings(data)
+
+      dispatch(AssignExamMarkSlice.actions.RSchoolSettingsPartialSubmit(response.data.GetSchoolSettingsResult.AllowPartialSubmit))
 
     };
 
