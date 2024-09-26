@@ -160,12 +160,12 @@ function ResizableCommentsBox({
 
   return (
     <div
-      style={{
-        maxHeight: '800px',
-        overflowY: 'auto',
-        scrollBehavior: 'smooth',
-        border: '2px'
-      }}
+      // style={{
+      //   // maxHeight: '800px',
+      //   // overflowY: 'auto',
+      //   // scrollBehavior: 'smooth',
+      //   // border: '2px'
+      // }}
     >
       <TableContainer component={Card}>
         <Table aria-label="simple table">
@@ -199,8 +199,8 @@ function ResizableCommentsBox({
                 <TableCell align="left" sx={{
                   color: item.IsLeftStudent == 1 ? 'red' : 'inherit', py:0.5}}>{item.Text2}</TableCell>
                 {TermId.SelectTerm == 2 && (
-                  <TableCell align="center" sx={{py:0.5}} >
-                    <TextareaAutosize value={item.Text4}  />
+                  <TableCell align="left" sx={{py:0.5}} >
+                    <TextareaAutosize value={item.Text4}  minRows={2}  />
                   </TableCell>
                 )}
                 {item.Remarks.map((RemarksItem, j) => (
@@ -212,15 +212,20 @@ function ResizableCommentsBox({
                       onChange={(e) => {
                         TextChange({ Id: item.Id, Index: j, Value: e.target.value });
                       }}
+                      
                        minRows={2}
                       maxLength={TermId.maxRemarkLength}
-                       sx={{ width: '70vh', Height: 'auto', }}
+                       sx={{ width: '70vh', Height: 'auto' }}
                     />
                     <IconButton
-                      onClick={() => NoteClick(item.Id, j)}>
+                      onClick={() => NoteClick(item.Id, j)}
+                      sx={{mt:-3, ml:0.5}} >
                       <MoreVertIcon />
                     </IconButton>
-                    <Typography variant="caption" color="textSecondary" >
+
+                    <Typography
+                    variant="caption"
+                     color="textSecondary" alignItems={'center'} pb={2}>
                       ({TermId.maxRemarkLength - RemarksItem.Text3.length})
                     </Typography>
                   </TableCell>
