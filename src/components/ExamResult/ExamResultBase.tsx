@@ -300,14 +300,14 @@ const USgetIsTermExamPublished: any = useSelector(
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
-  }, []);
+  }, [PublishUnpublish]);
   
  
   useEffect(() => {
    if(BlockExamPublish)(
     dispatch(CDAgetIsFinalResultPublished(IsFinalResultPublishedBody))
    )
-  }, [StandardDivisionId,BlockExamPublish]);
+  }, [StandardDivisionId,BlockExamPublish,PublishUnpublish]);
   
  
   useEffect(() => {
@@ -315,7 +315,7 @@ const USgetIsTermExamPublished: any = useSelector(
       dispatch(CDAetIsTermExamPublished(IsTermExamPublishedBody))
     )
    
-  }, [StandardDivisionId,USgetIsFinalResultPublished]);
+  }, [StandardDivisionId,USgetIsFinalResultPublished,PublishUnpublish]);
 
 
   useEffect(() => {
@@ -632,15 +632,9 @@ const USgetIsTermExamPublished: any = useSelector(
     if (PublishUnpublish !== '') {
       toast.success(PublishUnpublish)
       dispatch(resetPublishUnpublishExams())
-      dispatch(resetIsTermExamPublished())
-      dispatch(resetPublishUnpublishExams())
-      dispatch(CDAresetGetSchoolSettings())
-      
-
-      
       dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody))
     }
-  }, [PublishUnpublish])
+  }, [PublishUnpublish,BlockExamPublish,USgetIsFinalResultPublished,USgetIsTermExamPublished,ShowTopppers])
 
   const getDropdownName = (List, value) => {
     let returnVal = ""
