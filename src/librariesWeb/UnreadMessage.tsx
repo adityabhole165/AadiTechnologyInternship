@@ -22,8 +22,8 @@ import Actions from './Actions';
 import Header from './Header';
 
 const UnreadMessage = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const UnreadMessage = useSelector((state: RootState) => state.Dashboard.UnreadMessage);
   const UnreadMessageCount = useSelector((state: RootState) => state.Dashboard.UnreadMessageCount);
   const SenderPhoto = useSelector((state: RootState) => state.Dashboard.SenderPhoto);
@@ -40,19 +40,22 @@ const UnreadMessage = () => {
     aiReceiverId: asUserId,
     aiReceiverRoleId: asRoleId,
   };
-  useEffect(() => {
 
-    dispatch(getUnreadMessages(UnreadMessagesBody))
-  }, [])
+  useEffect(() => {
+    dispatch(getUnreadMessages(UnreadMessagesBody));
+  }, []);
+
   const clickRefresh = () => {
-    dispatch(getUnreadMessages(UnreadMessagesBody))
+    dispatch(getUnreadMessages(UnreadMessagesBody));
   };
+
   const clickMessage = (item) => {
-    navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox')
-  }
+    navigate('/extended-sidebar/MessageCenter/viewMSg/' + item.MessageDetailsId + '/Inbox');
+  };
+
   return (
     <Box sx={{ backgroundColor: 'white', pt: 1 }}>
-      <Grid container >
+      <Grid container>
         <Grid item xs={6}>
           <Grid item xs={12} pl={0.5}>
             <Header Title="Unread Messages" />
@@ -62,48 +65,43 @@ const UnreadMessage = () => {
           <Actions IconType="Label" DiplayText={UnreadMessageCount} />
         </Grid>
       </Grid>
-      <Box sx={{ height: '262px', overflow: 'auto', mt: 2, }}>
+      <Box sx={{ height: '262px', overflow: 'auto', mt: 2 }}>
         {loading ? (
           <Stack justifyContent="center" alignItems="center">
             <CircularProgress size={40} disableShrink thickness={4} />
           </Stack>
         ) : (
           <>
-            {UnreadMessage.length == 0 ?
-              "No records found" :
-              UnreadMessage.map((item, i) => {
-                return (
-                  <Grid container key={i}>
-                    <Grid item xs={2} onClick={() => { clickMessage(item) }}>
-                      <Box
-                        display={'flex'}
-                        justifyContent={'space-between'}
-                        px={1}
-                      > {SenderPhoto.map((image, i) => {
-                        if (image.Id === item.SenderUserId) {
-                          return (
-                            <FormGroup key={i}>
-                              <Avatar
-                                alt="u"
-                                src={`data:image/png;base64,${image.Photo}`}
-                              />
-                            </FormGroup>
-                          );
-                        }
-                      })}
+            {UnreadMessage.length === 0
+              ? 'No records found'
+              : UnreadMessage.map((item, i) => (
+                  <Grid container key={i} onClick={() => clickMessage(item)} sx={{ cursor: 'pointer' }}>
+                    <Grid item xs={2}>
+                      <Box display={'flex'} justifyContent={'space-between'} px={1}>
+                        {SenderPhoto.map((image, i) => {
+                          if (image.Id === item.SenderUserId) {
+                            return (
+                              <FormGroup key={i}>
+                                <Avatar alt="u" src={`data:image/png;base64,${image.Photo}`} />
+                              </FormGroup>
+                            );
+                          }
+                        })}
                       </Box>
                     </Grid>
                     <Grid item xs={10}>
                       <Grid container>
                         <Grid item xs={6}>
-                          <Typography variant="h4" pl={0.6}  >{item.UserName}</Typography>
+                          <Typography variant="h4" pl={0.6}>
+                            {item.UserName}
+                          </Typography>
                         </Grid>
                         <Grid container item xs={6}>
                           <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" />
                           <Typography>{item.Date}</Typography>
                         </Grid>
                       </Grid>
-                      <Tooltip title={item.Subject} >
+                      <Tooltip title={item.Subject}>
                         <Typography
                           variant="body2"
                           px={1}
@@ -119,28 +117,31 @@ const UnreadMessage = () => {
                             position: 'relative',
                             color: '#38548A'
                           }}
-                        >{item.Subject}</Typography>
+                        >
+                          {item.Subject}
+                        </Typography>
                       </Tooltip>
-                    </Grid><Grid item xs={12}>
+                    </Grid>
+                    <Grid item xs={12}>
                       <Divider variant="middle" sx={{ m: '5px' }} />
                     </Grid>
                   </Grid>
-                )
-              })
-            }
+                ))}
           </>
         )}
       </Box>
-      <Grid container py={1.5} >
-        <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
-          <Typography variant="h4"> <b>See all messages</b></Typography>
+      <Grid container py={1.5}>
+        <Grid item xs={7} textAlign={'right'} onClick={() => navigate('/extended-sidebar/MessageCenter/msgCenter')}>
+          <Typography variant="h4">
+            <b>See all messages</b>
+          </Typography>
         </Grid>
-        <Grid item xs={5} onClick={() => { navigate('/extended-sidebar/MessageCenter/msgCenter') }}>
+        <Grid item xs={5} onClick={() => navigate('/extended-sidebar/MessageCenter/msgCenter')}>
           <ArrowCircleRightIcon />
         </Grid>
       </Grid>
     </Box>
   );
-}
+};
 
-export default UnreadMessage
+export default UnreadMessage;
