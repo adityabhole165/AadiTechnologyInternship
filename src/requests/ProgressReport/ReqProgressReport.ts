@@ -121,6 +121,10 @@ const ProgressReportSlice = createSlice({
       state.IsGetSchoolSettings = action.payload;
     },
 
+    RresetGetSchoolSettings(state) {
+      state.IsGetSchoolSettings = "";
+    },
+
   }
 });
 
@@ -571,6 +575,13 @@ export const CDAGetSchoolSettings =
 
     };
 
+    export const CDAresetGetSchoolSettings =
+    (): AppThunk =>
+      async (dispatch) => {
+        dispatch(ProgressReportSlice.actions.RresetGetSchoolSettings());// Dispatching action to reset the message
+      };
+
+    
 
 
 

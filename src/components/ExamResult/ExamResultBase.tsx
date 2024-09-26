@@ -38,14 +38,14 @@ import {
   getClassTeachers, getClasswiseExam,
   getGenerateTopper,
   getProgressSheetStatus,
-  getPublishUnpublishExam, getSMSTemplate, resetGenerateTopper, resetPublishUnpublishExams
+  getPublishUnpublishExam, getSMSTemplate, resetGenerateTopper, resetIsTermExamPublished, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 import { getSchoolConfigurations } from '../Common/Util';
 import { GetSchoolSettingsBody } from 'src/interfaces/ProgressReport/IprogressReport';
-import { CDAGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
+import { CDAGetSchoolSettings, CDAresetGetSchoolSettings } from 'src/requests/ProgressReport/ReqProgressReport';
 import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 const ExamResultBase = () => {
@@ -302,19 +302,20 @@ const USgetIsTermExamPublished: any = useSelector(
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, []);
   
-  // Dispatch final result published check when BlockExamPublish changes
+ 
   useEffect(() => {
-   
-      dispatch(CDAgetIsFinalResultPublished(IsFinalResultPublishedBody));
-    
-  }, []);
+   if(BlockExamPublish)(
+    dispatch(CDAgetIsFinalResultPublished(IsFinalResultPublishedBody))
+   )
+  }, [StandardDivisionId,BlockExamPublish]);
   
-  // Dispatch term exam published check when final result published changes
+ 
   useEffect(() => {
+    if(USgetIsFinalResultPublished == false)(
+      dispatch(CDAetIsTermExamPublished(IsTermExamPublishedBody))
+    )
    
-      dispatch(CDAetIsTermExamPublished(IsTermExamPublishedBody));
-    
-  }, []);
+  }, [StandardDivisionId,USgetIsFinalResultPublished]);
 
 
   useEffect(() => {
@@ -631,6 +632,12 @@ const USgetIsTermExamPublished: any = useSelector(
     if (PublishUnpublish !== '') {
       toast.success(PublishUnpublish)
       dispatch(resetPublishUnpublishExams())
+      dispatch(resetIsTermExamPublished())
+      dispatch(resetPublishUnpublishExams())
+      dispatch(CDAresetGetSchoolSettings())
+      
+
+      
       dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody))
     }
   }, [PublishUnpublish])
@@ -813,17 +820,17 @@ const USgetIsTermExamPublished: any = useSelector(
         }
       }}
       onClick={ClickOpenDialogbox}
-      disabled={(
-        BlockExamPublish ? (
-          USgetIsTermExamPublished || 
-          USgetIsFinalResultPublished || 
+      disabled={
+      
+        (  USgetIsTermExamPublished || 
+          USgetIsFinalResultPublished) ||
           (ClassPassFailDetailsForButton && (
             ClassPassFailDetailsForTest?.length === 0 ||  // No test details
             !ClassPassFailDetailsForButton.IsPublish ||  // Not published
             (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
           ))
-        ) : false // if BlockExamPublish is false, don't disable it
-      )}
+        
+      }
       
       
     >

@@ -74,6 +74,20 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.PublishUnpublishExam = "";
     },
+
+    RresetIsTermExamPublished(state) {
+      state.Loading = false;
+      state.ISgetIsTermExamPublished = "";
+    },
+    RresetIsFinalResultPublished(state) {
+      state.Loading = false;
+      state.ISgetIsFinalResultPublished = "";
+    },
+
+
+    
+
+
     GetProgressSheetStatus(state, action) {
       state.Loading = false;
       state.ProgressSheetStatus = action.payload;
@@ -226,6 +240,7 @@ export const resetPublishUnpublishExams =
     async (dispatch) => {
       dispatch(SliceExamResult.actions.resetPublishUnpublishExam());// Dispatching action to reset the message
     };
+
 export const getProgressSheetStatus =
   (data: IGetPrePrimaryProgressSheetStatusBody): AppThunk =>
     async (dispatch) => {
@@ -331,5 +346,22 @@ export const getClassPassFailDetailsForTest =
         dispatch(SliceExamResult.actions.RgetIsTermExamPublished(response.data));
   
       };
+
+
+      export const resetIsTermExamPublished =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.RresetIsTermExamPublished());// Dispatching action to reset the message
+    };
+
+    export const resetIsFinalResultPublished =
+    (): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceExamResult.actions.RresetIsFinalResultPublished());// Dispatching action to reset the message
+      };
+
+
+    
+
 
 export default SliceExamResult.reducer;
