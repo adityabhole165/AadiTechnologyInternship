@@ -185,6 +185,7 @@ const USgetIsTermExamPublished: any = useSelector(
   console.log(BlockExamPublish,"BlockExamPublish");
   console.log(USgetIsFinalResultPublished,"USgetIsFinalResultPublished");
   console.log(  UserDetail.CanPublishUnpublishExam,"  UserDetail.CanPublishUnpublishExam");
+  console.log(  USgetIsTermExamPublished," USgetIsTermExamPublished");
   
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
@@ -797,7 +798,11 @@ const USgetIsTermExamPublished: any = useSelector(
             </span>
           </Tooltip>
 
-          <Tooltip title={"Unpublish All"}>
+
+
+  
+
+            <Tooltip title={"Unpublish All"}>
   <span>
     <IconButton
       sx={{
@@ -808,21 +813,26 @@ const USgetIsTermExamPublished: any = useSelector(
         }
       }}
       onClick={ClickOpenDialogbox}
-      disabled={
-        USgetIsTermExamPublished === true ||  // Check if term exam is published
-        USgetIsFinalResultPublished === true ||  // Check if final result is published
-        (ClassPassFailDetailsForButton && (
-          (ClassPassFailDetailsForTest?.length === 0) || // No test details
-          !ClassPassFailDetailsForButton.IsPublish ||   // Not published
-          (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
-        ))
-      }
+      disabled={(
+        BlockExamPublish ? (
+          USgetIsTermExamPublished || 
+          USgetIsFinalResultPublished || 
+          (ClassPassFailDetailsForButton && (
+            ClassPassFailDetailsForTest?.length === 0 ||  // No test details
+            !ClassPassFailDetailsForButton.IsPublish ||  // Not published
+            (!getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish) // Not submitted and not published
+          ))
+        ) : false // if BlockExamPublish is false, don't disable it
+      )}
+      
       
     >
       <Unpublished />
     </IconButton>
   </span>
             </Tooltip>
+
+
 
              </div> : <span></span>
 
