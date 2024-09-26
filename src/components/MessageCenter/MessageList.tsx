@@ -1,17 +1,16 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  Avatar,
   Box,
-  Button,
   Card,
   Grid,
   Hidden,
   IconButton,
   Tooltip
 } from '@mui/material';
+import { blue, grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,12 +26,9 @@ import { IGetAllMonths, Iyears } from 'src/interfaces/MessageCenter/Search';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MCForm from 'src/libraries/form/MCForm';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
-  DeleteButton,
-  MarkAsReadMessage
+  DeleteButton
 } from 'src/libraries/styled/CommonStyle';
 import {
   ReadUnReadstatus,
@@ -51,10 +47,7 @@ import SelectList3Col from '../../libraries/list/SelectList3Col';
 import CommonPageHeader from '../CommonPageHeader';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
 import CardMessage from './CardMessage';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { blue, green, grey } from '@mui/material/colors';
-import MarkunreadIcon from '@mui/icons-material/Markunread';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import EmailSettingsDialog from './EmailSetting';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -490,9 +483,16 @@ const MessageList = () => {
     }
   }, [DeleteDraftM]);
 
+  const ClickOpenDialogbox = () => {
+    setOpen(true);
+  };
+  const ClickCloseDialogbox = () => {
+    setOpen(false);
+  };
+
   return (
     <>
-      <Box sx={{ px: 2}}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader navLinks={[
           {
             title: 'Message Center',
@@ -501,59 +501,60 @@ const MessageList = () => {
         ]}
           rightActions={
             <>
-            <Box>
-                                <Tooltip
-                                    title={`Inbox - List of messages Received. Select message(s) and click on "Trash" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent Items - List of messages which you have sent. Select message(s) and click on "Trash" to send the message to trash box.`}
-                                >
-                                    <IconButton
-                                        sx={{
-                                            color: 'white',
-                                            backgroundColor: grey[500],
-                                            height: '36px !important',
-                                            ':hover': { backgroundColor: grey[600] }
-                                        }}
-                                    >
-                                        <QuestionMarkIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </Box>
-            <Box>
-              <Hidden>
-                <Tooltip title="Setting">
+              <Box>
+                <Tooltip
+                  title={`Inbox - List of messages Received. Select message(s) and click on "Trash" to send the message to trash box. Trash - List of Trash(deleted messages) messages. Select message and click on "Un-Delete" to move the message back to inbox. To permanently delete the message click on "Delete". Sent Items - List of messages which you have sent. Select message(s) and click on "Trash" to send the message to trash box.`}
+                >
                   <IconButton
-                sx={{
-                  color: 'white',
-                  mr:1,
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}>
-                  <SettingsIcon onClick={clickSetting}
-                  
-                  fontSize="medium" />
-                </IconButton>
-                </Tooltip>
-                <Tooltip title="Refresh">
-                  <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}>
-                  <RefreshIcon
-                    onClick={() => {
-                      setIsRefresh(!isRefresh);
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
                     }}
-                    fontSize="medium"
-                  />
-                </IconButton>
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
                 </Tooltip>
-              </Hidden>
-              
-            </Box>
+              </Box>
+              <Box>
+                <Hidden>
+                  <Tooltip title="Setting">
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        mr: 1,
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[600]
+                        }
+                      }}>
+                      <SettingsIcon onClick={handleClickOpen}
+
+                        fontSize="medium" />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Refresh">
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}>
+                      <RefreshIcon
+                        onClick={() => {
+                          setIsRefresh(!isRefresh);
+                        }}
+                        fontSize="medium"
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </Hidden>
+
+              </Box>
             </>
           }
         />
@@ -577,7 +578,7 @@ const MessageList = () => {
                   height: '85px',
                   backgroundColor: '#38548A',
                   mb: '10px',
-                  borderRadius:'15px'
+                  borderRadius: '15px'
                 }}
               >
                 <RouterLink
@@ -596,14 +597,14 @@ const MessageList = () => {
               </Card>
             </Hidden>
             <Box>
-            {!showSearch && (
-              <CardMessage
-                activeTab={activeTab}
-                MarkAsRead={MarkAsRead}
-                clickTab={clickTab}
-                clickSearchIcon={clickSearchIcon}
-              />
-            )}
+              {!showSearch && (
+                <CardMessage
+                  activeTab={activeTab}
+                  MarkAsRead={MarkAsRead}
+                  clickTab={clickTab}
+                  clickSearchIcon={clickSearchIcon}
+                />
+              )}
             </Box>
           </Grid>
           <Grid container sm={10} spacing={1}>
@@ -614,7 +615,7 @@ const MessageList = () => {
                     AcademicYearList={AcademicYearList}
                     MonthYearList={MonthYearList}
                     clickSearch={clickSearch}
-                     academicYear={academicYear}
+                    academicYear={academicYear}
                     monthYear={monthYear}
                     clickAcademicYear={clickAcademicYear}
                     clickMonthYear={clickMonthYear}
@@ -743,7 +744,7 @@ const MessageList = () => {
                     )}
                   </div>
                 )}
-            {/* <Box>
+                {/* <Box>
                 <Avatar
                   sx={{
                     display: displayMoveToTop,
@@ -813,7 +814,14 @@ const MessageList = () => {
                     ></KeyboardArrowDownIcon>
                   
                 </Box> */}
-
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
+                  {open && (
+                    <EmailSettingsDialog
+                      open={ClickOpenDialogbox}
+                      setOpen={setOpen}
+                    />
+                  )}
+                </Box>
                 <span
                   style={{
                     width: '95px',
@@ -828,7 +836,7 @@ const MessageList = () => {
                       }/MessageCenter/Compose`}
                   >
                     <Item
-                      sx={{ fontSize: '10px', mr:1, mb: '10px', borderRadius:'15px', backgroundColor:'#38548A', color:'white' }}
+                      sx={{ fontSize: '10px', mr: 1, mb: '10px', borderRadius: '15px', backgroundColor: '#38548A', color: 'white' }}
                     >
                       <AddCircleIcon onClick={clickClear} />
                       <br />

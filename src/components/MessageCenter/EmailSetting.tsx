@@ -1,28 +1,33 @@
 import {
   Box,
+  Button,
   Card,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   Hidden,
   TextField,
   Typography
 } from '@mui/material';
+import { green, red } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import BackButton from 'src/libraries/button/BackButton';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   GetEmailSettings,
   ResetUpdateUserEmailSetting,
-  UpdateUserEmailSetting
+  UpdateUserEmailSetting,
 } from 'src/requests/MessageCenter/MessaageCenter';
 import { RootState } from 'src/store';
 
-const EmailSettings = () => {
+const EmailSettingsDialog = ({ open, setOpen }) => {
   const dispatch = useDispatch();
 
   const EmailSettings = useSelector(
@@ -43,17 +48,20 @@ const EmailSettings = () => {
   const [submitButtonDisabled, setsubmitButtonDisabled] =
     useState<boolean>(true);
   const [isChecked, setIsChecked] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false); // State to manage dialog open/close
+
   const EmailSettingbody = {
     asSchoolId: localStorage.getItem('localSchoolId'),
-    asUserId: sessionStorage.getItem('Id')
+    asUserId: sessionStorage.getItem('Id'),
   };
 
   const UpdateUserEmailSettingbody = {
     asSchoolId: localStorage.getItem('localSchoolId'),
     asUserId: sessionStorage.getItem('Id'),
     asCanReceiveMail: isChecked ? 'Y' : 'N',
-    asEmailAddress: emailAddress
+    asEmailAddress: emailAddress,
   };
+
   useEffect(() => {
     dispatch(GetEmailSettings(EmailSettingbody));
   }, []);
@@ -73,11 +81,13 @@ const EmailSettings = () => {
     inputFiledBlur(EmailSettings?.EmailAddress);
     setIsChecked(EmailSettings?.CanReceiveMail === 'Y');
   };
+
   const clickSubmit = () => {
     if (emailAddressErrorFlag == false) {
       dispatch(UpdateUserEmailSetting(UpdateUserEmailSettingbody));
     }
   };
+
   const checkBoxHandler = (e) => {
     if (e.target.checked) {
       setsubmitButtonDisabled(false);
@@ -86,6 +96,7 @@ const EmailSettings = () => {
       setsubmitButtonDisabled(true);
     }
   };
+
   const inputFiledBlur = (value) => {
     setEmailAddress(value);
     const EmailErrorFlag = validEMailFormat.test(value);
@@ -96,73 +107,109 @@ const EmailSettings = () => {
       setemailAddressErrorFlag(false);
     }
   };
+
   const inputFiledFocus = (e) => {
     setemailAddressErrorFlag(false);
   };
 
-  return (
-    <Box sx={{ px: 2 }}>
-      <Hidden smUp>
-        <BackButton FromRoute={'/MessageCenter/msgCenter'} />
-      </Hidden>
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-      <PageHeader heading={'Email Setting'} subheading={''} />
-      {Loading && <SuspenseLoader />}
-      <Card component={Box} sx={{ display: 'flex' }} mb={1}>
-        <Checkbox
-          size="small"
-          name="IsChecked"
-          // checked={isChecked}
-          // defaultChecked={true}
-          onChange={(e) => checkBoxHandler(e)}
-        />
-        <Typography variant="body2" component={Box} p={1}>
-          Yes I want to receive message on below Email address.
-        </Typography>
-      </Card>
-      <TextField
+  return (
+    <Box>
+
+      {/* Email Settings as Dialog */}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
         fullWidth
-        margin="dense"
-        size="small"
-        id="Email Id"
-        name="Email Id"
-        label="Email Id"
-        value={emailAddress}
-        onChange={(e) => {
-          inputFiledBlur(e.target.value);
+        maxWidth={'sm'}
+        PaperProps={{
+          sx: {
+            borderRadius: "15px",
+          }
         }}
-        variant="standard"
-      />
-      {emailAddressErrorFlag ? (
-        <Box sx={{ my: 1 }}>
-          <Errormessage Error={'Please enter valid email address'} />
-        </Box>
-      ) : null}
-      <Grid container spacing={2}>
-        <Grid item xs={6} mt={0.4}>
-          <ButtonPrimary
-            onClick={clickSubmit}
-            type="submit"
-            fullWidth
-            color="primary"
-            disabled={submitButtonDisabled}
-          >
-            Submit
-          </ButtonPrimary>
-        </Grid>
-        <Grid item xs={6} mt={0.4}>
-          <ButtonPrimary
-            fullWidth
-            color="secondary"
-            type="reset"
-            onClick={clickReset}
-          >
-            Reset
-          </ButtonPrimary>
-        </Grid>
-      </Grid>
+      >
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <ClearIcon onClick={handleClose}
+            sx={{
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              }
+            }} />
+
+        </DialogTitle>
+        <Typography variant="h3" sx={{ pt: 1, pl: 4 }}>
+          Email Setting
+        </Typography>
+        <DialogContent>
+          <Box sx={{ px: 2 }}>
+            <Hidden smUp>
+              <BackButton FromRoute={'/MessageCenter/msgCenter'} />
+            </Hidden>
+
+            {Loading && <SuspenseLoader />}
+            <Card component={Box} sx={{ display: 'flex' }} mb={2}>
+              <Checkbox
+                size="small"
+                name="IsChecked"
+                onChange={(e) => checkBoxHandler(e)}
+              />
+              <Typography variant="body2" component={Box} p={2}>
+                Yes, I want to receive messages on the below email address.
+              </Typography>
+            </Card>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label={
+                <span>
+                  Email Id
+                </span>
+              }
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
+            />
+            {emailAddressErrorFlag ? (
+              <Box sx={{ my: 1 }}>
+                <Errormessage Error={'Please enter a valid email address.'} />
+              </Box>
+            ) : null}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Grid item xs={12} md={12} >
+            <Grid direction={"row"} gap={2} alignItems={"center"} sx={{ml: 43, pb:2}}>
+
+              <Button sx={{
+                ml: 2,
+                color: 'red',
+                ':hover': { backgroundColor: red[100] }
+              }} onClick={clickReset}>
+                Reset
+              </Button>
+              <Button sx={{
+                // backgroundColor: green[100],
+                color: 'green',
+                ':hover': { backgroundColor: green[100] }
+              }} onClick={clickSubmit}
+                disabled={submitButtonDisabled}
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
 
-export default EmailSettings;
+export default EmailSettingsDialog;
