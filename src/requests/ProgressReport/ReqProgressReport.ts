@@ -122,7 +122,7 @@ const ProgressReportSlice = createSlice({
     },
 
     RresetGetSchoolSettings(state) {
-      state.IsGetSchoolSettings = "";
+      state.IsGetSchoolSettings ={};
     },
 
   }
