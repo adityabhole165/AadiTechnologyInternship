@@ -24,7 +24,6 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import {
   CDAAddOrEditLessonPlanDetails,
   CDAGetAllTeachersOfLessonPlan,
-  CDAGetLessonPlanRecordCount,
   CDAUpdateReadSuggestion,
   CDAlessonplanlist,
   GetLessonPlanreport,
@@ -33,6 +32,7 @@ import {
   resetdeleteplan
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
+import { ClearIcon } from '@mui/x-date-pickers';
 import { AlertContext } from 'src/contexts/AlertContext';
 import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
@@ -40,7 +40,6 @@ import { RootState } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import IsHighliteStaus from './LessonPlanContext';
-import { ClearIcon } from '@mui/x-date-pickers';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,6 +55,8 @@ const LessonPlanBaseScreen = () => {
   const TeacherName = sessionStorage.getItem('StudentName');
 
   let CanEdit = getSchoolConfigurations(233)
+  console.log(CanEdit, "CanEdit");
+
   const { showAlert, closeAlert } = useContext(AlertContext);
   const LessonPlanList1: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISLessonList1
@@ -541,19 +542,22 @@ const LessonPlanBaseScreen = () => {
                 </Tooltip>
               </Box>
               <Box>
-                {(LessonPlanList.length > 0 ? LessonPlanList[0].IsSubmitted === "1" : true) && (
+                {(LessonPlanList.length < 0 ? LessonPlanList[0].IsSubmitted === "1" : true) && (
                   <Tooltip title="Export All">
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: blue[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: blue[600] },
-                      }}
-                      onClick={OnClickExportAll}
-                    >
-                      <Download />
-                    </IconButton>
+                    <span>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: blue[500],
+                          height: '36px !important',
+                          ':hover': { backgroundColor: blue[600] },
+                        }}
+                        onClick={OnClickExportAll}
+                        disabled={LessonPlanList.length <= 0}
+                      >
+                        <Download />
+                      </IconButton>
+                    </span>
                   </Tooltip>
                 )}
               </Box>
@@ -578,7 +582,7 @@ const LessonPlanBaseScreen = () => {
             </>
           }
         />
-        <Box sx={{ background: 'white', p:2, mb:2}}>
+        <Box sx={{ background: 'white', p: 2, mb: 2 }}>
           <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
             <Typography variant="h4" sx={{ mb: 0, lineHeight: 'normal', alignSelf: 'center', paddingBottom: '2px' }}>Legend</Typography>
             <DotLegends2
@@ -592,10 +596,10 @@ const LessonPlanBaseScreen = () => {
             />
           </Box>
         </Box>
-        <Box sx={{ background: 'white', pt:1, pl:2, pr:2, pb:2}}>
+        <Box sx={{ background: 'white', pt: 1, pl: 2, pr: 2, pb: 2 }}>
           {LessonPlanList.length > 0 ? (
             <>
-              <Box sx={{ background: 'white',}}>
+              <Box sx={{ background: 'white', }}>
                 {singleTotalCount > rowsPerPage ? <div style={{ flex: 1, textAlign: 'center' }}>
                   <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                     <Box component="span" fontWeight="fontWeightBold">
@@ -656,22 +660,22 @@ const LessonPlanBaseScreen = () => {
         }}
 
       >
-        <DialogTitle  sx={{ bgcolor: '#223354' }}>
-           <ClearIcon onClick={() => setOpenViewRemarkDialog(false)}
-           sx={{
-             color: 'white',
-             // background:'white',
-             borderRadius: '7px',
-             position: 'absolute',
-             top: '5px',
-             right: '8px',
-             cursor: 'pointer',
-             '&:hover': {
-               color: 'red',
-               //  backgroundColor: red[100]
+        <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <ClearIcon onClick={() => setOpenViewRemarkDialog(false)}
+            sx={{
+              color: 'white',
+              // background:'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+                //  backgroundColor: red[100]
 
-             }
-           }} />
+              }
+            }} />
         </DialogTitle>
         <DialogContent dividers>
           <Stack gap={1}>
