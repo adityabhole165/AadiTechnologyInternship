@@ -116,13 +116,28 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                       <span>Marks cannot be submitted.</span>
                     </Tooltip>
                   ) : item.STATUS === 'Partial' ? (
-                    item.Is_Submitted === 'Y' ? (
-                      <Tooltip title={item.StatusDescription}>
-                        <CheckIcon style={{ color: '#07bc0c' }} />
-                      </Tooltip>
+                    item.Is_Submitted === 'N' ? (
+                      UsschoolSettingPartialSubmit === true ? (
+                        <Tooltip title={'Submit Marks To Class Teacher'}>
+                          <EventAvailableIcon
+                            style={{ color: '#25e67b' }}
+                            onClick={() =>
+                              clickSubmit({
+                                asSubjectId: item.SubjectId,
+                                asStandardDivisionId: item.StandardDivisionId,
+                                asIsSubmitted: 'Y',
+                              })
+                            }
+                          />
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title={'Marks cannot be submitted.'}>
+                          <span>Marks cannot be submitted.</span>
+                        </Tooltip>
+                      )
                     ) : (
                       <Tooltip title={item.StatusDescription}>
-                        <span>Marks cannot be submitted.</span>
+                        <CheckIcon style={{ color: '#07bc0c' }} />
                       </Tooltip>
                     )
                   ) : item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
@@ -145,18 +160,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                           <span>Marks already submitted</span>
                         )
                       ) : (
-                        <Tooltip title={'Submit Marks To Class Teacher'}>
-                          <EventAvailableIcon
-                            style={{ color: '#25e67b' }}
-                            onClick={() =>
-                              clickSubmit({
-                                asSubjectId: item.SubjectId,
-                                asStandardDivisionId: item.StandardDivisionId,
-                                asIsSubmitted: 'Y',
-                              })
-                            }
-                          />
-                        </Tooltip>
+                        <span>Marks cannot be submitted.</span>
                       )
                     ) : item.Is_Submitted === 'Y' ? (
                       <Tooltip title={item.StatusDescription}>
@@ -171,7 +175,6 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clickSubmit = undefin
                     <span>Marks cannot be submitted.</span>
                   )}
                 </TableCell>
-
               </TableRow>
             ))}
           </TableBody>
