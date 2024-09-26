@@ -874,19 +874,21 @@ const ProgressRemarks = () => {
           </Grid>
 
         </Grid>
-        {countArray[0] > rowsPerPage ? (
-          <ButtonGroupComponent
-            rowsPerPage={rowsPerPage}
-            ChangeRowsPerPage={ChangeRowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-            PageChange={PageChange}
-            pagecount={pagecount}
-          />
+        {
+          endRecord > 19 ? (
+            <ButtonGroupComponent
+              rowsPerPage={rowsPerPage}
+              ChangeRowsPerPage={ChangeRowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+              PageChange={PageChange}
+              pagecount={pagecount}
+            />
 
-        ) : (
-          <span> </span>
+          ) : (
+            <span></span>
 
-        )}
+          )
+        }
         </Box>
       </Box>
 
