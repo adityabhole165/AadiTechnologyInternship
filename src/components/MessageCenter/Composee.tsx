@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import InfoIcon from '@mui/icons-material/Info';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SendIcon from '@mui/icons-material/Send';
 import {
@@ -14,6 +14,7 @@ import {
   DialogTitle,
   FormHelperText,
   Grid,
+  InputAdornment,
   TextField,
   Tooltip,
   Typography,
@@ -21,7 +22,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
-import { ClearIcon } from "@mui/x-date-pickers";
+import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
@@ -65,7 +66,6 @@ import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
-
 function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -1011,7 +1011,7 @@ function Form13() {
                 )}
               </Grid>
 
-              <Grid item xs={12} sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
+              <Grid item xs={6} sm={4} md={4} lg={2} sx={ReadRecipient}>
                 <Checkbox
                   onChange={() => setRequestReadReceipt(!requestReadReceipt)}
                   size="small"
@@ -1022,18 +1022,18 @@ function Form13() {
                 </Typography>
               </Grid>
 
-              <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{ mt: '-10px' }}>
+              <Grid item xs={6} sm={4.5} md={4.5} lg={2} sx={{ mt: '-10px' }}>
                 <Checkbox
                   onChange={scheduleMessageCheckBox}
                   onClick={() => setRequestSchedule(!requestSchedule)}
                   size="small"
-                  sx={{ ml: '-10px' }}
+                  sx={{ ml: '1px' }}
                 />
                 <Typography sx={{ display: 'inline-block' }}>
                   Schedule Message at
                 </Typography>
               </Grid>
-              <Grid item xs={2} sm={1} md={1} lg={1}>
+              <Grid item xs={2} sm={1} md={1} lg={0}>
                 <ClickAwayListener onClickAway={handleClickAwayS}>
                   <Tooltip
                     PopperProps={{
@@ -1050,23 +1050,23 @@ function Form13() {
                     componentsProps={{
                       tooltip: {
                         sx: {
-                          marginLeft: '70px',
+                          marginLeft: '7px',
                           transform: 'translate3d(15px, 0.5px, 0px) !important'
                         }
                       }
                     }}
                   >
-                    <IconButton onClick={handleClickS}>
-                      <InfoTwoToneIcon
-                        type="button"
-                        sx={{ color: 'navy', fontSize: '20px', mt: '-10px' }}
+                    <IconButton onMouseOver={handleClickS}
+                      sx={{color: '#38548A	', mt: '-9px', ml:-6}}>
+                      <InfoIcon
+                      // sx={{ color: '#38548A', fontSize: '20px',  }}
                       />
                     </IconButton>
                   </Tooltip>
                 </ClickAwayListener>
               </Grid>
 
-              <Grid item xs={12} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
+              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ml:-10, mt:-1, messageCenterCale}} >
                 {/* <TextField
                   sx={{ display: scheduleMessage }}
                   type="date"
@@ -1092,10 +1092,10 @@ function Form13() {
                 xs={6}
                 sm={3}
                 md={3}
-                lg={2}
-                sx={{ display: scheduleMessage, mt: '2px' }}
+                lg={1.5}
+                sx={{ display: scheduleMessage }}
               >
-                //to be made working for release
+                {/* to be made working for release */}
                 {/* <TimePicker
                   value={value}
                   onChange={clickTime}
@@ -1108,14 +1108,14 @@ function Form13() {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <AccessTimeIcon fontSize="small" />
+                             <AccessTimeIcon fontSize="small" /> 
                           </InputAdornment>
                         )
                       }}
-                      fullWidth
+                       fullWidth
                     />
                   )}
-                /> */}
+                />  */}
               </Grid>
 
               <Grid item xs={6} sx={{ mt: 1, mb: '6px', ml: '1px' }}>
