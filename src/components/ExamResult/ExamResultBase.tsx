@@ -720,7 +720,8 @@ const USgetIsTermExamPublished: any = useSelector(
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={"View Progress Report"}>
+{/*
+         <Tooltip title={"View Progress Report"}>
             <span>
               <IconButton sx={{
                 color: 'white',
@@ -731,11 +732,16 @@ const USgetIsTermExamPublished: any = useSelector(
               }} onClick={ViewProgressRemark} disabled={(ClassPassFailDetailsForButton && !getCheckSubmitted() && !ClassPassFailDetailsForButton.IsPublish || ClassPassFailDetailsForButton && ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 || ClassPassFailDetailsForButton && ClassPassFailDetailsForButton.IsPublish)
 
               }>
-                {/* VIEW PROGRESS REPORT  */}
+                
                 <FactCheck />
               </IconButton>
             </span>
-          </Tooltip>
+          </Tooltip>       
+                
+                */}
+
+
+          
 
 {
   ShowTopppers == true  ?
