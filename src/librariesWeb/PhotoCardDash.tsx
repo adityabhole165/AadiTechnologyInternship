@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  IconButton,
   Typography
 } from '@mui/material';
 import { ClearIcon } from '@mui/x-date-pickers';
@@ -36,7 +35,7 @@ function PhotoCardDash() {
   const [year, setYear] = useState('currentYear');
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const [refreshFlag, setRefreshFlag] = useState(0);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isSlideshowRunning, setIsSlideshowRunning] = useState(true);
@@ -169,15 +168,15 @@ function PhotoCardDash() {
   };
 
   useEffect(() => {
-    if (refreshFlag == 1) {
+    if (isRefresh == true) {
       dispatch(getPhotoAlbum(picsBody));
-      setRefreshFlag(0)
+      setIsRefresh(false)
     }
-  }, [refreshFlag]);
+  }, [isRefresh]);
   const handleClearFilter = () => {
     setMonth('100');
     setYear(currentYear);
-    setRefreshFlag(1)
+    setIsRefresh(true)
     handleClose();
     setLastRefreshTime(new Date());
   };
@@ -217,10 +216,10 @@ function PhotoCardDash() {
         </Grid>
         <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3 }}>
           <Actions IconType="Label" DiplayText={PhotoAlbum1.length !== 0 ? PhotoAlbum1.length : '0'} />
-            <Actions Icon={RefreshIcon} ClickIcon={handleClearFilter}
-              title={`You are viewing ${countdown} old data, click here to see the latest data.`}
-              handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
-            <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
+          <Actions Icon={RefreshIcon} ClickIcon={handleClearFilter}
+            title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+            handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+          <Actions Icon={SettingsIcon} ClickIcon={handleClickpop} />
         </Grid>
       </Grid>
 
@@ -232,7 +231,7 @@ function PhotoCardDash() {
 
       {/* Photo Album Display */}
       <div>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0 }}>
           {PhotoAlbum.length > 0 ? (
             <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
           ) : (
