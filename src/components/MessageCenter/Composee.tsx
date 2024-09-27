@@ -64,6 +64,7 @@ import {
 import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
+import Datepicker from './DatepickerMessage';
 
 function Form13() {
 
@@ -1065,8 +1066,8 @@ function Form13() {
                 </ClickAwayListener>
               </Grid>
 
-              <Grid item xs={16} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
-                <TextField
+              <Grid item xs={12} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
+                {/* <TextField
                   sx={{ display: scheduleMessage }}
                   type="date"
                   id="outlined-required"
@@ -1074,6 +1075,15 @@ function Form13() {
                   onChange={scheduleDateAndTime}
                   inputProps={{ min: MinDate, max: MaxDate }}
                   fullWidth
+                /> */}
+                <Datepicker
+                  DateValue={undefined}
+                  onDateChange={scheduleDateAndTime}
+                  label=""
+                  size="small"
+                  minDate={MinDate}
+                  maxDate={MaxDate}
+                  display={scheduleMessage}
                 />
               </Grid>
 
@@ -1108,7 +1118,7 @@ function Form13() {
                 /> */}
               </Grid>
 
-              <Grid item xs={6} sx={{ mt: '-1px', mb: '6px', ml: '1px' }}>
+              <Grid item xs={6} sx={{ mt: 1, mb: '6px', ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
