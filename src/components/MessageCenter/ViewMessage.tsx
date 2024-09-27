@@ -1,6 +1,4 @@
-import { QuestionMark } from '@mui/icons-material';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -15,10 +13,6 @@ import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSet
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 import { compareStringWithoutSpace } from '../Common/Util';
-import CommonPageHeader from '../CommonPageHeader';
-import ReplyIcon from '@mui/icons-material/Reply';
-import ReplyAllIcon from '@mui/icons-material/ReplyAll';
-import ForwardIcon from '@mui/icons-material/Forward';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -138,72 +132,6 @@ function ViewSms({ }) {
   return (
 
     <Box sx={{ px: 2 }}>
-      <CommonPageHeader
-        // <PageHeader heading="Message Center" subheading=""></PageHeader>
-        // <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
-        navLinks={[
-          { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
-          { title: 'View Message', path: '/extended-sidebar/MessageCenter/viewMSg ' }
-        ]}
-        rightActions={
-          <>
-            <Box>
-              <Tooltip title={`View sent/received messages.`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
-                  }}>
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={`Forward`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: blue[600] }
-                  }}>
-                  <ForwardIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={`Reply All`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}>
-                  <ReplyAllIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={`Reply`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}>
-                  <ReplyIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-
-          </>
-        }
-      />
-
       <>
         {viewSent === undefined
           ? null

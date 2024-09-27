@@ -1,9 +1,14 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { QuestionMark } from '@mui/icons-material';
+import ForwardIcon from '@mui/icons-material/Forward';
+import ReplyIcon from '@mui/icons-material/Reply';
+import ReplyAllIcon from '@mui/icons-material/ReplyAll';
+import { Box, Button, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import { blue, green, grey } from '@mui/material/colors';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
-import { ButtonPrimary } from '../styled/ButtonStyle';
+import CommonPageHeader from 'src/components/CommonPageHeader';
 import {
   BoxWrapper,
   CardDetail1,
@@ -11,7 +16,6 @@ import {
   CardWrapper,
   ListStyle
 } from '../styled/CardStyle';
-import { blue } from '@mui/material/colors';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -139,6 +143,185 @@ function Card7({
 
   return (
     <>
+      <CommonPageHeader
+        // <PageHeader heading="Message Center" subheading=""></PageHeader>
+        // <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
+        navLinks={[
+          { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
+          { title: 'View Message', path: '/extended-sidebar/MessageCenter/viewMSg ' }
+        ]}
+        rightActions={
+          <>
+            {MessageCenterReadMode == true ? null : (
+              <CardWrapper>
+                {/* <RouterLink
+            style={{ textDecoration: 'none' }}
+            to={
+              `/${
+                location.pathname.split('/')[1]
+              }/MessageCenter/Compose/Reply/` +
+              From +
+              '/' +
+              Text +
+              '/' +
+              FromUserID+
+              '/' +
+              ID
+            }
+          > */}
+
+                <Box>
+                  <Tooltip title={`View sent/received messages.`}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        mr: 1,
+                        backgroundColor: grey[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: grey[600] }
+                      }}>
+                      <QuestionMark />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                {FromRoute === 'Draft' ? (
+                  <Button onClick={navigateToInBox}
+                    sx={{
+                      color: '#38548A',
+                      '&:hover': {
+                        color: '#38548A',
+                        backgroundColor: blue[100]
+                      }
+                    }}
+                  >
+                    {' '}
+                    Go to Inbox{' '}
+                  </Button>
+                ) : (
+                  // <Button
+                  //   onClick={() => {
+                  //     saveMessageBody('Reply');
+                  //   }}
+                  //   sx={{
+                  //     color: '#38548A',
+                  //     '&:hover': {
+                  //       color: '#38548A',
+                  //       backgroundColor: blue[100]
+                  //     }
+                  //   }}
+                  // >
+                  //   {' '}
+                  //   Reply
+                  // </Button>
+
+                  <Tooltip title={`Reply`}>
+                    <IconButton
+                      onClick={() => {
+                        saveMessageBody('Reply');
+                      }}
+                      sx={{
+                        color: 'white',
+                        mr: 1,
+                        backgroundColor: green[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: green[600] }
+                      }}>
+                      <ReplyIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}{' '}
+
+                {RoleId !== '3' && (
+                  <>
+                    {!IsSender && (
+                      // <Button
+                      //   onClick={() => {
+                      //     saveMessageBody('ReplyAll');
+                      //   }}
+                      //   sx={{
+                      //     color: '#38548A',
+                      //     '&:hover': {
+                      //       color: '#38548A',
+                      //       backgroundColor: blue[100]
+                      //     }
+                      //   }}
+                      // >
+                      //   {' '}
+                      //   Reply All
+                      // </Button>
+                      <Tooltip title={`Reply All`}>
+                        <IconButton
+                          onClick={() => {
+                            saveMessageBody('ReplyAll');
+                          }}
+                          sx={{
+                            color: 'white',
+                            mr: 1,
+                            backgroundColor: green[500],
+                            height: '36px !important',
+                            ':hover': { backgroundColor: green[600] }
+                          }}>
+                          {' '}
+                          <ReplyAllIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+
+                  </>
+                )}
+                {FromRoute === 'Draft' ? (
+                  <Button
+                    onClick={() => {
+                      saveMessageBody('Edit');
+                    }}
+                    sx={{
+                      color: '#38548A',
+                      '&:hover': {
+                        color: '#38548A',
+                        backgroundColor: blue[100]
+                      }
+                    }}
+                  >
+                    {' '}
+                    Edit{' '}
+                  </Button>
+                ) : (
+
+                  // <Button
+                  //   onClick={() => {
+                  //     saveMessageBody('Forward');
+                  //   }}
+                  //   sx={{
+                  //     color: '#38548A',
+                  //     '&:hover': {
+                  //       color: '#38548A',
+                  //       backgroundColor: blue[100]
+                  //     }
+                  //   }}
+                  // >
+                  //   {' '}
+                  //   Forward{' '}
+                  // </Button>
+                  <Tooltip title={`Forward`}>
+                    <IconButton
+                      onClick={() => {
+                        saveMessageBody('Forward');
+                      }}
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: blue[600] }
+                      }}>
+                      <ForwardIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </CardWrapper>
+            )}
+          </>
+        }
+      />
       <Box>
         <ListStyle >
           <BoxWrapper >
@@ -197,106 +380,6 @@ function Card7({
             <Typography dangerouslySetInnerHTML={{ __html: Body }}></Typography>
           </BoxWrapper>
         </ListStyle>
-        {MessageCenterReadMode == true ? null : (
-          <CardWrapper>
-            {/* <RouterLink
-            style={{ textDecoration: 'none' }}
-            to={
-              `/${
-                location.pathname.split('/')[1]
-              }/MessageCenter/Compose/Reply/` +
-              From +
-              '/' +
-              Text +
-              '/' +
-              FromUserID+
-              '/' +
-              ID
-            }
-          > */}
-            {FromRoute === 'Draft' ? (
-              <Button onClick={navigateToInBox}
-              sx={{
-                color:'#38548A',
-                  '&:hover': {
-                color:'#38548A',
-                 backgroundColor: blue[100]
-                  }}}
-         >
-                {' '}
-                Go to Inbox{' '}
-              </Button>
-            ) : (
-              <Button
-                onClick={() => {
-                  saveMessageBody('Reply');
-                }}
-                sx={{
-                  color:'#38548A',
-                    '&:hover': {
-                  color:'#38548A',
-                   backgroundColor: blue[100]
-                    }}}
-              >
-                {' '}
-                Reply
-              </Button>
-            )}{' '}
-            &nbsp; &nbsp;
-            {RoleId !== '3' && (
-              <>
-                {!IsSender && (
-                  <Button
-                    onClick={() => {
-                      saveMessageBody('ReplyAll');
-                    }}
-                    sx={{
-                      color:'#38548A',
-                        '&:hover': {
-                      color:'#38548A',
-                       backgroundColor: blue[100]
-                        }}}
-                  >
-                    {' '}
-                    Reply All
-                  </Button>
-                )}
-                &nbsp;&nbsp;
-              </>
-            )}
-            {FromRoute === 'Draft' ? (
-              <Button
-                onClick={() => {
-                  saveMessageBody('Edit');
-                }}
-                sx={{
-                  color:'#38548A',
-                    '&:hover': {
-                  color:'#38548A',
-                   backgroundColor: blue[100]
-                    }}}
-              >
-                {' '}
-                Edit{' '}
-              </Button>
-            ) : (
-              <Button
-                onClick={() => {
-                  saveMessageBody('Forward');
-                }}
-                sx={{
-                  color:'#38548A',
-                    '&:hover': {
-                  color:'#38548A',
-                   backgroundColor: blue[100]
-                    }}}
-              >
-                {' '}
-                Forward{' '}
-              </Button>
-            )}
-          </CardWrapper>
-        )}
       </Box>
     </>
   );
