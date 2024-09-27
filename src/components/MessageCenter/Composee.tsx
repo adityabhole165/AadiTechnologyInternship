@@ -14,7 +14,6 @@ import {
   DialogTitle,
   FormHelperText,
   Grid,
-  InputAdornment,
   TextField,
   Tooltip,
   Typography,
@@ -22,7 +21,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
-import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
+import { ClearIcon } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
@@ -227,6 +226,9 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
+  const userName = sessionStorage.getItem('StudentName')
+  const DesignationName = sessionStorage.getItem('DesignationName')
+  const fullDisplayName = ` ${userName} (${DesignationName})`;
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
   const contactgrpuserBody = {
@@ -734,9 +736,10 @@ function Form13() {
                   fullWidth
                   // rows={3}
                   disabled
-                  value={RecipientsObject.RecipientName.map((obj) =>
-                    obj?.trim()
-                  ).join('; ')}
+                  value={fullDisplayName}
+                  // value={RecipientsObject.RecipientName.map((obj) =>
+                  //   obj?.trim()
+                  // ).join('; ')}
                   onChange={formik.handleChange}
                   sx={{
                     height: '50px',
@@ -1057,7 +1060,7 @@ function Form13() {
                     }}
                   >
                     <IconButton onMouseOver={handleClickS}
-                      sx={{color: '#38548A	', mt: '-9px', ml:-6}}>
+                      sx={{ color: '#38548A	', mt: '-9px', ml: -6 }}>
                       <InfoIcon
                       // sx={{ color: '#38548A', fontSize: '20px',  }}
                       />
@@ -1066,7 +1069,7 @@ function Form13() {
                 </ClickAwayListener>
               </Grid>
 
-              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ml:-10, mt:-1, messageCenterCale}} >
+              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ ml: -10, mt: -1, messageCenterCale }} >
                 {/* <TextField
                   sx={{ display: scheduleMessage }}
                   type="date"
