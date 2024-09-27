@@ -303,7 +303,7 @@ const SchoolNoticeBaseScreen = () => {
                 rightActions={
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <SearchableDropdown
-                            sx={{ minWidth: '15vw' }}
+                            sx={{ minWidth: '13vw' }}
                             ItemList={DisplayType}
                             defaultValue={selectDisplayType}
                             onChange={clickDisplayTypeDropdown}
@@ -311,7 +311,7 @@ const SchoolNoticeBaseScreen = () => {
                             label={' Display Type'}
                         />
                         <SearchableDropdown
-                            sx={{ minWidth: '15vw' }}
+                            sx={{ minWidth: '13vw' }}
                             ItemList={DisplayLocation}
                             defaultValue={selectDisplayLocation}
                             onChange={clickDisplayLocationDropdown}
