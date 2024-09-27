@@ -1,6 +1,6 @@
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, Divider, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Link, Tooltip, Typography } from '@mui/material';
 import {
   differenceInHours, differenceInMinutes, differenceInSeconds
 } from 'date-fns';
@@ -203,13 +203,16 @@ function UpcomingEvent() {
         }
       </Box>
 
-      <Grid container py={0} mt={1}>
-        <Grid item xs={7} textAlign={'right'} onClick={() => { navigate('/extended-sidebar/Common/AnnualPlanner') }}>
-          <Typography variant="h4"> <b>See all events</b></Typography>
-        </Grid>
-        <Grid item xs={5} onClick={() => { navigate('/extended-sidebar/Common/AnnualPlanner') }}>
-          <ArrowCircleRightIcon style={{ cursor: 'pointer' }} />
-        </Grid>
+      <Grid container p={1} pl={19}>
+        <Link
+          href="/extended-sidebar/Common/AnnualPlanner"
+          style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', width: '70%' }}
+        >
+          <Typography variant="h4">
+            <b>See all events</b>
+          </Typography>
+          <ArrowCircleRightIcon />
+        </Link>
       </Grid>
       <Grid item xs={12} textAlign={'center'}>
         <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
