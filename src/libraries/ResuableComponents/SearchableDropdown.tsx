@@ -74,7 +74,7 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '',
 
   return (
     <Autocomplete
-      value={ItemList.find((item) => item.Value === defaultValue) || null}
+      value={ItemList.find((item) => item.Value == defaultValue) || null}
       onChange={(e, newValue) => onChange(newValue ? newValue.Value : '')}
       options={ItemList}
       disableClearable={DisableClearable}

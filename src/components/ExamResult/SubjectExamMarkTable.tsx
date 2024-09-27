@@ -253,6 +253,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   ChangeGrade={ChangeExamGradeHeader}
                   IsReadOnly={IsReadOnly == 'true'}
                   IsMark={IsMark}
+
+                  publish={publish == 'true'}
                 />
                 {IsMark &&
                   <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>

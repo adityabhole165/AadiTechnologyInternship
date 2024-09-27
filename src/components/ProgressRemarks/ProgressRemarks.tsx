@@ -721,7 +721,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
-  }, []);
+  }, [SelectTerm]);
 
   useEffect(() => {
     dispatch(CDAGetClassTeachers(ClassTeachersBody));
@@ -802,7 +802,7 @@ const ProgressRemarks = () => {
           />
 
           <Box>
-            <Tooltip title={'Add/Edit/Delete student progress remarks.'}>
+            <Tooltip title={'Add / Edit / Delete student progress remarks.'}>
               <IconButton
                 sx={{
                   color: 'white',
