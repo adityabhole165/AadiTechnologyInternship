@@ -64,6 +64,8 @@ const ProgressRemarks = () => {
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
+  console.log(remarkTemplates,"remarkTemplates");
+  
   const toggleScreens = () => { setShowScreenOne(!showScreenOne); };
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -357,6 +359,9 @@ const ProgressRemarks = () => {
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
+ 
+  
+
   const [ColIndex, SetColIndex] = useState([-1])
 
   // const TextChange1 = () => {
@@ -475,8 +480,26 @@ const ProgressRemarks = () => {
 
 
   const SelectClick = () => {
-    const showAlert = TextChange1();
-    if (!showAlert) {
+
+    if(getActiveTexts().length == 0 ) {
+      showAlert({
+        title: 'Please Confirm',
+        message:  'At least one Remark Template should be selected.',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+         
+          closeAlert();
+        }
+      });
+      return;
+    }
+    const showAlert1 = TextChange1();
+    if (!showAlert1) {
       setOpen(false);
       dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
     }
