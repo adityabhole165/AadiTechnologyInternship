@@ -86,7 +86,7 @@ const MCForm = ({
           <Grid item xs={12} md={12}>
             <TextField
               id="standard-basic"
-              label="Name / Subject / Message Body :"
+              label="Name / Subject / Message Body "
               // variant="standard"
               fullWidth
               onChange={textOnChange}

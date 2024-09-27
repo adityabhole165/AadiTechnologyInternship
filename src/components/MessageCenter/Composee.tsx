@@ -894,7 +894,7 @@ function Form13() {
                 <TextField
                   fullWidth
                   margin="normal"
-                  label="Subject :"
+                  label="Subject "
                   name="Subject"
                   type="text"
                   autoComplete="off"
