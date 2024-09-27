@@ -1,7 +1,6 @@
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import ErrorMessages from '../ErrorMessages/ErrorMessages';
 function List1({
   items,
   SelectedMonth = null,
@@ -34,7 +33,15 @@ function List1({
   return (
     <>
       {items.length == 0 ? (
-        <ErrorMessages Error={'No records found'} />
+        <Box sx={{ backgroundColor: '#D2FDFC' }}>
+          <Typography
+            variant="h6"
+            align="center"
+            sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+          >
+            No record found.
+          </Typography>
+        </Box>
       ) : (
         <Grid >
           <Box sx={{ backgroundColor: 'white', mb: 2 }}>
@@ -42,8 +49,8 @@ function List1({
               <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                 <TableHead>
                   <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
-                    <TableCell sx={{ color: 'white'}}>Notice Name</TableCell>
-                    <TableCell sx={{ color: 'white'}}>Date</TableCell>
+                    <TableCell sx={{ color: 'white' }}>Notice Name</TableCell>
+                    <TableCell sx={{ color: 'white' }}>Date</TableCell>
                     <TableCell sx={{ color: 'white', textAlign: 'center' }}>Attachment</TableCell>
                   </TableRow>
                 </TableHead>
@@ -52,13 +59,13 @@ function List1({
                     <TableRow key={index} sx={{ cursor: 'pointer' }} onClick={() => {
                       clickCard(items.linkPath);
                     }}>
-                      <TableCell sx={{ textTransform: 'capitalize', maxWidth:'60px' , py:1}}>
+                      <TableCell sx={{ textTransform: 'capitalize', maxWidth: '60px', py: 1 }}>
                         {items.header}
                       </TableCell>
-                      <TableCell sx={{ textTransform: 'capitalize', textAlign:'left', py:1}}>
+                      <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 1 }}>
                         {items.text1}
                       </TableCell>
-                      <TableCell sx={{  textAlign: 'center', py:0.3 }}>
+                      <TableCell sx={{ textAlign: 'center', py: 0.3 }}>
                         {items.FileName.length > 0 ?
                           <IconButton >
                             <AttachmentIcon />
