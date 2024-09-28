@@ -75,7 +75,7 @@ const ProgressRemarks = () => {
   const { showAlert, closeAlert } = useContext(AlertContext);
   const { StandardDivisionId, TestId } = useParams();
 
-  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId ? StandardDivisionId :"0" );
+  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -90,6 +90,10 @@ const ProgressRemarks = () => {
     return perm;
   };
 
+
+  let CanEdit = getSchoolConfigurations(266) 
+
+  console.log(CanEdit,"CanEdit");
   
   // const determineInitialState = () => {
   //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
@@ -173,7 +177,7 @@ const ProgressRemarks = () => {
   const maxRemarkLength = USGetConfiguredMaxRemarkLength?.MaxRemarkLength;
 
 
-  let CanEdit = getSchoolConfigurations(266) 
+  
   
   useEffect(() => {
     let headerArray = [
@@ -288,7 +292,7 @@ const ProgressRemarks = () => {
   const ClassTeachersBody: IAllPrimaryClassTeachersBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: Number(GetScreenPermission() == 'Y' ? 0 : asUserId
+    asUserId: Number(CanEdit == 'Y' ? 0 : asUserId
     )
   };
 
@@ -733,7 +737,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
-  }, [SelectTerm]);
+  }, [SelectTerm,selectTeacher,getStandardId()]);
 
 
 
@@ -772,14 +776,14 @@ const ProgressRemarks = () => {
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '20vw', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
+            sx={{ pl: 0, minWidth: '20vw', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
             ItemList={USClassTeachers}
             onChange={clickSelectClass}
             defaultValue={selectTeacher}
             mandatory
             size={"small"}
-            DisableClearable={GetScreenPermission() == 'N'}
-            disabled={GetScreenPermission() == 'N'}
+           
+            disabled={CanEdit == 'N'}
           />
 
 
