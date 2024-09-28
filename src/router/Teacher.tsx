@@ -247,6 +247,9 @@ const PreprimaryProgressReportView = Loader(
 const StudentBaseScreen = Loader(
   lazy(() => import('src/components/Students/StudentBaseScreen'))
 )
+const LibraryBaseScreen = Loader(
+  lazy(() => import('src/components/SchoolLibrary/LibraryBaseScreen'))
+)
 
 
 
@@ -739,6 +742,10 @@ const teacherRoutes = [
   {
     path: 'PerformanceEvaluation',
     element: <PerformanceEvaluation />
+  },
+  {
+    path: 'LibraryBaseScreen',
+    element: <LibraryBaseScreen />
   },
   {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',

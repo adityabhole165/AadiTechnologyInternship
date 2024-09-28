@@ -291,6 +291,7 @@ const DashboardData = {
   },
   Teacher: {
     items1: [
+    
 
       {
         Text1: 'Annual  ',
@@ -298,9 +299,9 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#f0483e',
         Icon: EventIcon,
-        Link: 'Common/AnnualPlanner',
+        Link: 'Teacher/AnnualPlanner',
         index: 2,
-        ScreenPermission: 'AnnualEventPlanner'
+      
       },
 
       {
@@ -373,6 +374,16 @@ const DashboardData = {
         Icon: EventIcon,
         Link: 'Teacher/ExamResultBase',
         index: 7
+      },
+      {
+        Text1: 'Library',
+        Text2: '',
+        Color: '#ef5350',
+        iconColor: '#f0483e',
+        Icon: EventIcon,
+        Link: 'Teacher/LibraryBaseScreen',
+        index: 7,
+        // ScreenPermission: 'LibraryBaseScreen'
       },
 
       {
