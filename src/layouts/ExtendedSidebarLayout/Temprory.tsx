@@ -17,21 +17,24 @@ import EventBusyTwoToneIcon from '@mui/icons-material/EventBusyTwoTone'; // miss
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'; // Attendance
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'; //Annual Planner
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 import FactCheck from '@mui/icons-material/FactCheck';
 import FactCheckTwoToneIcon from '@mui/icons-material/FactCheckTwoTone'; // Pre Primary Progress Report
+import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
 import ForwardToInboxTwoToneIcon from '@mui/icons-material/ForwardToInboxTwoTone'; // message center 
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
+import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
 import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone'; // Progress Remark 
 import LibraryBooksTwoToneIcon from '@mui/icons-material/LibraryBooksTwoTone'; //Leave Details
 import LockResetTwoToneIcon from '@mui/icons-material/LockResetTwoTone'; // password
 import User from '@mui/icons-material/ManageAccounts';
+import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import PowerOutLined from '@mui/icons-material/PowerSettingsNew';
 import ReceiptTwoToneIcon from '@mui/icons-material/ReceiptTwoTone'; // Assign Pre-Primary Progress Report Grades
 import RuleIcon from '@mui/icons-material/Rule'; //Assign exam mark 
 import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone'; //Pre-Primary Progress Report Results
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
 import SmsTwoToneIcon from '@mui/icons-material/SmsTwoTone'; //SMS Center 
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 import TableChart from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
@@ -41,10 +44,6 @@ import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import { BookOpenCheck, Copy, NotebookPen } from 'lucide-react';
-import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
-import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined';
-import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { red } from '@mui/material/colors';
@@ -345,7 +344,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     });
   }
   // Conditionally insert the "Assign Pre-Primary Grades" item at the 4th position (index 3)
-  if (isPreprimary === true) {
+  if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
       id: 'Exam',
       title: 'Assign Pre-Primary Grades',
@@ -353,7 +352,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
     });
   }
-  if (isPreprimary === true) {
+  if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
       id: 'Exam',
       title: 'Pre-Primary Progress Report',
@@ -362,7 +361,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     });
   }
 
-  if (isPreprimary === true) {
+  if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
       id: 'Exam',
       title: 'Pre-Primary Results',
@@ -371,7 +370,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     });
   }
 
-  if (isPreprimary === true) {
+  if (isPreprimary || !isPreprimary) {
     sideList.push({
       id: 'Exam',
       title: 'Student Wise Progress Report',

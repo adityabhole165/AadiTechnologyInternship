@@ -4,7 +4,7 @@ import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead
 import { green, grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ISaveNonXseedSubGrades } from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades";
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown";
@@ -27,7 +27,9 @@ const AssignProgressReportSubject = () => {
     const StudentList = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISGetNonXseedStudentsName);
     const SaveNonXseedMsg = useSelector((state: RootState) => state.AssignPrePrimaryGrades.IGetSaveNonXseedSubGradesMsg)
 
-    const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
+    // const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
+    const location = useLocation();
+    const { EditStatusId, ClassName, Assesment, SelectTerm, SubjectName, SubjectId, StandardDivisionId, selectTeacher } = location.state || {};
 
     const [headerGrade, setHeaderGrade] = useState("0-0-0");
     const [grades, setGrades] = useState({});
@@ -300,72 +302,76 @@ const AssignProgressReportSubject = () => {
                     <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                         <b>Results for this assessment has been published. You need to unpublish the assessment to update the grades.</b>
                     </Typography>}
-                <Box sx={{ background: 'white', p: 2 }}>
-                    <TableContainer component={Box}>
-                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-                            <TableHead >
-                                <TableRow>
-                                    {/* {HeaderArray.map((item, i) => (
+                {NonXseedStudentswithObs.length === 0 ?
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                        <b>No record found.</b>
+                    </Typography> :
+                    <Box sx={{ background: 'white', p: 2 }}>
+                        <TableContainer component={Box}>
+                            <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                                <TableHead >
+                                    <TableRow>
+                                        {/* {HeaderArray.map((item, i) => (
                                         <TableCell key={i} sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', textAlign: item.Header === 'Student Name' ? 'left' : item.Header === 'Grade' ? 'right' : 'center', pt: '10px', pb: '10px' }}>
                                             <b>{item.Header}</b>
                                         </TableCell>
                                     ))} */}
-                                    <TableCell align="center" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Roll No.</TableCell>
-                                    <TableCell align="left" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Student Name</TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Grade</TableCell>
-                                    <TableCell align="left" sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle }}>
-                                        <>
-                                            <SearchableDropdown1
-                                                sx={{ maxWidth: '15vw', backgroundColor: 'white' }}
-                                                ItemList={GradesList}
-                                                onChange={(value) => clickHeaderGrade(value.Value, value.isAbsent, value.isExempted)}
-                                                label={''}
-                                                disabled={EditStatusId === '3' || EditStatusId === '3P'}
-                                                defaultValue={headerGrade}
-                                                size={"small"}
-                                                DisableClearable={true}
-                                            />
-                                        </>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Observations</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {NonXseedStudentswithObs.length !== 0 && NonXseedStudentswithObs.map((item, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell align="center" sx={{ ...cellStyle }}>{item.Text1}</TableCell>
-                                        <TableCell sx={{ ...cellStyle }}>{item.Text2}</TableCell>
-                                        <TableCell align="right" sx={{ ...cellStyle }}></TableCell>
-
-                                        <TableCell align="left" sx={{ ...cellStyle }}>
-                                            <SearchableDropdown1
-                                                sx={{ width: '15vw', backgroundColor: 'white' }}
-                                                ItemList={GradesList}
-                                                onChange={(value) => clickBodyGrade(item.Text1, value.Value, value.isAbsent, value.isExempted)}
-                                                label={''}
-                                                disabled={EditStatusId === '3' || EditStatusId === '3P'}
-                                                defaultValue={grades[item.Text1]}
-                                                DisableClearable={true}
-                                                size={"small"}
-                                            />
+                                        <TableCell align="center" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Roll No.</TableCell>
+                                        <TableCell align="left" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Student Name</TableCell>
+                                        <TableCell align="right" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Grade</TableCell>
+                                        <TableCell align="left" sx={{ textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle }}>
+                                            <>
+                                                <SearchableDropdown1
+                                                    sx={{ maxWidth: '15vw', backgroundColor: 'white' }}
+                                                    ItemList={GradesList}
+                                                    onChange={(value) => clickHeaderGrade(value.Value, value.isAbsent, value.isExempted)}
+                                                    label={''}
+                                                    disabled={EditStatusId === '3' || EditStatusId === '3P'}
+                                                    defaultValue={headerGrade}
+                                                    size={"small"}
+                                                    DisableClearable={true}
+                                                />
+                                            </>
                                         </TableCell>
-                                        <TableCell align="center" sx={{ ...cellStyle }}>
-                                            <textarea
-                                                rows={2}
-                                                cols={50}
-                                                style={{ backgroundColor: 'white' }}
-                                                disabled={EditStatusId === '3' || EditStatusId === '3P' ? true : grades[item.Text1]?.split('-')[0] === "0" ? true : grades[item.Text1]?.split('-')[1] === "1" ? true : grades[item.Text1]?.split('-')[2] === "1" ? true : false}
-                                                value={observations[item.Text1]}
-                                                onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
-                                                maxLength={500}
-                                            ></textarea>
-                                        </TableCell>
+                                        <TableCell align="center" sx={{ fontWeight: '700', textTransform: 'capitalize', backgroundColor: (theme) => theme.palette.secondary.main, color: 'white', ...cellStyle, pt: '15px', pb: '15px' }}>Observations</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Box>
+                                </TableHead>
+                                <TableBody>
+                                    {NonXseedStudentswithObs.length !== 0 && NonXseedStudentswithObs.map((item, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell align="center" sx={{ ...cellStyle }}>{item.Text1}</TableCell>
+                                            <TableCell sx={{ ...cellStyle }}>{item.Text2}</TableCell>
+                                            <TableCell align="right" sx={{ ...cellStyle }}></TableCell>
+
+                                            <TableCell align="left" sx={{ ...cellStyle }}>
+                                                <SearchableDropdown1
+                                                    sx={{ width: '15vw', backgroundColor: 'white' }}
+                                                    ItemList={GradesList}
+                                                    onChange={(value) => clickBodyGrade(item.Text1, value.Value, value.isAbsent, value.isExempted)}
+                                                    label={''}
+                                                    disabled={EditStatusId === '3' || EditStatusId === '3P'}
+                                                    defaultValue={grades[item.Text1]}
+                                                    DisableClearable={true}
+                                                    size={"small"}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ ...cellStyle }}>
+                                                <textarea
+                                                    rows={2}
+                                                    cols={50}
+                                                    style={{ backgroundColor: 'white' }}
+                                                    disabled={EditStatusId === '3' || EditStatusId === '3P' ? true : grades[item.Text1]?.split('-')[0] === "0" ? true : grades[item.Text1]?.split('-')[1] === "1" ? true : grades[item.Text1]?.split('-')[2] === "1" ? true : false}
+                                                    value={observations[item.Text1]}
+                                                    onChange={(e) => handleObservationChange(item.Text1, e.target.value)}
+                                                    maxLength={500}
+                                                ></textarea>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>}
             </Box>
         </>
     );

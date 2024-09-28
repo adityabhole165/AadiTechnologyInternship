@@ -3,7 +3,7 @@ import { Box, IconButton, Stack, Table, TableBody, TableCell, TableContainer, Ta
 import { green } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { toast } from "react-toastify"
 import { IGetInsertStudentGradesBody, IGetLearningOutcomesForSubjectSectionBody, IGetXseedStudentsInfoBody } from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
@@ -15,7 +15,9 @@ import CommonPageHeader from "../CommonPageHeader"
 
 const AssignPrePrimarySubjectGrades = () => {
     // Params Data Retrieval | useParams() / Hook
-    const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
+    // const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
+    const location = useLocation();
+    const { EditStatusId, ClassName, Assesment, SelectTerm, SubjectName, SubjectId, StandardDivisionId, selectTeacher } = location.state || {};
     // Local And Session Storage Data Retrieval
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
