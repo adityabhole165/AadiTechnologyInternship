@@ -667,48 +667,51 @@ const MessageList = () => {
                       ConfirmUndelete={ConfirmUndelete}
                       DeletePermanent={DeletePermanent}
                       clickDelete={clickDelete}
+                      clickReadUnread={clickReadUnread}
                     />
                   </Box>
                   {/* <Box >
-                  {activeTab == 'Inbox' && (
-                    <Grid item 
-                     sx={MarkAsReadMessage} bgcolor={"white"} p={1} borderRadius={"10px"}>
-                      <Button
-                      endIcon={<MarkunreadIcon />}
-                        onClick={() => {
-                          clickReadUnread('Unread');
-                        }}
-                        sx={{
-                          color:'#38548A',
-                           //  backgroundColor: grey[500],
+                    {activeTab == 'Inbox' && (
+                      <Grid item
+                        sx={MarkAsReadMessage} bgcolor={"white"} p={1} borderRadius={"10px"}>
+                        <Button
+                          endIcon={<MarkunreadIcon />}
+                          onClick={() => {
+                            clickReadUnread('Unread');
+                          }}
+                          sx={{
+                            color: '#38548A',
+                            //  backgroundColor: grey[500],
                             '&:hover': {
-                          color:'#38548A',
-                          borderRadius:'5px',
-                           backgroundColor: grey[200]
-                            }}}
-                      >
-                        {' '}
-                        Mark as Unread{' '}
-                      </Button>
-                      <Button
-                       endIcon={<MarkEmailReadIcon />}
-                        onClick={() => {
-                          clickReadUnread('Read');
-                        }}
-                        sx={{
-                          color:'#38548A',
-                           //  backgroundColor: grey[500],
+                              color: '#38548A',
+                              borderRadius: '5px',
+                              backgroundColor: grey[200]
+                            }
+                          }}
+                        >
+                          {' '}
+                          Mark as Unread{' '}
+                        </Button>
+                        <Button
+                          endIcon={<MarkEmailReadIcon />}
+                          onClick={() => {
+                            clickReadUnread('Read');
+                          }}
+                          sx={{
+                            color: '#38548A',
+                            //  backgroundColor: grey[500],
                             '&:hover': {
-                          color:'#38548A',
-                          borderRadius:'5px',
-                           backgroundColor: grey[200]
-                            }}}
-                      >
-                        {' '}
-                        Mark as Read
-                      </Button>
-                    </Grid>
-                  )}
+                              color: '#38548A',
+                              borderRadius: '5px',
+                              backgroundColor: grey[200]
+                            }
+                          }}
+                        >
+                          {' '}
+                          Mark as Read
+                        </Button>
+                      </Grid>
+                    )}
                   </Box> */}
                 </>
               )}
