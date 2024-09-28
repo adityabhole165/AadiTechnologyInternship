@@ -679,7 +679,7 @@ function Form13() {
                     height: '36px !important',
                     ':hover': { backgroundColor: green[600] }
                   }}
-                // onClick={handleSubmit}
+                  onClick={SaveDraft}
                 >
                   <DraftsIcon />
                 </IconButton>
@@ -689,13 +689,14 @@ function Form13() {
               <Tooltip title={'Send'}>
                 <IconButton
                   type='submit'
+                  onClick={formik.handleSubmit}
+                  disabled={disabledStateOfSend}
                   sx={{
                     color: 'white',
                     backgroundColor: blue[500],
                     height: '36px !important',
                     ':hover': { backgroundColor: blue[600] }
                   }}
-                // onClick={handleSubmit}
                 >
                   <SendIcon />
                 </IconButton>
@@ -1179,7 +1180,7 @@ function Form13() {
 
               </Grid>
 
-              <Grid container spacing={1} sx={{ m: 0.5, pt: 2, pl: 125 }}  >
+              {/* <Grid container spacing={1} sx={{ m: 0.5, pt: 2, pl: 125 }}  >
                 <Grid item xs={12} sm={6} >
                   <Button
                     // color="primary"
@@ -1212,7 +1213,7 @@ function Form13() {
                     Save As Draft
                   </Button>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Grid>
 
           </form>
