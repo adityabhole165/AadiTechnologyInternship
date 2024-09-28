@@ -64,7 +64,12 @@ function CardMessDeleteButtons({
                   // 
                   <RestoreFromTrashIcon />}
                 fullWidth
-                sx={{ borderRadius: '5px', color: '#38548A' }}
+                sx={{
+                  borderRadius: '5px', color: '#38548A', '&:hover': {
+                    color: 'red',
+                    backgroundColor: red[100]
+                  }
+                }}
               >
                 Un-Delete
               </Button>
