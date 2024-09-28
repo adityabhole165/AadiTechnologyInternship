@@ -34,6 +34,7 @@ const AssignProgressReportSubject = () => {
     const [headerGrade, setHeaderGrade] = useState("0-0-0");
     const [grades, setGrades] = useState({});
     const [observations, setObservations] = useState({});
+    const [observationError, setObservationError] = useState('');
 
     useEffect(() => {
         dispatch(GetStudentsForStdDevMasters(GetStudentsForStdDevMastersBody));
@@ -174,6 +175,7 @@ const AssignProgressReportSubject = () => {
     // }, [isEmpty])
 
     const SaveNonXseedGrades = () => {
+        setObservationError('');
         const emptyObservationRows = Object.keys(grades).filter(studentId => {
             const gradeParts = grades[studentId]?.split('-');
             return grades[studentId] !== "0-0-0" &&
@@ -202,7 +204,8 @@ const AssignProgressReportSubject = () => {
                 style: { width: '30vw' }
             }
             console.log(emptyObservationRows)
-            toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`, options);
+            // toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`, options);
+            setObservationError(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`)
             return;
         } else if (emptySubmissionRows.length === NonXseedStudentswithObs.length) {
             toast.warning("Empty Submission not Allowed. ")
@@ -307,6 +310,9 @@ const AssignProgressReportSubject = () => {
                         <b>No record found.</b>
                     </Typography> :
                     <Box sx={{ background: 'white', p: 2 }}>
+                        {observationError !== '' && <Box mb={1}>
+                            <div style={{ color: 'red', fontWeight: 'bolder' }}>{observationError}</div>
+                        </Box>}
                         <TableContainer component={Box}>
                             <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                                 <TableHead >
