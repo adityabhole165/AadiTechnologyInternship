@@ -274,7 +274,7 @@ const SubjectMarkList = () => {
             <Stack direction={"row"} gap={2} alignItems={'center'} mt={1}>
               <Box>
                 <Typography variant='h5'>
-                  Legend:
+                  Legend
                 </Typography>
               </Box>
               {HeaderListTestMark.map((Item, i) => (
