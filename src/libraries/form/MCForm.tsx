@@ -91,6 +91,11 @@ const MCForm = ({
               fullWidth
               onChange={textOnChange}
               size={"medium"}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === 'Tab') {
+                  onClick();
+                }
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
