@@ -2,7 +2,8 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import EmailIcon from '@mui/icons-material/Email';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import { Dialog, Grid, Typography } from '@mui/material';
+import { Dialog, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { green } from '@mui/material/colors';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -51,9 +52,9 @@ function CardMessage({
     if (clickParent) {
       navigate(
         '/' +
-          location.pathname.split('/')[1] +
-          '/MessageCenter/viewMSg/' +
-          NavPath
+        location.pathname.split('/')[1] +
+        '/MessageCenter/viewMSg/' +
+        NavPath
       );
     }
     setClickParent(true);
@@ -63,8 +64,8 @@ function CardMessage({
     ActiveTab == 'Inbox' && IsRead == 'N'
       ? 'blue'
       : ActiveTab == 'Sent' && IsSchedule
-      ? 'blue'
-      : '';
+        ? 'blue'
+        : '';
   return (
     <>
       <Grid container alignItems={'center'} onClick={clickNav} pt={0.8}>
@@ -125,14 +126,21 @@ function CardMessage({
                 <>
                   {RequestReadReceipt ? (
                     <>
-                      <DraftsIcon
-                        fontSize="small"
-                        color="success"
-                        sx={{ mb: '-5px', ml: '4px' }}
-                        onClick={(e) => {
-                          handleClickToOpen(e);
-                        }}
-                      />
+                      <Tooltip title={'Read Receipt Information'}>
+                        <IconButton
+                          sx={{
+                            mb: '-5px', ml: '4px', color: '#38548A', '&:hover': {
+                              color: 'green', backgroundColor: green[100]
+                            }
+                          }}
+                          onClick={(e) => {
+                            handleClickToOpen(e);
+                          }}
+                        >
+                          <DraftsIcon
+                            fontSize="small"
+                          /></IconButton>
+                      </Tooltip>
                       <Dialog
                         open={popup}
                         onClose={() => {

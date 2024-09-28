@@ -307,7 +307,11 @@ function Card7({
                         saveMessageBody('Edit');
                       }}
                       sx={{
-                        color: 'white', backgroundColor: '#223354', '&:hover': { cursor: 'pointer', background: '#223354' }
+                        color: 'white',
+                        mr: 1,
+                        backgroundColor: blue[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: blue[600] }
                       }}
                     >
                       <EditTwoTone />
