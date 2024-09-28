@@ -8,7 +8,8 @@ import {
   Grid,
   Hidden,
   IconButton,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
@@ -24,7 +25,6 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { IDeleteDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { IGetAllMonths, Iyears } from 'src/interfaces/MessageCenter/Search';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MCForm from 'src/libraries/form/MCForm';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import {
@@ -734,9 +734,11 @@ const MessageList = () => {
                     }}
                   >
                     {InboxList?.length === 0 ? (
-                      <Grid item sm={9}>
-                        <ErrorMessages Error={'No records found'} />
-                      </Grid>
+                      // <Grid item sm={9}>
+                      <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                        No record found.
+                      </Typography>
+                      // </Grid>
                     ) : (
                       <SelectList3Col
                         Itemlist={inboxListData}
