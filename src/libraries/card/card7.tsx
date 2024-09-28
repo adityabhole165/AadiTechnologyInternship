@@ -1,8 +1,9 @@
-import { QuestionMark } from '@mui/icons-material';
+import { EditTwoTone, QuestionMark } from '@mui/icons-material';
 import ForwardIcon from '@mui/icons-material/Forward';
+import InboxIcon from '@mui/icons-material/Inbox';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ReplyAllIcon from '@mui/icons-material/ReplyAll';
-import { Box, Button, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -185,18 +186,33 @@ function Card7({
                   </Tooltip>
                 </Box>
                 {FromRoute === 'Draft' ? (
-                  <Button onClick={navigateToInBox}
-                    sx={{
-                      color: '#38548A',
-                      '&:hover': {
-                        color: '#38548A',
-                        backgroundColor: blue[100]
-                      }
-                    }}
-                  >
-                    {' '}
-                    Go to Inbox{' '}
-                  </Button>
+                  //  <Tooltip title={`Go to Inbox`}>
+                  // <Button onClick={navigateToInBox}
+                  //   sx={{
+                  //     color: '#38548A',
+                  //     '&:hover': {
+                  //       color: '#38548A',
+                  //       backgroundColor: blue[100]
+                  //     }
+                  //   }}
+                  // >
+                  //   {' '}
+                  //   Go to Inbox{' '}
+                  // </Button>
+                  <Tooltip title={`Go to Inbox`}>
+                    <IconButton
+                      onClick={navigateToInBox}
+                      sx={{
+                        color: 'white',
+                        mr: 1,
+                        backgroundColor: blue[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: blue[600] }
+                      }}>
+                      <InboxIcon />
+                    </IconButton>
+                  </Tooltip>
+
                 ) : (
                   // <Button
                   //   onClick={() => {
@@ -270,21 +286,33 @@ function Card7({
                   </>
                 )}
                 {FromRoute === 'Draft' ? (
-                  <Button
-                    onClick={() => {
-                      saveMessageBody('Edit');
-                    }}
-                    sx={{
-                      color: '#38548A',
-                      '&:hover': {
-                        color: '#38548A',
-                        backgroundColor: blue[100]
-                      }
-                    }}
-                  >
-                    {' '}
-                    Edit{' '}
-                  </Button>
+                  // <Button
+                  //   onClick={() => {
+                  //     saveMessageBody('Edit');
+                  //   }}
+                  //   sx={{
+                  //     color: '#38548A',
+                  //     '&:hover': {
+                  //       color: '#38548A',
+                  //       backgroundColor: blue[100]
+                  //     }
+                  //   }}
+                  // >
+                  //   {' '}
+                  //   Edit{' '}
+                  // </Button>
+                  <Tooltip title={"Edit"}>
+                    <IconButton
+                      onClick={() => {
+                        saveMessageBody('Edit');
+                      }}
+                      sx={{
+                        color: 'white', backgroundColor: '#223354', '&:hover': { cursor: 'pointer', background: '#223354' }
+                      }}
+                    >
+                      <EditTwoTone />
+                    </IconButton>
+                  </Tooltip>
                 ) : (
 
                   // <Button
