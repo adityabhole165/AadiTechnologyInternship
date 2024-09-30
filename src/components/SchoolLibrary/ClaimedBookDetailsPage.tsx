@@ -1,9 +1,31 @@
-import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material'
-import { Box, IconButton, TextField, Tooltip } from '@mui/material'
-import { grey, red } from '@mui/material/colors'
-import CommonPageHeader from '../CommonPageHeader'
+import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
+import { Box, IconButton, TextField, Tooltip } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
+import CommonPageHeader from '../CommonPageHeader';
+import BookTable from './BookTable';
 
-
+const bookData = [
+    {
+        bookTitle: "Animal Farm",
+        date: "27 Sep 2024",
+        action: "Submit"
+    },
+    {
+        bookTitle: "Chattering Forest",
+        date: "27 Sep 2024",
+        action: "Submit"
+    },
+    {
+        bookTitle: "Read aloud tales Ancient Tales- How Parvati became Durga & other stories",
+        date: "28 Sep 2024",
+        action: "Submit"
+    },
+    {
+        bookTitle: "Read aloud tales of Chattrapati Shivaji - The great Warrior & other stories",
+        date: "28 Sep 2024",
+        action: "Submit"
+    }
+];
 
 const ClaimedBookDetailsPage = () => {
     return (
@@ -23,7 +45,7 @@ const ClaimedBookDetailsPage = () => {
                         />
                         <TextField
                             fullWidth
-                            label="Book Title" 
+                            label="Book Title"
                             variant={'outlined'}
                             size={'small'}
                         />
@@ -58,7 +80,7 @@ const ClaimedBookDetailsPage = () => {
                             </Tooltip>
                         </Box>
                         <Box>
-                            <Tooltip title={"Here you can search the books and also you can see the issued book details."}>
+                            <Tooltip title={"Displays the books claimed by user and user can cancel the book claim."}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
@@ -75,6 +97,7 @@ const ClaimedBookDetailsPage = () => {
                     </Box>
                 }
             />
+            <Box sx={{ backgroundColor: 'white', p: 2 }}> <BookTable data={bookData} /></Box>
         </Box>
     )
 }
