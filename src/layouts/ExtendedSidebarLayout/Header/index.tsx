@@ -382,7 +382,7 @@ function Header() {
   const GetAllActiveNotices = useSelector(
     (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
   );
-  const SchoolName = localStorage.getItem('SchoolName');
+  const SchoolName = sessionStorage.getItem('SchoolName');
   const StudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
   const SchoolId = localStorage.getItem('localSchoolId');
@@ -457,337 +457,337 @@ function Header() {
   };
   return (
     <>
-    <Box >
-      <HeaderWrapper
-        display="flex"
-        alignItems="center"
-        sx={{
-          boxShadow:
-            theme.palette.mode === 'dark'
-              ? '0 1px 0 ' +
-              alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
-              ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
-              : '0px 2px 8px -3px ' +
-              alpha(theme.colors.alpha.black[100], 0.2) +
-              ', 0px 5px 22px -4px ' +
-              alpha(theme.colors.alpha.black[100], 0.1)
-        }}
-      >
-        
-        {Toaster()}
-        <Stack
-          direction="row"
-          divider={<Divider orientation="vertical" flexItem />}
-          alignItems="center"
-          spacing={2}
-          sx={{mb:2}}
-        >
-          <img src={img_src} className={classes.smalllogo} />
-        </Stack>
-        <Stack direction="row" sx={{ pb: 2 }}>
-          <h1>{SchoolName}</h1>
-        </Stack>
-        <Stack
-          direction="row"
+      <Box >
+        <HeaderWrapper
           display="flex"
-          spacing={2}
           alignItems="center"
-          sx={{ pb: 2 }}
+          sx={{
+            boxShadow:
+              theme.palette.mode === 'dark'
+                ? '0 1px 0 ' +
+                alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
+                ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
+                : '0px 2px 8px -3px ' +
+                alpha(theme.colors.alpha.black[100], 0.2) +
+                ', 0px 5px 22px -4px ' +
+                alpha(theme.colors.alpha.black[100], 0.1)
+          }}
         >
-          <Tooltip title="Account">
-            <ListItemButton
-              sx={{
-                '&:hover': {
-                  color: `${theme.colors.alpha.trueWhite[100]}`,
-                  background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
-                },
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1
-              }}
-              ref={ref}
-              onClick={handleOpen}
-            >
-              <Avatar
-                alt="user.name"
-                src={userprofile}
-                sx={{ backgroundColor: grey[500], height: 40, width: 40 }}
-                variant="circular"
-                aria-label="add"
-              />
-              <Box>
-                <Typography fontWeight={'bold'}>{Name}</Typography>
-                <Typography>{DesignationName}</Typography>
-              </Box>
-            </ListItemButton>
-          </Tooltip>
-          <Popover
-            disableScrollLock
-            anchorEl={ref.current}
-            onClose={handleClose}
-            open={isOpen}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right'
-            }}
+
+          {Toaster()}
+          <Stack
+            direction="row"
+            divider={<Divider orientation="vertical" flexItem />}
+            alignItems="center"
+            spacing={2}
+            sx={{ mb: 2 }}
           >
-            <MenuUserBox
-              sx={{
-                minWidth: 250
+            <img src={img_src} className={classes.smalllogo} />
+          </Stack>
+          <Stack direction="row" sx={{ pb: 2 }}>
+            <h1>{SchoolName}</h1>
+          </Stack>
+          <Stack
+            direction="row"
+            display="flex"
+            spacing={2}
+            alignItems="center"
+            sx={{ pb: 2 }}
+          >
+            <Tooltip title="Account">
+              <ListItemButton
+                sx={{
+                  '&:hover': {
+                    color: `${theme.colors.alpha.trueWhite[100]}`,
+                    background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
+                  },
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+                ref={ref}
+                onClick={handleOpen}
+              >
+                <Avatar
+                  alt="user.name"
+                  src={userprofile}
+                  sx={{ backgroundColor: grey[500], height: 40, width: 40 }}
+                  variant="circular"
+                  aria-label="add"
+                />
+                <Box>
+                  <Typography fontWeight={'bold'}>{Name}</Typography>
+                  <Typography>{DesignationName}</Typography>
+                </Box>
+              </ListItemButton>
+            </Tooltip>
+            <Popover
+              disableScrollLock
+              anchorEl={ref.current}
+              onClose={handleClose}
+              open={isOpen}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right'
               }}
-              display="flex"
             >
-              <Avatar
-                variant="circular"
-                alt="user.name"
-                src={userprofile}
-                sx={{ height: 60, width: 60 }}
+              <MenuUserBox
+                sx={{
+                  minWidth: 250
+                }}
+                display="flex"
+              >
+                <Avatar
+                  variant="circular"
+                  alt="user.name"
+                  src={userprofile}
+                  sx={{ height: 60, width: 60 }}
+                />
+                <UserBoxText>
+                  <UserBoxLabel className="popoverTypo">{Name}</UserBoxLabel>
+                  <Typography className="popoverTypo">
+                    {DesignationName}
+                  </Typography>
+                  {RollNo != undefined ? (
+                    <>
+                      <UserBoxDescription className="popoverTypo">
+                        {Class}
+                      </UserBoxDescription>{' '}
+                    </>
+                  ) : null}
+                  <UserBoxDescription className="popoverTypo">
+                    {' '}
+                    {UserLoginDetails1}{' '}
+                  </UserBoxDescription>
+                </UserBoxText>
+              </MenuUserBox>
+              <Divider
+                sx={{
+                  mb: 0
+                }}
               />
-              <UserBoxText>
-                <UserBoxLabel className="popoverTypo">{Name}</UserBoxLabel>
-                <Typography className="popoverTypo">
-                  {DesignationName}
-                </Typography>
-                {RollNo != undefined ? (
-                  <>
-                    <UserBoxDescription className="popoverTypo">
-                      {Class}
-                    </UserBoxDescription>{' '}
-                  </>
-                ) : null}
-                <UserBoxDescription className="popoverTypo">
-                  {' '}
-                  {UserLoginDetails1}{' '}
-                </UserBoxDescription>
-              </UserBoxText>
-            </MenuUserBox>
-            <Divider
-              sx={{
-                mb: 0
-              }}
-            />
-            <List
-              sx={{
-                p: 0
-              }}
-              component="nav"
-            >
-              <ListItem
-                onClick={() => {
-                  handleClose();
-                }}
-                to={'/extended-sidebar/Student/Profile'}
-                component={NavLink}
+              <List
                 sx={{
-                  '&:hover': {
-                    backgroundColor: (theme) =>
-                      alpha(theme.palette.primary.main, 0.3)
-                  }
+                  p: 0
                 }}
+                component="nav"
               >
-                <AccountBoxIcon
-                  sx={{
-                    height: 25,
-                    width: 25,
-                    color: 'black',
-                    fontWeight: 'bold',
-                    mr: 2
-                  }}
-                />
-                <ListItemText
-                  primary={
-                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
-                      Profile
-                    </UserBoxLabel>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                onClick={() => {
-                  handleClose();
-                }}
-                to={'/extended-sidebar/common/changePassword'}
-                component={NavLink}
-                sx={{
-                  '&:hover': {
-                    backgroundColor: (theme) =>
-                      alpha(theme.palette.primary.main, 0.3)
-                  }
-                }}
-              >
-                <LockOpenIcon
-                  sx={{
-                    height: 25,
-                    width: 25,
-                    color: 'black',
-                    fontWeight: 'bold',
-                    mr: 2
-                  }}
-                />
-                <ListItemText
-                  primary={
-                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
-                      Change Password
-                    </UserBoxLabel>
-                  }
-                />
-              </ListItem>
-              {siblingList?.length == 0 ? (
-                <></>
-              ) : siblingList?.length == 1 ? (
-                <>
-                  <ListItem
-                    button
-                    to={''}
-                    component={NavLink}
-                    style={{ background: 'white !important' }}
-                  >
-                    <GroupIcon />
-                    <ListItemText
-                      primary={
-                        <UserBoxLabel
-                          sx={{ fontWeight: 'bold' }}
-                          onClick={() => {
-                            loginToSibling(
-                              siblingList[0].UserName,
-                              siblingList[0].Password
-                            );
-                          }}
-                        >
-                          Sibling Login
-                        </UserBoxLabel>
-                      }
-                    />
-                  </ListItem>
-                </>
-              ) : (
                 <ListItem
-                  button
-                  to={''}
+                  onClick={() => {
+                    handleClose();
+                  }}
+                  to={'/extended-sidebar/Student/Profile'}
                   component={NavLink}
-                  style={{ background: 'white' }}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
                 >
-                  <GroupIcon sx={{ marginBottom: '42px' }} />
-                  <ul
-                    style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
-                  >
-                    <Typography sx={{ fontWeight: 'bold' }}>
-                      Sibling Login{' '}
-                    </Typography>
-                    {siblingList?.map((sibling: any, i) => {
-                      return (
-                        <>
-                          <li
-                            style={{
-                              textDecoration: 'underline',
-                              paddingLeft: '10px'
-                            }}
-                            key={i}
-                            onClick={() => {
-                              loginToSibling(
-                                sibling.UserName,
-                                sibling.Password
-                              );
-                            }}
-                          >
-                            {sibling.FullName}
-                          </li>
-                        </>
-                      );
-                    })}
-                  </ul>
-                </ListItem>
-              )}
-              {LoginStaffKid.length == 0 ? (
-                <></>
-              ) : LoginStaffKid.length == 1 ? (
-                <>
-                  <ListItem
-                    button
-                    to={''}
-                    component={NavLink}
-                    style={{ background: 'white !important' }}
-                  >
-                    <GroupIcon />
-                    <ListItemText
-                      primary={
-                        <UserBoxLabel
-                          sx={{ fontWeight: 'bold' }}
-                          onClick={() => {
-                            loginToSibling(
-                              LoginStaffKid[0].UserName,
-                              LoginStaffKid[0].Password
-                            );
-                          }}
-                        >
-                          {LoginTo}
-                        </UserBoxLabel>
-                      }
-                    />
-                  </ListItem>
-                </>
-              ) : (
-                <ListItem
-                  button
-                  to={''}
-                  component={NavLink}
-                  style={{ background: 'white' }}
-                >
-                  <GroupIcon sx={{ marginBottom: '42px' }} />
-                  <ul
-                    style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
-                  >
-                    {/* <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography> */}
-                    {LoginStaffKid?.map((StaffKid: any, i) => {
-                      return (
-                        <>
-                          <li
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'blueviolet',
-                              paddingLeft: '10px'
-                            }}
-                            key={i}
-                            onClick={() => {
-                              loginToSibling(
-                                StaffKid.UserName,
-                                StaffKid.Password
-                              );
-                            }}
-                          >
-                            {StaffKid.StudentName}
-                          </li>
-                        </>
-                      );
-                    })}
-                  </ul>
-                </ListItem>
-              )}
-            </List>
-            {/* Set '!==' to '===' | Currently set !== just for testing on Web App */}
-            {window.localStorage.getItem('deviceType') !== 'android' ||
-              localStorage.getItem('deviceType') !== 'ios' ? (
-              <Box m={1}>
-                <Button color="primary" fullWidth onClick={handleCloseApp}>
-                  <PowerSettingsNewIcon
+                  <AccountBoxIcon
                     sx={{
-                      mr: 1,
-                      fontWeight: 'bold'
+                      height: 25,
+                      width: 25,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      mr: 2
                     }}
                   />
-                  <UserBoxLabel sx={{ fontWeight: 'bold' }}>Exit</UserBoxLabel>
-                </Button>
-              </Box>
-            ) : (
-              <div />
-            )}
-          </Popover>
-          {/* <Avatar sx={{ backgroundColor: "#0564c8", height: 40 }} variant="rounded" aria-label="add">
+                  <ListItemText
+                    primary={
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                        Profile
+                      </UserBoxLabel>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    handleClose();
+                  }}
+                  to={'/extended-sidebar/common/changePassword'}
+                  component={NavLink}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
+                >
+                  <LockOpenIcon
+                    sx={{
+                      height: 25,
+                      width: 25,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      mr: 2
+                    }}
+                  />
+                  <ListItemText
+                    primary={
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                        Change Password
+                      </UserBoxLabel>
+                    }
+                  />
+                </ListItem>
+                {siblingList?.length == 0 ? (
+                  <></>
+                ) : siblingList?.length == 1 ? (
+                  <>
+                    <ListItem
+                      button
+                      to={''}
+                      component={NavLink}
+                      style={{ background: 'white !important' }}
+                    >
+                      <GroupIcon />
+                      <ListItemText
+                        primary={
+                          <UserBoxLabel
+                            sx={{ fontWeight: 'bold' }}
+                            onClick={() => {
+                              loginToSibling(
+                                siblingList[0].UserName,
+                                siblingList[0].Password
+                              );
+                            }}
+                          >
+                            Sibling Login
+                          </UserBoxLabel>
+                        }
+                      />
+                    </ListItem>
+                  </>
+                ) : (
+                  <ListItem
+                    button
+                    to={''}
+                    component={NavLink}
+                    style={{ background: 'white' }}
+                  >
+                    <GroupIcon sx={{ marginBottom: '42px' }} />
+                    <ul
+                      style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
+                    >
+                      <Typography sx={{ fontWeight: 'bold' }}>
+                        Sibling Login{' '}
+                      </Typography>
+                      {siblingList?.map((sibling: any, i) => {
+                        return (
+                          <>
+                            <li
+                              style={{
+                                textDecoration: 'underline',
+                                paddingLeft: '10px'
+                              }}
+                              key={i}
+                              onClick={() => {
+                                loginToSibling(
+                                  sibling.UserName,
+                                  sibling.Password
+                                );
+                              }}
+                            >
+                              {sibling.FullName}
+                            </li>
+                          </>
+                        );
+                      })}
+                    </ul>
+                  </ListItem>
+                )}
+                {LoginStaffKid.length == 0 ? (
+                  <></>
+                ) : LoginStaffKid.length == 1 ? (
+                  <>
+                    <ListItem
+                      button
+                      to={''}
+                      component={NavLink}
+                      style={{ background: 'white !important' }}
+                    >
+                      <GroupIcon />
+                      <ListItemText
+                        primary={
+                          <UserBoxLabel
+                            sx={{ fontWeight: 'bold' }}
+                            onClick={() => {
+                              loginToSibling(
+                                LoginStaffKid[0].UserName,
+                                LoginStaffKid[0].Password
+                              );
+                            }}
+                          >
+                            {LoginTo}
+                          </UserBoxLabel>
+                        }
+                      />
+                    </ListItem>
+                  </>
+                ) : (
+                  <ListItem
+                    button
+                    to={''}
+                    component={NavLink}
+                    style={{ background: 'white' }}
+                  >
+                    <GroupIcon sx={{ marginBottom: '42px' }} />
+                    <ul
+                      style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
+                    >
+                      {/* <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography> */}
+                      {LoginStaffKid?.map((StaffKid: any, i) => {
+                        return (
+                          <>
+                            <li
+                              style={{
+                                textDecoration: 'underline',
+                                color: 'blueviolet',
+                                paddingLeft: '10px'
+                              }}
+                              key={i}
+                              onClick={() => {
+                                loginToSibling(
+                                  StaffKid.UserName,
+                                  StaffKid.Password
+                                );
+                              }}
+                            >
+                              {StaffKid.StudentName}
+                            </li>
+                          </>
+                        );
+                      })}
+                    </ul>
+                  </ListItem>
+                )}
+              </List>
+              {/* Set '!==' to '===' | Currently set !== just for testing on Web App */}
+              {window.localStorage.getItem('deviceType') !== 'android' ||
+                localStorage.getItem('deviceType') !== 'ios' ? (
+                <Box m={1}>
+                  <Button color="primary" fullWidth onClick={handleCloseApp}>
+                    <PowerSettingsNewIcon
+                      sx={{
+                        mr: 1,
+                        fontWeight: 'bold'
+                      }}
+                    />
+                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>Exit</UserBoxLabel>
+                  </Button>
+                </Box>
+              ) : (
+                <div />
+              )}
+            </Popover>
+            {/* <Avatar sx={{ backgroundColor: "#0564c8", height: 40 }} variant="rounded" aria-label="add">
           <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 20 }} />
         </Avatar> */}
-          {/* <ThemeSettings /> */}
-        </Stack>
-      </HeaderWrapper>
+            {/* <ThemeSettings /> */}
+          </Stack>
+        </HeaderWrapper>
       </Box>
       {/* The Following Code is for App Rating */}
       <>
