@@ -1,11 +1,11 @@
 import {
-    ArrowDropDownCircle,
     Done,
     EditTwoTone,
     Person,
     QuestionMark,
     Square
 } from "@mui/icons-material";
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {
     Box,
     IconButton,
@@ -32,8 +32,10 @@ import { formatDate1 } from "../Common/Util";
 import CommonPageHeader from "../CommonPageHeader";
 
 const StudentBaseScreen = () => {
+    // Hooks Defining
     const dispatch = useDispatch();
 
+    // State Variables
     const [selectedClass, setSelectedClass] = useState<any>('0');
     const [divId, setDivId] = useState<any>('0');
     const [standardId, setStandardId] = useState<any>('0');
@@ -42,7 +44,7 @@ const StudentBaseScreen = () => {
     const [isAsc, setIsAsc] = useState<boolean>(true);
     const [page, setPage] = useState(1);
     const [count, setCount] = useState(0);
-    const [hovered, setHovered] = useState(false);
+    const [sortHeader, setSortHeader] = useState<string>('Roll_No');
     const [rowsPerPage, setRowsPerPage] = useState(20);
 
     const rowsPerPageOptions = [20, 50, 100, 200];
@@ -50,10 +52,12 @@ const StudentBaseScreen = () => {
     const endRecord = Math.min(page * rowsPerPage, count);
     const pagecount = Math.ceil(count / rowsPerPage);
 
+    // Session Variables
     const schoolId = localStorage.getItem('SchoolId');
     const academicYearId = sessionStorage.getItem('AcademicYearId');
     const teacherId = sessionStorage.getItem('TeacherId');
 
+    // Data fetching from redux store
     const StdDivList = useSelector((state: RootState) => state.Students.ISRGetStdDivForTeacher);
     const StudentsList = useSelector((state: RootState) => state.Students.ISGetStudentsList);
     const Loading = useSelector((state: RootState) => state.Students.Loading);
@@ -100,7 +104,8 @@ const StudentBaseScreen = () => {
         }
     }, [StdDivList]);
 
-    const handleClassChange = (value) => {
+    // Event Handlers | f()
+    function handleClassChange(value) {
         setSelectedClass(value.Id);
         setDivId(value.DivisionId);
         setStandardId(value.StandardId);
@@ -132,36 +137,40 @@ const StudentBaseScreen = () => {
     };
 
     const SortableHeader = ({ column, label }) => {
-        if (column === 'Roll_No') {
-            return (
-                <span
-                    style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
-                    onClick={() => handleSort(column)}
-                >
-                    {label}
-                    <ArrowDropDownCircle
-                        sx={{
-                            fontSize: '24px',
-                            marginLeft: '4px',
-                            rotate: isAsc ? '180deg' : '0deg'
-                        }}
-                    />
-                </span>
-            );
-        } else {
-            return (
-                <span
-                    style={{
-                        cursor: 'pointer'
+        // if (column === 'Roll_No') {
+        return (
+            <span
+                style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
+                onClick={() => {
+                    handleSort(column)
+                    setSortHeader(column);
+                }}
+            >
+                {label}
+                <ArrowCircleUpIcon
+                    sx={{
+                        fontSize: '24px',
+                        marginLeft: '4px',
+                        rotate: isAsc && sortHeader === column ? '0deg' : '180deg'
                     }}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}
-                    onClick={() => handleSort(column)}
-                >
-                    {label}
-                </span>
-            );
-        }
+                />
+            </span>
+        );
+        // } 
+        // else {
+        //     return (
+        //         <span
+        //             style={{
+        //                 cursor: 'pointer'
+        //             }}
+        //             onMouseEnter={() => setHovered(true)}
+        //             onMouseLeave={() => setHovered(false)}
+        //             onClick={() => handleSort(column)}
+        //         >
+        //             {label}
+        //         </span>
+        //     );
+        // }
     };
 
     return (
@@ -215,116 +224,116 @@ const StudentBaseScreen = () => {
             </Box>
             {selectedClass !== '0' &&
                 <>
-                    {Loading ? <SuspenseLoader /> :
-                        StudentsList.length > 0 ?
-                            <>
-                                <Box sx={{ background: 'white', pt: 1 }}>
-                                    {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-                                        <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                                            <Box component="span" fontWeight="fontWeightBold">
-                                                {startRecord} to {endRecord}
-                                            </Box>
-                                            {' '}out of{' '}
-                                            <Box component="span" fontWeight="fontWeightBold">
-                                                {count}
-                                            </Box>{' '}
-                                            {count === 1 ? 'record' : 'records'}
-                                        </Typography>
-                                    </div> : <span> </span>}
-                                    <TableContainer component={Box} sx={{ px: 2, pb: 2 }}>
-                                        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-                                            <TableHead>
-                                                <TableRow sx={{ background: (theme) => theme.palette.secondary.main, }}>
-                                                    <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                                                        <SortableHeader column="Enrolment_Number" label="Registration Number" />
+                    {Loading && <SuspenseLoader />}
+                    {StudentsList.length > 0 ?
+                        <>
+                            <Box sx={{ background: 'white', pt: 1 }}>
+                                {count > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+                                    <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                                        <Box component="span" fontWeight="fontWeightBold">
+                                            {startRecord} to {endRecord}
+                                        </Box>
+                                        {' '}out of{' '}
+                                        <Box component="span" fontWeight="fontWeightBold">
+                                            {count}
+                                        </Box>{' '}
+                                        {count === 1 ? 'record' : 'records'}
+                                    </Typography>
+                                </div> : <span> </span>}
+                                <TableContainer component={Box} sx={{ px: 2, pb: 2 }}>
+                                    <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                                        <TableHead>
+                                            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, }}>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                                                    <SortableHeader column="Enrolment_Number" label="Registration Number" />
+                                                </TableCell>
+                                                <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                                                    <SortableHeader column="Roll_No" label="Roll No." />
+                                                </TableCell>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                                                    <SortableHeader column="Name" label="Student Name" />
+                                                </TableCell>
+                                                <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
+                                                    <SortableHeader column="DOB" label="Date of Birth" />
+                                                </TableCell>
+                                                <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>Edit</TableCell>
+                                                <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>Photo</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {StudentsList.map((item, i) => (
+                                                <TableRow key={i} sx={{ backgroundColor: item.Text10 !== '0' && item.Text7 === '' ? '#dbeafe' : item.Text11 !== 'N' ? '#e2e8f0' : 'inherit' }} >
+                                                    <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
+                                                        {item.Text3}
                                                     </TableCell>
-                                                    <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                                                        <SortableHeader column="Roll_No" label="Roll No." />
+                                                    <TableCell align="center" sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
+                                                        {item.Text2}
                                                     </TableCell>
-                                                    <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                                                        <SortableHeader column="Name" label="Student Name" />
+                                                    <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
+                                                        {item.Text1}
                                                     </TableCell>
-                                                    <TableCell align="left" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>
-                                                        <SortableHeader column="DOB" label="Date of Birth" />
+                                                    <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
+                                                        {formatDate1(item.Text4.split(' ')[0])}
                                                     </TableCell>
-                                                    <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>Edit</TableCell>
-                                                    <TableCell align="center" sx={{ color: (theme) => theme.palette.common.white, fontWeight: 600 }}>Photo</TableCell>
+                                                    <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
+                                                        {item.Text7 !== '' ? <span
+                                                            style={{
+                                                                cursor: 'pointer',
+                                                                textDecoration: 'none',
+                                                                fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit'
+                                                            }}
+                                                            onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.textDecoration = 'underline'}
+                                                            onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.textDecoration = 'none'}
+                                                        >{leftDate(item.Text7)}</span> :
+                                                            <IconButton>
+                                                                <Tooltip title="Edit">
+                                                                    <EditTwoTone
+                                                                        sx={{
+                                                                            cursor: 'pointer',
+                                                                            '&:hover': { backgroundColor: '' }
+                                                                        }}
+                                                                        onClick={() => { }} />
+                                                                </Tooltip>
+                                                            </IconButton>}
+                                                    </TableCell>
+                                                    <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
+                                                        {item.Text8 === '' ?
+                                                            <IconButton sx={{ borderRadius: '50%' }}>
+                                                                <Tooltip title='No Photo'>
+                                                                    <Person sx={{ color: 'grey.500' }} />
+                                                                </Tooltip>
+                                                            </IconButton> :
+                                                            <IconButton sx={{ borderRadius: '50%' }}>
+                                                                <Tooltip title='Photo Uploaded' >
+                                                                    <Done sx={{ color: 'green' }} />
+                                                                </Tooltip>
+                                                            </IconButton>}
+                                                    </TableCell>
                                                 </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {StudentsList.map((item, i) => (
-                                                    <TableRow key={i} sx={{ backgroundColor: item.Text10 !== '0' && item.Text7 === '' ? '#dbeafe' : item.Text11 !== 'N' ? '#e2e8f0' : 'inherit' }} >
-                                                        <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
-                                                            {item.Text3}
-                                                        </TableCell>
-                                                        <TableCell align="center" sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
-                                                            {item.Text2}
-                                                        </TableCell>
-                                                        <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
-                                                            {item.Text1}
-                                                        </TableCell>
-                                                        <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
-                                                            {formatDate1(item.Text4.split(' ')[0])}
-                                                        </TableCell>
-                                                        <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
-                                                            {item.Text7 !== '' ? <span
-                                                                style={{
-                                                                    cursor: 'pointer',
-                                                                    textDecoration: 'none',
-                                                                    fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit'
-                                                                }}
-                                                                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.textDecoration = 'underline'}
-                                                                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.textDecoration = 'none'}
-                                                            >{leftDate(item.Text7)}</span> :
-                                                                <IconButton>
-                                                                    <Tooltip title="Edit">
-                                                                        <EditTwoTone
-                                                                            sx={{
-                                                                                cursor: 'pointer',
-                                                                                '&:hover': { backgroundColor: '' }
-                                                                            }}
-                                                                            onClick={() => { }} />
-                                                                    </Tooltip>
-                                                                </IconButton>}
-                                                        </TableCell>
-                                                        <TableCell align="center" sx={{ pt: '5px', pb: '5px' }}>
-                                                            {item.Text8 === '' ?
-                                                                <IconButton sx={{ borderRadius: '50%' }}>
-                                                                    <Tooltip title='No Photo'>
-                                                                        <Person sx={{ color: 'grey.500' }} />
-                                                                    </Tooltip>
-                                                                </IconButton> :
-                                                                <IconButton sx={{ borderRadius: '50%' }}>
-                                                                    <Tooltip title='Photo Uploaded' >
-                                                                        <Done sx={{ color: 'green' }} />
-                                                                    </Tooltip>
-                                                                </IconButton>}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                        {endRecord > 19 ? (
-                                            <ButtonGroupComponent
-                                                rowsPerPage={rowsPerPage}
-                                                ChangeRowsPerPage={ChangeRowsPerPage}
-                                                rowsPerPageOptions={rowsPerPageOptions}
-                                                PageChange={PageChange}
-                                                pagecount={pagecount}
-                                            />
-                                        ) : (
-                                            <span></span>
-                                        )}
-                                    </TableContainer>
-                                </Box>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                    {endRecord > 19 ? (
+                                        <ButtonGroupComponent
+                                            rowsPerPage={rowsPerPage}
+                                            ChangeRowsPerPage={ChangeRowsPerPage}
+                                            rowsPerPageOptions={rowsPerPageOptions}
+                                            PageChange={PageChange}
+                                            pagecount={pagecount}
+                                        />
+                                    ) : (
+                                        <span></span>
+                                    )}
+                                </TableContainer>
+                            </Box>
 
-                            </> :
-                            <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                        </> :
+                        <Box sx={{ backgroundColor: '#D2FDFC' }}>
 
-                                <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
-                                    No record found.
-                                </Typography>
-                            </Box>}
+                            <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                                No record found.
+                            </Typography>
+                        </Box>}
                 </>
             }
         </Box>
