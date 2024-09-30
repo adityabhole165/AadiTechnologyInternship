@@ -9,29 +9,29 @@ const TableBook = ({ books }) => {
             <Table aria-label="book table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
                 <TableHead >
                     <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Accession No</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Book Title</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Author</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Published By</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Standards </strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Language</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'center' }}><strong>Available</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'center' }}><strong>Total</strong></TableCell>
-                        <TableCell sx={{ color: 'white', textAlign: 'left' }}><strong>Claim</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left', py:1.5 }}><strong>Accession No</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left', py:1.5 }}><strong>Book  Title</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left', py:1.5 }}><strong>Author</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left', py:1.5}}><strong>Published By</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left' , py:1.5}}><strong>Standards </strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left', py:1.5}}><strong>Language</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'center', py:1.5}}><strong>Available</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'center' , py:1.5}}><strong>Total</strong></TableCell>
+                        <TableCell sx={{ color: 'white', textAlign: 'left' , py:1.5}}><strong>Claim</strong></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {books.map((book) => (
                         <TableRow key={book.Book_Id}>
-                            <TableCell>{book.Book_No}</TableCell>
-                            <TableCell>{book.Book_Title}</TableCell>
-                            <TableCell>{book.Author_Name}</TableCell>
-                            <TableCell>{book.Published_By}</TableCell>
-                            <TableCell>{book.Standards} </TableCell>
-                            <TableCell>{book.Language}</TableCell>
-                            <TableCell sx={{textAlign: 'center'}}>{book.Available_Books}</TableCell>
-                            <TableCell  sx={{textAlign: 'center'}}>1</TableCell>
-                            <TableCell><Link href="#">Claim</Link> </TableCell>
+                            <TableCell sx={{py:1}}>{book.Book_No}</TableCell>
+                            <TableCell sx={{py:1}}>{book.Book_Title}</TableCell>
+                            <TableCell sx={{py:1}}>{book.Author_Name}</TableCell>
+                            <TableCell sx={{py:1}}>{book.Published_By}</TableCell>
+                            <TableCell sx={{py:1}}>{book.Standards} </TableCell>
+                            <TableCell sx={{py:1}}>{book.Language}</TableCell>
+                            <TableCell sx={{textAlign: 'center', py:1}}>{book.Available_Books}</TableCell>
+                            <TableCell  sx={{textAlign: 'center', py:1}}>1</TableCell>
+                            <TableCell sx={{py:1}}><Link href="#">Claim</Link> </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

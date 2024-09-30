@@ -171,6 +171,7 @@ const LibraryBaseScreen = () => {
             />
 
             <Box sx={{ p: 2, background: 'white' }}>
+            <Typography variant='h4' pb={1} color={'#38548A'}> Search Criteria  </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={4} md={3}>
                         <TextField
@@ -254,13 +255,14 @@ const LibraryBaseScreen = () => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box mt={2} p={2} sx={{backgroundColor:'white'}}>
+            <Box mt={1} p={2} sx={{backgroundColor:'white'}}>
+            <Typography variant='h4' pb={1} color={'#38548A'}> Books Details </Typography>
               <TableBook books={bookData}/>
               
               </Box>
              
-              <Box mt={2} p={2} sx={{backgroundColor:'white'}}>
-              <Typography variant='h3' pt={1}> Books With Me </Typography>
+              <Box mt={1} p={2} sx={{backgroundColor:'white'}}>
+              <Typography variant='h4' pb={1} color={'#38548A'}> Books With Me </Typography>
               <TableBook2 data1={bookIssueData}/>
               
               </Box>
