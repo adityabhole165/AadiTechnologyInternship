@@ -14,7 +14,7 @@ const DisplayLocation = [
 ];
 //    Add Dummy data 
 const languages = [
-    { Id: 1, Name: 'All',  },
+    { Id: 1, Name: 'All', },
     { Id: 2, Name: 'English' },
     { Id: 3, Name: 'English Hindi' },
     { Id: 4, Name: 'Marathi' },
@@ -23,9 +23,9 @@ const languages = [
 ];
 //    Add Dummy data 
 const grades = [
-    { value: 'nursery',Name: 'Nursery' },
-    { value: 'kg1',    Name: 'Kindergarten 1 (KG1)' },
-    { value: 'kg2',    Name: 'Kindergarten 2 (KG2)' },
+    { value: 'nursery', Name: 'Nursery' },
+    { value: 'kg1', Name: 'Kindergarten 1 (KG1)' },
+    { value: 'kg2', Name: 'Kindergarten 2 (KG2)' },
     { value: 'grade1', Name: 'Grade 1' },
     { value: 'grade2', Name: 'Grade 2' },
     { value: 'grade3', Name: 'Grade 3' },
@@ -35,75 +35,75 @@ const grades = [
     { value: 'grade7', Name: 'Grade 7' },
     { value: 'grade8', Name: 'Grade 8' },
     { value: 'grade9', Name: 'Grade 9' },
-    { value: 'grade10',Name: 'Grade 10' },
-    { value: 'grade11',Name: 'Grade 11' },
-    { value: 'grade12',Name: 'Grade 12' }
-  ];
+    { value: 'grade10', Name: 'Grade 10' },
+    { value: 'grade11', Name: 'Grade 11' },
+    { value: 'grade12', Name: 'Grade 12' }
+];
 
-  const bookData = [
+const bookData = [
     {
-      "Book_Id": "56872",
-      "Book_Title": "71+10 Science Projects",
-      "Author_Name": "Garge C.L. /Garg Amit",
-      "Published_By": "V & S Publishers",
-      "Category_Name": "Science",
-      "Available_Books": "1",
-      "Language": "English",
-      "Book_No": "SL02689",
-      "Standards": "All",
+        "Book_Id": "56872",
+        "Book_Title": "71+10 Science Projects",
+        "Author_Name": "Garge C.L. /Garg Amit",
+        "Published_By": "V & S Publishers",
+        "Category_Name": "Science",
+        "Available_Books": "1",
+        "Language": "English",
+        "Book_No": "SL02689",
+        "Standards": "All",
     },
     {
-      "Book_Id": "74542",
-      "Book_Title": "8 in 1 Aesop's fables (2)",
-      "Author_Name": "Rainbow",
-      "Published_By": "Rainbow books",
-      "Category_Name": "Story",
-      "Available_Books": "1",
-      "Language": "English",
-      "Book_No": "PL05946",
-      "Standards": "All",
+        "Book_Id": "74542",
+        "Book_Title": "8 in 1 Aesop's fables (2)",
+        "Author_Name": "Rainbow",
+        "Published_By": "Rainbow books",
+        "Category_Name": "Story",
+        "Available_Books": "1",
+        "Language": "English",
+        "Book_No": "PL05946",
+        "Standards": "All",
     },
-  ];
+];
 
-  const bookIssueData = [
+const bookIssueData = [
     {
-      "Book_Title": "Suno Khani : Shreshth Bal Kavitaye",
-      "Accession_No": "SL04216",
-      "Issue_Date": "24-Sep-2024",
-      "Return_Date": "25-Oct-2024"
+        "Book_Title": "Suno Khani : Shreshth Bal Kavitaye",
+        "Accession_No": "SL04216",
+        "Issue_Date": "24-Sep-2024",
+        "Return_Date": "25-Oct-2024"
     },
     {
-      "Book_Title": "The Jungal School",
-      "Accession_No": "PL01110",
-      "Issue_Date": "24-Sep-2024",
-      "Return_Date": "25-Oct-2024"
+        "Book_Title": "The Jungal School",
+        "Accession_No": "PL01110",
+        "Issue_Date": "24-Sep-2024",
+        "Return_Date": "25-Oct-2024"
     },
     {
-      "Book_Title": "Aaji",
-      "Accession_No": "PL04438",
-      "Issue_Date": "24-Sep-2024",
-      "Return_Date": "25-Nov-2024"
+        "Book_Title": "Aaji",
+        "Accession_No": "PL04438",
+        "Issue_Date": "24-Sep-2024",
+        "Return_Date": "25-Nov-2024"
     },
     {
-      "Book_Title": "Aamchya aayushateel kahi aathvanee ( Marath)",
-      "Accession_No": "PL05739",
-      "Issue_Date": "24-Sep-2024",
-      "Return_Date": "25-Oct-2024"
+        "Book_Title": "Aamchya aayushateel kahi aathvanee ( Marath)",
+        "Accession_No": "PL05739",
+        "Issue_Date": "24-Sep-2024",
+        "Return_Date": "25-Oct-2024"
     },
     {
-      "Book_Title": "Aadhunik Spurtikatha (Shruti Panase)",
-      "Accession_No": "SL06026",
-      "Issue_Date": "24-Sep-2024",
-      "Return_Date": "25-Oct-2024"
+        "Book_Title": "Aadhunik Spurtikatha (Shruti Panase)",
+        "Accession_No": "SL06026",
+        "Issue_Date": "24-Sep-2024",
+        "Return_Date": "25-Oct-2024"
     },
     {
-      "Book_Title": "Panipat",
-      "Accession_No": "SL02535",
-      "Issue_Date": "28-Sep-2024",
-      "Return_Date": "29-Oct-2024"
+        "Book_Title": "Panipat",
+        "Accession_No": "SL02535",
+        "Issue_Date": "28-Sep-2024",
+        "Return_Date": "29-Oct-2024"
     }
-  ];
-  
+];
+
 const LibraryBaseScreen = () => {
     return (
         <Box px={2} >
@@ -170,8 +170,9 @@ const LibraryBaseScreen = () => {
                     </>}
             />
 
+
             <Box sx={{ p: 2, background: 'white' }}>
-            <Typography variant='h4' pb={1} color={'#38548A'}> Search Criteria  </Typography>
+                <Typography variant='h4' pb={1} color={'#38548A'}> Search Criteria  </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={4} md={3}>
                         <TextField
@@ -255,17 +256,37 @@ const LibraryBaseScreen = () => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box mt={1} p={2} sx={{backgroundColor:'white'}}>
-            <Typography variant='h4' pb={1} color={'#38548A'}> Books Details </Typography>
-              <TableBook books={bookData}/>
-              
-              </Box>
-             
-              <Box mt={1} p={2} sx={{backgroundColor:'white'}}>
-              <Typography variant='h4' pb={1} color={'#38548A'}> Books With Me </Typography>
-              <TableBook2 data1={bookIssueData}/>
-              
-              </Box>
+
+            <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
+                <Typography variant='h4' pb={1} color={'#38548A'}> Books Details </Typography>
+                <TableBook books={bookData} />
+
+                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                    <Typography
+                        variant="h6"
+                        align="center"
+                        sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+                    >
+                        No record found.
+                    </Typography>
+                </Box>
+
+            </Box>
+            <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
+                <Typography variant='h4' pb={1} color={'#38548A'}> Books With Me </Typography>
+                <TableBook2 data1={bookIssueData} />
+
+                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                    <Typography
+                        variant="h6"
+                        align="center"
+                        sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+                    >
+                        No record found.
+                    </Typography>
+
+                </Box>
+            </Box>
         </Box>
     )
 }
