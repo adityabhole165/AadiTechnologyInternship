@@ -74,6 +74,8 @@ const ProgressRemarks = () => {
   const rowsPerPageOptions = [20, 50, 100, 200];
   const { showAlert, closeAlert } = useContext(AlertContext);
   const { StandardDivisionId, TestId } = useParams();
+ const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
 
   const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
 
@@ -336,8 +338,7 @@ const ProgressRemarks = () => {
     asTerm_Id: SelectTerm
   };
 
-  const startIndex = (page - 1) * rowsPerPage;
-
+ 
   const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsNewBody =
   {
     asSchoolId: asSchoolId,
@@ -347,7 +348,7 @@ const ProgressRemarks = () => {
     asTermId: Number(SelectTerm),
     TeacherId: Number(selectTeacher),
     asStartIndex: startIndex,
-    asEndIndex: Number(20),
+    asEndIndex: endIndex,
   };
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
