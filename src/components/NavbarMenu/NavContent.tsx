@@ -114,9 +114,12 @@ const NavContent = () => {
                 } */}
                 {IsFile() &&
                     <Table>
-                        <TableHead sx={{ backgroundColor: '#93c5fd' }}>
+                        <TableHead sx={{ background: (theme) => theme.palette.secondary.main, }}>
                             <TableRow>
-                                <TableCell colSpan={2} sx={{ pt: '10px', pb: '10px' }} >
+                                <TableCell sx={{
+                                    // textTransform: 'capitalize',
+                                    color: (theme) => theme.palette.common.white,
+                                }} >
                                     <Typography variant='h4'>
                                         {MenuDescription[0]?.MenuName} - Attachment(s)
                                     </Typography>
@@ -130,7 +133,7 @@ const NavContent = () => {
                                     .map((item, index) => {
                                         return (
                                             <TableRow sx={{ backgroundColor: 'white' }}>
-                                                <TableCell sx={{ pt: '8px', pb: '8px' }}>
+                                                <TableCell sx={{ paddingTop: '10px', paddingBottom: '10px' }}>
                                                     <>
                                                         {(item.FilePath != "" && !item.IsURL) &&
                                                             (<>
