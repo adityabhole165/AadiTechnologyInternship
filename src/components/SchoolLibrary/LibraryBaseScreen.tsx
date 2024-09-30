@@ -2,6 +2,8 @@ import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import { Box, Grid, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { BookLockIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import CommonPageHeader from '../CommonPageHeader';
 import TableBook from './TableBook';
@@ -105,6 +107,8 @@ const bookIssueData = [
 ];
 
 const LibraryBaseScreen = () => {
+    const navigate = useNavigate();
+    // const [selectDisplayType, setDisplayType] = useState('false');
     return (
         <Box px={2} >
             <CommonPageHeader
@@ -162,7 +166,9 @@ const LibraryBaseScreen = () => {
                                         backgroundColor: blue[600]
                                     }
                                 }}
-                            //   onClick={clickReset} 
+                                onClick={() =>
+                                    navigate('/extended-sidebar/Teacher/ClaimedBookDetailsPage' + '/' )
+                                }
                             >
                                 <BookLockIcon />
                             </IconButton>

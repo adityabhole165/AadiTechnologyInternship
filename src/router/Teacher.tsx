@@ -250,7 +250,9 @@ const StudentBaseScreen = Loader(
 const LibraryBaseScreen = Loader(
   lazy(() => import('src/components/SchoolLibrary/LibraryBaseScreen'))
 )
-
+const ClaimedBookDetailsPage = Loader(
+  lazy(() => import('src/components/SchoolLibrary/ClaimedBookDetailsPage'))
+)
 
 
 const DashBoard = Loader(
@@ -747,6 +749,11 @@ const teacherRoutes = [
     path: 'LibraryBaseScreen',
     element: <LibraryBaseScreen />
   },
+  {
+    path: '/extended-sidebar/Teacher/LibraryBaseScreen/ClaimedBookDetailsPage',
+    element: <ClaimedBookDetailsPage />
+  },
+ 
   {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
     element: <PreprimaryProgressReportView />
