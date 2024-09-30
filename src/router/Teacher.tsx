@@ -750,10 +750,10 @@ const teacherRoutes = [
     element: <LibraryBaseScreen />
   },
   {
-    path: '/extended-sidebar/Teacher/LibraryBaseScreen/ClaimedBookDetailsPage',
+    path: 'ClaimedBookDetailsPage',
     element: <ClaimedBookDetailsPage />
   },
- 
+
   {
     path: 'PreprimaryProgressReportView/:Assessment/:YearwiseStudentId/:StandardId',
     element: <PreprimaryProgressReportView />
