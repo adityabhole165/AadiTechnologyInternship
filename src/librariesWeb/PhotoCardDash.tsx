@@ -176,7 +176,7 @@ function PhotoCardDash() {
   const handleClearFilter = () => {
     setMonth('100');
     setYear(currentYear);
-    setIsRefresh(true)
+   
     handleClose();
     setLastRefreshTime(new Date());
   };
