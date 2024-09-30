@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { blue, grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPermanently';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import { Styles } from 'src/assets/style/student-style';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { IDeleteDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { IGetAllMonths, Iyears } from 'src/interfaces/MessageCenter/Search';
@@ -91,6 +92,7 @@ const MessageList = () => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -312,11 +314,30 @@ const MessageList = () => {
   };
 
   const TrashDelete = () => {
-    if (confirm('Are you sure you want to delete the message permanently?')) {
-      clickDelete();
-    } else {
-    }
+    // if (confirm('Are you sure you want to delete the message permanently?')) {
+    //   clickDelete();
+    // } else {
+    // }
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete the selected message(s)?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        clickDelete();
+
+        closeAlert();
+      }
+    });
+
   };
+
+
   //Un Delete from everyone function
   const clickUnDelete = () => {
     let DetailsId = [];
@@ -343,10 +364,25 @@ const MessageList = () => {
   };
 
   const ConfirmUndelete = () => {
-    if (confirm('Are you sure you want to undelete selected message(s)')) {
-      clickUnDelete();
-    } else {
-    }
+    // if (confirm('Are you sure you want to undelete selected message(s)')) {
+    //   clickUnDelete();
+    // } else {
+    // }
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to Un-Delete the selected message(s)?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        clickUnDelete();
+        closeAlert();
+      }
+    });
   };
   const DeletePermanent = () => {
     if (
