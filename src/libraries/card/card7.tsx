@@ -172,7 +172,7 @@ function Card7({
           > */}
 
                 <Box>
-                  <Tooltip title={`View sent/received messages.`}>
+                  <Tooltip title={`View detailed message received to you. To reply the sender click on "Reply" and to sent reply to all the receipients click on "Reply To All".`}>
                     <IconButton
                       sx={{
                         color: 'white',
