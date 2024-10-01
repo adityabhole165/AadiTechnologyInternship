@@ -9,6 +9,7 @@ const AbsentStudentslice = createSlice({
         getlistAbsentStudentDetails: [],
         getlistLinkVisible: '',
         IsGetSchoolSettings: '',
+        IsGetSchoolSettingsss: ''
     },
     reducers: {
         listAbsentStudent(state, action) {
@@ -22,7 +23,9 @@ const AbsentStudentslice = createSlice({
         getSchoolSettings(state, action) {
             state.IsGetSchoolSettings = action.payload;
         },
-
+        getSchoolSettingsss(state, action) {
+            state.IsGetSchoolSettingsss = action.payload;
+        },
     }
 });
 
@@ -54,6 +57,15 @@ export const GetSchoolSettings =
             const response = await AbsentStudentapi.GetSchoolSettings(data)
 
             dispatch(AbsentStudentslice.actions.getSchoolSettings(response.data.GetSchoolSettingsResult.StudentAbsentCount));
+
+        };
+
+export const GetSchoolSettingsss =
+    (data: ISchoolIdBody): AppThunk =>
+        async (dispatch) => {
+            const response = await AbsentStudentapi.GetSchoolSettings(data)
+
+            dispatch(AbsentStudentslice.actions.getSchoolSettingsss(response.data.GetSchoolSettingsResult.Location));
 
         };
 export default AbsentStudentslice.reducer;

@@ -37,6 +37,7 @@ import LoginApi from 'src/api/Authentication/Login';
 import { Styles } from 'src/assets/style/student-style';
 import { getYearFirstDateFormatted, logoURL } from 'src/components/Common/Util';
 import { SidebarContext } from 'src/contexts/SidebarContext';
+import { ISchoolIdBody } from 'src/interfaces/AbsentStudentPopCp/IAbsentStudent';
 import {
   IAuthenticateUser,
   IAuthenticateUserResult,
@@ -44,6 +45,7 @@ import {
 } from 'src/interfaces/Authentication/Login';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
 import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
+import { GetSchoolSettingsss } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 import { Stafflogin } from 'src/requests/Authentication/StaffKidLogin';
 import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
@@ -379,6 +381,10 @@ function Header() {
   const LoginStaffKid: any = useSelector(
     (state: RootState) => state.StaffKidLogin.Stafflogin
   );
+  const UsschoolSettings = useSelector(
+    (state: RootState) => state.AbsentStudent.IsGetSchoolSettingsss
+  );
+
   const GetAllActiveNotices = useSelector(
     (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
   );
@@ -394,6 +400,9 @@ function Header() {
     aiYearwiseStudentId: RoleId === '3' ? StudentId : '0',
     aiUserId: UserId
   };
+  const AbsentStudentsBody: ISchoolIdBody = {
+    asSchoolId: Number(SchoolId),
+  };
   const ActiveNoticesBody: IGetAllActiveNoticesBody = {
     asSchoolId: SchoolId,
     asUserId: UserId
@@ -401,6 +410,7 @@ function Header() {
 
   useEffect(() => {
     dispatch(Stafflogin(Staffkid));
+    dispatch(GetSchoolSettingsss(AbsentStudentsBody));
   }, []);
   // useEffect(() => {
   //   const timer = setInterval(() => {
@@ -485,7 +495,7 @@ function Header() {
             <img src={img_src} className={classes.smalllogo} />
           </Stack>
           <Stack direction="row" sx={{ pb: 2 }}>
-            <h1>{SchoolName}</h1>
+            <h1>{SchoolName} <span style={{ fontSize: 'medium' }}>({UsschoolSettings})</span></h1>
           </Stack>
           <Stack
             direction="row"
