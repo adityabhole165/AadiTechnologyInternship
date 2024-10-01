@@ -40,10 +40,17 @@ const FooterStyledCell = styled(TableCell)(({ theme }) => ({
 const StyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
-  // height: '60px',
   textAlign: 'center',
   border: '1px solid rgba(224, 224, 224, 1)',
-}))
+  '&.grey-background': {
+    backgroundColor: grey[200],
+  },
+  '&.bold-text': {
+    fontWeight: 'bold',
+  },
+}));
+
+
 
 const TeacherTimetable = () => {
   const dispatch = useDispatch();
@@ -262,6 +269,15 @@ const TeacherTimetable = () => {
     return count;
   }
   //
+  // Following f() is for Filtering array based on LecNo and WeekDayDropdown's max lec. No
+  function filterMaxDayLec(ArrayofWeekDayData, lecNo) {
+    // Convert lecNo to a number
+    const lecNumber = Number(lecNo.split(' ')[1]);
+    // Filter the array based on the condition
+    let newAr = ArrayofWeekDayData.filter(item => lecNumber <= parseInt(item.MaxDayLec));
+    newAr.unshift({ Id: '0', Name: 'Select', Value: '0', StdDivId: '0', SubId: '0', TeacherId: '0', MaxDayLec: '0' });
+    return newAr;
+  }
 
   function hadExternalLecLabel(dayName, lecNumber) {
     let lecNo = lecNumber.split(' ')[1];
@@ -440,11 +456,27 @@ const TeacherTimetable = () => {
                         :
                         <TableRow key={i}>
                           <StyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Monday', item.Text1) !== '' ? hadExternalLecLabel('Monday', item.Text1) : item.Text2 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Tuesday', item.Text1) !== '' ? hadExternalLecLabel('Tuesday', item.Text1) : item.Text3 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Wednesday', item.Text1) !== '' ? hadExternalLecLabel('Wednesday', item.Text1) : item.Text4 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Thursday', item.Text1) !== '' ? hadExternalLecLabel('Thursday', item.Text1) : item.Text5 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Friday', item.Text1) !== '' ? hadExternalLecLabel('Friday', item.Text1) : item.Text6 }} />
+                          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day, index) => {
+                            const content = hadExternalLecLabel(day, item.Text1) !== ''
+                              ? hadExternalLecLabel(day, item.Text1)
+                              : filterMaxDayLec(eval(`${day}ColumnList`), item.Text1).length === 1
+                                ? '<span color=\"#f1f5f9\" >N / A</span>'
+                                : item[`Text${index + 2}`];
+
+                            return (
+                              <StyledCell
+                                key={day}
+                                dangerouslySetInnerHTML={{ __html: content }}
+                                className={
+                                  content.includes('N / A') || content === 'N / C'
+                                    ? `grey-background ${content === 'N / C' ? 'bold-text' : ''}`
+                                    : ''
+                                }
+                              />
+
+
+                            );
+                          })}
                         </TableRow>
                     ))}
                     {/* <TableRow>
