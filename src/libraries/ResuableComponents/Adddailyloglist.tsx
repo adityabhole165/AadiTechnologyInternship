@@ -14,6 +14,7 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import { green, red } from '@mui/material/colors';
+import { ArrowCircleDown } from '@mui/icons-material';
 function Adddailyloglist({
   ItemList,
   clickView,
@@ -64,8 +65,8 @@ function Adddailyloglist({
                     <b>{item.Header}</b>
                     {item.SortOrder != undefined ?
                       item.SortOrder == " Desc" ?
-                        < ArrowDropDownCircleIcon /> :
-                        <ArrowCircleUpIcon /> :
+                        < ArrowCircleUpIcon /> :
+                        <ArrowCircleDown /> :
                       null
                     }
                   </div>
