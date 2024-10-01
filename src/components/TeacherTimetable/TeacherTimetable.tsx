@@ -4,9 +4,9 @@ import { blue, grey } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
-import { IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
+import { IGetTeacherSubjectMaxLecDetailsBody, IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers, GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
-import { CDAGetLectureNoWeekday } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
+import { CDAGetLectureNoWeekday, CDAGetTeacherSubjectMaxLecDetailsForWeekDays } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
@@ -21,6 +21,11 @@ const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   textAlign: 'center',
   border: '1px solid rgba(224, 224, 224, 1)',
 
+}))
+const StyledCell1 = styled(TableCell)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+  border: '1px solid rgba(224, 224, 224, 1)'
 }))
 
 const FooterStyledCell = styled(TableCell)(({ theme }) => ({
@@ -44,9 +49,34 @@ const TeacherTimetable = () => {
   const dispatch = useDispatch();
   const TimeTableList = useSelector((state: RootState) => state.TMTimetable.ISGetTeacherTimeTableResult);
   const ApplicablesData = useSelector((state: RootState) => state.TMTimetable.ISApplicables);
+  const ApplicablesToggleData = useSelector((state: RootState) => state.WeeklyTimetable.ISGetApplicables);
   const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
   const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
   const TimetableDetails = useSelector((state: RootState) => state.WeeklyTimetable.ISTimetableDetails);
+  const ExtLectCount = useSelector((state: RootState) => state.WeeklyTimetable.ISExtLectCount);
+  const TeacherTimetableCellValues = useSelector((state: RootState) => state.WeeklyTimetable.ISGetLectureNoWeekday);
+  const WeekdayIds = useSelector((state: RootState) => state.WeeklyTimetable.ISWeekdayId);
+  const MondayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForMon);
+  const TuesdayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForTue);
+  const WednesdayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForWed);
+  const ThursdayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForThu);
+  const FridayColumnList = useSelector((state: RootState) => state.WeeklyTimetable.ISGetTeacherSubjectMaxLecForFri);
+  const weeklyTestInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISWeeklytestInfo);
+  const mptInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISMPTinfo);
+  const AssemblyInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISAssemblyInfo);
+  const StayBackInfo = useSelector((state: RootState) => state.WeeklyTimetable.ISStayBackInfo);
+  const [assembly, setAssembly] = useState<boolean>(false);
+  const [mpt, setMPT] = useState<boolean>(false);
+  const [stayback, setStayback] = useState<boolean>(false);
+  const [weeklytest, setWeekly] = useState<boolean>(false);
+  const [trackTeacherTimetable, setTrackTeacherTimetable] = useState({});
+
+  // Following f() is for Calculating the total Lec. count for each WeekDay
+  const [MonCount, setMonCount] = useState<Number>();
+  const [TueCount, setTueCount] = useState<Number>();
+  const [WedCount, setWedCount] = useState<Number>();
+  const [ThuCount, setThuCount] = useState<Number>();
+  const [FriCount, setFriCount] = useState<Number>();
 
   useEffect(() => {
     const TeacherTimetableBody: IGetTeacherTimeTableBody = {
@@ -59,10 +89,89 @@ const TeacherTimetable = () => {
       asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
       asTeacherID: Number(sessionStorage.getItem('TeacherId')),
     }
+    const IGetTeacherSubjectMaxLecForWeekDay: IGetTeacherSubjectMaxLecDetailsBody = {
+      asSchoolId: Number(localStorage.getItem('SchoolId')),
+      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asTeacherId: Number(sessionStorage.getItem('TeacherId')),
+      asStandardDivId: Number(sessionStorage.getItem('StandardDivisionId')),
+    }
     dispatch(GetTeacherTimeTableResult(TeacherTimetableBody))
     dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
+    dispatch(CDAGetTeacherSubjectMaxLecDetailsForWeekDays(IGetTeacherSubjectMaxLecForWeekDay))
     console.log(TimeTableList)
   }, [])
+
+  // Following Functions are to Check whether the current ` TEACHER ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
+  function isMPTLecture(weekDay, lectureNo) {
+    let isPresent = mptInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+    isPresent !== undefined ? true : false;
+    return isPresent;
+  }
+
+  function isAssemblyLecture(weekDay, lectureNo) {
+    let isPresent = AssemblyInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+    isPresent !== undefined ? true : false;
+    return isPresent;
+  }
+
+  function isStaybackLecture(weekDay, lectureNo) {
+    let isPresent = StayBackInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+    isPresent !== undefined ? true : false;
+    return isPresent;
+  }
+
+  function isWeeklyTestLecture(weekDay, lectureNo) {
+    let isPresent = weeklyTestInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+    isPresent !== undefined ? true : false;
+    return isPresent;
+  }
+
+  useEffect(() => {
+    if (ApplicablesToggleData.length > 0 && Object.keys(trackTeacherTimetable).length > 0 && TeacherTimetableCellValues.length > 0) {
+      let WeekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      const daySetters = {
+        Monday: setMonCount,
+        Tuesday: setTueCount,
+        Wednesday: setWedCount,
+        Thursday: setThuCount,
+        Friday: setFriCount
+      };
+      WeekDays.forEach(day => {
+        let dayCount = TeacherTimetableCellValues.reduce((total, item) => {
+          let mptCount = 0;
+          let assemblyCount = 0;
+          let staybackCount = 0;
+          let weeklytestCount = 0;
+          let lecNo = 0;
+          const dayMapping = {
+            'Monday': item.Text2 !== '0', 'Tuesday': item.Text3 !== '0', 'Wednesday': item.Text4 !== '0', 'Thursday': item.Text5 !== '0', 'Friday': item.Text6 !== '0'
+          };
+          if (item.Text1 !== '99') {
+            mptCount = mpt && isMPTLecture(day, item.Text1) ? 1 : 0;
+            assemblyCount = assembly && isAssemblyLecture(day, item.Text1) ? 1 : 0;
+            staybackCount = stayback && isStaybackLecture(day, item.Text1) ? 1 : 0;
+            weeklytestCount = weeklytest && isWeeklyTestLecture(day, item.Text1) ? 1 : 0;
+            lecNo = dayMapping[day] ? 1 : 0;
+          }
+          return total + mptCount + assemblyCount + staybackCount + weeklytestCount + lecNo;
+        }, 0);
+        daySetters[day](Number(dayCount));
+      });
+    }
+  }, [TeacherTimetableCellValues, trackTeacherTimetable, ApplicablesToggleData, assembly, mpt, stayback, weeklytest, StayBackInfo, weeklyTestInfo, AssemblyInfo, mptInfo]);
+
+
+
+  useEffect(() => {
+    if (ApplicablesToggleData.length > 0) {
+      ApplicablesToggleData.map((item, i) => {
+        setAssembly(item.Assembly === 'Y' ? true : false);
+        setMPT(item.MPT === 'Y' ? true : false);
+        setWeekly(item.Weeklytest === 'Y' ? true : false);
+        setStayback(item.Stayback === 'True' ? true : false);
+      })
+    }
+  }, [ApplicablesToggleData])
 
   useEffect(() => {
     if (ApplicablesData.length != 0) {
@@ -80,6 +189,29 @@ const TeacherTimetable = () => {
 
 
   }, [ApplicablesData])
+
+
+  useEffect(() => {
+    if (TeacherTimetableCellValues.length > 0 && WeekdayIds.length > 0 && MondayColumnList?.length > 0 && TuesdayColumnList?.length > 0 && WednesdayColumnList?.length > 0 && ThursdayColumnList?.length > 0 && FridayColumnList?.length > 0) {
+      setTrackTeacherTimetable({});
+      const abc = {};
+      const WeekDaydropdownList = [MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList];
+      // Get weekday IDs
+      const weekdayIds = WeekdayIds.map(item => item.WeekdayId);
+      // Process Lecture_No_WeekDay data
+      TeacherTimetableCellValues.forEach(lecture => {
+        const lectureNo = lecture.Text1;
+        ['Text2', 'Text3', 'Text4', 'Text5', 'Text6'].forEach((day, index) => {
+          let art = WeekDaydropdownList[index].filter(item => item.Id === lecture[day])
+          const key = `${weekdayIds[index]}-${lectureNo}`;
+          abc[key] = `${lecture[day]}-${weekdayIds[index]}-${art[0]?.StdDivId === undefined ? '0' : art[0]?.StdDivId}-${art[0]?.SubId === undefined ? '0' : art[0]?.SubId}-${lectureNo}`;
+
+        });
+      });
+      setTrackTeacherTimetable(abc);
+    }
+  }, [TeacherTimetableCellValues, WeekdayIds, MondayColumnList, TuesdayColumnList, WednesdayColumnList, ThursdayColumnList, FridayColumnList])
+
 
   useEffect(() => {
     const AdditionalLectureBody: IGetDataForAdditionalClassesBody = {
@@ -112,7 +244,24 @@ const TeacherTimetable = () => {
       })
     }
   }, [TimeTableList])
+  // lecture count table f()
+  function countSubIdOccurrences(subId, stdDivId) {
+    let count = 0;
+    if (Object.keys(trackTeacherTimetable).length > 0) {
+      for (const key in trackTeacherTimetable) {
+        if (trackTeacherTimetable.hasOwnProperty(key)) {
+          const value = trackTeacherTimetable[key];
+          const [, , currentStdDivId, currentSubId] = value.split('-'); // Extract the SubId part
 
+          if (currentSubId === subId && currentStdDivId === stdDivId) {
+            count++;
+          }
+        }
+      }
+    }
+    return count;
+  }
+  //
 
 
   return (
@@ -254,14 +403,24 @@ const TeacherTimetable = () => {
                     {/* Loopable content */}
                     {TimeTableList?.map((item, i) => (
                       item.Text1 === 'Total Lectures' ?
-                        <TableRow key={i}>
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
-                          <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
+                        // <TableRow key={i}>
+                        //   <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
+                        //   <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                        //   <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
+                        //   <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
+                        //   <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
+                        //   <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
 
+                        // </TableRow>
+                        <TableRow>
+                          {Object.keys(trackTeacherTimetable).length > 0 && <>
+                            <FooterStyledCell>{'Total Lectures'}</FooterStyledCell>
+                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && MonCount}</FooterStyledCell>
+                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && TueCount}</FooterStyledCell>
+                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && WedCount}</FooterStyledCell>
+                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && ThuCount}</FooterStyledCell>
+                            <FooterStyledCell>{ApplicablesToggleData.length > 0 && FriCount}</FooterStyledCell>
+                          </>}
                         </TableRow>
                         :
                         <TableRow key={i}>
@@ -311,18 +470,67 @@ const TeacherTimetable = () => {
                     </TableHead>
                     <TableBody>
                       {/* Loopable content */}
-                      {LectureCountsForTeachers?.map((item, i) => (
-                        item.Text2 === 'Total Weekly Lectures' ?
-                          <TableRow>
-                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                            <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
-                          </TableRow>
-                          :
-                          <TableRow>
-                            <StyledCell>{item.Text2}</StyledCell>
-                            <StyledCell>{item.Text3}</StyledCell>
-                          </TableRow>
-                      ))}
+                      {LectureCountsForTeachers?.map((item, i) => {
+                        // Determine the value of Text3 based on the flags and item.Text2
+                        let displayText3;
+                        const [mptCount, staybackCount, assemblyCount, weeklytestCount] = ExtLectCount?.split('-');
+                        switch (item.Text2) {
+                          case 'Assembly':
+                            displayText3 = assembly ? item.Text3 : '0';
+                            break;
+                          case 'M.P.T.':
+                            displayText3 = mpt ? item.Text3 : '0';
+                            break;
+                          case 'Stay Back':
+                            displayText3 = stayback ? item.Text3 : '0';
+                            break;
+                          case 'Weekly Tests':
+                            displayText3 = weeklytest ? item.Text3 : '0';
+                            break;
+                          default:
+                            displayText3 = item.Text3; // Default to Text3 for any other cases
+                            break;
+                        }
+                        function countNonZeroPatterns() {
+                          let count = 0;
+
+                          for (const key in trackTeacherTimetable) {
+                            if (trackTeacherTimetable.hasOwnProperty(key)) {
+                              const value = trackTeacherTimetable[key];
+                              const parts = value?.split('-'); // Split the string by '-'
+
+                              // Check if all parts except LecNo are non-zero (assuming LecNo is the last part)
+                              const allNonZero = parts.slice(0, -1).every(part => part !== '0');
+
+                              if (allNonZero) {
+                                count++;
+                              }
+                            }
+                          }
+
+                          return count;
+                        }
+
+                        return (
+                          item.Text2 === 'Total Weekly Lectures' ? (
+                            <TableRow key={i}>
+                              <FooterStyledCell sx={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: item.Text2 }} />
+                              <FooterStyledCell sx={{ textAlign: 'center' }}>{countNonZeroPatterns() + (mpt && Number(mptCount)) + (stayback && Number(staybackCount)) + (weeklytest && Number(weeklytestCount)) + (assembly && Number(assemblyCount))}</FooterStyledCell>
+                            </TableRow>
+                          ) : !['Assembly', 'M.P.T.', 'Stay Back', 'Weekly Tests'].includes(item.Text2) ? (
+                            <TableRow key={i}>
+                              <StyledCell1 sx={{ textAlign: 'left' }} >{item.Text2}</StyledCell1>
+                              <StyledCell1 sx={{ textAlign: 'center' }} >{countSubIdOccurrences(item.Text5, item.Text4)}</StyledCell1>
+                            </TableRow>
+                          ) : (
+                            <TableRow key={i}>
+                              <StyledCell1 sx={{ textAlign: 'left' }} >{item.Text2}</StyledCell1>
+                              <StyledCell1 sx={{ textAlign: 'center' }} >{displayText3}</StyledCell1>
+                            </TableRow>
+                          )
+                        )
+                      })}
+
 
                     </TableBody>
                   </Table>
