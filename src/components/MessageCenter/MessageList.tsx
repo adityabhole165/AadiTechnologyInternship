@@ -506,9 +506,25 @@ const MessageList = () => {
       aiUserId: sessionStorage.getItem('Id'),
       aiDraftId: ID
     };
-    if (confirm('Are you sure you want to delete this record?')) {
-      dispatch(getDeleteDraftMessage(DeleteDraftBody));
-    }
+    // if (confirm('Are you sure you want to delete this record?')) {
+    //   dispatch(getDeleteDraftMessage(DeleteDraftBody));
+    // }
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete this record?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(getDeleteDraftMessage(DeleteDraftBody));
+
+        closeAlert();
+      }
+    });
   };
 
   useEffect(() => {
