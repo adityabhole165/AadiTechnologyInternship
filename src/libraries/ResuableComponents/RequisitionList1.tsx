@@ -1,3 +1,4 @@
+import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -55,7 +56,7 @@ function RequisitionList1({
                                     }}>
                                         <b>{item.Header}</b>
                                         {item.SortOrder !== null && item.Id !== 3 ?
-                                            item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                            item.SortOrder === "desc" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
                                             : null
                                         }
                                     </div>
