@@ -63,6 +63,17 @@ const StudentBaseScreen = () => {
     const Loading = useSelector((state: RootState) => state.Students.Loading);
 
     useEffect(() => {
+        if (StdDivList.length > 2) {
+            // setSelectedClass(StdDivList[1]?.Id)
+            const value = StdDivList[1];
+            setSelectedClass(value.Id);
+            setDivId(value.DivisionId);
+            setStandardId(value.StandardId);
+            setStdDivId(value.SchoolStdDivId);
+        }
+    }, [StdDivList])
+
+    useEffect(() => {
         const IGetStdDivList: IGetStandardDivisionOfTeacherBody = {
             "asSchoolId": Number(schoolId),
             "asAcademic_Year_Id": Number(academicYearId),
@@ -262,7 +273,7 @@ const StudentBaseScreen = () => {
                                         </TableHead>
                                         <TableBody>
                                             {StudentsList.map((item, i) => (
-                                                <TableRow key={i} sx={{ backgroundColor: item.Text10 !== '0' && item.Text7 === '' ? '#dbeafe' : item.Text11 !== 'N' ? '#e2e8f0' : 'inherit' }} >
+                                                <TableRow key={i} sx={{ backgroundColor: (item.Text10 !== '0' && item.Text7 === '') ? '#dbeafe' : item.Text11 !== 'N' ? '#e2e8f0' : 'inherit' }} >
                                                     <TableCell sx={{ pt: '5px', pb: '5px', color: item.Text7 !== '' ? red[500] : '', fontWeight: item.Text10 !== '0' && item.Text7 === '' ? 700 : 'inherit' }}>
                                                         {item.Text3}
                                                     </TableCell>
