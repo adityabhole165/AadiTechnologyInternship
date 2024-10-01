@@ -265,7 +265,7 @@ const LibraryBaseScreen = () => {
 
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant='h4' pb={1} color={'#38548A'}> Books Details </Typography>
-                <TableBook books={bookData} />
+                <TableBook data={bookData} />
 
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
                     <Typography
