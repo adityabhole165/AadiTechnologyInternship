@@ -13,6 +13,8 @@ import {
 import { red } from '@mui/material/colors';
 import React, { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 
 type BookDataType = {
     bookTitle: string;
@@ -45,28 +47,48 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
             <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                 <TableHead>
                     <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
-                        <TableCell sx={{color:'white', py:1.5}}>
+                        <TableCell sx={{ color: 'white', py: 1.5 }}>
                             <TableSortLabel
                                 active={true}
                                 direction={orderDirection}
                                 onClick={handleSortRequest}
+                                IconComponent={orderDirection === "asc" ? ArrowCircleUpIcon : ArrowCircleDownIcon}
+                                sx={{
+                                    color: 'white', // Set the text color to white
+                                    '&:hover': {
+                                        color: 'white !important', // Ensure text stays white on hover
+                                        '& .MuiTableSortLabel-icon': {
+                                            color: 'white !important' // Ensure icon stays white on hover
+                                        }
+                                    },
+                                    '&.Mui-active': {
+                                        color: 'white', // Ensure active state text color is white
+                                        '& .MuiTableSortLabel-icon': {
+                                            color: 'white' // Ensure active state icon color is white
+                                        }
+                                    },
+                                    '& .MuiTableSortLabel-icon': {
+                                        color: 'white' // Set icon color to white
+                                    }
+                                }}
                             >
                                 Book Title
                             </TableSortLabel>
                         </TableCell>
-                        <TableCell sx={{color:'white', py:1.5, pl:4}}>Date</TableCell>
-                        <TableCell sx={{color:'white', py:1.5,  textAlign:'center',}}>Cancel</TableCell>
+                        <TableCell sx={{ color: 'white', py: 1.5, pl: 4 }}>Date</TableCell>
+                        <TableCell sx={{ color: 'white', py: 1.5, textAlign: 'center' }}>Cancel</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {sortedData.map((book, index) => (
                         <TableRow key={index}>
-                            <TableCell sx={{  textTransform: 'capitalize', textAlign:'left', py:0.5}}>{book.bookTitle}</TableCell>
-                            <TableCell sx={{ textTransform: 'capitalize', textAlign:'left', py:0.5}}>{book.date}</TableCell>
-                            <TableCell sx={{
-                                textTransform: 'capitalize',textAlign:'center',
-                                opacity: 1, py: 0.5
-                            }}
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>{book.bookTitle}</TableCell>
+                            <TableCell sx={{ textTransform: 'capitalize', textAlign: 'left', py: 0.5 }}>{book.date}</TableCell>
+                            <TableCell
+                                sx={{
+                                    textTransform: 'capitalize', textAlign: 'center',
+                                    opacity: 1, py: 0.5
+                                }}
                                 align="center"
                             >
                                 <IconButton
@@ -77,11 +99,8 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                                             backgroundColor: red[100]
                                         }
                                     }}
-
-                                    // onClick={() => clickDelete(item.Id, item.Text2, item.Text3)}
-
                                 >
-                                    <Tooltip title="Delete" >
+                                    <Tooltip title="Delete">
                                         <DeleteForeverIcon />
                                     </Tooltip>
                                 </IconButton>

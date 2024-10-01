@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
   Link,
   Box
 } from '@mui/material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 interface Book {
   Book_Id: string;
@@ -25,12 +34,36 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState<keyof Book>('Book_Title');
 
+  // Pagination state
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5); // Default rows per page
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const handleSortRequest = (property: keyof Book) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setRowsPerPage(Number(event.target.value));
+    setCurrentPage(1); // Reset to the first page when changing rows per page
+  };
+
+  const handlePageChange = (value: number) => {
+    setCurrentPage(value);
+  };
+
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  // Get the paginated data
+  const paginatedData = [...data].slice(startIndex, endIndex);
+
+  // Calculate the total number of pages
+  const pageCount = Math.ceil(data.length / rowsPerPage);
+
+  // Sorting the data
   const sortedData = [...data].sort((a, b) => {
     if (a[orderBy] && b[orderBy]) {
       return (order === 'asc' ? 1 : -1) * (a[orderBy] > b[orderBy] ? 1 : -1);
@@ -39,72 +72,71 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
   });
 
   return (
-    <TableContainer component={Box}>
-      <Table aria-label="book table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-        <TableHead>
-          <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-          <TableCell  sx={{ color: 'white', textAlign: 'left', py:0 }}>Accession No</TableCell>
-            <TableCell sortDirection={orderBy === 'Book_Title' ? order : false}>
-              <TableSortLabel
-                active={orderBy === 'Book_Title'}
-                direction={orderBy === 'Book_Title' ? order : 'asc'}
-                onClick={() => handleSortRequest('Book_Title')}
-                sx={{ color: 'white', textAlign: 'left', py:0 }}
-              >
-                Book Title
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sortDirection={orderBy === 'Author_Name' ? order : false}>
-              <TableSortLabel
-                active={orderBy === 'Author_Name'}
-                direction={orderBy === 'Author_Name' ? order : 'asc'}
-                onClick={() => handleSortRequest('Author_Name')}
-                sx={{ color: 'white', textAlign: 'left', py:0}}>
-                Author
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sortDirection={orderBy === 'Published_By' ? order : false}>
-              <TableSortLabel
-                active={orderBy === 'Published_By'}
-                direction={orderBy === 'Published_By' ? order : 'asc'}
-                onClick={() => handleSortRequest('Published_By')}
-                sx={{ color: 'white', textAlign: 'left', py:0 }}>
-                Publisher
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ color: 'white', textAlign: 'left', py:0 }}>Standards</TableCell>
-            <TableCell sortDirection={orderBy === 'Language' ? order : false}>
-              <TableSortLabel
-                active={orderBy === 'Language'}
-                direction={orderBy === 'Language' ? order : 'asc'}
-                onClick={() => handleSortRequest('Language')}
-                sx={{ color: 'white', textAlign: 'left', py:0 }}>
-                Language
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ color: 'white', textAlign: 'left', py:0 }}>Available Books</TableCell>
-            <TableCell sx={{ color: 'white', textAlign: 'left', py:0 }}>Total</TableCell>
-            <TableCell sx={{ color: 'white', textAlign: 'left', py:0 }}>Claim</TableCell>
-            
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedData.map((row) => (
-            <TableRow key={row.Book_Id}>
-                <TableCell>{row.Book_No}</TableCell>
-              <TableCell>{row.Book_Title}</TableCell>
-              <TableCell>{row.Author_Name}</TableCell>
-              <TableCell>{row.Published_By}</TableCell>
-              <TableCell>{row.Category_Name}</TableCell>
-              <TableCell>{row.Language}</TableCell>
-              <TableCell>{row.Available_Books}</TableCell>
-              <TableCell>1</TableCell>
-              <TableCell sx={{py:0}}><Link href="#">Claim</Link> </TableCell>
+    <>
+      <TableContainer>
+        <Table aria-label="book table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
+          <TableHead>
+            <TableRow sx={{ background: (theme) => theme.palette.secondary.main }}>
+              <TableCell sx={{ color: 'white', textAlign: 'left', py: 0 }}>Accession No</TableCell>
+              {['Book_Title', 'Author_Name', 'Published_By', 'Language'].map((field) => (
+                <TableCell key={field} sortDirection={orderBy === field ? order : false}>
+                  <TableSortLabel
+                    active={orderBy === field}
+                    direction={orderBy === field ? order : 'asc'}
+                    onClick={() => handleSortRequest(field as keyof Book)}
+                    sx={{ 
+                      color: 'white', 
+                      textAlign: 'left', 
+                      py: 0, 
+                      '& .MuiTableSortLabel-icon': { 
+                        color: 'white' // Ensure the icon color is white
+                      }
+                    }}
+                    IconComponent={order === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
+                    // Set the color to white when clicked (active)
+                    sx={{ 
+                      color: (orderBy === field ? 'white !important' : 'white'), 
+                      '& .MuiTableSortLabel-icon': { 
+                        color: (orderBy === field ? 'white !important' : 'white ')
+                      }
+                    }}
+                  >
+                    {field.replace('_', ' ')}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
+              <TableCell sx={{ color: 'white', textAlign: 'left', py: 0 }}>Standards</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'left', py: 0 }}>Available Books</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'left', py: 0 }}>Total</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'left', py: 0 }}>Claim</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {sortedData.map((row) => (
+              <TableRow key={row.Book_Id}>
+                <TableCell>{row.Book_No}</TableCell>
+                <TableCell>{row.Book_Title}</TableCell>
+                <TableCell>{row.Author_Name}</TableCell>
+                <TableCell>{row.Published_By}</TableCell>
+                <TableCell>{row.Category_Name}</TableCell>
+                <TableCell>{row.Language}</TableCell>
+                <TableCell>{row.Available_Books}</TableCell>
+                <TableCell>1</TableCell>
+                <TableCell sx={{ py: 0 }}><Link href="#">Claim</Link></TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* Add the pagination component here */}
+      <ButtonGroupComponent
+        ChangeRowsPerPage={handleChangeRowsPerPage}
+        rowsPerPageOptions={[5, 10, 25]} // Set your options
+        rowsPerPage={rowsPerPage}
+        PageChange={handlePageChange}
+        pagecount={pageCount}
+      />
+    </>
   );
 };
 
