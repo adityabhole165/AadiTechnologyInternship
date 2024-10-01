@@ -218,7 +218,7 @@ function ResizableCommentsBox({
                     <IconButton
                       onClick={() => NoteClick(item.Id, j)}
                       variant="caption"
-                      sx={{mt:-3, ml:0}}
+                      sx={{mt:0, ml:0}}
                       >
                       <MoreVertIcon />
                     </IconButton>
