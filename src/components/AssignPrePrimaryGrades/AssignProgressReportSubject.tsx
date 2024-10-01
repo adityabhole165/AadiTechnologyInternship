@@ -212,7 +212,7 @@ const AssignProgressReportSubject = () => {
             return;
         } else if (emptySubmissionRows.length === NonXseedStudentswithObs.length) {
             // toast.warning("Empty Submission not Allowed. ")
-            setEmptySubmission('Empty submission not allowed. ')
+            setEmptySubmission('Fields should not be blank.')
         } else {
             dispatch(CDASaveNonXseedSubGrades(SaveNonXseedGradesBody))
         }
