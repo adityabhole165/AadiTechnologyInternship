@@ -115,6 +115,8 @@ const TeacherTimetable = () => {
   }
 
   function isStaybackLecture(weekDay, lectureNo) {
+    console.log(StayBackInfo)
+    console.log(weekDay, lectureNo)
     let isPresent = StayBackInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
     isPresent !== undefined ? true : false;
     return isPresent;
@@ -262,6 +264,21 @@ const TeacherTimetable = () => {
     return count;
   }
   //
+
+  function hadExternalLecLabel(dayName, lecNumber) {
+    let lecNo = lecNumber.split(' ')[1];
+    if (isMPTLecture(dayName, lecNo)) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">M.P.T</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isAssemblyLecture(dayName, lecNo)) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Assembly</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isWeeklyTestLecture(dayName, lecNo)) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Weekly Test</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isStaybackLecture(dayName, lecNo)) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Stayback</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else {
+      return ''
+    }
+  }
 
 
   return (
@@ -425,11 +442,11 @@ const TeacherTimetable = () => {
                         :
                         <TableRow key={i}>
                           <StyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text4 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text5 }} />
-                          <StyledCell dangerouslySetInnerHTML={{ __html: item.Text6 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Monday', item.Text1) !== '' ? hadExternalLecLabel('Monday', item.Text1) : item.Text2 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Tuesday', item.Text1) !== '' ? hadExternalLecLabel('Tuesday', item.Text1) : item.Text3 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Wednesday', item.Text1) !== '' ? hadExternalLecLabel('Wednesday', item.Text1) : item.Text4 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Thursday', item.Text1) !== '' ? hadExternalLecLabel('Thursday', item.Text1) : item.Text5 }} />
+                          <StyledCell dangerouslySetInnerHTML={{ __html: hadExternalLecLabel('Friday', item.Text1) !== '' ? hadExternalLecLabel('Friday', item.Text1) : item.Text6 }} />
                         </TableRow>
                     ))}
                     {/* <TableRow>
