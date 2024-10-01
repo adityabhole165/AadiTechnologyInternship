@@ -13,6 +13,7 @@ import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import SchoolNoticeHeader from '../SchoolNoticeHeader';
 
+
 function Schoolnotice() {
   const theme = useTheme();
   const classes = Styles();
@@ -150,8 +151,7 @@ function Schoolnotice() {
           downloadNotice={downloadNotice}
           clickSingle={clickSingle}
         /> */}
-
-        {GetAllActiveNotices.length > 0 && ( // Check if there are any active notices
+        {GetAllActiveNotices.length > 0 && (
           <CardNotice
             itemList={Data1}
             downloadNotice={downloadNotice}

@@ -58,5 +58,6 @@ export interface IGetSchoolSettingsResult {
         EnableHomeworkMySubjectListView: string;
         EnableAssignExamMarksToAllSubjectOfClass: string;
         StudentAbsentCount: string;
+        Location: string;
     }
 }

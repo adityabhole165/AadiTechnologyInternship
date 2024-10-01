@@ -1,6 +1,5 @@
-import { EditTwoTone } from '@mui/icons-material';
+import { ArrowCircleDown, EditTwoTone } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box, IconButton, Link, Tooltip, Typography } from '@mui/material';
@@ -86,7 +85,7 @@ function SchoolNoticeList({
                                             <Box sx={{ display: 'flex', gap: 0.5 }}>
                                                 <b>{item.Header}</b>
                                                 {item.SortOrder !== null && item.Id !== 7 && item.Id !== 8 && item.Id !== 9 ?
-                                                    item.SortOrder === "desc" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                    item.SortOrder === "desc" ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
                                                     : null
                                                 }
                                             </Box>

@@ -1,5 +1,5 @@
+import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { Box } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
@@ -101,7 +101,7 @@ function RemarkList({
                     <b>{item.Header}</b>
                     {item.SortOrder !== undefined ?
                       item.SortOrder === "desc" ?
-                        <ArrowDropDownCircleIcon /> :
+                        <ArrowCircleDown /> :
                         <ArrowCircleUpIcon /> :
                       null
                     }
