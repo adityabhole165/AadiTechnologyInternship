@@ -13,6 +13,8 @@ import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import CommonPageHeader from '../CommonPageHeader';
 
+
+
 function Schoolnotice() {
     const theme = useTheme();
     const classes = Styles();
@@ -147,12 +149,13 @@ function Schoolnotice() {
 
             <Box sx={{ background: 'white', p: 2 }}>
 
-
-                <CardNotice
-                    itemList={Data1}
-                    downloadNotice={downloadNotice}
-                    clickSingle={clickSingle}
-                />
+                {GetAllActiveNotices.length > 0 && (
+                    <CardNotice
+                        itemList={Data1}
+                        downloadNotice={downloadNotice}
+                        clickSingle={clickSingle}
+                    />
+                )}
 
                 {sessionStorage.getItem('Id') === null && (
                     <BackButton FromRoute={'/schoolList'} />
