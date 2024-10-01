@@ -1,5 +1,4 @@
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import EditOffIcon from '@mui/icons-material/EditOff';
@@ -21,6 +20,7 @@ import {
     Typography,
 } from '@mui/material';
 import { red } from '@mui/material/colors';
+import { ArrowCircleDown } from '@mui/icons-material';
 
 function StudentwiseProgressreportList({
     ItemList,
@@ -69,7 +69,7 @@ function StudentwiseProgressreportList({
                                         {item.SortOrder !== undefined &&
                                             (item.SortOrder === "Roll_No" ?
                                                 <ArrowCircleUpIcon sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} /> :
-                                                <ArrowDropDownCircleIcon sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} />
+                                                <ArrowCircleDown sx={{ ml: 1, color: '#ffffff', verticalAlign: 'middle' }} />
                                             )}
                                     </TableCell>
                                 ))}
@@ -91,7 +91,7 @@ function StudentwiseProgressreportList({
                                         {item.EditStatus === "1" ? (
                                             <Tooltip title="Marks entry not started">
                                                 <EditOffIcon
-                                                    onClick={() => clickEdit(item.StandardId,item.Id)}
+                                                    onClick={() => clickEdit(item.StandardId, item.Id)}
                                                     sx={{
                                                         color: '#f44336',
                                                         '&:hover': {
@@ -103,7 +103,7 @@ function StudentwiseProgressreportList({
                                         ) : item.EditStatus === "2" ? (
                                             <Tooltip title="Marks entry partially done">
                                                 <DesignServicesIcon
-                                                    onClick={() => clickEdit(item.StandardId,item.Id)}
+                                                    onClick={() => clickEdit(item.StandardId, item.Id)}
                                                     sx={{
                                                         color: '#ff9800',
                                                         '&:hover': {
@@ -116,7 +116,7 @@ function StudentwiseProgressreportList({
                                             item.EditStatus === "3" ? (
                                                 <Tooltip title='Marks entry completed'>
                                                     <EventAvailableIcon style={{ color: '#25e67b', cursor: 'pointer' }}
-                                                        onClick={() => clickEdit(item.StandardId,item.Id)}
+                                                        onClick={() => clickEdit(item.StandardId, item.Id)}
                                                         sx={{
                                                             color: '#ff9800',
                                                             '&:hover': {
@@ -128,23 +128,23 @@ function StudentwiseProgressreportList({
                                         }
                                     </TableCell>
                                     <TableCell sx={{ textTransform: 'capitalize', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', py: 0.5, minWidth: 40, maxWidth: 100 }}>
-                                        {item.EditStatus == "1"  || Publishstatus == 'Y' ?
+                                        {item.EditStatus == "1" || Publishstatus == 'Y' ?
 
-                                               <span></span>
-                                            :  <Tooltip title="Delete">
-                                            <DeleteForeverIcon
-                                                onClick={() => clickDelete(item.Id)}
-                                                sx={{
-                                                    color: '#223354',
-                                                    //  backgroundColor: grey[500],
-                                                    '&:hover': {
-                                                        color: 'red',
-                                                        backgroundColor: red[100]
-                                                    }
-                                                }}
+                                            <span></span>
+                                            : <Tooltip title="Delete">
+                                                <DeleteForeverIcon
+                                                    onClick={() => clickDelete(item.Id)}
+                                                    sx={{
+                                                        color: '#223354',
+                                                        //  backgroundColor: grey[500],
+                                                        '&:hover': {
+                                                            color: 'red',
+                                                            backgroundColor: red[100]
+                                                        }
+                                                    }}
 
-                                            />
-                                        </Tooltip> 
+                                                />
+                                            </Tooltip>
 
                                         }
 

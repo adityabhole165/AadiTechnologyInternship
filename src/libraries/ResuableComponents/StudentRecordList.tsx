@@ -1,5 +1,5 @@
+import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Tooltip, Typography } from '@mui/material';
@@ -63,7 +63,7 @@ function StudentRecordList({
                                             <div style={{ display: 'flex', gap: 1, justifyContent: (item.Id === 1 || item.Id === 2 || item.Id === 3) ? 'left' : (item.Id === 4 || item.Header.includes('Remark Template')) ? 'left' : 'center' }}>
                                                 <b>{item.Header}</b>
                                                 {i < 4 && item.SortOrder !== null && (
-                                                    item.SortOrder === "DESC" ? <ArrowDropDownCircleIcon /> : <ArrowCircleUpIcon />
+                                                    item.SortOrder === "DESC" ? <ArrowCircleDown /> : <ArrowCircleUpIcon />
                                                 )}
                                             </div>
                                         </TableCell>
