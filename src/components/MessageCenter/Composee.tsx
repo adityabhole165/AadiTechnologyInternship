@@ -1050,7 +1050,7 @@ function Form13() {
                     arrow
                     open={Sopen}
                     title={NoteSchedule}
-                    placement="left"
+                    placement="right"
                     componentsProps={{
                       tooltip: {
                         sx: {
