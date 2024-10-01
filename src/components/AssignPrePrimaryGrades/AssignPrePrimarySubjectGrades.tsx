@@ -29,6 +29,7 @@ const AssignPrePrimarySubjectGrades = () => {
     const ListLearningOutcomeDetails: any = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISListLearningOutcomeDetails);
     const ListObservationDetails: any = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISListObsDetails);
     const InsertStudentGradesMsg: any = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISInsertStudentGradesMsg);
+    const Loading = useSelector((state: RootState) => state.AssignPrePrimaryGrades.Loading);
     // useState() | Hooks
     const [student, setStudent] = useState('0')
     const [subjectSection, setSubjectSection] = useState('0')
@@ -249,10 +250,10 @@ const AssignPrePrimarySubjectGrades = () => {
                 <Typography variant="body1" sx={{ textAlign: 'center', marginBottom: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', mt: 2 }}>
                     <b>Results for this assessment has been published. You need to unpublish the assessment to update the grades.</b>
                 </Typography>}
-            {student !== '0' && subjectSection !== '0' && ListLearningOutcomeDetails.length === 0 &&
+            {/* {student !== '0' && subjectSection !== '0' && ListLearningOutcomeDetails.length === 0 &&
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                     <b>No record found.</b>
-                </Typography>}
+                </Typography>} */}
             {student !== '0' && subjectSection !== '0' && ListLearningOutcomeDetails.length > 0 &&
                 <Box sx={{ background: 'white', p: 2, mt: 2 }}>
                     <TableContainer component={Box} >

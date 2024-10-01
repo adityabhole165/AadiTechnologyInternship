@@ -25,7 +25,8 @@ const AssignProgressReportSubject = () => {
     const dispatch = useDispatch();
     const GradesList = useSelector((state: RootState) => state.AssignPrePrimaryGrades.listGradesDetails);
     const StudentList = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISGetNonXseedStudentsName);
-    const SaveNonXseedMsg = useSelector((state: RootState) => state.AssignPrePrimaryGrades.IGetSaveNonXseedSubGradesMsg)
+    const SaveNonXseedMsg = useSelector((state: RootState) => state.AssignPrePrimaryGrades.IGetSaveNonXseedSubGradesMsg);
+    const Loading = useSelector((state: RootState) => state.AssignPrePrimaryGrades.Loading);
 
     // const { EditStatusId, ClassName, Assesment, SubjectName, SubjectId, SelectTerm, StandardDivisionId, selectTeacher } = useParams();
     const location = useLocation();
@@ -309,9 +310,11 @@ const AssignProgressReportSubject = () => {
                         <b>Results for this assessment has been published. You need to unpublish the assessment to update the grades.</b>
                     </Typography>}
                 {NonXseedStudentswithObs.length === 0 ?
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                        <b>No record found.</b>
-                    </Typography> :
+                    // <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                    //     <b>No record found.</b>
+                    // </Typography>
+                    <span></span>
+                    :
                     <Box sx={{ background: 'white', p: 2 }}>
                         {emptySubmission !== '' && <Box mb={1}>
                             <div style={{ color: 'red', fontWeight: 'bolder' }}>{emptySubmission}</div>

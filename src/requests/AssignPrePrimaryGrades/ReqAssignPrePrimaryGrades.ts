@@ -301,6 +301,7 @@ export const CDAGetTeacherXseedSubjects =
 export const CDAXseedStudentsdata =
   (data: IGetXseedStudentsInfoBody): AppThunk =>
     async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
       const response = await ApiAssignPrePrimaryGrades.GetXseedStudentsDataApi(data);
       const XseedGradeDropdownList = response.data.listGradesDetails.map((item, i) => {
         return (
@@ -340,6 +341,7 @@ export const CDAXseedStudentsdata =
 export const CDAGetStudentsForNonXseedSubjects =
   (data: IGetGetStudentsForNonXseedSubjects): AppThunk =>
     async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
       const response = await ApiAssignPrePrimaryGrades.GetStudentsForNonXseedSubjects(
         data
       );
@@ -365,6 +367,7 @@ export const CDAGetStudentsForNonXseedSubjects =
 export const CDASubmitExamMarksStatus =
   (data: ISubmitExamMarksStatusBody): AppThunk =>
     async (dispatch) => {
+      dispatch(AssignPrePrimaryGradesSlice.actions.getLoading(true));
       const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(
         data
       );
