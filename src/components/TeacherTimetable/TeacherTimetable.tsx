@@ -115,8 +115,6 @@ const TeacherTimetable = () => {
   }
 
   function isStaybackLecture(weekDay, lectureNo) {
-    console.log(StayBackInfo)
-    console.log(weekDay, lectureNo)
     let isPresent = StayBackInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
     isPresent !== undefined ? true : false;
     return isPresent;
@@ -271,10 +269,10 @@ const TeacherTimetable = () => {
       return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">M.P.T</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
     } else if (isAssemblyLecture(dayName, lecNo)) {
       return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Assembly</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
-    } else if (isWeeklyTestLecture(dayName, lecNo)) {
-      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Weekly Test</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
     } else if (isStaybackLecture(dayName, lecNo)) {
       return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Stayback</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
+    } else if (isWeeklyTestLecture(dayName, lecNo)) {
+      return `<b><font color=\"#017df6\" face=\"Verdana\" size=\"2\">Weekly Test</font></b><br/><font color=\"#000000\" face=\"Verdana\" size=\"1\">`
     } else {
       return ''
     }
