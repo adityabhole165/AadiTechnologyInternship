@@ -35,6 +35,7 @@ const AssignProgressReportSubject = () => {
     const [grades, setGrades] = useState({});
     const [observations, setObservations] = useState({});
     const [observationError, setObservationError] = useState('');
+    const [emptySubmission, setEmptySubmission] = useState('');
 
     useEffect(() => {
         dispatch(GetStudentsForStdDevMasters(GetStudentsForStdDevMastersBody));
@@ -176,6 +177,7 @@ const AssignProgressReportSubject = () => {
 
     const SaveNonXseedGrades = () => {
         setObservationError('');
+        setEmptySubmission('');
         const emptyObservationRows = Object.keys(grades).filter(studentId => {
             const gradeParts = grades[studentId]?.split('-');
             return grades[studentId] !== "0-0-0" &&
@@ -208,7 +210,8 @@ const AssignProgressReportSubject = () => {
             setObservationError(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`)
             return;
         } else if (emptySubmissionRows.length === NonXseedStudentswithObs.length) {
-            toast.warning("Empty Submission not Allowed. ")
+            // toast.warning("Empty Submission not Allowed. ")
+            setEmptySubmission('Empty Submission not Allowed. ')
         } else {
             dispatch(CDASaveNonXseedSubGrades(SaveNonXseedGradesBody))
         }
@@ -310,6 +313,10 @@ const AssignProgressReportSubject = () => {
                         <b>No record found.</b>
                     </Typography> :
                     <Box sx={{ background: 'white', p: 2 }}>
+                        {emptySubmission !== '' && <Box mb={1}>
+                            <div style={{ color: 'red', fontWeight: 'bolder' }}>{emptySubmission}</div>
+                        </Box>
+                        }
                         {observationError !== '' && <Box mb={1}>
                             <div style={{ color: 'red', fontWeight: 'bolder' }}>{observationError}</div>
                         </Box>}
