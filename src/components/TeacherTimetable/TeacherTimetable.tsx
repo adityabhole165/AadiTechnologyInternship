@@ -4,7 +4,9 @@ import { blue, grey } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { IGetDataForAdditionalClassesBody, IGetLectureCountsForTeachersBody, IGetTeacherTimeTableBody } from "src/interfaces/Teacher/ITeacherTimeTable"
+import { IGetTimeTableForTeacherBody } from "src/interfaces/WeeklyTimeTable/IWeeklyTimetable"
 import { GetDataForAdditionalClasses, GetLectureCountsForTeachers, GetTeacherTimeTableResult } from "src/requests/Teacher/TMtimetable"
+import { CDAGetLectureNoWeekday } from "src/requests/WeeklyTimeTable/RequestWeeklyTimeTable"
 import { RootState } from "src/store"
 import CommonPageHeader from "../CommonPageHeader"
 
@@ -44,6 +46,7 @@ const TeacherTimetable = () => {
   const ApplicablesData = useSelector((state: RootState) => state.TMTimetable.ISApplicables);
   const LectureCountsForTeachers = useSelector((state: RootState) => state.TMTimetable.ISGetLectureCountsForTeachers);
   const AdditionalClasses = useSelector((state: RootState) => state.TMTimetable.ISGetDataForAdditionalClasses);
+  const TimetableDetails = useSelector((state: RootState) => state.WeeklyTimetable.ISTimetableDetails);
 
   useEffect(() => {
     const TeacherTimetableBody: IGetTeacherTimeTableBody = {
@@ -51,7 +54,13 @@ const TeacherTimetable = () => {
       asAcademicYearID: Number(sessionStorage.getItem('AcademicYearId')),
       asTeacher_Id: Number(sessionStorage.getItem('TeacherId'))
     }
+    const WeekDayTeacherBody: IGetTimeTableForTeacherBody = {
+      asSchoolId: Number(localStorage.getItem('SchoolId')),
+      asAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+      asTeacherID: Number(sessionStorage.getItem('TeacherId')),
+    }
     dispatch(GetTeacherTimeTableResult(TeacherTimetableBody))
+    dispatch(CDAGetLectureNoWeekday(WeekDayTeacherBody));
     console.log(TimeTableList)
   }, [])
 
@@ -245,7 +254,7 @@ const TeacherTimetable = () => {
                     {/* Loopable content */}
                     {TimeTableList?.map((item, i) => (
                       item.Text1 === 'Total Lectures' ?
-                        <TableRow>
+                        <TableRow key={i}>
                           <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
                           <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
                           <FooterStyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
@@ -255,7 +264,7 @@ const TeacherTimetable = () => {
 
                         </TableRow>
                         :
-                        <TableRow>
+                        <TableRow key={i}>
                           <StyledCell dangerouslySetInnerHTML={{ __html: item.Text1 }} />
                           <StyledCell dangerouslySetInnerHTML={{ __html: item.Text2 }} />
                           <StyledCell dangerouslySetInnerHTML={{ __html: item.Text3 }} />
@@ -345,12 +354,13 @@ const TeacherTimetable = () => {
                       </TableHead>
                       <TableBody>
                         {/* Loopable content */}
-                        {AdditionalClasses.map((item, i) => (
+                        {TimetableDetails.map((item, i) => (
                           <TableRow>
-                            <StyledCell>{item.Text1}</StyledCell>
-                            <StyledCell>{item.Text2}</StyledCell>
-                            <StyledCell>{item.Text3}</StyledCell>
-                            <StyledCell>{item.Text4}</StyledCell>
+                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '10px', paddingBottom: '10px' }}>{item.Text2}</TableCell>
+                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>{item.Text1}</TableCell>
+                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>{item.Text4}</TableCell>
+                            <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '10px', paddingBottom: '10px', textAlign: 'left' }}>{item.Text3}</TableCell>
+
                           </TableRow>
                         ))}
 
