@@ -216,9 +216,9 @@ export const CDAGetRemarksCategory =
       let RemarksCategoryList = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         RemarksCategoryList.push({
-          Id: item.SortOrder,
+          Id: item.Id,
           Name: item.Name,
-          Value: item.SortOrder
+          Value: item.Id
         });
       });
 

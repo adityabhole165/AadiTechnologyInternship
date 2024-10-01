@@ -328,7 +328,7 @@ const ProgressRemarks = () => {
     asFilter: '',
     asAcadmicYearId: asAcademicYearId,
     asMarksGradesConfigurationDetailsId: SelectGrade,
-    asStandardId: getStdDivisionId()
+    asStandardId: getStandardId()
   }
 
   const StudentListDropDowntBody: IStudentListDropDowntBody = {
