@@ -255,45 +255,45 @@ function Card7({
                   </Tooltip>
                 )}{' '}
 
-                {RoleId !== '3' && (
-                  <>
-                    {!IsSender && (
-                      // <Button
-                      //   onClick={() => {
-                      //     saveMessageBody('ReplyAll');
-                      //   }}
-                      //   sx={{
-                      //     color: '#38548A',
-                      //     '&:hover': {
-                      //       color: '#38548A',
-                      //       backgroundColor: blue[100]
-                      //     }
-                      //   }}
-                      // >
-                      //   {' '}
-                      //   Reply All
-                      // </Button>
-                      <Tooltip title={`Reply To All`}>
-                        <IconButton
-                          onClick={() => {
-                            saveMessageBody('ReplyAll');
-                          }}
-                          sx={{
-                            color: 'white',
-                            mr: 1,
-                            backgroundColor: blue[500],
-                            '&:hover': {
-                              backgroundColor: blue[600]
-                            }
-                          }}>
-                          {' '}
-                          <ReplyAllIcon />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-
-                  </>
+                {/* {RoleId !== '3' && (
+                  <> */}
+                {(
+                  // <Button
+                  //   onClick={() => {
+                  //     saveMessageBody('ReplyAll');
+                  //   }}
+                  //   sx={{
+                  //     color: '#38548A',
+                  //     '&:hover': {
+                  //       color: '#38548A',
+                  //       backgroundColor: blue[100]
+                  //     }
+                  //   }}
+                  // >
+                  //   {' '}
+                  //   Reply All
+                  // </Button>
+                  <Tooltip title={`Reply To All`}>
+                    <IconButton
+                      onClick={() => {
+                        saveMessageBody('ReplyAll');
+                      }}
+                      sx={{
+                        color: 'white',
+                        mr: 1,
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
+                      }}>
+                      {' '}
+                      <ReplyAllIcon />
+                    </IconButton>
+                  </Tooltip>
                 )}
+
+                {/* </>
+                )} */}
                 {FromRoute === 'Draft' ? (
                   // <Button
                   //   onClick={() => {
