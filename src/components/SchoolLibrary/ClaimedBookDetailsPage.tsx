@@ -7,21 +7,33 @@ import BookTable from './BookTable';
 const bookData = [
     {
         bookTitle: "Animal Farm",
+        userName:"	Mrs. Aditee Karan Gawade",
+        class :"-",
+        designation:"Asst. Teacher - P",
         date: "27 Sep 2024",
         action: "Submit"
     },
     {
         bookTitle: "Chattering Forest",
+        userName:"	Mr. Krupal Bharat Bhattad",
+        class :"-",
+        designation:"Asst. Teacher - P",
         date: "27 Sep 2024",
         action: "Submit"
     },
     {
         bookTitle: "Read aloud tales Ancient Tales- How Parvati became Durga & other stories",
+        userName:"	Mr. Krupal Bharat Bhattad",
+        class :"-",
+        designation:"Asst. Teacher - P",
         date: "28 Sep 2024",
         action: "Submit"
     },
     {
         bookTitle: "Read aloud tales of Chattrapati Shivaji - The great Warrior & other stories",
+        userName:"	Mrs. Aditee Karan Gawade",
+        class :"-",
+        designation:"Asst. Teacher - P",
         date: "28 Sep 2024",
         action: "Submit"
     }
@@ -97,7 +109,8 @@ const ClaimedBookDetailsPage = () => {
                     </Box>
                 }
             />
-            <Box sx={{ backgroundColor: 'white', p: 2 }}> <BookTable data={bookData} /></Box>
+            <Box sx={{ backgroundColor: 'white', p: 2 }}> 
+                <BookTable data={bookData} /></Box>
         </Box>
     )
 }
