@@ -61,7 +61,7 @@ function CardMessage({
   };
 
   let IsReadColor =
-    ActiveTab == 'Inbox' && IsRead == 'N'
+    ((ActiveTab == 'Inbox' || ActiveTab == 'Trash') && IsRead == 'N')
       ? 'blue'
       : ActiveTab == 'Sent' && IsSchedule
         ? 'blue'
