@@ -284,24 +284,28 @@ const ViewLeaveDetails = () => {
                 </IconButton>
             </Tooltip>
             <Box>
-                <Tooltip title={'Reject'}>
-                    <span>
-                        <IconButton
-                            disabled={(GetViewLeave.length > 0 &&
-                                GetViewLeave[0].Text6 != '')}
-                            sx={{
-                                backgroundColor: red[500],
-                                color: 'white',
-                                '&:hover': {
-                                    backgroundColor: red[600]
-                                }
-                            }}
-                            onClick={onClickReject}
-                        >
-                            <PersonRemove />
-                        </IconButton>
-                    </span>
-                </Tooltip>
+                {getApproveRRBtnShow() && getLeaveId && (
+                    <>
+                        <Tooltip title={'Reject'}>
+                            <span>
+                                <IconButton
+                                    disabled={(GetViewLeave.length > 0 &&
+                                        GetViewLeave[0].Text6 != '')}
+                                    sx={{
+                                        backgroundColor: red[500],
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: red[600]
+                                        }
+                                    }}
+                                    onClick={onClickReject}
+                                >
+                                    <PersonRemove />
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                    </>)}
+
             </Box>
             {getApproveRRBtnShow() && getLeaveId && (
                 <>
