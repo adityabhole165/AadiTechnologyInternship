@@ -4,7 +4,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ReplyAllIcon from '@mui/icons-material/ReplyAll';
 import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
-import { blue, green, grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -172,7 +172,7 @@ function Card7({
           > */}
 
                 <Box>
-                  <Tooltip title={`View detailed message received to you. To reply the sender click on "Reply" and to sent reply to all the receipients click on "Reply To All".`}>
+                  <Tooltip title={`View detailed message received to you. To reply the sender click on "Reply" and to send reply to all the receipients click on "Reply To All".`}>
                     <IconButton
                       sx={{
                         color: 'white',
@@ -235,12 +235,20 @@ function Card7({
                       onClick={() => {
                         saveMessageBody('Reply');
                       }}
+                      // sx={{
+                      //   color: 'white',
+                      //   mr: 1,
+                      //   backgroundColor: green[500],
+                      //   height: '36px !important',
+                      //   ':hover': { backgroundColor: green[600] }
+                      // }}>
                       sx={{
                         color: 'white',
                         mr: 1,
-                        backgroundColor: green[500],
-                        height: '36px !important',
-                        ':hover': { backgroundColor: green[600] }
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600]
+                        }
                       }}>
                       <ReplyIcon />
                     </IconButton>
@@ -273,9 +281,10 @@ function Card7({
                           sx={{
                             color: 'white',
                             mr: 1,
-                            backgroundColor: green[500],
-                            height: '36px !important',
-                            ':hover': { backgroundColor: green[600] }
+                            backgroundColor: blue[500],
+                            '&:hover': {
+                              backgroundColor: blue[600]
+                            }
                           }}>
                           {' '}
                           <ReplyAllIcon />
