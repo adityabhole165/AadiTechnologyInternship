@@ -455,7 +455,10 @@ const ViewLeaveDetails = () => {
                             value={Description}
                             onChange={(e) => setDescription(e.target.value)}
                             fullWidth
-                            disabled
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        // disabled
                         // error={DescriptionError != ''}
                         // helperText={DescriptionError}
                         />
@@ -468,8 +471,11 @@ const ViewLeaveDetails = () => {
                                 label={<>
                                     Remark <span style={{ color: 'red' }}>*</span>
                                 </>}
-                                disabled={(GetViewLeave.length > 0 &&
-                                    GetViewLeave[0].Text6 != '')}
+                                // disabled={(GetViewLeave.length > 0 &&
+                                //     GetViewLeave[0].Text6 != '')}
+                                InputProps={{
+                                    readOnly: GetViewLeave.length > 0 && GetViewLeave[0].Text6 !== '',
+                                }}
                                 multiline
                                 rows={3}
                                 value={Remark}
