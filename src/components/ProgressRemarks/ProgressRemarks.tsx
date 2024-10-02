@@ -47,6 +47,7 @@ import ProgressRemarksNotes from './ProgressRemarksNotes';
 import { getSchoolConfigurations } from '../Common/Util';
 
 import { AlertContext } from 'src/contexts/AlertContext';
+import { string } from 'prop-types';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -77,7 +78,6 @@ const ProgressRemarks = () => {
  const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
-  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -179,6 +179,16 @@ const ProgressRemarks = () => {
   const maxRemarkLength = USGetConfiguredMaxRemarkLength?.MaxRemarkLength;
 
 
+  const StdDivisionId = () => {
+    let returnVal = "0";
+    USClassTeachers.forEach((Item) => {
+      if (Item.Value && Item.Value !== "0") {
+        returnVal = Item.Value; 
+      }
+    });
+    return returnVal;
+  };
+  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId ? StandardDivisionId : StdDivisionId());
   
   
   useEffect(() => {
