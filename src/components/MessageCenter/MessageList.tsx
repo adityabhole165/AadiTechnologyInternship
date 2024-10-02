@@ -628,9 +628,12 @@ const MessageList = () => {
                 sx={{
                   textAlign: 'center',
                   height: '85px',
-                  backgroundColor: '#38548A',
+                  backgroundColor: 'white',
                   mb: '10px',
-                  borderRadius: '15px'
+                  borderRadius: '15px',
+                  '&:hover':{
+                     backgroundColor: blue[100]
+                  }
                 }}
               >
                 <RouterLink
@@ -640,11 +643,11 @@ const MessageList = () => {
                 >
                   <AddCircleIcon
                     onClick={clickClear}
-                    sx={{ mt: '10px', color: 'white' }}
+                    sx={{ mt: '10px', color: '#38548A' }}
                     className={classes.IconSize}
                   />
                   <br />
-                  <b style={{ color: 'white' }}>Compose</b>
+                  <b style={{ color: '#38548A' }}>Compose</b>
                 </RouterLink>
               </Card>
             </Hidden>
