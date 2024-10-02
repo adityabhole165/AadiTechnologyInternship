@@ -273,7 +273,7 @@ function Card7({
                       //   {' '}
                       //   Reply All
                       // </Button>
-                      <Tooltip title={`Reply All`}>
+                      <Tooltip title={`Reply To All`}>
                         <IconButton
                           onClick={() => {
                             saveMessageBody('ReplyAll');
