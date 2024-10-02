@@ -46,7 +46,7 @@ export const CDAGetStandardDivisionOfTeacher =
                     DivisionId: item.division_Id,
                 })
             })
-            responseData.unshift({ Id: '0', Name: 'Select class', Value: '0', SchoolStdDivId: '0', StandardId: '0', DivisionId: '0' });
+            // responseData.unshift({ Id: '0', Name: 'Select class', Value: '0', SchoolStdDivId: '0', StandardId: '0', DivisionId: '0' });
             dispatch(StudentsSlice.actions.RGetStdDivForTeacher(responseData));
         };
 

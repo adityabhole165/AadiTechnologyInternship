@@ -23,7 +23,6 @@ import { red } from "@mui/material/colors";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IGetStandardDivisionOfTeacherBody, IGetStudentsListBody } from "src/interfaces/Students/IStudents";
-import SuspenseLoader from "src/layouts/components/SuspenseLoader";
 import ButtonGroupComponent from "src/libraries/ResuableComponents/ButtonGroupComponent";
 import SearchableDropdown1 from "src/libraries/ResuableComponents/SearchableDropdown1";
 import { CDAGetStandardDivisionOfTeacher, CDAGetStudentsList } from "src/requests/Students/RequestStudents";
@@ -63,9 +62,9 @@ const StudentBaseScreen = () => {
     const Loading = useSelector((state: RootState) => state.Students.Loading);
 
     useEffect(() => {
-        if (StdDivList.length > 2) {
+        if (StdDivList.length > 1) {
             // setSelectedClass(StdDivList[1]?.Id)
-            const value = StdDivList[1];
+            const value = StdDivList[0];
             setSelectedClass(value.Id);
             setDivId(value.DivisionId);
             setStandardId(value.StandardId);
@@ -106,8 +105,8 @@ const StudentBaseScreen = () => {
     }, [StudentsList]);
 
     useEffect(() => {
-        if (StdDivList.length === 2) {
-            let value = StdDivList[1];
+        if (StdDivList.length === 1) {
+            let value = StdDivList[0];
             setSelectedClass(value.Id);
             setDivId(value.DivisionId);
             setStandardId(value.StandardId);
@@ -195,8 +194,8 @@ const StudentBaseScreen = () => {
                 ]}
                 rightActions={
                     <>
-                        {StdDivList.length === 2 ?
-                            <TextField size="small" label="Class" value={StdDivList[1]?.Name} inputProps={{ readOnly: true, }} />
+                        {StdDivList.length === 1 ?
+                            <TextField size="small" label="Class" value={StdDivList[0]?.Name} inputProps={{ readOnly: true, }} />
                             :
                             <SearchableDropdown1 size={"small"} ItemList={StdDivList}
                                 sx={{ minWidth: '12vw' }}
@@ -235,7 +234,7 @@ const StudentBaseScreen = () => {
             </Box>
             {selectedClass !== '0' &&
                 <>
-                    {Loading && <SuspenseLoader />}
+                    {/* {Loading && <SuspenseLoader />} */}
                     {StudentsList.length > 0 ?
                         <>
                             <Box sx={{ background: 'white', pt: 1 }}>
