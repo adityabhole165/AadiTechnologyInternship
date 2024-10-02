@@ -63,9 +63,11 @@ import {
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 import { PersonOff } from '@mui/icons-material';
+import { IGetAllowedPagesForUserBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
+import { getAllowedPagesForUser } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -120,11 +122,40 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
   const UserId = Number(localStorage.getItem('UserId'));
 
+  function getPageName(screenId) {
+    let filteredArray = ScreensAccessPermission?.filter(
+      (item) => item.ScreenId === screenId
+    );
+    return filteredArray[0]?.ScreenName.trim();
+  }
+
   const navigate = useNavigate();
 
   const IconClick = (title) => {
     setActiveItem(title);
   };
+
+  const AllowedPagesListForUser = useSelector(
+    (state: RootState) => state.getSchoolSettings.ISAllowedPagesForUser
+  );
+
+  //useEffect to call the allowed screens API for the current logged in user
+  useEffect(() => {
+    const AllowedPageApiBody: IGetAllowedPagesForUserBody = {
+      asSchoolId: Number(localStorage.getItem('SchoolId')),
+      asUserId: Number(sessionStorage.getItem('Id')),
+      asScreenLevel: null,
+      asConfigId: null
+    }
+    dispatch(getAllowedPagesForUser(AllowedPageApiBody))
+  }, [])
+
+  useEffect(() => {
+    if (AllowedPagesListForUser.length > 0 && sessionStorage.getItem('AllowedScreens') === null) {
+      let allowedScreens = JSON.stringify(AllowedPagesListForUser);
+      sessionStorage.setItem('AllowedScreens', allowedScreens);
+    }
+  }, [AllowedPagesListForUser])
 
   const ActionStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,
@@ -144,152 +175,176 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
   const buttonStyle = {};
 
-  const sideList = [
+  let sideList = [
     {
       id: 'Dashboard',
       title: ' Dashboard',
       icon: <DashboardCustomizeOutlinedIcon />,
-      link: '/extended-sidebar/landing/landing'
+      link: '/extended-sidebar/landing/landing',
+      screenId: 0
     },
     {
       id: 'Calendar',
       title: 'Exam Shedule',
       icon: <Dataset />,
-      link: '/extended-sidebar/Teacher/Texamschedule'
+      link: '/extended-sidebar/Teacher/Texamschedule',
+      screenId: 0
     },
     {
       id: 'Calendar',
-      title: 'Holidays',
+      title: getPageName(14),
       icon: <DateRangeOutlinedIcon />,
-      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays'
+      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+      screenId: 14
     },
     {
       id: 'Calendar',
-      title: 'Annual Planner',
+      title: getPageName(62),
       icon: <EventOutlinedIcon />,
-      link: '/extended-sidebar/Common/AnnualPlanner'
+      link: '/extended-sidebar/Common/AnnualPlanner',
+      screenId: 62
     },
     {
       id: 'Exam',
-      title: 'Assign Exam Marks',
+      title: getPageName(74),
       icon: <RuleIcon />,
-      link: '/extended-sidebar/Teacher/AssignExamMark'
+      link: '/extended-sidebar/Teacher/AssignExamMark',
+      screenId: 74
     },
     {
       id: 'Daily Activities',
-      title: 'Attendance',
+      title: getPageName(77),
       icon: <EventNoteOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/TAttendance'
+      link: '/extended-sidebar/Teacher/TAttendance',
+      screenId: 77
     },
     {
       id: 'Daily Activities',
-      title: 'Assign Homework',
+      title: getPageName(201),
       icon: <AutoStoriesTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AssignHomework'
+      link: '/extended-sidebar/Teacher/AssignHomework',
+      screenId: 201
     },
     {
       id: 'Daily Activities',
       title: 'Timetable',
       icon: <AccessTimeIcon />,
-      link: '/extended-sidebar/Teacher/TeacherTimeTable'
+      link: '/extended-sidebar/Teacher/TeacherTimeTable',
+      screenId: 0
     },
     {
       id: 'Daily Activities',
-      title: 'Weekly Timetable',
+      title: getPageName(59),
       icon: <TableChartOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/WeeklyTimetable'
+      link: '/extended-sidebar/Teacher/WeeklyTimetable',
+      screenId: 59
     },
     {
       id: 'Other Utilities',
       title: 'Change Password',
       icon: <LockResetTwoToneIcon />,
-      link: '/extended-sidebar/common/changePassword'
+      link: '/extended-sidebar/common/changePassword',
+      screenId: 0
     },
     {
       id: 'Exam',
-      title: 'Exam Result',
+      title: getPageName(78),
       icon: <TableChart />,
-      link: '/extended-sidebar/Teacher/ExamResultBase'
+      link: '/extended-sidebar/Teacher/ExamResultBase',
+      screenId: 78
     },
 
     {
       id: 'Exam',
-      title: 'Final Result',
+      title: getPageName(80),
       icon: <FactCheck />,
-      link: '/extended-sidebar/Teacher/FinalResult'
+      link: '/extended-sidebar/Teacher/FinalResult',
+      screenId: 80
     },
     {
       id: 'Communication',
       title: 'Message Center',
       icon: <ForwardToInboxTwoToneIcon />,
-      link: '/extended-sidebar/MessageCenter/msgCenter'
+      link: '/extended-sidebar/MessageCenter/msgCenter',
+      screenId: 0
     },
     {
       id: 'Exam',
-      title: 'Progress Remarks',
+      title: getPageName(266),
       icon: <InsertCommentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/ProgressRemarks'
+      link: '/extended-sidebar/Teacher/ProgressRemarks',
+      screenId: 266
     },
 
     {
       id: 'Exam',
-      title: 'Progress Report',
+      title: getPageName(79),
       icon: <AssessmentOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/ProgressReportNew'
+      link: '/extended-sidebar/Teacher/ProgressReportNew',
+      screenId: 79
     },
     {
       id: 'Other Utilities',
       title: 'Requisition',
       icon: <AddShoppingCartTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/Requisition'
+      link: '/extended-sidebar/Teacher/Requisition',
+      screenId: 0
     },
     {
       id: 'Communication',
-      title: 'SMS Center',
+      title: getPageName(81),
       icon: <SmsTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/SmsCenter'
+      link: '/extended-sidebar/Teacher/SmsCenter',
+      screenId: 81
     },
     {
       id: 'Extra Screens',
       title: 'Add Aadhar Card Details',
       icon: <AddCardTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AadharCard'
+      link: '/extended-sidebar/Teacher/AadharCard',
+      screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Students',
       icon: <SwitchAccountIcon />,
-      link: '/extended-sidebar/Teacher/Students'
+      link: '/extended-sidebar/Teacher/Students',
+      screenId: 0
     },
     {
       id: 'Extra Screens',
       title: 'Investment Declaration',
       icon: <AssuredWorkloadTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/InvestmentDeclaration'
+      link: '/extended-sidebar/Teacher/InvestmentDeclaration',
+      screenId: 196
     },
     {
       id: 'Extra Screens',
       title: 'Leave Details',
       icon: <LibraryBooksTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LeaveDetails'
+      link: '/extended-sidebar/Teacher/LeaveDetails',
+      screenId: 0
     },
     {
       id: 'Extra Screens',
-      title: 'Lesson Plan',
+      title: getPageName(233),
       icon: <HistoryEduTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
+      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen',
+      screenId: 233
     },
     {
       id: 'Extra Screens',
       title: 'Performance Grade Assignment',
       icon: <AddchartIcon />,
-      link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen'
+      link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen',
+      screenId: 0
     },
     {
       id: 'Extra Screens',
-      title: 'Student Records',
+      title: getPageName(271),
       icon: <CoPresentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentRecords'
+      link: '/extended-sidebar/Teacher/StudentRecords',
+      screenId: 271
     },
 
   ];
@@ -307,7 +362,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'Missing Attendance',
       icon: <EventBusyTwoToneIcon />,
-      link: null // No link for this item
+      link: null,
+      screenId: 0
     });
   }
   if (LinkVisible == 'True' && Number(UsschoolSettings) > 0) {
@@ -315,7 +371,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'Absent Student Details',
       icon: <PersonOff />,
-      link: null
+      link: null,
+      screenId: 0
     });
   }
   if (asUserRoleId === '2' && GetScreenPermission() == "Y") {
@@ -323,7 +380,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen'
+      link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+      screenId: 0
     });
   }
   if (asUserRoleId === '2' && GetScreenPermission() == "N") {
@@ -331,7 +389,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Common/SchoolnoticeOwn'
+      link: '/extended-sidebar/Common/SchoolnoticeOwn',
+      screenId: 0
     });
   }
 
@@ -340,42 +399,47 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       id: 'Daily Activities',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Common/SchoolNotice'
+      link: '/extended-sidebar/Common/SchoolNotice',
+      screenId: 0
     });
   }
   // Conditionally insert the "Assign Pre-Primary Grades" item at the 4th position (index 3)
   if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
       id: 'Exam',
-      title: 'Assign Pre-Primary Grades',
+      title: getPageName(162),
       icon: <ReceiptTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades'
+      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades',
+      screenId: 162
     });
   }
   if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
       id: 'Exam',
-      title: 'Pre-Primary Progress Report',
+      title: getPageName(164),
       icon: <FactCheckTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/PreprimaryProgressReport'
+      link: '/extended-sidebar/Teacher/PreprimaryProgressReport',
+      screenId: 164
     });
   }
 
   if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
       id: 'Exam',
-      title: 'Pre-Primary Results',
+      title: getPageName(163),
       icon: <SchoolTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/PrePrimaryResult'
+      link: '/extended-sidebar/Teacher/PrePrimaryResult',
+      screenId: 163
     });
   }
 
   if (isPreprimary || !isPreprimary) {
     sideList.push({
       id: 'Exam',
-      title: 'Student Wise Progress Report',
+      title: getPageName(179),
       icon: <TableChartTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/StudentwiseProgressReport'
+      link: '/extended-sidebar/Teacher/StudentwiseProgressReport',
+      screenId: 179
     });
   }
 
@@ -463,6 +527,25 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   useEffect(() => {
     dispatch(MissingAttenNameAleart(MissingNameBody));
   }, []);
+  function removeCircularReferences() {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return; // Skip circular references
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  }
+
+  useEffect(() => {
+    if (sideList.length > 0 && sessionStorage.getItem('sideList') === null) {
+      sessionStorage.setItem('sideList', JSON.stringify(sideList, removeCircularReferences()));
+
+    }
+  }, [sideList]);
 
   useEffect(() => {
     if (hasMissingDays && !sessionStorage.getItem('hasShownMissingAttendancePopup')) {
@@ -472,14 +555,45 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       setMissingAttendanceDialog(false);
     }
   }, [hasMissingDays]);
+
+  function filt() {
+    let sd = sideList;
+    let allw = JSON.parse(sessionStorage.getItem('AllowedScreens'));
+    let finalArr = [];
+
+    sd.map((item, i) => {
+      if (item.screenId === 0) {
+        finalArr.push(item)
+        console.log(item)
+      } else {
+        let arr1 = allw?.filter((item1) => item1.screenId === String(item.screenId));
+        let arr2 = allw?.filter((item2) => item2.Configure_Name.includes(item.title));
+        if (arr1?.length > 0) {
+          finalArr.push(item)
+        } else if (arr2?.length > 0) {
+          finalArr.push(item)
+        }
+      }
+    })
+    console.log('final list >>>', finalArr)
+    return finalArr;
+  }
+
+
   //new impliment
+  // useEffect(() => {
+  //   if (sideList.length > 0) {
+  //     console.log('final list to follow', filt())
+  //     sideList = filt();
+  //   }
+  // }, [sideList])
   const groupedItems = {
-    "Daily Activities": sideList.filter(item => item.id === 'Daily Activities'),
-    "Communication": sideList.filter(item => item.id === 'Communication'),
-    "Exam": sideList.filter(item => item.id === 'Exam'),
-    "Calendar": sideList.filter(item => item.id === 'Calendar'),
-    "Other Utilities": sideList.filter(item => item.id === 'Other Utilities'),
-    "Extra Screens": sideList.filter(item => item.id === 'Extra Screens'),
+    "Daily Activities": filt().filter(item => item.id === 'Daily Activities'),
+    "Communication": filt().filter(item => item.id === 'Communication'),
+    "Exam": filt().filter(item => item.id === 'Exam'),
+    "Calendar": filt().filter(item => item.id === 'Calendar'),
+    "Other Utilities": filt().filter(item => item.id === 'Other Utilities'),
+    "Extra Screens": filt().filter(item => item.id === 'Extra Screens'),
 
   };
   const handleListItemClick1 = (event, link, anchor) => {
