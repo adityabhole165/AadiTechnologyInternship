@@ -82,6 +82,7 @@ function RemarkList({
             <TableRow
               sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
+              <TableCell></TableCell>
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}

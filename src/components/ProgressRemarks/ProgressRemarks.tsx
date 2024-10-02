@@ -102,8 +102,9 @@ const ProgressRemarks = () => {
 
 
   const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: '', SortOrder: "asc" },
-    { Id: 2, Header: 'Remark Template' },
+    { Id: 1, Header: 'Remark Template', SortOrder: "asc" },
+    // { Id: 2, Header: '', SortOrder: "asc" },
+
   ]);
   const [HeaderArray, setHeaderArray] = useState([]);
 
@@ -360,7 +361,7 @@ const ProgressRemarks = () => {
     asStandardDivId: getStdDivisionId(),
     asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
-    TeacherId:CanEdit == "Y" ? Number(selectTeacher) :Number(selectTeacher1),
+    TeacherId: CanEdit == "Y" ? Number(selectTeacher) : Number(selectTeacher1),
     asStartIndex: startIndex,
     asEndIndex: endIndex,
   };
@@ -406,7 +407,7 @@ const ProgressRemarks = () => {
       StudentwiseRemarkXML: getXML(),
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asInsertedById: CanEdit == "Y" ? Number(selectTeacher) :Number(selectTeacher1),
+      asInsertedById: CanEdit == "Y" ? Number(selectTeacher) : Number(selectTeacher1),
       asStandardDivId: getStdDivisionId(),
       asTermId: Number(SelectTerm)
     };
@@ -414,7 +415,7 @@ const ProgressRemarks = () => {
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody),
 
-    );[page, selectTeacher,selectTeacher1, SelectTerm]
+    );[page, selectTeacher, selectTeacher1, SelectTerm]
   };
 
   const TextChange1 = () => {
@@ -706,7 +707,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
-  }, [page, selectTeacher,selectTeacher1, SelectTerm, rowsPerPage]);
+  }, [page, selectTeacher, selectTeacher1, SelectTerm, rowsPerPage]);
 
 
   const Changevalue = (value) => {
@@ -775,14 +776,14 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
-  }, [SelectTerm, selectTeacher,selectTeacher1, getStandardId()]);
+  }, [SelectTerm, selectTeacher, selectTeacher1, getStandardId()]);
 
 
 
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [SelectTerm, selectTeacher , selectTeacher1]);
+  }, [SelectTerm, selectTeacher, selectTeacher1]);
 
   useEffect(() => {
     if (StudentList === '') {
@@ -790,7 +791,7 @@ const ProgressRemarks = () => {
     } else {
       dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
     }
-  }, [selectTeacher,selectTeacher1 ,SelectTerm, StudentList, page1, rowsPerPage]);
+  }, [selectTeacher, selectTeacher1, SelectTerm, StudentList, page1, rowsPerPage]);
 
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
@@ -843,7 +844,7 @@ const ProgressRemarks = () => {
 
 
           }
-          
+
 
 
           <SearchableDropdown
