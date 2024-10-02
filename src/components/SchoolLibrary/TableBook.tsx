@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import {
+  Link,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
-  Link,
-  Box
+  TableSortLabel
 } from '@mui/material';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import React, { useState } from 'react';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 interface Book {
@@ -84,19 +83,19 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                     active={orderBy === field}
                     direction={orderBy === field ? order : 'asc'}
                     onClick={() => handleSortRequest(field as keyof Book)}
-                    sx={{ 
-                      color: 'white', 
-                      textAlign: 'left', 
-                      py: 0, 
-                      '& .MuiTableSortLabel-icon': { 
-                        color: 'white' // Ensure the icon color is white
-                      }
-                    }}
+                    // sx={{ 
+                    //   color: 'white', 
+                    //   textAlign: 'left', 
+                    //   py: 0, 
+                    //   '& .MuiTableSortLabel-icon': { 
+                    //     color: 'white' // Ensure the icon color is white
+                    //   }
+                    // }}
                     IconComponent={order === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
                     // Set the color to white when clicked (active)
-                    sx={{ 
-                      color: (orderBy === field ? 'white !important' : 'white'), 
-                      '& .MuiTableSortLabel-icon': { 
+                    sx={{
+                      color: (orderBy === field ? 'white !important' : 'white'),
+                      '& .MuiTableSortLabel-icon': {
                         color: (orderBy === field ? 'white !important' : 'white ')
                       }
                     }}
