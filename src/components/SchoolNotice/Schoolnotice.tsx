@@ -132,7 +132,7 @@ function Schoolnotice() {
   };
 
   return (
-    <Box sx={{ px: 2 }}>
+    <Box sx={{ px: 4 }}>
       <SchoolNoticeHeader
         navLinks={[
           {
@@ -144,7 +144,7 @@ function Schoolnotice() {
       {/* <Typography variant="h3" pl={5.5} pt={2.4} mb={2} >
                    School Notice 
          </Typography> */}
-      <Box sx={{ background: 'white', p: 2 }}>
+      <Box sx={{ background: 'white', py:2}}>
 
         {/* <CardNotice
           itemList={Data1}

@@ -6,6 +6,7 @@ import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBo
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import BackButton from 'src/libraries/button/BackButton';
 import CardNotice from 'src/libraries/card/CardNotice';
+import CardNoticeOwn from 'src/libraries/card/CardNoticeOwn';
 import List1 from 'src/libraries/mainCard/List1';
 import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
@@ -149,12 +150,27 @@ function Schoolnotice() {
 
             <Box sx={{ background: 'white', p: 2 }}>
 
-                {GetAllActiveNotices.length > 0 && (
-                    <CardNotice
+                {/* {GetAllActiveNotices.length > 0 && (
+                    <CardNoticeOwn
                         itemList={Data1}
                         downloadNotice={downloadNotice}
                         clickSingle={clickSingle}
                     />
+                )} */}
+                {GetAllActiveNotices.length > 0 && (
+                    asSchoolId === '18' ? (
+                        <CardNotice
+                            itemList={Data1}
+                            downloadNotice={downloadNotice}
+                            clickSingle={clickSingle}
+                        />
+                    ) : (
+                        <CardNoticeOwn
+                            itemList={Data1}
+                            downloadNotice={downloadNotice}
+                            clickSingle={clickSingle}
+                        />
+                    )
                 )}
 
                 {sessionStorage.getItem('Id') === null && (
