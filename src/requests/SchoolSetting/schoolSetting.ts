@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import SchoolSettingApi from 'src/api/SchoolSetting';
 import {
   IGetAllAcademicYearForSchoolBody,
+  IGetAllowedPagesForUserBody,
   IGetScreensAccessPermissions,
   IGetSettingValueBody,
   IGetSettingValueByNameBody,
@@ -42,6 +43,8 @@ const SchoolSettingSlice = createSlice({
     ShowProgressReportGraphOnMobileApp: false,
     AllAcademicYears: [],
     getUserDetails: {},
+    // GetAllowedPagesForUserApi
+    ISAllowedPagesForUser: [],
     Loading: true
   },
   reducers: {
@@ -53,6 +56,10 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableHomeworkModuleForStudent(state, action) {
       state.EnableHomeworkModuleForStudentLogin = action.payload;
+    },
+    // GetAllowedPagesForUserApi
+    RAllowedPagesForUser(state, action) {
+      state.ISAllowedPagesForUser = action.payload;
     },
     getEnabledOnlineFee(state, action) {
       state.EnabledOnlineFee = action.payload;
@@ -139,7 +146,7 @@ const SchoolSettingSlice = createSlice({
     },
     GetUserDetails(state, action) {
       state.getUserDetails = action.payload.TeacherDetails;
-    
+
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -156,23 +163,31 @@ export const getAllAcademicYears =
           Id: item.Academic_Year_ID,
           Name: item.YearValue,
           Value: item.Academic_Year_ID,
-          Text1:item.School_Id,
-          Text2:item.Start_date,
-          Text3:item.End_Date,
-          Text4:item.School_Name
+          Text1: item.School_Id,
+          Text2: item.Start_date,
+          Text3: item.End_Date,
+          Text4: item.School_Name
         };
       });
 
       dispatch(SchoolSettingSlice.actions.GetAllAcademicYear(GetAllAcademicYears));
       console.log("abc", response)
     };
+
+// GetAllowedPagesForUserApi
+export const getAllowedPagesForUser =
+  (data: IGetAllowedPagesForUserBody): AppThunk =>
+    async (dispatch) => {
+      const response = await SchoolSettingApi.GetAllowedPagesForUserApi(data);
+      dispatch(SchoolSettingSlice.actions.RAllowedPagesForUser(response.data));
+    }
 export const getModulesPermission =
   (data: IgetModulesPermission): AppThunk =>
     async (dispatch) => {
       const response = await SchoolSettingApi.GetModulesPermissions(data);
       dispatch(SchoolSettingSlice.actions.getModulesPermission(response.data));
     };
-    export const getUserDetailss =
+export const getUserDetailss =
   (data: IGetUserDetailsBody): AppThunk =>
     async (dispatch) => {
       const response = await SchoolSettingApi.GetUserDetailApi(data);

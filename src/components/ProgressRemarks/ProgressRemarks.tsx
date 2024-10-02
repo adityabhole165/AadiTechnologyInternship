@@ -4,7 +4,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers/icons';
-import { useEffect, useState,useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -41,13 +41,12 @@ import {
   CDAresetSaveMassage
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
+import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import ProgressRemarkTerm from './ProgressRemarkTerm';
 import ProgressRemarksNotes from './ProgressRemarksNotes';
-import { getSchoolConfigurations } from '../Common/Util';
 
 import { AlertContext } from 'src/contexts/AlertContext';
-import { string } from 'prop-types';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -65,8 +64,8 @@ const ProgressRemarks = () => {
   const [StudentId, setStudentId] = useState([]);
   const [Remark, setRemark] = useState('')
   const [remarkTemplates, setRemarkTemplates] = useState([]);
-  console.log(remarkTemplates,"remarkTemplates");
-  
+  console.log(remarkTemplates, "remarkTemplates");
+
   const toggleScreens = () => { setShowScreenOne(!showScreenOne); };
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -75,7 +74,7 @@ const ProgressRemarks = () => {
   const rowsPerPageOptions = [20, 50, 100, 200];
   const { showAlert, closeAlert } = useContext(AlertContext);
   const { StandardDivisionId, TestId } = useParams();
- const startIndex = (page - 1) * rowsPerPage;
+  const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
 
@@ -93,10 +92,10 @@ const ProgressRemarks = () => {
   };
 
 
-  let CanEdit = getSchoolConfigurations(266) 
+  let CanEdit = getSchoolConfigurations(266)
 
-  console.log(CanEdit,"CanEdit");
-  
+  console.log(CanEdit, "CanEdit");
+
   // const determineInitialState = () => {
   //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
   // };
@@ -183,14 +182,19 @@ const ProgressRemarks = () => {
     let returnVal = "0";
     USClassTeachers.forEach((Item) => {
       if (Item.Value && Item.Value !== "0") {
-        returnVal = Item.Value; 
+        returnVal = Item.Value;
       }
     });
     return returnVal;
   };
-  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId ? StandardDivisionId : StdDivisionId());
-  
-  
+  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId);
+
+  const [selectTeacher1, SetselectTeacher1] = useState(StdDivisionId());
+
+  console.log(StandardDivisionId, "StandardDivisionId");
+  console.log(USClassTeachers, "USClassTeachers");
+
+
   useEffect(() => {
     let headerArray = [
       { Id: 1, Header: 'Roll No.' },
@@ -348,7 +352,7 @@ const ProgressRemarks = () => {
     asTerm_Id: SelectTerm
   };
 
- 
+
   const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsNewBody =
   {
     asSchoolId: asSchoolId,
@@ -356,7 +360,7 @@ const ProgressRemarks = () => {
     asStandardDivId: getStdDivisionId(),
     asStudentId: Number(StudentList),
     asTermId: Number(SelectTerm),
-    TeacherId: Number(selectTeacher),
+    TeacherId:CanEdit == "Y" ? Number(selectTeacher) :Number(selectTeacher1),
     asStartIndex: startIndex,
     asEndIndex: endIndex,
   };
@@ -374,8 +378,8 @@ const ProgressRemarks = () => {
   const getActiveTexts = () => {
     return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
   }
- 
-  
+
+
 
   const [ColIndex, SetColIndex] = useState([-1])
 
@@ -402,7 +406,7 @@ const ProgressRemarks = () => {
       StudentwiseRemarkXML: getXML(),
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asInsertedById: Number(selectTeacher),
+      asInsertedById: CanEdit == "Y" ? Number(selectTeacher) :Number(selectTeacher1),
       asStandardDivId: getStdDivisionId(),
       asTermId: Number(SelectTerm)
     };
@@ -410,7 +414,7 @@ const ProgressRemarks = () => {
     dispatch(
       CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody),
 
-    );[page, selectTeacher, SelectTerm]
+    );[page, selectTeacher,selectTeacher1, SelectTerm]
   };
 
   const TextChange1 = () => {
@@ -444,7 +448,7 @@ const ProgressRemarks = () => {
                 closeAlert();
               },
               onConfirm: () => {
-               
+
                 closeAlert();
               }
             });
@@ -496,10 +500,10 @@ const ProgressRemarks = () => {
 
   const SelectClick = () => {
 
-    if(getActiveTexts().length == 0 ) {
+    if (getActiveTexts().length == 0) {
       showAlert({
         title: 'Please Confirm',
-        message:  'At least one Remark Template should be selected.',
+        message: 'At least one Remark Template should be selected.',
         variant: 'warning',
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
@@ -507,7 +511,7 @@ const ProgressRemarks = () => {
           closeAlert();
         },
         onConfirm: () => {
-         
+
           closeAlert();
         }
       });
@@ -571,6 +575,29 @@ const ProgressRemarks = () => {
     }
   };
 
+
+  const clickSelectClass1 = (value) => {
+    if (selectTeacher != '') {
+      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?";
+      let confirmed = false
+      if (IsDirty) {
+        confirmed = window.confirm(confirmMessage);
+
+        if (confirmed) {
+          SetselectTeacher1(value);
+          setRowsPerPage(20)
+          setPage(1)
+        }
+      }
+      else
+        SetselectTeacher1(value);
+      setRowsPerPage(20)
+      setPage(1)
+
+    }
+  };
+
+
   const TextValues = (value) => {
     setIsDirty(true)
     setItemlist(value);
@@ -600,7 +627,7 @@ const ProgressRemarks = () => {
         closeAlert();
       },
       onConfirm: () => {
-        
+
         closeAlert();
       }
     });
@@ -679,7 +706,7 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
-  }, [page, selectTeacher, SelectTerm, rowsPerPage]);
+  }, [page, selectTeacher,selectTeacher1, SelectTerm, rowsPerPage]);
 
 
   const Changevalue = (value) => {
@@ -748,14 +775,14 @@ const ProgressRemarks = () => {
 
   useEffect(() => {
     dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
-  }, [SelectTerm,selectTeacher,getStandardId()]);
+  }, [SelectTerm, selectTeacher,selectTeacher1, getStandardId()]);
 
 
 
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [SelectTerm, selectTeacher]);
+  }, [SelectTerm, selectTeacher , selectTeacher1]);
 
   useEffect(() => {
     if (StudentList === '') {
@@ -763,7 +790,7 @@ const ProgressRemarks = () => {
     } else {
       dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
     }
-  }, [selectTeacher, SelectTerm, StudentList, page1, rowsPerPage]);
+  }, [selectTeacher,selectTeacher1 ,SelectTerm, StudentList, page1, rowsPerPage]);
 
   useEffect(() => {
     if (UpdateAllStudentsRemarkDetail != '') {
@@ -785,17 +812,38 @@ const ProgressRemarks = () => {
         ]}
         rightActions={<>
 
-          <SearchableDropdown
-            label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '20vw', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
-            ItemList={USClassTeachers}
-            onChange={clickSelectClass}
-            defaultValue={selectTeacher}
-            mandatory
-            size={"small"}
-           
-            disabled={CanEdit == 'N'}
-          />
+
+          {
+            CanEdit == "Y" ?
+
+              <SearchableDropdown
+                label={"Subject Teacher"}
+                sx={{ pl: 0, minWidth: '20vw' }}
+                ItemList={USClassTeachers}
+                onChange={clickSelectClass}
+                defaultValue={selectTeacher}
+                mandatory
+                size={"small"}
+
+
+              />
+              :
+              <SearchableDropdown
+                label={"Subject Teacher"}
+                sx={{ pl: 0, minWidth: '20vw', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
+                ItemList={USClassTeachers}
+                onChange={clickSelectClass1}
+                defaultValue={selectTeacher1}
+                mandatory
+                size={"small"}
+
+                disabled={CanEdit == 'N'}
+              />
+
+
+
+          }
+          
 
 
           <SearchableDropdown
@@ -877,88 +925,88 @@ const ProgressRemarks = () => {
       <Box >
         <ProgressRemarksNotes />
       </Box>
-      
-      <Box sx={{  mb: 2, mt:1 }}>
+
+      <Box sx={{ mb: 2, mt: 1 }}>
         <Box sx={{ background: 'white', mb: 1, p: 2 }}>
-        <Grid item xs={12}>
-          <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
-            <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
-            <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
-            <Box>Left Students</Box>
-          </Typography>
-        </Grid>
+          <Grid item xs={12}>
+            <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
+              <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
+              <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
+              <Box>Left Students</Box>
+            </Typography>
+          </Grid>
         </Box>
-        <Box sx={{ background: 'white', p:1 }}>
-        <Grid container spacing={2}>
-        
+        <Box sx={{ background: 'white', p: 1 }}>
+          <Grid container spacing={2}>
+
+            {
+              USGetAllStudentswiseRemarkDetails.length > 0 ? (
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center', pt: 2 }}>
+                    <Box component="span" fontWeight="fontWeightBold">
+                      {startRecord} to {endRecord}
+                    </Box>
+                    {' '}out of{' '}
+                    <Box component="span" fontWeight="fontWeightBold">
+                      {countArray[0]}
+                    </Box>{' '}
+                    {countArray[0] === 1 ? 'record' : 'records'}
+                  </Typography>
+                </div>
+
+              ) : (
+                <span></span>
+
+              )
+            }
+
+            <Grid item xs={12}>
+              <Paper>
+
+                {message && (
+                  <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
+                    {message}
+                  </Typography>
+
+                )}
+
+
+
+                {USGetAllStudentswiseRemarkDetails.length > 0 ? (
+                  <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm }}>
+                    <ResizableCommentsBox
+                      HeaderArray={HeaderArray}
+                      ItemList={Itemlist}
+                      NoteClick={ClickAppropriate}
+                      setTextValues={TextValues}
+                    />
+                  </ProgressRemarkTerm.Provider>
+                ) : (
+                  <span> </span>
+
+                )}
+
+
+
+              </Paper>
+            </Grid>
+
+          </Grid>
           {
-            USGetAllStudentswiseRemarkDetails.length > 0 ? (
-              <div style={{ flex: 1, textAlign: 'center' }}>
-                <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center', pt: 2 }}>
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {startRecord} to {endRecord}
-                  </Box>
-                  {' '}out of{' '}
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {countArray[0]}
-                  </Box>{' '}
-                  {countArray[0] === 1 ? 'record' : 'records'}
-                </Typography>
-              </div>
+            endRecord > 19 ? (
+              <ButtonGroupComponent
+                rowsPerPage={rowsPerPage}
+                ChangeRowsPerPage={ChangeRowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
+                PageChange={PageChange}
+                pagecount={pagecount}
+              />
 
             ) : (
               <span></span>
 
             )
           }
-
-          <Grid item xs={12}>
-            <Paper>
-
-              {message && (
-                <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
-                  {message}
-                </Typography>
-
-              )}
-
-
-          
-              {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm }}>
-                  <ResizableCommentsBox
-                    HeaderArray={HeaderArray}
-                    ItemList={Itemlist}
-                    NoteClick={ClickAppropriate}
-                    setTextValues={TextValues}
-                  />
-                </ProgressRemarkTerm.Provider>
-              ) : (
-                <span> </span>
-
-              )}
-
-
-
-            </Paper>
-          </Grid>
-
-        </Grid>
-        {
-          endRecord > 19 ? (
-            <ButtonGroupComponent
-              rowsPerPage={rowsPerPage}
-              ChangeRowsPerPage={ChangeRowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-              PageChange={PageChange}
-              pagecount={pagecount}
-            />
-
-          ) : (
-            <span></span>
-
-          )
-        }
         </Box>
       </Box>
 

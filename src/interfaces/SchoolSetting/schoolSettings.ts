@@ -125,3 +125,23 @@ export interface IGetUserDetailsResult {
   AdminStaffDetails: null
 
 }
+
+export interface IGetAllowedPagesForUserBody {
+  asSchoolId: number,
+  asUserId: number,
+  asScreenLevel: any,
+  asConfigId: any
+}
+
+export interface IGetAllowedPagesForUserResult {
+  Screen_Id: string,
+  Configure_Name: string,
+  NavigateURL: string,
+  Sort_Index: string,
+  Is_ViewAvailable: string,
+  CanEdit: string,
+  parent_Id: string,
+  Screen_Level: string,
+  ModuleId: string,
+  RowIndex: string
+}

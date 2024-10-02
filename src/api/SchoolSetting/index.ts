@@ -2,6 +2,8 @@ import {
   GetScreensAccessPermissions,
   IGetAllAcademicYearForSchoolBody,
   IGetAllAcademicYearForSchoolResult,
+  IGetAllowedPagesForUserBody,
+  IGetAllowedPagesForUserResult,
   IgetModulesPermission,
   IGetScreensAccessPermissions,
   IGetSettingValueBody,
@@ -44,6 +46,11 @@ const GetAllAcademicYearApi = (data: IGetAllAcademicYearForSchoolBody) => {
 const GetUserDetailApi = (data: IGetUserDetailsBody) => {
   return http.post<IGetUserDetailsResult>('User/GetUserDetails', data);
 };
+
+const GetAllowedPagesForUserApi = (data: IGetAllowedPagesForUserBody) => {
+  return http.post<IGetAllowedPagesForUserResult[]>('Teacher/GetAllowedPagesForUser', data);
+};
+
 const SchoolSettingApi = {
   GetSchoolSettings,
   GetModulesPermissions,
@@ -51,7 +58,8 @@ const SchoolSettingApi = {
   GetSettingValueapi,
   GetSettingValueByNameApi,
   GetAllAcademicYearApi,
-  GetUserDetailApi
+  GetUserDetailApi,
+  GetAllowedPagesForUserApi
 };
 
 export default SchoolSettingApi;
