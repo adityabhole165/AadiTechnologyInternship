@@ -94,9 +94,9 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                     IconComponent={order === 'asc' ? ArrowCircleUpIcon : ArrowCircleDownIcon}
                     // Set the color to white when clicked (active)
                     sx={{
-                      color: (orderBy === field ? 'white !important' : 'white'),
+                      color: (orderBy === field ? 'white !important' : 'white !important'),
                       '& .MuiTableSortLabel-icon': {
-                        color: (orderBy === field ? 'white !important' : 'white ')
+                        color: (orderBy === field ? 'white !important' : 'white !important')
                       }
                     }}
                   >
