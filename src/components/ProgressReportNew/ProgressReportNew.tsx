@@ -1,83 +1,35 @@
-import Download from '@mui/icons-material/Download';
+
+import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import SaveIcon from '@mui/icons-material/Save';
-import { Box, Button, DialogTitle, Grid, IconButton, Modal, Paper, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey, red } from '@mui/material/colors';
-import { ClearIcon } from '@mui/x-date-pickers/icons';
-import { useEffect, useState,useContext } from 'react';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import {
-  IAllPrimaryClassTeachersBody,
-  IGetAllGradesForStandardBody,
-  IGetAllStudentswiseRemarkDetailsNewBody,
-  IGetConfiguredMaxRemarkLengthBody,
-  IGetFinalPublishedExamStatusBody,
-  IGetRemarkTemplateDetailsBody,
-  IGetRemarksCategoryBody,
-  IGetTestwiseTermBody,
-  IStudentListDropDowntBody,
-  IStudentswiseRemarkDetailsToExportBody,
-  IUpdateAllStudentsRemarkDetailsBody
-} from 'src/interfaces/ProgressRemarks/IProgressRemarks';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import RemarkList from 'src/libraries/ResuableComponents/RemarkList';
-import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
+import { GetSchoolSettingsBody, IGetAllMarksGradeConfigurationBody, IGetClassTeachersBody, IGetPassedAcademicYearsBody, IGetStudentNameDropdownBody, IsGradingStandarBody, IsTestPublishedForStdDivBody, IsTestPublishedForStudentBody, IStudentProgressReportBody } from "src/interfaces/ProgressReport/IprogressReport";
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import GradeConfigurationList from 'src/libraries/ResuableComponents/GradeConfigurationList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import {
-  CDAGetAllStudentswiseRemarkDetails,
-  CDAGetClassTeachers,
-  CDAGetConfiguredMaxRemarkLength,
-  CDAGetFinalPublishedExamStatus,
-  CDAGetRemarkTemplateDetails,
-  CDAGetRemarksCategory,
-  CDAGetTestwiseTerm,
-  CDAGradeDropDown,
-  CDAResetStudentDropdown,
-  CDAStudentListDropDown,
-  CDAStudentswiseRemarkDetailsToExport,
-  CDAUpdateAllStudentsRemarkDetails,
-  CDAresetSaveMassage
-} from 'src/requests/ProgressRemarks/ReqProgressRemarks';
+import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import ProgressReportMarkView from './ProgressReportMarkView';
+import ProgressReportGradeView from './ProgressReportGradeView';
 
-import { getSchoolConfigurations } from '../Common/Util';
-
-import { AlertContext } from 'src/contexts/AlertContext';
-import { string } from 'prop-types';
-import ProgressRemarksNotes from '../ProgressRemarks/ProgressRemarksNotes';
-import ProgressRemarkTerm from '../ProgressRemarks/ProgressRemarkTerm';
-
-const ProgressRemarks = () => {
+const ProgressReportNew = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [SelectTerm, SetSelectTerm] = useState();
-  const [SelectGrade, SetSelectGrade] = useState();
-  const [page, setPage] = useState(1)
-  const [StudentList, SetStudentList] = useState('');
-  const [showScreenOne, setShowScreenOne] = useState(true);
-  const [open, setOpen] = useState(false);
-  const [Itemlist, setItemlist] = useState([]);
-  const [IsDirty, setIsDirty] = useState(false);
-  const [page1, setPage1] = useState(0);
-  const asStandardId = sessionStorage.getItem('StandardId');
-  const [StudentId, setStudentId] = useState([]);
-  const [Remark, setRemark] = useState('')
-  const [remarkTemplates, setRemarkTemplates] = useState([]);
-  console.log(remarkTemplates,"remarkTemplates");
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const TeacherIdsession = sessionStorage.getItem('TeacherId');
   
-  const toggleScreens = () => { setShowScreenOne(!showScreenOne); };
-  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const asUserId = Number(localStorage.getItem('UserId'));
-  const [rowsPerPage, setRowsPerPage] = useState(20);
-  const rowsPerPageOptions = [20, 50, 100, 200];
-  const { showAlert, closeAlert } = useContext(AlertContext);
-  const { StandardDivisionId, TestId } = useParams();
- const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
+  const asUserId = Number(sessionStorage.getItem('Id'));
+  const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+  
+
+  const [Error, SetError] = useState('');
+  const [StudentId, SetStudentId] = useState('');
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
 
 
   const ScreensAccessPermission = JSON.parse(
@@ -88,531 +40,106 @@ const ProgressRemarks = () => {
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
-      if (item.ScreenName === 'Progress Remarks') perm = item.IsFullAccess;
+      if (item.ScreenName === 'Progress Report') perm = item.IsFullAccess;
     });
     return perm;
   };
 
-
-  let CanEdit = getSchoolConfigurations(266) 
-
-  console.log(CanEdit,"CanEdit");
-  
-  // const determineInitialState = () => {
-  //   return GetScreenPermission() === 'Y' ? '0' : sessionStorage.getItem('StandardDivisionId') || '';
-  // };
+  const [selectTeacher, SetselectTeacher] = useState(GetScreenPermission() == 'N' ?  TeacherIdsession : '');
 
 
-  const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: '', SortOrder: "asc" },
-    { Id: 2, Header: 'Remark Template' },
-  ]);
-  const [HeaderArray, setHeaderArray] = useState([]);
-
-  const USGetTestwiseTerm: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
+  const USlistTestDetailsArr: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISlistTestDetailsArr
+  );
+  const USlistTestDetailsArr1: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISlistTestDetailsArr1
+  );
+  const USGetClassTeachers: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISGetClassTeachers
   );
 
-  const USClassTeachers: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGetClassTeachers
+  const USGetStudentNameDropdown: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISGetStudentNameDropdown
   );
 
-  const StudentswiseRemarkDetails: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISStudentswiseRemarkDetailsToExport
-  );
-  const StudentswiseRemarkDetails1: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISStudentswiseRemarkDetailsToExport1
-  );
-  const StudentswiseRemarkDetails2: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISStudentswiseRemarkDetailsToExport2
+  const USStudentProgressReport: any = useSelector(
+    (state: RootState) => state.ProgressReportNew.ISStudentProgressReport
   );
 
-  const UpdateAllStudentsRemarkDetail: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISUpdateAllStudentsRemarkDetailsBody
-  );
+  const USGetPassedAcademicYears: any = useSelector((state: RootState) => state.ProgressReportNew.ISGetPassedAcademicYears);
+  const USlistStudentsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistStudentsDetails);
+  const USlistSubjectsDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectsDetails);
+  const USlistTestDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistTestDetails);
+  const USlistSubjectIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISlistSubjectIdDetails);
+  const USListSchoolWiseTestNameDetail: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSchoolWiseTestNameDetail);
+  const USListSubjectidDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListSubjectidDetails);
+  const USListTestTypeIdDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListTestTypeIdDetails);
+  const USListMarkssDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListMarkssDetails);
+  const ListDisplayNameDetails: any = useSelector((state: RootState) => state.ProgressReportNew.ISListDisplayNameDetails);
+  const USGetAllMarksGradeConfiguration = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration);
+  const USGetAllMarksGradeConfiguration1 = useSelector((state: RootState) => state.ProgressReportNew.ISGetAllMarksGradeConfiguration1);
+  const Data = USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")
+  const Data1 = USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")
+  const Data3 = USlistSubjectIdDetails.filter((item) => item.SchoolWise_Test_Name !== "Total")
+  const legendText = 'Legend : * Subject marks not considered in total marks';
+  const formattedText = legendText.replace('*', '<span style="color: red;">*</span>');
+  const USIsGradingStandard: any = useSelector((state: RootState) => state.ProgressReportNew.IsGradingStandarBodyIS);
+  const USIsTestPublishedForStdDiv: any = useSelector((state: RootState) => state.ProgressReportNew.IsTestPublishedForStdDivBodyIS);
+  const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
+  const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
+  const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
+  const IsTotalConsiderForProgressReport = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport || '';
+  const MarkDetailsList: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList);
+  const HeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray);
+  const SubHeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray);
 
-  const USStudentListDropDown: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISStudentListDropDown
-  );
-  const GradeDropDown: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGradesForStandard
-  );
-
-  const USRemarksCategory: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGetRemarksCategoryList
-  );
-
-  const USRemarkTemplateDetails: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGetRemarkTemplateDetail
-  );
-
-  const USGetAllStudentsForProgressRemark: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentsForProgressRemark
-  );
-
-  const USGetFinalPublishedExamStatus: any = useSelector(
-    (state: RootState) => state.ProgressRemarkSlice.ISRGetFinalPublishedExamStatus
-  );
-
-  const USGetAllStudentswiseRemarkDetails: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails
-  );
-
-  const countArray = USGetAllStudentsForProgressRemark.map((item: any) => item.TotalRows);
+  console.log(IsTotalConsiderForProgressReport, "Total Consideration");
 
 
-  const USRemarkDetailsHeaderList: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISRemarkDetailsHeaderList
-  );
+  let headerArray = [
+    { Id: 1, Header: 'Percentage' },
+    { Id: 2, Header: 'Grade Name' },
+    { Id: 3, Header: 'Remarks' }
 
+  ]
 
-  const USGetConfiguredMaxRemarkLength: any = useSelector(
-    (state: RootState) =>
-      state.ProgressRemarkSlice.ISGetConfiguredMaxRemarkLength
-  );
-
-  const maxRemarkLength = USGetConfiguredMaxRemarkLength?.MaxRemarkLength;
-
-
-  const StdDivisionId = () => {
-    let returnVal = "0";
-    USClassTeachers.forEach((Item) => {
-      if (Item.Value && Item.Value !== "0") {
-        returnVal = Item.Value; 
+  const GetClassTeacher = () => {
+    let returnVal = false
+    USlistStudentsDetails.map((item) => {
+      if (item.Standard_Division_Id == selectTeacher) {
+        returnVal = item.Standard_Id
       }
-    });
-    return returnVal;
-  };
-  const [selectTeacher, SetselectTeacher] = useState(StandardDivisionId ? StandardDivisionId : StdDivisionId());
-  
-  
-  useEffect(() => {
-    let headerArray = [
-      { Id: 1, Header: 'Roll No.' },
-      { Id: 2, Header: 'Name' },
-      ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
-    ]
-    USRemarkDetailsHeaderList.map((Item, i) => {
-      headerArray.push({ Id: i + 3, Header: Item.RemarkName })
-    })
-    setHeaderArray(headerArray)
-  }, [USRemarkDetailsHeaderList])
-
-
-  const getXML = () => {
-    let sXML =
-      '<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-
-    Itemlist.forEach((Item) => {
-      Item.Remarks.forEach((remark) => {
-        sXML +=
-          '<StudentwiseRemarkConfigDetails>' +
-          '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
-          '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
-          '<Remark>' + remark.Text3 + '</Remark>' +
-          '<RemarkConfigId>' + remark.Text6 + '</RemarkConfigId>' +
-          '<RemarkMaster><RemarkConfigId>' + remark.Text6 + '</RemarkConfigId></RemarkMaster>' +
-          '<SalutationId>' + Item.Text8 + '</SalutationId>' +
-          '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
-          '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent>' +
-          '</StudentwiseRemarkConfigDetails>';
-      });
-    });
-
-    sXML += '</ArrayOfStudentwiseRemarkConfigDetails>';
-    return sXML;
-  };
-
-
-
-
-
-
-
-  // const getXML = () => {
-  //   let sXML =
-  //     '<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-  //   Itemlist.map((Item) => {
-  //     sXML =
-  //       sXML +
-  //       '<StudentwiseRemarkConfigDetails>' +
-  //       '<YearwiseStudentId>' + Item.Text11 + '</YearwiseStudentId>' +
-  //       '<StudentwiseRemarkId>' + Item.Text12 + '</StudentwiseRemarkId>' +
-  //       '<Remark>' + Item.Text3 + '</Remark>' +
-  //       '<RemarkConfigId>' + Item.Text7 + '</RemarkConfigId>' +
-  //       '<RemarkMaster><RemarkConfigId>' + Item.Text6 + '</RemarkConfigId></RemarkMaster>' +
-  //       '<SalutationId>' + Item.Text8 + '</SalutationId>' +
-  //       '<IsPassedAndPromoted>' + Item.Text9 + '</IsPassedAndPromoted>' +
-  //       '<IsLeftStudent>' + Item.Text10 + '</IsLeftStudent> ' +
-  //       '</StudentwiseRemarkConfigDetails>';
-  //   });
-  //   sXML = sXML + '</ArrayOfStudentwiseRemarkConfigDetails>';
-
-
-  //   return sXML;
-  // };
-
-
-
-  const getStdDivisionId = () => {
-    let returnVal = 0
-    USClassTeachers.map((Item) => {
-      if (Item.Value == selectTeacher)
-        returnVal = Number(Item.Id)
     })
     return returnVal
-  }
+  };
 
-  const getStandardId = () => {
+
+  const StandardDivisionId = () => {
     let returnVal = 0
-    USClassTeachers.map((Item) => {
-      if (Item.Value == selectTeacher)
-        returnVal = Item.asStandardId
+    USGetClassTeachers.map((item) => {
+      if (item.Value == item.NewValue) {
+        returnVal = item.Id
+      }
     })
     return returnVal
-  }
-
-
-  const RemarkCategoryBody: IGetRemarksCategoryBody = {
-    asSchoolId: asSchoolId,
-    asAcadmicYearId: asAcademicYearId
   };
 
-
-  const GetConfiguredMaxRemarkLengthBody: IGetConfiguredMaxRemarkLengthBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardId: getStandardId(),
-    asTermId: SelectTerm
-  };
-
-
-
-
-
-
-
-  const GetTestwiseTermBody: IGetTestwiseTermBody = {
-    asSchoolId: asSchoolId
-  };
-  const ClassTeachersBody: IAllPrimaryClassTeachersBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asUserId: Number(CanEdit == 'Y' ? 0 : asUserId
-    )
-  };
-
-  const ExportButton = () => {
-    const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
-    {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivId: getStdDivisionId(),
-      asStudentId: Number(StudentList),
-      asTermId: SelectTerm
-    };
-    dispatch(
-      CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody)
-    );
-  };
-
-  const GetAllGradesForStandardBody: IGetAllGradesForStandardBody = {
-    asSchool_Id: asSchoolId,
-    asAcademic_Year_Id: asAcademicYearId,
-    asStandard_Id: 0,
-    asSubjectId: 0,
-    asTest_Id: 0
-  }
-
-  const RemarkTemplateDetailsBody: IGetRemarkTemplateDetailsBody = {
-    asSchoolId: asSchoolId,
-    asRemarkId: Number(Remark),
-    asSortExpression: "Template",
-    asSortDirection: ' ' + HeaderPublish[0].SortOrder,
-    asFilter: '',
-    asAcadmicYearId: asAcademicYearId,
-    asMarksGradesConfigurationDetailsId: SelectGrade,
-    asStandardId: getStandardId()
-  }
-
-  const StudentListDropDowntBody: IStudentListDropDowntBody = {
-    asStandard_Division_Id: getStdDivisionId(),
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asTerm_Id: SelectTerm
-  };
-
- 
-  const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsNewBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivId: getStdDivisionId(),
-    asStudentId: Number(StudentList),
-    asTermId: Number(SelectTerm),
-    TeacherId: Number(selectTeacher),
-    asStartIndex: startIndex,
-    asEndIndex: endIndex,
-  };
-
-  const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivId: getStdDivisionId(),
-    asTerm_Id: Number(SelectTerm)
-  };
-
-
-
-  const getActiveTexts = () => {
-    return remarkTemplates.filter(item => item.IsActive).map(item => item.Text1);
-  }
- 
-  
-
-  const [ColIndex, SetColIndex] = useState([-1])
-
-  // const TextChange1 = () => {
-  //   setItemlist(prevItemlist =>
-  //     prevItemlist.map(item => {
-  //       if (item.Id === StudentId) {
-  //         const activeTexts = getActiveTexts().join(' ');
-  //         return {
-  //           ...item,
-  //           Remarks: item.Remarks.map((remark, i) => {
-  //             const newText3 = remark.Text3 + activeTexts;
-  //             return { ...remark, Text3: (i == ColIndex) ? newText3.slice(0, 300) : remark.Text3  };
-  //           })
-  //         };
-  //       }
-  //       return item;
-  //     })
-  //   );
-  // };
-  const UpdateRemark = () => {
-    const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
-    {
-      StudentwiseRemarkXML: getXML(),
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asInsertedById: Number(selectTeacher),
-      asStandardDivId: getStdDivisionId(),
-      asTermId: Number(SelectTerm)
-    };
-
-    dispatch(
-      CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody),
-
-    );[page, selectTeacher, SelectTerm]
-  };
-
-  const TextChange1 = () => {
-    let showAlert1 = false;
-    setItemlist(prevItemlist =>
-      prevItemlist.map(item => {
-        if (item.Id === StudentId) {
-          const activeTexts = getActiveTexts().join(' ');
-          const updatedRemarks = item.Remarks.map((remark, i) => {
-            if (i === ColIndex) {
-              const newText3 = remark.Text3 + activeTexts;
-              if (newText3.length > maxRemarkLength) {
-                showAlert1 = true;
-                return remark; // Return the original remark without changes
-              } else {
-                setIsDirty(true)
-                return { ...remark, Text3: newText3 };
-              }
-            }
-            return remark;
-          });
-          if (showAlert1) {
-
-            showAlert({
-              title: 'Please Confirm',
-              message: `Remarks length should not be more than ${maxRemarkLength}`,
-              variant: 'warning',
-              confirmButtonText: 'Confirm',
-              cancelButtonText: 'Cancel',
-              onCancel: () => {
-                closeAlert();
-              },
-              onConfirm: () => {
-               
-                closeAlert();
-              }
-            });
-
-
-          }
-          return {
-            ...item,
-            Remarks: updatedRemarks
-          };
-        }
-        return item;
-      })
-    );
-    return showAlert1;
-  };
-
-  const [message, setMessage] = useState("");
-  useEffect(() => {
-    if (USGetFinalPublishedExamStatus.IsPublishedStatus == 1) {
-      <span> </span>
-    }
-
-    else {
-      const autoSave = setInterval(() => {
-        if (IsDirty) {
-          UpdateRemark();
-          setMessage("We are saving current progress remarks details.Please wait.");
-        }
-      }, 60000);
-
-      return () => clearInterval(autoSave);
-
-    }
-  }, [IsDirty, UpdateRemark, USGetFinalPublishedExamStatus.IsPublishedStatus]);
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        if (IsDirty) {
-          setMessage("");
-        }
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
-
-
-
-  const SelectClick = () => {
-
-    if(getActiveTexts().length == 0 ) {
-      showAlert({
-        title: 'Please Confirm',
-        message:  'At least one Remark Template should be selected.',
-        variant: 'warning',
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        onCancel: () => {
-          closeAlert();
-        },
-        onConfirm: () => {
-         
-          closeAlert();
-        }
-      });
-      return;
-    }
-    const showAlert1 = TextChange1();
-    if (!showAlert1) {
-      setOpen(false);
-      dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
-    }
-  };
-
-
-
-  const clickSelectTerm = (value) => {
-    if (SelectTerm != '') {
-      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?";
-      let confirmed = false
-      if (IsDirty) {
-        confirmed = window.confirm(confirmMessage);
-
-        if (confirmed) {
-          SetSelectTerm(value);
-
-        }
+  const Standard_Id = () => {
+    let returnVal = 0
+    USGetClassTeachers.map((item) => {
+      if (item.Value == item.NewValue) {
+        returnVal = item.asStandardId
       }
-      else
-        SetSelectTerm(value);
-
-    }
-
-
-  };
-  const clickGrade = (value) => {
-    SetSelectGrade(value);
+    })
+    return returnVal
   };
 
+  const hasEmptyMarks = USlistSubjectIdDetails.some((item) => item.Marks_Scored === "");
+  const hasGrade = USlistSubjectIdDetails.some((item) => item.Grade === "");
 
-  // const clickSelectClass = (value) => {
-  //   SetselectTeacher(value);
-  // };
-
-  const clickSelectClass = (value) => {
-    if (selectTeacher != '') {
-      const confirmMessage = "Data modification for last minute is auto saved but entered progress remarks after auto save on the current page will get lost with your action. Do you want to continue?";
-      let confirmed = false
-      if (IsDirty) {
-        confirmed = window.confirm(confirmMessage);
-
-        if (confirmed) {
-          SetselectTeacher(value);
-          setRowsPerPage(20)
-          setPage(1)
-        }
-      }
-      else
-        SetselectTeacher(value);
-      setRowsPerPage(20)
-      setPage(1)
-
-    }
-  };
-
-  const TextValues = (value) => {
-    setIsDirty(true)
-    setItemlist(value);
-
-  };
-
-  const clickRemark = (value) => {
-    setRemark(value);
-  };
-
-  const clickStudentList = (value) => {
-    SetStudentList(value);
-  };
-
-
-  const Exportremark = () => {
-    const confirmMessage = "This Action will show only saved details. Do you want to continue?";
-
-
-    showAlert({
-      title: 'Please Confirm',
-      message: confirmMessage,
-      variant: 'warning',
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      onCancel: () => {
-        closeAlert();
-      },
-      onConfirm: () => {
-        
-        closeAlert();
-      }
-    });
-
-  };
-
-
-
-  const getStudentName = () => {
+  const StudentName = () => {
     let classStudentName = '';
-    USGetAllStudentswiseRemarkDetails.map((item) => {
+    USGetStudentNameDropdown.map((item) => {
       if (item.Value == StudentId) classStudentName = item.Name;
     });
     return classStudentName;
@@ -620,205 +147,232 @@ const ProgressRemarks = () => {
 
 
 
-
-  const FStudentName = () => {
-    let classStudentName = '';
-    Itemlist.map((item) => {
-      if (item.Value == StudentId) classStudentName = item.FName;
-    });
-    return classStudentName;
-  };
-
-  const GEtSalutation = () => {
-    let classStudentName = '';
-    Itemlist.map((item) => {
-      if (item.Value == StudentId) classStudentName = item.SalutationId;
-    });
-    return classStudentName;
-  };
-
-
-
-
-
-  const StudentFName = FStudentName()
-  const PassSalutationId = GEtSalutation()
-
-
-
-
-
-  const studentName = getStudentName();
-  const ClickAppropriate = (Id, Index) => {
-    setStudentId(Id)
-    SetColIndex(Index)
-    dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody))
-    dispatch(CDAGradeDropDown(GetAllGradesForStandardBody));
-    dispatch(CDAGetRemarksCategory(RemarkCategoryBody));
-    setOpen(!open)
-
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-  };
-
-
-
-
-  const startRecord = (page - 1) * rowsPerPage + 1;
-  const endRecord = Math.min(page * rowsPerPage, countArray[0]);
-  const pagecount = Math.ceil(countArray[0] / rowsPerPage);
-  const ChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-  };
-
-  const PageChange = (pageNumber) => {
-    setPage(pageNumber);
-  };
-
   useEffect(() => {
-    dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
-  }, [page, selectTeacher, SelectTerm, rowsPerPage]);
+    StandardDivisionId()
+    Standard_Id()
+  }, [selectTeacher]);
 
-
-  const Changevalue = (value) => {
-    setRemarkTemplates(value);
+  const GetClassTeachersBody: IGetClassTeachersBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : TeacherIdsession)
   };
 
-  const ClickHeader = (value) => {
-    setHeaderPublish(value)
+  const GetStudentNameDropdownBody: IGetStudentNameDropdownBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivisionId: StandardDivisionId()
+
+  };
+
+  const StudentProgressReportBody: IStudentProgressReportBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcadmeicYearId: Number(asAcademicYearId),
+    asStudentId: Number(StudentId),
+    asUserId: asUserId,
+    IsTotalConsiderForProgressReport:IsTotalConsiderForProgressReport
+
+  };
+
+  const GetPassedAcademicYearsBody: IGetPassedAcademicYearsBody = {
+    asSchoolId: Number(asSchoolId),
+    asStudent_Id: Number(StudentId),
+    asIncludeCurrentYear: false
+
+
+  };
+  const GetSchoolSettings: GetSchoolSettingsBody = {
+    asSchoolId: Number(asSchoolId),
+
+
+
+  };
+
+  const GetAllMarksGradeConfigurationBody: IGetAllMarksGradeConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYrId: Number(asAcademicYearId),
+    asStandardId: Number(Standard_Id()),
+    asIsCoCurricular: false
+  };
+
+  const GetAllMarksGradeConfigurationBody1: IGetAllMarksGradeConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYrId: Number(asAcademicYearId),
+    asStandardId: Number(Standard_Id()),
+    asIsCoCurricular: true
+  };
+
+  const IsGradingStandard: IsGradingStandarBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardId: Number(Standard_Id())
+
+  };
+
+  const IsTestPublishedForStdDiv: IsTestPublishedForStdDivBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcadmicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(StandardDivisionId())
+
+  };
+  
+
+  const IsTestPublishedForStudent: IsTestPublishedForStudentBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivId: Number(StandardDivisionId()),
+    asStudentId: Number(StudentId)
+
+  };
+
+
+
+  const clickSelectClass = (value) => {
+    setOpen(false);
+    SetselectTeacher(value)
+  };
+
+  const AcademicRecords = (value) => {
+    alert("Old Academic Records Page Not Devloped ")
+  };
+
+  const clickStudentList = (value) => {
+    setOpen(false);
+    SetStudentId(value);
+  };
+
+
+  const ClickShow = (value) => {
+    if (selectTeacher === '0') {
+      SetError('Class Teacher should be selected.');
+      return;
+    }
+
+    setOpen(true);
+    SetError('')
   }
 
 
   useEffect(() => {
-    if (USRemarkTemplateDetails) {
-      setRemarkTemplates(USRemarkTemplateDetails);
+    if (USGetStudentNameDropdown.length > 0) {
+      SetStudentId(USGetStudentNameDropdown[0].Value);
     }
-  }, [USRemarkTemplateDetails]);
+  }, [USGetStudentNameDropdown]);
+
   useEffect(() => {
-    setIsDirty(false)
-    setItemlist(USGetAllStudentswiseRemarkDetails);
-  }, [USGetAllStudentswiseRemarkDetails]);
+    dispatch(CDAIsGradingStandard(IsGradingStandard));
+
+  }, [Standard_Id()]);
+
+  useEffect(() => {
+    dispatch(CDAGetSchoolSettings(GetSchoolSettings));
+
+  }, []);
 
 
   useEffect(() => {
-    if (USGetTestwiseTerm.length > 0) {
-      SetSelectTerm(USGetTestwiseTerm[0].Value);
+    dispatch(CDAIsTestPublishedForStdDiv(IsTestPublishedForStdDiv));
+
+  }, [StandardDivisionId()]);
+
+  useEffect(() => {
+    dispatch(CDAIsTestPublishedForStudent(IsTestPublishedForStudent));
+
+  }, [StandardDivisionId()]);
+
+
+  useEffect(() => {
+    if (GetScreenPermission() == 'Y') {
+      if (USGetClassTeachers.length > 0) {
+        SetselectTeacher(USGetClassTeachers[0].Value);
+      }
     }
-  }, [USGetTestwiseTerm]);
+
+  }, [USGetClassTeachers]);
 
   useEffect(() => {
-    if (USStudentListDropDown.length > 0) {
-      SetStudentList(USStudentListDropDown[0].Value);
-    }
-  }, [USStudentListDropDown]);
+    GetClassTeacher()
 
-
-
-  useEffect(() => {
-    if (GradeDropDown.length > 0) {
-      SetSelectGrade(GradeDropDown[0].Value);
-    }
-  }, [GradeDropDown]);
-
-  useEffect(() => {
-    if (USRemarksCategory.length > 0) {
-      setRemark(USRemarksCategory[0].Value);
-    }
-  }, [USRemarksCategory]);
-
-  useEffect(() => {
-    dispatch(CDAGetRemarkTemplateDetails(RemarkTemplateDetailsBody));
-  }, [SelectGrade, Remark, HeaderPublish]);
-
-
-
-  useEffect(() => {
-    dispatch(CDAGetFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
-  }, [SelectTerm]);
-
-  useEffect(() => {
-    dispatch(CDAGetClassTeachers(ClassTeachersBody));
   }, []);
 
   useEffect(() => {
-    dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
+    dispatch(CDAGetClassTeachers(GetClassTeachersBody));
+
   }, []);
 
   useEffect(() => {
-    dispatch(CDAGetConfiguredMaxRemarkLength(GetConfiguredMaxRemarkLengthBody));
-  }, [SelectTerm,selectTeacher,getStandardId()]);
-
-
-
+    dispatch(CDAGetStudentName(GetStudentNameDropdownBody));
+  }, [selectTeacher, StandardDivisionId()]);
 
   useEffect(() => {
-    dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, [SelectTerm, selectTeacher]);
+    dispatch(CDAStudentProgressReport(StudentProgressReportBody));
+
+  }, [StudentId]);
 
   useEffect(() => {
-    if (StudentList === '') {
-      dispatch(CDAResetStudentDropdown());
-    } else {
-      dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
-    }
-  }, [selectTeacher, SelectTerm, StudentList, page1, rowsPerPage]);
+    dispatch(CDAGetPassedAcademicYears(GetPassedAcademicYearsBody));
+
+  }, [StudentId]);
 
   useEffect(() => {
-    if (UpdateAllStudentsRemarkDetail != '') {
-      toast.success(UpdateAllStudentsRemarkDetail);
-      setIsDirty(false)
-      dispatch(CDAresetSaveMassage());
-      CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)
+    dispatch(CDAGetAllMarksGradeConfiguration(GetAllMarksGradeConfigurationBody));
 
-    }
-  }, [UpdateAllStudentsRemarkDetail]);
+  }, [Standard_Id()]);
 
-  const CustomTablePaginationActions = () => null;
+  useEffect(() => {
+    dispatch(CDAGetAllMarksGradeConfiguration1(GetAllMarksGradeConfigurationBody1));
+
+  }, [Standard_Id()]);
+
+
+  const handleClick = (event) => {
+    event.preventDefault(); // Prevent the default link behavior
+    setOpen1(true); // Open the dialog
+  };
+
+  const handleClose = () => {
+    setOpen1(false); // Close the dialog
+  };
+  const getListDisplayName = (ShortName) => {
+    let returnVal = ""
+    ListDisplayNameDetails.map((Item) => {
+      if (Item.ShortName == ShortName)
+        returnVal = Item.DisplayName
+    })
+    return returnVal
+
+  }
   return (
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase/' + getStdDivisionId() + '/' + TestId },
-          { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
+          { title: 'Progress Report', path: '/extended-sidebar/Teacher/ProgressReportNew' }
         ]}
         rightActions={<>
 
           <SearchableDropdown
             label={"Subject Teacher"}
-            sx={{ pl: 0, minWidth: '20vw', backgroundColor: CanEdit == 'N' ? '#F0F0F0' : '', }}
-            ItemList={USClassTeachers}
-            onChange={clickSelectClass}
-            defaultValue={selectTeacher}
+            sx={{ pl: 0, minWidth: '350px', backgroundColor: GetScreenPermission() == 'N' ? '#F0F0F0' : '', }}
+            ItemList={USGetClassTeachers}
             mandatory
+            onChange={clickSelectClass}
+            disabled={GetScreenPermission() == 'N'}
+            defaultValue={selectTeacher}
             size={"small"}
-           
-            disabled={CanEdit == 'N'}
-          />
 
 
-          <SearchableDropdown
-            ItemList={USGetTestwiseTerm}
-            sx={{ minWidth: '10vw' }}
-            onChange={clickSelectTerm}
-            defaultValue={SelectTerm}
-            label={'Term'}
-            size={"small"}
           />
 
           <SearchableDropdown
-            ItemList={USStudentListDropDown}
-            sx={{ minWidth: '20vw' }}
+            ItemList={USGetStudentNameDropdown}
+            sx={{ minWidth: '300px' }}
             onChange={clickStudentList}
-            defaultValue={StudentList}
-            label={'Student List'}
-            size={"small"}
-          />
+            defaultValue={StudentId}
+            label={'Student Name'}
+            size={"small"} />
 
           <Box>
-            <Tooltip title={'Add / Edit / Delete student progress remarks.'}>
+            <Tooltip title={'Displays  progress report of published exam of selected / all student.'}>
               <IconButton
                 sx={{
                   color: 'white',
@@ -832,283 +386,281 @@ const ProgressRemarks = () => {
               </IconButton>
             </Tooltip>
           </Box>
+
           <Box>
-            {USGetAllStudentswiseRemarkDetails.length > 0 ?
-              <Tooltip title={'Export'}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    '&:hover': {
-                      backgroundColor: grey[600]
-                    }
-                  }}
-                  onClick={Exportremark}  >
-                  <Download />
-                </IconButton>
-              </Tooltip> : null
-            }
+            <Tooltip title={'Show'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+                onClick={ClickShow}>
+                <VisibilityTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+
 
           </Box>
-          <Box>
-            {USGetAllStudentswiseRemarkDetails.length > 0 ? (
 
-
-              <Tooltip title={'Save'}>
-                <IconButton
-                  onClick={UpdateRemark}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: 'green'
-                  }}
-                  disabled={USGetFinalPublishedExamStatus.IsPublishedStatus == 1}
-                >
-                  <SaveIcon />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <span></span>
-            )
-
-            }
-
-          </Box>
         </>}
+
       />
-      <Box >
-        <ProgressRemarksNotes />
-      </Box>
-      
-      <Box sx={{  mb: 2, mt:1 }}>
-        <Box sx={{ background: 'white', mb: 1, p: 2 }}>
-        <Grid item xs={12}>
-          <Typography fontWeight={"bold"} display={"flex"} alignItems={"center"} gap={1}>
-            <Typography fontWeight={"bold"} variant='h4' >Legend</Typography>
-            <Box sx={{ height: '20px', width: '20px', background: red[500] }} />
-            <Box>Left Students</Box>
-          </Typography>
-        </Grid>
+      <ErrorMessage1 Error={Error}></ErrorMessage1>
+      {StudentId == "0" ? (
+        <span></span>
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+          <Button variant="outlined" onClick={AcademicRecords}>
+            Old Academic Records
+          </Button>
         </Box>
-        <Box sx={{ background: 'white', p:1 }}>
-        <Grid container spacing={2}>
-        
-          {
-            USGetAllStudentswiseRemarkDetails.length > 0 ? (
-              <div style={{ flex: 1, textAlign: 'center' }}>
-                <Typography variant="subtitle1" sx={{ margin: '10px 0', textAlign: 'center', pt: 2 }}>
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {startRecord} to {endRecord}
+      )}
+     
+      {open && (
+        <div>
+
+          {USIsTestPublishedForStdDiv === true || USIsTestPublishedForStudentIS === true ?
+            <>
+              {USIsGradingStandard == true ?
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography variant="h4">Grade Configuration Details</Typography>
+                    </Link>
+                    
+                    <Dialog 
+                    open={open1}
+                     onClose={handleClose} 
+                     maxWidth="md" scroll="body"
+                     sx={{ minHeight: '400px' }}
+                     PaperProps={{
+                      sx: {
+                        borderRadius: "15px",
+                      }
+                    }}>
+                        <DialogTitle sx={{ bgcolor: '#223354' }}>
+                          
+                          <ClearIcon onClick={handleClose} 
+                          sx={{
+                            color: 'white',
+                            // background:'white',
+                            borderRadius: '7px',
+                            position: 'absolute',
+                            top: '5px',
+                            right: '8px',
+                            cursor: 'pointer',
+                            '&:hover': {
+                              color: 'red'
+                            }
+                          }} />
+                        </DialogTitle>
+                      
+                      <DialogContent>
+                      <Typography variant="h3" my={1}>
+                      Grade Configuration Details
+                        </Typography>
+                        <Typography variant="h4" my={1}>
+                          Subjects :-
+                        </Typography>
+                        <GradeConfigurationList
+                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
+                          HeaderArray={headerArray}
+                        />
+                      </DialogContent>
+                      <DialogContent>
+                        <Typography variant="h4" >
+                          Co-Curricular Subjects :-
+                        </Typography>
+                        <GradeConfigurationList
+                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
+                          HeaderArray={headerArray}
+                        />
+                      </DialogContent>
+                    </Dialog>
                   </Box>
-                  {' '}out of{' '}
-                  <Box component="span" fontWeight="fontWeightBold">
-                    {countArray[0]}
-                  </Box>{' '}
-                  {countArray[0] === 1 ? 'record' : 'records'}
-                </Typography>
-              </div>
+                  <Box sx={{ mt: 1, background: 'white' }}>
+                    <hr />
+                    {USlistStudentsDetails.map((subject, index) => (
+                      <div key={index}>
+                        <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                          {subject.School_Orgn_Name}
+                        </Typography>
+                        <hr />
+                        <Typography variant="h3" textAlign="center" color="black" mb={1}>
+                          {subject.School_Name}
+                        </Typography>
+                        <hr />
+                        <Typography variant="h4" textAlign="center" color="black" mb={1}>
+                          Progress Report
+                        </Typography>
+                      </div>
+                    ))}
+                    <Table>
+                      <TableBody>
+                        {USlistStudentsDetails.map((item) => {
+                          return (
+                            <TableRow sx={{ bgcolor: '#38548A' }}>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                            </TableRow>
+                          )
+                        })}
+                      </TableBody>
+                    </Table>
+                  </Box>
+                  {hasTotalConsiderationN && (
+                    <Typography
+                      sx={{ bgcolor: 'white', p: 2 }}
+                      dangerouslySetInnerHTML={{ __html: formattedText }}
+                    />
+                  )}
+                  <Box sx={{ overflowX: 'auto' }}>
+                  <ProgressReportGradeView
+                  USlistSubjectsDetails={USlistSubjectsDetails}
+                  USListSubjectidDetails={USListSubjectidDetails}
+                  USlistTestDetailsArr={USlistTestDetailsArr}
+                  IsTotalConsiderForProgressReport= {IsTotalConsiderForProgressReport}
+                  />
+                  </Box>
+                </>
+                :
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
 
-            ) : (
-              <span></span>
+                    <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography variant="h4">Grade Configuration Details</Typography>
+                    </Link>
+                    <Dialog
+                      open={open1}
+                      onClose={handleClose}
+                      maxWidth="md"
+                      scroll="body"
+                      PaperProps={{
+                        sx: {
+                          borderRadius: "15px",
+                        }
+                      }}
+                    >
+                      <Box sx={{ backgroundColor: "#223354" }}>
+                        <DialogTitle
+                          sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-            )
+                          <ClearIcon onClick={handleClose}
+                            sx={{
+                              color: 'white',
+                              // background:'white',
+                              borderRadius: '7px',
+                              position: 'absolute',
+                              top: '5px',
+                              right: '8px',
+                              cursor: 'pointer',
+                              '   &:hover': {
+                                color: 'red',
+                                //  backgroundColor: red[100]
+
+                              }
+                            }} />
+                        </DialogTitle>
+                      </Box>
+                      <DialogContent>
+                        <Typography variant="h3">Grade Configuration Details</Typography>
+                        <Typography variant="h4" my={1}>
+                          Subjects :-
+                        </Typography>
+                        <GradeConfigurationList
+                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
+                          HeaderArray={headerArray}
+                        />
+                      </DialogContent>
+                      <DialogContent>
+                        <Typography variant="h4" my={1}>
+                          Co-Curricular Subjects :-
+                        </Typography>
+                        <GradeConfigurationList
+                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
+                          HeaderArray={headerArray}
+                        />
+                      </DialogContent>
+                    </Dialog>
+                  </Box>
+                  <Box sx={{ mt: 1, background: 'white', }}>
+                    <hr />
+                    {USlistStudentsDetails.map((subject, index) => (
+                      <div key={index}>
+                        <Typography variant="h4" textAlign="center" color="primary" mb={1}>
+                          {subject.School_Orgn_Name}
+                        </Typography>
+                        <hr />
+                        <Typography variant="h3" textAlign="center" color="black" mb={1}>
+                          {subject.School_Name}
+                        </Typography>
+                        <hr />
+                        <Typography variant="h4" textAlign="center" color="black" mb={1}>
+                          Progress Report
+                        </Typography>
+                      </div>
+                    ))}
+                    <Table >
+                      <TableBody>
+                        {USlistStudentsDetails.map((item) => {
+                          return (
+                            <TableRow sx={{ bgcolor: '#38548A' }}>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No: </b>{item.Roll_No} </TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name: </b> {item.Student_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class: </b> {item.Standard_Name} - {item.Division_Name}	</TableCell>
+                              <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year: </b> {item.Academic_Year}	</TableCell>
+                            </TableRow>
+                          )
+                        })}
+                      </TableBody>
+                    </Table>
+                  </Box>
+                  {hasTotalConsiderationN && (
+                    <Typography
+                      sx={{ bgcolor: 'white', p: 2 }}
+                      dangerouslySetInnerHTML={{ __html: formattedText }}
+                    />
+                  )}
+                  <Box sx={{ overflowX: 'auto' }}>
+                  <ProgressReportMarkView
+                  HeaderArray={HeaderArray}
+                  SubHeaderArray={SubHeaderArray}
+                  MarkDetailsList={MarkDetailsList}
+                  ListDisplayNameDetails={ListDisplayNameDetails}
+                  IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                  USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                  USListMarkssDetails={USListMarkssDetails}
+                  />
+                  
+                  </Box>
+                </>
+
+              }
+            </>
+            :
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No exam of this class has been published for the current academic year.</b>
+            </Typography>
+
           }
 
-          <Grid item xs={12}>
-            <Paper>
+        </div>
+      )}
 
-              {message && (
-                <Typography style={{ position: "fixed", top: "50%", left: "50%", padding: "10px", backgroundColor: "#e8eaf6", border: "1px solid #ccc", zIndex: 9999, width: '500px', font: "20px" }}>
-                  {message}
-                </Typography>
+      {/* {USIsGradingStandard === true && hasGrade == true ?
+        <h1>  massage   {StudentName()} </h1> : USIsGradingStandard === false && hasEmptyMarks == true ?
+          <h1>  massage   {StudentName()}  </h1> : null
 
-              )}
+      } */}
 
-
-          
-              {USGetAllStudentswiseRemarkDetails.length > 0 ? (
-                <ProgressRemarkTerm.Provider value={{ maxRemarkLength, SelectTerm }}>
-                  <ResizableCommentsBox
-                    HeaderArray={HeaderArray}
-                    ItemList={Itemlist}
-                    NoteClick={ClickAppropriate}
-                    setTextValues={TextValues}
-                  />
-                </ProgressRemarkTerm.Provider>
-              ) : (
-                <span> </span>
-
-              )}
-
-
-
-            </Paper>
-          </Grid>
-
-        </Grid>
-        {
-          endRecord > 19 ? (
-            <ButtonGroupComponent
-              rowsPerPage={rowsPerPage}
-              ChangeRowsPerPage={ChangeRowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-              PageChange={PageChange}
-              pagecount={pagecount}
-            />
-
-          ) : (
-            <span></span>
-
-          )
-        }
-        </Box>
-      </Box>
-
-      <Modal
-        open={open}
-        onClose={ClickAppropriate}
-
-      >
-        <Box sx={style}>
-          <DialogTitle
-            sx={{
-              bgcolor: '#223354',
-              color: (theme) => theme.palette.common.white,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderTopLeftRadius: '15px',
-              borderTopRightRadius: '15px',
-            }}
-          >
-            <ClearIcon onClick={() => setOpen(!open)}
-              sx={{
-                color: 'white',
-                borderRadius: '7px',
-                position: 'absolute',
-                top: '5px',
-                right: '7px',
-                cursor: 'pointer',
-                '&:hover': {
-                  color: 'red',
-                }
-              }} />
-          </DialogTitle>
-          <Box sx={{ color: '#223354', position: 'relative', flexDirection: 'column', margin: '18px' }}>
-
-            <h1>
-              Select Appropriate Template
-            </h1>
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-
-              <TextField
-                size={"small"}
-                fullWidth
-                label={"Student Name"}
-                value={studentName}
-                sx={{ bgcolor: '#F0F0F0	', minWidth: '230px' }}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <SearchableDropdown
-                ItemList={USRemarksCategory}
-                sx={{ minWidth: '230px' }}
-                onChange={clickRemark}
-                defaultValue={Remark}
-                label={'Remark Category'}
-                size={"small"}
-              />
-              <SearchableDropdown
-                ItemList={GradeDropDown}
-                sx={{ minWidth: '230px' }}
-                onChange={clickGrade}
-                defaultValue={SelectGrade}
-                label={'Grades'}
-                size={"small"}
-              />
-
-            </Box>
-
-            <Box sx={{ pt: 1, marginBottom: '9px', maxHeight: '320px', overflowY: 'auto' }}>
-              {remarkTemplates.length > 0 ? (
-                <ProgressRemarkTerm.Provider value={{ StudentFName, StudentId, PassSalutationId }}>
-
-                  <RemarkList
-                    ItemList={remarkTemplates}
-                    HeaderArray={HeaderPublish}
-                    onChange={Changevalue}
-                    ClickHeader={ClickHeader}
-                  />
-                </ProgressRemarkTerm.Provider>
-              ) : (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: 'auto' }}>
-                  <b>No record found.</b>
-                </Typography>
-              )}
-            </Box>
-
-          </Box>
-          <Box sx={{ marginLeft: 70 }}>
-            <Button
-              sx={{
-                mt: 2,
-                color: 'red',
-                '&:hover': {
-                  color: 'red',
-                  backgroundColor: red[100]
-                }
-              }}
-
-              onClick={() => setOpen(!open)}
-            >
-              Cancel
-            </Button>
-            <Button
-              sx={{
-                mt: 2,
-                color: 'green',
-                '&:hover': {
-                  color: 'green',
-                  backgroundColor: green[100]
-                }
-              }}
-              onClick={SelectClick}
-              disabled={remarkTemplates.length === 0}
-            >
-              Select
-            </Button>
-
-          </Box>
-
-        </Box>
-      </Modal>
 
     </Box>
-  );
-};
+  )
+}
 
-export default ProgressRemarks;
-
-// const style = {
-//   position: 'absolute' as 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: 800,
-//   height: 500,
-//   bgcolor: '#EAF1F5',
-//   border: '2px solid #000',
-// };
-
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  height: 550,
-  bgcolor: 'white',
-  borderRadius: "15px",
-};
+export default ProgressReportNew
