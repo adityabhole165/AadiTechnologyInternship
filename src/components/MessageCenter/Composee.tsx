@@ -725,7 +725,7 @@ function Form13() {
         </span> */}
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1} sx={{ height: 'auto' }}>
+            <Grid container spacing={1} sx={{ height: '82vh' }}>
               <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>Form</Typography>
               </Grid>
@@ -1061,7 +1061,7 @@ function Form13() {
                     }}
                   >
                     <IconButton onMouseOver={handleClickS}
-                      sx={{ color: '#38548A	', mt: '-9px', ml: -6 }}>
+                      sx={{ color: '#38548A	', mt: '-9px', ml: -1 }}>
                       <InfoIcon
                       // sx={{ color: '#38548A', fontSize: '20px',  }}
                       />

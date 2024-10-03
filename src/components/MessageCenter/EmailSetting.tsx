@@ -193,7 +193,7 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
                 color: 'red',
                 ':hover': { backgroundColor: red[100] }
               }} onClick={clickReset}>
-                Reset
+                Close
               </Button>
               <Button sx={{
                 // backgroundColor: green[100],
@@ -202,7 +202,7 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
               }} onClick={clickSubmit}
                 disabled={submitButtonDisabled}
               >
-                Submit
+                Save
               </Button>
             </Grid>
           </Grid>

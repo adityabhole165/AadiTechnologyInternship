@@ -389,7 +389,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           <TextField
             sx={{ width: '15vw' }}
             fullWidth
-            label="Serach Teacher Name"
+            label="Search By Name"
             // value={regNoOrName}
             variant={'outlined'}
             size={"small"}

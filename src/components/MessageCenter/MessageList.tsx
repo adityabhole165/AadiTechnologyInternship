@@ -624,23 +624,21 @@ const MessageList = () => {
         <Grid container columnGap={1}>
           <Grid item sm={2} xs={12} spacing={1}>
             <Hidden smDown>
+            <RouterLink
+                  style={{ textDecoration: 'none', color: '#223354' }}
+                  to={`/${location.pathname.split('/')[1]
+                    }/MessageCenter/Compose`}
+                >
               <Card
                 sx={{
                   textAlign: 'center',
                   height: '85px',
                   backgroundColor: 'white',
                   mb: '10px',
-                  borderRadius: '15px',
-                  '&:hover':{
-                     backgroundColor: blue[100]
-                  }
+                  borderRadius: '5px',
                 }}
               >
-                <RouterLink
-                  style={{ textDecoration: 'none', color: '#223354' }}
-                  to={`/${location.pathname.split('/')[1]
-                    }/MessageCenter/Compose`}
-                >
+               
                   <AddCircleIcon
                     onClick={clickClear}
                     sx={{ mt: '10px', color: '#38548A' }}
@@ -648,8 +646,8 @@ const MessageList = () => {
                   />
                   <br />
                   <b style={{ color: '#38548A' }}>Compose</b>
-                </RouterLink>
               </Card>
+              </RouterLink>
             </Hidden>
             <Box>
               {!showSearch && (
