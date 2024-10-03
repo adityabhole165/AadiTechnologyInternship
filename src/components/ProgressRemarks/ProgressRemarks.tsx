@@ -204,6 +204,12 @@ const ProgressRemarks = () => {
     }
   }, [USClassTeachers]);
 
+  useEffect(() => {
+    if ((USClassTeachers.length > 0 && CanEdit == "Y") && StandardDivisionId == undefined) {
+      SetselectTeacher(USClassTeachers[0].Value);
+    }
+  }, [USClassTeachers]);
+
   
   useEffect(() => {
     let headerArray = [
