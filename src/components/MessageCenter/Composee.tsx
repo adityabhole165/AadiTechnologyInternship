@@ -1136,7 +1136,7 @@ function Form13() {
                 <Box sx={{ p: 0 }}>
                   <ReactQuill value={formik.values.Content} modules={toolbarOptions}
                     onChange={formik.handleChange} theme='snow'
-                    onChangeSelection={() => { }} style={{ height: '10vh', resize: 'vertical' }} />
+                    onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} />
                 </Box>
                 {/* <TextField
                   fullWidth

@@ -596,12 +596,21 @@ export function isBetweenDates(date, date2) {
 export const toolbarOptions = {
   toolbar: {
     container: [
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ color: [] }],
-      [{ align: [] }],
-      [{ size: ['small', 'normal', 'large', 'huge'] }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'],
+      ['bold', 'italic', 'underline', 'strike'],       
+      ['blockquote', 'code-block'],
+      ['link', 'image', 'video', 'formula'],
+      [{ 'header': 1 }, { 'header': 2 }],              
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      
+      [{ 'indent': '-1'}, { 'indent': '+1' }],         
+      [{ 'direction': 'rtl' }],                         
+      [{ 'size': ['small', false, 'large', 'huge'] }],  
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    
+      [{ 'color': [] }, { 'background': [] }],          
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+    
       ['clean']
     ]
   }
