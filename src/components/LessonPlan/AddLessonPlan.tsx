@@ -17,6 +17,7 @@ import Datepicker from 'src/libraries/DateSelector/Datepicker';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
+import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
 import { GetScreenPermission, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate, isOutsideAcademicYear } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanActivity from './LessonPlanActivity';
@@ -72,6 +73,8 @@ const AddLessonPlan = () => {
   const [UpdatedById, setUpdatedById] = useState('');
   const [OldStartDate, setOldStartDate] = useState(StartDateParam);
   const [OldEndDate, setOldEndDate] = useState(EndDateParam);
+  const [Word, setWord] = useState('')
+  const [Sentences, setSentences] = useState('')
   const [ItemList, setItemList] = useState('');
   const [ApproverComment, setApproverComment] = useState([]);
   const [errorStartDate, seterrorStartDate] = useState('');
@@ -859,6 +862,46 @@ const AddLessonPlan = () => {
               onChange={onClickClass}
             />
           </Grid>
+          {asSchoolId === 71 && (
+            <>
+              <Grid item xs={6}>
+                <ResizableTextField
+                  label={
+                    <>
+                      Words
+                    </>
+                  }
+                  multiline
+                  rows={3}
+                  value={Word}
+                  onChange={(e) => setWord(e.target.value)}
+                  fullWidth
+                  InputProps={{
+                    readOnly: false,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <ResizableTextField
+                  label={
+                    <>
+                      Sentences
+                    </>
+                  }
+                  multiline
+                  rows={3}
+                  value={Sentences}
+                  onChange={(e) => setSentences(e.target.value)}
+                  fullWidth
+                  InputProps={{
+                    readOnly: false,
+                  }}
+                />
+              </Grid>
+            </>
+          )}
+
+
 
           {/* {errorexampleLessonDetails || errorMessage && ( */}
           {message && (
