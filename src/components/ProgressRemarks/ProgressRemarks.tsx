@@ -737,6 +737,12 @@ const ProgressRemarks = () => {
   }, [USGetTestwiseTerm]);
 
   useEffect(() => {
+    if ((USClassTeachers.length > 0 && CanEdit == "N") && StandardDivisionId !== undefined) {
+      SetselectTeacher(USClassTeachers[1].Value);
+    }
+  }, [USClassTeachers]);
+
+  useEffect(() => {
     if (USStudentListDropDown.length > 0) {
       SetStudentList(USStudentListDropDown[0].Value);
     }
