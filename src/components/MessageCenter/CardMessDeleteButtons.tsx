@@ -113,7 +113,7 @@ function CardMessDeleteButtons({
           </Button>
         </Grid>
         <Grid >
-          {activeTab == 'Inbox' && (
+          {(activeTab === 'Inbox' || activeTab === 'Trash') && (
             <Grid
             //  sx={MarkAsReadMessage} bgcolor={"white"} pt={1} borderRadius={"10px"}
             >
