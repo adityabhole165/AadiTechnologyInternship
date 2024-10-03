@@ -3,19 +3,20 @@ import {
   IFeedbackList,
   IMsgfrom,
   INewMessageCount,
-  IPhotoAlbum,
   IPhotoAlbumBody,
   IPhotoAlbumDResult,
-  IPhotoAlbumResult,
   ISaveUserLoginDetailsBody,
   ISaveUserLoginDetailsResult,
   IUnreadMessages,
   IUnreadMessagesResult,
-  IUpcomingEventsList
+  IUpcomingEventsList,
+  IWeeklyAttendanceBody,
+  IWeeklyAttendanceResult
 } from '../../interfaces/Student/dashboard';
 import http from '../../requests/SchoolService/schoolServices';
 
 //Unread messages
+
 
 const GetUnreadMessageList = (data: IUnreadMessages) => {
   return http.post<IUnreadMessagesResult>('Dashboard/GetUnreadMessageList', data);
@@ -52,7 +53,9 @@ const GetSaveUserLoginDetailsResult = (data: ISaveUserLoginDetailsBody) => {
     data
   );
 };
-
+const GetWeeklyAttendance = (data: IWeeklyAttendanceBody) => {
+  return http.post<IWeeklyAttendanceResult>('Teacher/GetWeeklyAttendance', data);
+};
 const DashboardApi = {
   GetUnreadMessageList,
   GetUpcomingEventSList,
@@ -61,7 +64,8 @@ const DashboardApi = {
   Feedback,
   GetMessageFromList,
   GetMessagesCount,
-  GetSaveUserLoginDetailsResult
+  GetSaveUserLoginDetailsResult,
+  GetWeeklyAttendance
 };
 
 export default DashboardApi;

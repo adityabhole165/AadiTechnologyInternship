@@ -157,3 +157,47 @@ export interface ISaveUserLoginDetailsBody {
 export interface ISaveUserLoginDetailsResult {
   LastLoginDetails: string;
 }
+
+export interface IWeeklyAttendanceBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asStandardDivisionId: number;
+}
+export interface IWeeklyAttendanceResult {
+  GetDayDates: [
+    {
+      Attendance_Date: string;
+      DayName: string;
+    }
+  ],
+  listAttendanceCalender: [
+    {
+      Att_date: string;
+      Status: string;
+      Status_Desc: string;
+      Status_ForeColur: string;
+      Status_BackColur: string;
+    }
+  ],
+  WeeklyAttendanceDetails: [
+    {
+      Attendance_Date: string;
+      PresentBoys: string;
+      PresentGirls: string;
+      AbsentBoys: string;
+      AbsentGirls: string;
+      TotalBoys: string;
+      TotalGirls: string;
+      TotalBoys_Girls: string;
+      TotalPresent: string;
+      TotalAbsent: string;
+      TotalPresentPercentage: string;
+      TotalBoysPresentPercentage: string;
+      TotalGirlsPresentPercentage: string;
+      TotalBoysAbsentPercentage: string;
+      TotalGirlsAbsentPercentage: string;
+      TotalBoysPercentage: string;
+      TotalGirlsPercentage: string;
+    }
+  ],
+}
