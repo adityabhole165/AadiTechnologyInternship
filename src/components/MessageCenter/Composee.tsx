@@ -14,6 +14,7 @@ import {
   DialogTitle,
   FormHelperText,
   Grid,
+  InputAdornment,
   TextField,
   Tooltip,
   Typography,
@@ -21,7 +22,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
-import { ClearIcon } from "@mui/x-date-pickers";
+import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
@@ -65,6 +66,7 @@ import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -725,7 +727,7 @@ function Form13() {
         </span> */}
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1} sx={{ height: '82vh' }}>
+            <Grid container spacing={1} sx={{ height: '100vh' }}>
               <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>Form</Typography>
               </Grid>
@@ -1070,7 +1072,7 @@ function Form13() {
                 </ClickAwayListener>
               </Grid>
 
-              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ ml: -10, mt: -1, messageCenterCale }} >
+              <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ ml: -5, mt: -1, messageCenterCale }} >
                 {/* <TextField
                   sx={{ display: scheduleMessage }}
                   type="date"
@@ -1084,7 +1086,7 @@ function Form13() {
                   DateValue={undefined}
                   onDateChange={scheduleDateAndTime}
                   label=""
-                  size="small"
+                  size="medium"
                   minDate={MinDate}
                   maxDate={MaxDate}
                   display={scheduleMessage}
@@ -1093,36 +1095,39 @@ function Form13() {
 
               <Grid
                 item
-                xs={6}
-                sm={3}
-                md={3}
+                xs={12}
+                sm={3.5}
+                md={3.5}
                 lg={1.5}
-                sx={{ display: scheduleMessage }}
+                sx={{mt: -1,  display: scheduleMessage }}
               >
                 {/* to be made working for release */}
-                {/* <TimePicker
+                <TimePicker
                   value={value}
                   onChange={clickTime}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="standard"
-                      size="small"
-                      sx={messageCenterCale}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                             <AccessTimeIcon fontSize="small" /> 
-                          </InputAdornment>
-                        )
-                      }}
-                       fullWidth
-                    />
-                  )}
-                />  */}
+                  
+                  // renderInput={(params) => (
+                  //   <TextField
+                  //     {...params}
+                  //     variant="standard"
+                  //     size="small"
+                  //     sx={messageCenterCale}
+                  //     InputProps={{
+                  //       startAdornment: (
+                  //         <InputAdornment position="start">
+                  //            <AccessTimeIcon fontSize="small" /> 
+                  //         </InputAdornment>
+                  //       )
+                  //     }}
+                  //      fullWidth
+                  //   />
+                  // )} 
+                 
+                  
+                /> 
               </Grid>
 
-              <Grid item xs={6} sx={{ mt: 1, mb: '6px', ml: '1px' }}>
+              <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Grid>
