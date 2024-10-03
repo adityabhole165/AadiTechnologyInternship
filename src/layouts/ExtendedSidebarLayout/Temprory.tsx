@@ -204,7 +204,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: getPageName(62),
       icon: <EventOutlinedIcon />,
       link: '/extended-sidebar/Common/AnnualPlanner',
-      screenId: 62
+      screenId: 0 //62
     },
     {
       id: 'Exam',
@@ -378,6 +378,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     });
   }
   if (asUserRoleId === '2' && GetScreenPermission() == "Y") {
+    // if (asUserRoleId === '2') {
     sideList.push({
       id: 'Daily Activities',
       title: 'School Notices',
@@ -388,7 +389,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
   if (asUserRoleId === '2' && GetScreenPermission() == "N") {
     sideList.push({
-      id: 'Daily Activities',
+      id: 'Extra Screens',
       title: 'School Notices',
       icon: <AssignmentTwoToneIcon />,
       link: '/extended-sidebar/Common/SchoolnoticeOwn',
@@ -576,11 +577,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         // } else if (arr2?.length > 0) {
         //   finalArr.push(item)
         // }
+        // need to uncomment / but for now keep it commented !!!!!
         // finalArr.push(item)
-        let isAccess = configSetting?.filter((item1) => item1.Configure_Id === Number(item.screenId));
-        if (isAccess?.length > 0) {
-          finalArr.push(item)
-        }
+        // let isAccess = configSetting?.filter((item1) => item1.Configure_Id === Number(item.screenId));
+        // if (isAccess?.length > 0) {
+        finalArr.push(item)
+        // }
       }
     })
     console.log('final list >>>', finalArr)

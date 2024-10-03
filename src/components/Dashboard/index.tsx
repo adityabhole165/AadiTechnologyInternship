@@ -229,12 +229,14 @@ function Dashboard() {
     }
   }, [hasMissingDays]);
 
+  let auth = JSON.parse(localStorage.getItem('auth'))
+
   const getScreensAccessPermissions: IGetScreensAccessPermissions = {
     asSchoolId: asSchoolId,
     asAcademicYearId: AcademicYearId,
     asUserId: userId,
     asUserRoleId: RoleId,
-    abIsPreprimaryTeacher: false
+    abIsPreprimaryTeacher: auth?.data?.TeacherDetails?.IsPreprimary === 'Y' ? true : false,
   };
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
