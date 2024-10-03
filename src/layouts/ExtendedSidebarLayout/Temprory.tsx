@@ -249,11 +249,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       screenId: 0
     },
     {
-      id: 'Extra Screens',
+      id: 'Exam',
       title: getPageName(78),
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ExamResultBase',
-      screenId: 78
+      screenId: 0 // 78
     },
 
     {
@@ -283,7 +283,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: getPageName(79),
       icon: <AssessmentOutlinedIcon />,
       link: '/extended-sidebar/Teacher/ProgressReportNew',
-      screenId: 79
+      screenId: 0 // 79
     },
     {
       id: 'Other Utilities',
@@ -418,7 +418,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }
   if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
-      id: 'Exam',
+      id: 'Extra Screens',
       title: getPageName(164),
       icon: <FactCheckTwoToneIcon />,
       link: '/extended-sidebar/Teacher/PreprimaryProgressReport',
@@ -428,7 +428,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (isPreprimary || !isPreprimary) {
     sideList.splice(6, 0, {
-      id: 'Exam',
+      id: 'Extra Screens',
       title: getPageName(163),
       icon: <SchoolTwoToneIcon />,
       link: '/extended-sidebar/Teacher/PrePrimaryResult',
@@ -438,7 +438,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   if (isPreprimary || !isPreprimary) {
     sideList.push({
-      id: 'Exam',
+      id: 'Extra Screens',
       title: getPageName(179),
       icon: <TableChartTwoToneIcon />,
       link: '/extended-sidebar/Teacher/StudentwiseProgressReport',
@@ -561,7 +561,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   function filt() {
     let sd = sideList;
-    let allw = JSON.parse(sessionStorage.getItem('AllowedScreens'));
+    let AllowedScreens = JSON.parse(sessionStorage.getItem('AllowedScreens'));
     let configSetting = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
     let finalArr = [];
 
@@ -579,13 +579,23 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         // }
         // need to uncomment / but for now keep it commented !!!!!
         // finalArr.push(item)
-        // let isAccess = configSetting?.filter((item1) => item1.Configure_Id === Number(item.screenId));
-        // if (isAccess?.length > 0) {
-        finalArr.push(item)
-        // }
+        let isAccess = configSetting?.filter((item1) => item1.Configure_Id === Number(item.screenId));
+        if (isAccess?.length > 0) {
+          finalArr.push(item)
+        }
       }
     })
-    console.log('final list >>>', finalArr)
+
+    AllowedScreens?.map((item1) => {
+      let match1 = sd?.filter((item2) => item2?.screenId === Number(item1.screenId));
+      let match2 = finalArr?.filter((item3) => item3?.screenId === Number(item1.screenId));
+      if (match1?.length > 0 && match2?.length === 0) {
+        let updatedItem = sideList?.find((item) => item?.screenId === Number(item1.screenId));
+        finalArr.push(updatedItem)
+      }
+    })
+    console.log('final list --->>>', finalArr)
+
     return finalArr;
   }
 
