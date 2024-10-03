@@ -147,9 +147,8 @@ const LibraryBaseScreen = () => {
             <LibrarySearch />
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant='h4' pb={1} color={'#38548A'}> Books Details </Typography>
-                <TableBook data={bookData} />
-
-                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                {bookData && bookData.length === 0 ? (
+                    <Box sx={{ backgroundColor: '#D2FDFC' }}>
                     <Typography
                         variant="h6"
                         align="center"
@@ -158,22 +157,28 @@ const LibraryBaseScreen = () => {
                         No record found.
                     </Typography>
                 </Box>
+                 ) : (
+                <TableBook data={bookData} />
+            )}
+                
 
             </Box>
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant='h4' pb={1} color={'#38548A'}> Books With Me </Typography>
-                <TableBook2 data1={bookIssueData} />
-
+                {bookIssueData && bookIssueData.length === 0 ? (
                 <Box sx={{ backgroundColor: '#D2FDFC' }}>
-                    <Typography
-                        variant="h6"
-                        align="center"
-                        sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
-                    >
-                        No record found.
-                    </Typography>
-
-                </Box>
+                <Typography
+                    variant="h6"
+                    align="center"
+                    sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+                >
+                    No record found.
+                </Typography>
+            </Box>
+            ) : (
+                <TableBook2 data1={bookIssueData} />
+            )}
+                
             </Box>
         </Box>
     )

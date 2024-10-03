@@ -1,5 +1,5 @@
 import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
-import { Box, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import CommonPageHeader from '../CommonPageHeader';
 import BookTable from './BookTable';
@@ -110,7 +110,20 @@ const ClaimedBookDetailsPage = () => {
                 }
             />
             <Box sx={{ backgroundColor: 'white', p: 2 }}> 
-                <BookTable data={bookData} /></Box>
+            {bookData && bookData.length === 0 ? (
+                <Box sx={{ backgroundColor: '#D2FDFC' }}>
+                <Typography
+                    variant="h6"
+                    align="center"
+                    sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}
+                >
+                    No record found.
+                </Typography>
+            </Box>
+              ) : (
+                <BookTable data={bookData} />
+            )}
+                </Box>
         </Box>
     )
 }
