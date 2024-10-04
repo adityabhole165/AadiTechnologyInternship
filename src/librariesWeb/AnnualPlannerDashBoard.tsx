@@ -1,158 +1,183 @@
-import { Box, Card, CardContent, FormControlLabel, Grid, Switch, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetScreenPermission } from 'src/components/Common/Util';
-import { IGetClassandStandardToppersListBody, IGetLatestExamIdandDropdownBody } from 'src/interfaces/ExamResult/IToppers';
-import { IClassTeacherListBody } from 'src/interfaces/FinalResult/IFinalResult';
-import DynamicToppersList from 'src/libraries/list/DynamicToppersList';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { ClassToppersList, LatestClassExam } from 'src/requests/ExamResult/RequestToppers';
-import { ClassTechersList } from 'src/requests/FinalResult/RequestFinalResult';
-import { RootState } from 'src/store';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { Box, Button, Chip, Divider, Grid, Typography } from '@mui/material';
+import {
+    differenceInHours, differenceInMinutes, differenceInSeconds
+} from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
+import Actions from './Actions';
 import Header from './Header';
-import ToppersList from './ToppersList';
+
+function MyLeaveRequisitionAppraisal() {
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [isRefresh, setIsRefresh] = useState(false);
+    const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
+    const [countdown, setCountdown] = useState('');
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    const hardcodedData = [
+        { category: 'My Leave', title: 'Sick Leave', dateRange: 'Oct 1 - Oct 2, 2024', description: 'Sick leave due to illness.', status: 'Approved' },
+        { category: 'My Requisition', title: 'Office Supplies Requisition', dateRange: 'Oct 3, 2024', description: 'Requested new office stationery supplies.', status: 'Approved' },
+        { category: 'My Leave', title: 'Personal Leave', dateRange: 'Oct 3 - Oct 3, 2024', description: 'Attending a family function.', status: 'Submitted' },
+        { category: 'My Leave', title: 'Vacation Leave', dateRange: 'Oct 30 - Oct 30, 2024', description: 'Planned vacation for relaxation.', status: 'Rejected' },
+        { category: 'My Requisition', title: 'Hardware Requisition', dateRange: 'Oct 10, 2024', description: 'Requesting a new monitor and keyboard.', status: 'Submitted' },
+        { category: 'Appraisal', title: 'Mid-Year Performance Review', dateRange: 'Oct 4, 2024', description: 'Review of performance for the first half of the year.', status: 'Approved' },
+        { category: 'My Requisition', title: 'Furniture Requisition', dateRange: 'Oct 15, 2024', description: 'Requested ergonomic chair for office.', status: 'Rejected' },
+    ];
 
 
-const AnnualPlannerDashBoard = () => {
-    const dispatch = useDispatch();
-    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-    const FinalResultFullAccess = GetScreenPermission('Final Result');
-    const [isToggleEnabled, setIsToggleEnabled] = useState(false);
-    const [standardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess === 'Y' ? '0' : String(StandardDivisionId));
-    const [ClassToppersListCT, setClassToppersListCT] = useState([]);
-    const [SelectSubjectCT, setSubjectCT] = useState('0');
-    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const ClassName = String(sessionStorage.getItem('ClassName'));
-    const HeaderListCT = ['Rank', 'Student Name', 'Marks'];
-    const GetClassTeachers = useSelector((state: RootState) => state.FinalResult.ClassTeachers);
-    const GetLatestclassExam = useSelector((state: RootState) => state.Toppers.LatestExamIdCT);
-    const GetClassToppersListCT = useSelector((state: RootState) => state.Toppers.ClassToppersList);
-
-    const getTeacherId = () => {
-        let returnVal = 0;
-        GetClassTeachers.forEach((item) => {
-            if (item.Value === standardDivisionId) {
-                returnVal = item.Value;
-            }
-        });
-        console.log(returnVal, 'returnVal')
-        return returnVal;
+    const handleCategoryClick = (category: string) => {
+        setSelectedCategory(category);
     };
 
-    const ClassTeachersBody: IClassTeacherListBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asTeacherId: FinalResultFullAccess === 'Y' ? '0' : getTeacherId(),
+    const filteredData = hardcodedData.filter(data =>
+        selectedCategory === '' || data.category === selectedCategory
+    );
+
+    const getTimeDifference = () => {
+        if (!lastRefreshTime) return 'no';
+        const now = new Date();
+        const seconds = differenceInSeconds(now, lastRefreshTime);
+        if (seconds < 60) return `${seconds} second(s)`;
+        const minutes = differenceInMinutes(now, lastRefreshTime);
+        if (minutes < 60) return `${minutes} minute(s)`;
+        const hours = differenceInHours(now, lastRefreshTime);
+        return `${hours} hour(s)`;
     };
 
-    const ExamDropdownBodyCT: IGetLatestExamIdandDropdownBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: Number(standardDivisionId),
-        asStandardId: 0,
-    };
-
-    const ToppersListBodyCT: IGetClassandStandardToppersListBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: Number(standardDivisionId),
-        asStandardId: null,
-        asTestId: Number(GetLatestclassExam),
-        asSubjectId: Number(SelectSubjectCT),
-    };
-
-    const clickTeacherDropdown = (value) => {
-        setStandardDivisionId(value);
-    };
-
-    const handleToggleChange = (event) => {
-        setIsToggleEnabled(event.target.checked);
+    const updateCountdown = () => {
+        setCountdown(getTimeDifference());
     };
 
     useEffect(() => {
-        dispatch(ClassTechersList(ClassTeachersBody));
-    }, []);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        intervalRef.current = setInterval(updateCountdown, 1000);
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, [lastRefreshTime]);
 
-    useEffect(() => {
-        setClassToppersListCT(GetClassToppersListCT);
-    }, [GetClassToppersListCT]);
+    const handleRefresh = () => {
+        setSelectedCategory('');
+        setLastRefreshTime(new Date());
+    };
 
-    useEffect(() => {
-        dispatch(LatestClassExam(ExamDropdownBodyCT));
-    }, []);
+    const handleMouseEnter = () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+    };
 
-    useEffect(() => {
-        dispatch(ClassToppersList(ToppersListBodyCT));
-    }, [GetLatestclassExam, standardDivisionId]);
+    const handleMouseLeave = () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        intervalRef.current = setInterval(updateCountdown, 1000);
+    };
 
+    const getButtonColor = (category: string) => {
+        switch (category) {
+            case 'My Leave': return '#4d79ff';
+            case 'My Requisition': return '#ff4d4d';
+            case 'Appraisal': return '#33ff77';
+            default: return '#F0F0F0';
+        }
+    };
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'Approved': return 'success';
+            case 'Submitted': return 'info';
+            case 'Rejected': return 'error';
+            default: return 'default';
+        }
+    };
     return (
-        <Box sx={{ backgroundColor: 'white', p: 1 }}>
-            <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
-                <Header Title="Toppers" />
-            </Grid>
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                {/* <SearchableDropdown
-                    sx={{
-                        minWidth: '20vw',
-                        //bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit',
-                    }}
-                    ItemList={GetClassTeachers}
-                    onChange={clickTeacherDropdown}
-                    label={'Teacher'}
-                    defaultValue={standardDivisionId}
-                    DisableClearable={FinalResultFullAccess === 'N'}
-                    //disabled={FinalResultFullAccess === 'N'}
-                    mandatory
-                    size="small"
-                /> */}
-
-                <FormControlLabel
-                    control={
-                        <Switch checked={isToggleEnabled} onChange={handleToggleChange} color="primary" />
-                    }
-                    label="Change View"
-                    sx={{ ml: 34,  }}
-                />
-
-                {ClassName == '' && ( // If ClassName is empty, render the dropdown
-                    <SearchableDropdown
-                        sx={{
-                            minWidth: '20vw',
-                        }}
-                        ItemList={GetClassTeachers}
-                        onChange={clickTeacherDropdown}
-                        label={'Teacher'}
-                        defaultValue={standardDivisionId}
-                        DisableClearable={FinalResultFullAccess === 'N'}
-                        mandatory
-                        size="small"
+        <Box sx={{ height: '382px', width: 'auto', backgroundColor: 'white', p: 1 }}>
+            <Grid container>
+                <Grid item xs={6}>
+                    <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Header Title="Approval Process" />
+                    </Grid>
+                </Grid>
+                <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end', pr: 3.5 }}>
+                    <Actions
+                        Icon={RefreshIcon}
+                        ClickIcon={handleRefresh}
+                        title={`You are viewing ${countdown} old data, click here to see the latest data.`}
+                        handleMouseEnter={handleMouseEnter}
+                        handleMouseLeave={handleMouseLeave}
                     />
-                )}
+                </Grid>
 
-            </Box>
-            <Box sx={{ height: '270px', overflow: 'auto', mt: 1 }}>
-                {GetClassToppersListCT.length > 0 ? (
-                    isToggleEnabled ? (
-                        <ToppersList studentData={GetClassToppersListCT} />
+                <Grid container spacing={1} sx={{ mt: 1 }}>
+                    {['My Leave', 'My Requisition', 'Appraisal'].map((category) => (
+                        <Grid item xs={4} key={category}>
+                            <Button
+                                sx={{
+                                    backgroundColor: selectedCategory === category ? '#F0F0F0' : getButtonColor(category),
+                                    color: selectedCategory === category ? `${getButtonColor(category)}` : '#F0F0F0',
+                                    height: '3rem', width: '100%',
+                                }}
+                                onClick={() => handleCategoryClick(category)}
+                            >
+                                <b>{category}</b>
+                            </Button>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Grid>
 
-                    ) : (
-                        // Render the original list view when toggle is disabled
-                        <DynamicToppersList
-                            HeaderList={HeaderListCT}
-                            ItemList={ClassToppersListCT}
-                            IconList={[]}
-                            ClickItem={undefined}
-                        />
-                    )
-                ) : (
-                    <Typography variant="h4" color="textSecondary" sx={{ mt: 5 }}>
-                        No record found.
-                    </Typography>
+            <Box sx={{ height: '195px', mt: 2, overflow: 'auto' }}>
+                {filteredData.map((data, index) => (
+                    <Grid item xs={12} key={index}>
+                        <Grid container>
+                            <Grid item xs={8}>
+                                <Typography variant="h4" p={1} sx={{ color: `${getButtonColor(data.category)}` }}>{data.title}</Typography>
+                            </Grid>
+                            <Grid item xs={4} pt={0.5}>
+                                <Typography>{data.dateRange}</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 1 }}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            overflow: 'hidden',
+                                            whiteSpace: 'normal',
+                                            textOverflow: 'ellipsis',
+                                            maxHeight: '1.25rem',  // Adjusted to fit on one row
+                                            lineHeight: '1.25rem',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 1,     // Limit to a single line
+                                            WebkitBoxOrient: 'vertical',
+                                            flexGrow: 1,            // Allow it to take remaining space
+                                            mr: 1,                  // Add margin for space between text and chip
+                                        }}
+                                    >
+                                        {data.description}
+                                    </Typography>
+                                    <Chip label={data.status} color={getStatusColor(data.status)} size="small" />
+                                </Box>
+                            </Grid>
+
+
+                            <Grid item xs={12}>
+                                <Divider variant="middle" sx={{ m: '0px' }} />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                ))}
+
+                {/* No data message */}
+                {filteredData.length === 0 && (
+                    <Grid item xs={12}>
+                        <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
+                            <b>No record found for the selected category.</b>
+                        </Typography>
+                    </Grid>
                 )}
             </Box>
+
+            <Grid item xs={12} textAlign={'center'} sx={{ mt: 2.5 }}>
+                <Typography variant="h4"> <b>Please re-login or refresh the widget to see the updates.</b></Typography>
+            </Grid>
         </Box>
     );
-};
+}
 
-export default AnnualPlannerDashBoard;
+export default MyLeaveRequisitionAppraisal;
