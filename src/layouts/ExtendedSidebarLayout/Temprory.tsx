@@ -614,8 +614,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     "Calendar": filt().filter(item => item.id === 'Calendar'),
     "Other Utilities": filt().filter(item => item.id === 'Other Utilities'),
     "Extra Screens": filt().filter(item => item.id === 'Extra Screens'),
-
   };
+
+  groupedItems['Extra Screens'] = groupedItems['Extra Screens'].sort((a, b) => {
+    const titleA = a.title.toUpperCase();
+    const titleB = b.title.toUpperCase();
+
+    return titleA.localeCompare(titleB); // Shorter comparison using localeCompare
+  });
   const handleListItemClick1 = (event, link, anchor) => {
     event.stopPropagation(); // Prevent event propagation to AccordionSummary
     if (link) {
