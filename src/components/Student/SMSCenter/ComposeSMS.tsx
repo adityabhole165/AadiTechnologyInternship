@@ -11,9 +11,10 @@ const ComposeSMSform = () => {
                 <CommonPageHeader
                     navLinks={[
                         {
-                            title: 'Compose SMS',
-                            path: '',
+                            title: 'SMS Center',
+                            path: '/extended-sidebar/Teacher/SmsCenter',
                         },
+                        { title: 'Compose SMS', path: '' }
                     ]}
                     rightActions={
                         <>

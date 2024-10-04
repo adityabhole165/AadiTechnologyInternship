@@ -131,7 +131,7 @@ function SmsCenter() {
       <CommonPageHeader
         navLinks={[
           {
-            title: 'Received SMS',
+            title: 'SMS Center',
             path: '/extended-sidebar/Student/SmsCenter',
           },
         ]}
