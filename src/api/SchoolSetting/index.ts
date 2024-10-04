@@ -5,6 +5,7 @@ import {
   IGetAllowedPagesForUserBody,
   IGetAllowedPagesForUserResult,
   IgetModulesPermission,
+  IGetSchoolSettingsResult,
   IGetScreensAccessPermissions,
   IGetSettingValueBody,
   IGetSettingValueByNameBody,
@@ -17,7 +18,7 @@ import {
 import http from '../../requests/SchoolService/schoolServices';
 
 const GetSchoolSettings = (data: ISchoolId) => {
-  return http.post<ISchoolId>('School/GetSchoolSettings', data);
+  return http.post<IGetSchoolSettingsResult>('School/GetSchoolSettings', data);
 };
 
 const GetModulesPermissions = (data: IgetModulesPermission) => {
