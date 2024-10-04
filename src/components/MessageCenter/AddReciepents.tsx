@@ -1,4 +1,5 @@
-import { Box, Button, Card, Grid, TextField } from '@mui/material';
+import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
+import { blue } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -9,10 +10,8 @@ import {
 } from 'src/interfaces/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import ListSelect from 'src/libraries/list/ListSelect';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   ContactGroup,
   GetGetAdminAndprincipalUsers,
@@ -22,8 +21,6 @@ import {
 } from 'src/requests/AdminSMSCenter/To1';
 import { RootState } from 'src/store';
 import SelectallAddrecipents from './SelectallAddrecipents';
-import { blue } from '@mui/material/colors';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -40,6 +37,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const [studentlist, setStudentlist] = useState('');
   const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
+  const [SearchByName, setSearchByName] = useState('');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -60,10 +58,14 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     (state: RootState) =>
       state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
+  console.log(getGetAdminAndprincipalUsers, "getGetAdminAndprincipalUsers");
+
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
+  console.log(getuserlist, "getuserlist");
+
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
     (state: RootState) => state.getuser1.Loading
@@ -241,6 +243,23 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     populateRecipient(value);
     setShow(!show);
   };
+  const clickSearch = () => {
+    if (SearchByName === '') {
+      setList(getuserlist);
+    } else {
+      setList(
+        getuserlist.filter((item) => {
+          const text1Match = item.Value.toLowerCase().includes(
+            SearchByName.toLowerCase()
+          );
+          return text1Match;
+        })
+      );
+    }
+  };
+  const handleSearchByName = (value) => {
+    setSearchByName(value);
+  }
 
   const teacherStudentChange = (value) => {
     setList([]);
@@ -375,9 +394,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     <>
       <Box>
         <Grid xs={12} sm={12}>
-           {/* Searchable Dropdown For Search Teacher  */}
+          {/* Searchable Dropdown For Search Teacher  */}
 
-        {/* <SearchableDropdown
+          {/* <SearchableDropdown
             sx={{ minWidth: '15vw' }}
             // ItemList={Requision}
             // onChange={GetRequisitionStatusDropdown}
@@ -390,55 +409,55 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
             sx={{ width: '15vw' }}
             fullWidth
             label="Search By Name"
-            // value={regNoOrName}
+            value={SearchByName}
             variant={'outlined'}
             size={"small"}
             onChange={(e) => {
-              // handleRegNoOrNameChange(e.target.value);
+              handleSearchByName(e.target.value);
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === 'Tab') {
-                // clickSearch();
+                clickSearch();
               }
             }}
           />
         </Grid>
-        
-         {/* field and back Compose code  */}
+
+        {/* field and back Compose code  */}
         <Grid container>
-        <Grid item xs={12} sm={10}  >
-        <TextField
-          fullWidth
-          disabled
-          multiline
-          placeholder="Selected Recipient"
-          id="body"
-          margin="normal"
-          style={{ scrollBehavior: 'auto' }}
-          value={selectedRecipents
-            .map((obj) => (obj !== undefined ? obj.trim() : ''))
-            .join('; ')}
-          sx={{
-            height: '50px',
-            overflow: 'auto',
-            border: '0.1px solid #c4c5c5',
-            borderRadius: '5.3px'
-          }}
-        /></Grid>
-         <Grid item xs={6} sm={2} mt={2}>
-        <Button onClick={clickOkay} 
-          sx={{
-            color: '#38548A',
-            width: '150px',
-            ml:1,
-            '&:hover': {
-              color: '#38548A',
-              backgroundColor: blue[100]
-            }
-          }}>
-          Back to Compose
-        </Button>
-        </Grid>
+          <Grid item xs={12} sm={10}  >
+            <TextField
+              fullWidth
+              disabled
+              multiline
+              placeholder="Selected Recipient"
+              id="body"
+              margin="normal"
+              style={{ scrollBehavior: 'auto' }}
+              value={selectedRecipents
+                .map((obj) => (obj !== undefined ? obj.trim() : ''))
+                .join('; ')}
+              sx={{
+                height: '50px',
+                overflow: 'auto',
+                border: '0.1px solid #c4c5c5',
+                borderRadius: '5.3px'
+              }}
+            /></Grid>
+          <Grid item xs={6} sm={2} mt={2}>
+            <Button onClick={clickOkay}
+              sx={{
+                color: '#38548A',
+                width: '150px',
+                ml: 1,
+                '&:hover': {
+                  color: '#38548A',
+                  backgroundColor: blue[100]
+                }
+              }}>
+              Back to Compose
+            </Button>
+          </Grid>
         </Grid>
         <>
           {RoleId === '6' && (
@@ -497,7 +516,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                   ) : list.length === 0 ? (
                     !isSelected('Student') &&
                     isTeacherSelected() && (
-                      <ErrorMessages Error={'No records found'} />
+                      <Typography variant="h6" align="center" color="blue" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }} >
+                        No record found.
+                      </Typography>
                     )
                   ) : (
                     <SelectallAddrecipents
