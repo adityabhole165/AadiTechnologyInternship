@@ -42,6 +42,9 @@ const MissingAttandence = Loader(
 const SmsCenter = Loader(
   lazy(() => import('src/components/Student/SMSCenter/SmsCenter'))
 );
+const ComposeSMS = Loader(
+  lazy(() => import('src/components/Student/SMSCenter/ComposeSMS'))
+);
 const SchoolAttendanceOverview = Loader(
   lazy(() => import('src/components/MyAttendance/SchoolAttendanceOverview'))
 );
@@ -351,6 +354,10 @@ const teacherRoutes = [
   {
     path: 'smscenter',
     element: <SmsCenter />
+  },
+  {
+    path: 'ComposeSMS',
+    element: <ComposeSMS />
   },
   // {
   //   path: 'TAttendance/:AssignedDate/:StandardId',

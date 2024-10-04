@@ -1,12 +1,14 @@
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Tooltip, Typography } from '@mui/material';
 import { green, grey, yellow } from '@mui/material/colors';
 import format from 'date-fns/format';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
+import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, INewSmsList } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
@@ -20,6 +22,7 @@ function SmsCenter() {
     startDate: null,
     endDate: null,
   });
+  const classes = Styles();
   const [filtered, setFiltered] = useState(false); // State to toggle between original and filtered list
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
   const dispatch = useDispatch();
@@ -188,83 +191,116 @@ function SmsCenter() {
         }
       />
 
-      <Box sx={{ background: 'white', p: 2 }}>
-        <Typography variant={'h4'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
-        {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-          <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-            <Box component="span" fontWeight="fontWeightBold">
-              {startRecord} to {endRecord}
-            </Box>
-            {' '}out of{' '}
-            <Box component="span" fontWeight="fontWeightBold">
-              {singleTotalCount}
-            </Box>{' '}
-            {singleTotalCount === 1 ? 'record' : 'records'}
-          </Typography>
-        </div> : <span> </span>}
-        <Box sx={{ mt: 2 }}>
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <CircularProgress />
-            </Box>
-          ) : displayList.length > 0 ? (
-            displayList.map((item, index) => (
-              <Box
-                key={index}
-                sx={{
-                  p: 1,
-                  border: (theme) => `1px solid ${theme.palette.grey[500]}`,
-                  borderRadius: (theme) => theme.general.borderRadius,
-                  mb: 2
-                }}
+      <Box>
+        <Grid container >
+          <Grid item sx={{ minWidth: '20%', pr: 1, pb: 2 }}>
+            <Hidden smDown>
+              <RouterLink
+                style={{ textDecoration: 'none', color: '#223354' }}
+                to={`/${location.pathname.split('/')[1]
+                  }/Teacher/ComposeSMS`}
               >
-                <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
-                  <span style={{ color: grey[500] }}>From: </span> {item.UserName}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
-                    <Link to={`/extended-sidebar/Student/viewsms/${item.SMS_Id}`} style={{ textDecoration: 'none' }}>
-                      <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
-                    </Link>
-                  </Typography>
-                  <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }}>
-                    <span style={{ color: grey[500] }}>Received Date: </span> {format(new Date(item.Date), 'dd MMM yyyy hh:mm a')}
-                  </Typography>
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    height: '85px',
+                    backgroundColor: 'white',
+                    mb: '10px',
+                    borderRadius: '10px',
+                  }}
+                >
+
+                  <AddCircleIcon
+                    onClick={undefined}
+                    sx={{ mt: '10px', color: '#38548A' }}
+                    className={classes.IconSize}
+                  />
+                  <br />
+                  <b style={{ color: '#38548A' }}>Compose SMS</b>
+                </Card>
+              </RouterLink>
+            </Hidden>
+          </Grid>
+          <Grid item sx={{ minWidth: '80%', p: 2, background: 'white', borderRadius: '10px' }}>
+            <Typography variant={'h4'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+            {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
+                <Box component="span" fontWeight="fontWeightBold">
+                  {startRecord} to {endRecord}
                 </Box>
-              </Box>
-            ))
-          ) : (
-            <Typography
-              variant="body1"
-              sx={{
-                textAlign: 'center',
-                marginTop: 4,
-                backgroundColor: '#324b84',
-                padding: 1,
-                borderRadius: 2,
-                color: 'white',
-              }}
-            >
-              <b>No record found.</b>
-            </Typography>
-          )}
-        </Box>
-        <Box mt={-1.5}>
-        {
-          endRecord > 19 ? (
-            <ButtonGroupComponent
-              rowsPerPage={rowsPerPage}
-              ChangeRowsPerPage={ChangeRowsPerPage}
-              rowsPerPageOptions={rowsPerPageOptions}
-              PageChange={PageChange}
-              pagecount={pagecount}
-            />
+                {' '}out of{' '}
+                <Box component="span" fontWeight="fontWeightBold">
+                  {singleTotalCount}
+                </Box>{' '}
+                {singleTotalCount === 1 ? 'record' : 'records'}
+              </Typography>
+            </div> : <span> </span>}
+            <Box sx={{ mt: 2 }}>
+              {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <CircularProgress />
+                </Box>
+              ) : displayList.length > 0 ? (
+                displayList.map((item, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      p: 1,
+                      border: (theme) => `1px solid ${theme.palette.grey[500]}`,
+                      borderRadius: (theme) => theme.general.borderRadius,
+                      mb: 2
+                    }}
+                  >
+                    <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
+                      <span style={{ color: grey[500] }}>From: </span> {item.UserName}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
+                        <Link to={`/extended-sidebar/Student/viewsms/${item.SMS_Id}`} style={{ textDecoration: 'none' }}>
+                          <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
+                        </Link>
+                      </Typography>
+                      <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }}>
+                        <span style={{ color: grey[500] }}>Received Date: </span> {format(new Date(item.Date), 'dd MMM yyyy hh:mm a')}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))
+              ) : (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    textAlign: 'center',
+                    marginTop: 4,
+                    backgroundColor: '#324b84',
+                    padding: 1,
+                    borderRadius: 2,
+                    color: 'white',
+                  }}
+                >
+                  <b>No record found.</b>
+                </Typography>
+              )}
+            </Box>
+            <Box mt={-1.5}>
+              {
+                endRecord > 19 ? (
+                  <ButtonGroupComponent
+                    rowsPerPage={rowsPerPage}
+                    ChangeRowsPerPage={ChangeRowsPerPage}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    PageChange={PageChange}
+                    pagecount={pagecount}
+                  />
 
-          ) : (
-            <span></span>
+                ) : (
+                  <span></span>
 
-          )
-        }</Box>
+                )
+              }</Box>
+          </Grid>
+        </Grid>
+
       </Box>
     </Box>
   );
