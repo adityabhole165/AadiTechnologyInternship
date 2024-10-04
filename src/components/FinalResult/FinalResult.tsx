@@ -418,7 +418,7 @@ const FinalResult = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     // asTeacherId: "2532"
-    asTeacherId:   FinalResultFullAccess == 'Y' ? '0' : getTeacherId()
+    asTeacherId:   FinalResultFullAccess == 'Y' ? '0' : TeacherId
   };
 
 
@@ -511,6 +511,13 @@ const FinalResult = () => {
         setStandardDivisionId(StandardDivisionId1);
   }, [GetClassTeachers]);
 
+  
+
+useEffect(() => {
+  if ((GetClassTeachers.length > 2  )) {
+    setStandardDivisionId(GetClassTeachers[0].Value);
+  }
+}, [GetClassTeachers]);
   
 
   const Toppers = (value) => {
@@ -727,15 +734,15 @@ const FinalResult = () => {
             <SearchableDropdown
               sx={{
                 minWidth: '300px'
-                , bgcolor: FinalResultFullAccess === 'N' ? '#F0F0F0' : 'inherit'
+                , bgcolor: FinalResultFullAccess === 'N' && GetClassTeachers.length == 2 ? '#F0F0F0' : 'inherit'
               }}
 
               ItemList={GetClassTeachers}
               onChange={clickTeacherDropdown}
               label={'Teacher'}
               defaultValue={StandardDivisionId}
-              DisableClearable={FinalResultFullAccess === 'N'}
-              disabled={FinalResultFullAccess === 'N'}
+              DisableClearable={FinalResultFullAccess === 'N' && GetClassTeachers.length == 2}
+              disabled={FinalResultFullAccess === 'N' && GetClassTeachers.length == 2}
 
               mandatory
               size={"small"}
