@@ -39,18 +39,8 @@ export const StyledTableCell = styled(TableCell)(
  `
 );
 
-const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, isPagination = true, clickHeader, sortby, sortAsc }) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, clickHeader, sortby, sortAsc }) => {
+ 
 
   return (
     <Paper>
@@ -91,28 +81,17 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, i
                 </TableCell>
               </TableRow>
             ) : (
-              isPagination ? (
-                data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {columns.map((column) => (
-                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
-                        {column.renderCell(row)}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                data.map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {columns.map((column) => (
-                      <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
-                        {column.renderCell(row)}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              )
-            )}
+              data.map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {columns.map((column) => (
+                    <TableCell {...column.cellProps} key={column.id} sx={{ paddingTop: '2.5px', paddingBottom: '2.5px' }}>
+                      {column.renderCell(row)}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            )
+              }
           </TableBody>
         </Table>
       </TableContainer>

@@ -310,7 +310,8 @@ const FinalResult = () => {
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
 
- 
+  const startIndex = (page - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
 
   // useEffect(() => {
   //   if (GetClassTeachers.length > 0 && StandardDivisionId == undefined) {
@@ -420,13 +421,15 @@ const FinalResult = () => {
     asTeacherId:   FinalResultFullAccess == 'Y' ? '0' : getTeacherId()
   };
 
+
+
   const PagedStudentBody: IGetPagedStudentBody = {
     asSchoolId: asSchoolId.toString(),
     asAcademicyearId: asAcademicYearId.toString(),
     asStandardDivisionId: StandardDivisionId,
     SortExp: 'ORDER BY Roll_No',
-    prm_StartIndex: (page - 1) * rowsPerPage,
-    PageSize: page * rowsPerPage,
+    prm_StartIndex: startIndex,
+    PageSize: endIndex,
   };
 
   const ViewResultBody: IViewBody = {
@@ -644,7 +647,7 @@ const FinalResult = () => {
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
-  }, [page, rowsPerPage, UnpublishResult])
+  }, [page, rowsPerPage, UnpublishResult,startIndex,endIndex])
 
   useEffect(() => {
     if (GenerateAll !== '') {
@@ -654,7 +657,7 @@ const FinalResult = () => {
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
-  }, [page, rowsPerPage, GenerateAll])
+  }, [page, rowsPerPage, GenerateAll,startIndex,endIndex])
 
   useEffect(() => {
     if (PublishResult !== '') {
@@ -662,7 +665,7 @@ const FinalResult = () => {
       dispatch(resetPublishResult())
       dispatch(GetStudentResultList(PagedStudentBody))
     }
-  }, [page, rowsPerPage, PublishResult])
+  }, [page, rowsPerPage, PublishResult,startIndex])
 
   useEffect(() => {
     if (StandardDivisionId != '0') {
@@ -673,7 +676,7 @@ const FinalResult = () => {
       dispatch(getunpublishedexam(unpublishexam));
       dispatch(GetStudentResultList(PagedStudentBody));
     }
-  }, [page, rowsPerPage, StandardDivisionId])
+  }, [page, rowsPerPage, StandardDivisionId,startIndex,endIndex])
 
   // useEffect(() => {
   //   dispatch(GetStudentResultList(PagedStudentBody))
