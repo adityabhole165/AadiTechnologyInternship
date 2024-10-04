@@ -3,7 +3,7 @@ import DraftMessageApi from 'src/api/MessageCenter/ApiDraftMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import {
-  getDateFormatDraftTime,
+  getDateMonthYearFormatted,
   isFutureDateTime
 } from 'src/components/Common/Util';
 import {
@@ -162,7 +162,7 @@ export const getListOfMessages =
             Id: item.Id,
             text1: item.Subject,
             text2: item.DisplayText,
-            text3: getDateFormatDraftTime(item.DraftDate),
+            text3: getDateMonthYearFormatted(item.DraftDate),
             NavPath: item.Id + '/Draft',
             isActive: false,
             DetailsId: item.Id,
