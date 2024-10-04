@@ -2,14 +2,13 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import Autorenew from '@mui/icons-material/Autorenew';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
-import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import TextSnippet from '@mui/icons-material/TextSnippet';
 import Unpublished from '@mui/icons-material/Unpublished';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { Alert, Box, IconButton, Tooltip, Typography } from '@mui/material';
-import { blue, green, grey, red } from '@mui/material/colors';
+import { blue, grey, red } from '@mui/material/colors';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -33,6 +32,7 @@ import {
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
+import { IGetUserDetailsBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import {
   ClassTechersList,
   GetAtleastOneResultGeneratedss,
@@ -51,6 +51,7 @@ import {
   resetPublishResult,
   resetUnpublishResult
 } from 'src/requests/FinalResult/RequestFinalResult';
+import { getUserDetailss } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
 import { GetScreenPermission } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -90,12 +91,12 @@ const FinalResult = () => {
     sessionStorage.getItem('StandardDivisionId')
   );
 
-   
+
 
   const FinalResultFullAccess = GetScreenPermission('Final Result');
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0': StandardDivisionIdse )
-  console.log(FinalResultFullAccess , "--", StandardDivisionId,  "--" ,StandardDivisionIdse   );
+  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0' : StandardDivisionIdse)
+  console.log(FinalResultFullAccess, "--", StandardDivisionId, "--", StandardDivisionIdse);
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -106,7 +107,8 @@ const FinalResult = () => {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const rowsPerPageOptions = [20, 50, 100, 200];
   const [page, setPage] = useState(1);
-
+  const RoleId = sessionStorage.getItem('RoleId');
+  const userId = sessionStorage.getItem('Id');
   const Exam = ['Final Result'];
 
 
@@ -236,8 +238,8 @@ const FinalResult = () => {
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
   );
- console.log(GetClassTeachers,"GetClassTeachers");
- 
+  console.log(GetClassTeachers, "GetClassTeachers");
+
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
@@ -295,7 +297,7 @@ const FinalResult = () => {
     (state: RootState) => state.FinalResult.ISGetResultPublishd
   );
 
-
+  const UserDetail: any = useSelector((state: RootState) => state.getSchoolSettings.getUserDetails);
 
   const Usisconfigred: any = useSelector((state: RootState) => state.FinalResult.iscofigred);
 
@@ -340,7 +342,14 @@ const FinalResult = () => {
   }, [])
 
 
-
+  useEffect(() => {
+    const UserDetailBody: IGetUserDetailsBody = {
+      asSchoolId: String(asSchoolId),
+      asUserId: userId,
+      asRoleId: RoleId
+    };
+    dispatch(getUserDetailss(UserDetailBody));
+  }, []);
 
 
 
@@ -350,7 +359,7 @@ const FinalResult = () => {
   //   asStandardDivId: StandardDivisionId,
   //   asUnPublishReason: asUnPublishReason
   // }
- 
+
 
   const getTeacherId = () => {
     let returnVal = 0
@@ -361,18 +370,18 @@ const FinalResult = () => {
     })
     return returnVal
   };
-  
+
   const [sortby, setSortBy] = useState('Roll No.');
   const [sortAsc, setSortAsc] = useState('Desc');
-  
 
-  const sortField = 
-  sortby === "Roll No." ? "Roll_No" :
-  sortby === "Student Name" ? "Name" : 
-  sortby === "Total" ? "Marks" :
-  sortby === "%" ? "Percentage" :
-  sortby === "Grade" ? "Grade_Name" :
-  sortby === "Result" ? "Result" : "";
+
+  const sortField =
+    sortby === "Roll No." ? "Roll_No" :
+      sortby === "Student Name" ? "Name" :
+        sortby === "Total" ? "Marks" :
+          sortby === "%" ? "Percentage" :
+            sortby === "Grade" ? "Grade_Name" :
+              sortby === "Result" ? "Result" : "";
 
   const sortDirection = sortAsc === 'Desc' ? ' Desc' : '';
 
@@ -381,18 +390,18 @@ const FinalResult = () => {
     setSortBy(value);
     if (value === sortby) {
       setSortAsc(sortAsc === 'Asc' ? 'Desc' : 'Asc');
-    } 
-  
+    }
+
     const sortDirection = sortAsc === 'Desc' ? ' Desc' : '';
-  
-    const sortField = 
+
+    const sortField =
       value === "Roll No." ? "Roll_No" :
-      value === "Student Name" ? "Name" : 
-      value === "Total" ? "Marks" :
-      value === "%" ? "Percentage" :
-      value === "Grade" ? "Grade_Name" :
-      value === "Result" ? "Result" : "";
-  
+        value === "Student Name" ? "Name" :
+          value === "Total" ? "Marks" :
+            value === "%" ? "Percentage" :
+              value === "Grade" ? "Grade_Name" :
+                value === "Result" ? "Result" : "";
+
     const PagedStudentBody = {
       asSchoolId: asSchoolId.toString(),
       asAcademicyearId: asAcademicYearId.toString(),
@@ -401,11 +410,11 @@ const FinalResult = () => {
       prm_StartIndex: (page - 1) * rowsPerPage,
       PageSize: page * rowsPerPage,
     };
-  
+
     dispatch(GetStudentResultList(PagedStudentBody));
   };
-  
-  
+
+
   const GenerateAllBody: IGenerateAllBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -418,7 +427,7 @@ const FinalResult = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     // asTeacherId: "2532"
-    asTeacherId:   FinalResultFullAccess == 'Y' ? '0' : TeacherId
+    asTeacherId: FinalResultFullAccess == 'Y' ? '0' : TeacherId
   };
 
 
@@ -507,18 +516,18 @@ const FinalResult = () => {
   const buttonsDisabled = StandardDivisionId === '0';
 
   useEffect(() => {
-      if (StandardDivisionId1 !== undefined) 
-        setStandardDivisionId(StandardDivisionId1);
+    if (StandardDivisionId1 !== undefined)
+      setStandardDivisionId(StandardDivisionId1);
   }, [GetClassTeachers]);
 
-  
 
-useEffect(() => {
-  if ((GetClassTeachers.length > 2  )) {
-    setStandardDivisionId(GetClassTeachers[0].Value);
-  }
-}, [GetClassTeachers]);
-  
+
+  useEffect(() => {
+    if ((GetClassTeachers.length > 2)) {
+      setStandardDivisionId(GetClassTeachers[0].Value);
+    }
+  }, [GetClassTeachers]);
+
 
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/Toppers/' + getTeacherId() + '/' + StandardDivisionId + '/' + standardId + '/' + true);
@@ -654,7 +663,7 @@ useEffect(() => {
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
-  }, [page, rowsPerPage, UnpublishResult,startIndex,endIndex])
+  }, [page, rowsPerPage, UnpublishResult, startIndex, endIndex])
 
   useEffect(() => {
     if (GenerateAll !== '') {
@@ -664,7 +673,7 @@ useEffect(() => {
       dispatch(GetResultPublishd(ResultPublishedBody))
       dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
     }
-  }, [page, rowsPerPage, GenerateAll,startIndex,endIndex])
+  }, [page, rowsPerPage, GenerateAll, startIndex, endIndex])
 
   useEffect(() => {
     if (PublishResult !== '') {
@@ -672,7 +681,7 @@ useEffect(() => {
       dispatch(resetPublishResult())
       dispatch(GetStudentResultList(PagedStudentBody))
     }
-  }, [page, rowsPerPage, PublishResult,startIndex])
+  }, [page, rowsPerPage, PublishResult, startIndex])
 
   useEffect(() => {
     if (StandardDivisionId != '0') {
@@ -683,7 +692,7 @@ useEffect(() => {
       dispatch(getunpublishedexam(unpublishexam));
       dispatch(GetStudentResultList(PagedStudentBody));
     }
-  }, [page, rowsPerPage, StandardDivisionId,startIndex,endIndex])
+  }, [page, rowsPerPage, StandardDivisionId, startIndex, endIndex])
 
   // useEffect(() => {
   //   dispatch(GetStudentResultList(PagedStudentBody))
@@ -811,47 +820,56 @@ useEffect(() => {
               </span>
             </Tooltip>
             &nbsp;
-            <Tooltip title={"Publish"} disableHoverListener={false} disableFocusListener={false}>
-              <span>
-                <IconButton
-                  onClick={() => onClickPublish(true)}
-                  disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? blue[200] : blue[500],
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    },
-                    ...(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) && {
-                      pointerEvents: 'none'
-                    }
-                  }}
-                >
-                  <CheckCircle />
-                </IconButton>
-              </span>
-            </Tooltip>
-            &nbsp;
-            <Tooltip title={"Unpublish"} disableHoverListener={false} disableFocusListener={false}>
-              <span>
-                <IconButton
-                  onClick={ClickOpenDialogbox}
-                  disabled={!GetResultGenerated || buttonsDisabled}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: !GetResultGenerated ? red[200] : red[500],
-                    '&:hover': {
-                      backgroundColor: red[600]
-                    },
-                    ...(!GetResultGenerated || buttonsDisabled) && {
-                      pointerEvents: 'none'
-                    }
-                  }}
-                >
-                  <Unpublished />
-                </IconButton>
-              </span>
-            </Tooltip>
+            {
+              UserDetail.CanPublishUnpublishExam == true ?
+                <div>
+                  <Tooltip title={"Publish"} disableHoverListener={false} disableFocusListener={false}>
+                    <span>
+                      <IconButton
+                        onClick={() => onClickPublish(true)}
+                        disabled={GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled}
+                        sx={{
+                          color: 'white',
+                          backgroundColor: (GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) ? blue[200] : blue[500],
+                          '&:hover': {
+                            backgroundColor: blue[600]
+                          },
+                          ...(GetResultGenerated == true || GetAtleastOneResultGenerated.AllowPublish == false || buttonsDisabled) && {
+                            pointerEvents: 'none'
+                          }
+                        }}
+                      >
+                        <CheckCircle />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                  &nbsp;
+                  <Tooltip title={"Unpublish"} disableHoverListener={false} disableFocusListener={false}>
+                    <span>
+                      <IconButton
+                        onClick={ClickOpenDialogbox}
+                        disabled={!GetResultGenerated || buttonsDisabled}
+                        sx={{
+                          color: 'white',
+                          backgroundColor: !GetResultGenerated ? red[200] : red[500],
+                          '&:hover': {
+                            backgroundColor: red[600]
+                          },
+                          ...(!GetResultGenerated || buttonsDisabled) && {
+                            pointerEvents: 'none'
+                          }
+                        }}
+                      >
+                        <Unpublished />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+
+                </div> : <span></span>
+            }
+
+
+
             &nbsp;
             <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
               <span>
