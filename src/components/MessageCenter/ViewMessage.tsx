@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { AlertContext } from 'src/contexts/AlertContext';
 import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import { IGetDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { IViewSent } from 'src/interfaces/MessageCenter/Sent_Message';
@@ -13,6 +14,7 @@ import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSet
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 import { compareStringWithoutSpace } from '../Common/Util';
+
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ function ViewSms({ }) {
   const { ID, FromRoute } = useParams();
 
   const [viewSent, setViewSent] = useState(null);
-
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const [showMessage, setShowMessage] = useState(false);
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -89,29 +91,64 @@ function ViewSms({ }) {
     dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody));
   }, []);
 
+  // useEffect(() => {
+  //   if (viewSent !== undefined && viewSent !== null) {
+  //     if (viewSent.RequestReadReceipt === 'True') {
+  //       let readRecipient = '0';
+  //       if (
+  //         confirm(
+  //           "The Sender of this message has requested 'Read Receipt'. Do you want to send it"
+  //         )
+  //       ) {
+  //         readRecipient = '1';
+  //       }
+
+  //       const body: IUpdateReadReceiptStatusBody = {
+  //         asSchoolId: SchoolId,
+  //         asAcademicYearId: asAcademicYearId,
+  //         asReceiverId: viewSent.ReceiverDetailsId,
+  //         asRequestReadReceipt: readRecipient
+  //       };
+  //       dispatch(getUpdateReadReceiptStatus(body));
+  //     }
+  //     setShowMessage(true);
+  //   }
+  // }, [viewSent]);
+
   useEffect(() => {
     if (viewSent !== undefined && viewSent !== null) {
       if (viewSent.RequestReadReceipt === 'True') {
         let readRecipient = '0';
-        if (
-          confirm(
-            "The Sender of this message has requested 'Read Receipt'. Do you want to send it"
-          )
-        ) {
-          readRecipient = '1';
-        }
 
-        const body: IUpdateReadReceiptStatusBody = {
-          asSchoolId: SchoolId,
-          asAcademicYearId: asAcademicYearId,
-          asReceiverId: viewSent.ReceiverDetailsId,
-          asRequestReadReceipt: readRecipient
-        };
-        dispatch(getUpdateReadReceiptStatus(body));
+        showAlert({
+          title: 'Read Receipt Request',
+          message:
+            "The sender of this message has requested 'Read Receipt'. Do you want to send it?",
+          variant: 'warning',
+          confirmButtonText: 'Send Receipt',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            readRecipient = '1';
+
+            const body: IUpdateReadReceiptStatusBody = {
+              asSchoolId: SchoolId,
+              asAcademicYearId: asAcademicYearId,
+              asReceiverId: viewSent.ReceiverDetailsId,
+              asRequestReadReceipt: readRecipient,
+            };
+
+            dispatch(getUpdateReadReceiptStatus(body));
+            closeAlert();
+          },
+        });
       }
       setShowMessage(true);
     }
   }, [viewSent]);
+
   const isSame = (value1, value2) => {
     let arr1 = value1.split('(');
     let arr2 = value2.split('(');
