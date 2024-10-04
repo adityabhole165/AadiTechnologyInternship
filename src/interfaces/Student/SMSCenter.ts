@@ -78,3 +78,16 @@ export interface GetSMSDetailsResult {
   Updated_Date: string;
   Updated_By_Id: string;
 }
+
+export interface ISmsCountBody {
+  asUserId: string;
+  asAcademicYearId: string;
+  asSchoolId: string;
+}
+
+export interface ISmsCountResult {
+  IsAllSentSMSAllowed: boolean;
+  SentSMSCount: string;
+  AllowedSMSCount: string;
+  ExceededSMSCount: string;
+}

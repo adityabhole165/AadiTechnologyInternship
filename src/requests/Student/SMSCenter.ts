@@ -3,6 +3,7 @@ import SmsCenterApi from 'src/api/Student/SMSCenter';
 import {
   IMobileNumber,
   INewSmsList,
+  ISmsCountBody,
   ISmsList,
   IViewSms
 } from 'src/interfaces/Student/SMSCenter';
@@ -15,6 +16,7 @@ const SmsCenterSlice = createSlice({
     NewSmsList: [],
     MobileNumber: '',
     ViewSms: {},
+    SmsCountDetails: {},
     Loading: true
   },
   reducers: {
@@ -31,6 +33,9 @@ const SmsCenterSlice = createSlice({
     },
     getSmsDetails(state, action) {
       state.ViewSms = action.payload.GetSMSDetailsResult;
+    },
+    getSmsCount(state, action) {
+      state.SmsCountDetails = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -68,5 +73,14 @@ export const getSmsDetails =
       const response = await SmsCenterApi.GetSmsDetails(data);
       dispatch(SmsCenterSlice.actions.getSmsDetails(response.data));
     };
+
+export const getSmsCount =
+  (data: ISmsCountBody): AppThunk =>
+    async (dispatch) => {
+      const response = await SmsCenterApi.GetSmsCountDetails(data);
+      console.log(response.data, 'Data')
+      dispatch(SmsCenterSlice.actions.getSmsCount(response.data));
+    };
+
 
 export default SmsCenterSlice.reducer;
