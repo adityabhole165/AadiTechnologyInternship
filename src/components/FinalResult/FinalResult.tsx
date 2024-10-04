@@ -822,7 +822,7 @@ const FinalResult = () => {
             &nbsp;
             {
               UserDetail.CanPublishUnpublishExam == true ?
-                <div>
+                <span>
                   <Tooltip title={"Publish"} disableHoverListener={false} disableFocusListener={false}>
                     <span>
                       <IconButton
@@ -865,7 +865,7 @@ const FinalResult = () => {
                     </span>
                   </Tooltip>
 
-                </div> : <span></span>
+                </span> : <span></span>
             }
 
 
