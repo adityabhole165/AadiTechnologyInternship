@@ -16,7 +16,7 @@ const SmsCenterSlice = createSlice({
     NewSmsList: [],
     MobileNumber: '',
     ViewSms: {},
-    SmsCountDetails: {},
+    SmsCountDetails: [],
     Loading: true
   },
   reducers: {

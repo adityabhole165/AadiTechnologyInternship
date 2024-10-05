@@ -1,8 +1,11 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SmsIcon from '@mui/icons-material/Sms';
+import SmsFailedIcon from '@mui/icons-material/SmsFailed';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Tooltip, Typography } from '@mui/material';
-import { green, grey, yellow } from '@mui/material/colors';
+import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import format from 'date-fns/format';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,11 +13,10 @@ import { Link, Link as RouterLink } from 'react-router-dom';
 import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import { IMobileNumber, INewSmsList } from 'src/interfaces/Student/SMSCenter';
+import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { getMobileNumber, getNewSmsList } from 'src/requests/Student/SMSCenter';
+import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
-
 const PageSize = 20;
 
 function SmsCenter() {
@@ -28,6 +30,8 @@ function SmsCenter() {
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
   const NewSmsList = useSelector((state: RootState) => state.SmsCenter.NewSmsList);
+  const SmsCount: any = useSelector((state: RootState) => state.SmsCenter.SmsCountDetails);
+  console.log(SmsCount, 'SmsCount');
   const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
   const MobileNumber = useSelector((state: RootState) => state.SmsCenter.MobileNumber);
   const [page, setPage] = useState(1);
@@ -51,8 +55,15 @@ function SmsCenter() {
       asUserRoleId: RoleId,
     };
 
+    const SmsCountBody: ISmsCountBody = {
+      asUserId: UserId,
+      asAcademicYearId: asAcademicYearId,
+      asSchoolId: asSchoolId,
+    };
+
     localStorage.setItem('url', window.location.pathname);
     dispatch(getMobileNumber(MobileNumber_body));
+    dispatch(getSmsCount(SmsCountBody));
   }, []);
 
   // useEffect(() => {
@@ -222,6 +233,48 @@ function SmsCenter() {
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '80%', p: 2, background: 'white', borderRadius: '10px' }}>
+
+            <Grid container spacing={2}>
+              {/* Free SMS Count */}
+              <Grid item xs={12} sm={4}>
+                <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2 }}>
+                  <SmsOutlinedIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
+                  <Box>
+                    <Typography variant="h6" color="green">
+                      Free SMS
+                    </Typography>
+                    <Typography variant="h4">{SmsCount.AllowedSMSCount ?? 0}</Typography>
+                  </Box>
+                </Card>
+              </Grid>
+
+              {/* Sent SMS Count */}
+              <Grid item xs={12} sm={4}>
+                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2 }}>
+                  <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                  <Box>
+                    <Typography variant="h6" color="blue">
+                      Sent SMS
+                    </Typography>
+                    <Typography variant="h4">{SmsCount.SentSMSCount ?? 0}</Typography>
+                  </Box>
+                </Card>
+              </Grid>
+
+              {/* Exceeded SMS Count */}
+              <Grid item xs={12} sm={4}>
+                <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2 }}>
+                  <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
+                  <Box>
+                    <Typography variant="h6" color="red">
+                      Exceeded SMS
+                    </Typography>
+                    <Typography variant="h4">{SmsCount.ExceededSMSCount ?? 0}</Typography>
+                  </Box>
+                </Card>
+              </Grid>
+            </Grid>
+
             <Typography variant={'h4'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
             {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
               <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>

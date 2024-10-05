@@ -29,7 +29,7 @@ const GetSmsDetails = (data: IViewSms) => {
 };
 
 const GetSmsCountDetails = (data: ISmsCountBody) => {
-  return http.post<ISmsCountResult>('SMS/GetAllSentSMSPermissionAndCounts', data);
+  return http.post<ISmsCountResult[]>('SMS/GetAllSentSMSPermissionAndCounts', data);
 };
 const SmsCenterApi = {
   GetSmsCenterList,
