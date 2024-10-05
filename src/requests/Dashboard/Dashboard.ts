@@ -9,7 +9,8 @@ import {
   IPhotoAlbumBody,
   ISaveUserLoginDetailsBody,
   IUnreadMessages,
-  IUpcomingEventsList
+  IUpcomingEventsList,
+  IWeeklyAttendanceBody
 } from 'src/interfaces/Student/dashboard';
 import { AppThunk } from 'src/store';
 
@@ -26,6 +27,7 @@ const Dashboardlice = createSlice({
     FeedbackList: [],
     Msgfrom: [],
     MessageCount: {},
+    WeeklyAttendanceCount: [],
     Loading: true,
     UserLoginDetails: null
   },
@@ -54,7 +56,7 @@ const Dashboardlice = createSlice({
       state.Loading = false;
       state.PhotoAlbumList = action.payload;
     },
-    
+
     getPhotoAlbum1(state, action) {
       state.Loading = false;
       state.PhotoAlbumList1 = action.payload;
@@ -76,6 +78,9 @@ const Dashboardlice = createSlice({
     },
     getUserLoginDetails(state, action) {
       state.UserLoginDetails = action.payload;
+    },
+    getWeeklyAttendance(state, action) {
+      state.WeeklyAttendanceCount = action.payload;
     }
   }
 });
@@ -102,46 +107,46 @@ export const getEventsList =
       const response = await DashboardApi.GetUpcomingEventSList(data);
       dispatch(Dashboardlice.actions.getEventsList(response.data));
     };
-    export const getPhotoAlbum =
-    (data: IPhotoAlbumBody): AppThunk =>
-      async (dispatch) => {
-        dispatch(Dashboardlice.actions.getLoading(true));
-  
-        const response = await DashboardApi.PhotoAlbumData(data);
-  
-        const Data = [];
-        const Data1 = [];
-        const albumMap = new Map();
-  
-        response.data.forEach((item) => {
-          item.ImageList.forEach((image, index) => {
-           
-            Data.push({
+export const getPhotoAlbum =
+  (data: IPhotoAlbumBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(Dashboardlice.actions.getLoading(true));
+
+      const response = await DashboardApi.PhotoAlbumData(data);
+
+      const Data = [];
+      const Data1 = [];
+      const albumMap = new Map();
+
+      response.data.forEach((item) => {
+        item.ImageList.forEach((image, index) => {
+
+          Data.push({
+            id: index,
+            Header: item.Name,
+            AlbumID: item.Id,
+            Text1: image.Description,
+            Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
+          });
+
+
+          if (!albumMap.has(item.Id)) {
+            albumMap.set(item.Id, true);
+            Data1.push({
               id: index,
               Header: item.Name,
               AlbumID: item.Id,
               Text1: image.Description,
               Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
             });
-  
-          
-            if (!albumMap.has(item.Id)) {
-              albumMap.set(item.Id, true);
-              Data1.push({
-                id: index,
-                Header: item.Name,
-                AlbumID: item.Id,
-                Text1: image.Description,
-                Text2: localStorage.getItem('SiteURL') + 'RITeSchool/' + image.ImagePath
-              });
-            }
-          });
+          }
         });
-  
-        dispatch(Dashboardlice.actions.getPhotoAlbum1(Data1));
-        dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
-        
-      };
+      });
+
+      dispatch(Dashboardlice.actions.getPhotoAlbum1(Data1));
+      dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
+
+    };
 
 export const getFeedback =
   (data: IFeedbackList): AppThunk =>
@@ -167,6 +172,14 @@ export const getSaveUserLoginDetail =
     async (dispatch) => {
       const response = await DashboardApi.GetSaveUserLoginDetailsResult(data);
       dispatch(Dashboardlice.actions.getUserLoginDetails(response.data));
+    };
+
+
+export const getWeeklyAttendance =
+  (data: IWeeklyAttendanceBody): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.GetWeeklyAttendance(data);
+      dispatch(Dashboardlice.actions.getWeeklyAttendance(response.data));
     };
 
 export default Dashboardlice.reducer;

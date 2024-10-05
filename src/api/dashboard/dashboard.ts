@@ -54,7 +54,7 @@ const GetSaveUserLoginDetailsResult = (data: ISaveUserLoginDetailsBody) => {
   );
 };
 const GetWeeklyAttendance = (data: IWeeklyAttendanceBody) => {
-  return http.post<IWeeklyAttendanceResult>('Teacher/GetWeeklyAttendance', data);
+  return http.post<IWeeklyAttendanceResult[]>('Teacher/GetWeeklyAttendance', data);
 };
 const DashboardApi = {
   GetUnreadMessageList,
