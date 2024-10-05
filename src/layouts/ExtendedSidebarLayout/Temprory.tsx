@@ -64,6 +64,7 @@ import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPop
 
 import { PersonOff } from '@mui/icons-material';
 import { IGetAllowedPagesForUserBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -158,6 +159,24 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       sessionStorage.setItem('AllowedScreens', allowedScreens);
     }
   }, [AllowedPagesListForUser])
+  // #region School Settings
+  // Following useEffect() is to call the School Settings API and get necessary metadata 
+  const schoolSettingList: any = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
+  useEffect(() => {
+    dispatch(getSchoolSettingsValue({ asSchoolId: localStorage.getItem('SchoolId') }));
+  }, [dispatch]);
+  const [showWeeklyTimetable, setShowWeeklyTimetable] = useState(false);
+  useEffect(() => {
+    if (Object.keys(schoolSettingList).length > 0) {
+      if (schoolSettingList['DisplayWeeklyTimtableLink'] === 'true') {
+        setShowWeeklyTimetable(true);
+      } else {
+        setShowWeeklyTimetable(false);
+      }
+    }
+  }, [schoolSettingList])
+
+  // #endregion
 
   const ActionStyle = {
     backgroundColor: (theme) => theme.palette.primary.main,
@@ -232,13 +251,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Timetable',
       icon: <AccessTimeIcon />,
       link: '/extended-sidebar/Teacher/TeacherTimeTable',
-      screenId: 0
-    },
-    {
-      id: 'Daily Activities',
-      title: getPageName(59),
-      icon: <TableChartOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/WeeklyTimetable',
       screenId: 0
     },
     {
@@ -358,6 +370,18 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   //     link: '/extended-sidebar/Teacher/TAttendance'
   //   });
   // }
+
+  if (showWeeklyTimetable) {
+    sideList.push(
+      {
+        id: 'Daily Activities',
+        title: getPageName(59),
+        icon: <TableChartOutlinedIcon />,
+        link: '/extended-sidebar/Teacher/WeeklyTimetable',
+        screenId: 0
+      }
+    )
+  }
 
   if (hasMissingDays) {
     sideList.push({
@@ -617,10 +641,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
 
   groupedItems['Extra Screens'] = groupedItems['Extra Screens'].sort((a, b) => {
-    const titleA = a.title.toUpperCase();
-    const titleB = b.title.toUpperCase();
+    const titleA = a?.title?.toUpperCase();
+    const titleB = b?.title?.toUpperCase();
 
-    return titleA.localeCompare(titleB); // Shorter comparison using localeCompare
+    return titleA?.localeCompare(titleB); // Shorter comparison using localeCompare
   });
   const handleListItemClick1 = (event, link, anchor) => {
     event.stopPropagation(); // Prevent event propagation to AccordionSummary
