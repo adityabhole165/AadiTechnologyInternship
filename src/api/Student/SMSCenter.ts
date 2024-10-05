@@ -1,6 +1,8 @@
 import {
   GetNewSMSListResult,
   GetSMSDetailsResult,
+  IGetSentSMSBody,
+  IGetSentSMSResult,
   IMobileNumber,
   INewSmsList,
   ISmsCountBody,
@@ -31,12 +33,17 @@ const GetSmsDetails = (data: IViewSms) => {
 const GetSmsCountDetails = (data: ISmsCountBody) => {
   return http.post<ISmsCountResult[]>('SMS/GetAllSentSMSPermissionAndCounts', data);
 };
+
+const GetSendSMS = (data: IGetSentSMSBody) => {
+  return http.post<IGetSentSMSResult>('SMS/SendSMS', data);
+};
 const SmsCenterApi = {
   GetSmsCenterList,
   GetNewSmsCenterList,
   GetMobileNumber,
   GetSmsDetails,
-  GetSmsCountDetails
+  GetSmsCountDetails,
+  GetSendSMS
 };
 
 export default SmsCenterApi;
