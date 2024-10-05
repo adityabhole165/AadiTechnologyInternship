@@ -10,8 +10,8 @@ import {
 } from 'src/interfaces/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import ListSelect from 'src/libraries/list/ListSelect';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ContactGroup,
   GetGetAdminAndprincipalUsers,
@@ -503,12 +503,20 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   {techerStudent1 === '3' && (
-                    <DropdownofAddrecipent
-                      Array={getClass}
+                    // <DropdownofAddrecipent
+                    //   Array={getClass}
+                    //   defaultValue={studentlist}
+                    //   label="Select Class"
+                    //   handleChange={classChange}
+                    // />
+                    <SearchableDropdown
+                      sx={{ minWidth: '300px' }}
+                      ItemList={getClass}
+                      onChange={classChange}
+                      label={'Select Class'}
                       defaultValue={studentlist}
-                      label="Select Class"
-                      handleChange={classChange}
-                    />
+                      size={"small"}></SearchableDropdown>
+
                   )}
 
                   {Loading ? (
