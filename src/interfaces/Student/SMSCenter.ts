@@ -91,3 +91,32 @@ export interface ISmsCountResult {
   AllowedSMSCount: string;
   ExceededSMSCount: string;
 }
+
+export interface IGetSentSMSBody {
+  asSchoolId: string;
+  aoMessage: {
+    Body: string;
+    Subject: string;
+    SenderName: string;
+    DisplayText: string;
+    SenderUserId: string;
+    SenderUserRoleId: string;
+    AcademicYearId: string;
+    SchoolId: string;
+    InsertedById: string;
+    Attachment: string;
+  }
+  asSelectedUserIds: string;
+  asSelectedStDivId: string;
+  asIsSoftwareCordinator: number;
+  asMessageId: number;
+  sIsReply: string;
+  asIsForward: string;
+  asSchoolName: string;
+  asTemplateRegistrationId: string;
+}
+
+
+export interface IGetSentSMSResult {
+  boolean;
+}
