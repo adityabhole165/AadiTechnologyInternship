@@ -61,11 +61,6 @@ const Dashboardlice = createSlice({
       state.Loading = false;
       state.PhotoAlbumList1 = action.payload;
     },
-    getLoading(state, action) {
-      state.Loading = true;
-      state.PhotoAlbumList = [];
-    },
-
 
     getFeedback(state, action) {
       state.FeedbackList = action.payload.GetUserFeedbackDetails;
@@ -81,6 +76,13 @@ const Dashboardlice = createSlice({
     },
     getWeeklyAttendance(state, action) {
       state.WeeklyAttendanceCount = action.payload;
+    },
+
+    Rresetphotolist(state) {
+      state.PhotoAlbumList = [];
+    },
+    Rresetphotolist1(state) {
+      state.PhotoAlbumList1 = [];
     }
   }
 });
@@ -107,10 +109,9 @@ export const getEventsList =
       const response = await DashboardApi.GetUpcomingEventSList(data);
       dispatch(Dashboardlice.actions.getEventsList(response.data));
     };
-export const getPhotoAlbum =
+export const CDAgetPhotoAlbum =
   (data: IPhotoAlbumBody): AppThunk =>
     async (dispatch) => {
-      dispatch(Dashboardlice.actions.getLoading(true));
 
       const response = await DashboardApi.PhotoAlbumData(data);
 
@@ -181,5 +182,12 @@ export const getWeeklyAttendance =
       const response = await DashboardApi.GetWeeklyAttendance(data);
       dispatch(Dashboardlice.actions.getWeeklyAttendance(response.data));
     };
+
+export const CDAresetphotolist = (): AppThunk => async (dispatch) => {
+  dispatch(Dashboardlice.actions.Rresetphotolist());
+};
+export const CDAresetphotolist1 = (): AppThunk => async (dispatch) => {
+  dispatch(Dashboardlice.actions.Rresetphotolist1());
+};
 
 export default Dashboardlice.reducer;

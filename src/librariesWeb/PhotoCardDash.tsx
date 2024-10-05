@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
 import { CDAAllAcademicYearsForSchool } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
-import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
+import { CDAresetphotolist, CDAresetphotolist1, CDAgetPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 import Actions from './Actions';
 import Header from './Header';
@@ -90,9 +90,9 @@ function PhotoCardDash() {
 
 
   useEffect(() => {
-    dispatch(getPhotoAlbum(picsBody));
+    dispatch(CDAgetPhotoAlbum(picsBody));
     setIsFirstLoad(false);
-  }, []);
+  }, [month]);
 
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(new Date());
   const [countdown, setCountdown] = useState('');
@@ -169,7 +169,7 @@ function PhotoCardDash() {
 
   useEffect(() => {
     if (isRefresh == true) {
-      dispatch(getPhotoAlbum(picsBody));
+      dispatch(CDAgetPhotoAlbum(picsBody));
       setIsRefresh(false)
     }
   }, [isRefresh]);
@@ -183,14 +183,15 @@ function PhotoCardDash() {
 
 
   const handleApplyFilter = () => {
-    setMonth(month);
-    setYear(year);
+    
     const filteredPicsBody = {
       ...picsBody,
       aiMonth: Number(month),
       aiYear: Number(year),
     };
-    dispatch(getPhotoAlbum(picsBody));
+    dispatch(CDAgetPhotoAlbum(picsBody));
+    dispatch(CDAresetphotolist());
+    dispatch(CDAresetphotolist1());
     handleClose();
     setLastRefreshTime(new Date()); // Update the last refresh time
   };
