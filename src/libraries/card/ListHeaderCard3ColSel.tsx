@@ -9,7 +9,7 @@ const ListHeaderCard3ColSel = ({ Item, onChange }) => {
         <Grid
           item
           xs={1}
-          sx={{ display: 'flex', alignItems: 'center', paddingLeft: '5px' }}
+          sx={{ display: 'flex', alignItems: 'center', }}
         >
           <HeaderCheckbox checked={Item.isActive} onChange={onChange} />
         </Grid>{' '}
@@ -20,8 +20,8 @@ const ListHeaderCard3ColSel = ({ Item, onChange }) => {
             {Item.text1.split(' ')[1]}
           </CardDetail1>
         </Grid>{' '}
-        <Grid item xs={9} pl={0.5} >
-          <CardDetail1 sx={{ color: 'white' }}>{Item.text2}</CardDetail1>
+        <Grid item xs={9} >
+          <CardDetail1 sx={{ color: 'white', ml: -4 }}>{Item.text2}</CardDetail1>
 
         </Grid>
       </Grid>

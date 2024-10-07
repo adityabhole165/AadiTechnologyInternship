@@ -18,8 +18,8 @@ const SelectallAddrecipents = ({
   let isCheckAll = !Itemlist.some((obj) => obj.isActive === false)
     ? 1
     : !Itemlist.some((obj) => obj.isActive === true)
-    ? 0
-    : 2;
+      ? 0
+      : 2;
 
   const ClickAll = (value) => {
     Itemlist = Itemlist.map((obj) => {
@@ -30,7 +30,7 @@ const SelectallAddrecipents = ({
   return (
     <>
       <ListHeaderCard3ColSel
-        Item={{ text1: '', text2: 'SelectAll', isActive: isCheckAll }}
+        Item={{ text1: '', text2: 'Select All', isActive: isCheckAll }}
         onChange={ClickAll}
       />
       {Itemlist?.map((item, index) => (
