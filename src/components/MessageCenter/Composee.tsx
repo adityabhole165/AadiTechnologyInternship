@@ -14,7 +14,6 @@ import {
   DialogTitle,
   FormHelperText,
   Grid,
-  InputAdornment,
   TextField,
   Tooltip,
   Typography,
@@ -25,7 +24,6 @@ import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -62,11 +60,11 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, isFutureDateTime, toolbarOptions } from '../Common/Util';
+import { formatAMPM, isFutureDateTime } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
+import QuillEditor from '../ReactQull/QuillEditor';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -1099,32 +1097,32 @@ function Form13() {
                 sm={3.5}
                 md={3.5}
                 lg={1.5}
-                sx={{mt: -1,  display: scheduleMessage }}
+                sx={{ mt: -1, display: scheduleMessage }}
               >
                 {/* to be made working for release */}
                 <TimePicker
                   value={value}
                   onChange={clickTime}
-                  
-                  // renderInput={(params) => (
-                  //   <TextField
-                  //     {...params}
-                  //     variant="standard"
-                  //     size="small"
-                  //     sx={messageCenterCale}
-                  //     InputProps={{
-                  //       startAdornment: (
-                  //         <InputAdornment position="start">
-                  //            <AccessTimeIcon fontSize="small" /> 
-                  //         </InputAdornment>
-                  //       )
-                  //     }}
-                  //      fullWidth
-                  //   />
-                  // )} 
-                 
-                  
-                /> 
+
+                // renderInput={(params) => (
+                //   <TextField
+                //     {...params}
+                //     variant="standard"
+                //     size="small"
+                //     sx={messageCenterCale}
+                //     InputProps={{
+                //       startAdornment: (
+                //         <InputAdornment position="start">
+                //            <AccessTimeIcon fontSize="small" /> 
+                //         </InputAdornment>
+                //       )
+                //     }}
+                //      fullWidth
+                //   />
+                // )} 
+
+
+                />
               </Grid>
 
               <Grid item xs={6} sx={{ mt: 0, mb: '6px', ml: '1px' }}>
@@ -1134,9 +1132,10 @@ function Form13() {
 
               <Grid item xs={12} sx={messageCenter}>
                 <Box sx={{ p: 0 }}>
-                  <ReactQuill value={formik.values.Content} modules={toolbarOptions}
+                  {/* <ReactQuill value={formik.values.Content} modules={toolbar  Options}
                     onChange={formik.handleChange} theme='snow'
-                    onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} />
+                    onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} /> */}
+                  <QuillEditor formik={formik} />
                 </Box>
                 {/* <TextField
                   fullWidth
