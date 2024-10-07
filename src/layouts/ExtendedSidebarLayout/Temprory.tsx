@@ -168,7 +168,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const [showWeeklyTimetable, setShowWeeklyTimetable] = useState(false);
   useEffect(() => {
     if (Object.keys(schoolSettingList).length > 0) {
-      if (schoolSettingList['DisplayWeeklyTimtableLink'] === 'true') {
+      let isWeeklytTimetable = schoolSettingList['DisplayWeeklyTimtableLink'];
+      if (isWeeklytTimetable?.toLowerCase() === 'true') {
         setShowWeeklyTimetable(true);
       } else {
         setShowWeeklyTimetable(false);
