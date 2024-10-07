@@ -64,7 +64,7 @@ const ExamResultBase = () => {
     ParamsTestId == undefined ? "0" : ParamsTestId
 
   );
- 
+  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const [DisplayNote, setDisplayNote] = useState('');
   // const [InsertedId, setInsertedId] = useState('');
   const [HelpNote, setHelpNote] = useState('');
@@ -85,9 +85,14 @@ const ExamResultBase = () => {
     // : (selectTeacher !== undefined ? selectTeacher : "StandardDivisionId")
   );
 
+
+  
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ISClassTeachers
   );
+  console.log(ClassTeachers,"ClassTeachers");
+  
+
   
   const getTeacherId = () => {
     let TeacherId = '';
@@ -198,11 +203,8 @@ const USgetIsTermExamPublished: any = useSelector(
     asSchoolId: Number(asSchoolId),
     asAcadmicYearId: Number(asAcademicYearId),
     // asTeacherId: GetScreenPermission() === 'Y' ? 0 : (getTeacherId() ? Number(getTeacherId()) : Number(StandardDivisionId))
-    asTeacher_id: CanEdit == 'Y'
-      ? 0
-      : (getTeacherId() ? Number(getTeacherId()) : (ParamsStandardDivisionId != null ? Number(ParamsStandardDivisionId) : Number(StandardDivisionId)))
-    // asTeacherId: asTeacherId
-    // asTeacherId: 0
+    asTeacher_id: CanEdit == 'Y'? 0 : Number(TeacherId)
+    
   };
 
   const GetClasswiseExamDropdown: IGetClasswiseExamDropdownBody = {
@@ -312,6 +314,8 @@ const USgetIsTermExamPublished: any = useSelector(
   }, [StandardDivisionId,USgetIsFinalResultPublished,PublishUnpublish]);
 
 
+  
+
   useEffect(() => {
     const UserDetailBody: IGetUserDetailsBody = {
         asSchoolId: String(asSchoolId),
@@ -359,6 +363,12 @@ const USgetIsTermExamPublished: any = useSelector(
     }
   }, [ClassTeachers]);
 
+
+  useEffect(() => {
+    if ((ClassTeachers.length > 2)) {
+      setStandardDivisionId(ClassTeachers[0].Value);
+    }
+  }, [ClassTeachers]);
 
   const getCheckSubmitted = () => {
     let allSubmitted = true;
@@ -679,7 +689,7 @@ const USgetIsTermExamPublished: any = useSelector(
           <SearchableDropdown
             sx={{
               minWidth: '20vw'
-              , bgcolor: CanEdit == 'N' ? '#F0F0F0' : 'inherit'
+              , bgcolor: CanEdit == 'N'  && ClassTeachers.length == 2? '#F0F0F0' : 'inherit'
             }}
             ItemList={ asSchoolId == '18'
               ? ClassTeachers.filter((teacher: any) => teacher.Is_PrePrimary == "N")
@@ -690,8 +700,8 @@ const USgetIsTermExamPublished: any = useSelector(
             defaultValue={StandardDivisionId}
             mandatory
             size={"small"}
-            DisableClearable={CanEdit == 'N'}
-            disabled={CanEdit == 'N'}
+            DisableClearable={CanEdit == 'N'&& ClassTeachers.length == 2}
+            disabled={CanEdit == 'N'&& ClassTeachers.length == 2}
 
           />
 

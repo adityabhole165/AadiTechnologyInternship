@@ -270,11 +270,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
 
     {
-      id: 'Extra Screens',
+      id:'Exam',
       title: getPageName(80),
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult',
-      screenId: 80
+      screenId: 0
     },
     {
       id: 'Communication',
