@@ -1,7 +1,7 @@
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import { CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow, styled } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, CircularProgress, Paper, Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow, styled } from '@mui/material';
+import React from 'react';
 
 export type Column = {
   id: string;
@@ -40,7 +40,7 @@ export const StyledTableCell = styled(TableCell)(
 );
 
 const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, clickHeader, sortby, sortAsc }) => {
- 
+
 
   return (
     <Paper>
@@ -59,10 +59,11 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, c
                   }}
                   style={{ cursor: index < columns.length - 3 ? 'pointer' : 'default' }}
                 >
-                  {column.renderHeader ? column.renderHeader() : column.label}
-                  {column.label === sortby && (
-                    sortAsc === 'Desc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
-                  )}
+                  <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    {column.renderHeader ? column.renderHeader() : column.label}
+                    {column.label === sortby && (
+                      sortAsc === 'Desc' ? <ArrowCircleUpIcon /> : <ArrowCircleDown />
+                    )}</Box>
                 </StyledTableCell>
               ))}
             </StyledTableRow>
@@ -91,7 +92,7 @@ const FinalResultTable: React.FC<Props> = ({ columns, data, isLoading = false, c
                 </TableRow>
               ))
             )
-              }
+            }
           </TableBody>
         </Table>
       </TableContainer>
