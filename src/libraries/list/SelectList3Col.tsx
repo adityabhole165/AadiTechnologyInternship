@@ -1,4 +1,5 @@
-import { Box, Grid, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 import ListCard4ColSel from '../card/ListCard4ColSel';
 const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
   const clickSingle = (value) => {
@@ -7,9 +8,49 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
     );
     refreshData(Itemlist);
   };
-
+  const [Datecolumn, setDatecolumn] = useState('')
+  useEffect(() => {
+    if (ActiveTab === 'Inbox' || ActiveTab === 'Trash') {
+      setDatecolumn('Received Date')
+    } else if (ActiveTab === 'Sent') {
+      setDatecolumn('Sent Date')
+    } else if (ActiveTab === 'Draft') {
+      setDatecolumn('Draft Date')
+    }
+  }, [ActiveTab])
+  const showcolumn = (columnName) => {
+    if (columnName === 'Subject') {
+      return true;
+    }
+    else if (columnName === 'Cc') {
+      if (ActiveTab === 'Sent' || ActiveTab === 'Trash') {
+        return true;
+      }
+    } else if (columnName === 'Attachment' && ActiveTab === 'Inbox') {
+      return true;
+    } else if (columnName === 'Date') {
+      return true;
+    } else if (columnName === 'From') {
+      if (ActiveTab === 'Inbox' || ActiveTab === 'Trash') {
+        return true;
+      }
+    } else if (columnName === 'To') {
+      if (ActiveTab === 'Sent') {
+        return true
+      }
+    } else if (columnName === 'Message Body') {
+      if (ActiveTab === 'Draft') {
+        return true;
+      }
+    } else if (columnName === 'Delete') {
+      if (ActiveTab === 'Draft') {
+        return true;
+      }
+    }
+    return false;
+  }
   return (
-    <Box sx={{textAlign:'center'}}>
+    <Box sx={{ textAlign: 'center' }}>
       {/* <Table aria-label="simple table" sx={{mb:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
         <TableHead>
           <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
@@ -31,22 +72,29 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
           </TableRow>
         </TableHead>
       </Table> */}
-      <Grid container sx={{borderRadius:'7px', mb:1, p:1.5, background: (theme) => theme.palette.secondary.main, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-        <Grid  xs={12} sm={2} md={2} sx={{color:'white'}}>
-        Subject
-        </Grid>
-        <Grid  xs={12} sm={2} md={3} sx={{color:'white'}}>
-          CC
-        </Grid>
-        <Grid  xs={12} sm={2} md={2.5} sx={{color:'white'}}>
-        From
-        </Grid>
-        <Grid  xs={12} sm={2} md={2.5} sx={{color:'white'}}>
-        Attachment
-        </Grid>
-        <Grid  xs={12} sm={2} md={2} sx={{color:'white', }}>
-        Date
-        </Grid>
+
+      <Grid container sx={{ borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+        {showcolumn('Subject') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white' }}>
+          Subject
+        </Grid>}
+        {showcolumn('Cc') && <Grid xs={12} sm={2} md={3} sx={{ color: 'white' }}>
+          Cc
+        </Grid>}
+        {showcolumn('From') && <Grid xs={12} sm={2} md={2.5} sx={{ color: 'white' }}>
+          From
+        </Grid>}
+        {showcolumn('Attachment') && <Grid xs={12} sm={2} md={2.5} sx={{ color: 'white' }}>
+          Attachment
+        </Grid>}
+        {showcolumn('Date') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+          {Datecolumn}
+        </Grid>}
+        {showcolumn('Message Body') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+          Message Body
+        </Grid>}
+        {showcolumn('Delete') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+          Delete
+        </Grid>}
       </Grid>
       {Itemlist.map((item, index) => (
         <ListCard4ColSel
