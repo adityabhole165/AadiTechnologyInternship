@@ -422,13 +422,13 @@ function Form13() {
       To: '',
       Cc: '',
       Subject:
-        PageName == 'Forwa'
+        (PageName == 'Forwa'
           ? 'FW: ' + Text
-          : '' || PageName == 'Reply'
+          : '') || (PageName == 'Reply'
             ? 'RE: ' + Text
-            : '' || PageName == 'Edit'
-              ? Text
-              : '',
+            : '') || PageName == 'Edit'
+          ? Text
+          : '',
       Content: PageName == 'Edit' ? Text : '',
       Attachment: PageName == 'Edit' && null
     },
@@ -689,7 +689,7 @@ function Form13() {
               <Tooltip title={'Send'}>
                 <IconButton
                   type='submit'
-                  onClick={formik.handleSubmit}
+                  onClick={() => { formik.handleSubmit }}
                   disabled={disabledStateOfSend}
                   sx={{
                     color: 'white',

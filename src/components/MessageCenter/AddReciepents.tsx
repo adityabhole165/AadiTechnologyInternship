@@ -476,9 +476,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                           height={
                             RoleId === '3'
                               ? '50px'
-                              : '180px' || RoleId === '2'
+                              : RoleId === '2'
                                 ? '97px'
-                                : '100px'
+                                : '180px'
                           }
                         >
                           <ListSelect
