@@ -1,3 +1,4 @@
+import { QuestionMark } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -736,7 +737,9 @@ function Form13() {
                   id=""
                   fullWidth
                   // rows={3}
-                  disabled
+                  InputProps={{
+                    readOnly: true
+                  }}
                   value={fullDisplayName}
                   // value={RecipientsObject.RecipientName.map((obj) =>
                   //   obj?.trim()
@@ -1250,6 +1253,19 @@ function Form13() {
         }}
       >
         <DialogTitle sx={{ bgcolor: '#223354' }}>
+          <Tooltip title={'Select name of the teacher / Student / Admin staff / Other staff and click on "Back to compose" button.'}>
+            <QuestionMark
+              sx={{
+                color: 'white',
+                // background:'white',
+                borderRadius: '10px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: grey[600] }
+              }} />
+          </Tooltip>
           <ClearIcon onClick={handleCloseDialog}
             sx={{
               color: 'white',
