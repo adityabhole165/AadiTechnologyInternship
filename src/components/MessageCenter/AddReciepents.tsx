@@ -1,5 +1,5 @@
-import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { Box, Button, Card, DialogActions, Grid, TextField, Typography } from '@mui/material';
+import { blue, green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -538,6 +538,27 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
               </Grid>
             </>
           ) : null}
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button
+              color={'error'}
+              onClick={undefined}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={clickOkay}
+              sx={{
+                color: 'green',
+                '&:hover': {
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+
+            >
+              Confirm
+            </Button>
+          </DialogActions>
         </>
       </Box>
     </>
