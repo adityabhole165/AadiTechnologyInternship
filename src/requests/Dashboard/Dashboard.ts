@@ -205,11 +205,11 @@ export const CDAgetWeeklyAttendance =
 
       const WeeklyAttendanceDetailsdata = response.data.WeeklyAttendanceDetails.map((item, index) => {
         return {
-          TotalBoysPercentage: item.TotalBoysPercentage,
-          TotalGirlsPercentage: item.TotalGirlsPercentage,
-          TotalGirlsAbsentPercentage: item.TotalGirlsAbsentPercentage,
-          TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
           TotalAbsentPercentage: item.TotalAbsentPercentage,
+          TotalGirlsPercentage: item.TotalGirlsPercentage,
+          TotalBoysPercentage: item.TotalBoysPercentage,
+          TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
+          TotalPresentPercentage: item.TotalPresentPercentage,
           
         };
       });

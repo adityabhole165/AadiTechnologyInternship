@@ -1,12 +1,11 @@
 import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IWeeklyAttendanceBody } from 'src/interfaces/Student/dashboard';
-import { AppThunk, RootState } from 'src/store';
-import Header from './Header';
 import { CDAgetWeeklyAttendance } from 'src/requests/Dashboard/Dashboard';
-import { useDispatch } from 'react-redux';
+import { RootState } from 'src/store';
+import Header from './Header';
 
 const PieChart = () => {
     const dispatch = useDispatch();
@@ -16,20 +15,21 @@ const PieChart = () => {
     const asStandardDivisionId = Number(
         sessionStorage.getItem('StandardDivisionId')
     );
-    const WeeklyAttendance : any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
-    const listAttendanceCalender : any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
-    const GetDayDates : any = useSelector((state: RootState) => state.Dashboard.ISGetDayDates);
+    const WeeklyAttendance: any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
+    const listAttendanceCalender: any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
+    const GetDayDates: any = useSelector((state: RootState) => state.Dashboard.ISGetDayDates);
 
-    console.log(WeeklyAttendance ,"WeeklyAttendance");
-    
+    const firstGirlsPercentage = parseFloat(WeeklyAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
+    const firstBoysPercentage = parseFloat(WeeklyAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
+
     const options1 = {
         chart: {
             id: "basic-bar444",
         },
-        series: [2, 4],
+        series: [firstGirlsPercentage ,firstBoysPercentage ],
         labels: ["Girl", "Boys"],
     };
-    const series = [2, 4];
+    const series = [firstGirlsPercentage,firstBoysPercentage];
     // Define options with correct types
     // const options2: ApexOptions = {
     //     chart: {
@@ -59,18 +59,18 @@ const PieChart = () => {
                 id: "basic-bar444",
             },
             xaxis: {
-                categories: GetDayDates.map((item: any) => item.DayName )
+                categories: GetDayDates.map((item: any) => item.DayName)
             },
         },
         series: [
             {
                 name: "Absent Student",
-                data:WeeklyAttendance.map((item: any) => item.TotalGirlsAbsentPercentage )
+                data: WeeklyAttendance.map((item: any) => item.TotalAbsentPercentage)
             },
             {
                 name: "Present Student",
 
-                data:WeeklyAttendance.map((item: any) => item.TotalBoysAbsentPercentage )
+                data: WeeklyAttendance.map((item: any) => item.TotalPresentPercentage)
 
             },
         ],
@@ -84,7 +84,7 @@ const PieChart = () => {
 
     useEffect(() => {
         dispatch(CDAgetWeeklyAttendance(WeeklyAttendanceBody));
-      }, []);
+    }, []);
     return (
         <Box sx={{ backgroundColor: 'white', p: 1 }} >
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
