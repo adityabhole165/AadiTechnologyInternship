@@ -1,16 +1,27 @@
 import { Box, Grid } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 import { IWeeklyAttendanceBody } from 'src/interfaces/Student/dashboard';
-import { RootState } from 'src/store';
+import { AppThunk, RootState } from 'src/store';
 import Header from './Header';
+import { CDAgetWeeklyAttendance } from 'src/requests/Dashboard/Dashboard';
+import { useDispatch } from 'react-redux';
 
 const PieChart = () => {
+    const dispatch = useDispatch();
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const UserId = Number(sessionStorage.getItem('Id'));
-    const WeeklyAttendance = useSelector((state: RootState) => state.Dashboard.WeeklyAttendanceCount);
+    const asStandardDivisionId = Number(
+        sessionStorage.getItem('StandardDivisionId')
+    );
+    const WeeklyAttendance : any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
+    const listAttendanceCalender : any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
+    const GetDayDates : any = useSelector((state: RootState) => state.Dashboard.ISGetDayDates);
+
+    console.log(WeeklyAttendance ,"WeeklyAttendance");
+    
     const options1 = {
         chart: {
             id: "basic-bar444",
@@ -48,17 +59,19 @@ const PieChart = () => {
                 id: "basic-bar444",
             },
             xaxis: {
-                categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fir', 'Sat']
+                categories: GetDayDates.map((item: any) => item.DayName )
             },
         },
         series: [
             {
                 name: "Absent Student",
-                data: [30, 40, 45, 50, 49, 60],
+                data:WeeklyAttendance.map((item: any) => item.TotalGirlsAbsentPercentage )
             },
             {
                 name: "Present Student",
-                data: [35, 20, 55, 70, 10, 23],
+
+                data:WeeklyAttendance.map((item: any) => item.TotalBoysAbsentPercentage )
+
             },
         ],
     });
@@ -66,9 +79,12 @@ const PieChart = () => {
     const WeeklyAttendanceBody: IWeeklyAttendanceBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: UserId,
+        asStandardDivisionId: asStandardDivisionId,
     };
 
+    useEffect(() => {
+        dispatch(CDAgetWeeklyAttendance(WeeklyAttendanceBody));
+      }, []);
     return (
         <Box sx={{ backgroundColor: 'white', p: 1 }} >
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
@@ -100,3 +116,5 @@ const PieChart = () => {
 };
 
 export default PieChart;
+
+

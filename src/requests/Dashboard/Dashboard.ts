@@ -27,7 +27,9 @@ const Dashboardlice = createSlice({
     FeedbackList: [],
     Msgfrom: [],
     MessageCount: {},
-    WeeklyAttendanceCount: [],
+    ISWeeklyAttendanceCount: [],
+    ISlistAttendanceCalender:[],
+    ISGetDayDates:[],
     Loading: true,
     UserLoginDetails: null
   },
@@ -74,8 +76,16 @@ const Dashboardlice = createSlice({
     getUserLoginDetails(state, action) {
       state.UserLoginDetails = action.payload;
     },
-    getWeeklyAttendance(state, action) {
-      state.WeeklyAttendanceCount = action.payload;
+    RgetWeeklyAttendance(state, action) {
+      state.ISWeeklyAttendanceCount = action.payload;
+    },
+
+    RlistAttendanceCalender(state, action) {
+      state.ISlistAttendanceCalender = action.payload;
+    },
+    
+    RGetDayDates(state, action) {
+      state.ISGetDayDates = action.payload;
     },
 
     Rresetphotolist(state) {
@@ -176,12 +186,46 @@ export const getSaveUserLoginDetail =
     };
 
 
-export const getWeeklyAttendance =
+export const CDAgetWeeklyAttendance =
   (data: IWeeklyAttendanceBody): AppThunk =>
     async (dispatch) => {
-      const response = await DashboardApi.GetWeeklyAttendance(data);
-      dispatch(Dashboardlice.actions.getWeeklyAttendance(response.data));
+      const response = await DashboardApi.ApiGetWeeklyAttendance(data);
+      const GetDayDates = response.data.GetDayDates.map((item, index) => {
+        return {
+          DayName: item.DayName,
+          
+        };
+      });
+      const listAttendanceCalender = response.data.listAttendanceCalender.map((item, index) => {
+        return {
+          Status_BackColur: item.Status_BackColur,
+          
+        };
+      });
+
+      const WeeklyAttendanceDetailsdata = response.data.WeeklyAttendanceDetails.map((item, index) => {
+        return {
+          TotalBoysPercentage: item.TotalBoysPercentage,
+          TotalGirlsPercentage: item.TotalGirlsPercentage,
+          TotalGirlsAbsentPercentage: item.TotalGirlsAbsentPercentage,
+          TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
+          TotalAbsentPercentage: item.TotalAbsentPercentage,
+          
+        };
+      });
+
+    
+
+
+      dispatch(Dashboardlice.actions.RgetWeeklyAttendance(WeeklyAttendanceDetailsdata));
+      dispatch(Dashboardlice.actions.RlistAttendanceCalender(listAttendanceCalender));
+      dispatch(Dashboardlice.actions.RGetDayDates(GetDayDates));
+      
+
+      console.log(WeeklyAttendanceDetailsdata,"WeeklyAttendanceDetailsdata");
+      
     };
+
 
 export const CDAresetphotolist = (): AppThunk => async (dispatch) => {
   dispatch(Dashboardlice.actions.Rresetphotolist());

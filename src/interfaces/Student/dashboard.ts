@@ -163,21 +163,23 @@ export interface IWeeklyAttendanceBody {
   asAcademicYearId: number;
   asStandardDivisionId: number;
 }
+
 export interface IWeeklyAttendanceResult {
   GetDayDates: [
-    {
-      Attendance_Date: string;
-      DayName: string;
-    }
+      {
+        Attendance_Date: string;
+        DayName: string;
+      }
   ],
   listAttendanceCalender: [
-    {
-      Att_date: string;
-      Status: string;
-      Status_Desc: string;
-      Status_ForeColur: string;
-      Status_BackColur: string;
-    }
+      {
+        Att_date: string;
+        Status: string;
+        Status_Desc: string;
+        Status_ForeColur: string;
+        Status_BackColur: string;
+         
+      }
   ],
   WeeklyAttendanceDetails: [
     {
@@ -198,6 +200,13 @@ export interface IWeeklyAttendanceResult {
       TotalGirlsAbsentPercentage: string;
       TotalBoysPercentage: string;
       TotalGirlsPercentage: string;
+      TotalAbsentPercentage:string
     }
-  ],
+],
+
+
+      
+
+  
 }
+
