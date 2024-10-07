@@ -1,21 +1,24 @@
 
-import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, TextField, Typography, useTheme } from '@mui/material';
-import { ClearIcon } from '@mui/x-date-pickers';
+import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, TextField, Typography, useTheme } from '@mui/material';
+import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
 import { Styles } from 'src/assets/style/student-style';
+import { formatAMPM, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import AddReciepents from 'src/components/MessageCenter/AddReciepents';
+import Datepicker from 'src/components/MessageCenter/DatepickerMessage';
 import ACompose_SendSMS, { GetSMSTemplates, MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
 import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import { RootState } from 'src/store';
+import AddReciepentsSMS from './AddReciepientSMS';
 import Note from './Note';
 
 const ComposeSMSform = () => {
@@ -26,6 +29,12 @@ const ComposeSMSform = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
     const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
+    const [schTimeerror, setSchTimeerror] = useState('');
+    const [scheduleSMS, setScheduleSMS] = useState('none');
+    const [scheduledDate, setScheduledDate] = useState('');
+    const [scheduledTime, setScheduledTime] = React.useState(new Date());
+    const [requestSchedule, setRequestSchedule] = useState(false);
+    const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
     const [RecipientsArray, setRecipientsArray] = useState(
         {
             RecipientName: [],
@@ -44,6 +53,22 @@ const ComposeSMSform = () => {
         setdisplayOfCompose_Page('none');
     };
 
+    const TodayDate = new Date();
+    const curTimeH = TodayDate.getHours() % 12 || 12;
+    const curTimeM = TodayDate.getMinutes();
+    const CurrTIME = curTimeH + ':' + curTimeM;
+    const [scheduleDate, setscheduleDate] = useState<string>('');
+    const Day = TodayDate.getDate().toString().padStart(2, '0');
+    const Month = (TodayDate.getMonth() + 1).toString().padStart(2, '0');
+    const Year = TodayDate.getFullYear();
+    const MinDate = `${Year}-${Month}-${Day}`;
+
+    let maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + 7);
+    const Day7FromToday = maxDate.getDate().toString().padStart(2, '0');
+    const Month7FromToday = (maxDate.getMonth() + 1).toString().padStart(2, '0');
+    const Year7FromToday = maxDate.getFullYear();
+    const MaxDate = `${Year7FromToday}-${Month7FromToday}-${Day7FromToday}`;
     // Tool Tip  =================================
     const Note1: string =
         'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
@@ -249,6 +274,28 @@ const ComposeSMSform = () => {
         setCharacterCount(value.length)
     }
 
+    const scheduleMessageCheckBox = (e) => {
+        if (e.target.checked == true) {
+            setScheduleSMS('block');
+        } else {
+            setScheduleSMS('none');
+        }
+    };
+    const checkScheduleValidation = (DateTime) => {
+        if (isFutureDateTime(DateTime)) {
+            setSchTimeerror('');
+        } else {
+            setSchTimeerror('Please select future time');
+        }
+    };
+    const clickTime = (value) => {
+        const time = formatAMPM(value);
+        if (scheduleDate !== '') {
+            checkScheduleValidation(scheduleDate + ' ' + time);
+        }
+        setScheduledTime(value);
+    };
+
     return (
         <>
 
@@ -271,12 +318,44 @@ const ComposeSMSform = () => {
                 />
 
                 <Box>
-
                     <ListStyle sx={{}}>
+                        <Checkbox
+                            onChange={scheduleMessageCheckBox}
+                            onClick={() => setRequestSchedule(!requestSchedule)}
+                            size="small"
+                            sx={{ ml: '1px' }}
+                        />
+                        <Typography sx={{ display: 'inline-block' }}>
+                            Schedule SMS
+                        </Typography>
+
+                        <Grid container spacing={2} mt={0}>
+                            <Grid item xs={6}>
+                                <Datepicker
+                                    DateValue={undefined}
+                                    onDateChange={(e) => setScheduledDate(e.target.value)}
+                                    label=""
+                                    size="medium"
+                                    minDate={MinDate}
+                                    maxDate={MaxDate}
+                                    display={scheduleSMS}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={6}
+                                sx={{ display: scheduleSMS }}
+                            >
+                                <TimePicker
+                                    value={scheduledTime}
+                                    onChange={clickTime}
+                                />
+                            </Grid>
+                        </Grid>
                         <form onSubmit={formik.handleSubmit}>
                             <FormControl fullWidth>
                                 <TextField
-                                    sx={{ marginBottom: '-10px' }}
+                                    sx={{ marginBottom: '-10px', marginTop: '20px' }}
                                     variant="standard"
                                     name="From"
                                     label={'From'}
@@ -403,9 +482,9 @@ const ComposeSMSform = () => {
 
                 </Box>
                 <div style={{ display: displayOfTo_RecipientsPage }}>
-                    <AddReciepents RecipientName={RecipientsArray.RecipientName}
+                    <AddReciepentsSMS RecipientName={RecipientsArray.RecipientName}
                         RecipientId={RecipientsArray.RecipientId}
-                        recipientListClick={RecipientsListFun}></AddReciepents>
+                        recipientListClick={RecipientsListFun}></AddReciepentsSMS>
                 </div>
 
                 <Dialog
