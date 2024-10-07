@@ -37,7 +37,7 @@ const ComposeSMSform = () => {
         RecipientId: [],
         ClassId: [],
         ContactGroup: []
-      });
+    });
 
     const To_Recipients_Page = (e) => {
         setdisplayOfTo_RecipientsPage('block');
@@ -95,7 +95,7 @@ const ComposeSMSform = () => {
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
-      };
+    };
 
 
     const ContentFieldBlur = (e) => {
@@ -137,7 +137,7 @@ const ComposeSMSform = () => {
     );
     const handleOpenDialog = (isRecipients) => {
         setOpenDialog(true);
-      };
+    };
 
     // Api body of Admin SMS Template
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -145,7 +145,9 @@ const ComposeSMSform = () => {
     const asUserId = sessionStorage.getItem('Id');
     const schoolName = localStorage.getItem('SchoolName');
     const userRoleId = sessionStorage.getItem('RoleId');
-    const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
+    const SchoolSettingsValue = JSON.parse(
+        localStorage.getItem('SchoolSettingsValue')
+    );
     const senderUserName = SchoolSettingsValue.SMSSenderUserName;
 
     const getTemplateAPIBody: MessageTemplateSMSCenter = {
@@ -275,7 +277,7 @@ const ComposeSMSform = () => {
                             <FormControl fullWidth>
                                 <TextField
                                     sx={{ marginBottom: '-10px' }}
-                                    variant="outlined"
+                                    variant="standard"
                                     name="From"
                                     label={'From'}
                                     id="from"
@@ -401,52 +403,52 @@ const ComposeSMSform = () => {
 
                 </Box>
                 <div style={{ display: displayOfTo_RecipientsPage }}>
-        <AddReciepents RecipientName={RecipientsArray.RecipientName} 
-        RecipientId={RecipientsArray.RecipientId}
-        recipientListClick={RecipientsListFun}></AddReciepents>
-      </div>
+                    <AddReciepents RecipientName={RecipientsArray.RecipientName}
+                        RecipientId={RecipientsArray.RecipientId}
+                        recipientListClick={RecipientsListFun}></AddReciepents>
+                </div>
 
-       <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        fullWidth
-        maxWidth="md"
-        PaperProps={{
-          sx: {
-            borderRadius: "15px",
-          }
-        }}
-      >
-        <DialogTitle sx={{ bgcolor: '#223354' }}>
-          <ClearIcon onClick={handleCloseDialog}
-            sx={{
-              color: 'white',
-              borderRadius: '7px',
-              position: 'absolute',
-              top: '5px',
-              right: '8px',
-              cursor: 'pointer',
-              '&:hover': {
-                color: 'red',
-              }
-            }} />
+                <Dialog
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    fullWidth
+                    maxWidth="md"
+                    PaperProps={{
+                        sx: {
+                            borderRadius: "15px",
+                        }
+                    }}
+                >
+                    <DialogTitle sx={{ bgcolor: '#223354' }}>
+                        <ClearIcon onClick={handleCloseDialog}
+                            sx={{
+                                color: 'white',
+                                borderRadius: '7px',
+                                position: 'absolute',
+                                top: '5px',
+                                right: '8px',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    color: 'red',
+                                }
+                            }} />
 
-        </DialogTitle>
-        <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-          Add Recipients
-        </Typography>
+                    </DialogTitle>
+                    <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
+                        Add Recipients
+                    </Typography>
 
-        <DialogContent>
-          <Box>
-              <AddReciepents
-                RecipientName={RecipientsObject.RecipientName}
-                RecipientId={RecipientsObject.RecipientId}
-                recipientListClick={RecipientsListFun}
-              />
-          </Box>
-        </DialogContent>
-      </Dialog>
-    
+                    <DialogContent>
+                        <Box>
+                            <AddReciepents
+                                RecipientName={RecipientsObject.RecipientName}
+                                RecipientId={RecipientsObject.RecipientId}
+                                recipientListClick={RecipientsListFun}
+                            />
+                        </Box>
+                    </DialogContent>
+                </Dialog>
+
 
             </Box>
         </>
