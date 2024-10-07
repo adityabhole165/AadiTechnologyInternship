@@ -63,12 +63,12 @@ import {
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 import { PersonOff } from '@mui/icons-material';
-import { IGetAllowedPagesForUserBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
-import { getAllowedPagesForUser } from 'src/requests/SchoolSetting/schoolSetting';
+import { getAllowedPagesForUser, getModulesPermissionsResultt } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -104,6 +104,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const UsschoolSettings = useSelector(
     (state: RootState) => state.AbsentStudent.IsGetSchoolSettings
   );
+  const GetScreensAccessPermissions: any = useSelector(
+    (state: RootState) =>
+      state.getModulesPermissionsResult.ModulesPermissionsResult
+  );
 
   const MissingName = useSelector((state: RootState) => state.MissingAttendanceAleart.MissingattendName);
   const MissingDays = MissingName.map(item => item.MissingDays);
@@ -111,9 +115,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const ListAbsentStudent = useSelector(
     (state: RootState) => state.AbsentStudent.getlistAbsentStudentDetails
   );
-  const ScreensAccessPermission = JSON.parse(
-    sessionStorage.getItem('ScreensAccessPermission')
-  );
+  const ScreensAccessPermission = GetScreensAccessPermissions;
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission && ScreensAccessPermission.map((item) => {
@@ -143,6 +145,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   );
 
   //useEffect to call the allowed screens API for the current logged in user
+  let auth = JSON.parse(localStorage.getItem('auth'))
   useEffect(() => {
     const AllowedPageApiBody: IGetAllowedPagesForUserBody = {
       asSchoolId: Number(localStorage.getItem('SchoolId')),
@@ -150,8 +153,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       asScreenLevel: null,
       asConfigId: null
     }
-    dispatch(getAllowedPagesForUser(AllowedPageApiBody))
-  }, [])
+    const getScreensAccessPermissions: IGetScreensAccessPermissions = {
+      asSchoolId: asSchoolId.toString(),
+      asAcademicYearId: sessionStorage.getItem('AcademicYearId'),
+      asUserId: sessionStorage.getItem('Id'),
+      asUserRoleId: sessionStorage.getItem('RoleId'),
+      abIsPreprimaryTeacher: auth?.data?.TeacherDetails?.IsPreprimary === 'Y' ? true : false,
+    };
+    dispatch(getAllowedPagesForUser(AllowedPageApiBody));
+    dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
+  }, [dispatch])
 
   useEffect(() => {
     if (AllowedPagesListForUser.length > 0 && sessionStorage.getItem('AllowedScreens') === null) {
@@ -270,7 +281,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
 
     {
-      id:'Exam',
+      id: 'Exam',
       title: getPageName(80),
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult',
@@ -511,7 +522,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   useEffect(() => {
     dispatch(AbsentStudents(ListAbsentStudentBody));
     dispatch(GetSchoolSettings(AbsentStudentsBody));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     // const isLoggedIn = localStorage.getItem('UserLoginDetails1');
