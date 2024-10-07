@@ -11,6 +11,7 @@ import {
   Checkbox,
   ClickAwayListener,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   FormHelperText,
@@ -520,6 +521,7 @@ function Form13() {
     setdisplayOfRecipients('none');
     setdisplayOfComposePage('block');
   };
+
   const RecipientsCCListFun = (e) => {
     setRecipientsCCObject(e);
     setdisplayOfCCRecipients('none');
@@ -1300,6 +1302,27 @@ function Form13() {
               />
             )}
           </Box>
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button
+              color={'error'}
+              onClick={handleCloseDialog}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => { '' }}
+              sx={{
+                color: 'green',
+                '&:hover': {
+                  color: 'green',
+                  backgroundColor: green[100]
+                }
+              }}
+
+            >
+              Confirm
+            </Button>
+          </DialogActions>
         </DialogContent>
       </Dialog>
     </>
