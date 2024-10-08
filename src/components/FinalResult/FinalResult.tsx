@@ -523,8 +523,8 @@ const FinalResult = () => {
 
 
   useEffect(() => {
-    if ((GetClassTeachers.length > 2)) {
-      setStandardDivisionId(GetClassTeachers[0].Value);
+    if ((GetClassTeachers.length > 2 && FinalResultFullAccess == 'N')) {
+      setStandardDivisionId(GetClassTeachers[0].Value ) ;
     }
   }, [GetClassTeachers]);
 
