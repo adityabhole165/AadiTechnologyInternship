@@ -15,38 +15,19 @@ const PieChart = () => {
     const asStandardDivisionId = Number(
         sessionStorage.getItem('StandardDivisionId')
     );
-    const WeeklyAttendance: any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
-    const listAttendanceCalender: any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
+    const filteredAttendance: any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
+    const statusDescriptions: any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
     const GetDayDates: any = useSelector((state: RootState) => state.Dashboard.ISGetDayDates);
 
-    const firstGirlsPercentage = parseFloat(WeeklyAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
-    const firstBoysPercentage = parseFloat(WeeklyAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
+    const firstGirlsPercentage = parseFloat(filteredAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
+    const firstBoysPercentage = parseFloat(filteredAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
 
-    const statusDescriptions = GetDayDates.map(subjectSection => (
-        listAttendanceCalender
-          .filter(outcome => outcome.Att_date === subjectSection.Attendance_Date)
-          .map(outcome => ({
-            StatusDesc: outcome.Status_Desc,
-            DayName: subjectSection.DayName,
-            Attendance_Date : outcome.Att_date
-          }))
-      )).flat();
-      
       const isWeekend = (statusDesc) => statusDesc === 'Weekend'; 
-
       const colors = statusDescriptions.map((item) => (
         isWeekend(item.StatusDesc) ? 'red' : ''
       ));
 
-      const categories = statusDescriptions.map((item) => item.DayName);
-     
-
-      const filteredAttendance = statusDescriptions.map((desc) => {
-        return WeeklyAttendance.find((item) => item.Attendance_Date === desc.Attendance_Date) || {};
-      });
-      
-      const absentData = filteredAttendance.map(item => item.TotalAbsentPercentage || 0);
-      const presentData = filteredAttendance.map(item => item.TotalPresentPercentage || 0);
+   
 
     const options1 = {
         chart: {
@@ -85,7 +66,7 @@ const PieChart = () => {
                 id: "basic-bar444",
             },
             xaxis: {
-                categories: categories ,// Set categories for the x-axis
+                categories: statusDescriptions.map((item) => item.DayName) ,// Set categories for the x-axis
                 labels: {
                   style: {
                     colors: colors, // Apply the colors to the x-axis labels
@@ -97,12 +78,12 @@ const PieChart = () => {
         series: [
             {
                 name: "Absent Student",
-                data: absentData
+                data: filteredAttendance.map(item => item.TotalAbsentPercentage)
             },
             {
                 name: "Present Student",
 
-                data: presentData
+                data: filteredAttendance.map(item => item.TotalPresentPercentage)
 
             },
         ],

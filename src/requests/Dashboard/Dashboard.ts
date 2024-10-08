@@ -215,11 +215,25 @@ export const CDAgetWeeklyAttendance =
         };
       });
 
-    
+       
+      const statusDescriptions = GetDayDates.map(subjectSection => (
+        listAttendanceCalender
+          .filter(outcome => outcome.Att_date === subjectSection.Attendance_Date)
+          .map(outcome => ({
+            StatusDesc: outcome.Status_Desc,
+            DayName: subjectSection.DayName,
+            Attendance_Date : outcome.Att_date
+          }))
+      )).flat();
+
+     
+      const filteredAttendance = statusDescriptions.map((desc) => {
+        return WeeklyAttendanceDetailsdata.find((item) => item.Attendance_Date === desc.Attendance_Date) || {};
+      });
 
 
-      dispatch(Dashboardlice.actions.RgetWeeklyAttendance(WeeklyAttendanceDetailsdata));
-      dispatch(Dashboardlice.actions.RlistAttendanceCalender(listAttendanceCalender));
+      dispatch(Dashboardlice.actions.RgetWeeklyAttendance(filteredAttendance));
+      dispatch(Dashboardlice.actions.RlistAttendanceCalender(statusDescriptions));
       dispatch(Dashboardlice.actions.RGetDayDates(GetDayDates));
       
 
