@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
-import { IPhotoAlbum } from 'src/interfaces/Student/dashboard';
-import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
+import { IPhotoAlbum, IPhotoAlbumBody } from 'src/interfaces/Student/dashboard';
+import { CDAgetPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 
 import Card17 from 'src/libraries/card/Card17';
@@ -20,26 +20,26 @@ function PhotoAlbum() {
   const YearData = YearList.map((key, index) => {
     return YearList[index].split('-')[0];
   });
-
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const asSchoolId = sessionStorage.getItem('SchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
-  const PhotoAlbumBody: IPhotoAlbum = {
-    aiSchoolId: asSchoolId,
-    aiMonth: '100',
-    aiYear: '2022',
-    abSetPreviousMonth: 'true',
-    aiUserId: UserId
+  const PhotoAlbumBody: IPhotoAlbumBody = {
+    aiSchoolId:  Number (asSchoolId),
+    aiMonth: 100,
+    aiYear: 2022,
+    aiUserId: Number(UserId),
+    iFirstLoad:isFirstLoad
   };
   const YearBody: IYearList = {
-    asSchoolId: asSchoolId,
-    asUserId: UserId,
-    asUserRoleId: RoleId
+    asSchoolId: Number (asSchoolId),
+    asUserId: Number (UserId),
+    asUserRoleId: Number (RoleId)
   };
 
   useEffect(() => {
-    dispatch(getPhotoAlbum(PhotoAlbumBody));
+    dispatch(CDAgetPhotoAlbum(PhotoAlbumBody));
     dispatch(getYearList(YearBody));
   }, []);
   return (

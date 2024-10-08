@@ -6,11 +6,12 @@ import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import List1 from 'src/libraries/mainCard/List1';
-import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
+import { CDAgetPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import MonthYearselector from './MonthYearselector';
+import { IPhotoAlbumBody } from 'src/interfaces/Student/dashboard';
 function Photos() {
   const dispatch = useDispatch();
   const { Month, Year } = useParams();
@@ -42,9 +43,9 @@ function Photos() {
       setYear(new Date().getFullYear());
     }
     const YearBody: IYearList = {
-      asSchoolId: asSchoolId,
-      asUserId: asUserId,
-      asUserRoleId: RoleId
+      asSchoolId: Number (asSchoolId),
+      asUserId: Number(asUserId),
+      asUserRoleId: Number(RoleId)
     };
     dispatch(getYearList(YearBody));
   }, []);
@@ -56,17 +57,17 @@ function Photos() {
   const handleClick = (value) => {
     setYear(value);
   };
-
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   useEffect(() => {
     if (month > 0) {
-      const PhotoAlbumBody: IPhotoAlbum = {
-        aiSchoolId: asSchoolId,
+      const PhotoAlbumBody: IPhotoAlbumBody = {
+        aiSchoolId:  Number (asSchoolId),
         aiMonth: month,
         aiYear: year,
-        abSetPreviousMonth: 'true',
-        aiUserId: asUserId
+        aiUserId: Number(asUserId),
+        iFirstLoad:isFirstLoad
       };
-      dispatch(getPhotoAlbum(PhotoAlbumBody));
+      dispatch(CDAgetPhotoAlbum(PhotoAlbumBody));
     }
   }, [year, month]);
 
