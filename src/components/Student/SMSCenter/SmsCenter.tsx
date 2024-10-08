@@ -1,9 +1,13 @@
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AllInboxIcon from '@mui/icons-material/AllInbox';
+import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SmsIcon from '@mui/icons-material/Sms';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import format from 'date-fns/format';
@@ -16,10 +20,6 @@ import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 import { getMobileNumber, getNewSmsList, getSmsCount } from 'src/requests/Student/SMSCenter';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import AllInboxIcon from '@mui/icons-material/AllInbox';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
 
 import { RootState } from 'src/store';
 const PageSize = 20;
@@ -186,6 +186,20 @@ function SmsCenter() {
               </Tooltip>
             </Box>
             <Box>
+              <Tooltip title={`Use Template.`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: blue[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: blue[600] },
+                  }}
+                > 
+                  <SupervisedUserCircleIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
               <Tooltip title={`Sort SMS List`}>
                 <IconButton
                   sx={{
@@ -236,95 +250,95 @@ function SmsCenter() {
                 </Card>
               </RouterLink>
               <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                >
+                sx={{
+                  textAlign: 'center',
+                  height: '85px',
+                  backgroundColor: 'white',
+                  mb: '10px',
+                  borderRadius: '10px',
+                }}
+              >
 
-                  <MarkunreadMailboxIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Received SMS</b>
-                </Card>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                >
+                <MarkunreadMailboxIcon
+                  onClick={undefined}
+                  sx={{ mt: '10px', color: '#38548A' }}
+                  className={classes.IconSize}
+                />
+                <br />
+                <b style={{ color: '#38548A' }}>Received SMS</b>
+              </Card>
+              <Card
+                sx={{
+                  textAlign: 'center',
+                  height: '85px',
+                  backgroundColor: 'white',
+                  mb: '10px',
+                  borderRadius: '10px',
+                }}
+              >
 
-                  <SmsIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Send Item</b>
-                </Card>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                >
+                <SmsIcon
+                  onClick={undefined}
+                  sx={{ mt: '10px', color: '#38548A' }}
+                  className={classes.IconSize}
+                />
+                <br />
+                <b style={{ color: '#38548A' }}>Send Item</b>
+              </Card>
+              <Card
+                sx={{
+                  textAlign: 'center',
+                  height: '85px',
+                  backgroundColor: 'white',
+                  mb: '10px',
+                  borderRadius: '10px',
+                }}
+              >
 
-                  <AddCircleIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>Scheduled SMS</b>
-                </Card>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                >
+                <AccessAlarmIcon
+                  onClick={undefined}
+                  sx={{ mt: '10px', color: '#38548A' }}
+                  className={classes.IconSize}
+                />
+                <br />
+                <b style={{ color: '#38548A' }}>Scheduled SMS</b>
+              </Card>
+              <Card
+                sx={{
+                  textAlign: 'center',
+                  height: '85px',
+                  backgroundColor: 'white',
+                  mb: '10px',
+                  borderRadius: '10px',
+                }}
+              >
 
-                  <AllInboxIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}>All send Item</b>
-                </Card>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    height: '85px',
-                    backgroundColor: 'white',
-                    mb: '10px',
-                    borderRadius: '10px',
-                  }}
-                >
+                <AllInboxIcon
+                  onClick={undefined}
+                  sx={{ mt: '10px', color: '#38548A' }}
+                  className={classes.IconSize}
+                />
+                <br />
+                <b style={{ color: '#38548A' }}>All send Item</b>
+              </Card>
+              <Card
+                sx={{
+                  textAlign: 'center',
+                  height: '85px',
+                  backgroundColor: 'white',
+                  mb: '10px',
+                  borderRadius: '10px',
+                }}
+              >
 
-                  <MenuBookIcon
-                    onClick={undefined}
-                    sx={{ mt: '10px', color: '#38548A' }}
-                    className={classes.IconSize}
-                  />
-                  <br />
-                  <b style={{ color: '#38548A' }}> Personal Address book</b>
-                </Card>
+                <MenuBookIcon
+                  onClick={undefined}
+                  sx={{ mt: '10px', color: '#38548A' }}
+                  className={classes.IconSize}
+                />
+                <br />
+                <b style={{ color: '#38548A' }}> Personal Address book</b>
+              </Card>
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '85%', p: 2, background: 'white', borderRadius: '10px' }}>
@@ -332,10 +346,10 @@ function SmsCenter() {
             <Grid container spacing={2} pb={2}>
               {/* Free SMS Count */}
               <Grid item xs={12} sm={4}>
-                <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius:'10px'}}>
-                  <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
+                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                  <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
                   <Box>
-                    <Typography variant="h6" color="green">
+                    <Typography variant="h6" color="blue">
                       Free SMS
                     </Typography>
                     <Typography variant="h4">{SmsCount.AllowedSMSCount ?? 0}</Typography>
@@ -345,10 +359,10 @@ function SmsCenter() {
 
               {/* Sent SMS Count */}
               <Grid item xs={12} sm={4}>
-                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2,  borderRadius:'10px' }}>
-                  <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                  <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
                   <Box>
-                    <Typography variant="h6" color="blue">
+                    <Typography variant="h6" color="green">
                       Sent SMS
                     </Typography>
                     <Typography variant="h4">{SmsCount.SentSMSCount ?? 0}</Typography>
@@ -358,7 +372,7 @@ function SmsCenter() {
 
               {/* Exceeded SMS Count */}
               <Grid item xs={12} sm={4}>
-                <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2,  borderRadius:'10px' }}>
+                <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                   <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
                   <Box>
                     <Typography variant="h6" color="red">
