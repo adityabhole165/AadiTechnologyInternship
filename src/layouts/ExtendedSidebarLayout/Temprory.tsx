@@ -162,7 +162,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     };
     dispatch(getAllowedPagesForUser(AllowedPageApiBody));
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (AllowedPagesListForUser.length > 0 && sessionStorage.getItem('AllowedScreens') === null) {
@@ -372,6 +372,13 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: '/extended-sidebar/Teacher/StudentRecords',
       screenId: 271
     },
+    {
+      id: 'Extra Screens',
+      title: 'School Notices',
+      icon: <AssignmentTwoToneIcon />,
+      link: GetScreenPermission() === 'N' ? '/extended-sidebar/Common/SchoolnoticeOwn' : '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+      screenId: 187
+    }
 
   ];
 
@@ -413,25 +420,25 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       screenId: 0
     });
   }
-  if (asUserRoleId === '2' && GetScreenPermission() == "Y") {
-    // if (asUserRoleId === '2') {
-    sideList.push({
-      id: 'Daily Activities',
-      title: 'School Notices',
-      icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
-      screenId: 0
-    });
-  }
-  if (asUserRoleId === '2' && GetScreenPermission() == "N") {
-    sideList.push({
-      id: 'Extra Screens',
-      title: 'School Notices',
-      icon: <AssignmentTwoToneIcon />,
-      link: '/extended-sidebar/Common/SchoolnoticeOwn',
-      screenId: 0
-    });
-  }
+  // if (asUserRoleId === '2' && GetScreenPermission() == "Y") {
+  //   // if (asUserRoleId === '2') {
+  //   sideList.push({
+  //     id: 'Daily Activities',
+  //     title: 'School Notices',
+  //     icon: <AssignmentTwoToneIcon />,
+  //     link: '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+  //     screenId: 0
+  //   });
+  // }
+  // if (asUserRoleId === '2' && GetScreenPermission() == "N") {
+  //   sideList.push({
+  //     id: 'Extra Screens',
+  //     title: 'School Notices',
+  //     icon: <AssignmentTwoToneIcon />,
+  //     link: '/extended-sidebar/Common/SchoolnoticeOwn',
+  //     screenId: 187
+  //   });
+  // }
 
   if (asUserRoleId === '3') {
     sideList.push({
@@ -597,7 +604,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   function filt() {
     let sd = sideList;
-    let AllowedScreens = JSON.parse(sessionStorage.getItem('AllowedScreens'));
+    let AllowedScreens = AllowedPagesListForUser;
     let configSetting = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
     let finalArr = [];
 
@@ -623,7 +630,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     })
 
     AllowedScreens?.map((item1) => {
+      // finding match in allowed screens array and side list
       let match1 = sd?.filter((item2) => item2?.screenId === Number(item1.screenId));
+      // finding any mathces who are similar in newly created array and allowed screens array
       let match2 = finalArr?.filter((item3) => item3?.screenId === Number(item1.screenId));
       if (match1?.length > 0 && match2?.length === 0) {
         let updatedItem = sideList?.find((item) => item?.screenId === Number(item1.screenId));

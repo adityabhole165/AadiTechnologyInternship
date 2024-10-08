@@ -61,6 +61,9 @@ const SchoolSettingSlice = createSlice({
     RAllowedPagesForUser(state, action) {
       state.ISAllowedPagesForUser = action.payload;
     },
+    RClearISAllowedPagesForUser(state) {
+      state.ISAllowedPagesForUser = [];
+    },
     getEnabledOnlineFee(state, action) {
       state.EnabledOnlineFee = action.payload;
     },
@@ -178,6 +181,7 @@ export const getAllAcademicYears =
 export const getAllowedPagesForUser =
   (data: IGetAllowedPagesForUserBody): AppThunk =>
     async (dispatch) => {
+      dispatch(SchoolSettingSlice.actions.RClearISAllowedPagesForUser());
       const response = await SchoolSettingApi.GetAllowedPagesForUserApi(data);
       dispatch(SchoolSettingSlice.actions.RAllowedPagesForUser(response.data));
     }
