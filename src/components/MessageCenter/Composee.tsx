@@ -1283,7 +1283,7 @@ function Form13() {
 
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
-          {showRecipients ? 'Add Recipients' : 'Add CC Recipients'}
+          {showRecipients ? 'Add Recipients' : 'Add Cc Recipients'}
         </Typography>
 
         <DialogContent>
