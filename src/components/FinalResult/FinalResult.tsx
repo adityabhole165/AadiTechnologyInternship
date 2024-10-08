@@ -67,8 +67,7 @@ const FinalResult = () => {
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const { showAlert, closeAlert } = useContext(AlertContext);
-  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
-    ;
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUpdatedById = localStorage.getItem('Id');
 
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
@@ -96,7 +95,6 @@ const FinalResult = () => {
   const FinalResultFullAccess = GetScreenPermission('Final Result');
 
   const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0' : StandardDivisionIdse)
-  console.log(FinalResultFullAccess, "--", StandardDivisionId, "--", StandardDivisionIdse);
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -238,14 +236,14 @@ const FinalResult = () => {
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
   );
-  console.log(GetClassTeachers, "GetClassTeachers");
 
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
 
-  const GeneratedNA = GetStudentLists.map((item) => item.Is_ResultGenrated)
 
+
+  const GeneratedNA = GetStudentLists.map((item) => item.Is_ResultGenrated)
   const Bot = GeneratedNA[0];
 
 
@@ -524,7 +522,7 @@ const FinalResult = () => {
 
   useEffect(() => {
     if ((GetClassTeachers.length > 2 && FinalResultFullAccess == 'N')) {
-      setStandardDivisionId(GetClassTeachers[0].Value ) ;
+      setStandardDivisionId(GetClassTeachers[0].Value);
     }
   }, [GetClassTeachers]);
 
@@ -627,17 +625,25 @@ const FinalResult = () => {
 
   const onClickPublish = (publish) => {
     if (publish) {
+      const GeneratedNA = GetStudentLists.map((item) => item.Is_ResultGenrated);
+      const countNotY = GeneratedNA.filter((item) => item !== "Y").length;
+  
       const PublishBody = {
         asSchoolId: asSchoolId,
-        asAcademicYrId: 55,
+        asAcademicYrId: asAcademicYearId,
         asStandardDivision_Id: Number(StandardDivisionId),
         asInsertedById: asUserId,
         // asPublishById: 0
       };
-
+  
+      // Dynamic message based on countNotY
+      const message = countNotY > 0 
+        ? `Result of ${countNotY} students is not generated. Once you publish the result, it will be visible to parents/students. Are you sure you want to continue?`
+        : 'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?';
+  
       showAlert({
         title: 'Please Confirm',
-        message: 'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?',
+        message, // Use dynamic message here
         variant: 'warning',
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
@@ -652,6 +658,7 @@ const FinalResult = () => {
       });
     }
   };
+  
 
 
 
@@ -875,14 +882,14 @@ const FinalResult = () => {
               <span>
                 <IconButton
                   onClick={Toppers}
-                  disabled={GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled}
+                  disabled={!GetResultGenerated || buttonsDisabled && GetAtleastOneResultGenerated?.AllowPublish == false}
                   sx={{
                     color: 'white',
                     backgroundColor: blue[500],
                     '&:hover': {
                       backgroundColor: blue[600]
                     },
-                    ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled) && {
+                    ...(GetAtleastOneResultGenerated?.AllowPublish == false || buttonsDisabled && !GetResultGenerated) && {
                       pointerEvents: 'none'
                     }
                   }}
