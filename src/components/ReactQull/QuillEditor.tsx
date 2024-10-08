@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+import 'src/assets/style/teacher.css';
 const QuillEditor = ({ formik }) => {
   const quillRef = useRef(null);
 
