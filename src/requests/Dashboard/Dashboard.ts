@@ -193,13 +193,14 @@ export const CDAgetWeeklyAttendance =
       const GetDayDates = response.data.GetDayDates.map((item, index) => {
         return {
           DayName: item.DayName,
+          Attendance_Date:item.Attendance_Date,
           
         };
       });
       const listAttendanceCalender = response.data.listAttendanceCalender.map((item, index) => {
         return {
-          Status_BackColur: item.Status_BackColur,
-          
+          Status_Desc: item.Status_Desc,
+          Att_date:item.Att_date
         };
       });
 

@@ -22,6 +22,26 @@ const PieChart = () => {
     const firstGirlsPercentage = parseFloat(WeeklyAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
     const firstBoysPercentage = parseFloat(WeeklyAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
 
+    const statusDescriptions = GetDayDates.map(subjectSection => (
+        listAttendanceCalender
+          .filter(outcome => outcome.Att_date === subjectSection.Attendance_Date)
+          .map(outcome => ({
+            StatusDesc: outcome.Status_Desc,
+            DayName: subjectSection.DayName
+          }))
+      )).flat();
+
+      const isWeekend = (statusDesc) => statusDesc === 'Weekend'; 
+
+      const colors = statusDescriptions.map((item) => (
+        isWeekend(item.StatusDesc) ? 'red' : ''
+      ));
+
+      const categories = statusDescriptions.map((item) => item.DayName);
+     
+
+
+
     const options1 = {
         chart: {
             id: "basic-bar444",
@@ -53,14 +73,20 @@ const PieChart = () => {
 
     // const series = [400, 300, 300, 200];
     const [state, setState] = useState({
-        colors: {},
+        colors: colors,
         options: {
             chart: {
                 id: "basic-bar444",
             },
             xaxis: {
-                categories: GetDayDates.map((item: any) => item.DayName)
-            },
+                categories: categories ,// Set categories for the x-axis
+                labels: {
+                  style: {
+                    colors: colors, // Apply the colors to the x-axis labels
+                    fontSize: '14px'
+                  }
+                }
+              }
         },
         series: [
             {
