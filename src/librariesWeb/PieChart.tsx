@@ -27,10 +27,11 @@ const PieChart = () => {
           .filter(outcome => outcome.Att_date === subjectSection.Attendance_Date)
           .map(outcome => ({
             StatusDesc: outcome.Status_Desc,
-            DayName: subjectSection.DayName
+            DayName: subjectSection.DayName,
+            Attendance_Date : outcome.Att_date
           }))
       )).flat();
-
+      
       const isWeekend = (statusDesc) => statusDesc === 'Weekend'; 
 
       const colors = statusDescriptions.map((item) => (
@@ -40,7 +41,12 @@ const PieChart = () => {
       const categories = statusDescriptions.map((item) => item.DayName);
      
 
-
+      const filteredAttendance = statusDescriptions.map((desc) => {
+        return WeeklyAttendance.find((item) => item.Attendance_Date === desc.Attendance_Date) || {};
+      });
+      
+      const absentData = filteredAttendance.map(item => item.TotalAbsentPercentage || 0);
+      const presentData = filteredAttendance.map(item => item.TotalPresentPercentage || 0);
 
     const options1 = {
         chart: {
@@ -91,12 +97,12 @@ const PieChart = () => {
         series: [
             {
                 name: "Absent Student",
-                data: WeeklyAttendance.map((item: any) => item.TotalAbsentPercentage)
+                data: absentData
             },
             {
                 name: "Present Student",
 
-                data: WeeklyAttendance.map((item: any) => item.TotalPresentPercentage)
+                data: presentData
 
             },
         ],
