@@ -9,7 +9,7 @@ import {
   IGetPublishResltBody,
   IGetUnPublishResltBody
 } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
-
+import { QuestionMark } from '@mui/icons-material';
 import {
   AssessmentList,
   CDAPublished,
@@ -362,49 +362,50 @@ const PrePrimaryResult = () => {
 
             }
             {
-              StandardDivisionId == "" || AssessmentResult == '0' ? null : 
-              
-              <div>
-                
-                 
-                    <Tooltip title={'Publish'}>
-                      <IconButton
-                        sx={{
-                          color: 'white',
-                          backgroundColor: blue[500],
-                          '&:hover': {
-                            backgroundColor: blue[600],
-                          },
-                        }}
-                        disabled={PublishStatus == "Y" && IsPublished == "Y"}
+              StandardDivisionId == "" || AssessmentResult == '0' ? null :
 
-                        onClick={Clickpublish}
-                      >
-                        
-                        <CheckCircle />
-                      </IconButton>
-                    </Tooltip>
-                  
-                    <Tooltip title={'Unpublish'}>
-                      <IconButton
-                        sx={{
-                          color: 'white',
+                <div>
+
+
+                  <Tooltip title={'Publish'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: blue[500],
+                        '&:hover': {
+                          backgroundColor: blue[600],
+                        },
+                      }}
+                      disabled={PublishStatus == "Y" && IsPublished == "Y"}
+
+                      onClick={Clickpublish}
+                    >
+
+                      <CheckCircle />
+                    </IconButton>
+                  </Tooltip>
+                  &nbsp;
+
+                  <Tooltip title={'Unpublish'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: red[500],
+                        '&:hover': {
                           backgroundColor: red[500],
-                          '&:hover': {
-                            backgroundColor: red[500],
-                          },
-                        }}
-                        disabled={PublishStatus == "Y" && IsPublished == "N"}
+                        },
+                      }}
+                      disabled={PublishStatus == "Y" && IsPublished == "N"}
 
-                        onClick={onClickunpublished}
-                      >
-                        <Unpublished />
-                      </IconButton>
-                    </Tooltip>
-                  
-                
+                      onClick={onClickunpublished}
+                    >
+                      <Unpublished />
+                    </IconButton>
+                  </Tooltip>
 
-              </div>
+
+
+                </div>
             }
 
 
@@ -418,7 +419,7 @@ const PrePrimaryResult = () => {
                   ':hover': { backgroundColor: grey[600] }
                 }}
               >
-                <QuestionMarkIcon />
+                <QuestionMark />
               </IconButton>
             </Tooltip>
           </>}
@@ -483,9 +484,11 @@ const PrePrimaryResult = () => {
 
               }
             }} />
-          <Tooltip title={'Enter the reason for assessment unpublish.'}>
+         
 
-            <QuestionMarkIcon
+          <Tooltip title={'Enter the reason for assessment unpublish.'}
+            placement="bottom-end"  >
+            <QuestionMark
               sx={{
                 color: 'white',
                 // background:'white',
@@ -497,6 +500,7 @@ const PrePrimaryResult = () => {
                 '&:hover': { backgroundColor: grey[600] }
               }} />
           </Tooltip>
+
         </DialogTitle>
         <DialogContent>
 
@@ -508,14 +512,20 @@ const PrePrimaryResult = () => {
               <Grid item xs={6}>
                 <TextField fullWidth label={'Assessment'}
                   sx={{ width: '95%', bgcolor: '#f0f0f0' }}
-                  disabled
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   value={getClassName()}
                 />
               </Grid>
               <Grid item xs={6}>
-                <TextField fullWidth label={'Class Teacher :'}
+                <TextField fullWidth label={'Class Teacher '}
                   sx={{ width: '100%', bgcolor: '#f0f0f0' }}
-                  disabled
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
                   value={getClassName1()} />
               </Grid>
               <br></br>
@@ -524,10 +534,10 @@ const PrePrimaryResult = () => {
           Reason For Unpublish<span style={{ color: 'red' }}>*</span>
           </Typography> */}
                 <ResizableTextField fullWidth
-                //  label={'Reason For Unpublish  :'}
-                 label={<>
-                  Reason For Unpublish  : <span style={{ color: 'red' }}>*</span>
-              </>}
+                  //  label={'Reason For Unpublish  :'}
+                  label={<>
+                    Reason For Unpublish  : <span style={{ color: 'red' }}>*</span>
+                  </>}
                   multiline
                   // rows={3}
                   value={Reason}
