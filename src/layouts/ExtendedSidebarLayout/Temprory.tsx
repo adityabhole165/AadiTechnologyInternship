@@ -611,7 +611,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     sd.map((item, i) => {
       if (item.screenId === 0) {
         finalArr.push(item)
-        console.log(item)
       } else {
         // let arr1 = allw?.filter((item1) => item1.screenId === String(item.screenId));
         // let arr2 = allw?.filter((item2) => item2.Configure_Name.includes(item.title));
@@ -639,7 +638,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         finalArr.push(updatedItem)
       }
     })
-    console.log('final list --->>>', finalArr)
 
     return finalArr;
   }
@@ -746,8 +744,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
               </Typography>
             </ListItemButton>
           </Box>
-          {Object.keys(groupedItems).map((group) => (
-            <Accordion key={group} >
+          {Object.keys(groupedItems).map((group, index) => (
+            <Accordion key={index} >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} >
                 {group === 'Daily Activities' && <IconButton sx={{ pt: 0, borderRadius: '7px', }}><NoteAltOutlinedIcon /></IconButton>}
                 {group === 'Communication' && <IconButton sx={{ pt: 0, borderRadius: '7px' }}><MailCheck /></IconButton>}
@@ -759,8 +757,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
               </AccordionSummary >
               <AccordionDetails sx={{ py: 0, pl: 0 }}>
                 <List sx={{ pt: 0, px: 0 }}>
-                  {groupedItems[group].map((item) => (
-                    <ListItem button key={item.title}
+                  {groupedItems[group].map((item, index) => (
+                    <ListItem button key={index}
                       //  component="a" href={item.link}
                       onClick={(e) => handleListItemClick1(e, item.link, anchor)}>
                       <ListItemIcon sx={{ pt: 0, px: 0, pl: 2 }}>{item.icon}</ListItemIcon>

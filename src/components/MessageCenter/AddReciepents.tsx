@@ -344,7 +344,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
           !selectedRecipentsId.includes(obj.Id)) ||
           (isSelected('Contact group') && !contactGroup.includes(obj.Id)))
       ) {
-        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
+        setSelectedRecipents((prevState) => [...prevState, obj.Name]);
         if (isSelected('Contact group')) {
           setContactGroup((prevState) => [...prevState, obj.Id]);
         } else {
