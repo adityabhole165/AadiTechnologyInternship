@@ -128,6 +128,8 @@ const MessageList = () => {
 
   const IfMonthEmpty = monthYear == '' ? '0' : monthYear;
 
+  const [SortExp, setSortExp] = useState('Insert_Date')
+  const [SortDirection, setSortDirection] = useState('DESC')
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
     asAcademicYearId: academicYear,
@@ -139,10 +141,18 @@ const MessageList = () => {
     asMonthId: IfMonthEmpty,
     asOperator: operator,
     asDate: searchDate,
-    asSortExp: "Insert_Date",
-    asSortDirection: "DESC"
+    asSortExp: SortExp,
+    asSortDirection: SortDirection
   };
 
+  const clickSortExp = (value) => {
+    setSortExp(value)
+    console.log(value, "clickSortExp");
+
+  }
+  const clickSortDirection = (value) => {
+    setSortDirection(value)
+  }
   const getMsgBody = (searchtext, monthyear) => {
     return {
       asSchoolId: SchoolId,
@@ -220,7 +230,7 @@ const MessageList = () => {
     if (academicYear !== '') {
       dispatch(getListOfMessages(getListBody, activeTab, false));
     }
-  }, [activeTab, isSearchClicked, isRefresh]);
+  }, [activeTab, isSearchClicked, isRefresh, SortExp, SortDirection]);
 
   const clickTab = (value) => {
     setActiveTab(value);
@@ -452,8 +462,8 @@ const MessageList = () => {
         asMonthId: monthYear,
         asOperator: operator,
         asDate: searchDate,
-        asSortExp: "Insert_Date",
-        asSortDirection: "DESC"
+        asSortExp: SortExp,
+        asSortDirection: SortDirection
       };
 
       dispatch(getListOfMessages(getListBody, activeTab, true));
@@ -802,6 +812,10 @@ const MessageList = () => {
                         ActiveTab={activeTab}
                         DeleteDraft={DeleteDraft}
                         refreshData={refreshData}
+                        clickSortExp={clickSortExp}
+                        clickSortDirection={clickSortDirection}
+                        SortDirection={SortDirection}
+                        SortExp={SortExp}
                       />
                     )}
                   </div>

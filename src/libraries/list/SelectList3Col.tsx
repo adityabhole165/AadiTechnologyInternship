@@ -1,7 +1,12 @@
+import { ArrowCircleDown } from '@mui/icons-material';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ListCard4ColSel from '../card/ListCard4ColSel';
-const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
+const SelectList3Col = ({
+  Itemlist, refreshData, ActiveTab, DeleteDraft,
+  clickSortExp, clickSortDirection, SortExp, SortDirection
+}) => {
   const clickSingle = (value) => {
     Itemlist = Itemlist.map((obj) =>
       obj.Id === value.name ? { ...obj, isActive: value.checked } : obj
@@ -49,6 +54,11 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
     }
     return false;
   }
+  const clickHeader = (columnName) => {
+    clickSortDirection(SortDirection == 'ASC' ? 'DESC' : 'ASC')
+    clickSortExp(columnName)
+
+  }
   return (
     <Box sx={{ textAlign: 'center' }}>
       {/* <Table aria-label="simple table" sx={{mb:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
@@ -73,9 +83,16 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
         </TableHead>
       </Table> */}
 
-      <Grid container sx={{ borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-        {showcolumn('Subject') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white' }}>
+      <Grid container
+        sx={{
+          borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main,
+          border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden'
+        }}>
+        {showcolumn('Subject') && <Grid onClick={() => { clickHeader('Subject') }} xs={12} sm={2} md={2} sx={{ color: 'white' }}>
           Subject
+          {SortExp === 'Subject' ? SortDirection === 'ASC' ?
+            <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
         </Grid>}
         {showcolumn('Cc') && <Grid xs={12} sm={2} md={3} sx={{ color: 'white' }}>
           Cc
@@ -86,8 +103,11 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
         {showcolumn('Attachment') && <Grid xs={12} sm={2} md={2.5} sx={{ color: 'white' }}>
           Attachment
         </Grid>}
-        {showcolumn('Date') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+        {showcolumn('Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
           {Datecolumn}
+          {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
+            <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
         </Grid>}
         {showcolumn('Message Body') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
           Message Body
@@ -96,16 +116,18 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
           Delete
         </Grid>}
       </Grid>
-      {Itemlist.map((item, index) => (
-        <ListCard4ColSel
-          key={index}
-          Item={item}
-          onChange={clickSingle}
-          ActiveTab={ActiveTab}
-          DeleteDraft={DeleteDraft}
-        />
-      ))}
-    </Box>
+      {
+        Itemlist.map((item, index) => (
+          <ListCard4ColSel
+            key={index}
+            Item={item}
+            onChange={clickSingle}
+            ActiveTab={ActiveTab}
+            DeleteDraft={DeleteDraft}
+          />
+        ))
+      }
+    </Box >
   );
 };
 
