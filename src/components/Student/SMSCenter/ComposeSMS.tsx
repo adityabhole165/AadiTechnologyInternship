@@ -1,5 +1,5 @@
-
-import { Box, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, TextField, Typography, useTheme } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, Paper, TextField, Typography, useTheme } from '@mui/material';
 import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import React, { useMemo, useState } from 'react';
@@ -18,7 +18,6 @@ import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
 import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import { RootState } from 'src/store';
 import AddReciepentsSMS from './AddReciepientSMS';
-import Note from './Note';
 
 const ComposeSMSform = () => {
     const classes = Styles();
@@ -248,6 +247,11 @@ const ComposeSMSform = () => {
 
     const note =
         ['Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).'];
+    const note1 =
+        ['SMS Schedule should be set after 1 hour and within 7 days range from now.'];
+    const note2 =
+        ['Enter multiple mobile numbers seperated by comma. Max 10 digit number.'];
+
     const [open1, setOpen1] = useState(false);
     const handleClick1 = () => {
         setOpen1((prev) => !prev);
@@ -313,7 +317,24 @@ const ComposeSMSform = () => {
                         </>
                     }
                 />
-
+                <Paper sx={{ mb: '10px' }}>
+                    <Accordion defaultExpanded>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            <Typography style={{ fontWeight: 'bold', fontSize: '20px' }}>Important Notes</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ gap: 0.1, display: 'flex', flexDirection: 'column' }}>
+                            <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}>
+                                <b>Note 1 : </b> {note}
+                            </Alert>
+                            <Alert variant="filled" severity="info" sx={{ mb: 1, mt: '0.1px' }}><b>Note 2 : </b> {note1}</Alert>
+                            <Alert variant="filled" severity="info"><b>Note 3 : </b> {note2}</Alert>
+                        </AccordionDetails>
+                    </Accordion>
+                </Paper>
                 <Box>
                     <ListStyle sx={{}}>
                         <Checkbox
@@ -475,7 +496,6 @@ const ComposeSMSform = () => {
                             </Grid>
                         </form>
                     </ListStyle>
-                    <Note NoteDetail={note} />
 
                 </Box>
                 <div style={{ display: displayOfTo_RecipientsPage }}>
