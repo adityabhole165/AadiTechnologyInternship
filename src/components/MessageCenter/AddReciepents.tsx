@@ -252,7 +252,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
     } else {
       setList(
         getuserlist.filter((item) => {
-          const text1Match = item.Value.toLowerCase().includes(
+          const text1Match = item.Name.toLowerCase().includes(
             SearchByName.toLowerCase()
           );
           return text1Match;

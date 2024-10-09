@@ -778,7 +778,9 @@ function Form13() {
                   id=""
                   fullWidth
                   // rows={3}
-                  disabled
+                  InputProps={{
+                    readOnly: true
+                  }}
                   value={RecipientsObject.RecipientName.map((obj) =>
                     obj?.trim()
                   ).join('; ')}
@@ -1263,7 +1265,7 @@ function Form13() {
         }}
       >
         <DialogTitle sx={{ bgcolor: '#223354' }}>
-          <Tooltip title={'Select name of the teacher / Student / Admin staff / Other staff and click on "Back to compose" button.'}>
+          <Tooltip title={'Select name of the teacher / student / admin staff / other staff and click on "Back to compose / Confirm'}>
             <QuestionMark
               sx={{
                 color: 'white',
