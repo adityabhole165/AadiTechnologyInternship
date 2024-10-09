@@ -437,8 +437,8 @@ export const CardStyle1 = styled(Card)(
 );
 export const ItemSize = styled(Box)(
   ({ theme }) => `
-  font-size: 12px;
-  color: black;
+  font-size: 14px;
+  color: #38548A;
  
  cursor: pointer;
  margin-left:5px;
