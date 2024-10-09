@@ -22,7 +22,9 @@ import {
 import { RootState } from 'src/store';
 import SelectallAddrecipents from './SelectallAddrecipents';
 
-const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
+const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfirm }) => {
+  // console.log(recipientListClick, "recipientListClick");
+
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -382,6 +384,10 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       );
     });
   };
+  console.log(IsConfirm, "IsConfirm")
+  useEffect(() => {
+    clickOkay()
+  }, [IsConfirm])
   const clickOkay = () => {
     recipientListClick({
       RecipientName: selectedRecipents,

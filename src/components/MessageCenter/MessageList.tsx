@@ -138,7 +138,9 @@ const MessageList = () => {
     asPageIndex: 1,
     asMonthId: IfMonthEmpty,
     asOperator: operator,
-    asDate: searchDate
+    asDate: searchDate,
+    asSortExp: "Insert_Date",
+    asSortDirection: "DESC"
   };
 
   const getMsgBody = (searchtext, monthyear) => {
@@ -449,7 +451,9 @@ const MessageList = () => {
         asPageIndex: pageIndex,
         asMonthId: monthYear,
         asOperator: operator,
-        asDate: searchDate
+        asDate: searchDate,
+        asSortExp: "Insert_Date",
+        asSortDirection: "DESC"
       };
 
       dispatch(getListOfMessages(getListBody, activeTab, true));
@@ -624,21 +628,21 @@ const MessageList = () => {
         <Grid container columnGap={1}>
           <Grid item sm={2} xs={12} spacing={1}>
             <Hidden smDown>
-            <RouterLink
-                  style={{ textDecoration: 'none', color: '#223354' }}
-                  to={`/${location.pathname.split('/')[1]
-                    }/MessageCenter/Compose`}
-                >
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  height: '85px',
-                  backgroundColor: 'white',
-                  mb: '10px',
-                  borderRadius: '5px',
-                }}
+              <RouterLink
+                style={{ textDecoration: 'none', color: '#223354' }}
+                to={`/${location.pathname.split('/')[1]
+                  }/MessageCenter/Compose`}
               >
-               
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    height: '85px',
+                    backgroundColor: 'white',
+                    mb: '10px',
+                    borderRadius: '5px',
+                  }}
+                >
+
                   <AddCircleIcon
                     onClick={clickClear}
                     sx={{ mt: '10px', color: '#38548A' }}
@@ -646,7 +650,7 @@ const MessageList = () => {
                   />
                   <br />
                   <b style={{ color: '#38548A' }}>Compose</b>
-              </Card>
+                </Card>
               </RouterLink>
             </Hidden>
             <Box>
