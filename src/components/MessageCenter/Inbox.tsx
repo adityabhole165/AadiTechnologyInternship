@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { Avatar, Box, Container } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -14,8 +14,8 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import List3 from 'src/libraries/list/List3';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-    getInboxList,
-    getNextPageInboxList
+  getInboxList,
+  getNextPageInboxList
 } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 
@@ -102,7 +102,9 @@ function Inbox() {
     asPageIndex: 1,
     asMonthId: '0',
     asOperator: '',
-    asDate: ''
+    asDate: '',
+    asSortExp: "Insert_Date",
+    asSortDirection: "DESC"
   };
 
   useEffect(() => {
@@ -191,7 +193,7 @@ function Inbox() {
     }
     if (
       ScrollableDivRefference.scrollHeight -
-        ScrollableDivRefference.scrollTop <=
+      ScrollableDivRefference.scrollTop <=
       570
     ) {
       setpageIndexUpdated(true);
@@ -205,7 +207,9 @@ function Inbox() {
         asPageIndex: pageIndex,
         asMonthId: '0',
         asOperator: '',
-        asDate: ''
+        asDate: '',
+        asSortExp: "Insert_Date",
+        asSortDirection: "DESC"
       };
       InboxMessageApi.GetInboxList(UpdatedBody)
         .then((response) => {

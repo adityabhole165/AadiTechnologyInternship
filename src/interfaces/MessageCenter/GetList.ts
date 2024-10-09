@@ -9,6 +9,8 @@ export interface IgetList {
   abIsSMSCenter: string;
   asOperator: string;
   asDate: string;
+  asSortExp: string;
+  asSortDirection: string;
 }
 
 export interface GetMessagesResult {
