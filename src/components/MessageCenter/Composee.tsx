@@ -71,6 +71,7 @@ function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
+  const [IsConfirm, setIsConfirm] = useState(false)
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -648,6 +649,13 @@ function Form13() {
       dispatch(resetSaveDraftMessage());
     }
   }, [SaveDraftM]);
+  console.log(IsConfirm, "IsConfirm")
+
+  const clickConfirm = () => {
+    console.log(IsConfirm, "IsConfirm click")
+
+    setIsConfirm(!IsConfirm)
+  }
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -1293,12 +1301,14 @@ function Form13() {
                 RecipientName={RecipientsObject.RecipientName}
                 RecipientId={RecipientsObject.RecipientId}
                 recipientListClick={RecipientsListFun}
+                IsConfirm={IsConfirm}
               />
             ) : (
               <AddReciepents
                 RecipientName={RecipientsCCObject.RecipientName}
                 RecipientId={RecipientsCCObject.RecipientId}
                 recipientListClick={RecipientsCCListFun}
+                IsConfirm={IsConfirm}
               />
             )}
           </Box>
@@ -1310,7 +1320,7 @@ function Form13() {
               Cancel
             </Button>
             <Button
-              onClick={() => { '' }}
+              onClick={clickConfirm}
               sx={{
                 color: 'green',
                 '&:hover': {
