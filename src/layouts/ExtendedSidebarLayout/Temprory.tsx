@@ -123,6 +123,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     });
     return perm;
   };
+  const AllowedPagesListForUser = useSelector(
+    (state: RootState) => state.getSchoolSettings.ISAllowedPagesForUser
+  );
   const UserId = Number(localStorage.getItem('UserId'));
 
   function getPageName(screenId) {
@@ -132,6 +135,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     if (filteredArray?.length > 0) {
       return filteredArray[0]?.ScreenName?.trim();
     }
+    // console.log('🦥', AllowedPagesListForUser)
+    if (filteredArray?.length === 0) {
+      let filteredList = AllowedPagesListForUser.filter((item) => item?.Screen_Id === screenId);
+
+      if (filteredList.length > 0) {
+        return filteredList[0]?.Configure_Name?.trim();
+      }
+    }
   }
 
   const navigate = useNavigate();
@@ -140,9 +151,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     setActiveItem(title);
   };
 
-  const AllowedPagesListForUser = useSelector(
-    (state: RootState) => state.getSchoolSettings.ISAllowedPagesForUser
-  );
+
 
   //useEffect to call the allowed screens API for the current logged in user
   let auth = JSON.parse(localStorage.getItem('auth'))
@@ -225,14 +234,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Calendar',
-      title: getPageName(14),
+      title: 'Holidays',  // getPageName(14),
       icon: <DateRangeOutlinedIcon />,
       link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
       screenId: 0  // 14
     },
     {
       id: 'Calendar',
-      title: getPageName(62),
+      title: 'Annual Planner', // getPageName(62),
       icon: <EventOutlinedIcon />,
       link: '/extended-sidebar/Common/AnnualPlanner',
       screenId: 0 //62
@@ -274,7 +283,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Exam',
-      title: getPageName(78),
+      title: 'Exam Result', // getPageName(78),
       icon: <TableChart />,
       link: '/extended-sidebar/Teacher/ExamResultBase',
       screenId: 0 // 78
@@ -282,7 +291,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
     {
       id: 'Exam',
-      title: getPageName(80),
+      title: 'Final Result', // getPageName(80),
       icon: <FactCheck />,
       link: '/extended-sidebar/Teacher/FinalResult',
       screenId: 0
@@ -296,7 +305,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Exam',
-      title: getPageName(266),
+      title: 'Progress Remark',  // getPageName(266),
       icon: <InsertCommentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/ProgressRemarks',
       screenId: 266
@@ -304,7 +313,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
     {
       id: 'Exam',
-      title: getPageName(79),
+      title: 'Progress Report',  //getPageName(79),
       icon: <AssessmentOutlinedIcon />,
       link: '/extended-sidebar/Teacher/ProgressReportNew',
       screenId: 0 // 79
@@ -318,7 +327,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Communication',
-      title: getPageName(81),
+      title: 'SMS Center',
       icon: <SmsTwoToneIcon />,
       link: '/extended-sidebar/Teacher/SmsCenter',
       screenId: 0 // 81
@@ -342,7 +351,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Investment Declaration',
       icon: <AssuredWorkloadTwoToneIcon />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration',
-      screenId: 196
+      screenId: 240
     },
     {
       id: 'Extra Screens',
@@ -394,7 +403,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     sideList.push(
       {
         id: 'Daily Activities',
-        title: getPageName(59),
+        title: 'Weekly Timetable',
         icon: <TableChartOutlinedIcon />,
         link: '/extended-sidebar/Teacher/WeeklyTimetable',
         screenId: 0
@@ -611,6 +620,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     sd.map((item, i) => {
       if (item.screenId === 0) {
         finalArr.push(item)
+        // console.log(item)
       } else {
         // let arr1 = allw?.filter((item1) => item1.screenId === String(item.screenId));
         // let arr2 = allw?.filter((item2) => item2.Configure_Name.includes(item.title));
@@ -638,6 +648,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         finalArr.push(updatedItem)
       }
     })
+    // console.log('final list --->>>', finalArr)
 
     return finalArr;
   }
@@ -665,9 +676,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
     return titleA?.localeCompare(titleB); // Shorter comparison using localeCompare
   });
-  const handleListItemClick1 = (event, link, anchor) => {
+  const handleListItemClick1 = (event, link, anchor, title) => {
     event.stopPropagation(); // Prevent event propagation to AccordionSummary
-    if (link) {
+    if (title === 'Missing Attendance') {
+      if (hasMissingDays) {
+        setMissingAttendanceDialog(true);
+      } else {
+        setMissingAttendanceDialog(false);
+      }
+    } else if (title === 'Absent Student Details') {
+      if (ListAbsentStudent.length > 0 && LinkVisible === 'True') {
+        setAbsentStudentDialog(true);
+      } else {
+        setAbsentStudentDialog(false);
+      }
+    } else if (link) {
       // window.location.href = link; // Redirect to the specified link
       navigate(link);
       toggleDrawer(anchor, false);
@@ -760,7 +783,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
                   {groupedItems[group].map((item, index) => (
                     <ListItem button key={index}
                       //  component="a" href={item.link}
-                      onClick={(e) => handleListItemClick1(e, item.link, anchor)}>
+                      onClick={(e) => handleListItemClick1(e, item.link, anchor, item.title)}>
                       <ListItemIcon sx={{ pt: 0, px: 0, pl: 2 }}>{item.icon}</ListItemIcon>
                       <ListItemText primary={item.title} />
                     </ListItem>
