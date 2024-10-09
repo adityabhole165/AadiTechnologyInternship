@@ -135,6 +135,10 @@ const WeeklyTimetable = (props: Props) => {
     const [mptName, setMPTName] = useState('M.P.T');
     const [staybackName, setStaybackName] = useState('StayBack');
     const [weeklytestName, setWeeklytestName] = useState('Weekly Test');
+    const [IsWeeklyTestApplicable, setIsWeeklyTestApplicable] = useState<boolean>(true);
+    const [IsAssemblyApplicable, setIsAssemblyApplicable] = useState<boolean>(true);
+    const [IsMPTApplicable, setIsMPTApplicable] = useState<boolean>(true);
+    const [IsStaybackApplicable, setIsStaybackApplicable] = useState<boolean>(true);
 
     const checkErrorMsgLength = (obj) => {
         let flag = true;
@@ -174,6 +178,28 @@ const WeeklyTimetable = (props: Props) => {
             }
             if (schoolSettingList?.WeeklyTestName !== null && schoolSettingList?.WeeklyTestName !== undefined) {
                 setWeeklytestName(schoolSettingList?.WeeklyTestName);
+            }
+            if (schoolSettingList?.IsWeeklyTestApplicable !== null && schoolSettingList?.IsWeeklyTestApplicable !== undefined) {
+                if (schoolSettingList?.IsWeeklyTestApplicable === 'N') {
+                    setIsWeeklyTestApplicable(false);
+                }
+            }
+            if (schoolSettingList?.IsStaybackApplicable !== null && schoolSettingList?.IsStaybackApplicable !== undefined) {
+                if (schoolSettingList?.IsStaybackApplicable === 'N') {
+                    setIsStaybackApplicable(false);
+                }
+            }
+            // IsAssemblyApplicable
+            if (schoolSettingList?.IsAssemblyApplicable !== null && schoolSettingList?.IsAssemblyApplicable !== undefined) {
+                if (schoolSettingList?.IsAssemblyApplicable === 'N') {
+                    setIsAssemblyApplicable(false);
+                }
+            }
+            // IsMPTApplicable
+            if (schoolSettingList?.IsMPTApplicable !== null && schoolSettingList?.IsMPTApplicable !== undefined) {
+                if (schoolSettingList?.IsMPTApplicable === 'N') {
+                    setIsMPTApplicable(false);
+                }
             }
         }
     }, [schoolSettingList])
@@ -299,10 +325,10 @@ const WeeklyTimetable = (props: Props) => {
     const GetLectureCountsForTeachersBody: IGetLectureCountsForTeachersBody = {
         asSchoolId: Number(localStorage.getItem('SchoolId')),
         asTeacher_Id: Number(teacher),
-        asConsiderAssembly: "Y",
-        asConsiderMPT: "Y",
-        asConsiderStayback: "Y",
-        asConsiderWeeklyTest: "Y"
+        asConsiderAssembly: IsAssemblyApplicable ? "Y" : "N",
+        asConsiderMPT: IsMPTApplicable ? "Y" : "N",
+        asConsiderStayback: IsStaybackApplicable ? "Y" : "N",
+        asConsiderWeeklyTest: IsWeeklyTestApplicable ? "Y" : "N",
     }
     useEffect(() => {
         if (SaveTeacherTimetableMsg !== '') {
@@ -1113,49 +1139,81 @@ const WeeklyTimetable = (props: Props) => {
 
     // Following Functions are to Check whether the current ` TEACHER ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
     function isMPTLecture(weekDay, lectureNo) {
-        let isPresent = mptInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsMPTApplicable) {
+            let isPresent = mptInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
 
     function isAssemblyLecture(weekDay, lectureNo) {
-        let isPresent = AssemblyInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsAssemblyApplicable) {
+            let isPresent = AssemblyInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
 
     function isStaybackLecture(weekDay, lectureNo) {
-        let isPresent = StayBackInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsStaybackApplicable) {
+            let isPresent = StayBackInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
 
     function isWeeklyTestLecture(weekDay, lectureNo) {
-        let isPresent = weeklyTestInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsWeeklyTestApplicable) {
+            let isPresent = weeklyTestInfo.find(item => item.Text1 === weekDay && item.Text2 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
 
     // Following Functions are to Check whether the current ` CLASS ` Time-Table Cell has any External Lec. (i.e, MPT, Assembly, Stayback, Weekly Test)
     function isMPTLectureClass(weekDay, lectureNo) {
-        let isPresent = mptInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsMPTApplicable) {
+            let isPresent = mptInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
     function isAssemblyLectureClass(weekDay, lectureNo) {
-        let isPresent = AssemblyInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsAssemblyApplicable) {
+            let isPresent = AssemblyInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
     function isStaybackLectureClass(weekDay, lectureNo) {
-        let isPresent = StaybackInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsStaybackApplicable) {
+            let isPresent = StaybackInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
     function isWeeklytestLectureClass(weekDay, lectureNo) {
-        let isPresent = weeklytestInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
-        isPresent !== undefined ? true : false;
-        return isPresent;
+        if (IsWeeklyTestApplicable) {
+            let isPresent = weeklytestInfoClass.find(item => item.Text1 === weekDay && item.Text4 === lectureNo);
+            isPresent !== undefined ? true : false;
+            return isPresent;
+        } else {
+            return false;
+        }
     }
 
     // Following f() is for Checking whether the current ` TEACHER ` Time-Table Cell has any Additional Lec. Already Assigned or not |  If yes i.e `true` then disable the Dropdown Cell
@@ -1379,10 +1437,10 @@ const WeeklyTimetable = (props: Props) => {
                             >
                                 <Box sx={{ p: 2 }}>
                                     <FormGroup>
-                                        <FormControlLabel control={<Checkbox checked={assembly} onChange={handleAssembly} />} label={`Is ${assemblyName} Applicable?`} />
-                                        <FormControlLabel control={<Checkbox checked={mpt} onChange={handleMpt} />} label={`Is ${mptName} Applicable?`} />
-                                        <FormControlLabel control={<Checkbox checked={stayback} onChange={handleStayback} />} label={`Is ${staybackName} Applicable?`} />
-                                        <FormControlLabel control={<Checkbox checked={weeklytest} onChange={handleWeeklytest} />} label={`Is ${weeklytestName} Applicable?`} />
+                                        {IsAssemblyApplicable && <FormControlLabel control={<Checkbox checked={assembly} onChange={handleAssembly} />} label={`Is ${assemblyName} Applicable?`} />}
+                                        {IsMPTApplicable && <FormControlLabel control={<Checkbox checked={mpt} onChange={handleMpt} />} label={`Is ${mptName} Applicable?`} />}
+                                        {IsStaybackApplicable && <FormControlLabel control={<Checkbox checked={stayback} onChange={handleStayback} />} label={`Is ${staybackName} Applicable?`} />}
+                                        {IsWeeklyTestApplicable && <FormControlLabel control={<Checkbox checked={weeklytest} onChange={handleWeeklytest} />} label={`Is ${weeklytestName} Applicable?`} />}
                                     </FormGroup>
                                 </Box>
                             </Popover>
@@ -2089,7 +2147,7 @@ const WeeklyTimetable = (props: Props) => {
                                                         item.Text2 === 'Total Weekly Lectures' ? (
                                                             <TableRow key={i}>
                                                                 <FooterStyledCell sx={{ textAlign: 'left' }} dangerouslySetInnerHTML={{ __html: item.Text2 }} />
-                                                                <FooterStyledCell sx={{ textAlign: 'center' }}>{countNonZeroPatterns() + (mpt && Number(mptCount)) + (stayback && Number(staybackCount)) + (weeklytest && Number(weeklytestCount)) + (assembly && Number(assemblyCount))}</FooterStyledCell>
+                                                                <FooterStyledCell sx={{ textAlign: 'center' }}>{countNonZeroPatterns() + (IsMPTApplicable && mpt && Number(mptCount)) + (IsStaybackApplicable && stayback && Number(staybackCount)) + (IsWeeklyTestApplicable && weeklytest && Number(weeklytestCount)) + (IsAssemblyApplicable && assembly && Number(assemblyCount))}</FooterStyledCell>
                                                             </TableRow>
                                                         ) : !['Assembly', 'M.P.T.', 'Stay Back', 'Weekly Tests'].includes(item.Text2) ? (
                                                             <TableRow key={i}>
