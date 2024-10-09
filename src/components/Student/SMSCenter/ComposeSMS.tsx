@@ -1,5 +1,5 @@
 
-import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, TextField, Typography, useTheme } from '@mui/material';
 import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import React, { useMemo, useState } from 'react';
@@ -10,7 +10,6 @@ import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSM
 import { Styles } from 'src/assets/style/student-style';
 import { formatAMPM, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import AddReciepents from 'src/components/MessageCenter/AddReciepents';
 import Datepicker from 'src/components/MessageCenter/DatepickerMessage';
 import ACompose_SendSMS, { GetSMSTemplates, MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
@@ -310,9 +309,7 @@ const ComposeSMSform = () => {
                     ]}
                     rightActions={
                         <>
-                            <Button variant="contained" color="primary" onClick={() => alert('Action clicked!')}>
-                                New Message
-                            </Button>
+
                         </>
                     }
                 />
@@ -519,7 +516,7 @@ const ComposeSMSform = () => {
 
                     <DialogContent>
                         <Box>
-                            <AddReciepents
+                            <AddReciepentsSMS
                                 RecipientName={RecipientsObject.RecipientName}
                                 RecipientId={RecipientsObject.RecipientId}
                                 recipientListClick={RecipientsListFun}
