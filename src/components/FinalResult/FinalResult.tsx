@@ -180,34 +180,39 @@ const FinalResult = () => {
     {
       id: 'generate',
       label: 'Generate',
-      cellProps: {
-        align: 'center'
-      },
-      headerCellProps: {
-        align: 'center'
-      },
-      renderCell: (row) => <>
-        <IconButton onClick={() => {
-          navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false)
-        }}>
+
+      renderCell: (row) => (
+        <IconButton
+          onClick={() => {
+            navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + row.Text7 + '/' + false);
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            ml: 2
+          }}
+        >
           <AssignmentIcon />
         </IconButton>
-      </>
+      )
     },
+
     {
       id: 'view',
       label: 'View',
-      cellProps: {
-        align: 'center'
-      },
-      headerCellProps: {
-        align: 'center'
-      },
       renderCell: (row) => (
         row.CanShowVisibility ? (
           <IconButton onClick={() => {
             navigate('/extended-sidebar/Teacher/GenerateAll/' + row.Id + '/' + 'Y' + '/' + true)
-          }} ><VisibilityIcon /></IconButton>
+          }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+             
+            }}
+          ><VisibilityIcon /></IconButton>
         ) : null
       )
     },
@@ -627,7 +632,7 @@ const FinalResult = () => {
     if (publish) {
       const GeneratedNA = GetStudentLists.map((item) => item.Is_ResultGenrated);
       const countNotY = GeneratedNA.filter((item) => item !== "Y").length;
-  
+
       const PublishBody = {
         asSchoolId: asSchoolId,
         asAcademicYrId: asAcademicYearId,
@@ -635,12 +640,12 @@ const FinalResult = () => {
         asInsertedById: asUserId,
         // asPublishById: 0
       };
-  
+
       // Dynamic message based on countNotY
-      const message = countNotY > 0 
+      const message = countNotY > 0
         ? `Result of ${countNotY} students is not generated. Once you publish the result, it will be visible to parents/students. Are you sure you want to continue?`
         : 'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?';
-  
+
       showAlert({
         title: 'Please Confirm',
         message, // Use dynamic message here
@@ -658,7 +663,7 @@ const FinalResult = () => {
       });
     }
   };
-  
+
 
 
 
