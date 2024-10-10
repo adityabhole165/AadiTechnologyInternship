@@ -442,7 +442,9 @@ export const ItemSize = styled(Box)(
  
  cursor: pointer;
  margin-left:5px;
-
+  justify-content: center;
+align-items: center;  
+ text-align: center; 
  @media (max-width: 280px) {
   font-size: 10px;
  
