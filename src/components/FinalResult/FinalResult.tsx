@@ -144,7 +144,7 @@ const FinalResult = () => {
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
 
-    
+
   );
 
   const [StandardDivisionId, setStandardDivisionId] = useState((FinalResultFullAccess === 'Y' ? '0' : StandardDivisionIdse) );
@@ -908,18 +908,21 @@ console.log(BlockExamPublish,"--",ShowTopppers);
 
 
             &nbsp;
-            <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
+
+            {
+              ShowTopppers == true ?
+              <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
               <span>
                 <IconButton
                   onClick={Toppers}
-                  disabled={(!GetResultGenerated || buttonsDisabled )&& (GetAtleastOneResultGenerated?.AllowPublish == false || ShowTopppers)}
+                  disabled={!GetResultGenerated || buttonsDisabled && GetAtleastOneResultGenerated?.AllowPublish == false }
                   sx={{
                     color: 'white',
                     backgroundColor: blue[500],
                     '&:hover': {
                       backgroundColor: blue[600]
                     },
-                    ...(!GetResultGenerated || buttonsDisabled )&& (GetAtleastOneResultGenerated?.AllowPublish == false || ShowTopppers) && {
+                    ...(!GetResultGenerated || buttonsDisabled && GetAtleastOneResultGenerated?.AllowPublish == false ) && {
                       pointerEvents: 'none'
                     }
                   }}
@@ -928,7 +931,9 @@ console.log(BlockExamPublish,"--",ShowTopppers);
                   <WorkspacePremiumIcon />
                 </IconButton>
               </span>
-            </Tooltip>
+            </Tooltip> : <span></span>
+            }
+           
 
 
 
