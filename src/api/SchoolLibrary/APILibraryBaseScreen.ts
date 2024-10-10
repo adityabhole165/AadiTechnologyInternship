@@ -1,4 +1,17 @@
-import { IBookclaimedBody, IBookclaimedResult, IGetAllBooksDetailsBody, IGetAllBooksDetailsResult, IGetLibraryBookIssueDetailsBody, IGetLibraryBookIssueDetailsResult, IGetReserveBookDetailsBody, IGetReserveBookDetailsResult, IGetTotalBooksCountsBody, IGetTotalBooksCountsResult } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
+import {
+    IBookclaimedBody,
+    IBookclaimedResult,
+    IGetAllBooksDetailsBody,
+    IGetAllBooksDetailsResult,
+    IGetLibraryBookIssueDetailsBody,
+    IGetLibraryBookIssueDetailsResult,
+    IGetReserveBookDetailsBody,
+    IGetReserveBookDetailsResult,
+    IGetTotalBooksCountsBody,
+    IGetTotalBooksCountsResult,
+    ITotalBooksCountsBody,
+    ITotalBooksCountsResult
+} from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
 import http from '../../requests/SchoolService/schoolServices';
 
 
@@ -17,14 +30,17 @@ const GetTotalBooksCounts = (data: IGetTotalBooksCountsBody) => {
 const GetReserveBookDetails = (data: IGetReserveBookDetailsBody) => {
     return http.post<IGetReserveBookDetailsResult>('Teacher/GetReserveBookDetails', data);
 }
-
+const GetTotalLibraryBooksCounts = (data: ITotalBooksCountsBody) => {
+    return http.post<ITotalBooksCountsResult>('Teacher/GetTotalBooksCounts', data)
+}
 
 const ApiLibraryBaseScreen = {
     GetAllBooksDetails,
     GetLibraryBookIssueDetails,
     BookClimedMsg,
     GetTotalBooksCounts,
-    GetReserveBookDetails
+    GetReserveBookDetails,
+    GetTotalLibraryBooksCounts
 };
 
 export default ApiLibraryBaseScreen;

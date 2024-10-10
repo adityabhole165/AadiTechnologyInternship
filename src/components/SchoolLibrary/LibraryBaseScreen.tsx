@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
+import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, ITotalBooksCountsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
+import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails, CDAGetTotalBooksCount } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import LibrarySearch from './LibrarySearch';
@@ -33,13 +33,14 @@ const LibraryBaseScreen = () => {
     const USBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetAllBooksDetails);
     const USGetLibraryBookIssueDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetLibraryBookIssueDetails);
     const USBookCliamMsg: any = useSelector((state: RootState) => state.SchoolLibrary.IBookClimedMsg);
+    const USTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IlistGetTotalBooksCounts);
     const USReserveTotalBookCount: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetailsCount);
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
-    console.log(USReserveBookDetails, "*******");
+    console.log(USTotalBookCount, "@@!!*******");
 
-    const TotalCount = USBookDetails.map((item) => item.RecordCount);  // Array of record counts
-    const singleTotalCount = TotalCount.reduce((acc, curr) => acc + curr, 0);  // Total count of books
-    // console.log(singleTotalCount, "singleTotalCount>>>>>>>>>>>.");
+    const TotalCount = USTotalBookCount.map((item) => item.TotalCount);  // Array of record counts
+    const singleTotalCount = TotalCount.reduce((acc, curr) => acc + curr);  // Total count of books
+    console.log(TotalCount, "singleTotalCount>>>>>>>>>>>.");
 
 
 
@@ -67,49 +68,16 @@ const LibraryBaseScreen = () => {
     useEffect(() => {
         dispatch(CDAGetLibraryBookIssue(BookIssueDetails));
     }, []);
-
-    // const bookReserveDetails: IGetReserveBookDetailsBody = {
-    //     asSchoolId: asSchoolId,
-    //     asAcademicYearId: asAcademicYearId,
-    //     asUserID: asUserId,
-    //     asStartIndex: 0,
-    //     asEndIndex: 20,
-    //     asBookTitle: "",
-    //     asUserName: "",
-    //     asSortExpression: "ORDER BY Book_Title ASC",
-    //     asAllUserFlag: 0,
-    // };
-
-    // useEffect(() => {
-    //     dispatch(CDAGetReserveBookDetails(bookReserveDetails));
-    // }, []);
-
-    // const ClickCliam = (Book_Id: number) => {
-    //     setcliambook(Book_Id.toString()); // Set the book being claimed
-    // };
-    // console.log(cliambook, "@@@USReserveBookDetails");
-    // // Handle claiming process
-    // useEffect(() => {
-
-    //     // if (cliambook === null) return;
-
-    //     const isAlreadyClaimed = USReserveBookDetails.some((book: any) => book.Book_Id === cliambook);
-    //     if (isAlreadyClaimed) {
-    //         toast.error("Could not claim the same book.");
-    //     } else {
-    //         const cliambookBody: IBookclaimedBody = {
-    //             asBookId: parseInt(cliambook),
-    //             asUserId: asUserId,
-    //             asReservedByParent: 0,
-    //             asSchoolId: asSchoolId,
-    //             asAcademicYearId: asAcademicYearId,
-    //             asInsertedById: asUserId,
-    //         };
-    //         // Dispatch book claim action here
-    //         dispatch(CDABookClimedMsg(cliambookBody));
-    //         // toast.success("Book claimed successfully");
-    //     }
-    // }, [cliambook, USReserveBookDetails, asSchoolId, asUserId, asAcademicYearId]);
+    const Totalbookcount: ITotalBooksCountsBody = {
+        asprm_iSchoolId: asSchoolId,
+        asprm_Filter: "",
+        asprm_BookNo: "",
+        asprm_iStandardId: 0,
+        asprm_iParentStaffId: 0
+    };
+    useEffect(() => {
+        dispatch(CDAGetTotalBooksCount(Totalbookcount))
+    }, [])
 
     const bookReserveDetails: IGetReserveBookDetailsBody = {
         asSchoolId: asSchoolId,
@@ -129,8 +97,7 @@ const LibraryBaseScreen = () => {
 
 
     const ClickCliam = (Book_Id: number) => {
-        console.log('reserved books list', USReserveBookDetails);
-        console.log('book Id currently clicked', Book_Id);
+        setcliambook(Book_Id.toString())
         const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
 
         const cliambookBody: IBookclaimedBody = {
@@ -146,8 +113,8 @@ const LibraryBaseScreen = () => {
         } else {
             dispatch(CDABookClimedMsg(cliambookBody));
         }
-        setcliambook(Book_Id.toString())
-        console.log(cliambook, "@@@USReserveBookDetails");
+
+
     };
     useEffect(() => {
         if (USBookCliamMsg !== "") {
@@ -155,67 +122,6 @@ const LibraryBaseScreen = () => {
             dispatch(CDAClearBookClimedMsg())
         }
     }, [USBookCliamMsg])
-    // useEffect(() => {
-    //     console.log(cliambook, '$$$$$$$$$')
-    //     const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
-
-    //     console.log(isAlreadyClaimed, "@@@@@@@@@@isAlreadyClaimed")
-    //     if (isAlreadyClaimed) {
-    //         toast.error("Could not claim the same book.");
-    //     }
-
-    // }, [USReserveBookDetails, cliambook]);
-
-    // useEffect(() => {
-    //     const set2 = new Set(cliambook);  // cliambook should be an array
-
-    //     const isAlreadyClaimed = USReserveBookDetails.map(item => set2.has(item.Book_Id));
-
-
-    //     if (isAlreadyClaimed) {
-    //         toast.error("Could not claim the same book.");
-    //     } else {
-    //         toast.success("Book claimed successfully");
-    //     }
-    // }, [USReserveBookDetails, cliambook]); // Re-run when USReserveBookDetails or cliambook changes
-
-
-    // useEffect(() => {
-
-    //     const set2 = new Set(cliambook);
-    //     // Check if the selectedBook already exists in the reservedBooks array
-    //     //  const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === set2);
-    //     // const doubled = USReserveBookDetails.map(function (num) {
-    //     //     return num * 2;
-    //     // });
-
-    //     // console.log(doubled, "doubled>>>>>>");
-
-    //     USReserveBookDetails.map((item => item.Book_Id) => {
-    //          if (item === set2) {
-    //               toast.error("Could not claim the same book.");
-    //                 } else {
-    //                    toast.success("Book claimed successfully");
-    //                 } // Prints true for matching values
-    //         }
-    //             });
-
-
-
-    // }, [USReserveBookDetails, cliambook]); // Re-run when reservedBooks or selectedBook changes
-
-
-    // useEffect(() => {
-    //     const set2 = new Set(cliambook);
-    //     console.log(cliambook, "set2>>>>>>");
-    //     const duplicates = USReserveBookDetails.map(item => item.Book_Id).filter(item => set2.has(item));
-    //     if (duplicates.length > 0) {
-    //         toast.error("Could not claim same book");
-    //     } else {
-    //         toast.success("Book claimed successfully");
-    //     }
-    // }, [USReserveBookDetails, cliambook]);
-
 
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         //const newRowsPerPage = parseInt(event.target.value, 10);  // Parse the new value correctly

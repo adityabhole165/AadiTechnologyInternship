@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ApiLibraryBaseScreen from "src/api/SchoolLibrary/APILibraryBaseScreen";
-import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetTotalBooksCountsBody } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
+import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody, IGetTotalBooksCountsBody, ITotalBooksCountsBody } from "src/interfaces/SchoolLibrary/ILibraryBaseScreen";
 import { AppThunk } from "src/store";
 
 const SchoolLibraryslice = createSlice({
@@ -13,6 +13,8 @@ const SchoolLibraryslice = createSlice({
         IGetTotalBookId: [],
         IGetReserveBookDetails: [],
         IGetReserveBookDetailsCount: [],
+        IlistGetTotalBooksCounts: [],
+        IlistGetTotalBookId: [],
         Loading: true
     },
 
@@ -45,7 +47,12 @@ const SchoolLibraryslice = createSlice({
         RGetReserveBookDetailsCount(state, action) {
             state.IGetReserveBookDetailsCount = action.payload;
         },
-
+        RlistGetTotalBooksCounts(state, action) {
+            state.IlistGetTotalBooksCounts = action.payload;
+        },
+        RlistGetTotalBookId(state, action) {
+            state.IlistGetTotalBookId = action.payload;
+        },
         getLoading(state, action) {
             state.Loading = true;
         }
@@ -139,9 +146,6 @@ export const CDAGetReserveBookDetails =
                 };
 
             });
-            console.log(`✌️`, GetReserveBookDetails);
-
-
             let ReserveBookDetailsCount = response.data.listGetReserveBookDetailsCount.map((item, i) => {
                 return {
 
@@ -149,9 +153,29 @@ export const CDAGetReserveBookDetails =
 
                 };
             });
-            console.log(response.data.listGetReserveBookDetails, '*****GetReserveBookDetails');
-            console.log(response.data.listGetReserveBookDetailsCount, '*****GetReserveBookDetails');
+
             dispatch(SchoolLibraryslice.actions.RGetReserveBookDetails(GetReserveBookDetails));
             dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(ReserveBookDetailsCount));
         };
+export const CDAGetTotalBooksCount =
+    (data: ITotalBooksCountsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await ApiLibraryBaseScreen.GetTotalLibraryBooksCounts(data);
+            let totalBookCount = response.data.listGetTotalBooksCountss.map((item, i) => {
+                return {
+                    TotalCount: item.TotalCount
+
+                }
+            });
+            let totalBookId = response.data.listGetTotalBookId.map((item, i) => {
+                return {
+                    Book_Id: item.Book_Id
+                }
+
+            });
+
+            dispatch(SchoolLibraryslice.actions.RlistGetTotalBooksCounts(totalBookCount));
+            dispatch(SchoolLibraryslice.actions.RlistGetTotalBookId(totalBookId));
+        }
+
 export default SchoolLibraryslice.reducer;

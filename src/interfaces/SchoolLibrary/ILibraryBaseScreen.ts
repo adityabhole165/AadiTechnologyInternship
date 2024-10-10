@@ -104,3 +104,28 @@ export interface IGetReserveBookDetailsResult {
         }
     ]
 }
+
+export interface ITotalBooksCountsBody {
+
+    asprm_iSchoolId: number,
+    asprm_Filter: string,
+    asprm_BookNo: string,
+    asprm_iStandardId: number,
+    asprm_iParentStaffId: number
+
+}
+export interface ITotalBooksCountsResult {
+    listGetTotalBooksCountss: [
+        {
+            TotalCount: string
+
+        }
+    ];
+    listGetTotalBookId: [
+        {
+            Book_Id: string
+
+        }
+    ]
+
+}
