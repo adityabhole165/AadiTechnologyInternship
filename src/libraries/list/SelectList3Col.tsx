@@ -51,6 +51,18 @@ const SelectList3Col = ({
       if (ActiveTab === 'Draft') {
         return true;
       }
+    } else if (columnName === 'Received Date') {
+      if (ActiveTab === 'Inbox' || ActiveTab === 'Trash') {
+        return true;
+      }
+    } else if (columnName === 'Draft Date') {
+      if (ActiveTab === 'Draft') {
+        return true;
+      }
+    } else if (columnName === 'Sent Date') {
+      if (ActiveTab === 'Sent') {
+        return true;
+      }
     }
     return false;
   }
@@ -103,8 +115,9 @@ const SelectList3Col = ({
         {showcolumn('Attachment') && <Grid xs={12} sm={2} md={2.5} sx={{ color: 'white' }}>
           Attachment
         </Grid>}
-        {showcolumn('Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
-          {Datecolumn}
+        {showcolumn('Received Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+          Received Date
+          {/* {Datecolumn} */}
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
@@ -114,6 +127,20 @@ const SelectList3Col = ({
         </Grid>}
         {showcolumn('Delete') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
           Delete
+        </Grid>}
+        {showcolumn('Draft Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+          Draft Date
+          {/* {Datecolumn} */}
+          {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
+            <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
+        </Grid>}
+        {showcolumn('Sent Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
+          Sent Date
+          {/* {Datecolumn} */}
+          {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
+            <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
         </Grid>}
       </Grid>
       {
