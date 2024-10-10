@@ -120,6 +120,7 @@ import Notificationslice from '../requests/Notification/Notification';
 import PerformanceGradeAssignmentslice from '../requests/PerformanceGradeAssignmentBaseScreen/RequestPerformanceGradeAssignment';
 import RemarkTemplateSlice from '../requests/ProgressRemarks/ReqRemarkTemplate';
 import ProgressReportSlice from '../requests/ProgressReport/ReqProgressReport';
+import SchoolLibraryslice from '../requests/SchoolLibrary/ReqLibraryBaseScreen';
 import SchoolNoticePopupslice from '../requests/SchoolNoticePopup/RequestSchoolNoticePopup';
 import AddStudentRecordsSlice from '../requests/StudentRecords/RequestAddStudentRecords';
 import StudentRecordCommentslice from '../requests/StudentRecords/RequestStudentRecordComment';
@@ -129,7 +130,6 @@ import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubje
 import UpcomingEventDashslice from '../requests/UpcomingEventDash/ReqUpcomingEventDash';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
-
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Students: StudentsSlice,
@@ -262,7 +262,8 @@ const rootReducer = combineReducers({
   AbsentStudentDetail: AbsentStudentDetailsslice,
   AbsentStudent: AbsentStudentslice,
   PerformanceGradeAssignment: PerformanceGradeAssignmentslice,
-  UpcomingEventDash: UpcomingEventDashslice
+  UpcomingEventDash: UpcomingEventDashslice,
+  SchoolLibrary: SchoolLibraryslice
 });
 
 export default rootReducer;
