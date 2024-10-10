@@ -5,7 +5,7 @@ import { Alert, Box, IconButton, Table, TableBody, TableCell, TableRow, Tooltip,
 import { blue, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate ,useParams} from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -33,7 +33,7 @@ type Props = {};
 const ViewResultAll = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { StandardDivisionId } =useParams();    
+  const { StandardDivisionId } = useParams();
   const TeacherId = (sessionStorage.getItem('TeacherId'));
   const [selectTeacher, setSelectTeacher] = useState(sessionStorage.getItem('TeacherId') || '')
   const [open, setOpen] = useState(false);
@@ -261,28 +261,32 @@ const ViewResultAll = (props: Props) => {
           <Box>
             {MarkDetailsView.length > 0 ? (
               <Box>
-                <Box sx={{backgroundColor:'white'}}>
-                <hr />
-                <Typography variant={"h4"} textAlign={'center'} color={"primary"} mb={1}>
-                  Pawar Public Charitable Trust's
-                </Typography>
-                <hr />
-                <Typography variant={"h3"} textAlign={'center'} color={"black"} mb={1}>
-                  PAWAR PUBLIC SCHOOL
-                </Typography>
-                <hr />
-                <Typography variant={"h4"} textAlign={'center'} color={"black"} pb={1}>
-                  Final Result
-                </Typography>
+                <Box sx={{ backgroundColor: 'white' }}>
+                  <hr />
+                  {USSStudentsingleResult.length > 0 && (
+                    <>
+                      <Typography variant="h4" textAlign={'center'} color={'primary'} mb={1}>
+                        {USSStudentsingleResult[0].Text7}
+                      </Typography>
+                      <hr />
+                      <Typography variant="h3" textAlign={'center'} color={'black'} mb={1}>
+                        {USSStudentsingleResult[0].Text6}
+                      </Typography>
+                      <hr />
+                      <Typography variant="h4" textAlign={'center'} color={'black'} pb={1}>
+                        Final Result
+                      </Typography>
+                    </>
+                  )}
                 </Box>
                 <Table>
                   <TableBody>
                     {USSStudentsingleResult.map((item) => (
                       <TableRow key={item.id} sx={{ bgcolor: '#38548A' }}>
-                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Roll No :  {item.Text2} </b></TableCell>
-                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Name :  {item.Text1} </b></TableCell>
-                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Class :  {item.Text3} - {item.Text4} </b></TableCell>
-                        <TableCell sx={{textAlign:'center', color:'white'}}><b>Year :  {item.Text5} </b></TableCell>
+                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Roll No :  {item.Text2} </b></TableCell>
+                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Name :  {item.Text1} </b></TableCell>
+                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Class :  {item.Text3} - {item.Text4} </b></TableCell>
+                        <TableCell sx={{ textAlign: 'center', color: 'white' }}><b>Year :  {item.Text5} </b></TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -292,7 +296,7 @@ const ViewResultAll = (props: Props) => {
                   <TableBody>
                     {totalconsidration.length > 0 && (
                       <>
-                        <TableRow sx={{ bgcolor: 'white', p:2}}>
+                        <TableRow sx={{ bgcolor: 'white', p: 2 }}>
                           <TableCell><b> Legend : </b> <span style={{ color: 'red' }}>*</span>   Subject marks not considered in total marks </TableCell>
                         </TableRow>
                         {/* {totalconsidration.map((Subject) => (
@@ -309,14 +313,14 @@ const ViewResultAll = (props: Props) => {
                 <Box sx={{ overflowX: 'auto' }}>
                   <Table>
                     <TableBody>
-                      <TableRow sx={{backgroundColor:'#F0F0F0'}}>
+                      <TableRow sx={{ backgroundColor: '#F0F0F0' }}>
                         <TableCell>
-                        <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={1} ml={1}>
-                          Subjects
-                        </Typography></TableCell>
+                          <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={1} ml={1}>
+                            Subjects
+                          </Typography></TableCell>
                         {SubjectDetailsView.map((subject) => (
 
-                          <TableCell key={subject.Subject_Id} sx={{textAlign:'center'}}><b>{subject.Name}  </b>
+                          <TableCell key={subject.Subject_Id} sx={{ textAlign: 'center' }}><b>{subject.Name}  </b>
                             {/* {(totalconsidration == subject.Subject_Id) && <span style={{ color: 'red' }}>*</span>} */}
 
                             {(subject.Total_Consideration === "N") && <span style={{ color: 'red' }}>*</span>}
@@ -329,24 +333,24 @@ const ViewResultAll = (props: Props) => {
                       <TableRow>
                         {!showOnlyGrades && (
                           <>
-                          <TableCell sx={{backgroundColor:'#F0F0F0'}}>
-                            <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
-                              Marks
-                            </Typography>
+                            <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
+                              <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
+                                Marks
+                              </Typography>
                             </TableCell>
                             {MarkDetailsView.map((marks) => (
-                              <TableCell key={marks.Name} sx={{textAlign:'center'}} >{marks.Name}</TableCell>
+                              <TableCell key={marks.Name} sx={{ textAlign: 'center' }} >{marks.Name}</TableCell>
                             ))}
                           </>
                         )}
                       </TableRow>
                       <TableRow>
-                      <TableCell sx={{backgroundColor:'#F0F0F0'}}>
-                        <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
-                          Subject Grade
-                        </Typography></TableCell>
+                        <TableCell sx={{ backgroundColor: '#F0F0F0' }}>
+                          <Typography variant={"h4"} textAlign={'center'} color={"black"} mt={0}>
+                            Subject Grade
+                          </Typography></TableCell>
                         {GradesDetailsView.map((Grade) => (
-                          <TableCell sx={{textAlign:'center'}}>{Grade.Name}
+                          <TableCell sx={{ textAlign: 'center' }}>{Grade.Name}
                           </TableCell>
                         )
                         )}
@@ -355,7 +359,7 @@ const ViewResultAll = (props: Props) => {
                   </Table>
 
                 </Box>
-                
+
                 <Typography variant={"h6"} textAlign={'center'} color={"primary"} mb={0}>
                   {Usisconfigred.IsConfiged == 0 ? (
                     <div>

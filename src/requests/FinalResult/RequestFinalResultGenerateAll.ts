@@ -266,7 +266,9 @@ export const ViewResultGA =
                     Text2: item.Roll_No,
                     Text3: item.Standard_Name,
                     Text4: item.Division_Name,
-                    Text5: item.Academic_Year
+                    Text5: item.Academic_Year,
+                    Text6: item.School_Name,
+                    Text7: item.School_Orgn_Name
                 };
             });
             dispatch(FinalResultGenerateAllSlice.actions.ViewResult(abc));

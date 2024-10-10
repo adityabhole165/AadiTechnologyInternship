@@ -142,6 +142,8 @@ export const GetsingleStudentResultVA =
                     Text3: item.Standard_Name,
                     Text4: item.Division_Name,
                     Text5: item.Academic_Year,
+                    Text6: item.School_Name,
+                    Text7: item.School_Orgn_Name,
                     ShowOnlyGrades: item.ShowOnlyGrades
 
                 };
