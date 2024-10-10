@@ -29,6 +29,10 @@ const SchoolLibraryslice = createSlice({
             state.Loading = false;
             state.IBookClimedMsg = action.payload;
         },
+        RClearBookClimedMsg(state) {
+            state.Loading = false;
+            state.IBookClimedMsg = '';
+        },
         RGetTotalBooksCounts(state, action) {
             state.IGetTotalBooksCounts = action.payload;
         },
@@ -91,6 +95,11 @@ export const CDABookClimedMsg = (data: IBookclaimedBody): AppThunk =>
         const response = await ApiLibraryBaseScreen.BookClimedMsg(data);
         dispatch(SchoolLibraryslice.actions.RBookClimedMsg(response.data))
     };
+export const CDAClearBookClimedMsg = (): AppThunk =>
+    async (dispatch) => {
+        dispatch(SchoolLibraryslice.actions.RClearBookClimedMsg());
+
+    };
 
 export const CDAGetTotalBooksCounts =
     (data: IGetTotalBooksCountsBody): AppThunk =>
@@ -130,6 +139,8 @@ export const CDAGetReserveBookDetails =
                 };
 
             });
+            console.log(`✌️`, GetReserveBookDetails);
+
 
             let ReserveBookDetailsCount = response.data.listGetReserveBookDetailsCount.map((item, i) => {
                 return {
@@ -140,7 +151,7 @@ export const CDAGetReserveBookDetails =
             });
             console.log(response.data.listGetReserveBookDetails, '*****GetReserveBookDetails');
             console.log(response.data.listGetReserveBookDetailsCount, '*****GetReserveBookDetails');
-            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetails(ReserveBookDetailsCount));
-            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(GetReserveBookDetails));
+            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetails(GetReserveBookDetails));
+            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(ReserveBookDetailsCount));
         };
 export default SchoolLibraryslice.reducer;

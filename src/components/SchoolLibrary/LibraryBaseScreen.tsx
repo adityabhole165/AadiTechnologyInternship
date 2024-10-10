@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
+import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody, IGetReserveBookDetailsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDABookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
+import { CDABookClimedMsg, CDAClearBookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue, CDAGetReserveBookDetails } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import LibrarySearch from './LibrarySearch';
@@ -111,24 +111,28 @@ const LibraryBaseScreen = () => {
     //     }
     // }, [cliambook, USReserveBookDetails, asSchoolId, asUserId, asAcademicYearId]);
 
-    // const bookReserveDetails: IGetReserveBookDetailsBody = {
-    //     asSchoolId: asSchoolId,
-    //     asAcademicYearId: asAcademicYearId,
-    //     asUserID: asUserId,
-    //     asStartIndex: 0,
-    //     asEndIndex: 20,
-    //     asBookTitle: "",
-    //     asUserName: "",
-    //     asSortExpression: "ORDER BY Book_Title ASC",
-    //     asAllUserFlag: 0
+    const bookReserveDetails: IGetReserveBookDetailsBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserID: asUserId,
+        asStartIndex: 0,
+        asEndIndex: 20,
+        asBookTitle: "",
+        asUserName: "",
+        asSortExpression: "ORDER BY Book_Title ASC",
+        asAllUserFlag: 0
 
-    // };
-    // useEffect(() => {
-    //     dispatch(CDAGetReserveBookDetails(bookReserveDetails))
-    // }, [])
+    };
+    useEffect(() => {
+        dispatch(CDAGetReserveBookDetails(bookReserveDetails))
+    }, [])
 
 
     const ClickCliam = (Book_Id: number) => {
+        console.log('reserved books list', USReserveBookDetails);
+        console.log('book Id currently clicked', Book_Id);
+        const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
+
         const cliambookBody: IBookclaimedBody = {
             asBookId: Book_Id,
             asUserId: asUserId,
@@ -137,25 +141,30 @@ const LibraryBaseScreen = () => {
             asAcademicYearId: asAcademicYearId,
             asInsertedById: asUserId,
         };
-        dispatch(CDABookClimedMsg(cliambookBody));
+        if (isAlreadyClaimed) {
+            toast.error("Could not claim the same book.");
+        } else {
+            dispatch(CDABookClimedMsg(cliambookBody));
+        }
         setcliambook(Book_Id.toString())
         console.log(cliambook, "@@@USReserveBookDetails");
     };
     useEffect(() => {
-        toast.success(USBookCliamMsg);
-    })
-    useEffect(() => {
-        console.log(cliambook, '$$$$$$$$$')
-        const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
-
-        console.log(isAlreadyClaimed, "@@@@@@@@@@isAlreadyClaimed")
-        if (isAlreadyClaimed) {
-            toast.error("Could not claim the same book.");
-        } else {
-            toast.success("Book claimed successfully");
+        if (USBookCliamMsg !== "") {
+            toast.success(USBookCliamMsg);
+            dispatch(CDAClearBookClimedMsg())
         }
+    }, [USBookCliamMsg])
+    // useEffect(() => {
+    //     console.log(cliambook, '$$$$$$$$$')
+    //     const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
 
-    }, [USReserveBookDetails, cliambook]);
+    //     console.log(isAlreadyClaimed, "@@@@@@@@@@isAlreadyClaimed")
+    //     if (isAlreadyClaimed) {
+    //         toast.error("Could not claim the same book.");
+    //     }
+
+    // }, [USReserveBookDetails, cliambook]);
 
     // useEffect(() => {
     //     const set2 = new Set(cliambook);  // cliambook should be an array
