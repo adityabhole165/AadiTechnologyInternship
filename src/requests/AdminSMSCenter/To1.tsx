@@ -57,7 +57,7 @@ export const GetUser =
       const userList = response.data.GetUsersInGroupResult.map((item, index) => {
         return {
           Id: item.Id,
-          Value: item.Id,
+          Value: item.Name,
           isActive: false,
           Name: item.Name
         };
