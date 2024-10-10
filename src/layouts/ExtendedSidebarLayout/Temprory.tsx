@@ -251,21 +251,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: getPageName(74),
       icon: <RuleIcon />,
       link: '/extended-sidebar/Teacher/AssignExamMark',
-      screenId: 74
+      screenId: 0 //74
     },
     {
       id: 'Daily Activities',
       title: getPageName(77),
       icon: <EventNoteOutlinedIcon />,
       link: '/extended-sidebar/Teacher/TAttendance',
-      screenId: 77
+      screenId: 0 //77
     },
     {
       id: 'Daily Activities',
       title: getPageName(201),
       icon: <AutoStoriesTwoToneIcon />,
       link: '/extended-sidebar/Teacher/AssignHomework',
-      screenId: 201
+      screenId: 0 //201
     },
     {
       id: 'Daily Activities',
@@ -308,7 +308,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Progress Remark',  // getPageName(266),
       icon: <InsertCommentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/ProgressRemarks',
-      screenId: 266
+      screenId: 0 //266
     },
 
     {
