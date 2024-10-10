@@ -251,7 +251,13 @@ const FinalResult = () => {
   const GeneratedNA = GetStudentLists.map((item) => item.Is_ResultGenrated)
   const Bot = GeneratedNA[0];
 
+  const GetStudentLists1 : any  = useSelector(
+    (state: RootState) => state.FinalResult.StudentResultList1
+  );
 
+  const notGeneratedCount = GetStudentLists1.NotGenratedResultCount;
+  
+   console.log(notGeneratedCount,"GetStudentLists1");
 
 
   const PublishResult = useSelector(
@@ -642,8 +648,8 @@ const FinalResult = () => {
       };
 
       // Dynamic message based on countNotY
-      const message = countNotY > 0
-        ? `Result of ${countNotY} students is not generated. Once you publish the result, it will be visible to parents/students. Are you sure you want to continue?`
+      const message = notGeneratedCount > 0
+        ? `Result of ${notGeneratedCount} students is not generated. Once you publish the result, it will be visible to parents/students. Are you sure you want to continue?`
         : 'Once you publish the result it will be visible to parents/students. Are you sure you want to continue?';
 
       showAlert({

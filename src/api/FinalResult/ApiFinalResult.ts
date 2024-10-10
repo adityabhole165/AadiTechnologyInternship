@@ -36,7 +36,7 @@ const ClassTeacherList = (data: IClassTeacherListBody) => {
 };
 
 const GetStudentResult = (data: IGetPagedStudentBody) => {
-  return http.post<IGetPagedStudentResult[]>(
+  return http.post<IGetPagedStudentResult>(
     'Homework/GetPagedStudentResult',
     data
   );

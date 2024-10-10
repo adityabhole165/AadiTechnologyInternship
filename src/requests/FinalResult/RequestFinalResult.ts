@@ -23,6 +23,7 @@ const FinalResultSlice = createSlice({
   initialState: {
     ClassTeachers: [],
     StudentResultList: [],
+    StudentResultList1:{},
     PublishResult: '',
     UnpublishResult: '',
     GenerateAll: '',
@@ -43,8 +44,12 @@ const FinalResultSlice = createSlice({
       state.ClassTeachers = action.payload;
     },
     PageStudentList(state, action) {
-      state.Loading = false;
+     
       state.StudentResultList = action.payload;
+    },
+    PageStudentList1(state, action) {
+      
+      state.StudentResultList1 = action.payload;
     },
     publishResult(state, action) {
       state.Loading = false;
@@ -132,7 +137,7 @@ export const GetStudentResultList =
     async (dispatch) => {
       dispatch(FinalResultSlice.actions.getLoading(true));
       const response = await FinalResultApi.GetStudentResult(data);
-      let StudentList = response.data?.map((item) => {
+      let StudentList = response.data.GetPagedStudentResult.map((item) => {
         return {
           Id: item.Student_Id,
           Text1: item.Roll_No,
@@ -149,7 +154,11 @@ export const GetStudentResultList =
         };
       });
       dispatch(FinalResultSlice.actions.PageStudentList(StudentList));
+
+    dispatch(FinalResultSlice.actions.PageStudentList1(response.data.NotGenratedResultCountDetails));
+
     };
+
 
 export const GetPublishResult = (data: IPublishBody): AppThunk =>
   async (dispatch) => {
