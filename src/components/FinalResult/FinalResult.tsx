@@ -96,7 +96,6 @@ const FinalResult = () => {
 
   const FinalResultFullAccess = GetScreenPermission('Final Result');
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(FinalResultFullAccess == 'Y' ? '0' : StandardDivisionIdse)
   const [asStdDivId, setasStdDivId] = useState();
   const [asUnPublishReason, setasUnPublishReason] = useState();
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -142,6 +141,16 @@ const FinalResult = () => {
   const GetResultGenerated = useSelector(
     (state: RootState) => state.FinalResult.ISGetResultPublishd
   );
+  const GetClassTeachers = useSelector(
+    (state: RootState) => state.FinalResult.ClassTeachers
+  );
+
+  const [StandardDivisionId, setStandardDivisionId] = useState(
+    FinalResultFullAccess === 'Y' 
+      ? '0' 
+      : (StandardDivisionIdse || GetClassTeachers.length > 2 ? '0' : StandardDivisionIdse)
+  );
+  
   const buttonsDisabled = StandardDivisionId === '0';
   const HeaderList = [
     'Roll No.',
@@ -247,10 +256,7 @@ const FinalResult = () => {
   // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   // const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-  const GetClassTeachers = useSelector(
-    (state: RootState) => state.FinalResult.ClassTeachers
-  );
-
+  
   const GetStudentLists = useSelector(
     (state: RootState) => state.FinalResult.StudentResultList
   );
@@ -545,11 +551,7 @@ console.log(BlockExamPublish,"--",ShowTopppers);
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
   }, []);
 
-  useEffect(() => {
-    if ((GetClassTeachers.length > 2 && FinalResultFullAccess == 'N')) {
-      setStandardDivisionId(GetClassTeachers[0].Value);
-    }
-  }, [GetClassTeachers]);
+ 
 
 
   const Toppers = (value) => {
@@ -907,14 +909,14 @@ console.log(BlockExamPublish,"--",ShowTopppers);
               <span>
                 <IconButton
                   onClick={Toppers}
-                  disabled={(!GetResultGenerated || buttonsDisabled )&& (GetAtleastOneResultGenerated?.AllowPublish == false || !ShowTopppers)}
+                  disabled={(!GetResultGenerated || buttonsDisabled )&& (GetAtleastOneResultGenerated?.AllowPublish == false || ShowTopppers)}
                   sx={{
                     color: 'white',
                     backgroundColor: blue[500],
                     '&:hover': {
                       backgroundColor: blue[600]
                     },
-                    ...(!GetResultGenerated || buttonsDisabled )&& (GetAtleastOneResultGenerated?.AllowPublish == false || !ShowTopppers) && {
+                    ...(!GetResultGenerated || buttonsDisabled )&& (GetAtleastOneResultGenerated?.AllowPublish == false || ShowTopppers) && {
                       pointerEvents: 'none'
                     }
                   }}
