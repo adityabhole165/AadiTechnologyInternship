@@ -5,9 +5,10 @@ import { BookLockIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
+import { toast } from 'react-toastify';
+import { IBookclaimedBody, IGetAllBooksDetailsBody, IGetLibraryBookIssueDetailsBody } from 'src/interfaces/SchoolLibrary/ILibraryBaseScreen';
 import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
-import { CDAGetAllBooksDetails, CDAGetLibraryBookIssue } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
+import { CDABookClimedMsg, CDAGetAllBooksDetails, CDAGetLibraryBookIssue } from 'src/requests/SchoolLibrary/ReqLibraryBaseScreen';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 import LibrarySearch from './LibrarySearch';
@@ -127,31 +128,34 @@ const LibraryBaseScreen = () => {
     // }, [])
 
 
-    // const ClickCliam = (Book_Id: number) => {
-    //     const cliambookBody: IBookclaimedBody = {
-    //         asBookId: Book_Id,
-    //         asUserId: asUserId,
-    //         asReservedByParent: 0,
-    //         asSchoolId: asSchoolId,
-    //         asAcademicYearId: asAcademicYearId,
-    //         asInsertedById: asUserId,
-    //     };
-    //     dispatch(CDABookClimedMsg(cliambookBody));
-    //     setcliambook(Book_Id.toString())
-    // };
+    const ClickCliam = (Book_Id: number) => {
+        const cliambookBody: IBookclaimedBody = {
+            asBookId: Book_Id,
+            asUserId: asUserId,
+            asReservedByParent: 0,
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asInsertedById: asUserId,
+        };
+        dispatch(CDABookClimedMsg(cliambookBody));
+        setcliambook(Book_Id.toString())
+        console.log(cliambook, "@@@USReserveBookDetails");
+    };
+    useEffect(() => {
+        toast.success(USBookCliamMsg);
+    })
+    useEffect(() => {
+        console.log(cliambook, '$$$$$$$$$')
+        const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
 
-    // useEffect(() => {
-    //     console.log(cliambook, '$$$$$$$$$')
-    //     const isAlreadyClaimed = USReserveBookDetails.some(book => book.BookId === cliambook);
+        console.log(isAlreadyClaimed, "@@@@@@@@@@isAlreadyClaimed")
+        if (isAlreadyClaimed) {
+            toast.error("Could not claim the same book.");
+        } else {
+            toast.success("Book claimed successfully");
+        }
 
-    //     console.log(isAlreadyClaimed, "@@@@@@@@@@isAlreadyClaimed")
-    //     if (isAlreadyClaimed) {
-    //         toast.error("Could not claim the same book.");
-    //     } else {
-    //         toast.success("Book claimed successfully");
-    //     }
-
-    // }, [USReserveBookDetails, cliambook, bookReserveDetails]);
+    }, [USReserveBookDetails, cliambook]);
 
     // useEffect(() => {
     //     const set2 = new Set(cliambook);  // cliambook should be an array
@@ -202,6 +206,8 @@ const LibraryBaseScreen = () => {
     //         toast.success("Book claimed successfully");
     //     }
     // }, [USReserveBookDetails, cliambook]);
+
+
     const ChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         //const newRowsPerPage = parseInt(event.target.value, 10);  // Parse the new value correctly
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -319,9 +325,8 @@ const LibraryBaseScreen = () => {
                         </Typography>
                     </Box>
                 ) : (
-                    <TableBook data={USBookDetails} />
+                    <TableBook data={USBookDetails} clickcliam={ClickCliam} />
                 )}
-                {/ Pagination Controls /}
                 <ButtonGroupComponent
                     ChangeRowsPerPage={ChangeRowsPerPage}
                     rowsPerPageOptions={rowsPerPageOptions} // Set your options
@@ -330,9 +335,6 @@ const LibraryBaseScreen = () => {
                     pagecount={pageCount}  // Use the calculated pageCount
                 />
             </Box>
-
-
-
             <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
                 <Typography variant="h4" pb={1} color="#38548A">
                     Books With Me
@@ -357,6 +359,7 @@ const LibraryBaseScreen = () => {
                 ) : (
                     <TableBook2 data1={USGetLibraryBookIssueDetails} />
                 )}
+
             </Box>
         </Box>
     );

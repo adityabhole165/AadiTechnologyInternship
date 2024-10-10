@@ -62,7 +62,7 @@ export const CDAGetAllBooksDetails = (data: IGetAllBooksDetailsBody): AppThunk =
             Language: item.Language,
             Category_Name: item.Standards,
             Available_Books: item.Available_Books,
-            Total_Book_Quantity: item.Total_Book_Quantity,
+            Total_Books: item.Total_Book_Quantity,
             AllowBookClaimForParent: item.AllowBookClaimForParent,
         };
     });
@@ -140,7 +140,7 @@ export const CDAGetReserveBookDetails =
             });
             console.log(response.data.listGetReserveBookDetails, '*****GetReserveBookDetails');
             console.log(response.data.listGetReserveBookDetailsCount, '*****GetReserveBookDetails');
-            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetails(GetReserveBookDetails));
-            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(ReserveBookDetailsCount));
+            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetails(ReserveBookDetailsCount));
+            dispatch(SchoolLibraryslice.actions.RGetReserveBookDetailsCount(GetReserveBookDetails));
         };
 export default SchoolLibraryslice.reducer;

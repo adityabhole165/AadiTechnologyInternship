@@ -11,7 +11,6 @@ import {
   TableSortLabel
 } from '@mui/material';
 import React, { useState } from 'react';
-import ButtonGroupComponent from 'src/libraries/ResuableComponents/ButtonGroupComponent';
 
 interface Book {
   Book_Id: string;
@@ -23,13 +22,15 @@ interface Book {
   Language: string;
   Book_No: string;
   Standards: string;
+  Total_Books: string;
 }
 
 interface BookTableProps {
   data: Book[];
+  clickcliam;
 }
 
-const BookTable: React.FC<BookTableProps> = ({ data }) => {
+const BookTable: React.FC<BookTableProps> = ({ data, clickcliam }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState<keyof Book>('Book_Title');
 
@@ -120,21 +121,27 @@ const BookTable: React.FC<BookTableProps> = ({ data }) => {
                 <TableCell>{row.Category_Name}</TableCell>
                 <TableCell>{row.Language}</TableCell>
                 <TableCell>{row.Available_Books}</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell sx={{ py: 0 }}><Link href="#">Claim</Link></TableCell>
+                <TableCell>{row.Total_Books}</TableCell>
+
+                <TableCell sx={{ py: 0 }}>
+                  {row.Available_Books === '0' ? (
+                    <Link href="#" onClick={() => clickcliam(row.Book_Id)}>Claim</Link>
+                  ) : (" ")}
+                </TableCell>
+
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       {/* Add the pagination component here */}
-      <ButtonGroupComponent
+      {/* <ButtonGroupComponent
         ChangeRowsPerPage={handleChangeRowsPerPage}
         rowsPerPageOptions={[5, 10, 25]} // Set your options
         rowsPerPage={rowsPerPage}
         PageChange={handlePageChange}
         pagecount={pageCount}
-      />
+      /> */}
     </>
   );
 };
