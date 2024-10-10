@@ -1,6 +1,6 @@
 import { ArrowCircleDown } from '@mui/icons-material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import { Box, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ListCard4ColSel from '../card/ListCard4ColSel';
 const SelectList3Col = ({
@@ -73,76 +73,51 @@ const SelectList3Col = ({
   }
   return (
     <Box sx={{ textAlign: 'center' }}>
-      {/* <Table aria-label="simple table" sx={{mb:1, border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
-        <TableHead>
-          <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
-            <TableCell>
-              Checkbox
-            </TableCell>
-            <TableCell>
-              Subject
-            </TableCell>
-            <TableCell>
-              To
-            </TableCell>
-            <TableCell>
-            Attachment
-            </TableCell>
-            <TableCell>
-            Date
-            </TableCell>
-          </TableRow>
-        </TableHead>
-      </Table> */}
 
-      <Grid container
-        sx={{
-          borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main,
-          border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden'
-        }}>
-        {showcolumn('Subject') && <Grid onClick={() => { clickHeader('Subject') }} xs={12} sm={2} md={2} sx={{ color: 'white' }}>
-          Subject
+      <Box sx={{
+        display: 'flex', borderRadius: '7px', mb: 1, p: 1.5, background: (theme) => theme.palette.secondary.main,
+        border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden'
+      }}>
+        {showcolumn('Delete') && <Box sx={{ color: 'white', ml: 0 }}>Delete</Box>}
+        {showcolumn('Subject') && <Box onClick={() => { clickHeader('Subject') }} sx={{ color: 'white', ml: 6, display: 'flex' }}>
+          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
+            Subject
+          </Typography>
           {SortExp === 'Subject' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
-            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
-        </Grid>}
-        {showcolumn('Cc') && <Grid xs={12} sm={2} md={3} sx={{ color: 'white' }}>
-          Cc
-        </Grid>}
-        {showcolumn('From') && <Grid xs={12} sm={2} md={2.5} sx={{ color: 'white' }}>
-          From
-        </Grid>}
-        {showcolumn('Attachment') && <Grid xs={12} sm={2} md={2.5} sx={{ color: 'white' }}>
-          Attachment
-        </Grid>}
-        {showcolumn('Received Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
-          Received Date
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
+        {showcolumn('Cc') && <Box sx={{ color: 'white', ml: 40 }}>Cc</Box>}
+        {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 48 }}>  Message Body</Box>}
+        {showcolumn('From') && <Box sx={{ color: 'white', ml: 54 }}>From</Box>}
+        {showcolumn('Attachment') && <Box sx={{ color: 'white', ml: 22 }}>Attachment</Box>}
+        {showcolumn('Received Date') && <Box sx={{ color: 'white', ml: 17, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
+            Received Date
+          </Typography>
+          {/* {Datecolumn} */}
+          {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
+            <ArrowCircleDown sx={{ fontSize: 20, color: 'white', }} /> :
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
+        {showcolumn('Sent Date') && <Box sx={{ color: 'white', ml: 44, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
+            Sent Date
+          </Typography>
           {/* {Datecolumn} */}
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
-            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
-        </Grid>}
-        {showcolumn('Message Body') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
-          Message Body
-        </Grid>}
-        {showcolumn('Delete') && <Grid xs={12} sm={2} md={2} sx={{ color: 'white', }}>
-          Delete
-        </Grid>}
-        {showcolumn('Draft Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
-          Draft Date
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
+        {showcolumn('Draft Date') && <Box sx={{ color: 'white', ml: 44, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+          <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
+            Draft Date
+          </Typography>
           {/* {Datecolumn} */}
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
-            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
-        </Grid>}
-        {showcolumn('Sent Date') && <Grid onClick={() => { clickHeader('Insert_Date') }} xs={12} sm={2} md={2} sx={{ color: 'white', }}>
-          Sent Date
-          {/* {Datecolumn} */}
-          {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
-            <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
-            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}
-        </Grid>}
-      </Grid>
+            <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
+
+      </Box>
+
+
       {
         Itemlist.map((item, index) => (
           <ListCard4ColSel
