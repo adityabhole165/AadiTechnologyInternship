@@ -145,25 +145,26 @@ const StudentBaseScreen = () => {
     const PageChange = (pageNumber: number) => {
         setPage(pageNumber);
     };
-
     const SortableHeader = ({ column, label }) => {
-        // if (column === 'Roll_No') {
+        const showSortIcon = sortHeader === column; 
         return (
             <span
                 style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
                 onClick={() => {
-                    handleSort(column)
+                    handleSort(column);
                     setSortHeader(column);
                 }}
             >
                 {label}
-                <ArrowCircleUpIcon
-                    sx={{
-                        fontSize: '24px',
-                        marginLeft: '4px',
-                        rotate: isAsc && sortHeader === column ? '0deg' : '180deg'
-                    }}
-                />
+                {showSortIcon && ( // Show the icon only for the sorted column
+                    <ArrowCircleUpIcon
+                        sx={{
+                            fontSize: '24px',
+                            marginLeft: '4px',
+                            rotate: isAsc && sortHeader === column ? '0deg' : '180deg'
+                        }}
+                    />
+                )}
             </span>
         );
         // } 
