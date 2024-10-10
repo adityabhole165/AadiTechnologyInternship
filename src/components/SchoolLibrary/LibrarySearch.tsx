@@ -5,44 +5,23 @@ import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropd
 import { getLanguagesDetails } from "src/requests/Library/Library";
 import { GetSelectStandardRes } from "src/requests/TExamschedule/TExamschedule";
 import { RootState } from "src/store";
-
-
 const LibrarySearch = () => {
     const dispatch = useDispatch()
     const [BookTitle, setBookTitle] = useState("");
     const [AccessionNumber, setAccessionNumber] = useState("");
     const [Author, setAuthor] = useState("");
     const [Publisher, setPublisher] = useState("");
-    // const [MediaTypeId, setMediaTypeId] = useState("0");
     const [StandardId, setStandardId] = useState("0");
     const [LanguageId, setLanguageId] = useState("0");
-
     const asSchoolId = localStorage.getItem("localSchoolId");
     const asAcademicYearId = sessionStorage.getItem("AcademicYearId");
-
     const StandardList: any = useSelector((state: RootState) => state.StandardAndExamList.SelectStandard);
     const GetLanguageList = useSelector((state: RootState) => state.library.LanguageList);
-
     useEffect(() => {
         const GetAllStandardsBody = { asSchoolId: asSchoolId, asAcademicYearId: asAcademicYearId };
         dispatch(GetSelectStandardRes(GetAllStandardsBody));
         dispatch(getLanguagesDetails({ aiSchoolId: asSchoolId }));
     }, [])
-
-    // const DisplayLocation = [
-    //     { Id: 1, Name: 'All', Value: 'B' },
-    //     { Id: 2, Name: 'Printable', Value: '2' },
-    //     { Id: 3, Name: 'NonPrintable', Value: '3' },
-    // ];
-    const languages = [
-        { Id: 1, Name: 'All', Value: '1' },
-        { Id: 2, Name: 'English', Value: '2' },
-        { Id: 3, Name: 'English Hindi', Value: '3' },
-        { Id: 4, Name: 'Marathi', Value: '4' },
-        { Id: 5, Name: 'English Marathi', Value: '5' },
-        { Id: 6, Name: 'Hindi', Value: '6' },
-    ];
-
     const clickBookTitle = (Value) => {
         setBookTitle(Value);
     }
@@ -55,16 +34,12 @@ const LibrarySearch = () => {
     const clickPublisher = (Value) => {
         setPublisher(Value);
     }
-    // const clickMediaTypeId = (Value) => {
-    //     setMediaTypeId(Value);
-    // }
     const clickStandardId = (Value) => {
         setStandardId(Value);
     }
     const clickLanguageId = (Value) => {
         setLanguageId(Value);
     }
-
     const clickSearch = () => {
         const GetLibrarySearchBody = {
             BookTitle: BookTitle,
@@ -98,17 +73,6 @@ const LibrarySearch = () => {
                     <TextField fullWidth label="Publisher"
                         value={Publisher} onChange={(e) => clickPublisher(e.target.value)} />
                 </Grid>
-
-                {/* <Grid item xs={12} md={3}>
-                    <SearchableDropdown
-                        sx={{ minWidth: '20vw' }}
-                        ItemList={StandardList}
-                        defaultValue={MediaTypeId}
-                        onChange={clickMediaTypeId}
-                        label='Media Type '
-                    />
-                </Grid> */}
-
                 <Grid item xs={12} md={3}>
                     <SearchableDropdown
                         sx={{ minWidth: '20vw' }}
