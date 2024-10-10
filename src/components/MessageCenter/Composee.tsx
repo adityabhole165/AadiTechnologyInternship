@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Chip,
   ClickAwayListener,
   Dialog,
   DialogActions,
@@ -528,6 +529,23 @@ function Form13() {
     setdisplayOfCCRecipients('none');
     setdisplayOfComposePage('block');
   };
+  const [recipients, setRecipients] = useState(RecipientsObject.RecipientName || []);
+
+  // Update local recipients state whenever the RecipientsObject changes
+  useEffect(() => {
+    setRecipients(RecipientsObject.RecipientName || []);
+  }, [RecipientsObject.RecipientName]);
+
+  // Handle deleting a chip
+  const handleDelete = (chipToDelete) => {
+    const updatedRecipients = recipients.filter(
+      (recipient) => recipient !== chipToDelete
+    );
+    setRecipients(updatedRecipients);
+
+    // Update the formik value or the related state
+    formik.setFieldValue('RecipientsObject.RecipientName', updatedRecipients);
+  };
 
   useEffect(() => {
     if (
@@ -656,6 +674,23 @@ function Form13() {
 
     setIsConfirm(!IsConfirm)
   }
+  const [recipientsCC, setRecipientsCC] = useState(RecipientsCCObject.RecipientName || []);
+
+  // Update local recipients state whenever the RecipientsCCObject changes
+  useEffect(() => {
+    setRecipientsCC(RecipientsCCObject.RecipientName || []);
+  }, [RecipientsCCObject.RecipientName]);
+
+  // Handle deleting a chip (recipient)
+  const handleDelete1 = (chipToDelete) => {
+    const updatedRecipients = recipientsCC.filter(
+      (recipient) => recipient !== chipToDelete
+    );
+    setRecipientsCC(updatedRecipients);
+
+    // Update the formik value (or related state)
+    formik.setFieldValue('RecipientsCCObject.RecipientName', updatedRecipients);
+  };
   return (
     <>
       <Box sx={{ px: 2 }}>
@@ -771,25 +806,35 @@ function Form13() {
               <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>To</Typography>
               </Grid>
+
               <Grid item xs={12} sm={8} md={9.5} >
                 {/* <FormControl fullWidth> */}
                 <TextField
                   multiline
                   id=""
                   fullWidth
-                  // rows={3}
                   InputProps={{
-                    readOnly: true
+                    startAdornment: (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                        {recipients.map((recipient, index) => (
+                          <Chip
+                            key={index}
+                            label={recipient?.trim()}
+                            onDelete={() => handleDelete(recipient)} // Add delete functionality
+                            sx={{ margin: '2px 4px' }}
+                          />
+                        ))}
+                      </Box>
+                    ),
+                    readOnly: true,
                   }}
-                  value={RecipientsObject.RecipientName.map((obj) =>
-                    obj?.trim()
-                  ).join('; ')}
+                  // Display joined recipients as string in textfield
                   onChange={formik.handleChange}
                   sx={{
-                    height: '50px',
+                    height: 'auto',
                     overflow: 'auto',
                     border: '0.1px solid #c4c5c5',
-                    borderRadius: '7px'
+                    borderRadius: '7px',
                   }}
                 />
                 <Box mt={0}>
@@ -860,16 +905,28 @@ function Form13() {
                       id=""
                       fullWidth
                       disabled
-                      value={RecipientsCCObject.RecipientName.map((obj) =>
-                        obj?.trim()
-                      ).join('; ')}
+                      InputProps={{
+                        startAdornment: (
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                            {recipientsCC.map((recipient, index) => (
+                              <Chip
+                                key={index}
+                                label={recipient?.trim()}
+                                onDelete={() => handleDelete1(recipient)} // Add delete functionality
+                                sx={{ margin: '2px 4px' }}
+                              />
+                            ))}
+                          </Box>
+                        ),
+                      }}
+                      // value={recipientsCC.join('; ')} // Display joined recipients as a string in the textfield
                       onChange={formik.handleChange}
                       sx={{
-                        height: '50px',
+                        height: 'auto',
                         overflow: 'auto',
                         border: '0.1px solid #c4c5c5',
                         borderRadius: '5.3px',
-                        marginLeft: '0px'
+                        marginLeft: '0px',
                       }}
                     />
                   </Grid>
