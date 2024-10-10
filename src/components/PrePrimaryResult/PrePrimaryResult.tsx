@@ -1,4 +1,4 @@
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { QuestionMark } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import {
   IGetPublishResltBody,
   IGetUnPublishResltBody
 } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
-import { QuestionMark } from '@mui/icons-material';
 import {
   AssessmentList,
   CDAPublished,
@@ -85,6 +84,11 @@ const PrePrimaryResult = () => {
   const GetTeacherXseedSubjects = useSelector(
     (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects
   );
+
+  const EditStatus = GetTeacherXseedSubjects.map((item) => item.EditStatus)
+  const allY = EditStatus.every((status) => status === "Y");
+  console.log(EditStatus, "GetTeacherXseedSubjects", allY);
+
   const USlistpublishstatusDetails = useSelector(
     (state: RootState) => state.PrePrimaryResult.ISlistpublishstatusDetails
   );
@@ -362,11 +366,9 @@ const PrePrimaryResult = () => {
 
             }
             {
-              StandardDivisionId == "" || AssessmentResult == '0' ? null :
-
+              StandardDivisionId == "" || AssessmentResult == '0' ? null : (
                 <div>
-
-
+                  {/* Publish Button */}
                   <Tooltip title={'Publish'}>
                     <IconButton
                       sx={{
@@ -376,16 +378,15 @@ const PrePrimaryResult = () => {
                           backgroundColor: blue[600],
                         },
                       }}
-                      disabled={PublishStatus == "Y" && IsPublished == "Y"}
-
+                      disabled={!(PublishStatus == "Y" && IsPublished == "N" && allY)}
                       onClick={Clickpublish}
                     >
-
                       <CheckCircle />
                     </IconButton>
                   </Tooltip>
                   &nbsp;
 
+                  {/* Unpublish Button */}
                   <Tooltip title={'Unpublish'}>
                     <IconButton
                       sx={{
@@ -395,18 +396,16 @@ const PrePrimaryResult = () => {
                           backgroundColor: red[500],
                         },
                       }}
-                      disabled={PublishStatus == "Y" && IsPublished == "N"}
-
+                      disabled={!(PublishStatus == "Y" && IsPublished == "Y" && allY)}
                       onClick={onClickunpublished}
                     >
                       <Unpublished />
                     </IconButton>
                   </Tooltip>
-
-
-
                 </div>
+              )
             }
+
 
 
             <Tooltip title={'View summarised results of your class for the selected assessment.Assessment result can be publish by clicking on publish button and unpublish by clicking on unpublish button.'}>
@@ -484,7 +483,7 @@ const PrePrimaryResult = () => {
 
               }
             }} />
-         
+
 
           <Tooltip title={'Enter the reason for assessment unpublish.'}
             placement="bottom-end"  >
