@@ -10,8 +10,8 @@ import {
 } from 'src/interfaces/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import ListSelect from 'src/libraries/list/ListSelect';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   ContactGroup,
   GetGetAdminAndprincipalUsers,
@@ -344,7 +344,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
           !selectedRecipentsId.includes(obj.Id)) ||
           (isSelected('Contact group') && !contactGroup.includes(obj.Id)))
       ) {
-        setSelectedRecipents((prevState) => [...prevState, obj.Name]);
+        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
         if (isSelected('Contact group')) {
           setContactGroup((prevState) => [...prevState, obj.Id]);
         } else {
@@ -519,13 +519,13 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                     //   label="Select Class"
                     //   handleChange={classChange}
                     // />
-                    <SearchableDropdown
+                    <DropdownofAddrecipent
                       sx={{ minWidth: '300px' }}
                       ItemList={getClass}
                       onChange={classChange}
                       label={'Select Class'}
                       defaultValue={studentlist}
-                      size={"small"}></SearchableDropdown>
+                      size={"small"}></DropdownofAddrecipent>
 
                   )}
 
