@@ -36,11 +36,11 @@ const SelectList3Col = ({
     } else if (columnName === 'Date') {
       return true;
     } else if (columnName === 'From') {
-      if (ActiveTab === 'Inbox' ){
+      if (ActiveTab === 'Inbox') {
         return true;
       }
-    }else if (columnName === 'From1') {
-        if( ActiveTab === 'Trash'){
+    } else if (columnName === 'From1') {
+      if (ActiveTab === 'Trash') {
         return true
       }
     } else if (columnName === 'To') {
@@ -60,7 +60,7 @@ const SelectList3Col = ({
         return true;
       }
     } else if (columnName === 'Received Date1') {
-      if ( ActiveTab === 'Trash') {
+      if (ActiveTab === 'Trash') {
         return true;
       }
     } else if (columnName === 'Draft Date') {
@@ -94,6 +94,7 @@ const SelectList3Col = ({
           {SortExp === 'Subject' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white' }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
+        {showcolumn('To') && <Box sx={{ color: 'white', ml: 26 }}>To</Box>}
         {showcolumn('Cc') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
         {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 44 }}>  Message Body</Box>}
         {showcolumn('From') && <Box sx={{ color: 'white', ml: 54 }}>From</Box>}
