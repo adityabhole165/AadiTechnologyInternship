@@ -143,13 +143,12 @@ const FinalResult = () => {
   );
   const GetClassTeachers = useSelector(
     (state: RootState) => state.FinalResult.ClassTeachers
+
+    
   );
 
-  const [StandardDivisionId, setStandardDivisionId] = useState(
-    FinalResultFullAccess === 'Y' 
-      ? '0' 
-      : (StandardDivisionIdse || GetClassTeachers.length > 2 ? '0' : StandardDivisionIdse)
-  );
+  const [StandardDivisionId, setStandardDivisionId] = useState((FinalResultFullAccess === 'Y' ? '0' : StandardDivisionIdse) );
+
   
   const buttonsDisabled = StandardDivisionId === '0';
   const HeaderList = [
@@ -546,6 +545,10 @@ console.log(BlockExamPublish,"--",ShowTopppers);
     if (StandardDivisionId1 !== undefined)
       setStandardDivisionId(StandardDivisionId1);
   }, [GetClassTeachers]);
+
+
+
+
 
   useEffect(() => {
     dispatch(CDAGetSchoolSettings(GetSchoolSettings));
