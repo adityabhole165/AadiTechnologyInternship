@@ -770,9 +770,9 @@ function Form13() {
             <ReplyIcon />
           </Fab> 
         </span> */}
-        <ListStyle>
+          <Box sx={{backgroundColor:'white', px:2 , height:'80vh'}}>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={1} sx={{ height: '100vh' }}>
+            <Grid container spacing={1} >
               <Grid item xs={12} >
                 <Typography variant='h4' pl={1}>Form</Typography>
               </Grid>
@@ -1018,39 +1018,6 @@ function Form13() {
                   <Errormessages Error={fileerror} />
                 </Box>
               </Grid>
-              {/* <Grid item xs={2} sm={1} md={0.5} lg={0.5} sx={{ mt: '5px' }}>
-                <ClickAwayListener onClickAway={handleClickAway}>
-                  <Tooltip
-                    PopperProps={{
-                      disablePortal: true
-                    }}
-                    onClose={handleClick}
-                    disableFocusListener
-                    disableHoverListener
-                    disableTouchListener
-                    arrow
-                    open={open}
-                    title={Note}
-                    placement="left"
-                    componentsProps={{
-                      tooltip: {
-                        sx: {
-                          marginLeft: '70px',
-                          transform: 'translate3d(15px, 0.5px, 0px) !important'
-                        }
-                      }
-                    }}
-                  >
-                    <IconButton onClick={handleClick}>
-                      <InfoTwoToneIcon
-                        type="button"
-                        sx={{ color: 'navy', fontSize: '20px', mt: '-10px' }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </ClickAwayListener>
-              </Grid> */}
-
               <Grid item xs={12}>
                 {finalBase642New == undefined ||
                   finalBase642New.length == 0 ||
@@ -1144,15 +1111,6 @@ function Form13() {
               </Grid>
 
               <Grid item xs={12} sm={3.5} md={3.5} lg={1.5} sx={{ ml: -5, mt: -1, messageCenterCale }} >
-                {/* <TextField
-                  sx={{ display: scheduleMessage }}
-                  type="date"
-                  id="outlined-required"
-                  variant="standard"
-                  onChange={scheduleDateAndTime}
-                  inputProps={{ min: MinDate, max: MaxDate }}
-                  fullWidth
-                /> */}
                 <Datepicker
                   DateValue={undefined}
                   onDateChange={scheduleDateAndTime}
@@ -1172,29 +1130,9 @@ function Form13() {
                 lg={1.5}
                 sx={{ mt: -1, display: scheduleMessage }}
               >
-                {/* to be made working for release */}
                 <TimePicker
                   value={value}
                   onChange={clickTime}
-
-                // renderInput={(params) => (
-                //   <TextField
-                //     {...params}
-                //     variant="standard"
-                //     size="small"
-                //     sx={messageCenterCale}
-                //     InputProps={{
-                //       startAdornment: (
-                //         <InputAdornment position="start">
-                //            <AccessTimeIcon fontSize="small" /> 
-                //         </InputAdornment>
-                //       )
-                //     }}
-                //      fullWidth
-                //   />
-                // )} 
-
-
                 />
               </Grid>
 
@@ -1210,31 +1148,7 @@ function Form13() {
                     onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} /> */}
                   <QuillEditor formik={formik} />
                 </Box>
-                {/* <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  margin="normal"
-                  label="Content :"
-                  name="Content"
-                  type="text"
-                  variant="outlined"
-                  sx={{ mt: '30px' }}
-                  value={formik.values.Content}
-                  onChange={formik.handleChange}
-                /> */}
                 <Errormessages Error={contenterror} />
-                {/* {isMobile  ? 
-                 <TextField fullWidth multiline rows={4}
-                 margin="normal" label='Content :' name="Content" type="text"
-                 variant="outlined" sx={{ mt: "16px" }}
-                 value={formik.values.Content}
-                 onChange={formik.handleChange}
-               />:
-            
-               <ReactQuill value={formik.values.Content} onChange={formik.handleChange} modules={toolbarOptions} />
-            } */}
-
                 <Box mb={0.5}>
                   {formik.touched.Content && formik.errors.Content ? (
                     <ErrorMessage1 Error={formik.errors.Content} />
@@ -1254,63 +1168,11 @@ function Form13() {
                     </BoxContent>
                   </>
                 ) : null}
-
               </Grid>
-
-              {/* <Grid container spacing={1} sx={{ m: 0.5, pt: 2, pl: 125 }}  >
-                <Grid item xs={12} sm={6} >
-                  <Button
-                    // color="primary"
-                    type="submit"
-                    fullWidth
-                    onClick={formik.handleChange}
-                    disabled={disabledStateOfSend}
-                    sx={{
-                      color: '#38548A',
-                      '&:hover': {
-                        color: 'blue',
-                        backgroundColor: blue[100]
-                      }
-                    }}
-                  >
-                    Send
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={5} >
-                  <Button
-                    // color="primary" 
-                    fullWidth onClick={SaveDraft}
-                    sx={{
-                      color: 'green',
-                      '&:hover': {
-                        color: 'green',
-                        backgroundColor: green[100]
-                      }
-                    }}>
-                    Save As Draft
-                  </Button>
-                </Grid>
-              </Grid> */}
             </Grid>
-
           </form>
-        </ListStyle>
+          </Box>
       </Box>
-      {/* <div style={{ display: displayOfRecipients, paddingTop:'15px' }}>
-        <AddReciepents
-          RecipientName={RecipientsObject.RecipientName}
-          RecipientId={RecipientsObject.RecipientId}
-          recipientListClick={RecipientsListFun}
-        ></AddReciepents>
-      </div>
-      <div style={{ display: displayOfCCRecipients }}>
-        <AddReciepents
-          RecipientName={RecipientsCCObject.RecipientName}
-          RecipientId={RecipientsCCObject.RecipientId}
-          recipientListClick={RecipientsCCListFun}
-        ></AddReciepents>
-      </div> */}
-
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
