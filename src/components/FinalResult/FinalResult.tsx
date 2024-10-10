@@ -910,7 +910,7 @@ console.log(BlockExamPublish,"--",ShowTopppers);
             &nbsp;
 
             {
-              ShowTopppers == true ?
+              ShowTopppers !== true ?
               <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
               <span>
                 <IconButton
