@@ -186,13 +186,13 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
         </DialogContent>
         <DialogActions>
           <Grid item xs={12} md={12} >
-            <Grid direction={"row"} gap={2} alignItems={"center"} sx={{ml: 43, pb:2}}>
+            <Grid direction={"row"} gap={2} alignItems={"center"} sx={{ ml: 43, pb: 2 }}>
 
               <Button sx={{
                 ml: 2,
                 color: 'red',
                 ':hover': { backgroundColor: red[100] }
-              }} onClick={clickReset}>
+              }} onClick={handleClose}>
                 Close
               </Button>
               <Button sx={{
