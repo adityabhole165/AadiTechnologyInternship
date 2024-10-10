@@ -673,6 +673,7 @@ function Form13() {
     console.log(IsConfirm, "IsConfirm click")
 
     setIsConfirm(!IsConfirm)
+    handleCloseDialog()
   }
   const [recipientsCC, setRecipientsCC] = useState(RecipientsCCObject.RecipientName || []);
 
