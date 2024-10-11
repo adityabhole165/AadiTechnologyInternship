@@ -153,8 +153,10 @@ const PieChart = () => {
     const validAttendance = filteredAttendance.filter((item: any) => Object.keys(item).length > 0);
 
 
-    const firstGirlsPercentage = parseFloat(validAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
-    const firstBoysPercentage = parseFloat(validAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
+    const TotalBoysPresentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalBoysPresentPercentage)[0]) || 0;
+    const TotalGirlsPresentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalGirlsPresentPercentage)[0]) || 0;
+    const TotalBoysAbsentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalBoysAbsentPercentage)[0]) || 0;
+    const TotalGirlsAbsentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalGirlsAbsentPercentage)[0]) || 0;
 
    
     const isWeekend = (statusDesc: string) => statusDesc === 'Weekend';
@@ -165,8 +167,8 @@ const PieChart = () => {
         chart: {
             id: "donut-chart",
         },
-        series: [firstGirlsPercentage, firstBoysPercentage],
-        labels: ["Girl", "Boys"],
+        series: [TotalGirlsPresentPercentage,TotalGirlsAbsentPercentage,TotalBoysPresentPercentage, TotalBoysAbsentPercentage],
+        labels: ["GirlPresent", "GirlAbsent","BoysPresent","BoysAbsent"],
     };
 
     
@@ -212,8 +214,8 @@ const PieChart = () => {
     
     useEffect(() => {
         const updatedCategories = statusDescriptions.map((item) => item.DayName);
-        const updatedAbsentData = filteredAttendance.map(item => parseFloat(item.TotalAbsentPercentage ?? 0));
-        const updatedPresentData = filteredAttendance.map(item => parseFloat(item.TotalPresentPercentage ?? 0));
+        const updatedAbsentData = filteredAttendance.map(item => parseFloat(item.TotalAbsent ?? 0));
+        const updatedPresentData = filteredAttendance.map(item => parseFloat(item.TotalPresent ?? 0));
 
         setState(prevState => ({
             ...prevState,
@@ -253,7 +255,7 @@ const PieChart = () => {
                 <Grid item xs={4} mt={5}>
                     <ApexCharts
                         options={options1}
-                        series={[firstGirlsPercentage, firstBoysPercentage]}
+                        series={[TotalGirlsPresentPercentage,TotalGirlsAbsentPercentage,TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
                         type="donut"
                         width="100%"
                         height="295"

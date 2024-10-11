@@ -209,9 +209,15 @@ export const CDAgetWeeklyAttendance =
           TotalAbsentPercentage: item.TotalAbsentPercentage,
           TotalGirlsPercentage: item.TotalGirlsPercentage,
           TotalBoysPercentage: item.TotalBoysPercentage,
-          TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
           TotalPresentPercentage: item.TotalPresentPercentage,
-          Attendance_Date:item.Attendance_Date
+          Attendance_Date:item.Attendance_Date,
+
+          TotalBoysPresentPercentage:item.TotalBoysPresentPercentage,
+            TotalGirlsPresentPercentage: item.TotalGirlsPresentPercentage,
+            TotalBoysAbsentPercentage: item.TotalBoysAbsentPercentage,
+            TotalGirlsAbsentPercentage: item.TotalGirlsAbsentPercentage,
+            TotalPresent:item.TotalPresent,
+            TotalAbsent:item.TotalAbsent
         };
       });
 
