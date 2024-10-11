@@ -39,6 +39,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
+import JoditEditor from 'jodit-react';
 import {
   BoxContent,
   CardDetail8,
@@ -82,6 +83,8 @@ function Form13() {
   const SaveDraftM = useSelector(
     (state: RootState) => state.DraftMessages.SaveDraftMessage
   );
+  const editor=useRef(null)
+  const[content, setContent]= useState('')
 
   const dispatch = useDispatch();
 
@@ -1146,7 +1149,13 @@ function Form13() {
                   {/* <ReactQuill value={formik.values.Content} modules={toolbar  Options}
                     onChange={formik.handleChange} theme='snow'
                     onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} /> */}
-                  <QuillEditor formik={formik} />
+                  {/* <QuillEditor formik={formik} /> */}
+                  <JoditEditor 
+                  ref={editor}
+                  value={content}
+                  onChange={newContent => setContent(newContent)}
+                  />
+                  
                 </Box>
                 <Errormessages Error={contenterror} />
                 <Box mb={0.5}>
