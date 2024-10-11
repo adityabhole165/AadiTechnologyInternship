@@ -1,7 +1,7 @@
 import { Avatar, Box, ClickAwayListener, Grid, List, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import CheckboxImg from '../card/CheckboxImg';
-import { ItemSize, ListStyle1 } from '../styled/CardStyle';
+import { ItemSize } from '../styled/CardStyle';
 
 const CheckboxCard = ({ Item, onClick }) => {
   const [open, setOpen] = useState(false);
@@ -17,7 +17,7 @@ const CheckboxCard = ({ Item, onClick }) => {
   };
 
   return (
-    <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}`, py: 0.3,  }}>
+    <List sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, py: 0.3, }}>
       <Box sx={{ display: 'flex' }}>
         <CheckboxImg
           name={Item.Name}
