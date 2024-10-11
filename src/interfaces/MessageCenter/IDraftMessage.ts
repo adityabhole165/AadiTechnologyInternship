@@ -25,6 +25,8 @@ export interface IGetAllDraftMessageBody {
   aiMonthId: string;
   asOperator: string;
   asDate: string;
+  asSortExp: string;
+  asSortDirection: string;
 }
 
 export interface IGetAllDraftMessageResult {
@@ -32,6 +34,10 @@ export interface IGetAllDraftMessageResult {
   Subject: string;
   DraftDate: string;
   DisplayText: string;
+  MessageBody: string;
+  ReceipantList: string;
+  Cc_DisplayText: string;
+  Cc_ReciepientList: string;
 }
 
 export interface IGetAllDraftResult {
