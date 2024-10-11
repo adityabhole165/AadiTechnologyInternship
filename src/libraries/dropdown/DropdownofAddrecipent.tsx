@@ -1,10 +1,8 @@
-
 import { Autocomplete, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
 DropdownofAddrecipent.propTypes = {
-  ItemList: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string,
   defaultValue: PropTypes.string,
@@ -15,12 +13,22 @@ DropdownofAddrecipent.propTypes = {
   disabled: PropTypes.bool,
 };
 
-function DropdownofAddrecipent({ ItemList, onChange, label, defaultValue = '',
-  mandatory = false, sx = null, size = "medium", DisableClearable = false, disabled = false }) {
+function DropdownofAddrecipent({
+  ItemList,
+  onChange,
+  label,
+  defaultValue = '',
+  mandatory = false,
+  sx = null,
+  size = 'medium',
+  DisableClearable = false,
+  disabled = false,
+}) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
 
+  // Prevent special characters and numbers in the search
   const handleKeyDown = (event) => {
     if (/[&@*%#!0-9-^_$()+=]/.test(event.key)) {
       event.preventDefault();
@@ -29,25 +37,25 @@ function DropdownofAddrecipent({ ItemList, onChange, label, defaultValue = '',
 
   return (
     <Autocomplete
-      value={ItemList.find((item) => item.Value == defaultValue) || null}
+      value={ItemList.find((item) => item.Id === defaultValue) || null}
       onChange={(e, newValue) => onChange(newValue ? newValue.Id : '')}
       options={ItemList}
       disableClearable={DisableClearable}
       disabled={disabled}
       getOptionLabel={(option) => option.Name}
+      isOptionEqualToValue={(option, value) => option.Id === value.Id}
       renderInput={(params) => (
         <TextField
           {...params}
           size={size as any}
-          sx={sx || {
-            minWidth: '350px',
-            pl: '10px',
-          }}
-          label={label ? (
-            <span>
-              {label} {mandatory && <span style={{ color: 'red' }}>*</span>}
-            </span>
-          ) : ''}
+          sx={sx || { minWidth: '350px', pl: '10px' }}
+          label={
+            label ? (
+              <span>
+                {label} {mandatory && <span style={{ color: 'red' }}>*</span>}
+              </span>
+            ) : ''
+          }
           onKeyDown={handleKeyDown}
         />
       )}
@@ -58,5 +66,41 @@ function DropdownofAddrecipent({ ItemList, onChange, label, defaultValue = '',
 export default DropdownofAddrecipent;
 
 
+// import { NativeSelect } from '@mui/material';
+// import PropTypes from 'prop-types';
+
+// DropdownofAddrecipent.propTypes = {
+//   Array: PropTypes.any,
+//   handleChange: PropTypes.any,
+//   label: PropTypes?.string
+// };
+// function DropdownofAddrecipent({
+//   Array,
+//   handleChange,
+//   label,
+//   defaultValue = ''
+// }) {
+//   return (
+//     <>
+//       <NativeSelect
+//         value={defaultValue}
+//         onChange={(e) => handleChange(e.target.value)}
+//         fullWidth
+//       >
+//         <option value="">{label}</option>
+//         {Array.map((items, i) => {
+//           return (
+//             <option value={items.Id} key={i}>
+//               {items.Name}
+//             </option>
+//           );
+//         })}
+//       </NativeSelect>
+      
+//     </>
+//   );
+// }
+
+// export default DropdownofAddrecipent;
 
 
