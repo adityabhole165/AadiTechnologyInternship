@@ -208,7 +208,7 @@ const MessageList = () => {
 
   useEffect(() => {
     if (StatusReadUnread !== null) {
-      toast.success(StatusReadUnread.UpdationMessage, { toastId: 'success1' });
+      toast.success("Read status updated successfully.");
       dispatch(resetMessageReadUnReadstatus());
       dispatch(getListOfMessages(getListBody, activeTab, false));
     }
