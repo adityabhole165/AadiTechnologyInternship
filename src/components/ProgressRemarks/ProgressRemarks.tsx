@@ -215,14 +215,27 @@ const ProgressRemarks = () => {
     let headerArray = [
       { Id: 1, Header: 'Roll No.' },
       { Id: 2, Header: 'Name' },
-      ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
-    ]
+      ...(SelectTerm == 2 && asSchoolId == 18 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+    ];
+  
     USRemarkDetailsHeaderList.map((Item, i) => {
-      headerArray.push({ Id: i + 3, Header: Item.RemarkName })
-    })
-    setHeaderArray(headerArray)
-  }, [USRemarkDetailsHeaderList])
-
+      headerArray.push({ Id: i + (SelectTerm == 2 && asSchoolId == 18 ? 4 : 3), Header: Item.RemarkName });
+    });
+  
+    setHeaderArray(headerArray);
+  }, [USRemarkDetailsHeaderList, SelectTerm, asSchoolId]);
+  
+  // useEffect(() => {
+  //   let headerArray = [
+  //     { Id: 1, Header: 'Roll No.' },
+  //     { Id: 2, Header: 'Name' },
+  //     ...(SelectTerm == 2 ? [{ Id: 3, Header: 'Old Remarks' }] : []),
+  //   ]
+  //   USRemarkDetailsHeaderList.map((Item, i) => {
+  //     headerArray.push({ Id: i + 3, Header: Item.RemarkName })
+  //   })
+  //   setHeaderArray(headerArray)
+  // }, [USRemarkDetailsHeaderList])
 
   const getXML = () => {
     let sXML =
