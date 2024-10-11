@@ -14,7 +14,7 @@ import format from 'date-fns/format';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Link as RouterLink } from 'react-router-dom';
-import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
+// import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, INewSmsList, ISmsCountBody } from 'src/interfaces/Student/SMSCenter';
@@ -185,7 +185,7 @@ function SmsCenter() {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip title={`Use Template.`}>
                 <IconButton
                   sx={{
@@ -198,8 +198,8 @@ function SmsCenter() {
                   <SupervisedUserCircleIcon />
                 </IconButton>
               </Tooltip>
-            </Box>
-            <Box>
+            </Box> */}
+            {/* <Box>
               <Tooltip title={`Sort SMS List`}>
                 <IconButton
                   sx={{
@@ -212,11 +212,11 @@ function SmsCenter() {
                 >
                   {/* <FilterListIcon /> */}
                   {/* {sortDirection === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} */}
-                  <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24} style={{ filter: 'brightness(0) invert(1)' }} />
-                </IconButton>
-
-              </Tooltip>
-            </Box>
+                  {/* <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24} style={{ filter: 'brightness(0) invert(1)' }} />
+                </IconButton> */}
+{/* 
+              </Tooltip> */}
+            {/* </Box> */} 
           </>
         }
       />
@@ -321,7 +321,7 @@ function SmsCenter() {
                 <br />
                 <b style={{ color: '#38548A' }}>All send Item</b>
               </Card>
-              <Card
+              {/* <Card
                 sx={{
                   textAlign: 'center',
                   height: '85px',
@@ -338,14 +338,15 @@ function SmsCenter() {
                 />
                 <br />
                 <b style={{ color: '#38548A' }}> Personal Address book</b>
-              </Card>
+              </Card> */}
+              
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '85%', p: 2, background: 'white', borderRadius: '10px' }}>
 
             <Grid container spacing={2} pb={2}>
               {/* Free SMS Count */}
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                   <SmsIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
                   <Box>
@@ -358,7 +359,7 @@ function SmsCenter() {
               </Grid>
 
               {/* Sent SMS Count */}
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Card sx={{ backgroundColor: green[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                   <SmsIcon sx={{ color: green[600], fontSize: 36, mr: 2 }} />
                   <Box>
@@ -371,7 +372,7 @@ function SmsCenter() {
               </Grid>
 
               {/* Exceeded SMS Count */}
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
                   <SmsFailedIcon sx={{ color: red[600], fontSize: 36, mr: 2 }} />
                   <Box>
@@ -379,6 +380,17 @@ function SmsCenter() {
                       Exceeded SMS
                     </Typography>
                     <Typography variant="h4">{SmsCount.ExceededSMSCount ?? 0}</Typography>
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={3}>
+                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                  <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                  <Box>
+                    <Typography variant="h6" color="blue">
+                     Balance SMS
+                    </Typography>
+                    <Typography variant="h4">0</Typography>
                   </Box>
                 </Card>
               </Grid>
