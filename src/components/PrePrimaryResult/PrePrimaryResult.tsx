@@ -208,46 +208,23 @@ const PrePrimaryResult = () => {
   const ClickItem = (SubId, SubName, IsXseedSubject) => {
     let className = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('ClassName') : teacherName?.split(':')[0];
     let StdDivIds = PreprimaryFullAccess == 'N' ? sessionStorage.getItem('StandardDivisionId') : SelectTeacher;
-    console.log('🥱', className)
-    let isPublishStatus = IsPublished === 'Y' ? '3P' : '2'
+    console.log('🥱', className);
+    let isPublishStatus = IsPublished === 'Y' ? '3P' : '2';
+    const state = {
+      EditStatusId: isPublishStatus,
+      ClassName: className,
+      Assesment: termName,
+      SelectTerm: AssessmentResult,
+      SubjectName: SubName,
+      SubjectId: SubId,
+      StandardDivisionId: StdDivIds,
+      selectTeacher: 'RP',
+    };
     if (IsXseedSubject === 'Y') {
-      navigate(
-        '/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/' +
-        isPublishStatus +
-        '/' +
-        className +
-        '/' +
-        termName +
-        '/' +
-        AssessmentResult +
-        '/' +
-        SubName +
-        '/' +
-        SubId +
-        '/' +
-        StdDivIds +
-        '/' +
-        'RP'
-      );
+      navigate('/extended-sidebar/Teacher/AssignPrePrimarySubjectGrades/', { state });
     } else if (IsXseedSubject === 'N') {
       navigate(
-        '/extended-sidebar/Teacher/AssignProgressReportSubject/' +
-        isPublishStatus +
-        '/' +
-        className +
-        '/' +
-        termName +
-        '/' +
-        AssessmentResult +
-        '/' +
-        SubName +
-        '/' +
-        SubId +
-        '/' +
-        StdDivIds +
-        '/' +
-        'RP'
-      );
+        '/extended-sidebar/Teacher/AssignProgressReportSubject/', { state });
     }
   };
 
