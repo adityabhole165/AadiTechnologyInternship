@@ -109,9 +109,9 @@ const MCForm = ({
             <SearchableDropdown
               ItemList={AcademicYearList}
               onChange={clickAY}
-              label={'Year'}
+              label={'Select Academic Year'}
               defaultValue={academicYear}
-              mandatory
+              // mandatory
               size={"medium"}
               sx={{ width: '100%' }}
             /></Grid>

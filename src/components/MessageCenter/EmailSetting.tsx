@@ -73,7 +73,7 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
 
   useEffect(() => {
     if (UpdationMessage !== '')
-      toast.success(UpdationMessage, { toastId: 'success1' });
+      toast.success("Email setting saved successfully.");
     dispatch(ResetUpdateUserEmailSetting());
   }, [UpdationMessage]);
 
@@ -83,6 +83,10 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
   };
 
   const clickSubmit = () => {
+    if (emailAddress === '') {
+      setemailAddressErrorFlag(true);
+      return;
+    }
     if (emailAddressErrorFlag == false) {
       dispatch(UpdateUserEmailSetting(UpdateUserEmailSettingbody));
     }
@@ -176,10 +180,11 @@ const EmailSettingsDialog = ({ open, setOpen }) => {
               }
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
+            // error={emailAddressErrorFlag}
             />
             {emailAddressErrorFlag ? (
               <Box sx={{ my: 1 }}>
-                <Errormessage Error={'Please enter a valid email address.'} />
+                <Errormessage Error={'Email should not be blank.'} />
               </Box>
             ) : null}
           </Box>
