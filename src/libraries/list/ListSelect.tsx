@@ -12,7 +12,7 @@ const ListSelect = ({ Itemlist, onChange, isSingleSelect = false }) => {
   };
   return (
     <>
-      <Box>
+      <Box mb={0.5} >
         {Itemlist?.map((item, index) => (
           <CheckboxCard Item={item} onClick={onClick} key={index} />
         ))}
