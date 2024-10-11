@@ -27,7 +27,7 @@
 //         isWeekend(item.StatusDesc) ? 'red' : ''
 //       ));
 
-   
+
 
 //     const options1 = {
 //         chart: {
@@ -146,33 +146,35 @@ const PieChart = () => {
     const UserId = Number(sessionStorage.getItem('Id'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
-   
     const filteredAttendance: any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
     const statusDescriptions: any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
 
-    const firstGirlsPercentage = parseFloat(filteredAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
-    const firstBoysPercentage = parseFloat(filteredAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
+   
+    const validAttendance = filteredAttendance.filter((item: any) => Object.keys(item).length > 0);
 
-    
-    const isWeekend = (statusDesc: string) => statusDesc === 'Weekend'; 
-    const colors = statusDescriptions.map((item) => (isWeekend(item.StatusDesc) ? 'red' : '')); 
+
+    const firstGirlsPercentage = parseFloat(validAttendance.map((item: any) => item.TotalGirlsPercentage)[0]) || 0;
+    const firstBoysPercentage = parseFloat(validAttendance.map((item: any) => item.TotalBoysPercentage)[0]) || 0;
 
    
+    const isWeekend = (statusDesc: string) => statusDesc === 'Weekend';
+    const colors = statusDescriptions.map((item) => (isWeekend(item.StatusDesc) ? 'red' : ''));
+
+    
     const options1 = {
         chart: {
-            id: "basic-bar444",
+            id: "donut-chart",
         },
         series: [firstGirlsPercentage, firstBoysPercentage],
         labels: ["Girl", "Boys"],
     };
-    const series = [firstGirlsPercentage, firstBoysPercentage];
 
-   
+    
     const [state, setState] = useState({
         colors: colors,
         options: {
             chart: {
-                id: "basic-bar444",
+                id: "bar-chart",
             },
             xaxis: {
                 categories: statusDescriptions.map((item) => item.DayName),
@@ -187,15 +189,16 @@ const PieChart = () => {
         series: [
             {
                 name: "Absent Student",
-                data: filteredAttendance.map(item => item.TotalAbsentPercentage),
+                data: filteredAttendance.map(item => parseFloat(item.TotalAbsentPercentage ?? 0)),
             },
             {
                 name: "Present Student",
-                data: filteredAttendance.map(item => item.TotalPresentPercentage),
+                data: filteredAttendance.map(item => parseFloat(item.TotalPresentPercentage ?? 0)),
             },
         ],
     });
 
+    // Fetch data on component mount
     const WeeklyAttendanceBody: IWeeklyAttendanceBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -204,10 +207,14 @@ const PieChart = () => {
 
     useEffect(() => {
         dispatch(CDAgetWeeklyAttendance(WeeklyAttendanceBody));
-    }, []);
+    }, [dispatch]);
 
+    
     useEffect(() => {
-        
+        const updatedCategories = statusDescriptions.map((item) => item.DayName);
+        const updatedAbsentData = filteredAttendance.map(item => parseFloat(item.TotalAbsentPercentage ?? 0));
+        const updatedPresentData = filteredAttendance.map(item => parseFloat(item.TotalPresentPercentage ?? 0));
+
         setState(prevState => ({
             ...prevState,
             colors: colors,
@@ -215,7 +222,7 @@ const PieChart = () => {
                 ...prevState.options,
                 xaxis: {
                     ...prevState.options.xaxis,
-                    categories: statusDescriptions.map((item) => item.DayName),
+                    categories: updatedCategories,
                     labels: {
                         style: {
                             colors: colors,
@@ -227,15 +234,15 @@ const PieChart = () => {
             series: [
                 {
                     name: "Absent Student",
-                    data: filteredAttendance.map(item => item.TotalAbsentPercentage),
+                    data: updatedAbsentData,
                 },
                 {
                     name: "Present Student",
-                    data: filteredAttendance.map(item => item.TotalPresentPercentage),
+                    data: updatedPresentData,
                 },
             ],
         }));
-    }, [filteredAttendance, colors, statusDescriptions]);
+    }, [filteredAttendance, statusDescriptions]);
 
     return (
         <Box sx={{ backgroundColor: 'white', p: 1 }} >
@@ -246,7 +253,7 @@ const PieChart = () => {
                 <Grid item xs={4} mt={5}>
                     <ApexCharts
                         options={options1}
-                        series={series}
+                        series={[firstGirlsPercentage, firstBoysPercentage]}
                         type="donut"
                         width="100%"
                         height="295"
@@ -267,4 +274,5 @@ const PieChart = () => {
 };
 
 export default PieChart;
+
 

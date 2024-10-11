@@ -229,8 +229,8 @@ export const CDAgetWeeklyAttendance =
      
       const filteredAttendance = statusDescriptions.map((desc) => {
         return WeeklyAttendanceDetailsdata.find((item) => item.Attendance_Date === desc.Attendance_Date) || {};
-      });
-
+    });
+    
 
       dispatch(Dashboardlice.actions.RgetWeeklyAttendance(filteredAttendance));
       dispatch(Dashboardlice.actions.RlistAttendanceCalender(statusDescriptions));
