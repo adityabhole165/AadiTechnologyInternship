@@ -130,6 +130,8 @@ import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubje
 import UpcomingEventDashslice from '../requests/UpcomingEventDash/ReqUpcomingEventDash';
 import VeiwResultSlice from '../requests/VeiwAllResult/ReqveiwresultAll';
 import WeeklyTimeTableSlice from '../requests/WeeklyTimeTable/RequestWeeklyTimeTable';
+import SliceSentsms from '../requests/SentSms/ReqSentsms';
+
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
   Students: StudentsSlice,
@@ -263,7 +265,8 @@ const rootReducer = combineReducers({
   AbsentStudent: AbsentStudentslice,
   PerformanceGradeAssignment: PerformanceGradeAssignmentslice,
   UpcomingEventDash: UpcomingEventDashslice,
-  SchoolLibrary: SchoolLibraryslice
+  SchoolLibrary: SchoolLibraryslice,
+  SentSms:SliceSentsms
 });
 
 export default rootReducer;
