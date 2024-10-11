@@ -167,6 +167,7 @@ export const CDAGetStudentName =
     };
 
 
+
 export const CDAStudentProgressReport =
   (data: IStudentProgressReportBody): AppThunk =>
     async (dispatch) => {
@@ -187,13 +188,7 @@ export const CDAStudentProgressReport =
 
         };
       });
-      let listSubjectsDetails = response.data.listSubjectsDetails.map((item, i) => {
-        return {
-          Subject_Id: item.Subject_Id,
-          Subject_Name: item.Subject_Name,
-          Total_Consideration: item.Total_Consideration
-        };
-      });
+      let listSubjectsDetails = response.data.listSubjectsDetails
       const getListDisplayName = (cell) => {
         let returnVal = ""
 
@@ -220,6 +215,21 @@ export const CDAStudentProgressReport =
             returnVal = Item
         })
         return returnVal
+      }
+      const getParentHeader = (listSubjectsDetails, Subject, TestId) => {
+        let returnVal = ""
+        let colsPan = 0
+        if (Subject.Parent_Subject_Id != '0') {
+          colsPan = listSubjectsDetails.filter((obj) => { return obj.Parent_Subject_Id == Subject.Parent_Subject_Id }).length
+          console.log(colsPan, "here");
+
+          response.data.listTestidDetails
+            .filter((obj) => { return obj.Test_Id == TestId && obj.Parent_Subject_Id == Subject.Parent_Subject_Id })
+            .map((Item) => {
+              returnVal = Item.Parent_Subject_Name
+            })
+        }
+        return { parent: returnVal, colsPan: colsPan }
       }
       let rows = []
       let HeaderArray = []
@@ -264,9 +274,6 @@ export const CDAStudentProgressReport =
                 })
               }
 
-              console.log(data.IsTotalConsiderForProgressReport, "data.IsTotalConsiderForProgressReport");
-
-
               if (cell && (temp !== (Subject.Subject_Id + "--" + Test.Test_Id))) {
                 temp = Subject.Subject_Id + "--" + Test.Test_Id
 
@@ -290,7 +297,9 @@ export const CDAStudentProgressReport =
               }
               HeaderArray.push({
                 SubjectName: Subject.Subject_Name,
-                colSpan: HeaderCount > 1 ? HeaderCount + 1 : HeaderCount
+                colSpan: HeaderCount > 1 ? HeaderCount + 1 : HeaderCount,
+                ParentSubjectId: Subject.Parent_Subject_Id,
+                ParentSubjectName: getParentHeader(listSubjectsDetails, Subject, Test.Test_Id).parent,
               })
             }
           })
@@ -304,7 +313,6 @@ export const CDAStudentProgressReport =
                 response.data.listTestidDetails.map((Item) => {
                   // Check if the IDs match and data has not been pushed yet
                   if (Item.Test_Id === Test.Test_Id && !isDataPushed) {
-                    
                     const insertIndex = columns.length > 0 ? columns.length - 1 : 0;
                     columns.splice(insertIndex, 0, {
                       MarksScored: parseInt(Item.Total_Marks_Scored),
@@ -312,7 +320,7 @@ export const CDAStudentProgressReport =
                       IsAbsent: "N",
                     });
 
-                    isDataPushed = true; 
+                    isDataPushed = true;
                   }
                 });
 

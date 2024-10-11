@@ -10,11 +10,34 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
         return returnVal
 
     }
+    let HeaderParent = []
+    let PrevParentId = "0", SubjectName = ""
+    let HeaderCount = 0
+    HeaderArray.map((item) => {
+        // if (item.ParentSubjectId != "0") {
+        if (item.ParentSubjectId != PrevParentId) {
+            HeaderParent.push({
+                SubjectName: SubjectName,
+                colSpan: HeaderCount
+            })
+            SubjectName = item.ParentSubjectName
+            PrevParentId = item.ParentSubjectId
+            HeaderCount = 0
+            // }
+        }
+        SubjectName = SubjectName
+        HeaderCount = HeaderCount + item.colSpan
+    })
+    HeaderParent.push({
+        SubjectName: SubjectName,
+        colSpan: HeaderCount
+    })
+
     return (
         <Box>
             <Table>
                 <TableHead>
-                    <TableRow sx={{ bgcolor: '#F0F0F0' }}>
+                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                         <TableCell rowSpan={2}>
                             <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
                                 Subjects &#9654;
@@ -22,8 +45,17 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                             <Typography variant={"h3"} textAlign={'left'} color={"black"}>
                                 &#9660; Exam
                             </Typography></TableCell>
+
+                        {HeaderParent.map((item) => (
+                            <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                <Typography color="black" textAlign={'left'} mr={5}  >
+                                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                                </Typography></TableCell>
+                        ))}
+                    </TableRow>
+                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
                         {HeaderArray.map((item) => (
-                            <TableCell colSpan={item.colSpan}>
+                            <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
                                 <Typography color="black" textAlign={'left'} mr={5}  >
                                     <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
                                 </Typography></TableCell>
@@ -64,7 +96,7 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                         </TableRow>
                     </TableBody>
                 ))}
-               
+
             </Table>
         </Box>
     )
