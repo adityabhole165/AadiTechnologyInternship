@@ -46,21 +46,33 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
                                 &#9660; Exam
                             </Typography></TableCell>
 
-                        {HeaderParent.map((item) => (
-                            <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
-                                <Typography color="black" textAlign={'left'} mr={5}  >
-                                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
-                                </Typography></TableCell>
-                        ))}
+                        {HeaderParent.length > 1 ?
+                            HeaderParent.map((item) => (
+                                <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                    <Typography color="black" textAlign={'left'} mr={5}  >
+                                        <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                                    </Typography></TableCell>
+                            )) :
+
+                            HeaderArray.map((item) => (
+                                <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                    <Typography color="black" textAlign={'left'} mr={5}  >
+                                        <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                                    </Typography></TableCell>
+                            ))
+
+                        }
                     </TableRow>
-                    <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
-                        {HeaderArray.map((item) => (
-                            <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
-                                <Typography color="black" textAlign={'left'} mr={5}  >
-                                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
-                                </Typography></TableCell>
-                        ))}
-                    </TableRow>
+                    {HeaderParent.length <= 1 &&
+                        <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                            {HeaderArray.map((item) => (
+                                <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                                    <Typography color="black" textAlign={'left'} mr={5}  >
+                                        <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                                    </Typography></TableCell>
+                            ))}
+                        </TableRow>
+                    }
                     <TableRow>
                         {SubHeaderArray.map((item) => (
                             <><TableCell >
