@@ -2,7 +2,7 @@ import { Close, QuestionMark, SearchTwoTone } from '@mui/icons-material';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
 import { BookLockIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -38,9 +38,25 @@ const LibraryBaseScreen = () => {
     const USReserveBookDetails: any = useSelector((state: RootState) => state.SchoolLibrary.IGetReserveBookDetails);
     console.log(USTotalBookCount, "@@!!*******");
 
-    const TotalCount = USTotalBookCount.map((item) => item.TotalCount);  // Array of record counts
-    const singleTotalCount = TotalCount.reduce((acc, curr) => acc + curr);  // Total count of books
-    console.log(TotalCount, "singleTotalCount>>>>>>>>>>>.");
+    // const TotalCount = USTotalBookCount.map((item) => item.TotalCount);  // Array of record counts
+    // const singleTotalCount = TotalCount.reduce((acc, curr) => acc + curr);  // Total count of books
+    // console.log(TotalCount, "singleTotalCount>>>>>>>>>>>.");
+
+    const singleTotalCount: number = useMemo(() => {
+        if (!Array.isArray(USTotalBookCount)) {
+            console.error("IGetAllBooksDetails is not defined or is not an array.");
+            return 0;
+        }
+
+        return USTotalBookCount.reduce((acc: number, item: any) => {
+            const count = Number(item.TotalCount);
+            if (isNaN(count)) {
+                console.warn(`Invalid TotalCount value for item:`, item);
+                return acc;
+            }
+            return acc + count;
+        }, 0);
+    }, [USTotalBookCount]);
 
 
 
@@ -203,25 +219,31 @@ const LibraryBaseScreen = () => {
                 }
             />
             <LibrarySearch />
-            <Box mt={1} p={2} sx={{ backgroundColor: 'white' }}>
-                <div style={{ flex: 1, textAlign: 'center' }}>
-                    <Typography
-                        variant='subtitle1'
-                        sx={{ margin: '16px 0', textAlign: 'center' }}
-                    >
-                        <Box component='span' fontWeight='fontWeightBold'>
-                            {startRecord} to {endRecord}
-                        </Box>{' '}
-                        out of{' '}
-                        <Box component='span' fontWeight='fontWeightBold'>
-                            {singleTotalCount}
-                        </Box>{' '}
-                        {singleTotalCount === 1 ? 'record' : 'records'}
-                    </Typography>
-                </div>
-                <Typography variant="h4" pb={1} color="#38548A">
-                    Books Details
-                </Typography>
+            <Box mt={1} px={2} sx={{ backgroundColor: 'white' }} pb={2} >
+                <Box sx={{ display: 'flex' }}>
+                    <Box>
+                        <Typography variant="h4" pt={2} color="#38548A">
+                            Books Details
+                        </Typography>
+                    </Box>
+
+                    <Box style={{ flex: 1, textAlign: 'center' }}>
+                        <Typography
+                            variant='subtitle1'
+                            sx={{ margin: '16px 0', textAlign: 'center' }}
+                        >
+                            <Box component='span' fontWeight='fontWeightBold'>
+                                {startRecord} to {endRecord}
+                            </Box>{' '}
+                            out of{' '}
+                            <Box component='span' fontWeight='fontWeightBold'>
+                                {singleTotalCount}
+                            </Box>{' '}
+                            {singleTotalCount === 1 ? 'record' : 'records'}
+                        </Typography>
+                    </Box>
+                </Box>
+
                 {USBookDetails.length === 0 ? (
                     <Box sx={{ backgroundColor: '#D2FDFC' }}>
                         <Typography
@@ -276,7 +298,7 @@ const LibraryBaseScreen = () => {
                 )}
 
             </Box>
-        </Box>
+        </Box >
     );
 };
 
