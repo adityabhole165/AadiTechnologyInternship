@@ -1,6 +1,7 @@
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import { useState } from 'react';
+import { getDateFormat1 } from 'src/components/Common/Util';
 import Datepicker from '../DateSelector/Datepicker';
 import SearchableDropdown from '../ResuableComponents/SearchableDropdown';
 
@@ -20,8 +21,8 @@ const MCForm = ({
   const [searchDate, setSearchDateDate] = useState<string>('');
 
 
-  const clickDate = (e) => {
-    setSearchDateDate(e.target.value);
+  const clickDate = (value) => {
+    setSearchDateDate(getDateFormat1(value));
   };
   const clickOperator = (value) => {
     setOperator(value);
