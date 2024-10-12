@@ -344,10 +344,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 </Stack>
                 <Box sx={{ gap: 0, display: 'flex', alignItems: 'center' }}>
                   {menuStructure.map((item, i) => (
-                    <ImprovedNestedMenu
-                      menuStructure={item}
-                      onItemClick={handleItemClick}
-                    />
+                    <ImprovedNestedMenu key={i}
+                      menuStructure={item} onItemClick={handleItemClick} />
                   ))}
                 </Box>
                 <div style={{ width: '16vw' }} />
