@@ -56,15 +56,10 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   ]);
 
   // Api for Admin principle and Software co-ordinator
-  const getGetAdminAndprincipalUsers: any = useSelector(
-    (state: RootState) =>
-      state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
-  );
+  const getGetAdminAndprincipalUsers: any = useSelector((state: RootState) => state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers);
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const getuserlist: any = useSelector(
-    (state: RootState) => state.getuser1.GetUser
-  );
+  const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
@@ -186,9 +181,15 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   }, [adminandSW]);
 
   useEffect(() => {
-    setStaffAndAdmin(getGetAdminAndprincipalUsers);
-  }, [getGetAdminAndprincipalUsers]);
 
+    setStaffAndAdmin(getGetAdminAndprincipalUsers?.map((obj) => {
+      return {
+        ...obj,
+        isActive: (RecipientId.includes(obj.Id)) ? true : false
+      }
+    })
+    );
+  }, [getGetAdminAndprincipalUsers]);
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
     if (techerStudent1 == '9') {
