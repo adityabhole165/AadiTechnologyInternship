@@ -292,6 +292,7 @@ function Form13() {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setIsConfirm('true')
   };
 
   const CheckValidation = (fileData) => {
@@ -672,7 +673,6 @@ function Form13() {
   }, [SaveDraftM]);
 
   const clickConfirm = () => {
-    setIsConfirm('true')
     handleCloseDialog()
   }
   const [recipientsCC, setRecipientsCC] = useState(RecipientsCCObject.RecipientName || []);

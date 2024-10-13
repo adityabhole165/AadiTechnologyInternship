@@ -1,5 +1,4 @@
-import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { Box, Card, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -452,7 +451,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                 borderRadius: '5.3px'
               }}
             /></Grid>
-          <Grid item xs={6} sm={2} mt={2}>
+          {/* <Grid item xs={6} sm={2} mt={2}>
             <Button onClick={clickOkay}
               sx={{
                 color: '#38548A',
@@ -465,7 +464,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
               }}>
               Back to Compose
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
         <>
           {RoleId === '6' && (
