@@ -1,11 +1,7 @@
 import { Clear as ClearIcon } from "@mui/icons-material";
 import {
-    Box,
     Dialog,
-    DialogContent,
     DialogTitle,
-    Divider,
-    Link,
     Typography
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -14,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { IGetSchoolNoticePopupBody } from "src/interfaces/SchoolNoticePopup/ISchoolNoticePopup";
 import { SchoolNoticePopup } from "src/requests/SchoolNoticePopup/RequestSchoolNoticePopup";
 import { RootState, useSelector } from 'src/store';
+import ActiveSchoolNotice from "./ActiveSchoolNotice";
 import NoticeDetailDialog from "./NoticeDetailDialog";
 
 type Props = {
@@ -111,7 +108,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                 <Typography variant="h3" sx={{ pt: 1, pl: 2 }}>
                     School Notices
                 </Typography>
-                <DialogContent sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
+                {/* <DialogContent sx={{ maxHeight: '30vh', overflowY: 'auto' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         {SchoolNoticePopupDashBoard.map((item, i) => (
                             <Box key={i}>
@@ -129,7 +126,8 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                         ))}
                         <Divider />
                     </Box>
-                </DialogContent>
+                </DialogContent> */}
+                <ActiveSchoolNotice />
             </Dialog>
 
             <NoticeDetailDialog
