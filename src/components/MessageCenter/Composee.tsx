@@ -738,7 +738,7 @@ function Form13() {
               <Tooltip title={'Send'}>
                 <IconButton
                   type='submit'
-                  onClick={formik.handleSubmit}
+                  onClick={() => { formik.handleSubmit() }}
                   disabled={disabledStateOfSend}
                   sx={{
                     color: 'white',
