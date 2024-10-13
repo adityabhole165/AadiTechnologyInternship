@@ -72,7 +72,7 @@ function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [showRecipients, setShowRecipients] = useState(false);
-  const [IsConfirm, setIsConfirm] = useState(false)
+  const [IsConfirm, setIsConfirm] = useState('')
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -285,6 +285,7 @@ function Form13() {
   };
 
   const handleOpenDialog = (isRecipients) => {
+    setIsConfirm('')
     setShowRecipients(isRecipients);
     setOpenDialog(true);
   };
@@ -669,12 +670,9 @@ function Form13() {
       dispatch(resetSaveDraftMessage());
     }
   }, [SaveDraftM]);
-  console.log(IsConfirm, "IsConfirm")
 
   const clickConfirm = () => {
-    console.log(IsConfirm, "IsConfirm click")
-
-    setIsConfirm(!IsConfirm)
+    setIsConfirm('true')
     handleCloseDialog()
   }
   const [recipientsCC, setRecipientsCC] = useState(RecipientsCCObject.RecipientName || []);

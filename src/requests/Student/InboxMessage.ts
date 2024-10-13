@@ -68,7 +68,7 @@ export const getListOfMessages =
             Id: item.DetailsId,
             text1: item.Subject,
             text2: item.UserName,
-            text3: item.Date + ' ' + item.Time,
+            text3: item.FullDate,
             NavPath: item.DetailsId + '/Inbox',
             isActive: false,
             DetailsId: item.DetailsId,

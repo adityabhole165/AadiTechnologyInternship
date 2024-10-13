@@ -23,7 +23,6 @@ import { RootState } from 'src/store';
 import SelectallAddrecipents from './SelectallAddrecipents';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfirm }) => {
-  // console.log(recipientListClick, "recipientListClick");
 
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
@@ -61,13 +60,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
     (state: RootState) =>
       state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
-  console.log(getGetAdminAndprincipalUsers, "getGetAdminAndprincipalUsers");
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
-  console.log(getuserlist, "getuserlist");
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
@@ -384,9 +381,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
       );
     });
   };
-  console.log(IsConfirm, "IsConfirm")
   useEffect(() => {
-    clickOkay()
+    if (IsConfirm != '')
+      clickOkay()
   }, [IsConfirm])
   const clickOkay = () => {
     recipientListClick({

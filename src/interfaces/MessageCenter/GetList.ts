@@ -26,6 +26,7 @@ export interface GetMessagesResult {
       Body: string;
       UserName: string;
       Date: String;
+      FullDate: String;
       Time: string;
       RecieverName: string;
       IsDeletedFromUser: string;
