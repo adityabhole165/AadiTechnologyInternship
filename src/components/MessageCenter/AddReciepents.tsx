@@ -403,7 +403,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   return (
     <>
       <Box>
-        <Grid xs={12} sm={12}>
+        <Grid xs={12} sm={12} item>
           {/* Searchable Dropdown For Search Teacher  */}
 
           {/* <SearchableDropdown
