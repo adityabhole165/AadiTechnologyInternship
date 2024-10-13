@@ -26,6 +26,7 @@ import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
+import JoditEditor from 'jodit-react';
 import React, { useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,11 +40,9 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import SingleFile2 from 'src/libraries/File/SingleFile2';
-import JoditEditor from 'jodit-react';
 import {
   BoxContent,
   CardDetail8,
-  ListStyle,
   Wordbreak1
 } from 'src/libraries/styled/CardStyle';
 import {
@@ -64,9 +63,8 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, isFutureDateTime } from '../Common/Util';
+import { formatAMPM, getDateFormat1, isFutureDateTime } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
-import QuillEditor from '../ReactQull/QuillEditor';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
 function Form13() {
@@ -83,8 +81,8 @@ function Form13() {
   const SaveDraftM = useSelector(
     (state: RootState) => state.DraftMessages.SaveDraftMessage
   );
-  const editor=useRef(null)
-  const[content, setContent]= useState('')
+  const editor = useRef(null)
+  const [content, setContent] = useState('')
 
   const dispatch = useDispatch();
 
@@ -599,14 +597,14 @@ function Form13() {
     setValue(value);
   };
 
-  const scheduleDateAndTime = (e) => {
+  const scheduleDateAndTime = (value) => {
     if (scheduleDate !== '') {
       setRequestScheduleMsg('');
     }
     if (scheduleDate !== '') {
-      checkScheduleValidation(e.target.value + ' ' + strTime);
+      checkScheduleValidation(getDateFormat1(value) + ' ' + strTime);
     }
-    setscheduleDate(e.target.value);
+    setscheduleDate(getDateFormat1(value));
   };
   const checkScheduleValidation = (DateTime) => {
     if (isFutureDateTime(DateTime)) {
@@ -773,7 +771,7 @@ function Form13() {
             <ReplyIcon />
           </Fab> 
         </span> */}
-          <Box sx={{backgroundColor:'white', px:2 , minHeight:'85vh'}}>
+        <Box sx={{ backgroundColor: 'white', px: 2, minHeight: '85vh' }}>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={1} >
               <Grid item xs={12} >
@@ -1150,12 +1148,12 @@ function Form13() {
                     onChange={formik.handleChange} theme='snow'
                     onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} /> */}
                   {/* <QuillEditor formik={formik} /> */}
-                  <JoditEditor 
-                  ref={editor}
-                  value={content}
-                  onChange={newContent => setContent(newContent)}
+                  <JoditEditor
+                    ref={editor}
+                    value={content}
+                    onChange={newContent => setContent(newContent)}
                   />
-                  
+
                 </Box>
                 <Errormessages Error={contenterror} />
                 <Box mb={0.5}>
@@ -1180,7 +1178,7 @@ function Form13() {
               </Grid>
             </Grid>
           </form>
-          </Box>
+        </Box>
       </Box>
       <Dialog
         open={openDialog}

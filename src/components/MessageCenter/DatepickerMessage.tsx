@@ -26,8 +26,8 @@ const Datepicker = ({
                     )
                 }
                 views={['year', 'month', 'day']}
-                minDate={minDate} // Setting minimum date
-                maxDate={maxDate} // Setting maximum date
+                minDate={new Date(minDate)} // Setting minimum date
+                maxDate={new Date(maxDate)} // Setting maximum date
                 slotProps={{
                     textField: {
                         variant: 'outlined',
