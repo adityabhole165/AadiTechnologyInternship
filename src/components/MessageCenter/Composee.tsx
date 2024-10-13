@@ -1,4 +1,5 @@
 import { QuestionMark } from '@mui/icons-material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -17,6 +18,7 @@ import {
   DialogTitle,
   FormHelperText,
   Grid,
+  Stack,
   TextField,
   Tooltip,
   Typography,
@@ -26,8 +28,8 @@ import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
-import JoditEditor from 'jodit-react';
 import React, { useEffect, useRef, useState } from 'react';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -39,7 +41,6 @@ import { ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessag
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
-import SingleFile2 from 'src/libraries/File/SingleFile2';
 import {
   BoxContent,
   CardDetail8,
@@ -63,7 +64,7 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, getDateFormat1, isFutureDateTime } from '../Common/Util';
+import { formatAMPM, getDateFormat1, isFutureDateTime, toolbarOptions } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
@@ -737,7 +738,7 @@ function Form13() {
               <Tooltip title={'Send'}>
                 <IconButton
                   type='submit'
-                  onClick={() => { formik.handleSubmit }}
+                  onClick={formik.handleSubmit}
                   disabled={disabledStateOfSend}
                   sx={{
                     color: 'white',
@@ -988,33 +989,45 @@ function Form13() {
                   ) : null}
                 </Box>
               </Grid>
+
               <Grid item xs={10} sm={6} md={6} lg={4.5} mt={1}>
-                {/* <input
-                  ref={aRef}
-                  type="file"
-                  multiple
-                  onChange={fileChangedHandler}
-                  style={{
-                    width: '20px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                    
-                /> */}
-                <SingleFile2
-                  ValidFileTypes={ValidFileTypes2}
-                  // MaxfileSize={MaxfileSize2}
-                  // ChangeFile={ChangeFile2}
-                  errorMessage={''}
-                  // FileName={ImageFile}
-                  FileLabel={'Select Image'}
-                  width={'100%'}
-                  height={"52px"}
-                  isMandatory={false}
-                  MaxfileSize={undefined}
-                  ChangeFile={undefined}
-                // onChange={fileChangedHandler}
-                />
+                <Tooltip
+                  title={
+                    'Supports only ' +
+                    ValidFileTypes2.join(', ') +
+                    ' file type. File size should not exceed ' + (MaxfileSize / 1000000).toString() + 'MB.'
+                  }
+                >
+                  <Button
+                    sx={{
+                      width: '300px', height: 'auto', gap: 1,
+                      border: (theme) => `1px dashed ${theme.colors.primary.main}`,
+                      position: 'relative', display: 'flex', alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                    color={'primary'}
+                  ><Stack
+                    direction={'row'}
+                    alignItems={'center'}
+                    gap={1}
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      <CloudUploadIcon />
+                      Select Image
+                      <input ref={aRef} type="file" multiple
+                        onChange={fileChangedHandler}
+                        // style={{ width: '20px', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        style={{
+                          opacity: 0, position: 'absolute', cursor: 'pointer',
+                          top: 0, left: 0, right: 0, bottom: 0,
+                        }}
+                      />
+                    </Stack></Button>
+                </Tooltip>
+
                 <Box sx={{ mt: '15px', width: '300px' }}>
                   <Errormessages Error={fileerror} />
                 </Box>
@@ -1028,7 +1041,7 @@ function Form13() {
 
                     {finalBase642New.map((obj, i) => {
                       return (
-                        <>
+                        <div key={i}>
                           <Box key={obj.FileName} sx={{ display: 'flex' }}>
                             <FilePresentRoundedIcon sx={{ color: 'blue' }} />
 
@@ -1049,7 +1062,7 @@ function Form13() {
                               <DeleteIcon sx={{ color: 'red', mt: '-4px' }} />
                             </IconButton>
                           </Box>
-                        </>
+                        </div>
                       );
                     })}
                   </div>
@@ -1144,15 +1157,16 @@ function Form13() {
 
               <Grid item xs={12} sx={messageCenter}>
                 <Box sx={{ p: 0 }}>
-                  {/* <ReactQuill value={formik.values.Content} modules={toolbar  Options}
-                    onChange={formik.handleChange} theme='snow'
-                    onChangeSelection={() => { }} style={{ height: '15vh', resize: 'vertical' }} /> */}
+                  <ReactQuill value={formik.values.Content}
+                    onChange={(content) => formik.setFieldValue('Content', content)}
+                    modules={toolbarOptions}
+                    style={{ height: '20vh', resize: 'vertical' }} />
                   {/* <QuillEditor formik={formik} /> */}
-                  <JoditEditor
+                  {/* <JoditEditor
                     ref={editor}
-                    value={content}
-                    onChange={newContent => setContent(newContent)}
-                  />
+                    value={formik.values.Content}
+                    onChange={formik.handleChange}
+                  /> */}
 
                 </Box>
                 <Errormessages Error={contenterror} />
