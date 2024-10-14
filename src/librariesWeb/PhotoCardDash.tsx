@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllAcademicYearsForSchoolEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import CarouselPhoto from 'src/libraries/card/CarouselPhoto';
 import { CDAAllAcademicYearsForSchool } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
-import { CDAgetPhotoAlbum, CDAresetphotolist, CDAresetphotolist1 } from 'src/requests/Dashboard/Dashboard';
+import { CDAresetphotolist, CDAresetphotolist1, CDAgetPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { RootState } from 'src/store';
 import Actions from './Actions';
 import Header from './Header';
@@ -176,14 +176,14 @@ function PhotoCardDash() {
   const handleClearFilter = () => {
     setMonth('100');
     setYear(currentYear);
-
+   
     handleClose();
     setLastRefreshTime(new Date());
   };
 
 
   const handleApplyFilter = () => {
-
+    
     const filteredPicsBody = {
       ...picsBody,
       aiMonth: Number(month),
@@ -237,8 +237,8 @@ function PhotoCardDash() {
             <CarouselPhoto itemlist={PhotoAlbum1} IsPath={true} onImageClick={handleImageClick} largeImage={false} isSlideshowRunning={undefined} />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', mt: 2 }}>
-              <b>No record found for the selected type.</b>
-            </Typography>
+            <b>No record found.</b>
+          </Typography>
           )}
         </Box>
 
