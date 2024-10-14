@@ -28,8 +28,8 @@ import IconButton from '@mui/material/IconButton';
 import { blue, green, grey } from '@mui/material/colors';
 import { ClearIcon, TimePicker } from "@mui/x-date-pickers";
 import { useFormik } from 'formik';
+import JoditEditor from 'jodit-react';
 import React, { useEffect, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -64,11 +64,10 @@ import {
   AttachmentFile,
   ISendMessage
 } from '../../interfaces/MessageCenter/MessageCenter';
-import { formatAMPM, getDateFormat1, isFutureDateTime, toolbarOptions } from '../Common/Util';
+import { formatAMPM, getDateFormat1, isFutureDateTime } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
-import JoditEditor from 'jodit-react';
 function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -695,7 +694,7 @@ function Form13() {
   };
   return (
     <>
-      <Box sx={{ px: 2 }}>
+      <Box sx={{ px: 2, height: '90vh' ,mb:2}}>
         <CommonPageHeader navLinks={[
           { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
           { title: 'Compose Message', path: '' }
@@ -1069,7 +1068,7 @@ function Form13() {
               </Grid>
 
               <Grid item xs={12} sx={messageCenter}>
-                <Box sx={{ p: 0 }}>
+                <Box sx={{ mb: 2 }}>
                   {/* <ReactQuill value={formik.values.Content}
                     onChange={(content) => formik.setFieldValue('Content', content)}
                     modules={toolbarOptions}
