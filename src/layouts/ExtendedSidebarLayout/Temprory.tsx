@@ -63,8 +63,10 @@ import {
 import { AbsentStudents, GetSchoolSettings } from 'src/requests/AbsentStudentPopCp/ReqAbsentStudent';
 
 import { PersonOff } from '@mui/icons-material';
+import { IsPrePrimaryExamConfigurationBody } from 'src/interfaces/ExamResult/IExamResult';
 import { IGetAllowedPagesForUserBody, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
+import { getPrePrimaryExamConfiguration } from 'src/requests/ExamResult/RequestExamResult';
 import {
   MissingAttenNameAleart
 } from 'src/requests/MissingAttendanceAleart/ReqMissAttendAleart';
@@ -172,6 +174,19 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     dispatch(getAllowedPagesForUser(AllowedPageApiBody));
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
   }, [])
+  const PrePrimaryExamConfigFlag: any = useSelector(
+    (state: RootState) => state.ExamResult.IsPrePrimaryExamConfiguration
+  );
+  const PrePrimaryExamConfiguration: IsPrePrimaryExamConfigurationBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivId: Number(sessionStorage.getItem('StandardDivisionId')),
+    asUserRole: sessionStorage.getItem('DesignationName'),
+  }
+
+  useEffect(() => {
+    dispatch(getPrePrimaryExamConfiguration(PrePrimaryExamConfiguration))
+  }, [])
 
   useEffect(() => {
     if (AllowedPagesListForUser.length > 0 && sessionStorage.getItem('AllowedScreens') === null) {
@@ -217,19 +232,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
   const buttonStyle = {};
 
+  // Sidebar List Array - [ {}, {}, {}, .... etc. ]
+  // --- ArrayName > sideList
   let sideList = [
     {
       id: 'Dashboard',
       title: ' Dashboard',
       icon: <DashboardCustomizeOutlinedIcon />,
       link: '/extended-sidebar/landing/landing',
-      screenId: 0
-    },
-    {
-      id: 'Calendar',
-      title: 'Exam Shedule',
-      icon: <Dataset />,
-      link: '/extended-sidebar/Teacher/Texamschedule',
       screenId: 0
     },
     {
@@ -248,31 +258,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Exam',
-      title: getPageName(74),
+      title: 'Assign Exam Marks',// getPageName(74),
       icon: <RuleIcon />,
       link: '/extended-sidebar/Teacher/AssignExamMark',
       screenId: 0 //74
-    },
-    {
-      id: 'Daily Activities',
-      title: getPageName(77),
-      icon: <EventNoteOutlinedIcon />,
-      link: '/extended-sidebar/Teacher/TAttendance',
-      screenId: 0 //77
-    },
-    {
-      id: 'Daily Activities',
-      title: getPageName(201),
-      icon: <AutoStoriesTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/AssignHomework',
-      screenId: 0 //201
-    },
-    {
-      id: 'Daily Activities',
-      title: 'Timetable',
-      icon: <AccessTimeIcon />,
-      link: '/extended-sidebar/Teacher/TeacherTimeTable',
-      screenId: 0
     },
     {
       id: 'Other Utilities',
@@ -282,33 +271,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       screenId: 0
     },
     {
-      id: 'Exam',
-      title: 'Exam Result', // getPageName(78),
-      icon: <TableChart />,
-      link: '/extended-sidebar/Teacher/ExamResultBase',
-      screenId: 0 // 78
-    },
-
-    {
-      id: 'Exam',
-      title: 'Final Result', // getPageName(80),
-      icon: <FactCheck />,
-      link: '/extended-sidebar/Teacher/FinalResult',
-      screenId: 0
-    },
-    {
-      id: 'Communication',
-      title: 'Message Center',
-      icon: <ForwardToInboxTwoToneIcon />,
-      link: '/extended-sidebar/MessageCenter/msgCenter',
-      screenId: 0
-    },
-    {
-      id: 'Exam',
-      title: 'Progress Remark',  // getPageName(266),
+      id: 'Extra Screens',
+      title: getPageName(266),
       icon: <InsertCommentTwoToneIcon />,
       link: '/extended-sidebar/Teacher/ProgressRemarks',
-      screenId: 0 //266
+      screenId: 266
     },
 
     {
@@ -326,13 +293,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       screenId: 0
     },
     {
-      id: 'Communication',
-      title: 'SMS Center',
-      icon: <SmsTwoToneIcon />,
-      link: '/extended-sidebar/Teacher/SmsCenter',
-      screenId: 0 // 81
-    },
-    {
       id: 'Extra Screens',
       title: 'Add Aadhar Card Details',
       icon: <AddCardTwoToneIcon />,
@@ -348,7 +308,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     },
     {
       id: 'Extra Screens',
-      title: 'Investment Declaration',
+      title: getPageName(240),// 'Investment Declaration',
       icon: <AssuredWorkloadTwoToneIcon />,
       link: '/extended-sidebar/Teacher/InvestmentDeclaration',
       screenId: 240
@@ -358,7 +318,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Leave Details',
       icon: <LibraryBooksTwoToneIcon />,
       link: '/extended-sidebar/Teacher/LeaveDetails',
-      screenId: 0
+      screenId: 303// 0
     },
     {
       id: 'Extra Screens',
@@ -372,7 +332,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       title: 'Performance Grade Assignment',
       icon: <AddchartIcon />,
       link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen',
-      screenId: 0
+      screenId: 213
     },
     {
       id: 'Extra Screens',
@@ -398,6 +358,49 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   //     link: '/extended-sidebar/Teacher/TAttendance'
   //   });
   // }
+  const userRoleID = sessionStorage.getItem('RoleId');
+  const isClassTeacher = sessionStorage.getItem('IsClassTeacher');
+  const IsMiniSite = schoolSettingList?.IsMiniSite === 'false' ? false : true;
+
+  function showHomeworkMenu() {
+    if (schoolSettingList?.EnableHomeworkModule === true && schoolSettingList?.IsMiniSite === 'false') {
+      if (isClassTeacher === 'Y') {
+        return true;
+      }
+      return true;
+    }
+    return false;
+  }
+  if (!IsMiniSite) {
+    sideList.push(
+      {
+        id: 'Communication',
+        title: 'SMS Center',
+        icon: <SmsTwoToneIcon />,
+        link: '/extended-sidebar/Teacher/SmsCenter',
+        screenId: 0 // 81
+      },
+      {
+        id: 'Communication',
+        title: 'Message Center',
+        icon: <ForwardToInboxTwoToneIcon />,
+        link: '/extended-sidebar/MessageCenter/msgCenter',
+        screenId: 0
+      },
+    )
+  }
+
+  if (showHomeworkMenu()) {
+    sideList.push(
+      {
+        id: 'Daily Activities',
+        title: 'Assign Homework', //getPageName(201),
+        icon: <AutoStoriesTwoToneIcon />,
+        link: '/extended-sidebar/Teacher/AssignHomework',
+        screenId: 0 //201
+      },
+    )
+  }
 
   if (showWeeklyTimetable) {
     sideList.push(
@@ -407,8 +410,75 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         icon: <TableChartOutlinedIcon />,
         link: '/extended-sidebar/Teacher/WeeklyTimetable',
         screenId: 0
+      },
+      {
+        id: 'Daily Activities',
+        title: 'Timetable',
+        icon: <AccessTimeIcon />,
+        link: '/extended-sidebar/Teacher/TeacherTimeTable',
+        screenId: 0
       }
     )
+  }
+
+  if (isClassTeacher === 'Y' || userRoleID === '1') {
+    sideList.push(
+      {
+        id: 'Daily Activities',
+        title: getPageName(77),
+        icon: <EventNoteOutlinedIcon />,
+        link: '/extended-sidebar/Teacher/TAttendance',
+        screenId: 0 //77
+      }
+    )
+  }
+  let IsPrePrimaryFlag = auth?.data?.TeacherDetails?.IsPreprimary === 'N' ? false : true;
+  if (IsPrePrimaryFlag) {
+    if (!PrePrimaryExamConfigFlag) {
+      sideList.push(
+        {
+          id: 'Exam',
+          title: 'Final Result', // getPageName(80),
+          icon: <FactCheck />,
+          link: '/extended-sidebar/Teacher/FinalResult',
+          screenId: 0
+        });
+    }
+    if (schoolSettingList?.IsExamScheduleForPrePrimaryClassTeacher) {
+      sideList.push(
+        {
+          id: 'Calendar',
+          title: 'Exam Shedule',
+          icon: <Dataset />,
+          link: '/extended-sidebar/Teacher/Texamschedule',
+          screenId: 0
+        });
+    }
+  } else {
+    sideList.push(
+      {
+        id: 'Exam',
+        title: 'Final Result', // getPageName(80),
+        icon: <FactCheck />,
+        link: '/extended-sidebar/Teacher/FinalResult',
+        screenId: 0
+      });
+    sideList.push(
+      {
+        id: 'Calendar',
+        title: 'Exam Shedule',
+        icon: <Dataset />,
+        link: '/extended-sidebar/Teacher/Texamschedule',
+        screenId: 0
+      });
+    sideList.push(
+      {
+        id: 'Exam',
+        title: 'Exam Results', // getPageName(78),
+        icon: <TableChart />,
+        link: '/extended-sidebar/Teacher/ExamResultBase',
+        screenId: 0 // 78
+      });
   }
 
   if (hasMissingDays) {
