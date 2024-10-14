@@ -41,6 +41,7 @@ const AssignPrePrimarySubjectGrades = () => {
     const [isFocused, setIsFocused] = useState(false);
     const [facilitatorObs, setFacilitatorObs] = useState('');
     const [initialValue, setInitialValue] = useState('');
+    const [initialFacilitatorObs, setInitialFacilitatorObs] = useState('');
     // useEffects() | Hooks
     const cellStyle = {
         padding: '0.2em 1.5em', // Adjust these values to reduce the height
@@ -51,6 +52,7 @@ const AssignPrePrimarySubjectGrades = () => {
             setLearningOutcomeObsId(ListObservationDetails[0].LearningOutcomeObsId)
             setSubRemark(ListObservationDetails[0].subRemark)
             setFacilitatorObs(ListObservationDetails[0].obs)
+            setInitialFacilitatorObs(ListObservationDetails[0].obs)
         }
     }, [ListObservationDetails])
     useEffect(() => {
@@ -135,7 +137,7 @@ const AssignPrePrimarySubjectGrades = () => {
             asSubjectRemark: subRemark,
             asSubjectId: Number(SubjectId),
         }
-        if (initialValue !== JSON.stringify(grades)) {
+        if (initialValue !== JSON.stringify(grades) || initialFacilitatorObs !== facilitatorObs) {
             dispatch(CDAInsertStudentGrades(saveLearningOutcomeBody));
         }
     }
