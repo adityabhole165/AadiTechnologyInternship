@@ -596,21 +596,21 @@ export function isBetweenDates(date, date2) {
 export const toolbarOptions = {
   toolbar: {
     container: [
-      ['bold', 'italic', 'underline', 'strike'],       
+      ['bold', 'italic', 'underline', 'strike'],
       ['blockquote', 'code-block'],
       ['link', 'image', 'video', 'formula'],
-      [{ 'header': 1 }, { 'header': 2 }],              
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-      [{ 'script': 'sub'}, { 'script': 'super' }],      
-      [{ 'indent': '-1'}, { 'indent': '+1' }],         
-      [{ 'direction': 'rtl' }],                         
-      [{ 'size': ['small', false, 'large', 'huge'] }],  
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    
-      [{ 'color': [] }, { 'background': [] }],          
+
+      [{ 'color': [] }, { 'background': [] }],
       [{ 'font': [] }],
       [{ 'align': [] }],
-    
+
       ['clean']
     ]
   }
@@ -646,6 +646,9 @@ export function getSchoolConfigurations(value) {
   return CanEdit
 }
 
+// Do not use following function to get Page Access Status as it rely on Page Name which is inconsistent
+// instead rely on function named GetScreenAccessPermissionByPageID('Pass Screen ID over here without quotes as Datatype is Number of this parameter.');
+// ❌ DO NOT USE THIS FUNCTION
 export function GetScreenPermission(ScreenName) {
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -654,6 +657,19 @@ export function GetScreenPermission(ScreenName) {
   ScreensAccessPermission?.map((item) => {
     if (item.ScreenName === ScreenName)
       perm = item.IsFullAccess;
+  });
+  return perm;
+};
+// ✔️ USE THIS FUNCTION
+export function GetScreenAccessPermissionByPageID(ScreenID) {
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+  let perm = 'N';
+  ScreensAccessPermission?.map((item) => {
+    if (item.ScreenId === ScreenID) {
+      perm = item.IsFullAccess;
+    }
   });
   return perm;
 };
