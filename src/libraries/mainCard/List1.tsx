@@ -55,7 +55,7 @@ function List1({
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {items.map((items, index) => (
+                  {items?.map((items, index) => (
                     <TableRow key={index} sx={{ cursor: 'pointer' }} onClick={() => {
                       clickCard(items.linkPath);
                     }}>
@@ -66,7 +66,7 @@ function List1({
                         {items.text1}
                       </TableCell>
                       <TableCell sx={{ textAlign: 'center', py: 0.3 }}>
-                        {items.FileName.length > 0 ?
+                        {items.FileName?.length > 0 ?
                           <IconButton >
                             <AttachmentIcon />
                           </IconButton> : '-'}
