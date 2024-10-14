@@ -291,7 +291,7 @@ const DashboardData = {
   },
   Teacher: {
     items1: [
-    
+
 
       {
         Text1: 'Annual  ',
@@ -301,7 +301,7 @@ const DashboardData = {
         Icon: EventIcon,
         Link: 'Teacher/AnnualPlanner',
         index: 2,
-      
+
       },
 
       {
@@ -417,6 +417,15 @@ const DashboardData = {
       // },
     ],
     items2: [
+      {
+        Text1: 'Exam Schedule Full Acccess',
+        Text2: '',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/ExamScheduleBaseScreen',
+        index: 30
+      },
       {
         Text1: 'Final Result ',
         Text2: 'Unpublish ',
@@ -633,7 +642,8 @@ const DashboardData = {
         Icon: AssignmentIcon,
         Link: 'Teacher/InvestmentDeclaration',
         index: 30
-      }
+      },
+
     ]
   },
   Admin: {
