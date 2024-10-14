@@ -694,7 +694,7 @@ function Form13() {
   };
   return (
     <>
-      <Box sx={{ px: 2, height: '90vh' ,mb:2}}>
+      <Box sx={{ px: 2, height: '90vh', mb: 2 }}>
         <CommonPageHeader navLinks={[
           { title: 'Message Center', path: '/extended-sidebar/MessageCenter/msgCenter' },
           { title: 'Compose Message', path: '' }
@@ -702,7 +702,7 @@ function Form13() {
           rightActions={<>
             <Box>
               <Tooltip
-                title={`Write a new message/send reply to the message received.`}
+                title={`Write a new message / send reply to the message received.`}
               >
                 <IconButton
                   sx={{
