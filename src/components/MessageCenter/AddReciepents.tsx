@@ -1,4 +1,4 @@
-import { Box, Card, Grid, TextField, Typography } from '@mui/material';
+import { Box, Card, Chip, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -26,8 +26,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedRecipents, setSelectedRecipents] = useState([]);
-  const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
+  const [selectedRecipents, setSelectedRecipents] = useState(RecipientName || []);
+  const [selectedRecipentsId, setSelectedRecipentsId] = useState(RecipientId || []);
   const [classId, setClassId] = useState([]);
   const [contactGroup, setContactGroup] = useState([]);
   const [techerStudent1, setTeacherStudent1] = useState('');
@@ -114,6 +114,13 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
     dispatch(getShowPTA(showPTA));
   }, []);
 
+  const handleDelete = (recipient) => {
+    const updatedRecipients = selectedRecipents.filter((r) => r !== recipient);
+    const updatedRecipientIds = selectedRecipentsId.filter((id, index) => selectedRecipents[index] !== recipient);
+
+    setSelectedRecipents(updatedRecipients);
+    setSelectedRecipentsId(updatedRecipientIds);
+  };
   useEffect(() => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
@@ -413,7 +420,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
             size={"small"}
           /> */}
           <TextField
-            sx={{ width: '15vw', mt:2 }}
+            sx={{ width: '15vw', mt: 2 }}
             fullWidth
             label="Search By Name"
             value={SearchByName}
@@ -433,7 +440,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
         {/* field and back Compose code  */}
         <Grid container>
           <Grid item xs={12} sm={10}  >
-            <TextField
+            {/* <TextField
               fullWidth
               disabled
               multiline
@@ -450,7 +457,36 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                 border: '0.1px solid #c4c5c5',
                 borderRadius: '5.3px'
               }}
-            /></Grid>
+            /> */}
+            <TextField
+              fullWidth
+              multiline
+              placeholder="Selected Recipient"
+              margin="normal"
+              InputProps={{
+                startAdornment: (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                    {selectedRecipents.map((recipient, index) => (
+                      <Chip
+                        key={index}
+                        label={recipient?.trim()}
+                        onDelete={() => handleDelete(recipient)} // Handle chip deletion
+                        sx={{ margin: '2px 4px' }}
+                      />
+                    ))}
+                  </Box>
+                ),
+                readOnly: true, // Ensure the TextField is read-only
+              }}
+              value={''}
+              sx={{
+                height: 'auto',
+                overflow: 'auto',
+                border: '0.1px solid #c4c5c5',
+                borderRadius: '5.3px',
+              }}
+            />
+          </Grid>
           {/* <Grid item xs={6} sm={2} mt={2}>
             <Button onClick={clickOkay}
               sx={{

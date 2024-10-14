@@ -1114,43 +1114,73 @@ function Form13() {
             placement="bottom-end"  >
             <QuestionMark
               sx={{
-                color: 'white', borderRadius: '10px', position: 'absolute',
-                top: '4px', right: '35px', cursor: 'pointer',
+                color: 'white',
+                // background:'white',
+                borderRadius: '10px',
+                position: 'absolute',
+                top: '4px',
+                right: '35px',
+                cursor: 'pointer',
                 '&:hover': { backgroundColor: grey[600] }
               }} />
           </Tooltip>
           <ClearIcon onClick={handleCloseDialog}
             sx={{
-              color: 'white', borderRadius: '7px', position: 'absolute',
-              top: '5px', right: '8px', cursor: 'pointer', '&:hover': { color: 'red' }
-            }}
-          />
+              color: 'white',
+              borderRadius: '7px',
+              position: 'absolute',
+              top: '5px',
+              right: '8px',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'red',
+              }
+            }} />
+
         </DialogTitle>
         <Typography variant="h3" sx={{ pt: 2, pl: 3 }}>
           {showRecipients ? 'Add Recipients' : 'Add Cc Recipients'}
         </Typography>
 
         <DialogContent>
-          <Box>
+          <Box sx={{ overflow: 'auto', maxBlockSize: '400px', mt: 2 }}>
             {showRecipients ? (
-              <AddReciepents IsConfirm={IsConfirm} recipientListClick={RecipientsListFun}
-                RecipientName={RecipientsObject.RecipientName} RecipientId={RecipientsObject.RecipientId}
+              <AddReciepents
+                RecipientName={RecipientsObject.RecipientName}
+                RecipientId={RecipientsObject.RecipientId}
+                recipientListClick={RecipientsListFun}
+                IsConfirm={IsConfirm}
               />
             ) : (
-              <AddReciepents IsConfirm={IsConfirm} recipientListClick={RecipientsCCListFun}
-                RecipientName={RecipientsCCObject.RecipientName} RecipientId={RecipientsCCObject.RecipientId}
+              <AddReciepents
+                RecipientName={RecipientsCCObject.RecipientName}
+                RecipientId={RecipientsCCObject.RecipientId}
+                recipientListClick={RecipientsCCListFun}
+                IsConfirm={IsConfirm}
               />
             )}
           </Box>
-          <DialogActions sx={{ py: 2, px: 3 }}>
-            <Button color={'error'} onClick={handleCloseDialog}>
-              Cancel
-            </Button>
-            <Button onClick={clickConfirm}
-              sx={{ color: 'green', '&:hover': { color: 'green', backgroundColor: green[100] } }}>
-              Confirm
-            </Button>
-          </DialogActions>
+          <Box >
+            <DialogActions sx={{ py: 2, px: 3 }}>
+              <Button
+                color={'error'}
+                onClick={handleCloseDialog}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={clickConfirm}
+                sx={{
+                  color: 'green',
+                  '&:hover': {
+                    color: 'green',
+                    backgroundColor: green[100]
+                  }
+                }}>
+                Confirm
+              </Button>
+            </DialogActions>
+          </Box>
         </DialogContent>
       </Dialog>
     </>
