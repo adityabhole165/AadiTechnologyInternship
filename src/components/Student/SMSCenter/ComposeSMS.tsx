@@ -1,6 +1,7 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, Grid, NativeSelect, Paper, TextField, Typography, useTheme } from '@mui/material';
-import { ClearIcon, TimePicker } from '@mui/x-date-pickers';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, FormControlLabel, Grid, NativeSelect, Paper, TextField, Typography, useTheme } from '@mui/material';
+import { blue } from '@mui/material/colors';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useFormik } from 'formik';
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +11,6 @@ import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSM
 import { Styles } from 'src/assets/style/student-style';
 import { formatAMPM, isFutureDateTime } from 'src/components/Common/Util';
 import CommonPageHeader from 'src/components/CommonPageHeader';
-import Datepicker from 'src/components/MessageCenter/DatepickerMessage';
 import ACompose_SendSMS, { GetSMSTemplates, MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -24,6 +24,9 @@ const ComposeSMSform = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     toast.configure();
+    const [isManualEntryEnabled, setIsManualEntryEnabled] = useState(false);
+    const [mobileNumbers, setMobileNumbers] = useState('');
+    const [error, setError] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
     const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
     const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
@@ -160,6 +163,39 @@ const ComposeSMSform = () => {
     );
     const handleOpenDialog = (isRecipients) => {
         setOpenDialog(true);
+    };
+
+
+    // Validate numbers - check if each is 10 digits long
+    const validateNumbers = (value) => {
+        const numbers = value.split(',').map((num) => num.trim());
+        const invalidNumbers = numbers.filter((num) => num.length !== 10 || isNaN(num));
+
+        if (invalidNumbers.length > 0) {
+            setError('Each number must be 10 digits.');
+        } else {
+            setError('');
+        }
+    };
+
+    // Handle input change
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setMobileNumbers(value);
+
+        // Validate the entered numbers
+        validateNumbers(value);
+    };
+
+    // Handle checkbox change to enable/disable input field
+    const handleCheckboxChange = () => {
+        setIsManualEntryEnabled((prev) => !prev);
+
+        // Clear the input and error if checkbox is unchecked
+        if (isManualEntryEnabled) {
+            setMobileNumbers('');
+            setError('');
+        }
     };
 
     // Api body of Admin SMS Template
@@ -336,8 +372,8 @@ const ComposeSMSform = () => {
                     </Accordion>
                 </Paper>
                 <Box>
-                    <ListStyle sx={{}}>
-                        <Checkbox
+                    <ListStyle>
+                        {/* <Checkbox
                             onChange={scheduleMessageCheckBox}
                             onClick={() => setRequestSchedule(!requestSchedule)}
                             size="small"
@@ -348,7 +384,7 @@ const ComposeSMSform = () => {
                         </Typography>
 
                         <Grid container spacing={2} mt={0}>
-                            <Grid item xs={6}>
+                            <Grid item xs={2}>
                                 <Datepicker
                                     DateValue={undefined}
                                     onDateChange={(e) => setScheduledDate(e.target.value)}
@@ -369,61 +405,131 @@ const ComposeSMSform = () => {
                                     onChange={clickTime}
                                 />
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                         <form onSubmit={formik.handleSubmit}>
-                            <FormControl fullWidth>
-                                <TextField
-                                    sx={{ marginBottom: '-10px', marginTop: '20px' }}
-                                    variant="standard"
-                                    name="From"
-                                    label={'From'}
-                                    id="from"
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
-                                    value={senderUserName}
-                                />
-
-                                <Box sx={{ mt: "15px" }}>
+                            <Grid container>
+                                <Grid xs={3} mt={3.3} px={2} sm={3} md={3}>
                                     <TextField
-                                        name="To"
-                                        placeholder='To'
-                                        multiline
-                                        className={classes.InputField}
-                                        onChange={ToFieldChange}
-                                        onBlur={ToFieldOnBlur}
-                                        onFocus={ToFieldFocus}
+                                        sx={{ marginTop: '20px' }}
+                                        variant="outlined"
+                                        fullWidth
+                                        name="From"
+                                        label={'From'}
+                                        id="from"
                                         InputProps={{
                                             readOnly: true
                                         }}
-                                        value={RecipientsArray.RecipientName}
-                                        variant="outlined"
-                                        id="body"
+                                        value={senderUserName}
+                                    />
+                                </Grid>
+                                <Grid xs={8} sm={8} md={7}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={isManualEntryEnabled}
+                                                onChange={handleCheckboxChange}
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Add Mobile Numbers Manually"
+                                    />
+                                    {/* TextField for mobile numbers */}
+                                    <TextField
+                                        disabled={!isManualEntryEnabled}
+                                        multiline
                                         fullWidth
-                                        margin="normal"
-                                        style={{ scrollBehavior: 'auto' }}
+                                        placeholder="Enter multiple mobile numbers separated by commas"
+                                        value={mobileNumbers}
+                                        onChange={handleInputChange}
+                                        error={!!error}
+                                        helperText={error || '(Enter multiple mobile numbers separated by comma. Max 10-digit numbers.)'}
                                         sx={{
-                                            maxHeight: '60px',
-                                            overflow: 'auto'
+                                            marginTop: '8px',
+                                            height: '50px',
+                                            // overflow: 'auto',
+                                            borderRadius: '5px',
                                         }}
                                     />
-                                </Box>
-                                <div style={{ marginTop: '15px' }}>
-                                    <Errormessage Error={formik.errors.To} />
-                                </div>
-                            </FormControl>
-
-                            <Grid container>
-                                <Grid item md={3} >
-                                    <ButtonPrimary
-                                        fullWidth
-                                        onClick={() => handleOpenDialog(true)}
-                                    >
-                                        Add Recipients
-                                    </ButtonPrimary>
+                                </Grid>
+                                <Grid xs={2} mt={6} sm={2} md={2} >
+                                    <Box ml={2}>
+                                        <Button
+                                            fullWidth
+                                            // onClick={(e) => RecipientCCButton(e)}       
+                                            // onClick={() => handleOpenDialog(false)}
+                                            sx={{
+                                                color: '#38548A',
+                                                mt: 0.7,
+                                                width: '200px',
+                                                '&:hover': {
+                                                    color: '#38548A',
+                                                    backgroundColor: blue[100]
+                                                }
+                                            }}
+                                        >
+                                            Personal Address book
+                                        </Button>
+                                    </Box>
                                 </Grid>
                             </Grid>
 
+                            <Grid container px={2}>
+                                <Grid xs={10} sm={10} md={10}>
+                                    <Box sx={{ mt: "30px" }}>
+                                        <TextField
+                                            name="To"
+                                            placeholder='To'
+                                            multiline
+                                            className={classes.InputField}
+                                            onChange={ToFieldChange}
+                                            onBlur={ToFieldOnBlur}
+                                            onFocus={ToFieldFocus}
+                                            InputProps={{
+                                                readOnly: true
+                                            }}
+                                            value={RecipientsArray.RecipientName}
+                                            variant="outlined"
+                                            id="body"
+                                            fullWidth
+                                            margin="normal"
+                                            style={{ scrollBehavior: 'auto' }}
+                                            sx={{
+                                                maxHeight: '60px',
+                                                // overflow: 'auto'
+                                            }}
+                                        />
+                                    </Box>
+                                    <div style={{ marginTop: '15px' }}>
+                                        <Errormessage Error={formik.errors.To} />
+                                    </div>
+                                </Grid>
+                                <Grid xs={2} mt={4} >
+                                    <Box mt={2} ml={2}>
+                                    <Button
+                                        fullWidth
+                                        onClick={() => handleOpenDialog(true)}
+                                        sx={{
+                                            color: '#38548A',
+
+                                            width: '200px',
+                                            '&:hover': {
+                                                color: '#38548A',
+                                                backgroundColor: blue[100]
+                                            }
+                                        }}>
+                                        Add Recipients
+                                    </Button>
+                                    </Box>
+                                </Grid >
+                            </Grid>
+
+
+
+
+                            <Grid item md={3} >
+
+                            </Grid>
+                            
                             <Grid
                                 container
                                 style={{ marginTop: '12px', marginBottom: '17px' }}
