@@ -181,7 +181,7 @@ export const GetStudentsForStdDevMasters =
       //   };
       // }) : [];
 
-      let GradesList = [{ Id: 0, Name: 'Select', Value: "0-0-0", isAbsent: '0', isExempted: '0' }];
+      const GradesList = [{ Id: 0, Name: 'Select', Value: "0-0-0", isAbsent: '0', isExempted: '0' }];
       response.data.listGradesDetails.map((item, i) => {
         GradesList.push({
           Id: item.GradeId,
@@ -192,7 +192,7 @@ export const GetStudentsForStdDevMasters =
         });
       });
 
-      let NonXseedStudentsList = response.data.listYearwiseStudentDetails.map((item, i) => {
+      const NonXseedStudentsList = response.data.listYearwiseStudentDetails.map((item, i) => {
         return {
           Id: item.YearWise_Student_Id,
           Text1: item.StudentName,

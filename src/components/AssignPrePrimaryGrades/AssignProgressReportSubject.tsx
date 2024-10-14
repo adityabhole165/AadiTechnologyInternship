@@ -40,7 +40,7 @@ const AssignProgressReportSubject = () => {
 
     useEffect(() => {
         dispatch(GetStudentsForStdDevMasters(GetStudentsForStdDevMastersBody));
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (SaveNonXseedMsg !== '') {
@@ -166,8 +166,10 @@ const AssignProgressReportSubject = () => {
     };
 
     function filteredValue(id) {
-        let isThere = GradesList.filter((item) => item.Value?.split('-')[0] === id);
-        return isThere[0].Value
+        if (GradesList.length > 0) {
+            let isThere = GradesList?.filter((item) => item.Value?.split('-')[0] === id);
+            return isThere[0].Value
+        }
     }
     const [isEmpty, setIsEmpty] = useState(false);
     // useEffect(() => {
@@ -227,7 +229,7 @@ const AssignProgressReportSubject = () => {
                 <CommonPageHeader
                     navLinks={[
                         {
-                            title: 'Assign Pre-Primary Grades',
+                            title: selectTeacher === 'RP' ? `Pre-Primary Progress Report Results` : 'Assign Pre-Primary Grades',
                             path: selectTeacher === 'RP' ? `/extended-sidebar/Teacher/PrePrimaryResult/${SelectTerm}/${StandardDivisionId}` : '/extended-sidebar/Teacher/AssignPrePrimaryGrades' + '/' + SelectTerm + '/' + selectTeacher
                         },
                         {

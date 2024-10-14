@@ -1,5 +1,5 @@
 import { QuestionMark, Save } from "@mui/icons-material"
-import { Box, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
+import { Box, Grid, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
 import { green } from "@mui/material/colors"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -30,13 +30,15 @@ const AssignPrePrimarySubjectGrades = () => {
     const ListObservationDetails: any = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISListObsDetails);
     const InsertStudentGradesMsg: any = useSelector((state: RootState) => state.AssignPrePrimaryGrades.ISInsertStudentGradesMsg);
     const Loading = useSelector((state: RootState) => state.AssignPrePrimaryGrades.Loading);
+    const schoolId = localStorage.getItem('localSchoolId');
     // useState() | Hooks
     const [student, setStudent] = useState('0')
     const [subjectSection, setSubjectSection] = useState('0')
     const [headerGrade, setHeaderGrade] = useState("0")
     const [grades, setGrades] = useState({});
     const [LearningOutcomeObsId, setLearningOutcomeObsId] = useState('');
-    const [subRemark, setSubRemark] = useState('')
+    const [subRemark, setSubRemark] = useState('');
+    const [facilitatorObs, setFacilitatorObs] = useState('');
     // useEffects() | Hooks
     const cellStyle = {
         padding: '0.2em 1.5em', // Adjust these values to reduce the height
@@ -52,6 +54,7 @@ const AssignPrePrimarySubjectGrades = () => {
         if (ListObservationDetails.length > 0) {
             setLearningOutcomeObsId(ListObservationDetails[0].LearningOutcomeObsId)
             setSubRemark(ListObservationDetails[0].subRemark)
+            setFacilitatorObs(ListObservationDetails[0].obs)
         }
     }, [ListObservationDetails])
     useEffect(() => {
@@ -125,7 +128,7 @@ const AssignPrePrimarySubjectGrades = () => {
             asLearningOutcomeXML: learningOutcomeXML(),
             asInsertedById: Number(sessionStorage.getItem('Id')),
             asSubjectSectionConfigurationId: Number(subjectSection),
-            asObservation: "",
+            asObservation: facilitatorObs,
             asAssessmentId: Number(SelectTerm),
             asLearningOutcomesObservationId: Number(LearningOutcomeObsId),
             asSubjectRemark: subRemark,
@@ -151,7 +154,7 @@ const AssignPrePrimarySubjectGrades = () => {
             <CommonPageHeader
                 navLinks={[
                     {
-                        title: 'Assign Pre-Pri...',
+                        title: selectTeacher === 'RP' ? 'Pre-Primary Pro...' : 'Assign Pre-Pri...',
                         path: selectTeacher === 'RP' ? `/extended-sidebar/Teacher/PrePrimaryResult/${SelectTerm}/${StandardDivisionId}` : '/extended-sidebar/Teacher/AssignPrePrimaryGrades' + '/' + SelectTerm + '/' + selectTeacher
                     },
                     {
@@ -305,6 +308,26 @@ const AssignPrePrimarySubjectGrades = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    {schoolId !== '18' &&
+                        <Grid container spacing={2} mt={.1} alignItems="center">
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h5" component="h3" sx={{ marginLeft: '18px' }}>
+                                    Observation of the facilitator
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} container justifyContent="flex-end">
+                                <TextareaAutosize
+                                    minRows={2}
+                                    maxRows={4}
+                                    disabled={EditStatusId === '3' || EditStatusId === '3P'}
+                                    style={{ backgroundColor: 'white', minWidth: '70vw', resize: 'vertical' }}
+                                    value={facilitatorObs}
+                                    onChange={(e) => { setFacilitatorObs(e.target.value) }}
+                                    maxLength={1000}
+                                />
+                            </Grid>
+                        </Grid>}
                 </Box>}
         </Box>
     )
