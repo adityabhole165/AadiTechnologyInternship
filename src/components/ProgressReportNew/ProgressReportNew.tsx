@@ -2,7 +2,7 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
-import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Link, Table, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,18 +13,18 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetAllMarksGradeConfiguration, CDAGetAllMarksGradeConfiguration1, CDAGetClassTeachers, CDAGetPassedAcademicYears, CDAGetSchoolSettings, CDAGetStudentName, CDAIsGradingStandard, CDAIsTestPublishedForStdDiv, CDAIsTestPublishedForStudent, CDAStudentProgressReport } from 'src/requests/ProgressReport/ReqProgressReport';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import ProgressReportMarkView from './ProgressReportMarkView';
 import ProgressReportGradeView from './ProgressReportGradeView';
+import ProgressReportMarkView from './ProgressReportMarkView';
 
 const ProgressReportNew = () => {
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const TeacherIdsession = sessionStorage.getItem('TeacherId');
-  
+
   const asUserId = Number(sessionStorage.getItem('Id'));
   const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  
+
 
   const [Error, SetError] = useState('');
   const [StudentId, SetStudentId] = useState('');
@@ -45,7 +45,7 @@ const ProgressReportNew = () => {
     return perm;
   };
 
-  const [selectTeacher, SetselectTeacher] = useState(GetScreenPermission() == 'N' ?  TeacherIdsession : '');
+  const [selectTeacher, SetselectTeacher] = useState(GetScreenPermission() == 'N' ? TeacherIdsession : '');
 
 
   const USlistTestDetailsArr: any = useSelector(
@@ -88,12 +88,16 @@ const ProgressReportNew = () => {
   const USIsTestPublishedForStudentIS: any = useSelector((state: RootState) => state.ProgressReportNew.RIsTestPublishedForStudentIS);
   const UsGetSchoolSettings: any = useSelector((state: RootState) => state.ProgressReportNew.IsGetSchoolSettings);
   const hasTotalConsiderationN = USlistSubjectsDetails.some(subject => subject.Total_Consideration === "N");
-  const IsTotalConsiderForProgressReport = UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport || '';
+  const [IsTotalConsiderForProgressReport, setIsTotalConsiderForProgressReport] = useState('');
   const MarkDetailsList: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList);
   const HeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray);
   const SubHeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray);
 
-  console.log(IsTotalConsiderForProgressReport, "Total Consideration");
+  useEffect(() => {
+    if (UsGetSchoolSettings != null)
+      setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
+  }, [UsGetSchoolSettings])
+
 
 
   let headerArray = [
@@ -170,7 +174,7 @@ const ProgressReportNew = () => {
     asAcadmeicYearId: Number(asAcademicYearId),
     asStudentId: Number(StudentId),
     asUserId: asUserId,
-    IsTotalConsiderForProgressReport:IsTotalConsiderForProgressReport
+    IsTotalConsiderForProgressReport: IsTotalConsiderForProgressReport
 
   };
 
@@ -215,7 +219,6 @@ const ProgressReportNew = () => {
     asStdDivId: Number(StandardDivisionId())
 
   };
-  
 
   const IsTestPublishedForStudent: IsTestPublishedForStudentBody = {
     asSchoolId: Number(asSchoolId),
@@ -418,7 +421,7 @@ const ProgressReportNew = () => {
           </Button>
         </Box>
       )}
-     
+
       {open && (
         <div>
 
@@ -430,20 +433,20 @@ const ProgressReportNew = () => {
                     <Link href="#" underline="none" onClick={handleClick} sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="h4">Grade Configuration Details</Typography>
                     </Link>
-                    
-                    <Dialog 
-                    open={open1}
-                     onClose={handleClose} 
-                     maxWidth="md" scroll="body"
-                     sx={{ minHeight: '400px' }}
-                     PaperProps={{
-                      sx: {
-                        borderRadius: "15px",
-                      }
-                    }}>
-                        <DialogTitle sx={{ bgcolor: '#223354' }}>
-                          
-                          <ClearIcon onClick={handleClose} 
+
+                    <Dialog
+                      open={open1}
+                      onClose={handleClose}
+                      maxWidth="md" scroll="body"
+                      sx={{ minHeight: '400px' }}
+                      PaperProps={{
+                        sx: {
+                          borderRadius: "15px",
+                        }
+                      }}>
+                      <DialogTitle sx={{ bgcolor: '#223354' }}>
+
+                        <ClearIcon onClick={handleClose}
                           sx={{
                             color: 'white',
                             // background:'white',
@@ -456,17 +459,17 @@ const ProgressReportNew = () => {
                               color: 'red'
                             }
                           }} />
-                        </DialogTitle>
-                      
+                      </DialogTitle>
+
                       <DialogContent>
-                      <Typography variant="h3" my={1}>
-                      Grade Configuration Details
+                        <Typography variant="h3" my={1}>
+                          Grade Configuration Details
                         </Typography>
                         <Typography variant="h4" my={1}>
                           Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
+                          configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -475,7 +478,7 @@ const ProgressReportNew = () => {
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
+                          configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -520,12 +523,12 @@ const ProgressReportNew = () => {
                     />
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
-                  <ProgressReportGradeView
-                  USlistSubjectsDetails={USlistSubjectsDetails}
-                  USListSubjectidDetails={USListSubjectidDetails}
-                  USlistTestDetailsArr={USlistTestDetailsArr}
-                  IsTotalConsiderForProgressReport= {IsTotalConsiderForProgressReport}
-                  />
+                    <ProgressReportGradeView
+                      USlistSubjectsDetails={USlistSubjectsDetails}
+                      USListSubjectidDetails={USListSubjectidDetails}
+                      USlistTestDetailsArr={USlistTestDetailsArr}
+                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                    />
                   </Box>
                 </>
                 :
@@ -573,7 +576,7 @@ const ProgressReportNew = () => {
                           Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={ USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
+                          configurationList={USGetAllMarksGradeConfiguration.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -582,7 +585,7 @@ const ProgressReportNew = () => {
                           Co-Curricular Subjects :-
                         </Typography>
                         <GradeConfigurationList
-                          configurationList={ USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
+                          configurationList={USGetAllMarksGradeConfiguration1.filter((item) => item.Standard_Id != "")}
                           HeaderArray={headerArray}
                         />
                       </DialogContent>
@@ -627,16 +630,16 @@ const ProgressReportNew = () => {
                     />
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
-                  <ProgressReportMarkView
-                  HeaderArray={HeaderArray}
-                  SubHeaderArray={SubHeaderArray}
-                  MarkDetailsList={MarkDetailsList}
-                  ListDisplayNameDetails={ListDisplayNameDetails}
-                  IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
-                  USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
-                  USListMarkssDetails={USListMarkssDetails}
-                  />
-                  
+                    <ProgressReportMarkView
+                      HeaderArray={HeaderArray}
+                      SubHeaderArray={SubHeaderArray}
+                      MarkDetailsList={MarkDetailsList}
+                      ListDisplayNameDetails={ListDisplayNameDetails}
+                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                      USListSchoolWiseTestNameDetail={USListSchoolWiseTestNameDetail}
+                      USListMarkssDetails={USListMarkssDetails}
+                    />
+
                   </Box>
                 </>
 

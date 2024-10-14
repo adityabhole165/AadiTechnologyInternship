@@ -28,7 +28,7 @@ const ProgressReportSlice = createSlice({
     IsGradingStandarBodyIS: {},
     IsTestPublishedForStdDivBodyIS: {},
     RIsTestPublishedForStudentIS: {},
-    IsGetSchoolSettings: {},
+    IsGetSchoolSettings: null,
     Loading: false,
     MarkDetailsList: [],
     HeaderArray: [],

@@ -1,4 +1,4 @@
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
 const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, ListDisplayNameDetails, USListSchoolWiseTestNameDetail, IsTotalConsiderForProgressReport, USListMarkssDetails }) => {
     const getListDisplayName = (ShortName) => {
@@ -25,7 +25,7 @@ const ProgressReportMarkView = ({ HeaderArray, SubHeaderArray, MarkDetailsList, 
             HeaderCount = 0
             // }
         }
-        SubjectName = SubjectName
+        SubjectName = item.ParentSubjectName
         HeaderCount = HeaderCount + item.colSpan
     })
     HeaderParent.push({
