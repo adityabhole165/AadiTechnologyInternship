@@ -38,18 +38,14 @@ const AssignPrePrimarySubjectGrades = () => {
     const [grades, setGrades] = useState({});
     const [LearningOutcomeObsId, setLearningOutcomeObsId] = useState('');
     const [subRemark, setSubRemark] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
     const [facilitatorObs, setFacilitatorObs] = useState('');
+    const [initialValue, setInitialValue] = useState('');
     // useEffects() | Hooks
     const cellStyle = {
         padding: '0.2em 1.5em', // Adjust these values to reduce the height
     };
 
-    useEffect(() => {
-        if (InsertStudentGradesMsg !== '') {
-            toast.success(InsertStudentGradesMsg);
-            dispatch(CDAClearInsertStudentGrades());
-        }
-    }, [InsertStudentGradesMsg])
     useEffect(() => {
         if (ListObservationDetails.length > 0) {
             setLearningOutcomeObsId(ListObservationDetails[0].LearningOutcomeObsId)
@@ -67,26 +63,29 @@ const AssignPrePrimarySubjectGrades = () => {
         }
         dispatch(CDAXseedStudentsdata(XseedDataBody))
     }, []);
+    const LearningOutcomesForSubjectSectionBody: IGetLearningOutcomesForSubjectSectionBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asAssessmentId: Number(SelectTerm),
+        asSubjectSectionConfigurationId: Number(subjectSection),
+        asYearwiseStudentId: Number(student),
+        asSubjectId: Number(SubjectId)
+    }
     useEffect(() => {
-        const LearningOutcomesForSubjectSectionBody: IGetLearningOutcomesForSubjectSectionBody = {
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearId: Number(asAcademicYearId),
-            asAssessmentId: Number(SelectTerm),
-            asSubjectSectionConfigurationId: Number(subjectSection),
-            asYearwiseStudentId: Number(student),
-            asSubjectId: Number(SubjectId)
-        }
         if (student !== '0' && subjectSection !== '0') {
             dispatch(CDALearningOutcomesForSubjectSection(LearningOutcomesForSubjectSectionBody))
             setHeaderGrade('0')
         }
     }, [student, subjectSection])
-
     useEffect(() => {
-        if (ListLearningOutcomeDetails.length > 0) {
-            console.log(`Hey there I'm here 😎`, ListLearningOutcomeDetails)
+        if (InsertStudentGradesMsg !== '') {
+            toast.success(InsertStudentGradesMsg);
+            dispatch(CDAClearInsertStudentGrades());
+            dispatch(CDALearningOutcomesForSubjectSection(LearningOutcomesForSubjectSectionBody))
+            setHeaderGrade('0')
         }
-    }, [ListLearningOutcomeDetails])
+    }, [InsertStudentGradesMsg])
+
 
     // Actual code | useEffect() for Grade Values tracking and pre-formatting
     useEffect(() => {
@@ -96,6 +95,8 @@ const AssignPrePrimarySubjectGrades = () => {
                 return acc;
             }, {});
             setGrades(initialGrades);
+            setInitialValue(JSON.stringify(initialGrades));
+
         }
     }, [ListLearningOutcomeDetails])
 
@@ -134,7 +135,9 @@ const AssignPrePrimarySubjectGrades = () => {
             asSubjectRemark: subRemark,
             asSubjectId: Number(SubjectId),
         }
-        dispatch(CDAInsertStudentGrades(saveLearningOutcomeBody))
+        if (initialValue !== JSON.stringify(grades)) {
+            dispatch(CDAInsertStudentGrades(saveLearningOutcomeBody));
+        }
     }
 
     function learningOutcomeXML() {
@@ -309,10 +312,10 @@ const AssignPrePrimarySubjectGrades = () => {
                         </Table>
                     </TableContainer>
                     {schoolId !== '18' &&
-                        <Grid container spacing={2} mt={.1} alignItems="center">
+                        <Grid container spacing={2} mt={0} alignItems="center">
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="h5" component="h3" sx={{ marginLeft: '18px' }}>
-                                    Observation of the facilitator
+                                    Facilitator's Observation
                                 </Typography>
                             </Grid>
 
@@ -321,9 +324,11 @@ const AssignPrePrimarySubjectGrades = () => {
                                     minRows={2}
                                     maxRows={4}
                                     disabled={EditStatusId === '3' || EditStatusId === '3P'}
-                                    style={{ backgroundColor: 'white', minWidth: '70vw', resize: 'vertical' }}
+                                    style={{ backgroundColor: 'white', minWidth: '70vw', resize: 'vertical', border: '1px solid #d1d5db', outline: isFocused ? '1px solid grey' : 'none', }}
                                     value={facilitatorObs}
                                     onChange={(e) => { setFacilitatorObs(e.target.value) }}
+                                    onFocus={() => setIsFocused(true)}    // Handle focus event
+                                    onBlur={() => setIsFocused(false)}    // Handle blur event
                                     maxLength={1000}
                                 />
                             </Grid>

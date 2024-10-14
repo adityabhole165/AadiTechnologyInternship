@@ -37,6 +37,8 @@ const AssignProgressReportSubject = () => {
     const [observations, setObservations] = useState({});
     const [observationError, setObservationError] = useState('');
     const [emptySubmission, setEmptySubmission] = useState('');
+    const [initialGrades, setInitialGrades] = useState('');
+    const [initialObs, setInitialObs] = useState('');
 
     useEffect(() => {
         dispatch(GetStudentsForStdDevMasters(GetStudentsForStdDevMastersBody));
@@ -45,6 +47,7 @@ const AssignProgressReportSubject = () => {
     useEffect(() => {
         if (SaveNonXseedMsg !== '') {
             toast.success(SaveNonXseedMsg)
+            dispatch(CDAGetNonXseedStudentsObs(GetStudentsForStdDevMastersBody));
         }
         dispatch(resetSavenonXseedMsg())
     }, [SaveNonXseedMsg])
@@ -67,6 +70,8 @@ const AssignProgressReportSubject = () => {
             }, {});
             setGrades(initialGrades);
             setObservations(initialObservations);
+            setInitialGrades(JSON.stringify(initialGrades));
+            setInitialObs(JSON.stringify(initialObservations));
         }
     }, [NonXseedStudentswithObs]);
 
@@ -77,6 +82,7 @@ const AssignProgressReportSubject = () => {
             return acc;
         }, {});
         setGrades(updatedGrades);
+        // setInitialGrades(JSON.stringify(updatedGrades));
 
         if (value === "0-0-0" || isAbsent === "1" || isExempted === "1") {
             const clearedObservations = NonXseedStudentswithObs.reduce((acc, student) => {
@@ -84,6 +90,7 @@ const AssignProgressReportSubject = () => {
                 return acc;
             }, {});
             setObservations(clearedObservations);
+            // setInitialObs(JSON.stringify(clearedObservations));
         }
     };
 
@@ -208,7 +215,6 @@ const AssignProgressReportSubject = () => {
             const options = {
                 style: { width: '30vw' }
             }
-            console.log(emptyObservationRows)
             // toast.warning(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`, options);
             setObservationError(`Observation should not be blank for row(s): ${emptyObservationRows.toString()}`)
             return;
@@ -216,10 +222,10 @@ const AssignProgressReportSubject = () => {
             // toast.warning("Empty Submission not Allowed. ")
             setEmptySubmission('Fields should not be blank.')
         } else {
-            dispatch(CDASaveNonXseedSubGrades(SaveNonXseedGradesBody))
+            if (initialGrades !== JSON.stringify(grades) || initialObs !== JSON.stringify(observations)) {
+                dispatch(CDASaveNonXseedSubGrades(SaveNonXseedGradesBody))
+            }
         }
-
-        console.log(SaveNonXseedGradesBody)
     }
 
 
