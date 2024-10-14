@@ -265,6 +265,10 @@ const DashBoard = Loader(
   lazy(() => import('src/componentsWeb/DashBoard/DashBoard'))
 );
 
+const ExamScheduleBasescreen = Loader(
+  lazy(() => import('src/components/FullAccessPages/ExamScheduleBasescreen'))
+);
+
 const teacherRoutes = [
   {
     path: 'WebDashBoard',
@@ -772,7 +776,10 @@ const teacherRoutes = [
     path: 'Sentsms',
     element: <Sentsms />
   },
-
+  {
+    path: 'ExamScheduleBasescreen',
+    element: <ExamScheduleBasescreen />
+  },
 
 ];
 
