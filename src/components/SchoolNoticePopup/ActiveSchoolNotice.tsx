@@ -2,10 +2,9 @@ import { Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
-import CardNotice from 'src/libraries/card/CardNotice';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import { RootState } from 'src/store';
+import CardNotice from './CardNotice';
 
 const ActiveSchoolNotice = () => {
   const dispatch = useDispatch();
@@ -100,7 +99,7 @@ const ActiveSchoolNotice = () => {
   }
   return (
     <Container>
-      <PageHeader heading={'School Notices'} subheading={''} />
+      {/* <PageHeader heading={'School Notices'} subheading={''} /> */}
 
       {Data1.map((item, index) => {
         return (
