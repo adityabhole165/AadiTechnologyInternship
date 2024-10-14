@@ -10,6 +10,7 @@ import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IGetSentItemsBody } from 'src/interfaces/SentSms/Sentsms';
 import { CDAGetSentItems } from 'src/requests/SentSms/ReqSentsms';
 import { RootState } from 'src/store';
+import SentsmsList from './SentsmsList';
 
 
 const Sentsms = () => {
@@ -18,11 +19,36 @@ const Sentsms = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asUserId = Number(localStorage.getItem('UserId'));
     const [regNoOrName, setRegNoOrName] = useState('');
+    const [sortExpression, setSortExpression] = useState('ORDER BY Insert_Date DESC');
+    const [SmsList, setSmsList] = useState([]);
+    const [SmsListID, setSmsListID] = useState([]);
+
+    
+    console.log(SmsListID,"SmsListID");
+    
+    const [headerArray, setHeaderArray] = useState([
+        { Id: 1, Header: 'To', SortOrder: null, sortKey: 'RequisitionCode' },
+        { Id: 2, Header: 'SMS Text', SortOrder: null, sortKey: 'RequisitionName' },
+        { Id: 3, Header: 'Send Date', SortOrder: null, sortKey: 'StatusName' },
+        { Id: 4, Header: 'Resend', SortOrder: null, sortKey: 'CreaterName' },
+        { Id: 5, Header: 'Status', SortOrder: 'desc', sortKey: 'Created_Date' },
+        
+    ]);
+    const handleHeaderClick = (updatedHeaderArray) => {
+        setHeaderArray(updatedHeaderArray);
+        const sortField = updatedHeaderArray.find(header => header.SortOrder !== null);
+        const newSortExpression = sortField ? `${sortField.sortKey} ${sortField.SortOrder}` : 'Created_Date desc';
+        setSortExpression(newSortExpression);
+      };
+    
 
     const USGetSentItems = useSelector(
         (state: RootState) => state.SentSms.ISGetSentItems
     );
 
+    useEffect(() => {
+        setSmsList(USGetSentItems);
+    }, [USGetSentItems]);
     console.log(USGetSentItems, "USGetSentItems");
 
 
@@ -61,6 +87,18 @@ const Sentsms = () => {
         "asName": "",
         "asContent": "",
         "asViewAllSMS": 0
+    };
+
+
+     const handleClickEdit = () => {
+
+     }
+
+
+     const Changevalue = (value) => {
+       
+        // setSmsListID(value);
+        
     };
     useEffect(() => {
         dispatch(CDAGetSentItems(GetSentItemsBody));
@@ -127,7 +165,13 @@ const Sentsms = () => {
 
                 </>}
             />
-
+            <SentsmsList
+                HeaderArray={headerArray}
+                ItemList={USGetSentItems}
+                ClickHeader={handleHeaderClick}
+                clickEdit={handleClickEdit}
+              
+            />
 
 
 
