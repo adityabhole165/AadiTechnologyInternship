@@ -242,15 +242,25 @@ const PrePrimaryResult = () => {
 
     return className;
   };
+  const [selectedTeachers, setSelectedTeachers] = useState({});
+  
 
   const getClassName1 = () => {
     let className = '';
-    PrePrimaryResultt.map((item) => {
-      if (item.Value == (PreprimaryFullAccess == 'Y' ? Number(SelectTeacher) : asStandardDivisionId)) className = item.Name;
-    });
-
+  
+   
+    for (const item of PrePrimaryClassTeacher) {
+      const comparisonValue = PreprimaryFullAccess === 'Y' ? Number(SelectTeacher) : asStandardDivisionId;
+      if (item.Value === String(comparisonValue)) {
+        className = item.Name;
+        break; 
+      }
+    }
+  
     return className;
   };
+  
+  console.log(selectedTeachers,"selectedTeachers",SelectTeacher,"__",PrePrimaryClassTeacher);
 
   const ClickOk = () => {
     if (Reason === '') {
@@ -334,6 +344,7 @@ const PrePrimaryResult = () => {
                   sx={{ minWidth: '250px' }}
                   onChange={(value) => {
                     GetPrPriResultDropdown(value);
+                    setSelectedTeachers(value.Name)
                   }}
                   defaultValue={SelectTeacher}
                   label={'Select Class Teacher'}
