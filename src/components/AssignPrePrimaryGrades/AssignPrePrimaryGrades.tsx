@@ -22,7 +22,7 @@ import {
   resetSubmitUnSubmitGradeMsg
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
-import { GetIsPrePrimaryTeacher, GetScreenPermission } from '../Common/Util';
+import { GetIsPrePrimaryTeacher, GetScreenAccessPermissionByPageID } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
@@ -31,7 +31,7 @@ const AssignPrePrimaryGrades = () => {
   const { TermId, TeacherId } = useParams();
   const { showAlert, closeAlert } = useContext(AlertContext);
   let Teacher_ID = sessionStorage.getItem("TeacherId")
-  let AssignPrePrimaryGradesAccess = GetScreenPermission(" Assign Pre-Primary Grades");
+  let AssignPrePrimaryGradesAccess = GetScreenAccessPermissionByPageID(162);
   const [selectTeacher, SetselectTeacher] = useState(AssignPrePrimaryGradesAccess === "N" ? Teacher_ID : "0");
   const [SelectTerm, SetSelectTerm] = useState("0");
   const [dateState, setDateState] = useState('');
@@ -360,16 +360,12 @@ const AssignPrePrimaryGrades = () => {
         }
 
         {selectTeacher !== '0' && SelectTerm !== '0' && USGetTeacherXseedSubjects.length === 0 &&
-          setTimeout(() => {
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No record found.</b>
-            </Typography>
-          }, 2000)
+          // setTimeout(() => {
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No record found.</b>
+          </Typography>
+          // }, 2000)
         }
-
-
-
-
       </Box >
     </>
   );
