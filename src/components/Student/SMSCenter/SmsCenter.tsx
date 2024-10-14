@@ -370,6 +370,17 @@ function SmsCenter() {
                   </Box>
                 </Card>
               </Grid>
+              <Grid item xs={12} sm={3}>
+                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
+                  <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
+                  <Box>
+                    <Typography variant="h6" color="blue">
+                     Balance SMS
+                    </Typography>
+                    <Typography variant="h4">0</Typography>
+                  </Box>
+                </Card>
+              </Grid>
 
               {/* Exceeded SMS Count */}
               <Grid item xs={12} sm={3}>
@@ -383,21 +394,11 @@ function SmsCenter() {
                   </Box>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={3}>
-                <Card sx={{ backgroundColor: blue[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
-                  <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
-                  <Box>
-                    <Typography variant="h6" color="blue">
-                     Balance SMS
-                    </Typography>
-                    <Typography variant="h4">0</Typography>
-                  </Box>
-                </Card>
-              </Grid>
+              
             </Grid>
 
-            <Typography variant={'h4'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
-            {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
+            <Typography variant={'h4'} textAlign={'center'} pt={1} fontWeight={'800'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+            {/* {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
               <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                 <Box component="span" fontWeight="fontWeightBold">
                   {startRecord} to {endRecord}
@@ -408,7 +409,7 @@ function SmsCenter() {
                 </Box>{' '}
                 {singleTotalCount === 1 ? 'record' : 'records'}
               </Typography>
-            </div> : <span> </span>}
+            </div> : <span> </span>} */}
             <Box sx={{ mt: 2 }}>
               {loading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -426,7 +427,8 @@ function SmsCenter() {
                     }}
                   >
                     <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
-                      <span style={{ color: grey[500] }}>From: </span> {item.UserName}
+                      <span style={{ color: grey[500] }}>From: </span>
+                       {item.UserName}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
