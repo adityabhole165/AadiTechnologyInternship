@@ -68,6 +68,7 @@ import { formatAMPM, getDateFormat1, isFutureDateTime, toolbarOptions } from '..
 import CommonPageHeader from '../CommonPageHeader';
 import AddReciepents from './AddReciepents';
 import Datepicker from './DatepickerMessage';
+import JoditEditor from 'jodit-react';
 function Form13() {
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -1069,16 +1070,16 @@ function Form13() {
 
               <Grid item xs={12} sx={messageCenter}>
                 <Box sx={{ p: 0 }}>
-                  <ReactQuill value={formik.values.Content}
+                  {/* <ReactQuill value={formik.values.Content}
                     onChange={(content) => formik.setFieldValue('Content', content)}
                     modules={toolbarOptions}
-                    style={{ height: '20vh', resize: 'vertical' }} />
+                    style={{ height: '20vh', resize: 'vertical' }} /> */}
                   {/* <QuillEditor formik={formik} /> */}
-                  {/* <JoditEditor
+                  <JoditEditor
                     ref={editor}
                     value={formik.values.Content}
                     onChange={formik.handleChange}
-                  /> */}
+                  />
 
                 </Box>
                 <Errormessages Error={contenterror} />
