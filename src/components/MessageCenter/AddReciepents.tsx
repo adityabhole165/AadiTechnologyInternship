@@ -413,7 +413,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
             size={"small"}
           /> */}
           <TextField
-            sx={{ width: '15vw' }}
+            sx={{ width: '15vw', mt:2 }}
             fullWidth
             label="Search By Name"
             value={SearchByName}
