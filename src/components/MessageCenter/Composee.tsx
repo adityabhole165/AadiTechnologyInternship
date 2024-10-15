@@ -1077,7 +1077,9 @@ function Form13() {
                   <JoditEditor
                     ref={editor}
                     value={formik.values.Content}
-                    onChange={formik.handleChange}
+                    onChange={(newContent) => {
+                      formik.setFieldValue('Content', newContent);  // Manually set the value in Formik
+                    }}
                   />
 
                 </Box>
