@@ -169,13 +169,14 @@ export const ClassToppersList =
         async (dispatch) => {
             const response = await ToppersApi.ClassandStandardToppersList(data);
             let classToppers = response.data.GetTopperList.map((item, i) => {
+                const marksScored = item.Marks_Scored.includes('.0') ? parseInt(item.Marks_Scored) : item.Marks_Scored;
                 return {
                     Id: item.Student_Id,
                     Text77: item.TopperRank,
                     // localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
                     Text2: item.Roll_No,
                     Text3: item.Student_Name,
-                    Text4: `${parseInt(item.Marks_Scored)} / ${item.Total_Marks}`,
+                    Text4: `${marksScored} / ${item.Total_Marks}`,
                     IsHighlightStudent: false
                 };
             });
@@ -266,7 +267,7 @@ export const StandardToppersList =
                 response.data.GetSelectedSubjectTopperList.map((item, i) => {
                     if (
                         obj ==
-                        item.Subject_Name + '#' + item.Rank_Image + '#' +`${parseFloat(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
+                        item.Subject_Name + '#' + item.Rank_Image + '#' + `${parseFloat(item.Total_Marks_Scored).toString()} / ${item.Subject_Total_Marks}`
                     ) {
                         child.Students.push({
                             Id: item.Student_Id,
