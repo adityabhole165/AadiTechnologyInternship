@@ -156,7 +156,7 @@ function UpcomingEvent() {
                 {/* <AccessTimeIcon sx={{ mr: '10px', color: '#64b5f6' }} fontSize="small" /> */}
                 <Typography>
                   {/* {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1} to  {event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2} */}
-                  <Typography>
+                  <Typography sx={{ mt: 0.5 }}>
                     {event.Text1.length > 4 ? event.Text1.slice(0, -5) + '' : event.Text1}
                     {event.Text1 !== event.Text2 && ` to ${event.Text2.length > 4 ? event.Text2.slice(0, -5) + '' : event.Text2}`}
                   </Typography>

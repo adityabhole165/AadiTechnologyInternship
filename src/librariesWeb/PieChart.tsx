@@ -149,7 +149,7 @@ const PieChart = () => {
     const filteredAttendance: any = useSelector((state: RootState) => state.Dashboard.ISWeeklyAttendanceCount);
     const statusDescriptions: any = useSelector((state: RootState) => state.Dashboard.ISlistAttendanceCalender);
 
-   
+
     const validAttendance = filteredAttendance.filter((item: any) => Object.keys(item).length > 0);
 
 
@@ -158,20 +158,20 @@ const PieChart = () => {
     const TotalBoysAbsentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalBoysAbsentPercentage)[0]) || 0;
     const TotalGirlsAbsentPercentage = parseFloat(validAttendance.map((item: any) => item.TotalGirlsAbsentPercentage)[0]) || 0;
 
-   
+
     const isWeekend = (statusDesc: string) => statusDesc === 'Weekend';
     const colors = statusDescriptions.map((item) => (isWeekend(item.StatusDesc) ? 'red' : ''));
+    const attendanceNotTaken = validAttendance.length === 0;
 
-    
     const options1 = {
         chart: {
             id: "donut-chart",
         },
-        series: [TotalGirlsPresentPercentage,TotalGirlsAbsentPercentage,TotalBoysPresentPercentage, TotalBoysAbsentPercentage],
-        labels: ["GirlPresent", "GirlAbsent","BoysPresent","BoysAbsent"],
+        series: [TotalGirlsPresentPercentage, TotalGirlsAbsentPercentage, TotalBoysPresentPercentage, TotalBoysAbsentPercentage],
+        labels: ["GirlPresent", "GirlAbsent", "BoysPresent", "BoysAbsent"],
     };
 
-    
+
     const [state, setState] = useState({
         colors: colors,
         options: {
@@ -187,16 +187,25 @@ const PieChart = () => {
                     },
                 },
             },
+            dataLabels: {
+                style: {
+                    colors: ['#38548A'] // Set data label color to black
+                }
+            }
         },
         series: [
             {
                 name: "Absent Student",
-                data: filteredAttendance.map(item => parseFloat(item.TotalAbsentPercentage ?? 0)),
+                data: filteredAttendance.map(item => Number(item.TotalAbsentPercentage ?? 0)),
             },
             {
                 name: "Present Student",
-                data: filteredAttendance.map(item => parseFloat(item.TotalPresentPercentage ?? 0)),
+                data: filteredAttendance.map(item => Number(item.TotalPresentPercentage ?? 0)),
             },
+            ...(attendanceNotTaken ? [{
+                name: "Attendance Not Marked",
+                data: statusDescriptions.map(() => 0) // Assuming zero attendance not marked per day
+            }] : []),
         ],
     });
 
@@ -211,7 +220,7 @@ const PieChart = () => {
         dispatch(CDAgetWeeklyAttendance(WeeklyAttendanceBody));
     }, [dispatch]);
 
-    
+
     useEffect(() => {
         const updatedCategories = statusDescriptions.map((item) => item.DayName);
         const updatedAbsentData = filteredAttendance.map(item => parseFloat(item.TotalAbsent ?? 0));
@@ -255,7 +264,7 @@ const PieChart = () => {
                 <Grid item xs={4} mt={5}>
                     <ApexCharts
                         options={options1}
-                        series={[TotalGirlsPresentPercentage,TotalGirlsAbsentPercentage,TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
+                        series={[TotalGirlsPresentPercentage, TotalGirlsAbsentPercentage, TotalBoysPresentPercentage, TotalBoysAbsentPercentage]}
                         type="donut"
                         width="100%"
                         height="295"
