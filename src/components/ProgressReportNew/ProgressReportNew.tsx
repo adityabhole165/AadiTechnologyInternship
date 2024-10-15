@@ -93,6 +93,15 @@ const ProgressReportNew = () => {
   const HeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray);
   const SubHeaderArray: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray);
 
+
+  const MarkDetailsList1: any = useSelector((state: RootState) => state.ProgressReportNew.MarkDetailsList1);
+  const HeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.HeaderArray1);
+  const SubHeaderArray1: any = useSelector((state: RootState) => state.ProgressReportNew.SubHeaderArray1);
+
+  console.log(MarkDetailsList1,"MarkDetailsList1");
+  
+
+
   useEffect(() => {
     if (UsGetSchoolSettings != null)
       setIsTotalConsiderForProgressReport(UsGetSchoolSettings?.GetSchoolSettingsResult?.IsTotalConsiderForProgressReport);
@@ -524,10 +533,10 @@ const ProgressReportNew = () => {
                   )}
                   <Box sx={{ overflowX: 'auto' }}>
                     <ProgressReportGradeView
-                      USlistSubjectsDetails={USlistSubjectsDetails}
-                      USListSubjectidDetails={USListSubjectidDetails}
-                      USlistTestDetailsArr={USlistTestDetailsArr}
-                      IsTotalConsiderForProgressReport={IsTotalConsiderForProgressReport}
+                      HeaderArray1={HeaderArray1}
+                      SubHeaderArray1={SubHeaderArray1}
+                      MarkDetailsList1={MarkDetailsList1}
+                     
                     />
                   </Box>
                 </>

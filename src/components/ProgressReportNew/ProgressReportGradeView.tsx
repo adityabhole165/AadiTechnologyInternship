@@ -1,73 +1,124 @@
+
+
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
-const ProgressReportGradeView = ({ USlistSubjectsDetails, USListSubjectidDetails, USlistTestDetailsArr, IsTotalConsiderForProgressReport }) => {
+const ProgressReportGradeView = ({ HeaderArray1, SubHeaderArray1, MarkDetailsList1 }) => {
+  // const getListDisplayName = (ShortName) => {
+  //     let returnVal = ""
+  //     ListDisplayNameDetails1.map((Item) => {
+  //         if (Item.ShortName == ShortName)
+  //             returnVal = Item.DisplayName
+  //     })
+  //     return returnVal
+
+  // }
+
+  let HeaderParent = []
+  let PrevParentId = "0", SubjectName = ""
+  let HeaderCount = 0
+  HeaderArray1.map((item) => {
+    // if (item.ParentSubjectId != "0") {
+    if (item.ParentSubjectId != PrevParentId) {
+      HeaderParent.push({
+        SubjectName: SubjectName,
+        colSpan: HeaderCount
+      })
+      SubjectName = item.ParentSubjectName
+      PrevParentId = item.ParentSubjectId
+      HeaderCount = 0
+      // }
+    }
+    SubjectName = item.ParentSubjectName
+    HeaderCount = HeaderCount + item.colSpan
+  })
+  HeaderParent.push({
+    SubjectName: SubjectName,
+    colSpan: HeaderCount
+  })
 
   return (
-    <Box sx={{ overflowX: 'auto' }}>
-      <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[600]}` }}>
+    <Box>
+      <Table>
         <TableHead>
-          <TableRow sx={{ bgcolor: '#F0F0F0' }}>
-            <TableCell rowSpan={2}>
-              <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
-                Subjects &#9654;
-              </Typography>
-              <Typography variant={"h3"} textAlign={'left'} color={"black"}>
-                &#9660; Exam
-              </Typography></TableCell>
-            {USlistSubjectsDetails.map((item) => (
-              <TableCell key={item.id}>
-                <b>
-                  {item.Total_Consideration === 'N' ? (
-                    <span>
-                      {item.Subject_Name} <span style={{ color: 'red' }}>*</span>
-                    </span>
-                  ) : (
-                    <span>{item.Subject_Name}</span>
-                  )}
-                </b>
-              </TableCell>
-            ))}
-          </TableRow>
-          <TableRow>
-            {USListSubjectidDetails.map((item) => (
-              <TableCell sx={{ backgroundColor: 'white' }}>
-                {
-                  IsTotalConsiderForProgressReport == "True"
-                    ? <Typography color="#38548A" textAlign={'left'} mr={5}  >
-                      <b style={{ marginRight: "9px" }}>{"Total"}</b>
-                    </Typography> : <Typography color="#38548A" textAlign={'left'} mr={5}  >
-                      <b style={{ marginRight: "9px" }}>{item.ShortenTestType_Name}</b>
-                    </Typography>
+          {HeaderParent.length > 1 &&
+            (<>
+              <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                <TableCell rowSpan={2}>
+                  <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
+                    Subjects &#9654;
+                  </Typography>
+                  <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                    &#9660; Exam
+                  </Typography></TableCell>
 
+                {HeaderParent.map((item) => (
+                  <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                    <Typography color="black" textAlign={'left'} mr={5}  >
+                      <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                    </Typography></TableCell>
+                ))
                 }
-
-
+              </TableRow>
+              <TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+                {HeaderArray1.map((item) => (
+                  <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                    <Typography color="black" textAlign={'left'} mr={5}  >
+                      <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                    </Typography></TableCell>
+                ))
+                }
+              </TableRow>
+            </>)}
+          {HeaderParent.length <= 1 &&
+            (<TableRow sx={{ bgcolor: '#F0F0F0', textAlign: 'center' }}>
+              <TableCell rowSpan={2}>
+                <Typography variant={"h3"} textAlign={'left'} color={"black"} ml={5} >
+                  Subjects &#9654;
+                </Typography>
+                <Typography variant={"h3"} textAlign={'left'} color={"black"}>
+                  &#9660; Exam
+                </Typography></TableCell>
+              {HeaderArray1.map((item) => (
+                <TableCell colSpan={item.colSpan} sx={{ border: '1px solid black', textAlign: 'center' }}>
+                  <Typography color="black" textAlign={'left'} mr={5}  >
+                    <b style={{ marginRight: "5px" }}>{item.SubjectName}</b>
+                  </Typography></TableCell>
+              ))}
+            </TableRow>
+            )}
+          <TableRow>
+            {SubHeaderArray1.map((item) => (
+              <><TableCell >
+                <Typography color="#38548A" textAlign={'center'} mr={9}  >
+                  <b style={{ marginRight: "5px" }}>{item.TestTypeName}</b>
+                </Typography>
               </TableCell>
+              </>
             ))}
           </TableRow>
         </TableHead>
-        {USlistTestDetailsArr.map((testItem) => (
-          <TableBody key={testItem.id}>
-            <TableRow sx={{ backgroundColor: 'white' }}>
-              <TableCell sx={{ backgroundColor: '#F0F0F0' }}>{testItem.Test_Name}</TableCell>
-              {testItem.subjectIdArr.map((subjectItem) => (
-                <TableCell>{subjectItem.Grade}</TableCell>
+        {MarkDetailsList1.map((testItem, i) => (
+          <TableBody key={i} sx={{ backgroundColor: '#F0F0F0', alignItems: 'center' }}>
+            <TableRow>
+              <TableCell sx={{}}>
+                <b> {testItem.TestName}</b>
+              </TableCell>
+
+              {testItem.MarksArr.map((MarkItem) => (
+                <TableCell sx={{ backgroundColor: 'white' }}>
+                  {MarkItem?.MarksScored + (MarkItem?.TotalMarks === "-" ? "" : "")}
+                </TableCell>
               ))}
+
+
+              {/* <TableCell sx={{ backgroundColor: 'white' }}>
+                  Total
+                </TableCell> */}
+
             </TableRow>
           </TableBody>
         ))}
 
-
-        {/* {USlistTestDetails.map((testItem) => (
-                    <TableBody key={testItem.id}>
-                      <TableRow>
-                        <TableCell>{testItem.Test_Name}</TableCell>
-                        {Data3.map((subjectItem) => (
-                          <TableCell>{subjectItem.Grade}</TableCell>
-                        ))}
-                      </TableRow>
-                    </TableBody>
-                  ))} */}
       </Table>
     </Box>
   )
