@@ -367,7 +367,7 @@ const MessageList = () => {
     };
     ApiDeleteMessagePermanently.UnDeleteMessagesapi(UnDeleteMessagesBody)
       .then((data) => {
-        toast.success('Message(s) Undeleted successfully!!');
+        toast.success('Message(s) Undeleted successfully.');
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
       .catch((err) => {
