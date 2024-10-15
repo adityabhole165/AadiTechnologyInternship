@@ -157,6 +157,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   //useEffect to call the allowed screens API for the current logged in user
   let auth = JSON.parse(localStorage.getItem('auth'))
+  let IsPrePrimaryFlag = auth?.data?.TeacherDetails?.IsPreprimary === 'N' ? false : true;
   useEffect(() => {
     const AllowedPageApiBody: IGetAllowedPagesForUserBody = {
       asSchoolId: Number(localStorage.getItem('SchoolId')),
@@ -201,13 +202,20 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     dispatch(getSchoolSettingsValue({ asSchoolId: localStorage.getItem('SchoolId') }));
   }, [dispatch]);
   const [showWeeklyTimetable, setShowWeeklyTimetable] = useState(false);
+  const [showTimetableForPrePrimary, setShowTimetableForPrePrimary] = useState(false);
   useEffect(() => {
     if (Object.keys(schoolSettingList).length > 0) {
       let isWeeklytTimetable = schoolSettingList['DisplayWeeklyTimtableLink'];
+      let isTimetableForPrePrimaryTeacher = schoolSettingList['IsTimeTableForPrePrimaryClassTeacher'];
       if (isWeeklytTimetable?.toLowerCase() === 'true') {
         setShowWeeklyTimetable(true);
       } else {
         setShowWeeklyTimetable(false);
+      }
+      if (isTimetableForPrePrimaryTeacher) {
+        setShowTimetableForPrePrimary(true);
+      } else {
+        setShowTimetableForPrePrimary(false);
       }
     }
   }, [schoolSettingList])
@@ -410,7 +418,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         icon: <TableChartOutlinedIcon />,
         link: '/extended-sidebar/Teacher/WeeklyTimetable',
         screenId: 0
-      },
+      }
+    )
+  }
+
+  if (IsPrePrimaryFlag && isClassTeacher === 'Y' && showTimetableForPrePrimary) {
+    sideList.push(
       {
         id: 'Daily Activities',
         title: 'Timetable',
@@ -419,6 +432,15 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         screenId: 0
       }
     )
+  } else if (!IsPrePrimaryFlag) {
+    sideList.push(
+      {
+        id: 'Daily Activities',
+        title: 'Timetable',
+        icon: <AccessTimeIcon />,
+        link: '/extended-sidebar/Teacher/TeacherTimeTable',
+        screenId: 0
+      })
   }
 
   if (isClassTeacher === 'Y' || userRoleID === '1') {
@@ -432,7 +454,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       }
     )
   }
-  let IsPrePrimaryFlag = auth?.data?.TeacherDetails?.IsPreprimary === 'N' ? false : true;
+
   if (IsPrePrimaryFlag) {
     if (!PrePrimaryExamConfigFlag) {
       sideList.push(
