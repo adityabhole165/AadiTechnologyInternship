@@ -1,16 +1,14 @@
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import MarkunreadMailboxIcon from '@mui/icons-material/MarkunreadMailbox';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SmsIcon from '@mui/icons-material/Sms';
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Link as RouterLink } from 'react-router-dom';
@@ -31,7 +29,7 @@ function SmsCenter() {
   });
   const classes = Styles();
   const [filtered, setFiltered] = useState(false); // State to toggle between original and filtered list
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
+  // const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
   const NewSmsList = useSelector((state: RootState) => state.SmsCenter.NewSmsList);
@@ -47,10 +45,18 @@ function SmsCenter() {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
+  const [SortExp, setSortExp] = useState('Insert_Date')
+  const [SortDirection, setSortDirection] = useState('DESC')
   const filteredList = NewSmsList.filter((item) => item.TotalRows !== undefined);
   const TotalCount = filteredList.map((item) => item.TotalRows);
   const uniqueTotalCount = [...new Set(TotalCount)];
   const singleTotalCount = uniqueTotalCount[0];
+  const [activeTab, setActiveTab] = useState('');
+  const pathname = window.location.pathname;
+  const pageName =
+    pathname.indexOf('/extended-sidebar/Teacher/SmsCenter/') === -1
+      ? pathname.replace('/extended-sidebar/Teacher/SmsCenter', '')
+      : pathname.replace('/extended-sidebar/Teacher/SmsCenter/', '');
 
   useEffect(() => {
     const MobileNumber_body: IMobileNumber = {
@@ -69,19 +75,8 @@ function SmsCenter() {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getMobileNumber(MobileNumber_body));
     dispatch(getSmsCount(SmsCountBody));
+    setActiveTab(pageName === '' ? 'Received SMS' : pageName);
   }, []);
-
-  // useEffect(() => {
-  //   const SmsList_body: ISmsList = {
-  //     asSchoolId: asSchoolId,
-  //     asAcademicYearId: asAcademicYearId,
-  //     asUserId: UserId,
-  //     asReceiverUserRoleId: RoleId,
-  //     asPageIndex: page
-  //   };
-  //   dispatch(getSmsList(SmsList_body));
-  // }, [page, rowsPerPage]);
-
 
   const sortedAndFilteredSmsList = NewSmsList
     .filter(item => {
@@ -101,10 +96,6 @@ function SmsCenter() {
     setDateFilter(prevState => ({ ...prevState, endDate: date }));
   };
 
-
-
-
-
   const startRecord = (page - 1) * rowsPerPage + 1;
   const endRecord = Math.min(page * rowsPerPage, singleTotalCount);
   const pagecount = Math.ceil(singleTotalCount / rowsPerPage);
@@ -118,8 +109,6 @@ function SmsCenter() {
     setPage(pageNumber);
   };
 
-
-
   const SmsNewList_body: INewSmsList = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -128,7 +117,6 @@ function SmsCenter() {
     asStartIndex: (page - 1) * rowsPerPage,
     asPageSize: page * rowsPerPage
   };
-
 
   useEffect(() => {
     dispatch(getNewSmsList(SmsNewList_body))
@@ -140,6 +128,10 @@ function SmsCenter() {
   };
 
   const displayList = filtered ? sortedAndFilteredSmsList : NewSmsList; // Implement pagination
+
+  const handleTabClick = (tabName: string) => {
+    setActiveTab(tabName);
+  };
 
 
   return (
@@ -211,12 +203,12 @@ function SmsCenter() {
                   onClick={handleFilterClick} // Attach onClick handler here
                 >
                   {/* <FilterListIcon /> */}
-                  {/* {sortDirection === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} */}
-                  {/* <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24} style={{ filter: 'brightness(0) invert(1)' }} />
+            {/* {sortDirection === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} */}
+            {/* <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24} style={{ filter: 'brightness(0) invert(1)' }} />
                 </IconButton> */}
-{/* 
+            {/* 
               </Tooltip> */}
-            {/* </Box> */} 
+            {/* </Box> */}
           </>
         }
       />
@@ -234,10 +226,10 @@ function SmsCenter() {
                   sx={{
                     textAlign: 'center',
                     height: '85px',
-                    backgroundColor: 'white',
+                    backgroundColor: activeTab === 'Compose SMS' ? blue[100] : 'white',
                     mb: '10px',
                     borderRadius: '10px',
-                  }}
+                  }} onClick={() => handleTabClick('Compose SMS')}
                 >
 
                   <AddCircleIcon
@@ -253,10 +245,11 @@ function SmsCenter() {
                 sx={{
                   textAlign: 'center',
                   height: '85px',
-                  backgroundColor: 'white',
+                  backgroundColor: activeTab === 'Received SMS' ? blue[100] : 'white',
                   mb: '10px',
                   borderRadius: '10px',
                 }}
+                onClick={() => handleTabClick('Received SMS')}
               >
 
                 <MarkunreadMailboxIcon
@@ -271,10 +264,10 @@ function SmsCenter() {
                 sx={{
                   textAlign: 'center',
                   height: '85px',
-                  backgroundColor: 'white',
+                  backgroundColor: activeTab === 'Send Item' ? blue[100] : 'white',
                   mb: '10px',
                   borderRadius: '10px',
-                }}
+                }} onClick={() => handleTabClick('Send Item')}
               >
 
                 <SmsIcon
@@ -289,10 +282,11 @@ function SmsCenter() {
                 sx={{
                   textAlign: 'center',
                   height: '85px',
-                  backgroundColor: 'white',
+                  backgroundColor: activeTab === 'Scheduled SMS' ? blue[100] : 'white',
                   mb: '10px',
                   borderRadius: '10px',
                 }}
+                onClick={() => handleTabClick('Scheduled SMS')}
               >
 
                 <AccessAlarmIcon
@@ -307,10 +301,11 @@ function SmsCenter() {
                 sx={{
                   textAlign: 'center',
                   height: '85px',
-                  backgroundColor: 'white',
+                  backgroundColor: activeTab === 'All Send Item' ? blue[100] : 'white',
                   mb: '10px',
                   borderRadius: '10px',
                 }}
+                onClick={() => handleTabClick('All Send Item')}
               >
 
                 <AllInboxIcon
@@ -339,7 +334,7 @@ function SmsCenter() {
                 <br />
                 <b style={{ color: '#38548A' }}> Personal Address book</b>
               </Card> */}
-              
+
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '85%', p: 2, background: 'white', borderRadius: '10px' }}>
@@ -375,13 +370,12 @@ function SmsCenter() {
                   <SmsFailedIcon sx={{ color: blue[600], fontSize: 36, mr: 2 }} />
                   <Box>
                     <Typography variant="h6" color="blue">
-                     Balance SMS
+                      Balance SMS
                     </Typography>
                     <Typography variant="h4">0</Typography>
                   </Box>
                 </Card>
               </Grid>
-
               {/* Exceeded SMS Count */}
               <Grid item xs={12} sm={3}>
                 <Card sx={{ backgroundColor: red[100], display: 'flex', alignItems: 'center', p: 2, borderRadius: '10px' }}>
@@ -394,10 +388,10 @@ function SmsCenter() {
                   </Box>
                 </Card>
               </Grid>
-              
+
             </Grid>
 
-            <Typography variant={'h4'} textAlign={'center'} pt={1} fontWeight={'800'}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
+            <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
             {/* {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
               <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
                 <Box component="span" fontWeight="fontWeightBold">
@@ -427,8 +421,7 @@ function SmsCenter() {
                     }}
                   >
                     <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
-                      <span style={{ color: grey[500] }}>From: </span>
-                       {item.UserName}
+                      <span style={{ color: grey[500] }}>From: </span> {item.UserName}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
