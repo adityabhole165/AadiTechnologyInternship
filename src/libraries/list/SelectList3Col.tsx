@@ -47,6 +47,10 @@ const SelectList3Col = ({
       if (ActiveTab === 'Sent') {
         return true
       }
+    } else if (columnName === 'Read Receipt Information') {
+      if (ActiveTab === 'Sent') {
+        return true
+      }
     } else if (columnName === 'Message Body') {
       if (ActiveTab === 'Draft') {
         return true;
@@ -96,6 +100,7 @@ const SelectList3Col = ({
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
         {showcolumn('To') && <Box sx={{ color: 'white', ml: 26 }}>To</Box>}
         {showcolumn('Cc') && <Box sx={{ color: 'white', ml: 26 }}>Cc</Box>}
+        {showcolumn('Read Receipt Information') && <Box sx={{ color: 'white', ml: 26 }}>Read Receipt Information</Box>}
         {showcolumn('Message Body') && <Box sx={{ color: 'white', ml: 44 }}>  Message Body</Box>}
         {showcolumn('From') && <Box sx={{ color: 'white', ml: 54 }}>From</Box>}
         {showcolumn('From1') && <Box sx={{ color: 'white', ml: 26 }}>From</Box>}
@@ -116,7 +121,7 @@ const SelectList3Col = ({
           {SortExp === 'Insert_Date' ? SortDirection === 'ASC' ?
             <ArrowCircleDown sx={{ fontSize: 20, color: 'white', }} /> :
             <ArrowCircleUpIcon sx={{ fontSize: 20, color: 'white' }} /> : null}</Box>}
-        {showcolumn('Sent Date') && <Box sx={{ color: 'white', ml: 44, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
+        {showcolumn('Sent Date') && <Box sx={{ color: 'white', ml: 18, display: 'flex' }} onClick={() => { clickHeader('Insert_Date') }}>
           <Typography variant="body1" sx={{ color: 'white', marginRight: '4px' }}>
             Sent Date
           </Typography>
