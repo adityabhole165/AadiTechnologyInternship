@@ -6,12 +6,12 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SmsIcon from '@mui/icons-material/Sms';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
-import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, Grid, Hidden, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 // import SortingArrowheads from 'src/assets/img/sorting icon/icons-sorting-arrowhead.png';
 import { Styles } from 'src/assets/style/student-style';
 import CommonPageHeader from 'src/components/CommonPageHeader';
@@ -29,7 +29,6 @@ function SmsCenter() {
   });
   const classes = Styles();
   const [filtered, setFiltered] = useState(false); // State to toggle between original and filtered list
-  // const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc'); // State to manage sort direction
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
   const NewSmsList = useSelector((state: RootState) => state.SmsCenter.NewSmsList);
@@ -177,38 +176,6 @@ function SmsCenter() {
                 </IconButton>
               </Tooltip>
             </Box>
-            {/* <Box>
-              <Tooltip title={`Use Template.`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: blue[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: blue[600] },
-                  }}
-                > 
-                  <SupervisedUserCircleIcon />
-                </IconButton>
-              </Tooltip>
-            </Box> */}
-            {/* <Box>
-              <Tooltip title={`Sort SMS List`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] },
-                  }}
-                  onClick={handleFilterClick} // Attach onClick handler here
-                >
-                  {/* <FilterListIcon /> */}
-            {/* {sortDirection === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} */}
-            {/* <img src={SortingArrowheads} alt="Sorting Arrowheads" width={24} height={24} style={{ filter: 'brightness(0) invert(1)' }} />
-                </IconButton> */}
-            {/* 
-              </Tooltip> */}
-            {/* </Box> */}
           </>
         }
       />
@@ -316,25 +283,6 @@ function SmsCenter() {
                 <br />
                 <b style={{ color: '#38548A' }}>All send Item</b>
               </Card>
-              {/* <Card
-                sx={{
-                  textAlign: 'center',
-                  height: '85px',
-                  backgroundColor: 'white',
-                  mb: '10px',
-                  borderRadius: '10px',
-                }}
-              >
-
-                <MenuBookIcon
-                  onClick={undefined}
-                  sx={{ mt: '10px', color: '#38548A' }}
-                  className={classes.IconSize}
-                />
-                <br />
-                <b style={{ color: '#38548A' }}> Personal Address book</b>
-              </Card> */}
-
             </Hidden>
           </Grid>
           <Grid item sx={{ minWidth: '85%', p: 2, background: 'white', borderRadius: '10px' }}>
@@ -392,49 +340,59 @@ function SmsCenter() {
             </Grid>
 
             <Typography variant={'h4'} fontWeight={800} textAlign={'center'} pt={1}>Mobile Number(s) : {MobileNumber.replace(';', ', ')}</Typography>
-            {/* {singleTotalCount > 0 ? <div style={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="subtitle1" sx={{ margin: '16px 0', textAlign: 'center' }}>
-                <Box component="span" fontWeight="fontWeightBold">
-                  {startRecord} to {endRecord}
-                </Box>
-                {' '}out of{' '}
-                <Box component="span" fontWeight="fontWeightBold">
-                  {singleTotalCount}
-                </Box>{' '}
-                {singleTotalCount === 1 ? 'record' : 'records'}
-              </Typography>
-            </div> : <span> </span>} */}
             <Box sx={{ mt: 2 }}>
               {loading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <CircularProgress />
                 </Box>
               ) : displayList.length > 0 ? (
-                displayList.map((item, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      p: 1,
-                      border: (theme) => `1px solid ${theme.palette.grey[500]}`,
-                      borderRadius: (theme) => theme.general.borderRadius,
-                      mb: 1
-                    }}
-                  >
-                    <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
-                      <span style={{ color: grey[500] }}>From: </span> {item.UserName}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
-                        <Link to={`/extended-sidebar/Student/viewsms/${item.SMS_Id}`} style={{ textDecoration: 'none' }}>
-                          <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
-                        </Link>
-                      </Typography>
-                      <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }}>
-                        <span style={{ color: grey[500] }}>Received Date: </span> {format(new Date(item.Date), 'dd MMM yyyy hh:mm a')}
-                      </Typography>
-                    </Box>
-                  </Box>
-                ))
+                // displayList.map((item, index) => (
+                //   <Box
+                //     key={index}
+                //     sx={{
+                //       p: 1,
+                //       border: (theme) => `1px solid ${theme.palette.grey[500]}`,
+                //       borderRadius: (theme) => theme.general.borderRadius,
+                //       mb: 1
+                //     }}
+                //   >
+                //     <Typography variant={'h4'} sx={{ display: 'flex', gap: 1 }}>
+                //       <span style={{ color: grey[500] }}>From: </span> {item.UserName}
+                //     </Typography>
+                //     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                //       <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1 }}>
+                //         <Link to={`/extended-sidebar/Student/viewsms/${item.SMS_Id}`} style={{ textDecoration: 'none' }}>
+                //           <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
+                //         </Link>
+                //       </Typography>
+                //       <Typography variant={'subtitle2'} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }}>
+                //         <span style={{ color: grey[500] }}>Received Date: </span> {format(new Date(item.Date), 'dd MMM yyyy hh:mm a')}
+                //       </Typography>
+                //     </Box>
+                //   </Box>
+                // ))
+                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}`, overflow: 'hidden' }}>
+                  <TableHead>
+                    <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
+                      <TableCell sx={{ color: 'white' }}><b>From</b></TableCell>
+                      <TableCell sx={{ color: 'white' }}><b>SMS Text</b></TableCell>
+                      <TableCell sx={{ color: 'white' }}>
+                        <b onClick={handleFilterClick} style={{ cursor: 'pointer' }}>
+                          Received Date {SortDirection === 'asc' ? '▲' : '▼'}
+                        </b>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {displayList.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{row.UserName}</TableCell>
+                        <TableCell>{row.Subject}</TableCell>
+                        <TableCell>{format(new Date(row.Date), 'dd/MM/yyyy')}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               ) : (
                 <Typography
                   variant="body1"
@@ -451,7 +409,7 @@ function SmsCenter() {
                 </Typography>
               )}
             </Box>
-            <Box mt={-1.5}>
+            <Box mt={1}>
               {
                 endRecord > 19 ? (
                   <ButtonGroupComponent
