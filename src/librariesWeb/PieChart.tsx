@@ -1,4 +1,5 @@
-import { Box, Grid } from '@mui/material';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import { Box, Grid, IconButton, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +47,7 @@ const PieChart = () => {
         .filter((item: any) => item.Attendance_Date === formattedDate)
         .map((item: any) => item.TotalGirlsAbsentPercentage)[0]
     ) || 0;
-    
+
     const isWeekend = (statusDesc: string) => statusDesc === 'Weekend';
     const isHoliday = (statusDesc: string) => statusDesc === 'Holiday';
     const isNotDone = (statusDesc: string) => statusDesc === 'Not Done';
@@ -160,6 +161,21 @@ const PieChart = () => {
         <Box sx={{ backgroundColor: 'white', p: 1 }} >
             <Grid item sx={{ overflow: 'auto', display: 'flex', borderRadius: '10px' }}>
                 <Header Title="Weekly Attendance" />
+                <Tooltip
+                    title={`If today's attendance is not marked, the circular graph will not be visible.`}
+                >
+                    <IconButton
+                        sx={{
+                            color: '#38548A',
+                            // backgroundColor: '#223354',
+                            // height: '25px !important',
+                            // ':hover': { backgroundColor: yellow[700] },
+                            mr: '30px'
+                        }}
+                    >
+                        <PriorityHighIcon />
+                    </IconButton>
+                </Tooltip>
             </Grid>
             <Grid container>
                 <Grid item xs={4} mt={5}>
