@@ -461,7 +461,7 @@ function Dashboard() {
   let header2 =
     RoleId === '3'
       ? 'Student'
-      : 'Teacher' && RoleId === '1'
+      : RoleId === '1'
         ? 'Communication'
         : 'Teacher';
   let header3 =

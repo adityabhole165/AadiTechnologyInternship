@@ -294,6 +294,17 @@ const DashboardData = {
 
 
       {
+        Text1: 'Dashboard  ',
+        Text2: '',
+        Color: '#ef5350',
+        iconColor: '#f0483e',
+        Icon: EventIcon,
+        Link: 'Common/Dashboard',
+        index: 12,
+
+      },
+
+      {
         Text1: 'Annual  ',
         Text2: 'Planner',
         Color: '#ef5350',
