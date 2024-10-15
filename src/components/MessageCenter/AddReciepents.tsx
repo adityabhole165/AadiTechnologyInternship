@@ -520,7 +520,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                             RoleId === '3'
                               ? '50px'
                               : RoleId === '2'
-                                ? '97px'
+                                ? '95px'
                                 : '180px'
                           }
                         >
@@ -533,7 +533,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick, IsConfi
                     </Grid>
                     <Grid item xs={6} sm={12}>
                       <Card>
-                        <Box sx={{ border: (theme) => `1px solid ${theme.palette.grey[400]}` }}>
+                        <Box >
                           <ListSelect
                             Itemlist={teacherStudent}
                             onChange={teacherStudentChange}
