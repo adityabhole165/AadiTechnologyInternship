@@ -22,7 +22,7 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                                     sx={{
                                         textTransform: 'capitalize',
                                         color: (theme) => theme.palette.common.white,
-                                        py: 1
+                                     
 
                                     }}
                                 >
@@ -34,10 +34,10 @@ const PrePrimaryResultlist = ({ ItemList, HeaderArray, clickEdit }) => {
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.ItemID}>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                     {item.Subject_Name}
                                 </TableCell>
-                                <TableCell sx={{ textTransform: 'capitalize', py: 1 }}>
+                                <TableCell sx={{ textTransform: 'capitalize', paddingTop: '2.5px', paddingBottom: '2.5px' }}>
                                     {item.EditStatus == "Y" ? <Tooltip title={"Edit"}>
                                         <IconButton
                                             onClick={() => clickEdit(item.Id, item.Subject_Name, item.IsXseedSubject)}
