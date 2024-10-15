@@ -268,6 +268,9 @@ const DashBoard = Loader(
 const ExamScheduleBasescreen = Loader(
   lazy(() => import('src/components/FullAccessPages/ExamScheduleBasescreen'))
 );
+const ReceivedSMSOwn = Loader(
+  lazy(() => import('src/components/Student/SMSCenter/RecievedSms'))
+);
 
 const teacherRoutes = [
   {
@@ -780,7 +783,10 @@ const teacherRoutes = [
     path: 'ExamScheduleBasescreen',
     element: <ExamScheduleBasescreen />
   },
-
+  {
+    path: 'ReceivedSMSOwn',
+    element: <ReceivedSMSOwn />
+  },
 ];
 
 export default teacherRoutes;
