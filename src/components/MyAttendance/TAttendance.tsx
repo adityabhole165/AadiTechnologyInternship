@@ -843,24 +843,26 @@ const TAttendance = () => {
               </Tooltip>
             </Box>
 
-            <Box>
-              <Tooltip title={'Absent Student Details'}>
-                <span>
-                  <IconButton
-                    onClick={ClickOpenDialogbox}
-                    sx={{
-                      backgroundColor: red[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: red[600]
-                      }
-                    }}
-                  >
-                    <PersonOff />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </Box>
+            {UsschoolSettings !== '0' && (
+              <Box>
+                <Tooltip title={'Absent Student Details'}>
+                  <span>
+                    <IconButton
+                      onClick={ClickOpenDialogbox}
+                      sx={{
+                        backgroundColor: red[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: red[600]
+                        }
+                      }}
+                    >
+                      <PersonOff />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </Box>
+            )}
 
             <Box>
               {SaveIsActive ? (
