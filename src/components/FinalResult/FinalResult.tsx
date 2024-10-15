@@ -717,6 +717,8 @@ console.log(BlockExamPublish,"--",ShowTopppers);
       toast.success(PublishResult)
       dispatch(resetPublishResult())
       dispatch(GetStudentResultList(PagedStudentBody))
+      dispatch(GetAtleastOneResultGeneratedss(AtleastOneResultGeneratedBody))
+
     }
   }, [page, rowsPerPage, PublishResult, startIndex])
 
@@ -910,7 +912,7 @@ console.log(BlockExamPublish,"--",ShowTopppers);
             &nbsp;
 
             {
-              ShowTopppers !== true ?
+              ShowTopppers == true ?
               <Tooltip title={"Toppers"} disableHoverListener={false} disableFocusListener={false}>
               <span>
                 <IconButton
