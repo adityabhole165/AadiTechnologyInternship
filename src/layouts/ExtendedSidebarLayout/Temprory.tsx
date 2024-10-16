@@ -239,6 +239,220 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     color: 'white'
   };
   const buttonStyle = {};
+  // #region Prototype Code
+  const tblTeacher = [
+    {
+      id: 'Calendar',
+      title: 'Annual Planner', // getPageName(62),
+      icon: <EventOutlinedIcon />,
+      link: '/extended-sidebar/Common/AnnualPlanner',
+      screenId: 0, //62
+      visible: true
+    },
+    {
+      id: 'Exam',
+      title: 'Assign Exam Marks',// getPageName(74),
+      icon: <RuleIcon />,
+      link: '/extended-sidebar/Teacher/AssignExamMark',
+      screenId: 0, //74
+      visible: true
+    },
+    // Assign Grades Page Not Developed
+    {
+      id: 'Exam',
+      title: 'Assign Grades',
+      icon: <RuleIcon />,
+      link: 'null', // No Link available
+      screenId: 0,
+      visible: false
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Change Password',
+      icon: <LockResetTwoToneIcon />,
+      link: '/extended-sidebar/common/changePassword',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Calendar',
+      title: 'Exam Shedule',
+      icon: <Dataset />,
+      link: '/extended-sidebar/Teacher/Texamschedule',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Calendar',
+      title: 'Holidays',  // getPageName(14),
+      icon: <DateRangeOutlinedIcon />,
+      link: '/extended-sidebar/Admin/SchoolConfiguration/Holidays',
+      screenId: 0,  // 14
+      visible: true
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Library',
+      icon: <LockResetTwoToneIcon />,
+      link: 'null',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Reports',
+      icon: <LockResetTwoToneIcon />,
+      link: 'null',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Requisition',
+      icon: <AddShoppingCartTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/Requisition',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Staff Birthdays',
+      icon: <AddShoppingCartTwoToneIcon />,
+      link: 'null',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Daily Activities',
+      title: 'Timetable',
+      icon: <AccessTimeIcon />,
+      link: '/extended-sidebar/Teacher/TeacherTimeTable',
+      screenId: 0,
+      visible: true
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Transport Details',
+      icon: <AddShoppingCartTwoToneIcon />,
+      link: 'null',
+      screenId: 0,
+      visible: false
+    },
+    {
+      id: 'Other Utilities',
+      title: 'Upload Photo',
+      icon: <AddShoppingCartTwoToneIcon />,
+      link: 'null',
+      screenId: 0,
+      visible: false
+    }
+  ];
+
+  const tblExtraScreensForTeacher = [
+    {
+      id: 'Extra Screens',
+      title: getPageName(266),
+      icon: <InsertCommentTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/ProgressRemarks',
+      screenId: 266
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Add Aadhar Card Details',
+      icon: <AddCardTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/AadharCard',
+      screenId: 267
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(240),// 'Investment Declaration',
+      icon: <AssuredWorkloadTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/InvestmentDeclaration',
+      screenId: 240
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Leave Details',
+      icon: <LibraryBooksTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/LeaveDetails',
+      screenId: 303// 0
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(233),
+      icon: <HistoryEduTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/LessonPlanBaseScreen',
+      screenId: 233
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Performance Grade Assignment',
+      icon: <AddchartIcon />,
+      link: '/extended-sidebar/Teacher/PerformanceGradeAssignmentBaseScreen',
+      screenId: 213
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(271),
+      icon: <CoPresentTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/StudentRecords',
+      screenId: 271
+    },
+    {
+      id: 'Extra Screens',
+      title: 'School Notices',
+      icon: <AssignmentTwoToneIcon />,
+      link: GetScreenPermission() === 'N' ? '/extended-sidebar/Common/SchoolnoticeOwn' : '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
+      screenId: 187
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Final Result', // getPageName(80),
+      icon: <FactCheck />,
+      link: '/extended-sidebar/Teacher/FinalResult',
+      screenId: 80
+    },
+    {
+      id: 'Extra Screens',
+      title: 'Exam Results', // getPageName(78),
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/ExamResultBase',
+      screenId: 78 // 78
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(179),
+      icon: <TableChartTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/StudentwiseProgressReport',
+      screenId: 179
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(163),
+      icon: <SchoolTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/PrePrimaryResult',
+      screenId: 163
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(164),
+      icon: <FactCheckTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/PreprimaryProgressReport',
+      screenId: 164
+    },
+    {
+      id: 'Extra Screens',
+      title: getPageName(162),
+      icon: <ReceiptTwoToneIcon />,
+      link: '/extended-sidebar/Teacher/AssignPrePrimaryGrades',
+      screenId: 162
+    }
+  ];
+
+
+
+  // #endregion
+
   // #region SideList Array
   // Sidebar List Array - [ {}, {}, {}, .... etc. ]
   // --- ArrayName > sideList
@@ -356,7 +570,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       link: GetScreenPermission() === 'N' ? '/extended-sidebar/Common/SchoolnoticeOwn' : '/extended-sidebar/Teacher/SchoolNoticeBasescreen',
       screenId: 187
     }
-
   ];
   // #endregion
 
@@ -397,6 +610,24 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         screenId: 0
       },
     )
+    tblTeacher.push(
+      {
+        id: 'Communication',
+        title: 'SMS Center',
+        icon: <SmsTwoToneIcon />,
+        link: '/extended-sidebar/Teacher/SmsCenter',
+        screenId: 0, // 81
+        visible: true
+      },
+      {
+        id: 'Communication',
+        title: 'Message Center',
+        icon: <ForwardToInboxTwoToneIcon />,
+        link: '/extended-sidebar/MessageCenter/msgCenter',
+        screenId: 0,
+        visible: true
+      },
+    )
   }
 
   if (showHomeworkMenu()) {
@@ -409,6 +640,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         screenId: 0 //201
       },
     )
+    tblTeacher.push(
+      {
+        id: 'Daily Activities',
+        title: 'Assign Homework', //getPageName(201),
+        icon: <AutoStoriesTwoToneIcon />,
+        link: '/extended-sidebar/Teacher/AssignHomework',
+        screenId: 0, //201
+        visible: true
+      }
+    )
   }
 
   if (showWeeklyTimetable) {
@@ -419,6 +660,16 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
         icon: <TableChartOutlinedIcon />,
         link: '/extended-sidebar/Teacher/WeeklyTimetable',
         screenId: 0
+      }
+    )
+    tblTeacher.push(
+      {
+        id: 'Daily Activities',
+        title: 'Weekly Timetable',
+        icon: <TableChartOutlinedIcon />,
+        link: '/extended-sidebar/Teacher/WeeklyTimetable',
+        screenId: 0,
+        visible: true
       }
     )
   }
@@ -705,6 +956,18 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   }, [hasMissingDays]);
 
   function filt() {
+    // console.log('tblTeacher List ✨', tblTeacher);
+    // console.log('tblExtraScreens List ✨', tblExtraScreensForTeacher);
+    // console.log('allowedScreensList ✨', AllowedPagesListForUser);
+    const teacherTitles = new Set(tblTeacher.map(item => item.title));
+    const filteredList = AllowedPagesListForUser.filter(item => !teacherTitles.has(item.Configure_Name));
+    const filteredList2 = new Set(filteredList.map(item => item.Screen_Id));
+    const matchingExtraScreens: any = tblExtraScreensForTeacher.filter(item =>
+      filteredList2.has(item.screenId.toString())
+    );
+    // console.log('filteredList ✨', filteredList);
+
+
     let sd = sideList;
     let AllowedScreens = AllowedPagesListForUser;
     let configSetting = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
@@ -743,7 +1006,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     })
     // console.log('final list --->>>', finalArr)
 
-    return finalArr;
+    return isClassTeacher === 'Y' ? finalArr : tblTeacher.concat(matchingExtraScreens);
   }
 
 
