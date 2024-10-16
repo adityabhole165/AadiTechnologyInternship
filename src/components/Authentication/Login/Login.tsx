@@ -264,7 +264,7 @@ function SelectSchool() {
     const url = localStorage.getItem('url');
 
     if (url != null && url !== '/') {
-      navigate(url);
+      // navigate(url);
     } else if (
       result.RoleName == 'Student' ||
       result.RoleName == 'Teacher' ||
