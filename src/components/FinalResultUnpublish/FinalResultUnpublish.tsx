@@ -1,11 +1,11 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey } from '@mui/material/colors';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Tooltip } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { ResizableTextField } from '../AddSchoolNitice/ResizableDescriptionBox';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogBox, onClickUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
@@ -99,49 +99,53 @@ const FinalResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickClose
 
         </DialogTitle>
         <DialogContent >
-        <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
-          <h1>
-            Enter reason for unpublish
-          </h1>
+          <Box sx={{ maxHeight: '300px', overflowY: 'auto', position: 'relative', background: 'white' }}>
+            <h1>
+              Enter reason for unpublish
+            </h1>
 
 
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={6} >
-              <TextField
-                sx={{ width: '100%', bgcolor: '#F0F0F0' }}
-                label={'Exam'}
-                size={"medium"}
-                value={ExamName} />
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={6} >
+                <Tooltip title={ExamName || 'No Exam Name Available'}>
+                  <TextField
+                    sx={{ width: '100%', bgcolor: '#F0F0F0' }}
+                    label={'Exam'}
+                    size={"medium"}
+                    value={ExamName} />
+                </Tooltip>
+              </Grid>
+
+
+              <Grid item xs={6}>
+                <Tooltip title={TeacherName || 'No Teacher Name Available'}>
+                  <TextField
+                    sx={{ width: '100%', bgcolor: '#F0F0F0' }}
+                    label={'Class Teacher'}
+                    size={"medium"}
+                    value={TeacherName} />
+                </Tooltip>
+              </Grid>
+
+
+              <Grid item xs={12} marginTop={1}>
+                <ResizableTextField
+                  multiline
+                  label={<>
+                    Reason for Unpublish  <span style={{ color: 'red' }}>*</span>
+                  </>}
+                  // rows={5}
+                  value={Reason}
+                  onChange={(e) => {
+                    setReason(e.target.value);
+                  }}
+                  sx={{ width: '100%' }}
+                  error={ReasonError !== ''}
+                  helperText={ReasonError}
+                />
+              </Grid>
             </Grid>
-         
-          
-            <Grid item  xs={6}>
-              <TextField
-                sx={{width: '100%', bgcolor: '#F0F0F0' }}
-                label={'Class Teacher'}
-                size={"medium"}
-                value={TeacherName} />
-            </Grid>
-         
-         
-          <Grid item xs={12} marginTop={1}>
-          <ResizableTextField
-            multiline
-            label={<>
-              Reason for Unpublish  <span style={{ color: 'red' }}>*</span>
-          </>}
-            // rows={5}
-            value={Reason}
-            onChange={(e) => {
-              setReason(e.target.value);
-            }}
-            sx={{ width: '100%' }}
-            error={ReasonError !== ''}
-            helperText={ReasonError}
-          />
-          </Grid>
-          </Grid>
-           </Box>
+          </Box>
         </DialogContent>
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button
