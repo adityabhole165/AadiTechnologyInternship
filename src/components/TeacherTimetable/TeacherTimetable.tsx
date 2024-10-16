@@ -589,14 +589,14 @@ const TeacherTimetable = () => {
                   Additional Lectures
                 </Typography>
                 {/* WeekDay	Lecture Number	Class	Subject */}
-                {AdditionalClasses.length === 0 &&
+                {TimetableDetails?.length === 0 &&
 
                   <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 30, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                     <b>No additional lectures assigned.</b>
                   </Typography>
                 }
 
-                {AdditionalClasses.length > 0 &&
+                {TimetableDetails?.length > 0 &&
                   <TableContainer sx={{ width: '100%' }}>
                     <Table>
                       <TableHead>
@@ -609,7 +609,7 @@ const TeacherTimetable = () => {
                       </TableHead>
                       <TableBody>
                         {/* Loopable content */}
-                        {TimetableDetails.map((item, i) => (
+                        {TimetableDetails?.map((item, i) => (
                           <TableRow>
                             <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '10px', paddingBottom: '10px' }}>{item.Text2}</TableCell>
                             <TableCell sx={{ border: '1px solid rgba(224, 224, 224, 1)', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>{item.Text1}</TableCell>
