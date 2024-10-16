@@ -239,7 +239,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     color: 'white'
   };
   const buttonStyle = {};
-
+  // #region SideList Array
   // Sidebar List Array - [ {}, {}, {}, .... etc. ]
   // --- ArrayName > sideList
   let sideList = [
@@ -358,6 +358,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
 
   ];
+  // #endregion
 
   // if (LinkVisible == 'True') {
   //   sideList.push({
@@ -687,12 +688,12 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     };
   }
 
-  useEffect(() => {
-    if (sideList.length > 0 && !sessionStorage.getItem('sideList')) {
-      sessionStorage.setItem('sideList', JSON.stringify(sideList, removeCircularReferences()));
+  // useEffect(() => {
+  //   if (sideList.length > 0 && !sessionStorage.getItem('sideList')) {
+  //     sessionStorage.setItem('sideList', JSON.stringify(sideList, removeCircularReferences()));
 
-    }
-  }, [sideList]);
+  //   }
+  // }, [sideList]);
 
   useEffect(() => {
     if (hasMissingDays && !sessionStorage.getItem('hasShownMissingAttendancePopup')) {
