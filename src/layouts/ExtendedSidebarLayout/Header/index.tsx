@@ -388,7 +388,7 @@ function Header() {
   const GetAllActiveNotices = useSelector(
     (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
   );
-  const SchoolName = sessionStorage.getItem('SchoolName');
+  const SchoolName = localStorage.getItem('SchoolName');
   const StudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
   const SchoolId = localStorage.getItem('localSchoolId');
