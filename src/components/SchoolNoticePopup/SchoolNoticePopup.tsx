@@ -66,6 +66,11 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
         var text = div.textContent || div.innerText || '';
         return text;
     };
+    const clickOpen = (Value) => {
+        console.log(Value, "value");
+        (Value)
+        setOpenDetailDialog(true);
+    }
     const handleLinkClick = (item: any) => {
         const link = item.Text6 ? url + item.Text6 : item.Text7;
 
@@ -127,7 +132,7 @@ const SchoolNoticePopupCom = ({ open, setOpen }: Props) => {
                         <Divider />
                     </Box>
                 </DialogContent> */}
-                <ActiveSchoolNotice />
+                <ActiveSchoolNotice clickOpen={clickOpen} />
             </Dialog>
 
             <NoticeDetailDialog

@@ -6,7 +6,7 @@ import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoo
 import { RootState } from 'src/store';
 import CardNotice from './CardNotice';
 
-const ActiveSchoolNotice = () => {
+const ActiveSchoolNotice = ({ clickOpen }) => {
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
@@ -47,11 +47,12 @@ const ActiveSchoolNotice = () => {
     dispatch(getAllActiveNotices(ActiveNoticesBody));
   }, []);
   const downloadNotice = (FileName, IsImageNotice) => {
-    if (!IsImageNotice) {
-      window.open(localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/School Notices/' + FileName)
-    } else {
-      window.open(localStorage.getItem('SiteURL') + 'RITeSchool/Images/' + FileName)
-    }
+    clickOpen({ FileName: FileName, IsImageNotice: IsImageNotice })
+    // if (!IsImageNotice) {
+    //   window.open(localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/School Notices/' + FileName)
+    // } else {
+    //   window.open(localStorage.getItem('SiteURL') + 'RITeSchool/Images/' + FileName)
+    // }
   }
 
   const clickSingle = (value) => {

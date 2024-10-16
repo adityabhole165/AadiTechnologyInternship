@@ -26,7 +26,7 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
                     <ListStyle color={item.IsImageNotice ? 'secondary' : 'primary'}
                         sx={{ display: 'flex', alignItems: 'center' }}>
                         <Typography sx={{ textDecoration: item.isActive ? "line-through" : "" }}
-                            onClick={() => { clickCard(item.linkPath) }}
+                            onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }}
                         >{item.header}</Typography>
                         <div style={{ flex: '1' }}></div>
                         {item.FileName != "" ?
